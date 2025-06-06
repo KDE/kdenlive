@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-03 02:39+0000\n"
+"POT-Creation-Date: 2025-06-06 02:31+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -9008,7 +9008,7 @@ msgstr "<![CDATA[应用于蓝色通道的颗粒百分比]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
 msgid "Blur amount"
-msgstr ""
+msgstr "模糊量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, kde-format
@@ -9420,133 +9420,133 @@ msgstr "操作 1"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
 #, kde-format
 msgid "Amount 1"
-msgstr ""
+msgstr "效果强度 1"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
 #, kde-format
 msgid "Operation 2"
-msgstr ""
+msgstr "操作 2"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:41
 #, kde-format
 msgid "Amount 2"
-msgstr ""
+msgstr "效果强度 2"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:44
 #, kde-format
 msgid "Show mask"
-msgstr ""
+msgstr "显示蒙版"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:47
 #, kde-format
 msgid "Mask to Alpha"
-msgstr ""
+msgstr "蒙版转 Alpha 通道"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
 #, kde-format
 msgid "Lens Correction  (keyframable)"
-msgstr ""
+msgstr "镜头校正 (关键帧)"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
 #, kde-format
 msgid "Allows compensation of lens distortion"
-msgstr ""
+msgstr "补偿镜头畸变"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:8
 #, kde-format
 msgid "Horizontal center"
-msgstr ""
+msgstr "水平中心"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
 #, kde-format
 msgid "Vertical center"
-msgstr ""
+msgstr "垂直中心"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:14
 #, kde-format
 msgid "Center correction"
-msgstr ""
+msgstr "中心校正"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:17
 #, kde-format
 msgid "Edges correction"
-msgstr ""
+msgstr "边缘校正"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:4
 #, kde-format
 msgid "LetterB0xed"
-msgstr ""
+msgstr "LetterB0xed - 上下黑边"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
 #, kde-format
 msgid "Adds black borders at top and bottom for cinema look"
-msgstr ""
+msgstr "在画面上下添加黑色横条以模仿电影院效果"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
 #, kde-format
 msgid "Border Width"
-msgstr ""
+msgstr "边框宽度"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:11
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8
 #, kde-format
 msgid "Transparency"
-msgstr ""
+msgstr "透明度"
 
 #: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
-msgstr ""
+msgstr "Levels - 色阶"
 
 #: data/effects/frei0r/frei0r_levels.xml:6
 #: data/effects/frei0r/frei0r_levels.xml:37
 #, kde-format
 msgid "Adjust levels"
-msgstr ""
+msgstr "调整色阶"
 
 #: data/effects/frei0r/frei0r_levels.xml:13
 #: data/effects/frei0r/frei0r_levels.xml:44
 #, kde-format
 msgid "Input black level"
-msgstr ""
+msgstr "输入黑色色阶"
 
 #: data/effects/frei0r/frei0r_levels.xml:16
 #: data/effects/frei0r/frei0r_levels.xml:47
 #, kde-format
 msgid "Input white level"
-msgstr ""
+msgstr "输入白色色阶"
 
 #: data/effects/frei0r/frei0r_levels.xml:22
 #: data/effects/frei0r/frei0r_levels.xml:53
 #, kde-format
 msgid "Black output"
-msgstr ""
+msgstr "黑色输出"
 
 #: data/effects/frei0r/frei0r_levels.xml:25
 #: data/effects/frei0r/frei0r_levels.xml:56
 #, kde-format
 msgid "White output"
-msgstr ""
+msgstr "白色输出"
 
 #: data/effects/frei0r/frei0r_levels.xml:28
 #: data/effects/frei0r/frei0r_levels.xml:59
 #, kde-format
 msgid "Show histogram"
-msgstr ""
+msgstr "显示直方图"
 
 #: data/effects/frei0r/frei0r_levels.xml:32
 #: data/effects/frei0r/frei0r_levels.xml:63
 #, kde-format
 msgid "Histogram position"
-msgstr ""
+msgstr "直方图位置"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
 #, kde-format
 msgid "Light Graffiti"
-msgstr ""
+msgstr "Light Graffiti - 光影涂鸦"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:8
 #, kde-format
@@ -9556,12 +9556,15 @@ msgid ""
 "light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
+"光影涂鸦效果。\n"
+"        <![CDATA[此效果可以进行视频版本的光影涂鸦 \n"
+"        (将光源置于背景图像之前并保持快门打开)。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:11
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:83
 #, kde-format
 msgid "Brightness Threshold"
-msgstr ""
+msgstr "亮度阈值"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:13
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:85
@@ -9574,12 +9577,15 @@ msgid ""
 "where semi-bright parts, e.g. hands where colors can change quite a lot "
 "compared to the background, are incorrectly recognized as light source.]]>"
 msgstr ""
+"<![CDATA[像素需要多高的亮度值（<code>R+G+B</code>）才能被识别为光源？<br/>\n"
+"            提高该阈值需要更亮的光源（即更接近白色或减少杂色），可减少因半亮"
+"区域（例如因背景色差变化较大的手部）被误判为光源而产生的「误报」。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:16
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:88
 #, kde-format
 msgid "Difference Threshold"
-msgstr ""
+msgstr "差异阈值"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:18
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:90
@@ -9592,12 +9598,16 @@ msgid ""
 "be accepted on bright backgrounds, but decreases the danger of noise or "
 "generally bright spots counting as light source.]]>"
 msgstr ""
+"<![CDATA[设置某个像素要被识别为光源所需的最亮颜色通道相对背景图像的变化程度 "
+"(<code>max(dR, dG, dB)</code>)。 <br/>\n"
+"            如果提高此阈值，光源在较亮背景上时将更难被正确识别，但可以降低噪"
+"点或环境中较亮部分被错误识别为光源的机率。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:21
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:93
 #, kde-format
 msgid "Difference Sum Threshold"
-msgstr ""
+msgstr "差异总和阈值"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:23
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:95
@@ -9609,12 +9619,16 @@ msgid ""
 "            Raising this value might, in some cases, avoid that some light "
 "objects lit by the light source are added to the light mask.]]>"
 msgstr ""
+"<![CDATA[设置某个像素要被识别为光源所需的所有颜色通道<em>相对背景图像</em>的"
+"变化程度总和 (<code>dR + dG + dB</code>)。<br/>\n"
+"            如果提高此阈值，在某些情况下可以避免浅色对象被光源照射时被错误识"
+"别为光源并添加到光影蒙版。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
 #, kde-format
 msgid "Sensitivity"
-msgstr ""
+msgstr "感光度"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:28
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:100
@@ -9624,12 +9638,14 @@ msgid ""
 "            For slowly moving light source try to use a lower sensitivity to "
 "obtain a better exposure.]]>"
 msgstr ""
+"<![CDATA[感光度：<br/>\n"
+"            如果光源的运动比较缓慢，请尝试调低感光度以获得更好的曝光效果。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:31
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:103
 #, kde-format
 msgid "Lower Overexposure"
-msgstr ""
+msgstr "减轻过曝"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:33
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:105
@@ -9639,12 +9655,14 @@ msgid ""
 "            The light mask does not get white immediately when the light "
 "source is moving slowly or staying steady.]]>"
 msgstr ""
+"<![CDATA[减轻过曝：<br/>\n"
+"            光影蒙版在光源运动缓慢或者停滞时不会立即变成白色。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:36
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:108
 #, kde-format
 msgid "Dimming"
-msgstr ""
+msgstr "变暗"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:37
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:109
@@ -9652,13 +9670,13 @@ msgstr ""
 msgid ""
 "Dims the light mask. Lights will leave a fainting trail if it is set to a "
 "value > 0."
-msgstr ""
+msgstr "降低光影蒙版亮度。如果数值大于 0，光源将留下一条模糊的轨迹。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:40
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:112
 #, kde-format
 msgid "Background Weight"
-msgstr ""
+msgstr "背景权重"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:41
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:113
@@ -9669,12 +9687,15 @@ msgid ""
 "image if the video starts with a «clean» background image. (See the α "
 "parameter.)"
 msgstr ""
+"设置生成的背景图像在运算中的权重。数值为 100 时，光影蒙版将被直接绘制到背景之"
+"上，且如果视频以纯背景开头，那么绘制者本身将不会被绘制到背景图像中。详情请参"
+"见背景变化自适应程度参数。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:44
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:116
 #, kde-format
 msgid "α"
-msgstr ""
+msgstr "α"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:46
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:118
@@ -9687,18 +9708,22 @@ msgid ""
 "outside of the video. If the background constantly changes, e.g. on a "
 "street, try to set α > 0 to calculate an average background image.]]>"
 msgstr ""
+"<![CDATA[设置光影涂鸦效果对背景变化的适应程度。<br/>\n"
+"            光影涂鸦效果会记忆它所应用的剪辑的第一帧，因此剪辑应该<em>总是</"
+"em>以纯背景开头，绘制者不应在画面中。如果背景在不断变化，例如在街道上，请尝试"
+"设置 α 为大于 0 的数值以计算平均背景图像。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:50
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:122
 #, kde-format
 msgid "Increases the saturation of lights."
-msgstr ""
+msgstr "增加光效的饱和度。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:53
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:125
 #, kde-format
 msgid "Show brightness statistics"
-msgstr ""
+msgstr "显示亮度统计信息"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:55
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:127
@@ -9711,18 +9736,22 @@ msgid ""
 "same with the other parameters. Only parts that are highlighted in <em>all</"
 "em> thresholds will count as light source.]]>"
 msgstr ""
+"<![CDATA[亮度统计信息可以辅助您方便而精确地调整阈值参数。<br/>\n"
+"            例如：要调整亮度阈值，显示亮度信息后调整阈值，直至整个光源高亮。"
+"重复此操作调整其他阈值。只有在<em>所有</em>阈值中均为高亮的区域才会被识别为光"
+"源。]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:58
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:130
 #, kde-format
 msgid "Show background difference statistics"
-msgstr ""
+msgstr "显示背景差异统计信息"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:61
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:133
 #, kde-format
 msgid "Show background difference sum statistics"
-msgstr ""
+msgstr "显示背景差异总和统计信息"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:65
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:137
@@ -9730,19 +9759,19 @@ msgstr ""
 msgid ""
 "Makes the background transparent, allowing to apply a composite effect and "
 "paint the light mask over a completely different video."
-msgstr ""
+msgstr "将背景转换为透明，以便应用合成效果和在其他视频上绘制光影蒙版。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:68
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:140
 #, kde-format
 msgid "Nonlinear dimming"
-msgstr ""
+msgstr "非线性变暗"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:69
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:141
 #, kde-format
 msgid "If normal dimming does not look natural enough, try this one."
-msgstr ""
+msgstr "如果正常变暗参数效果不够自然，可以尝试使用非线性变暗参数。"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
@@ -10595,30 +10624,34 @@ msgid ""
 "                All effects can be observed well when applied on a greyscale "
 "gradient and looking at the RGB Parade monitor.]]>"
 msgstr ""
+"<![CDATA[更改斜率意味着用一个常量与像素颜色数值相乘。黑色像素将保持黑色，但更"
+"亮的像素将被改变。<br/>\n"
+"                所有效果在应用到灰阶渐变是可在 RGB Parade 分量直方图监视器上"
+"清楚地观察到变化。]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:14
 #: data/effects/frei0r/frei0r_sopsat.xml:64
 #, kde-format
 msgid "Slope Green"
-msgstr ""
+msgstr "斜率-绿通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:17
 #: data/effects/frei0r/frei0r_sopsat.xml:67
 #, kde-format
 msgid "Slope Blue"
-msgstr ""
+msgstr "斜率-蓝通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:20
 #: data/effects/frei0r/frei0r_sopsat.xml:70
 #, kde-format
 msgid "Slope Alpha"
-msgstr ""
+msgstr "斜率-透明度通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:23
 #: data/effects/frei0r/frei0r_sopsat.xml:73
 #, kde-format
 msgid "Offset Red"
-msgstr ""
+msgstr "偏移-红通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:24
 #: data/effects/frei0r/frei0r_sopsat.xml:74
@@ -10626,31 +10659,31 @@ msgstr ""
 msgid ""
 "Changing the offset lifts (or lowers) the brightness of each pixel by the "
 "given value."
-msgstr ""
+msgstr "更改偏移将按照给定的数值提升或者降低每个像素的亮度。"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:27
 #: data/effects/frei0r/frei0r_sopsat.xml:77
 #, kde-format
 msgid "Offset Green"
-msgstr ""
+msgstr "偏移-绿通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:30
 #: data/effects/frei0r/frei0r_sopsat.xml:80
 #, kde-format
 msgid "Offset Blue"
-msgstr ""
+msgstr "偏移-蓝通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:33
 #: data/effects/frei0r/frei0r_sopsat.xml:83
 #, kde-format
 msgid "Offset Alpha"
-msgstr ""
+msgstr "偏移-Alpha通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:36
 #: data/effects/frei0r/frei0r_sopsat.xml:86
 #, kde-format
 msgid "Power Red"
-msgstr ""
+msgstr "指数-红通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:38
 #: data/effects/frei0r/frei0r_sopsat.xml:88
@@ -10661,61 +10694,65 @@ msgid ""
 "                Mathematically, what happens is an exponentiation of the "
 "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgstr ""
+"<![CDATA[更改所选通道的伽玛值。黑色像素和白色像素将不受影响，但在黑白之间的所"
+"有颜色将受到影响。<br/>\n"
+"                从数学角度来说，这是在像素的颜色数值在 <code>[0,1]</code> 范"
+"围时与伽玛值的乘幂所得的数值。]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
 #, kde-format
 msgid "Power Green"
-msgstr ""
+msgstr "指数-绿通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:44
 #: data/effects/frei0r/frei0r_sopsat.xml:94
 #, kde-format
 msgid "Power Blue"
-msgstr ""
+msgstr "指数-蓝通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:47
 #: data/effects/frei0r/frei0r_sopsat.xml:97
 #, kde-format
 msgid "Power Alpha"
-msgstr ""
+msgstr "指数-Alpha通道"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:50
 #: data/effects/frei0r/frei0r_sopsat.xml:100
 #, kde-format
 msgid "Overall Saturation"
-msgstr ""
+msgstr "整体饱和度"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:51
 #: data/effects/frei0r/frei0r_sopsat.xml:101
 #, kde-format
 msgid "The overall saturation will be changed in the last step of this filter."
-msgstr ""
+msgstr "整体饱和度的更改会在此滤镜的最后一个步骤才进行。"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
 #, kde-format
 msgid "Square Blur"
-msgstr ""
+msgstr "Square Blur - 正方形模糊"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:5
 #, kde-format
 msgid "Square blur"
-msgstr ""
+msgstr "正方形模糊"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:8
 #, kde-format
 msgid "Kernel size"
-msgstr ""
+msgstr "内核大小"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
 msgid "TehRoxx0r"
-msgstr ""
+msgstr "TehRoxx0r - 视频墙效果"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:5
 #, kde-format
 msgid "Something videowall-ish"
-msgstr ""
+msgstr "模仿视频墙效果"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:8 data/effects/strobe.xml:12
@@ -10727,114 +10764,114 @@ msgstr "间隔"
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
 #, kde-format
 msgid "3 point balance"
-msgstr ""
+msgstr "3 point balance - 3 点平衡"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
 #, kde-format
 msgid "Balances colors along with 3 points"
-msgstr ""
+msgstr "沿着指定的黑白灰 3 点调整色彩平衡"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
 #, kde-format
 msgid "Black color"
-msgstr ""
+msgstr "黑色"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
 #, kde-format
 msgid "Gray color"
-msgstr ""
+msgstr "灰色"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
 #, kde-format
 msgid "White color"
-msgstr ""
+msgstr "白色"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
 #, kde-format
 msgid "Split screen preview"
-msgstr ""
+msgstr "分屏预览"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:20
 #, kde-format
 msgid "Source image on left side"
-msgstr ""
+msgstr "左侧显示原始画面"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:4
 #, kde-format
 msgid "3-level Threshold"
-msgstr ""
+msgstr "3-level Threshold - 三级阈值"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:5
 #, kde-format
 msgid "Dynamic 3-level thresholding"
-msgstr ""
+msgstr "动态三级阈值处理"
 
 #: data/effects/frei0r/frei0r_threshold0r.xml:5
 #, kde-format
 msgid "Thresholds a source image"
-msgstr ""
+msgstr "对来源图像进行阈值处理"
 
 #: data/effects/frei0r/frei0r_timeout.xml:5
 #, kde-format
 msgid "Timeout indicator"
-msgstr ""
+msgstr "Timeout indicator - 超时指示器"
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
 #, kde-format
 msgid "Indicator color"
-msgstr ""
+msgstr "指示器颜色"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
 #, kde-format
 msgid "Time"
-msgstr ""
+msgstr "时间"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:4
 #, kde-format
 msgctxt "Tint Effect Name"
 msgid "Tint"
-msgstr ""
+msgstr "Tint(色调)"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:5
 #, kde-format
 msgid "Maps source image luminance between two colors specified"
-msgstr ""
+msgstr "在指定的两种颜色之间映射源图像亮度"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:8
 #, kde-format
 msgid "Map black to"
-msgstr ""
+msgstr "映射黑色到"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:11
 #, kde-format
 msgid "Map white to"
-msgstr ""
+msgstr "映射白色到"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
 msgid "Tint amount"
-msgstr ""
+msgstr "染色程度"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
 #, kde-format
 msgctxt "Transparency"
 msgid "Transparency"
-msgstr ""
+msgstr "透明度"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
 #, kde-format
 msgid "Tunes the alpha channel."
-msgstr ""
+msgstr "保留透明度通道."
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
 msgid "Binarize dynamically"
-msgstr ""
+msgstr "Binarize dynamically - 动态二值化"
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:5
 #, kde-format
 msgid "Dynamic thresholding"
-msgstr ""
+msgstr "动态阈值处理"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:4
 #, kde-format
@@ -10845,41 +10882,41 @@ msgstr "矢量示波器"
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
 #, kde-format
 msgid "Display a vectorscope of the video data"
-msgstr ""
+msgstr "显示视频数据的矢量示波器"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:5
 #: data/effects/frei0r/frei0r_vertigo.xml:16
 #, kde-format
 msgid "Vertigo"
-msgstr ""
+msgstr "Vertigo - 眩晕"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:6
 #: data/effects/frei0r/frei0r_vertigo.xml:17
 #, kde-format
 msgid "Alpha blending with zoomed and rotated images"
-msgstr ""
+msgstr "Alpha与缩放和旋转的图像混合"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:9
 #: data/effects/frei0r/frei0r_vertigo.xml:20
 #, kde-format
 msgid "Phase Increment"
-msgstr ""
+msgstr "旋转相位增量"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:12
 #: data/effects/frei0r/frei0r_vertigo.xml:23
 #, kde-format
 msgid "Zoom Rate"
-msgstr ""
+msgstr "缩放率"
 
 #: data/effects/frei0r/frei0r_vignette.xml:4
 #, kde-format
 msgid "Vignette"
-msgstr ""
+msgstr "Vignette - 暗角"
 
 #: data/effects/frei0r/frei0r_vignette.xml:5
 #, kde-format
 msgid "Natural lens vignetting effect"
-msgstr ""
+msgstr "模仿镜头自然暗角的效果"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
 #, kde-format
@@ -11814,216 +11851,216 @@ msgstr ""
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
 msgid "622 Hz"
-msgstr ""
+msgstr "622 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
 #, kde-format
 msgid "880 Hz"
-msgstr ""
+msgstr "880 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
 #, kde-format
 msgid "1250 Hz"
-msgstr ""
+msgstr "1250 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
 #, kde-format
 msgid "1750 Hz"
-msgstr ""
+msgstr "1750 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
 #, kde-format
 msgid "2500 Hz"
-msgstr ""
+msgstr "2500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
 #, kde-format
 msgid "3500 Hz"
-msgstr ""
+msgstr "3500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
 #, kde-format
 msgid "5000 Hz"
-msgstr ""
+msgstr "5000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
 #, kde-format
 msgid "10000 Hz"
-msgstr ""
+msgstr "10000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
 #, kde-format
 msgid "20000 Hz"
-msgstr ""
+msgstr "20000 Hz"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
 msgid "Noise Suppressor for Voice"
-msgstr ""
+msgstr "Noise Suppressor for Voice - 语音噪音抑制器"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:5
 #, kde-format
 msgid "Microphone background noise removal filter"
-msgstr ""
+msgstr "麦克风背景噪声消除滤波器"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, no-c-format, kde-format
 msgid "VAD Threshold (%)"
-msgstr ""
+msgstr "VAD 阈值 (%)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "VAD 宽限期 (ms)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "追溯性VAD宽限期 (ms)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
 msgctxt "Limiter Effect Name"
 msgid "Limiter"
-msgstr ""
+msgstr "Limiter-限制器"
 
 #: data/effects/ladspa/ladspa_limiter.xml:5
 #, kde-format
 msgid "LADSPA limiter audio effect"
-msgstr ""
+msgstr "LADSPA 限幅音频效果器"
 
 #: data/effects/ladspa/ladspa_limiter.xml:8
 #, kde-format
 msgid "Input gain (dB)"
-msgstr ""
+msgstr "输入增益 (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:11
 #, kde-format
 msgid "Limit (dB)"
-msgstr ""
+msgstr "限制（dB）"
 
 #: data/effects/ladspa/ladspa_limiter.xml:14
 #, kde-format
 msgid "Release time (s)"
-msgstr ""
+msgstr "释放时间 (s)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:5
 #, kde-format
 msgid "LADSPA phaser audio effect"
-msgstr ""
+msgstr "LADSPA 相位效果器"
 
 #: data/effects/ladspa/ladspa_phaser.xml:8
 #, kde-format
 msgid "Rate (Hz)"
-msgstr ""
+msgstr "频率 (Hz)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:14
 #, kde-format
 msgid "Feedback"
-msgstr ""
+msgstr "反馈"
 
 #: data/effects/ladspa/ladspa_phaser.xml:17
 #, kde-format
 msgid "Spread"
-msgstr ""
+msgstr "扩展"
 
 #: data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
 msgid "Pitch Shift"
-msgstr ""
+msgstr "Pitch Shift - 音高偏移"
 
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
 msgid "LADSPA change pitch audio effect"
-msgstr ""
+msgstr "LADSPA 音高调整音频效果器"
 
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "位移"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
 #, kde-format
 msgid "Pitch Scaler"
-msgstr ""
+msgstr "Pitch Scaler - 音高缩放"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:5
 #, kde-format
 msgid "LADSPA pitch scale audio effect"
-msgstr ""
+msgstr "LADSPA 音高缩放效果器"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:8
 #, kde-format
 msgid "Co-efficient"
-msgstr ""
+msgstr "系数"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:4
 #, kde-format
 msgid "Rate Scaler"
-msgstr ""
+msgstr "Rate Scaler - 频率缩放"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:5
 #, kde-format
 msgid "LADSPA rate scale audio effect"
-msgstr ""
+msgstr "LADSPA 频率缩放音频效果器"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:8
 #, kde-format
 msgid "Rate"
-msgstr ""
+msgstr "速率"
 
 #: data/effects/ladspa/ladspa_reverb.xml:4
 #, kde-format
 msgctxt "Reverb Effect Name"
 msgid "Reverb"
-msgstr ""
+msgstr "Reverb - 混响"
 
 #: data/effects/ladspa/ladspa_reverb.xml:5
 #, kde-format
 msgid "LADSPA reverb audio effect"
-msgstr ""
+msgstr "LADSPA 混响音频效果器"
 
 #: data/effects/ladspa/ladspa_reverb.xml:8
 #, kde-format
 msgid "Reverb time"
-msgstr ""
+msgstr "混响时间"
 
 #: data/effects/ladspa/ladspa_reverb.xml:11
 #: data/effects/ladspa/ladspa_room_reverb.xml:14
 #, kde-format
 msgid "Damping"
-msgstr ""
+msgstr "衰减"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:4
 #, kde-format
 msgid "Room Reverb"
-msgstr ""
+msgstr "Room Reverb - 室内混响"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:5
 #, kde-format
 msgid "LADSPA room reverb audio effect"
-msgstr ""
+msgstr "LADSPA 室内混响音频效果器"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:8
 #, kde-format
 msgid "Room size (m)"
-msgstr ""
+msgstr "房间大小 (m)"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:11
 #, kde-format
 msgid "Delay (s/10)"
-msgstr ""
+msgstr "延迟 (s/10)"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:4
 #, kde-format
 msgctxt "Vinyl Effect Name"
 msgid "Vinyl"
-msgstr ""
+msgstr "Vinyl - 黑胶唱片"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:5
 #, kde-format
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
+msgstr "模仿黑胶唱片播放效果 - LADSPA 音频效果器"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
 #, kde-format
@@ -12034,22 +12071,22 @@ msgstr "年"
 #: data/effects/ladspa/ladspa_vinyl.xml:11
 #, kde-format
 msgid "RPM"
-msgstr ""
+msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:14
 #, kde-format
 msgid "Surface warping"
-msgstr ""
+msgstr "表面扭曲"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:17
 #, kde-format
 msgid "Crackle"
-msgstr ""
+msgstr "破音"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:20
 #, kde-format
 msgid "Wear"
-msgstr ""
+msgstr "磨损"
 
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
@@ -12941,17 +12978,17 @@ msgstr "<![CDATA[沿 Y 轴的偏移量]]>"
 #: data/effects/sox/sox.xml:4
 #, kde-format
 msgid "SoX"
-msgstr ""
+msgstr "SoX"
 
 #: data/effects/sox/sox.xml:5
 #, kde-format
 msgid "Process audio using a SoX effect"
-msgstr ""
+msgstr "使用 SoX 特效处理音频"
 
 #: data/effects/sox/sox.xml:8
 #, kde-format
 msgid "Analysis,Apply"
-msgstr ""
+msgstr "分析,应用"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1894
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
@@ -12962,7 +12999,7 @@ msgstr "效果"
 #: data/effects/sox/sox.xml:12
 #, kde-format
 msgid "Normalization level "
-msgstr ""
+msgstr "规格化级别 "
 
 #: data/effects/sox/sox.xml:15
 #, kde-format
@@ -16273,7 +16310,7 @@ msgid "Create bin folder"
 msgstr "创建项目素材箱文件夹"
 
 #: src/bin/bin.cpp:2735 src/bin/bin.cpp:2748 src/bin/bin.cpp:3747
-#: src/timeline2/model/timelinemodel.cpp:2171
+#: src/timeline2/model/timelinemodel.cpp:2184
 #, kde-format
 msgid "Delete Clip"
 msgstr "删除剪辑"
@@ -16996,13 +17033,13 @@ msgid "Cut clip"
 msgstr "切割剪辑"
 
 #: src/bin/model/subtitlemodel.cpp:850 src/bin/model/subtitlemodel.cpp:1623
-#: src/timeline2/model/timelinemodel.cpp:3992
+#: src/timeline2/model/timelinemodel.cpp:4005
 #, kde-format
 msgid "Resize subtitle"
 msgstr "调整字幕大小"
 
 #: src/bin/model/subtitlemodel.cpp:1048
-#: src/timeline2/model/timelinemodel.cpp:1357
+#: src/timeline2/model/timelinemodel.cpp:1370
 #, kde-format
 msgid "Move subtitle"
 msgstr "移动字幕"
@@ -21321,7 +21358,7 @@ msgstr "效果 %1 不能被添加两次。"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:700
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5106
+#: src/timeline2/model/timelinemodel.cpp:5119
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
@@ -24011,7 +24048,7 @@ msgstr "导入字幕文件…"
 msgid "Export Subtitle File…"
 msgstr "导出字幕文件…"
 
-#: src/mainwindow.cpp:1916 src/timeline2/model/timelinemodel.cpp:2175
+#: src/mainwindow.cpp:1916 src/timeline2/model/timelinemodel.cpp:2188
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "删除字幕"
@@ -28818,7 +28855,7 @@ msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4683
+#: src/timeline2/model/timelinemodel.cpp:4696
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -28872,282 +28909,282 @@ msgstr "已替换的剪辑：%1，过长的剪辑：%2"
 msgid "Replace clip"
 msgstr "替换剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:978
-#: src/timeline2/model/timelinemodel.cpp:1202
+#: src/timeline2/model/timelinemodel.cpp:991
+#: src/timeline2/model/timelinemodel.cpp:1215
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "选择剪辑以应用混合"
 
-#: src/timeline2/model/timelinemodel.cpp:1197
+#: src/timeline2/model/timelinemodel.cpp:1210
 #, kde-format
 msgid "start"
 msgstr "开始"
 
-#: src/timeline2/model/timelinemodel.cpp:1197
+#: src/timeline2/model/timelinemodel.cpp:1210
 #, kde-format
 msgid "end"
 msgstr "结束"
 
-#: src/timeline2/model/timelinemodel.cpp:1197
+#: src/timeline2/model/timelinemodel.cpp:1210
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "剪辑 %1 没有足够的帧以应用该混合"
 
-#: src/timeline2/model/timelinemodel.cpp:1200
+#: src/timeline2/model/timelinemodel.cpp:1213
 #: src/timeline2/view/timelinecontroller.cpp:1708
 #, kde-format
 msgid "No active track"
 msgstr "无活动轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:1207
+#: src/timeline2/model/timelinemodel.cpp:1220
 #, kde-format
 msgid "Create mix"
 msgstr "创建混合"
 
-#: src/timeline2/model/timelinemodel.cpp:1282
-#: src/timeline2/model/timelinemodel.cpp:1317
+#: src/timeline2/model/timelinemodel.cpp:1295
+#: src/timeline2/model/timelinemodel.cpp:1330
 #, kde-format
 msgid "Move clip"
 msgstr "移动剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:1848
-#: src/timeline2/model/timelinemodel.cpp:1938
-#: src/timeline2/model/timelinemodel.cpp:1961
-#: src/timeline2/model/timelinemodel.cpp:1984
+#: src/timeline2/model/timelinemodel.cpp:1861
+#: src/timeline2/model/timelinemodel.cpp:1951
+#: src/timeline2/model/timelinemodel.cpp:1974
+#: src/timeline2/model/timelinemodel.cpp:1997
 #: src/timeline2/view/timelinecontroller.cpp:3331
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "没有可用于插入操作的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:1853
+#: src/timeline2/model/timelinemodel.cpp:1866
 #, kde-format
 msgid "Insert Clip"
 msgstr "插入剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:1906
+#: src/timeline2/model/timelinemodel.cpp:1919
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "您不能插入一个包含它自身的序列"
 
-#: src/timeline2/model/timelinemodel.cpp:1954
-#: src/timeline2/model/timelinemodel.cpp:1976
+#: src/timeline2/model/timelinemodel.cpp:1967
+#: src/timeline2/model/timelinemodel.cpp:1989
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "没有足够的音频轨道来承载所有流 (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2060
+#: src/timeline2/model/timelinemodel.cpp:2073
 #, kde-format
 msgid "No available track for split operation"
 msgstr "没有可用于拆分操作的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:2097
+#: src/timeline2/model/timelinemodel.cpp:2110
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "音频拆分失败：没有可用的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:2105
+#: src/timeline2/model/timelinemodel.cpp:2118
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "音频拆分失败：无法创建音频剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:2168
+#: src/timeline2/model/timelinemodel.cpp:2181
 #, kde-format
 msgid "Remove group"
 msgstr "移除组合"
 
-#: src/timeline2/model/timelinemodel.cpp:2173
+#: src/timeline2/model/timelinemodel.cpp:2186
 #, kde-format
 msgid "Delete Composition"
 msgstr "删除合成"
 
-#: src/timeline2/model/timelinemodel.cpp:2412
-#: src/timeline2/model/timelinemodel.cpp:2713
+#: src/timeline2/model/timelinemodel.cpp:2425
+#: src/timeline2/model/timelinemodel.cpp:2726
 #: src/timeline2/view/timelinecontroller.cpp:4275
 #, kde-format
 msgid "Move group"
 msgstr "移动组合"
 
-#: src/timeline2/model/timelinemodel.cpp:3407
+#: src/timeline2/model/timelinemodel.cpp:3420
 #, kde-format
 msgid "Resize group"
 msgstr "调整组合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3531
+#: src/timeline2/model/timelinemodel.cpp:3544
 #, kde-format
 msgid "Resize clip speed"
 msgstr "调整剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:3690
+#: src/timeline2/model/timelinemodel.cpp:3703
 #, kde-format
 msgid "Remove mix"
 msgstr "移除混合"
 
-#: src/timeline2/model/timelinemodel.cpp:3692
+#: src/timeline2/model/timelinemodel.cpp:3705
 #, kde-format
 msgid "Removing mix failed"
 msgstr "移除混合失败"
 
-#: src/timeline2/model/timelinemodel.cpp:3988
+#: src/timeline2/model/timelinemodel.cpp:4001
 #, kde-format
 msgid "Resize clip"
 msgstr "调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3990
+#: src/timeline2/model/timelinemodel.cpp:4003
 #, kde-format
 msgid "Resize composition"
 msgstr "调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4309
+#: src/timeline2/model/timelinemodel.cpp:4322
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "波纹调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4311
+#: src/timeline2/model/timelinemodel.cpp:4324
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "波纹调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4313
+#: src/timeline2/model/timelinemodel.cpp:4326
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "波纹调整字幕大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4456
+#: src/timeline2/model/timelinemodel.cpp:4469
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4491
+#: src/timeline2/model/timelinemodel.cpp:4504
 #, kde-format
 msgid "Slip clip"
 msgstr "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4526
+#: src/timeline2/model/timelinemodel.cpp:4539
 #, kde-format
 msgid "Group clips"
 msgstr "组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4611
-#: src/timeline2/model/timelinemodel.cpp:4627
+#: src/timeline2/model/timelinemodel.cpp:4624
+#: src/timeline2/model/timelinemodel.cpp:4640
 #, kde-format
 msgid "Ungroup clips"
 msgstr "取消组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4792
+#: src/timeline2/model/timelinemodel.cpp:4805
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "删除轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4802
+#: src/timeline2/model/timelinemodel.cpp:4815
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "无法删除时间轴中的最后一条轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5027
+#: src/timeline2/model/timelinemodel.cpp:5040
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "无法添加效果 %1 到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5034
+#: src/timeline2/model/timelinemodel.cpp:5047
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "无法添加效果 %1 到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5055
+#: src/timeline2/model/timelinemodel.cpp:5068
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "无法粘贴效果到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5061
+#: src/timeline2/model/timelinemodel.cpp:5074
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "无法粘贴效果到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5109
+#: src/timeline2/model/timelinemodel.cpp:5122
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "无法添加效果 %1 到所选剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:5133
+#: src/timeline2/model/timelinemodel.cpp:5146
 #, kde-format
 msgid "Adjust Fade"
 msgstr "调整渐隐渐显"
 
-#: src/timeline2/model/timelinemodel.cpp:5498
+#: src/timeline2/model/timelinemodel.cpp:5511
 #, kde-format
 msgid "Insert Composition"
 msgstr "插入合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5719
+#: src/timeline2/model/timelinemodel.cpp:5732
 #, kde-format
 msgid "Move composition"
 msgstr "移动合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6390
+#: src/timeline2/model/timelinemodel.cpp:6403
 #, kde-format
 msgid "Enable time remap"
 msgstr "启用时间重新映射"
 
-#: src/timeline2/model/timelinemodel.cpp:6464
+#: src/timeline2/model/timelinemodel.cpp:6477
 #, kde-format
 msgid "Change speed failed"
 msgstr "更改速度失败"
 
-#: src/timeline2/model/timelinemodel.cpp:6474
+#: src/timeline2/model/timelinemodel.cpp:6487
 #, kde-format
 msgid "Change clip speed"
 msgstr "更改剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:6922
+#: src/timeline2/model/timelinemodel.cpp:6935
 #: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6927
+#: src/timeline2/model/timelinemodel.cpp:6940
 #: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "解锁轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6961
-#: src/timeline2/model/timelinemodel.cpp:7023
+#: src/timeline2/model/timelinemodel.cpp:6974
+#: src/timeline2/model/timelinemodel.cpp:7036
 #, kde-format
 msgid "Change composition"
 msgstr "更改合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6975
+#: src/timeline2/model/timelinemodel.cpp:6988
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "无法对组合的合成进行操作，请先取消组合"
 
-#: src/timeline2/model/timelinemodel.cpp:7170
-#: src/timeline2/model/timelinemodel.cpp:7207
-#: src/timeline2/model/timelinemodel.cpp:7240
-#: src/timeline2/model/timelinemodel.cpp:7319
+#: src/timeline2/model/timelinemodel.cpp:7183
+#: src/timeline2/model/timelinemodel.cpp:7220
+#: src/timeline2/model/timelinemodel.cpp:7253
+#: src/timeline2/model/timelinemodel.cpp:7332
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "无法调整混合大小到小于 1 帧"
 
-#: src/timeline2/model/timelinemodel.cpp:7181
-#: src/timeline2/model/timelinemodel.cpp:7215
-#: src/timeline2/model/timelinemodel.cpp:7257
-#: src/timeline2/model/timelinemodel.cpp:7343
+#: src/timeline2/model/timelinemodel.cpp:7194
+#: src/timeline2/model/timelinemodel.cpp:7228
+#: src/timeline2/model/timelinemodel.cpp:7270
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "无法调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7357
+#: src/timeline2/model/timelinemodel.cpp:7370
 #, kde-format
 msgid "Resize mix"
 msgstr "调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7477
+#: src/timeline2/model/timelinemodel.cpp:7490
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "初始化时间轴预览出错"
