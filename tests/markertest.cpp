@@ -260,6 +260,112 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->redo();
         checkMarkerList(model, list, snaps);
     }
+
+    SECTION("Duration-based markers")
+    {
+        std::vector<Marker> list;
+        checkMarkerList(model, list, snaps);
+
+        REQUIRE(model->addRangeMarker(GenTime(1.0), GenTime(2.0), QLatin1String("range marker 1"), 1));
+        REQUIRE(model->addRangeMarker(GenTime(5.0), GenTime(1.5), QLatin1String("range marker 2"), 2));
+
+        bool exists;
+        auto marker1 = model->getMarker(GenTime(1.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(marker1.hasRange());
+        REQUIRE(marker1.duration().seconds() == 2.0);
+        REQUIRE(marker1.endTime().seconds() == 3.0);
+        REQUIRE(marker1.comment() == QLatin1String("range marker 1"));
+        REQUIRE(marker1.markerType() == 1);
+
+        auto marker2 = model->getMarker(GenTime(5.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(marker2.hasRange());
+        REQUIRE(marker2.duration().seconds() == 1.5);
+        REQUIRE(marker2.endTime().seconds() == 6.5);
+
+        // Test point marker (duration = 0)
+        REQUIRE(model->addMarker(GenTime(10.0), QLatin1String("point marker"), 0));
+        auto pointMarker = model->getMarker(GenTime(10.0), &exists);
+        REQUIRE(exists);
+        REQUIRE_FALSE(pointMarker.hasRange());
+        REQUIRE(pointMarker.duration().seconds() == 0.0);
+        REQUIRE(pointMarker.endTime().seconds() == 10.0);
+
+        // Test converting point marker to range marker
+        REQUIRE(model->addRangeMarker(GenTime(10.0), GenTime(3.0), QLatin1String("converted to range"), 0));
+        auto convertedMarker = model->getMarker(GenTime(10.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(convertedMarker.hasRange());
+        REQUIRE(convertedMarker.duration().seconds() == 3.0);
+        REQUIRE(convertedMarker.comment() == QLatin1String("converted to range"));
+
+        // Test converting range marker to point marker
+        REQUIRE(model->addMarker(GenTime(1.0), QLatin1String("converted to point"), 1));
+        auto convertedToPoint = model->getMarker(GenTime(1.0), &exists);
+        REQUIRE(exists);
+        REQUIRE_FALSE(convertedToPoint.hasRange());
+        REQUIRE(convertedToPoint.duration().seconds() == 0.0);
+        REQUIRE(convertedToPoint.comment() == QLatin1String("converted to point"));
+
+        // Test editing markers with duration
+        REQUIRE(model->editMarker(GenTime(5.0), GenTime(5.0), QLatin1String("edited range"), 2, GenTime(2.5)));
+        auto editedMarker = model->getMarker(GenTime(5.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(editedMarker.hasRange());
+        REQUIRE(editedMarker.duration().seconds() == 2.5);
+        REQUIRE(editedMarker.comment() == QLatin1String("edited range"));
+
+        // Test model data roles for range markers
+        int rowCount = model->rowCount();
+        bool foundRangeMarker = false;
+        for (int i = 0; i < rowCount; ++i) {
+            QModelIndex idx = model->index(i);
+            double duration = model->data(idx, MarkerListModel::DurationRole).toDouble();
+            if (duration > 0) {
+                foundRangeMarker = true;
+                double pos = model->data(idx, MarkerListModel::PosRole).toDouble();
+                double endPos = model->data(idx, MarkerListModel::EndPosRole).toDouble();
+                bool hasRange = model->data(idx, MarkerListModel::HasRangeRole).toBool();
+
+                REQUIRE(hasRange);
+                REQUIRE(endPos == pos + duration);
+                REQUIRE(duration > 0);
+            }
+        }
+        REQUIRE(foundRangeMarker);
+
+        // Test JSON export/import with duration
+        QString json = model->toJson();
+
+        REQUIRE(json.contains(QLatin1String("duration")));
+
+        REQUIRE(model->removeAllMarkers());
+        checkMarkerList(model, {}, snaps);
+
+        REQUIRE(model->importFromJson(json, false));
+
+        // Verify imported markers have correct duration
+        auto reimportedMarker = model->getMarker(GenTime(5.0), &exists);
+        REQUIRE(exists);
+        REQUIRE(reimportedMarker.hasRange());
+        REQUIRE(qAbs(reimportedMarker.duration().seconds() - 2.5) < 0.1);
+
+        // Test backward compatibility - import JSON without duration field
+        QString legacyJson = R"([{"pos":120,"comment":"legacy marker","type":1}])";
+        REQUIRE(model->removeAllMarkers());
+        REQUIRE(model->importFromJson(legacyJson, false));
+
+        auto legacyMarker = model->getMarker(GenTime(120, fps), &exists);
+        REQUIRE(exists);
+        REQUIRE_FALSE(legacyMarker.hasRange());
+        REQUIRE(legacyMarker.duration().seconds() == 0.0);
+        REQUIRE(legacyMarker.comment() == QLatin1String("legacy marker"));
+
+        // Clean up
+        REQUIRE(model->removeAllMarkers());
+        checkMarkerList(model, {}, snaps);
+    }
     snaps.reset();
     // undoStack->clear();
     pCore->projectManager()->closeCurrentDocument(false, false);
