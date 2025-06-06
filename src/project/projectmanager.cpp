@@ -1837,39 +1837,44 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         QDomElement e = playlists.at(i).toElement();
         if (e.attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
             Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.profile"), updatedProfile);
-            // Update guides
-            const QString &guidesData = Xml::getXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"));
-            if (!guidesData.isEmpty()) {
-                // Update guides position
-                auto json = QJsonDocument::fromJson(guidesData.toUtf8());
-
-                QJsonArray updatedList;
-                if (json.isArray()) {
-                    auto list = json.array();
-                    for (const auto &entry : std::as_const(list)) {
-                        if (!entry.isObject()) {
-                            qDebug() << "Warning : Skipping invalid marker data";
-                            continue;
-                        }
-                        auto entryObj = entry.toObject();
-                        if (!entryObj.contains(QLatin1String("pos"))) {
-                            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
-                            continue;
-                        }
-                        int pos = qRound(double(entryObj[QLatin1String("pos")].toInt()) * fpsRatio);
-                        QJsonObject currentMarker;
-                        currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
-                        currentMarker.insert(QLatin1String("comment"), entryObj[QLatin1String("comment")]);
-                        currentMarker.insert(QLatin1String("type"), entryObj[QLatin1String("type")]);
-                        updatedList.push_back(currentMarker);
-                    }
-                    QJsonDocument updatedJSon(updatedList);
-                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"), QString::fromUtf8(updatedJSon.toJson()));
-                }
-            }
             break;
         }
     }
+    QDomNodeList tractors = doc.documentElement().elementsByTagName(QStringLiteral("tractor"));
+    // Update guides
+    for (int i = 0; i < tractors.count(); ++i) {
+        QDomElement e = tractors.at(i).toElement();
+        const QString &guidesData = Xml::getXmlProperty(e, QStringLiteral("kdenlive:sequenceproperties.guides"));
+        if (!guidesData.isEmpty()) {
+            // Update guides position
+            auto json = QJsonDocument::fromJson(guidesData.toUtf8());
+
+            QJsonArray updatedList;
+            if (json.isArray()) {
+                auto list = json.array();
+                for (const auto &entry : std::as_const(list)) {
+                    if (!entry.isObject()) {
+                        qDebug() << "Warning : Skipping invalid marker data";
+                        continue;
+                    }
+                    auto entryObj = entry.toObject();
+                    if (!entryObj.contains(QLatin1String("pos"))) {
+                        qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
+                        continue;
+                    }
+                    int pos = qRound(double(entryObj[QLatin1String("pos")].toInt()) * fpsRatio);
+                    QJsonObject currentMarker;
+                    currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                    currentMarker.insert(QLatin1String("comment"), entryObj[QLatin1String("comment")]);
+                    currentMarker.insert(QLatin1String("type"), entryObj[QLatin1String("type")]);
+                    updatedList.push_back(currentMarker);
+                }
+                QJsonDocument updatedJSon(updatedList);
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:sequenceproperties.guides"), QString::fromUtf8(updatedJSon.toJson()));
+            }
+        }
+    }
+
     QDomNodeList producers = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
