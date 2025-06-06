@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-05 00:42+0000\n"
+"POT-Creation-Date: 2025-06-06 00:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -17500,7 +17500,7 @@ msgid "Create bin folder"
 msgstr "bin फोल्डरं रचयन्तु"
 
 #: src/bin/bin.cpp:2738 src/bin/bin.cpp:2751 src/bin/bin.cpp:3750
-#: src/timeline2/model/timelinemodel.cpp:2179
+#: src/timeline2/model/timelinemodel.cpp:2192
 #, kde-format
 msgid "Delete Clip"
 msgstr "क्लिप् विलोपयन्तु"
@@ -18233,13 +18233,13 @@ msgid "Cut clip"
 msgstr "क्लिपं कटयतु"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1599
-#: src/timeline2/model/timelinemodel.cpp:4002
+#: src/timeline2/model/timelinemodel.cpp:4015
 #, kde-format
 msgid "Resize subtitle"
 msgstr "उपशीर्षकस्य आकारं परिवर्तयतु"
 
 #: src/bin/model/subtitlemodel.cpp:1029
-#: src/timeline2/model/timelinemodel.cpp:1365
+#: src/timeline2/model/timelinemodel.cpp:1378
 #, kde-format
 msgid "Move subtitle"
 msgstr "उपशीर्षकं चालयन्तु"
@@ -22588,7 +22588,7 @@ msgstr "प्रभावः %1 द्विवारं योजयितु�
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:700
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5116
+#: src/timeline2/model/timelinemodel.cpp:5129
 #, kde-format
 msgid "Add effect %1"
 msgstr "प्रभावं %1 योजयन्तु"
@@ -25425,7 +25425,7 @@ msgstr "उपशीर्षकसञ्चिका आयातयतु…"
 msgid "Export Subtitle File…"
 msgstr "उपशीर्षकसञ्चिका निर्यातयन्तु…"
 
-#: src/mainwindow.cpp:1980 src/timeline2/model/timelinemodel.cpp:2183
+#: src/mainwindow.cpp:1980 src/timeline2/model/timelinemodel.cpp:2196
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "उपशीर्षकं विलोपयतु"
@@ -30418,7 +30418,7 @@ msgid "Delete clips on track"
 msgstr "पटले क्लिप्स् विलोपयन्तु"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4693
+#: src/timeline2/model/timelinemodel.cpp:4706
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -30473,147 +30473,147 @@ msgstr "क्लिप्स् प्रतिस्थापिताः: %1,
 msgid "Replace clip"
 msgstr "क्लिप् प्रतिस्थापयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:985
-#: src/timeline2/model/timelinemodel.cpp:1209
+#: src/timeline2/model/timelinemodel.cpp:998
+#: src/timeline2/model/timelinemodel.cpp:1222
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "मिश्रणं प्रयोक्तुं क्लिप् चिनोतु"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1217
 #, kde-format
 msgid "start"
 msgstr "प्रारंभः"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1217
 #, kde-format
 msgid "end"
 msgstr "अंत"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1217
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "मिश्रणं प्रयोक्तुं क्लिप् %1 इत्यत्र पर्याप्तं फ्रेम्स नास्ति"
 
-#: src/timeline2/model/timelinemodel.cpp:1207
+#: src/timeline2/model/timelinemodel.cpp:1220
 #: src/timeline2/view/timelinecontroller.cpp:1708
 #, kde-format
 msgid "No active track"
 msgstr "सक्रियः पटलः नास्ति"
 
-#: src/timeline2/model/timelinemodel.cpp:1214
+#: src/timeline2/model/timelinemodel.cpp:1227
 #, kde-format
 msgid "Create mix"
 msgstr "मिश्रणं रचयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:1289
-#: src/timeline2/model/timelinemodel.cpp:1325
+#: src/timeline2/model/timelinemodel.cpp:1302
+#: src/timeline2/model/timelinemodel.cpp:1338
 #, kde-format
 msgid "Move clip"
 msgstr "क्लिप् चालयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:1856
-#: src/timeline2/model/timelinemodel.cpp:1946
-#: src/timeline2/model/timelinemodel.cpp:1969
-#: src/timeline2/model/timelinemodel.cpp:1992
+#: src/timeline2/model/timelinemodel.cpp:1869
+#: src/timeline2/model/timelinemodel.cpp:1959
+#: src/timeline2/model/timelinemodel.cpp:1982
+#: src/timeline2/model/timelinemodel.cpp:2005
 #: src/timeline2/view/timelinecontroller.cpp:3326
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "सम्मिलितसञ्चालनार्थं कोऽपि पटलः उपलब्धः नास्ति"
 
-#: src/timeline2/model/timelinemodel.cpp:1861
+#: src/timeline2/model/timelinemodel.cpp:1874
 #, kde-format
 msgid "Insert Clip"
 msgstr "क्लिप् सम्मिलितं कुर्वन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:1914
+#: src/timeline2/model/timelinemodel.cpp:1927
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "भवन्तः स्वयमेव समाविष्टं क्रमं निवेशयितुं न शक्नुवन्ति"
 
-#: src/timeline2/model/timelinemodel.cpp:1962
-#: src/timeline2/model/timelinemodel.cpp:1984
+#: src/timeline2/model/timelinemodel.cpp:1975
+#: src/timeline2/model/timelinemodel.cpp:1997
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "सर्वेषां धाराणां कृते पर्याप्तं श्रव्यपटलं नास्ति (%1) ।"
 
-#: src/timeline2/model/timelinemodel.cpp:2068
+#: src/timeline2/model/timelinemodel.cpp:2081
 #, kde-format
 msgid "No available track for split operation"
 msgstr "विभक्तसञ्चालनार्थं कोऽपि पटलः उपलब्धः नास्ति"
 
-#: src/timeline2/model/timelinemodel.cpp:2105
+#: src/timeline2/model/timelinemodel.cpp:2118
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "श्रव्यविभाजनं विफलम्: व्यवहार्यः पटलः नास्ति"
 
-#: src/timeline2/model/timelinemodel.cpp:2113
+#: src/timeline2/model/timelinemodel.cpp:2126
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "श्रव्यविभाजनं विफलम्: श्रव्यक्लिप् निर्मातुं असम्भवम्"
 
-#: src/timeline2/model/timelinemodel.cpp:2176
+#: src/timeline2/model/timelinemodel.cpp:2189
 #, kde-format
 msgid "Remove group"
 msgstr "समूहं निष्कासयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:2181
+#: src/timeline2/model/timelinemodel.cpp:2194
 #, kde-format
 msgid "Delete Composition"
 msgstr "रचनां विलोपयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:2420
-#: src/timeline2/model/timelinemodel.cpp:2721
+#: src/timeline2/model/timelinemodel.cpp:2433
+#: src/timeline2/model/timelinemodel.cpp:2734
 #: src/timeline2/view/timelinecontroller.cpp:4310
 #, kde-format
 msgid "Move group"
 msgstr "समूहं चालयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:3417
+#: src/timeline2/model/timelinemodel.cpp:3430
 #, kde-format
 msgid "Resize group"
 msgstr "समूहस्य आकारं परिवर्तयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:3541
+#: src/timeline2/model/timelinemodel.cpp:3554
 #, kde-format
 msgid "Resize clip speed"
 msgstr "क्लिप् वेगस्य आकारं परिवर्तयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:3700
+#: src/timeline2/model/timelinemodel.cpp:3713
 #, kde-format
 msgid "Remove mix"
 msgstr "मिश्रणं निष्कासयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:3702
+#: src/timeline2/model/timelinemodel.cpp:3715
 #, kde-format
 msgid "Removing mix failed"
 msgstr "मिश्रणं निष्कासयितुं असफलम् अभवत्"
 
-#: src/timeline2/model/timelinemodel.cpp:3998
+#: src/timeline2/model/timelinemodel.cpp:4011
 #, kde-format
 msgid "Resize clip"
 msgstr "क्लिपस्य आकारं परिवर्तयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:4000
+#: src/timeline2/model/timelinemodel.cpp:4013
 #, kde-format
 msgid "Resize composition"
 msgstr "रचनायाः आकारं परिवर्तयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:4319
+#: src/timeline2/model/timelinemodel.cpp:4332
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "रिपल आकार बदलें क्लिप"
 
-#: src/timeline2/model/timelinemodel.cpp:4321
+#: src/timeline2/model/timelinemodel.cpp:4334
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "रिपल आकार परिवर्तन रचना"
 
-#: src/timeline2/model/timelinemodel.cpp:4323
+#: src/timeline2/model/timelinemodel.cpp:4336
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "रिपल आकार परिवर्तन उपशीर्षक"
 
-#: src/timeline2/model/timelinemodel.cpp:4466
+#: src/timeline2/model/timelinemodel.cpp:4479
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -30621,135 +30621,135 @@ msgid_plural "Slip clips"
 msgstr[0] "स्लिप क्लिप"
 msgstr[1] "स्लिप क्लिप्स"
 
-#: src/timeline2/model/timelinemodel.cpp:4501
+#: src/timeline2/model/timelinemodel.cpp:4514
 #, kde-format
 msgid "Slip clip"
 msgstr "स्लिप क्लिप"
 
-#: src/timeline2/model/timelinemodel.cpp:4536
+#: src/timeline2/model/timelinemodel.cpp:4549
 #, kde-format
 msgid "Group clips"
 msgstr "समूह क्लिप्स्"
 
-#: src/timeline2/model/timelinemodel.cpp:4621
-#: src/timeline2/model/timelinemodel.cpp:4637
+#: src/timeline2/model/timelinemodel.cpp:4634
+#: src/timeline2/model/timelinemodel.cpp:4650
 #, kde-format
 msgid "Ungroup clips"
 msgstr "क्लिप्स् अनग्रुप् कुर्वन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:4802
+#: src/timeline2/model/timelinemodel.cpp:4815
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Delete Track"
 msgstr "Track विलोपयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:4812
+#: src/timeline2/model/timelinemodel.cpp:4825
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "समयरेखायां अन्तिमपटलं विलोपयितुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:5037
+#: src/timeline2/model/timelinemodel.cpp:5050
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "मास्टर ट्रैक मध्ये %1 प्रभावं योजयितुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:5044
+#: src/timeline2/model/timelinemodel.cpp:5057
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "चयनितपट्टिकायां %1 प्रभावं योजयितुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:5065
+#: src/timeline2/model/timelinemodel.cpp:5078
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "मास्टर ट्रैकं प्रति प्रभावं पेस्ट् कर्तुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:5071
+#: src/timeline2/model/timelinemodel.cpp:5084
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "चयनित-पट्टिकायां प्रभावं चिनोतु न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:5119
+#: src/timeline2/model/timelinemodel.cpp:5132
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "चयनितक्लिप् मध्ये %1 प्रभावं योजयितुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:5143
+#: src/timeline2/model/timelinemodel.cpp:5156
 #, kde-format
 msgid "Adjust Fade"
 msgstr "फीका समायोजयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:5508
+#: src/timeline2/model/timelinemodel.cpp:5521
 #, kde-format
 msgid "Insert Composition"
 msgstr "रचना सम्मिलित करें"
 
-#: src/timeline2/model/timelinemodel.cpp:5729
+#: src/timeline2/model/timelinemodel.cpp:5742
 #, kde-format
 msgid "Move composition"
 msgstr "रचनां चालयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:6400
+#: src/timeline2/model/timelinemodel.cpp:6413
 #, kde-format
 msgid "Enable time remap"
 msgstr "समयस्य पुनः नक्शाङ्कनं सक्षमं कुर्वन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:6474
+#: src/timeline2/model/timelinemodel.cpp:6487
 #, kde-format
 msgid "Change speed failed"
 msgstr "परिवर्तनवेगः विफलः अभवत्"
 
-#: src/timeline2/model/timelinemodel.cpp:6484
+#: src/timeline2/model/timelinemodel.cpp:6497
 #, kde-format
 msgid "Change clip speed"
 msgstr "क्लिप् गतिं परिवर्तयन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:6932
+#: src/timeline2/model/timelinemodel.cpp:6945
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "लॉक ट्रैक"
 
-#: src/timeline2/model/timelinemodel.cpp:6937
+#: src/timeline2/model/timelinemodel.cpp:6950
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "अनलॉक ट्रैक"
 
-#: src/timeline2/model/timelinemodel.cpp:6971
-#: src/timeline2/model/timelinemodel.cpp:7033
+#: src/timeline2/model/timelinemodel.cpp:6984
+#: src/timeline2/model/timelinemodel.cpp:7046
 #, kde-format
 msgid "Change composition"
 msgstr "रचना परिवर्तयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:6985
+#: src/timeline2/model/timelinemodel.cpp:6998
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "समूहीकृतरचनायां कार्यं कर्तुं न शक्यते, कृपया विसमूहीकरणं कुर्वन्तु"
 
-#: src/timeline2/model/timelinemodel.cpp:7180
-#: src/timeline2/model/timelinemodel.cpp:7217
-#: src/timeline2/model/timelinemodel.cpp:7250
-#: src/timeline2/model/timelinemodel.cpp:7329
+#: src/timeline2/model/timelinemodel.cpp:7193
+#: src/timeline2/model/timelinemodel.cpp:7230
+#: src/timeline2/model/timelinemodel.cpp:7263
+#: src/timeline2/model/timelinemodel.cpp:7342
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "मिश्रणस्य आकारं १ फ्रेमात् न्यूनं कर्तुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:7191
-#: src/timeline2/model/timelinemodel.cpp:7225
-#: src/timeline2/model/timelinemodel.cpp:7267
-#: src/timeline2/model/timelinemodel.cpp:7353
+#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7238
+#: src/timeline2/model/timelinemodel.cpp:7280
+#: src/timeline2/model/timelinemodel.cpp:7366
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "मिश्रणस्य आकारं परिवर्तयितुं न शक्यते"
 
-#: src/timeline2/model/timelinemodel.cpp:7367
+#: src/timeline2/model/timelinemodel.cpp:7380
 #, kde-format
 msgid "Resize mix"
 msgstr "मिश्रणस्य आकारं परिवर्तयतु"
 
-#: src/timeline2/model/timelinemodel.cpp:7487
+#: src/timeline2/model/timelinemodel.cpp:7500
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "समयरेखापूर्वावलोकनस्य आरम्भे त्रुटिः"
