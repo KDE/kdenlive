@@ -94,7 +94,7 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
 
     // Write the OTIO timeline to disk.
     OTIO_NS::ErrorStatus otioError;
-    bool r = otioTimeline->to_json_file(fileName.toStdString());
+    bool r = otioTimeline->to_json_file(fileName.toStdString(), &otioError);
     if (m_exportingDialog) {
         m_exportingDialog->setValue(timeline->getClipsCount());
         m_exportingDialog->close();
