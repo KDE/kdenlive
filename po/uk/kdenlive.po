@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 00:42+0000\n"
-"PO-Revision-Date: 2025-06-04 22:28+0300\n"
+"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"PO-Revision-Date: 2025-06-06 13:22+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8366,7 +8366,7 @@ msgid ""
 "degrees apart.<br>\n"
 "    \tThese parameters adds a rotation to both lenses to correct for this.]]>"
 msgstr ""
-"<![CDATA[Дві камери «риб'яче око» 360-градусної камери нечасть розділяються "
+"<![CDATA[Дві камери «риб'яче око» 360-градусної камери нечасто розділяються "
 "ідеально по 180 градусах.<br>\n"
 "    \tЦі параметри додають обертання до обох об'єктиві для виправлення цього "
 "ефекту.]]>"
@@ -8589,7 +8589,7 @@ msgid ""
 "(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
 "hemispherical image, that would be 0.25.]]>"
 msgstr ""
-"<![CDATA[Параметри виправлення викривлення обо'єктивом.<br>\n"
+"<![CDATA[Параметри виправлення викривлення об'єктивом.<br>\n"
 "    \tЯкщо ви використовуєте параметри Hugin, радіус слід встановити у "
 "значення (0,5 * min(ширина зображення, висота зображення) / ширина "
 "зображення). Для зображення з двома напівсферичними зображеннями зі "
@@ -9228,14 +9228,14 @@ msgstr "Коригування RGB"
 msgid "Simple color adjustment"
 msgstr "Просте коригування кольорів"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2514
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Червоний"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9244,7 +9244,7 @@ msgstr "Червоний"
 msgid "Green"
 msgstr "Зелений"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2516
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -19271,7 +19271,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
@@ -22440,7 +22440,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
 
-#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2475
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Untitled"
@@ -22538,14 +22538,14 @@ msgstr ""
 "У проєкті використано нестандартну частоту кадрів (%1); це призведе до "
 "некоректного розташовування кліпів та зсуву кадрів."
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Попередження: нестандартна частота кадрів, коригуємо до найближчого цілого "
 "числа."
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -22554,43 +22554,43 @@ msgstr ""
 "Вашим типовим профілем проєкту є %1, а профілем кліпу (%2) — %3.\n"
 "Хочете змінити типовий профіль для майбутніх проєктів?"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default project profile"
 msgstr "Зміна типового профілю проєкту"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default to %1"
 msgstr "Змінити типовий на %1"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Зберегти поточний типовий, %1"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Ask me later"
 msgstr "Спитати пізніше"
 
-#: src/doc/kdenlivedoc.cpp:2029
+#: src/doc/kdenlivedoc.cpp:2049
 #, kde-format
 msgid "Switch"
 msgstr "Перемкнутися"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2051 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/doc/kdenlivedoc.cpp:2033
+#: src/doc/kdenlivedoc.cpp:2053
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Перемкнутися на профіль кліпу (%1) %2?"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid ""
 "\n"
@@ -22599,7 +22599,7 @@ msgstr ""
 "\n"
 "Частоту кадрів проєкту скориговано з початкового значення %1"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2062
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22608,18 +22608,18 @@ msgstr ""
 "Не знайдено наявного профілю для вашого кліпу %1.\n"
 "Створити профіль (%2⨯%3, %4 кадрів за секунду) і перемкнутися на нього?%5"
 
-#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Жовтий"
 
-#: src/doc/kdenlivedoc.cpp:2498
+#: src/doc/kdenlivedoc.cpp:2518
 #, kde-format
 msgid "Cyan"
 msgstr "Блакитний"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -29039,7 +29039,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1916
+#: src/project/projectmanager.cpp:1921
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -29048,12 +29048,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1941
+#: src/project/projectmanager.cpp:1946
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2010
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -29062,17 +29062,17 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
 
-#: src/project/projectmanager.cpp:2333
+#: src/project/projectmanager.cpp:2338
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:2371
+#: src/project/projectmanager.cpp:2376
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"

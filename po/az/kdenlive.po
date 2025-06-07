@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 00:42+0000\n"
+"POT-Creation-Date: 2025-06-07 00:42+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -9208,14 +9208,14 @@ msgstr "RGB nizamı"
 msgid "Simple color adjustment"
 msgstr "Sadə rəng nizamı"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2514
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Qırmızı"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9224,7 +9224,7 @@ msgstr "Qırmızı"
 msgid "Green"
 msgstr "Yaşıl"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2516
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -19269,7 +19269,7 @@ msgstr "Bələdçilər verilənlərini ixrac edin"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
@@ -22449,7 +22449,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Layihə qovluğunun köçürülməsində xəta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2475
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Untitled"
@@ -22539,12 +22539,12 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -22553,43 +22553,43 @@ msgstr ""
 "%1 standart layihə profilinizdir, %3 isə sizin (%2) klip profilinizdir.\n"
 "Gələcək profillər üçün standart profili dəyişmək istəyirsiniz?"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standart layihə profilini dəyişin"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standart kimi %1 təyin edin"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Cari %1 standart profili saxlayın"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Ask me later"
 msgstr "Sonra soruşulsun"
 
-#: src/doc/kdenlivedoc.cpp:2029
+#: src/doc/kdenlivedoc.cpp:2049
 #, kde-format
 msgid "Switch"
 msgstr "Keçid"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2051 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "İmtina"
 
-#: src/doc/kdenlivedoc.cpp:2033
+#: src/doc/kdenlivedoc.cpp:2053
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "%2 klip profilinə (%1) keçilsin?"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid ""
 "\n"
@@ -22598,7 +22598,7 @@ msgstr ""
 "\n"
 "Kadr tezliyi, %1 orijinalından alındı"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2062
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22607,18 +22607,18 @@ msgstr ""
 "%1 klipiniz üçün profil tapılmadı.\n"
 "Yeni profil yaradılsın və açılsın (%2x%3, %4 kadr/san)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2498
+#: src/doc/kdenlivedoc.cpp:2518
 #, kde-format
 msgid "Cyan"
 msgstr "Orta Açıq Mavi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -29082,7 +29082,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Layihə profilində dəyişiklik ləğv edildi"
 
-#: src/project/projectmanager.cpp:1916
+#: src/project/projectmanager.cpp:1921
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -29091,12 +29091,12 @@ msgstr ""
 "%1 çıxış faylı artıq mövcud deyil.\n"
 "Onu əvəzləmək istəyirsiniz?"
 
-#: src/project/projectmanager.cpp:1941
+#: src/project/projectmanager.cpp:1946
 #, kde-format
 msgid "Project profile changed"
 msgstr "Layihə faylı dəyişdirildi"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2010
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -29105,17 +29105,17 @@ msgstr ""
 "Bu klipdən zaman xətti yaratmaq mümkün deyil:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Bir ardıcıllıq klipi idxal edilir, bu hazırda sınaq mərhələsindədir"
 
-#: src/project/projectmanager.cpp:2333
+#: src/project/projectmanager.cpp:2338
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Ardıcıllıq yaratmaq üçün bir klip seçin"
 
-#: src/project/projectmanager.cpp:2371
+#: src/project/projectmanager.cpp:2376
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ardıcıl klip yaradın"

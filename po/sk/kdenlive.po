@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 00:42+0000\n"
+"POT-Creation-Date: 2025-06-07 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -9225,14 +9225,14 @@ msgstr "Prispôsobenie RGB"
 msgid "Simple color adjustment"
 msgstr "Jednoduché farebné prispôsobenie"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2514
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Červená"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9241,7 +9241,7 @@ msgstr "Červená"
 msgid "Green"
 msgstr "Zelená"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2516
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -19404,7 +19404,7 @@ msgstr "Importovať vodítka"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
@@ -22699,7 +22699,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Chyba presunu priečinka projektu: %1"
 
-#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2475
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Untitled"
@@ -22794,12 +22794,12 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2026
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -22811,44 +22811,44 @@ msgstr ""
 "Váš predvolený profil projektu je %1, ale profil vášho klipu je %2.\n"
 "Chcete zmeniť predvolený profil pre budúce projekty?"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default project profile"
 msgstr "Zmeniť predvolený profil projektu"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default to %1"
 msgstr "Zmeniť predvolené na %1"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ponechať aktuálny predvolený %1"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Ask me later"
 msgstr "Opýtať sa neskôr"
 
-#: src/doc/kdenlivedoc.cpp:2029
+#: src/doc/kdenlivedoc.cpp:2049
 #, kde-format
 msgid "Switch"
 msgstr "Prepnúť"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2051 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/doc/kdenlivedoc.cpp:2033
+#: src/doc/kdenlivedoc.cpp:2053
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Prepnúť na profil klipu %1?"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid ""
 "\n"
@@ -22857,7 +22857,7 @@ msgstr ""
 "\n"
 "Fps profilu upravené z pôvodného %1"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2062
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -22869,18 +22869,18 @@ msgstr ""
 "Vo vašom klipe sa nenašiel profil.\n"
 "Vytvoriť a prepnúť na nový profil (%1x%2, %3fps)%4?"
 
-#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Žltá"
 
-#: src/doc/kdenlivedoc.cpp:2498
+#: src/doc/kdenlivedoc.cpp:2518
 #, kde-format
 msgid "Cyan"
 msgstr "Azúrová"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -29479,7 +29479,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Profil projektu: %1"
 
-#: src/project/projectmanager.cpp:1916
+#: src/project/projectmanager.cpp:1921
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -29487,12 +29487,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Výstupný súbor už existuje. Chcete ho prepísať?"
 
-#: src/project/projectmanager.cpp:1941
+#: src/project/projectmanager.cpp:1946
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil projektu zmenený"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2010
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -29500,18 +29500,18 @@ msgid ""
 "%1"
 msgstr "Nie je možné vytvoriť filter %1"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2333
+#: src/project/projectmanager.cpp:2338
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Vyberte klip v projektovom koši na efekt porovnania"
 
-#: src/project/projectmanager.cpp:2371
+#: src/project/projectmanager.cpp:2376
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

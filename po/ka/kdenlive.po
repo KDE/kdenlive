@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 00:42+0000\n"
+"POT-Creation-Date: 2025-06-07 00:42+0000\n"
 "PO-Revision-Date: 2025-06-04 04:11+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -8678,14 +8678,14 @@ msgstr "RGB-ის გასწორება"
 msgid "Simple color adjustment"
 msgstr "მარტივი ფერის გასწორება"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2514
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "წითელი"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -8694,7 +8694,7 @@ msgstr "წითელი"
 msgid "Green"
 msgstr "მწვანე"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2516
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -18464,7 +18464,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
@@ -21584,7 +21584,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
 
-#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2475
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Untitled"
@@ -21674,14 +21674,14 @@ msgstr ""
 "პროექტი იყენებს არასტანდარტულ კადრების სიხშირეს (%1). ეს არასწორად დალაგებულ "
 "კლიპებს და კადრის წანაცვლებებს გამოიწვევს."
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "გაფრთხილება: არასტანდარტული კადრი/წმ სიხშირე. დამრგვალება უახლოეს მთელ "
 "რიცხვამდე. "
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -21690,43 +21690,43 @@ msgstr ""
 "თქვენი ნაგულისხმევი პროექტის პროფილია %1, თქვენი კლიპის პროფილი (%2) კი %3.\n"
 "გნებავთ შეცვალოთ ნაგულისხმევი პროფილი მომავალი პროექტებისთვის?"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default project profile"
 msgstr "ნაგულისხმევი პროექტის პროფილის შეცვლა"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default to %1"
 msgstr "ნაგულისხმევის შეცვლა %1-ზე"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Keep current default %1"
 msgstr "მიმდინარე ნაგულისხმევის %1-ზე დატოვება"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Ask me later"
 msgstr "მოგვიანებით მკითხე"
 
-#: src/doc/kdenlivedoc.cpp:2029
+#: src/doc/kdenlivedoc.cpp:2049
 #, kde-format
 msgid "Switch"
 msgstr "გადართვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2051 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "გაუქმენა"
 
-#: src/doc/kdenlivedoc.cpp:2033
+#: src/doc/kdenlivedoc.cpp:2053
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "გადავრთო კლიპის (%1) პროფილზე %2?"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid ""
 "\n"
@@ -21735,7 +21735,7 @@ msgstr ""
 "\n"
 "პროფილის კადრი/წმ გასწორდა ორიგინალიდან %1"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2062
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -21744,18 +21744,18 @@ msgstr ""
 "თქვენი კლიპისთვის %1 პროფილი ვერ ვიპოვე.\n"
 "შევქმნა და გადავერთო ახალ პროფილზე (%2x%3,%4კადრი/წმ)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "ყვითელი"
 
-#: src/doc/kdenlivedoc.cpp:2498
+#: src/doc/kdenlivedoc.cpp:2518
 #, kde-format
 msgid "Cyan"
 msgstr "ცისფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28080,7 +28080,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "პროექტის პროფილის შეცვლა გაუქმდა"
 
-#: src/project/projectmanager.cpp:1916
+#: src/project/projectmanager.cpp:1921
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -28089,12 +28089,12 @@ msgstr ""
 "გამოტანის ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ თავზე?"
 
-#: src/project/projectmanager.cpp:1941
+#: src/project/projectmanager.cpp:1946
 #, kde-format
 msgid "Project profile changed"
 msgstr "პროექტის პროფილი შეიცვალა"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2010
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -28103,17 +28103,17 @@ msgstr ""
 "დროის ხაზი ვერ შევქმენი კლიპიდან:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "მიმდევრობის კლიპის შემოტანა. ეს ფუნქცია ჯერჯერობით ექსპერიმენტულია"
 
-#: src/project/projectmanager.cpp:2333
+#: src/project/projectmanager.cpp:2338
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
-#: src/project/projectmanager.cpp:2371
+#: src/project/projectmanager.cpp:2376
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"

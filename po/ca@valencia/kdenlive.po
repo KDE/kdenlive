@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 00:42+0000\n"
+"POT-Creation-Date: 2025-06-07 00:42+0000\n"
 "PO-Revision-Date: 2025-06-04 20:24+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -9267,14 +9267,14 @@ msgstr "Ajust RGB"
 msgid "Simple color adjustment"
 msgstr "Ajust de color senzill"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2514
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Roig"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9283,7 +9283,7 @@ msgstr "Roig"
 msgid "Green"
 msgstr "Verd"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2516
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -19306,7 +19306,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
@@ -22456,7 +22456,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
 
-#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2475
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Untitled"
@@ -22546,12 +22546,12 @@ msgstr ""
 "El projecte utilitza una velocitat de fotograma no estàndard (%1), açò "
 "donarà com a resultat clips i desplaçaments de fotogrames erronis."
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Avís: fps no estàndard, s'ajusta a l'enter més pròxim. "
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -22561,43 +22561,43 @@ msgstr ""
 "és %3.\n"
 "Voleu canviar el perfil predeterminat per als projectes futurs?"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default project profile"
 msgstr "Canvia el perfil predeterminat del projecte"
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default to %1"
 msgstr "Canvia el predeterminat a %1"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Mantín el predeterminat actual %1"
 
-#: src/doc/kdenlivedoc.cpp:2009
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Ask me later"
 msgstr "Pregunta-ho més tard"
 
-#: src/doc/kdenlivedoc.cpp:2029
+#: src/doc/kdenlivedoc.cpp:2049
 #, kde-format
 msgid "Switch"
 msgstr "Canvia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2051 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/doc/kdenlivedoc.cpp:2033
+#: src/doc/kdenlivedoc.cpp:2053
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Voleu canviar al perfil %2 del clip (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid ""
 "\n"
@@ -22606,7 +22606,7 @@ msgstr ""
 "\n"
 "FPS del perfil ajustat a partir de l'original %1"
 
-#: src/doc/kdenlivedoc.cpp:2042
+#: src/doc/kdenlivedoc.cpp:2062
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22615,18 +22615,18 @@ msgstr ""
 "No s'ha trobat cap perfil per al clip %1.\n"
 "El cree i canvie al perfil nou (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Groc"
 
-#: src/doc/kdenlivedoc.cpp:2498
+#: src/doc/kdenlivedoc.cpp:2518
 #, kde-format
 msgid "Cyan"
 msgstr "Cian"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -29027,7 +29027,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "S'ha interromput el canvi del perfil del projecte"
 
-#: src/project/projectmanager.cpp:1916
+#: src/project/projectmanager.cpp:1921
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -29036,12 +29036,12 @@ msgstr ""
 "El fitxer d'eixida %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/project/projectmanager.cpp:1941
+#: src/project/projectmanager.cpp:1946
 #, kde-format
 msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
-#: src/project/projectmanager.cpp:2005
+#: src/project/projectmanager.cpp:2010
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -29050,18 +29050,18 @@ msgstr ""
 "No s'ha pogut crear una línia de temps a partir d'este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2093
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:2333
+#: src/project/projectmanager.cpp:2338
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:2371
+#: src/project/projectmanager.cpp:2376
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
