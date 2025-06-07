@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 02:31+0000\n"
+"POT-Creation-Date: 2025-06-07 02:32+0000\n"
 "PO-Revision-Date: 2025-04-25 17:22+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -18651,7 +18651,7 @@ msgstr "Экспорт данных направляющих"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1901 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5166
@@ -21816,7 +21816,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2460
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2480
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1727
 #, kde-format
@@ -21914,14 +21914,14 @@ msgstr ""
 "В проекте используется нестандартная частота кадров (%1); это приведёт к "
 "некорректному размещению клипов и смещению кадров."
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2013
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Предупреждение: нестандартная кадровая частота, выполнена корректировка до "
 "ближайшего целого числа."
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -21931,43 +21931,43 @@ msgstr ""
 "%3.\n"
 "Изменить профиль по умолчанию для будущих проектов?"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default project profile"
 msgstr "Изменить профиль проекта по умолчанию"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default to %1"
 msgstr "Изменить профиль по умолчанию на %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Оставить текущий профиль по умолчанию %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Ask me later"
 msgstr "Напомнить позже"
 
-#: src/doc/kdenlivedoc.cpp:2034
+#: src/doc/kdenlivedoc.cpp:2054
 #, kde-format
 msgid "Switch"
 msgstr "Переключить"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2036 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2056 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Переключить на профиль %2 клипа (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2063
 #, kde-format
 msgid ""
 "\n"
@@ -21976,7 +21976,7 @@ msgstr ""
 "\n"
 "Для профиля используется кадровая частота оригинала %1"
 
-#: src/doc/kdenlivedoc.cpp:2047
+#: src/doc/kdenlivedoc.cpp:2067
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -21985,13 +21985,13 @@ msgstr ""
 "Профиль для клипа %1 не найден.\n"
 "Создать и использовать новый профиль (%2×%3, %4 кадров/с)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2519 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Красный"
 
-#: src/doc/kdenlivedoc.cpp:2500 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2520 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -21999,24 +21999,24 @@ msgstr "Красный"
 msgid "Green"
 msgstr "Зелёный"
 
-#: src/doc/kdenlivedoc.cpp:2501 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2521 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Синий"
 
-#: src/doc/kdenlivedoc.cpp:2502 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2522 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Жёлтый"
 
-#: src/doc/kdenlivedoc.cpp:2503
+#: src/doc/kdenlivedoc.cpp:2523
 #, kde-format
 msgid "Cyan"
 msgstr "Бирюзовый"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2857 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2877 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28272,7 +28272,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1889
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -28281,12 +28281,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:1906
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:1970
+#: src/project/projectmanager.cpp:1975
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -28295,19 +28295,19 @@ msgstr ""
 "Не удалось создать монтажный стол из этого клипа:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2053
+#: src/project/projectmanager.cpp:2058
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
 "экспериментальном режиме"
 
-#: src/project/projectmanager.cpp:2305
+#: src/project/projectmanager.cpp:2310
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для создания последовательности"
 
-#: src/project/projectmanager.cpp:2343
+#: src/project/projectmanager.cpp:2348
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Создать клип последовательности"

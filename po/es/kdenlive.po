@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 02:31+0000\n"
+"POT-Creation-Date: 2025-06-07 02:32+0000\n"
 "PO-Revision-Date: 2025-06-02 17:50+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -18729,7 +18729,7 @@ msgstr "Exportar datos de guías"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1901 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5166
@@ -21881,7 +21881,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Error al mover la carpeta del proyecto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2460
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2480
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1727
 #, kde-format
@@ -21973,13 +21973,13 @@ msgstr ""
 "El proyecto utiliza una velocidad de fotogramas no estándar (%1), esto "
 "resultará en clips mal ubicados y un desplazamiento de fotogramas."
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2013
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Advertencia: valor de fps no estándar, se redondeará al entero más próximo. "
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -21988,43 +21988,43 @@ msgstr ""
 "El perfil predeterminado del proyecto es %1, pero el del clip (%2) es %3.\n"
 "¿Cambiar el perfil predeterminado para los proyectos futuros?"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default project profile"
 msgstr "Cambiar perfil predeterminado de proyectos"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default to %1"
 msgstr "Cambiar predeterminado a %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Mantener el predeterminado actual %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Ask me later"
 msgstr "Preguntar nuevamente más tarde"
 
-#: src/doc/kdenlivedoc.cpp:2034
+#: src/doc/kdenlivedoc.cpp:2054
 #, kde-format
 msgid "Switch"
 msgstr "Cambiar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2036 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2056 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "¿Cambiar proyecto al perfil %2 del clip (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2063
 #, kde-format
 msgid ""
 "\n"
@@ -22033,7 +22033,7 @@ msgstr ""
 "\n"
 "Fps del perfil ajustado a partir del original %1"
 
-#: src/doc/kdenlivedoc.cpp:2047
+#: src/doc/kdenlivedoc.cpp:2067
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22042,13 +22042,13 @@ msgstr ""
 "No se encontró un perfil para el clip %1.\n"
 "¿Crear y cambiar a un nuevo perfil (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2519 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Rojo"
 
-#: src/doc/kdenlivedoc.cpp:2500 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2520 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -22056,24 +22056,24 @@ msgstr "Rojo"
 msgid "Green"
 msgstr "Verde"
 
-#: src/doc/kdenlivedoc.cpp:2501 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2521 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Azul"
 
-#: src/doc/kdenlivedoc.cpp:2502 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2522 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Amarillo"
 
-#: src/doc/kdenlivedoc.cpp:2503
+#: src/doc/kdenlivedoc.cpp:2523
 #, kde-format
 msgid "Cyan"
 msgstr "Cian"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2857 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2877 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28300,7 +28300,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Cambio del perfil del proyecto cancelado"
 
-#: src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1889
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -28309,12 +28309,12 @@ msgstr ""
 "El archivo de salida %1 ya existe.\n"
 "¿Sobrescribirlo?"
 
-#: src/project/projectmanager.cpp:1906
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil del proyecto cambiado"
 
-#: src/project/projectmanager.cpp:1970
+#: src/project/projectmanager.cpp:1975
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -28323,19 +28323,19 @@ msgstr ""
 "No es posible crear una línea de tiempo a partir de este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2053
+#: src/project/projectmanager.cpp:2058
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importando un clip de secuencia; esto se encuentra actualmente en estado "
 "experimental"
 
-#: src/project/projectmanager.cpp:2305
+#: src/project/projectmanager.cpp:2310
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccionar un clip para crear una secuencia"
 
-#: src/project/projectmanager.cpp:2343
+#: src/project/projectmanager.cpp:2348
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crear clip de secuencia"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 02:31+0000\n"
-"PO-Revision-Date: 2025-06-01 19:24+0200\n"
+"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"PO-Revision-Date: 2025-06-06 22:27+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8778,7 +8778,7 @@ msgstr "Filmkornighet"
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "Lägger till filmliknande kornighet och gör bilden mjukare"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
@@ -8788,7 +8788,7 @@ msgstr "Kornighetsvärde"
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr ""
+msgstr "<![CDATA[Kornighetens intensitet]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
@@ -8798,7 +8798,7 @@ msgstr "Röd kornighet"
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr ""
+msgstr "<![CDATA[Procent kornighet som används för den röda kanalen]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -8808,7 +8808,7 @@ msgstr "Grön kornighet"
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr ""
+msgstr "<![CDATA[Procent kornighet som används för den gröna kanalen]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, kde-format
@@ -8818,7 +8818,7 @@ msgstr "Blå kornighet"
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr ""
+msgstr "<![CDATA[Procent kornighet som används för den blåa kanalen]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
@@ -8828,7 +8828,7 @@ msgstr "Suddighetsvärde"
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr ""
+msgstr "<![CDATA[Suddighetenes intensitet]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
@@ -8838,7 +8838,7 @@ msgstr "Dammängd"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr ""
+msgstr "<![CDATA[Antal dammpartiklar på bilden]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -8848,7 +8848,7 @@ msgstr "Flimmer"
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[Storleken på variationen i ljusstyrka mellan bildrutor]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -9999,7 +9999,7 @@ msgstr "Alfaspår"
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
 msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa alfaspår på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
 #, kde-format
@@ -10009,7 +10009,7 @@ msgstr "Visa medelvärde"
 #: data/effects/frei0r/frei0r_pr0file.xml:66
 #, kde-format
 msgid "<![CDATA[Show average on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa medelvärde på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:69
 #, kde-format
@@ -10029,7 +10029,7 @@ msgstr "Visa minimum"
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
 msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa minimalt värde på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:77
 #, kde-format
@@ -10039,12 +10039,12 @@ msgstr "Visa maximum"
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
 msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa maximalt värde på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[Använd skalan 0-255 istället för 0,0-1,0]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
@@ -10059,7 +10059,7 @@ msgstr "Färgkodning"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[Välj mellan inflätad (601) eller progressiv (709)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
@@ -10069,7 +10069,7 @@ msgstr "Hårkorsets färg"
 #: data/effects/frei0r/frei0r_pr0file.xml:91
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr ""
+msgstr "<![CDATA[Välj en färg för hårkors eller profillinje]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -10406,7 +10406,7 @@ msgstr "Dagrarnas skärpa."
 #: data/effects/frei0r/frei0r_softglow.xml:21
 #, kde-format
 msgid "Screen,Overlay,Add"
-msgstr ""
+msgstr "Skärm, överlagra, lägg till"
 
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
@@ -10694,7 +10694,7 @@ msgstr "Genomskinlighet"
 #: data/effects/frei0r/frei0r_transparency.xml:5
 #, kde-format
 msgid "Tunes the alpha channel."
-msgstr ""
+msgstr "Justerar alfakanalen."
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
@@ -11456,12 +11456,12 @@ msgstr "Uppdateringar per sekund"
 #, kde-format
 msgctxt "Grain Effect Name"
 msgid "Grain"
-msgstr "Filmkorn"
+msgstr "Filmkornighet"
 
 #: data/effects/grain.xml:5
 #, kde-format
 msgid "Grain over the image"
-msgstr "Korn över bilden"
+msgstr "Kornighet över bilden"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -11485,96 +11485,98 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
 "colors."
 msgstr ""
+"Justera färgton, mättnad, ljushet för var och en av de sex grundfärgerna och "
+"sekundära färgerna."
 
 #: data/effects/hsl_primaries.xml:8
 #, kde-format
 msgid "Hue Shift Red"
-msgstr ""
+msgstr "Färgtonsändring röd"
 
 #: data/effects/hsl_primaries.xml:11
 #, kde-format
 msgid "Saturation Scale Red"
-msgstr ""
+msgstr "Färgmättnadsskala röd"
 
 #: data/effects/hsl_primaries.xml:14
 #, kde-format
 msgid "Lightness Scale Red"
-msgstr ""
+msgstr "Ljushetsskala röd"
 
 #: data/effects/hsl_primaries.xml:17
 #, kde-format
 msgid "Hue Shift Yellow"
-msgstr ""
+msgstr "Färgtonsändring gul"
 
 #: data/effects/hsl_primaries.xml:20
 #, kde-format
 msgid "Saturation Scale Yellow"
-msgstr ""
+msgstr "Färgmättnadsskala gul"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
 msgid "Lightness Scale Yellow"
-msgstr ""
+msgstr "Ljushetsskala gul"
 
 #: data/effects/hsl_primaries.xml:26
 #, kde-format
 msgid "Hue Shift Green"
-msgstr ""
+msgstr "Färgtonsändring grön"
 
 #: data/effects/hsl_primaries.xml:29
 #, kde-format
 msgid "Saturation Scale Green"
-msgstr ""
+msgstr "Färgmättnadsskala grön"
 
 #: data/effects/hsl_primaries.xml:32
 #, kde-format
 msgid "Lightness Scale Green"
-msgstr ""
+msgstr "Ljushetsskala grön"
 
 #: data/effects/hsl_primaries.xml:35
 #, kde-format
 msgid "Hue Shift Cyan"
-msgstr ""
+msgstr "Färgtonsändring cyan"
 
 #: data/effects/hsl_primaries.xml:38
 #, kde-format
 msgid "Saturation Scale Cyan"
-msgstr ""
+msgstr "Färgmättnadsskala cyan"
 
 #: data/effects/hsl_primaries.xml:41
 #, kde-format
 msgid "Lightness Scale Cyan"
-msgstr ""
+msgstr "Ljushetsskala cyan"
 
 #: data/effects/hsl_primaries.xml:44
 #, kde-format
 msgid "Hue Shift Blue"
-msgstr ""
+msgstr "Färgtonsändring blå"
 
 #: data/effects/hsl_primaries.xml:47
 #, kde-format
 msgid "Saturation Scale Blue"
-msgstr ""
+msgstr "Färgmättnadsskala blå"
 
 #: data/effects/hsl_primaries.xml:50
 #, kde-format
 msgid "Lightness Scale Blue"
-msgstr ""
+msgstr "Ljushetsskala blå"
 
 #: data/effects/hsl_primaries.xml:53
 #, kde-format
 msgid "Hue Shift Magenta"
-msgstr ""
+msgstr "Färgtonsändring magenta"
 
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
 msgid "Saturation Scale Magenta"
-msgstr ""
+msgstr "Färgmättnadsskala magenta"
 
 #: data/effects/hsl_primaries.xml:59
 #, kde-format
 msgid "Lightness Scale Magenta"
-msgstr ""
+msgstr "Ljushetsskala magenta"
 
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
@@ -11592,6 +11594,8 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
 "specify the range of the hue values to be adjusted."
 msgstr ""
+"Justera färgton, mättnad och ljushet för ett intervall av färgtonsvärden. "
+"Användaren kan ange intervallet för färgtonsvärden som ska justeras."
 
 #: data/effects/hsl_range.xml:8
 #, kde-format
@@ -11787,7 +11791,7 @@ msgstr "Brusdämpning för röst"
 #: data/effects/ladspa/ladspa_librnnoise.xml:5
 #, kde-format
 msgid "Microphone background noise removal filter"
-msgstr ""
+msgstr "Filter för borttagning av bakgrundsljud från mikrofon"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, no-c-format, kde-format
@@ -12933,7 +12937,7 @@ msgstr "Dynamisk normalisering"
 #: data/effects/sox/sox.xml:24
 #, kde-format
 msgid "Smoothing window size "
-msgstr ""
+msgstr "Utjämnande fönsterstorlek "
 
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
@@ -13672,7 +13676,7 @@ msgstr "Transformering, förvrängning och perspektiv"
 #: data/kdenliveeffectscategory.rc:18
 #, kde-format
 msgid "Grain and Noise"
-msgstr "Korn och brus"
+msgstr "Kornighet och brus"
 
 #: data/kdenliveeffectscategory.rc:22
 #, kde-format
@@ -13957,7 +13961,7 @@ msgstr "Addition"
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] additionsoperation av bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
@@ -13967,17 +13971,17 @@ msgstr "addition_alpha"
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] alfa-additionsoperation av bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, kde-format
 msgid "Alpha ATOP"
-msgstr ""
+msgstr "Alfa OVANPÅ"
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:5
 #, kde-format
 msgid "The alpha ATOP operation"
-msgstr ""
+msgstr "Alfa OVANPÅ-operationen"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:4
 #, kde-format
@@ -14031,6 +14035,9 @@ msgid ""
 "generalised algorithm: D = saturation of 255 or depletion of 0, of ((255 - "
 "A) * 256) / (B + 1)"
 msgstr ""
+"Utför en RGB[A] blekningsoperation mellan bildpunktskällorna med den "
+"generaliserade algoritmen: D = färgmättnad för 255 eller reducering av 0, av "
+"((255 - A) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
@@ -14107,6 +14114,8 @@ msgid ""
 "Perform a conversion to color only of the source input1 using the hue and "
 "saturation values of input2."
 msgstr ""
+"Utför en konvertering till endast färg av källans indata 1 med hjälp av "
+"färgtons- och mättnadsvärdena för indata 2."
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
 #, kde-format
@@ -14119,6 +14128,8 @@ msgid ""
 "Perform a darken operation between two sources (minimum value of both "
 "sources)."
 msgstr ""
+"Utför en gör mörkare operation mellan två källor (minimivärde för båda "
+"källorna)."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
@@ -14128,7 +14139,7 @@ msgstr "Skillnad"
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
 msgid "Perform an RGB[A] difference operation between the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] skillnadsoperation mellan bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, kde-format
@@ -14141,6 +14152,8 @@ msgid ""
 "Perform an RGB[A] divide operation between the pixel sources: input1 is the "
 "numerator, input2 the denominator."
 msgstr ""
+"Utför en RGB[A] divisionsoperation mellan bildpunktskällorna: indata 1 är "
+"täljaren, indata 2 är nämnaren."
 
 #: data/transitions/frei0r/frei0r_dodge.xml:4
 #, kde-format
@@ -14153,26 +14166,29 @@ msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
+"Utför en RGB[A] blekningsoperation mellan bildpunktskällorna med den "
+"generaliserade algoritmen: D = färgmättnad för 255 eller (A * 256) / (256 - "
+"B)"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
 msgid "Grain Extract"
-msgstr ""
+msgstr "Kornextraktion"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:5
 #, kde-format
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] kornextraktion mellan bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, kde-format
 msgid "Grain Merge"
-msgstr ""
+msgstr "Kornsammanfogning"
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:5
 #, kde-format
 msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] kornsammanfogning mellan bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, kde-format
@@ -14182,7 +14198,7 @@ msgstr "Hårt ljus"
 #: data/transitions/frei0r/frei0r_hardlight.xml:5
 #, kde-format
 msgid "Perform an RGB[A] hardlight operation between the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] hårt ljus-operation mellan bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_hue.xml:5
 #, kde-format
@@ -14190,6 +14206,8 @@ msgid ""
 "Perform a conversion to hue only of the source input1 using the hue of "
 "input2."
 msgstr ""
+"Utför en omvandling till enbart färgton av källans indata 1 med hjälp av "
+"färgton för indata 2."
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
 #, kde-format
@@ -14202,6 +14220,8 @@ msgid ""
 "Perform a lighten operation between two sources (maximum value of both "
 "sources)."
 msgstr ""
+"Utför operationen gör ljusare mellan två källor (maximalt värde för båda "
+"källorna)."
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
 #, kde-format
@@ -14211,7 +14231,7 @@ msgstr "Multiplicera"
 #: data/transitions/frei0r/frei0r_multiply.xml:5
 #, kde-format
 msgid "Perform an RGB[A] multiply operation between the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] multiplikationsoperation av bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
 #, kde-format
@@ -14224,16 +14244,18 @@ msgid ""
 "Perform an RGB[A] overlay operation between the pixel sources, using the "
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
+"Utför en RGB[A] skärmoperation mellan bildpunktskällorna med den "
+"generaliserade algoritmen: D = A * (B + (2 * B) * (255 - A))"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, kde-format
 msgid "Push Down"
-msgstr ""
+msgstr "Skjut neråt"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:5
 #, kde-format
 msgid "Push from top to bottom."
-msgstr ""
+msgstr "Skjut uppifrån och ner."
 
 #: data/transitions/frei0r/frei0r_push-down.xml:8
 #: data/transitions/frei0r/frei0r_push-left.xml:8
@@ -14241,37 +14263,37 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_push-up.xml:8
 #, kde-format
 msgid "Push position"
-msgstr ""
+msgstr "Skjutposition"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:4
 #, kde-format
 msgid "Push Left"
-msgstr ""
+msgstr "Skjut åt vänster"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:5
 #, kde-format
 msgid "Push from right to left."
-msgstr ""
+msgstr "Skjut från höger till vänster."
 
 #: data/transitions/frei0r/frei0r_push-right.xml:4
 #, kde-format
 msgid "Push Right"
-msgstr ""
+msgstr "Skjut åt höger"
 
 #: data/transitions/frei0r/frei0r_push-right.xml:5
 #, kde-format
 msgid "Push from left to right."
-msgstr ""
+msgstr "Skjut från vänster till höger."
 
 #: data/transitions/frei0r/frei0r_push-up.xml:4
 #, kde-format
 msgid "Push Up"
-msgstr ""
+msgstr "Skjut uppåt"
 
 #: data/transitions/frei0r/frei0r_push-up.xml:5
 #, kde-format
 msgid "Push from bottom to top."
-msgstr ""
+msgstr "Skjut nerifrån och upp."
 
 #: data/transitions/frei0r/frei0r_saturation.xml:5
 #, kde-format
@@ -14279,6 +14301,8 @@ msgid ""
 "Perform a conversion to saturation only of the source input1 using the "
 "saturation level of input2."
 msgstr ""
+"Utför en omvandling till endast färgmättnad av källans indata 1 med "
+"mättnadsnivån för indata 2."
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
 #, kde-format
@@ -14297,7 +14321,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
 msgid "Slide Down"
-msgstr ""
+msgstr "Glid neråt"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
 #, kde-format
@@ -14310,7 +14334,7 @@ msgstr "Glid uppifrån och ner."
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
 #, kde-format
 msgid "Slide position"
-msgstr ""
+msgstr "Glidposition"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
 #, kde-format
@@ -14350,7 +14374,7 @@ msgstr "Diffust ljus"
 #: data/transitions/frei0r/frei0r_softlight.xml:5
 #, kde-format
 msgid "Perform an RGB[A] softlight operation between the pixel sources."
-msgstr ""
+msgstr "Utför en RGB[A] mjukt ljus-operation mellan bildpunktskällorna."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: data/transitions/frei0r/frei0r_subtract.xml:4
@@ -14364,6 +14388,8 @@ msgstr "Subtrahera"
 msgid ""
 "Perform an RGB[A] subtract operation of the pixel source input2 from input1."
 msgstr ""
+"Utför en RGB[A] subtraktionsoperation av bildpunktskällorna indata 2 från "
+"indata 1."
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
@@ -14373,7 +14399,7 @@ msgstr "UV-avbildning"
 #: data/transitions/frei0r/frei0r_uvmap.xml:5
 #, kde-format
 msgid "Uses Input 1 as UV Map to distort Input 2."
-msgstr ""
+msgstr "Använd indata 1 som en UV-avbildning för att förvränga indata 2."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/transitions/frei0r/frei0r_value.xml:4 src/ui/managesubtitles_ui.ui:544
@@ -14387,6 +14413,8 @@ msgid ""
 "Perform a conversion to value only of the source input1 using the value of "
 "input2."
 msgstr ""
+"Utför en omvandling till enbart värde av källans indata 1 med hjälp av "
+"värdet för indata 2."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, kde-format
@@ -14422,7 +14450,7 @@ msgstr "Cirkelövergång"
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a circle."
-msgstr ""
+msgstr "Övergång från centrum till kant i en cirkel."
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
 #, kde-format
@@ -14432,12 +14460,12 @@ msgstr "Cirkelstorlek"
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
 #, kde-format
 msgid "Wipe Down"
-msgstr ""
+msgstr "Övergång neråt"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
 #, kde-format
 msgid "Wipe from top to bottom."
-msgstr ""
+msgstr "Övergång uppifrån och ner."
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:8
 #: data/transitions/frei0r/frei0r_wipe-left.xml:8
@@ -14450,12 +14478,12 @@ msgstr "Kantposition"
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
 #, kde-format
 msgid "Wipe Left"
-msgstr ""
+msgstr "Övergång åt vänster"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
 #, kde-format
 msgid "Wipe from right to left."
-msgstr ""
+msgstr "Övergång från höger till vänster."
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
 #, kde-format
@@ -14465,7 +14493,7 @@ msgstr "Rektangulär övergång"
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a rectangle."
-msgstr ""
+msgstr "Övergång från centrum till kant i en rektangel."
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
 #, kde-format
@@ -14475,22 +14503,22 @@ msgstr "Rektangelstorlek"
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
 #, kde-format
 msgid "Wipe Right"
-msgstr ""
+msgstr "Övergång åt höger"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
 msgid "Wipe from left to right."
-msgstr ""
+msgstr "Övergång från vänster till höger."
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
 #, kde-format
 msgid "Wipe Up"
-msgstr ""
+msgstr "Övergång uppåt"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
 #, kde-format
 msgid "Wipe from bottom to top."
-msgstr ""
+msgstr "Övergång nerifrån och upp."
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -17145,12 +17173,12 @@ msgstr "Ta bort strömningseffekt"
 #: src/bin/projectclip.cpp:3168
 #, kde-format
 msgid "Mask added to clip"
-msgstr ""
+msgstr "Mask tillagd i klipp"
 
 #: src/bin/projectclip.cpp:3172
 #, kde-format
 msgid "Missing clip for mask"
-msgstr ""
+msgstr "Saknar klipp för mask"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -18011,7 +18039,7 @@ msgstr "Exportera flaggdata"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1901 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5166
@@ -19248,6 +19276,8 @@ msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
+"Nvidia grafikprocessorstöd för %1\n"
+"Välj den version av CUDA som ska installeras."
 
 #: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
@@ -19265,6 +19295,8 @@ msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
+"Kan inte fastställa version av CUDA,\n"
+"välj den version som är tillgänglig på systemet."
 
 #: src/dialogs/settings/pluginssettings.cpp:1035
 #, kde-format
@@ -19272,6 +19304,8 @@ msgid ""
 "Only use this install option if your GPU\n"
 "is not correctly detected or not working with this plugin."
 msgstr ""
+"Använd endast installationsalternativet om grafikprocessorn inte "
+"identifieras korrekt eller inte fungerar med insticksprogrammet."
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -21140,7 +21174,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Fel när projektkatalogen skulle flyttas: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2460
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2480
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1727
 #, kde-format
@@ -21231,12 +21265,12 @@ msgstr ""
 "Projektet använder en bildhastighet (%1) som inte är standard, det "
 "resulterar i felplacerade klipp och bildförskjutning."
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2013
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Varning: bilder/s ej standardiserat, justerar till närmaste heltal. "
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -21245,43 +21279,43 @@ msgstr ""
 "Den förvalda projektprofilen är %1, men klippets profil (%2) är %3.\n"
 "Vill du ändra den förvalda profilen för framtida projekt?"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default project profile"
 msgstr "Ändra förvald projektprofil"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default to %1"
 msgstr "Ändra standardvärde till %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Behåll nuvarande förval %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Ask me later"
 msgstr "Fråga igen senare"
 
-#: src/doc/kdenlivedoc.cpp:2034
+#: src/doc/kdenlivedoc.cpp:2054
 #, kde-format
 msgid "Switch"
 msgstr "Byt"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2036 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2056 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Byt till profil %2 för klipp (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2063
 #, kde-format
 msgid ""
 "\n"
@@ -21290,7 +21324,7 @@ msgstr ""
 "\n"
 "Profilens rutor/s justerad från originalet %1"
 
-#: src/doc/kdenlivedoc.cpp:2047
+#: src/doc/kdenlivedoc.cpp:2067
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -21299,13 +21333,13 @@ msgstr ""
 "Ingen profil hittades för klippet %1.\n"
 "Skapa och byt till ny profil (%2 x %3, %4 rutor/s)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2519 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Röd"
 
-#: src/doc/kdenlivedoc.cpp:2500 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2520 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -21313,24 +21347,24 @@ msgstr "Röd"
 msgid "Green"
 msgstr "Grön"
 
-#: src/doc/kdenlivedoc.cpp:2501 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2521 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Blå"
 
-#: src/doc/kdenlivedoc.cpp:2502 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2522 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Gul"
 
-#: src/doc/kdenlivedoc.cpp:2503
+#: src/doc/kdenlivedoc.cpp:2523
 #, kde-format
 msgid "Cyan"
 msgstr "Turkos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2857 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2877 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -21767,16 +21801,20 @@ msgid ""
 "shortage. You can try to enable the <i>Offload video to CPU</i> option in "
 "the settings, or create several masks for shorter durations."
 msgstr ""
+"Att skapa masker för klipp som är längre än några sekunder kan misslyckas på "
+"grund av minnesbrist. Man kan försöka aktivera alternativet <i>Avlasta video "
+"till processorn</i> i inställningarna, eller skapa flera masker med kortare "
+"längd."
 
 #: src/effects/effectstack/view/maskmanager.cpp:247
 #, kde-format
 msgid "Another transcode task is running, try later."
-msgstr ""
+msgstr "En annan omkodningsuppgift pågår, försök senare."
 
 #: src/effects/effectstack/view/maskmanager.cpp:252
 #, kde-format
 msgid "Another mask task is running, try later."
-msgstr ""
+msgstr "En annan maskuppgift pågår, försök senare."
 
 #: src/effects/effectstack/view/maskmanager.cpp:261
 #, kde-format
@@ -25303,7 +25341,7 @@ msgstr "Skärmupplösningen är inte tillräcklig för åtgärden"
 #: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:940
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "Kan inte ändra zon när en mask skapas"
 
 #: src/monitor/monitor.cpp:933 src/monitor/monitor.cpp:969
 #: src/timeline2/view/timelinecontroller.cpp:1831
@@ -25331,7 +25369,7 @@ msgstr "Exportera bild med användning av källupplösning"
 #: src/monitor/monitor.cpp:1877
 #, kde-format
 msgid "Exit Mask Mode ?"
-msgstr ""
+msgstr "Avsluta maskeringsläge?"
 
 #: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, kde-format
@@ -25386,7 +25424,7 @@ msgstr "Inget klipp markerat på klippskärmen"
 #: src/monitor/monitor.cpp:3130
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr ""
+msgstr "Kan inte hämta producent för klippskärm"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -27515,7 +27553,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Projektprofil ändring avbruten"
 
-#: src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1889
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -27524,12 +27562,12 @@ msgstr ""
 "Utdatafilen %1 finns redan.\n"
 "Vill du skriva över den?"
 
-#: src/project/projectmanager.cpp:1906
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ändrad"
 
-#: src/project/projectmanager.cpp:1970
+#: src/project/projectmanager.cpp:1975
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -27538,18 +27576,18 @@ msgstr ""
 "Kan inte skapa en tidslinje från klippet:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2053
+#: src/project/projectmanager.cpp:2058
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importerar ett sekvensklipp, för närvarande i ett experimentellt tillstånd"
 
-#: src/project/projectmanager.cpp:2305
+#: src/project/projectmanager.cpp:2310
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Markera ett klipp för att skapa sekvens"
 
-#: src/project/projectmanager.cpp:2343
+#: src/project/projectmanager.cpp:2348
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Skapa sekvensklipp"
@@ -32110,6 +32148,8 @@ msgid ""
 "Enabling built-in effects will add basic effects like volume and transform "
 "to all clips for easy access"
 msgstr ""
+"Att aktivera inbyggda effekter lägger till grundläggande effekter som volym "
+"och transformation i alla klipp för enkel åtkomst"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -32386,6 +32426,8 @@ msgid ""
 "If your Nvidia GPU is not listed, try installing an alternative with the "
 "Nvidia GPU Support button"
 msgstr ""
+"Om din Nvidia grafikprocessor inte finns med i listan kan man försöka "
+"installera en alternativ version med knappen Nvidia Grafikprocessorstöd"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
@@ -32421,6 +32463,9 @@ msgid ""
 "your system. For advanced users only, as you will have to properly setup "
 "everything by yourself."
 msgstr ""
+"När det är aktiverat använder Kdenlive tal-till-text-paketen som är "
+"installerade på systemet. Endast för avancerade användare, eftersom man "
+"måste ställa in allting själv."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:610
@@ -32469,6 +32514,9 @@ msgid ""
 "This offloads some of the memory used to the RAM instead of the GPU memory, "
 "allowing to process longer sequences."
 msgstr ""
+"Det avlastar en del av det minne som används till RAM istället för "
+"grafikprocessorns minne, vilket gör det möjligt att bearbeta längre "
+"sekvenser."
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:958
@@ -32478,6 +32526,9 @@ msgid ""
 "For advanced users only, as you will have to properly setup everything by "
 "yourself."
 msgstr ""
+"När det är aktiverat använder Kdenlive versionen av SAM2 som är installerad "
+"på systemet. Endast för avancerade användare, eftersom man måste ställa in "
+"allting själv."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)

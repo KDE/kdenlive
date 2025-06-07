@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 02:31+0000\n"
+"POT-Creation-Date: 2025-06-07 02:32+0000\n"
 "PO-Revision-Date: 2025-05-07 10:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -18292,7 +18292,7 @@ msgstr "匯出參照線資料"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1901 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5166
@@ -21345,7 +21345,7 @@ msgstr "您的專案檔案已更新至最新的 Kdenlive 文件版本，但無�
 msgid "Error moving project folder: %1"
 msgstr "移動專案資料夾時發生錯誤：%1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2460
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2480
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1727
 #, kde-format
@@ -21430,12 +21430,12 @@ msgid ""
 msgstr ""
 "專案使用非標準的幀率（%1），這會造成素材位置些微不正確以及影格有時間位移。"
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2013
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "警告：非標準的 FPS，將調整至最近的整數。"
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -21444,43 +21444,43 @@ msgstr ""
 "您的預設專案編碼方案是 %1，但是您的素材的編碼方案 (%2) 是 %3。\n"
 "您要變更未來專案的預設編碼方案嗎？"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default project profile"
 msgstr "變更預設專案編碼方案"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default to %1"
 msgstr "將預設改為 %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Keep current default %1"
 msgstr "保留目前預設 %1"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Ask me later"
 msgstr "稍後問我"
 
-#: src/doc/kdenlivedoc.cpp:2034
+#: src/doc/kdenlivedoc.cpp:2054
 #, kde-format
 msgid "Switch"
 msgstr "切換"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2036 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2056 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "取消"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "要切換到素材 (%1) 設定檔 %2 嗎？"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2063
 #, kde-format
 msgid ""
 "\n"
@@ -21489,7 +21489,7 @@ msgstr ""
 "\n"
 "設定檔 FPS 已從原始 %1 調整"
 
-#: src/doc/kdenlivedoc.cpp:2047
+#: src/doc/kdenlivedoc.cpp:2067
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -21498,13 +21498,13 @@ msgstr ""
 "找不到您的素材 %1 的設定檔。\n"
 "要建立並切換到新的設定檔 (%2x%3，%4fps) 嗎？%5"
 
-#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2519 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "紅色"
 
-#: src/doc/kdenlivedoc.cpp:2500 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2520 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -21512,24 +21512,24 @@ msgstr "紅色"
 msgid "Green"
 msgstr "綠色"
 
-#: src/doc/kdenlivedoc.cpp:2501 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2521 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "藍色"
 
-#: src/doc/kdenlivedoc.cpp:2502 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2522 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "黃色"
 
-#: src/doc/kdenlivedoc.cpp:2503
+#: src/doc/kdenlivedoc.cpp:2523
 #, kde-format
 msgid "Cyan"
 msgstr "青色"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2857 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2877 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -27603,7 +27603,7 @@ msgstr "專案檔案已毀損 — 載入軌道失敗。要試著尋找備份檔�
 msgid "Project profile change aborted"
 msgstr "專案編碼方案變更已中止"
 
-#: src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1889
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -27612,12 +27612,12 @@ msgstr ""
 "輸出檔案 %1 已經存在。\n"
 "您是否要覆寫它?"
 
-#: src/project/projectmanager.cpp:1906
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid "Project profile changed"
 msgstr "專案編碼方案已變更"
 
-#: src/project/projectmanager.cpp:1970
+#: src/project/projectmanager.cpp:1975
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -27626,17 +27626,17 @@ msgstr ""
 "無法從這個素材建立時間軸：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2053
+#: src/project/projectmanager.cpp:2058
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "正在匯入序列素材，這目前處於實驗性階段"
 
-#: src/project/projectmanager.cpp:2305
+#: src/project/projectmanager.cpp:2310
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "選取素材來建立序列"
 
-#: src/project/projectmanager.cpp:2343
+#: src/project/projectmanager.cpp:2348
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "建立序列素材"

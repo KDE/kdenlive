@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-06 02:31+0000\n"
-"PO-Revision-Date: 2025-04-28 09:02+0200\n"
+"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"PO-Revision-Date: 2025-06-06 06:01+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1412,6 +1412,9 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[არჩეულ ფერთან მსგავსების პროცენტულობა<br>\n"
+"        0.01 ემთხვევა, მხოლოდ ზუსტად ძირითად ფერს, როცა 1.0 ყველაფერს "
+"ემთხვევა.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -2110,6 +2113,9 @@ msgid ""
 "Set the additional gain in dB to be applied at all points on the transfer "
 "function. This allows for easy adjustment of the overall gain."
 msgstr ""
+"დააყენეთ დამატებითი გაძლიერება დეციბელებში, რომლებიც გამოიყენება გადასვლის "
+"ფუნქციის ყველა წერტილში. ეს საშუალებას გაძლევთ, ზოგადი გაძლიერება ადვილად "
+"მოირგოთ."
 
 #: data/effects/avfilter/avfilter_compand.xml:24
 #, kde-format
@@ -5017,17 +5023,16 @@ msgid "Apply Scharr operators for edge detection"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
-#, fuzzy, kde-format
-#| msgid "Set value which will be multiplied with filtered result."
+#, kde-format
 msgid ""
 "<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
-msgstr "დააყენეთ მნიშვნელობა, რომელიც გაფილტრულ შედეგზე გამრავლდება."
+msgstr ""
+"<![CDATA[აყენებს მნიშვნელობას, რომელზეც გამრავლდება გაფილტრული შედეგი ]]>"
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
-#, fuzzy, kde-format
-#| msgid "Set value which will be added to filtered result."
+#, kde-format
 msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
-msgstr "დააყენეთ მნიშვნელობა, რომელიც გაფილტრულ შედეგს მიემატება."
+msgstr "<![CDATA[აყენებს მნიშვნელობას, რომელიც გაფილტრულ შედეგს მიემატება.]]>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
@@ -7387,27 +7392,24 @@ msgid "Nearest-Neighbor,Bilinear"
 msgstr "უახლოესი მეზობელი,ორხაზოვანი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the sampling method.]]>"
-msgstr "<![CDATA[ხმაურის მოცილების მეთოდის დაყენება]]>"
+msgstr "<![CDATA[განსაზღვრავს სემპლინგის მეთოდს.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Top Enabled"
-msgstr "ჩართულია"
+msgstr "ზედა ჩართულია"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Enables parameters for top portion]]>"
-msgstr "<![CDATA[აყენებს რადიუსს მიმართულებისთვის]]>"
+msgstr "<![CDATA[ჩართავს პარამეტრებს ზედა ნაწილისთვის]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
 #, kde-format
 msgid "<![CDATA[<b>--Top--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--ზედა--</b> Start]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
 #, kde-format
@@ -7435,53 +7437,45 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
-#, fuzzy, kde-format
-#| msgid "Blend"
+#, kde-format
 msgid "Blend In"
-msgstr "შერევა"
+msgstr "შერევა შიგნით"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define where the gradient starts.]]>"
+#, kde-format
 msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
-msgstr "<![CDATA[აღწერეთ, სად იწყება გრადიენტი.]]>"
+msgstr "<![CDATA[გრადუსი ჰორიზონტის მიმართულებით ნიმუშიდან]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
-#, fuzzy, kde-format
-#| msgid "Blend"
+#, kde-format
 msgid "Blend Out"
-msgstr "შერევა"
+msgstr "შერევა გარეთ"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
+#, kde-format
 msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
-msgstr "<![CDATA[ალფა მატრიცის ჰორიზონტალური ზომის დაყენება]]>"
+msgstr "<![CDATA[გრადუსით შორს ჰორიზონტიდან ნიმუშამდე]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
-#, fuzzy, kde-format
-#| msgctxt "Image Fade In Effect Name"
-#| msgid "Fade in"
+#, kde-format
 msgid "Fade In"
 msgstr "გამოჩენა"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Degrees to fade the effect in over]]>"
-msgstr "<![CDATA[პროფილის სიგრძე პიქსელებში]]>"
+msgstr "<![CDATA[ეფექტის მინავლების დონე დასრულებისას]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define where the gradient starts.]]>"
+#, kde-format
 msgid "<![CDATA[Blur width at start]]>"
-msgstr "<![CDATA[აღწერეთ, სად იწყება გრადიენტი.]]>"
+msgstr "<![CDATA[ბუნდოვნების სიგანე დასაწყისში]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
 #, kde-format
@@ -7490,10 +7484,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the fit mode]]>"
+#, kde-format
 msgid "<![CDATA[Blur width at end]]>"
-msgstr "<![CDATA[ჩატევის რეჟიმის დაყენება]]>"
+msgstr "<![CDATA[ბუნდოვნების სიგანე ბოლოში]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
@@ -7503,48 +7496,42 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define where the gradient starts.]]>"
+#, kde-format
 msgid "<![CDATA[Blur height at start]]>"
-msgstr "<![CDATA[აღწერეთ, სად იწყება გრადიენტი.]]>"
+msgstr "<![CDATA[ბუნდოვნების სიმაღლე დასაწყისში]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
+#, kde-format
 msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
-msgstr "<![CDATA[გამჭვირვალობის აღწერა გრადიენტის ბოლოში.]]>"
+msgstr "<![CDATA[შევსების დასაწყისში ბუნდოვნების ვერტიკალური კუთხე]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the fit mode]]>"
+#, kde-format
 msgid "<![CDATA[Blur height at end]]>"
-msgstr "<![CDATA[ჩატევის რეჟიმის დაყენება]]>"
+msgstr "<![CDATA[ბუნდოვნების სიმაღლე ბოლოში]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
+#, kde-format
 msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
-msgstr "<![CDATA[გამჭვირვალობის აღწერა გრადიენტის თავში.]]>"
+msgstr "<![CDATA[შევსების ბოლოში ბუნდოვნების ვერტიკალური კუთხე]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Bottom Enabled"
-msgstr "ქვედა მარცხენა"
+msgstr "ქვედა ჩართულია"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[comment]]>"
-msgstr "<![CDATA[ხმაურის მოცილების მეთოდის დაყენება]]>"
+msgstr "<![CDATA[კომენტარი]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, kde-format
 msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
@@ -7675,10 +7662,9 @@ msgid "Nearest-neighbor,Bilinear"
 msgstr "უახლოესი მეზობელი,ორხაზოვანი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
-#, fuzzy, kde-format
-#| msgid "VR360 Transform"
+#, kde-format
 msgid "VR360 Wrap"
-msgstr "VR360 გარდაქმნა"
+msgstr "VR360 გადატანა"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
 #, kde-format
@@ -7688,25 +7674,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the sampling method]]>"
-msgstr "<![CDATA[ხმაურის მოცილების მეთოდის დაყენება]]>"
+msgstr "<![CDATA[განსაზღვრავს სემპლინგის მეთოდს]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
-msgstr "<![CDATA[აყენებს ფონის სურათის გაუმჭვირვალობის დონეს]]>"
+msgstr ""
+"<![CDATA[შეუცვლელად დასატოვებელი გრადუსების რაოდენობა გამოსახულების "
+"ცენტრიდან]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
-#, fuzzy, kde-format
-#| msgid "Crop start:"
+#, kde-format
 msgid "Blur start"
-msgstr "ამოჭრის დასაწყისი:"
+msgstr "ბუნდოვნების დასაწყისი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
 #, kde-format
@@ -7716,10 +7701,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
-#, fuzzy, kde-format
-#| msgid "Blur type"
+#, kde-format
 msgid "Blur end"
-msgstr "ბუნდოვნების ტიპი"
+msgstr "ბუნდოვნების დასასრული"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
 #, kde-format
@@ -8827,11 +8811,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr "დააყენეთ მოხაზულობის ფერი მეხუთე აღმოჩენილი სახისთვის."
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Grain Effect Name"
-#| msgid "Grain"
+#, kde-format
 msgid "Film Grain"
-msgstr "მარცვალი"
+msgstr "ფილმის მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
@@ -8839,81 +8821,69 @@ msgid "Adds film-like grain and softens the picture"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Grain amount"
-msgstr "შეფერილობის დონე"
+msgstr "მარცვლების რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the opacity of the graticule]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr "<![CDATA[გრადუირებული ბადის გაუმჭირვალობის დაყენება]]>"
+msgstr "<![CDATA[მარცვლის ინტენსივობა]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Red grain"
-msgstr "წითლის ბალანსი"
+msgstr "წითელი მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[X ღერძზე გამოყენებული მასშტაბის კოეფიციენტი]]>"
+msgstr "<![CDATA[წითელ არხზე გადატარებული მარცვლების პროცენტულობა]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green grain"
-msgstr "მწვანის ტონი"
+msgstr "მწვანე მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr "<![CDATA[X ღერძზე გამოყენებული მასშტაბის კოეფიციენტი]]>"
+msgstr "<![CDATA[მწვანე არხზე გადატარებული მარცვლების პროცენტულობა]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Blue balance"
+#, kde-format
 msgid "Blue grain"
-msgstr "ლურჯის ბალანსი"
+msgstr "ლურჯი მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr "<![CDATA[X ღერძზე გამოყენებული მასშტაბის კოეფიციენტი]]>"
+msgstr "<![CDATA[ლურჯ არხზე გადატარებული მარცვლების პროცენტულობა]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
-#, fuzzy, kde-format
-#| msgid "Dry amount"
+#, kde-format
 msgid "Blur amount"
-msgstr "მშრალი რაოდენობა"
+msgstr "დაბინდვის რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the profile]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "<![CDATA[პროფილის დახრა]]>"
+msgstr "<![CDATA[ბუნდოვნების ინტენსივობა]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Wet amount"
+#, kde-format
 msgid "Dust amount"
-msgstr "სველი რაოდენობა"
+msgstr "მტვრის რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[პროფილის სიგრძე პიქსელებში]]>"
+msgstr "<![CDATA[მტვრის ნაწილაკების რაოდენობა გამოსახულებაზე]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker"
-msgstr ""
+msgstr "ციალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
@@ -9693,11 +9663,10 @@ msgid "Flushes frames in time in a nervous way"
 msgstr "კადრების გადაადგილება ნერვიულობის ეფექტის დადებით"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgctxt "Levels Effect Name"
 msgid "Normaliz0r"
-msgstr "ნორმალიზაცია"
+msgstr "Normaliz0r"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
@@ -9705,10 +9674,9 @@ msgid "Normalize (aka histogram stretch, contrast stretch)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Black point"
-msgstr "შავის გამოტანა"
+msgstr "შავი წერტილი"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
 #, kde-format
@@ -9716,10 +9684,9 @@ msgid "Output color to which darkest input color is mapped (default black)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
-#, fuzzy, kde-format
-#| msgid "White Noise"
+#, kde-format
 msgid "White point"
-msgstr "თეთრი ხმაური"
+msgstr "თეთრი წერტილი"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
 #, kde-format
@@ -9732,18 +9699,18 @@ msgid "Smoothing"
 msgstr "მოგლუვება"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:17
-#, fuzzy, kde-format
-#| msgid "Temporal smoothing, to reduce flicker"
+#, kde-format
 msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
-msgstr "დროებითი მოგლუვება ციმციმის შესამცირებლად"
+msgstr ""
+"შეყვანის შუალედის დროებითი მოგლუვების რაოდენობა ციმციმის შესამცირებლად "
+"(ნაგულისხმევია 0)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Install missing dependencies"
+#, kde-format
 msgid "Independence"
-msgstr "ნაკლული დამოკიდებულებების დაყენება"
+msgstr "დამოკიდებულება"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:21
 #, kde-format
@@ -11464,11 +11431,9 @@ msgid "Discard color information"
 msgstr "ფერის ინფორმაციის გაუქმება"
 
 #: data/effects/hsl_primaries.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Primaries Effect Name"
-#| msgid "Primaries"
+#, kde-format
 msgid "HSL Primaries"
-msgstr "ძირითადები"
+msgstr "HSL-ის ძირითადები"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -11478,99 +11443,84 @@ msgid ""
 msgstr ""
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Red"
-msgstr "ტონის წანაცვლება"
+msgstr "წითლის ტონის წანაცვლება"
 
 #: data/effects/hsl_primaries.xml:11
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Red"
-msgstr "გაჯერებულობა"
+msgstr "წითლის გაჯერებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:14
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Red"
-msgstr "განათებულობა"
+msgstr "წითლის განათებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:17
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Yellow"
-msgstr "ტონის წანაცვლება"
+msgstr "ყვითლის ტონის წანაცვლება"
 
 #: data/effects/hsl_primaries.xml:20
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Yellow"
-msgstr "გაჯერებულობა"
+msgstr "ყვითლის გაჯერებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
 msgid "Lightness Scale Yellow"
-msgstr ""
+msgstr "ყვითლის განათებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:26
-#, fuzzy, kde-format
-#| msgid "Lift: Green"
+#, kde-format
 msgid "Hue Shift Green"
-msgstr "აწევა: მწვანე"
+msgstr "ტონის წანაცვლება მწვანეზე"
 
 #: data/effects/hsl_primaries.xml:29
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Green"
-msgstr "გაჯერებულობა"
+msgstr "მწვანის გაჯერებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:32
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Green"
-msgstr "განათებულობა"
+msgstr "მწვანის განათებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:35
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Cyan"
-msgstr "ტონის წანაცვლება"
+msgstr "მოლურჯო-მწვანის ტონის წანაცვლება"
 
 #: data/effects/hsl_primaries.xml:38
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Cyan"
-msgstr "გაჯერებულობა"
+msgstr "მოლურჯო-მწვანის გაჯერებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:41
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Cyan"
-msgstr "განათებულობა"
+msgstr "მოლურჯო-მწვანის განათებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:44
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Blue"
-msgstr "ტონის წანაცვლება"
+msgstr "ლურჯის ტონის წანაცვლება"
 
 #: data/effects/hsl_primaries.xml:47
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Blue"
-msgstr "გაჯერებულობა"
+msgstr "ლურჯის გაჯერებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:50
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Blue"
-msgstr "განათებულობა"
+msgstr "ლურჯის განათებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:53
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Magenta"
-msgstr "ტონის წანაცვლება"
+msgstr "ფუქსიისფრის ტონის წანაცვლება"
 
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
@@ -11578,10 +11528,9 @@ msgid "Saturation Scale Magenta"
 msgstr ""
 
 #: data/effects/hsl_primaries.xml:59
-#, fuzzy, kde-format
-#| msgid "Lightness of the colorized image."
+#, kde-format
 msgid "Lightness Scale Magenta"
-msgstr "გაფერადებული გამოსახულების განათებულობა."
+msgstr "ფუქსინისფრის განათებულობის მასშტაბი"
 
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
@@ -11589,10 +11538,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr ""
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "HSL Range"
-msgstr "დიაპაზონის მორგება"
+msgstr "HSL დიაპაზონი"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -11602,66 +11550,59 @@ msgid ""
 msgstr ""
 
 #: data/effects/hsl_range.xml:8
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Hue Center"
-msgstr "ცენტრი"
+msgstr "ტონის ცენტრი"
 
 #: data/effects/hsl_range.xml:9
 #, kde-format
 msgid "The center value for the hue range"
-msgstr ""
+msgstr "ცენტრალური მნიშვნელობა ტონის შუალედისთვის"
 
 #: data/effects/hsl_range.xml:12
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Hue Range"
-msgstr "დიაპაზონის მორგება"
+msgstr "ტონის შუალედი"
 
 #: data/effects/hsl_range.xml:13
 #, kde-format
 msgid "The width of the hue range"
-msgstr ""
+msgstr "ტონის შუალედის სიგანე"
 
 #: data/effects/hsl_range.xml:17
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to blend the edges of the hue range"
-msgstr "პიქსელების რაოდენობა გასაბუნდოვანებლად ჩრდილის წიბოზე"
+msgstr "ტონის შუალედის წიბოების შერევის რაოდენობა"
 
 #: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift"
 msgstr "ტონის წანაცვლება"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
 msgid "The amount to shift the hue in the hue range"
-msgstr ""
+msgstr "ტონის წანაცვლების რაოდენობა ტონის შუალედში"
 
 #: data/effects/hsl_range.xml:24
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale"
-msgstr "გაჯერებულობა"
+msgstr "გაჯერებულობის მასშტაბი"
 
 #: data/effects/hsl_range.xml:25
 #, kde-format
 msgid "The amount to scale the saturation in the hue range"
-msgstr ""
+msgstr "გაჯერებულობის მასშტაბის რაოდენობა ტონის შუალედში"
 
 #: data/effects/hsl_range.xml:28
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale"
-msgstr "განათებულობა"
+msgstr "განათებულობის მასშტაბი"
 
 #: data/effects/hsl_range.xml:29
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to scale the lightness in the hue range"
-msgstr "პიქსელების რაოდენობა გასაბუნდოვანებლად ჩრდილის წიბოზე"
+msgstr "განათებულობის მასშტაბის რაოდენობა ტონის შუალედშ"
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -18017,7 +17958,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1901 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5166
@@ -21147,7 +21088,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2460
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2480
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1727
 #, kde-format
@@ -21238,14 +21179,14 @@ msgstr ""
 "პროექტი იყენებს არასტანდარტულ კადრების სიხშირეს (%1). ეს არასწორად დალაგებულ "
 "კლიპებს და კადრის წანაცვლებებს გამოიწვევს."
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2013
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "გაფრთხილება: არასტანდარტული კადრი/წმ სიხშირე. დამრგვალება უახლოეს მთელ "
 "რიცხვამდე. "
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -21254,43 +21195,43 @@ msgstr ""
 "თქვენი ნაგულისხმევი პროექტის პროფილია %1, თქვენი კლიპის პროფილი (%2) კი %3.\n"
 "გნებავთ შეცვალოთ ნაგულისხმევი პროფილი მომავალი პროექტებისთვის?"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default project profile"
 msgstr "ნაგულისხმევი პროექტის პროფილის შეცვლა"
 
-#: src/doc/kdenlivedoc.cpp:2013
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Change default to %1"
 msgstr "ნაგულისხმევის შეცვლა %1-ზე"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Keep current default %1"
 msgstr "მიმდინარე ნაგულისხმევის %1-ზე დატოვება"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2034
 #, kde-format
 msgid "Ask me later"
 msgstr "მოგვიანებით მკითხე"
 
-#: src/doc/kdenlivedoc.cpp:2034
+#: src/doc/kdenlivedoc.cpp:2054
 #, kde-format
 msgid "Switch"
 msgstr "გადართვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2036 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2056 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "გაუქმენა"
 
-#: src/doc/kdenlivedoc.cpp:2038
+#: src/doc/kdenlivedoc.cpp:2058
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "გადავრთო კლიპის (%1) პროფილზე %2?"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2063
 #, kde-format
 msgid ""
 "\n"
@@ -21299,7 +21240,7 @@ msgstr ""
 "\n"
 "პროფილის კადრი/წმ გასწორდა ორიგინალიდან %1"
 
-#: src/doc/kdenlivedoc.cpp:2047
+#: src/doc/kdenlivedoc.cpp:2067
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -21308,13 +21249,13 @@ msgstr ""
 "თქვენი კლიპისთვის %1 პროფილი ვერ ვიპოვე.\n"
 "შევქმნა და გადავერთო ახალ პროფილზე (%2x%3,%4კადრი/წმ)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2519 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "წითელი"
 
-#: src/doc/kdenlivedoc.cpp:2500 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2520 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -21322,24 +21263,24 @@ msgstr "წითელი"
 msgid "Green"
 msgstr "მწვანე"
 
-#: src/doc/kdenlivedoc.cpp:2501 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2521 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "ლურჯი"
 
-#: src/doc/kdenlivedoc.cpp:2502 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2522 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "ყვითელი"
 
-#: src/doc/kdenlivedoc.cpp:2503
+#: src/doc/kdenlivedoc.cpp:2523
 #, kde-format
 msgid "Cyan"
 msgstr "ცისფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2857 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2877 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -27518,7 +27459,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "პროექტის პროფილის შეცვლა გაუქმდა"
 
-#: src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1889
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -27527,12 +27468,12 @@ msgstr ""
 "გამოტანის ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ თავზე?"
 
-#: src/project/projectmanager.cpp:1906
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid "Project profile changed"
 msgstr "პროექტის პროფილი შეიცვალა"
 
-#: src/project/projectmanager.cpp:1970
+#: src/project/projectmanager.cpp:1975
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -27541,17 +27482,17 @@ msgstr ""
 "დროის ხაზი ვერ შევქმენი კლიპიდან:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2053
+#: src/project/projectmanager.cpp:2058
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "მიმდევრობის კლიპის შემოტანა. ეს ფუნქცია ჯერჯერობით ექსპერიმენტულია"
 
-#: src/project/projectmanager.cpp:2305
+#: src/project/projectmanager.cpp:2310
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
-#: src/project/projectmanager.cpp:2343
+#: src/project/projectmanager.cpp:2348
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
