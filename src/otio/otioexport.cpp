@@ -10,6 +10,7 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
+#include "config-kdenlive.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
@@ -78,6 +79,12 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
 
     // Create the OTIO timeline.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(new OTIO_NS::Timeline);
+#if !defined(Q_OS_MAC)
+    // TODO: https://invent.kde.org/multimedia/kdenlive/-/issues/1992
+    OTIO_NS::AnyDictionary otioMetadata;
+    otioMetadata["version"] = std::string(KDENLIVE_VERSION);
+    otioTimeline->metadata()["kdenlive"] = otioMetadata;
+#endif
 
     // Export guides as OTIO markers.
     const double fps = projectFps();
@@ -195,7 +202,7 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
             // indicate these values are specific to kdenlive.
             OTIO_NS::AnyDictionary otioParameters;
 #if !defined(Q_OS_MAC)
-            // TODO: Writing OTIO metadata on macOS is causing a crash?
+            // TODO: https://invent.kde.org/multimedia/kdenlive/-/issues/1992
             OTIO_NS::AnyDictionary parameters;
             parameters["color"] = QFileInfo(projectClip->getProducerProperty("resource")).fileName().toStdString();
             otioParameters["kdenlive"] = parameters;
@@ -239,7 +246,7 @@ void OtioExport::exportMarker(const CommentedTime &marker, const OTIO_NS::TimeRa
     otioMarker->set_marked_range(otioRange);
     otioMarker->set_color(toOtioMarkerColor(marker.markerType()));
 #if !defined(Q_OS_MAC)
-    // TODO: Writing OTIO metadata on macOS is causing a crash?
+    // TODO: https://invent.kde.org/multimedia/kdenlive/-/issues/1992
     OTIO_NS::AnyDictionary otioMetadata;
     otioMetadata["type"] = static_cast<int64_t>(marker.markerType());
     otioMarker->metadata()["kdenlive"] = otioMetadata;
