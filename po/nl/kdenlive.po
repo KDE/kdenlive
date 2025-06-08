@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-07 00:42+0000\n"
-"PO-Revision-Date: 2025-06-06 12:32+0200\n"
+"PO-Revision-Date: 2025-06-07 12:50+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8556,6 +8556,11 @@ msgid ""
 "    \tThis parameter \"stretches\" the image near nadir to cover up the "
 "missing parts.]]>"
 msgstr ""
+"<![CDATA[360 cameras zoals de Theta hebben een probleem met de nadir- "
+"richting (loodrecht omlaag) waar, ongeacht wat, u zult een klein beetje van "
+"de camera in de afbeelding hebben.<br>\n"
+"    \tDeze parameter \"rekt\" de afbeelding nabij nadir om de ontbrekende "
+"delen te bedekken.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
 #, kde-format
@@ -8575,6 +8580,8 @@ msgid ""
 "<![CDATA[Lens distortion correction parameters.<br>\n"
 "    \tThe first three parameters are the same as in Hugin.]]>"
 msgstr ""
+"<![CDATA[Lensvervormingscorrectieparameters.<br>\n"
+"    \tDe eerst drie parameters zijn hetzelfde als in Hugin.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
 #, kde-format
@@ -8599,6 +8606,11 @@ msgid ""
 "(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
 "hemispherical image, that would be 0.25.]]>"
 msgstr ""
+"<![CDATA[Lensvervormingscorrectieparameters.<br>\n"
+"    \tAls u Hugin-parameters gebruikt zou de straal gezet moeten worden op "
+"de waarde van (0,5 * min(afbeeldingsbreedte, afbeeldingshoogte) / "
+"afbeeldingsbreedte). Voor een 2:1 verhouding duale halfbolvormige "
+"afbeelding, zou dat 0,25 zijn.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
 #, kde-format
@@ -8615,6 +8627,9 @@ msgid ""
 "    \tThe first four parameters are the same as in Hugin, corresponding to "
 "the Va, Vb, Vc and Vd image parameters.]]>"
 msgstr ""
+"<![CDATA[Lensvignetteringscorrectieparameters.<br>\n"
+"    \tDe eerste vier parameters zijn hetzelfde als in Hugin, overeenkomend "
+"met de Va, Vb, Vc en Vd afbeeldingsparameters.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
 #, kde-format
@@ -8644,6 +8659,11 @@ msgid ""
 "    \tFor a 2:1 aspect dual hemispherical image, that would be 0.5590. Use "
 "the A parameter to scale the effect and avoid overexposing highlights]]>"
 msgstr ""
+"<![CDATA[Als u Hugin-parameters gebruikt zou de straal gezet moeten zijn op "
+"de waarde van (0,5 * afbeeldingsdiagonaal / afbeeldingsbreedte).<br>\n"
+"    \tVoor een 2:1 verhouding duale halfbolvormige afbeelding, zou dat "
+"0,5590 moeten zijn. Gebruik de A-parameter om het effect te schalen en "
+"vermijd overbelichten van heldere delen]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
 #, kde-format
@@ -8674,6 +8694,12 @@ msgid ""
 "should also use these parameters, as Hugin's vignetting correction assumes "
 "that the sensor response has been corrected.]]>"
 msgstr ""
+"<![CDATA[Sensorresponsparameters.<br>\n"
+"    \tDe EMoR h(x) parameters zijn hetzelfde als Hugin's Ra - Re in de "
+"lensparameters. Als u Hugin-afgeleide waarden gebruik voor "
+"vignetteringscorrectie, dan zou u ook deze parameters moeten gebruiken, "
+"omdat Hugin's vignetteringscorrectie aanneemt dat de sensorrespons is "
+"gecorrigeerd.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
 #, kde-format
@@ -8768,6 +8794,11 @@ msgid ""
 "split it into three clips of 10 seconds each, then the start offsets should "
 "be 0s, 10s, and 20s.]]>"
 msgstr ""
+"<![CDATA[De offset in het stabilisatiebestand dat overeenkomt met het begin "
+"van deze clip.<br>\n"
+"    \tBijvoorbeeld, als u een 30 seconden clip hebt, analyseer het allemaal "
+"en splits het daarna in drie clips van 10 seconden elk, dan zou de "
+"beginoffsets moeten zijn 0s, 10s en 20s.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
 #, kde-format
@@ -8778,6 +8809,7 @@ msgstr "Sampelstraal van analyse"
 #, kde-format
 msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
 msgstr ""
+"<![CDATA[De straal van het vierkant dat de stabilisator zal sampelen]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #, kde-format
@@ -8788,6 +8820,8 @@ msgstr "Zoekstraal voor analyse"
 #, kde-format
 msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
 msgstr ""
+"<![CDATA[De maximum hoeveelheid beweging die de stabilisator zal "
+"detecteren]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, kde-format
@@ -8802,7 +8836,7 @@ msgstr "<![CDATA[De afstand tussen de punten in de track]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
 msgid "Use backwards-facing track points"
-msgstr ""
+msgstr "Achterwaartse gerichte trackpunten gebruiken"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:36
 #, kde-format
@@ -8811,6 +8845,11 @@ msgid ""
 "detect pitch and yaw motion.<br>\n"
 "    \tDisable if, for example, you show up holding the camera there]]>"
 msgstr ""
+"<![CDATA[Indien gezet zullen zes achterwaarts gerichte trackpunten ook "
+"gebruikt worden om omhoog/omlaag en heen en weer beweging te detecteren."
+"<br>\n"
+"    \tSchakel het uit als u, bijvoorbeeld, verschijnt met de camera daar te "
+"houden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
 #, kde-format
@@ -8825,6 +8864,9 @@ msgid ""
 "    \t100% means that the stabilizer will make the camera as steady as it "
 "can. Smaller values reduce the amount of stabilization.]]>"
 msgstr ""
+"<![CDATA[De hoeveelheid toe te passen stabilisatie.<br>\n"
+"    \t100% betekent dat de stabilisator de zo stabiel zal maken als maar "
+"kan. Kleinere waarden verminderen de hoeveelheid stabilisatie.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
@@ -8837,6 +8879,8 @@ msgid ""
 "<![CDATA[The number of frames to use to smooth out the shakes. The higher "
 "the value, the slower the camera will follow any intended motion.]]>"
 msgstr ""
+"<![CDATA[Het aantal te gebruiken frames om het schudden glad te strijken. "
+"Hoe hoger de waarde, hoe langzamer de camera elke bedoelde beweging volgt.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
 #, kde-format
@@ -8856,6 +8900,14 @@ msgid ""
 "ahead of the intended camera movement. A value of zero should make the "
 "camera follow the intended path.]]>"
 msgstr ""
+"<![CDATA[Verschuift de frames gebruikt om het schudden glad te strijken "
+"relatief tot het gestabiliseerde frame.<br>\n"
+"    Een waarde kleiner dan nul zal meer gewicht geven aan al afgespeelde "
+"frames en het zal lijken dat de camera achter zal blijven op de gewenste "
+"beweging. Een waarde groter dan nul zal meer gewicht geven aan de nog "
+"komende frames, en het zal lijken dat de camera wil voorlopen op de gewenste "
+"camerabeweging. De waarde nul zal ervoor zorgen dat de camera het gewenste "
+"pad volgt.\t.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
 #, kde-format
@@ -8869,6 +8921,9 @@ msgid ""
 "stabilizer will make the camera as steady as it can. Smaller values reduce "
 "the amount of stabilization.]]>"
 msgstr ""
+"<![CDATA[De hoeveelheid teo te passen stabilisatie. 100% betekent dat de "
+"stabilisator de camera zo stabiel zal maken als het kan. Kleinere waarden "
+"verminderen de hoeveelheid stabilisatie.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
 #, kde-format
@@ -8883,6 +8938,10 @@ msgid ""
 "    \tThe higher the value, the slower the camera will follow any intended "
 "motion.]]>"
 msgstr ""
+"<![CDATA[Het aantal te gebruiken frames om het schudden glad te strijken."
+"<br>\n"
+"    \tHoe hoger de waarde, hoe langzamer de camera elke bedoelde beweging "
+"zal volgen.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
 #, kde-format
@@ -10463,6 +10522,11 @@ msgid ""
 "                This makes the dark areas even darker, influences the mid-"
 "tones a little and the highlights not at all. Increases contrast.]]>"
 msgstr ""
+"<![CDATA[Verschuift het zwartpunt naar rechts: alle pixels met die waarde of "
+"minder zullen zwart worden.<br>\n"
+"                Dit maakt de donkere gebieden nog donkerder, beïnvloedt de "
+"middentonen een beetje en de heldere gedeelten helemaal niet. Verhoogt het "
+"contrast.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:89
 #, kde-format
@@ -10472,6 +10536,11 @@ msgid ""
 "                This makes bright areas even brighter, influences the mid-"
 "tones a little and the dark areas not at all. Increases contrast.]]>"
 msgstr ""
+"<![CDATA[Verschuift het witpunt naar links: alle pixels met die waarde of "
+"hoger zullen wit worden.<br>\n"
+"                Dit maakt de heldere gebieden nog helderder, beïnvloedt de "
+"middentonen een beetje en de donkere gedeelten helemaal niet. Verhoogt het "
+"contrast.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:94
 #, no-c-format, kde-format
@@ -10482,6 +10551,11 @@ msgid ""
 "the bar to the left) make the image darker, higher values (moving the bar to "
 "the right) make it brighter.]]>"
 msgstr ""
+"<![CDATA[Wijzigt de overall helderheid van de afbeelding.<br>\n"
+"                Beïnvloed alleen de middentonen, zwart en wit worden niet "
+"beïnvloed. Standaard is 25%, gelijk aan Gamma 1,0). Lagere waarden (de balk "
+"naar links verplaatsen) maakt de afbeelding donkerder, hogere waarden (de "
+"balk naar rechts verplaatsen) maken het helderder.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:98
 #, kde-format
@@ -29648,6 +29722,8 @@ msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
+"10 bits kleurdiepte zal geconverteerd worden naar 8 bits als u componeren of "
+"effecten gebruikt die niet zijn geleverd door avfilter."
 
 #: src/renderpresets/renderpresetmodel.cpp:386
 #, kde-format
