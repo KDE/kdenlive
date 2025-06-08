@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 02:32+0000\n"
-"PO-Revision-Date: 2025-06-06 22:27+0200\n"
+"POT-Creation-Date: 2025-06-08 02:37+0000\n"
+"PO-Revision-Date: 2025-06-07 18:44+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -5459,6 +5459,9 @@ msgid ""
 "converting M/S stereo recordings to L/R signal while having control over the "
 "parameters or spreading the stereo image of master track. "
 msgstr ""
+"Filtret har några praktiska verktyg för att hantera stereosignaler, för att "
+"konvertera M/S stereoinspelningar till L/R-signaler samtidigt som man har "
+"kontroll över parametrarna eller sprider stereobilden av masterspåret."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
 #, kde-format
@@ -5523,7 +5526,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, kde-format
 msgid "Phase Left"
-msgstr ""
+msgstr "Fas vänster"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:37
 #, kde-format
@@ -5533,7 +5536,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:40
 #, kde-format
 msgid "Phase Right"
-msgstr ""
+msgstr "Fas höger"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:41
 #, kde-format
@@ -5630,13 +5633,13 @@ msgstr "Stereofas"
 #: data/effects/avfilter/avfilter_stereotools.xml:76
 #, kde-format
 msgid "Set the stereo phase in degrees."
-msgstr ""
+msgstr "Ställ in stereofas i grader."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:79
 #: data/effects/avfilter/avfilter_stereotools.xml:89
 #, kde-format
 msgid "balance,amplitude,power"
-msgstr ""
+msgstr "balans,amplitud,effekt"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:85
 #: data/effects/avfilter/avfilter_stereotools.xml:95
@@ -5663,6 +5666,9 @@ msgid ""
 "channels and by delaying the signal of left into right and vice versa, "
 "thereby widening the stereo effect."
 msgstr ""
+"Filtret förstärker stereoeffekten genom att undertrycka signalen som är "
+"gemensam för båda kanalerna och genom att fördröja signalen från vänster "
+"till höger och vice versa, och därigenom bredda stereoeffekten."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:9
 #, kde-format
@@ -5673,7 +5679,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
 #, kde-format
 msgid "Feedback Gain"
-msgstr ""
+msgstr "Återmatningsförstärkning"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -5709,17 +5715,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
 msgid "Temporal frames Mixer"
-msgstr ""
+msgstr "Tidsmässig bildruteblandning"
 
 #: data/effects/avfilter/avfilter_tmix.xml:5
 #, kde-format
 msgid "Mix successive video frames"
-msgstr ""
+msgstr "Blanda efterföljande videobildrutor"
 
 #: data/effects/avfilter/avfilter_tmix.xml:8
 #, kde-format
 msgid "Frames to mix"
-msgstr ""
+msgstr "Bildrutor att blanda"
 
 #: data/effects/avfilter/avfilter_transpose.xml:4
 #, kde-format
@@ -5739,7 +5745,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
 msgid "None,Portrait,Landscape"
-msgstr ""
+msgstr "Ingen,Stående,Liggande"
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
 #, kde-format
@@ -5754,7 +5760,7 @@ msgstr "Skärpa/Oskärpa"
 #: data/effects/avfilter/avfilter_unsharp.xml:6
 #, kde-format
 msgid "Sharpen or unsharpen/blur your video"
-msgstr ""
+msgstr "Gör videon skarpare eller suddigare"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
 #, kde-format
@@ -5879,7 +5885,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
 msgid "gray,color,color2,color3,color4,color5"
-msgstr ""
+msgstr "grå,färg,färg2,färg3,färg4,färg5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_zoompan.xml:11
@@ -5921,7 +5927,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vectorscope.xml:25
 #, kde-format
 msgid "none,green,color"
-msgstr ""
+msgstr "ingen,grön,färg"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:26
 #: data/effects/avfilter/avfilter_waveform.xml:46
@@ -5938,7 +5944,7 @@ msgstr "Rutnätslinjernas ogenomskinlighet"
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #, kde-format
 msgid "White,Black,Name"
-msgstr ""
+msgstr "Vit,Svart,Namn"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, kde-format
@@ -5953,7 +5959,7 @@ msgstr "Hög tröskel"
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
 msgid "Auto,601,709"
-msgstr ""
+msgstr "Auto,601,709"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
 #, kde-format
@@ -5968,7 +5974,7 @@ msgstr "Vänd vertikalt"
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
 msgid "Vertically flip the input video."
-msgstr ""
+msgstr "Vänd indatavideon vertikalt."
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
 #, kde-format
@@ -5983,47 +5989,47 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vibrance.xml:11
 #, kde-format
 msgid "Red balance"
-msgstr ""
+msgstr "Röd balans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:14
 #, kde-format
 msgid "Green balance"
-msgstr ""
+msgstr "Grön balans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:17
 #, kde-format
 msgid "Blue balance"
-msgstr ""
+msgstr "Blå balans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "Röd luminans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
 #, kde-format
 msgid "Green luma"
-msgstr ""
+msgstr "Grön luminans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
 #, kde-format
 msgid "Blue luma"
-msgstr ""
+msgstr "Blå luminans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
 msgid "Alternate"
-msgstr ""
+msgstr "Alternera"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:4
 #, kde-format
 msgid "Vibrato"
-msgstr ""
+msgstr "Vibrato"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:5
 #, kde-format
 msgid "Vibrato effect."
-msgstr ""
+msgstr "Vibratoeffekt."
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
 #, kde-format
@@ -6040,7 +6046,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
 msgid "Simple,Complex"
-msgstr ""
+msgstr "Enkel,Komplex"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, kde-format
@@ -6069,6 +6075,9 @@ msgid ""
 "only. Each column of the waveform corresponds to a column of pixels in the "
 "source video. "
 msgstr ""
+"Vågformsskärmen återger färgkomponentens intensitet. Normalt endast "
+"luminans. Varje kolumn i vågformen motsvarar en kolumn med bildpunkter i "
+"källvideon."
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #, kde-format
@@ -6137,7 +6146,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
 msgid "none,green,orange,invert"
-msgstr ""
+msgstr "ingen,grön,orange,invertera"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
@@ -6195,7 +6204,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
 msgid "none,size"
-msgstr ""
+msgstr "ingen,storlek"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
@@ -6228,7 +6237,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_xbr.xml:4
 #, kde-format
 msgid "xBR Interpolator"
-msgstr ""
+msgstr "xBR-interpolering"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6237,6 +6246,9 @@ msgid ""
 "art. It follows a set of edge-detection rules, see https://forums.libretro."
 "com/t/xbr-algorithm-tutorial/123"
 msgstr ""
+"Använd det högkvalitativa förstoringsfiltret xBR, som är konstruerat för "
+"bildpunktskonst Det följer en uppsättning kantdetekteringsregler, se https://"
+"forums.libretro.com/t/xbr-algorithm-tutorial/123"
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
@@ -6268,7 +6280,7 @@ msgstr "Zoom-panorera"
 #: data/effects/avfilter/avfilter_zoompan.xml:5
 #, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr ""
+msgstr "Utför zoomnings- och panoreringseffekt"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -6302,12 +6314,12 @@ msgstr "Textning"
 #: data/effects/avfilter/subtitles.xml:5
 #, kde-format
 msgid "Render subtitles onto the video"
-msgstr ""
+msgstr "Återge textning på videon"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, kde-format
 msgid "Subtitle file to apply"
-msgstr ""
+msgstr "Textningsfil att använda"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -6914,12 +6926,12 @@ msgstr "Fyll med bild eller svart"
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
 msgid "Aech0r"
-msgstr ""
+msgstr "Aech0r"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
 msgid "Create an analog video echo"
-msgstr ""
+msgstr "Skapa ett analogt videoeko"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, kde-format
@@ -7187,12 +7199,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
 msgid "Channel Extractor BLUE"
-msgstr ""
+msgstr "Kanalextrahering BLÅ"
 
 #: data/effects/frei0r/frei0r_B.xml:5
 #, kde-format
 msgid "Extracts Blue from Image"
-msgstr ""
+msgstr "Extrahera blå från bild"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
 #, kde-format
@@ -8878,7 +8890,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_G.xml:5
 #, kde-format
 msgid "Extracts Green from Image"
-msgstr ""
+msgstr "Extrahera grön från bild"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -9142,6 +9154,8 @@ msgid ""
 "<![CDATA[Color to use if reflection lies <br>outside of the source image and "
 "not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[Färg att använda om reflektionen ligger<br>utanför källbilden och "
+"inte reflekteras tillbaka in.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
 #, kde-format
@@ -9155,6 +9169,9 @@ msgid ""
 "        if reflection lies outside of the source image and not reflecting "
 "back in.]]>"
 msgstr ""
+"<![CDATA[Om markerad, används alfa<br>\n"
+"        om reflektionen ligger utanför källbilden och inte reflekteras "
+"tillbaka in.]]>"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -9689,7 +9706,7 @@ msgstr "Normaliz0r"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "Normalisera (också känt som histogramutvidgning, kontrastutvidgning)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
 #, kde-format
@@ -9700,6 +9717,7 @@ msgstr "Svartpunkt"
 #, kde-format
 msgid "Output color to which darkest input color is mapped (default black)"
 msgstr ""
+"Utdatafärg som den mörkaste ingångsfärgen avbildas till (standardvärde svart)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
 #, kde-format
@@ -9710,6 +9728,7 @@ msgstr "Vitpunkt"
 #, kde-format
 msgid "Output color to which brightest input color is mapped (default white)"
 msgstr ""
+"Utdatafärg som den ljusaste ingångsfärgen avbildas till (standardvärde vit)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
 #, kde-format
@@ -9722,6 +9741,8 @@ msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
 msgstr ""
+"Mängd temporär utjämning av ingångsintervall för att minska flimmer "
+"(standardvärde 0)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
 #, kde-format
@@ -9732,13 +9753,15 @@ msgstr "Oberoende"
 #, kde-format
 msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
-msgstr ""
+msgstr "Andel oberoende till länkade kanalnormalisering (standardvärde 1000)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
+"Filterstyrka, från ingen effekt (0) till full normalisering (standardvärde "
+"1000)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -9788,12 +9811,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
 msgid "Agressiveness of row/column shifting"
-msgstr ""
+msgstr "Hur aggressiv skiftning av rader och kolumner är"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
 #, kde-format
 msgid "Height of each block whose shift is invariant (0 = random)"
-msgstr ""
+msgstr "Höjden på varje block vars skift är invariant (0 = slumpmässig)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
 #, kde-format
@@ -26240,7 +26263,7 @@ msgstr "OpenTimelineIO-export"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO-projekt"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Fel vid export av OpenTimelineIO-fil"

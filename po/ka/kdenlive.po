@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"POT-Creation-Date: 2025-06-08 02:37+0000\n"
 "PO-Revision-Date: 2025-06-06 06:01+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -26143,7 +26143,7 @@ msgstr "გატანა OpenTimelineIO-ში"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO-ის პროექტი"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "OpenTimelineIO ფაილის გატანის შეცდომა"

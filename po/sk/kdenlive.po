@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"POT-Creation-Date: 2025-06-08 02:37+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -27474,7 +27474,7 @@ msgstr "Chyba časovej osi"
 msgid "OpenTimelineIO Project"
 msgstr "Chyba časovej osi"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"POT-Creation-Date: 2025-06-08 02:37+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -27238,7 +27238,7 @@ msgstr "Laiko juosta"
 msgid "OpenTimelineIO Project"
 msgstr "Laiko juosta"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"

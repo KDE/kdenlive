@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"POT-Creation-Date: 2025-06-08 02:37+0000\n"
 "PO-Revision-Date: 2025-06-05 17:44+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -27067,7 +27067,7 @@ msgstr "Exportation « OpenTimelineIO »"
 msgid "OpenTimelineIO Project"
 msgstr "Projet « OpenTimelineIO »"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Erreur lors de l'exportation du fichier « OpenTimelineIO »"

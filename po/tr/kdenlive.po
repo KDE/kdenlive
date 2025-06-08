@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 02:32+0000\n"
+"POT-Creation-Date: 2025-06-08 02:37+0000\n"
 "PO-Revision-Date: 2025-05-25 19:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -26931,7 +26931,7 @@ msgstr "OpenTimelineIO Olarak Dışa Aktar"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO Projesi"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "OpenTimelineIO dosyası dışa aktarılırken hata"
