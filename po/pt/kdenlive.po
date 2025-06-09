@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"POT-Creation-Date: 2025-06-09 00:42+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -27835,26 +27835,26 @@ msgstr "Tente importar de novo para obter uma nova ligação"
 msgid "Error Getting Access Token from %1."
 msgstr "Ocorreu um erro ao obter as credenciais de acesso do %1."
 
-#: src/otio/otioexport.cpp:43
+#: src/otio/otioexport.cpp:44
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr "Erro ao abrir o ficheiro"
 
-#: src/otio/otioexport.cpp:57
+#: src/otio/otioexport.cpp:58
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Export"
 msgstr "E&xportação para o OpenTimelineIO…"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:59 src/otio/otioimport.cpp:239
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Project"
 msgstr "E&xportação para o OpenTimelineIO…"
 
-#: src/otio/otioexport.cpp:104
+#: src/otio/otioexport.cpp:111
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"

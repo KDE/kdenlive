@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"POT-Creation-Date: 2025-06-09 00:42+0000\n"
 "PO-Revision-Date: 2025-05-25 19:55+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -27564,23 +27564,23 @@ msgstr "Yeni bir bağlantı sağlamak için yeniden içe aktarmayı dene"
 msgid "Error Getting Access Token from %1."
 msgstr "%1 Konumundan Erişim Jetonu Alırken Hata"
 
-#: src/otio/otioexport.cpp:43
+#: src/otio/otioexport.cpp:44
 #, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr "OpenTimelineIO Dışa Aktar"
 
-#: src/otio/otioexport.cpp:57
+#: src/otio/otioexport.cpp:58
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "OpenTimelineIO Olarak Dışa Aktar"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:59 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO Projesi"
 
-#: src/otio/otioexport.cpp:104
+#: src/otio/otioexport.cpp:111
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "OpenTimelineIO dosyası dışa aktarılırken hata"

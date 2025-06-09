@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"POT-Creation-Date: 2025-06-09 00:42+0000\n"
 "PO-Revision-Date: 2025-05-16 15:05+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -26241,23 +26241,23 @@ msgstr ""
 msgid "Error Getting Access Token from %1."
 msgstr "Chyba při získávání přístupového tokenu z %1 ."
 
-#: src/otio/otioexport.cpp:43
+#: src/otio/otioexport.cpp:44
 #, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr ""
 
-#: src/otio/otioexport.cpp:57
+#: src/otio/otioexport.cpp:58
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr ""
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:59 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr ""
 
-#: src/otio/otioexport.cpp:104
+#: src/otio/otioexport.cpp:111
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr ""

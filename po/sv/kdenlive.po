@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"POT-Creation-Date: 2025-06-09 00:42+0000\n"
 "PO-Revision-Date: 2025-06-06 11:59+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -26772,23 +26772,23 @@ msgstr "Försök att importera igen för att få en ny anslutning"
 msgid "Error Getting Access Token from %1."
 msgstr "Fel vid hämtning av åtkomstsymbol från %1."
 
-#: src/otio/otioexport.cpp:43
+#: src/otio/otioexport.cpp:44
 #, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr "Exporterar OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:57
+#: src/otio/otioexport.cpp:58
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "OpenTimelineIO-export"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:59 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO-projekt"
 
-#: src/otio/otioexport.cpp:104
+#: src/otio/otioexport.cpp:111
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Fel vid export av OpenTimelineIO-fil"

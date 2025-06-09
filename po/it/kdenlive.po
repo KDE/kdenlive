@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"POT-Creation-Date: 2025-06-09 00:42+0000\n"
 "PO-Revision-Date: 2025-05-18 18:11+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -27448,24 +27448,24 @@ msgid "Error Getting Access Token from %1."
 msgstr "Errore nell'ottenere il gettone di accesso da %1."
 
 # , kde-format, kde-format
-#: src/otio/otioexport.cpp:43
+#: src/otio/otioexport.cpp:44
 #, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr "Esportazione OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:57
+#: src/otio/otioexport.cpp:58
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Esporta OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:59 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Progetto OpenTimelineIO"
 
 # , kde-format, kde-format
-#: src/otio/otioexport.cpp:104
+#: src/otio/otioexport.cpp:111
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Errore nell'esportazione del file OpenTimelineIO"

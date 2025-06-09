@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:42+0000\n"
+"POT-Creation-Date: 2025-06-09 00:42+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -26904,23 +26904,23 @@ msgstr ""
 msgid "Error Getting Access Token from %1."
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/otio/otioexport.cpp:43
+#: src/otio/otioexport.cpp:44
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/otio/otioexport.cpp:57
+#: src/otio/otioexport.cpp:58
 #, fuzzy, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "निवड साधन (&S)"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
+#: src/otio/otioexport.cpp:59 src/otio/otioimport.cpp:239
 #, fuzzy, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "निवड साधन (&S)"
 
-#: src/otio/otioexport.cpp:104
+#: src/otio/otioexport.cpp:111
 #, fuzzy, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "फाईल उघडतेवेळी त्रुटी"
