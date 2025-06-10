@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-08 02:37+0000\n"
-"PO-Revision-Date: 2025-05-26 13:29+0300\n"
+"PO-Revision-Date: 2025-06-09 14:11+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
-"n % 10 == 0) ? 2 : 3));\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n "
+"% 10 == 0) ? 2 : 3));\n"
 "X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
@@ -19081,7 +19081,7 @@ msgid "JogShuttle"
 msgstr "גלגלת עריכה"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
+#, kde-format
 #| msgid ""
 #| "For device configuration see <a href=\"https://docs.kdenlive.org/"
 #| "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
@@ -19093,9 +19093,10 @@ msgid ""
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
 "a>."
 msgstr ""
-"להגדרת התקנים נא לפנות אל <a href=\"https://docs.kdenlive.org/user_interface/"
-"menu/settings_menu/configure_kdenlive.html#windows?"
-"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">התיעוד שלנו</a>."
+"להגדרת התקנים, נא לפנות ל<a href=\"https://docs.kdenlive.org/"
+"getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">תיעוד שלנו</"
+"a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
@@ -30108,7 +30109,8 @@ msgstr "ייצוא קובץ כתוביות"
 #: src/timeline2/view/timelinecontroller.cpp:5132
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
-msgstr "קובץ Sub Station Alpha v4.00+‎‏ (‎*.ass);;קובץ כתוביות SubRip‏ (‎*.srt)"
+msgstr ""
+"קובץ Sub Station Alpha v4.00+‎‏ (‎*.ass);;קובץ כתוביות SubRip‏ (‎*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5146
 #, kde-format
