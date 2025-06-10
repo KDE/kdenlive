@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-09 00:42+0000\n"
-"PO-Revision-Date: 2025-05-26 13:29+0300\n"
+"PO-Revision-Date: 2025-06-09 14:13+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19619,21 +19619,16 @@ msgid "JogShuttle"
 msgstr "גלגלת עריכה"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
-#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
 "a>."
 msgstr ""
-"להגדרת התקנים נא לפנות אל <a href=\"https://docs.kdenlive.org/user_interface/"
-"menu/settings_menu/configure_kdenlive.html#windows?"
-"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">התיעוד שלנו</a>."
+"להגדרת התקנים, נא לפנות ל<a href=\"https://docs.kdenlive.org/getting_started/"
+"configure_kdenlive/configuration_jogshuttle.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">תיעוד שלנו</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
@@ -21627,17 +21622,15 @@ msgid "Upgrading project version…"
 msgstr "גרסת המיזם משודרגת…"
 
 #: src/doc/documentvalidator.cpp:194
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
+#, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
-"סוג מיזם זה אינו נתמך (גרסה %1) ולכן לא ניתן לטעון אותו.\n"
-"נא לשקול לשדרג את גרסת Kdenlive."
+"המיזם הזה לא נתמך כיוון שגרסת המסמך שלו (%1) חדשה יותר ממה שהמהדורה הזאת של "
+"Kdenlive תומכת (גרסה %2 ומטה).\n"
+"נא לשקול לשדרג את גרסת ה־Kdenlive שלך."
 
 #: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
@@ -24046,10 +24039,9 @@ msgid "Collapse/Expand Item"
 msgstr "צמצום/הרחבת פריט"
 
 #: src/mainwindow.cpp:1301
-#, fuzzy, kde-format
-#| msgid "Collapse/Expand Item"
+#, kde-format
 msgid "Collapse/Expand All Items"
-msgstr "צמצום/הרחבת פריט"
+msgstr "צמצום/הרחבת כל הפריטים"
 
 #: src/mainwindow.cpp:1305
 #, kde-format
@@ -24643,16 +24635,14 @@ msgid "Align Audio to Reference"
 msgstr "יישור שמע לסימוכין"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Set Audio Reference"
+#, kde-format
 msgid "Set Timecode Reference"
-msgstr "הגדרת סימוכין לשמע"
+msgstr "הגדרת סימוכין קוד זמן"
 
 #: src/mainwindow.cpp:1792
-#, fuzzy, kde-format
-#| msgid "Align Audio to Reference"
+#, kde-format
 msgid "Align Timecode to Reference"
-msgstr "יישור שמע לסימוכין"
+msgstr "יישור קוד זמן לסימוכין"
 
 #: src/mainwindow.cpp:1796
 #, kde-format
@@ -24937,10 +24927,9 @@ msgid "Toggle Track Disabled"
 msgstr "הפעלה/השבתה של רצועה"
 
 #: src/mainwindow.cpp:2027
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle All Tracks Disabled"
-msgstr "הפעלה/השבתה של רצועה"
+msgstr "השבתת כל הרצועות"
 
 #: src/mainwindow.cpp:2029
 #, kde-format
@@ -24948,10 +24937,9 @@ msgid "Toggle Track Lock"
 msgstr "נעילה/שחרור רצועה"
 
 #: src/mainwindow.cpp:2031
-#, fuzzy, kde-format
-#| msgid "Toggle All Track Lock"
+#, kde-format
 msgid "Toggle All Tracks Lock"
-msgstr "נעילת/שחרור כל הרצועות"
+msgstr "נעילת כל הרצועות"
 
 #: src/mainwindow.cpp:2033
 #, kde-format
@@ -28051,10 +28039,9 @@ msgid "Reassign selected timecodes to current Bin clip"
 msgstr "הקצאת קודי הזמן הנבחרים לסרטון הסל הנוכחי"
 
 #: src/project/notesplugin.cpp:161
-#, fuzzy, kde-format
-#| msgid "Reassign selected timecodes to current Bin clip"
+#, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
-msgstr "הקצאת קודי הזמן הנבחרים לסרטון הסל הנוכחי"
+msgstr "הקצאת קודי הזמן הנבחרים לסרטון ציר הזמן הנוכחי"
 
 #: src/project/notesplugin.cpp:165
 #, kde-format
@@ -30724,16 +30711,14 @@ msgstr "הגדרת סימוכין לשמע לפני ניסיון היישור"
 
 #: src/timeline2/view/timelinecontroller.cpp:3455
 #: src/timeline2/view/timelinecontroller.cpp:3477
-#, fuzzy, kde-format
-#| msgid "No timecode found in selection"
+#, kde-format
 msgid "No timecode for clip"
-msgstr "לא נמצא קוד זמן בבחירה"
+msgstr "אין קוד זמן לסרטון"
 
 #: src/timeline2/view/timelinecontroller.cpp:3472
-#, fuzzy, kde-format
-#| msgid "Set audio reference before attempting to align"
+#, kde-format
 msgid "Set timecode reference before attempting to align"
-msgstr "הגדרת סימוכין לשמע לפני ניסיון היישור"
+msgstr "הגדרת סימוכין לקוד זמן לפני ניסיון היישור"
 
 #: src/timeline2/view/timelinecontroller.cpp:3606
 #, kde-format
@@ -30918,10 +30903,9 @@ msgid "Close %1"
 msgstr "סגירת %1"
 
 #: src/timeline2/view/timelinetabs.cpp:345
-#, fuzzy, kde-format
-#| msgid "Align Audio to Reference"
+#, kde-format
 msgid "Align to Reference"
-msgstr "יישור שמע לסימוכין"
+msgstr "יישור לסימוכין"
 
 #: src/timeline2/view/timelinetabs.cpp:419
 #, kde-format
@@ -33330,10 +33314,9 @@ msgstr "מחיקת כל המודלים"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, sam_rebuild)
 #: src/ui/configspeech_ui.ui:977
-#, fuzzy, kde-format
-#| msgid "Disabling virtual environment"
+#, kde-format
 msgid "Rebuild Virtual Environment"
-msgstr "הסביבה הווירטואלית מושבתת"
+msgstr "בניית סביבה וירטואלית מחדש"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:1074
