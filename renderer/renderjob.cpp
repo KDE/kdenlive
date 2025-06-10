@@ -41,7 +41,11 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
-    m_args = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("-progress2"), scenelist};
+    if (debugMode) {
+        m_args = {QStringLiteral("-loglevel"), QStringLiteral("debug"), QStringLiteral("-progress2"), scenelist};
+    } else {
+        m_args = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("-progress2"), scenelist};
+    }
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -51,6 +55,31 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     }
     m_connectTimer.setSingleShot(true);
     m_connectTimer.setInterval(5000);
+}
+
+RenderJob::RenderJob(const QString &errorMessage, int pid, QObject *parent)
+    : QObject(parent)
+    , m_progress(0)
+    , m_kdenlivesocket(new QLocalSocket(this))
+    , m_pid(pid)
+    , m_renderProcess(&m_looper)
+{
+    m_renderProcess.setReadChannel(QProcess::StandardError);
+    connect(&m_renderProcess, &QProcess::finished, this, &RenderJob::slotIsOver);
+
+    QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
+    m_kdenlivesocket->connectToServer(servername);
+    if (m_kdenlivesocket->waitForConnected(1000)) {
+        QJsonObject method, args;
+        args["status"] = -2;
+        args["error"] = errorMessage;
+        method["setRenderingFinished"] = args;
+        m_kdenlivesocket->write(QJsonDocument(method).toJson());
+        m_kdenlivesocket->flush();
+        m_looper.quit();
+    } else {
+    }
+    qApp->quit();
 }
 
 RenderJob::~RenderJob()
@@ -116,7 +145,7 @@ void RenderJob::receivedStderr()
     result = result.simplified();
     if (!result.startsWith(QLatin1String("Current Frame"))) {
         m_errorMessage.append(result + QStringLiteral("<br>"));
-        m_logstream << result;
+        m_logstream << result << "\n";
     } else {
         bool ok;
         int progress = result.section(QLatin1Char(' '), -1).toInt(&ok);

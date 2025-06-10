@@ -352,6 +352,8 @@ public:
     std::pair<QString, int> getSelectedClipAndOffset();
     /** @brief Get the current offset for active timeline */
     int currentTimelineOffset();
+    /** HW decoder changed */
+    void updateHwDecoding();
 
 private:
     explicit Core(LinuxPackageType packageType);

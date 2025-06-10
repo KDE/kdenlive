@@ -123,16 +123,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <item>
              <widget class="KUrlRequester" name="out_file">
               <property name="focusPolicy">
-               <enum>Qt::ClickFocus</enum>
+               <enum>Qt::FocusPolicy::ClickFocus</enum>
               </property>
               <property name="toolTip">
                <string>Select output destination</string>
               </property>
               <property name="mode">
-               <set>KFile::File|KFile::LocalOnly</set>
+               <set>KFile::Mode::File|KFile::Mode::LocalOnly</set>
               </property>
               <property name="acceptMode">
-               <enum>QFileDialog::AcceptSave</enum>
+               <enum>QFileDialog::AcceptMode::AcceptSave</enum>
               </property>
              </widget>
             </item>
@@ -158,10 +158,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <item row="1" column="0">
            <widget class="QFrame" name="formatGroup">
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::Shape::StyledPanel</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout3">
              <item>
@@ -176,7 +176,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                <item>
                 <spacer name="formatSpace">
                  <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                  <enum>Qt::Orientation::Horizontal</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -222,8 +222,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                      <string>&amp;Save</string>
                     </property>
                     <property name="icon">
-                     <iconset theme="document-new">
-                      <normaloff>.</normaloff>.</iconset>
+                     <iconset theme="document-new"/>
                     </property>
                     <property name="autoRaise">
                      <bool>true</bool>
@@ -241,7 +240,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                     <property name="flat">
                      <bool>true</bool>
                     </property>
-                    <property name="configFile">
+                    <property name="configFile" stdset="0">
                      <string>:data/kdenlive_renderprofiles.knsrc</string>
                     </property>
                    </widget>
@@ -249,7 +248,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                   <item>
                    <widget class="KSeparator" name="kseparator">
                     <property name="frameShape">
-                     <enum>QFrame::VLine</enum>
+                     <enum>QFrame::Shape::VLine</enum>
                     </property>
                    </widget>
                   </item>
@@ -265,8 +264,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                      <string>&amp;Favorite</string>
                     </property>
                     <property name="icon">
-                     <iconset theme="document-save-as">
-                      <normaloff>.</normaloff>.</iconset>
+                     <iconset theme="document-save-as"/>
                     </property>
                     <property name="autoRaise">
                      <bool>true</bool>
@@ -285,8 +283,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                      <string>&amp;Edit</string>
                     </property>
                     <property name="icon">
-                     <iconset theme="document-edit">
-                      <normaloff>.</normaloff>.</iconset>
+                     <iconset theme="document-edit"/>
                     </property>
                     <property name="autoRaise">
                      <bool>true</bool>
@@ -305,8 +302,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                      <string>&amp;Delete</string>
                     </property>
                     <property name="icon">
-                     <iconset theme="delete">
-                      <normaloff>.</normaloff>.</iconset>
+                     <iconset theme="delete"/>
                     </property>
                     <property name="autoRaise">
                      <bool>true</bool>
@@ -347,7 +343,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <item>
              <spacer name="targetSpace">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -395,7 +391,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <item>
              <spacer name="zoneSpace">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -448,13 +444,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item>
         <widget class="QScrollArea" name="optionsGroup">
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAsNeeded</enum>
+          <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
          </property>
          <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
+          <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
          </property>
          <property name="widgetResizable">
           <bool>true</bool>
@@ -464,8 +460,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>384</width>
-            <height>1046</height>
+            <width>365</width>
+            <height>1208</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -563,7 +559,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <spacer name="rescaleSpace">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -683,7 +679,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                    <number>3</number>
                   </property>
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
@@ -743,7 +739,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  <number>1</number>
                 </property>
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
                </widget>
               </item>
@@ -838,7 +834,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <item>
               <spacer name="horizontalSpacer">
                <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+                <enum>Qt::Orientation::Horizontal</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -871,6 +867,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <widget class="QCheckBox" name="play_after">
              <property name="text">
               <string>Play after render</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="keep_log_files">
+             <property name="text">
+              <string>Keep log files</string>
              </property>
             </widget>
            </item>
@@ -911,13 +914,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <string>Share</string>
          </property>
          <property name="popupMode">
-          <enum>QToolButton::InstantPopup</enum>
+          <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
          </property>
          <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
+          <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
          </property>
          <property name="arrowType">
-          <enum>Qt::DownArrow</enum>
+          <enum>Qt::ArrowType::DownArrow</enum>
          </property>
         </widget>
        </item>
@@ -951,7 +954,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="0" column="0" colspan="6">
         <widget class="QSplitter" name="splitter">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <widget class="QTreeWidget" name="running_jobs">
           <property name="sizePolicy">
@@ -1007,8 +1010,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset theme="go-down">
-               <normaloff>.</normaloff>.</iconset>
+              <iconset theme="go-down"/>
              </property>
             </widget>
            </item>
@@ -1019,7 +1021,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="4" column="3">
         <spacer name="jobSpace">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -1089,7 +1091,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="1" column="2">
         <spacer name="scriptsSpace">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>

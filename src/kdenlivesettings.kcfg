@@ -338,6 +338,11 @@
       <label>Enables nvenc hw accel scaling.</label>
       <default>false</default>
     </entry>
+    <entry name="hwDecoding" type="String">
+      <label>Enable hw decoding. String must be vaapi, nvdec, etc</label>
+      <default></default>
+    </entry>
+
     <entry name="showRenderTextParameters" type="Bool">
       <label>Show render preset parameters as editable text.</label>
       <default>false</default>
@@ -1091,7 +1096,10 @@
       <label>Default render profile.</label>
       <default>MP4-H264/AAC</default>
     </entry>
-
+    <entry name="keepRenderLogFiles" type="Bool">
+      <label>Should we delete log files after successful render.</label>
+      <default>false</default>
+    </entry>
     <entry name="validated_luts" type="StringList">
       <label>The paths of lut files that have been validated.</label>
       <default></default>

@@ -23,6 +23,7 @@ class RenderJob : public QObject
 public:
     RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1,
               const QString &subtitleFile = QString(), bool debugMode = false, QObject *parent = nullptr);
+    RenderJob(const QString &errorMessage, int pid, QObject *parent = nullptr);
     ~RenderJob() override;
 
 public Q_SLOTS:

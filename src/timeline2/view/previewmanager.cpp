@@ -672,6 +672,11 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      m_extension,
                      m_consumerParams.join(QLatin1Char(' '))};
     pCore->currentDoc()->previewProgress(0);
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (!KdenliveSettings::hwDecoding().isEmpty()) {
+        env.insert(QLatin1String("MLT_AVFORMAT_HWACCEL"), KdenliveSettings::hwDecoding());
+        m_previewProcess.setProcessEnvironment(env);
+    }
     m_previewProcess.start(KdenliveSettings::kdenliverendererpath(), args);
     if (m_previewProcess.waitForStarted()) {
         qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED: " << args;

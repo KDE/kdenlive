@@ -41,6 +41,7 @@
 #ifndef NODBUS
 #include <QDBusConnectionInterface>
 #endif
+#include <QDesktopServices>
 #include <QDir>
 #include <QDomDocument>
 #include <QFileIconProvider>
@@ -69,20 +70,112 @@
 #include <xlocale.h>
 #endif
 
-// Render job roles
-enum {
-    ParametersRole = Qt::UserRole + 1,
-    StartTimeRole,
-    ProgressRole,
-    ExtraInfoRole = ProgressRole + 2, // vpinon: don't understand why, else spurious message displayed
-    LastTimeRole,
-    LastFrameRole,
-    OpenBrowserRole,
-    PlayAfterRole
-};
-
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
+
+RenderViewDelegate::RenderViewDelegate(QWidget *parent)
+    : QStyledItemDelegate(parent)
+{
+}
+
+bool RenderViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (index.isValid()) {
+        const QString logFile = index.data(RenderWidget::LogFileRole).toString();
+        if (logFile.isEmpty()) {
+            return QStyledItemDelegate::editorEvent(event, model, option, index);
+        }
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (index.column() == 1) {
+                QPoint pos = me->pos() - QPoint(0, option.rect.top());
+                if (m_logRect.contains(pos)) {
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(logFile));
+                    event->accept();
+                    return true;
+                }
+            }
+        } else if (event->type() == QEvent::MouseMove) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (index.column() == 1) {
+                const QPoint pos = me->pos() - QPoint(0, option.rect.top());
+                if (m_logRect.contains(pos)) {
+                    Q_EMIT hoverLink(true);
+                } else {
+                    Q_EMIT hoverLink(false);
+                }
+            }
+        }
+    }
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
+}
+
+void RenderViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    if (index.column() == 1) {
+        painter->save();
+        QStyleOptionViewItem opt(option);
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+
+        QFont font = painter->font();
+        font.setBold(true);
+        painter->setFont(font);
+        QRect r1 = option.rect;
+        r1.adjust(0, textMargin, 0, -textMargin);
+        int mid = int((r1.height() / 2));
+        r1.setBottom(r1.y() + mid);
+        QRect bounding;
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
+        r1.moveTop(r1.bottom() - textMargin);
+        font.setBold(false);
+        painter->setFont(font);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
+        int progress = index.data(RenderWidget::ProgressRole).toInt();
+        if (progress > 0 && progress < 100) {
+            // draw progress bar
+            QColor color = option.palette.alternateBase().color();
+            QColor fgColor = option.palette.text().color();
+            color.setAlpha(150);
+            fgColor.setAlpha(150);
+            painter->setBrush(QBrush(color));
+            painter->setPen(QPen(fgColor));
+            int width = qMin(200, r1.width() - 4);
+            QRect bgrect(r1.left() + 2, option.rect.bottom() - 6 - textMargin, width, 6);
+            painter->drawRoundedRect(bgrect, 3, 3);
+            painter->setBrush(QBrush(fgColor));
+            bgrect.adjust(2, 2, 0, -1);
+            painter->setPen(Qt::NoPen);
+            bgrect.setWidth((width - 2) * progress / 100);
+            painter->drawRect(bgrect);
+        } else {
+            r1.setBottom(opt.rect.bottom());
+            r1.setTop(r1.bottom() - mid);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data(RenderWidget::ExtraInfoRole).toString());
+            if (!index.data(RenderWidget::LogFileRole).toString().isEmpty()) {
+                QFont ft = painter->font();
+                ft.setUnderline(true);
+                painter->setFont(ft);
+                QPalette pal = QApplication::palette();
+                if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
+                    painter->setPen(option.palette.highlightedText().color());
+                } else {
+                    painter->setPen(pal.link().color());
+                }
+                r1.adjust(0, 0, -textMargin, -textMargin);
+                if (m_logRect.isNull()) {
+                    painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"), &m_logRect);
+                } else {
+                    painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"));
+                }
+            }
+        }
+        painter->restore();
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}
 
 RenderJobItem::RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type)
     : QTreeWidgetItem(parent, strings, type)
@@ -110,17 +203,17 @@ void RenderJobItem::setStatus(int status)
     case FINISHEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering finished"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
-        setData(1, ProgressRole, 100);
+        setData(1, RenderWidget::ProgressRole, 100);
         break;
     case FAILEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering crashed"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
-        setData(1, ProgressRole, 100);
+        setData(1, RenderWidget::ProgressRole, 100);
         break;
     case ABORTEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering aborted"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
-        setData(1, ProgressRole, 100);
+        setData(1, RenderWidget::ProgressRole, 100);
         break;
     default:
         break;
@@ -355,11 +448,19 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_jobsDelegate = new RenderViewDelegate(this);
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
+    m_view.running_jobs->setMouseTracking(true);
+    connect(m_jobsDelegate, &RenderViewDelegate::hoverLink, this, [this](bool hover) {
+        if (hover) {
+            setCursor(Qt::PointingHandCursor);
+        } else {
+            setCursor(Qt::ArrowCursor);
+        }
+    });
 
     QHeaderView *header = m_view.running_jobs->header();
     header->setSectionResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, size + 4);
-    header->setSectionResizeMode(1, QHeaderView::Interactive);
+    header->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 
     // ===== "Scripts" tab =====
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Stored Playlists"));
@@ -405,6 +506,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     focusItem();
     adjustSize();
     m_view.embed_subtitles->setToolTip(i18n("Only works for the matroska (mkv) format"));
+    m_view.keep_log_files->setChecked(KdenliveSettings::keepRenderLogFiles());
+    connect(m_view.keep_log_files, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setKeepRenderLogFiles(enabled); });
 }
 
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
@@ -896,9 +999,21 @@ void RenderWidget::startRendering(RenderJobItem *item)
 {
     auto rendererArgs = item->data(1, ParametersRole).toStringList();
     qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
-    if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), rendererArgs)) {
+    QProcess proc;
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (!KdenliveSettings::hwDecoding().isEmpty()) {
+        env.insert(QLatin1String("MLT_AVFORMAT_HWACCEL"), KdenliveSettings::hwDecoding());
+    }
+    proc.setProgram(KdenliveSettings::kdenliverendererpath());
+    proc.setProcessEnvironment(env);
+    if (KdenliveSettings::keepRenderLogFiles()) {
+        rendererArgs << QStringLiteral("--debug");
+    }
+    proc.setArguments(rendererArgs);
+    if (!proc.startDetached()) {
         item->setStatus(FAILEDJOB);
     } else {
+
         KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering %1 started", item->text(1)), QPixmap());
     }
 }
@@ -1383,7 +1498,13 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
     } else {
-        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        if (dest.isEmpty() && status == -2) {
+            // start failure returs an empty url
+            item = startingJob();
+        }
+        if (item == nullptr) {
+            item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        }
     }
     if (!item) {
         return;
@@ -1427,7 +1548,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     } else if (status == -2) {
         // Rendering crashed
         item->setStatus(FAILEDJOB);
-        m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
+        if (dest.isEmpty()) {
+            m_view.error_log->append(i18n("<strong>Rendering crashed</strong><br />"));
+        } else {
+            m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
+        }
         m_view.error_log->append(error);
         m_view.error_log->append(QStringLiteral("<hr />"));
         m_view.error_box->setVisible(true);
@@ -1436,10 +1561,27 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setStatus(ABORTEDJOB);
     } else {
         delete item;
+        item = nullptr;
+    }
+    if (item && QFile::exists(dest + ".log")) {
+        const QString logFile = dest + QStringLiteral(".log");
+        item->setData(1, RenderWidget::LogFileRole, logFile);
     }
     m_view.clean_up->setEnabled(true);
     slotCheckJob();
     checkRenderStatus();
+}
+
+RenderJobItem *RenderWidget::startingJob()
+{
+    auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
+    while (item != nullptr) {
+        if (item->status() == STARTINGJOB) {
+            return item;
+        }
+        item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
+    }
+    return nullptr;
 }
 
 void RenderWidget::slotAbortCurrentJob()
@@ -1551,7 +1693,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         item->setIcon(0, icon.isNull() ? QIcon::fromTheme(QStringLiteral("application-x-executable-script")) : icon);
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
-        item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
+        item->setData(1, ParametersRole, scriptpath.toLocalFile());
         if (scriptFiles.at(i) == lastScript) {
             lastCreatedScript = item;
         }
@@ -1594,7 +1736,7 @@ void RenderWidget::slotStartScript()
                 return;
             }
         }
-        QString path = item->data(1, Qt::UserRole + 1).toString();
+        QString path = item->data(1, ParametersRole).toString();
         // Insert new job in queue
         RenderJobItem *renderItem = nullptr;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
@@ -1631,7 +1773,7 @@ void RenderWidget::slotDeleteScript()
 {
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
-        QString path = item->data(1, Qt::UserRole + 1).toString();
+        QString path = item->data(1, ParametersRole).toString();
         bool success = true;
         success &= static_cast<int>(QFile::remove(path));
         if (!success) {

@@ -1830,3 +1830,8 @@ int Core::currentTimelineOffset()
 {
     return currentDoc()->getSequenceProperty(currentDoc()->activeUuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
 }
+
+void Core::updateHwDecoding()
+{
+    setenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8().constData(), 1);
+}
