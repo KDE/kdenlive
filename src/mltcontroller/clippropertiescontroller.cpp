@@ -746,16 +746,12 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
         }
 
         // Colorspace
-        options = {{ProfileRepository::getColorspaceDescription(240), 240},
-                   {ProfileRepository::getColorspaceDescription(601), 601},
-                   {ProfileRepository::getColorspaceDescription(709), 709},
-                   {ProfileRepository::getColorspaceDescription(10), 10}};
+        options = {{ProfileRepository::getColorspaceDescription(170), 170}, {ProfileRepository::getColorspaceDescription(240), 240},
+                   {ProfileRepository::getColorspaceDescription(601), 601}, {ProfileRepository::getColorspaceDescription(709), 709},
+                   {ProfileRepository::getColorspaceDescription(470), 470}, {ProfileRepository::getColorspaceDescription(2020), 2020}};
 
         QString defaultValue;
-        int colorspace = m_controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
-        if (colorspace == 9) {
-            colorspace = 10;
-        }
+        int colorspace = m_controller->getProducerIntProperty(QStringLiteral("meta.media.colorspace"));
         if (colorspace > 0) {
             defaultValue = QString::number(colorspace);
         }
@@ -764,10 +760,7 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
         fpBox->addLayout(hlay);
 
         // Color range
-        options = {{i18n("Broadcast limited (MPEG)"), 1},
-                   {i18n("Full (JPEG)"), 2},
-                   {ProfileRepository::getColorspaceDescription(709), 709},
-                   {ProfileRepository::getColorspaceDescription(10), 10}};
+        options = {{i18n("Broadcast limited (MPEG)"), 1}, {i18n("Full (JPEG)"), 2}};
         defaultValue = QString::number(m_controller->isFullRange() ? 2 : 1);
         hlay = comboboxProperty(i18n("Color range:"), QStringLiteral("color_range"), options, defaultValue);
         fpBox->addLayout(hlay);
@@ -1388,8 +1381,7 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
     propertyMap.append({i18n("Pixel format:"), m_sourceProperties->get(property.toUtf8().constData())});
 
     // Colorspace
-    property = codecInfo + QStringLiteral("colorspace");
-    int colorspace = m_sourceProperties->get_int(property.toUtf8().constData());
+    int colorspace = m_sourceProperties->get_int("meta.media.colorspace");
     propertyMap.append({i18n("Colorspace:"), ProfileRepository::getColorspaceDescription(colorspace)});
 
     // B frames
