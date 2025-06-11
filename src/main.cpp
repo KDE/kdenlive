@@ -238,18 +238,23 @@ int main(int argc, char *argv[])
     QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
                              QStringLiteral("https://bugs.kde.org/"));
 
+    QString packageTypeName;
     switch (packageType) {
     case LinuxPackageType::AppImage:
-        otherText.prepend(i18n("You are using the AppImage.<br>"));
+        packageTypeName = QStringLiteral("AppImage");
         break;
     case LinuxPackageType::Flatpak:
-        otherText.prepend(i18n("You are using the Flatpak.<br>"));
+        packageTypeName = QStringLiteral("Flatpak");
         break;
     case LinuxPackageType::Snap:
-        otherText.prepend(i18n("You are using the Snap package.<br>"));
+        packageTypeName = QStringLiteral("Snap");
         break;
     default:
+        packageTypeName = QStringLiteral("Unknown/Default");
         break;
+    }
+    if (!packageTypeName.isEmpty()) {
+        otherText.prepend(i18n("%1 version.<br/>", i18n(packageTypeName.toUtf8().constData())));
     }
 
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
@@ -275,6 +280,9 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
+
+    aboutData.addComponent(i18n("Kdenlive"), QString(), QString("%1, %2").arg(KDENLIVE_FULL_VERSION_STRING, packageTypeName),
+                           QStringLiteral("https://kdenlive.org") /*, KAboutLicense::LGPL_V2_1*/);
 
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
                            QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
