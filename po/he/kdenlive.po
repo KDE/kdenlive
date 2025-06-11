@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-09 00:42+0000\n"
-"PO-Revision-Date: 2025-06-09 14:13+0300\n"
+"POT-Creation-Date: 2025-06-11 00:42+0000\n"
+"PO-Revision-Date: 2025-06-10 05:00+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -728,10 +728,9 @@ msgid "DC"
 msgstr "צ"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
-#, fuzzy, kde-format
-#| msgid "Initialising..."
+#, kde-format
 msgid "Anti-aliasing"
-msgstr "‫מאתחל..."
+msgstr "החלקת קצוות"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
 #, fuzzy, kde-format
@@ -3059,10 +3058,9 @@ msgid "<![CDATA[Y coordinate of top-left corner]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width (px)"
-msgstr "רוחב"
+msgstr "עובי (פיקסלים)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format
@@ -3072,10 +3070,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height (px)"
-msgstr "גובה"
+msgstr "גובה (פיקסלים)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
 #, kde-format
@@ -3103,10 +3100,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
-#, fuzzy, kde-format
-#| msgid "Line Thickness (px)"
+#, kde-format
 msgid "Thickness (px)"
-msgstr "עובי קו (פיקסלים)"
+msgstr "עובי (פיקסלים)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
 #, fuzzy, kde-format
@@ -3232,16 +3228,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Low threshold"
-msgstr "סף"
+msgstr "סף נמוך"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:11
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "High threshold"
-msgstr "החלפת סף"
+msgstr "סף גבוה"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
 #, kde-format
@@ -3283,10 +3277,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_gblur.xml:9
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
-#, fuzzy, kde-format
-#| msgid "Stepsize"
+#, kde-format
 msgid "Steps"
-msgstr "גודל צעד"
+msgstr "צעדים"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, fuzzy, kde-format
@@ -3756,7 +3749,7 @@ msgstr "רדיוס"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
-#: src/ui/renderwidget_ui.ui:598
+#: src/ui/renderwidget_ui.ui:594
 #, kde-format
 msgid "Interpolation"
 msgstr "ביון"
@@ -7752,7 +7745,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:653 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -7795,9 +7788,7 @@ msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
-#, fuzzy, kde-format
-#| msgctxt "Image Fade In Effect Name"
-#| msgid "Fade in"
+#, kde-format
 msgid "Fade In"
 msgstr "עמעום פנימה"
 
@@ -7866,10 +7857,9 @@ msgid "Bottom Enabled"
 msgstr "שמאל למטה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[comment]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[הערה]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, kde-format
@@ -8080,10 +8070,9 @@ msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
 msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
-#, fuzzy, kde-format
-#| msgid "Crop start:"
+#, kde-format
 msgid "Blur start"
-msgstr "תחילת חיתוך:"
+msgstr "התחלת טשטוש"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
 #, kde-format
@@ -8093,10 +8082,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
-#, fuzzy, kde-format
-#| msgid "Blur type"
+#, kde-format
 msgid "Blur end"
-msgstr "סוג טשטוש"
+msgstr "סוף טשטוש"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
 #, kde-format
@@ -8152,9 +8140,9 @@ msgid "Equidistant Fisheye"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Projection"
-msgstr "פרוייקט"
+msgstr "היטל"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
 #, kde-format
@@ -8176,10 +8164,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Lens radius"
-msgstr "רדיוס"
+msgstr "רדיוס עדשה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
 #, kde-format
@@ -8189,9 +8176,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Front X"
-msgstr "גודל"
+msgstr "X חזית"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:38
 #, kde-format
@@ -8202,9 +8189,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:41
-#, fuzzy, kde-format
+#, kde-format
 msgid "Front Y"
-msgstr "גודל"
+msgstr "Y חזית"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:43
 #, kde-format
@@ -8293,10 +8280,9 @@ msgid "Nadir start"
 msgstr "ערוך התחלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:76
-#, fuzzy, kde-format
-#| msgid "Lens correction"
+#, kde-format
 msgid "Lens distortion A"
-msgstr "תיקון עדשה"
+msgstr "עיוות עדשה א׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:78
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:83
@@ -8308,22 +8294,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
-#, fuzzy, kde-format
-#| msgid "Lens correction"
+#, kde-format
 msgid "Lens distortion B"
-msgstr "תיקון עדשה"
+msgstr "עיוות עדשה ב׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:86
-#, fuzzy, kde-format
-#| msgid "Lens correction"
+#, kde-format
 msgid "Lens distortion C"
-msgstr "תיקון עדשה"
+msgstr "עיוות עדשה ג׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:91
-#, fuzzy, kde-format
-#| msgid "Horizontal radius"
+#, kde-format
 msgid "Lens distortion radius"
-msgstr "רדיוס אופקי"
+msgstr "רדיוס עיוות עדשה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:93
 #, kde-format
@@ -8528,10 +8511,9 @@ msgid "Analysis offset"
 msgstr "נתוני אבחון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The distance between the track points]]>"
-msgstr "<![CDATA[זווית סיבוב לאורך ציר X]]>"
+msgstr "<![CDATA[המרחק בין נקודות הרצועה]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -8923,10 +8905,9 @@ msgid "Do simple color correction, in a physically meaningful way"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
-#, fuzzy, kde-format
-#| msgid "RGB adjustment"
+#, kde-format
 msgid "RGB Adjustment"
-msgstr "כיוון עקומות RGB"
+msgstr "כיוון RGB"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
 #, kde-format
@@ -9576,11 +9557,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Grain Effect Name"
-#| msgid "Grain"
+#, kde-format
 msgid "Film Grain"
-msgstr "גרגרים"
+msgstr "גרגרי סרטים"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
@@ -9588,76 +9567,64 @@ msgid "Adds film-like grain and softens the picture"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Grain amount"
-msgstr "כמות עמעום"
+msgstr "כמות גרגרים"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[חוזק הגרגרים]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Red grain"
-msgstr "איזון אדום"
+msgstr "גרגר אדום"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[מקדם קנה מידה שחל על ציר X]]>"
+msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ האדום]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green grain"
-msgstr "עמעום ירוק"
+msgstr "גרגר ירוק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr "<![CDATA[מקדם קנה מידה שחל על ציר X]]>"
+msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ הירוק]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Blue balance"
+#, kde-format
 msgid "Blue grain"
-msgstr "איזון כחול"
+msgstr "גרגר כחול"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr "<![CDATA[מקדם קנה מידה שחל על ציר X]]>"
+msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ הכחול]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
-#, fuzzy, kde-format
-#| msgid "Dry amount"
+#, kde-format
 msgid "Blur amount"
-msgstr "כמות יובש"
+msgstr "כמות טשטוש"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the profile]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "<![CDATA[הטיית הפרופיל]]>"
+msgstr "<![CDATA[חוזק הטשטוש]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Wet amount"
+#, kde-format
 msgid "Dust amount"
-msgstr "כמות רטיבות"
+msgstr "כמות אבק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[אורך הפרופיל בפיקסלים]]>"
+msgstr "<![CDATA[כמות חלקיקי האבק בתמונה]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10201,16 +10168,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_levels.xml:98
-#, fuzzy, kde-format
-#| msgid "Input black level"
+#, kde-format
 msgid "Opposite of Input black level"
-msgstr "הכנס רמת שחור"
+msgstr "ההפך של רמת שחור קלט"
 
 #: data/effects/frei0r/frei0r_levels.xml:102
-#, fuzzy, kde-format
-#| msgid "Input white level"
+#, kde-format
 msgid "Opposite of Input white level"
-msgstr "הכנס רמת לבן"
+msgstr "ההפך של רמת לבן קלט"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -10512,10 +10477,9 @@ msgid "Black point"
 msgstr "יציאת שחור"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
-#, fuzzy, kde-format
-#| msgid "White Noise"
+#, kde-format
 msgid "White point"
-msgstr "רעש לבן"
+msgstr "נקודה לבנה"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:21
 #, kde-format
@@ -12327,10 +12291,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr ""
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "HSL Range"
-msgstr "הגדרת טווח"
+msgstr "טווח HSL"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -12368,8 +12331,7 @@ msgid "The amount to blend the edges of the hue range"
 msgstr "הכמות בפיקסלים לטשטוש קצה הצל"
 
 #: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift"
 msgstr "הזחת גוון"
 
@@ -13798,9 +13760,9 @@ msgid "Stereo depth"
 msgstr "עומק סטריאו"
 
 #: data/effects/sox/sox_reverb.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pre-delay"
-msgstr "לכידה"
+msgstr "טרום השהיה"
 
 #: data/effects/sox/sox_reverb.xml:23
 #, fuzzy, kde-format
@@ -15941,7 +15903,7 @@ msgid "Update current preset"
 msgstr "עדכון הערכה הנוכחית"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:299
 #, kde-format
 msgid "Delete preset"
 msgstr "מחיקת ערכה"
@@ -16937,7 +16899,7 @@ msgstr "השתקת וידאו"
 #: src/onlineresources/resourcewidget.cpp:684 src/ui/clipjobmanager_ui.ui:388
 #: src/ui/configcapture_ui.ui:533 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
-#: src/ui/renderwidget_ui.ui:628
+#: src/ui/renderwidget_ui.ui:624
 #, kde-format
 msgid "Audio"
 msgstr "שמע"
@@ -18696,8 +18658,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "ייצוא נתוני קווים מנחים"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1793
-#: src/dialogs/renderwidget.cpp:1817 src/doc/kdenlivedoc.cpp:766
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1935
+#: src/dialogs/renderwidget.cpp:1959 src/doc/kdenlivedoc.cpp:766
 #: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
@@ -18918,7 +18880,7 @@ msgid "Top Right"
 msgstr "למעלה מימין"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:330
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:704
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:705
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -19114,129 +19076,135 @@ msgstr ""
 "למשתנים הבאים לא תהיה השפעה, כיוון שהם נדרסים על ידי אפשרויות ממשק המשתמש: "
 "<icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:104 src/dialogs/renderwidget.cpp:1618
+#: src/dialogs/renderwidget.cpp:168 src/dialogs/renderwidget.cpp:170
+#, fuzzy, kde-format
+#| msgid "Show log"
+msgid "Show Log"
+msgstr "הצגת יומן"
+
+#: src/dialogs/renderwidget.cpp:197 src/dialogs/renderwidget.cpp:1760
 #, kde-format
 msgid "Waiting…"
 msgstr "בהמתנה…"
 
-#: src/dialogs/renderwidget.cpp:108
+#: src/dialogs/renderwidget.cpp:201
 #, kde-format
 msgid "Starting…"
 msgstr "מופעל…"
 
-#: src/dialogs/renderwidget.cpp:111
+#: src/dialogs/renderwidget.cpp:204
 #, kde-format
 msgid "Rendering finished"
 msgstr "התיצוג הסתיים"
 
-#: src/dialogs/renderwidget.cpp:116
+#: src/dialogs/renderwidget.cpp:209
 #, kde-format
 msgid "Rendering crashed"
 msgstr "התיצוג קרס"
 
-#: src/dialogs/renderwidget.cpp:121
+#: src/dialogs/renderwidget.cpp:214
 #, kde-format
 msgid "Rendering aborted"
 msgstr "התיצוג בוטל"
 
-#: src/dialogs/renderwidget.cpp:225
+#: src/dialogs/renderwidget.cpp:318
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "שכן קרוב (מהיר)"
 
-#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:319 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "ביליניארי (טוב)"
 
-#: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:320 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "ביקובי (מעברי צבע חלקים - עדיף)"
 
-#: src/dialogs/renderwidget.cpp:228
+#: src/dialogs/renderwidget.cpp:321
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (הכי טוב)"
 
-#: src/dialogs/renderwidget.cpp:238
+#: src/dialogs/renderwidget.cpp:331
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "אופקי (16:9)"
 
-#: src/dialogs/renderwidget.cpp:239
+#: src/dialogs/renderwidget.cpp:332
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "אנכי (9:16)"
 
-#: src/dialogs/renderwidget.cpp:240
+#: src/dialogs/renderwidget.cpp:333
 #, kde-format
 msgid "Square (1:1)"
 msgstr "ריבוע (1:1)"
 
-#: src/dialogs/renderwidget.cpp:244 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:337 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "שדה אחד (מהיר)"
 
-#: src/dialogs/renderwidget.cpp:245 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:338 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "ערבוב ליניארי (מהיר)"
 
-#: src/dialogs/renderwidget.cpp:246 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:339 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - זמני בלבד (טוב)"
 
-#: src/dialogs/renderwidget.cpp:247
+#: src/dialogs/renderwidget.cpp:340
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (טוב יותר)"
 
-#: src/dialogs/renderwidget.cpp:248
+#: src/dialogs/renderwidget.cpp:341
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (הטוב ביותר)"
 
-#: src/dialogs/renderwidget.cpp:256 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:349 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #, kde-format
 msgid "None"
 msgstr "כלום"
 
-#: src/dialogs/renderwidget.cpp:257
+#: src/dialogs/renderwidget.cpp:350
 #, kde-format
 msgid "Timecode"
 msgstr "קוד זמן"
 
-#: src/dialogs/renderwidget.cpp:258
+#: src/dialogs/renderwidget.cpp:351
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "קוד זמן ללא השמטת תמוניות (non-drop frame)"
 
-#: src/dialogs/renderwidget.cpp:259
+#: src/dialogs/renderwidget.cpp:352
 #, kde-format
 msgid "Frame Number"
 msgstr "מספר תמונית"
 
-#: src/dialogs/renderwidget.cpp:263
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "תיצוג באמצעות תיווך באיכות נמוכה"
 
-#: src/dialogs/renderwidget.cpp:356
+#: src/dialogs/renderwidget.cpp:449
 #, kde-format
 msgid "File"
 msgstr "קובץ"
 
-#: src/dialogs/renderwidget.cpp:365
+#: src/dialogs/renderwidget.cpp:466
 #, kde-format
 msgid "Stored Playlists"
 msgstr "רשימות נגינה מאוחסנות"
 
-#: src/dialogs/renderwidget.cpp:378 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:479 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -19245,49 +19213,49 @@ msgstr ""
 "לא ניתן למצוא את היישום kdenlive_render, משהו בהתקנה שלך פגום. התיצוג לא "
 "יעבוד"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:508
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "עובד רק עם תסדיר matroska‏ (mkv)"
 
-#: src/dialogs/renderwidget.cpp:414
+#: src/dialogs/renderwidget.cpp:517
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "אירעה תקלה בשיתוף המסמך: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:414 src/dialogs/renderwidget.cpp:422
-#: src/ui/renderwidget_ui.ui:911
+#: src/dialogs/renderwidget.cpp:517 src/dialogs/renderwidget.cpp:525
+#: src/ui/renderwidget_ui.ui:914
 #, kde-format
 msgid "Share"
 msgstr "שיתוף"
 
-#: src/dialogs/renderwidget.cpp:419
+#: src/dialogs/renderwidget.cpp:522
 #, kde-format
 msgid "Document shared successfully"
 msgstr "המסמך שותף בהצלחה"
 
-#: src/dialogs/renderwidget.cpp:422
+#: src/dialogs/renderwidget.cpp:525
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "אפשר למצוא את המסמך המשותף תחת: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:543
+#: src/dialogs/renderwidget.cpp:646
 #, kde-format
 msgid "Beginning"
 msgstr "התחלה"
 
-#: src/dialogs/renderwidget.cpp:666
+#: src/dialogs/renderwidget.cpp:769
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "הוספת סרטון לציר הזמן בטרם התיצוג"
 
-#: src/dialogs/renderwidget.cpp:672
+#: src/dialogs/renderwidget.cpp:775
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "‫לא נמצאה תוכנת melt הדרושה לביצוע התיצוג (חלק מ־MLT)"
 
-#: src/dialogs/renderwidget.cpp:681
+#: src/dialogs/renderwidget.cpp:784
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -19299,25 +19267,25 @@ msgstr ""
 "השמע לווידאו.\n"
 "אנו ממליצים להתמיר לתסדיר ידידותי לעריכה."
 
-#: src/dialogs/renderwidget.cpp:690
+#: src/dialogs/renderwidget.cpp:793
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "לצלום בכל זאת"
 
-#: src/dialogs/renderwidget.cpp:696
+#: src/dialogs/renderwidget.cpp:799
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "התמרה"
 
-#: src/dialogs/renderwidget.cpp:718 src/dialogs/renderwidget.cpp:1592
+#: src/dialogs/renderwidget.cpp:821 src/dialogs/renderwidget.cpp:1734
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "‫קובץ הפלט קיים. לדרוס אותו?"
 
-#: src/dialogs/renderwidget.cpp:726 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:829 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -19326,12 +19294,12 @@ msgstr ""
 "לא ניתן ליצור את התייקיה %1.\n"
 "נא לוודא שיש לך הרשאות מתאימות."
 
-#: src/dialogs/renderwidget.cpp:774
+#: src/dialogs/renderwidget.cpp:877
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "השגיאות הבאות התרחשו תוך ניסיון לבצע תיצוג"
 
-#: src/dialogs/renderwidget.cpp:813 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:916 src/dialogs/renderwidget.cpp:1747
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -19340,59 +19308,59 @@ msgstr ""
 "כבר יש משימה שכותבת לקובץ:<br /><b>%1</b><br />יש לבטל את העבודה כדי לשכתב "
 "את הקובץ…"
 
-#: src/dialogs/renderwidget.cpp:814 src/dialogs/renderwidget.cpp:1606
+#: src/dialogs/renderwidget.cpp:917 src/dialogs/renderwidget.cpp:1748
 #, kde-format
 msgid "Already running"
 msgstr "כבר מתבצע"
 
-#: src/dialogs/renderwidget.cpp:836
+#: src/dialogs/renderwidget.cpp:939
 #, kde-format
 msgid "Video without audio track"
 msgstr "וידאו ללא רצועת שמע"
 
-#: src/dialogs/renderwidget.cpp:838
+#: src/dialogs/renderwidget.cpp:941
 #, kde-format
 msgid "Audio without video track"
 msgstr "שמע ללא רצועת וידאו"
 
-#: src/dialogs/renderwidget.cpp:902 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:1017 src/main.cpp:415
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "התיצוג של %1 התחיל"
 
-#: src/dialogs/renderwidget.cpp:967 src/monitor/monitor.cpp:1365
+#: src/dialogs/renderwidget.cpp:1082 src/monitor/monitor.cpp:1365
 #, kde-format
 msgid "untitled"
 msgstr "ללא כותרת"
 
-#: src/dialogs/renderwidget.cpp:1005
+#: src/dialogs/renderwidget.cpp:1120
 #, kde-format
 msgid "No preset selected"
 msgstr "לא נבחרה ערכה"
 
-#: src/dialogs/renderwidget.cpp:1007
+#: src/dialogs/renderwidget.cpp:1122
 #, kde-format
 msgid "No matching preset"
 msgstr "אין ערכה תואמת"
 
-#: src/dialogs/renderwidget.cpp:1019
+#: src/dialogs/renderwidget.cpp:1134
 #, kde-format
 msgid "Invalid preset"
 msgstr "ערכה שגויה"
 
-#: src/dialogs/renderwidget.cpp:1142
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "תיצוג ללא וידאו ושמע לא עובד. נא להפעיל לפחות אחד מהם."
 
-#: src/dialogs/renderwidget.cpp:1316
+#: src/dialogs/renderwidget.cpp:1431
 #, kde-format
 msgid "Remaining time "
 msgstr "זמן שנותר "
 
-#: src/dialogs/renderwidget.cpp:1318 src/dialogs/renderwidget.cpp:1400
+#: src/dialogs/renderwidget.cpp:1433 src/dialogs/renderwidget.cpp:1521
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -19401,60 +19369,67 @@ msgstr[1] "יומיים "
 msgstr[2] "%1 ימים "
 msgstr[3] "%1 ימים "
 
-#: src/dialogs/renderwidget.cpp:1330
+#: src/dialogs/renderwidget.cpp:1445
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (תמונית %1 @ %2 תמוניות לשנייה)"
 
-#: src/dialogs/renderwidget.cpp:1352
+#: src/dialogs/renderwidget.cpp:1467
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "נותרו פחות מ־%1 מ״ב של זיכרון זמין."
 
-#: src/dialogs/renderwidget.cpp:1402
+#: src/dialogs/renderwidget.cpp:1523
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "התיצוג הסתיים תוך %1"
 
-#: src/dialogs/renderwidget.cpp:1410
+#: src/dialogs/renderwidget.cpp:1531
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "התיצוג של %1 הסתיים תוך %2"
 
 # , kde-format
-#: src/dialogs/renderwidget.cpp:1430
+#: src/dialogs/renderwidget.cpp:1552
+#, fuzzy, kde-format
+#| msgid "<strong>Rendering of %1 crashed</strong><br />"
+msgid "<strong>Rendering crashed</strong><br />"
+msgstr "<strong>התיצוג של %1 קרס</strong><br />"
+
+# , kde-format
+#: src/dialogs/renderwidget.cpp:1554
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>התיצוג של %1 קרס</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1474 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1616 src/ui/renderwidget_ui.ui:907
 #, kde-format
 msgid "Abort Job"
 msgstr "ביטול משימה"
 
-#: src/dialogs/renderwidget.cpp:1477
+#: src/dialogs/renderwidget.cpp:1619
 #, kde-format
 msgid "Remove Job"
 msgstr "הסרת משימה"
 
-#: src/dialogs/renderwidget.cpp:1888
+#: src/dialogs/renderwidget.cpp:2030
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "הוספת סרטונים לציר הזמן בטרם התיצוג"
 
-#: src/dialogs/renderwidget.cpp:1893
+#: src/dialogs/renderwidget.cpp:2035
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "אורך קובץ לאחר תיצוג: %1"
 
-#: src/dialogs/renderwidget.cpp:1896
+#: src/dialogs/renderwidget.cpp:2038
 #: src/mltcontroller/clippropertiescontroller.cpp:605
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "הפרש קוד זמן:"
 
-#: src/dialogs/renderwidget.cpp:1901
+#: src/dialogs/renderwidget.cpp:2043
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -19463,7 +19438,7 @@ msgstr[1] "<b>נעשה שימוש בשני סרטונים חסרים במיזם.
 msgstr[2] "<b>נעשה שימוש ב־%1 סרטונים חסרים במיזם.</b>"
 msgstr[3] "<b>נעשה שימוש ב־%1 סרטונים חסרים במיזם.</b>"
 
-#: src/dialogs/renderwidget.cpp:1903
+#: src/dialogs/renderwidget.cpp:2045
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -19472,12 +19447,12 @@ msgstr[1] "שני סרטונים חסרים (לא בשימוש)."
 msgstr[2] "%1 סרטונים חסרים (לא בשימוש)."
 msgstr[3] "%1 סרטונים חסרים (לא בשימוש)."
 
-#: src/dialogs/renderwidget.cpp:1905
+#: src/dialogs/renderwidget.cpp:2047
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 סרטונים חסרים (<b>%2 נמצאים בשימוש במיזם</b>)."
 
-#: src/dialogs/renderwidget.cpp:1987
+#: src/dialogs/renderwidget.cpp:2129
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -19486,12 +19461,12 @@ msgstr ""
 "משתני מהירות מפענח:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2007
+#: src/dialogs/renderwidget.cpp:2149
 #, kde-format
 msgid "Add to Current Project"
 msgstr "הוספה למיזם הנוכחי"
 
-#: src/dialogs/renderwidget.cpp:2016
+#: src/dialogs/renderwidget.cpp:2158
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
@@ -21201,8 +21176,8 @@ msgstr "שגיאת או אזהרת התחלה, כדאי לעיין ב<a href='#'
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:270
-#: src/ui/renderwidget_ui.ui:363 src/ui/renderwidget_ui.ui:947
-#: src/ui/renderwidget_ui.ui:1105
+#: src/ui/renderwidget_ui.ui:359 src/ui/renderwidget_ui.ui:950
+#: src/ui/renderwidget_ui.ui:1107
 #, kde-format
 msgid "Close"
 msgstr "סגירה"
@@ -21237,22 +21212,36 @@ msgstr "האצת חומרה QSV"
 msgid "Video Toolbox hardware acceleration"
 msgstr "האצת חומרה כלי וידאו"
 
-#: src/dialogs/wizard.cpp:202
+#: src/dialogs/wizard.cpp:202 src/dialogs/wizard.cpp:222
+#: src/dialogs/wizard.cpp:255
+#, fuzzy, kde-format
+#| msgid "Enable manual editing"
+msgid "Enable hardware decoding"
+msgstr "הפעלת עריכה ידנית"
+
+#: src/dialogs/wizard.cpp:205 src/dialogs/wizard.cpp:224
+#: src/dialogs/wizard.cpp:257
+#, fuzzy, kde-format
+#| msgid "Enable manual editing"
+msgid "Enable hardware decoding: %1"
+msgstr "הפעלת עריכה ידנית"
+
+#: src/dialogs/wizard.cpp:229
 #, kde-format
 msgid "Check hardware acceleration"
 msgstr "בדיקת האצת חומרה"
 
-#: src/dialogs/wizard.cpp:225
+#: src/dialogs/wizard.cpp:273
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
 msgstr "<li>לא ניתן להפעיל את מנגנון MLT, נא לבדוק שההתקנה שלך תקינה</li>"
 
-#: src/dialogs/wizard.cpp:231
+#: src/dialogs/wizard.cpp:279
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr "<li>גרסת ה־MLT לא נתמכת<br/>נא <b>לשדרג</b> ל־%1.%2.%3</li>"
 
-#: src/dialogs/wizard.cpp:258
+#: src/dialogs/wizard.cpp:306
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
@@ -21261,7 +21250,7 @@ msgstr ""
 "<li>חסרה חבילה: אפקטים של <b>Frei0r</b>‏ (frei0r-plugins)<br/>שמספקת מגוון "
 "אפקטים ומעברונים. מומלץ להתקין</li>"
 
-#: src/dialogs/wizard.cpp:273
+#: src/dialogs/wizard.cpp:321
 #, kde-format
 msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
@@ -21269,7 +21258,7 @@ msgid ""
 msgstr ""
 "<li>חסרה חבילה: <b>AVFilter</b><br/>מספקת מגוון אפקטים. מומלץ להתקין</li>"
 
-#: src/dialogs/wizard.cpp:287
+#: src/dialogs/wizard.cpp:335
 #, kde-format
 msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
@@ -21278,7 +21267,7 @@ msgstr ""
 "<li>חסר מסנן: <b>avfilter.subtitles</b><br/>שנחוץ ליכולת הכתוביות. מומלץ "
 "להתקין</li>"
 
-#: src/dialogs/wizard.cpp:307
+#: src/dialogs/wizard.cpp:355
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
@@ -21287,7 +21276,7 @@ msgstr ""
 "<li>חסרה חבילה: סמלי <b>Breeze</b>‏ (breeze-icon-theme)<br/>שמספקת מגוון "
 "סמלים שמשמשים גם את Kdenlive. מומלץ להתקין</li>"
 
-#: src/dialogs/wizard.cpp:336
+#: src/dialogs/wizard.cpp:384
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
@@ -21295,19 +21284,19 @@ msgid ""
 msgstr ""
 "<li>חסר מודול MLT:‏ <b>sdl</b> או <b>rtaudio</b><br/>שנחוץ לפלט שמע</li>"
 
-#: src/dialogs/wizard.cpp:348
+#: src/dialogs/wizard.cpp:396
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr "<li>חסר מודול MLT:‏ <b>xml</b> <br/>שנחוץ לשמע/וידאו</li>"
 
-#: src/dialogs/wizard.cpp:360
+#: src/dialogs/wizard.cpp:408
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
 "video</li>"
 msgstr "<li>חסר מודול MLT:‏ <b>avformat</b> (FFmpeg)<br/>שנחוץ לשמע/וידאו</li>"
 
-#: src/dialogs/wizard.cpp:369
+#: src/dialogs/wizard.cpp:417
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
@@ -21316,14 +21305,14 @@ msgstr ""
 "<li>חסר מודול MLT:‏ <b>qimage</b> או <b>pixbuf</b><br/>שנחוצים לתמונות "
 "וכותרות</li>"
 
-#: src/dialogs/wizard.cpp:376
+#: src/dialogs/wizard.cpp:424
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
 msgstr "<li>חסר מודול MLT:‏ <b>kdenlivetitle</b><br/>שנחוץ ליצירת כותרות</li>"
 
-#: src/dialogs/wizard.cpp:382
+#: src/dialogs/wizard.cpp:430
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
@@ -21331,48 +21320,48 @@ msgid ""
 msgstr ""
 "<li>חסר מודול MLT:‏ <b>glaxnimate</b><br/>שנחוץ לטעינת הנפשות Lottie</li>"
 
-#: src/dialogs/wizard.cpp:418
+#: src/dialogs/wizard.cpp:466
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr "<li>חסר יישום: <b>kdenlive_render</b><br/>שנחוץ לתיצוג.</li>"
 
-#: src/dialogs/wizard.cpp:443
+#: src/dialogs/wizard.cpp:491
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
 "li>"
 msgstr "<li>יישום חסר: <b>ffmpeg</b><br/>שנחוץ לסרטוני תיווך והתמרה</li>"
 
-#: src/dialogs/wizard.cpp:457
+#: src/dialogs/wizard.cpp:505
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
 "<li>חסר יישום: <b>ffplay</b><br/>שמומלץ לחלק ממשימות ההצגה המקדימה</li>"
 
-#: src/dialogs/wizard.cpp:471
+#: src/dialogs/wizard.cpp:519
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
 msgstr "<li>יישום חסר: <b>ffprobe</b><br/>מומלץ לאבחון סרטונים נוסף</li>"
 
-#: src/dialogs/wizard.cpp:636
+#: src/dialogs/wizard.cpp:684
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "‫התקנת MLT לא נמצאה. נא להתקין את MLT ולהפעיל את Kdenlive מחדש.\n"
 
-#: src/dialogs/wizard.cpp:640
+#: src/dialogs/wizard.cpp:688
 #, kde-format
 msgid "Fatal Error"
 msgstr "שגיאה משמעותית"
 
-#: src/dialogs/wizard.cpp:820
+#: src/dialogs/wizard.cpp:868
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "לא נמצאו מקודדי חומרה."
 
-#: src/dialogs/wizard.cpp:822
+#: src/dialogs/wizard.cpp:870
 #, kde-format
 msgid "hardware encoders found and enabled (%1)."
 msgstr "נמצאו מקודדי חומרה והם הופעלו (%1)."
@@ -24145,7 +24134,7 @@ msgstr "כלי פעיל ומצב עריכה"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1439 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:765
 #, kde-format
 msgid "Auto"
 msgstr "אוטומטי"
@@ -25391,12 +25380,12 @@ msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממ�
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
 
-#: src/mltconnection.cpp:202
+#: src/mltconnection.cpp:205
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr "התוכנית melt שנחוצה לתיצוג לא נמצאת (חלק מ־MLT)"
 
-#: src/mltconnection.cpp:236
+#: src/mltconnection.cpp:239
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "פרופילי ה־MLT שלך לא נמצאו, נא לספק את הנתיב"
@@ -26192,7 +26181,7 @@ msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "מפעיל/משבית מצב עריכה (והצגת ידיות עצמים)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:604
 #, kde-format
 msgid "Deinterlacer"
 msgstr "מבטל שזירה"
@@ -26256,7 +26245,7 @@ msgstr "תצוגה מקדימה"
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:686
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
-#: src/ui/renderwidget_ui.ui:487
+#: src/ui/renderwidget_ui.ui:483
 #, kde-format
 msgid "Video"
 msgstr "וידאו"
@@ -30283,7 +30272,7 @@ msgstr "משתנים שגויים לתצוגה מקדימה בציר זמן"
 msgid "Something is wrong with cache folders"
 msgstr "משהו לא תקין בתיקיות המטמון"
 
-#: src/timeline2/view/previewmanager.cpp:837
+#: src/timeline2/view/previewmanager.cpp:842
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr "תיצוג טרומי נכשל, נא לבדוק את המשתנים שלך. %1הצגת פרטים…%2"
@@ -31874,7 +31863,7 @@ msgstr "מחיקת הנקודה הנוכחית."
 #: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
 #: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
 #: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/renderwidget_ui.ui:1010 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
 #: src/ui/textbasededit_ui.ui:139 src/ui/textbasededit_ui.ui:162
@@ -34782,7 +34771,7 @@ msgstr "ח"
 
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/profiledialog_ui.ui:153 src/ui/renderwidget_ui.ui:549
+#: src/ui/profiledialog_ui.ui:153 src/ui/renderwidget_ui.ui:545
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -35069,176 +35058,176 @@ msgid "&Save"
 msgstr "&שמירה"
 
 #. i18n: ectx: property (toolTip), widget (KNSWidgets::Button, m_knsbutton)
-#: src/ui/renderwidget_ui.ui:236
+#: src/ui/renderwidget_ui.ui:235
 #, kde-format
 msgid "Download New Render Presets…"
 msgstr "הורדת ערכות תיצוג חדשות…"
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
-#: src/ui/renderwidget_ui.ui:245
+#: src/ui/renderwidget_ui.ui:244
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
 msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:262
+#: src/ui/renderwidget_ui.ui:261
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr "שמירת הערכה הנוכחית כערכה חדש מותאמת אישית"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:265
+#: src/ui/renderwidget_ui.ui:264
 #, kde-format
 msgid "&Favorite"
 msgstr "הו&ספה למועדפים"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:282
+#: src/ui/renderwidget_ui.ui:280
 #, kde-format
 msgid "Edit preset"
 msgstr "עריכת ערכה"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:285
+#: src/ui/renderwidget_ui.ui:283
 #, kde-format
 msgid "&Edit"
 msgstr "&עריכה"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:305
+#: src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "&Delete"
 msgstr "מ&חיקה"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:336
+#: src/ui/renderwidget_ui.ui:332
 #, kde-format
 msgid "Render to File"
 msgstr "תיצוג לקובץ"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:343
+#: src/ui/renderwidget_ui.ui:339
 #, kde-format
 msgid "Generate Script"
 msgstr "יצירת תסריט"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:374
+#: src/ui/renderwidget_ui.ui:370
 #, kde-format
 msgid "Fu&ll project"
 msgstr "מיזם מ&לא"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:384
+#: src/ui/renderwidget_ui.ui:380
 #, kde-format
 msgid "Selected &zone"
 msgstr "קטע &נבחר"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:391
+#: src/ui/renderwidget_ui.ui:387
 #, kde-format
 msgid "&Guide zone"
 msgstr "קטע קווים מ&נחים"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
-#: src/ui/renderwidget_ui.ui:413
+#: src/ui/renderwidget_ui.ui:409
 #, kde-format
 msgid "Guide Multi-Export"
 msgstr "ייצוא מרוכז של קווים מנחים"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:425
+#: src/ui/renderwidget_ui.ui:421
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr "קווים מנחים לשימוש כמפריד:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
-#: src/ui/renderwidget_ui.ui:496
+#: src/ui/renderwidget_ui.ui:492
 #, kde-format
 msgid "Render full color range"
 msgstr "תיצוג כל טווח הצבעים"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:503
+#: src/ui/renderwidget_ui.ui:499
 #, kde-format
 msgid "Render at Preview Resolution"
 msgstr "תיצוג ברזולוציית תצוגה מקדימה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:510
+#: src/ui/renderwidget_ui.ui:506
 #, kde-format
 msgid "Use Proxy Clips"
 msgstr "להשתמש בסרטוני תיווך"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:517
+#: src/ui/renderwidget_ui.ui:513
 #, kde-format
 msgid "Rescale:"
 msgstr "שינוי קנה־מידה:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:524
+#: src/ui/renderwidget_ui.ui:520
 #, kde-format
 msgid "Enabled"
 msgstr "מופעל"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:581
+#: src/ui/renderwidget_ui.ui:577
 #, kde-format
 msgid "Overlay:"
 msgstr "שכבת־על:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: src/ui/renderwidget_ui.ui:615
+#: src/ui/renderwidget_ui.ui:611
 #, kde-format
 msgid "Aspect Ratio:"
 msgstr "יחס תצוגה:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:637
+#: src/ui/renderwidget_ui.ui:633
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "קובץ נפרד לכל רצועת שמע"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:647
+#: src/ui/renderwidget_ui.ui:643
 #, kde-format
 msgid "Custom Quality"
 msgstr "איכות מותאמת אישית"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:661
+#: src/ui/renderwidget_ui.ui:657
 #, kde-format
 msgid "Low"
 msgstr "נמוכה"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:674
+#: src/ui/renderwidget_ui.ui:670
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "פשרה בין גודל קובץ לאיכות."
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:693
+#: src/ui/renderwidget_ui.ui:689
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:700
+#: src/ui/renderwidget_ui.ui:696
 #, kde-format
 msgid "High"
 msgstr "גבוה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:712
+#: src/ui/renderwidget_ui.ui:708
 #, kde-format
 msgid "Encoder"
 msgstr "מצפין"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:718 src/ui/renderwidget_ui.ui:734
+#: src/ui/renderwidget_ui.ui:714 src/ui/renderwidget_ui.ui:730
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -35248,116 +35237,123 @@ msgstr ""
 "יותר מניב קובץ גדול יותר)."
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:721
+#: src/ui/renderwidget_ui.ui:717
 #, kde-format
 msgid "Speed:"
 msgstr "מהירות:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:753 src/ui/renderwidget_ui.ui:788
+#: src/ui/renderwidget_ui.ui:749 src/ui/renderwidget_ui.ui:784
 #, kde-format
 msgid "Threads:"
 msgstr "תהליכונים:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:766
+#: src/ui/renderwidget_ui.ui:762
 #, kde-format
 msgid "Encoding threads"
 msgstr "תהליכוני הצפנה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:779
+#: src/ui/renderwidget_ui.ui:775
 #, kde-format
 msgid "Parallel Processing"
 msgstr "עיבוד מקבילי"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:802
+#: src/ui/renderwidget_ui.ui:798
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr "עיבוד מקבילי יכול לגרום לשינויים בתיצוג"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:818
+#: src/ui/renderwidget_ui.ui:814
 #, kde-format
 msgid "2 pass"
 msgstr "2 מעברים"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:827
+#: src/ui/renderwidget_ui.ui:823
 #, kde-format
 msgid "Export metadata"
 msgstr "ייצוא נתוני־על"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:834
+#: src/ui/renderwidget_ui.ui:830
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr "<a href=\"#\">עריכת נתוני־על</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:859
+#: src/ui/renderwidget_ui.ui:855
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr "להטמיע כתוביות במקום לצרוב אותן"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:866
+#: src/ui/renderwidget_ui.ui:862
 #, kde-format
 msgid "Open folder after export"
 msgstr "פתיחת התיקייה לאחר הייצוא"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:873
+#: src/ui/renderwidget_ui.ui:869
 #, kde-format
 msgid "Play after render"
 msgstr "לנגן לאחר סיום התיצוג"
 
+#. i18n: ectx: property (text), widget (QCheckBox, keep_log_files)
+#: src/ui/renderwidget_ui.ui:876
+#, fuzzy, kde-format
+#| msgid "Reset all profiles"
+msgid "Keep log files"
+msgstr "איפוס כל הפרופילים"
+
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:895
+#: src/ui/renderwidget_ui.ui:898
 #, kde-format
 msgid "Job Queue"
 msgstr "תור משימות"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:930
+#: src/ui/renderwidget_ui.ui:933
 #, kde-format
 msgid "Start Job"
 msgstr "התחלת משימה"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:940
+#: src/ui/renderwidget_ui.ui:943
 #, kde-format
 msgid "Clean Up"
 msgstr "ניקוי"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:1000
+#: src/ui/renderwidget_ui.ui:1003
 #, kde-format
 msgid "Error Log"
 msgstr "יומן שגיאות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1035
+#: src/ui/renderwidget_ui.ui:1037
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "לכבות את המחשב לאחר התיצוג"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1050
+#: src/ui/renderwidget_ui.ui:1052
 #, kde-format
 msgid "Scripts"
 msgstr "תסריטים"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1078
+#: src/ui/renderwidget_ui.ui:1080
 #, kde-format
 msgid "Start Script"
 msgstr "תחילת תסריט"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1085
+#: src/ui/renderwidget_ui.ui:1087
 #, kde-format
 msgid "Delete Script"
 msgstr "מחיקת תסריט"
