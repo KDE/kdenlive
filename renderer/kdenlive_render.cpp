@@ -176,7 +176,7 @@ int main(int argc, char **argv)
         if (args.count() != 3) {
             qCritical() << "Error: wrong number of arguments specified\n";
             int pid = parser.value(pidOption).toInt();
-            auto *rJob = new RenderJob(QStringLiteral("Error: wrong number of arguments specified\n"), pid, &app);
+            RenderJob r(QStringLiteral("Error: wrong number of arguments specified\n"), pid, &app);
             parser.showHelp(1);
             // the command above will quit the app with return 1;
         }
@@ -194,13 +194,13 @@ int main(int argc, char **argv)
         if (!f.open(QIODevice::ReadOnly)) {
             qCWarning(KDENLIVE_RENDERER_LOG) << "Failed to open file" << f.fileName() << "for reading";
             int pid = parser.value(pidOption).toInt();
-            auto *rJob = new RenderJob(QStringLiteral("Failed to open file %1").arg(f.fileName()), pid, &app);
+            RenderJob r(QStringLiteral("Failed to open file %1").arg(f.fileName()), pid, &app);
             return 1;
         }
         if (!doc.setContent(&f)) {
             qCWarning(KDENLIVE_RENDERER_LOG) << "Failed to parse file" << f.fileName() << "to QDomDocument";
             int pid = parser.value(pidOption).toInt();
-            auto *rJob = new RenderJob(QStringLiteral("Failed to parse file %1").arg(f.fileName()), pid, &app);
+            RenderJob r(QStringLiteral("Failed to parse file %1").arg(f.fileName()), pid, &app);
             f.close();
             return 1;
         }
