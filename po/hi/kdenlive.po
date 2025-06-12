@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-11 00:42+0000\n"
+"POT-Creation-Date: 2025-06-12 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -866,7 +866,7 @@ msgstr "पंख की चौड़ाई"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:957
+#: src/mltcontroller/clippropertiescontroller.cpp:950
 #, kde-format
 msgid "Normalize"
 msgstr "सामान्य"
@@ -6956,7 +6956,7 @@ msgstr "को"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:979
+#: src/mltcontroller/clippropertiescontroller.cpp:972
 #, kde-format
 msgid "Swap channels"
 msgstr "चैनल स्वैप करें"
@@ -16897,7 +16897,7 @@ msgstr ""
 "प्रभावित करता है)।"
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1028
 #, kde-format
 msgid "dB"
 msgstr "डीबी"
@@ -17757,13 +17757,13 @@ msgstr "कृपया ऑडियो फ़ाइलें खोलने �
 #: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
-#: src/profiles/profilerepository.cpp:173
+#: src/profiles/profilerepository.cpp:172
 #: src/renderpresets/renderpresetrepository.cpp:385
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/bin/bin.cpp:4764 src/dialogs/profilesdialog.cpp:235
+#: src/bin/bin.cpp:4764 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(प्रतिलिपि)"
@@ -18398,7 +18398,7 @@ msgstr "प्रयोग"
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1871
 #: src/doc/documentchecker.cpp:1901 src/doc/documentchecker.cpp:1921
 #: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
-#: src/profiles/profilerepository.cpp:117
+#: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
 msgstr "अज्ञात"
@@ -19230,7 +19230,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:762
 #: src/effects/effectstack/view/effectstackview.cpp:823
-#: src/profiles/profilerepository.cpp:190
+#: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
 #: src/project/dialogs/archivewidget.cpp:889
@@ -19494,27 +19494,27 @@ msgstr ""
 "इससे स्टाइल <b>%1</b> और उसके सभी गुणधर्म मिट जाएँगे। इस स्टाइल का उपयोग करने वाले "
 "उपशीर्षक स्टाइल <b>डिफ़ॉल्ट</b> पर रीसेट हो जाएँगे।"
 
-#: src/dialogs/profilesdialog.cpp:123
+#: src/dialogs/profilesdialog.cpp:125
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
 msgstr "प्रोफ़ाइल की चौड़ाई 2 का गुणक होनी चाहिए। इसे %1 पर समायोजित किया गया था"
 
-#: src/dialogs/profilesdialog.cpp:138
+#: src/dialogs/profilesdialog.cpp:140
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
 msgstr "प्रोफ़ाइल की ऊंचाई 2 का गुणक होनी चाहिए। इसे %1 पर समायोजित किया गया था"
 
-#: src/dialogs/profilesdialog.cpp:221
+#: src/dialogs/profilesdialog.cpp:223
 #, kde-format
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "कस्टम प्रोफ़ाइल संशोधित किया गया था, क्या आप इसे सहेजना चाहते हैं?"
 
-#: src/dialogs/profilesdialog.cpp:242
+#: src/dialogs/profilesdialog.cpp:244
 #, kde-format
 msgid "Save your profile before setting it to default"
 msgstr "अपनी प्रोफ़ाइल को डिफ़ॉल्ट पर सेट करने से पहले उसे सेव कर लें"
 
-#: src/dialogs/profilesdialog.cpp:267
+#: src/dialogs/profilesdialog.cpp:269
 #, kde-format
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -19523,7 +19523,7 @@ msgstr ""
 "MLT की डिफ़ॉल्ट प्रोफ़ाइल में समान नाम वाली प्रोफ़ाइल पहले से मौजूद है, कृपया अपनी कस्टम "
 "प्रोफ़ाइल के लिए कोई अन्य विवरण चुनें।"
 
-#: src/dialogs/profilesdialog.cpp:338
+#: src/dialogs/profilesdialog.cpp:344
 #, kde-format
 msgid ""
 "The profile of the current project cannot be edited while the project is "
@@ -20173,7 +20173,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:100
-#: src/mltcontroller/clippropertiescontroller.cpp:778
+#: src/mltcontroller/clippropertiescontroller.cpp:771
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -20276,7 +20276,7 @@ msgstr "वर्तमान सेटिंग्स"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1617
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1634
 #: src/mltcontroller/clippropertiescontroller.cpp:672
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1364
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -26002,8 +26002,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "आपकी MLT प्रोफाइल नहीं मिल पा रही है, कृपया पथ बताएं"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:133
-#: src/mltcontroller/clippropertiescontroller.cpp:1366
-#: src/mltcontroller/clippropertiescontroller.cpp:1428
+#: src/mltcontroller/clippropertiescontroller.cpp:1359
+#: src/mltcontroller/clippropertiescontroller.cpp:1420
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -26106,7 +26106,7 @@ msgstr "टेम्पलेट पाठ यहाँ दर्ज करे�
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: src/mltcontroller/clippropertiescontroller.cpp:656
-#: src/mltcontroller/clippropertiescontroller.cpp:1384
+#: src/mltcontroller/clippropertiescontroller.cpp:1377
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -26116,8 +26116,8 @@ msgstr "पिक्सेल पहलू अनुपात:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/mltcontroller/clippropertiescontroller.cpp:668
-#: src/mltcontroller/clippropertiescontroller.cpp:1353
-#: src/mltcontroller/clippropertiescontroller.cpp:1358
+#: src/mltcontroller/clippropertiescontroller.cpp:1346
+#: src/mltcontroller/clippropertiescontroller.cpp:1351
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -26128,7 +26128,7 @@ msgstr "फ्रेम रेट:"
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:672
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1364
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -26138,7 +26138,7 @@ msgstr "interlaced"
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:673
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1364
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
@@ -26188,258 +26188,258 @@ msgstr "वीडियो सक्षम करें"
 msgid "Video stream"
 msgstr "वीडियो स्ट्रीम"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:763
+#: src/mltcontroller/clippropertiescontroller.cpp:759
 #, kde-format
 msgid "Color space:"
 msgstr "रंग स्थान:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:767
+#: src/mltcontroller/clippropertiescontroller.cpp:763
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "प्रसारण सीमित (एमपीईजी)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:768
+#: src/mltcontroller/clippropertiescontroller.cpp:763
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "पूर्ण (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:772
+#: src/mltcontroller/clippropertiescontroller.cpp:765
 #, kde-format
 msgid "Color range:"
 msgstr "रंग श्रेणी:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:777
+#: src/mltcontroller/clippropertiescontroller.cpp:770
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "फ़ाइल परिवर्तनशील फ़्रेम दर का उपयोग करती है, अनुशंसित नहीं है"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:816
+#: src/mltcontroller/clippropertiescontroller.cpp:809
 #, kde-format
 msgid "Disable audio"
 msgstr "ऑडियो अक्षम करें"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:816
+#: src/mltcontroller/clippropertiescontroller.cpp:809
 #, kde-format
 msgid "Enable audio"
 msgstr "ऑडियो सक्षम करें"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:824
+#: src/mltcontroller/clippropertiescontroller.cpp:817
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "ऑडियो स्ट्रीम"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:846
+#: src/mltcontroller/clippropertiescontroller.cpp:839
 #: src/monitor/monitor.cpp:2028
 #, kde-format
 msgid "Merge all streams"
 msgstr "सभी स्ट्रीम्स को मर्ज करें"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1001
+#: src/mltcontroller/clippropertiescontroller.cpp:994
 #, kde-format
 msgid "Copy channel:"
 msgstr "चैनल कॉपी करें:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1002
+#: src/mltcontroller/clippropertiescontroller.cpp:995
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1003
+#: src/mltcontroller/clippropertiescontroller.cpp:996
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1032
+#: src/mltcontroller/clippropertiescontroller.cpp:1025
 #, kde-format
 msgid "Gain:"
 msgstr "पाना:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1059
+#: src/mltcontroller/clippropertiescontroller.cpp:1052
 #, kde-format
 msgid "Audio sync:"
 msgstr "ऑडियो सिंक:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1061
+#: src/mltcontroller/clippropertiescontroller.cpp:1054
 #, kde-format
 msgid "ms"
 msgstr "एमएस"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1110
+#: src/mltcontroller/clippropertiescontroller.cpp:1103
 #, kde-format
 msgid "Analysis data"
 msgstr "विश्लेषण डेटा"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1113
+#: src/mltcontroller/clippropertiescontroller.cpp:1106
 #, kde-format
 msgid "Delete analysis"
 msgstr "विश्लेषण हटाएं"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1114
+#: src/mltcontroller/clippropertiescontroller.cpp:1107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "डेटा सेट(सेटों) को हटाता है."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1115
+#: src/mltcontroller/clippropertiescontroller.cpp:1108
 #, kde-format
 msgid "Export analysis…"
 msgstr "निर्यात विश्लेषण…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1116
+#: src/mltcontroller/clippropertiescontroller.cpp:1109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "विश्लेषण डेटा को निर्यात/सहेजने के लिए एक फ़ाइल संवाद विंडो खोलता है।"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1117
+#: src/mltcontroller/clippropertiescontroller.cpp:1110
 #, kde-format
 msgid "Import analysis…"
 msgstr "आयात विश्लेषण…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1118
+#: src/mltcontroller/clippropertiescontroller.cpp:1111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "विश्लेषण डेटा आयात/लोड करने के लिए एक फ़ाइल संवाद विंडो खोलता है।"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1188
-#: src/mltcontroller/clippropertiescontroller.cpp:1500
+#: src/mltcontroller/clippropertiescontroller.cpp:1181
+#: src/mltcontroller/clippropertiescontroller.cpp:1492
 #, kde-format
 msgid "Tracks:"
 msgstr "ट्रैक:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1341
+#: src/mltcontroller/clippropertiescontroller.cpp:1334
 #, kde-format
 msgid "Video codec:"
 msgstr "वीडियो कोडेक:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1347
+#: src/mltcontroller/clippropertiescontroller.cpp:1340
 #, kde-format
 msgid "Frame size:"
 msgstr "चौखटा का आकर:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1366
+#: src/mltcontroller/clippropertiescontroller.cpp:1359
 #, kde-format
 msgid "Video bitrate:"
 msgstr "वीडियो बिटरेट:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1381
 #, kde-format
 msgid "Pixel format:"
 msgstr "पिक्सेल प्रारूप:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1393
+#: src/mltcontroller/clippropertiescontroller.cpp:1385
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "रंगस्थान:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1389
 #, kde-format
 msgid "B frames:"
 msgstr "बी फ्रेम:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1389
 #, kde-format
 msgid "Yes"
 msgstr "हाँ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1389
 #, kde-format
 msgid "No"
 msgstr "नहीं"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #, kde-format
 msgid "Audio codec:"
 msgstr "ऑडियो कोडेक:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1417
+#: src/mltcontroller/clippropertiescontroller.cpp:1409
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "ऑडियो चैनल:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1414
 #, kde-format
 msgid "Audio frequency:"
 msgstr "ऑडियो आवृत्ति:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1414
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "हर्ट्ज"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1428
+#: src/mltcontroller/clippropertiescontroller.cpp:1420
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "ऑडियो बिटरेट:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1456
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgid "Image size:"
 msgstr "छवि का आकार:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1451
 #, kde-format
 msgid "Image duration:"
 msgstr "छवि अवधि:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1466
+#: src/mltcontroller/clippropertiescontroller.cpp:1458
 #, kde-format
 msgid "Image count:"
 msgstr "छवि गणना:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1486
+#: src/mltcontroller/clippropertiescontroller.cpp:1478
 #, fuzzy, kde-format
 #| msgid "Video stream"
 msgid "Video streams:"
 msgstr "वीडियो स्ट्रीम"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1493
+#: src/mltcontroller/clippropertiescontroller.cpp:1485
 #, kde-format
 msgid "Audio streams:"
 msgstr "ऑडियो स्ट्रीम:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1514
+#: src/mltcontroller/clippropertiescontroller.cpp:1506
 #, kde-format
 msgid "File size:"
 msgstr "फ़ाइल का साइज़:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1659
+#: src/mltcontroller/clippropertiescontroller.cpp:1651
 #, kde-format
 msgid "Exif"
 msgstr "एक्सिफ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1686
+#: src/mltcontroller/clippropertiescontroller.cpp:1678
 #, kde-format
 msgid "Magic Lantern"
 msgstr "जादुई चिराग"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1727
+#: src/mltcontroller/clippropertiescontroller.cpp:1719
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "विश्लेषण डेटा सहेजें"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1728
-#: src/mltcontroller/clippropertiescontroller.cpp:1741
+#: src/mltcontroller/clippropertiescontroller.cpp:1720
+#: src/mltcontroller/clippropertiescontroller.cpp:1733
 #: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "पाठ फ़ाइल (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1740
+#: src/mltcontroller/clippropertiescontroller.cpp:1732
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
