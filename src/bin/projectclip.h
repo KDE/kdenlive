@@ -319,9 +319,7 @@ protected:
     QMutex m_thumbMutex;
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
+    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_usedProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
     QMap<QUuid, QList<int>> m_registeredClipsByUuid;
 

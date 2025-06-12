@@ -146,7 +146,7 @@ bool SequenceClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gen
         m_sequenceUuid = QUuid::createUuid();
         producer->parent().set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
     }
-    if (m_timewarpProducers.size() > 0) {
+    if (m_usedProducers.size() > 0) {
         bool ok;
         QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
         if (ok) {
@@ -245,7 +245,7 @@ void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool 
 
 void SequenceClip::removeSequenceWarpResources()
 {
-    if (m_timewarpProducers.size() > 0 && pCore->window() && pCore->bin()->isEnabled()) {
+    if (m_usedProducers.size() > 0 && pCore->window() && pCore->bin()->isEnabled()) {
         bool ok;
         QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
         if (ok) {

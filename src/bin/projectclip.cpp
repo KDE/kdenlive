@@ -206,19 +206,11 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
 ProjectClip::~ProjectClip()
 {
     if (pCore->currentDoc()->closing) {
-        for (auto &p : m_audioProducers) {
-            m_effectStack->removeService(p.second);
-        }
-        for (auto &p : m_videoProducers) {
-            m_effectStack->removeService(p.second);
-        }
-        for (auto &p : m_timewarpProducers) {
+        for (auto &p : m_usedProducers) {
             m_effectStack->removeService(p.second);
         }
         // Release audio producers
-        m_audioProducers.clear();
-        m_videoProducers.clear();
-        m_timewarpProducers.clear();
+        m_usedProducers.clear();
     }
 }
 
@@ -674,19 +666,11 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         pCore->bin()->reloadMonitorIfActive(clipId());
     }
     if (clearTrackProducers) {
-        for (auto &p : m_audioProducers) {
-            m_effectStack->removeService(p.second);
-        }
-        for (auto &p : m_videoProducers) {
-            m_effectStack->removeService(p.second);
-        }
-        for (auto &p : m_timewarpProducers) {
+        for (auto &p : m_usedProducers) {
             m_effectStack->removeService(p.second);
         }
         // Release audio producers
-        m_audioProducers.clear();
-        m_videoProducers.clear();
-        m_timewarpProducers.clear();
+        m_usedProducers.clear();
     }
     Q_EMIT refreshPropertiesPanel();
     if (hasLimitedDuration()) {
@@ -962,9 +946,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             return prod;
         }
-        if (m_timewarpProducers.count(clipId) > 0) {
-            m_effectStack->removeService(m_timewarpProducers[clipId]);
-            m_timewarpProducers.erase(clipId);
+        if (m_usedProducers.count(clipId) > 0) {
+            int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+            return std::shared_ptr<Mlt::Producer>(m_usedProducers[clipId]->cut(-1, duration > 0 ? duration - 1 : -1));
+            m_effectStack->removeService(m_usedProducers[clipId]);
+            m_usedProducers.erase(clipId);
         }
         if (state == PlaylistState::AudioOnly) {
             // We need to get an audio producer, if none exists
@@ -979,45 +965,43 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             if (secondPlaylist) {
                 trackId = -trackId;
             }
-            if (m_audioProducers.count(trackId) == 0) {
-                if (m_clipType == ClipType::Timeline) {
-                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
-                    m_audioProducers[trackId] = prod;
-                } else {
-                    m_audioProducers[trackId] = cloneProducer(true, true);
-                }
-                m_audioProducers[trackId]->set("set.test_audio", 0);
-                m_audioProducers[trackId]->set("set.test_image", 1);
-                if (m_streamEffects.contains(audioStream)) {
-                    QStringList effects = m_streamEffects.value(audioStream);
-                    for (const QString &effect : std::as_const(effects)) {
-                        Mlt::Filter filt(m_audioProducers[trackId]->get_profile(), effect.toUtf8().constData());
-                        if (filt.is_valid()) {
-                            // Add stream effect markup
-                            filt.set("kdenlive:stream", 1);
-                            m_audioProducers[trackId]->attach(filt);
-                        }
-                    }
-                }
-                if (audioStream > -1) {
-                    int newAudioStreamIndex = audioStreamIndex(audioStream);
-                    if (newAudioStreamIndex > -1) {
-                        /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
-                        default to first audio stream */
-                        m_audioProducers[trackId]->set("audio_index", audioStream);
-                    } else {
-                        newAudioStreamIndex = 0;
-                    }
-                    if (newAudioStreamIndex > audioStreamsCount() - 1) {
-                        newAudioStreamIndex = 0;
-                    }
-                    m_audioProducers[trackId]->set("astream", newAudioStreamIndex);
-                }
-                m_effectStack->addService(m_audioProducers[trackId]);
+            if (m_clipType == ClipType::Timeline) {
+                std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
+                m_usedProducers[clipId] = prod;
+            } else {
+                m_usedProducers[clipId] = cloneProducer(true, true);
             }
-            std::shared_ptr<Mlt::Producer> prod(m_audioProducers[trackId]->cut());
-            if (m_clipType == ClipType::Timeline && m_audioProducers[trackId]->parent().property_exists("kdenlive:maxduration")) {
-                int max = m_audioProducers[trackId]->parent().get_int("kdenlive:maxduration");
+            m_usedProducers[clipId]->set("set.test_audio", 0);
+            m_usedProducers[clipId]->set("set.test_image", 1);
+            if (m_streamEffects.contains(audioStream)) {
+                QStringList effects = m_streamEffects.value(audioStream);
+                for (const QString &effect : std::as_const(effects)) {
+                    Mlt::Filter filt(m_usedProducers[clipId]->get_profile(), effect.toUtf8().constData());
+                    if (filt.is_valid()) {
+                        // Add stream effect markup
+                        filt.set("kdenlive:stream", 1);
+                        m_usedProducers[clipId]->attach(filt);
+                    }
+                }
+            }
+            if (audioStream > -1) {
+                int newAudioStreamIndex = audioStreamIndex(audioStream);
+                if (newAudioStreamIndex > -1) {
+                    /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
+                        default to first audio stream */
+                    m_usedProducers[clipId]->set("audio_index", audioStream);
+                } else {
+                    newAudioStreamIndex = 0;
+                }
+                if (newAudioStreamIndex > audioStreamsCount() - 1) {
+                    newAudioStreamIndex = 0;
+                }
+                m_usedProducers[clipId]->set("astream", newAudioStreamIndex);
+            }
+            m_effectStack->addService(m_usedProducers[clipId]);
+            std::shared_ptr<Mlt::Producer> prod(m_usedProducers.at(clipId)->cut());
+            if (m_clipType == ClipType::Timeline && m_usedProducers.at(clipId)->parent().property_exists("kdenlive:maxduration")) {
+                int max = m_usedProducers.at(clipId)->parent().get_int("kdenlive:maxduration");
                 prod->set("kdenlive:maxduration", max);
                 prod->set("length", max);
             }
@@ -1030,24 +1014,22 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             if (secondPlaylist) {
                 trackId = -trackId;
             }
-            if (m_videoProducers.count(trackId) == 0) {
-                if (m_clipType == ClipType::Timeline) {
-                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
-                    m_videoProducers[trackId] = prod;
-                } else {
-                    m_videoProducers[trackId] = cloneProducer(true, true);
-                }
-                if (m_masterProducer->property_exists("kdenlive:maxduration")) {
-                    m_videoProducers[trackId]->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
-                }
-
-                // Let audio enabled so that we can use audio visualization filters ?
-                m_videoProducers[trackId]->set("set.test_audio", 1);
-                m_videoProducers[trackId]->set("set.test_image", 0);
-                m_effectStack->addService(m_videoProducers[trackId]);
+            if (m_clipType == ClipType::Timeline) {
+                std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
+                m_usedProducers[clipId] = prod;
+            } else {
+                m_usedProducers[clipId] = cloneProducer(true, true);
             }
+            if (m_masterProducer->property_exists("kdenlive:maxduration")) {
+                m_usedProducers[clipId]->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+            }
+
+            // Let audio enabled so that we can use audio visualization filters ?
+            m_usedProducers[clipId]->set("set.test_audio", 1);
+            m_usedProducers[clipId]->set("set.test_image", 0);
+            m_effectStack->addService(m_usedProducers.at(clipId));
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-            return std::shared_ptr<Mlt::Producer>(m_videoProducers[trackId]->cut(-1, duration > 0 ? duration - 1 : -1));
+            return std::shared_ptr<Mlt::Producer>(m_usedProducers[clipId]->cut(-1, duration > 0 ? duration - 1 : -1));
         }
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
@@ -1062,88 +1044,73 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
 
     // For timewarp clips, we keep one separate producer for each clip.
     std::shared_ptr<Mlt::Producer> warpProducer;
-    if (m_timewarpProducers.count(clipId) > 0) {
-        // remove in all cases, we add it unconditionally anyways
-        m_effectStack->removeService(m_timewarpProducers[clipId]);
-        if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed)) {
-            // the producer we have is good, use it !
-            warpProducer = m_timewarpProducers[clipId];
-            qDebug() << "Reusing timewarp producer!";
-        } else if (!timeremapInfo.timeMapData.isEmpty()) {
-            // the producer we have is good, use it !
-            warpProducer = m_timewarpProducers[clipId];
-            qDebug() << "Reusing time remap producer for cid: " << clipId;
+    if (m_usedProducers.count(clipId) > 0) {
+        m_effectStack->removeService(m_usedProducers.at(clipId));
+        m_usedProducers.erase(clipId);
+    }
+    QString resource(originalProducer()->get("resource"));
+    if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
+        resource = m_service;
+    }
+    if (m_clipType == ClipType::Timeline) {
+        resource = getSequenceResource();
+    }
+    if (timeremapInfo.enableRemap) {
+        Mlt::Chain *chain = new Mlt::Chain(pCore->getProjectProfile(), resource.toUtf8().constData());
+        Mlt::Link link("timeremap");
+        if (!timeremapInfo.timeMapData.isEmpty()) {
+            link.set("time_map", timeremapInfo.timeMapData.toUtf8().constData());
+        }
+        link.set("pitch", timeremapInfo.pitchShift);
+        link.set("image_mode", timeremapInfo.imageMode.toUtf8().constData());
+        chain->attach(link);
+        warpProducer.reset(chain);
+    } else {
+        QString url;
+        QString original_resource;
+        if (m_clipStatus == FileStatus::StatusMissing) {
+            url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QStringLiteral("qtext"));
+            original_resource = originalProducer()->get("resource");
         } else {
-            m_timewarpProducers.erase(clipId);
+            if (resource.endsWith(QLatin1String(":qtext"))) {
+                resource.replace(QLatin1String("qtext"), originalProducer()->get("warp_resource"));
+            }
+            if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
+                // We must use the special "consumer" producer for mlt playlist files
+                resource.prepend(QStringLiteral("consumer:"));
+            }
+            url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+        }
+        warpProducer.reset(new Mlt::Producer(pCore->getProjectProfile(), url.toUtf8().constData()));
+        int original_length = originalProducer()->get_length();
+        int updated_length = qRound(original_length / std::abs(speed));
+        warpProducer->set("length", updated_length);
+        if (!original_resource.isEmpty()) {
+            // Don't lose original resource for placeholder clips
+            // warpProducer->set("warp_resource", original_resource.toUtf8().constData());
+            warpProducer->set("text", i18n("Invalid").toUtf8().constData());
         }
     }
-    if (!warpProducer) {
-        QString resource(originalProducer()->get("resource"));
-        if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
-            resource = m_service;
-        }
-        if (m_clipType == ClipType::Timeline) {
-            resource = getSequenceResource();
-        }
-        if (timeremapInfo.enableRemap) {
-            Mlt::Chain *chain = new Mlt::Chain(pCore->getProjectProfile(), resource.toUtf8().constData());
-            Mlt::Link link("timeremap");
-            if (!timeremapInfo.timeMapData.isEmpty()) {
-                link.set("time_map", timeremapInfo.timeMapData.toUtf8().constData());
-            }
-            link.set("pitch", timeremapInfo.pitchShift);
-            link.set("image_mode", timeremapInfo.imageMode.toUtf8().constData());
-            chain->attach(link);
-            warpProducer.reset(chain);
-        } else {
-            QString url;
-            QString original_resource;
-            if (m_clipStatus == FileStatus::StatusMissing) {
-                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QStringLiteral("qtext"));
-                original_resource = originalProducer()->get("resource");
-
-            } else {
-                if (resource.endsWith(QLatin1String(":qtext"))) {
-                    resource.replace(QLatin1String("qtext"), originalProducer()->get("warp_resource"));
-                }
-                if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
-                    // We must use the special "consumer" producer for mlt playlist files
-                    resource.prepend(QStringLiteral("consumer:"));
-                }
-                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
-            }
-            warpProducer.reset(new Mlt::Producer(pCore->getProjectProfile(), url.toUtf8().constData()));
-            int original_length = originalProducer()->get_length();
-            int updated_length = qRound(original_length / std::abs(speed));
-            warpProducer->set("length", updated_length);
-            if (!original_resource.isEmpty()) {
-                // Don't lose original resource for placeholder clips
-                // warpProducer->set("warp_resource", original_resource.toUtf8().constData());
-                warpProducer->set("text", i18n("Invalid").toUtf8().constData());
-            }
-        }
-        // this is a workaround to cope with Mlt erroneous rounding
-        Mlt::Properties original(m_masterProducer->get_properties());
-        Mlt::Properties cloneProps(warpProducer->get_properties());
-        cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-
-        if (audioStream > -1) {
-            int newAudioStreamIndex = audioStreamIndex(audioStream);
-            if (newAudioStreamIndex > -1) {
-                /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
-                default to first audio stream */
-                warpProducer->set("audio_index", audioStream);
-            } else {
-                newAudioStreamIndex = 0;
-            }
-            if (newAudioStreamIndex > audioStreamsCount() - 1) {
-                newAudioStreamIndex = 0;
-            }
-            warpProducer->set("astream", newAudioStreamIndex);
-        } else {
+    // this is a workaround to cope with Mlt erroneous rounding
+    Mlt::Properties original(m_masterProducer->get_properties());
+    Mlt::Properties cloneProps(warpProducer->get_properties());
+    cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
+    if (audioStream > -1) {
+        int newAudioStreamIndex = audioStreamIndex(audioStream);
+        if (newAudioStreamIndex > -1) {
+            /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
+            default to first audio stream */
             warpProducer->set("audio_index", audioStream);
-            warpProducer->set("astream", audioStreamIndex(audioStream));
+        } else {
+            newAudioStreamIndex = 0;
         }
+        if (newAudioStreamIndex > audioStreamsCount() - 1) {
+            newAudioStreamIndex = 0;
+        }
+        warpProducer->set("astream", newAudioStreamIndex);
+    } else {
+        warpProducer->set("audio_index", audioStream);
+        warpProducer->set("astream", audioStreamIndex(audioStream));
     }
 
     // if the producer has a "time-to-live" (frame duration) we need to scale it according to the speed
@@ -1165,8 +1132,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (state == PlaylistState::VideoOnly) {
         warpProducer->set("set.test_image", 0);
     }
-    m_timewarpProducers[clipId] = warpProducer;
-    m_effectStack->addService(m_timewarpProducers[clipId]);
+    m_usedProducers[clipId] = warpProducer;
+    m_effectStack->addService(m_usedProducers.at(clipId));
     return std::shared_ptr<Mlt::Producer>(warpProducer->cut());
 }
 
@@ -1229,11 +1196,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     // This was a placeholder or missing clip, reset producer
                     std::shared_ptr<Mlt::Producer> prod(
                         getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed, secondPlaylist, remapInfo));
-                    m_timewarpProducers[clipId] = prod;
+                    m_usedProducers[clipId] = prod;
                 } else {
-                    m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
+                    m_usedProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 }
-                m_effectStack->loadService(m_timewarpProducers.at(clipId));
+                m_effectStack->loadService(m_usedProducers.at(clipId));
                 return {master, true};
             }
             if (m_clipType == ClipType::Timeline) {
@@ -1248,14 +1215,14 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 if (secondPlaylist) {
                     tid = -tid;
                 }
-                if (m_audioProducers.find(tid) != m_audioProducers.end()) {
+                if (m_usedProducers.find(clipId) != m_usedProducers.end()) {
                     // Buggy project, all clips in a track should use the same track producer, fix
                     qDebug() << "/// FOUND INCORRECT PRODUCER ON AUDIO TRACK; FIXING";
                     std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
                     return {prod, false};
                 }
-                m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
-                m_effectStack->loadService(m_audioProducers.at(tid));
+                m_usedProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
+                m_effectStack->loadService(m_usedProducers.at(clipId));
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
@@ -1265,15 +1232,15 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     if (secondPlaylist) {
                         tid = -tid;
                     }
-                    if (m_videoProducers.find(tid) != m_videoProducers.end()) {
+                    if (m_usedProducers.find(clipId) != m_usedProducers.end()) {
                         qDebug() << "/// FOUND INCORRECT PRODUCER ON VIDEO TRACK; FIXING";
                         // Buggy project, all clips in a track should use the same track producer, fix
                         std::shared_ptr<Mlt::Producer> prod(
                             getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
                         return {prod, false};
                     }
-                    m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
-                    m_effectStack->loadService(m_videoProducers.at(tid));
+                    m_usedProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
+                    m_effectStack->loadService(m_usedProducers.at(clipId));
                 } else {
                     // Ensure clip out = length - 1 so that effects work correctly
                     if (out != master->parent().get_length() - 1) {
@@ -1880,21 +1847,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         Q_EMIT refreshPropertiesPanel();
     }
     if (!passProperties.isEmpty() && (!reload || refreshOnly)) {
-        for (auto &p : m_audioProducers) {
-            QMapIterator<QString, QString> pr(passProperties);
-            while (pr.hasNext()) {
-                pr.next();
-                p.second->set(pr.key().toUtf8().constData(), pr.value().toUtf8().constData());
-            }
-        }
-        for (auto &p : m_videoProducers) {
-            QMapIterator<QString, QString> pr(passProperties);
-            while (pr.hasNext()) {
-                pr.next();
-                p.second->set(pr.key().toUtf8().constData(), pr.value().toUtf8().constData());
-            }
-        }
-        for (auto &p : m_timewarpProducers) {
+        for (auto &p : m_usedProducers) {
             QMapIterator<QString, QString> pr(passProperties);
             while (pr.hasNext()) {
                 pr.next();
@@ -2194,19 +2147,18 @@ void ProjectClip::setBinEffectsEnabled(bool enabled)
 
 void ProjectClip::registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, bool forceRegister)
 {
-    if (!service->is_cut() || forceRegister) {
+    qDebug() << "::::::::\nREGISTERING CLIP SERVIEC FOR: " << clipId << " IS CUT: " << service->is_cut() << "\n_____________________";
+    /*if (!service->is_cut() || forceRegister) {
         int hasAudio = service->get_int("set.test_audio") == 0;
-        int hasVideo = service->get_int("set.test_image") == 0;
-        if (hasVideo && m_videoProducers.count(clipId) == 0) {
-            // This is an undo producer, register it!
-            m_videoProducers[clipId] = service;
-            m_effectStack->addService(m_videoProducers[clipId]);
-        } else if (hasAudio && m_audioProducers.count(clipId) == 0) {
-            // This is an undo producer, register it!
-            m_audioProducers[clipId] = service;
-            m_effectStack->addService(m_audioProducers[clipId]);
-        }
+        int hasVideo = service->get_int("set.test_image") == 0;*/
+    if (m_usedProducers.count(clipId) == 0) {
+        // This is an undo producer, register it!
+        m_usedProducers[clipId] = service;
+        m_effectStack->addService(m_usedProducers[clipId]);
+    } else {
+        qDebug() << "::::::::\nREGISTERING ALREADY EXISTING SERVIVCE FOR: " << clipId << "\n\nJJJJJJJJJJJJJJJJJJJJ";
     }
+    //}
     registerTimelineClip(std::move(timeline), clipId);
 }
 
@@ -2280,13 +2232,9 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip, const QUuid
     if (m_hasAudio && audioClip) {
         m_AudioUsage--;
     }
-    if (m_videoProducers.count(clipId) > 0) {
-        m_effectStack->removeService(m_videoProducers[clipId]);
-        m_videoProducers.erase(clipId);
-    }
-    if (m_audioProducers.count(clipId) > 0) {
-        m_effectStack->removeService(m_audioProducers[clipId]);
-        m_audioProducers.erase(clipId);
+    if (m_usedProducers.count(clipId) > 0) {
+        m_effectStack->removeService(m_usedProducers.at(clipId));
+        m_usedProducers.erase(clipId);
     }
     // Clip might already have been deregistered
     if (m_registeredClipsByUuid.contains(uuid)) {
@@ -2335,8 +2283,10 @@ QStringList ProjectClip::timelineSequenceExtraResources() const
     if (m_clipType != ClipType::Timeline) {
         return urls;
     }
-    for (auto &warp : m_timewarpProducers) {
-        urls << warp.second->get("warp_resource");
+    for (auto &warp : m_usedProducers) {
+        if (warp.second->get("mlt_service") == QLatin1String("timewarp")) {
+            urls << warp.second->get("warp_resource");
+        }
     }
     urls.removeDuplicates();
     return urls;
@@ -2388,10 +2338,8 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         // Free audio thumb data and timeline producers
         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
         m_disabledProducer.reset();
-        m_audioProducers.clear();
-        m_videoProducers.clear();
+        m_usedProducers.clear();
         removeSequenceWarpResources();
-        m_timewarpProducers.clear();
         return true;
     };
     operation();
@@ -2436,7 +2384,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
 {
     if (m_clipType == ClipType::Timeline) {
-        for (auto &warp : m_timewarpProducers) {
+        for (auto &warp : m_usedProducers) {
             const QString service(warp.second->get("mlt_service"));
             QString path;
             bool isTimeWarp = false;
@@ -2490,20 +2438,12 @@ void ProjectClip::reloadTimeline(std::shared_ptr<EffectStackModel> stack)
     if (pCore->bin()) {
         pCore->bin()->reloadMonitorIfActive(m_binId);
     }
-    for (auto &p : m_audioProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    for (auto &p : m_videoProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    for (auto &p : m_timewarpProducers) {
+    for (auto &p : m_usedProducers) {
         m_effectStack->removeService(p.second);
     }
     // Release audio producers
-    m_audioProducers.clear();
-    m_videoProducers.clear();
+    m_usedProducers.clear();
     removeSequenceWarpResources();
-    m_timewarpProducers.clear();
     Q_EMIT refreshPropertiesPanel();
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
@@ -2814,7 +2754,11 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
     }
     m_streamEffects.insert(streamIndex, effects);
     setProducerProperty(QStringLiteral("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
-    for (auto &p : m_audioProducers) {
+    for (auto &p : m_usedProducers) {
+        if (p.second->get_int("set.test_audio") == 1) {
+            // Not au audio clip
+            continue;
+        }
         int stream = p.first / 100;
         if (stream == streamIndex) {
             // Remove existing effects with same name
@@ -2868,7 +2812,11 @@ void ProjectClip::removeAudioStreamEffect(int streamIndex, QString effectName)
         // No effects for this stream, this is not expected, abort
         return;
     }
-    for (auto &p : m_audioProducers) {
+    for (auto &p : m_usedProducers) {
+        if (p.second->get_int("set.test_audio") == 1) {
+            // Not au audio clip
+            continue;
+        }
         int stream = p.first / 100;
         if (stream == streamIndex) {
             int max = p.second->filter_count();

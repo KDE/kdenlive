@@ -66,6 +66,7 @@ void EffectStackModel::addService(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
     m_childServices.emplace_back(std::move(service));
+    qDebug() << "WWWWWWWWWWWWWWW\n\nTOTAL CHILD SERVICES: " << m_childServices.size() << "\n\nWWWWWWWWWWWWWWWWWWW";
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plantClone(m_childServices.back());
     }
@@ -105,8 +106,8 @@ void EffectStackModel::removeService(const std::shared_ptr<Mlt::Service> &servic
     QWriteLocker locker(&m_lock);
     std::vector<int> to_delete;
     for (int i = int(m_childServices.size()) - 1; i >= 0; --i) {
-        auto ptr = m_childServices[uint(i)].lock();
-        if (ptr && service->get_int("_childid") == ptr->get_int("_childid")) {
+        auto ptr = m_childServices.at(uint(i)).lock();
+        if (ptr && service == ptr) {
             for (int j = 0; j < rootItem->childCount(); ++j) {
                 std::static_pointer_cast<EffectItemModel>(rootItem->child(j))->unplantClone(ptr);
             }
@@ -1351,6 +1352,8 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                     }
                 }
             }
+            qDebug() << ":::::: LOADING EFFECT " << effectItem->filter().get("mlt_service") << ", INTO CHILDREN: " << m_childServices.size()
+                     << "\n\nKKKKKKKKKKKKKKKKKKKKKKKK";
             for (const auto &service : m_childServices) {
                 effectItem->plantClone(service, target);
             }
