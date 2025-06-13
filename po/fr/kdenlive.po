@@ -19733,8 +19733,7 @@ msgstr ""
 "les options équivalentes de l'interface utilisateur : <icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:168 src/dialogs/renderwidget.cpp:170
-#, fuzzy, kde-format
-#| msgid "Show Log"
+#, kde-format
 msgid "Show Log"
 msgstr "Afficher le journal"
 

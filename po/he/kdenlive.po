@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-10 05:00+0300\n"
+"PO-Revision-Date: 2025-06-11 22:56+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19077,8 +19077,7 @@ msgstr ""
 "<icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:168 src/dialogs/renderwidget.cpp:170
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Log"
 msgstr "הצגת יומן"
 
@@ -19391,10 +19390,9 @@ msgstr "התיצוג של %1 הסתיים תוך %2"
 
 # , kde-format
 #: src/dialogs/renderwidget.cpp:1552
-#, fuzzy, kde-format
-#| msgid "<strong>Rendering of %1 crashed</strong><br />"
+#, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
-msgstr "<strong>התיצוג של %1 קרס</strong><br />"
+msgstr "<strong>התיצוג קרס</strong><br />"
 
 # , kde-format
 #: src/dialogs/renderwidget.cpp:1554
@@ -21214,17 +21212,15 @@ msgstr "האצת חומרה כלי וידאו"
 
 #: src/dialogs/wizard.cpp:202 src/dialogs/wizard.cpp:222
 #: src/dialogs/wizard.cpp:255
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable hardware decoding"
-msgstr "הפעלת עריכה ידנית"
+msgstr "הפעלת פענוח חומרה"
 
 #: src/dialogs/wizard.cpp:205 src/dialogs/wizard.cpp:224
 #: src/dialogs/wizard.cpp:257
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable hardware decoding: %1"
-msgstr "הפעלת עריכה ידנית"
+msgstr "הפעלת פענוח חומרה: %1"
 
 #: src/dialogs/wizard.cpp:229
 #, kde-format
@@ -31696,10 +31692,9 @@ msgstr "גודל FFT אמיתי: "
 
 #. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
 #: src/ui/backupdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search backup"
-msgstr "חיפוש סמנים"
+msgstr "חיפוש גיבוי"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

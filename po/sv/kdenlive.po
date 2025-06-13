@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-06 11:59+0200\n"
+"PO-Revision-Date: 2025-06-12 17:25+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -19233,10 +19233,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Återgivning av %1 klar på %2"
 
 #: src/dialogs/renderwidget.cpp:1552
-#, fuzzy, kde-format
-#| msgid "<strong>Rendering of %1 crashed</strong><br />"
+#, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
-msgstr "<strong>Återgivning av %1 kraschade</strong><br />"
+msgstr "<strong>Återgivning kraschade</strong><br />"
 
 #: src/dialogs/renderwidget.cpp:1554
 #, kde-format
@@ -21070,17 +21069,15 @@ msgstr "Hårdvaruacceleration med videoverktygslåda"
 
 #: src/dialogs/wizard.cpp:202 src/dialogs/wizard.cpp:222
 #: src/dialogs/wizard.cpp:255
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable hardware decoding"
-msgstr "Aktivera manuell redigering"
+msgstr "Aktivera maskinvaruavkodning"
 
 #: src/dialogs/wizard.cpp:205 src/dialogs/wizard.cpp:224
 #: src/dialogs/wizard.cpp:257
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable hardware decoding: %1"
-msgstr "Aktivera manuell redigering"
+msgstr "Aktivera maskinvaruavkodning: %1"
 
 #: src/dialogs/wizard.cpp:229
 #, kde-format
@@ -35236,10 +35233,9 @@ msgstr "Spela upp efter återgivning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_log_files)
 #: src/ui/renderwidget_ui.ui:876
-#, fuzzy, kde-format
-#| msgid "Reset all profiles"
+#, kde-format
 msgid "Keep log files"
-msgstr "Återställ alla profiler"
+msgstr "Behåll loggfiler"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:898
