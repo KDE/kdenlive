@@ -19684,7 +19684,8 @@ msgstr ""
 "Optionen in der Benutzeroberfläche überschrieben werden: <icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:168 src/dialogs/renderwidget.cpp:170
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show Log"
 msgid "Show Log"
 msgstr "Protokoll anzeigen"
 
