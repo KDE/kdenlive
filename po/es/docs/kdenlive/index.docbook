@@ -22,6 +22,20 @@
     </author>
 <othercredit role="translator"
 ><firstname
+>Javier</firstname
+><surname
+>Viñal</surname
+> <affiliation
+><address
+><email
+>fjvinal@gmail.com</email
+></address
+></affiliation
+><contrib
+>Traductor</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
 >Víctor</firstname
 ><surname
 >Rodrigo</surname
@@ -33,6 +47,20 @@
 ></affiliation
 ><contrib
 >Traductor</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Gabriel</firstname
+><surname
+>Gazzán</surname
+> <affiliation
+><address
+><email
+>gabcorreo@gmail.com</email
+></address
+></affiliation
+><contrib
+>Revisión</contrib
 ></othercredit
 > 
     </authorgroup>
@@ -670,9 +698,11 @@
     <para
 >Traducido por Javier Viñal <email
 >fjvinal@gmail.com</email
+> y Víctor Rodrigo <email
+>vrcordoba@gmail.com</email
 >, revisado por Gabriel Gazzán <email
 >gabcorreo@gmail.com</email
-></para
+>.</para
 > &underFDL; </chapter>
 &documentation.index;
 </book>
