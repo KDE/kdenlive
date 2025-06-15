@@ -9,6 +9,7 @@
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "mixerseparator.h"
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -21,22 +22,9 @@
 #include <QModelIndex>
 #include <QScreen>
 #include <QScrollArea>
-#include <QStyle>
-#include <QStyleOptionSlider>
 #include <QTimer>
 
-MySlider::MySlider(QWidget *parent)
-    : QSlider(parent)
-{
-}
-
-int MySlider::getHandleHeight()
-{
-    // Get slider handle size
-    QStyleOptionSlider opt;
-    initStyleOption(&opt);
-    return style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderHandle).height();
-}
+constexpr int kMarginAroundMixer = 6;
 
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
@@ -52,6 +40,7 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsBox = new QScrollArea(this);
     m_channelsBox->setContentsMargins(0, 0, 0, 0);
     m_box = new QHBoxLayout;
+    m_box->setContentsMargins(0, 0, 0, 0);
     m_box->setSpacing(0);
     auto *channelsBoxContainer = new QWidget(this);
     m_channelsBox->setWidget(channelsBoxContainer);
@@ -61,19 +50,13 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsLayout = new QHBoxLayout;
     m_channelsLayout->setContentsMargins(0, 0, 0, 0);
     m_masterBox->setContentsMargins(0, 0, 0, 0);
-    // m_channelsLayout->setSpacing(4);
-    m_channelsLayout->setSpacing(1);
+    m_channelsLayout->setSpacing(0);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
-    QFrame *line = new QFrame(this);
-    line->setFrameShape(QFrame::VLine);
-    line->setFrameShadow(QFrame::Sunken);
-    line->setFixedWidth(3);
-    m_box->addWidget(line);
+    m_masterSeparator = new MixerSeparator(this);
+    m_box->addWidget(m_masterSeparator);
     m_box->addLayout(m_masterBox);
     setLayout(m_box);
-    MySlider slider;
-    m_sliderHandle = slider.getHandleHeight();
 }
 
 void MixerManager::checkAudioLevelVersion()
@@ -118,7 +101,8 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
         // Track already registered
         return;
     }
-    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, m_sliderHandle, this));
+    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
+    mixer->setContentsMargins(kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer);
     connect(mixer.get(), &MixerWidget::muteTrack, this,
             [&](int id, bool mute) { m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3")); });
     if (m_visibleMixerManager) {
@@ -154,8 +138,15 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
             }
         }
     });
+
+    int mixerCount = m_mixers.size();
+    if (mixerCount > 0) {
+        QWidget *separator = new MixerSeparator(this);
+        m_channelsLayout->insertWidget(0, separator);
+    }
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
+
     m_recommendedWidth = (mixer->minimumWidth() + 1) * (qMin(2, int(m_mixers.size()))) + 3;
     if (!KdenliveSettings::mixerCollapse()) {
         m_channelsBox->setMinimumWidth(m_recommendedWidth);
@@ -165,6 +156,31 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
 void MixerManager::deregisterTrack(int tid)
 {
     Q_ASSERT(m_mixers.count(tid) > 0);
+
+    // Find and remove the mixer widget and its associated separator
+    for (int i = 0; i < m_channelsLayout->count(); ++i) {
+        QLayoutItem *item = m_channelsLayout->itemAt(i);
+        if (QWidget *widget = item->widget()) {
+            if (widget == m_mixers[tid].get()) {
+                // Remove this widget
+                m_channelsLayout->removeWidget(widget);
+                widget->deleteLater();
+
+                // Also remove the separator if it exists (should be at position i-1 or i+1)
+                if (i > 0 && qobject_cast<QFrame *>(m_channelsLayout->itemAt(i - 1)->widget())) {
+                    QWidget *separator = m_channelsLayout->itemAt(i - 1)->widget();
+                    m_channelsLayout->removeWidget(separator);
+                    separator->deleteLater();
+                } else if (i < m_channelsLayout->count() - 1 && qobject_cast<QFrame *>(m_channelsLayout->itemAt(i)->widget())) {
+                    QWidget *separator = m_channelsLayout->itemAt(i)->widget();
+                    m_channelsLayout->removeWidget(separator);
+                    separator->deleteLater();
+                }
+                break;
+            }
+        }
+    }
+
     m_mixers.erase(tid);
 }
 
@@ -217,7 +233,8 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         // delete previous master mixer
         m_masterBox->removeWidget(m_masterMixer.get());
     }
-    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), m_sliderHandle, this));
+    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
+    m_masterMixer->setContentsMargins(kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer);
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) { m_model->tractor()->set("hide", mute ? 3 : 1); });
     if (m_visibleMixerManager) {
         m_masterMixer->connectMixer(true);
@@ -252,19 +269,19 @@ void MixerManager::collapseMixers()
 {
     connectMixer(m_visibleMixerManager);
     if (KdenliveSettings::mixerCollapse()) {
-        m_expandedWidth = width();
-        m_channelsBox->setFixedWidth(0);
-        // m_line->setMaximumWidth(0);
-        if (!pCore->window()->isMixedTabbed()) {
-            setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+        m_channelsBox->setVisible(false);
+        if (m_masterSeparator) m_masterSeparator->hide();
+        if (m_masterMixer) {
+            m_masterBox->setAlignment(Qt::AlignHCenter);
         }
     } else {
-        // m_line->setMaximumWidth(QWIDGETSIZE_MAX);
-        m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
-        m_channelsBox->setMinimumWidth(m_recommendedWidth);
-        setFixedWidth(m_expandedWidth);
-        QMetaObject::invokeMethod(this, "resetSizePolicy", Qt::QueuedConnection);
+        m_channelsBox->setVisible(true);
+        if (m_masterSeparator) m_masterSeparator->show();
+        if (m_masterMixer) {
+            m_masterBox->setAlignment(Qt::Alignment()); // Remove alignment
+        }
     }
+    QMetaObject::invokeMethod(this, "resetSizePolicy", Qt::QueuedConnection);
 }
 
 void MixerManager::resetSizePolicy()

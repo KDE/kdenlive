@@ -503,8 +503,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(m_timePos);
     m_toolbar->addAction(m_configMenuAction);
     m_toolbar->addSeparator();
-    QMargins mrg = m_toolbar->contentsMargins();
-    m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - mrg.top() - mrg.bottom(), this);
+    m_audioMeterWidget = new MonitorAudioLevel(this);
     m_toolbar->addWidget(m_audioMeterWidget);
     if (!m_audioMeterWidget->isValid) {
         KdenliveSettings::setMonitoraudio(0x01);
