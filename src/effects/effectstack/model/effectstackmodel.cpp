@@ -333,7 +333,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed"), QStringLiteral("kdenlive:builtin"),
                               QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("kdenlive:kfrhidden")};
         for (const QString &param : passProps) {
-            int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
+            int paramVal = sourceEffect->getFilter().get_int(param.toUtf8().constData());
             if (paramVal > 0) {
                 Xml::setXmlProperty(sub, param, QString::number(paramVal));
             }
@@ -358,7 +358,7 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
     QDomElement sub = document.createElement(QStringLiteral("effect"));
     sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
-    int filterIn = sourceEffect->filter().get_int("in");
+    int filterIn = sourceEffect->getFilter().get_int("in");
     int filterOut = sourceEffect->filter().get_int("out");
     if (filterOut > filterIn) {
         sub.setAttribute(QStringLiteral("in"), filterIn);
@@ -500,7 +500,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
         if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
             m_fadeIns.insert(effect->getId());
-            int duration = effect->filter().get_length() - 1;
+            int duration = effect->getFilter().get_length() - 1;
             effect->filter().set("in", currentIn);
             effect->filter().set("out", currentIn + duration);
             if (effectId.startsWith(QLatin1String("fade_"))) {
@@ -525,7 +525,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             }
         } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
             m_fadeOuts.insert(effect->getId());
-            int duration = effect->filter().get_length() - 1;
+            int duration = effect->getFilter().get_length() - 1;
             int filterOut = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
             effect->filter().set("in", filterOut - duration);
             effect->filter().set("out", filterOut);
@@ -647,14 +647,14 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
     QVector<int> roles = {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole};
     if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
         m_fadeIns.insert(effect->getId());
-        int duration = effect->filter().get_length() - 1;
+        int duration = effect->getFilter().get_length() - 1;
         int in = pCore->getItemIn(m_ownerId);
         effect->filter().set("in", in);
         effect->filter().set("out", in + duration);
         roles << TimelineModel::FadeInRole;
     } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
         m_fadeOuts.insert(effect->getId());
-        int duration = effect->filter().get_length() - 1;
+        int duration = effect->getFilter().get_length() - 1;
         int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
         effect->filter().set("in", out - duration);
         effect->filter().set("out", out);
@@ -760,7 +760,7 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
         int inFades = 0;
         int outFades = 0;
         if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
-            int duration = effect->filter().get_length() - 1;
+            int duration = effect->getFilter().get_length() - 1;
             int in = pCore->getItemIn(m_ownerId);
             effect->filter().set("in", in);
             effect->filter().set("out", in + duration);
@@ -830,10 +830,10 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(leaf);
         if (fadeInDuration > 0 && m_fadeIns.count(leaf->getId()) > 0) {
             // Adjust fade in
-            int oldEffectIn = qMax(0, effect->filter().get_in());
-            int oldEffectOut = effect->filter().get_out();
+            int oldEffectIn = qMax(0, effect->getFilter().get_in());
+            int oldEffectOut = effect->getFilter().get_out();
             qDebug() << "--previous effect: " << oldEffectIn << "-" << oldEffectOut;
-            int effectDuration = qMin(effect->filter().get_length() - 1, duration);
+            int effectDuration = qMin(effect->getFilter().get_length() - 1, duration);
             if (!adjustFromEnd && (oldIn != newIn || duration != oldDuration)) {
                 // Clip start was resized, adjust effect in / out
                 Fun operation = [effect, newIn, effectDuration, logUndo]() {
@@ -927,7 +927,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 qDebug() << "// NULL Keyframes---------";
             }
             if (m_ownerId.type == KdenliveObjectType::TimelineTrack && !hasZone) {
-                int oldEffectOut = effect->filter().get_out();
+                int oldEffectOut = effect->getFilter().get_out();
                 Fun operation = [effect, out, logUndo]() {
                     effect->setParameter(QStringLiteral("out"), out, logUndo);
                     return true;
@@ -945,12 +945,12 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     PUSH_LAMBDA(reverse, undo);
                 }
             } else if (m_ownerId.type == KdenliveObjectType::TimelineClip && effect->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
-                int oldEffectIn = qMax(0, effect->filter().get_in());
-                int oldEffectOut = effect->filter().get_out();
+                int oldEffectIn = qMax(0, effect->getFilter().get_in());
+                int oldEffectOut = effect->getFilter().get_out();
                 int newIn = pCore->getItemIn(m_ownerId);
                 int newOut = newIn + pCore->getItemDuration(m_ownerId) - 1;
                 Fun operation = [effect, newIn, newOut]() {
-                    effect->filter().set_in_and_out(newIn, newOut);
+                    effect->getFilter().set_in_and_out(newIn, newOut);
                     qDebug() << "--new effect: " << newIn << "-" << newOut;
                     return true;
                 };
@@ -959,7 +959,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     return false;
                 }
                 Fun reverse = [effect, oldEffectIn, oldEffectOut]() {
-                    effect->filter().set_in_and_out(oldEffectIn, oldEffectOut);
+                    effect->getFilter().set_in_and_out(oldEffectIn, oldEffectOut);
                     return true;
                 };
                 PUSH_LAMBDA(operation, redo);
@@ -994,7 +994,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             if (m_fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 if (oldDuration == -1) {
-                    oldDuration = effect->filter().get_length();
+                    oldDuration = effect->getFilter().get_length();
                 }
                 effect->filter().set("in", in);
                 duration = qMin(pCore->getItemDuration(m_ownerId), duration);
@@ -1058,7 +1058,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             if (m_fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 if (oldDuration == -1) {
-                    oldDuration = effect->filter().get_length();
+                    oldDuration = effect->getFilter().get_length();
                 }
                 effect->filter().set("out", out);
                 duration = qMin(itemDuration, duration);
@@ -1191,7 +1191,7 @@ int EffectStackModel::getFadePosition(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                return effect->filter().get_length() - 1;
+                return effect->getFilter().get_length() - 1;
             }
         }
     } else {
@@ -1201,7 +1201,7 @@ int EffectStackModel::getFadePosition(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                return effect->filter().get_length() - 1;
+                return effect->getFilter().get_length() - 1;
             }
         }
     }
@@ -1303,7 +1303,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         if (effectItem->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
             int in = pCore->getItemIn(m_ownerId);
             int out = in + pCore->getItemDuration(m_ownerId) - 1;
-            effectItem->filter().set_in_and_out(in, out);
+            effectItem->getFilter().set_in_and_out(in, out);
         }
         if (!m_loadingExisting) {
             effectItem->plant(m_masterService);
@@ -1468,6 +1468,77 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     int imported = 0;
     int builtin = 0;
     if (auto ptr = service.lock()) {
+        // Import links if this is a chain
+        std::shared_ptr<Mlt::Chain> chain = nullptr;
+        if (ptr->type() == mlt_service_chain_type) {
+            Mlt::Producer prod(*ptr.get());
+            chain.reset(new Mlt::Chain(prod));
+        } else if (ptr->type() == mlt_service_producer_type) {
+            Mlt::Producer prod = static_cast<Mlt::Producer *>(ptr.get())->parent();
+            if (prod.type() == mlt_service_chain_type) {
+                chain.reset(new Mlt::Chain(prod));
+            }
+        }
+        if (chain) {
+            int maxLink = chain->link_count();
+            for (int i = 0; i < maxLink; i++) {
+                std::unique_ptr<Mlt::Link> filter(chain->link(i));
+                if (!filter->property_exists("kdenlive_id")) {
+                    // don't consider internal MLT stuff
+                    continue;
+                }
+                effectEnabled = filter->get_int("disable") == 0;
+                bool forcedInOut = filter->get_int("kdenlive:force_in_out") == 1 && filter->get_int("out") > 0;
+                if (disabledStack && filter->get_int("kdenlive:bin-disabled") == 0) {
+                    disabledStack = false;
+                }
+                const QString effectId = qstrdup(filter->get("kdenlive_id"));
+                if (m_ownerId.type == KdenliveObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasFilter(effectId)) {
+                    pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
+                    continue;
+                }
+                // The MLT filter already exists, use it directly to create the effect
+                int filterIn = filter->get_in();
+                int filterOut = filter->get_out();
+                std::shared_ptr<EffectItemModel> effect;
+                if (alreadyExist) {
+                    // effect is already plugged in the service
+                    effect = EffectItemModel::construct(std::move(filter), shared_from_this(), originalDecimalPoint);
+                } else {
+                    // duplicate effect
+                    std::unique_ptr<Mlt::Properties> asset = EffectsRepository::get()->getEffect(effectId);
+                    asset->inherit(*(filter));
+                    effect = EffectItemModel::construct(std::move(asset), shared_from_this(), originalDecimalPoint);
+                }
+                if (state == PlaylistState::VideoOnly) {
+                    if (effect->isAudio()) {
+                        // Don't import effect
+                        continue;
+                    }
+                } else if (state == PlaylistState::AudioOnly) {
+                    if (!effect->isAudio()) {
+                        // Don't import effect
+                        continue;
+                    }
+                }
+                imported++;
+                connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+                connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+                connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
+                Fun redo = addItem_lambda(effect, rootItem->getId());
+                int clipIn = ptr->get_int("in");
+                int clipOut = ptr->get_int("out");
+                if (clipOut <= clipIn) {
+                    clipOut = ptr->get_int("length") - 1;
+                }
+                effect->prepareKeyframes(clipIn, clipOut);
+                if (redo()) {
+                    if (forcedInOut) {
+                        effect->getFilter().set_in_and_out(filterIn, filterOut);
+                    }
+                }
+            }
+        }
         int max = ptr->filter_count();
         for (int i = 0; i < max; i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
@@ -1519,7 +1590,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 effect = EffectItemModel::construct(std::move(filter), shared_from_this(), originalDecimalPoint);
             } else {
                 // duplicate effect
-                std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(effectId);
+                std::unique_ptr<Mlt::Properties> asset = EffectsRepository::get()->getEffect(effectId);
                 asset->inherit(*(filter));
                 effect = EffectItemModel::construct(std::move(asset), shared_from_this(), originalDecimalPoint);
             }
@@ -1547,12 +1618,12 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             effect->prepareKeyframes(clipIn, clipOut);
             if (redo()) {
                 if (forcedInOut) {
-                    effect->filter().set_in_and_out(filterIn, filterOut);
+                    effect->getFilter().set_in_and_out(filterIn, filterOut);
                 } else if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
                     m_fadeIns.insert(effect->getId());
                     if (effect->filter().get_int("in") != clipIn) {
                         // Broken fade, fix
-                        int filterLength = effect->filter().get_length() - 1;
+                        int filterLength = effect->getFilter().get_length() - 1;
                         effect->filter().set("in", clipIn);
                         effect->filter().set("out", clipIn + filterLength);
                     }
@@ -1560,7 +1631,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                     m_fadeOuts.insert(effect->getId());
                     if (effect->filter().get_int("out") != clipOut) {
                         // Broken fade, fix
-                        int filterLength = effect->filter().get_length() - 1;
+                        int filterLength = effect->getFilter().get_length() - 1;
                         effect->filter().set("in", clipOut - filterLength);
                         effect->filter().set("out", clipOut);
                     }

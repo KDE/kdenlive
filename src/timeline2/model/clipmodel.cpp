@@ -80,7 +80,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.first = videoAudio.first && binClip->hasVideo();
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
-    qDebug() << "// GET TIMELINE PROD FOR STREAM: " << audioStream;
+    qDebug() << "// GET TIMELINE PROD FOR STREAM: " << audioStream << ", CID: " << id;
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, audioStream, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     if (!qFuzzyCompare(speed, 1.)) {
@@ -854,6 +854,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
+    // TODO Link: links seem to still be available when trying to refresh producer
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
@@ -1243,7 +1244,8 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
 
     if (finalMove && m_lastTrackId != m_currentTrackId) {
         if (tid != -1) {
-            refreshProducerFromBin(m_currentTrackId);
+            // TODO Link: check if this doesn't break anything
+            // refreshProducerFromBin(m_currentTrackId);
         }
         m_lastTrackId = m_currentTrackId;
     }

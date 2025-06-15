@@ -917,9 +917,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (qFuzzyCompare(speed, 1.0) && !timeremapInfo.enableRemap) {
         // we are requesting a normal speed producer
         bool byPassTrackProducer = false;
-        if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
+        /*if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
             byPassTrackProducer = true;
-        }
+        }*/
         int maxDuration = 0;
         if (m_clipType == ClipType::Timeline && m_masterProducer->parent().property_exists("kdenlive:maxduration")) {
             int duration = m_masterProducer->parent().get_int("kdenlive:maxduration");
@@ -947,6 +947,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             return prod;
         }
         if (m_usedProducers.count(clipId) > 0) {
+            qDebug() << ":::: REQUESTING PRODUCER FOR CLIP: " << clipId << " ALREADY EXISTS!!!";
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
             return std::shared_ptr<Mlt::Producer>(m_usedProducers[clipId]->cut(-1, duration > 0 ? duration - 1 : -1));
             m_effectStack->removeService(m_usedProducers[clipId]);
@@ -965,22 +966,22 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             if (secondPlaylist) {
                 trackId = -trackId;
             }
+            std::shared_ptr<Mlt::Producer> master;
             if (m_clipType == ClipType::Timeline) {
-                std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
-                m_usedProducers[clipId] = prod;
+                master.reset(m_masterProducer->cut(0, maxDuration));
             } else {
-                m_usedProducers[clipId] = cloneProducer(true, true);
+                master = cloneProducer(true, true);
             }
-            m_usedProducers[clipId]->set("set.test_audio", 0);
-            m_usedProducers[clipId]->set("set.test_image", 1);
+            master->set("set.test_audio", 0);
+            master->set("set.test_image", 1);
             if (m_streamEffects.contains(audioStream)) {
                 QStringList effects = m_streamEffects.value(audioStream);
                 for (const QString &effect : std::as_const(effects)) {
-                    Mlt::Filter filt(m_usedProducers[clipId]->get_profile(), effect.toUtf8().constData());
+                    Mlt::Filter filt(master->get_profile(), effect.toUtf8().constData());
                     if (filt.is_valid()) {
                         // Add stream effect markup
                         filt.set("kdenlive:stream", 1);
-                        m_usedProducers[clipId]->attach(filt);
+                        master->attach(filt);
                     }
                 }
             }
@@ -989,19 +990,20 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 if (newAudioStreamIndex > -1) {
                     /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
                         default to first audio stream */
-                    m_usedProducers[clipId]->set("audio_index", audioStream);
+                    master->set("audio_index", audioStream);
                 } else {
                     newAudioStreamIndex = 0;
                 }
                 if (newAudioStreamIndex > audioStreamsCount() - 1) {
                     newAudioStreamIndex = 0;
                 }
-                m_usedProducers[clipId]->set("astream", newAudioStreamIndex);
+                master->set("astream", newAudioStreamIndex);
             }
-            m_effectStack->addService(m_usedProducers[clipId]);
-            std::shared_ptr<Mlt::Producer> prod(m_usedProducers.at(clipId)->cut());
-            if (m_clipType == ClipType::Timeline && m_usedProducers.at(clipId)->parent().property_exists("kdenlive:maxduration")) {
-                int max = m_usedProducers.at(clipId)->parent().get_int("kdenlive:maxduration");
+            m_effectStack->addService(master);
+            m_usedProducers[clipId] = master;
+            std::shared_ptr<Mlt::Producer> prod(master->cut());
+            if (m_clipType == ClipType::Timeline && master->parent().property_exists("kdenlive:maxduration")) {
+                int max = master->parent().get_int("kdenlive:maxduration");
                 prod->set("kdenlive:maxduration", max);
                 prod->set("length", max);
             }
@@ -1011,25 +1013,28 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             // we return the video producer
             // We need to get an video producer, if none exists
             // second playlist producers use negative trackId
+            qDebug() << ":::: REQUESTING NEW VIDEO PRODUICER FOR: " << clipId;
             if (secondPlaylist) {
                 trackId = -trackId;
             }
+            std::shared_ptr<Mlt::Producer> prod;
             if (m_clipType == ClipType::Timeline) {
-                std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
-                m_usedProducers[clipId] = prod;
+                prod.reset(m_masterProducer->cut(0, maxDuration));
+
             } else {
-                m_usedProducers[clipId] = cloneProducer(true, true);
+                prod = cloneProducer(true, true);
             }
             if (m_masterProducer->property_exists("kdenlive:maxduration")) {
-                m_usedProducers[clipId]->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+                prod->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
             }
-
             // Let audio enabled so that we can use audio visualization filters ?
-            m_usedProducers[clipId]->set("set.test_audio", 1);
-            m_usedProducers[clipId]->set("set.test_image", 0);
-            m_effectStack->addService(m_usedProducers.at(clipId));
+            prod->set("set.test_audio", 1);
+            prod->set("set.test_image", 0);
+            m_effectStack->addService(prod);
+            m_usedProducers[clipId] = prod;
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-            return std::shared_ptr<Mlt::Producer>(m_usedProducers[clipId]->cut(-1, duration > 0 ? duration - 1 : -1));
+            // return std::shared_ptr<Mlt::Producer>(m_usedProducers[clipId]->cut(-1, duration > 0 ? duration - 1 : -1));
+            return std::shared_ptr<Mlt::Producer>(prod->cut(-1, duration > 0 ? duration - 1 : -1));
         }
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
@@ -1352,6 +1357,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     Q_UNUSED(timelineProducer);
     QMutexLocker lk(&m_producerMutex);
     QReadLocker lock(&pCore->xmlMutex);
+
     Mlt::Consumer c(pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     m_masterProducer->lock();
@@ -1361,10 +1367,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     }
     c.connect(s);
     c.set("time_format", "frames");
-    c.set("no_meta", 1);
+    // c.set("no_meta", 1);
     c.set("no_root", 1);
     c.set("no_profile", 1);
-    c.set("root", "/");
+    c.set("root", "");
     c.set("store", "kdenlive");
     c.run();
     if (ignore) {
@@ -1425,6 +1431,26 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
             }
             delete filter;
             filter = prod->filter(ct);
+        }
+        if (prod->type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(*prod.get());
+            ct = 0;
+            Mlt::Link *filter = fromChain.link(ct);
+            while (filter) {
+                qDebug() << "// EFFECT " << ct << " : " << filter->get("mlt_service");
+                QString ix = QString::fromLatin1(filter->get("kdenlive_id"));
+                if (!ix.isEmpty()) {
+                    qDebug() << "/ + + DELETING";
+                    if (fromChain.detach(*filter) == 0) {
+                    } else {
+                        ct++;
+                    }
+                } else {
+                    ct++;
+                }
+                delete filter;
+                filter = fromChain.link(ct);
+            }
         }
     }
     prod->set("id", nullptr);

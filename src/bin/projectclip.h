@@ -216,11 +216,6 @@ public:
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList<int> timelineInstances(QUuid activeUuid = QUuid()) const;
     QMap<QUuid, QList<int>> getAllTimelineInstances() const;
-    /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
-        Each clip must have a different master producer (see comment of the class)
-    */
-    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0,
-                                                       bool secondPlaylist = false, const TimeWarpInfo timeremapInfo = {});
 
     /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
@@ -369,7 +364,11 @@ public Q_SLOTS:
     void setInvalid();
 
     void setClipStatus(FileStatus::ClipStatus status) override;
-
+    /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
+     Each clip must have a different master producer (see comment of the class)                                         *
+     */
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0,
+                                                       bool secondPlaylist = false, const TimeWarpInfo timeremapInfo = {});
     /**
      * Imports effect from a given producer
      * @param producer Producer containing the effects
