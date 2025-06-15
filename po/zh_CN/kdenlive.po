@@ -19038,10 +19038,9 @@ msgstr ""
 "以下参数将不会生效，因为它们被对应的用户界面选项覆盖：<icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:168 src/dialogs/renderwidget.cpp:170
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Log"
-msgstr "显示日志"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:197 src/dialogs/renderwidget.cpp:1760
 #, kde-format
@@ -19347,10 +19346,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "导出 %1 已完成，耗时 %2"
 
 #: src/dialogs/renderwidget.cpp:1552
-#, fuzzy, kde-format
-#| msgid "<strong>Rendering of %1 crashed</strong><br />"
+#, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
-msgstr "<strong>导出 %1 已崩溃</strong><br />"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:1554
 #, kde-format
@@ -21158,17 +21156,15 @@ msgstr "Video Toolbox 硬件加速"
 
 #: src/dialogs/wizard.cpp:202 src/dialogs/wizard.cpp:222
 #: src/dialogs/wizard.cpp:255
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable hardware decoding"
-msgstr "启用手动编辑"
+msgstr ""
 
 #: src/dialogs/wizard.cpp:205 src/dialogs/wizard.cpp:224
 #: src/dialogs/wizard.cpp:257
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable hardware decoding: %1"
-msgstr "启用手动编辑"
+msgstr ""
 
 #: src/dialogs/wizard.cpp:229
 #, kde-format
@@ -35102,10 +35098,9 @@ msgstr "导出完成后播放"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_log_files)
 #: src/ui/renderwidget_ui.ui:876
-#, fuzzy, kde-format
-#| msgid "Reset all profiles"
+#, kde-format
 msgid "Keep log files"
-msgstr "重置所有方案"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:898
