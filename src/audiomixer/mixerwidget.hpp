@@ -8,6 +8,7 @@
 #include "definitions.h"
 #include "mlt++/MltService.h"
 
+#include <QAbstractSpinBox>
 #include <QMutex>
 #include <QWidget>
 #include <memory>
@@ -15,6 +16,7 @@
 
 class KDualAction;
 class AudioLevelWidget;
+class AudioSlider;
 class QSlider;
 class QDial;
 class QSpinBox;
@@ -34,7 +36,7 @@ class MixerWidget : public QWidget
     Q_OBJECT
 
 public:
-    MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const QString &trackName, int sliderHandle, MixerManager *parent = nullptr);
+    MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const QString &trackName, MixerManager *parent = nullptr);
     ~MixerWidget() override;
     void buildUI(Mlt::Tractor *service, const QString &trackName);
     /** @brief discard stored audio values and reset vu-meter to 0 if requested */
@@ -59,9 +61,7 @@ public:
     void updateMonitorState();
     /** @brief Enable/disable audio monitoring on this mixer */
     void monitorAudio(bool monitor);
-
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
+    void setBackgroundColor(const QColor &color);
 
 public Q_SLOTS:
     void updateAudioLevel(int pos);
@@ -80,16 +80,18 @@ protected:
     int m_channels;
     KDualAction *m_muteAction;
     QSpinBox *m_balanceSpin;
-    QSlider *m_balanceSlider;
+    AudioSlider *m_balanceSlider;
     QDoubleSpinBox *m_volumeSpin;
     int m_maxLevels;
 
 private:
     std::shared_ptr<AudioLevelWidget> m_audioMeterWidget;
-    QSlider *m_volumeSlider;
+    AudioSlider *m_volumeSlider;
     QToolButton *m_solo;
     QToolButton *m_collapse;
     QToolButton *m_monitor;
+    QToolButton *m_muteButton;
+    QToolButton *m_showEffects;
     KSqueezedTextLabel *m_trackLabel;
     QMutex m_storeMutex;
     double m_lastVolume;
@@ -97,9 +99,30 @@ private:
     Mlt::Event *m_listener;
     bool m_recording;
     const QString m_trackTag;
-    int m_sliderHandleSize;
+
+    // Add label pointers for enabled/disabled style control
+    QLabel *m_dbLabel;
+    QLabel *m_balanceLabelLeft;
+    QLabel *m_balanceLabelRight;
+
+    // UI Building methods
+    void buildAudioMeter();
+    void buildVolumeControls();
+    void buildBalanceControls();
+    void buildTrackLabel(const QString &trackName);
+    void buildControlButtons();
+    void setupLayouts();
+    void setupConnections();
+    void setupFilters(Mlt::Tractor *service);
+    void setupMasterControls();
+    void setupTrackControls();
+
     /** @Update track label to reflect state */
-    void updateLabel();
+    void updateTrackLabelStyle();
+    QColor getMixerBackgroundColor();
+
+    // Helper to set value and highlight color for spinboxes
+    void updateSpinBoxStyle(QAbstractSpinBox *spin, double neutral);
 
 Q_SIGNALS:
     void gotLevels(QPair<double, double>);
