@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-08 02:37+0000\n"
-"PO-Revision-Date: 2025-06-08 13:37+0200\n"
+"PO-Revision-Date: 2025-06-14 21:05+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -524,19 +524,19 @@ msgstr "Förhållande"
 #: data/effects/avfilter/avfilter_aphaser.xml:17
 #, kde-format
 msgid "Attack"
-msgstr ""
+msgstr "Stegring"
 
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
 #, kde-format
 msgid "Release"
-msgstr ""
+msgstr "Avklingning"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr ""
+msgstr "Kompenseringsförstärkning"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
@@ -556,7 +556,7 @@ msgstr "Länktyp"
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Peak,Rms"
-msgstr ""
+msgstr "Toppvärde,Effektivvärde"
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
 #, kde-format
@@ -615,7 +615,7 @@ msgstr "Fördröjning"
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
 msgid "Decay"
-msgstr "Avklingning"
+msgstr "Sänkning"
 
 #: data/effects/avfilter/agate.xml:4
 #, kde-format
@@ -656,7 +656,7 @@ msgstr "Kontrast"
 #: data/effects/avfilter/avfilter_acrusher.xml:4
 #, kde-format
 msgid "Crusher"
-msgstr ""
+msgstr "Kross"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
 #, kde-format
@@ -738,7 +738,7 @@ msgstr "Aktivera LFO"
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "LFO-djup"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
 #, kde-format
@@ -755,7 +755,7 @@ msgstr "Begränsare"
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr ""
+msgstr "Ljudförhandsbegränsare."
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
 #, kde-format
@@ -873,7 +873,7 @@ msgstr "Ordning"
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
 #, kde-format
 msgid "di,dii,tdii,latt"
-msgstr ""
+msgstr "di,dii,tdii,latt"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -1001,12 +1001,14 @@ msgstr "Används bara om tid är inställd till Hz."
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
 msgid "Adaptive Temporal Averaging Denoiser"
-msgstr ""
+msgstr "Adaptiv tidsmässig medelvärdesbildande brusreducering"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:5
 #, kde-format
 msgid "Apply an Adaptive Temporal Averaging Denoiser to the video input. "
 msgstr ""
+"Använd en Adaptiv tidsmässig medelvärdesbildande brusreducering för "
+"indatavideon."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
@@ -1046,12 +1048,12 @@ msgstr "Antal bildrutor för medelvärde"
 #: data/effects/avfilter/avfilter_avgblur.xml:4
 #, kde-format
 msgid "Average Blur"
-msgstr "Medelsuddighet"
+msgstr "Medeloskärpa"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
 msgid "Apply average blur filter. "
-msgstr ""
+msgstr "Använd filter för medelvärdesbildande oskärpa."
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:18
@@ -1068,7 +1070,7 @@ msgstr "Y-storlek"
 #: data/effects/avfilter/avfilter_avgblur.xml:14
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr ""
+msgstr "Alfa,Y,U,V,Röd,Grön,Blå,Alla"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:15
 #: data/effects/avfilter/avfilter_bilateral.xml:17
@@ -1103,6 +1105,10 @@ msgid ""
 "(peak gain = Q) instead of the default: constant 0dB peak gain. The filter "
 "roll off at 6dB per octave (20dB per decade). "
 msgstr ""
+"Använd ett tvåpoligt Butterworth-bandpassfilter med central frekvens och (3 "
+"dB-punkts) bandbredd. Alternativet csg väljer en konstant kringliggande "
+"förstärkning (toppförstärkning = Q) istället för standardvärdet: konstant 0 "
+"dB toppförstärkning. Filtret avtar med 6 dB per oktav (20 dB per dekad)."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
@@ -1113,7 +1119,7 @@ msgstr "Centerfrekvens"
 #: data/effects/avfilter/avfilter_bandpass.xml:11
 #, kde-format
 msgid "Constant skirt gain"
-msgstr ""
+msgstr "Konstant kringliggande förstärkning"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
@@ -1127,6 +1133,8 @@ msgid ""
 "frequency, and (3dB-point) band-width width. The filter roll off at 6dB per "
 "octave (20dB per decade)."
 msgstr ""
+"Använd ett tvåpoligt Butterworth bandspärrfilter med centerfrekvens och (3 "
+"dB-punkters) bandbredd. Filtret avtar med 6 dB per oktav (20 dB per dekad)."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
@@ -1139,6 +1147,8 @@ msgid ""
 "Apply a two-pole all-pass filter with central frequency (in Hz) frequency, "
 "and filter-width width. Boost or cut lower frequencies."
 msgstr ""
+"Använd ett tvåpoligt allpassfilter med centerfrekvens (i Hz) och "
+"filterbredden. Öka eller sänk lägre frekvenser."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -1173,6 +1183,7 @@ msgstr "Bilateral"
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
 msgstr ""
+"Använd bilateralt filter, rumslig utjämning samtidigt som kanterna bevaras."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
@@ -1182,7 +1193,7 @@ msgstr "Rumsligt sigma"
 #: data/effects/avfilter/avfilter_bilateral.xml:9
 #, kde-format
 msgid "Set sigma of gaussian function to calculate spatial weight."
-msgstr ""
+msgstr "Ställ in den Gaussiska funktionens sigma för att beräkna rumslig vikt."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
@@ -1200,12 +1211,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
-msgstr ""
+msgstr "Alfa,Y,U,V,Röd,Grön,Blå,Alla,"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
 msgid "Planes Blur"
-msgstr "Plansuddighet"
+msgstr "Planoskärpa"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1214,7 +1225,7 @@ msgid ""
 "corresponding input plane."
 msgstr ""
 "Ange ett uttryck för rutans radie i bildpunkter som används för att göra "
-"motsvarande indataplan suddiga."
+"motsvarande indataplan oskarpa."
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
@@ -1225,17 +1236,17 @@ msgstr "Luminansradie"
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr ""
+msgstr "Radien för luminansens oskärperuta"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
 #, kde-format
 msgid "Luma Power"
-msgstr ""
+msgstr "Luminanseffekt"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "Hur många gånger ska rutans oskärpa användas för luminans"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -1246,17 +1257,17 @@ msgstr "Krominansradie"
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
 msgid "Radius of the chroma blurring box"
-msgstr ""
+msgstr "Radien för krominansens oskärperuta"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
 #, kde-format
 msgid "Chroma Power"
-msgstr ""
+msgstr "Krominanseffekt"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
 msgid "How many times should the boxblur be applied to chroma"
-msgstr ""
+msgstr "Hur många gånger ska rutans oskärpa användas för krominans"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, kde-format
@@ -1266,27 +1277,27 @@ msgstr "Alfaradie"
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
 msgid "Radius of the alpha blurring box"
-msgstr ""
+msgstr "Radien för alfa oskärperuta"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, kde-format
 msgid "Alpha Power"
-msgstr ""
+msgstr "Alfaeffekt"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
 msgid "How many times should the boxblur be applied to alpha"
-msgstr ""
+msgstr "Hur många gånger ska rutans oskärpa användas för alfa"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
 #, kde-format
 msgid "Stereo to binaural"
-msgstr ""
+msgstr "Stereo till binaural"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
 msgid "Bauer stereo to binaural transformation."
-msgstr ""
+msgstr "Bauer stereo till binaural transformering."
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
@@ -1294,26 +1305,29 @@ msgid ""
 "Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
 "Meier circuit (fcut=650 feed=95)"
 msgstr ""
+"Standardnivå (brytfrekvens=700 matarfrekvens=50),Chu Moy-krets "
+"(brytfrekvens=700 matarfrekvens=60),Jan Meier-krets (brytfrekvens=650 "
+"matarfrekvens=95)"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
 msgid "Pre-defined crossfeed level"
-msgstr ""
+msgstr "Fördefinierad korsmatningsnivå"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
 #, kde-format
 msgid "Lowpass Cut frequency"
-msgstr ""
+msgstr "Lågpass brytfrekvens"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:15
 #, kde-format
 msgid "Feed level"
-msgstr ""
+msgstr "Matarnivå"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:4
 #, kde-format
 msgid "Bob Weaver Deinterlacer"
-msgstr ""
+msgstr "Bob Weaver inflätningsborttagning"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:5
 #, kde-format
@@ -1321,17 +1335,19 @@ msgid ""
 "Motion adaptive deinterlacing based on yadif with the use of w3fdif and "
 "cubic interpolation algorithms. "
 msgstr ""
+"Rörelseadaptiv inflätningsborttagning baserad på yadif med användning av "
+"w3fdif och kubiska interpoleringsalgoritmer."
 
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
 msgid "Send frame,Send field"
-msgstr ""
+msgstr "Skicka bildruta,Skicka fält"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
 #: data/effects/avfilter/avfilter_yadif.xml:12
 #, kde-format
 msgid "Top field first,Bottomfield first,Auto"
-msgstr ""
+msgstr "Övre fält först,Undre fält först,Automatiskt"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:13
 #: data/effects/avfilter/avfilter_yadif.xml:13
@@ -1344,6 +1360,7 @@ msgstr "Paritet"
 #, kde-format
 msgid "Deint all frames,Deint interlaced frames only"
 msgstr ""
+"Borttagning för alla bildrutor,Bara borttagning för inflätade bildrutor"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
@@ -1354,12 +1371,12 @@ msgstr "Inflätningsborttagning"
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
 msgid "Contrast Adaptive Sharpen"
-msgstr ""
+msgstr "Adaptiv kontrastskärpa"
 
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
 msgid "Apply Contrast Adaptive Sharpen filter to video stream."
-msgstr ""
+msgstr "Använd adaptiv kontrastskärpefilter på en videoström."
 
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
@@ -1375,7 +1392,7 @@ msgstr "Styrka"
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr ""
+msgstr "Ställ in skärpans styrka."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
@@ -1385,7 +1402,7 @@ msgstr "Håll krominans"
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
 msgid "Remove all color information for all colors except for certain one. "
-msgstr ""
+msgstr "Ta bort all färginformation för alla färger utom för en viss."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:8
 #: data/effects/avfilter/avfilter_colorhold.xml:8 data/effects/chroma.xml:8
@@ -1397,7 +1414,7 @@ msgstr "Färgnyckel"
 #: data/effects/avfilter/avfilter_chromahold.xml:9
 #, kde-format
 msgid "The color which will not be replaced with neutral chroma"
-msgstr ""
+msgstr "Färgen som inte ersätts med neutral krominans"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
@@ -1412,6 +1429,8 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[Likhetsprocent med den valda färgen<br>\n"
+"        0,01 matchar bara den exakta nyckelfärgen, medan 1,0 matchar allt.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1427,6 +1446,9 @@ msgid ""
 "at all.<br>\n"
 "        Higher values result in more preserved color.]]>"
 msgstr ""
+"<![CDATA[Blandningsprocent 0.0 gör bildpunkter helt gråa, eller inte gråa "
+"alls.<br>\n"
+"        Större värden ger mer bevarad färg.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1436,17 +1458,17 @@ msgstr "YUV-färg"
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
-msgstr ""
+msgstr "<![CDATA[Välj det här om klippet har YUV-data istället för RGB.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
 msgid "Chroma Noise Reduction"
-msgstr ""
+msgstr "Krominansbrusreducering"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
 msgid "Reduce chrominance noise."
-msgstr ""
+msgstr "Reducera krominansbrus."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, kde-format
@@ -1486,7 +1508,7 @@ msgstr "V-tröskel"
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
 msgid "Manhattan,Euclidean"
-msgstr ""
+msgstr "Manhattan,Euklidisk"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
@@ -1501,33 +1523,33 @@ msgstr "Krominansskifte"
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, kde-format
 msgid "Shift chroma pixels horizontally and/or vertically. "
-msgstr ""
+msgstr "Skifta krominansbildpunkter horisontellt och/eller vertikalt."
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
 msgid "Chroma-blue H shift"
-msgstr ""
+msgstr "Krominans-blå H-skift"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
 #, kde-format
 msgid "Chroma-blue V shift"
-msgstr ""
+msgstr "Krominans-blå V-skift"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
 #, kde-format
 msgid "Chroma-red H shift"
-msgstr ""
+msgstr "Krominans-röd H-skift"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
 #, kde-format
 msgid "Chroma-red V shift"
-msgstr ""
+msgstr "Krominans-röd V-skift"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Smear,Wrap"
-msgstr ""
+msgstr "Smeta,Omge"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:21
 #: data/effects/frei0r/frei0r_select0r.xml:33
@@ -1547,6 +1569,7 @@ msgstr "Färgbalans"
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
 msgstr ""
+"Ändra intensiteten för grundfärger (röd, grön och blå) för indatabilder."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
@@ -1566,7 +1589,7 @@ msgstr "Blå skugga"
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "Röda mellantoner"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, kde-format
@@ -1576,7 +1599,7 @@ msgstr "Gröna mellantoner"
 #: data/effects/avfilter/avfilter_colorbalance.xml:23
 #, kde-format
 msgid "Blue Midtones"
-msgstr ""
+msgstr "Blåa mellantoner"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
 #, kde-format
@@ -1610,11 +1633,13 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"Modifierar en färgkanal genom att lägga till värdena som är associerade med "
+"de andra kanalerna med samma bildpunkter."
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
 msgid "Red-Red"
-msgstr ""
+msgstr "Röd-röd"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
 #, kde-format
@@ -1664,7 +1689,7 @@ msgstr "Färgkontrast"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
 msgid "Adjust color contrast between RGB components."
-msgstr ""
+msgstr "Justera färgkontrasten mellan RGB-komponenter."
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, kde-format
@@ -1689,7 +1714,7 @@ msgstr "Röd-cyan vikt"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:20
 #, kde-format
 msgid "Green-Magenta weight"
-msgstr ""
+msgstr "Grön-magenta vikt"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:23
 #, kde-format
@@ -1712,16 +1737,18 @@ msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
 msgstr ""
+"Justera färgens vitbalans selektivt för svart och vitt. Filtret arbetar i "
+"färgrymden YUV."
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
 msgid "Red shadow spot"
-msgstr ""
+msgstr "Röd skuggpunkt"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:11
 #, kde-format
 msgid "Blue shadow spot"
-msgstr ""
+msgstr "Blå skuggpunkt"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
 #, kde-format
@@ -1731,7 +1758,7 @@ msgstr "Röd dagerpunkt"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:17
 #, kde-format
 msgid "Blue highlight spot"
-msgstr ""
+msgstr "Blå dagerpunkt"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:20
 #: data/effects/avfilter/avfilter_colorize.xml:11
@@ -1749,7 +1776,7 @@ msgstr "Färgmättnad"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
 msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgstr "Manuell,Medelvärde,Minmax,Median"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, kde-format
@@ -1765,7 +1792,7 @@ msgstr "Håll färg"
 #, kde-format
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
-msgstr ""
+msgstr "Ta bort all färginformation för alla RGB-färger utom för en viss."
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
@@ -1775,12 +1802,12 @@ msgstr "Färgöverlagring"
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
-msgstr ""
+msgstr "Överlagra en solid färg på videoströmmen med mixningsfunktion."
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
 msgid " Hue"
-msgstr ""
+msgstr " Färgton"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
@@ -1796,67 +1823,67 @@ msgstr "Färgnivåer"
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr ""
+msgstr "Justera videoindatabilder med hjälp av nivåer"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
 msgid "Red black input"
-msgstr ""
+msgstr "Blå svart indata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:11
 #, kde-format
 msgid "Red white input"
-msgstr ""
+msgstr "Röd vit indata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
 #, kde-format
 msgid "Red black output"
-msgstr ""
+msgstr "Röd svart utdata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:17
 #, kde-format
 msgid "Red white output"
-msgstr ""
+msgstr "Röd vit utdata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:20
 #, kde-format
 msgid "Green black input"
-msgstr ""
+msgstr "Grön svart indata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:23
 #, kde-format
 msgid "Green white input"
-msgstr ""
+msgstr "Grön vit indata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:26
 #, kde-format
 msgid "Green black output"
-msgstr ""
+msgstr "Grön svart utdata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:29
 #, kde-format
 msgid "Green white output"
-msgstr ""
+msgstr "Grön vit utdata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:32
 #, kde-format
 msgid "Blue black input"
-msgstr ""
+msgstr "Blå svart indata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:35
 #, kde-format
 msgid "Blue white input"
-msgstr ""
+msgstr "Blå vit indata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:38
 #, kde-format
 msgid "Blue black output"
-msgstr ""
+msgstr "Blå svart utdata"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:41
 #, kde-format
 msgid "Blue white output"
-msgstr ""
+msgstr "Blå vit utdata"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
 #, kde-format
@@ -1872,7 +1899,7 @@ msgstr "Konvertera färgmatris."
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
-msgstr ""
+msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, kde-format
@@ -1896,6 +1923,8 @@ msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
 msgstr ""
+"Omvandlar färgrymd, överföringsegenskaper eller grundfärger. Ingångsvideo "
+"måste ha en jämn storlek."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -1904,6 +1933,8 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
 #, kde-format
@@ -1916,6 +1947,8 @@ msgstr "Färgegenskaper"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 icke-konstant "
+"luminans"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, kde-format
@@ -1930,11 +1963,14 @@ msgid ""
 "SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
 "bits content, BT.2020 for 12-bits content"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,Konstant gamma 2.2,Konstant gamma 2.8,SMPTE-170M,"
+"SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 för 10-bitars "
+"innehåll, BT.2020 för 12-bitars innehåll"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristicse"
-msgstr ""
+msgstr "Utdataöverföringskarakteristik"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -1943,6 +1979,8 @@ msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phsphors"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
+"BT.2020,JEDEC P22 phsphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -1956,6 +1994,8 @@ msgid ""
 "TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
 "range)"
 msgstr ""
+"TV (begränsat intervall),MPEG (begränsat intervall),PC (fullständigt "
+"intervall),JPEG (FULL range)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
 #, kde-format
@@ -1969,6 +2009,9 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
+"YUV 4:2:0 planär 8-bitar,YUV 4:2:0 planär 10-bitar,YUV 4:2:0 planär 12-bitar,"
+"YUV 4:2:2 planär 8-bitar,YUV 4:2:2 planär 10-bitar,YUV 4:2:2 planär 12-bitar,"
+"YUV 4:4:4 planär 8-bitar,YUV 4:4:4 planär 10-bitar,YUV 4:4:4 planär 12-bitar"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
@@ -1983,7 +2026,7 @@ msgstr "Snabb konvertering"
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "Inget gitter,Floyd-Steinberg gitter"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, kde-format
@@ -1996,16 +2039,18 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Bradford vitpunktsanpassning,von Kries vitpunktsanpassning,"
+"Likhetsvitpunktsanpassning"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid "Whitepoint adaptation mode"
-msgstr ""
+msgstr "Vitpunktsanpassningsläge"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid "Override all input properties at once"
-msgstr ""
+msgstr "Överskrid alla indataegenskaper samtidigt"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
 #, kde-format
@@ -2015,12 +2060,12 @@ msgstr "Överskrid indatafärgrymd"
 #: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
 msgid "Override input color primaries"
-msgstr ""
+msgstr "Överskrid indatagrundfärger"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:56
 #, kde-format
 msgid "Override input transfer characteristics"
-msgstr ""
+msgstr "Överskrid indataöverföringsegenskaper"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:60
 #, kde-format
@@ -2039,6 +2084,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"Justera färgtemperaturen i videon för att simulera variationer i omgivande "
+"färgtemperatur."
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -2054,12 +2101,12 @@ msgstr "Komprimerare/Expanderare"
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
 msgid "Compress or expand the audio’s dynamic range."
-msgstr ""
+msgstr "Komprimera eller expandera ljudets dynamiska omfång."
 
 #: data/effects/avfilter/avfilter_compand.xml:8
 #, kde-format
 msgid "Attacks"
-msgstr ""
+msgstr "Stegringar"
 
 #: data/effects/avfilter/avfilter_compand.xml:9
 #: data/effects/avfilter/avfilter_compand.xml:13
@@ -2075,21 +2122,31 @@ msgid ""
 "specified number of attacks and decays is lower than number of channels, the "
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
+"En lista över tider i sekunder för varje kanal över vilka den momentana "
+"nivån på insignalen medelvärdesbildas för att bestämma dess volym. "
+"stegringar avser ökning av volym och sänkning avser minskning av volym. I de "
+"flesta situationer bör stegringstiden (svar på att ljudet blir högre) vara "
+"kortare än sänkningstiden, eftersom det mänskliga örat är känsligare för "
+"plötsligt högre ljud än plötsligt svagare ljud. Ett typiskt värde för "
+"stegring är 0,3 sekunder och ett typiskt värde för sänkning är 0,8 sekunder. "
+"Om det angivna antalet stegringar och sänkningar är lägre än antalet "
+"kanaler, används den senast inställda stegringen/sänkningen för alla "
+"återstående kanaler."
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, kde-format
 msgid "Decays"
-msgstr "Avklingningar"
+msgstr "Sänkningar"
 
 #: data/effects/avfilter/avfilter_compand.xml:16
 #, kde-format
 msgid "Soft-Knee"
-msgstr ""
+msgstr "Mjukt knä"
 
 #: data/effects/avfilter/avfilter_compand.xml:17
 #, kde-format
 msgid "Set the curve radius in dB for all joints."
-msgstr ""
+msgstr "Ställ in kurvradien i dB för alla skarvar."
 
 #: data/effects/avfilter/avfilter_compand.xml:21
 #, kde-format
@@ -2097,6 +2154,9 @@ msgid ""
 "Set the additional gain in dB to be applied at all points on the transfer "
 "function. This allows for easy adjustment of the overall gain."
 msgstr ""
+"Ställ in den extra förstärkningen i dB som ska användas för alla punkter på "
+"överföringsfunktionen. Det möjliggör enkel justering av den totala "
+"förstärkningen."
 
 #: data/effects/avfilter/avfilter_compand.xml:24
 #, kde-format
@@ -2112,11 +2172,16 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"Ställ in en initial volym i dB, som ska antas för varje kanal när "
+"filtreringen startar. Det gör det möjligt för användaren att initialt ange "
+"en nominell nivå, så att till exempel en mycket stor förstärkning inte "
+"appliceras på initiala signalnivåer innan kompenseringen har börjat fungera. "
+"Ett typiskt värde för ljud som initialt är tyst är -90 dB."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
 msgid "Compensation Delay"
-msgstr ""
+msgstr "Kompensationsfördröjning"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:8
 #, kde-format
@@ -2138,71 +2203,92 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"Kompensationsfördröjning är en metriskt baserad fördröjning för att "
+"kompensera för mikrofoners eller högtalares olika positioner.\n"
+"Om man till exempel har spelat in gitarr med två mikrofoner placerade på "
+"olika platser. Eftersom ljudvågens framkant har en fast hastighet under "
+"normala förhållanden kan mikrofonernas fas variera och bero på deras "
+"placering och mellanrum. Den bästa ljudmixen kan uppnås när mikrofonerna är "
+"i fas (synkroniserade). Observera att ett avstånd på ungefär 30 cm mellan "
+"mikrofonerna gör att en mikrofon fångar signalen i motfas mot den andra "
+"mikrofonen. Det gör att den slutliga mixen låter stämningsfull. Filtret "
+"hjälper till att lösa fasproblem genom att lägga till olika fördröjningar "
+"till varje mikrofonspår och göra dem synkroniserade.\n"
+"\n"
+"Det bästa resultatet kan uppnås när man tar ett spår som bas och "
+"synkroniserar andra spår ett efter ett med det. Kom ihåg att "
+"synkroniserings- eller fördröjningstoleransen också beror på "
+"samplingsfrekvensen. Högre samplingsfrekvenser ger större tolerans."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
 msgid "Millimiter distance"
-msgstr ""
+msgstr "Millimeteravstånd"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:12
 #, kde-format
 msgid ""
 "Set millimeters distance. This is compensation distance for fine tuning."
 msgstr ""
+"Ställ in millimeteravstånd. Det är kompensationsavståndet för finjustering."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:15
 #, kde-format
 msgid "Centimeter distance"
-msgstr ""
+msgstr "Centimeteravstånd"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:16
 #, kde-format
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"Ställ in cm-avstånd. Det är kompensationsavståndet för tätare "
+"avståndsinställning."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
 msgid "Meter distance"
-msgstr ""
+msgstr "Meteravstånd"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:20
 #, kde-format
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
 msgstr ""
+"Ställ in meteravstånd. Det är kompensationsavståndet för svår "
+"avståndsinställning."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, kde-format
 msgid "Dry amount"
-msgstr ""
+msgstr "Torrvärde"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:24
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
-msgstr ""
+msgstr "Ställ in torrvärde. Värdet på obehandlad (torr) signal."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
 #, kde-format
 msgid "Wet amount"
-msgstr ""
+msgstr "Våtvärde"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "Ställ in våtvärde. Värdet på behandlad (våt) signal."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
 msgid ""
 "Set temperature in degrees Celsius. This is the temperature of the "
 "environment."
-msgstr ""
+msgstr "Ställ in temperatur i grader Celsius. Det är omgivningens temperatur."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
 #, kde-format
 msgid "Crossfeed"
-msgstr ""
+msgstr "Korsmatning"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:7
 #, kde-format
@@ -2213,6 +2299,11 @@ msgid ""
 "low frequencies.\n"
 "The intent is to produce more speaker like sound to the listener."
 msgstr ""
+"Använd filter för korsmatning av hörlurar.\n"
+"Korsmatning är processen att blanda vänster och höger kanal vid "
+"stereoinspelning. Det används främst för att minska extrem stereoseparation "
+"vid låga frekvenser.\n"
+"Avsikten är att producera mer högtalarliknande ljud för lyssnaren."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:13
 #, kde-format
@@ -2222,6 +2313,10 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
+"Ställ in korsmatningens styrka.\n"
+"Standardvärdet är 0,2. Tillåtet intervall är från 0 till 1. Det ställer in "
+"lågpassfiltrets förstärkning för  stereobildens sidokanaler.\n"
+"Standardvärdet är -6 dB. Max tillåtet är -30 dB när styrkan är inställd på 1."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:19
 #, kde-format
@@ -2236,7 +2331,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, kde-format
 msgid "Crystalizer"
-msgstr ""
+msgstr "Kristallisering"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:6
 #, kde-format
@@ -2244,6 +2339,8 @@ msgid ""
 "Simple algorithm for audio noise sharpening.\n"
 "This filter linearly increases differences betweeen each audio sample."
 msgstr ""
+"Enkel algoritm för brusskärpning av ljud.\n"
+"Filtret ökar skillnaden mellan varje ljudsampling linjärt."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
 #: data/effects/avfilter/avfilter_deesser.xml:8
@@ -2262,12 +2359,16 @@ msgid ""
 "effect).\n"
 "To inverse filtering use negative value. "
 msgstr ""
+"Ställer in effektens intensitet (standardvärde: 2,0).\n"
+"Måste vara i området -10,0 till 0 (oförändrat ljud) till 10,0 (maximal "
+"effekt).\n"
+"Använd negativa värden för att invertera filtreringen."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
 #: data/effects/avfilter/avfilter_extrastereo.xml:14
 #, kde-format
 msgid "Enable clipping"
-msgstr ""
+msgstr "Aktivera klippning"
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, kde-format
@@ -2277,13 +2378,13 @@ msgstr "Dataoscilloskop"
 #: data/effects/avfilter/avfilter_datascope.xml:5
 #, kde-format
 msgid "Video data analysis"
-msgstr ""
+msgstr "Videodataanalys"
 
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
-msgstr ""
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -2312,13 +2413,13 @@ msgstr "Y-position"
 #: data/effects/avfilter/avfilter_datascope.xml:18
 #, kde-format
 msgid "mono,color,color2"
-msgstr ""
+msgstr "svartvitt,färg,färg 2"
 
 #: data/effects/avfilter/avfilter_datascope.xml:22
 #: data/effects/avfilter/avfilter_delogo.xml:20
 #, kde-format
 msgid "Off,On"
-msgstr ""
+msgstr "Av,På"
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
@@ -2341,7 +2442,7 @@ msgstr "Ogenomskinlighet"
 #: data/effects/avfilter/avfilter_datascope.xml:29
 #, kde-format
 msgid "Hex,Dec"
-msgstr ""
+msgstr "Hex,Dec"
 
 #: data/effects/avfilter/avfilter_datascope.xml:30 data/effects/timer.xml:46
 #, kde-format
@@ -2351,17 +2452,17 @@ msgstr "Format"
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, kde-format
 msgid "Directional Blur"
-msgstr ""
+msgstr "Riktningsoskärpa"
 
 #: data/effects/avfilter/avfilter_dblur.xml:5
 #, kde-format
 msgid "Apply directional blur filter"
-msgstr ""
+msgstr "Använd riktningsoskärpefilter"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, kde-format
 msgid "<![CDATA[Sets the angle for the direction]]>"
-msgstr ""
+msgstr "<![CDATA[Ställer in riktningens vinkel]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2374,7 +2475,7 @@ msgstr "Radie"
 #: data/effects/avfilter/avfilter_dblur.xml:13
 #, kde-format
 msgid "<![CDATA[Sets the radius for the direction]]>"
-msgstr ""
+msgstr "<![CDATA[Ställer in riktningens radie]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
@@ -2383,12 +2484,14 @@ msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
 "All"
 msgstr ""
+"Alfa,Luminans (Y-plan),Krominans (U-plan),Krominans (V-plan),Röd,Grön,Blå,"
+"Alla"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #: data/effects/avfilter/avfilter_scharr.xml:9
 #, kde-format
 msgid "Planes to filter"
-msgstr ""
+msgstr "Plan att filtrera"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
@@ -2400,7 +2503,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dcshift.xml:10
 #, kde-format
 msgid "DC shift"
-msgstr ""
+msgstr "DC-skift"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:7
 #, kde-format
@@ -2411,6 +2514,11 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
+"Utför DC-skift av ljudet.\n"
+"Det kan vara användbart för att ta bort en DC-komponent (kanske orsakad av "
+"ett maskinvaruproblem i inspelningskedjan) från ljudet.\n"
+"Effekten av en DC-komponent är minskat utrymme och därmed volym. Filtret "
+"astats kan användas för att avgöra om en signal har en DC-komponent."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:11
 #, kde-format
@@ -2418,11 +2526,13 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
+"Ställ in DC-skift, tillåtet intervall är [-1, 1]. Det anger hur mycket "
+"ljudet ska skiftas."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
 msgid "Limiter gain"
-msgstr ""
+msgstr "Förstärkningsbegränsning"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:15
 #, kde-format
@@ -2430,16 +2540,20 @@ msgid ""
 "Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is "
 "used to prevent clipping."
 msgstr ""
+"Valfri. Den ska ha ett värde som är mycket mindre än 1 (t.ex. 0,05 eller "
+"0,02) och används för att förhindra klippning."
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
 #, kde-format
 msgid "DCT Denoiser"
-msgstr ""
+msgstr "DCT-brusreducering"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 2D DCT frequency domain filtering"
 msgstr ""
+"Ta bort brus från bildrutor med tvådimensionell filtrering i DCT-"
+"frekvensdomän"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
@@ -2453,18 +2567,18 @@ msgstr "Sigma"
 #: data/effects/hsl_primaries.xml:62
 #, kde-format
 msgid "Overlap"
-msgstr ""
+msgstr "Överlappning"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:14
 #: data/effects/avfilter/avfilter_deblock.xml:12
 #, kde-format
 msgid "Block size"
-msgstr ""
+msgstr "Blockstorlek"
 
 #: data/effects/avfilter/avfilter_deband.xml:4
 #, kde-format
 msgid "Deband"
-msgstr ""
+msgstr "Bandningsborttagning"
 
 #: data/effects/avfilter/avfilter_deband.xml:5
 #, kde-format
@@ -2472,26 +2586,28 @@ msgid ""
 "Remove banding artifacts from input video. It works by replacing banded "
 "pixels with average value of referenced pixels"
 msgstr ""
+"Ta bort bandningsförvrängningar från indatavideon. Det fungerar genom att "
+"ersätta bandningsbildpunkter med medelvärdet av refererade bildpunkter"
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
 msgid "1st plane threshold"
-msgstr ""
+msgstr "1:a plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:11
 #, kde-format
 msgid "2nd plane threshold"
-msgstr ""
+msgstr "2:e plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:14
 #, kde-format
 msgid "3rd plane threshold"
-msgstr ""
+msgstr "3:e plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:17
 #, kde-format
 msgid "4th plane threshold"
-msgstr ""
+msgstr "4:e plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:23
 #: data/effects/avfilter/avfilter_transpose.xml:9
@@ -2508,12 +2624,12 @@ msgstr "Riktning"
 #: data/effects/tracker.xml:31
 #, kde-format
 msgid "Blur"
-msgstr "Suddighet"
+msgstr "Oskärpa"
 
 #: data/effects/avfilter/avfilter_deband.xml:29
 #, kde-format
 msgid "Coupling"
-msgstr ""
+msgstr "Koppling"
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
@@ -2528,7 +2644,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
 msgid "Weak,Strong"
-msgstr ""
+msgstr "Svag,Stark"
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, kde-format
@@ -2559,7 +2675,7 @@ msgstr "Deltatröskel"
 #: data/effects/avfilter/avfilter_deblock.xml:27
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
-msgstr ""
+msgstr "Alla,Y,U,V,Alfa,Röd,Grön,Blå"
 
 #: data/effects/avfilter/avfilter_dedot.xml:4
 #, kde-format
@@ -2585,48 +2701,52 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dedot.xml:12
 #, kde-format
 msgid "Spatial Luma threshold"
-msgstr ""
+msgstr "Rumslig luminanströskel"
 
 #: data/effects/avfilter/avfilter_dedot.xml:15
 #, kde-format
 msgid "Temporal Luma Threshold"
-msgstr ""
+msgstr "Tidsmässig luminanströskel"
 
 #: data/effects/avfilter/avfilter_dedot.xml:18
 #, kde-format
 msgid "Temporal Chroma Variation"
-msgstr ""
+msgstr "Tidsmässig krominansvariation"
 
 #: data/effects/avfilter/avfilter_dedot.xml:21
 #, kde-format
 msgid "Temporal Chroma Threshold"
-msgstr ""
+msgstr "Tidsmässig krominanströskel"
 
 #: data/effects/avfilter/avfilter_deesser.xml:4
 #, kde-format
 msgid "Deesser"
-msgstr ""
+msgstr "S-borttagning"
 
 #: data/effects/avfilter/avfilter_deesser.xml:5
 #, kde-format
 msgid "Apply de-essing to the audio samples."
-msgstr ""
+msgstr "Använd s-borttagning för ljudsamplingarna"
 
 #: data/effects/avfilter/avfilter_deesser.xml:9
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
+"Ställ in intensitet för att utlösa s-borttagning. Tillåtet intervall är från "
+"0 till 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
 #, kde-format
 msgid "Max deessing"
-msgstr ""
+msgstr "Maximal s-borttagning"
 
 #: data/effects/avfilter/avfilter_deesser.xml:13
 #, kde-format
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
+"Ställ in storlek på minskningen av ljudets diskant. Tillåtet intervall är "
+"från 0 till 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
@@ -2641,21 +2761,23 @@ msgid ""
 "How much of original frequency content to keep when de-essing. Allowed range "
 "is from 0 to 1."
 msgstr ""
+"Hur mycket av det ursprungliga frekvensinnehållet som ska behållas vid s-"
+"borttagning. Tillåtet intervall är från 0 till 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr ""
+msgstr "Indata,Utdata,Bara s"
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
 msgid "Output mode"
-msgstr ""
+msgstr "Utdataläge"
 
 #: data/effects/avfilter/avfilter_deesser.xml:22
 #, kde-format
 msgid "Set the output mode."
-msgstr ""
+msgstr "Ställ in utdataläge."
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
 #, kde-format
@@ -2670,52 +2792,52 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deflate.xml:8
 #, kde-format
 msgid "Threshold for 1st plane"
-msgstr ""
+msgstr "Tröskel för första planet"
 
 #: data/effects/avfilter/avfilter_deflate.xml:11
 #, kde-format
 msgid "Threshold for 2nd plane"
-msgstr ""
+msgstr "Tröskel för andra planet"
 
 #: data/effects/avfilter/avfilter_deflate.xml:14
 #, kde-format
 msgid "Threshold for 3rd plane"
-msgstr ""
+msgstr "Tröskel för tredje planet"
 
 #: data/effects/avfilter/avfilter_deflate.xml:17
 #, kde-format
 msgid "Threshold for 4th plane"
-msgstr ""
+msgstr "Tröskel för fjärde planet"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
 #, kde-format
 msgid "DeLogo"
-msgstr ""
+msgstr "Ta bort logotyp"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
 #, kde-format
 msgid "Remove logo from input video"
-msgstr ""
+msgstr "Ta bort logotyp från indatavideon"
 
 #: data/effects/avfilter/avfilter_delogo.xml:8
 #, kde-format
 msgid "Logo X Position"
-msgstr ""
+msgstr "Logotypens X-position"
 
 #: data/effects/avfilter/avfilter_delogo.xml:11
 #, kde-format
 msgid "Logo Y Position"
-msgstr ""
+msgstr "Logotypens Y-position"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
 #, kde-format
 msgid "Logo Width"
-msgstr ""
+msgstr "Logotypens bredd"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
 #, kde-format
 msgid "Logo Height"
-msgstr ""
+msgstr "Logotypens höjd"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, kde-format
@@ -2738,19 +2860,19 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sr.xml:8
 #, kde-format
 msgid "Native,Tensorflow"
-msgstr ""
+msgstr "Inbyggd,Tensorflow"
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
 #, kde-format
 msgid "DNN Backend"
-msgstr ""
+msgstr "DNN-gränssnitt"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
 #, kde-format
 msgid "Load model"
-msgstr ""
+msgstr "Ladda modell"
 
 #: data/effects/avfilter/avfilter_despill.xml:4
 #, kde-format
@@ -2812,7 +2934,7 @@ msgstr "Utvidgning"
 #: data/effects/avfilter/avfilter_dilation.xml:5
 #, kde-format
 msgid "Apply dilation effect"
-msgstr "Utför utvidgningseffekt"
+msgstr "Använd utvidgningseffekt"
 
 #: data/effects/avfilter/avfilter_dilation.xml:8
 #: data/effects/avfilter/avfilter_erosion.xml:8
@@ -2876,7 +2998,7 @@ msgstr "Rita ruta"
 #: data/effects/avfilter/avfilter_drawbox.xml:5
 #, kde-format
 msgid "Draw a colored box on the input video"
-msgstr ""
+msgstr "Rita en färgad ruta på indatavideon"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
@@ -2887,7 +3009,7 @@ msgstr "Överst till vänster X"
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, kde-format
 msgid "<![CDATA[X coordinate of top-left corner]]>"
-msgstr ""
+msgstr "<![CDATA[X-koordinat för övre vänstra hörnet]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
@@ -2898,7 +3020,7 @@ msgstr "Överst till vänster Y"
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, kde-format
 msgid "<![CDATA[Y coordinate of top-left corner]]>"
-msgstr ""
+msgstr "<![CDATA[Y-koordinat för övre vänstra hörnet]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
@@ -2911,6 +3033,8 @@ msgid ""
 "<![CDATA[Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[Rutans bredd i bildpunkter.<br>\n"
+"    \tBredden <em>1</em> ritar inte någon linje]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
@@ -2923,6 +3047,8 @@ msgid ""
 "<![CDATA[Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[Rutans höjd i bildpunkter.<br>\n"
+"    \tHöjden <em>1</em> ritar inte någon linje]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
@@ -2940,6 +3066,8 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha<em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Välj en linjefärg.<br>\n"
+"    \tAnvänd <em>alfavärdet<em> för att göra linjen halvgenomskinlig.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3309,6 +3437,8 @@ msgid ""
 "<![CDATA[Add <em>previous</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[Add <em>föregående</em> bildruta<br>\n"
+"        för tidsmässig brusreducering]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
 #, kde-format
@@ -3316,6 +3446,8 @@ msgid ""
 "<![CDATA[Add <em>next</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[Add <em>nästa</em> bildruta<br>\n"
+"        för tidsmässig brusreducering]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
 #: data/effects/avfilter/avfilter_median.xml:22
@@ -3323,7 +3455,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:30
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV"
-msgstr ""
+msgstr "Ingen,Y,U,YU,V,YV,UV,YUV"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:4
 #, kde-format
@@ -3747,7 +3879,7 @@ msgstr "Sidoförstärkning"
 #: data/effects/avfilter/avfilter_haas.xml:18
 #, kde-format
 msgid "left,right,mid,side"
-msgstr ""
+msgstr "vänster,höger,center,sidor"
 
 #: data/effects/avfilter/avfilter_haas.xml:19
 #, kde-format
@@ -3946,12 +4078,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:14
 #, kde-format
 msgid "Temporal Luma Strength"
-msgstr ""
+msgstr "Tidsmässig luminansstyrka"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:17
 #, kde-format
 msgid "Temporal Chroma Strength"
-msgstr ""
+msgstr "Tidsmässig krominansstyrka"
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
 #, kde-format
@@ -4300,7 +4432,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lut3d.xml:4
 #, kde-format
 msgid "Apply LUT"
-msgstr "Tillämpa uppslagningstabell"
+msgstr "Använd uppslagningstabell"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:5
 #, kde-format
@@ -4514,6 +4646,8 @@ msgstr ""
 #, kde-format
 msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
+"Tidsmässigt medelvärdesbrus,Blanda slumpmässigt brus,Tidsmässigt brus,"
+"Likformigt brus"
 
 #: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
@@ -4565,7 +4699,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_normalize.xml:14
 #, kde-format
 msgid "Temporal smoothing, to reduce flicker"
-msgstr ""
+msgstr "Tidsmässig utjämning, för att reducera flimmer"
 
 #: data/effects/avfilter/avfilter_normalize.xml:17
 #, kde-format
@@ -5170,7 +5304,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, kde-format
 msgid "Smartblur"
-msgstr "Smart suddighet"
+msgstr "Smart oskärpa"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
@@ -5781,7 +5915,7 @@ msgstr "Skärpa/Oskärpa"
 #: data/effects/avfilter/avfilter_unsharp.xml:6
 #, kde-format
 msgid "Sharpen or unsharpen/blur your video"
-msgstr "Gör videon skarpare eller suddigare"
+msgstr "Gör videon skarpare eller oskarpare"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
 #, kde-format
@@ -6301,7 +6435,7 @@ msgstr "Zoom-panorera"
 #: data/effects/avfilter/avfilter_zoompan.xml:5
 #, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr "Utför zoomnings- och panoreringseffekt"
+msgstr "Använd zoomnings- och panoreringseffekt"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -6345,13 +6479,13 @@ msgstr "Textningsfil att använda"
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
 msgid "BoxBlur"
-msgstr "Suddighet med ruta"
+msgstr "Oskärpa med ruta"
 
 #: data/effects/box_blur.xml:6 data/effects/box_blur.xml:20
 #: data/effects/boxblur.xml:5
 #, kde-format
 msgid "Box blur (separate horizontal and vertical blur)"
-msgstr "Suddighet med ruta (separat horisontell och vertikal oskärpa)"
+msgstr "Oskärpa med ruta (separat horisontell och vertikal oskärpa)"
 
 #: data/effects/box_blur.xml:9 data/effects/box_blur.xml:23
 #: data/effects/boxblur.xml:8
@@ -6373,12 +6507,12 @@ msgstr "Bevara alfa"
 #: data/effects/boxblur.xml:4
 #, kde-format
 msgid "Box Blur"
-msgstr "Suddighet med ruta"
+msgstr "Oskärpa med ruta"
 
 #: data/effects/boxblur.xml:14
 #, kde-format
 msgid "Blur factor"
-msgstr "Suddighetsfaktor"
+msgstr "Oskärpefaktor"
 
 #: data/effects/brightness.xml:4
 #, kde-format
@@ -6602,12 +6736,12 @@ msgstr "Skapa en skuggeffekt från alfakanalen"
 #: data/effects/dropshadow.xml:8
 #, kde-format
 msgid "Blur Radius"
-msgstr "Suddighetsradie"
+msgstr "Oskärperadie"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr "Storleken i bildpunkter för att göra skuggkanten suddig"
+msgstr "Storleken i bildpunkter för att göra skuggkanten oskarp"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
@@ -7074,13 +7208,13 @@ msgstr "Förstoring/förminskning"
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
 "Ingen åtgärd,Raka,Hård förminskning,Mjuk förminskning,Hård förstoring,Mjuk "
-"förstoring,Tröskel,Suddighet"
+"förstoring,Tröskel,Oskärpa"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:48
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
 #, kde-format
 msgid "Shrink/Grow/Blur amount"
-msgstr "Förstoring/förminskning/Suddighetsvärde"
+msgstr "Förstoring/Förminskning/Oskärpevärde"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
@@ -8611,12 +8745,12 @@ msgstr "Jämnar ut intensitetshistogrammen"
 #: data/effects/frei0r/frei0r_facebl0r.xml:4
 #, kde-format
 msgid "Face blur"
-msgstr "Suddigt ansikte"
+msgstr "Ansiktsoskärpa"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:5
 #, kde-format
 msgid "Automatically detect and blur a face using OpenCV"
-msgstr "Detektera och gör ett ansikte suddigt med användning av OpenCV"
+msgstr "Detektera och gör ett ansikte oskarpt med användning av OpenCV"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:8
 #: data/effects/frei0r/frei0r_facedetect.xml:8
@@ -8856,12 +8990,12 @@ msgstr "<![CDATA[Procent kornighet som används för den blåa kanalen]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
 msgid "Blur amount"
-msgstr "Suddighetsvärde"
+msgstr "Oskärpevärde"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "<![CDATA[Suddighetenes intensitet]]>"
+msgstr "<![CDATA[Oskärpans intensitet]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
@@ -8994,18 +9128,18 @@ msgstr "Ändrar källbildens färgton"
 #, kde-format
 msgctxt "Blur Effect name"
 msgid "Blur"
-msgstr "Suddighet"
+msgstr "Oskärpa"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:5
 #, kde-format
 msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
 msgstr ""
-"Suddighet med tvådimensionella IIR-filter (exponentiell, lågpass, Gaussisk)"
+"Oskärpa med tvådimensionella IIR-filter (exponentiell, lågpass, Gaussisk)"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:9
 #, kde-format
 msgid "Amount of blur"
-msgstr "Suddighetsvärde"
+msgstr "Oskärpevärde"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #, kde-format
@@ -9015,7 +9149,7 @@ msgstr "Exponentiell,Lågpass,Gaussisk"
 #: data/effects/frei0r/frei0r_iirblur.xml:14
 #, kde-format
 msgid "Select blurring algorithm"
-msgstr "Välj suddighetsalgoritm"
+msgstr "Välj oskärpealgoritm"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
 #, kde-format
@@ -9762,7 +9896,7 @@ msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
 msgstr ""
-"Mängd temporär utjämning av ingångsintervall för att minska flimmer "
+"Mängd tidsmässig utjämning av ingångsintervall för att minska flimmer "
 "(standardvärde 0)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
@@ -9827,7 +9961,7 @@ msgstr "Pixs0r"
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
 msgid "Glitch image shifting rows to and fro."
-msgstr ""
+msgstr "Störning med av bildskiftning av rader fram och tillbaka."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -9850,6 +9984,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "minimum block height.]]>"
 msgstr ""
+"<![CDATA[If <em>Blockhöjd</em> är 0 (slumpmässig), <br>det bestämmer den "
+"minimala blockhöjden.]]>"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, kde-format
@@ -9862,6 +9998,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "maximum block height.]]>"
 msgstr ""
+"<![CDATA[If <em>Blockhöjd</em> är 0 (slumpmässig), <br>det bestämmer den "
+"maximala blockhöjden.]]>"
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
 #, kde-format
@@ -10063,7 +10201,7 @@ msgstr "Visa effektivvärde"
 #: data/effects/frei0r/frei0r_pr0file.xml:70
 #, kde-format
 msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa effektivvärde (kvadratiskt medelvärde) på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:73
 #, kde-format
@@ -10434,7 +10572,7 @@ msgstr "Ger mjuka glödeffekter för dagrar"
 #: data/effects/frei0r/frei0r_softglow.xml:9
 #, kde-format
 msgid "Blur of the glow"
-msgstr "Glödens suddighet"
+msgstr "Glödens oskärpa"
 
 #: data/effects/frei0r/frei0r_softglow.xml:10
 #: data/effects/frei0r/frei0r_softglow.xml:14
@@ -10463,7 +10601,7 @@ msgstr "Blandningsläge"
 #, kde-format
 msgid "Blend mode used to blend highlight blur with input image."
 msgstr ""
-"Blandningsläge använt för att blanda dagrarnas suddighet med indatabilden."
+"Blandningsläge använt för att blanda dagrarnas oskärpa med indatabilden."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -10609,12 +10747,12 @@ msgstr "Ytterligare inställningar"
 #: data/effects/frei0r/frei0r_squareblur.xml:4
 #, kde-format
 msgid "Square Blur"
-msgstr "Kvadratisk suddighet"
+msgstr "Kvadratisk oskärpa"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:5
 #, kde-format
 msgid "Square blur"
-msgstr "Kvadratisk suddighet"
+msgstr "Kvadratisk oskärpa"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:8
 #, kde-format
@@ -11876,7 +12014,7 @@ msgstr "Gräns (dB)"
 #: data/effects/ladspa/ladspa_limiter.xml:14
 #, kde-format
 msgid "Release time (s)"
-msgstr "Tidsfördröjning (s)"
+msgstr "Avklingningstid (s)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:5
 #, kde-format
@@ -12119,7 +12257,7 @@ msgstr "Korrekt ljudstyrka som rekommenderas av EBU R128"
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Analysera för att verkställa effekt"
+msgstr "Analysera för att använda effekt"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -12146,12 +12284,12 @@ msgstr "Höj"
 #, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
-msgstr "Verkställ mask"
+msgstr "Använd mask"
 
 #: data/effects/mask_apply.xml:5
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
-msgstr "Verkställ tidigare effekter i zonen definierade av en maskstarteffekt."
+msgstr "Använd tidigare effekter i zonen definierade av en maskstarteffekt."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -12168,11 +12306,10 @@ msgid ""
 "zero or more effects, mask_apply."
 msgstr ""
 "Filtret tar en ögonblicksbild av bildrutan innan det ritar enkla former i "
-"alfakanalen. Använd det tillsammans med effekten Verkställ mask, som "
-"använder en övertoning för att överlagra den aktuella bildrutans bild på "
+"alfakanalen. Använd det tillsammans med effekten Använd mask, som använder "
+"en övertoning för att överlagra den aktuella bildrutans bild på "
 "ögonblicksbilden. Det typiska användarfallet är att lägga till effekter i "
-"följande sekvens: den här effekten, noll eller flera effekter, verkställ "
-"mask."
+"följande sekvens: den här effekten, noll eller flera effekter, använd mask."
 
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
@@ -12191,11 +12328,10 @@ msgid ""
 msgstr ""
 "Filtret tar en ögonblicksbild av bildrutan innan en nyckelbildsbar "
 "krominansnyckelmarkering med mer avancerade alternativ (t.ex. olika "
-"färgmodeller) tillämpas. Använd det tillsammans med effekten Verkställ mask, "
+"färgmodeller) tillämpas. Använd det tillsammans med effekten Använd mask, "
 "som använder en övergång för att överlagra den aktuella bildrutans bild på "
 "ögonblicksbilden. Det typiska användarfallet är att lägga till effekter i "
-"följande sekvens: den här effekten, noll eller flera effekter, verkställ "
-"mask."
+"följande sekvens: den här effekten, noll eller flera effekter, använd mask."
 
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
@@ -12213,10 +12349,10 @@ msgid ""
 msgstr ""
 "Filtret tar en ögonblicksbild av bildrutan innan en nyckelbildsbar "
 "vektorbaserad rotoskopi tillämpas. Använd det tillsammans med effekten "
-"Verkställ mask, som använder en övergång för att överlagra den aktuella "
+"Använd mask, som använder en övergång för att överlagra den aktuella "
 "bildrutans bild på ögonblicksbilden. Det typiska användarfallet är att lägga "
 "till effekter i följande sekvens: den här effekten, noll eller flera "
-"effekter, verkställ mask."
+"effekter, använd mask."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -12259,10 +12395,10 @@ msgid ""
 msgstr ""
 "Filtret tar en ögonblicksbild av bildrutan innan en alfakanal "
 "(genomskinlighet) skapas baserad på en annan resurs. Använd det tillsammans "
-"med effekten Verkställ mask, som använder en övergång för att överlagra den "
+"med effekten Använd mask, som använder en övergång för att överlagra den "
 "aktuella bildrutans bild på ögonblicksbilden. Det typiska användarfallet är "
 "att lägga till effekter i följande sekvens: den här effekten, noll eller "
-"flera effekter, verkställ mask."
+"flera effekter, använd mask."
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -12314,7 +12450,7 @@ msgid ""
 "Whether to apply a threshold filter to the luma or alpha or not. If not, "
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
-"Om ett tröskelfilter ska tillämpas eller inte för luminans eller alfa. Om "
+"Om ett tröskelfilter ska användas eller inte för luminans eller alfa. Om "
 "inte, kopieras resursens luminans- eller alfavärde (fil) till alfakanalen."
 
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
@@ -12512,7 +12648,7 @@ msgstr "Pelareko"
 #: data/effects/pillar_echo.xml:5
 #, kde-format
 msgid "Create an echo effect (blur) outside of an area of interest."
-msgstr "Skapa en ekoeffekt (suddighet) utanför ett intresseområde."
+msgstr "Skapa en ekoeffekt (oskärpa) utanför ett intresseområde."
 
 #: data/effects/qtblend.xml:5
 #, kde-format
@@ -12950,7 +13086,7 @@ msgstr "Bearbeta ljud med en SoX-effekt"
 #: data/effects/sox/sox.xml:8
 #, kde-format
 msgid "Analysis,Apply"
-msgstr "Analys,Verkställ"
+msgstr "Analys,Använd"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1894
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
@@ -13360,7 +13496,7 @@ msgstr ""
 #: data/effects/tracker.xml:35
 #, kde-format
 msgid "Blur type"
-msgstr "Typ av suddighet"
+msgstr "Typ av oskärpa"
 
 #: data/effects/typewriter.xml:4
 #, kde-format
@@ -13710,7 +13846,7 @@ msgstr "Alfa, mask och nyckling"
 #: data/kdenliveeffectscategory.rc:10
 #, kde-format
 msgid "Blur and Sharpen"
-msgstr "Suddighet och skärpa"
+msgstr "Oskärpa och skärpa"
 
 #: data/kdenliveeffectscategory.rc:14
 #, kde-format
@@ -14899,7 +15035,7 @@ msgstr "Använd endast för effekter med samma värde"
 #: src/assets/assetpanel.cpp:90
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr "Utför effektändring på alla klipp i gruppen…"
+msgstr "Använd effektändring på alla klipp i gruppen…"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-kuit-format
@@ -16543,12 +16679,12 @@ msgstr "Inget giltigt klipp att infoga"
 #: src/timeline2/view/timelinecontroller.cpp:3446
 #, kde-format
 msgid "Select a clip to apply an effect"
-msgstr "Markera ett klipp för att verkställa en effekt"
+msgstr "Markera ett klipp för att använda en effekt"
 
 #: src/bin/bin.cpp:4036
 #, kde-format
 msgid "Cannot apply effects on folders"
-msgstr "Kan inte utföra effekter för kataloger"
+msgstr "Kan inte använda effekter för kataloger"
 
 #: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:728
 #: src/effects/effectstack/model/effectstackmodel.cpp:734
@@ -24821,7 +24957,7 @@ msgstr "Ange malltext här"
 #: src/mltcontroller/clippropertiescontroller.cpp:345
 #, kde-format
 msgid "Apply"
-msgstr "Verkställ"
+msgstr "Använd"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:377
 #, kde-format
@@ -29209,7 +29345,7 @@ msgstr "Ersätt klipp"
 #: src/timeline2/model/timelinemodel.cpp:1215
 #, kde-format
 msgid "Select a clip to apply the mix"
-msgstr "Markera ett klipp för att utföra mixningen"
+msgstr "Markera ett klipp för att använda mixningen"
 
 #: src/timeline2/model/timelinemodel.cpp:1210
 #, kde-format
@@ -29224,7 +29360,7 @@ msgstr "slut"
 #: src/timeline2/model/timelinemodel.cpp:1210
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
-msgstr "Inte tillräckligt med bildrutor i klipp %1 för att utföra mixningen"
+msgstr "Inte tillräckligt med bildrutor i klipp %1 för att använda mixningen"
 
 #: src/timeline2/model/timelinemodel.cpp:1213
 #: src/timeline2/view/timelinecontroller.cpp:1708
@@ -32357,7 +32493,7 @@ msgstr "Behandling med grafikprocessor (Movit-biblioteket):"
 #: src/ui/configsdl_ui.ui:72
 #, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr "Aktivera - starta om Kdenlive för att verkställa"
+msgstr "Aktivera - starta om Kdenlive för att använda"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:86
@@ -33851,7 +33987,7 @@ msgstr "Mask"
 #: src/ui/maskmanage_ui.ui:60
 #, kde-format
 msgid "Apply Mask"
-msgstr "Verkställ mask"
+msgstr "Använd mask"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:70
@@ -35038,7 +35174,7 @@ msgstr "Sku&gga"
 #: src/ui/titlewidget_ui.ui:866
 #, kde-format
 msgid "Blur:"
-msgstr "Suddighet:"
+msgstr "Oskärpa:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignCenter)
 #: src/ui/titlewidget_ui.ui:949
