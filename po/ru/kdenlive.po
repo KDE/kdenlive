@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-11 16:24+0300\n"
+"PO-Revision-Date: 2025-06-16 17:25+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -515,20 +515,20 @@ msgid "Channel to draw"
 msgstr "Канал для рисования"
 
 #: data/effects/avfilter/acompressor.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Compressor (avfilter)"
-msgstr "Сжатый архив:"
+msgstr "Сжиматель (avfilter)"
 
 #: data/effects/avfilter/acompressor.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio Compressor"
-msgstr "Звуковые кодеки"
+msgstr "Сжиматель звука"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Input Gain"
-msgstr "Усиление на входе (дБ)"
+msgstr "Усиление на входе"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -668,7 +668,7 @@ msgstr "Диапазон"
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
 msgid "Simple Compressor/Expander"
-msgstr ""
+msgstr "Простой сжиматель/расширитель"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
@@ -1214,7 +1214,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
 msgid "Range sigma"
-msgstr ""
+msgstr "Сигма диапазона"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:13
 #, kde-format
@@ -1392,9 +1392,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Strength"
-msgstr "Растягивание"
+msgstr "Сила"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, fuzzy, kde-format
@@ -2089,9 +2089,9 @@ msgid "Temperature"
 msgstr "Температура"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Compressor/Expander"
-msgstr "Показать/Скрыть элемент"
+msgstr "Сжиматель/расширитель"
 
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
@@ -2276,6 +2276,12 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
+"Установить силу перекрёстного сочетания сигналов.\n"
+"Значение по умолчанию: 0.2. Допустимый диапазон: от 0 до 1. Это "
+"устанавливает усиление низкочастотного полочного фильтра для боковой части "
+"стереоизображения.\n"
+"Значение по умолчанию: -6 дБ. Максимально допустимое значение составляет -30 "
+"дБ, когда сила установлена в значение «1»."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:19
 #, kde-format
@@ -2286,6 +2292,11 @@ msgid ""
 "Default is cut off near 1550 Hz. With range set to 1 cut off frequency is "
 "set to 2100 Hz. "
 msgstr ""
+"Установить ширину звуковой сцены.\n"
+"По умолчанию: 0.5. Допустимый диапазон: от 0 до 1. Это устанавливает частоту "
+"среза низкочастотного полочного фильтра.\n"
+"По умолчанию срез выполняется на частоте около 1550 Гц. Если диапазон "
+"установлен в значение «1», то частота среза устанавливается равной 2100 Гц. "
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, kde-format
@@ -3779,12 +3790,12 @@ msgstr "Качество:"
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
 msgid "Constant quantizer"
-msgstr ""
+msgstr "Постоянный квантизатор"
 
 #: data/effects/avfilter/avfilter_fspp.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "QP on B-Frames"
-msgstr "Первый кадр"
+msgstr "Параметр квантизации на B-кадрах"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
 #, fuzzy, kde-format
@@ -4041,7 +4052,7 @@ msgid ""
 "basis"
 msgstr ""
 "Этот фильтр применяет глобальное выравнивание гистограммы цветов на "
-"покадровой основе "
+"покадровой основе"
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
@@ -4209,14 +4220,16 @@ msgstr "Поменять каналы местами"
 #: data/effects/avfilter/avfilter_inflate.xml:4
 #, kde-format
 msgid "Inflate"
-msgstr ""
+msgstr "Инфляция"
 
 #: data/effects/avfilter/avfilter_inflate.xml:5
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
 msgstr ""
+"Замена пиксела локальным (3x3) средним, с учётом только тех значений, "
+"которые превышают значения пиксела."
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -4360,7 +4373,7 @@ msgstr "Коэффициент двойной квадратичной попр�
 #, kde-format
 msgid "Limits the pixel components values to the specified range [min, max]"
 msgstr ""
-"Ограничивает значения пиксельных компонентов указаннным диапазоном [минимум, "
+"Ограничивает значения пиксельных компонентов указанным диапазоном [минимум, "
 "максимум]"
 
 #: data/effects/avfilter/avfilter_limiter.xml:8
@@ -4375,7 +4388,7 @@ msgstr "Минимум"
 #: data/effects/avfilter/avfilter_limiter.xml:9
 #, kde-format
 msgid "The Min value has not to be higher than the Max value"
-msgstr ""
+msgstr "Минимальное значение не может быть выше максимального значения"
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
@@ -4389,27 +4402,27 @@ msgstr "Максимум"
 #: data/effects/avfilter/avfilter_limiter.xml:13
 #, kde-format
 msgid "The Max value has not to be lower than the Min value"
-msgstr ""
+msgstr "Максимальное значение не может быть ниже минимального значения"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:4
 #, kde-format
 msgid "Loudness normalization"
-msgstr ""
+msgstr "Нормализация громкости"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:5
 #, kde-format
 msgid "EBU R128 loudness normalization"
-msgstr ""
+msgstr "Нормализация громкости EBU R128"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:8
 #, kde-format
 msgid "Integrated loudness target"
-msgstr ""
+msgstr "Цель интегральной громкости"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:11
 #, kde-format
 msgid "Loudness range target"
-msgstr ""
+msgstr "Цель диапазона громкости"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:14
 #, kde-format
@@ -4419,12 +4432,12 @@ msgstr "Максимальный истинный пик"
 #: data/effects/avfilter/avfilter_loudnorm.xml:17
 #, kde-format
 msgid "Measured IL of input file"
-msgstr ""
+msgstr "Измеренная интегральная громкость входного файла"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:20
 #, kde-format
 msgid "Measured LRA of input file"
-msgstr ""
+msgstr "Измеренный диапазон громкости входного файла"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:23
 #, kde-format
@@ -4434,7 +4447,7 @@ msgstr "Измеренный истинный пик входного файла
 #: data/effects/avfilter/avfilter_loudnorm.xml:26
 #, kde-format
 msgid "Measured threshold of input file"
-msgstr ""
+msgstr "Измеренный порог входного файла"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
 #, fuzzy, kde-format
@@ -4452,7 +4465,7 @@ msgid "Treat mono input files as \"dual-mono\""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Low-pass"
 msgstr "Низкие частоты"
 
@@ -4520,9 +4533,9 @@ msgid "Picture field parity"
 msgstr "Паритет полей изображения"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "QP"
-msgstr "П"
+msgstr "Параметр квантизации"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:18
 #, kde-format
@@ -4534,9 +4547,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Median"
-msgstr "MediaInfo:"
+msgstr "Медиана"
 
 #: data/effects/avfilter/avfilter_median.xml:5
 #: data/effects/avfilter/avfilter_scroll.xml:5
@@ -4573,7 +4586,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_median.xml:17
 #, kde-format
 msgid "Median percentile"
-msgstr ""
+msgstr "Медианный процентиль"
 
 #: data/effects/avfilter/avfilter_median.xml:19
 #, kde-format
@@ -4581,6 +4594,10 @@ msgid ""
 "<![CDATA[Default value of 50 will pick always median values,<br>\n"
 "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
 msgstr ""
+"<![CDATA[При значении по умолчанию (50) всегда будут выбираться медианные "
+"значения,<br>\n"
+"       \tпри значении «0» — минимальные значения, при значении «100» — "
+"максимальные значения.]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:22
 #, fuzzy, kde-format
@@ -4989,9 +5006,9 @@ msgid "Set pixels to skip when sampling frames"
 msgstr "Перейти к клипу при добавлении эффекта"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bypass"
-msgstr "Два прохода"
+msgstr "Обход"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
@@ -6894,8 +6911,8 @@ msgstr "Нормализация"
 #, kde-format
 msgid "Dynamically correct audio loudness as recommended by EBU R128"
 msgstr ""
-"Динамически корректная громкость звука в соответствии с рекомендациями EBU "
-"R128"
+"Динамическое регулирование громкости звука в соответствии с рекомендациями "
+"EBU R128"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -7215,9 +7232,9 @@ msgid "Keep RED"
 msgstr "Сохранение красного"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Influence on Red channel]]>"
-msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
+msgstr "<![CDATA[Влияние на канал красного]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
 #, kde-format
@@ -7225,9 +7242,9 @@ msgid "Keep GREEN"
 msgstr "Сохранение зелёного"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Influence on Green channel]]>"
-msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
+msgstr "<![CDATA[Влияние на канал зелёного]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
@@ -7235,9 +7252,9 @@ msgid "Keep BLUE"
 msgstr "Сохранение синего"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Influence on Blue channel]]>"
-msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
+msgstr "<![CDATA[Влияние на канал синего]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, fuzzy, kde-format
@@ -7854,7 +7871,7 @@ msgstr "тангаж"
 msgid ""
 "<![CDATA[The amount to rotate the image<br>\n"
 "    \t(nose up or down).]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Количество частиц пыли на изображении]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
@@ -8365,7 +8382,7 @@ msgstr "Радиус поиска при анализе"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:27
 #, fuzzy, kde-format
 msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Количество частиц пыли на изображении]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, fuzzy, kde-format
@@ -8375,7 +8392,7 @@ msgstr "Смещение анализа"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
 #, fuzzy, kde-format
 msgid "<![CDATA[The distance between the track points]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Интенсивность зернистости]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -9432,74 +9449,74 @@ msgid "Set the shape color of the fifth detected face."
 msgstr "Установить цвет фигуры пятого найденного лица."
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Film Grain"
-msgstr "Зернистость"
+msgstr "Зернистость плёнки"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "Добавление зернистости как на плёнке и смягчение изображения"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Grain amount"
-msgstr "Интенсивность тонирования"
+msgstr "Интенсивность зернистости"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Интенсивность зернистости]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Red grain"
-msgstr "Баланс центра"
+msgstr "Зернистость красного"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
+msgstr "<![CDATA[Процент зернистости, применяемый к каналу красного]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Green grain"
-msgstr "Зелёный оттенок"
+msgstr "Зернистость зелёного"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
+msgstr "<![CDATA[Процент зернистости, применяемый к каналу зелёного]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blue grain"
-msgstr "Баланс"
+msgstr "Зернистость синего"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
+msgstr "<![CDATA[Процент зернистости, применяемый к каналу синего]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blur amount"
-msgstr "Количество «сухого»"
+msgstr "Интенсивность размытия"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "<![CDATA[Смещение вдоль оси X]]>"
+msgstr "<![CDATA[Интенсивность размытия]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dust amount"
-msgstr "Количество «мокрого»"
+msgstr "Интенсивность пыли"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Количество частиц пыли на изображении]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -9657,14 +9674,14 @@ msgid "Enable edge compensation"
 msgstr "Включить режим заполнения краёв"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Kaleidoscope"
-msgstr "Вектороскоп"
+msgstr "Калейдоскоп"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Applies a kaleidoscope effect"
-msgstr "Выберите клип для сравнения эффектов"
+msgstr "Применение эффекта калейдоскопа"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
 #, fuzzy, kde-format
@@ -12422,22 +12439,22 @@ msgid "Microphone background noise removal filter"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
-#, fuzzy, no-c-format, kde-format
+#, no-c-format, kde-format
 msgid "VAD Threshold (%)"
-msgstr "Порог"
+msgstr "Порог обнаружения голосового сигнала (%)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "Отсрочка после обнаружения голосового сигнала (мс)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "Ретроактивная отсрочка после обнаружения голосового сигнала (мс)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Limiter Effect Name"
 msgid "Limiter"
 msgstr "Ограничитель"
@@ -12528,7 +12545,7 @@ msgid "Rate"
 msgstr "Темп"
 
 #: data/effects/ladspa/ladspa_reverb.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Reverb Effect Name"
 msgid "Reverb"
 msgstr "Реверберация"
@@ -12570,7 +12587,7 @@ msgid "Delay (s/10)"
 msgstr "Задержка (с/10)"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Vinyl Effect Name"
 msgid "Vinyl"
 msgstr "Винил"
@@ -12581,7 +12598,7 @@ msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr "Имитация звука винилового проигрывателя (эффект LADSPA)"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Vinyl Effect Year"
 msgid "Year"
 msgstr "Год"
@@ -15175,7 +15192,7 @@ msgstr "Каше"
 #: data/transitions/wipe.xml:5
 #, kde-format
 msgid "Applies a stationary transition between the current and next frames."
-msgstr "Переход между текущим и следующим кадрами без смещения."
+msgstr "Переход между текущим и следующим кадрами без смещения"
 
 #: data/transitions/luma.xml:8 data/transitions/region.xml:27
 #: data/transitions/wipe.xml:8
@@ -19643,7 +19660,7 @@ msgid "JogShuttle"
 msgstr "Поворотный регулятор"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
@@ -19651,7 +19668,7 @@ msgid ""
 "a>."
 msgstr ""
 "Сведения о конфигурации устройства доступны в <a href=\"https://docs."
-"kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive."
+"kdenlive.org/getting_started/configure_kdenlive/configuration_jogshuttle."
 "html#windows?mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings"
 "\">документации</a>."
 
