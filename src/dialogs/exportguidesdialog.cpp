@@ -116,6 +116,11 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     infoMenu.insert(QStringLiteral("{{frame}}"), i18n("Guide position in frames"));
     infoMenu.insert(QStringLiteral("{{nextframe}}"), i18n("Next guide position in frames"));
     infoMenu.insert(QStringLiteral("{{comment}}"), i18n("Guide comment"));
+    infoMenu.insert(QStringLiteral("{{duration}}"), i18n("Marker duration in frames"));
+    infoMenu.insert(QStringLiteral("{{durationtimecode}}"), i18n("Marker duration in timecode"));
+    infoMenu.insert(QStringLiteral("{{endtimecode}}"), i18n("Marker end position in timecode"));
+    infoMenu.insert(QStringLiteral("{{endframe}}"), i18n("Marker end position in frames"));
+    infoMenu.insert(QStringLiteral("{{hasrange}}"), i18n("Whether marker has range (true/false)"));
     QMapIterator<QString, QString> i(infoMenu);
     QAction *a;
     while (i.hasNext()) {
@@ -211,6 +216,11 @@ void ExportGuidesDialog::updateContentByModel() const
         line.replace("{{nextframe}}", QString::number(nextTime.frames(currentFps)));
         line.replace("{{comment}}", currentMarker.comment());
         line.replace("{{category}}", pCore->markerTypes[currentMarker.markerType()].displayName);
+        line.replace("{{duration}}", QString::number(currentMarker.duration().frames(currentFps)));
+        line.replace("{{durationtimecode}}", pCore->timecode().getDisplayTimecode(currentMarker.duration(), false));
+        line.replace("{{endtimecode}}", pCore->timecode().getDisplayTimecode(currentMarker.endTime() + offset, false));
+        line.replace("{{endframe}}", QString::number((currentMarker.endTime() + offset).frames(currentFps)));
+        line.replace("{{hasrange}}", currentMarker.hasRange() ? QStringLiteral("true") : QStringLiteral("false"));
         chapterTexts.append(line);
     }
 
@@ -236,12 +246,21 @@ const QString ExportGuidesDialog::getFFmpegChaptersData() const
     const int markerCount = markers.length();
     for (int i = 0; i < markers.length(); i++) {
         const CommentedTime &currentMarker = markers.at(i);
-        const GenTime &nextGenTime = markerCount - 1 == i ? m_projectDuration : markers.at(i + 1).time();
         GenTime currentTime = currentMarker.time() + offset;
-        GenTime nextTime = nextGenTime + offset;
+        GenTime endTime;
+
+        if (currentMarker.hasRange()) {
+            // Use actual marker duration for range markers
+            endTime = currentMarker.endTime() + offset;
+        } else {
+            // Fall back to next marker position for point markers
+            const GenTime &nextGenTime = markerCount - 1 == i ? m_projectDuration : markers.at(i + 1).time();
+            endTime = nextGenTime + offset;
+        }
+
         result.append(frameRate);
         result.append(QStringLiteral("START=%1\n").arg(currentTime.frames(currentFps)));
-        result.append(QStringLiteral("END=%1\n").arg(nextTime.frames(currentFps)));
+        result.append(QStringLiteral("END=%1\n").arg(endTime.frames(currentFps)));
         result.append(QStringLiteral("title=%1\n\n").arg(currentMarker.comment()));
     }
     return result;
