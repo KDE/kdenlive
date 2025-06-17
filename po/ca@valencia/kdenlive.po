@@ -5485,8 +5485,8 @@ msgid ""
 "blur the image (slower if larger).]]>"
 msgstr ""
 "<![CDATA[Establix el radi de la luma.<br>\n"
-"            El valor especifica la variància del filtre gaussià emprat per a "
-"difuminar la imatge (més lent si és més gran).]]>"
+"            El valor especifica la variància del filtre «Gaussià» emprat per "
+"a difuminar la imatge (més lent si és més gran).]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
@@ -5537,8 +5537,8 @@ msgid ""
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
 "<![CDATA[Establix el radi del croma.<br>\n"
-"            El valor especifica la variància del filtre gaussià emprat per a "
-"difuminar la imatge (més lent si és més gran). Si no s'especifica, "
+"            El valor especifica la variància del filtre «Gaussià» emprat per "
+"a difuminar la imatge (més lent si és més gran). Si no s'especifica, "
 "s'aplicarà el valor establit per al <em>radi de la luma</em>]]>"
 
 # El croma és masculí, segons el Termcat
@@ -5598,8 +5598,8 @@ msgid ""
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
 "<![CDATA[Establix el radi de l'alfa.<br>\n"
-"            El valor especifica la variància del filtre gaussià emprat per a "
-"difuminar la imatge (més lent si és més gran). Si no s'especifica, "
+"            El valor especifica la variància del filtre «Gaussià» emprat per "
+"a difuminar la imatge (més lent si és més gran). Si no s'especifica, "
 "s'aplicarà el valor establit per al <em>radi de la luma</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
