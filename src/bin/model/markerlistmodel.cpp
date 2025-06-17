@@ -872,8 +872,32 @@ bool MarkerListModel::importFromTxt(const QString &fileData, Fun &undo, Fun &red
             qDebug() << "::: Could not read timecode from line: " << line;
             continue;
         }
+
+        // Parse comment and optional duration
         QString comment = line.section(QLatin1Char(' '), 1);
-        res = addMarker(position, comment, type, undo, redo);
+        GenTime duration(0);
+
+        // Check if there's a duration specified at the end in brackets [duration]
+        if (comment.endsWith(']')) {
+            int bracketStart = comment.lastIndexOf('[');
+            if (bracketStart != -1 && bracketStart > 0) {
+                QString durationStr = comment.mid(bracketStart + 1, comment.length() - bracketStart - 2);
+
+                bool ok;
+                double durationSeconds = durationStr.toDouble(&ok);
+                if (ok && durationSeconds > 0) {
+                    duration = GenTime(durationSeconds);
+                    comment = comment.left(bracketStart).trimmed();
+                }
+            }
+        }
+
+        if (duration > GenTime(0)) {
+            res = addRangeMarker(position, duration, comment, type, undo, redo);
+        } else {
+            res = addMarker(position, comment, type, undo, redo);
+        }
+
         if (!res) {
             break;
         } else if (!lineRead) {
