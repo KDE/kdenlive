@@ -18,7 +18,7 @@ constexpr int CHANNEL_BORDER_WIDTH = 1;      // px for channel border
 constexpr int BLOCK_LINE_SPACING = 4;        // px between each block line. Block line is a line perpendicular to the primary axis.
 constexpr double BLOCK_LINE_GAP_FACTOR = 0.; // gap between block line and channel border/separator. multiplied by secondary axis length
 constexpr int BLOCK_LINE_WIDTH = 1;          // pen size for block lines
-constexpr int PEAK_INDICATOR_WIDTH = 3;      // px for peak indicator
+constexpr int PEAK_INDICATOR_WIDTH = 2;      // px for peak indicator
 constexpr int TICK_MARK_LENGTH = 2;          // px for tick mark
 constexpr int TICK_MARK_THICKNESS = 1;
 constexpr int MARGIN_BETWEEN_LABEL_AND_LEVELS = TICK_MARK_LENGTH + 2; // px between decibels scale labels and audio levels
@@ -27,8 +27,8 @@ constexpr int MINIMUM_SECONDARY_AXIS_LENGTH = 3; // minimum height/width for aud
 constexpr int MAXIMUM_SECONDARY_AXIS_LENGTH = 7; // maximum height/width for audio level channels
 
 // Audio level thresholds in dB
-constexpr double LEVEL_HIGH_THRESHOLD = -5.0; // Levels above this are red
-constexpr double LEVEL_MID_THRESHOLD = -8.0;  // Levels between this and HIGH are yellow
+constexpr double LEVEL_HIGH_THRESHOLD = -6.0; // Levels above this are red
+constexpr double LEVEL_MID_THRESHOLD = -18.0; // Levels between this and HIGH are yellow
                                               // Levels below MID_THRESHOLD are green
 
 constexpr int NO_AUDIO_DB = -100;

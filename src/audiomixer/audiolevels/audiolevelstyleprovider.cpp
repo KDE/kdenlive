@@ -62,9 +62,9 @@ QColor AudioLevelStyleProvider::getPeakColor(const QPalette &palette, double pea
 {
     if (AudioLevelConfig::instance().peakIndicatorStyle() == AudioLevel::PeakIndicatorStyle::Colorful) {
         LevelColors levelColors = getLevelsFillColors(palette);
-        if (peakValue > -5.0) { // LEVEL_HIGH_THRESHOLD
+        if (peakValue > -6.0) { // LEVEL_HIGH_THRESHOLD
             return levelColors.red;
-        } else if (peakValue > -8.0) { // LEVEL_MID_THRESHOLD
+        } else if (peakValue > -18.0) { // LEVEL_MID_THRESHOLD
             return levelColors.yellow;
         } else {
             return levelColors.green;
@@ -96,29 +96,23 @@ QLinearGradient AudioLevelStyleProvider::getLevelsFillGradient(const QPalette &p
 
     if (orientation == Qt::Horizontal) {
         gradient = QLinearGradient(0, 0, 1, 0);
-        double gradientVal = 0.;
-        gradient.setColorAt(gradientVal, levelColors.green.darker(130));
-        gradientVal = IEC_ScaleMax(-12, maxDb);
-        gradient.setColorAt(gradientVal, levelColors.green);
-        gradientVal = IEC_ScaleMax(-8, maxDb);
-        gradient.setColorAt(gradientVal, levelColors.yellow);
-        gradientVal = IEC_ScaleMax(-5, maxDb);
-        gradient.setColorAt(gradientVal,
-                            QColor::fromRgb((levelColors.yellow.red() + levelColors.red.red()) / 2, (levelColors.yellow.green() + levelColors.red.green()) / 2,
-                                            (levelColors.yellow.blue() + levelColors.red.blue()) / 2));
-        gradient.setColorAt(1., levelColors.red);
+        gradient.setColorAt(0., levelColors.green.darker(130));
+        gradient.setColorAt(IEC_ScaleMax(-24, maxDb), levelColors.green);
+        gradient.setColorAt(IEC_ScaleMax(-12, maxDb), QColor::fromRgb((levelColors.green.red() + levelColors.yellow.red()) / 2,
+                                                                      (levelColors.green.green() + levelColors.yellow.green()) / 2,
+                                                                      (levelColors.green.blue() + levelColors.yellow.blue()) / 2));
+        gradient.setColorAt(IEC_ScaleMax(-6, maxDb), levelColors.yellow);
+        gradient.setColorAt(IEC_ScaleMax(-2, maxDb), levelColors.red);
+        gradient.setColorAt(1.0, levelColors.red.darker(130));
     } else {
         gradient = QLinearGradient(0, 1, 0, 0);
-        double gradientVal = 1.0;
-        gradient.setColorAt(gradientVal, levelColors.red);
-        gradientVal = IEC_ScaleMax(-5, maxDb);
-        gradient.setColorAt(gradientVal,
-                            QColor::fromRgb((levelColors.yellow.red() + levelColors.red.red()) / 2, (levelColors.yellow.green() + levelColors.red.green()) / 2,
-                                            (levelColors.yellow.blue() + levelColors.red.blue()) / 2));
-        gradientVal = IEC_ScaleMax(-8, maxDb);
-        gradient.setColorAt(gradientVal, levelColors.yellow);
-        gradientVal = IEC_ScaleMax(-12, maxDb);
-        gradient.setColorAt(gradientVal, levelColors.green);
+        gradient.setColorAt(1.0, levelColors.red.darker(130));
+        gradient.setColorAt(IEC_ScaleMax(-2, maxDb), levelColors.red);
+        gradient.setColorAt(IEC_ScaleMax(-6, maxDb), levelColors.yellow);
+        gradient.setColorAt(IEC_ScaleMax(-12, maxDb), QColor::fromRgb((levelColors.green.red() + levelColors.yellow.red()) / 2,
+                                                                      (levelColors.green.green() + levelColors.yellow.green()) / 2,
+                                                                      (levelColors.green.blue() + levelColors.yellow.blue()) / 2));
+        gradient.setColorAt(IEC_ScaleMax(-24, maxDb), levelColors.green);
         gradient.setColorAt(0.0, levelColors.green.darker(130));
     }
 

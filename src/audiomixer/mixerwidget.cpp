@@ -183,7 +183,7 @@ void MixerWidget::buildVolumeControls()
     m_volumeSpin->setDecimals(2);
     m_volumeSpin->setAlignment(Qt::AlignCenter);
 
-    m_dbLabel = new QLabel(QStringLiteral("dB"), this);
+    m_dbLabel = new QLabel(i18n("dB"), this);
     m_dbLabel->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
 }
 
@@ -665,7 +665,7 @@ void MixerWidget::updateMonitorState()
         }
         int level = m_levelFilter->get_int("level");
         m_volumeSpin->setRange(-100, 60);
-        m_dbLabel->setText(QStringLiteral("dB"));
+        m_dbLabel->setText(i18n("dB"));
         m_volumeSlider->setValueToSliderFunction([](double dB) { return static_cast<int>(fromDB(dB) * 100.0); });
         QVector<double> gainValues({-24, -10, -4, 0, 4, 10, 24});
         m_volumeSlider->setTickPositions(gainValues);
