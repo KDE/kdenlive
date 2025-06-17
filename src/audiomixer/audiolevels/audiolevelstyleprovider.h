@@ -14,9 +14,12 @@ class AudioLevelStyleProvider
 public:
     struct LevelColors
     {
+        QColor darkGreen;
         QColor green;
         QColor yellow;
+        QColor orange;
         QColor red;
+        QColor darkRed;
     };
 
     static AudioLevelStyleProvider &instance();
