@@ -20,6 +20,14 @@ public:
         QColor orange;
         QColor red;
         QColor darkRed;
+
+        // Decibel thresholds for each color transition
+        // Below green is dark green
+        static constexpr double greenThreshold = -18.0; // Below this is green
+        static constexpr double yellowThreshold = -6.0; // Below this is yellow
+        static constexpr double orangeThreshold = -4.0; // Below this is orange
+        static constexpr double redThreshold = -2.0;    // Below this is red
+        // Above red is dark red
     };
 
     static AudioLevelStyleProvider &instance();

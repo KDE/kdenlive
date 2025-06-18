@@ -23,14 +23,6 @@ class AudioLevelWidget : public QWidget
 {
     Q_OBJECT
 public:
-    // Structure to hold theme-aware level colors
-    struct LevelColors
-    {
-        QColor green;
-        QColor yellow;
-        QColor red;
-    };
-
     explicit AudioLevelWidget(QWidget *parent = nullptr, Qt::Orientation orientation = Qt::Vertical,
                               AudioLevel::TickLabelsMode tickLabelsMode = AudioLevel::TickLabelsMode::Show);
     ~AudioLevelWidget() override;
