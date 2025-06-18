@@ -103,6 +103,7 @@ public:
     // Main drawing methods
     void drawBackground(QPainter &painter, const RenderData &data);
     void drawChannelLevels(QPainter &painter, const RenderData &data);
+    void drawChannelBordersToPixmap(QPixmap &pixmap, const RenderData &data);
 
     // Helper methods for coordinate conversion
     static int dBToPrimaryOffset(double dB, int maxDb, int primaryLength, Qt::Orientation orientation);

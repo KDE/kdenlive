@@ -182,6 +182,16 @@ void AudioLevelRenderer::drawBackground(QPainter &painter, const RenderData &dat
     drawDbScale(painter, data);
 }
 
+void AudioLevelRenderer::drawChannelBordersToPixmap(QPixmap &pixmap, const RenderData &data)
+{
+    QPainter p(&pixmap);
+    p.setCompositionMode(QPainter::CompositionMode_Clear);
+    p.fillRect(pixmap.rect(), Qt::transparent);
+    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    drawChannelBorders(p, data, false);
+    p.end();
+}
+
 void AudioLevelRenderer::drawChannelBorders(QPainter &painter, const RenderData &data, bool fillBackground) const
 {
     painter.save();
@@ -563,5 +573,4 @@ void AudioLevelRenderer::drawChannelLevels(QPainter &painter, const RenderData &
         drawChannelLevelsGradient(painter, data);
     }
     drawBlockLines(painter, data);
-    drawChannelBorders(painter, data, false);
 }

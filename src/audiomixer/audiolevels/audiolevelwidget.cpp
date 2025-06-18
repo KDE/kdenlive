@@ -154,6 +154,9 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
 
     m_renderer->drawChannelLevels(p, renderData);
 
+    // Draw cached channel borders on top
+    p.drawPixmap(0, 0, m_bordersCache);
+
     if (m_displayToolTip) {
         updateToolTip();
     }
@@ -307,9 +310,16 @@ void AudioLevelWidget::drawBackground()
     renderData.primaryAxisLength = m_cachedPrimaryAxisLength;
     renderData.secondaryAxisLength = m_cachedSecondaryAxisLength;
 
-    // Draw background using renderer
     m_renderer->drawBackground(p, renderData);
     p.end();
+
+    // Update borders cache
+    m_bordersCache = QPixmap(newSize * scalingFactor);
+    m_bordersCache.setDevicePixelRatio(scalingFactor);
+    if (!m_bordersCache.isNull()) {
+        m_renderer->drawChannelBordersToPixmap(m_bordersCache, renderData);
+    }
+
     update();
 }
 
