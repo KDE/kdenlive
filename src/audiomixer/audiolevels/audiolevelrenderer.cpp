@@ -333,7 +333,7 @@ void AudioLevelRenderer::drawBlockLines(QPainter &painter, const RenderData &dat
     if (!AudioLevelConfig::instance().drawBlockLines()) {
         return;
     }
-    QPen pen(AudioLevelStyleProvider::instance().getChannelBackgroundColor(data.palette));
+    QPen pen(AudioLevelStyleProvider::instance().getBorderColor(data.palette, data.isEnabled));
     pen.setWidthF(BLOCK_LINE_WIDTH);
     painter.setPen(pen);
     int secondaryLen = data.secondaryAxisLength;
