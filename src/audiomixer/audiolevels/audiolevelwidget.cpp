@@ -51,7 +51,7 @@ AudioLevelWidget::AudioLevelWidget(QWidget *parent, Qt::Orientation orientation,
     , m_monochromePeakAction(nullptr)
     , m_cachedPrimaryAxisLength(0)
     , m_cachedSecondaryAxisLength(0)
-    , m_axisLengthsDirty(true)
+    , m_axisDimensionsNeedUpdate(true)
     , m_renderer(new AudioLevelRenderer(this))
 {
     QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -90,7 +90,7 @@ void AudioLevelWidget::leaveEvent(QEvent *event)
 void AudioLevelWidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    m_axisLengthsDirty = true;
+    m_axisDimensionsNeedUpdate = true;
     updateLayoutAndSizing();
     updatePrimaryAxisPositions();
     drawBackground();
@@ -121,7 +121,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
 
     if (m_orientation == Qt::Horizontal && layoutState.isInHoverLabelMode()) {
         // clip to prevent drawing over labels in hovering mode
-        QRect clipRect(0, 0, width(), height() - layoutState.getEffectiveOffset());
+        QRect clipRect(0, 0, width(), height() - layoutState.getEffectiveBorderOffset());
         p.setClipRect(clipRect);
     }
 
@@ -288,7 +288,7 @@ void AudioLevelWidget::setAudioValues(const QVector<double> &values)
 
     if (channelCountChanged) {
         audioChannels = m_valueDecibels.size();
-        m_axisLengthsDirty = true;
+        m_axisDimensionsNeedUpdate = true;
         updateLayoutAndSizing();
     }
     if (peaksInitialized) {
@@ -350,14 +350,14 @@ void AudioLevelWidget::setOrientation(Qt::Orientation orientation)
         // Update offset based on whether we draw ticks/labels
         if (m_drawTicksAndLabels) {
             if (m_orientation == Qt::Horizontal) {
-                m_offset = fontMetrics().height() + MARGIN_BETWEEN_LABEL_AND_LEVELS;
+                m_borderOffset = fontMetrics().height() + MARGIN_BETWEEN_LABEL_AND_LEVELS;
             } else {
-                m_offset = fontMetrics().boundingRect(QStringLiteral("-45")).width() + MARGIN_BETWEEN_LABEL_AND_LEVELS;
+                m_borderOffset = fontMetrics().boundingRect(QStringLiteral("-45")).width() + MARGIN_BETWEEN_LABEL_AND_LEVELS;
             }
         } else {
-            m_offset = 0;
+            m_borderOffset = 0;
         }
-        m_axisLengthsDirty = true;
+        m_axisDimensionsNeedUpdate = true;
         drawBackground();
     }
 }
@@ -399,12 +399,12 @@ void AudioLevelWidget::updateLayoutAndSizing()
     // Create layout state to calculate offsets
     AudioLevelLayoutState layoutState(createLayoutConfig());
 
-    int offset = layoutState.getOffset();
-    int offsetWithLabels = layoutState.getOffsetWithLabels();
+    int borderOffset = layoutState.getBorderOffset();
+    int borderOffsetWithLabels = layoutState.getBorderOffsetWithLabels();
 
-    m_axisLengthsDirty = m_axisLengthsDirty || m_offset != offset;
-    m_offset = offset;
-    m_offset_with_labels = offsetWithLabels;
+    m_axisDimensionsNeedUpdate = m_axisDimensionsNeedUpdate || m_borderOffset != borderOffset;
+    m_borderOffset = borderOffset;
+    m_borderOffsetWithLabels = borderOffsetWithLabels;
     m_drawLabels = layoutState.shouldDrawLabels();
 
     if (m_orientation == Qt::Horizontal) {
@@ -412,8 +412,8 @@ void AudioLevelWidget::updateLayoutAndSizing()
         int minHeight = audioChannels * MINIMUM_SECONDARY_AXIS_LENGTH + (audioChannels + 1) * 1; // Using 1 for CHANNEL_BORDER_WIDTH
         int maxHeight = audioChannels * MAXIMUM_SECONDARY_AXIS_LENGTH + (audioChannels + 1) * 1;
         if (m_tickLabelsMode != AudioLevel::TickLabelsMode::Hide) {
-            minHeight += m_offset;
-            maxHeight += m_offset_with_labels;
+            minHeight += m_borderOffset;
+            maxHeight += m_borderOffsetWithLabels;
         }
         setMinimumHeight(minHeight);
         setMaximumHeight(maxHeight);
@@ -422,8 +422,8 @@ void AudioLevelWidget::updateLayoutAndSizing()
         int minWidth = audioChannels * MINIMUM_SECONDARY_AXIS_LENGTH + (audioChannels + 1) * 1; // Using 1 for CHANNEL_BORDER_WIDTH
         int maxWidth = audioChannels * MAXIMUM_SECONDARY_AXIS_LENGTH + (audioChannels + 1) * 1;
         if (m_tickLabelsMode != AudioLevel::TickLabelsMode::Hide) {
-            minWidth += m_offset;
-            maxWidth += m_offset_with_labels;
+            minWidth += m_borderOffset;
+            maxWidth += m_borderOffsetWithLabels;
         }
         setMinimumWidth(minWidth);
         setMaximumWidth(maxWidth);
@@ -433,7 +433,7 @@ void AudioLevelWidget::updateLayoutAndSizing()
 
 void AudioLevelWidget::updateAxisLengths()
 {
-    if (!m_axisLengthsDirty) {
+    if (!m_axisDimensionsNeedUpdate) {
         return;
     }
 
@@ -442,7 +442,7 @@ void AudioLevelWidget::updateAxisLengths()
     // Use layout state to calculate secondary axis length
     AudioLevelLayoutState layoutState(createLayoutConfig());
     m_cachedSecondaryAxisLength = layoutState.calculateSecondaryAxisLength();
-    m_axisLengthsDirty = false;
+    m_axisDimensionsNeedUpdate = false;
 }
 
 AudioLevelLayoutState::Config AudioLevelWidget::createLayoutConfig() const
