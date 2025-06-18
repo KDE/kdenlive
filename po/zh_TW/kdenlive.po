@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-05-07 10:25+0900\n"
+"PO-Revision-Date: 2025-06-17 09:56+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -804,10 +804,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe Method"
+#, kde-format
 msgid "Method"
-msgstr "擦拭方法"
+msgstr "方法"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -1130,10 +1129,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bass.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Bass"
+#, kde-format
 msgid "Bass"
-msgstr "Sox 低音"
+msgstr "低音"
 
 #: data/effects/avfilter/avfilter_bass.xml:5
 #, kde-format
@@ -1260,10 +1258,9 @@ msgid "How many times should the boxblur be applied to chroma"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Alpha Radius"
-msgstr "模糊半徑"
+msgstr "Alpha 半徑"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
@@ -1507,10 +1504,9 @@ msgid "Manhattan,Euclidean"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
-#, fuzzy, kde-format
-#| msgid "Dance"
+#, kde-format
 msgid "Distance"
-msgstr "舞蹈"
+msgstr "距離"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, fuzzy, kde-format
@@ -1571,69 +1567,60 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Red Shadow"
-msgstr "陰影"
+msgstr "紅色陰影"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:11
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Green Shadow"
-msgstr "陰影"
+msgstr "綠色陰影"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Blue Shadow"
-msgstr "陰影"
+msgstr "藍色陰影"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "紅色中間色"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green Midtones"
-msgstr "色調"
+msgstr "綠色中間色"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:23
 #, kde-format
 msgid "Blue Midtones"
-msgstr ""
+msgstr "藍色中間色"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red Highlights"
-msgstr "突顯高峰值"
+msgstr "紅色亮部"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Green Highlights"
-msgstr "突顯高峰值"
+msgstr "綠色亮部"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Blue Highlights"
-msgstr "突顯高峰值"
+msgstr "藍色亮部"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
-#, fuzzy, kde-format
-#| msgid "Preserve alpha"
+#, kde-format
 msgid "Preserve lightness"
-msgstr "保留透明度 (alpha)"
+msgstr "保留亮度"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Channel Mixer"
-msgstr "色彩素材"
+msgstr "為頻道混合器上色"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -1648,40 +1635,34 @@ msgid "Red-Red"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Red-Green"
-msgstr "綠色"
+msgstr "紅綠"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Red-Blue"
-msgstr "藍色"
+msgstr "紅藍"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Red"
-msgstr "綠色"
+msgstr "綠紅"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
-#, fuzzy, kde-format
-#| msgid "Gain: Green"
+#, kde-format
 msgid "Green-Green"
-msgstr "增益：綠"
+msgstr "綠綠"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Blue"
-msgstr "綠色"
+msgstr "綠藍"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue-Red"
-msgstr "藍色"
+msgstr "藍紅"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:29
 #, fuzzy, kde-format
@@ -6482,13 +6463,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vibrato.xml:4
 #, kde-format
 msgid "Vibrato"
-msgstr ""
+msgstr "顫音"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:5
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Vibrato effect."
-msgstr "貼上效果"
+msgstr "顫音效果。"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
 #, fuzzy, kde-format
@@ -6647,10 +6627,9 @@ msgid "<![CDATA[Set the background opacity]]>"
 msgstr "背景不透明度"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
-#, fuzzy, kde-format
-#| msgid "Tint"
+#, kde-format
 msgid "Tint 0"
-msgstr "雙色著色"
+msgstr "雙色著色 2"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
@@ -6662,10 +6641,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
-#, fuzzy, kde-format
-#| msgid "Tint"
+#, kde-format
 msgid "Tint 1"
-msgstr "雙色著色"
+msgstr "雙色著色 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
@@ -7713,7 +7691,7 @@ msgstr "中間色"
 #: data/effects/frei0r/frei0r_balanc0r.xml:23
 #, kde-format
 msgid "Green Tint"
-msgstr "色調"
+msgstr "綠色調"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
 #, kde-format
@@ -9524,9 +9502,9 @@ msgid "Equalizes the intensity histograms"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Face blur"
-msgstr "FaceBl0r"
+msgstr "臉孔模糊"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:5
 #, kde-format
@@ -9535,9 +9513,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:8
 #: data/effects/frei0r/frei0r_facedetect.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Search scale"
-msgstr "手動搜尋"
+msgstr "搜尋層級"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:9
 #: data/effects/frei0r/frei0r_facedetect.xml:9
@@ -9549,9 +9527,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Neighbors"
-msgstr "最近鄰"
+msgstr "近鄰"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:13
 #: data/effects/frei0r/frei0r_facedetect.xml:13
@@ -9561,8 +9539,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:16
 #: data/effects/frei0r/frei0r_facedetect.xml:16
-#, fuzzy, kde-format
-#| msgid "Small"
+#, kde-format
 msgid "Smallest"
 msgstr "小"
 
@@ -9573,8 +9550,7 @@ msgid "The minimum window size in pixels."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Large"
+#, kde-format
 msgid "Largest"
 msgstr "大"
 
@@ -9587,10 +9563,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
 #: data/effects/frei0r/frei0r_facedetect.xml:20
-#, fuzzy, kde-format
-#| msgid "More checks"
+#, kde-format
 msgid "Recheck"
-msgstr "更多檢查"
+msgstr "重新檢查"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:25
 #: data/effects/frei0r/frei0r_facedetect.xml:21
@@ -9601,9 +9576,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show ellipse"
-msgstr "察看時間軸"
+msgstr "顯示橢圓"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:29
 #, kde-format
@@ -9611,9 +9586,9 @@ msgid "Draw a blue ellipse around the face area?"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Face detect"
-msgstr "邊緣檢測"
+msgstr "臉孔偵測"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:5
 #, kde-format
@@ -9621,15 +9596,14 @@ msgid "Detect faces and draw shapes on them using OpenCV"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:24
-#, fuzzy, kde-format
-#| msgid "Rectangle,Ellipse,Triangle,Diamond"
+#, kde-format
 msgid "circle,ellipse,rectangle,random"
-msgstr "矩形,橢圓,三角形,菱形"
+msgstr "圓形,橢圓,矩形,隨機"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Stroke width"
-msgstr "邊線方塊寬度"
+msgstr "筆畫寬度"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:29
 #, kde-format
@@ -9638,9 +9612,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha"
-msgstr "透通匯入"
+msgstr "Alpha"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:33
 #, kde-format
@@ -9649,10 +9623,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Antialias"
-msgstr "義大利語"
+msgstr "反鋸齒"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:37
 #, kde-format
@@ -9716,11 +9689,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Grain Effect Name"
-#| msgid "Grain"
+#, kde-format
 msgid "Film Grain"
-msgstr "隨機粒子"
+msgstr "膠片顆粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
@@ -9728,75 +9699,64 @@ msgid "Adds film-like grain and softens the picture"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Grain amount"
-msgstr "著色量"
+msgstr "膠片顆粒量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr "繞 X 軸旋轉"
+msgstr "<![CDATA[顆粒的強度]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Red grain"
-msgstr "中央平衡"
+msgstr "紅色顆粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "繞 X 軸旋轉"
+msgstr "<![CDATA[顆粒套用到紅色色板的比例]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green grain"
-msgstr "色調"
+msgstr "綠色顆粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr "繞 X 軸旋轉"
+msgstr "<![CDATA[顆粒套用到綠色色板的比例]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Blue grain"
-msgstr "平衡"
+msgstr "藍色顆粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr "繞 X 軸旋轉"
+msgstr "<![CDATA[顆粒套用到藍色色板的比例]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blur amount"
-msgstr "著色量"
+msgstr "模糊量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "繞 X 軸旋轉"
+msgstr "<![CDATA[模糊的強度]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Dust amount"
-msgstr "著色量"
+msgstr "灰塵量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "繞 X 軸旋轉"
+msgstr "<![CDATA[影像中灰塵粒子的量]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -9809,10 +9769,9 @@ msgid "<![CDATA[The amount of variation in brightness between frames]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
-#, fuzzy, kde-format
-#| msgid "Flip"
+#, kde-format
 msgid "Flippo"
-msgstr "翻轉"
+msgstr "Flippo"
 
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
@@ -9820,14 +9779,14 @@ msgid "Flipping in X and Y axis"
 msgstr "依 X 軸與 Y 軸翻轉"
 
 #: data/effects/frei0r/frei0r_flippo.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "X axis"
-msgstr "繪制座標軸"
+msgstr "X 軸"
 
 #: data/effects/frei0r/frei0r_flippo.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Y axis"
-msgstr "繪制座標軸"
+msgstr "Y 軸"
 
 #: data/effects/frei0r/frei0r_G.xml:4
 #, kde-format
@@ -9840,9 +9799,9 @@ msgid "Extracts Green from Image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Glitch0r"
-msgstr "切換預覽視窗"
+msgstr "Glitch0r"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
 #, kde-format
@@ -9850,10 +9809,9 @@ msgid "Adds glitches and block shifting"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Glitch frequency"
-msgstr "頻率"
+msgstr "Glitch 效果頻率"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
@@ -9863,14 +9821,12 @@ msgid "Shift intensity"
 msgstr "強度"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Color glitching intensity"
-msgstr "強度"
+msgstr "色彩 glitch 強度"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
-#, fuzzy, kde-format
-#| msgid "Glow"
+#, kde-format
 msgctxt "Glow Effect Name"
 msgid "Glow"
 msgstr "發光"
@@ -9886,9 +9842,9 @@ msgid "Denoiser"
 msgstr "降噪"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "High quality 3D denoiser"
-msgstr "高品質"
+msgstr "高品質 3D 除雜訊器"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:8
 #, kde-format
@@ -9922,8 +9878,7 @@ msgid "Shifts the hue of a source image"
 msgstr "調整源圖片的色調"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Blur"
+#, kde-format
 msgctxt "Blur Effect name"
 msgid "Blur"
 msgstr "模糊"
@@ -9934,9 +9889,9 @@ msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_iirblur.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Amount of blur"
-msgstr "強度值"
+msgstr "模糊量"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #, kde-format
@@ -9944,37 +9899,34 @@ msgid "Exponential,Lowpass,Gaussian"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_iirblur.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select blurring algorithm"
-msgstr "選取邊線方塊色彩"
+msgstr "選取模糊演算法"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edge"
-msgstr "邊緣發光"
+msgstr "邊緣"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable edge compensation"
-msgstr "邊緣校正"
+msgstr "啟用邊緣校正"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Kaleidoscope"
-msgstr "向量示波器"
+msgstr "萬花筒"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
+#, kde-format
 msgid "Applies a kaleidoscope effect"
-msgstr "選取素材來比對效果"
+msgstr "套用萬花筒效果"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "Origin X"
-msgstr "初始色彩"
+msgstr "原點 X"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:9
 #, kde-format
@@ -9982,10 +9934,9 @@ msgid "Move the origin of the kaleidoscope along the X axis"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "Origin Y"
-msgstr "初始色彩"
+msgstr "原點 Y"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:13
 #, kde-format
@@ -9993,9 +9944,9 @@ msgid "Move the origin of the kaleidoscope along the Y axis"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Segmentation"
-msgstr "作業"
+msgstr "分段"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
 #, kde-format
@@ -10107,8 +10058,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
 msgstr "背景色"
 
@@ -10120,10 +10070,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
-#, fuzzy, kde-format
-#| msgid "Opaque background"
+#, kde-format
 msgid "Use alpha background"
-msgstr "不透明背景"
+msgstr "使用透明背景"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:63
 #, kde-format
@@ -10869,15 +10818,14 @@ msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "Marker 1"
-msgstr "記號 2"
+msgstr "記號 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
 #, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr ""
+msgstr "<![CDATA[記號 1 的位置]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
 #, kde-format
@@ -10887,7 +10835,7 @@ msgstr "記號 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:34
 #, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr ""
+msgstr "<![CDATA[記號 2 的位置]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
 #, kde-format
@@ -11290,8 +11238,7 @@ msgid "Soften"
 msgstr "柔化"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
-#, fuzzy, kde-format
-#| msgid "Sharpen"
+#, kde-format
 msgctxt "Sharpen Effect Name"
 msgid "Sharpen"
 msgstr "銳利化"
@@ -11314,17 +11261,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness of image."
-msgstr "亮度降低"
+msgstr "影像的亮度。"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:17
-#, fuzzy, kde-format
-#| msgid "Sharpen"
+#, kde-format
 msgid "Sharpness"
-msgstr "銳利化"
+msgstr "銳利度"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:14
 #, kde-format
@@ -11377,10 +11322,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
 #: data/transitions/frei0r/frei0r_cairoblend.xml:12
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Blend mode"
-msgstr "邊緣型態"
+msgstr "混合模式"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
 #, kde-format
@@ -11609,14 +11553,12 @@ msgid "Indicator color"
 msgstr "結尾顏色"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
-#, fuzzy, kde-format
-#| msgid "Timer"
+#, kde-format
 msgid "Time"
-msgstr "計時器"
+msgstr "時間"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Tint"
+#, kde-format
 msgctxt "Tint Effect Name"
 msgid "Tint"
 msgstr "雙色著色"
@@ -12752,11 +12694,10 @@ msgid "Rate"
 msgstr "頻率"
 
 #: data/effects/ladspa/ladspa_reverb.xml:4
-#, fuzzy, kde-format
-#| msgid "Reverb"
+#, kde-format
 msgctxt "Reverb Effect Name"
 msgid "Reverb"
-msgstr "混響"
+msgstr "殘響"
 
 #: data/effects/ladspa/ladspa_reverb.xml:5
 #, kde-format
@@ -14884,16 +14825,14 @@ msgid "Y position"
 msgstr "Y 位置"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:14
-#, fuzzy, kde-format
-#| msgid "256 scale"
+#, kde-format
 msgid "X scale"
-msgstr "256 縮放"
+msgstr "X 縮放"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:17
-#, fuzzy, kde-format
-#| msgid "256 scale"
+#, kde-format
 msgid "Y scale"
-msgstr "256 縮放"
+msgstr "Y 縮放"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:30
 #, fuzzy, kde-format
@@ -15221,7 +15160,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
 msgid "UV Map"
-msgstr ""
+msgstr "UV 映射"
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:5
 #, kde-format
@@ -15242,16 +15181,14 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
-#, fuzzy, kde-format
-#| msgid "Horizontal Flip"
+#, kde-format
 msgid "Horizontal Barn Door Wipe"
-msgstr "水平翻轉"
+msgstr "水平兩側長條擦拭。"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:5
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal barn door wipe."
-msgstr "水平"
+msgstr "水平兩側長條擦拭。"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:8
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:8
@@ -15261,22 +15198,19 @@ msgid "Edges position"
 msgstr "Y 位置"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Vertical Barn Door Wipe"
-msgstr "垂直邊界"
+msgstr "垂直兩側長條擦拭"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:5
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Vertical barn door wipe."
-msgstr "垂直邊界"
+msgstr "垂直兩側長條擦拭。"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
-#, fuzzy, kde-format
-#| msgid "Circle"
+#, kde-format
 msgid "Circle Wipe"
-msgstr "圓形"
+msgstr "圓形擦拭"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
@@ -15284,49 +15218,42 @@ msgid "Wipe from center to edge in a circle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "Circle size"
-msgstr "檔案大小"
+msgstr "圓形大小"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Wipe Down"
-msgstr "下"
+msgstr "擦拭向下"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to bottom."
+#, kde-format
 msgid "Wipe from top to bottom."
-msgstr "將項目往下對齊。"
+msgstr "從上往下擦拭。"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:8
 #: data/transitions/frei0r/frei0r_wipe-left.xml:8
 #: data/transitions/frei0r/frei0r_wipe-right.xml:8
 #: data/transitions/frei0r/frei0r_wipe-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edge position"
-msgstr "Y 位置"
+msgstr "邊緣位置"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Wipe Left"
-msgstr "左上方"
+msgstr "擦拭向左"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to left."
+#, kde-format
 msgid "Wipe from right to left."
-msgstr "將項目靠左對齊。"
+msgstr "從右往左擦拭。"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Wipe"
-msgstr "矩形窗"
+msgstr "矩形擦拭"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
@@ -15334,16 +15261,14 @@ msgid "Wipe from center to edge in a rectangle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Rectangle size"
-msgstr "矩形"
+msgstr "矩形大小"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Right"
+#, kde-format
 msgid "Wipe Right"
-msgstr "右上方"
+msgstr "擦拭向右"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
@@ -15351,16 +15276,14 @@ msgid "Wipe from left to right."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
-#, fuzzy, kde-format
-#| msgid "Wipe"
+#, kde-format
 msgid "Wipe Up"
-msgstr "擦拭"
+msgstr "擦拭向上"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
-#, fuzzy, kde-format
-#| msgid "Raise object to top"
+#, kde-format
 msgid "Wipe from bottom to top."
-msgstr "將物件移至最上層"
+msgstr "從下往上擦拭。"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -18390,10 +18313,9 @@ msgid "Loading clips"
 msgstr "載入素材中"
 
 #: src/core.cpp:1451
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "Marker %1"
-msgstr "記號 2"
+msgstr "標記 %1"
 
 #: src/core.cpp:1805
 #, kde-format
@@ -27422,16 +27344,14 @@ msgid "Show Thumbnails"
 msgstr "顯示縮圖"
 
 #: src/project/dialogs/guideslist.cpp:133
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import…"
-msgstr "匯入"
+msgstr "匯入…"
 
 #: src/project/dialogs/guideslist.cpp:136
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Export…"
-msgstr "提取中…"
+msgstr "匯出…"
 
 #: src/project/dialogs/guideslist.cpp:139
 #, kde-format
@@ -27439,10 +27359,9 @@ msgid "Configure Categories"
 msgstr "設定分類"
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Slideshow clips"
+#, kde-format
 msgid "Show markers for all clips in the project"
-msgstr "幻燈片素材"
+msgstr "為專案中所有素材顯示標記"
 
 #: src/project/dialogs/guideslist.cpp:153
 #, kde-format
@@ -27525,10 +27444,9 @@ msgid "Default guide category. The category used for newly created guides."
 msgstr "預設參照線分類。新建立的參照線所使用的分類。"
 
 #: src/project/dialogs/guideslist.cpp:243
-#, fuzzy, kde-format
-#| msgid "All Projects"
+#, kde-format
 msgid "All Project Markers"
-msgstr "所有專案"
+msgstr "所有專案標記"
 
 #: src/project/dialogs/guideslist.cpp:319
 #, kde-format
@@ -32810,7 +32728,7 @@ msgstr "啟動時自動開啟上一次編輯的項目"
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "每"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
@@ -34183,9 +34101,9 @@ msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:175
-#, fuzzy, kde-format
+#, kde-format
 msgid "Search Markers"
-msgstr "手動搜尋"
+msgstr "搜尋標記"
 
 #. i18n: ectx: property (text), widget (QLabel, lblComponents)
 #: src/ui/histogram_ui.ui:31

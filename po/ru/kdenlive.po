@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-16 17:25+0300\n"
+"PO-Revision-Date: 2025-06-17 17:27+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1093,9 +1093,9 @@ msgstr "Высота"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
 #: data/effects/avfilter/avfilter_cas.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr "Красный,Зелёный,Синий,Яркость"
+msgstr "Альфа,Y,U,V,Красный,Зелёный,Синий,Все"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:15
 #: data/effects/avfilter/avfilter_bilateral.xml:17
@@ -1193,17 +1193,19 @@ msgstr "Полюса"
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
 msgid "Bilateral"
-msgstr ""
+msgstr "Двухсторонний"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
 msgstr ""
+"Применение двухстороннего фильтра, пространственное сглаживание с "
+"сохранением краёв"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Spatial sigma"
-msgstr "По пространству"
+msgstr "Сигма пространства"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:9
 #, kde-format
@@ -1223,9 +1225,9 @@ msgstr "Установить сигма гауссовой функции для
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_kirsch.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
-msgstr "Красный,Зелёный,Синий,Яркость"
+msgstr "Альфа,Y,U,V,Красный,Зелёный,Синий,Все,"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
@@ -1248,7 +1250,7 @@ msgstr "Радиус яркости"
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr ""
+msgstr "Радиус области размытия яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
 #, kde-format
@@ -1269,7 +1271,7 @@ msgstr "Радиус насыщенности"
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
 msgid "Radius of the chroma blurring box"
-msgstr ""
+msgstr "Радиус области размытия насыщенности"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
 #, kde-format
@@ -1289,7 +1291,7 @@ msgstr "Радиус альфа"
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
 msgid "Radius of the alpha blurring box"
-msgstr ""
+msgstr "Радиус области размытия альфа"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, fuzzy, kde-format
@@ -2682,7 +2684,7 @@ msgstr "Порог дельта"
 #: data/effects/avfilter/avfilter_deblock.xml:27
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
-msgstr ""
+msgstr "Все,Y,U,V,Альфа,Красный,Зелёный,Синий"
 
 #: data/effects/avfilter/avfilter_dedot.xml:4
 #, kde-format
@@ -3316,7 +3318,7 @@ msgstr "Эквалайзер"
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
 msgid "Adjust Brightness, contrast, gamma, saturation"
-msgstr ""
+msgstr "Настойка яркости, контрастности, гаммы, насыщенности"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
 #: data/effects/frei0r/frei0r_levels.xml:19
@@ -3329,24 +3331,24 @@ msgid "Gamma"
 msgstr "Гамма"
 
 #: data/effects/avfilter/avfilter_eq.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Red Gamma"
-msgstr "Гамма"
+msgstr "Гамма красного"
 
 #: data/effects/avfilter/avfilter_eq.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Green Gamma"
-msgstr "Зелёный 2"
+msgstr "Гамма зелёного"
 
 #: data/effects/avfilter/avfilter_eq.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blue Gamma"
-msgstr "Гамма"
+msgstr "Гамма синего"
 
 #: data/effects/avfilter/avfilter_eq.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma Weight"
-msgstr "Полутона: красный"
+msgstr "Вес гаммы"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
 #, fuzzy, kde-format
@@ -4082,9 +4084,9 @@ msgid "Level height"
 msgstr "Высота макроблока"
 
 #: data/effects/avfilter/avfilter_histogram.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scale height"
-msgstr "Высота макроблока"
+msgstr "Высота шкалы"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
 #: data/effects/avfilter/avfilter_waveform.xml:25
@@ -4793,6 +4795,8 @@ msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
 msgstr ""
+"Интенсивность временного сглаживания входного диапазона для уменьшения "
+"мерцания (по умолчанию: 0)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
@@ -5187,7 +5191,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
 msgid "Luma pre-filter radius"
-msgstr ""
+msgstr "Радиус предварительной фильтрации яркости"
 
 #: data/effects/avfilter/avfilter_sab.xml:14
 #, fuzzy, kde-format
@@ -5197,7 +5201,7 @@ msgstr "Длина"
 #: data/effects/avfilter/avfilter_sab.xml:20
 #, kde-format
 msgid "Chroma pre-filter radius"
-msgstr ""
+msgstr "Радиус предварительной фильтрации насыщенности"
 
 #: data/effects/avfilter/avfilter_sab.xml:23
 #, fuzzy, kde-format
@@ -5435,6 +5439,9 @@ msgid ""
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger).]]>"
 msgstr ""
+"<![CDATA[Установка радиуса яркости.<br>\n"
+"            Это значение указывает отклонение гауссовского фильтра, который "
+"используется для размытия изображения (медленнее, если больше).]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
@@ -5470,13 +5477,18 @@ msgid "Chroma radius"
 msgstr "Радиус насыщенности"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Установка радиуса насыщенности.<br>\n"
+"            Это значение указывает отклонение гауссовского фильтра, который "
+"используется для размытия изображения (медленнее, если больше). Если "
+"значение не указано, то по умолчанию используется значение, установленное "
+"для параметра <em>Радиус яркости</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5521,6 +5533,11 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Установка радиуса альфа.<br>\n"
+"            Это значение указывает отклонение гауссовского фильтра, который "
+"используется для размытия изображения (медленнее, если больше). Если "
+"значение не указано, то по умолчанию используется значение, установленное "
+"для параметра <em>Радиус яркости</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -7147,9 +7164,9 @@ msgid "Frame rotation in 3D space"
 msgstr "Вращение кадров в трёхмерном пространстве"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "X axis rotation"
-msgstr "Вращение по Y"
+msgstr "Вращение по X"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:11
 #, kde-format
@@ -7204,27 +7221,27 @@ msgstr "Заливка изображением или чёрным"
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
 msgid "Aech0r"
-msgstr ""
+msgstr "Aech0r"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create an analog video echo"
-msgstr "Создание сетки из видео"
+msgstr "Создание аналогового эха видео"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Fade factor"
-msgstr "Коэффициент"
+msgstr "Коэффициент затухания"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr "<![CDATA[Угол наклона вокруг оси X]]>"
+msgstr "<![CDATA[Скорость исчезания эхо]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
 msgid "<![CDATA[Darker or Brighter echo]]>"
-msgstr ""
+msgstr "<![CDATA[Более тёмное или более светлое эхо]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
@@ -7257,9 +7274,9 @@ msgid "<![CDATA[Influence on Blue channel]]>"
 msgstr "<![CDATA[Влияние на канал синего]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Strobe period"
-msgstr "Толщина контура"
+msgstr "Период стробирования"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
@@ -8510,7 +8527,7 @@ msgid "Rotates a panoramic image."
 msgstr "Поворачивает панорамное изображение."
 
 #: data/effects/frei0r/frei0r_brightness.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
 msgstr "Яркость"
@@ -9521,12 +9538,12 @@ msgstr "<![CDATA[Количество частиц пыли на изображ�
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker"
-msgstr ""
+msgstr "Мерцание"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[Интенсивность вариации яркости между кадрами]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, fuzzy, kde-format
@@ -12134,96 +12151,98 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
 "colors."
 msgstr ""
+"Настройка тона, насыщенности и светлоты для каждого из 6 основных/"
+"дополнительных цветов"
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift Red"
-msgstr "Смещение оттенка"
+msgstr "Смещение оттенка красного"
 
 #: data/effects/hsl_primaries.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale Red"
-msgstr "Насыщенность"
+msgstr "Масштаб насыщенности красного"
 
 #: data/effects/hsl_primaries.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness Scale Red"
-msgstr "Освещённость"
+msgstr "Масштаб освещённости красного"
 
 #: data/effects/hsl_primaries.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift Yellow"
-msgstr "Смещение оттенка"
+msgstr "Смещение оттенка жёлтого"
 
 #: data/effects/hsl_primaries.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale Yellow"
-msgstr "Насыщенность"
+msgstr "Масштаб насыщенности жёлтого"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
 msgid "Lightness Scale Yellow"
-msgstr ""
+msgstr "Масштаб освещённости жёлтого"
 
 #: data/effects/hsl_primaries.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift Green"
-msgstr "Тень: зелёный"
+msgstr "Смещение оттенка зелёного"
 
 #: data/effects/hsl_primaries.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale Green"
-msgstr "Насыщенность (GPU)"
+msgstr "Масштаб насыщенности зелёного"
 
 #: data/effects/hsl_primaries.xml:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness Scale Green"
-msgstr "Освещённость"
+msgstr "Масштаб освещённости зелёного"
 
 #: data/effects/hsl_primaries.xml:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift Cyan"
-msgstr "Смещение оттенка"
+msgstr "Смещение оттенка голубого"
 
 #: data/effects/hsl_primaries.xml:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale Cyan"
-msgstr "Насыщенность"
+msgstr "Масштаб насыщенности голубого"
 
 #: data/effects/hsl_primaries.xml:41
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness Scale Cyan"
-msgstr "Освещённость"
+msgstr "Масштаб освещённости голубого"
 
 #: data/effects/hsl_primaries.xml:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift Blue"
-msgstr "Смещение оттенка"
+msgstr "Смещение оттенка синего"
 
 #: data/effects/hsl_primaries.xml:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale Blue"
-msgstr "Насыщенность"
+msgstr "Масштаб насыщенности синего"
 
 #: data/effects/hsl_primaries.xml:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness Scale Blue"
-msgstr "Освещённость"
+msgstr "Масштаб освещённости синего"
 
 #: data/effects/hsl_primaries.xml:53
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift Magenta"
-msgstr "Смещение оттенка"
+msgstr "Смещение оттенка пурпурного"
 
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
 msgid "Saturation Scale Magenta"
-msgstr ""
+msgstr "Масштаб насыщенности пурпурного"
 
 #: data/effects/hsl_primaries.xml:59
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness Scale Magenta"
-msgstr "Освещённость тонируемого изображения."
+msgstr "Масштаб освещённости пурпурного"
 
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
@@ -12268,7 +12287,7 @@ msgid "The amount to blend the edges of the hue range"
 msgstr "Величина размытия края тени в пикселах"
 
 #: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Shift"
 msgstr "Смещение оттенка"
 
@@ -12278,9 +12297,9 @@ msgid "The amount to shift the hue in the hue range"
 msgstr ""
 
 #: data/effects/hsl_range.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale"
-msgstr "Насыщенность"
+msgstr "Масштаб насыщенности"
 
 #: data/effects/hsl_range.xml:25
 #, kde-format
@@ -12288,9 +12307,9 @@ msgid "The amount to scale the saturation in the hue range"
 msgstr ""
 
 #: data/effects/hsl_range.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness Scale"
-msgstr "Освещённость"
+msgstr "Масштаб освещённости"
 
 #: data/effects/hsl_range.xml:29
 #, fuzzy, kde-format
@@ -13554,9 +13573,9 @@ msgid "Process audio using a SoX effect"
 msgstr "Обработка звука с использованием эффекта SoX"
 
 #: data/effects/sox/sox.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Analysis,Apply"
-msgstr "Обработать"
+msgstr "Обработать,Применить"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
 #: src/monitor/view/MonitorSplit.qml:102
@@ -39715,3 +39734,6 @@ msgstr "%1ч"
 
 #~ msgid "Apply effect change to all clips in the group"
 #~ msgstr "Применить изменение эффекта ко всем клипам в группе"
+
+#~ msgid "Temporal smoothing, to reduce flicker"
+#~ msgstr "Временное сглаживание для уменьшения мерцания"
