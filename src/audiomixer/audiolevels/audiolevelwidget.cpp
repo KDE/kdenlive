@@ -4,7 +4,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "audiolevelwidget.hpp"
-#include "audiolevelrenderer.hpp"
 #include "audiomixer/iecscale.h"
 #include "core.h"
 #include "mlt++/Mlt.h"
@@ -118,15 +117,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
     }
 
     // Create layout state
-    AudioLevelLayoutState::Config layoutConfig;
-    layoutConfig.tickLabelsMode = m_tickLabelsMode;
-    layoutConfig.orientation = m_orientation;
-    layoutConfig.widgetSize = size();
-    layoutConfig.fontMetrics = fontMetrics();
-    layoutConfig.audioChannels = audioChannels;
-    layoutConfig.isHovered = m_isHovered;
-
-    AudioLevelLayoutState layoutState(layoutConfig);
+    AudioLevelLayoutState layoutState(createLayoutConfig());
 
     if (m_orientation == Qt::Horizontal && layoutState.isInHoverLabelMode()) {
         // clip to prevent drawing over labels in hovering mode
@@ -137,20 +128,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
     updateAxisLengths();
 
     // Create render data
-    AudioLevelRenderer::RenderData renderData(layoutConfig);
-    renderData.valueDecibels = m_valueDecibels;
-    renderData.peakDecibels = m_peakDecibels;
-    renderData.valuePrimaryAxisPositions = m_valuePrimaryAxisPositions;
-    renderData.peakPrimaryAxisPositions = m_peakPrimaryAxisPositions;
-    renderData.audioChannels = audioChannels;
-    renderData.orientation = m_orientation;
-    renderData.maxDb = m_maxDb;
-    renderData.isEnabled = isEnabled();
-    renderData.palette = palette();
-    renderData.font = font();
-    renderData.fontMetrics = fontMetrics();
-    renderData.primaryAxisLength = m_cachedPrimaryAxisLength;
-    renderData.secondaryAxisLength = m_cachedSecondaryAxisLength;
+    AudioLevelRenderer::RenderData renderData = createRenderData();
 
     m_renderer->drawChannelLevels(p, renderData);
 
@@ -285,30 +263,8 @@ void AudioLevelWidget::drawBackground()
 
     updateAxisLengths();
 
-    // Create layout state
-    AudioLevelLayoutState::Config layoutConfig;
-    layoutConfig.tickLabelsMode = m_tickLabelsMode;
-    layoutConfig.orientation = m_orientation;
-    layoutConfig.widgetSize = size();
-    layoutConfig.fontMetrics = fontMetrics();
-    layoutConfig.audioChannels = audioChannels;
-    layoutConfig.isHovered = m_isHovered;
-
     // Create render data
-    AudioLevelRenderer::RenderData renderData(layoutConfig);
-    renderData.valueDecibels = m_valueDecibels;
-    renderData.peakDecibels = m_peakDecibels;
-    renderData.valuePrimaryAxisPositions = m_valuePrimaryAxisPositions;
-    renderData.peakPrimaryAxisPositions = m_peakPrimaryAxisPositions;
-    renderData.audioChannels = audioChannels;
-    renderData.orientation = m_orientation;
-    renderData.maxDb = m_maxDb;
-    renderData.isEnabled = isEnabled();
-    renderData.palette = palette();
-    renderData.font = font();
-    renderData.fontMetrics = fontMetrics();
-    renderData.primaryAxisLength = m_cachedPrimaryAxisLength;
-    renderData.secondaryAxisLength = m_cachedSecondaryAxisLength;
+    AudioLevelRenderer::RenderData renderData = createRenderData();
 
     m_renderer->drawBackground(p, renderData);
     p.end();
@@ -441,15 +397,7 @@ QSize AudioLevelWidget::sizeHint() const
 void AudioLevelWidget::updateLayoutAndSizing()
 {
     // Create layout state to calculate offsets
-    AudioLevelLayoutState::Config layoutConfig;
-    layoutConfig.tickLabelsMode = m_tickLabelsMode;
-    layoutConfig.orientation = m_orientation;
-    layoutConfig.widgetSize = size();
-    layoutConfig.fontMetrics = fontMetrics();
-    layoutConfig.audioChannels = audioChannels;
-    layoutConfig.isHovered = m_isHovered;
-
-    AudioLevelLayoutState layoutState(layoutConfig);
+    AudioLevelLayoutState layoutState(createLayoutConfig());
 
     int offset = layoutState.getOffset();
     int offsetWithLabels = layoutState.getOffsetWithLabels();
@@ -492,15 +440,38 @@ void AudioLevelWidget::updateAxisLengths()
     m_cachedPrimaryAxisLength = AudioLevelRenderer::calculatePrimaryAxisLength(size(), m_orientation, AudioLevelConfig::instance().drawBlockLines());
 
     // Use layout state to calculate secondary axis length
-    AudioLevelLayoutState::Config layoutConfig;
-    layoutConfig.tickLabelsMode = m_tickLabelsMode;
-    layoutConfig.orientation = m_orientation;
-    layoutConfig.widgetSize = size();
-    layoutConfig.fontMetrics = fontMetrics();
-    layoutConfig.audioChannels = audioChannels;
-    layoutConfig.isHovered = m_isHovered;
-
-    AudioLevelLayoutState layoutState(layoutConfig);
+    AudioLevelLayoutState layoutState(createLayoutConfig());
     m_cachedSecondaryAxisLength = layoutState.calculateSecondaryAxisLength();
     m_axisLengthsDirty = false;
+}
+
+AudioLevelLayoutState::Config AudioLevelWidget::createLayoutConfig() const
+{
+    AudioLevelLayoutState::Config config;
+    config.tickLabelsMode = m_tickLabelsMode;
+    config.orientation = m_orientation;
+    config.widgetSize = size();
+    config.fontMetrics = fontMetrics();
+    config.audioChannels = audioChannels;
+    config.isHovered = m_isHovered;
+    return config;
+}
+
+AudioLevelRenderer::RenderData AudioLevelWidget::createRenderData() const
+{
+    AudioLevelRenderer::RenderData renderData(createLayoutConfig());
+    renderData.valueDecibels = m_valueDecibels;
+    renderData.peakDecibels = m_peakDecibels;
+    renderData.valuePrimaryAxisPositions = m_valuePrimaryAxisPositions;
+    renderData.peakPrimaryAxisPositions = m_peakPrimaryAxisPositions;
+    renderData.audioChannels = audioChannels;
+    renderData.orientation = m_orientation;
+    renderData.maxDb = m_maxDb;
+    renderData.isEnabled = isEnabled();
+    renderData.palette = palette();
+    renderData.font = font();
+    renderData.fontMetrics = fontMetrics();
+    renderData.primaryAxisLength = m_cachedPrimaryAxisLength;
+    renderData.secondaryAxisLength = m_cachedSecondaryAxisLength;
+    return renderData;
 }

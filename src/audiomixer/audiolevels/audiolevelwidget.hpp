@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "audiolevelconfig.h"
+#include "audiolevelrenderer.hpp"
 #include "audiolevelstyleprovider.h"
 #include "audioleveltypes.h"
 
@@ -84,6 +85,9 @@ private:
     void updateLayoutAndSizing();
     void updatePrimaryAxisPositions();
     void updateAxisLengths();
+
+    AudioLevelLayoutState::Config createLayoutConfig() const;
+    AudioLevelRenderer::RenderData createRenderData() const;
 
 public Q_SLOTS:
     void setAudioValues(const QVector<double> &values);
