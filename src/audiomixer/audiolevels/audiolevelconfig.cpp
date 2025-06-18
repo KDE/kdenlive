@@ -21,10 +21,10 @@ AudioLevelConfig::AudioLevelConfig()
 void AudioLevelConfig::readConfig()
 {
     KConfigGroup scopeConfig(m_configFile, "Audio_Levels");
-    m_config.levelStyle = static_cast<AudioLevel::LevelStyle>(scopeConfig.readEntry("levelStyle", static_cast<int>(AudioLevel::LevelStyle::Solid)));
+    m_config.levelStyle = static_cast<AudioLevel::LevelStyle>(scopeConfig.readEntry("levelStyle", static_cast<int>(AudioLevel::LevelStyle::Gradient)));
     m_config.drawBlockLines = scopeConfig.readEntry("drawBlockLines", false);
     m_config.peakIndicatorStyle =
-        static_cast<AudioLevel::PeakIndicatorStyle>(scopeConfig.readEntry("peakIndicatorStyle", static_cast<int>(AudioLevel::PeakIndicatorStyle::Colorful)));
+        static_cast<AudioLevel::PeakIndicatorStyle>(scopeConfig.readEntry("peakIndicatorStyle", static_cast<int>(AudioLevel::PeakIndicatorStyle::Monochrome)));
 }
 
 void AudioLevelConfig::writeConfig()

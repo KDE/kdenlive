@@ -26,11 +26,6 @@ constexpr int MARGIN_BETWEEN_LABEL_AND_LEVELS = TICK_MARK_LENGTH + 2; // px betw
 constexpr int MINIMUM_SECONDARY_AXIS_LENGTH = 3; // minimum height/width for audio level channels
 constexpr int MAXIMUM_SECONDARY_AXIS_LENGTH = 7; // maximum height/width for audio level channels
 
-// Audio level thresholds in dB
-constexpr double LEVEL_HIGH_THRESHOLD = -6.0; // Levels above this are red
-constexpr double LEVEL_MID_THRESHOLD = -18.0; // Levels between this and HIGH are yellow
-                                              // Levels below MID_THRESHOLD are green
-
 constexpr int NO_AUDIO_DB = -100;
 constexpr int NO_AUDIO_PRIMARY_AXIS_POSITION = -1;
 
@@ -482,21 +477,25 @@ void AudioLevelRenderer::drawChannelLevelsSolid(QPainter &painter, const RenderD
         bool drawLevels = data.valueDecibels.at(i) != NO_AUDIO_DB;
         if (drawLevels) {
             bool drawGreen = true;
-            bool drawYellow = value >= LEVEL_MID_THRESHOLD;
-            bool drawRed = value > LEVEL_HIGH_THRESHOLD;
+            bool drawYellow = value >= AudioLevelStyleProvider::LevelColors::greenThreshold;
+            bool drawRed = value > AudioLevelStyleProvider::LevelColors::yellowThreshold;
             int valuePrimaryAxisPosition = data.valuePrimaryAxisPositions[i];
             qreal segStart;
             qreal segEnd;
             if (data.orientation == Qt::Horizontal) {
                 if (drawGreen) {
                     segStart = CHANNEL_BORDER_WIDTH;
-                    segEnd = qMin(dBToPrimaryOffset(LEVEL_MID_THRESHOLD, data.maxDb, data.primaryAxisLength, data.orientation) - 1, valuePrimaryAxisPosition);
+                    segEnd =
+                        qMin(dBToPrimaryOffset(AudioLevelStyleProvider::LevelColors::greenThreshold, data.maxDb, data.primaryAxisLength, data.orientation) - 1,
+                             valuePrimaryAxisPosition);
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapUp(segEnd);
                     painter.fillRect(QRectF(segStart, secondaryOffset, segEnd - segStart, secondaryLength), levelColors.green);
                 }
                 if (drawYellow) {
                     segStart = segEnd;
-                    segEnd = qMin(dBToPrimaryOffset(LEVEL_HIGH_THRESHOLD, data.maxDb, data.primaryAxisLength, data.orientation) - 1, valuePrimaryAxisPosition);
+                    segEnd =
+                        qMin(dBToPrimaryOffset(AudioLevelStyleProvider::LevelColors::yellowThreshold, data.maxDb, data.primaryAxisLength, data.orientation) - 1,
+                             valuePrimaryAxisPosition);
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapUp(segEnd);
                     painter.fillRect(QRectF(segStart, secondaryOffset, segEnd - segStart, secondaryLength), levelColors.yellow);
                 }
@@ -509,13 +508,17 @@ void AudioLevelRenderer::drawChannelLevelsSolid(QPainter &painter, const RenderD
             } else { // Vertical orientation
                 if (drawGreen) {
                     segStart = CHANNEL_BORDER_WIDTH + data.primaryAxisLength;
-                    segEnd = qMax(dBToPrimaryOffset(LEVEL_MID_THRESHOLD, data.maxDb, data.primaryAxisLength, data.orientation) - 1, valuePrimaryAxisPosition);
+                    segEnd =
+                        qMax(dBToPrimaryOffset(AudioLevelStyleProvider::LevelColors::greenThreshold, data.maxDb, data.primaryAxisLength, data.orientation) - 1,
+                             valuePrimaryAxisPosition);
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapDown(segEnd);
                     painter.fillRect(QRectF(secondaryOffset, segEnd, secondaryLength, segStart - segEnd), levelColors.green);
                 }
                 if (drawYellow) {
                     segStart = segEnd;
-                    segEnd = qMax(dBToPrimaryOffset(LEVEL_HIGH_THRESHOLD, data.maxDb, data.primaryAxisLength, data.orientation) - 1, valuePrimaryAxisPosition);
+                    segEnd =
+                        qMax(dBToPrimaryOffset(AudioLevelStyleProvider::LevelColors::yellowThreshold, data.maxDb, data.primaryAxisLength, data.orientation) - 1,
+                             valuePrimaryAxisPosition);
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapDown(segEnd);
                     painter.fillRect(QRectF(secondaryOffset, segEnd, secondaryLength, segStart - segEnd), levelColors.yellow);
                 }

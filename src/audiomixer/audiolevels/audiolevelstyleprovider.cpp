@@ -40,7 +40,6 @@ QColor AudioLevelStyleProvider::getBorderColor(const QPalette &palette, bool isE
     bool isDarkTheme = palette.color(QPalette::Window).lightness() < palette.color(QPalette::WindowText).lightness();
 
     // Blend shadow color with window background color
-    // (we're not using alpha transparency here to ensure that the color below is actually Window not some spill color from the levels)
     if (isDarkTheme) {
         if (isEnabled) {
             return QColor::fromRgbF(shadowColor.redF() * 0.6 + windowColor.redF() * 0.4, shadowColor.greenF() * 0.6 + windowColor.greenF() * 0.4,
@@ -65,9 +64,9 @@ QColor AudioLevelStyleProvider::getPeakColor(const QPalette &palette, double pea
 {
     if (AudioLevelConfig::instance().peakIndicatorStyle() == AudioLevel::PeakIndicatorStyle::Colorful) {
         LevelColors levelColors = getLevelsFillColors(palette);
-        if (peakValue > -6.0) { // LEVEL_HIGH_THRESHOLD
+        if (peakValue > LevelColors::yellowThreshold) {
             return levelColors.red;
-        } else if (peakValue > -18.0) { // LEVEL_MID_THRESHOLD
+        } else if (peakValue > LevelColors::greenThreshold) {
             return levelColors.yellow;
         } else {
             return levelColors.green;
@@ -100,17 +99,18 @@ QLinearGradient AudioLevelStyleProvider::getLevelsFillGradient(const QPalette &p
     if (orientation == Qt::Horizontal) {
         gradient = QLinearGradient(0, 0, 1, 0);
         gradient.setColorAt(0., levelColors.darkGreen);
-        gradient.setColorAt(IEC_ScaleMax(-24, maxDb), levelColors.green);
-        gradient.setColorAt(IEC_ScaleMax(-6, maxDb), levelColors.yellow);
-        gradient.setColorAt(IEC_ScaleMax(-4, maxDb), levelColors.orange);
-        gradient.setColorAt(IEC_ScaleMax(-2, maxDb), levelColors.red);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::greenThreshold, maxDb), levelColors.green);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::yellowThreshold, maxDb), levelColors.yellow);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::orangeThreshold, maxDb), levelColors.orange);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::redThreshold, maxDb), levelColors.red);
         gradient.setColorAt(1.0, levelColors.darkRed);
     } else {
         gradient = QLinearGradient(0, 1, 0, 0);
         gradient.setColorAt(1.0, levelColors.darkRed);
-        gradient.setColorAt(IEC_ScaleMax(-2, maxDb), levelColors.red);
-        gradient.setColorAt(IEC_ScaleMax(-6, maxDb), levelColors.yellow);
-        gradient.setColorAt(IEC_ScaleMax(-24, maxDb), levelColors.green);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::redThreshold, maxDb), levelColors.red);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::orangeThreshold, maxDb), levelColors.orange);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::yellowThreshold, maxDb), levelColors.yellow);
+        gradient.setColorAt(IEC_ScaleMax(LevelColors::greenThreshold, maxDb), levelColors.green);
         gradient.setColorAt(0., levelColors.darkGreen);
     }
 

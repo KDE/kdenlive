@@ -116,7 +116,6 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
         return;
     }
 
-    // Create layout state
     AudioLevelLayoutState layoutState(createLayoutConfig());
 
     if (m_orientation == Qt::Horizontal && layoutState.isInHoverLabelMode()) {
@@ -127,9 +126,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
 
     updateAxisLengths();
 
-    // Create render data
     AudioLevelRenderer::RenderData renderData = createRenderData();
-
     m_renderer->drawChannelLevels(p, renderData);
 
     // Draw cached channel borders on top
@@ -166,7 +163,7 @@ void AudioLevelWidget::mousePressEvent(QMouseEvent *event)
 
 void AudioLevelWidget::setupContextMenu()
 {
-    // Create context menu actions
+    // Create level fill style actions
     m_solidStyleAction = new QAction(i18n("Solid Fill"), this);
     m_solidStyleAction->setCheckable(true);
     m_solidStyleAction->setChecked(AudioLevelConfig::instance().levelStyle() == AudioLevel::LevelStyle::Solid);
@@ -263,7 +260,6 @@ void AudioLevelWidget::drawBackground()
 
     updateAxisLengths();
 
-    // Create render data
     AudioLevelRenderer::RenderData renderData = createRenderData();
 
     m_renderer->drawBackground(p, renderData);
@@ -332,7 +328,7 @@ void AudioLevelWidget::updateToolTip()
             tip.append(i18n("No audio"));
         } else {
             // Format the number with 2 digits before decimal point and 2 after
-            tip.append(QString::asprintf("%+6.2fdB", m_valueDecibels.at(i)));
+            tip.append(QString::asprintf("%+6.2f%s", m_valueDecibels.at(i), i18n("dB").toUtf8().constData()));
         }
 
         // Add newline if not the last channel

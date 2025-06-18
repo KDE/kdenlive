@@ -90,7 +90,6 @@ public:
         // Layout state - replaces multiple individual parameters
         AudioLevelLayoutState layoutState;
 
-        // Constructor to ensure layoutState is properly initialized
         RenderData(const AudioLevelLayoutState::Config &layoutConfig)
             : layoutState(layoutConfig)
         {
@@ -109,7 +108,6 @@ public:
     static int dBToPrimaryOffset(double dB, int maxDb, int primaryLength, Qt::Orientation orientation);
     static int channelToSecondaryOffset(int channelIndex, int secondaryAxisLength, int offset, Qt::Orientation orientation);
 
-    // Simplified calculation methods
     static int calculatePrimaryAxisLength(const QSize &widgetSize, Qt::Orientation orientation, bool drawBlockLines);
 
 private:
