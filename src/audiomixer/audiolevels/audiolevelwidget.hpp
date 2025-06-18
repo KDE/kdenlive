@@ -50,6 +50,7 @@ protected:
 
 private:
     QPixmap m_backgroundCache;
+    QPixmap m_bordersCache;
     QVector<double> m_valueDecibels;
     QVector<double> m_peakDecibels;
     QVector<int> m_valuePrimaryAxisPositions;
@@ -76,7 +77,6 @@ private:
     AudioLevelRenderer *m_renderer;
 
     void drawBackground();
-
     void setupContextMenu();
     void updateContextMenu();
     /** @brief Update tooltip with current dB values */
