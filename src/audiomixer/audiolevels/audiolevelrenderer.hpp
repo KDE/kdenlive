@@ -43,9 +43,9 @@ public:
     // Main state queries
     bool shouldDrawLabels() const { return m_shouldDrawLabels; }
     bool shouldDrawTicks() const { return m_shouldDrawTicks; }
-    int getOffset() const { return m_offset; }
-    int getOffsetWithLabels() const { return m_offsetWithLabels; }
-    int getEffectiveOffset() const;
+    int getBorderOffset() const { return m_borderOffset; }
+    int getBorderOffsetWithLabels() const { return m_borderOffsetWithLabels; }
+    int getEffectiveBorderOffset() const;
 
     // Layout calculations
     int calculateSecondaryAxisLength() const;
@@ -57,8 +57,8 @@ private:
     Config m_config;
     bool m_shouldDrawLabels = true;
     bool m_shouldDrawTicks = true;
-    int m_offset = 0;
-    int m_offsetWithLabels = 0;
+    int m_borderOffset = 0;
+    int m_borderOffsetWithLabels = 0;
 };
 
 /**

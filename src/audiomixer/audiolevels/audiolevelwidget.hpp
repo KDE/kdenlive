@@ -57,8 +57,8 @@ private:
     QVector<int> m_valuePrimaryAxisPositions;
     QVector<int> m_peakPrimaryAxisPositions;
     int m_maxDb;
-    int m_offset;
-    int m_offset_with_labels;
+    int m_borderOffset;
+    int m_borderOffsetWithLabels;
     bool m_displayToolTip;
     Qt::Orientation m_orientation;
     bool m_drawTicksAndLabels;
@@ -74,7 +74,7 @@ private:
     QAction *m_monochromePeakAction;
     int m_cachedPrimaryAxisLength = 0;   // Along the orientation axis (excluding borders)
     int m_cachedSecondaryAxisLength = 0; // Perpendicular to the orientation axis (excluding borders)
-    bool m_axisLengthsDirty = true;
+    bool m_axisDimensionsNeedUpdate = true;
     AudioLevelRenderer *m_renderer;
 
     void drawBackground();
