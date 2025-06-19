@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-17 17:27+0300\n"
+"PO-Revision-Date: 2025-06-18 17:19+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -545,9 +545,9 @@ msgid "Threshold"
 msgstr "Порог"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Ratio"
-msgstr "Вращение"
+msgstr "Соотношение"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
@@ -559,14 +559,14 @@ msgstr "Атака"
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Release"
-msgstr "Время восстановления (с)"
+msgstr "Восстановление"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr ""
+msgstr "Компенсационное усиление"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
@@ -579,9 +579,9 @@ msgid "Average,Maximum"
 msgstr "Среднее,Максимальное"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Link Type"
-msgstr "Тип"
+msgstr "Тип связи"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
@@ -594,9 +594,9 @@ msgid "Detection"
 msgstr "Определение"
 
 #: data/effects/avfilter/acompressor.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sidechain Gain"
-msgstr "Модули Sidechain"
+msgstr "Усиление боковой цепи"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -626,9 +626,9 @@ msgid "Add Echo"
 msgstr "Добавление эха"
 
 #: data/effects/avfilter/aecho.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output Gain"
-msgstr "Выходной файл"
+msgstr "Усиление на выходе"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -645,7 +645,7 @@ msgstr "Задержка"
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
 msgid "Decay"
-msgstr "Распад"
+msgstr "Спад"
 
 #: data/effects/avfilter/agate.xml:4
 #, fuzzy, kde-format
@@ -673,7 +673,7 @@ msgstr "Простой сжиматель/расширитель"
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
 msgid "Simple audio dynamic range compression/expansion filter."
-msgstr ""
+msgstr "Простой фильтр сжатия/расширения динамического диапазона звука"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_eq.xml:8
@@ -2098,12 +2098,12 @@ msgstr "Сжиматель/расширитель"
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
 msgid "Compress or expand the audio’s dynamic range."
-msgstr ""
+msgstr "Сжатие или расширение динамического диапазона звука"
 
 #: data/effects/avfilter/avfilter_compand.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Attacks"
-msgstr "дорожка"
+msgstr "Атаки"
 
 #: data/effects/avfilter/avfilter_compand.xml:9
 #: data/effects/avfilter/avfilter_compand.xml:13
@@ -2121,9 +2121,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decays"
-msgstr "Распад"
+msgstr "Спады"
 
 #: data/effects/avfilter/avfilter_compand.xml:16
 #, fuzzy, kde-format
@@ -2143,12 +2143,12 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Initial volume"
-msgstr "Начальное увеличение"
+msgstr "Начальная громкость"
 
 #: data/effects/avfilter/avfilter_compand.xml:25
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Set an initial volume, in dB, to be assumed for each channel when filtering "
 "starts. This permits the user to supply a nominal level initially, so that, "
@@ -2156,6 +2156,11 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"Установка начальной громкости (в дБ) для каждого канала на начало "
+"фильтрования. Это позволяет пользователю сначала предоставить номинальный "
+"уровень, чтобы, например, очень большое усиление не применялось к начальным "
+"уровням сигнала до начала работы компандирования. Обычное значение для "
+"сначала отключённого звука составляет -90 дБ."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
@@ -3475,9 +3480,9 @@ msgid "wiener,hard"
 msgstr "мягкий,жёсткий"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Set denoising method]]>"
-msgstr "<![CDATA[Смещение вдоль оси X]]>"
+msgstr "<![CDATA[Установка метода шумоподавления]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -4642,24 +4647,24 @@ msgid "Highlights strength"
 msgstr "Сила бликов"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Negate"
-msgstr "Диапазон оттенков"
+msgstr "Обращение"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Negate (invert) the input video or its alpha channel."
-msgstr "Использовать значение, обратное значению альфа-канала."
+msgstr "Обращение (инверсия) входного видео или его альфа-канала"
 
 #: data/effects/avfilter/avfilter_negate.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Negate alpha"
-msgstr "Растушёвка альфа-канала"
+msgstr "Обращение альфа"
 
 #: data/effects/avfilter/avfilter_noise.xml:4
-#, kde-format
+#, fuzzy, kde-format
 msgid "Video Noise Generator"
-msgstr ""
+msgstr "Генератор шума на видео"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
@@ -4728,27 +4733,27 @@ msgstr ""
 #: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
 msgid "Flag all"
-msgstr ""
+msgstr "Отметить флагом все"
 
 #: data/effects/avfilter/avfilter_noise.xml:43
 #, kde-format
 msgid "Flag component 0"
-msgstr ""
+msgstr "Отметить флагом компонент 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:47
 #, kde-format
 msgid "Flag component 1"
-msgstr ""
+msgstr "Отметить флагом компонент 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:51
 #, kde-format
 msgid "Flag component 2"
-msgstr ""
+msgstr "Отметить флагом компонент 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:55
 #, kde-format
 msgid "Flag component 3"
-msgstr ""
+msgstr "Отметить флагом компонент 3"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, fuzzy, kde-format
@@ -5250,14 +5255,14 @@ msgid "Vertical scrolling speed"
 msgstr "Отражение по вертикали"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Initial horizontal position"
-msgstr "Позиция гистограммы"
+msgstr "Начальное положение по горизонтали"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Initial vertical position"
-msgstr "Инвертированная позиция"
+msgstr "Начальное положение по вертикали"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
 #, kde-format
@@ -5657,9 +5662,9 @@ msgid "Radstep"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sr.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "AI Super resolution"
-msgstr "Использовать разрешение проекта"
+msgstr "Сверхвысокое разрешение на основе ИИ"
 
 #: data/effects/avfilter/avfilter_sr.xml:5
 #, kde-format
@@ -5667,11 +5672,13 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Масштабирование входных данных путём применения одного из методов "
+"сверхвысокого разрешения на основе свёрточных нейронных сетей (SRCNN). "
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
 msgid "Scale factor for SRCNN"
-msgstr ""
+msgstr "Коэффициент масштабирования для SRCNN"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:4
 #, fuzzy, kde-format
@@ -6437,12 +6444,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
-msgstr ""
+msgstr "<![CDATA[Установка сетки для отображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Set the opacity of the graticule]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Установка непрозрачности сетки]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
@@ -6450,9 +6457,9 @@ msgid "Numbers,Dots"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Set graticule flags]]>"
-msgstr "<![CDATA[Смещение вдоль оси Y]]>"
+msgstr "<![CDATA[Установка флагов сетки]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
@@ -6462,12 +6469,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "<![CDATA[Set scale used for displaying graticule]]>"
-msgstr ""
+msgstr "<![CDATA[Установка масштаба для отображения сетки]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Set the background opacity]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Установка непрозрачности фона]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
@@ -11728,6 +11735,10 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Аналогично параметру <em>Кадрирование слева</em>, но для правой "
+"стороны, и тип процента интерпретируется как обратный (то есть: 100 = не "
+"кадрировать). При установке значений меньше «0» на экране не будет показано "
+"ничего.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -12455,7 +12466,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_librnnoise.xml:5
 #, kde-format
 msgid "Microphone background noise removal filter"
-msgstr ""
+msgstr "Фильтр для удаления фонового шума микрофона"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, no-c-format, kde-format
