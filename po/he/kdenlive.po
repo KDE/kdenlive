@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-08 02:37+0000\n"
-"PO-Revision-Date: 2025-06-10 05:00+0300\n"
+"PO-Revision-Date: 2025-06-19 12:30+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4910,8 +4910,7 @@ msgid "Set how many frames to use."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:12
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Theshold"
 msgstr "סף"
 
