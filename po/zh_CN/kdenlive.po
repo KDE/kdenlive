@@ -7261,7 +7261,7 @@ msgstr "反向旋转操作"
 #: data/effects/frei0r/frei0r_3dflippo.xml:35
 #, kde-format
 msgid "Don't blank mask"
-msgstr "不留空遮罩"
+msgstr "不留空蒙版"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
@@ -7834,7 +7834,7 @@ msgstr "<![CDATA[填充开始时的水平模糊角度]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
 msgid "VR360 Equirectangular Mask"
-msgstr "VR360 等距柱面投影转遮罩"
+msgstr "VR360 等距柱面投影蒙版"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:5
 #, kde-format
@@ -7843,8 +7843,8 @@ msgid ""
 "but only want to use part of the 360 image - for example if you and the film "
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
-"将黑色哑光添加到框架中。如果您使用360相机拍摄，但只想使用360图像的一部分，请"
-"使用此选项，例如，如果您和摄制组占据了相机后面的90度"
+"将黑色毛玻璃效果添加到框架中。如果您使用360相机拍摄，但只想使用 360 图像的一"
+"部分，请使用此选项，例如，如果您和摄制组占据了相机后面的 90 度时。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
 #, kde-format
@@ -7858,8 +7858,8 @@ msgid ""
 "area. The <b>End</b> is the half the height in degrees where the matte is at "
 "100%.]]>"
 msgstr ""
-"<![CDATA[<b>起点</b>为未遮罩区域高度的一半 (角度）。<b>终点</b>为遮罩达到 "
-"100% 时高度的一半 (角度）。]]>"
+"<![CDATA[<b>起点</b>为没有毛玻璃效果区域高度的一半 (角度）。<b>终点</b>为毛玻"
+"璃效果达到 100% 时高度的一半 (角度）。]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
 #, kde-format
@@ -7872,8 +7872,8 @@ msgid ""
 "<![CDATA[The Start is half the height in degrees of the un-matted area. The "
 "End is the half the height in degrees where the matte is at 100%.]]>"
 msgstr ""
-"<![CDATA[起点为未遮罩区域高度的一半 (角度）。终点为遮罩达到 100% 时高度的一"
-"半 (角度）。]]>"
+"<![CDATA[起点为没有毛玻璃效果区域高度的一半 (角度）。终点为毛玻璃效果达到 "
+"100% 时高度的一半 (角度）。]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
 #, kde-format
@@ -7887,8 +7887,8 @@ msgid ""
 "<![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The "
 "<b>End</b> is the width in degrees where the matte is at 100%.]]>"
 msgstr ""
-"<![CDATA[<b>起点</b>为未遮罩区域宽度的一半 (角度）。<b>终点</b>为遮罩达到 "
-"100% 时宽度的一半 (角度）。]]>"
+"<![CDATA[<b>起点</b>为没有毛玻璃效果区域宽度的一半 (角度）。<b>终点</b>为毛玻"
+"璃效果达到 100% 时宽度的一半 (角度）。]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #, kde-format
@@ -9984,7 +9984,7 @@ msgstr "颜色距离, 透明度, 边缘向内, 边缘向外"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, kde-format
 msgid "Mask type"
-msgstr "遮罩类型"
+msgstr "蒙版类型"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
@@ -10040,7 +10040,7 @@ msgstr "显示蒙版"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:47
 #, kde-format
 msgid "Mask to Alpha"
-msgstr "蒙版转 Alpha 通道"
+msgstr "蒙版转透明度通道"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
 #, kde-format
@@ -11142,7 +11142,7 @@ msgstr "锐化"
 #: data/effects/frei0r/frei0r_sharpness.xml:5
 #, kde-format
 msgid "Unsharp masking (port from Mplayer)"
-msgstr "USM 锐化效果 (移植自 Mplayer)"
+msgstr "USM 锐化蒙版 (移植自 Mplayer)"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:5
 #, kde-format
@@ -26309,7 +26309,7 @@ msgid ""
 "mask, <shortcut>Shift+click</shortcut> to include another zone, "
 "<shortcut>Ctrl+click</shortcut> to exclude a zone."
 msgstr ""
-"<shortcut>点击</shortcut>或<shortcut>拖拽</shortcut>以创建一个遮罩，"
+"<shortcut>点击</shortcut>或<shortcut>拖拽</shortcut>以创建一个蒙版，"
 "<shortcut>Shift+点击</shortcut>以包含另一个区段，<shortcut>Ctrl+点击</"
 "shortcut>以取消选择一个区段。"
 
