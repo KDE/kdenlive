@@ -21,7 +21,7 @@ public:
                        bool isEnabled = true);
 
     /** @brief This function change the individual enabled state of the effect, creating an undo/redo entry*/
-    void markEnabled(bool enabled, Fun &undo, Fun &redo);
+    void markEnabled(bool enabled, Fun &undo, Fun &redo, bool execute = true);
     /** @brief This function directly change the individual enabled state of the effect */
     void setAssetEnabled(bool enabled, bool update = true);
 

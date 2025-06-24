@@ -593,7 +593,7 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectName = EffectsRepository::get()->getName(effectId);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(!disable, undo, redo);
+    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(!disable, undo, redo, false);
     if (KdenliveSettings::applyEffectParamsToGroup()) {
         pCore->applyEffectDisableToGroup(m_model->getOwnerId(), effectId, disable, undo, redo);
     }

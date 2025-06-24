@@ -20,7 +20,7 @@ AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant
 {
 }
 
-void AbstractEffectItem::markEnabled(bool enabled, Fun &undo, Fun &redo)
+void AbstractEffectItem::markEnabled(bool enabled, Fun &undo, Fun &redo, bool execute)
 {
     Fun local_undo = [this, enabled]() {
         setAssetEnabled(!enabled);
@@ -30,7 +30,9 @@ void AbstractEffectItem::markEnabled(bool enabled, Fun &undo, Fun &redo)
         setAssetEnabled(enabled);
         return true;
     };
-    local_redo();
+    if (execute) {
+        local_redo();
+    }
     PUSH_LAMBDA(local_undo, undo);
     PUSH_LAMBDA(local_redo, redo);
 }
