@@ -138,7 +138,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             m_widgets.push_back(w);
         }
     }
-    setFixedHeight(contentHeight());
+    setMinimumHeight(contentHeight());
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     Q_EMIT monitor->seekPosition(monitor->position());
