@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-11 22:56+0300\n"
+"PO-Revision-Date: 2025-06-26 15:06+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.04.1\n"
+"X-Generator: Lokalize 25.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10471,10 +10471,9 @@ msgid "Normalize (aka histogram stretch, contrast stretch)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Black point"
-msgstr "יציאת שחור"
+msgstr "נקודה שחורה"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
 #, kde-format
