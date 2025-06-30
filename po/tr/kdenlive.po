@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-11 20:56+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"PO-Revision-Date: 2025-06-29 17:42+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12221,10 +12221,10 @@ msgstr ""
 "Not: Dikey tür için mutlak değerler enlem dereceleridir (konum kaynağı türü "
 "için) ve\n"
 "diğerleri için yükseklik, kalp atış hızı, hız uygulanabilir olduğunda "
-"<em>Gösterge birimi</em>\n"
+"<em>Lejant birimi</em>\n"
 "türü olarak yorumlanır (yani: yükseklik için 10 değeri öntanımlı olarak "
 "metre olarak kabul edilir;\n"
-"ancak <em>Gösterge birimi</em> ayak olarak değiştirilirse 10 ayak anlamına "
+"ancak <em>Lejant birimi</em> ayak olarak değiştirilirse 10 ayak anlamına "
 "gelecektir).]]>"
 
 #: data/effects/gpsgraphic.xml:83
@@ -12352,9 +12352,9 @@ msgid ""
 msgstr ""
 "<![CDATA[Geçerli değeri dikdörtgenin sağ alt tarafına büyük beyaz kalın "
 "harflerle çizmek için etkinleştirin.<br>\n"
-"    \t<em>Gösterge birimi</em> değeri sonuna eklenecek ve geçerli birim "
-"olarak kullanılacaktır (geçerli bir birim bulunursa; örneğin, <em>Gösterge "
-"birimi</em> dizisinin herhangi bir yerinde “km” bulunursa kilometre).]]>"
+"    \t<em>Lejant birimi</em> değeri sonuna eklenecek ve geçerli birim olarak "
+"kullanılacaktır (geçerli bir birim bulunursa; örneğin, <em>Lejant birimi</"
+"em> dizisinin herhangi bir yerinde “km” bulunursa kilometre).]]>"
 
 #: data/effects/gpsgraphic.xml:131
 #, kde-format
@@ -12377,7 +12377,7 @@ msgstr "Çizgi grafiğin kalınlığını piksel türünden ayarlar."
 #: data/effects/gpsgraphic.xml:138
 #, kde-format
 msgid "Draw legend"
-msgstr "Gösterge çiz"
+msgstr "Lejantı çiz"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -12390,18 +12390,17 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
-"<![CDATA[If enabled it will draw 5 horizontal (and vertical for map "
-"type)<br>\n"
-"    \tHer biri geçerli grafiğin %​0, %​25, %​50, %​75 ve %​100’ünde var olan veri "
-"kaynağı değerine karşılık gelen küçük değerlere sahip satırlar, varsa "
-"<em>Gösterge birimi</em> türünden etkilenir ve dizi değerine eklenir. "
-"Hızölçer türü için bu, bölüm değerlerini gösterir (ancak birim "
-"eklenmeden).]]>"
+"<![CDATA[ Etkinleştirilirse her biri gösterilen şu anki grafiğin<br>\n"
+"    \t%​0, %​25, %​50, %​75 ve %​100 görünümlerinde geçerli veri kaynağı değerine "
+"karşılık gelen küçük değerlere sahip beş yatay (ve harita türü için dikey) "
+"çizgi çizer. Bu, varsa <em>Lejant birimi</em> türüne ve değere iliştirilen "
+"diziye bağlıdır. Hızölçer türü için bu, bölüm değerlerini gösterir (ancak ek "
+"birim olmadan).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr "Gösterge birimi"
+msgstr "Lejant birimi"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
