@@ -457,6 +457,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     fileWidget->setFilters(dialogFilter);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+    dlg->winId(); // Make sure window gets created before getting the handle
     QWindow *handle = dlg->windowHandle();
     if ((handle != nullptr) && conf->hasGroup("FileDialogSize")) {
         KWindowConfig::restoreWindowSize(handle, conf->group("FileDialogSize"));
