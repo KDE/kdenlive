@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-07-01 17:26+0300\n"
+"PO-Revision-Date: 2025-07-02 17:27+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1350,6 +1350,8 @@ msgid ""
 "Motion adaptive deinterlacing based on yadif with the use of w3fdif and "
 "cubic interpolation algorithms. "
 msgstr ""
+"Деинтерлейсер с адаптацией к движению на основе yadif с использованием "
+"w3fdif и алгоритма кубической интерполяции. "
 
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
@@ -1417,7 +1419,7 @@ msgstr "Удержание насыщенности"
 #, kde-format
 msgid "Remove all color information for all colors except for certain one. "
 msgstr ""
-"Удалить всю информацию о цвете для всех цветов, кроме одного определённого "
+"Удаление всей информации о цвете для всех цветов, кроме одного определённого "
 
 #: data/effects/avfilter/avfilter_chromahold.xml:8
 #: data/effects/avfilter/avfilter_colorhold.xml:8 data/effects/chroma.xml:8
@@ -1803,6 +1805,8 @@ msgstr "Удержание цвета"
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
 msgstr ""
+"Удаление всей информации о цвете для всех цветов RGB, кроме одного "
+"определённого "
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
@@ -1813,6 +1817,7 @@ msgstr "Наложение цвета"
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
 msgstr ""
+"Наложение сплошного цвета на видеопоток с помощью средства микширования"
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
@@ -1833,7 +1838,7 @@ msgstr "Цветовые уровни"
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr "Настройка входных кадров видео с помощью уровней "
+msgstr "Настройка кадров входного видео с помощью уровней "
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
@@ -2542,9 +2547,9 @@ msgstr "Сигма"
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
 #: data/effects/hsl_primaries.xml:62
-#, fuzzy, kde-format
+#, kde-format
 msgid "Overlap"
-msgstr "Наложение:"
+msgstr "Перекрытие"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:14
 #: data/effects/avfilter/avfilter_deblock.xml:12
@@ -2563,6 +2568,8 @@ msgid ""
 "Remove banding artifacts from input video. It works by replacing banded "
 "pixels with average value of referenced pixels"
 msgstr ""
+"Удаление артефактов в виде полос из входного видео. Работает путём замены "
+"пикселов полос средним значением указанных пикселов."
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
@@ -2663,7 +2670,7 @@ msgstr "Часы"
 #: data/effects/avfilter/avfilter_deblock.xml:5
 #, kde-format
 msgid "Remove blocking artifacts from input video."
-msgstr ""
+msgstr "Удаление блоковых артефактов из входного видео"
 
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
@@ -3171,7 +3178,7 @@ msgstr "Смещение по X"
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
 #, kde-format
 msgid "<![CDATA[Distance from the left edge in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Расстояние от левого края в пикселах]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16
@@ -3182,7 +3189,7 @@ msgstr "Смещение по Y"
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
 #, kde-format
 msgid "<![CDATA[Distance from the top edge in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Расстояние от верхнего края в пикселах]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3200,7 +3207,7 @@ msgstr "Ширина"
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
 #, kde-format
 msgid "<![CDATA[Distance between vertical lines in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Расстояние между вертикальными линиями в пикселах]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
@@ -3216,7 +3223,7 @@ msgstr "Высота"
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
 #, kde-format
 msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Расстояние между горизонтальными линиями в пикселах]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
 #, fuzzy, kde-format
@@ -3459,6 +3466,10 @@ msgid ""
 "       \tThis sets denoising strength. Using very high sigma with low "
 "overlap may give blocking artifacts.]]>"
 msgstr ""
+"<![CDATA[Устанавливает постоянную сигма шума.<br>\n"
+"       \tЭто значение указывает силу устранения шума. Очень высокое значение "
+"сигма при низком перекрытии может привести к появлению блоковых "
+"артефактов.]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:13
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:20
@@ -3470,11 +3481,13 @@ msgid "Amount"
 msgstr "Количество"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:15
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced.]]>"
 msgstr ""
+"<![CDATA[Устанавливает объём устранения шума.<br>\n"
+"       \tПо умолчанию выполняется уменьшение всего обнаруженного шума.]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, fuzzy, kde-format
@@ -3499,7 +3512,7 @@ msgstr "мягкий,жёсткий"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
 msgid "<![CDATA[Set denoising method]]>"
-msgstr "<![CDATA[Установка метода шумоподавления]]>"
+msgstr "<![CDATA[Устанавливает метод устранения шума]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -3507,6 +3520,8 @@ msgid ""
 "<![CDATA[Add <em>previous</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[Добавляет <em>предыдущий</em> кадр<br>\n"
+"        для временного устранения шума]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
 #, kde-format
@@ -3514,6 +3529,8 @@ msgid ""
 "<![CDATA[Add <em>next</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[Добавляет <em>следующий</em> кадр<br>\n"
+"        для временного устранения шума]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
 #: data/effects/avfilter/avfilter_oscilloscope.xml:44
@@ -3791,24 +3808,24 @@ msgid "Set delay-line interpolation, linear or quadratic."
 msgstr "Установить интерполяцию линии задержки, линейную или квадратичную."
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Framestep"
-msgstr "Шаг кадров"
+msgstr "Шаг в кадрах"
 
 #: data/effects/avfilter/avfilter_framestep.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select one frame every N frames"
-msgstr "Удалить все ключевые кадры"
+msgstr "Выбор одного кадра через каждые N кадров"
 
 #: data/effects/avfilter/avfilter_framestep.xml:8
 #, kde-format
 msgid "One frame every"
-msgstr ""
+msgstr "Один кадр через каждые"
 
 #: data/effects/avfilter/avfilter_fspp.xml:4
 #, kde-format
 msgid "fspp"
-msgstr ""
+msgstr "fspp"
 
 #: data/effects/avfilter/avfilter_fspp.xml:5
 #, kde-format
@@ -3821,9 +3838,9 @@ msgid "4,5"
 msgstr "4,5"
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Quality"
-msgstr "Качество:"
+msgstr "Качество"
 
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
@@ -3868,9 +3885,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gblur.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical Sigma"
-msgstr "Вертикальное поле"
+msgstr "Сигма вертикали"
 
 #: data/effects/avfilter/avfilter_gblur.xml:23
 #, kde-format
@@ -3882,10 +3899,10 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
 msgid "gradfun"
-msgstr ""
+msgstr "Удаление полос"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[<b>-= Deprecated =-</b><br>Debands video quickly using gradients."
 "<br>\n"
@@ -3897,6 +3914,13 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>.]]>"
 msgstr ""
+"<![CDATA[Быстрое удаление полос на видео с помощью градиентов.<br>\n"
+"    Устраняет артефакты в виде полос, которые иногда появляются в почти "
+"плоских областях, путём обрезания до 8-битной цветовой глубины.<br>\n"
+"    Выполняет интерполяцию градиентами на месте полос и размазывает их.<br>\n"
+"    <b>Предназначается только для воспроизведения. Не используйте этот "
+"фильтр перед сжатием с потерями, так как при сжатии обычно теряется "
+"размазывание и возвращаются полосы<b>.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -3905,6 +3929,10 @@ msgid ""
 "<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
+"<![CDATA[Максимальная величина, на которую фильтр может изменить какой-либо "
+"пиксел.<br>\n"
+"       \tТакже это пороговое значение для обнаружения почти плоских "
+"областей.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:18
 #, kde-format
@@ -3915,24 +3943,26 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Graph Monitor"
-msgstr "Расположение графика"
+msgstr "Монитор графа"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:5
 #, kde-format
 msgid "Show various filtergraph stats"
-msgstr ""
+msgstr "Показ различной статистики графа фильтров"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #, kde-format
 msgid "Compact,Full"
-msgstr ""
+msgstr "Компактный,Полный"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"Очередь,Количество кадров на входе,Количество кадров на выходе,Метка времени "
+"представления,Время,Базовая единица измерения времени,Формат,Размер,Скорость"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #: data/effects/avfilter/avfilter_vectorscope.xml:33
@@ -3942,9 +3972,9 @@ msgid "Flags"
 msgstr "Флаги"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video Ratio"
-msgstr "Разрешение видео"
+msgstr "Соотношение видео"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -4100,7 +4130,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_histeq.xml:15
 #, kde-format
 msgid "Antibanding Level"
-msgstr ""
+msgstr "Уровень антиступенчатости"
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
 #: src/scopes/scopemanager.cpp:296
@@ -4495,7 +4525,7 @@ msgstr "Усиление смещения"
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
 msgid "Normalize by linearly scaling"
-msgstr ""
+msgstr "Нормализовать путём линейного масштабирования"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:35
 #, kde-format
@@ -4701,7 +4731,7 @@ msgstr "Генератор шума на видео"
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
 msgid "Add noise on video input frame"
-msgstr ""
+msgstr "Добавление шума на кадры входного видео"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, kde-format
@@ -8508,7 +8538,7 @@ msgstr "Смещение анализа"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
 #, fuzzy, kde-format
 msgid "<![CDATA[The distance between the track points]]>"
-msgstr "<![CDATA[Интенсивность зернистости]]>"
+msgstr "<![CDATA[Расстояние между вертикальными линиями в пикселах]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -8598,7 +8628,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
 #, fuzzy, kde-format
 msgid "Pitch time bias"
-msgstr "Смещение рыскания по времени"
+msgstr "Смещение тангажа по времени"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:67
 #, fuzzy, kde-format
@@ -8648,39 +8678,39 @@ msgid "Four corners geometry engine"
 msgstr "Отрисовка геометрии по четырём углам"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top-right X"
-msgstr "Справа сверху"
+msgstr "Верхняя правая координата по X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top-right Y"
-msgstr "Справа сверху"
+msgstr "Верхняя правая координата по Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom-right X"
-msgstr "Справа снизу"
+msgstr "Нижняя правая координата по X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom-right Y"
-msgstr "Справа снизу"
+msgstr "Нижняя правая координата по Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom-left X"
-msgstr "Слева снизу"
+msgstr "Нижняя левая координата по X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom-left Y"
-msgstr "Слева снизу"
+msgstr "Нижняя левая координата по Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "Stretch X"
-msgstr "Растягивание по Y"
+msgstr "Растягивание по X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:35
 #, kde-format
@@ -9262,10 +9292,10 @@ msgid "Amplitude"
 msgstr "Амплитуда"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Dither Effect Name"
 msgid "Dither"
-msgstr "Другой"
+msgstr "Дизеринг"
 
 #: data/effects/frei0r/frei0r_dither.xml:6
 #, kde-format
@@ -9321,7 +9351,7 @@ msgid "Non-edge brightness downscaling multiplier"
 msgstr "Коэффициент уменьшения яркости фона"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Emboss Effect Name"
 msgid "Emboss"
 msgstr "Тиснение"
@@ -9401,7 +9431,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_facedetect.xml:12
 #, kde-format
 msgid "Neighbors"
-msgstr "Соседнее"
+msgstr "Соседние"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:13
 #: data/effects/frei0r/frei0r_facedetect.xml:13
@@ -9411,9 +9441,9 @@ msgstr "Минимальное количество прямоугольнико
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:16
 #: data/effects/frei0r/frei0r_facedetect.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Smallest"
-msgstr "Малая"
+msgstr "Наименьший"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:17
 #: data/effects/frei0r/frei0r_facedetect.xml:17
@@ -9422,9 +9452,9 @@ msgid "The minimum window size in pixels."
 msgstr "Минимальный размер окна в пикселах."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Largest"
-msgstr "Большая"
+msgstr "Наибольший"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:21
 #, kde-format
@@ -9501,9 +9531,9 @@ msgstr ""
 "Установить значение альфа-канала фигуры как процент от полной непрозрачности."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Antialias"
-msgstr "Итальянский"
+msgstr "Сглаживание"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:37
 #, kde-format
@@ -12287,9 +12317,9 @@ msgid "Discard color information"
 msgstr "Сброс информации о цвете"
 
 #: data/effects/hsl_primaries.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "HSL Primaries"
-msgstr "Основные цвета"
+msgstr "Основные цвета HSL"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -12393,12 +12423,12 @@ msgstr "Масштаб освещённости пурпурного"
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
 msgid "The amount of overlap or blending between primaries"
-msgstr ""
+msgstr "Величина перекрытия или смешивания между основными цветами"
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "HSL Range"
-msgstr "Установка участка"
+msgstr "Диапазон HSL"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -12410,9 +12440,9 @@ msgstr ""
 "Пользователь может указать диапазон значений тона для настройки."
 
 #: data/effects/hsl_range.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hue Center"
-msgstr "Центр"
+msgstr "Центр оттенков"
 
 #: data/effects/hsl_range.xml:9
 #, kde-format
@@ -36749,9 +36779,8 @@ msgstr "%1ч"
 #~ msgid "Apply dilation effect"
 #~ msgstr "Проблема с редактирование эффекта"
 
-#, fuzzy
 #~ msgid "StepsX"
-#~ msgstr "Размер шага"
+#~ msgstr "Шаги X"
 
 #~ msgid "Interpolation factor"
 #~ msgstr "Коэффициент интерполяции"
