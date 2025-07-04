@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-06-17 09:56+0900\n"
+"PO-Revision-Date: 2025-07-03 23:26+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -20151,7 +20151,7 @@ msgstr "廣東話"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:79
 #, kde-format
 msgid "Catalan"
-msgstr "加泰羅尼亞語"
+msgstr "加泰隆尼亞語"
 
 #: src/dialogs/speechdialog.cpp:509
 #, kde-format
@@ -28708,7 +28708,7 @@ msgstr "巴什喀爾語"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:75
 #, kde-format
 msgid "Breton"
-msgstr "布里多尼語"
+msgstr "布列塔尼語"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:78
 #, kde-format
