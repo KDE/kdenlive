@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-08 02:37+0000\n"
-"PO-Revision-Date: 2025-07-02 17:27+0300\n"
+"PO-Revision-Date: 2025-07-03 17:33+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1454,6 +1454,9 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[Процент сходства с выбранным цветом<br>\n"
+"        0.01 — соответствует только точный ключевой цвет, 1.0 — "
+"соответствует всё.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1469,6 +1472,9 @@ msgid ""
 "at all.<br>\n"
 "        Higher values result in more preserved color.]]>"
 msgstr ""
+"<![CDATA[Процент смешивания. 0.0 делает пикселы либо полностью серыми, либо "
+"вообще не серыми.<br>\n"
+"        Чем выше значение, тем больше сохраняется цвета.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1484,7 +1490,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
 msgid "Chroma Noise Reduction"
-msgstr ""
+msgstr "Уменьшение шума насыщенности"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
@@ -1507,10 +1513,9 @@ msgid "Vertical size"
 msgstr "Размер по вертикали"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:17
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Horizontal step"
-msgstr "Разброс по X"
+msgstr "Шаг по горизонтали"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:20
 #, kde-format
@@ -1530,7 +1535,7 @@ msgstr "Порог V"
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
 msgid "Manhattan,Euclidean"
-msgstr ""
+msgstr "Манхэттенское,Евклидово"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
@@ -1543,30 +1548,29 @@ msgid "Chroma shift"
 msgstr "Смещение насыщенности"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
-#, fuzzy, kde-format
-#| msgid "Box blur (separate horizontal and vertical blur)"
+#, kde-format
 msgid "Shift chroma pixels horizontally and/or vertically. "
-msgstr "Размытие по рамке (горизонтальное и вертикальное отдельно)"
+msgstr "Смещение пикселов насыщенности по горизонтали и/или вертикали "
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
 msgid "Chroma-blue H shift"
-msgstr ""
+msgstr "Смещение насыщенного синего по горизонтали"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
 #, kde-format
 msgid "Chroma-blue V shift"
-msgstr ""
+msgstr "Смещение насыщенного синего по вертикали"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
 #, kde-format
 msgid "Chroma-red H shift"
-msgstr ""
+msgstr "Смещение насыщенного красного по горизонтали"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
 #, kde-format
 msgid "Chroma-red V shift"
-msgstr ""
+msgstr "Смещение насыщенного красного по вертикали"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
@@ -1613,18 +1617,17 @@ msgstr "Синяя тень"
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "Красные средние тона"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green Midtones"
-msgstr "Зелёный оттенок"
+msgstr "Зелёные средние тона"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:23
 #, kde-format
 msgid "Blue Midtones"
-msgstr ""
+msgstr "Синие средние тона"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
 #, kde-format
@@ -2557,6 +2560,8 @@ msgstr "Шумоподавление"
 #, kde-format
 msgid "Denoise frames using 2D DCT frequency domain filtering"
 msgstr ""
+"Устранение шума на кадрах с помощью двухмерной фильтрации DCT в области "
+"частот"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
@@ -3410,6 +3415,8 @@ msgstr "Шумоподавление"
 #, kde-format
 msgid "Denoise frames using 3D FFT (frequency domain filtering)"
 msgstr ""
+"Устранение шума на кадрах с помощью трёхмерной фильтрации FFT в области "
+"частот"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:10
 #, kde-format
@@ -5600,10 +5607,9 @@ msgid "Apply sobel operator to input video stream."
 msgstr "Применение оператора Собеля к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Stylize"
+#, kde-format
 msgid "SOFAlizer"
-msgstr "Стилизация"
+msgstr "SOFAлизатор"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:5
 #, kde-format
@@ -5614,12 +5620,17 @@ msgid ""
 "http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the "
 "Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. "
 msgstr ""
+"SOFAлизатор использует передаточные функции слухового аппарата человека для "
+"создания виртуальных динамиков около пользователя для бинаурального "
+"прослушивания через наушники (поддерживается до 9 каналов). Эти функции "
+"хранятся в файлах SOFA (база данных доступна здесь: http://www.sofacoustics."
+"org/). SOFAлизатор разрабатывается Исследовательским институтом акустики "
+"Австрийской академии наук. "
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
-#, fuzzy, kde-format
-#| msgid "Asset file"
+#, kde-format
 msgid "SOFA file"
-msgstr "Файл ресурса"
+msgstr "Файл SOFA"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
@@ -5633,10 +5644,9 @@ msgid "Rotation"
 msgstr "Вращение"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:17
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Elevation"
-msgstr "Операция"
+msgstr "Подъём"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #, kde-format
@@ -5644,21 +5654,19 @@ msgid "Frequency,Time"
 msgstr "Частота,Время"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
-#, fuzzy, kde-format
-#| msgid "End Gain"
+#, kde-format
 msgid "LFE Gain"
-msgstr "Усиление в конце"
+msgstr "Усиление низкочастотных эффектов (LFE)"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
-#, fuzzy, kde-format
-#| msgid "Frame size"
+#, kde-format
 msgid "Framesize"
 msgstr "Размер кадра"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
 msgid "Use if option ‘type’ is set to freq."
-msgstr ""
+msgstr "Используйте, если параметр «тип» установлен в значение «частота»."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, kde-format
@@ -5715,7 +5723,7 @@ msgstr "Стерео "
 #: data/effects/avfilter/avfilter_stereo3D.xml:5
 #, kde-format
 msgid "Convert between different stereoscopic image formats. "
-msgstr ""
+msgstr "Преобразование между разными форматами стереоскопических изображений "
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
 #, kde-format
@@ -8760,14 +8768,7 @@ msgid "Nikon D90 Stairstepping fix"
 msgstr "Исправление ступенчатости в Nikon D90"
 
 #: data/effects/frei0r/frei0r_d90stairsteppingfix.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
-#| "        <full><![CDATA[Sharp lines in videos from the Nikon D90 show "
-#| "steps each 8th or 9th line, assumedly\n"
-#| "        due to poor downsampling. These can be smoothed out with this "
-#| "filter if they become too annoying.]]></full>\n"
-#| "        "
+#, kde-format
 msgid ""
 "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
 "        Sharp lines in videos from the Nikon D90 show steps each 8th or 9th "
@@ -8778,10 +8779,10 @@ msgid ""
 msgstr ""
 "Удалить эффект «ступенчатости» из видео, снятых на камеру Nikon D90 с "
 "разрешением 720p.\n"
-"        <full><![CDATA[Резкие линии в видео, снятом на камеру Nikon D90, "
-"появляются на каждой 8 или 9 строке, предположительно\n"
+"        Резкие линии в видео, снятом на камеру Nikon D90, появляются на "
+"каждой 8-й или 9-й строке, предположительно\n"
 "        из-за неправильной дискретизации. Данный фильтр поможет избавиться "
-"от них при необходимости.]]></full>\n"
+"от них при необходимости.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
