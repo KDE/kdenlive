@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-08 02:37+0000\n"
-"PO-Revision-Date: 2025-06-26 15:06+0300\n"
+"PO-Revision-Date: 2025-07-04 17:10+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7517,10 +7517,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
 #: data/effects/frei0r/frei0r_curves.xml:13
 #: data/effects/frei0r/frei0r_curves.xml:68
-#, fuzzy, kde-format
-#| msgid "Rec. 601"
+#, kde-format
 msgid "Rec. 601,Rec. 709"
-msgstr "Rec. 601"
+msgstr "Rec. 601,Rec. 709"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
@@ -7681,10 +7680,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Blur width at end]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[רוחב טשטוש בסוף]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
@@ -7694,10 +7692,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Blur height at start]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[גובה טשטוש בהתחלה]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
@@ -7707,10 +7704,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Blur height at end]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[גובה טשטוש בסוף]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
@@ -7846,9 +7842,9 @@ msgid "Yaw"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pitch"
-msgstr "החלף צג"
+msgstr "גובה צליל"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
 #, kde-format
