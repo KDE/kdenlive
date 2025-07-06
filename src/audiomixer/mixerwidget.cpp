@@ -94,6 +94,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const
     , m_listener(nullptr)
     , m_recording(false)
     , m_trackTag(std::move(trackTag))
+    , m_backgroundColorRole(QPalette::Base)
 {
     buildUI(service, trackName);
 }
@@ -759,5 +760,13 @@ QColor MixerWidget::getMixerBackgroundColor()
 {
     QPalette palette = qApp->palette();
     if (m_tid == -1) return palette.color(QPalette::AlternateBase);
-    return (m_tid % 2 == 0) ? palette.color(QPalette::AlternateBase) : palette.color(QPalette::Base);
+    return palette.color(m_backgroundColorRole);
+}
+
+void MixerWidget::setBackgroundColor(QPalette::ColorRole role)
+{
+    m_backgroundColorRole = role;
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, getMixerBackgroundColor());
+    setPalette(pal);
 }

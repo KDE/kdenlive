@@ -24,7 +24,8 @@
 #include <QScrollArea>
 #include <QTimer>
 
-constexpr int kMarginAroundMixer = 6;
+constexpr QMargins kMarginAroundMixer = QMargins(6, 6, 6, 6);
+constexpr QMargins kNoMargin = QMargins(0, 0, 0, 0);
 
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
@@ -36,11 +37,11 @@ MixerManager::MixerManager(QWidget *parent)
     , m_filterIsV2(false)
 {
     m_masterBox = new QHBoxLayout;
-    setContentsMargins(0, 0, 0, 0);
+    setContentsMargins(kNoMargin);
     m_channelsBox = new QScrollArea(this);
-    m_channelsBox->setContentsMargins(0, 0, 0, 0);
+    m_channelsBox->setContentsMargins(kNoMargin);
     m_box = new QHBoxLayout;
-    m_box->setContentsMargins(0, 0, 0, 0);
+    m_box->setContentsMargins(kNoMargin);
     m_box->setSpacing(0);
     auto *channelsBoxContainer = new QWidget(this);
     m_channelsBox->setWidget(channelsBoxContainer);
@@ -48,8 +49,8 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsBox->setFrameShape(QFrame::NoFrame);
     m_box->addWidget(m_channelsBox);
     m_channelsLayout = new QHBoxLayout;
-    m_channelsLayout->setContentsMargins(0, 0, 0, 0);
-    m_masterBox->setContentsMargins(0, 0, 0, 0);
+    m_channelsLayout->setContentsMargins(kNoMargin);
+    m_masterBox->setContentsMargins(kNoMargin);
     m_channelsLayout->setSpacing(0);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
@@ -102,7 +103,13 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
         return;
     }
     std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
-    mixer->setContentsMargins(kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer);
+    mixer->setContentsMargins(kMarginAroundMixer);
+
+    // Use alternating background colors for mixers
+    int mixerCount = m_mixers.size();
+    QPalette::ColorRole colorRole = (mixerCount % 2 == 0) ? QPalette::Base : QPalette::AlternateBase;
+    mixer->setBackgroundColor(colorRole);
+
     connect(mixer.get(), &MixerWidget::muteTrack, this,
             [&](int id, bool mute) { m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3")); });
     if (m_visibleMixerManager) {
@@ -139,10 +146,10 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
         }
     });
 
-    int mixerCount = m_mixers.size();
     if (mixerCount > 0) {
         QWidget *separator = new MixerSeparator(this);
         m_channelsLayout->insertWidget(0, separator);
+        m_separators[tid] = separator;
     }
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
@@ -157,31 +164,28 @@ void MixerManager::deregisterTrack(int tid)
 {
     Q_ASSERT(m_mixers.count(tid) > 0);
 
-    // Find and remove the mixer widget and its associated separator
-    for (int i = 0; i < m_channelsLayout->count(); ++i) {
-        QLayoutItem *item = m_channelsLayout->itemAt(i);
-        if (QWidget *widget = item->widget()) {
-            if (widget == m_mixers[tid].get()) {
-                // Remove this widget
-                m_channelsLayout->removeWidget(widget);
-                widget->deleteLater();
+    // Remove the mixer widget
+    QWidget *mixerWidget = m_mixers[tid].get();
+    m_channelsLayout->removeWidget(mixerWidget);
+    mixerWidget->deleteLater();
 
-                // Also remove the separator if it exists (should be at position i-1 or i+1)
-                if (i > 0 && qobject_cast<QFrame *>(m_channelsLayout->itemAt(i - 1)->widget())) {
-                    QWidget *separator = m_channelsLayout->itemAt(i - 1)->widget();
-                    m_channelsLayout->removeWidget(separator);
-                    separator->deleteLater();
-                } else if (i < m_channelsLayout->count() - 1 && qobject_cast<QFrame *>(m_channelsLayout->itemAt(i)->widget())) {
-                    QWidget *separator = m_channelsLayout->itemAt(i)->widget();
-                    m_channelsLayout->removeWidget(separator);
-                    separator->deleteLater();
-                }
-                break;
-            }
-        }
+    // Remove the separator if it exists
+    if (m_separators.count(tid) > 0) {
+        QWidget *separator = m_separators[tid];
+        m_channelsLayout->removeWidget(separator);
+        separator->deleteLater();
+        m_separators.erase(tid);
     }
 
     m_mixers.erase(tid);
+
+    // Update background colors of remaining tracks to maintain alternating pattern
+    int index = 0;
+    for (auto &pair : m_mixers) {
+        QPalette::ColorRole colorRole = (index % 2 == 0) ? QPalette::Base : QPalette::AlternateBase;
+        pair.second->setBackgroundColor(colorRole);
+        index++;
+    }
 }
 
 void MixerManager::cleanup()
@@ -194,6 +198,7 @@ void MixerManager::cleanup()
     }
     m_channelsLayout->addStretch(10);
     m_mixers.clear();
+    m_separators.clear();
     m_monitorTrack = -1;
     if (m_masterMixer) {
         m_masterMixer->reset();
@@ -234,7 +239,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         m_masterBox->removeWidget(m_masterMixer.get());
     }
     m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
-    m_masterMixer->setContentsMargins(kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer, kMarginAroundMixer);
+    m_masterMixer->setContentsMargins(kMarginAroundMixer);
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) { m_model->tractor()->set("hide", mute ? 3 : 1); });
     if (m_visibleMixerManager) {
         m_masterMixer->connectMixer(true);
