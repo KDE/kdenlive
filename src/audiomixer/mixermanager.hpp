@@ -63,6 +63,7 @@ Q_SIGNALS:
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
+    std::unordered_map<int, QWidget *> m_separators;
     std::shared_ptr<MixerWidget> m_masterMixer;
     QSize sizeHint() const override;
 

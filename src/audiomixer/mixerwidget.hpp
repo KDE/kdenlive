@@ -62,6 +62,7 @@ public:
     /** @brief Enable/disable audio monitoring on this mixer */
     void monitorAudio(bool monitor);
     void setBackgroundColor(const QColor &color);
+    void setBackgroundColor(QPalette::ColorRole role);
 
 public Q_SLOTS:
     void updateAudioLevel(int pos);
@@ -99,6 +100,7 @@ private:
     Mlt::Event *m_listener;
     bool m_recording;
     const QString m_trackTag;
+    QPalette::ColorRole m_backgroundColorRole;
 
     // Add label pointers for enabled/disabled style control
     QLabel *m_dbLabel;
