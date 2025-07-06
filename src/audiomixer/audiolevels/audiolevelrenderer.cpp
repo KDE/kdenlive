@@ -179,10 +179,8 @@ void AudioLevelRenderer::drawBackground(QPainter &painter, const RenderData &dat
 
 void AudioLevelRenderer::drawChannelBordersToPixmap(QPixmap &pixmap, const RenderData &data)
 {
+    pixmap.fill(Qt::transparent);
     QPainter p(&pixmap);
-    p.setCompositionMode(QPainter::CompositionMode_Clear);
-    p.fillRect(pixmap.rect(), Qt::transparent);
-    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
     drawChannelBorders(p, data, false);
     p.end();
 }
