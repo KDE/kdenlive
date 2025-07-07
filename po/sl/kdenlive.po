@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-12 00:41+0000\n"
-"PO-Revision-Date: 2025-07-03 12:36+0200\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2025-07-07 00:41+0000\n"
+"PO-Revision-Date: 2025-07-06 22:06+0200\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -10891,7 +10891,7 @@ msgstr "<![CDATA[Pokaži največjo vrednost na merilniku]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr "<![CDATA[Uporabi lestvico od 0 do 255 namesto 0,0-1,0]>"
+msgstr "<![CDATA[Uporabi lestvico od 0 do 255 namesto 0,0-1,0]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
@@ -17738,7 +17738,7 @@ msgstr "Prenosna naprava"
 msgid "Loading done"
 msgstr "Nalaganje dokončano"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:519
+#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -25982,7 +25982,7 @@ msgid "Audio streams"
 msgstr "Tokovi zvoka"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2028
+#: src/monitor/monitor.cpp:2029
 #, kde-format
 msgid "Merge all streams"
 msgstr "Zlij vse tokove"
@@ -26404,12 +26404,12 @@ msgstr "Shrani sliko"
 msgid "Export image using source resolution"
 msgstr "Izvozi sliko v izvorni ločljivosti"
 
-#: src/monitor/monitor.cpp:1915
+#: src/monitor/monitor.cpp:1916
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Ali želite izstopiti iz načina maske?"
 
-#: src/monitor/monitor.cpp:2013 src/monitor/monitor.cpp:2145
+#: src/monitor/monitor.cpp:2014 src/monitor/monitor.cpp:2146
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -26418,12 +26418,12 @@ msgstr[1] "%1 tok zvoka"
 msgstr[2] "%1 tokova zvoka"
 msgstr[3] "%1 tokovi zvoka"
 
-#: src/monitor/monitor.cpp:2466
+#: src/monitor/monitor.cpp:2467
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Ni možno začeti upravljalnika GLSL za Movit. Onemogočite Movit"
 
-#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
+#: src/monitor/monitor.cpp:2509 src/monitor/monitor.cpp:2566
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26432,17 +26432,17 @@ msgstr ""
 "Za to zmožnost je zahtevan filter alphagrad. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2528
+#: src/monitor/monitor.cpp:2529
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Posnetek nima učinkov"
 
-#: src/monitor/monitor.cpp:2530
+#: src/monitor/monitor.cpp:2531
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Izberite posnetek v posodi projekta, če želite primerjati učinek"
 
-#: src/monitor/monitor.cpp:2572
+#: src/monitor/monitor.cpp:2573
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -26451,17 +26451,17 @@ msgstr ""
 "Za to zmožnost je zahtevan prehod cairoblend. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2649
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Omogoči urejanje in nadzoruj učinke urejanja"
 
-#: src/monitor/monitor.cpp:3148
+#: src/monitor/monitor.cpp:3149
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "V ogledu posnetka ni izbran noben posnetek"
 
-#: src/monitor/monitor.cpp:3169
+#: src/monitor/monitor.cpp:3170
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Ni mogoče pridobiti ustvarjalnika za ogled posnetka"

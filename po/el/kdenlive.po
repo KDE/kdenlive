@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-12 00:41+0000\n"
+"POT-Creation-Date: 2025-07-07 00:41+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -17977,7 +17977,7 @@ msgstr "Φορητές συσκευές"
 msgid "Loading done"
 msgstr "Φόρτωση έργου"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:519
+#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -26525,7 +26525,7 @@ msgid "Audio streams"
 msgstr "Ηχητικό κομμάτι"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2028
+#: src/monitor/monitor.cpp:2029
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -26971,62 +26971,62 @@ msgstr "Αποθήκευση εικόνας"
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1915
+#: src/monitor/monitor.cpp:1916
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "Τροποποίηση διάρκειας"
 
-#: src/monitor/monitor.cpp:2013 src/monitor/monitor.cpp:2145
+#: src/monitor/monitor.cpp:2014 src/monitor/monitor.cpp:2146
 #, fuzzy, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "Ηχητικό κομμάτι"
 msgstr[1] "Ηχητικό κομμάτι"
 
-#: src/monitor/monitor.cpp:2466
+#: src/monitor/monitor.cpp:2467
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
+#: src/monitor/monitor.cpp:2509 src/monitor/monitor.cpp:2566
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2528
+#: src/monitor/monitor.cpp:2529
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Το κλιπ δεν περιέχει δείκτες"
 
-#: src/monitor/monitor.cpp:2530
+#: src/monitor/monitor.cpp:2531
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/monitor/monitor.cpp:2572
+#: src/monitor/monitor.cpp:2573
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2649
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3148
+#: src/monitor/monitor.cpp:3149
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected in Clip Monitor"
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/monitor/monitor.cpp:3169
+#: src/monitor/monitor.cpp:3170
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"

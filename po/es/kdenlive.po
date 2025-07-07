@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-12 00:41+0000\n"
+"POT-Creation-Date: 2025-07-07 00:41+0000\n"
 "PO-Revision-Date: 2025-06-02 19:03+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -18130,7 +18130,7 @@ msgstr "Dispositivo removible"
 msgid "Loading done"
 msgstr "Carga finalizada"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:519
+#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -26397,7 +26397,7 @@ msgid "Audio streams"
 msgstr "Fuentes de audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2028
+#: src/monitor/monitor.cpp:2029
 #, kde-format
 msgid "Merge all streams"
 msgstr "Mezclar todas las fuentes"
@@ -26819,26 +26819,26 @@ msgstr "Guardar imagen"
 msgid "Export image using source resolution"
 msgstr "Exportar imagen usando la resolución original"
 
-#: src/monitor/monitor.cpp:1915
+#: src/monitor/monitor.cpp:1916
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "¿Salir del modo de máscara?"
 
-#: src/monitor/monitor.cpp:2013 src/monitor/monitor.cpp:2145
+#: src/monitor/monitor.cpp:2014 src/monitor/monitor.cpp:2146
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 fuente de audio"
 msgstr[1] "%1 fuentes de audio"
 
-#: src/monitor/monitor.cpp:2466
+#: src/monitor/monitor.cpp:2467
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "No es posible inicializar el administrador de GLSL de Movit, por favor "
 "deshabilitar Movit"
 
-#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
+#: src/monitor/monitor.cpp:2509 src/monitor/monitor.cpp:2566
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26847,17 +26847,17 @@ msgstr ""
 "Se necesita el filtro alphagrad para esa función, por favor instalar frei0r "
 "y reiniciar Kdenlive"
 
-#: src/monitor/monitor.cpp:2528
+#: src/monitor/monitor.cpp:2529
 #, kde-format
 msgid "Clip has no effects"
 msgstr "El clip no tiene efectos"
 
-#: src/monitor/monitor.cpp:2530
+#: src/monitor/monitor.cpp:2531
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Seleccionar un clip de la bandeja del proyecto para comparar el efecto"
 
-#: src/monitor/monitor.cpp:2572
+#: src/monitor/monitor.cpp:2573
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -26866,17 +26866,17 @@ msgstr ""
 "Se necesita la transición cairoblend para esa función, por favor instalar "
 "frei0r y reiniciar Kdenlive"
 
-#: src/monitor/monitor.cpp:2648
+#: src/monitor/monitor.cpp:2649
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Habilitar el modo edición en el monitor para editar efectos"
 
-#: src/monitor/monitor.cpp:3148
+#: src/monitor/monitor.cpp:3149
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Ningún clip seleccionado en el Monitor de clips"
 
-#: src/monitor/monitor.cpp:3169
+#: src/monitor/monitor.cpp:3170
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "No es posible obtener productor para el Monitor de clips"
