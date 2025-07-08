@@ -2605,7 +2605,7 @@ void MainWindow::slotEditKeys()
 
 void MainWindow::slotPreferences()
 {
-    slotShowPreferencePage(Kdenlive::NoPage);
+    slotShowPreferencePage(m_lastConfigPage);
 }
 
 void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
@@ -2616,8 +2616,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
      * instead of creating another one
      */
     if (KConfigDialog::showDialog(QStringLiteral("settings"))) {
-        KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
         if (page != Kdenlive::NoPage) {
+            KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
             d->showPage(page, option);
         }
         return;
@@ -2635,6 +2635,7 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     }
 
     auto *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetConsumer, this, [this](bool fullReset) {
@@ -5410,6 +5411,14 @@ void MainWindow::reloadAssetPanel()
 bool MainWindow::hasRunningTask() const
 {
     return m_assetPanel->hasRunningTask();
+}
+
+bool MainWindow::hasRunningRenderTask() const
+{
+    if (m_renderWidget) {
+        return m_renderWidget->isRendering();
+    }
+    return false;
 }
 
 KIO::filesize_t MainWindow::fetchFolderSize(const QString path)

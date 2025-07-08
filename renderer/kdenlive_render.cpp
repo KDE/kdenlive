@@ -5,9 +5,9 @@
 */
 
 #include "../src/lib/localeHandling.h"
+#include "kdenlive_renderer_debug.h"
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
-#include "kdenlive_renderer_debug.h"
 
 #include <../config-kdenlive.h>
 #include <QApplication>

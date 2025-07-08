@@ -72,6 +72,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     , m_mappable_actions(std::move(mappable_actions))
 {
     KdenliveSettings::setV4l_format(0);
+    setWindowModality(Qt::ApplicationModal);
 
     initMiscPage();
     initProjectPage();
@@ -354,6 +355,10 @@ void KdenliveSettingsDialog::initEnviromentPage()
     connect(m_configEnv.kp_anim, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditGlaxnimateApplication);
 
     m_pageEnv = addPage(p2, i18n("Environment"), QStringLiteral("application-x-executable-script"));
+#if defined Q_OS_MAC
+    // Power management not implemented on Mac
+    m_pageEnv.kcfg_usePowerManagement->setEnabled(false);
+#endif
 }
 
 void KdenliveSettingsDialog::initCapturePage()
@@ -976,6 +981,35 @@ void KdenliveSettingsDialog::accept()
         KMessageBox::error(this, i18n("Please select a video profile"));
         return;
     }
+    Kdenlive::ConfigPage page = Kdenlive::NoPage;
+    auto *current = currentPage();
+    if (current == m_pageMisc) {
+        page = Kdenlive::PageMisc;
+    } else if (current == m_pageEnv) {
+        page = Kdenlive::PageEnv;
+    } else if (current == m_pageTimeline) {
+        page = Kdenlive::PageTimeline;
+    } else if (current == m_pageTools) {
+        page = Kdenlive::PageTools;
+    } else if (current == m_pageCapture) {
+        page = Kdenlive::PageMisc;
+    } else if (current == m_pageCapture) {
+        page = Kdenlive::PageCapture;
+    } else if (current == m_pageJog) {
+        page = Kdenlive::PageJogShuttle;
+    } else if (current == m_pagePlay) {
+        page = Kdenlive::PagePlayback;
+    } else if (current == m_pageTranscode) {
+        page = Kdenlive::PageTranscode;
+    } else if (current == m_pageProject) {
+        page = Kdenlive::PageProjectDefaults;
+    } else if (current == m_pageColors) {
+        page = Kdenlive::PageColorsGuides;
+    } else if (current == m_pageSpeech) {
+        page = Kdenlive::PageSpeech;
+    }
+
+    pCore->window()->m_lastConfigPage = page;
     KConfigDialog::accept();
 }
 

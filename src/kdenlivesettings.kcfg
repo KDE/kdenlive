@@ -407,7 +407,7 @@
 
     <entry name="displayallchannels" type="Bool">
       <label>Display all channels in audio thumbnails.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="normalizechannels" type="Bool">
@@ -683,6 +683,11 @@
 
     <entry name="checkForUpdate" type="Bool">
       <label>Automatically check for updates</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="usePowerManagement" type="Bool">
+      <label>Disable sleep on playback/render</label>
       <default>true</default>
     </entry>
 

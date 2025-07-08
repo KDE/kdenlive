@@ -40,6 +40,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivecore_export.h"
 #include "otio/otioexport.h"
 #include "otio/otioimport.h"
+#include "powermanagementinterface.h"
 #include "statusbarmessagelabel.h"
 #include "utils/gentime.h"
 
@@ -82,6 +83,10 @@ class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
     Q_OBJECT
 
 public:
+    friend class RenderWidget;
+    friend class Monitor;
+    friend class KdenliveSettingsDialog;
+
     explicit MainWindow(QWidget *parent = nullptr);
     /** @brief Initialises the main window.
      * @param MltPath (optional) path to MLT environment
@@ -209,6 +214,8 @@ public:
     void reloadAssetPanel();
     /** @brief If any task is running, ask user before closing */
     bool hasRunningTask() const;
+    /** @brief If a render task is running */
+    bool hasRunningRenderTask() const;
 
 protected:
     /** @brief Closes the window.
@@ -230,6 +237,9 @@ protected:
     void saveProperties(KConfigGroup &config) override;
 
     void saveNewToolbarConfig() override;
+    /** @brief Power management to inhibit sleep while rendering */
+    PowerManagementInterface mPowerInterface;
+    Kdenlive::ConfigPage m_lastConfigPage = Kdenlive::NoPage;
 
 private:
     /** @brief Sets up all the actions and attaches them to the collection. */

@@ -215,7 +215,7 @@ bool AbstractTreeModel::checkConsistency()
         queue.pop();
         if (seenIDs.count(currentId) != 0) {
             qCCritical(KDENLIVE_LOG) << "Invalid tree: Id found twice."
-                     << "It either a cycle or a clash in id attribution";
+                                     << "It either a cycle or a clash in id attribution";
             return false;
         }
         if (m_allItems.count(currentId) == 0) {
