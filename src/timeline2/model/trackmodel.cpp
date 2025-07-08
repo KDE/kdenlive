@@ -259,6 +259,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 m_playlists[target_playlist].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 clip->setCurrentTrackId(m_id, finalMove);
+                Mlt::Producer prod = *clip;
                 int index = m_playlists[target_playlist].insert_at(position, *clip, 1);
                 m_playlists[target_playlist].consolidate_blanks();
                 m_playlists[target_playlist].unlock();

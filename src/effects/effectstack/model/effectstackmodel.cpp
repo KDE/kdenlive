@@ -550,6 +550,9 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             }
         }
         local_redo();
+        Fun reorder = checkLambdaOrder(effect);
+        reorder();
+        PUSH_LAMBDA(reorder, local_redo);
         effectAdded = true;
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
@@ -666,6 +669,9 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
             Q_EMIT dataChanged(ix, ix, roles);
             return true;
         };
+        Fun reorder = checkLambdaOrder(effect);
+        reorder();
+        PUSH_LAMBDA(reorder, local_redo);
         update();
         PUSH_LAMBDA(update, local_redo);
         PUSH_LAMBDA(update, local_undo);
@@ -752,10 +758,15 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
     connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
     int currentActive = getActiveEffect();
     bool res = local_redo();
+
     if (makeCurrent || currentActive == -1) {
         setActiveEffect(rowCount() - 1);
     }
     if (res) {
+        Fun reorder = checkLambdaOrder(effect);
+        reorder();
+        PUSH_LAMBDA(reorder, local_redo);
+
         int inFades = 0;
         int outFades = 0;
         if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
@@ -1326,31 +1337,6 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 }
             }
             int target = -1;
-            if (effectItem->isBuiltIn() && KdenliveSettings::enableBuiltInEffects()) {
-                // Ensure builtin effects are always applied before the user effects
-                int max = rootItem->childCount();
-                auto ms = m_masterService.lock();
-                int currentEffectPos = ms->filter_count() - 1;
-                int firstEffectPos = ms->filter_count() - max;
-                if (max > 1 && firstEffectPos >= 0) {
-                    // Find first kdenlive effect
-                    std::shared_ptr<Mlt::Filter> ft(ms->filter(firstEffectPos));
-                    const QString firstId = ft->get("mlt_service");
-                    target = firstEffectPos;
-                    // Flip effect should always come before others
-                    if (firstId.contains(QLatin1String("flip"))) {
-                        target++;
-                    }
-                    if (currentEffectPos != target) {
-                        ms->move_filter(currentEffectPos, target);
-                        if (!effectItem->isHiddenBuiltIn()) {
-                            // Get position in Kdenlive's effect stack
-                            target -= firstEffectPos;
-                            rootItem->moveChild(target, effectItem);
-                        }
-                    }
-                }
-            }
             for (const auto &service : m_childServices) {
                 effectItem->plantClone(service, target);
             }
@@ -1543,6 +1529,9 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             }
             effect->prepareKeyframes(clipIn, clipOut);
             if (redo()) {
+                Fun reorder = checkLambdaOrder(effect);
+                reorder();
+                PUSH_LAMBDA(reorder, redo);
                 if (forcedInOut) {
                     effect->filter().set_in_and_out(filterIn, filterOut);
                 } else if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
@@ -2148,8 +2137,10 @@ void EffectStackModel::appendAudioBuildInEffects()
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
-    Fun local_undo = addItem_lambda(effect, rootItem->getId());
-    local_undo();
+    Fun local_redo = addItem_lambda(effect, rootItem->getId());
+    local_redo();
+    Fun reorder = checkLambdaOrder(effect);
+    reorder();
 }
 
 void EffectStackModel::appendVideoBuildInEffects()
@@ -2176,6 +2167,8 @@ void EffectStackModel::appendVideoBuildInEffects()
         connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
         Fun local_redo = addItem_lambda(effect, rootItem->getId());
         local_redo();
+        Fun reorder = checkLambdaOrder(effect);
+        reorder();
     }
 }
 
@@ -2212,4 +2205,37 @@ bool EffectStackModel::hasDisabledBuiltInTransform()
         }
     }
     return false;
+}
+
+Fun EffectStackModel::checkLambdaOrder(const std::shared_ptr<EffectItemModel> &effect)
+{
+    Fun sub = []() { return true; };
+    if (effect->isBuiltIn()) {
+        // Ensure build-in effects are always onm top of the tree
+        int row = rowCount() - 1;
+        if (row >= 0) {
+            if (effect->getAssetId().contains(QLatin1String("flip"))) {
+                // Flip effect, must go on top
+                sub = moveItem_lambda(effect->getId(), 0, false);
+                return sub;
+            } else {
+                int i = 0;
+                for (; i < row; i++) {
+                    auto item = getEffectStackRow(i);
+                    if (!item) {
+                        break;
+                    }
+                    if (!std::static_pointer_cast<EffectItemModel>(item)->isBuiltIn()) {
+                        break;
+                    }
+                }
+                if (i < row) {
+                    // Built in effect must go before others
+                    sub = moveItem_lambda(effect->getId(), i, false);
+                    return sub;
+                }
+            }
+        }
+    }
+    return sub;
 }
