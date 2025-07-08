@@ -357,7 +357,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_pageEnv = addPage(p2, i18n("Environment"), QStringLiteral("application-x-executable-script"));
 #if defined Q_OS_MAC
     // Power management not implemented on Mac
-    m_pageEnv.kcfg_usePowerManagement->setEnabled(false);
+    m_configEnv.kcfg_usePowerManagement->setEnabled(false);
 #endif
 }
 
