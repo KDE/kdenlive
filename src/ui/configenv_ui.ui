@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>582</width>
-    <height>686</height>
+    <height>718</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -109,6 +109,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <widget class="QCheckBox" name="kcfg_checkForUpdate">
      <property name="text">
       <string>Check for updates</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_usePowerManagement">
+     <property name="text">
+      <string>Prevent sleep when playing and rendering</string>
      </property>
     </widget>
    </item>

@@ -281,6 +281,9 @@ void TimelineWidget::showHeaderMenu()
     QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
     for (QAction *ac : std::as_const(menuActions)) {
         if (allowedActions.contains(ac->data().toString())) {
+            if (ac->data().toString() == QLatin1String("separate_channels")) {
+                ac->setChecked(KdenliveSettings::displayallchannels());
+            }
             audioActions << ac;
         }
     }

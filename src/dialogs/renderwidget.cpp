@@ -15,6 +15,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
+#include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
@@ -506,6 +507,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     focusItem();
     adjustSize();
     m_view.embed_subtitles->setToolTip(i18n("Only works for the matroska (mkv) format"));
+    connect(this, &RenderWidget::renderStatusChanged, this, &RenderWidget::updatePowerManagement);
     m_view.keep_log_files->setChecked(KdenliveSettings::keepRenderLogFiles());
     connect(m_view.keep_log_files, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setKeepRenderLogFiles(enabled); });
 }
@@ -990,8 +992,14 @@ void RenderWidget::checkRenderStatus()
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
-    if (!waitingJob && m_view.shutdown->isChecked()) {
-        Q_EMIT shutdown();
+    if (!waitingJob) {
+        if (m_renderStatus == Rendering) {
+            m_renderStatus = NotRendering;
+            Q_EMIT renderStatusChanged();
+        }
+        if (m_view.shutdown->isChecked()) {
+            Q_EMIT shutdown();
+        }
     }
 }
 
@@ -1412,6 +1420,10 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
             item->setData(1, LastTimeRole, 0);
             item->setData(1, LastFrameRole, frame);
             return;
+        }
+        if (m_renderStatus == NotRendering) {
+            m_renderStatus = Rendering;
+            Q_EMIT renderStatusChanged();
         }
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
         qint64 lastTimeRole = item->data(1, LastTimeRole).toInt();
@@ -2206,4 +2218,21 @@ void RenderWidget::updateMissingClipsCount(int total, int used)
     m_missingClips = total;
     m_missingUsedClips = used;
     updateRenderInfoMessage();
+}
+
+void RenderWidget::updatePowerManagement()
+{
+    switch (m_renderStatus) {
+    case Rendering:
+        pCore->window()->mPowerInterface.setPreventSleep(true);
+        break;
+    default:
+        pCore->window()->mPowerInterface.setPreventSleep(false);
+        break;
+    }
+}
+
+bool RenderWidget::isRendering() const
+{
+    return m_renderStatus == Rendering;
 }

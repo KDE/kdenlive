@@ -578,6 +578,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     refreshMonitorTimer.setSingleShot(true);
     refreshMonitorTimer.setInterval(250);
     connect(&refreshMonitorTimer, &QTimer::timeout, this, &Monitor::updateTimelineProducer);
+
+    // Power management
+    m_preventSleepTimer.setSingleShot(true);
+    // Only prevent sleep if we play for more than 20 seconds to avoid always turning it on/off
+    m_preventSleepTimer.setInterval(20000);
+    connect(&m_preventSleepTimer, &QTimer::timeout, this, &Monitor::updatePowerManagement);
 }
 
 Monitor::~Monitor()
@@ -1835,6 +1841,15 @@ void Monitor::slotSwitchPlay()
         }
     } else {
         m_droppedTimer.stop();
+    }
+    if (m_playAction->isActive()) {
+        m_preventSleepTimer.start();
+    } else {
+        if (!m_preventSleepTimer.isActive()) {
+            updatePowerManagement();
+        } else {
+            m_preventSleepTimer.stop();
+        }
     }
 }
 
@@ -3230,4 +3245,13 @@ void Monitor::activeChanged()
     m_timePos->setPalette(pal);
     m_timePos->setBold(isActive);
     Q_EMIT getControllerProxy() -> activeMonitorChanged();
+}
+
+void Monitor::updatePowerManagement()
+{
+    if (m_playAction->isActive()) {
+        pCore->window()->mPowerInterface.setPreventDim(true);
+    } else {
+        pCore->window()->mPowerInterface.setPreventDim(false);
+    }
 }

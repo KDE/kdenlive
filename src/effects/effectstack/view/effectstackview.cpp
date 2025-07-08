@@ -1012,7 +1012,7 @@ void EffectStackView::transcodeProgress(ObjectId owner, int progress)
 
 void EffectStackView::destroyBuildinWidget()
 {
-    if(!m_builtStack) {
+    if (!m_builtStack) {
         return;
     }
 
@@ -1086,7 +1086,7 @@ void EffectStackView::constructBuildinWidget()
     m_flipLabel = new QLabel(i18n("Flip"));
     layout->addRow(m_flipLabel, lay);
 
-    auto flipToggled = [this](bool checked, const QString &effectName){
+    auto flipToggled = [this](bool checked, const QString &effectName) {
         if (checked) {
             QMap<QString, QString> params;
             params.insert(QStringLiteral("kdenlive:builtin"), QStringLiteral("1"));
@@ -1101,12 +1101,8 @@ void EffectStackView::constructBuildinWidget()
         }
     };
 
-    connect(m_flipH, &QPushButton::clicked, this, [flipToggled](bool checked) {
-        flipToggled(checked, QStringLiteral("avfilter.hflip"));
-    });
-    connect(m_flipV, &QPushButton::clicked, this, [flipToggled](bool checked) {
-        flipToggled(checked, QStringLiteral("avfilter.vflip"));
-    });
+    connect(m_flipH, &QPushButton::clicked, this, [flipToggled](bool checked) { flipToggled(checked, QStringLiteral("avfilter.hflip")); });
+    connect(m_flipV, &QPushButton::clicked, this, [flipToggled](bool checked) { flipToggled(checked, QStringLiteral("avfilter.vflip")); });
     connect(m_removeBg, &QPushButton::clicked, this, &EffectStackView::launchObjectMask);
     connect(m_samAbortButton, &QToolButton::clicked, this, &EffectStackView::abortSam);
 

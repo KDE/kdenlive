@@ -203,7 +203,7 @@ void RenderJob::updateProgress()
         }
         m_connectTimer.start();
         qCDebug(KDENLIVE_RENDERER_LOG) << "Progress:" << m_progress << "%,"
-                 << "frame" << m_frame;
+                                       << "frame" << m_frame;
     }
 #endif
     m_logstream << QStringLiteral("%1\t%2\t%3\n").arg(m_seconds).arg(m_frame).arg(m_progress);
@@ -366,7 +366,8 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
 {
     if (exitStatus == QProcess::CrashExit || !QFile::exists(m_temporaryRenderFile)) {
         // rendering crashed
-        qCCritical(KDENLIVE_RENDERER_LOG) << "Subtitle process exited unexpectedly:" << exitStatus << "/" << exitCode << "; Does file exist?" << QFile::exists(m_temporaryRenderFile);
+        qCCritical(KDENLIVE_RENDERER_LOG) << "Subtitle process exited unexpectedly:" << exitStatus << "/" << exitCode << "; Does file exist?"
+                                          << QFile::exists(m_temporaryRenderFile);
         QString error = tr("Rendering of %1 aborted when adding subtitles.").arg(m_dest);
         m_errorMessage.append(error);
         sendFinish(-2, m_errorMessage);

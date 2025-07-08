@@ -86,6 +86,7 @@ list(APPEND kdenlive_SRCS
     undohelper.cpp
     glaxnimatelauncher.cpp
     filefilter.cpp
+    powermanagementinterface.cpp
 )
 
 if(CRASH_AUTO_TEST)
