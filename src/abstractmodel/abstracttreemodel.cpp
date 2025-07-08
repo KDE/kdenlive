@@ -305,7 +305,6 @@ Fun AbstractTreeModel::removeItem_lambda(int id)
 Fun AbstractTreeModel::moveItem_lambda(int id, int destRow, bool force)
 {
     Fun lambda = []() { return true; };
-
     std::vector<std::shared_ptr<TreeItem>> oldStack;
     auto item = getItemById(id);
     if (!force && item->row() == destRow) {

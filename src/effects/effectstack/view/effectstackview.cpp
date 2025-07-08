@@ -332,9 +332,9 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     m_effectsTree->setUniformRowHeights(false);
     m_mutex.unlock();
     loadEffects();
-    connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &EffectStackView::loadEffects);
-    connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &EffectStackView::loadEffects);
-    connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &EffectStackView::loadEffects);
+    connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &EffectStackView::loadEffects, Qt::QueuedConnection);
+    connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &EffectStackView::loadEffects, Qt::QueuedConnection);
+    connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &EffectStackView::loadEffects, Qt::QueuedConnection);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::customDataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
