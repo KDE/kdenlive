@@ -274,8 +274,13 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
     if (m_builtIn) {
         bool isDisabled = m_asset->get_int("disable") == 1;
         if (!isDisabled) {
-            if (isDefault() && m_assetId != QLatin1String("volume")) {
+            if (isDefault()) {
                 m_asset->set("disable", 1);
+            }
+        } else {
+            // Asset disabled
+            if (!isDefault()) {
+                m_asset->clear("disable");
             }
         }
     }
@@ -456,8 +461,13 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
     if (m_builtIn && !groupedCommand) {
         bool isDisabled = m_asset->get_int("disable") == 1;
         if (!isDisabled) {
-            if (isDefault() && m_assetId != QLatin1String("volume")) {
+            if (isDefault()) {
                 m_asset->set("disable", 1);
+            }
+        } else {
+            // Asset disabled
+            if (!isDefault()) {
+                m_asset->clear("disable");
             }
         }
     }
