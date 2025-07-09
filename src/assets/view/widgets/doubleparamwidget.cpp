@@ -18,13 +18,13 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_lay->setSpacing(0);
 
     // Retrieve parameters from the model
-    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
+    const QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     double value = m_model->data(m_index, AssetParameterModel::ValueRole).toDouble();
     double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
     double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
     double defaultValue = m_model->data(m_index, AssetParameterModel::DefaultRole).toDouble();
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
+    const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
+    const QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
     double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
     // Construct object

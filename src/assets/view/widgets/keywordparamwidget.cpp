@@ -11,10 +11,6 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
 {
     setupUi(this);
 
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
-
     QStringList kwrdValues = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
     QStringList kwrdNames = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     comboboxwidget->addItems(kwrdNames);
