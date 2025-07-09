@@ -18,7 +18,6 @@
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
@@ -52,7 +51,6 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
 
     // Q_EMIT the signal of the base class when appropriate
     connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
-    setToolTip(comment);
 }
 
 GeometryEditWidget::~GeometryEditWidget() = default;

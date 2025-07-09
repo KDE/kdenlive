@@ -11,7 +11,6 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
 {
     // setup the comment
     setupUi(this);
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
 
     slotRefresh();
     connect(end_up, &QAbstractButton::clicked, this, &SlideWidget::updateValue);
@@ -29,9 +28,6 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
 
     // Q_EMIT the signal of the base class when appropriate
     connect(this, &SlideWidget::modified, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
-
-    // setup comment
-    setToolTip(comment);
 }
 
 void SlideWidget::slotShowComment(bool) {}

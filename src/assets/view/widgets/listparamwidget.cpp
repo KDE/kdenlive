@@ -14,15 +14,11 @@
 ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    // Get data from model
-    const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-
     QHBoxLayout *lay = new QHBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
     m_list = new QComboBox(this);
     lay->addWidget(m_list);
 
-    // setup the comment
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));
     setMinimumHeight(m_list->sizeHint().height());

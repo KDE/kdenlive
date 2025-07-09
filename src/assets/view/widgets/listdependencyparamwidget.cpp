@@ -20,12 +20,6 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
-
-    // Get data from model
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-
-    // setup the comment
-    setToolTip(comment);
     m_infoMessage->hide();
     connect(m_infoMessage, &KMessageWidget::linkActivated, this, [this](const QString &contents) {
         const QUrl linkUrl(contents);

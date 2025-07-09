@@ -59,6 +59,9 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
     , m_model(std::move(model))
     , m_index(index)
 {
+    // setup comment
+    const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
+    setToolTip(comment);
 }
 
 QLabel *AbstractParamWidget::createLabel()

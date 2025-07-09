@@ -19,12 +19,9 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     : AbstractParamWidget(std::move(model), index, parent)
     , m_animated(false)
 {
-    // setup the comment
     m_buttonName = m_model->data(m_index, Qt::DisplayRole).toString();
     m_alternatebuttonName = m_model->data(m_index, AssetParameterModel::AlternateNameRole).toString();
-    // QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
+
     // setEnabled(m_model->getOwnerId().first != KdenliveObjectType::TimelineTrack);
     auto *layout = new QVBoxLayout(this);
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
