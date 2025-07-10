@@ -60,6 +60,17 @@ Item {
         canvas.requestPaint()
     }
 
+    function getSnappedPos(position) {
+        if (!K.KdenliveSettings.showMonitorGrid) {
+            return position
+        }
+        var deltax = Math.round(position.x / root.scalex)
+        var deltay = Math.round(position.y / root.scaley)
+        deltax = Math.round(deltax / K.KdenliveSettings.monitorGridH) * K.KdenliveSettings.monitorGridH
+        deltay = Math.round(deltay / K.KdenliveSettings.monitorGridV) * K.KdenliveSettings.monitorGridV
+        return Qt.point(deltax * root.scalex, deltay * root.scaley)
+    }
+
     function updateClickCapture() {
         root.captureRightClick = false
     }
@@ -198,6 +209,29 @@ Item {
         color: "transparent"
         border.color: "#ffffff00"
 
+        Repeater {
+            model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
+            Rectangle {
+                required property int index
+                opacity: 0.3
+                color: root.overlayColor
+                height: frame.height - 1
+                width: 1
+                x: ((index + 1) * K.KdenliveSettings.monitorGridH * root.scalex)
+            }
+        }
+        Repeater {
+            model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
+            Rectangle {
+                required property int index
+                opacity: 0.3
+                color: root.overlayColor
+                height: 1
+                width: frame.width - 1
+                y: ((index + 1) * K.KdenliveSettings.monitorGridV * root.scaley)
+            }
+        }
+
         K.MonitorOverlay {
             anchors.fill: frame
             color: K.KdenliveSettings.overlayColor
@@ -221,8 +255,10 @@ Item {
         onPositionChanged: {
             if (root.iskeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {
-                root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
-                root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
+                var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
+                var adjustedMouse = getSnappedPos(mousePos)
+                root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x / root.scalex;
+                root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y / root.scaley;
                 canvas.requestPaint()
                 root.effectPolygonChanged()
             } else {
