@@ -5310,7 +5310,7 @@ std::pair<int, int> TimelineModel::durations() const
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
     if (binClip) {
         boundsDuration = binClip->lastBound();
-        if (boundsDuration < duration) {
+        if (boundsDuration <= duration) {
             boundsDuration = 0;
         }
     }

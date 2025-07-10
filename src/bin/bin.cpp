@@ -6001,10 +6001,10 @@ void Bin::updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, i
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
         clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
-        qDebug() << "::::::::::::ENFORCING MAX DURATION: " << durations.first << "\n\n_________________________________\n\n";
         if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;
+
             int duration = durations.second > 0 ? durations.second : durations.first;
             properties.insert(QStringLiteral("length"), QString::number(duration));
             properties.insert(QStringLiteral("out"), QString::number(duration - 1));
