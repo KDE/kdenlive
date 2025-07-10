@@ -12,8 +12,9 @@
         <name>Saturation</name>
         <comment>Amount of color in the colorized image.</comment>
     </parameter>
-    <parameter type="animated" name="lightness" default="0.5" min="0" max="1" factor="1" decimals="3">
+    <parameter type="animated" name="lightness" default="0.5" min="0" max="1" decimals="3">
         <name>Lightness</name>
         <comment>Lightness of the colorized image.</comment>
     </parameter>
 </effect>
+

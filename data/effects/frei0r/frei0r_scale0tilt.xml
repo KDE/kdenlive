@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.scale0tilt" id="frei0r.scale0tilt">
-    <name>Crop, Scale and Tilt</name>
-    <description>Scales, Tilts and Crops an Image</description>
+    <name>Crop, Scale, and Tilt</name>
+    <description>Scales, tilts, and crops an image</description>
     <author>Richard Spindler</author>
     <parameter type="animated" name="Clip left" max="%width" min="0" default="0" factor="%width">
-        <name>Crop left</name>
+        <name>Crop Left</name>
     </parameter>
     <parameter type="animated" name="Clip right" max="%width" min="0" default="0" factor="%width">
-        <name>Crop right</name>
+        <name>Crop Right</name>
     </parameter>
     <parameter type="animated" name="Clip top" max="%height" min="0" default="0" factor="%height">
-        <name>Crop top</name>
+        <name>Crop Top</name>
     </parameter>
     <parameter type="animated" name="Clip bottom" max="%height" min="0" default="0" factor="%height">
-        <name>Crop bottom</name>
+        <name>Crop Bottom</name>
     </parameter>
     <parameter type="animated" name="Scale X" max="1000" min="1" default="0.5" factor="200">
         <name>Scale X</name>

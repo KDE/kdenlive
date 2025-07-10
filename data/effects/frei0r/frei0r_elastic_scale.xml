@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.elastic_scale" id="frei0r.elastic_scale">
+    <name>Elastic Scale</name>
+    <description>Scale non-linearly</description>
+    <author>Matthias Schnoell</author>
+    <parameter type="animated" name="0" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
+        <name>Center</name>
+        <comment><![CDATA[Horizontal center position<br>
+        of the linear area (% of total width]]></comment>
+    </parameter>
+    <parameter type="animated" name="1" max="100" min="0" default="0.005" factor="100" decimals="1" suffix="%">
+        <name>Linear Width</name>
+        <comment><![CDATA[Width of the linear area]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" max="100" min="0" default="0.005" factor="100" decimals="1" suffix="%">
+        <name>Linear Scale Factor</name>
+        <comment><![CDATA[Amount how much the linear area is scaled]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
+        <name>Non-Linear Scale Factor</name>
+        <comment><![CDATA[Amount how much the<br>
+        outer left and outer right areas are scaled non linearly]]></comment>
+    </parameter>
+</effect>

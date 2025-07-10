@@ -13,6 +13,7 @@ audiowaveform.xml
 boxblur.xml
 box_blur.xml
 brightness.xml
+burningtv.xml
 channelcopy.xml
 copychannelstostereo.xml
 charcoal.xml
@@ -33,7 +34,9 @@ gain.xml
 gamma.xml
 gpstext.xml
 gpsgraphic.xml
+gradientmap.xml
 grain.xml
+greyedge.xml
 greyscale.xml
 hsl_primaries.xml
 hsl_range.xml

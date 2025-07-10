@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.letterb0xed" id="frei0r.letterb0xed" type="video" unique="1">
-    <name>LetterB0xed</name>
-    <description>Adds black borders at top and bottom for cinema look</description>
+    <name>Letter-boxing</name>
+    <description>Adds black borders at the top and bottom for that widescreen cinema look</description>
     <author>Richard Spindler</author>
-    <parameter type="animated" name="Border Width" max="1000" min="0" default="0.4" factor="1000">
+    <parameter type="animated" name="Border Width" max="100" min="0" default="0.4" factor="100" decimals="1" suffix="%">
         <name>Border Width</name>
+        <comment><![CDATA[Specify the width of the border<br>
+        as % of half the vertical resolution (100% means both the topa and bottom half of the frame are black, i.e. there is no room for the picture)]]></comment>
     </parameter>
     <parameter type="bool" name="Transparency" default="0">
         <name>Transparency</name>

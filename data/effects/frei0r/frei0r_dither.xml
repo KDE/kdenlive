@@ -10,8 +10,8 @@
             <comment>Number of values per channel.</comment>
         </parameter>
         <parameter type="animated" name="matrixid" default="1" min="0" max="10" factor="10">
-            <name>Matrix Id.</name>
-            <comment>Id of matrix used for dithering.</comment>
+            <name>Matrix ID</name>
+            <comment>ID of matrix used for dithering.</comment>
         </parameter>
     </effect>
 </group>

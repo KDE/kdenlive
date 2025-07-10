@@ -1,19 +1,30 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.lenscorrection" id="avfilter.lenscorrection">
-    <name>Lens correction</name>
-    <description>Correct radial lens distortion </description>
+    <name>Lens Correction (avfilter)</name>
+    <description>Correct radial lens distortion. This effect allows to specify a color for the unmapped pixels.</description>
     <author>libavfilter</author>
-    <parameter type="float" name="av.cx" default="0.5" min="0" max="1" format="double" decimals="2">
-        <name>Focal point relative-X coord</name>
+    <parameter type="list" name="av.i" default="0" min="0" max="1" paramlist="0;1">
+        <paramlistdisplay>Nearest,Bi-linear</paramlistdisplay>
+        <name>Interpolation Type</name>
     </parameter>
-    <parameter type="float" name="av.cy" default="0.5" min="0" max="1" format="double" decimals="2">
-        <name>Focal point relative-Y coord</name>
+    <parameter type="fixedcolor" name="av.fc" default="0x00000000" alpha="1">
+        <name>Unmapped Pixel Color</name>
     </parameter>
-    <parameter type="float" name="av.k1" default="0" min="-1" max="1" format="double" decimals="2">
-        <name>Quadratic correction coeff.</name>
+    <parameter type="animated" name="av.cx" default="0.5" min="0" max="100" factor="100" decimals="1">
+        <name><![CDATA[Focal Point Relative<br>
+        X-Coordinate]]></name>
     </parameter>
-    <parameter type="float" name="av.k2" default="0" min="-1" max="1" format="double" decimals="2">
-        <name>DoubleQuadratic correction coeff.</name>
+    <parameter type="animated" name="av.cy" default="0.5" min="0" max="100" factor="100" decimals="1">
+        <name><![CDATA[Focal Point Relative<br>
+        Y-Coordinate]]></name>
+    </parameter>
+    <parameter type="animated" name="av.k1" default="0" min="-100" max="100" factor="100" decimals="1">
+        <name><![CDATA[Quadratic<br>
+        Correction Coefficent]]></name>
+    </parameter>
+    <parameter type="animated" name="av.k2" default="0" min="-100" max="100" factor="100" decimals="1">
+        <name><![CDATA[Double Quadratic<br>
+        Correction Coefficent]]></name>
     </parameter>
 </effect>
