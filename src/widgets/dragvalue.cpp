@@ -155,7 +155,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             m_editing = false;
         }
     }
-    return QObject::eventFilter(watched, event);
+    return QSpinBox::eventFilter(watched, event);
 }
 
 MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
@@ -286,7 +286,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             m_editing = false;
         }
     }
-    return QObject::eventFilter(watched, event);
+    return QDoubleSpinBox::eventFilter(watched, event);
 }
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
@@ -651,10 +651,11 @@ void DragValue::setValue(double value, bool final, bool createUndoEntry, bool up
         m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
     }
     if (m_intEdit) {
+        int val = qRound(value);
         m_intEdit->blockSignals(true);
-        m_intEdit->setValue((int)value);
+        m_intEdit->setValue(val);
         m_intEdit->blockSignals(false);
-        Q_EMIT customValueChanged(qRound(value), final, createUndoEntry);
+        Q_EMIT customValueChanged(double(val), final, createUndoEntry);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
@@ -754,10 +755,8 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     if (m_showSlider) {
         setToolTip(xi18n("Shift + Drag to adjust value one by one."));
     }
-    if (showSlider) {
-        setRange(0, 1000);
-    } else {
-        setRange(0, range);
+    setRange(0, range);
+    if (!showSlider) {
         QSize sh;
         const QFontMetrics &fm = fontMetrics();
         sh.setWidth(fm.horizontalAdvance(QLatin1Char(' ') + label + QLatin1Char(' ')));
