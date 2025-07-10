@@ -4829,7 +4829,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
     Fun redo = []() { return true; };
     std::function<void(const QString &)> callBack = [model = m_model, track = tid, recPosition, highlightClip](const QString &binId) {
         int id = -1;
-        if (track == -1) {
+        if (track == -1 || model->isSubtitleTrack(track)) {
             return;
         }
         std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
