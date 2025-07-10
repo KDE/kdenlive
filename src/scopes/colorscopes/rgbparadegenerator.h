@@ -25,4 +25,5 @@ public:
 
     static const uchar distRight;
     static const uchar distBottom;
+    static const uchar distBorder;
 };

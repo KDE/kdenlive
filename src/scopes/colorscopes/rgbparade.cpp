@@ -103,36 +103,71 @@ QImage RGBParade::renderHUD(uint)
         qDebug() << "Could not initialise QPainter for RGB Parade HUD.";
         return hud;
     }
-    davinci.setPen(palette().text().color());
 
-    int x = scopeRect().width() - 30;
+    if (scopeRect().height() <= 0) {
+        return hud;
+    }
 
-    davinci.drawText(x, scopeRect().height() - RGBParadeGenerator::distBottom, QStringLiteral("0"));
-    davinci.drawText(x, 10, QStringLiteral("255"));
+    QFontMetrics fm = davinci.fontMetrics();
 
-    if (scopeRect().height() > 0 && m_mouseWithinWidget) {
+    const int HUD_SCALE_MARGIN = 5;
+    const int hudScaleOffset = offset + HUD_SCALE_MARGIN;
 
-        int y = m_mousePos.y() - scopeRect().y();
+    int x = scopeRect().width() - hudScaleOffset - fm.horizontalAdvance(QStringLiteral("255"));
+    int y = m_mousePos.y() - scopeRect().y();
+    bool mouseWithinScope = m_mouseWithinWidget && y >= RGBParadeGenerator::distBorder &&
+                            y <= (scopeRect().height() - RGBParadeGenerator::distBottom - RGBParadeGenerator::distBorder);
 
-        // Draw a horizontal line through the current mouse position
-        // and show the value of the waveform there
-        davinci.drawLine(0, y, scopeRect().size().width() - RGBParadeGenerator::distRight, y);
+    if (mouseWithinScope) {
+        int val = 255 + int(255. * (1 - y) / (scopeRect().height() - RGBParadeGenerator::distBottom - 2 * RGBParadeGenerator::distBorder));
 
-        // Make the value stick to the line unless it is at the top/bottom of the scope
-        const int top = 30;
-        const int bottom = 20 + RGBParadeGenerator::distBottom;
-
-        int valY = y + 5;
-        if (valY < top) {
-            valY = top;
-        } else if (valY > scopeRect().height() - bottom) {
-            valY = scopeRect().height() - bottom;
-        }
-
-        int val = 255 + int(255. * (1 - y) / (scopeRect().height() - RGBParadeGenerator::distBottom));
         if ((val >= 0) && (val <= 255)) {
-            davinci.drawText(x, valY, QVariant(val).toString());
+            const int textHeight = fm.height();
+            const int textMargin = 2;
+
+            // Scale baseline positions
+            const int scaleTopY = RGBParadeGenerator::distBorder + hudScaleOffset;                                           // "255" position
+            const int scaleBottomY = scopeRect().height() - RGBParadeGenerator::distBottom - RGBParadeGenerator::distBorder; // "0" position
+
+            // Calculate the natural position for the current value text (centered on horizontal line)
+            // drawText uses baseline positioning, so we need to adjust for centering
+            int naturalValY = y + fm.ascent() - textHeight / 2;
+
+            // Check if current value text would clip with scale values or widget edges
+            // For top scale: check if current value overlaps with the "255" text area
+            bool clipsWithTop = (naturalValY - textHeight / 2) < (scaleTopY + fm.descent() + textMargin);
+            // For bottom scale: check if current value overlaps with the "0" text area
+            bool clipsWithBottom = (naturalValY + textHeight / 2) > (scaleBottomY - fm.ascent() - textMargin);
+            bool clipsWithWidgetTop = (naturalValY - textHeight / 2) < (RGBParadeGenerator::distBorder + textMargin);
+            bool clipsWithWidgetBottom = (naturalValY + textHeight / 2) > (scopeRect().height() - RGBParadeGenerator::distBorder - textMargin);
+
+            // Calculate final text position with edge clipping adjustments
+            int finalValY = naturalValY;
+            if (clipsWithWidgetTop) {
+                finalValY = RGBParadeGenerator::distBorder + textMargin + textHeight / 2;
+            } else if (clipsWithWidgetBottom) {
+                finalValY = scopeRect().height() - RGBParadeGenerator::distBorder - textMargin - textHeight / 2;
+            }
+
+            // Draw scale values, only hide the ones that would clip
+            davinci.setPen(palette().text().color());
+            if (!clipsWithTop) {
+                davinci.drawText(x, scaleTopY, QStringLiteral("255"));
+            }
+            if (!clipsWithBottom) {
+                davinci.drawText(x, scaleBottomY, QStringLiteral("0"));
+            }
+
+            // Always draw the current value and the horizontal line
+            davinci.setPen(palette().highlight().color());
+            davinci.drawText(x, finalValY, QVariant(val).toString());
+            davinci.drawLine(RGBParadeGenerator::distBorder, y, scopeRect().size().width() - RGBParadeGenerator::distRight - RGBParadeGenerator::distBorder, y);
         }
+    } else {
+        // When mouse is not within scope, always show scale values
+        davinci.setPen(palette().text().color());
+        davinci.drawText(x, scopeRect().height() - RGBParadeGenerator::distBottom - RGBParadeGenerator::distBorder, QStringLiteral("0"));
+        davinci.drawText(x, RGBParadeGenerator::distBorder + 10, QStringLiteral("255"));
     }
 
     Q_EMIT signalHUDRenderingFinished(1, 1);

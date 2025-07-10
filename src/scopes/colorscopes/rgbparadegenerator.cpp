@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 const uchar RGBParadeGenerator::distRight(40);
 const uchar RGBParadeGenerator::distBottom(40);
+const uchar RGBParadeGenerator::distBorder(2);
 
 struct StructRGB
 {
@@ -50,9 +51,9 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     const uint iw = uint(image.width());
     const uint ih = uint(image.height());
 
-    const uchar offset = 10;
-    const uint partW = (ww - 2 * offset - distRight) / 3;
-    const uint partH = wh - distBottom;
+    const uchar offset = 8;
+    const uint partW = (ww - 2 * offset - distRight - 2 * distBorder) / 3;
+    const uint partH = wh - distBottom - 2 * distBorder;
 
     // Statistics
     uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0;
@@ -110,9 +111,14 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     // Fill background of the parade with "dark2" color from AbstractScopeWidget instead of themes base color.
     // Otherwise, on a light theme contrast is not great and other drawing options depend on this assumption like white paint mode.
     QColor darkParadeBackground(25, 25, 23, 255);
-    davinci.fillRect(QRect(0, 0, partW, partH - 1), darkParadeBackground);
-    davinci.fillRect(QRect(offset1, 0, partW, partH - 1), darkParadeBackground);
-    davinci.fillRect(QRect(offset2, 0, partW, partH - 1), darkParadeBackground);
+    // Fill color for the border around the scope as well as the area between the individual color channels
+    QColor paradeBorderColor = darkParadeBackground.lighter(120);
+
+    davinci.fillRect(QRect(0, 0, ww - distRight, partH + 2 * distBorder), paradeBorderColor);
+
+    davinci.fillRect(QRect(distBorder, distBorder, partW, partH), darkParadeBackground);
+    davinci.fillRect(QRect(offset1 + distBorder, distBorder, partW, partH), darkParadeBackground);
+    davinci.fillRect(QRect(offset2 + distBorder, distBorder, partW, partH), darkParadeBackground);
 
     switch (paintMode) {
     case PaintMode_RGB:
@@ -138,24 +144,22 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     // Scale the image to the target height. Scaling is not accomplished before because
     // there are only 255 different values which would lead to gaps if the height is not exactly 255.
     // Don't use bilinear transformation because the fast transformation meets the goal better.
-    davinci.drawImage(0, 0, unscaled.mirrored(false, true).scaled(unscaled.width(), int(partH), Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    davinci.drawImage(distBorder, distBorder,
+                      unscaled.mirrored(false, true).scaled(unscaled.width(), int(partH), Qt::IgnoreAspectRatio, Qt::FastTransformation));
 
     if (drawAxis) {
-        QRgb opx;
+        davinci.setPen(QPen(QColor(150, 255, 200, 32), 1));
         for (int i = 0; i <= 10; ++i) {
-            int dy = i * int(partH - 1) / 10;
-            for (int x = 0; x < int(ww - distRight); ++x) {
-                opx = parade.pixel(x, dy);
-                parade.setPixel(x, dy, qRgba(CHOP255(150 + qRed(opx)), 255, CHOP255(200 + qBlue(opx)), CHOP255(32 + qAlpha(opx))));
-            }
+            int dy = distBorder + i * int(partH) / 10;
+            davinci.drawLine(distBorder, dy, int(ww - distRight - distBorder), dy);
         }
     }
 
     if (drawGradientRef) {
-        davinci.setPen(palette.text().color());
-        davinci.drawLine(0, int(partH), int(partW), 0);
-        davinci.drawLine(int(partW + offset), int(partH), int(2 * partW + offset), 0);
-        davinci.drawLine(int(2 * partW + 2 * offset), int(partH), int(3 * partW + 2 * offset), 0);
+        davinci.setPen(QPen(QColor(150, 255, 200, 96), 1));
+        davinci.drawLine(distBorder, int(partH + distBorder), int(partW + distBorder), distBorder);
+        davinci.drawLine(int(partW + offset + distBorder), int(partH + distBorder), int(2 * partW + offset + distBorder), distBorder);
+        davinci.drawLine(int(2 * partW + 2 * offset + distBorder), int(partH + distBorder), int(3 * partW + 2 * offset + distBorder), distBorder);
     }
 
     const int d = 50;
@@ -166,19 +170,19 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     } else {
         davinci.setPen(palette.text().color());
     }
-    davinci.drawText(0, int(wh), i18n("min: "));
+    davinci.drawText(distBorder, int(wh), i18n("min: "));
     if (minG == 0) {
         davinci.setPen(palette.highlight().color());
     } else {
         davinci.setPen(palette.text().color());
     }
-    davinci.drawText(int(partW + offset), int(wh), i18n("min: "));
+    davinci.drawText(int(partW + offset + distBorder), int(wh), i18n("min: "));
     if (minB == 0) {
         davinci.setPen(palette.highlight().color());
     } else {
         davinci.setPen(palette.text().color());
     }
-    davinci.drawText(int(2 * partW + 2 * offset), int(wh), i18n("min: "));
+    davinci.drawText(int(2 * partW + 2 * offset + distBorder), int(wh), i18n("min: "));
 
     // Show numerical maximum
     if (maxR == 255) {
@@ -186,19 +190,19 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     } else {
         davinci.setPen(palette.text().color());
     }
-    davinci.drawText(0, int(wh - 20), i18n("max: "));
+    davinci.drawText(distBorder, int(wh - 20), i18n("max: "));
     if (maxG == 255) {
         davinci.setPen(palette.highlight().color());
     } else {
         davinci.setPen(palette.text().color());
     }
-    davinci.drawText(int(partW + offset), int(wh) - 20, i18n("max: "));
+    davinci.drawText(int(partW + offset + distBorder), int(wh) - 20, i18n("max: "));
     if (maxB == 255) {
         davinci.setPen(palette.highlight().color());
     } else {
         davinci.setPen(palette.text().color());
     }
-    davinci.drawText(int(2 * partW + 2 * offset), int(wh - 20), i18n("max: "));
+    davinci.drawText(int(2 * partW + 2 * offset + distBorder), int(wh - 20), i18n("max: "));
 
     davinci.setPen(palette.text().color());
     davinci.drawText(d, int(wh), QString::number(minR, 'f', 0));
