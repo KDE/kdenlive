@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.waveform" id="avfilter.waveform">
-    <name>Video waveform monitor</name>
+    <name>Video Waveform Monitor</name>
     <description>The waveform monitor plots color component intensity. By default luminance only. Each column of the waveform corresponds to a column of pixels in the source video. </description>
     <author>libavfilter</author>
     <parameter type="list" name="av.m" default="column" paramlist="row;column">
@@ -13,7 +13,7 @@
     </parameter>
     <parameter type="constant" name="av.i" default="0.04" min="0" max="1" decimals="2">
         <name>Intensity</name>
-       	<comment><![CDATA[Smaller values are useful for finding out how many values<br>
+       	<comment><![CDATA[Smaller values are useful to find out how many values<br>
        	of the same luminance are distributed across input rows/columns]]></comment>
     </parameter>
     <parameter type="bool" name="av.r" default="0                ">
@@ -26,8 +26,8 @@
         <name>Display</name>
        	<comment><![CDATA[Set the display mode]]></comment>
     </parameter>
-    <parameter type="list" name="av.c" default="7" paramlist="0;1;2;3;4;5;6;7">
-        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV</paramlistdisplay>
+    <parameter type="list" name="av.c" default="7" paramlist="1;2;3;4;5;6;7">
+        <paramlistdisplay>Y,U,YU,V,YV,UV,All</paramlistdisplay>
         <name>Components</name>
        	<comment><![CDATA[Select the components to be displayed]]></comment>
     </parameter>
@@ -37,7 +37,7 @@
        	<comment><![CDATA[Set the envelope mode]]></comment>
     </parameter>
     <parameter type="list" name="av.f" default="lowpass" paramlist="lowpass;flat;aflat;xflat;yflat;chroma;color;acolor">
-        <paramlistdisplay>Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor</paramlistdisplay>
+        <paramlistdisplay>Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor</paramlistdisplay>
         <name>Filter</name>
        	<comment><![CDATA[Set the filter mode]]></comment>
     </parameter>
@@ -46,37 +46,42 @@
         <name>Graticule</name>
        	<comment><![CDATA[Set which graticule to display]]></comment>
     </parameter>
-    <parameter type="constant" name="av.o" default="0.75" min="0" max="1" decimals="2">
+    <parameter type="constant" name="av.o" default="0.75" min="0" max="100" factor="100" suffix="%">
         <name>Graticule Opacity</name>
        	<comment><![CDATA[Set the opacity of the graticule]]></comment>
     </parameter>
     <parameter type="list" name="av.fl" default="numbers" paramlist="numbers;dots">
-        <paramlistdisplay>Numbers,Dots</paramlistdisplay>
+        <paramlistdisplay>Show numbers,Draw dots</paramlistdisplay>
        	<comment><![CDATA[Set graticule flags]]></comment>
-        <name>Flags</name>
+        <name>Graticule Flags</name>
     </parameter>
     <parameter type="list" name="av.s" default="digital" paramlist="digital;millivolts;ire">
-        <paramlistdisplay>Digital,Millivolts,Ire</paramlistdisplay>
+        <paramlistdisplay>Digital,Millivolts,IRE</paramlistdisplay>
         <name>Scale</name>
        	<comment><![CDATA[Set scale used for displaying graticule]]></comment>
     </parameter>
-    <parameter type="constant" name="av.b" default="0.75" min="0" max="1" decimals="2">
+    <parameter type="constant" name="av.b" default="0.75" min="0" max="100" factor="100" suffix="%">
         <name>Background Opacity</name>
        	<comment><![CDATA[Set the background opacity]]></comment>
     </parameter>
     <parameter type="constant" name="av.t0" default="0" min="-1" max="1" decimals="2">
         <name>Tint 0</name>
-       	<comment><![CDATA[Only used with <em>lowpass</em> filter and when display<br>
-       	is not <em>overlay</em> and input pixel formats are not <em>RGB</em>]]></comment>
+       	<comment><![CDATA[Only used with lowpass filter and when display<br>
+       	is not overlay and input pixel formats are not RGB]]></comment>
     </parameter>
     <parameter type="constant" name="av.t1" default="0" min="-1" max="1" decimals="2">
         <name>Tint 1</name>
-       	<comment><![CDATA[Only used with <em>lowpass</em> filter and when display<br>
-       	is not <em>overlay</em> and input pixel formats are not <em>RGB</em>]]></comment>
+       	<comment><![CDATA[Only used with lowpass filter and when display<br>
+       	is not overlay and input pixel formats are not RGB]]></comment>
     </parameter>
     <parameter type="list" name="av.fm" default="none" paramlist="none;size">
         <paramlistdisplay>None,Size</paramlistdisplay>
-        <name>Fit mode</name>
+        <name>Fit Mode</name>
        	<comment><![CDATA[Set the fit mode]]></comment>
+    </parameter>
+    <parameter type="list" name="av.input" default="first" paramlist="first;all">
+        <paramlistdisplay>First available, All</paramlistdisplay>
+        <name>Input Format</name>
+       	<comment><![CDATA[Set input formats for filter to pick from]]></comment>
     </parameter>
 </effect>

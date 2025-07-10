@@ -6,7 +6,7 @@
     <author>libavfilter</author>
     <parameter type="animated" name="av.strength" min="0" max="1" default="0" decimals="3">
         <name>Strength</name>
-        <comment>Set the sharpening strength</comment>
+        <comment>Set the sharpening strength.</comment>
     </parameter>
     <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
         <paramlistdisplay>Alpha,Y,U,V,Red,Green,Blue,All</paramlistdisplay>

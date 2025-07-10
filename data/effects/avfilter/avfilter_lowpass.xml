@@ -4,21 +4,21 @@
     <name>Low-pass</name>
     <description>Apply a low-pass filter with 3dB point frequency.</description>
     <author>libavfilter</author>
-    <parameter type="constant" name="av.f" default="500" min="20" max="20000" suffix="Hz">
+    <parameter type="animated" name="av.f" default="500" min="20" max="20000" suffix="Hz">
         <name>Central frequency</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
-        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
+        <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
         <name>Type</name>
     </parameter>
-    <parameter type="constant" name="av.w" default="0.707" min="0.001" max="9999" decimals="3">
+    <parameter type="animated" name="av.w" default="0.707" min="0.001" max="9999" decimals="3">
         <name>Filter-width</name>
     </parameter>
     <parameter type="list" name="av.p" default="2" paramlist="1;2">
         <paramlistdisplay>1,2</paramlistdisplay>
         <name>Poles</name>
     </parameter>
-    <parameter type="constant" name="av.m" default="1" min="0" max="1" decimals="2">
+    <parameter type="animated" name="av.m" default="1" min="0" max="1" decimals="2">
         <name>Mix</name>
     </parameter>
     <parameter type="bool" name="av.n" default="0">

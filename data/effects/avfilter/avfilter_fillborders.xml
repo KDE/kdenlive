@@ -1,9 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.fillborders" id="avfilter.fillborders">
-    <name>Fill borders</name>
-    <description>Fill borders of the input video, without changing video stream dimensions. Sometimes video can have garbage at the four edges and you may not want to crop video input to keep size multiple of some number</description>
+    <name>Fill Borders</name>
+    <description>Fill borders of the input video without changing video stream dimensions. Sometimes video can have garbage at the four edges and you may not want to crop video input to keep the size multiple of some number</description>
     <author>libavfilter</author>
+    <parameter type="list" name="av.mode" default="smear" paramlist="smear;mirror;fixed;reflect;wrap;fade;margins">
+        <paramlistdisplay>Smear,Mirror,Color,Reflect,Wrap,Fade,Margins</paramlistdisplay>
+        <name>Mode</name>
+    </parameter>
+    <parameter type="fixedcolor" name="av.color" default="black" alpha="1">
+        <name>Color</name>
+    </parameter>
     <parameter type="animated" name="av.left" default="0" min="0" max="%width" factor="1">
         <name>Left</name>
     </parameter>
@@ -15,12 +22,5 @@
     </parameter>
     <parameter type="animated" name="av.bottom" default="0" min="0" max="%height" factor="1">
         <name>Bottom</name>
-    </parameter>
-    <parameter type="list" name="av.mode" default="smear" paramlist="smear;mirror;fixed;reflect;wrap;fade;margins">
-        <paramlistdisplay>Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins</paramlistdisplay>
-        <name>Mode</name>
-    </parameter>
-    <parameter type="fixedcolor" name="av.color" default="black">
-        <name>Color</name>
     </parameter>
 </effect>

@@ -14,10 +14,10 @@
     </parameter>
     <parameter type="list" name="av.trc" default="bt709" paramlist="bt709;bt470m;bt470bg;gamma22;gamma28;smpte170m;smpte240m;srgb;iec61966-2-1;iec61966-2-4;xvycc;bt2020-10;bt2020-12">
         <paramlistdisplay>BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,SMPTE 170M,SMPTE 240M,SRGB,IEC 61966-2-1,IEC 61966-2-4,xvYCC,BT.2020 for 10-bits content, BT.2020 for 12-bits content</paramlistdisplay>
-        <name>Output transfer characteristics</name>
+        <name>Output transfer characteristicse</name>
     </parameter>
     <parameter type="list" name="av.primaries" default="bt709" paramlist="bt709;bt470m;bt470bg;smpte170m;smpte240m;film;smpte431;smpte432;bt2020;jedec-p22">
-        <paramlistdisplay>BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,BT.2020,JEDEC P22 phosphors</paramlistdisplay>
+        <paramlistdisplay>BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,BT.2020,JEDEC P22</paramlistdisplay>
         <name>Output color primaries</name>
     </parameter>
     <parameter type="list" name="av.range" default="pc" paramlist="tv;mpeg;pc;jpeg">
@@ -48,7 +48,7 @@
         <name>Override input color space</name>
     </parameter>
     <parameter type="list" name="av.iprimaries" default="bt709" paramlist="bt709;bt470m;bt470bg;smpte170m;smpte240m;film;smpte431;smpte432;bt2020;jedec-p22">
-        <paramlistdisplay>BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,BT.2020,JEDEC P22 phosphors</paramlistdisplay>
+        <paramlistdisplay>BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,BT.2020,JEDEC P22</paramlistdisplay>
         <name>Override input color primaries</name>
     </parameter>
     <parameter type="list" name="av.itrc" default="bt709" paramlist="bt709;bt470m;bt470bg;gamma22;gamma28;smpte170m;smpte240m;srgb;iec61966-2-1;iec61966-2-4;xvycc;bt2020-10;bt2020-12">

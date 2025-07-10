@@ -17,12 +17,12 @@
         <name>Right</name>
     </parameter>
     <parameter type="bool" name="center" default="0">
-        <name>Automatic center-crop</name>
+        <name>Automatic Center-crop</name>
     </parameter>
     <parameter type="constant" name="center_bias" max="%maxWidth" min="-%maxWidth" default="0">
-        <name>Center balance</name>
+        <name>Center Balance</name>
     </parameter>
     <parameter type="bool" name="use_profile" default="1">
-        <name>Use project resolution</name>
+        <name>Use Project Resolution</name>
     </parameter>
 </effect>

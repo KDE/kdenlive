@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+<!--    
+    <effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
     <name>Video grid</name>
     <description>Create a video Grid</description>
     <author>Janne Liljeblad</author>
@@ -11,3 +12,30 @@
         <name>Columns</name>
     </parameter>
 </effect>
+-->
+<effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+    <name>Video grid</name>
+    <description>Create a video grid</description>
+    <author>Janne Liljeblad</author>
+    <parameter type="animated" name="rows" max="20" min="0" default="0" decimals="0" factor="19.00057002">
+        <name>Rows</name>
+    </parameter>
+    <parameter type="animated" name="columns" max="20" min="0" default="0" decimals="0" factor="19.00057002">
+        <name>Columns</name>
+    </parameter>
+</effect>
+<!--
+<effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+    <name>Video grid</name>
+    <description>Create a video grid</description>
+    <author>Janne Liljeblad</author>
+    <parameter type="list" name="rows" paramlist="0.000;0.053;0.105;0.158;0.211;0.263;0.316;0.368;0.421;0.474;0.526;0.579;0.632;0.684;0.737;0.789;0.842;0.895;0.947;1.000">
+        <paramlistdisplay>None,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20</paramlistdisplay>
+        <name>Rows</name>
+    </parameter>
+    <parameter type="list" name="columns" paramlist="0.000;0.053;0.105;0.158;0.211;0.263;0.316;0.368;0.421;0.474;0.526;0.579;0.632;0.684;0.737;0.789;0.842;0.895;0.947;1.000">
+        <paramlistdisplay>None,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20</paramlistdisplay>
+        <name>Columns</name>
+    </parameter>
+</effect>
+-->

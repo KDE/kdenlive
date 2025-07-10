@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="brightness" id="brightness">
-    <name>Brightness (keyframable)</name>
-    <description>Change image brightness with keyframes</description>
+    <name>Intensity (Brightness)</name>
+    <description>Change image intensity</description>
     <author>Charles Yates</author>
     <parameter type="animated" name="level" max="400" min="0" default="1" factor="100">
         <name>Intensity</name>

@@ -5,31 +5,31 @@
     <description>Shift R/G/B/A pixels horizontally and/or vertically</description>
     <author>libavfilter</author>
     <parameter type="animated" name="av.rh" default="0" min="-255" max="255" factor="1">
-        <name>Red Horizontal shift</name>
+        <name>Red Horizontal Shift</name>
     </parameter>
     <parameter type="animated" name="av.rv" default="0" min="-255" max="255" factor="1">
-        <name>Red Vertical shift</name>
+        <name>Red Vertical Shift</name>
     </parameter>
     <parameter type="animated" name="av.gh" default="0" min="-255" max="255" factor="1">
-        <name>Green Horizontal shift</name>
+        <name>Green Horizontal Shift</name>
     </parameter>
     <parameter type="animated" name="av.gv" default="0" min="-255" max="255" factor="1">
-        <name>Green Vertical shift</name>
+        <name>Green Vertical Shift</name>
     </parameter>
     <parameter type="animated" name="av.bh" default="0" min="-255" max="255" factor="1">
-        <name>Blue Horizontal shift</name>
+        <name>Blue Horizontal Shift</name>
     </parameter>
     <parameter type="animated" name="av.bv" default="0" min="-255" max="255" factor="1">
-        <name>Blue Vertical shift</name>
+        <name>Blue Vertical Shift</name>
     </parameter>
     <parameter type="animated" name="av.ah" default="0" min="-255" max="255" factor="1">
-        <name>Alpha Horizontal shift</name>
+        <name>Alpha Horizontal Shift</name>
     </parameter>
     <parameter type="animated" name="av.av" default="0" min="-255" max="255" factor="1">
-        <name>Alpha Vertical shift</name>
+        <name>Alpha Vertical Shift</name>
     </parameter>
     <parameter type="list" name="av.edge" default="smear" paramlist="smear;wrap">
         <paramlistdisplay>Smear,Wrap</paramlistdisplay>
-        <name>Edge operation</name>
+        <name>Edge Operation</name>
     </parameter>
 </effect>

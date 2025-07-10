@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.huesaturation" id="avfilter.huesaturation">
+    <name>Hue Saturation Intensity</name>
+    <description>Apply hue-saturation-intensity adjustments</description>
+    <author>libavfilter</author>
+    <parameter type="list" name="av.colors" paramlist="r;y;g;c;b;m;a" default="r">
+        <name>Colors to Adjust</name>
+        <paramlistdisplay>Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors</paramlistdisplay>
+        <comment><![CDATA[Set which primary and<br>
+        complementary colors are going to be adjusted]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.hue" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Hue Shift</name>
+        <comment><![CDATA[Set the hue shift in degrees to apply]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.sat" min="-1" max="1" default="0" decimals="3">
+        <name>Saturation Shift</name>
+        <comment><![CDATA[Set the saturation shift]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.intensity" min="-1" max="1" default="0" decimals="3">
+        <name>Intensity Shift</name>
+        <comment><![CDATA[Set the intensity shift]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.strength" min="0" max="100" default="0" factor="100" decimals="1">
+        <name>Strength</name>
+        <comment><![CDATA[Set strength of filtering]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.lightness" min="0" max="1" default="0">
+        <name>Preserve Lightness</name>
+        <comment><![CDATA[Preserve lightness]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.rw" min="0" max="100" default="0.333" factor="100" decimals="1" suffix="%">
+        <name>Red Strength</name>
+        <comment><![CDATA[Set weight for RED component.<br>
+        Is used in saturation and lightess processing.]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.gw" min="0" max="100" default="0.334" factor="100" decimals="1" suffix="%">
+        <name>Green Strength</name>
+        <comment><![CDATA[Set weight for GREEN component.<br>
+        Is used in saturation and lightess processing.e]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.bw" min="0" max="100" default="0.333" factor="100" decimals="1" suffix="%">
+        <name>Blue Strength</name>
+        <comment><![CDATA[Set weight for BLUE component.<br>
+        Is used in saturation and lightess processing.]]></comment>
+    </parameter>
+</effect>
