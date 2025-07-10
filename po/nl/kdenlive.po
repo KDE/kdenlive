@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-09 00:42+0000\n"
+"POT-Creation-Date: 2025-07-10 00:42+0000\n"
 "PO-Revision-Date: 2025-06-11 16:15+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -32,7 +32,7 @@ msgid "Your emails"
 msgstr "rinsedevries@kde.nl,stroet43@zonnet.nl,freekdekruijf@kde.nl"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
 #, kde-format
 msgid "Balance"
 msgstr "Balans"
@@ -7335,7 +7335,7 @@ msgstr "Verticale uitlijning"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:998 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -14758,7 +14758,7 @@ msgstr "Centrum Y"
 msgid "Smooth"
 msgstr "Vloeiend"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:117
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
 #, kde-format
 msgid "Volume"
 msgstr "Volume"
@@ -16509,7 +16509,7 @@ msgstr "Naam voor-instelling invoeren"
 msgid "Enter the name of this preset:"
 msgstr "De naam van deze voor-instelling invoeren:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:193
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
@@ -16854,55 +16854,102 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "Keyframes importeren uit klembord"
 
-#: src/assets/view/widgets/keywordparamwidget.cpp:29
+#: src/assets/view/widgets/keywordparamwidget.cpp:25
 #, kde-format
 msgid "<Select a Keyword>"
 msgstr "<Selecteer een sleutelwoord>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:168
-#: src/assets/view/widgets/listparamwidget.cpp:97
-#: src/assets/view/widgets/urllistparamwidget.cpp:195
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:162
+#: src/assets/view/widgets/listparamwidget.cpp:93
+#: src/assets/view/widgets/urllistparamwidget.cpp:192
 #, kde-format
 msgid "None (Dissolve)"
 msgstr "Geen (oplossen)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:64
+#: src/assets/view/widgets/urllistparamwidget.cpp:61
 #, kde-format
 msgid "Create or edit a mask for this clip"
 msgstr "Maak of bewerk een masker voor deze clip"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:337
+#: src/assets/view/widgets/urllistparamwidget.cpp:334
 #, kde-format
 msgid "Custom…"
 msgstr "Aangepast…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:466
+#: src/assets/view/widgets/urllistparamwidget.cpp:463
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Ongeldig LUT-bestand %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#, fuzzy, kde-format
+#| msgid "So&lid color:"
+msgid "Solid Fill"
+msgstr "V&lakke kleur:"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "Gradient"
+msgid "Gradient Fill"
+msgstr "Gradiënt"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#, fuzzy, kde-format
+#| msgid "Show channels"
+msgid "Show Block Lines"
+msgstr "Kanalen tonen"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
 #, kde-format
+msgid "Colorful Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#, kde-format
+msgid "Monochrome Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgctxt "L as in Left"
+#| msgid "L:"
 msgctxt "L as in Left"
-msgid "L:"
+msgid "L: "
 msgstr "L:"
 
-#: src/audiomixer/audiolevelwidget.cpp:270
-#, kde-format
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgid "R: "
 msgctxt "R as in Right"
-msgid ""
-"\n"
-"R:"
-msgstr ""
-"\n"
-"R:"
+msgid "R: "
+msgstr "R: "
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "CH as in Channel"
+msgid "CH"
+msgstr "C"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#, fuzzy, kde-format
+#| msgid "Record audio"
+msgid "No audio"
+msgstr "Geluid opnemen"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
+#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:669
+#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#, kde-format
+msgid "dB"
+msgstr "dB"
+
+#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "Master"
 
-#: src/audiomixer/mixerwidget.cpp:118
+#: src/audiomixer/mixerwidget.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16912,13 +16959,21 @@ msgstr ""
 "Past het uitvoervolume van de geluidstrack aan (beïnvloedt alle audioclips "
 "evenveel)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
-#, kde-format
-msgid "dB"
-msgstr "dB"
+#: src/audiomixer/mixerwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "%1%"
+msgctxt "Gain in dB, positive"
+msgid "%1"
+msgstr "%1%"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:174
+#, fuzzy, kde-format
+#| msgid "%1%"
+msgctxt "Gain in dB, zero or negative"
+msgid "%1"
+msgstr "%1%"
+
+#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16930,62 +16985,101 @@ msgstr ""
 "naar links, positieve waarden naar rechts. (beïnvloedt alle audioclips "
 "evenveel)."
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:205
+#, fuzzy, kde-format
+#| msgctxt "Left"
+#| msgid "L"
+msgctxt "Balance left"
+msgid "L"
+msgstr "L"
+
+#: src/audiomixer/mixerwidget.cpp:206
+#, fuzzy, kde-format
+#| msgid "R"
+msgctxt "Balance right"
+msgid "R"
+msgstr "R"
+
+#: src/audiomixer/mixerwidget.cpp:207
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "Balance center"
+msgid "C"
+msgstr "C"
+
+#: src/audiomixer/mixerwidget.cpp:213
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "L"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:215
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "R"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Mute track"
 msgstr "Track dempen"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Unmute track"
 msgstr "Dempen van track opheffen"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Dempt/heft op de geluidstrack."
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:250
+#, kde-format
+msgid "Open Effect Stack"
+msgstr "Effectenstapel openen"
+
+#: src/audiomixer/mixerwidget.cpp:252
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens the effect stack for the audio track."
+msgstr "Opent de effectstapel van de geluidstrack."
+
+#: src/audiomixer/mixerwidget.cpp:254
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens the effect stack for the audio master."
+msgstr "Opent de effectstapel van de geluidsmaster."
+
+#: src/audiomixer/mixerwidget.cpp:263
 #, kde-format
 msgid "Solo mode"
 msgstr "Modus solo"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Indien geselecteerd dempt alle andere geluidstracks."
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-format
 msgid "Monitor audio"
 msgstr "Audio monitoren"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:270
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Zet de geluidstrack in modus opnemen."
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:276
 #, kde-format
 msgid "Show channels"
 msgstr "Kanalen tonen"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16993,23 +17087,6 @@ msgid ""
 msgstr ""
 "Schakelt het tonen van de besturing van de geluidstrack in de weergave van "
 "de geluidsmixer."
-
-#: src/audiomixer/mixerwidget.cpp:311
-#, kde-format
-msgid "Open Effect Stack"
-msgstr "Effectenstapel openen"
-
-#: src/audiomixer/mixerwidget.cpp:313
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Opens the effect stack for the audio track."
-msgstr "Opent de effectstapel van de geluidstrack."
-
-#: src/audiomixer/mixerwidget.cpp:315
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Opens the effect stack for the audio master."
-msgstr "Opent de effectstapel van de geluidsmaster."
 
 #: src/bin/bin.cpp:706 src/bin/bin.cpp:866
 #, kde-format
@@ -19940,7 +20017,7 @@ msgstr "Audio zonder videotrack"
 msgid "Rendering %1 started"
 msgstr "Renderen %1 gestart"
 
-#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1371
+#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1370
 #, kde-format
 msgid "untitled"
 msgstr "naamloos"
@@ -26315,7 +26392,7 @@ msgid "Audio streams"
 msgstr "Audiostreams"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2044
+#: src/monitor/monitor.cpp:2043
 #, kde-format
 msgid "Merge all streams"
 msgstr "Alle streams samenvoegen"
@@ -26662,103 +26739,103 @@ msgstr "Roze"
 msgid "Checkerboard"
 msgstr "Schaakbord"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:696
+#: src/monitor/monitor.cpp:695
 #, kde-format
 msgid "Extract Zone"
 msgstr "Zone extraheren"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Maak van huidige afbeelding miniatuur"
 
-#: src/monitor/monitor.cpp:717
+#: src/monitor/monitor.cpp:716
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Altijd audio-miniaturen tonen"
 
-#: src/monitor/monitor.cpp:731
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Geluidsniveaus tonen"
 
-#: src/monitor/monitor.cpp:738
+#: src/monitor/monitor.cpp:737
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Tijdcode van bron tonen"
 
-#: src/monitor/monitor.cpp:775
+#: src/monitor/monitor.cpp:774
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Uw schermresolutie is niet voldoende voor deze actie"
 
-#: src/monitor/monitor.cpp:909 src/monitor/monitor.cpp:945
+#: src/monitor/monitor.cpp:908 src/monitor/monitor.cpp:944
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Kan zone niet veranderen bij aanmaken van een masker"
 
-#: src/monitor/monitor.cpp:938 src/monitor/monitor.cpp:974
+#: src/monitor/monitor.cpp:937 src/monitor/monitor.cpp:973
 #: src/timeline2/view/timelinecontroller.cpp:1831
 #, kde-format
 msgid "Set Zone"
 msgstr "Zone instellen"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Image naar project opslaan"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: src/monitor/monitor.cpp:1391
+#: src/monitor/monitor.cpp:1390
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Afbeelding exporteren met resolutie van bron"
 
-#: src/monitor/monitor.cpp:1931
+#: src/monitor/monitor.cpp:1930
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Modus Masker verlaten ?"
 
-#: src/monitor/monitor.cpp:2029 src/monitor/monitor.cpp:2161
+#: src/monitor/monitor.cpp:2028 src/monitor/monitor.cpp:2160
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "Audiostream"
 msgstr[1] "%1 audiostreams"
 
-#: src/monitor/monitor.cpp:2482
+#: src/monitor/monitor.cpp:2481
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Initialiseren van GLSL-manager van Movit kan niet, schakel Movit uit"
 
-#: src/monitor/monitor.cpp:2524 src/monitor/monitor.cpp:2581
+#: src/monitor/monitor.cpp:2523 src/monitor/monitor.cpp:2580
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26767,17 +26844,17 @@ msgstr ""
 "Het filter alphagrad is vereist voor die functie, installeer frei0r en start "
 "Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2544
+#: src/monitor/monitor.cpp:2543
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Clip heeft geen effecten"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2545
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Selecteer een clip in de project-bin om effect te vergelijken"
 
-#: src/monitor/monitor.cpp:2588
+#: src/monitor/monitor.cpp:2587
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -26786,17 +26863,17 @@ msgstr ""
 "De transitie cairoblend is vereist voor die functie, installeer frei0r en "
 "start Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2664
+#: src/monitor/monitor.cpp:2663
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Modus Bewerken in monitor inschakelen om effect te bewerken"
 
-#: src/monitor/monitor.cpp:3164
+#: src/monitor/monitor.cpp:3163
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Geen clip geselecteerd in Clipmonitor"
 
-#: src/monitor/monitor.cpp:3185
+#: src/monitor/monitor.cpp:3184
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Kan geen produceerder krijgen voor Clipmonitor"
@@ -37066,6 +37143,14 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
+#~ msgctxt "R as in Right"
+#~ msgid ""
+#~ "\n"
+#~ "R:"
+#~ msgstr ""
+#~ "\n"
+#~ "R:"
+
 #~ msgid "Apply dilation effect"
 #~ msgstr "Dilatatie-effect toepassen"
 
@@ -37291,9 +37376,6 @@ msgstr "%1u"
 
 #~ msgid "BorderStyle"
 #~ msgstr "Randstijl"
-
-#~ msgid "R: "
-#~ msgstr "R: "
 
 #~ msgid "G: "
 #~ msgstr "G: "

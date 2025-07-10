@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-09 00:42+0000\n"
+"POT-Creation-Date: 2025-07-10 00:42+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -33,7 +33,7 @@ msgid "Your emails"
 msgstr "Lemonade.flash.1164@gmail.com, ryuichi_ya220@outlook.jp"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
 #, kde-format
 msgid "Balance"
 msgstr "バランス"
@@ -7252,7 +7252,7 @@ msgstr "垂直方向を合わせる"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:998 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "テキスト"
@@ -14539,7 +14539,7 @@ msgstr "中央"
 msgid "Smooth"
 msgstr "スムーズ"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:117
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
 #, kde-format
 msgid "Volume"
 msgstr "ボリューム"
@@ -16356,7 +16356,7 @@ msgstr "プリセット名の入力"
 msgid "Enter the name of this preset:"
 msgstr ""
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:193
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
@@ -16725,59 +16725,106 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr ""
 
-#: src/assets/view/widgets/keywordparamwidget.cpp:29
+#: src/assets/view/widgets/keywordparamwidget.cpp:25
 #, kde-format
 msgid "<Select a Keyword>"
 msgstr "<キーワードを選択>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:168
-#: src/assets/view/widgets/listparamwidget.cpp:97
-#: src/assets/view/widgets/urllistparamwidget.cpp:195
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:162
+#: src/assets/view/widgets/listparamwidget.cpp:93
+#: src/assets/view/widgets/urllistparamwidget.cpp:192
 #, fuzzy, kde-format
 #| msgid "Dissolve"
 msgid "None (Dissolve)"
 msgstr "溶解"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:64
+#: src/assets/view/widgets/urllistparamwidget.cpp:61
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid "Create or edit a mask for this clip"
 msgstr "コンシューマ %1 を作成できません。"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:337
+#: src/assets/view/widgets/urllistparamwidget.cpp:334
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "カスタム"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:466
+#: src/assets/view/widgets/urllistparamwidget.cpp:463
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid LUT file %1"
 msgstr "無効なプロファイル"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#, fuzzy, kde-format
+#| msgid "Clip Color"
+msgid "Solid Fill"
+msgstr "クリップ色"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "Alpha gradient"
+msgid "Gradient Fill"
+msgstr "アルファ傾斜"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#, fuzzy, kde-format
+#| msgid "Swap channels"
+msgid "Show Block Lines"
+msgstr "チャンネルの入れ替え"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
 #, kde-format
+msgid "Colorful Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#, kde-format
+msgid "Monochrome Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgctxt "L as in Left"
+#| msgid "L:"
 msgctxt "L as in Left"
-msgid "L:"
+msgid "L: "
 msgstr "左:"
 
-#: src/audiomixer/audiolevelwidget.cpp:270
-#, kde-format
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgid "R: "
 msgctxt "R as in Right"
-msgid ""
-"\n"
-"R:"
-msgstr ""
-"\n"
-"右:"
+msgid "R: "
+msgstr "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "CH as in Channel"
+msgid "CH"
+msgstr "C"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#, fuzzy, kde-format
+#| msgid "Record audio"
+msgid "No audio"
+msgstr "オーディオを録音"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
+#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:669
+#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#, kde-format
+msgid "dB"
+msgstr "dB"
+
+#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "マスター"
 
-#: src/audiomixer/mixerwidget.cpp:118
+#: src/audiomixer/mixerwidget.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16785,13 +16832,23 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
-#, kde-format
-msgid "dB"
-msgstr "dB"
+#: src/audiomixer/mixerwidget.cpp:172
+#, fuzzy, kde-format
+#| msgctxt "s as seconds"
+#| msgid "%1s"
+msgctxt "Gain in dB, positive"
+msgid "%1"
+msgstr "%1s"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:174
+#, fuzzy, kde-format
+#| msgctxt "s as seconds"
+#| msgid "%1s"
+msgctxt "Gain in dB, zero or negative"
+msgid "%1"
+msgstr "%1s"
+
+#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16800,88 +16857,110 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:205
+#, fuzzy, kde-format
+#| msgctxt "Left"
+#| msgid "L"
+msgctxt "Balance left"
+msgid "L"
+msgstr "L"
+
+#: src/audiomixer/mixerwidget.cpp:206
+#, fuzzy, kde-format
+#| msgid "R"
+msgctxt "Balance right"
+msgid "R"
+msgstr "R"
+
+#: src/audiomixer/mixerwidget.cpp:207
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "Balance center"
+msgid "C"
+msgstr "C"
+
+#: src/audiomixer/mixerwidget.cpp:213
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "L"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:215
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "R"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Mute track"
 msgstr "トラックをミュート"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Unmute track"
 msgstr "トラックのミュートを解除"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:267
-#, fuzzy, kde-format
-#| msgid "Normal mode"
-msgid "Solo mode"
-msgstr "通常モード(N)"
-
-#: src/audiomixer/mixerwidget.cpp:268
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "When selected mutes all other audio tracks."
-msgstr ""
-
-#: src/audiomixer/mixerwidget.cpp:277
-#, fuzzy, kde-format
-#| msgid "Monitor"
-msgid "Monitor audio"
-msgstr "モニタ"
-
-#: src/audiomixer/mixerwidget.cpp:278
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Puts the audio track into recording mode."
-msgstr ""
-
-#: src/audiomixer/mixerwidget.cpp:294
-#, fuzzy, kde-format
-#| msgid "Swap channels"
-msgid "Show channels"
-msgstr "チャンネルの入れ替え"
-
-#: src/audiomixer/mixerwidget.cpp:295
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Toggles the display of the audio track controls in the audio mixer view."
-msgstr ""
-
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:250
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Open Effect Stack"
 msgstr "効果の保存"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:252
 #, fuzzy, kde-kuit-format
 #| msgid "Fade in audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "オーディオトラックのフェードイン"
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
+msgstr ""
+
+#: src/audiomixer/mixerwidget.cpp:263
+#, fuzzy, kde-format
+#| msgid "Normal mode"
+msgid "Solo mode"
+msgstr "通常モード(N)"
+
+#: src/audiomixer/mixerwidget.cpp:264
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "When selected mutes all other audio tracks."
+msgstr ""
+
+#: src/audiomixer/mixerwidget.cpp:269
+#, fuzzy, kde-format
+#| msgid "Monitor"
+msgid "Monitor audio"
+msgstr "モニタ"
+
+#: src/audiomixer/mixerwidget.cpp:270
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Puts the audio track into recording mode."
+msgstr ""
+
+#: src/audiomixer/mixerwidget.cpp:276
+#, fuzzy, kde-format
+#| msgid "Swap channels"
+msgid "Show channels"
+msgstr "チャンネルの入れ替え"
+
+#: src/audiomixer/mixerwidget.cpp:277
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
 #: src/bin/bin.cpp:706 src/bin/bin.cpp:866
@@ -19897,7 +19976,7 @@ msgstr "オーディオトラックなしのビデオ"
 msgid "Rendering %1 started"
 msgstr "レンダリング <i>%1</i> を開始しました"
 
-#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1371
+#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1370
 #, kde-format
 msgid "untitled"
 msgstr "タイトル未定"
@@ -26511,7 +26590,7 @@ msgid "Audio streams"
 msgstr "オーディオトラック"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2044
+#: src/monitor/monitor.cpp:2043
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -26875,110 +26954,110 @@ msgstr "ピンク"
 msgid "Checkerboard"
 msgstr "チェックする"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:696
+#: src/monitor/monitor.cpp:695
 #, kde-format
 msgid "Extract Zone"
 msgstr "ゾーンの取り出し"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "現在の画像をサムネイルとして設定"
 
-#: src/monitor/monitor.cpp:717
+#: src/monitor/monitor.cpp:716
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "常にオーディオのサムネイルを表示する(T)"
 
-#: src/monitor/monitor.cpp:731
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "オーディオレベルを表示"
 
-#: src/monitor/monitor.cpp:738
+#: src/monitor/monitor.cpp:737
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "録画モニタ(R)"
 
-#: src/monitor/monitor.cpp:775
+#: src/monitor/monitor.cpp:774
 #, fuzzy, kde-format
 #| msgid "You must select one transition for this action"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "この操作を実行するには、1 つの遷移効果を選択しなければなりません"
 
-#: src/monitor/monitor.cpp:909 src/monitor/monitor.cpp:945
+#: src/monitor/monitor.cpp:908 src/monitor/monitor.cpp:944
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:938 src/monitor/monitor.cpp:974
+#: src/monitor/monitor.cpp:937 src/monitor/monitor.cpp:973
 #: src/timeline2/view/timelinecontroller.cpp:1831
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
 msgstr "ゾーン・インの設定(S)"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "DVD プロジェクトの保存"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "画像を保存"
 
-#: src/monitor/monitor.cpp:1391
+#: src/monitor/monitor.cpp:1390
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ソース解像度を使用して画像をエクスポート"
 
-#: src/monitor/monitor.cpp:1931
+#: src/monitor/monitor.cpp:1930
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "長さの編集(E)"
 
-#: src/monitor/monitor.cpp:2029 src/monitor/monitor.cpp:2161
+#: src/monitor/monitor.cpp:2028 src/monitor/monitor.cpp:2160
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "オーディオトラック"
 
-#: src/monitor/monitor.cpp:2482
+#: src/monitor/monitor.cpp:2481
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit の GLSL マネージャーを初期化できません、Movit を無効にしてください"
 
-#: src/monitor/monitor.cpp:2524 src/monitor/monitor.cpp:2581
+#: src/monitor/monitor.cpp:2523 src/monitor/monitor.cpp:2580
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26987,19 +27066,19 @@ msgstr ""
 "その機能には alphagrad フィルタが必要です、frei0r をインストールして "
 "Kdenlive を再起動してください"
 
-#: src/monitor/monitor.cpp:2544
+#: src/monitor/monitor.cpp:2543
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "クリップにはマーカーがありません"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2545
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "効果を適用したい場合は、クリップを選択してください"
 
-#: src/monitor/monitor.cpp:2588
+#: src/monitor/monitor.cpp:2587
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27008,18 +27087,18 @@ msgstr ""
 "その機能には cairoblend transition が必要です、frei0r をインストールして "
 "Kdenlive を再起動してください"
 
-#: src/monitor/monitor.cpp:2664
+#: src/monitor/monitor.cpp:2663
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3164
+#: src/monitor/monitor.cpp:3163
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in Clip Monitor"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/monitor/monitor.cpp:3185
+#: src/monitor/monitor.cpp:3184
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
@@ -37693,6 +37772,14 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
+#~ msgctxt "R as in Right"
+#~ msgid ""
+#~ "\n"
+#~ "R:"
+#~ msgstr ""
+#~ "\n"
+#~ "右:"
+
 #, fuzzy
 #~| msgid "Paste effect"
 #~ msgid "Apply dilation effect"
@@ -37891,9 +37978,6 @@ msgstr "%1h"
 #~| msgid "Border "
 #~ msgid "BorderStyle"
 #~ msgstr "境界 "
-
-#~ msgid "R: "
-#~ msgstr "R:"
 
 #~ msgid "G: "
 #~ msgstr "G:"

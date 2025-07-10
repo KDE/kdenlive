@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-09 00:42+0000\n"
+"POT-Creation-Date: 2025-07-10 00:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -30,7 +30,7 @@ msgid "Your emails"
 msgstr "skkalwar999@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
 #, kde-format
 msgid "Balance"
 msgstr "संतुलन"
@@ -7291,7 +7291,7 @@ msgstr "ऊर्ध्वाधर संरेखण"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:998 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "पाठ"
@@ -14707,7 +14707,7 @@ msgstr "केंद्र"
 msgid "Smooth"
 msgstr "मसृणः"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:117
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
 #, kde-format
 msgid "Volume"
 msgstr "मात्रा"
@@ -16485,7 +16485,7 @@ msgstr "पूर्वनिर्धारितनाम प्रविष�
 msgid "Enter the name of this preset:"
 msgstr "अस्य पूर्वनिर्धारितस्य नाम प्रविशतु :"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:193
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
@@ -16830,55 +16830,107 @@ msgstr "तथा"
 msgid "Import keyframes from clipboard"
 msgstr "क्लिप्बोर्ड् तः कीफ्रेम्स् आयातयन्तु"
 
-#: src/assets/view/widgets/keywordparamwidget.cpp:29
+#: src/assets/view/widgets/keywordparamwidget.cpp:25
 #, kde-format
 msgid "<Select a Keyword>"
 msgstr "<Select a Keyword>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:168
-#: src/assets/view/widgets/listparamwidget.cpp:97
-#: src/assets/view/widgets/urllistparamwidget.cpp:195
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:162
+#: src/assets/view/widgets/listparamwidget.cpp:93
+#: src/assets/view/widgets/urllistparamwidget.cpp:192
 #, kde-format
 msgid "None (Dissolve)"
 msgstr "न कश्चित् (विलयनम्)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:64
+#: src/assets/view/widgets/urllistparamwidget.cpp:61
 #, kde-format
 msgid "Create or edit a mask for this clip"
 msgstr "अस्य क्लिप् कृते मास्कं रचयन्तु सम्पादयन्तु वा"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:337
+#: src/assets/view/widgets/urllistparamwidget.cpp:334
 #, kde-format
 msgid "Custom…"
 msgstr "आचारः…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:466
+#: src/assets/view/widgets/urllistparamwidget.cpp:463
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "अमान्य LUT सञ्चिका %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#, fuzzy, kde-format
+#| msgid "So&lid color:"
+msgid "Solid Fill"
+msgstr "सो&ढक्कनवर्णः"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "Gradient"
+msgid "Gradient Fill"
+msgstr "ढाल"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#, fuzzy, kde-format
+#| msgid "Show channels"
+msgid "Show Block Lines"
+msgstr "चैनल्स् दर्शयतु"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
 #, kde-format
+msgid "Colorful Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#, kde-format
+msgid "Monochrome Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgctxt "L as in Left"
+#| msgid "L:"
 msgctxt "L as in Left"
-msgid "L:"
+msgid "L: "
 msgstr "ल:"
 
-#: src/audiomixer/audiolevelwidget.cpp:270
-#, kde-format
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgctxt "R as in Right"
+#| msgid ""
+#| "\n"
+#| "R:"
 msgctxt "R as in Right"
-msgid ""
-"\n"
-"R:"
+msgid "R: "
 msgstr ""
 "\n"
 "र:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "CH as in Channel"
+msgid "CH"
+msgstr "ग"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#, fuzzy, kde-format
+#| msgid "Record audio"
+msgid "No audio"
+msgstr "श्रव्यं अभिलेखयन्तु"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
+#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:669
+#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#, kde-format
+msgid "dB"
+msgstr "dB"
+
+#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "निपुण"
 
-#: src/audiomixer/mixerwidget.cpp:118
+#: src/audiomixer/mixerwidget.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16887,13 +16939,21 @@ msgid ""
 msgstr ""
 "श्रव्यपट्टिकायाः निर्गमस्य मात्रां समायोजयति (सर्वं श्रव्यक्लिप् समानरूपेण प्रभावितं करोति) ।"
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
-#, kde-format
-msgid "dB"
-msgstr "dB"
+#: src/audiomixer/mixerwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "%1%"
+msgctxt "Gain in dB, positive"
+msgid "%1"
+msgstr "%1%"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:174
+#, fuzzy, kde-format
+#| msgid "%1%"
+msgctxt "Gain in dB, zero or negative"
+msgid "%1"
+msgstr "%1%"
+
+#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16904,85 +16964,107 @@ msgstr ""
 "ट्रैकस्य आउटपुट् बैलेन्सं समायोजयति । नकारात्मकमूल्यानि उत्पादनं वामदिशि, सकारात्मकमूल्यानि "
 "दक्षिणदिशि च चालयन्ति । सर्वाणि श्रव्यक्लिप् समानरूपेण प्रभावितं करोति ।"
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:205
+#, fuzzy, kde-format
+#| msgctxt "Left"
+#| msgid "L"
+msgctxt "Balance left"
+msgid "L"
+msgstr "ल"
+
+#: src/audiomixer/mixerwidget.cpp:206
+#, fuzzy, kde-format
+#| msgid "R"
+msgctxt "Balance right"
+msgid "R"
+msgstr "आर"
+
+#: src/audiomixer/mixerwidget.cpp:207
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "Balance center"
+msgid "C"
+msgstr "ग"
+
+#: src/audiomixer/mixerwidget.cpp:213
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "ल"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:215
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "आर"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Mute track"
 msgstr "म्यूट ट्रैक"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Unmute track"
 msgstr "अनम्यूट ट्रैक"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "श्रव्यपट्टिकां म्यूट्/अन-म्यूट् करोति ।"
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:250
+#, kde-format
+msgid "Open Effect Stack"
+msgstr "Open Effect Stack इति"
+
+#: src/audiomixer/mixerwidget.cpp:252
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens the effect stack for the audio track."
+msgstr "ऑडियो ट्रैक कृते इफेक्ट् स्टैक् उद्घाटयति ।"
+
+#: src/audiomixer/mixerwidget.cpp:254
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens the effect stack for the audio master."
+msgstr "audio master कृते effect stack उद्घाटयति ।"
+
+#: src/audiomixer/mixerwidget.cpp:263
 #, kde-format
 msgid "Solo mode"
 msgstr "केवलं फैशनाः एव"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "यदा चयनितं भवति तदा अन्ये सर्वे श्रव्यपङ्क्तयः निःशब्दाः भवन्ति ।"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:269
 #, kde-format
 msgid "Monitor audio"
 msgstr "श्रव्यस्य निरीक्षणं कुर्वन्तु"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:270
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "श्रव्यपट्टिकां रिकार्डिङ्ग् मोड् मध्ये स्थापयति ।"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:276
 #, kde-format
 msgid "Show channels"
 msgstr "चैनल्स् दर्शयतु"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 "audio mixer view इत्यस्मिन् audio track controls इत्यस्य प्रदर्शनं toggles करोति ।"
-
-#: src/audiomixer/mixerwidget.cpp:311
-#, kde-format
-msgid "Open Effect Stack"
-msgstr "Open Effect Stack इति"
-
-#: src/audiomixer/mixerwidget.cpp:313
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Opens the effect stack for the audio track."
-msgstr "ऑडियो ट्रैक कृते इफेक्ट् स्टैक् उद्घाटयति ।"
-
-#: src/audiomixer/mixerwidget.cpp:315
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Opens the effect stack for the audio master."
-msgstr "audio master कृते effect stack उद्घाटयति ।"
 
 #: src/bin/bin.cpp:706 src/bin/bin.cpp:866
 #, kde-format
@@ -19881,7 +19963,7 @@ msgstr "विडियो ट्रैक विना ऑडियो"
 msgid "Rendering %1 started"
 msgstr "<i>%1</i> रेण्डरिंग् आरब्धम्"
 
-#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1371
+#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1370
 #, kde-format
 msgid "untitled"
 msgstr "अनामिका"
@@ -26197,7 +26279,7 @@ msgid "Audio streams"
 msgstr "श्रव्यधारा"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2044
+#: src/monitor/monitor.cpp:2043
 #, kde-format
 msgid "Merge all streams"
 msgstr "सर्वाणि धाराः विलीनयन्तु"
@@ -26542,104 +26624,104 @@ msgstr "पाटल"
 msgid "Checkerboard"
 msgstr "चेकरबोर्ड लघु"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:696
+#: src/monitor/monitor.cpp:695
 #, kde-format
 msgid "Extract Zone"
 msgstr "क्षेत्र निकालें"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "वर्तमानप्रतिबिम्बं लघुचित्ररूपेण सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:717
+#: src/monitor/monitor.cpp:716
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "सर्वदा श्रव्यलघुचित्रं दर्शयतु"
 
-#: src/monitor/monitor.cpp:731
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "श्रव्यस्तरं दर्शयतु"
 
-#: src/monitor/monitor.cpp:738
+#: src/monitor/monitor.cpp:737
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "स्रोतः समयसङ्केतः दर्शयतु"
 
-#: src/monitor/monitor.cpp:775
+#: src/monitor/monitor.cpp:774
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "अस्य क्रियायाः कृते भवतः स्क्रीन-संकल्पः पर्याप्तः नास्ति"
 
-#: src/monitor/monitor.cpp:909 src/monitor/monitor.cpp:945
+#: src/monitor/monitor.cpp:908 src/monitor/monitor.cpp:944
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:938 src/monitor/monitor.cpp:974
+#: src/monitor/monitor.cpp:937 src/monitor/monitor.cpp:973
 #: src/timeline2/view/timelinecontroller.cpp:1831
 #, kde-format
 msgid "Set Zone"
 msgstr "क्षेत्रं सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "चित्रं Project इत्यत्र रक्षन्तु"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "चित्रं रक्षतु"
 
-#: src/monitor/monitor.cpp:1391
+#: src/monitor/monitor.cpp:1390
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "स्रोतसंकल्पस्य उपयोगेन चित्रं निर्यातयन्तु"
 
-#: src/monitor/monitor.cpp:1931
+#: src/monitor/monitor.cpp:1930
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Exit Mask Mode ?"
 msgstr "मास्क निर्माणात् निर्गच्छन्तु"
 
-#: src/monitor/monitor.cpp:2029 src/monitor/monitor.cpp:2161
+#: src/monitor/monitor.cpp:2028 src/monitor/monitor.cpp:2160
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 श्रव्यप्रवाहः"
 msgstr[1] "%1 श्रव्यप्रवाहाः"
 
-#: src/monitor/monitor.cpp:2482
+#: src/monitor/monitor.cpp:2481
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit इत्यस्य GLSL प्रबन्धकं प्रारम्भं कर्तुं न शक्यते, कृपया Movit अक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:2524 src/monitor/monitor.cpp:2581
+#: src/monitor/monitor.cpp:2523 src/monitor/monitor.cpp:2580
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26648,17 +26730,17 @@ msgstr ""
 "तस्य विशेषतायाः कृते alphagrad फ़िल्टर आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2544
+#: src/monitor/monitor.cpp:2543
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप् इत्यस्य कोऽपि प्रभावः नास्ति"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2545
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/monitor.cpp:2588
+#: src/monitor/monitor.cpp:2587
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -26667,18 +26749,18 @@ msgstr ""
 "तस्य विशेषतायाः कृते cairoblend संक्रमणम् आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2664
+#: src/monitor/monitor.cpp:2663
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभावं सम्पादयितुं मॉनिटरे सम्पादनविधिं सक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:3164
+#: src/monitor/monitor.cpp:3163
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "प्रोजेक्ट् बिन् मध्ये कोऽपि क्लिप् चयनितः नास्ति"
 
-#: src/monitor/monitor.cpp:3185
+#: src/monitor/monitor.cpp:3184
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""

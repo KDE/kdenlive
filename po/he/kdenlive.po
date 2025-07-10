@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-09 00:42+0000\n"
+"POT-Creation-Date: 2025-07-10 00:42+0000\n"
 "PO-Revision-Date: 2025-07-04 17:10+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -34,7 +34,7 @@ msgid "Your emails"
 msgstr "kde-l10n-he@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
 #, kde-format
 msgid "Balance"
 msgstr "איזון"
@@ -7108,7 +7108,7 @@ msgstr "יישור אנכי"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:998 src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
 msgstr "טקסט"
@@ -14212,7 +14212,7 @@ msgstr "מרכז"
 msgid "Smooth"
 msgstr "חלק"
 
-#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:117
+#: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:163
 #, kde-format
 msgid "Volume"
 msgstr "עוצמת שמע"
@@ -15928,7 +15928,7 @@ msgstr "נא למלא שם לערכה"
 msgid "Enter the name of this preset:"
 msgstr "נא למלא את שם הערכה:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:193
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
@@ -16271,55 +16271,102 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "ייבוא תמוניות מפתח מלוח הגזירים"
 
-#: src/assets/view/widgets/keywordparamwidget.cpp:29
+#: src/assets/view/widgets/keywordparamwidget.cpp:25
 #, kde-format
 msgid "<Select a Keyword>"
 msgstr "<נא לבחור מילת מפתח>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:168
-#: src/assets/view/widgets/listparamwidget.cpp:97
-#: src/assets/view/widgets/urllistparamwidget.cpp:195
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:162
+#: src/assets/view/widgets/listparamwidget.cpp:93
+#: src/assets/view/widgets/urllistparamwidget.cpp:192
 #, kde-format
 msgid "None (Dissolve)"
 msgstr "ללא (התמוססות)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:64
+#: src/assets/view/widgets/urllistparamwidget.cpp:61
 #, kde-format
 msgid "Create or edit a mask for this clip"
 msgstr "יצירה או עריכה של מסכה לסרטון הזה"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:337
+#: src/assets/view/widgets/urllistparamwidget.cpp:334
 #, kde-format
 msgid "Custom…"
 msgstr "התאמה אישית…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:466
+#: src/assets/view/widgets/urllistparamwidget.cpp:463
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "קובץ LUT‏ %1 שגוי"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#, fuzzy, kde-format
+#| msgid "So&lid color:"
+msgid "Solid Fill"
+msgstr "צבע &אחיד:"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "Gradient"
+msgid "Gradient Fill"
+msgstr "מדרג"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#, fuzzy, kde-format
+#| msgid "Show channels"
+msgid "Show Block Lines"
+msgstr "הצגת ערוצים"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
 #, kde-format
+msgid "Colorful Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#, kde-format
+msgid "Monochrome Peak Indicator"
+msgstr ""
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgctxt "L as in Left"
+#| msgid "L:"
 msgctxt "L as in Left"
-msgid "L:"
+msgid "L: "
 msgstr "ש:"
 
-#: src/audiomixer/audiolevelwidget.cpp:270
-#, kde-format
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#, fuzzy, kde-format
+#| msgid "R: "
 msgctxt "R as in Right"
-msgid ""
-"\n"
-"R:"
-msgstr ""
-"\n"
-"ימ׳:"
+msgid "R: "
+msgstr "א: "
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "CH as in Channel"
+msgid "CH"
+msgstr "צ"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#, fuzzy, kde-format
+#| msgid "Record audio"
+msgid "No audio"
+msgstr "הקלטת שמע"
+
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
+#: src/audiomixer/mixerwidget.cpp:187 src/audiomixer/mixerwidget.cpp:669
+#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#, kde-format
+msgid "dB"
+msgstr "דציבלים"
+
+#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "ראשי"
 
-#: src/audiomixer/mixerwidget.cpp:118
+#: src/audiomixer/mixerwidget.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16327,13 +16374,21 @@ msgid ""
 "equally)."
 msgstr "מכוון את עוצמת פלט רצועת השמע (משפיע על כל מקטעי השמע ביחד)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
-#, kde-format
-msgid "dB"
-msgstr "דציבלים"
+#: src/audiomixer/mixerwidget.cpp:172
+#, fuzzy, kde-format
+#| msgid "%1%"
+msgctxt "Gain in dB, positive"
+msgid "%1"
+msgstr "%1%"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:174
+#, fuzzy, kde-format
+#| msgid "%1%"
+msgctxt "Gain in dB, zero or negative"
+msgid "%1"
+msgstr "%1%"
+
+#: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16344,84 +16399,106 @@ msgstr ""
 "מכוון את איזון הפלט של הרצועה. ערכים שליליים מזיזים את הפלט לכיוון שמאל, "
 "ערכים חיוביים לכיוון ימין. משפיע על כל מקטעי השמע ביחד."
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:205
+#, fuzzy, kde-format
+#| msgctxt "Left"
+#| msgid "L"
+msgctxt "Balance left"
+msgid "L"
+msgstr "שמ׳"
+
+#: src/audiomixer/mixerwidget.cpp:206
+#, fuzzy, kde-format
+#| msgid "R"
+msgctxt "Balance right"
+msgid "R"
+msgstr "ר"
+
+#: src/audiomixer/mixerwidget.cpp:207
+#, fuzzy, kde-format
+#| msgid "C"
+msgctxt "Balance center"
+msgid "C"
+msgstr "צ"
+
+#: src/audiomixer/mixerwidget.cpp:213
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "שמ׳"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:215
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "י"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Mute track"
 msgstr "השתקת רצועה"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:240
 #, kde-format
 msgid "Unmute track"
 msgstr "השמעת רצועה"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "משתיק/מבטל את השתקת רצועת השמע."
 
-#: src/audiomixer/mixerwidget.cpp:267
-#, kde-format
-msgid "Solo mode"
-msgstr "מצב יחיד"
-
-#: src/audiomixer/mixerwidget.cpp:268
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "When selected mutes all other audio tracks."
-msgstr "כאשר האפשרות נבחרת כל שאר רצועות השמע מושתקות."
-
-#: src/audiomixer/mixerwidget.cpp:277
-#, kde-format
-msgid "Monitor audio"
-msgstr "מעקב שמע"
-
-#: src/audiomixer/mixerwidget.cpp:278
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Puts the audio track into recording mode."
-msgstr "מעביר את רצועת השמע למצב הקלטה."
-
-#: src/audiomixer/mixerwidget.cpp:294
-#, kde-format
-msgid "Show channels"
-msgstr "הצגת ערוצים"
-
-#: src/audiomixer/mixerwidget.cpp:295
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Toggles the display of the audio track controls in the audio mixer view."
-msgstr "מחליף את תצוגת בקרי רצועת השמע בתצוגת מערבל השמע."
-
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:250
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "פתיחת ערמת אפקטים"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "פתיחת ערמת האפקטים על רצועת השמע."
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "פתיחת ערמת האפקטים לערוץ השמע הראשי."
+
+#: src/audiomixer/mixerwidget.cpp:263
+#, kde-format
+msgid "Solo mode"
+msgstr "מצב יחיד"
+
+#: src/audiomixer/mixerwidget.cpp:264
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "When selected mutes all other audio tracks."
+msgstr "כאשר האפשרות נבחרת כל שאר רצועות השמע מושתקות."
+
+#: src/audiomixer/mixerwidget.cpp:269
+#, kde-format
+msgid "Monitor audio"
+msgstr "מעקב שמע"
+
+#: src/audiomixer/mixerwidget.cpp:270
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Puts the audio track into recording mode."
+msgstr "מעביר את רצועת השמע למצב הקלטה."
+
+#: src/audiomixer/mixerwidget.cpp:276
+#, kde-format
+msgid "Show channels"
+msgstr "הצגת ערוצים"
+
+#: src/audiomixer/mixerwidget.cpp:277
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Toggles the display of the audio track controls in the audio mixer view."
+msgstr "מחליף את תצוגת בקרי רצועת השמע בתצוגת מערבל השמע."
 
 #: src/bin/bin.cpp:706 src/bin/bin.cpp:866
 #, kde-format
@@ -19321,7 +19398,7 @@ msgstr "שמע ללא רצועת וידאו"
 msgid "Rendering %1 started"
 msgstr "התיצוג של %1 התחיל"
 
-#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1371
+#: src/dialogs/renderwidget.cpp:1090 src/monitor/monitor.cpp:1370
 #, kde-format
 msgid "untitled"
 msgstr "ללא כותרת"
@@ -25608,7 +25685,7 @@ msgid "Audio streams"
 msgstr "תזרימי שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:839
-#: src/monitor/monitor.cpp:2044
+#: src/monitor/monitor.cpp:2043
 #, kde-format
 msgid "Merge all streams"
 msgstr "מיזוג כל התזרימים"
@@ -25950,91 +26027,91 @@ msgstr "ורוד"
 msgid "Checkerboard"
 msgstr "לוח שחמט"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:696
+#: src/monitor/monitor.cpp:695
 #, kde-format
 msgid "Extract Zone"
 msgstr "חילוץ קטע"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "הגדרת התמונה הנוכחית כייצוגית"
 
-#: src/monitor/monitor.cpp:717
+#: src/monitor/monitor.cpp:716
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "תמיד להציג דוגמיות שמע"
 
-#: src/monitor/monitor.cpp:731
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "הצגת רמות שמע"
 
-#: src/monitor/monitor.cpp:738
+#: src/monitor/monitor.cpp:737
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "הצגת קוד זמן של המקור"
 
-#: src/monitor/monitor.cpp:775
+#: src/monitor/monitor.cpp:774
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "רזולוציית המסך שלך לא מספיקה לפעולה הזאת"
 
-#: src/monitor/monitor.cpp:909 src/monitor/monitor.cpp:945
+#: src/monitor/monitor.cpp:908 src/monitor/monitor.cpp:944
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "לא ניתן לשנות את אזור בעת יצירת מסכה"
 
-#: src/monitor/monitor.cpp:938 src/monitor/monitor.cpp:974
+#: src/monitor/monitor.cpp:937 src/monitor/monitor.cpp:973
 #: src/timeline2/view/timelinecontroller.cpp:1831
 #, kde-format
 msgid "Set Zone"
 msgstr "הגדרת קטע"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "שמירת תמונה למיזם"
 
-#: src/monitor/monitor.cpp:1384
+#: src/monitor/monitor.cpp:1383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: src/monitor/monitor.cpp:1391
+#: src/monitor/monitor.cpp:1390
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ייצוא תמונה באמצעות רזולוציית המקור"
 
-#: src/monitor/monitor.cpp:1931
+#: src/monitor/monitor.cpp:1930
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "לצאת ממצב מסכה?"
 
-#: src/monitor/monitor.cpp:2029 src/monitor/monitor.cpp:2161
+#: src/monitor/monitor.cpp:2028 src/monitor/monitor.cpp:2160
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -26043,12 +26120,12 @@ msgstr[1] "שני תזרימי שמע"
 msgstr[2] "%1 תזרימי שמע"
 msgstr[3] "%1 תזרימי שמע"
 
-#: src/monitor/monitor.cpp:2482
+#: src/monitor/monitor.cpp:2481
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "לא ניתן להפעיל את מנהל ה־GLSL של Movit, נא להשבית את Movit"
 
-#: src/monitor/monitor.cpp:2524 src/monitor/monitor.cpp:2581
+#: src/monitor/monitor.cpp:2523 src/monitor/monitor.cpp:2580
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26056,17 +26133,17 @@ msgid ""
 msgstr ""
 "מסנן alphagrad נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive מחדש"
 
-#: src/monitor/monitor.cpp:2544
+#: src/monitor/monitor.cpp:2543
 #, kde-format
 msgid "Clip has no effects"
 msgstr "אין אפקטים על הסרטון"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2545
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "נא לבחור סרטון מסל המיזם כדי להשוות אפקטים"
 
-#: src/monitor/monitor.cpp:2588
+#: src/monitor/monitor.cpp:2587
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -26075,17 +26152,17 @@ msgstr ""
 "מעברון cairoblend נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive "
 "מחדש"
 
-#: src/monitor/monitor.cpp:2664
+#: src/monitor/monitor.cpp:2663
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "יש להפעיל מצב עריכה בצג כדי לערוך אפקט"
 
-#: src/monitor/monitor.cpp:3164
+#: src/monitor/monitor.cpp:3163
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "לא נבחר אף סרטון בצג הסרטונים"
 
-#: src/monitor/monitor.cpp:3185
+#: src/monitor/monitor.cpp:3184
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "לא ניתן לקבל את המפיק לצד הסרטונים"
@@ -36257,6 +36334,14 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
 
+#~ msgctxt "R as in Right"
+#~ msgid ""
+#~ "\n"
+#~ "R:"
+#~ msgstr ""
+#~ "\n"
+#~ "ימ׳:"
+
 #, fuzzy
 #~| msgid "Problem editing effect"
 #~ msgid "Apply dilation effect"
@@ -36474,9 +36559,6 @@ msgstr "%1 שע׳"
 
 #~ msgid "BorderStyle"
 #~ msgstr "סגנון מסגרת"
-
-#~ msgid "R: "
-#~ msgstr "א: "
 
 #~ msgid "G: "
 #~ msgstr "י: "
