@@ -216,7 +216,7 @@ Item {
           Rectangle {
             required property int index
             opacity: 0.3
-            color: root.overlayColor
+            color: K.KdenliveSettings.overlayColor
             height: frame.height - 1
             width: 1
             x: ((index + 1) * K.KdenliveSettings.monitorGridH * root.scalex)
@@ -227,7 +227,7 @@ Item {
           Rectangle {
             required property int index
             opacity: 0.3
-            color: root.overlayColor
+            color: K.KdenliveSettings.overlayColor
             height: 1
             width: frame.width - 1
             y: ((index + 1) * K.KdenliveSettings.monitorGridV * root.scaley)
