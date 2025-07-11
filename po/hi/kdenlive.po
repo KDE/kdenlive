@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-10 02:33+0000\n"
+"POT-Creation-Date: 2025-07-11 02:36+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -84,9 +84,10 @@ msgstr "स्तरों को प्रदर्शित करने क�
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
-#: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
-#: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57 data/effects/pan_zoom.xml:17
+#: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:41
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
 msgstr "पृष्ठभूमि का रंग"
@@ -292,7 +293,8 @@ msgstr "बाएँ दांए"
 #: data/effects/frei0r/frei0r_levels.xml:10
 #: data/effects/frei0r/frei0r_levels.xml:41
 #: data/effects/frei0r/frei0r_levels.xml:72
-#: data/effects/frei0r/frei0r_pr0file.xml:25
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:25
+#: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "Channel"
 msgstr "चैनल"
@@ -505,10 +507,9 @@ msgstr "इनपुट भाषा"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
-#: data/effects/avfilter/avfilter_photosensitivity.xml:12
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:12
-#: data/effects/frei0r/frei0r_alpha0ps.xml:20
-#: data/effects/frei0r/frei0r_alpha0ps.xml:45
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:17
+#: data/effects/frei0r/frei0r_alpha0ps.xml:21
+#: data/effects/frei0r/frei0r_alpha0ps.xml:47
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:19
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8 data/effects/lightshow.xml:14
@@ -656,6 +657,7 @@ msgid "Simple audio dynamic range compression/expansion filter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
+#: data/effects/avfilter/avfilter_ciescope.xml:32
 #: data/effects/avfilter/avfilter_eq.xml:8
 #: data/effects/frei0r/frei0r_contrast0r.xml:8 data/effects/grain.xml:11
 #, kde-format
@@ -715,8 +717,8 @@ msgstr "लघुगणक"
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
 #: data/effects/avfilter/avfilter_bwdif.xml:9
-#: data/effects/avfilter/avfilter_datascope.xml:19
-#: data/effects/avfilter/avfilter_fillborders.xml:21
+#: data/effects/avfilter/avfilter_datascope.xml:23
+#: data/effects/avfilter/avfilter_fillborders.xml:9
 #: data/effects/avfilter/avfilter_graphmonitor.xml:16
 #: data/effects/avfilter/avfilter_histogram.xml:19
 #: data/effects/avfilter/avfilter_mcdeint.xml:9
@@ -826,7 +828,6 @@ msgstr "कम बार होना"
 #: data/effects/avfilter/avfilter_bass.xml:14
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
-#: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,KHz"
@@ -837,7 +838,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bandreject.xml:12
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, fuzzy, kde-format
 #| msgid "Wipe Method"
 msgid "Method"
@@ -1092,14 +1093,12 @@ msgid "Apply average blur filter. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
-#: data/effects/frei0r/frei0r_pr0be.xml:18
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "X size"
 msgstr "आकार"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:11
-#: data/effects/frei0r/frei0r_pr0be.xml:21
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Y size"
@@ -1126,7 +1125,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_prewitt.xml:9
 #: data/effects/avfilter/avfilter_roberts.xml:9
 #: data/effects/avfilter/avfilter_sobel.xml:9
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:27
 #, kde-format
 msgid "Planes"
 msgstr ""
@@ -1237,7 +1236,6 @@ msgid "Set sigma of gaussian function to calculate range weight."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
-#: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr ""
@@ -1413,8 +1411,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
 #: data/effects/avfilter/avfilter_fspp.xml:15
-#: data/effects/avfilter/avfilter_gradfun.xml:11
+#: data/effects/avfilter/avfilter_gradfun.xml:12
 #: data/effects/avfilter/avfilter_histeq.xml:8
+#: data/effects/avfilter/avfilter_huesaturation.xml:26
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, fuzzy, kde-format
@@ -1424,7 +1423,7 @@ msgstr "खींचना"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
-msgid "Set the sharpening strength"
+msgid "Set the sharpening strength."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
@@ -1452,6 +1451,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
+#: data/effects/avfilter/avfilter_hsvhold.xml:23
+#: data/effects/avfilter/avfilter_hsvkey.xml:23
 #, kde-format
 msgid "Similarity"
 msgstr ""
@@ -1466,7 +1467,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
-#: data/effects/hsl_range.xml:16
+#: data/effects/avfilter/avfilter_hsvhold.xml:27
+#: data/effects/avfilter/avfilter_hsvkey.xml:27 data/effects/hsl_range.xml:16
 #, kde-format
 msgid "Blend"
 msgstr ""
@@ -1556,7 +1558,7 @@ msgstr "नृत्य"
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, fuzzy, kde-format
 #| msgid "Max shift"
-msgid "Chroma shift"
+msgid "Chroma Shift"
 msgstr "अधिकतम शिफ्ट"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
@@ -1566,24 +1568,30 @@ msgid "Shift chroma pixels horizontally and/or vertically. "
 msgstr "बॉक्स धुंधलापन (अलग-अलग क्षैतिज और ऊर्ध्वाधर धुंधलापन)"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
-#, kde-format
-msgid "Chroma-blue H shift"
-msgstr ""
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Bar Horizontal"
+msgid "Blue horizontal shift"
+msgstr "बार क्षैतिज"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
-#, kde-format
-msgid "Chroma-blue V shift"
-msgstr ""
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Bar Vertical"
+msgid "Blue vertical shift"
+msgstr "बार वर्टिकल"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
-#, kde-format
-msgid "Chroma-red H shift"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Horizontal Flip"
+msgid "Red horizontal shift"
+msgstr "क्षैतिज फ्लिप"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
-#, kde-format
-msgid "Chroma-red V shift"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vertical scatter"
+msgid "Red vertical shift"
+msgstr "ऊर्ध्वाधर बिखराव"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
@@ -1598,6 +1606,154 @@ msgstr ""
 #, kde-format
 msgid "Edge mode"
 msgstr "एज मोड"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:4
+#, fuzzy, kde-format
+#| msgid "Scopes"
+msgid "CIE Scope"
+msgstr "कार्यक्षेत्र"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:5
+#, kde-format
+msgid "Display CIE color diagram with pixels overlaid onto it"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:8
+#: data/effects/avfilter/avfilter_ciescope.xml:18
+#, kde-format
+msgid ""
+"NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
+"709,UHD TV,Rec. 2020,DCI-P3"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:9
+#, fuzzy, kde-format
+#| msgid "Color Space"
+msgid "Color System"
+msgstr "रंग स्थान"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:10
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Select the color system]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:13
+#, kde-format
+msgid "xyY,UCS,LUV"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:14
+#, kde-format
+msgid "CIE System"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:15
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Select the CIE color space]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:19
+#, kde-format
+msgid "Gamuts to Draw"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:20
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Set what gamuts to draw]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#. i18n: Filesize
+#. i18n: Filesize
+#. i18n: ectx: property (text), widget (QLabel, label_20)
+#. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
+#: data/effects/avfilter/avfilter_ciescope.xml:23
+#: data/effects/avfilter/avfilter_datascope.xml:9
+#: data/effects/avfilter/avfilter_graphmonitor.xml:9
+#: data/effects/avfilter/avfilter_oscilloscope.xml:16
+#: data/effects/frei0r/frei0r_medians.xml:12
+#: data/effects/frei0r/frei0r_sharpness.xml:11 src/ui/configcapture_ui.ui:369
+#: src/ui/managecache_ui.ui:364
+#, kde-format
+msgid "Size"
+msgstr "आकार"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:24
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Set the size of the scope on screen]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:27
+#: data/effects/avfilter/avfilter_crystalizer.xml:9
+#: data/effects/avfilter/avfilter_deesser.xml:8
+#: data/effects/avfilter/avfilter_extrastereo.xml:8
+#: data/effects/avfilter/avfilter_histeq.xml:11
+#: data/effects/avfilter/avfilter_vectorscope.xml:24
+#: data/effects/avfilter/avfilter_vibrance.xml:8
+#: data/effects/avfilter/avfilter_waveform.xml:15 data/effects/brightness.xml:8
+#, kde-format
+msgid "Intensity"
+msgstr "तीव्रता"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:29
+#, kde-format
+msgid ""
+"<![CDATA[Set the intensity used to<br>\n"
+"       \tmap input pixel values to CIE diagram]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:34
+#, kde-format
+msgid ""
+"<![CDATA[Set contrast used to draw<br>\n"
+"       \ttongue colors that are out of active color system gamut]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:37
+#, fuzzy, kde-format
+#| msgid "Display aspect ratio:"
+msgid "Display Correct Gamma"
+msgstr "प्रदर्शन पहलू अनुपात:"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:38
+#, kde-format
+msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:41
+#, fuzzy, kde-format
+#| msgid "White Noise"
+msgid "Show White Point"
+msgstr "श्वेत रव"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:42
+#, kde-format
+msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:45
+#, fuzzy, kde-format
+#| msgid "Input language"
+msgid "Input Gamma"
+msgstr "इनपुट भाषा"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:46
+#, kde-format
+msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:49
+#, kde-format
+msgid "Fill with CIE Colors"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:50
+#, kde-format
+msgid "<![CDATA[Fill with CIE colors. By default is enabled.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, fuzzy, kde-format
@@ -1825,6 +1981,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorize.xml:11
 #: data/effects/avfilter/avfilter_colortemperature.xml:14
 #: data/effects/avfilter/avfilter_eq.xml:14
+#: data/effects/avfilter/avfilter_hsvhold.xml:13
+#: data/effects/avfilter/avfilter_hsvkey.xml:13
 #: data/effects/frei0r/frei0r_colorize.xml:12
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:49
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
@@ -1870,8 +2028,13 @@ msgid "Overlay a solid color on the video stream with mixing feature."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
+#: data/effects/avfilter/avfilter_hsvhold.xml:8
+#: data/effects/avfilter/avfilter_hsvkey.xml:8
+#: data/effects/frei0r/frei0r_colorize.xml:8
+#: data/effects/frei0r/frei0r_hueshift0r.xml:8
+#: data/transitions/frei0r/frei0r_hue.xml:4
 #, kde-format
-msgid " Hue"
+msgid "Hue"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
@@ -1983,6 +2146,7 @@ msgid "Destination color matrix"
 msgstr "गंतव्य फ़ोल्डर"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
+#: data/effects/avfilter/avfilter_vectorscope.xml:52
 #: src/scopes/colorscopes/vectorscope.cpp:99
 #, kde-format
 msgid "Color Space"
@@ -2033,7 +2197,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
-msgid "Output transfer characteristics"
+msgid "Output transfer characteristicse"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
@@ -2041,7 +2205,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
-"BT.2020,JEDEC P22 phosphors"
+"BT.2020,JEDEC P22"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
@@ -2363,17 +2527,6 @@ msgid ""
 "This filter linearly increases differences between each audio sample."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_crystalizer.xml:9
-#: data/effects/avfilter/avfilter_deesser.xml:8
-#: data/effects/avfilter/avfilter_extrastereo.xml:8
-#: data/effects/avfilter/avfilter_histeq.xml:11
-#: data/effects/avfilter/avfilter_vectorscope.xml:18
-#: data/effects/avfilter/avfilter_vibrance.xml:8
-#: data/effects/avfilter/avfilter_waveform.xml:15 data/effects/brightness.xml:8
-#, kde-format
-msgid "Intensity"
-msgstr "तीव्रता"
-
 #: data/effects/avfilter/avfilter_crystalizer.xml:12
 #, kde-format
 msgid ""
@@ -2393,7 +2546,7 @@ msgstr "क्लिप सक्षम करें"
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, fuzzy, kde-format
 #| msgid "Scopes"
-msgid "DataScope"
+msgid "Data Scope"
 msgstr "कार्यक्षेत्र"
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
@@ -2403,24 +2556,9 @@ msgid "Video data analysis"
 msgstr "डेटा विश्लेषण प्रसंस्करण"
 
 #: data/effects/avfilter/avfilter_datascope.xml:8
-#: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #, kde-format
-msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
 msgstr ""
-
-#. i18n: Filesize
-#. i18n: Filesize
-#. i18n: ectx: property (text), widget (QLabel, label_20)
-#. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: data/effects/avfilter/avfilter_datascope.xml:9
-#: data/effects/avfilter/avfilter_graphmonitor.xml:9
-#: data/effects/avfilter/avfilter_oscilloscope.xml:16
-#: data/effects/frei0r/frei0r_medians.xml:12
-#: data/effects/frei0r/frei0r_sharpness.xml:11 src/ui/configcapture_ui.ui:369
-#: src/ui/managecache_ui.ui:364
-#, kde-format
-msgid "Size"
-msgstr "आकार"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, fuzzy, kde-format
@@ -2435,23 +2573,36 @@ msgid "Y offset"
 msgstr "ओफ़्सेट"
 
 #: data/effects/avfilter/avfilter_datascope.xml:18
+#: data/effects/avfilter/avfilter_pixelize.xml:18
+#: data/effects/avfilter/avfilter_prewitt.xml:8
+#: data/effects/avfilter/avfilter_roberts.xml:8
+#: data/effects/avfilter/avfilter_sobel.xml:8
 #, kde-format
-msgid "mono,color,color2"
+msgid ""
+"None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
+"Alpha"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_datascope.xml:19
+#: data/effects/avfilter/avfilter_oscilloscope.xml:45
+#: data/effects/avfilter/avfilter_waveform.xml:31
+#, fuzzy, kde-format
+#| msgid "Components:"
+msgid "Components"
+msgstr "अवयव:"
 
 #: data/effects/avfilter/avfilter_datascope.xml:22
-#: data/effects/avfilter/avfilter_delogo.xml:20
 #, kde-format
-msgid "Off,On"
+msgid "Mono,Color,Color2"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_datascope.xml:23
+#: data/effects/avfilter/avfilter_datascope.xml:26
 #, fuzzy, kde-format
 #| msgid "Show fields"
 msgid "Show Axis"
 msgstr "फ़ील्ड दिखाएँ"
 
-#: data/effects/avfilter/avfilter_datascope.xml:26
+#: data/effects/avfilter/avfilter_datascope.xml:29
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
@@ -2464,12 +2615,12 @@ msgstr "फ़ील्ड दिखाएँ"
 msgid "Opacity"
 msgstr "अस्पष्टता"
 
-#: data/effects/avfilter/avfilter_datascope.xml:29
+#: data/effects/avfilter/avfilter_datascope.xml:32
 #, kde-format
 msgid "Hex,Dec"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_datascope.xml:30 data/effects/timer.xml:46
+#: data/effects/avfilter/avfilter_datascope.xml:33 data/effects/timer.xml:46
 #, kde-format
 msgid "Format"
 msgstr "प्रारूप"
@@ -2494,7 +2645,7 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
-#: data/effects/avfilter/avfilter_gradfun.xml:16
+#: data/effects/avfilter/avfilter_gradfun.xml:17
 #: data/effects/avfilter/avfilter_sofalizer.xml:20 data/effects/qtcrop.xml:11
 #: data/effects/vignette.xml:17
 #, kde-format
@@ -2577,7 +2728,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
-#: data/effects/avfilter/avfilter_gblur.xml:18 data/effects/typewriter.xml:11
+#: data/effects/avfilter/avfilter_gblur.xml:19 data/effects/greyedge.xml:16
+#: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr "सिग्मा"
@@ -2930,6 +3082,11 @@ msgstr "चौड़ाई"
 msgid "Logo Height"
 msgstr "ऊंचाई"
 
+#: data/effects/avfilter/avfilter_delogo.xml:20
+#, kde-format
+msgid "Off,On"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, fuzzy, kde-format
 #| msgid "Show Grid"
@@ -3017,7 +3174,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_brightness.xml:8
 #: data/effects/frei0r/frei0r_lenscorrection.xml:20
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:9
-#: data/effects/frei0r/frei0r_softglow.xml:13 data/effects/grain.xml:14
+#: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
 msgstr "चमक"
@@ -3182,8 +3339,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
-#: data/effects/avfilter/avfilter_fillborders.xml:24
-#: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2513
+#: data/effects/avfilter/avfilter_fillborders.xml:12
+#: data/effects/dropshadow.xml:20
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2513
 #: src/layouts/layoutcollection.cpp:24
 #: src/mltcontroller/clippropertiescontroller.cpp:640
 #, kde-format
@@ -3357,23 +3515,18 @@ msgstr "तरीका"
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
 #: data/effects/avfilter/avfilter_gblur.xml:13
 #: data/effects/avfilter/avfilter_limiter.xml:16
-#: data/effects/avfilter/avfilter_pixelize.xml:18
-#: data/effects/avfilter/avfilter_prewitt.xml:8
-#: data/effects/avfilter/avfilter_roberts.xml:8
-#: data/effects/avfilter/avfilter_sobel.xml:8
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:21
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
-msgid "ELBG Posterizer"
+msgid "Posterize (ELBG)"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:5
 #, kde-format
-msgid "Apply posterize effect, using the ELBG algorithm"
+msgid "Apply posterize effect using the ELBG algorithm"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:8
@@ -3383,11 +3536,22 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_gblur.xml:9
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:20
 #, fuzzy, kde-format
 #| msgid "Stepsize"
 msgid "Steps"
 msgstr "चरण आकार"
+
+#: data/effects/avfilter/avfilter_elbg.xml:14
+#, fuzzy, kde-format
+#| msgid "Output"
+msgid "Pal8 Output"
+msgstr "उत्पादन"
+
+#: data/effects/avfilter/avfilter_elbg.xml:17
+#, kde-format
+msgid "Include Alpha Values"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, fuzzy, kde-format
@@ -3588,7 +3752,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:26
 #, kde-format
-msgid "wiener,hard"
+msgid "Wiener,Hard"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
@@ -3611,10 +3775,10 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
+#: data/effects/avfilter/avfilter_median.xml:22
 #: data/effects/avfilter/avfilter_oscilloscope.xml:44
-#: data/effects/avfilter/avfilter_waveform.xml:30
 #, kde-format
-msgid "None,Y,U,YU,V,YV,UV,YUV"
+msgid "None,Y,U,YU,V,YV,UV,All"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:4
@@ -3704,19 +3868,24 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:4
 #, fuzzy, kde-format
 #| msgid "Field order:"
-msgid "Fill borders"
+msgid "Fill Borders"
 msgstr "क्षेत्र क्रम:"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:5
 #, kde-format
 msgid ""
-"Fill borders of the input video, without changing video stream dimensions. "
+"Fill borders of the input video without changing video stream dimensions. "
 "Sometimes video can have garbage at the four edges and you may not want to "
-"crop video input to keep size multiple of some number"
+"crop video input to keep the size multiple of some number"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_fillborders.xml:8
+#, kde-format
+msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
+#: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
 #: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
 #: data/effects/frei0r/frei0r_mask0mate.xml:8
 #: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
@@ -3726,7 +3895,7 @@ msgid "Left"
 msgstr "बाएं"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:11 data/effects/crop.xml:17
+#: data/effects/avfilter/avfilter_fillborders.xml:18 data/effects/crop.xml:17
 #: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
 #: data/effects/frei0r/frei0r_mask0mate.xml:11
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
@@ -3736,7 +3905,7 @@ msgid "Right"
 msgstr "सही"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:14 data/effects/crop.xml:8
+#: data/effects/avfilter/avfilter_fillborders.xml:21 data/effects/crop.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
@@ -3746,7 +3915,7 @@ msgid "Top"
 msgstr "शीर्ष"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:17 data/effects/crop.xml:14
+#: data/effects/avfilter/avfilter_fillborders.xml:24 data/effects/crop.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
 #: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
@@ -3754,11 +3923,6 @@ msgstr "शीर्ष"
 #, kde-format
 msgid "Bottom"
 msgstr "तल"
-
-#: data/effects/avfilter/avfilter_fillborders.xml:20
-#, kde-format
-msgid "Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins"
-msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
 #, kde-format
@@ -3810,7 +3974,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
-#: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
+#: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:22
 #: src/timeline2/view/qml/Track.qml:51 src/ui/clipspeed_ui.ui:36
 #: src/ui/editsub_ui.ui:524
 #, kde-format
@@ -3824,10 +3988,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:29
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
-#: data/effects/frei0r/frei0r_alphaspot.xml:9
+#: data/effects/frei0r/frei0r_alphaspot.xml:10
 #: data/effects/frei0r/frei0r_facedetect.xml:25
 #: data/effects/frei0r/frei0r_select0r.xml:29
 #: data/effects/frei0r/frei0r_select0r.xml:56
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:9
 #: data/effects/mask_start_frei0r_alphaspot.xml:9
 #: data/effects/mask_start_frei0r_select0r.xml:22
 #: data/effects/sox/sox_flanger.xml:23
@@ -3869,6 +4034,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
+#: data/effects/frei0r/frei0r_c0rners.xml:45
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
 #: src/ui/renderwidget_ui.ui:594
 #, kde-format
@@ -3950,29 +4116,31 @@ msgstr ""
 msgid "Set number of steps for Gaussian approximation"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:15
-#, kde-format
-msgid "Set which planes to filter. By default all planes are filtered (YUV)."
-msgstr ""
-
-#: data/effects/avfilter/avfilter_gblur.xml:19
+#: data/effects/avfilter/avfilter_gblur.xml:16
 #, kde-format
 msgid ""
-"Set horizontal sigma, standard deviation of Gaussian blur. Determines the "
-"strength of the horizontal blur. Default is 10."
+"<![CDATA[Set which planes to filter.<br>\n"
+"        By default all planes are filtered (YUV).]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:22
+#: data/effects/avfilter/avfilter_gblur.xml:21
+#, kde-format
+msgid ""
+"<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
+"        Determines the strength of the horizontal blur. Default is 10.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_gblur.xml:24
 #, fuzzy, kde-format
 #| msgid "Vertical margin"
 msgid "Vertical Sigma"
 msgstr "ऊर्ध्वाधर मार्जिन"
 
-#: data/effects/avfilter/avfilter_gblur.xml:23
+#: data/effects/avfilter/avfilter_gblur.xml:26
 #, kde-format
 msgid ""
-"Set vertical sigma. Determines the strength of the vertical blur. Default is "
-"10."
+"<![CDATA[Set vertical sigma.<br>\n"
+"        Determines the strength of the vertical blur. Default is 10.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
@@ -3980,21 +4148,21 @@ msgstr ""
 msgid "gradfun"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gradfun.xml:8
+#: data/effects/avfilter/avfilter_gradfun.xml:9
 #, kde-format
 msgid ""
-"<![CDATA[<b>-= Deprecated =-</b><br>Debands video quickly using gradients."
-"<br>\n"
+"<![CDATA[<b>-= Deprecated =-</b><br>\n"
+"    Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
 "regions by truncation to 8-bit color depth.<br>\n"
 "    Interpolate the gradients that should go where the bands are, and dither "
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands</b>.]]>"
+"bands<b>.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gradfun.xml:13
+#: data/effects/avfilter/avfilter_gradfun.xml:14
 #, kde-format
 msgid ""
 "<![CDATA[The maximum amount by which the filter will change any one pixel."
@@ -4002,7 +4170,7 @@ msgid ""
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gradfun.xml:18
+#: data/effects/avfilter/avfilter_gradfun.xml:19
 #, kde-format
 msgid ""
 "<![CDATA[The neighborhood to fit the gradient to.<br>\n"
@@ -4021,6 +4189,11 @@ msgstr "क्लिप मॉनिटर"
 msgid "Show various filtergraph stats"
 msgstr ""
 
+#: data/effects/avfilter/avfilter_graphmonitor.xml:8
+#, kde-format
+msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #, kde-format
 msgid "Compact,Full"
@@ -4032,8 +4205,6 @@ msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
-#: data/effects/avfilter/avfilter_vectorscope.xml:33
-#: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Flags"
 msgstr ""
@@ -4164,7 +4335,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowpass.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
 #: data/effects/avfilter/avfilter_sofalizer.xml:24
-#: data/effects/frei0r/frei0r_colortap.xml:8
+#: data/effects/frei0r/frei0r_colortap.xml:9
 #: data/effects/frei0r/frei0r_defish0r.xml:15
 #: data/effects/frei0r/frei0r_iirblur.xml:13
 #: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1299
@@ -4220,13 +4391,13 @@ msgstr ""
 #: data/effects/avfilter/avfilter_histogram.xml:8
 #, fuzzy, kde-format
 #| msgid "Level Threshold"
-msgid "Level height"
+msgid "Level Height"
 msgstr "स्तर सीमा"
 
 #: data/effects/avfilter/avfilter_histogram.xml:11
 #, fuzzy, kde-format
 #| msgid "Scale X"
-msgid "Scale height"
+msgid "Scale Height"
 msgstr "स्केल एक्स"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
@@ -4237,22 +4408,23 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:15
 #: data/effects/avfilter/avfilter_waveform.xml:26
-#: data/effects/frei0r/frei0r_alpha0ps.xml:10
-#: data/effects/frei0r/frei0r_alpha0ps.xml:35
+#: data/effects/frei0r/frei0r_alpha0ps.xml:11
+#: data/effects/frei0r/frei0r_alpha0ps.xml:37
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid "Display"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
 #, kde-format
-msgid "All,Y,U,YU,V,YV,UV,All,Alpha"
+msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
 #, fuzzy, kde-format
 #| msgid "Components:"
-msgid "Components to display"
+msgid "Components to Display"
 msgstr "अवयव:"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
@@ -4262,21 +4434,35 @@ msgid "Foreground Opacity"
 msgstr "पृष्ठभूमि अस्पष्टता"
 
 #: data/effects/avfilter/avfilter_histogram.xml:29
-#: data/effects/avfilter/avfilter_vectorscope.xml:36
+#: data/effects/avfilter/avfilter_vectorscope.xml:42
 #: data/effects/avfilter/avfilter_waveform.xml:64
 #, fuzzy, kde-format
 #| msgid "Background opacity"
 msgid "Background Opacity"
 msgstr "पृष्ठभूमि अस्पष्टता"
 
-#: data/effects/avfilter/avfilter_hqdn3d.xml:4
+#: data/effects/avfilter/avfilter_histogram.xml:32
 #, kde-format
-msgid "High precision/quality 3d denoiser"
+msgid ""
+"White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
+"Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_histogram.xml:33
+#, fuzzy, kde-format
+#| msgid "Color Model"
+msgid "Colors Mode"
+msgstr "रंग मॉडल"
+
+#: data/effects/avfilter/avfilter_hqdn3d.xml:4
+#, fuzzy, kde-format
+#| msgid "Pixel scale"
+msgid "HQ 3D Denoiser (avfilter)"
+msgstr "पिक्सेल स्केल"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
-msgid "Apply a High Quality 3D Denoise"
+msgid "Apply a high quality 3D denoiser"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
@@ -4315,6 +4501,199 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqx.xml:8
 #, kde-format
 msgid "2x,3x,4x"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:4
+#, kde-format
+msgid "HSV Hold"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:5
+#, kde-format
+msgid "Turns a certain HSV range into gray "
+msgstr ""
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:10
+#: data/effects/avfilter/avfilter_hsvkey.xml:10
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid ""
+"<![CDATA[Set the hue value which<br>\n"
+"        will be used in color difference calculation]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:15
+#: data/effects/avfilter/avfilter_hsvkey.xml:15
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid ""
+"<![CDATA[Set the saturation value<br>\n"
+"        which will be used in color difference calculation]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, infoList)
+#: data/effects/avfilter/avfilter_hsvhold.xml:18
+#: data/effects/avfilter/avfilter_hsvkey.xml:18
+#: data/transitions/frei0r/frei0r_value.xml:4 src/ui/managesubtitles_ui.ui:544
+#, kde-format
+msgid "Value"
+msgstr "कीमत"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:20
+#: data/effects/avfilter/avfilter_hsvkey.xml:20
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid ""
+"<![CDATA[Set the value which will<br>\n"
+"        be used in color difference calculation]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:24
+#: data/effects/avfilter/avfilter_hsvkey.xml:24
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Set similarity percentage with the key color]]>"
+msgstr "एक्स अक्ष के चारों ओर घूर्णन"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:28
+#: data/effects/avfilter/avfilter_hsvkey.xml:28
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Blend percentage]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_hsvkey.xml:4
+#, fuzzy, kde-format
+#| msgid "HSV Value"
+msgid "HSV Key"
+msgstr "एचएसवी मूल्य"
+
+#: data/effects/avfilter/avfilter_hsvkey.xml:5
+#, kde-format
+msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:4
+#, fuzzy, kde-format
+#| msgid "Change threshold"
+msgid "Hue Saturation Intensity"
+msgstr "परिवर्तन सीमा"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:5
+#, kde-format
+msgid "Apply hue-saturation-intensity adjustments"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:8
+#, fuzzy, kde-format
+#| msgid "Color to select"
+msgid "Colors to Adjust"
+msgstr "चयन हेतु रंग"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:9
+#, kde-format
+msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:11
+#, kde-format
+msgid ""
+"<![CDATA[Set which primary and<br>\n"
+"        complementary colors are going to be adjusted]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:14
+#: data/effects/hsl_range.xml:20
+#, fuzzy, kde-format
+#| msgid "HSV Hue Shift"
+msgid "Hue Shift"
+msgstr "एचएसवी ह्यू शिफ्ट"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:15
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:18
+#, fuzzy, kde-format
+#| msgid "HSV Saturation"
+msgid "Saturation Shift"
+msgstr "एचएसवी संतृप्ति"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:19
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Set the saturation shift]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:22
+#, fuzzy, kde-format
+#| msgid "Intensity"
+msgid "Intensity Shift"
+msgstr "तीव्रता"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:23
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Set the intensity shift]]>"
+msgstr "एक्स अक्ष के चारों ओर घूर्णन"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:27
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Set strength of filtering]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:30
+#, fuzzy, kde-format
+#| msgid "Preserve alpha"
+msgid "Preserve Lightness"
+msgstr "अल्फा को संरक्षित करें"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:31
+#, fuzzy, kde-format
+#| msgid "Preserve alpha"
+msgid "<![CDATA[Preserve lightness]]>"
+msgstr "अल्फा को संरक्षित करें"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:34
+#, fuzzy, kde-format
+#| msgid "Stretch"
+msgid "Red Strength"
+msgstr "खींचना"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:36
+#, kde-format
+msgid ""
+"<![CDATA[Set weight for RED component.<br>\n"
+"        Is used in saturation and lightess processing.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:39
+#, fuzzy, kde-format
+#| msgid "Stretch"
+msgid "Green Strength"
+msgstr "खींचना"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:41
+#, kde-format
+msgid ""
+"<![CDATA[Set weight for GREEN component.<br>\n"
+"        Is used in saturation and lightess processing.e]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:44
+#, fuzzy, kde-format
+#| msgid "Stretch"
+msgid "Blue Strength"
+msgstr "खींचना"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:46
+#, kde-format
+msgid ""
+"<![CDATA[Set weight for BLUE component.<br>\n"
+"        Is used in saturation and lightess processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:4
@@ -4416,7 +4795,7 @@ msgstr "डिइंटरलैसर"
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
 #, kde-format
 msgid ""
-"Deinterlaces input video by applying Donald Graft’s adaptive kernel "
+"Deinterlace input video by applying Donald Graft’s adaptive kernel "
 "deinterling. Works on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
@@ -4485,6 +4864,11 @@ msgstr "वाई के डेल्टा"
 msgid "Set value which will be added to filtered result."
 msgstr ""
 
+#: data/effects/avfilter/avfilter_kirsch.xml:16
+#, kde-format
+msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
 msgid "Lag Fun"
@@ -4497,34 +4881,60 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, fuzzy, kde-format
-#| msgid "Audio correction"
-msgid "Lens correction"
-msgstr "ऑडियो सुधार"
+#| msgid "Rotate (keyframable)"
+msgid "Lens Correction (avfilter)"
+msgstr "घुमाएँ (कीफ़्रेम करने योग्य)"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:5
 #, kde-format
-msgid "Correct radial lens distortion "
+msgid ""
+"Correct radial lens distortion. This effect allows to specify a color for "
+"the unmapped pixels."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
-#, kde-format
-msgid "Focal point relative-X coord"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_lenscorrection.xml:11
-#, kde-format
-msgid "Focal point relative-Y coord"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_lenscorrection.xml:14
 #, fuzzy, kde-format
-#| msgid "Audio correction"
-msgid "Quadratic correction coeff."
-msgstr "ऑडियो सुधार"
+#| msgid "Nearest Neighbor (fast)"
+msgid "Nearest,Bi-linear"
+msgstr "निकटतम पड़ोसी (तेज़)"
 
-#: data/effects/avfilter/avfilter_lenscorrection.xml:17
+#: data/effects/avfilter/avfilter_lenscorrection.xml:9
+#, fuzzy, kde-format
+#| msgid "Interpolation"
+msgid "Interpolation Type"
+msgstr "प्रक्षेप"
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
-msgid "DoubleQuadratic correction coeff."
+msgid "Unmapped Pixel Color"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:16
+#, kde-format
+msgid ""
+"<![CDATA[Focal Point Relative<br>\n"
+"        X-Coordinate]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:20
+#, kde-format
+msgid ""
+"<![CDATA[Focal Point Relative<br>\n"
+"        Y-Coordinate]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[Quadratic<br>\n"
+"        Correction Coefficent]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:28
+#, kde-format
+msgid ""
+"<![CDATA[Double Quadratic<br>\n"
+"        Correction Coefficent]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
@@ -4533,9 +4943,9 @@ msgid "Limits the pixel components values to the specified range [min, max]"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:8
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:30
-#: data/effects/frei0r/frei0r_alphaspot.xml:30
+#: data/effects/frei0r/frei0r_alphaspot.xml:31
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:30
 #: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
 msgid "Min"
@@ -4547,9 +4957,9 @@ msgid "The Min value has not to be higher than the Max value"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:33
-#: data/effects/frei0r/frei0r_alphaspot.xml:33
+#: data/effects/frei0r/frei0r_alphaspot.xml:34
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:33
 #: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, kde-format
 msgid "Max"
@@ -4633,6 +5043,11 @@ msgstr "कम उत्तीर्ण"
 msgid "Apply a low-pass filter with 3dB point frequency."
 msgstr ""
 
+#: data/effects/avfilter/avfilter_lowpass.xml:11
+#, kde-format
+msgid "Hz,Q-FActor,Octave,Slope,KHz"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
 msgid "Low-shelf"
@@ -4663,6 +5078,7 @@ msgid "LUT file to apply"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
+#: data/effects/avfilter/avfilter_shear.xml:18
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Interpolation Mode"
@@ -4743,7 +5159,7 @@ msgstr "ऊर्ध्वाधर मार्जिन"
 #, kde-format
 msgid ""
 "<![CDATA[Set median vertical radius.<br>\n"
-"       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
+"       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
 "parameter.]]>"
 msgstr ""
 
@@ -4757,11 +5173,6 @@ msgstr ""
 msgid ""
 "<![CDATA[Default value of 50 will pick always median values,<br>\n"
 "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_median.xml:22
-#, kde-format
-msgid "None,Y,U,YU,V,YV,UV,All"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:24
@@ -4987,11 +5398,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
 #, kde-format
-msgid "Oscilloscope (avfilter)"
+msgid "Oscilloscope (simple)"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:5
-#: data/effects/frei0r/frei0r_pr0file.xml:5
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:5
 #, kde-format
 msgid "2D video oscilloscope"
 msgstr ""
@@ -4999,7 +5410,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
 #, fuzzy, kde-format
 #| msgid "X position"
-msgid "Trace X position"
+msgid "Trace X Position"
 msgstr "एक्स स्थिति"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
@@ -5011,7 +5422,7 @@ msgstr "एक्स अक्ष के चारों ओर घूर्ण�
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, fuzzy, kde-format
 #| msgid "Y position"
-msgid "Trace Y position"
+msgid "Trace Y Position"
 msgstr "वाई स्थिति"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
@@ -5029,9 +5440,9 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:24
-#: data/effects/frei0r/frei0r_alphagrad.xml:16
-#: data/effects/frei0r/frei0r_alphaspot.xml:24
-#: data/effects/frei0r/frei0r_pr0file.xml:16
+#: data/effects/frei0r/frei0r_alphagrad.xml:17
+#: data/effects/frei0r/frei0r_alphaspot.xml:25
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:24
 #: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, kde-format
 msgid "Tilt"
@@ -5051,7 +5462,7 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, fuzzy, kde-format
 #| msgid "X position"
-msgid "Scope X position"
+msgid "Scope X Position"
 msgstr "एक्स स्थिति"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
@@ -5063,7 +5474,7 @@ msgstr "एक्स अक्ष के चारों ओर घूर्ण�
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, fuzzy, kde-format
 #| msgid "Y position"
-msgid "Scope Y position"
+msgid "Scope Y Position"
 msgstr "वाई स्थिति"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
@@ -5075,7 +5486,7 @@ msgstr "एक्स अक्ष के चारों ओर घूर्ण�
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, fuzzy, kde-format
 #| msgid "Shape width"
-msgid "Scope width"
+msgid "Scope Width"
 msgstr "आकार की चौड़ाई"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
@@ -5086,20 +5497,13 @@ msgstr ""
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
 #, fuzzy, kde-format
 #| msgid "Top right"
-msgid "Scope height"
+msgid "Scope Height"
 msgstr "ठीक तरह से ऊपर"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
 #, kde-format
 msgid "<![CDATA[Height of the scope display]]>"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
-msgid "Components"
-msgstr "अवयव:"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, fuzzy, kde-format
@@ -5110,7 +5514,7 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, fuzzy, kde-format
 #| msgid "Draw grid"
-msgid "Draw scope grid"
+msgid "Draw Scope Grid"
 msgstr "ग्रिड बनाएं"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
@@ -5120,18 +5524,18 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
-msgid "Print statistics"
+msgid "Print Statistics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Switch statistics on or off]]>"
+msgid "<![CDATA[switch statistics on or off]]>"
 msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
-msgid "Draw trace profile line"
+msgid "Draw Trace Profile Line"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
@@ -5158,7 +5562,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
-msgid "Photosensitivity"
+msgid "Photosensitivity Filter"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
@@ -5176,6 +5580,12 @@ msgstr "फ़्रेम चरण"
 #, kde-format
 msgid "Set how many frames to use."
 msgstr ""
+
+#: data/effects/avfilter/avfilter_photosensitivity.xml:12
+#, fuzzy, kde-format
+#| msgid "Threshold"
+msgid "Theshold"
+msgstr "सीमा"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
@@ -5207,7 +5617,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixel scale"
-msgid "Pixelize (avfilter)"
+msgid "Pixelize (advanced)"
 msgstr "पिक्सेल स्केल"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
@@ -5217,23 +5627,26 @@ msgid "Pixelize video"
 msgstr "वीडियो बदलें"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, fuzzy, kde-format
 #| msgid "Border width"
-msgid "Block width"
+msgid "Block Width"
 msgstr "सीमा की चौड़ाई"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Fit to height"
-msgid "Block height"
+msgid "Block Height"
 msgstr "ऊंचाई के अनुसार फिट"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
-#, kde-format
-msgid "Pixelize mode"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Replace video"
+msgid "Pixelize Mode"
+msgstr "वीडियो बदलें"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
@@ -5319,61 +5732,61 @@ msgstr ""
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, fuzzy, kde-format
 #| msgid "Horizontal Flip"
-msgid "Red Horizontal shift"
+msgid "Red Horizontal Shift"
 msgstr "क्षैतिज फ्लिप"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
 #, fuzzy, kde-format
 #| msgid "Vertical scatter"
-msgid "Red Vertical shift"
+msgid "Red Vertical Shift"
 msgstr "ऊर्ध्वाधर बिखराव"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Bar Horizontal"
-msgid "Green Horizontal shift"
+msgid "Green Horizontal Shift"
 msgstr "बार क्षैतिज"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Bar Vertical"
-msgid "Green Vertical shift"
+msgid "Green Vertical Shift"
 msgstr "बार वर्टिकल"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Bar Horizontal"
-msgid "Blue Horizontal shift"
+msgid "Blue Horizontal Shift"
 msgstr "बार क्षैतिज"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Bar Vertical"
-msgid "Blue Vertical shift"
+msgid "Blue Vertical Shift"
 msgstr "बार वर्टिकल"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Bar Horizontal"
-msgid "Alpha Horizontal shift"
+msgid "Alpha Horizontal Shift"
 msgstr "बार क्षैतिज"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Bar Vertical"
-msgid "Alpha Vertical shift"
+msgid "Alpha Vertical Shift"
 msgstr "बार वर्टिकल"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, fuzzy, kde-format
 #| msgid "Operation"
-msgid "Edge operation"
+msgid "Edge Operation"
 msgstr "संचालन"
 
 #: data/effects/avfilter/avfilter_roberts.xml:4
@@ -5383,7 +5796,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
-msgid "Apply roberts cross operator to input video stream"
+msgid "Apply Roberts cross operator (edge detection)"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sab.xml:4
@@ -5447,24 +5860,25 @@ msgstr "स्क्रॉल"
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Horizontal Blinds"
-msgid "Horizontal scrolling speed"
+msgid "Horizontal Scrolling Speed"
 msgstr "क्षैतिज अंधा"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
 #, fuzzy, kde-format
 #| msgid "Vertical Flip"
-msgid "Vertical scrolling speed"
+msgid "Vertical Scrolling Speed"
 msgstr "वर्टिकल फ्लिप"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
-#, kde-format
-msgid "Initial horizontal position"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Inverted Position"
+msgid "Initial Horizontal Position"
+msgstr "उलटी स्थिति"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
 #, fuzzy, kde-format
 #| msgid "Inverted Position"
-msgid "Initial vertical position"
+msgid "Initial Vertical Position"
 msgstr "उलटी स्थिति"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
@@ -5583,31 +5997,25 @@ msgstr ""
 #: data/effects/avfilter/avfilter_shear.xml:8
 #, fuzzy, kde-format
 #| msgid "Blur factor"
-msgid "X shear factor"
+msgid "X-axis Shear Factor"
 msgstr "धुंधलापन कारक"
 
 #: data/effects/avfilter/avfilter_shear.xml:11
 #, fuzzy, kde-format
 #| msgid "Blur factor"
-msgid "Y shear factor"
+msgid "Y-axis Shear Factor"
 msgstr "धुंधलापन कारक"
 
 #: data/effects/avfilter/avfilter_shear.xml:14
 #, fuzzy, kde-format
 #| msgid "Background Color"
-msgid "Background fill color"
+msgid "Background Fill Color"
 msgstr "पृष्ठभूमि का रंग"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
 #, kde-format
 msgid "Nearest,Bilinear"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
-#| msgid "Interpolation"
-msgid "Interpolation mode"
-msgstr "प्रक्षेप"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -6382,17 +6790,31 @@ msgstr ""
 msgid "Wavelet Denoiser"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:5
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:6
 #, kde-format
-msgid "Wavelet based Denoiser"
+msgid ""
+"<![CDATA[Wavelet based denoiser.<br>\n"
+"    It transforms each frame from the video input into the wavelet domain, "
+"using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:8
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
 msgid "Hard,Soft,Garrote"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:18
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
+#, kde-format
+msgid "Universal,Bayes"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
+#, fuzzy, kde-format
+#| msgid "Threshold"
+msgid "Threshold Type"
+msgstr "सीमा"
+
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:23
 #: src/jobs/speedtask.cpp:72
 #, kde-format
 msgid "Percentage"
@@ -6401,97 +6823,99 @@ msgstr "को PERCENTAGE"
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
 #, fuzzy, kde-format
 #| msgid "Vectorscope"
-msgid "Vectorscope (Advanced)"
+msgid "Vectorscope (advanced)"
 msgstr "vectorscope"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
-msgid ""
-"Display 2 color component values in the two dimensional graph (which is "
-"called a vectorscope)"
+msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
-msgid "gray,color,color2,color3,color4,color5"
+msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
-#: data/effects/avfilter/avfilter_zoompan.xml:11
-#: data/effects/frei0r/frei0r_pr0be.xml:12
-#: data/effects/frei0r/frei0r_pr0file.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:424
+#: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
-msgid "X"
-msgstr "एक्स"
+msgid "Tint 1"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbY)
 #: data/effects/avfilter/avfilter_vectorscope.xml:15
-#: data/effects/avfilter/avfilter_zoompan.xml:14
-#: data/effects/frei0r/frei0r_pr0be.xml:15
-#: data/effects/frei0r/frei0r_pr0file.xml:12
-#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
 #, kde-format
-msgid "Y"
-msgstr "और"
+msgid "Tint 2"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:18
+#, fuzzy, kde-format
+#| msgid "Components:"
+msgid "Component on X"
+msgstr "अवयव:"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:21
+#, fuzzy, kde-format
+#| msgid "Components:"
+msgid "Component on Y"
+msgstr "अवयव:"
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:27
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
 msgid "None,Instant,Peak,Peak+Instant"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:22
+#: data/effects/avfilter/avfilter_vectorscope.xml:28
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "Envelope"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:25
+#: data/effects/avfilter/avfilter_vectorscope.xml:31
 #, fuzzy, kde-format
 #| msgid "Foreground color"
-msgid "none,green,color"
+msgid "None,Green,Color"
 msgstr "अग्रभूमि रंग"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:26
+#: data/effects/avfilter/avfilter_vectorscope.xml:32
 #: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
 msgid "Graticule"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:29
+#: data/effects/avfilter/avfilter_vectorscope.xml:35
 #: data/effects/avfilter/avfilter_waveform.xml:50
 #, kde-format
 msgid "Graticule Opacity"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:32
+#: data/effects/avfilter/avfilter_vectorscope.xml:38
 #, kde-format
-msgid "White,Black,Name"
+msgid "Draw White Point,Draw Black Point,Draw Point Name"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
+#: data/effects/avfilter/avfilter_waveform.xml:56
+#, kde-format
+msgid "Graticule Flags"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Low Threshold"
 msgstr "सीमा"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:42
+#: data/effects/avfilter/avfilter_vectorscope.xml:48
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "High Threshold"
 msgstr "सीमा"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:45
+#: data/effects/avfilter/avfilter_vectorscope.xml:51
 #, kde-format
-msgid "Auto,601,709"
+msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:46
-#, fuzzy, kde-format
-#| msgid "Colorspace:"
-msgid "Colorspace"
-msgstr "रंगस्थान:"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, fuzzy, kde-format
@@ -6604,7 +7028,7 @@ msgstr "अंतर्गुंथित"
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, fuzzy, kde-format
 #| msgid "Audio Waveform Filter"
-msgid "Video waveform monitor"
+msgid "Video Waveform Monitor"
 msgstr "ऑडियो वेवफॉर्म फ़िल्टर"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
@@ -6633,7 +7057,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[Smaller values are useful for finding out how many values<br>\n"
+"<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
 
@@ -6651,6 +7075,11 @@ msgstr ""
 msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
 
+#: data/effects/avfilter/avfilter_waveform.xml:30
+#, kde-format
+msgid "Y,U,YU,V,YV,UV,All"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the opacity for the background image]]>"
@@ -6665,7 +7094,7 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
-msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
+msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
@@ -6701,7 +7130,7 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
-msgid "Numbers,Dots"
+msgid "Show numbers,Draw dots"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
@@ -6711,7 +7140,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
-msgid "Digital,Millivolts,Ire"
+msgid "Digital,Millivolts,IRE"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
@@ -6734,14 +7163,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:75
 #, kde-format
 msgid ""
-"<![CDATA[Only used with <em>lowpass</em> filter and when display<br>\n"
-"       \tis not <em>overlay</em> and input pixel formats are not <em>RGB</"
-"em>]]>"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_waveform.xml:73
-#, kde-format
-msgid "Tint 1"
+"<![CDATA[Only used with lowpass filter and when display<br>\n"
+"       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
@@ -6753,13 +7176,30 @@ msgstr "आकार"
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, fuzzy, kde-format
 #| msgid "Paint mode:"
-msgid "Fit mode"
+msgid "Fit Mode"
 msgstr "पेंट मोड:"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the fit mode]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/avfilter/avfilter_waveform.xml:83
+#, kde-format
+msgid "First available, All"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:84
+#, fuzzy, kde-format
+#| msgid "Capture format:"
+msgid "Input Format"
+msgstr "कैप्चर प्रारूप:"
+
+#: data/effects/avfilter/avfilter_waveform.xml:85
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Set input formats for filter to pick from]]>"
 msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
@@ -6792,8 +7232,7 @@ msgstr "प्रक्षेप"
 #, kde-format
 msgid ""
 "Apply the xBR high-quality magnification filter which is designed for pixel "
-"art. It follows a set of edge-detection rules, see https://forums.libretro."
-"com/t/xbr-algorithm-tutorial/123"
+"art. It follows a set of edge-detection rules."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
@@ -6848,6 +7287,19 @@ msgstr ""
 #, kde-format
 msgid "Zoom"
 msgstr "ज़ूम"
+
+#: data/effects/avfilter/avfilter_zoompan.xml:11
+#: src/assets/view/widgets/keyframeimport.cpp:424
+#, kde-format
+msgid "X"
+msgstr "एक्स"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cbY)
+#: data/effects/avfilter/avfilter_zoompan.xml:14
+#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
+#, kde-format
+msgid "Y"
+msgstr "और"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/avfilter/avfilter_zoompan.xml:17
@@ -6922,14 +7374,38 @@ msgid "Blur factor"
 msgstr "धुंधलापन कारक"
 
 #: data/effects/brightness.xml:4
-#, kde-format
-msgid "Brightness (keyframable)"
-msgstr "चमक (कीफ़्रेमेबल)"
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Intensity (Brightness)"
+msgstr "चमक"
 
 #: data/effects/brightness.xml:5
-#, kde-format
-msgid "Change image brightness with keyframes"
+#, fuzzy, kde-format
+#| msgid "Change image brightness with keyframes"
+msgid "Change image intensity"
 msgstr "मुख्य-फ़्रेम के साथ छवि की चमक बदलें"
+
+#: data/effects/burningtv.xml:4
+#, kde-format
+msgid "Burning TV"
+msgstr ""
+
+#: data/effects/burningtv.xml:5
+#, kde-format
+msgid "Simulate burning TV pixels"
+msgstr ""
+
+#: data/effects/burningtv.xml:8
+#, fuzzy, kde-format
+#| msgid "Background opacity"
+msgid "Foreground Only"
+msgstr "पृष्ठभूमि अस्पष्टता"
+
+#: data/effects/burningtv.xml:11
+#, fuzzy, kde-format
+#| msgid "Level Threshold"
+msgid "Movement Threshold"
+msgstr "स्तर सीमा"
 
 #: data/effects/channelcopy.xml:4
 #, kde-format
@@ -6986,9 +7462,10 @@ msgstr "क्षैतिज बिखराव"
 msgid "Vertical scatter"
 msgstr "ऊर्ध्वाधर बिखराव"
 
-#: data/effects/charcoal.xml:20 data/effects/frei0r/frei0r_alpha0ps.xml:26
-#: data/effects/frei0r/frei0r_alpha0ps.xml:51
+#: data/effects/charcoal.xml:20 data/effects/frei0r/frei0r_alpha0ps.xml:27
+#: data/effects/frei0r/frei0r_alpha0ps.xml:53
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:25
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:8
 #: data/effects/frei0r/frei0r_mask0mate.xml:20
 #: data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
@@ -7069,18 +7546,21 @@ msgid "Trim the edges of a clip"
 msgstr "क्लिप के किनारों को ट्रिम करें"
 
 #: data/effects/crop.xml:20
-#, kde-format
-msgid "Automatic center-crop"
+#, fuzzy, kde-format
+#| msgid "Automatic center-crop"
+msgid "Automatic Center-crop"
 msgstr "स्वचालित केंद्र-फसल"
 
 #: data/effects/crop.xml:23
-#, kde-format
-msgid "Center balance"
+#, fuzzy, kde-format
+#| msgid "Center balance"
+msgid "Center Balance"
 msgstr "केंद्र संतुलन"
 
 #: data/effects/crop.xml:26
-#, kde-format
-msgid "Use project resolution"
+#, fuzzy, kde-format
+#| msgid "Use project resolution"
+msgid "Use Project Resolution"
 msgstr "प्रोजेक्ट रिज़ॉल्यूशन का उपयोग करें"
 
 #: data/effects/dance.xml:4
@@ -7492,9 +7972,10 @@ msgid "Fill with image or black"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
-#, kde-format
-msgid "Aech0r"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Enable for Video"
+msgid "Analog Video Echo"
+msgstr "वीडियो के लिए सक्षम करें"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
@@ -7558,23 +8039,22 @@ msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
-#: data/effects/frei0r/frei0r_alpha0ps.xml:30
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
+#: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha operations"
+msgid "Alpha Operations (SUPERCEDED)"
 msgstr "अल्फा ऑपरेशन"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:6
-#: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
-msgid "Display and manipulation of the alpha channel"
-msgstr "अल्फा चैनल के स्थान पर इमेज ल्यूमा का उपयोग करें।"
+#: data/effects/frei0r/frei0r_alpha0ps.xml:7
+#, kde-format
+msgid ""
+"<![CDATA[Display and manipulation of the alpha channel.<br>\n"
+"        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</"
+"em>.]]>"
+msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:9
-#: data/effects/frei0r/frei0r_alpha0ps.xml:34
+#: data/effects/frei0r/frei0r_alpha0ps.xml:10
+#: data/effects/frei0r/frei0r_alpha0ps.xml:36
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
 #, kde-format
 msgid ""
@@ -7582,67 +8062,95 @@ msgid ""
 "Selection on white,Selection on checkers"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:13
-#: data/effects/frei0r/frei0r_alpha0ps.xml:38
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
+#: data/effects/frei0r/frei0r_alpha0ps.xml:14
+#: data/effects/frei0r/frei0r_alpha0ps.xml:40
 #, fuzzy, kde-format
 #| msgid "Display aspect ratio:"
 msgid "Display input alpha"
 msgstr "प्रदर्शन पहलू अनुपात:"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:16
+#: data/effects/frei0r/frei0r_alpha0ps.xml:17
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:17
-#: data/effects/frei0r/frei0r_alpha0ps.xml:42
+#: data/effects/frei0r/frei0r_alpha0ps.xml:18
+#: data/effects/frei0r/frei0r_alpha0ps.xml:44
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
-#: data/effects/frei0r/frei0r_alphagrad.xml:29
-#: data/effects/frei0r/frei0r_alphaspot.xml:37
+#: data/effects/frei0r/frei0r_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alphaspot.xml:38
 #: data/effects/frei0r/frei0r_select0r.xml:37
 #: data/effects/frei0r/frei0r_select0r.xml:76
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_select0r.xml:42
 #, kde-format
 msgid "Operation"
 msgstr "संचालन"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:23
+#: data/effects/frei0r/frei0r_alpha0ps.xml:24
 #, kde-format
 msgid "Shrink/grow amount"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:41
+#: data/effects/frei0r/frei0r_alpha0ps.xml:33
+#, kde-format
+msgid ""
+"<![CDATA[Display and manipulation of the alpha channel.<br>\n"
+"        This effect has been replaced by <em>frei0r.alphaops_alphaops</"
+"em>.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_alpha0ps.xml:43
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:48
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
+#: data/effects/frei0r/frei0r_alpha0ps.xml:50
 #, kde-format
 msgid "Shrink/Grow/Blur amount"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
-#: data/effects/frei0r/frei0r_alphagrad.xml:4
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha gradient"
+msgid "Alpha Operations"
+msgstr "अल्फा ऑपरेशन"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
+#, fuzzy, kde-format
+#| msgid "Use the image luma instead of the alpha channel."
+msgid "Display and manipulation of the alpha channel"
+msgstr "अल्फा चैनल के स्थान पर इमेज ल्यूमा का उपयोग करें।"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
+#, fuzzy, kde-format
+#| msgid "Display aspect ratio:"
+msgid "Display Input Alpha"
+msgstr "प्रदर्शन पहलू अनुपात:"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
+#, kde-format
+msgid "Shrink/Grow/Blur Amount"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha Operation"
+msgid "Alpha Gradient"
 msgstr "अल्फा ऑपरेशन"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
-#: data/effects/frei0r/frei0r_alphagrad.xml:5
 #, kde-format
 msgid "Fill the alpha channel with a specified gradient"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
-#: data/effects/frei0r/frei0r_alphagrad.xml:8
+#: data/effects/frei0r/frei0r_alphagrad.xml:9
 #: src/assets/view/widgets/keyframeimport.cpp:421
 #: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
 #, kde-format
@@ -7650,51 +8158,65 @@ msgid "Position"
 msgstr "पद"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:9
-#: data/effects/frei0r/frei0r_alphagrad.xml:9
+#: data/effects/frei0r/frei0r_alphagrad.xml:10
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
-#: data/effects/frei0r/frei0r_alphagrad.xml:12
-#: data/effects/frei0r/frei0r_alphaspot.xml:27
-#: data/effects/mask_start_frei0r_alphaspot.xml:27
-#, kde-format
-msgid "Transition width"
+#: data/effects/frei0r/frei0r_alphagrad.xml:13
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:27
+#, fuzzy, kde-format
+#| msgid "Transition width"
+msgid "Transition Width"
 msgstr "संक्रमण चौड़ाई"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:13
-#: data/effects/frei0r/frei0r_alphagrad.xml:13
+#: data/effects/frei0r/frei0r_alphagrad.xml:14
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
-#: data/effects/frei0r/frei0r_alphagrad.xml:17
+#: data/effects/frei0r/frei0r_alphagrad.xml:18
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
 msgid "<![CDATA[Angle for the gradient.]]>"
 msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
+#, fuzzy, kde-format
+#| msgid "Transparency:"
+msgid "Transparency Top"
+msgstr "पारदर्शिता:"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
+#: data/effects/frei0r/frei0r_alphagrad.xml:22
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
+#, fuzzy, kde-format
+#| msgid "Transparency:"
+msgid "Transparency Bottom"
+msgstr "पारदर्शिता:"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
+#: data/effects/frei0r/frei0r_alphagrad.xml:26
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
-#: data/effects/frei0r/frei0r_alphagrad.xml:28
-#: data/effects/frei0r/frei0r_alphaspot.xml:36
+#: data/effects/frei0r/frei0r_alphagrad.xml:29
+#: data/effects/frei0r/frei0r_alphaspot.xml:37
 #: data/effects/frei0r/frei0r_select0r.xml:36
 #: data/effects/frei0r/frei0r_select0r.xml:75
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:36
 #: data/effects/mask_start_frei0r_alphaspot.xml:36
 #: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
@@ -7702,71 +8224,95 @@ msgid "Write on clear,Max,Min,Add,Subtract"
 msgstr "स्पष्ट लिखें, अधिकतम, न्यूनतम, जोड़ें, घटाएँ"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
-#: data/effects/frei0r/frei0r_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alphagrad.xml:31
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
-#: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha shapes (Mask)"
-msgid "Alpha shapes"
+msgid "Alpha Shapes"
 msgstr "अल्फा आकार (मास्क)"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
-#: data/effects/frei0r/frei0r_alphaspot.xml:5
 #, fuzzy, kde-format
 #| msgid "Use the inverse of the alpha or luma value."
 msgid "Draws simple shapes into the alpha channel"
 msgstr "अल्फा या ल्यूमा मान का व्युत्क्रम प्रयोग करें।"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
-#: data/effects/frei0r/frei0r_alphaspot.xml:8
+#: data/effects/frei0r/frei0r_alphaspot.xml:9
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:8
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
 msgstr "आयत, दीर्घवृत्त, त्रिभुज, हीरा"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:12
-#: data/effects/frei0r/frei0r_alphaspot.xml:12
+#: data/effects/frei0r/frei0r_alphaspot.xml:13
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:12
 #: data/effects/mask_start_frei0r_alphaspot.xml:12
 #, kde-format
 msgid "Position X"
 msgstr "स्थिति X"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:15
-#: data/effects/frei0r/frei0r_alphaspot.xml:15
+#: data/effects/frei0r/frei0r_alphaspot.xml:16
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:15
 #: data/effects/mask_start_frei0r_alphaspot.xml:15
 #, kde-format
 msgid "Position Y"
 msgstr "स्थिति Y"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:18
-#: data/effects/frei0r/frei0r_alphaspot.xml:18
+#: data/effects/frei0r/frei0r_alphaspot.xml:19
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:18
 #: data/effects/mask_start_frei0r_alphaspot.xml:18
 #, kde-format
 msgid "Size X"
 msgstr "आकार एक्स"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:21
-#: data/effects/frei0r/frei0r_alphaspot.xml:21
+#: data/effects/frei0r/frei0r_alphaspot.xml:22
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:21
 #: data/effects/mask_start_frei0r_alphaspot.xml:21
 #, kde-format
 msgid "Size Y"
 msgstr "आकार वाई"
 
-#: data/effects/frei0r/frei0r_alphagrad.xml:20
-#, fuzzy, kde-format
-#| msgid "Transparency:"
-msgid "Transparency top"
-msgstr "पारदर्शिता:"
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
+#: data/effects/frei0r/frei0r_alphaspot.xml:28
+#: data/effects/mask_start_frei0r_alphaspot.xml:27
+#, kde-format
+msgid "Transition width"
+msgstr "संक्रमण चौड़ाई"
 
-#: data/effects/frei0r/frei0r_alphagrad.xml:24
+#: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, fuzzy, kde-format
-#| msgid "Transparency:"
-msgid "Transparency bottom"
-msgstr "पारदर्शिता:"
+#| msgid "Alpha Operation"
+msgid "Alpha Gradient (SUPERCEDED)"
+msgstr "अल्फा ऑपरेशन"
+
+#: data/effects/frei0r/frei0r_alphagrad.xml:6
+#, kde-format
+msgid ""
+"<![CDATA[Fill the alpha channel with a specified gradient.<br>\n"
+"    This effect has been replaced by frei0r.alphaops_alphagrad.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_alphaspot.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha shapes (Mask)"
+msgid "Alpha Shapes (SUPERCEDED)"
+msgstr "अल्फा आकार (मास्क)"
+
+#: data/effects/frei0r/frei0r_alphaspot.xml:6
+#, kde-format
+msgid ""
+"<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
+"    This effect has been replaced by <em>frei0r,alphaops_alphaspot</em>.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -8855,8 +9401,24 @@ msgstr "परिवर्तन"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:5
 #, kde-format
-msgid "Rotates a panoramic image."
+msgid "Rotates a panoramic image"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:4
+#, kde-format
+msgid "Blue Screen (Color to Alpha)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:5
+#, kde-format
+msgid "<![CDATA[Turns the selected color into alpha making it transparent.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:14
+#, fuzzy, kde-format
+#| msgid "1st Color"
+msgid "Distance to Color"
+msgstr "पहला रंग"
 
 #: data/effects/frei0r/frei0r_brightness.xml:4
 #, fuzzy, kde-format
@@ -8943,19 +9505,12 @@ msgid "Enable Stretch"
 msgstr "ट्रैक सक्षम करें"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/frei0r/frei0r_defish0r.xml:34
+#: data/effects/frei0r/frei0r_defish0r.xml:37
 #, kde-format
 msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
-
-#: data/effects/frei0r/frei0r_c0rners.xml:45
-#: data/effects/frei0r/frei0r_defish0r.xml:35
-#, fuzzy, kde-format
-#| msgid "Interpolation"
-msgid "Interpolator"
-msgstr "प्रक्षेप"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
@@ -8972,9 +9527,9 @@ msgid "Write on clear,Maximum,Minimum,Add,Subtract"
 msgstr "स्पष्ट रूप से लिखें, अधिकतम, न्यूनतम, जोड़ें, घटाएं"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:52
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
-msgid "Alpha operation"
+#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
+#, kde-format
+msgid "Alpha Operation"
 msgstr "अल्फा ऑपरेशन"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:4
@@ -9077,33 +9632,54 @@ msgstr ""
 "एक्सओआर, बिटवाइज़ नोर, बिटवाइज़ नंद, बिटवाइज़ नॉट एक्सओआर, गंतव्य इन, गंतव्य आउट"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:40
+#: data/effects/frei0r/frei0r_softglow.xml:10
 #, fuzzy, kde-format
 #| msgid "Add Model"
 msgid "Blend Mode"
 msgstr "मॉडल जोड़ें"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:4
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:17
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:29
 #, fuzzy, kde-format
 #| msgid "Video clip"
 msgid "Video grid"
 msgstr "वीडियो क्लिप"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:6
 #, fuzzy, kde-format
 #| msgid "Create slideshow clip"
 msgid "Create a video Grid"
 msgstr "स्लाइड शो क्लिप बनाएं"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:8
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:9
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:21
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:34
 #, kde-format
 msgid "Rows"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:11
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:12
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:24
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:38
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgid "Columns"
 msgstr "आयतन"
+
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:18
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:30
+#, fuzzy, kde-format
+#| msgid "Create slideshow clip"
+msgid "Create a video grid"
+msgstr "स्लाइड शो क्लिप बनाएं"
+
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:33
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:37
+#, fuzzy, kde-format
+#| msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgid "None,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -9128,20 +9704,22 @@ msgstr "संदर्भ फ्रेम"
 
 #: data/effects/frei0r/frei0r_cluster.xml:4
 #, kde-format
-msgid "K-Means Clustering"
+msgid "K-Means Clustering (ABANDONED)"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_cluster.xml:5
+#: data/effects/frei0r/frei0r_cluster.xml:6
 #, kde-format
-msgid "Clusters of a source image by color and spatial distance"
+msgid ""
+"<![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>\n"
+"    Clusters of a source image by color and spatial distance]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_cluster.xml:8
+#: data/effects/frei0r/frei0r_cluster.xml:9
 #, kde-format
 msgid "Amount of clusters"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_cluster.xml:11
+#: data/effects/frei0r/frei0r_cluster.xml:12
 #, kde-format
 msgid "Weight on distance"
 msgstr ""
@@ -9244,13 +9822,6 @@ msgstr "रंग"
 msgid "Colorizes image to selected hue, saturation and lightness"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_colorize.xml:8
-#: data/effects/frei0r/frei0r_hueshift0r.xml:8
-#: data/transitions/frei0r/frei0r_hue.xml:4
-#, kde-format
-msgid "Hue"
-msgstr ""
-
 #: data/effects/frei0r/frei0r_colorize.xml:9
 #, kde-format
 msgid "Color shade of the colorized image."
@@ -9276,6 +9847,11 @@ msgstr "संक्षिप्त प्रभाव"
 #: data/effects/frei0r/frei0r_colortap.xml:5
 #, kde-format
 msgid "Applies a pre-made color effect to image"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_colortap.xml:8
+#, kde-format
+msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
@@ -9426,7 +10002,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:11
 #, kde-format
-msgid "DeFish"
+msgid "De-Fish"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:14
@@ -9447,39 +10023,51 @@ msgstr ""
 msgid "Scaling"
 msgstr "स्केलिंग"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:22
+#: data/effects/frei0r/frei0r_defish0r.xml:23
 #, kde-format
-msgid "Straighten all edges of video frame"
+msgid ""
+"<![CDATA[Straighten all Edges<br>\n"
+"        of Video Frame]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_defish0r.xml:25
+#: data/effects/frei0r/frei0r_defish0r.xml:27
 #, kde-format
-msgid "Fix camera scaling between 4:3 and 16:9"
+msgid ""
+"<![CDATA[Fix Camera Scaling<br>\n"
+"        Between 4:3 and 16:9]]>"
 msgstr ""
-
-#: data/effects/frei0r/frei0r_defish0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
-msgid "Scale Y to affect aspect ratio"
-msgstr "पहलू अनुपात रखना"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
+#, fuzzy, kde-format
+#| msgid "Keep aspect ratio"
+msgid ""
+"<![CDATA[Scale Y to Affect<br>\n"
+"        Aspect Ratio]]>"
+msgstr "पहलू अनुपात रखना"
+
+#: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
 msgid "Manual Scale"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:38
+#, fuzzy, kde-format
+#| msgid "Interpolation"
+msgid "Interpolator"
+msgstr "प्रक्षेप"
+
+#: data/effects/frei0r/frei0r_defish0r.xml:41
 #, kde-format
 msgid "Square,PAL DV,NTSC DV,HDV,Manual"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_defish0r.xml:39
+#: data/effects/frei0r/frei0r_defish0r.xml:42
 #, fuzzy, kde-format
 #| msgid "Aspect ratio:"
-msgid "Aspect type"
+msgid "Aspect Type"
 msgstr "आस्पेक्ट अनुपात:"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:42
+#: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
 msgid "Manual Aspect"
 msgstr ""
@@ -9510,6 +10098,43 @@ msgstr ""
 msgid "Delayed frame blitting mapped on a time bitmap"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
+#, kde-format
+msgid "HQ 3D Denoiser (frei0r)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[High quality 3D denoiser]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
+#: data/effects/frei0r/frei0r_hqdn3d.xml:9
+#, kde-format
+msgid "Spatial"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:9
+#: data/effects/frei0r/frei0r_hqdn3d.xml:10
+#, kde-format
+msgid "Amount of spatial filtering"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:12
+#: data/effects/frei0r/frei0r_hqdn3d.xml:13
+#, fuzzy, kde-format
+#| msgid "Temporary files:"
+msgid "Temporal"
+msgstr "अस्थायी फ़ाइलें:"
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:13
+#: data/effects/frei0r/frei0r_hqdn3d.xml:14
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary file"
+msgid "Amount of temporal filtering"
+msgstr "अस्थायी फ़ाइल नहीं बनाई जा सकती"
+
 #: data/effects/frei0r/frei0r_distort0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Distort"
@@ -9519,13 +10144,24 @@ msgstr "बिगाड़ना"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:5
 #, kde-format
-msgid "Plasma"
+msgid "Creates a plasma like distortion"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:8
+#: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:11
 #, kde-format
 msgid "Amplitude"
 msgstr "आयाम"
+
+#: data/effects/frei0r/frei0r_distort0r.xml:14
+#, kde-format
+msgid "Use Velocity"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_distort0r.xml:17
+#, fuzzy, kde-format
+#| msgid "opacity"
+msgid "Velocity"
+msgstr "अस्पष्टता"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, fuzzy, kde-format
@@ -9555,18 +10191,18 @@ msgstr "आउटपुट चैनलों की संख्या"
 
 #: data/effects/frei0r/frei0r_dither.xml:13
 #, kde-format
-msgid "Matrix Id."
+msgid "Matrix ID"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_dither.xml:14
 #, kde-format
-msgid "Id of matrix used for dithering."
+msgid "ID of matrix used for dithering."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
 #, fuzzy, kde-format
 #| msgid "Edge Crop"
-msgid "Edge glow"
+msgid "Edge Glow"
 msgstr "किनारा फसल"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
@@ -9581,14 +10217,82 @@ msgstr "EQ और फिल्टर"
 msgid "Edge lightening threshold"
 msgstr "परिवर्तन सीमा"
 
-#: data/effects/frei0r/frei0r_edgeglow.xml:11
+#: data/effects/frei0r/frei0r_edgeglow.xml:12
 #, kde-format
-msgid "Edge brightness upscaling multiplier"
+msgid ""
+"<![CDATA[Edge brightness<br>\n"
+"        upscaling multiplier]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_edgeglow.xml:14
+#: data/effects/frei0r/frei0r_edgeglow.xml:16
 #, kde-format
-msgid "Non-edge brightness downscaling multiplier"
+msgid ""
+"<![CDATA[Non-edge brightness<br>\n"
+"        downscaling multiplier]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:4
+#, fuzzy, kde-format
+#| msgid "Elastic In"
+msgid "Elastic Scale"
+msgstr "लोचदार में"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:5
+#, kde-format
+msgid "Scale non-linearly"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:8
+#: src/assets/view/widgets/keyframeimport.cpp:230
+#: src/assets/view/widgets/keyframeimport.cpp:240
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
+#: src/transitions/view/mixstackview.cpp:47
+#, kde-format
+msgid "Center"
+msgstr "केंद्र"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:10
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Horizontal center position<br>\n"
+"        of the linear area (% of total width]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:13
+#, fuzzy, kde-format
+#| msgid "Outline Width"
+msgid "Linear Width"
+msgstr "रूपरेखा चौड़ाई"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:14
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Width of the linear area]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:17
+#, fuzzy, kde-format
+#| msgid "Blur factor"
+msgid "Linear Scale Factor"
+msgstr "धुंधलापन कारक"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:18
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Amount how much the linear area is scaled]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:21
+#, fuzzy, kde-format
+#| msgid "Nonlinear scale"
+msgid "Non-Linear Scale Factor"
+msgstr "अरेखीय पैमाना"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:23
+#, kde-format
+msgid ""
+"<![CDATA[Amount how much the<br>\n"
+"        outer left and outer right areas are scaled non linearly]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
@@ -9608,31 +10312,39 @@ msgstr ""
 msgid "Light direction"
 msgstr "मिररिंग दिशा"
 
-#: data/effects/frei0r/frei0r_emboss.xml:10
+#: data/effects/frei0r/frei0r_emboss.xml:11
 #, kde-format
-msgid "Light direction angle."
+msgid ""
+"<![CDATA[The direction of the<br>\n"
+"            embossing (practically simulating a light source)]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_emboss.xml:13
+#: data/effects/frei0r/frei0r_emboss.xml:14
 #, fuzzy, kde-format
 #| msgid "Background image"
 msgid "Background lightness"
 msgstr "पृष्ठभूमि छवि"
 
-#: data/effects/frei0r/frei0r_emboss.xml:14
+#: data/effects/frei0r/frei0r_emboss.xml:16
 #, kde-format
-msgid "Background lightness (0 to 90)."
+msgid ""
+"<![CDATA[Defines the lightness/brightness of the areas that are not embossed."
+"<br>\n"
+"            Range is 0 to 90.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_emboss.xml:17
+#: data/effects/frei0r/frei0r_emboss.xml:19
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "Bump height"
 msgstr "नीचे दाएं"
 
-#: data/effects/frei0r/frei0r_emboss.xml:18
+#: data/effects/frei0r/frei0r_emboss.xml:21
 #, kde-format
-msgid "Bump height (0 to 40)."
+msgid ""
+"<![CDATA[Defines the thickness of the edges increasing/decreasing the "
+"perceived depth of the embossed areas.<br>\n"
+"            Range is 0 to 40.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
@@ -9787,7 +10499,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
-#: src/ui/gradientedit_ui.ui:120
+#: data/effects/gradientmap.xml:8 src/ui/gradientedit_ui.ui:120
 #, kde-format
 msgid "Color 1"
 msgstr "रंग 1"
@@ -9799,7 +10511,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
-#: src/ui/gradientedit_ui.ui:24
+#: data/effects/gradientmap.xml:12 src/ui/gradientedit_ui.ui:24
 #, kde-format
 msgid "Color 2"
 msgstr "रंग 2"
@@ -9856,7 +10568,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, fuzzy, kde-format
 #| msgid "Gain"
-msgid "Grain amount"
+msgid "Grain Amount"
 msgstr "पाना"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
@@ -9868,7 +10580,7 @@ msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अप�
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, fuzzy, kde-format
 #| msgid "Center balance"
-msgid "Red grain"
+msgid "Red Grain"
 msgstr "केंद्र संतुलन"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
@@ -9880,7 +10592,7 @@ msgstr "एक्स अक्ष के चारों ओर घूर्ण�
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, fuzzy, kde-format
 #| msgid "Green 2"
-msgid "Green grain"
+msgid "Green Grain"
 msgstr "हरा 2"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
@@ -9892,7 +10604,7 @@ msgstr "एक्स अक्ष के चारों ओर घूर्ण�
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, fuzzy, kde-format
 #| msgid "Balance"
-msgid "Blue grain"
+msgid "Blue Grain"
 msgstr "संतुलन"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
@@ -9904,7 +10616,7 @@ msgstr "एक्स अक्ष के चारों ओर घूर्ण�
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, fuzzy, kde-format
 #| msgid "Blur factor"
-msgid "Blur amount"
+msgid "Blur Amount"
 msgstr "धुंधलापन कारक"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
@@ -9914,9 +10626,10 @@ msgid "<![CDATA[The intensity of the blur]]>"
 msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, kde-format
-msgid "Dust amount"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Count"
+msgid "Dust Amount"
+msgstr "गिनती करना"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
@@ -9925,9 +10638,10 @@ msgid "<![CDATA[The amount of dust particles on the image]]>"
 msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
-#, kde-format
-msgid "Flicker"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Blur factor"
+msgid "Flicker Amount"
+msgstr "धुंधलापन कारक"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
@@ -9969,30 +10683,30 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
-msgid "Glitch0r"
+msgid "Glitching (rows and color)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
 #, kde-format
-msgid "Adds glitches and block shifting"
+msgid "Adds color glitches and block shifting"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
 #, fuzzy, kde-format
 #| msgid "High frequency"
-msgid "Glitch frequency"
+msgid "Glitch Frequency"
 msgstr "उच्च आवृत्ति"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
 #, fuzzy, kde-format
 #| msgid "Intensity"
-msgid "Shift intensity"
+msgid "Shift Intensity"
 msgstr "तीव्रता"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
 #, kde-format
-msgid "Color glitching intensity"
+msgid "Color Glitching Intensity"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_glow.xml:4
@@ -10008,37 +10722,16 @@ msgid "Creates a Glamorous Glow"
 msgstr "समूह बनाना"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Noise"
-msgid "Denoiser"
-msgstr "शोर"
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:5
 #, kde-format
-msgid "High quality 3D denoiser"
+msgid "Denoiser (SUPERCEDED)"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_hqdn3d.xml:8
+#: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
-msgid "Spatial"
+msgid ""
+"<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
+"    High quality 3D denoiser]]>"
 msgstr ""
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:9
-#, kde-format
-msgid "Amount of spatial filtering"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:12
-#, fuzzy, kde-format
-#| msgid "Temporary files:"
-msgid "Temporal"
-msgstr "अस्थायी फ़ाइलें:"
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:13
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
-msgid "Amount of temporal filtering"
-msgstr "अस्थायी फ़ाइल नहीं बनाई जा सकती"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, fuzzy, kde-format
@@ -10135,19 +10828,20 @@ msgstr "खंड,बार"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
 #, kde-format
 msgid ""
-"<![CDATA[Kaleidoscope segmentation / 128; <br>\n"
+"<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
-#, kde-format
-msgid "Specify source segment"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Source time"
+msgid "Specify Source Segment"
+msgstr "स्रोत समय"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
 msgid ""
-"<![CDATA[If checked, the source angle <br>\n"
+"<![CDATA[If checked, the source angle<br>\n"
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
@@ -10155,14 +10849,14 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, fuzzy, kde-format
 #| msgid "Source time"
-msgid "Source segment"
+msgid "Source Segment"
 msgstr "स्रोत समय"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
 msgid ""
 "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
-"Segment</em> is checked. <br>\n"
+"Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
 
@@ -10175,7 +10869,7 @@ msgstr "वामावर्त"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, fuzzy, kde-format
 #| msgid "Animation duration"
-msgid "Segmentation direction"
+msgid "Segmentation Direction"
 msgstr "एनिमेशन अवधि"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
@@ -10187,21 +10881,21 @@ msgstr "रंग ढाल की दिशा."
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, fuzzy, kde-format
 #| msgid "Selected Items:"
-msgid "Reflect edges"
+msgid "Reflect Edges"
 msgstr "चयनित आइटम:"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
 #, kde-format
 msgid ""
 "<![CDATA[If checked, reflections that end up outside the source reflect back "
-"into it. <br>\n"
+"into it.<br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, fuzzy, kde-format
 #| msgid "Change threshold"
-msgid "Edge threshold"
+msgid "Edge Threshold"
 msgstr "परिवर्तन सीमा"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:43
@@ -10218,7 +10912,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
-msgid "Preferred corner"
+msgid "Preferred Corner"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
@@ -10241,31 +10935,25 @@ msgid ""
 "        Otherwise search counter clockwise.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, fuzzy, kde-format
-#| msgid "Background Color"
-msgid "Background color"
-msgstr "पृष्ठभूमि का रंग"
-
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:58
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:59
 #, kde-format
 msgid ""
-"<![CDATA[Color to use if reflection lies <br>outside of the source image and "
-"not reflecting back in.]]>"
+"<![CDATA[Color to use if reflection<br>\n"
+"        lies outside of the source image and not reflecting back in.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
 #, fuzzy, kde-format
 #| msgid "Show background"
-msgid "Use alpha background"
+msgid "No Alpha Background"
 msgstr "पृष्ठभूमि दिखाएं"
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:63
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:64
 #, kde-format
 msgid ""
-"<![CDATA[If checked, alpha will be used <br>\n"
-"        if reflection lies outside of the source image and not reflecting "
-"back in.]]>"
+"<![CDATA[If checked, the selected<br>\n"
+"        color will be used, if reflection lies outside of the source image "
+"and not reflecting back in.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
@@ -10281,24 +10969,24 @@ msgstr ""
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:8
 #, fuzzy, kde-format
 #| msgid "Text color"
-msgid "Key color"
+msgid "Key Color"
 msgstr "पाठ का रंग"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
 #, fuzzy, kde-format
 #| msgid "Text color"
-msgid "Target color"
+msgid "Target Color"
 msgstr "पाठ का रंग"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
 #, kde-format
-msgid "Color distance, Transparency, Edge inwards, Edge outwards"
+msgid "Color distance,Transparency,Edge inwards,Edge outwards"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, fuzzy, kde-format
 #| msgid "Macro type"
-msgid "Mask type"
+msgid "Mask Type"
 msgstr "मैक्रो प्रकार"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
@@ -10313,20 +11001,21 @@ msgid "Slope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:24
-#, kde-format
-msgid "Hue gate"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Hue Gate"
+msgstr "क्षेत्र निर्धारित करें"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:27
 #, fuzzy, kde-format
 #| msgid "Change threshold"
-msgid "Saturation threshold"
+msgid "Saturation Threshold"
 msgstr "परिवर्तन सीमा"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
-msgid "None, De-Key, Target, Desaturate, Luma adjust"
+msgid "None,De-Key,Target,Desaturate,Luma adjust"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
@@ -10356,7 +11045,7 @@ msgstr "गिनती"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:44
 #, fuzzy, kde-format
 #| msgid "Show maximum"
-msgid "Show mask"
+msgid "Show Mask"
 msgstr "अधिकतम दिखाएँ"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:47
@@ -10368,7 +11057,7 @@ msgstr "मास्क क्लिप"
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
 #, fuzzy, kde-format
 #| msgid "Rotate (keyframable)"
-msgid "Lens Correction  (keyframable)"
+msgid "Lens Correction (frei0r)"
 msgstr "घुमाएँ (कीफ़्रेम करने योग्य)"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
@@ -10379,35 +11068,37 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lenscorrection.xml:8
 #, fuzzy, kde-format
 #| msgid "Horizontal scatter"
-msgid "Horizontal center"
+msgid "Horizontal Center"
 msgstr "क्षैतिज बिखराव"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
 #, fuzzy, kde-format
 #| msgid "Vertical scatter"
-msgid "Vertical center"
+msgid "Vertical Center"
 msgstr "ऊर्ध्वाधर बिखराव"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:14
 #, fuzzy, kde-format
 #| msgid "Center crop"
-msgid "Center correction"
+msgid "Center Correction"
 msgstr "केंद्र फसल"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:17
 #, fuzzy, kde-format
 #| msgid "Audio correction"
-msgid "Edges correction"
+msgid "Edges Correction"
 msgstr "ऑडियो सुधार"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:4
-#, kde-format
-msgid "LetterB0xed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Letter spacing:"
+msgid "Letter-boxing"
+msgstr "पत्र अंतराल:"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
 #, kde-format
-msgid "Adds black borders at top and bottom for cinema look"
+msgid ""
+"Adds black borders at the top and bottom for that widescreen cinema look"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
@@ -10416,7 +11107,15 @@ msgstr ""
 msgid "Border Width"
 msgstr "सीमा की चौड़ाई"
 
-#: data/effects/frei0r/frei0r_letterb0xed.xml:11
+#: data/effects/frei0r/frei0r_letterb0xed.xml:10
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Specify the width of the border<br>\n"
+"        as % of half the vertical resolution (100% means both the topa and "
+"bottom half of the frame are black, i.e. there is no room for the picture)]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_letterb0xed.xml:13
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8 data/effects/vignette.xml:23
 #, fuzzy, kde-format
@@ -10782,6 +11481,360 @@ msgstr "आयताकार खिड़की"
 msgid "Creates an square alpha-channel mask"
 msgstr "अल्फा चैनल के स्थान पर इमेज ल्यूमा का उपयोग करें।"
 
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:4
+#, fuzzy, kde-format
+#| msgid "Video Files"
+msgid "Video Values"
+msgstr "वीडियो फ़ाइलें"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:5
+#, fuzzy, kde-format
+#| msgid "Enter Unicode value"
+msgid "Measure video values"
+msgstr "यूनिकोड मान दर्ज करें"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:8
+#: data/effects/frei0r/frei0r_pr0be.xml:9
+#, kde-format
+msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:9
+#: data/effects/frei0r/frei0r_pr0be.xml:10
+#, fuzzy, kde-format
+#| msgid "Measurement Window"
+msgid "Measurement"
+msgstr "मापन विंडो"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:12
+#: data/effects/frei0r/frei0r_pr0be.xml:13
+#, fuzzy, kde-format
+#| msgid "X position"
+msgid "X Position"
+msgstr "एक्स स्थिति"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:15
+#: data/effects/frei0r/frei0r_pr0be.xml:16
+#, fuzzy, kde-format
+#| msgid "Y position"
+msgid "Y Position"
+msgstr "वाई स्थिति"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:18
+#: data/effects/frei0r/frei0r_pr0be.xml:19
+#, fuzzy, kde-format
+#| msgid "Size"
+msgid "X Size"
+msgstr "आकार"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:21
+#: data/effects/frei0r/frei0r_pr0be.xml:22
+#, fuzzy, kde-format
+#| msgid "Size"
+msgid "Y Size"
+msgstr "आकार"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:24
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:81
+#: data/effects/frei0r/frei0r_pr0be.xml:25
+#: data/effects/frei0r/frei0r_pr0file.xml:82
+#, fuzzy, kde-format
+#| msgid "Pixel scale"
+msgid "256-Scale"
+msgstr "पिक्सेल स्केल"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:27
+#: data/effects/frei0r/frei0r_pr0be.xml:28
+#, fuzzy, kde-format
+#| msgid "Show log"
+msgid "Show Alpha"
+msgstr "प्रवेश देखें"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:30
+#: data/effects/frei0r/frei0r_pr0be.xml:31
+#, fuzzy, kde-format
+#| msgid "Hamming window"
+msgid "Big Window"
+msgstr "हैमिंग विंडो"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:4
+#, fuzzy, kde-format
+#| msgid "Vectorscope"
+msgid "Oscilloscope (advanced)"
+msgstr "vectorscope"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:8
+#: data/effects/frei0r/frei0r_pr0file.xml:9
+#, fuzzy, kde-format
+#| msgid "X position"
+msgid "Profile X Position"
+msgstr "एक्स स्थिति"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:9
+#: data/effects/frei0r/frei0r_pr0file.xml:10
+#, kde-format
+msgid "<![CDATA[X coordinate of the profile]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:12
+#: data/effects/frei0r/frei0r_pr0file.xml:13
+#, fuzzy, kde-format
+#| msgid "Y position"
+msgid "Profile Y Position"
+msgstr "वाई स्थिति"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:13
+#: data/effects/frei0r/frei0r_pr0file.xml:14
+#, kde-format
+msgid "<![CDATA[Y coordinate of the profile]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:16
+#: data/effects/frei0r/frei0r_pr0file.xml:17
+#, fuzzy, kde-format
+#| msgid "Profile"
+msgid "Profile Tilt"
+msgstr "प्रोफ़ाइल"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:17
+#: data/effects/frei0r/frei0r_pr0file.xml:18
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Tilting of the profile]]>"
+msgstr "एक्स अक्ष के चारों ओर घूर्णन"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:20
+#: data/effects/frei0r/frei0r_pr0file.xml:21
+#, fuzzy, kde-format
+#| msgid "Profile name:"
+msgid "Profile Length"
+msgstr "प्रोफ़ाइल नाम:"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:21
+#: data/effects/frei0r/frei0r_pr0file.xml:22
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Length of the profile in pixel]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:24
+#: data/effects/frei0r/frei0r_pr0file.xml:25
+#, kde-format
+msgid "R,G,B,Y',Pr,Pb,Alpha"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:26
+#: data/effects/frei0r/frei0r_pr0file.xml:27
+#, kde-format
+msgid "<![CDATA[Channel to numerically display]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:29
+#: data/effects/frei0r/frei0r_pr0file.xml:30
+#, fuzzy, kde-format
+#| msgid "Marker"
+msgid "Marker 1"
+msgstr "निशान"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:30
+#: data/effects/frei0r/frei0r_pr0file.xml:31
+#, kde-format
+msgid "<![CDATA[Position of marker 1]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:33
+#: data/effects/frei0r/frei0r_pr0file.xml:34
+#, fuzzy, kde-format
+#| msgid "Marker"
+msgid "Marker 2"
+msgstr "निशान"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:34
+#: data/effects/frei0r/frei0r_pr0file.xml:35
+#, kde-format
+msgid "<![CDATA[Position of marker 2]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:37
+#: data/effects/frei0r/frei0r_pr0file.xml:38
+#, fuzzy, kde-format
+#| msgid " track"
+msgid "R Trace"
+msgstr " रास्ता"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:38
+#: data/effects/frei0r/frei0r_pr0file.xml:39
+#, kde-format
+msgid "<![CDATA[Show R trace (red) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:41
+#: data/effects/frei0r/frei0r_pr0file.xml:42
+#, fuzzy, kde-format
+#| msgid " track"
+msgid "G Trace"
+msgstr " रास्ता"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:42
+#: data/effects/frei0r/frei0r_pr0file.xml:43
+#, kde-format
+msgid "<![CDATA[Show G trace (green) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:45
+#: data/effects/frei0r/frei0r_pr0file.xml:46
+#, fuzzy, kde-format
+#| msgid " track"
+msgid "B Trace"
+msgstr " रास्ता"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:46
+#: data/effects/frei0r/frei0r_pr0file.xml:47
+#, kde-format
+msgid "<![CDATA[Show B trace (blue) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:49
+#: data/effects/frei0r/frei0r_pr0file.xml:50
+#, fuzzy, kde-format
+#| msgid " track"
+msgid "Y Trace"
+msgstr " रास्ता"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:50
+#: data/effects/frei0r/frei0r_pr0file.xml:51
+#, kde-format
+msgid "<![CDATA[Show Y trace (luma) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:53
+#: data/effects/frei0r/frei0r_pr0file.xml:54
+#, fuzzy, kde-format
+#| msgid " track"
+msgid "Pr Trace"
+msgstr " रास्ता"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:54
+#: data/effects/frei0r/frei0r_pr0file.xml:55
+#, kde-format
+msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:57
+#: data/effects/frei0r/frei0r_pr0file.xml:58
+#, fuzzy, kde-format
+#| msgid " track"
+msgid "Pb Trace"
+msgstr " रास्ता"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:58
+#: data/effects/frei0r/frei0r_pr0file.xml:59
+#, kde-format
+msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:61
+#: data/effects/frei0r/frei0r_pr0file.xml:62
+#, fuzzy, kde-format
+#| msgid "Alpha strobing"
+msgid "Alpha Trace"
+msgstr "अल्फा स्ट्रोबिंग"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:62
+#: data/effects/frei0r/frei0r_pr0file.xml:63
+#, kde-format
+msgid "<![CDATA[Show Alpha trace on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:65
+#: data/effects/frei0r/frei0r_pr0file.xml:66
+#, fuzzy, kde-format
+#| msgid "Display aspect ratio:"
+msgid "Display average"
+msgstr "प्रदर्शन पहलू अनुपात:"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:66
+#: data/effects/frei0r/frei0r_pr0file.xml:67
+#, kde-format
+msgid "<![CDATA[Show average on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:69
+#: data/effects/frei0r/frei0r_pr0file.xml:70
+#, kde-format
+msgid "Display RMS"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:70
+#: data/effects/frei0r/frei0r_pr0file.xml:71
+#, kde-format
+msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:73
+#: data/effects/frei0r/frei0r_pr0file.xml:74
+#, fuzzy, kde-format
+#| msgid "Display aspect ratio:"
+msgid "Display Minimum"
+msgstr "प्रदर्शन पहलू अनुपात:"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:74
+#: data/effects/frei0r/frei0r_pr0file.xml:75
+#, kde-format
+msgid "<![CDATA[Show minimum on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:77
+#: data/effects/frei0r/frei0r_pr0file.xml:78
+#, fuzzy, kde-format
+#| msgid "Display aspect ratio:"
+msgid "Display Maximum"
+msgstr "प्रदर्शन पहलू अनुपात:"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:78
+#: data/effects/frei0r/frei0r_pr0file.xml:79
+#, kde-format
+msgid "<![CDATA[Show maximum on scope]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:82
+#: data/effects/frei0r/frei0r_pr0file.xml:83
+#, kde-format
+msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:85
+#: data/effects/frei0r/frei0r_pr0file.xml:86
+#, kde-format
+msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:86
+#: data/effects/frei0r/frei0r_pr0file.xml:87
+#, fuzzy, kde-format
+#| msgid "PCM encoding"
+msgid "Color Encoding"
+msgstr "पीसीएम एनकोडिंग"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:87
+#: data/effects/frei0r/frei0r_pr0file.xml:88
+#, kde-format
+msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:90
+#: data/effects/frei0r/frei0r_pr0file.xml:91
+#, fuzzy, kde-format
+#| msgid "Shape color"
+msgid "Crosshair Color"
+msgstr "आकार का रंग"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:91
+#: data/effects/frei0r/frei0r_pr0file.xml:92
+#, kde-format
+msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, fuzzy, kde-format
 #| msgid "MediaInfo:"
@@ -10864,34 +11917,23 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixel scale"
-msgid "Pixelize"
+msgid "Pixelize (basic)"
 msgstr "पिक्सेल स्केल"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, fuzzy, kde-format
-#| msgid "Size X"
-msgid "Block Size X"
-msgstr "आकार एक्स"
-
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Size Y"
-msgid "Block Size Y"
-msgstr "आकार वाई"
+#| msgid "Replace video"
+msgid "Pixelize input image"
+msgstr "वीडियो बदलें"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
-msgid "Pixs0r"
+msgid "Glitching (rows only)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
-msgid "Glitch image shifting rows to and fro."
+msgid "Glitch image by shifting rows to and fro."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -10907,7 +11949,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
 #, fuzzy, kde-format
 #| msgid "Minimum scene length:"
-msgid "Minimum block height"
+msgid "Minimum Block Height"
 msgstr "न्यूनतम दृश्य लंबाई:"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
@@ -10920,7 +11962,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, fuzzy, kde-format
 #| msgid "Fit to height"
-msgid "Maximum block height"
+msgid "Maximum Block Height"
 msgstr "ऊंचाई के अनुसार फिट"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
@@ -10947,259 +11989,27 @@ msgid "Number of (color) values per channel"
 msgstr "आउटपुट चैनलों की संख्या"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Files"
-msgid "Video values"
-msgstr "वीडियो फ़ाइलें"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:5
-#, fuzzy, kde-format
-#| msgid "Enter Unicode value"
-msgid "Measure video values"
-msgstr "यूनिकोड मान दर्ज करें"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:8
 #, kde-format
-msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+msgid "Video Values (SUPERCEDED)"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_pr0be.xml:9
-#, fuzzy, kde-format
-#| msgid "Measurement Window"
-msgid "Measurement"
-msgstr "मापन विंडो"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:24
-#: data/effects/frei0r/frei0r_pr0file.xml:81
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
-msgid "256 scale"
-msgstr "पिक्सेल स्केल"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:27
-#, fuzzy, kde-format
-#| msgid "Show log"
-msgid "Show alpha"
-msgstr "प्रवेश देखें"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:30
-#, fuzzy, kde-format
-#| msgid "Hamming window"
-msgid "Big window"
-msgstr "हैमिंग विंडो"
+#: data/effects/frei0r/frei0r_pr0be.xml:6
+#, kde-format
+msgid ""
+"<![CDATA[Measure video values.<br>\n"
+"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, kde-format
-msgid "Oscilloscope (Advanced)"
+msgid "Oscilloscope (advanced) (SUPERCEDED)"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_pr0file.xml:9
+#: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
-msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:13
-#, kde-format
-msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[Tilting of the profile]]>"
-msgstr "एक्स अक्ष के चारों ओर घूर्णन"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:20
-#, kde-format
-msgid "Length"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:24
-#, kde-format
-msgid "R,G,B,Y',Pr,Pb,Alpha"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:26
-#, kde-format
-msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker"
-msgid "Marker 1"
-msgstr "निशान"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:30
-#, kde-format
-msgid "<![CDATA[Position of marker 1]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:33
-#, fuzzy, kde-format
-#| msgid "Marker"
-msgid "Marker 2"
-msgstr "निशान"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:34
-#, kde-format
-msgid "<![CDATA[Position of marker 2]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:37
-#, fuzzy, kde-format
-#| msgid " track"
-msgid "R trace"
-msgstr " रास्ता"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:38
-#, kde-format
-msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:41
-#, fuzzy, kde-format
-#| msgid " track"
-msgid "G trace"
-msgstr " रास्ता"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:42
-#, kde-format
-msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:45
-#, fuzzy, kde-format
-#| msgid " track"
-msgid "B trace"
-msgstr " रास्ता"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:46
-#, kde-format
-msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:49
-#, fuzzy, kde-format
-#| msgid " track"
-msgid "Y trace"
-msgstr " रास्ता"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:50
-#, kde-format
-msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:53
-#, fuzzy, kde-format
-#| msgid " track"
-msgid "Pr trace"
-msgstr " रास्ता"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:54
-#, kde-format
-msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:57
-#, fuzzy, kde-format
-#| msgid " track"
-msgid "Pb trace"
-msgstr " रास्ता"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:58
-#, kde-format
-msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:61
-#, fuzzy, kde-format
-#| msgid "Alpha strobing"
-msgid "Alpha trace"
-msgstr "अल्फा स्ट्रोबिंग"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:62
-#, kde-format
-msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:65
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
-msgid "Display average"
-msgstr "प्रदर्शन पहलू अनुपात:"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:66
-#, kde-format
-msgid "<![CDATA[Show average on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:69
-#, kde-format
-msgid "Display RMS"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:70
-#, kde-format
-msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:73
-#, kde-format
-msgid "Display minimum"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:74
-#, kde-format
-msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:77
-#, kde-format
-msgid "Display maximum"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:78
-#, kde-format
-msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:82
-#, kde-format
-msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:85
-#, kde-format
-msgid "CCIR rec. 601,CCIR rec. 709"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:86
-#, fuzzy, kde-format
-#| msgid "PCM encoding"
-msgid "Color encoding"
-msgstr "पीसीएम एनकोडिंग"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:87
-#, kde-format
-msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_pr0file.xml:90
-#, fuzzy, kde-format
-#| msgid "Shape color"
-msgid "Crosshair color"
-msgstr "आकार का रंग"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:91
-#, kde-format
-msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgid ""
+"<![CDATA[2D video oscilloscope.<br>\n"
+"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
@@ -11220,9 +12030,10 @@ msgid "Factor"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
-#, kde-format
-msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Influence of mean pixel value]]>"
+msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, fuzzy, kde-format
@@ -11274,7 +12085,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
-msgid "rgbsplit0r"
+msgid "RGB Splitter"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
@@ -11284,16 +12095,26 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
 #, fuzzy, kde-format
-#| msgid "Vertical scatter"
-msgid "Vertical split distance"
-msgstr "ऊर्ध्वाधर बिखराव"
-
-#: data/effects/frei0r/frei0r_rgbsplit0r.xml:11
-#, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Horizontal Blinds"
-msgid "Horizontal split distance"
+msgid "Horizontal Split Distance"
 msgstr "क्षैतिज अंधा"
+
+#: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
+#, kde-format
+msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
+#, fuzzy, kde-format
+#| msgid "Vertical scatter"
+msgid "Vertical Split Distance."
+msgstr "ऊर्ध्वाधर बिखराव"
+
+#: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
+#, kde-format
+msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, fuzzy, kde-format
@@ -11309,32 +12130,36 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
 #, kde-format
-msgid "Crop, Scale and Tilt"
+msgid "Crop, Scale, and Tilt"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
 #, kde-format
-msgid "Scales, Tilts and Crops an Image"
+msgid "Scales, tilts, and crops an image"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:8 data/effects/gpsgraphic.xml:61
-#, kde-format
-msgid "Crop left"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:8
+#, fuzzy, kde-format
+#| msgid "Crop left"
+msgid "Crop Left"
 msgstr "बाईं ओर काटें"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:11 data/effects/gpsgraphic.xml:66
-#, kde-format
-msgid "Crop right"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:11
+#, fuzzy, kde-format
+#| msgid "Crop right"
+msgid "Crop Right"
 msgstr "दाएँ क्रॉप करें"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:14 data/effects/gpsgraphic.xml:86
-#, kde-format
-msgid "Crop top"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:14
+#, fuzzy, kde-format
+#| msgid "Crop top"
+msgid "Crop Top"
 msgstr "शीर्ष फसल"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:17 data/effects/gpsgraphic.xml:81
-#, kde-format
-msgid "Crop bottom"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:17
+#, fuzzy, kde-format
+#| msgid "Crop bottom"
+msgid "Crop Bottom"
 msgstr "फसल तल"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
@@ -11495,7 +12320,7 @@ msgid "Brightness of image."
 msgstr "चमक कम"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
-#: data/effects/frei0r/frei0r_softglow.xml:17
+#: data/effects/frei0r/frei0r_softglow.xml:22
 #, fuzzy, kde-format
 #| msgid "Shakiness"
 msgid "Sharpness"
@@ -11530,36 +12355,33 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:9
 #, kde-format
-msgid "Blur of the glow"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_softglow.xml:10
-#: data/effects/frei0r/frei0r_softglow.xml:14
-#, kde-format
-msgid "Brightness of highlight areas."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_softglow.xml:18
-#, kde-format
-msgid "Sharpness of highlight areas."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_softglow.xml:21
-#, kde-format
 msgid "Screen,Overlay,Add"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_softglow.xml:22
-#: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
-#: data/transitions/frei0r/frei0r_cairoblend.xml:12
+#: data/effects/frei0r/frei0r_softglow.xml:11
+#, kde-format
+msgid "Blend mode used to blend highlight blur with input image"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_softglow.xml:14
+#, kde-format
+msgid "Blur of the Glow"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_softglow.xml:15
+#, kde-format
+msgid "Blur of the glow"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_softglow.xml:19
 #, fuzzy, kde-format
-#| msgid "Edge mode"
-msgid "Blend mode"
-msgstr "एज मोड"
+#| msgid "Brightness down"
+msgid "Brightness of highlight areas"
+msgstr "चमक कम"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
 #, kde-format
-msgid "Blend mode used to blend highlight blur with input image."
+msgid "Sharpness of highlight areas"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
@@ -11798,13 +12620,13 @@ msgstr "सीमा मूल्य"
 
 #: data/effects/frei0r/frei0r_timeout.xml:5
 #, kde-format
-msgid "Timeout indicator"
+msgid "Timeout Indicator"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
 #, fuzzy, kde-format
 #| msgid "Invert colors"
-msgid "Indicator color"
+msgid "Indicator Color"
 msgstr "रंग उलटें"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
@@ -11934,6 +12756,27 @@ msgstr "वर्तमान कैश साफ़ करें"
 #, kde-format
 msgid "Softness"
 msgstr "मृदुता"
+
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha shapes (Mask)"
+msgid "Alpha Shapes (Mask)"
+msgstr "अल्फा आकार (मास्क)"
+
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:5
+#: data/effects/mask_start_frei0r_alphaspot.xml:5
+#, kde-format
+msgid ""
+"This filter makes a snapshot of the frame before it draws simple shapes into "
+"the alpha channel. Use it together with the mask_apply effect, that uses a "
+"transition to composite the current frame's image over the snapshot. The "
+"typical use case is to add effects in the following sequence: this effect, "
+"zero or more effects, mask_apply."
+msgstr ""
+"यह फ़िल्टर अल्फ़ा चैनल में सरल आकृतियाँ बनाने से पहले फ़्रेम का स्नैपशॉट बनाता है। इसे "
+"mask_apply प्रभाव के साथ उपयोग करें, जो स्नैपशॉट पर वर्तमान फ़्रेम की छवि को संयोजित "
+"करने के लिए संक्रमण का उपयोग करता है। सामान्य उपयोग का मामला निम्नलिखित क्रम में प्रभाव "
+"जोड़ना है: यह प्रभाव, शून्य या अधिक प्रभाव, mask_apply."
 
 #: data/effects/gain.xml:4
 #, kde-format
@@ -12148,6 +12991,11 @@ msgstr ""
 "<br> नोट: क्षैतिज प्रकार के लिए, निरपेक्ष मान शेष डेटा स्रोत प्रकारों के लिए देशांतर (स्थान "
 "स्रोत प्रकार के लिए) और समय (युग से मिलीसेकंड में) हैं)]]&gt;"
 
+#: data/effects/gpsgraphic.xml:61
+#, kde-format
+msgid "Crop left"
+msgstr "बाईं ओर काटें"
+
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
 msgid ""
@@ -12168,6 +13016,11 @@ msgstr ""
 "अतिरिक्त आधा जोड़ देगा)। 100 से अधिक मान (% मोड में) प्रभावी रूप से कुछ भी प्रदर्शित नहीं "
 "करेंगे। यदि <em>ग्राफ़ प्रकार को</em> <b>स्पीडोमीटर</b> पर सेट किया जाता है, तो सभी "
 "क्रॉप बाएं/दाएं मानों को अनदेखा कर दिया जाता है।]]&gt;"
+
+#: data/effects/gpsgraphic.xml:66
+#, kde-format
+msgid "Crop right"
+msgstr "दाएँ क्रॉप करें"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -12209,6 +13062,11 @@ msgstr ""
 "हो (यानी: ऊंचाई के लिए 10 का मान डिफ़ॉल्ट रूप से मीटर माना जाएगा लेकिन यदि <em>लीजेंड "
 "इकाई को</em> फीट में बदल दिया जाए तो इसका मतलब 10 फीट होगा)।]]&gt;"
 
+#: data/effects/gpsgraphic.xml:81
+#, kde-format
+msgid "Crop bottom"
+msgstr "फसल तल"
+
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
 msgid ""
@@ -12229,6 +13087,11 @@ msgstr ""
 "अतिरिक्त आधा जोड़ देगा)। 100 से अधिक मान (% मोड में) प्रभावी रूप से कुछ भी प्रदर्शित नहीं "
 "करेंगे। यदि <em>ग्राफ़ प्रकार</em> <b>स्पीडोमीटर</b> है, तो यह न्यूनतम सुई स्थिति "
 "निर्धारित करेगा जो सभी कम मानों को क्लैंप करेगा।]]&gt;"
+
+#: data/effects/gpsgraphic.xml:86
+#, kde-format
+msgid "Crop top"
+msgstr "शीर्ष फसल"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -12582,6 +13445,26 @@ msgstr "GPS प्रसंस्करण प्रारंभ समय"
 msgid "Updates per second"
 msgstr "प्रति सेकंड अपडेट"
 
+#: data/effects/gradientmap.xml:4
+#, fuzzy, kde-format
+#| msgid "Gradient"
+msgid "Gradient Map"
+msgstr "ढाल"
+
+#: data/effects/gradientmap.xml:5
+#, fuzzy, kde-format
+#| msgid "Overlay GPS-related text onto the video."
+msgid "Apply a gradient map to the video"
+msgstr "वीडियो पर GPS से संबंधित पाठ ओवरले करें।"
+
+#: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
+#: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
+#: data/effects/greyedge.xml:17
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
 #: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
@@ -12592,6 +13475,31 @@ msgstr "अनाज"
 #, kde-format
 msgid "Grain over the image"
 msgstr "छवि पर अनाज"
+
+#: data/effects/greyedge.xml:4
+#, fuzzy, kde-format
+#| msgid "Edge Crop"
+msgctxt "Greyscale Effect Name"
+msgid "Grey Edge"
+msgstr "किनारा फसल"
+
+#: data/effects/greyedge.xml:5
+#, kde-format
+msgid ""
+"A color constancy filter that applies color correction based on the "
+"grayworld assumption"
+msgstr ""
+
+#: data/effects/greyedge.xml:8
+#, fuzzy, kde-format
+#| msgid "Destination Folder"
+msgid "Differentiation Order"
+msgstr "गंतव्य फ़ोल्डर"
+
+#: data/effects/greyedge.xml:12
+#, kde-format
+msgid "Minkowski Norm"
+msgstr ""
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -12766,12 +13674,6 @@ msgstr ""
 #, kde-format
 msgid "The amount to blend the edges of the hue range"
 msgstr ""
-
-#: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
-msgid "Hue Shift"
-msgstr "एचएसवी ह्यू शिफ्ट"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
@@ -13294,20 +14196,6 @@ msgstr "मास्क प्रारंभ प्रभाव द्वार
 msgid "Alpha shapes (Mask)"
 msgstr "अल्फा आकार (मास्क)"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:5
-#, kde-format
-msgid ""
-"This filter makes a snapshot of the frame before it draws simple shapes into "
-"the alpha channel. Use it together with the mask_apply effect, that uses a "
-"transition to composite the current frame's image over the snapshot. The "
-"typical use case is to add effects in the following sequence: this effect, "
-"zero or more effects, mask_apply."
-msgstr ""
-"यह फ़िल्टर अल्फ़ा चैनल में सरल आकृतियाँ बनाने से पहले फ़्रेम का स्नैपशॉट बनाता है। इसे "
-"mask_apply प्रभाव के साथ उपयोग करें, जो स्नैपशॉट पर वर्तमान फ़्रेम की छवि को संयोजित "
-"करने के लिए संक्रमण का उपयोग करता है। सामान्य उपयोग का मामला निम्नलिखित क्रम में प्रभाव "
-"जोड़ना है: यह प्रभाव, शून्य या अधिक प्रभाव, mask_apply."
-
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
@@ -13352,11 +14240,6 @@ msgstr ""
 #, kde-format
 msgid "Alpha,Luma,RGB"
 msgstr "अल्फा, ल्यूमा, आरजीबी"
-
-#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
-#, kde-format
-msgid "Alpha Operation"
-msgstr "अल्फा ऑपरेशन"
 
 #: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
@@ -13546,53 +14429,108 @@ msgstr "क्षेत्र"
 
 #: data/effects/oldfilm.xml:4
 #, kde-format
-msgid "Oldfilm"
-msgstr "पुरानीफिल्म"
+msgid "Old Film Simulator"
+msgstr ""
 
 #: data/effects/oldfilm.xml:5
-#, kde-format
-msgid "Moves the Picture up and down and random brightness change"
+#, fuzzy, kde-format
+#| msgid "Moves the Picture up and down and random brightness change"
+msgid "Moves the picture up and down and adds random brightness changes"
 msgstr "चित्र को ऊपर-नीचे ले जाता है और चमक में यादृच्छिक परिवर्तन करता है"
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
-msgid "Y-Delta"
-msgstr "वाई के डेल्टा"
+msgid "Maximum Up/Down Move"
+msgstr ""
 
-#: data/effects/oldfilm.xml:11
-#, no-c-format, kde-format
-msgid "% of picture have a delta"
-msgstr "चित्र का % डेल्टा है"
+#: data/effects/oldfilm.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
 
-#: data/effects/oldfilm.xml:14
-#, kde-format
-msgid "Brightness up"
+#: data/effects/oldfilm.xml:12
+#, fuzzy, kde-format
+#| msgid "Frames step"
+msgid "Frames With Movement"
+msgstr "फ़्रेम चरण"
+
+#: data/effects/oldfilm.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/oldfilm.xml:16
+#, fuzzy, kde-format
+#| msgid "Brightness up"
+msgid "Brightness Up"
 msgstr "चमक बढाओ"
 
 #: data/effects/oldfilm.xml:17
-#, kde-format
-msgid "Brightness down"
-msgstr "चमक कम"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Determines the value in brightness change up]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
 
 #: data/effects/oldfilm.xml:20
-#, kde-format
-msgid "Brightness every"
+#, fuzzy, kde-format
+#| msgid "Brightness down"
+msgid "Brightness Down"
+msgstr "चमक कम"
+
+#: data/effects/oldfilm.xml:21
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Determines the value in brightness change down]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/oldfilm.xml:24
+#, fuzzy, kde-format
+#| msgid "Brightness every"
+msgid "Brightness Every"
 msgstr "चमक हर"
 
-#: data/effects/oldfilm.xml:23
-#, kde-format
-msgid "Unevendevelop up"
-msgstr "असमान विकास"
+#: data/effects/oldfilm.xml:25
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
+msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
-#: data/effects/oldfilm.xml:26
-#, kde-format
-msgid "Unevendevelop down"
+#: data/effects/oldfilm.xml:28
+#, fuzzy, kde-format
+#| msgid "Unevendevelop up"
+msgid "Uneven Develop Up"
 msgstr "असमान विकास"
 
 #: data/effects/oldfilm.xml:29
-#, kde-format
-msgid "Unevendevelop Duration"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Determines the value in lightness change up]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/oldfilm.xml:32
+#, fuzzy, kde-format
+#| msgid "Unevendevelop down"
+msgid "Uneven Develop Down"
+msgstr "असमान विकास"
+
+#: data/effects/oldfilm.xml:33
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Determines the value in lightness change down]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/oldfilm.xml:36
+#, fuzzy, kde-format
+#| msgid "Unevendevelop Duration"
+msgid "Uneven Develop Duration"
 msgstr "असमान विकास अवधि"
+
+#: data/effects/oldfilm.xml:37
+#, kde-format
+msgid "<![CDATA[Time (in frames) of an uneven development up/down cycle]]>"
+msgstr ""
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -13617,16 +14555,16 @@ msgstr "बिगाड़ना"
 msgid "Normalise"
 msgstr "सामान्य"
 
-#: data/effects/pan_zoom.xml:20 data/effects/rotate-3-way.xml:10
-#: data/effects/rotation.xml:44 data/effects/rotation_keyframable.xml:27
-#: data/effects/shear.xml:10 data/transitions/affine.xml:24
+#: data/effects/pan_zoom.xml:20 data/effects/rotation.xml:44
+#: data/effects/rotation_keyframable.xml:27 data/effects/shear.xml:10
+#: data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
 msgstr "दोहराना अक्षम करें"
 
-#: data/effects/pan_zoom.xml:23 data/effects/rotate-3-way.xml:15
-#: data/effects/rotation.xml:47 data/effects/rotation_keyframable.xml:30
-#: data/effects/shear.xml:15 data/transitions/affine.xml:27
+#: data/effects/pan_zoom.xml:23 data/effects/rotation.xml:47
+#: data/effects/rotation_keyframable.xml:30 data/effects/shear.xml:15
+#: data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
 msgstr "दर्पण अक्षम करें"
@@ -13682,8 +14620,9 @@ msgid "Rotate from center"
 msgstr "केंद्र से घुमाएँ"
 
 #: data/effects/qtcrop.xml:4
-#, kde-format
-msgid "Crop by padding"
+#, fuzzy, kde-format
+#| msgid "Crop by padding"
+msgid "Crop by Padding"
 msgstr "पैडिंग द्वारा क्रॉप करें"
 
 #: data/effects/qtcrop.xml:5
@@ -13797,12 +14736,24 @@ msgstr "घुमाएँ"
 msgid "Rotate clip in any 3 directions"
 msgstr "क्लिप को किसी भी 3 दिशाओं में घुमाएँ"
 
+#: data/effects/rotate-3-way.xml:10
+#, fuzzy, kde-format
+#| msgid "Disable repeat"
+msgid "Disable Repeat"
+msgstr "दोहराना अक्षम करें"
+
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
 #, kde-format
 msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+
+#: data/effects/rotate-3-way.xml:15
+#, fuzzy, kde-format
+#| msgid "Disable mirror"
+msgid "Disable Mirror"
+msgstr "दर्पण अक्षम करें"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -13813,10 +14764,10 @@ msgid ""
 "each repetition.]]>"
 msgstr ""
 
-#: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
+#: data/effects/rotate-3-way.xml:20
 #, fuzzy, kde-format
 #| msgid "Insert space"
-msgid "Invert scale"
+msgid "Invert Scale"
 msgstr "स्थान डालें"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
@@ -13828,60 +14779,60 @@ msgid ""
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
 
-#: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
+#: data/effects/rotate-3-way.xml:28 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
 #, kde-format
 msgid "Rotate X"
 msgstr "घुमाएँ X"
 
-#: data/effects/rotate-3-way.xml:26
+#: data/effects/rotate-3-way.xml:29
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgstr "एक्स अक्ष के चारों ओर घूर्णन"
 
-#: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
+#: data/effects/rotate-3-way.xml:32 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
 #, kde-format
 msgid "Rotate Y"
 msgstr "Y घुमाएं"
 
-#: data/effects/rotate-3-way.xml:30
+#: data/effects/rotate-3-way.xml:33
 #, fuzzy, kde-format
 #| msgid "Rotation around the Y axis"
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
 msgstr "Y अक्ष के चारों ओर घूर्णन"
 
-#: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
+#: data/effects/rotate-3-way.xml:36 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
 #, kde-format
 msgid "Rotate Z"
 msgstr "घुमाएँ Z"
 
-#: data/effects/rotate-3-way.xml:34
+#: data/effects/rotate-3-way.xml:37
 #, fuzzy, kde-format
 #| msgid "Rotation around the Z axis"
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
 msgstr "Z अक्ष के चारों ओर घूर्णन"
 
-#: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
+#: data/effects/rotate-3-way.xml:40 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
 #, kde-format
 msgid "Offset X"
 msgstr "ऑफसेट X"
 
-#: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
+#: data/effects/rotate-3-way.xml:41 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
 msgstr ""
 
-#: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
+#: data/effects/rotate-3-way.xml:44 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
 #, kde-format
 msgid "Offset Y"
 msgstr "ऑफसेट Y"
 
-#: data/effects/rotate-3-way.xml:42
+#: data/effects/rotate-3-way.xml:45
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
 msgstr ""
@@ -13959,34 +14910,62 @@ msgid "Keyframable vector based rotoscoping"
 msgstr "कीफ्रेमेबल वेक्टर आधारित रोटोस्कोपिंग"
 
 #: data/effects/scratchlines.xml:4
-#, kde-format
-msgid "Scratchlines"
+#, fuzzy, kde-format
+#| msgid "Scratchlines"
+msgid "Scratch Lines"
 msgstr "स्क्रैचलाइन्स"
 
 #: data/effects/scratchlines.xml:5
-#, kde-format
-msgid "Scratchlines over the picture"
+#, fuzzy, kde-format
+#| msgid "Scratchlines over the picture"
+msgid "Scratch lines over the picture"
 msgstr "चित्र पर खरोंच की रेखाएं"
 
 #: data/effects/scratchlines.xml:8
-#, kde-format
-msgid "Width of line"
+#, fuzzy, kde-format
+#| msgid "Width of line"
+msgid "Width of Line"
 msgstr "रेखा की चौड़ाई"
 
-#: data/effects/scratchlines.xml:11
-#, kde-format
-msgid "Max number of lines"
+#: data/effects/scratchlines.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Width on the line in the clip]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/scratchlines.xml:12
+#, fuzzy, kde-format
+#| msgid "Max number of lines"
+msgid "Max Number of Lines"
 msgstr "पंक्तियों की अधिकतम संख्या"
 
-#: data/effects/scratchlines.xml:14
-#, kde-format
-msgid "Max darker"
+#: data/effects/scratchlines.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Maximum number of lines in the clip]]>"
+msgstr "<![CDATA[पृष्ठभूमि छवि के लिए अपारदर्शिता सेट करता है]]>"
+
+#: data/effects/scratchlines.xml:16
+#, fuzzy, kde-format
+#| msgid "Max darker"
+msgid "Max Darker"
 msgstr "अधिकतम गहरा"
 
 #: data/effects/scratchlines.xml:17
 #, kde-format
-msgid "Max lighter"
+msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
+msgstr ""
+
+#: data/effects/scratchlines.xml:20
+#, fuzzy, kde-format
+#| msgid "Max lighter"
+msgid "Max Lighter"
 msgstr "अधिकतम हल्का"
+
+#: data/effects/scratchlines.xml:21
+#, kde-format
+msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
+msgstr ""
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -14031,6 +15010,12 @@ msgstr "शियर एक्स"
 #| msgid "Select a clip to apply the mix"
 msgid "Shear a clip along the 3 axes"
 msgstr "मिश्रण लागू करने के लिए एक क्लिप का चयन करें"
+
+#: data/effects/shear.xml:20
+#, fuzzy, kde-format
+#| msgid "Insert space"
+msgid "Invert scale"
+msgstr "स्थान डालें"
 
 #: data/effects/shear.xml:26
 #, kde-format
@@ -14296,8 +15281,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "हटाए जाने वाले क्षेत्र का आयत परिभाषित करता है।"
 
 #: data/effects/strobe.xml:4
-#, kde-format
-msgid "Alpha strobing"
+#, fuzzy, kde-format
+#| msgid "Alpha strobing"
+msgid "Alpha Strobing"
 msgstr "अल्फा स्ट्रोबिंग"
 
 #: data/effects/strobe.xml:5
@@ -14734,22 +15720,22 @@ msgstr "लहर"
 msgid "Make waves on your clip with keyframes"
 msgstr "कीफ़्रेम के साथ अपनी क्लिप पर तरंगें बनाएँ"
 
-#: data/effects/wave.xml:11
+#: data/effects/wave.xml:14
 #, kde-format
 msgid "End Amplitude"
 msgstr "अंत आयाम"
 
-#: data/effects/wave.xml:14
+#: data/effects/wave.xml:19
 #, kde-format
 msgid "Wave Amplitude"
 msgstr "तरंग आयाम"
 
-#: data/effects/wave.xml:20
+#: data/effects/wave.xml:25
 #, kde-format
 msgid "Horizontal"
 msgstr "क्षैतिज"
 
-#: data/effects/wave.xml:23
+#: data/effects/wave.xml:28
 #, kde-format
 msgid "Vertical"
 msgstr "खड़ा"
@@ -14836,8 +15822,9 @@ msgid "White noise producer"
 msgstr "श्वेत शोर उत्पादक"
 
 #: data/kdenliveeffectscategory.rc:6
-#, kde-format
-msgid "Alpha, Mask and Keying"
+#, fuzzy, kde-format
+#| msgid "Alpha, Mask and Keying"
+msgid "Alpha, Mask, and Keying"
 msgstr "अल्फा, मास्क और कुंजीयन"
 
 #: data/kdenliveeffectscategory.rc:10
@@ -14846,8 +15833,9 @@ msgid "Blur and Sharpen"
 msgstr "धुंधला और तेज करें"
 
 #: data/kdenliveeffectscategory.rc:14
-#, kde-format
-msgid "Transform, Distort and Perspective"
+#, fuzzy, kde-format
+#| msgid "Transform, Distort and Perspective"
+msgid "Transform, Distort, and Perspective"
 msgstr "रूपांतरण, विकृति और परिप्रेक्ष्य"
 
 #: data/kdenliveeffectscategory.rc:18
@@ -14856,8 +15844,9 @@ msgid "Grain and Noise"
 msgstr "अनाज और शोर"
 
 #: data/kdenliveeffectscategory.rc:22
-#, kde-format
-msgid "Utility"
+#, fuzzy, kde-format
+#| msgid "Utility"
+msgid "Utilities"
 msgstr "उपयोगिता"
 
 #: data/kdenliveeffectscategory.rc:26
@@ -14871,18 +15860,21 @@ msgid "On Master"
 msgstr "मास्टर पर"
 
 #: data/kdenliveeffectscategory.rc:34
-#, kde-format
-msgid "Color and Image correction"
+#, fuzzy, kde-format
+#| msgid "Color and Image correction"
+msgid "Color and Image Correction"
 msgstr "रंग और छवि सुधार"
 
 #: data/kdenliveeffectscategory.rc:38
-#, kde-format
-msgid "Audio correction"
+#, fuzzy, kde-format
+#| msgid "Audio correction"
+msgid "Audio Correction"
 msgstr "ऑडियो सुधार"
 
 #: data/kdenliveeffectscategory.rc:42
-#, kde-format
-msgid "Image adjustment"
+#, fuzzy, kde-format
+#| msgid "Image adjustment"
+msgid "Image Adjustment"
 msgstr "छवि समायोजन"
 
 #: data/kdenliveeffectscategory.rc:46
@@ -14895,10 +15887,9 @@ msgstr "चंद्रमा की झलक"
 msgid "Motion"
 msgstr "गति"
 
-#: data/kdenliveeffectscategory.rc:54
-#: src/effects/effectlist/model/effecttreemodel.cpp:51
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2503
 #, kde-format
-msgid "GPU effects"
+msgid "GPU Effects"
 msgstr "GPU प्रभाव"
 
 #: data/kdenliveeffectscategory.rc:58
@@ -14907,8 +15898,9 @@ msgid "VR360 and 3D"
 msgstr "वीआर360 और 3डी"
 
 #: data/kdenliveeffectscategory.rc:62
-#, kde-format
-msgid "More checks"
+#, fuzzy, kde-format
+#| msgid "More checks"
+msgid "More Checks"
 msgstr "अधिक जाँच"
 
 #: data/kdenliveeffectscategory.rc:66
@@ -14922,13 +15914,15 @@ msgid "Volume and Dynamics"
 msgstr "आयतन और गतिशीलता"
 
 #: data/kdenliveeffectscategory.rc:74
-#, kde-format
-msgid "Reverb, Echo and Delays"
+#, fuzzy, kde-format
+#| msgid "Reverb, Echo and Delays"
+msgid "Reverb, Echo, and Delays"
 msgstr "प्रतिध्वनि, प्रतिध्वनि और विलंब"
 
 #: data/kdenliveeffectscategory.rc:78
-#, kde-format
-msgid "EQ and filters"
+#, fuzzy, kde-format
+#| msgid "EQ and filters"
+msgid "EQ and Filters"
 msgstr "EQ और फिल्टर"
 
 #: data/kdenliveeffectscategory.rc:82
@@ -15009,8 +16003,9 @@ msgid "Calf  Plugins"
 msgstr "बछड़ा प्लगइन्स"
 
 #: data/kdenliveeffectscategory.rc:146
-#, kde-format
-msgid "LSP plugins"
+#, fuzzy, kde-format
+#| msgid "LSP plugins"
+msgid "LSP Plugins"
 msgstr "एलएसपी प्लगइन्स"
 
 #: data/kdenliveeffectscategory.rc:150
@@ -15035,8 +16030,8 @@ msgstr "VCO प्लगइन्स"
 
 #: data/kdenliveeffectscategory.rc:166
 #, kde-format
-msgid "MLT ladspa"
-msgstr "एमएलटी लैडस्पा"
+msgid "MLT LADSPA"
+msgstr ""
 
 #: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
@@ -15261,6 +16256,13 @@ msgstr "पिक्सेल स्केल"
 #| msgid "Pixel scale"
 msgid "Y scale"
 msgstr "पिक्सेल स्केल"
+
+#: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
+#: data/transitions/frei0r/frei0r_cairoblend.xml:12
+#, fuzzy, kde-format
+#| msgid "Edge mode"
+msgid "Blend mode"
+msgstr "एज मोड"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:30
 #, fuzzy, kde-format
@@ -15595,12 +16597,6 @@ msgstr ""
 #, kde-format
 msgid "Uses Input 1 as UV Map to distort Input 2."
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QTreeWidget, infoList)
-#: data/transitions/frei0r/frei0r_value.xml:4 src/ui/managesubtitles_ui.ui:544
-#, kde-format
-msgid "Value"
-msgstr "कीमत"
 
 #: data/transitions/frei0r/frei0r_value.xml:5
 #, kde-format
@@ -16716,14 +17712,6 @@ msgstr "ठीक तरह से ऊपर"
 #, kde-format
 msgid "Left center"
 msgstr "बायां केंद्र"
-
-#: src/assets/view/widgets/keyframeimport.cpp:230
-#: src/assets/view/widgets/keyframeimport.cpp:240
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
-#: src/transitions/view/mixstackview.cpp:47
-#, kde-format
-msgid "Center"
-msgstr "केंद्र"
 
 #: src/assets/view/widgets/keyframeimport.cpp:231
 #: src/assets/view/widgets/keyframeimport.cpp:241
@@ -22331,11 +23319,6 @@ msgstr ""
 "प्रोजेक्ट फ़ाइल कुछ GPU प्रभावों का उपयोग करती है। GPU त्वरण वर्तमान में सक्षम नहीं है। क्या "
 "आप प्रोजेक्ट को गैर-GPU संस्करण में बदलना चाहते हैं? इससे डेटा हानि हो सकती है।"
 
-#: src/doc/documentvalidator.cpp:2503
-#, kde-format
-msgid "GPU Effects"
-msgstr "GPU प्रभाव"
-
 #: src/doc/documentvalidator.cpp:2596
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
@@ -22625,6 +23608,11 @@ msgstr "शीर्षक पट्टियाँ दिखाएँ"
 #, kde-format
 msgid "Legacy"
 msgstr "परंपरा"
+
+#: src/effects/effectlist/model/effecttreemodel.cpp:51
+#, kde-format
+msgid "GPU effects"
+msgstr "GPU प्रभाव"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:66
 #: src/profiles/tree/profiletreemodel.cpp:56
@@ -30054,16 +31042,16 @@ msgstr "अक्ष बनाएं"
 msgid "Gradient reference line"
 msgstr "ग्रेडिएंट संदर्भ रेखा"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:169
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:175
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:181
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:173
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:179
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
 #, kde-format
 msgid "min: "
 msgstr "मिनट:"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:189
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:195
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:201
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:193
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:199
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:205
 #, kde-format
 msgid "max: "
 msgstr "अधिकतम:"
@@ -31641,18 +32629,40 @@ msgstr ""
 "टाइमलाइन अनुक्रम जोड़ें। यह संपादन के लिए एक नई टाइमलाइन बनाएगा। प्रत्येक टाइमलाइन "
 "प्रोजेक्ट बिन में एक अनुक्रम क्लिप से मेल खाती है"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:175
+#, kde-format
+msgid ""
+"The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
+"other timelines ?<br>Not resizing will temporarily keep the current duration "
+"in all other sequences."
+msgstr ""
+
+#: src/timeline2/view/timelinetabs.cpp:178
+#, fuzzy, kde-format
+#| msgid "Resize"
+msgctxt "@action:button"
+msgid "Resize"
+msgstr "आकार"
+
+#: src/timeline2/view/timelinetabs.cpp:179
+#, fuzzy, kde-format
+#| msgid "Resize"
+msgctxt "@action:button"
+msgid "Don't Resize"
+msgstr "आकार"
+
+#: src/timeline2/view/timelinetabs.cpp:261
 #, kde-format
 msgid "Close %1"
 msgstr "बंद करें %1"
 
-#: src/timeline2/view/timelinetabs.cpp:345
+#: src/timeline2/view/timelinetabs.cpp:371
 #, fuzzy, kde-format
 #| msgid "Align Audio to Reference"
 msgid "Align to Reference"
 msgstr "ऑडियो को संदर्भ से संरेखित करें"
 
-#: src/timeline2/view/timelinetabs.cpp:419
+#: src/timeline2/view/timelinetabs.cpp:445
 #, kde-format
 msgid "Rename Sequence"
 msgstr "अनुक्रम का नाम बदलें"
@@ -36931,7 +37941,7 @@ msgstr "मान रीसेट करें"
 msgid "Show %1 in timeline"
 msgstr "%1 को टाइमलाइन में दिखाएँ"
 
-#: src/widgets/dragvalue.cpp:755
+#: src/widgets/dragvalue.cpp:756
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "एक-एक करके मान समायोजित करने के लिए Shift + Drag का प्रयोग करें।"
@@ -37036,6 +38046,76 @@ msgid "%1h"
 msgstr "%1घंटा"
 
 #, fuzzy
+#~| msgid "Audio correction"
+#~ msgid "Lens correction"
+#~ msgstr "ऑडियो सुधार"
+
+#, fuzzy
+#~| msgid "Audio correction"
+#~ msgid "Quadratic correction coeff."
+#~ msgstr "ऑडियो सुधार"
+
+#, fuzzy
+#~| msgid "Interpolation"
+#~ msgid "Interpolation mode"
+#~ msgstr "प्रक्षेप"
+
+#, fuzzy
+#~| msgid "Colorspace:"
+#~ msgid "Colorspace"
+#~ msgstr "रंगस्थान:"
+
+#~ msgid "Brightness (keyframable)"
+#~ msgstr "चमक (कीफ़्रेमेबल)"
+
+#, fuzzy
+#~| msgid "Alpha Operation"
+#~ msgid "Alpha operations"
+#~ msgstr "अल्फा ऑपरेशन"
+
+#, fuzzy
+#~| msgid "Alpha Operation"
+#~ msgid "Alpha operation"
+#~ msgstr "अल्फा ऑपरेशन"
+
+#, fuzzy
+#~| msgid "Noise"
+#~ msgid "Denoiser"
+#~ msgstr "शोर"
+
+#, fuzzy
+#~| msgid "Background Color"
+#~ msgid "Background color"
+#~ msgstr "पृष्ठभूमि का रंग"
+
+#, fuzzy
+#~| msgid "Pixel scale"
+#~ msgid "Pixelize"
+#~ msgstr "पिक्सेल स्केल"
+
+#, fuzzy
+#~| msgid "Size X"
+#~ msgid "Block Size X"
+#~ msgstr "आकार एक्स"
+
+#, fuzzy
+#~| msgid "Size Y"
+#~ msgid "Block Size Y"
+#~ msgstr "आकार वाई"
+
+#~ msgid "Oldfilm"
+#~ msgstr "पुरानीफिल्म"
+
+#~ msgid "Y-Delta"
+#~ msgstr "वाई के डेल्टा"
+
+#~ msgid "% of picture have a delta"
+#~ msgstr "चित्र का % डेल्टा है"
+
+#~ msgid "MLT ladspa"
+#~ msgstr "एमएलटी लैडस्पा"
+
+#, fuzzy
 #~| msgid "Update effect"
 #~ msgid "Apply dilation effect"
 #~ msgstr "अद्यतन प्रभाव"
@@ -37071,9 +38151,6 @@ msgstr "%1घंटा"
 
 #~ msgid "y"
 #~ msgstr "और"
-
-#~ msgid "opacity"
-#~ msgstr "अस्पष्टता"
 
 #~ msgctxt "@tooltip Transform, a tool to resize"
 #~ msgid "Transform"
@@ -37148,11 +38225,6 @@ msgstr "%1घंटा"
 
 #~ msgid "No available audio track for restore operation"
 #~ msgstr "पुनर्स्थापना कार्रवाई के लिए कोई ऑडियो ट्रैक उपलब्ध नहीं है"
-
-#, fuzzy
-#~| msgid "Threshold"
-#~ msgid "Theshold"
-#~ msgstr "सीमा"
 
 #, fuzzy
 #~| msgid "Intensity"
