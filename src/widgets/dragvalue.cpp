@@ -345,6 +345,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setPalette(pal);
         // Try to have all spin boxes of the same size
         m_intEdit->setMinimumWidth(charWidth * 9);
+        setMinimumHeight(m_intEdit->minimumHeight());
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
@@ -386,6 +387,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setValue(m_default);
         // Try to have all spin boxes of the same size
         m_doubleEdit->setMinimumWidth(charWidth * 9);
+        setMinimumHeight(m_doubleEdit->minimumHeight());
         m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);

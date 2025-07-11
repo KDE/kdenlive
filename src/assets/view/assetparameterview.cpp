@@ -31,7 +31,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 {
     m_lay = new QFormLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
-    m_lay->setVerticalSpacing(0);
+    m_lay->setVerticalSpacing(2);
     m_lay->setHorizontalSpacing(m_lay->horizontalSpacing() * 3);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
@@ -79,7 +79,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     });
     Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    int keyframeRow = -1;
     // First pass: find and create the keyframe widget for the first animated parameter
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
@@ -88,7 +87,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             auto paramWidgets = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
             if (paramWidgets.second) {
                 m_mainKeyframeWidget = paramWidgets.second;
-                keyframeRow = i;
                 connect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &KeyframeContainer::slotInitMonitor);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
@@ -106,6 +104,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         }
     }
     // Second pass: add all animated params to the keyframe widget, and all others to the layout
+    int nonKeyframeRow = 0;
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -123,16 +122,12 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
                 connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                    setFixedHeight(contentHeight());
+                    setMinimumHeight(contentHeight());
                     Q_EMIT updateHeight();
                 });
                 if (type != ParamType::Hidden) {
-                    if (keyframeRow == -1) {
-                        m_lay->addRow(w->createLabel(), w);
-                    } else {
-                        m_lay->insertRow(keyframeRow, w->createLabel(), w);
-                        keyframeRow++;
-                    }
+                    m_lay->insertRow(nonKeyframeRow, w->createLabel(), w);
+                    nonKeyframeRow++;
                 }
             }
             m_widgets.push_back(w);
