@@ -169,7 +169,7 @@ def main():
     if ffmpeg_path:
         jobArgs = f"ffmpeg_path={ffmpeg_path} "
     if language:
-        jobArgs = f"language={language} "
+        jobArgs += f"language={language} "
 
     result = run_whisper(source, model, device, task, jobArgs)
 

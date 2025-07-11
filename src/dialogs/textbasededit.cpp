@@ -1064,9 +1064,6 @@ void TextBasedEdit::startRecognition()
             modelName = m_modelsGroup->checkedAction()->data().toString();
         }
         language = language_box->isEnabled() ? language_box->currentData().toString().simplified() : QString();
-        if (!language.isEmpty()) {
-            language.prepend(QStringLiteral("language="));
-        }
         if (KdenliveSettings::whisperDisableFP16()) {
             language.append(QStringLiteral(" fp16=False"));
         }
