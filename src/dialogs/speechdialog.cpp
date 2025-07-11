@@ -151,6 +151,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             const QString modelName = speech_model->currentData().toString();
             KdenliveSettings::setWhisperModel(modelName);
             speech_language->setEnabled(!modelName.endsWith(QLatin1String(".en")));
+            translate_box->setEnabled(modelName != QLatin1String("turbo"));
         } else {
             KdenliveSettings::setVosk_srt_model(speech_model->currentText());
         }
@@ -227,6 +228,7 @@ void SpeechDialog::buildSpeechModelsList(SpeechToTextEngine::EngineType engine, 
         if (ix > -1) {
             speech_model->setCurrentIndex(ix);
         }
+        translate_box->setEnabled(KdenliveSettings::whisperModel() != QLatin1String("turbo"));
         translate_seamless->setEnabled(KdenliveSettings::enableSeamless());
         translate_seamless->setChecked(KdenliveSettings::srtSeamlessTranslate());
         connect(translate_seamless, &QCheckBox::toggled, this, [this](bool toggled) {
@@ -397,7 +399,7 @@ void SpeechDialog::slotProcessSpeech()
         if (translate_seamless->isChecked()) {
             arguments << QStringLiteral("seamless_source=%1").arg(seamless_in->currentData().toString());
             arguments << QStringLiteral("seamless_target=%1").arg(seamless_out->currentData().toString());
-        } else if (translate_box->isChecked()) {
+        } else if (translate_box->isChecked() && translate_box->isEnabled()) {
             arguments << QStringLiteral("task=translate");
         }
         if (!language.isEmpty()) {
