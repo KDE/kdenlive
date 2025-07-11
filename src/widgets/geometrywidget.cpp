@@ -181,6 +181,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     layout->addRow(label, sizelayout);
     m_allWidgets << label;
     label = new QLabel(i18n("Align"));
+    tbAlign->setMinimumHeight(tbAlign->sizeHint().height());
     layout->addRow(label, tbAlign);
     m_allWidgets << label;
     if (opacityLabel > 0) {

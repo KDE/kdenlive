@@ -67,7 +67,6 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 QLabel *AbstractParamWidget::createLabel()
 {
     auto *label = new QLabel(m_model->data(m_index, Qt::DisplayRole).toString());
-    label->setWordWrap(true);
     return label;
 }
 

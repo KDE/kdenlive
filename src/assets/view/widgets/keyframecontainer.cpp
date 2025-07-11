@@ -718,7 +718,6 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
             }
         }
         if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
-
             if (type == ParamType::KeyframeParam) {
                 if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
                     paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
