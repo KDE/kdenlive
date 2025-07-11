@@ -7,7 +7,7 @@
     <parameter type="animated" name="0" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>Center</name>
         <comment><![CDATA[Horizontal center position<br>
-        of the linear area (% of total width]]></comment>
+        of the linear area (% of total width)]]></comment>
     </parameter>
     <parameter type="animated" name="1" max="100" min="0" default="0.005" factor="100" decimals="1" suffix="%">
         <name>Linear Width</name>
