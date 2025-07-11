@@ -165,7 +165,13 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     addScript(QStringLiteral("checkgpu.py"));
 }
 
-AbstractPythonInterface::~AbstractPythonInterface() {}
+AbstractPythonInterface::~AbstractPythonInterface()
+{
+    qDebug() << ":::: DELETING ABSTRACT PYTHONN INMTERRFACE.....";
+    if (m_watcher.isRunning()) {
+        m_watcher.waitForFinished();
+    }
+}
 
 const QString AbstractPythonInterface::getVenvPath()
 {
@@ -631,7 +637,8 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
         qWarning() << "setup error for script: " << script;
         return;
     }
-    (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback);
+    m_scriptJob = QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback);
+    m_watcher.setFuture(m_scriptJob);
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
