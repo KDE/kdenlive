@@ -33,16 +33,16 @@
     <parameter type="animated" name="av.rw" min="0" max="100" default="0.333" factor="100" decimals="1" suffix="%">
         <name>Red Strength</name>
         <comment><![CDATA[Set weight for RED component.<br>
-        Is used in saturation and lightess processing.]]></comment>
+        Is used in saturation and lightness processing.]]></comment>
     </parameter>
     <parameter type="animated" name="av.gw" min="0" max="100" default="0.334" factor="100" decimals="1" suffix="%">
         <name>Green Strength</name>
         <comment><![CDATA[Set weight for GREEN component.<br>
-        Is used in saturation and lightess processing.e]]></comment>
+        Is used in saturation and lightness processing.]]></comment>
     </parameter>
     <parameter type="animated" name="av.bw" min="0" max="100" default="0.333" factor="100" decimals="1" suffix="%">
         <name>Blue Strength</name>
         <comment><![CDATA[Set weight for BLUE component.<br>
-        Is used in saturation and lightess processing.]]></comment>
+        Is used in saturation and lightness processing.]]></comment>
     </parameter>
 </effect>
