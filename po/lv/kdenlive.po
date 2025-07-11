@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-10 00:42+0000\n"
+"POT-Creation-Date: 2025-07-11 00:42+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -83,9 +83,10 @@ msgstr "Līmeņus parādošā grafika tips."
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
-#: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
-#: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57 data/effects/pan_zoom.xml:17
+#: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:41
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
 msgstr "Fona krāsa"
@@ -290,7 +291,8 @@ msgstr "Kreisais,Labais"
 #: data/effects/frei0r/frei0r_levels.xml:10
 #: data/effects/frei0r/frei0r_levels.xml:41
 #: data/effects/frei0r/frei0r_levels.xml:72
-#: data/effects/frei0r/frei0r_pr0file.xml:25
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:25
+#: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "Channel"
 msgstr "Kanāls"
@@ -502,10 +504,9 @@ msgstr "Ievades pastiprinājums"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
-#: data/effects/avfilter/avfilter_photosensitivity.xml:12
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:12
-#: data/effects/frei0r/frei0r_alpha0ps.xml:20
-#: data/effects/frei0r/frei0r_alpha0ps.xml:45
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:17
+#: data/effects/frei0r/frei0r_alpha0ps.xml:21
+#: data/effects/frei0r/frei0r_alpha0ps.xml:47
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:19
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8 data/effects/lightshow.xml:14
@@ -646,6 +647,7 @@ msgid "Simple audio dynamic range compression/expansion filter."
 msgstr "Vienkāršs skaņas dinamiskā diapazona saspiešanas/atspiešanas filtrs."
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
+#: data/effects/avfilter/avfilter_ciescope.xml:32
 #: data/effects/avfilter/avfilter_eq.xml:8
 #: data/effects/frei0r/frei0r_contrast0r.xml:8 data/effects/grain.xml:11
 #, kde-format
@@ -700,8 +702,8 @@ msgstr "Lineāra,Logaritmiska"
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
 #: data/effects/avfilter/avfilter_bwdif.xml:9
-#: data/effects/avfilter/avfilter_datascope.xml:19
-#: data/effects/avfilter/avfilter_fillborders.xml:21
+#: data/effects/avfilter/avfilter_datascope.xml:23
+#: data/effects/avfilter/avfilter_fillborders.xml:9
 #: data/effects/avfilter/avfilter_graphmonitor.xml:16
 #: data/effects/avfilter/avfilter_histogram.xml:19
 #: data/effects/avfilter/avfilter_mcdeint.xml:9
@@ -804,7 +806,6 @@ msgstr "Centrālā frekvence"
 #: data/effects/avfilter/avfilter_bass.xml:14
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
-#: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,KHz"
@@ -815,7 +816,7 @@ msgstr "Hz,Q koeficients,Oktāva,Slīpums,KHz"
 #: data/effects/avfilter/avfilter_bandreject.xml:12
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
 msgid "Method"
 msgstr "Metode"
@@ -1054,13 +1055,11 @@ msgid "Apply average blur filter. "
 msgstr "Pielietot vidējās aizmiglošanas filtru. "
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
-#: data/effects/frei0r/frei0r_pr0be.xml:18
 #, kde-format
 msgid "X size"
 msgstr "X izmērs"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:11
-#: data/effects/frei0r/frei0r_pr0be.xml:21
 #, kde-format
 msgid "Y size"
 msgstr "Y izmērs"
@@ -1086,7 +1085,7 @@ msgstr "Alfa,Y,U,V,Sarkans,Zaļš,Zils,Visi"
 #: data/effects/avfilter/avfilter_prewitt.xml:9
 #: data/effects/avfilter/avfilter_roberts.xml:9
 #: data/effects/avfilter/avfilter_sobel.xml:9
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:27
 #, kde-format
 msgid "Planes"
 msgstr "Plaknes"
@@ -1205,7 +1204,6 @@ msgid "Set sigma of gaussian function to calculate range weight."
 msgstr "Iestata Gausa funkcijas sigma vērtību, lai aprēķināta diapazona svaru."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
-#: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr "Alfa,Y,U,V,Sarkans,Zaļš,Zils,Visi,"
@@ -1377,8 +1375,9 @@ msgstr "Video straumei pielietot kontrastam adaptīvu asinājuma filtru."
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
 #: data/effects/avfilter/avfilter_fspp.xml:15
-#: data/effects/avfilter/avfilter_gradfun.xml:11
+#: data/effects/avfilter/avfilter_gradfun.xml:12
 #: data/effects/avfilter/avfilter_histeq.xml:8
+#: data/effects/avfilter/avfilter_huesaturation.xml:26
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
@@ -1388,7 +1387,7 @@ msgstr "Stiprums"
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, fuzzy, kde-format
 #| msgid "Set the sharpening strength."
-msgid "Set the sharpening strength"
+msgid "Set the sharpening strength."
 msgstr "Iestatīt asinājuma stiprumu."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
@@ -1416,6 +1415,8 @@ msgstr "Krāsu, kas netiks aizvietota ar neitrālu tīrkrāsu"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
+#: data/effects/avfilter/avfilter_hsvhold.xml:23
+#: data/effects/avfilter/avfilter_hsvkey.xml:23
 #, kde-format
 msgid "Similarity"
 msgstr "Līdzība"
@@ -1433,7 +1434,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
-#: data/effects/hsl_range.xml:16
+#: data/effects/avfilter/avfilter_hsvhold.xml:27
+#: data/effects/avfilter/avfilter_hsvkey.xml:27 data/effects/hsl_range.xml:16
 #, kde-format
 msgid "Blend"
 msgstr "Sapludināt"
@@ -1515,8 +1517,9 @@ msgid "Distance"
 msgstr "Attālums"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
-#, kde-format
-msgid "Chroma shift"
+#, fuzzy, kde-format
+#| msgid "Chroma shift"
+msgid "Chroma Shift"
 msgstr "Tīrkrāsas nobīde"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
@@ -1525,24 +1528,28 @@ msgid "Shift chroma pixels horizontally and/or vertically. "
 msgstr "Pārbīdīt tīrkrāsas pikseļus horizontāli un/vai vertikāli. "
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
-#, kde-format
-msgid "Chroma-blue H shift"
-msgstr "Zilās tīrkrāsas H nobīde"
+#, fuzzy, kde-format
+#| msgid "Blue Horizontal shift"
+msgid "Blue horizontal shift"
+msgstr "Zilā horizontāla nobīde"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
-#, kde-format
-msgid "Chroma-blue V shift"
-msgstr "Zilās tīrkrāsas V nobīde"
+#, fuzzy, kde-format
+#| msgid "Blue Vertical shift"
+msgid "Blue vertical shift"
+msgstr "Zilā vertikāla nobīde"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
-#, kde-format
-msgid "Chroma-red H shift"
-msgstr "Sarkanās tīrkrāsas H nobīde"
+#, fuzzy, kde-format
+#| msgid "Red Horizontal shift"
+msgid "Red horizontal shift"
+msgstr "Sarkanā horizontāla nobīde"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
-#, kde-format
-msgid "Chroma-red V shift"
-msgstr "Sarkanās tīrkrāsas V nobīde"
+#, fuzzy, kde-format
+#| msgid "Red Vertical shift"
+msgid "Red vertical shift"
+msgstr "Sarkanā vertikāla nobīde"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
@@ -1557,6 +1564,154 @@ msgstr "Izsmērējums,Izliekums"
 #, kde-format
 msgid "Edge mode"
 msgstr "Malas režīms"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:4
+#, fuzzy, kde-format
+#| msgid "Scopes"
+msgid "CIE Scope"
+msgstr "Tvērumi"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:5
+#, kde-format
+msgid "Display CIE color diagram with pixels overlaid onto it"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:8
+#: data/effects/avfilter/avfilter_ciescope.xml:18
+#, kde-format
+msgid ""
+"NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
+"709,UHD TV,Rec. 2020,DCI-P3"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:9
+#, fuzzy, kde-format
+#| msgid "Color Space"
+msgid "Color System"
+msgstr "Krāstelpa"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:10
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the filter mode]]>"
+msgid "<![CDATA[Select the color system]]>"
+msgstr "<![CDATA[Norādiet filtra modeli]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:13
+#, kde-format
+msgid "xyY,UCS,LUV"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:14
+#, kde-format
+msgid "CIE System"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:15
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Select the components to be traced]]>"
+msgid "<![CDATA[Select the CIE color space]]>"
+msgstr "<![CDATA[Atlasa trasējamās komponentes]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:19
+#, kde-format
+msgid "Gamuts to Draw"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:20
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set which graticule to display]]>"
+msgid "<![CDATA[Set what gamuts to draw]]>"
+msgstr "<![CDATA[Norādiet, kādu grādu tīklu parādīt]]>"
+
+#. i18n: Filesize
+#. i18n: Filesize
+#. i18n: ectx: property (text), widget (QLabel, label_20)
+#. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
+#: data/effects/avfilter/avfilter_ciescope.xml:23
+#: data/effects/avfilter/avfilter_datascope.xml:9
+#: data/effects/avfilter/avfilter_graphmonitor.xml:9
+#: data/effects/avfilter/avfilter_oscilloscope.xml:16
+#: data/effects/frei0r/frei0r_medians.xml:12
+#: data/effects/frei0r/frei0r_sharpness.xml:11 src/ui/configcapture_ui.ui:369
+#: src/ui/managecache_ui.ui:364
+#, kde-format
+msgid "Size"
+msgstr "Izmērs"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:24
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the envelope mode]]>"
+msgid "<![CDATA[Set the size of the scope on screen]]>"
+msgstr "<![CDATA[Iestatiet aploksnes režīmu]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:27
+#: data/effects/avfilter/avfilter_crystalizer.xml:9
+#: data/effects/avfilter/avfilter_deesser.xml:8
+#: data/effects/avfilter/avfilter_extrastereo.xml:8
+#: data/effects/avfilter/avfilter_histeq.xml:11
+#: data/effects/avfilter/avfilter_vectorscope.xml:24
+#: data/effects/avfilter/avfilter_vibrance.xml:8
+#: data/effects/avfilter/avfilter_waveform.xml:15 data/effects/brightness.xml:8
+#, kde-format
+msgid "Intensity"
+msgstr "Intensitāte"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:29
+#, kde-format
+msgid ""
+"<![CDATA[Set the intensity used to<br>\n"
+"       \tmap input pixel values to CIE diagram]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:34
+#, kde-format
+msgid ""
+"<![CDATA[Set contrast used to draw<br>\n"
+"       \ttongue colors that are out of active color system gamut]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:37
+#, fuzzy, kde-format
+#| msgid "Display aspect ratio:"
+msgid "Display Correct Gamma"
+msgstr "Parādīt malu attiecību:"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:38
+#, kde-format
+msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:41
+#, fuzzy, kde-format
+#| msgid "White Noise"
+msgid "Show White Point"
+msgstr "Baltais troksnis"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:42
+#, kde-format
+msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:45
+#, fuzzy, kde-format
+#| msgid "Input Gain"
+msgid "Input Gamma"
+msgstr "Ievades pastiprinājums"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:46
+#, kde-format
+msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:49
+#, kde-format
+msgid "Fill with CIE Colors"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:50
+#, kde-format
+msgid "<![CDATA[Fill with CIE colors. By default is enabled.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
@@ -1763,6 +1918,8 @@ msgstr "Zila gaišā vieta"
 #: data/effects/avfilter/avfilter_colorize.xml:11
 #: data/effects/avfilter/avfilter_colortemperature.xml:14
 #: data/effects/avfilter/avfilter_eq.xml:14
+#: data/effects/avfilter/avfilter_hsvhold.xml:13
+#: data/effects/avfilter/avfilter_hsvkey.xml:13
 #: data/effects/frei0r/frei0r_colorize.xml:12
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:49
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
@@ -1805,9 +1962,14 @@ msgid "Overlay a solid color on the video stream with mixing feature."
 msgstr "Pārklāj noteiktu krāsu video straumei ar jaukšanas iespēju."
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
+#: data/effects/avfilter/avfilter_hsvhold.xml:8
+#: data/effects/avfilter/avfilter_hsvkey.xml:8
+#: data/effects/frei0r/frei0r_colorize.xml:8
+#: data/effects/frei0r/frei0r_hueshift0r.xml:8
+#: data/transitions/frei0r/frei0r_hue.xml:4
 #, kde-format
-msgid " Hue"
-msgstr " Nokrāsa"
+msgid "Hue"
+msgstr "Nokrāsa"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:16
@@ -1915,6 +2077,7 @@ msgid "Destination color matrix"
 msgstr "Mērķa krāsas matrica"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
+#: data/effects/avfilter/avfilter_vectorscope.xml:52
 #: src/scopes/colorscopes/vectorscope.cpp:99
 #, kde-format
 msgid "Color Space"
@@ -1983,8 +2146,9 @@ msgstr ""
 "saturam, BT.2020 12 bitu saturam"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
-#, kde-format
-msgid "Output transfer characteristics"
+#, fuzzy, kde-format
+#| msgid "Output transfer characteristics"
+msgid "Output transfer characteristicse"
 msgstr "Izvades nodošanas īpašības"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
@@ -1995,7 +2159,7 @@ msgstr "Izvades nodošanas īpašības"
 #| "BT.2020,JEDEC P22 phosphors"
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
-"BT.2020,JEDEC P22 phosphors"
+"BT.2020,JEDEC P22"
 msgstr ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
@@ -2369,17 +2533,6 @@ msgstr ""
 "Vienkāršs algoritms skaņas trokšņu asināšanai.\n"
 "Šis filtrs lineāri palielina starpības starp katru skaņas paraugu."
 
-#: data/effects/avfilter/avfilter_crystalizer.xml:9
-#: data/effects/avfilter/avfilter_deesser.xml:8
-#: data/effects/avfilter/avfilter_extrastereo.xml:8
-#: data/effects/avfilter/avfilter_histeq.xml:11
-#: data/effects/avfilter/avfilter_vectorscope.xml:18
-#: data/effects/avfilter/avfilter_vibrance.xml:8
-#: data/effects/avfilter/avfilter_waveform.xml:15 data/effects/brightness.xml:8
-#, kde-format
-msgid "Intensity"
-msgstr "Intensitāte"
-
 #: data/effects/avfilter/avfilter_crystalizer.xml:12
 #, kde-format
 msgid ""
@@ -2400,8 +2553,9 @@ msgid "Enable clipping"
 msgstr "Ieslēgt apgriešanu"
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
-#, kde-format
-msgid "DataScope"
+#, fuzzy, kde-format
+#| msgid "DataScope"
+msgid "Data Scope"
 msgstr "Datu tvērums"
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
@@ -2410,24 +2564,10 @@ msgid "Video data analysis"
 msgstr "Video datu analīze"
 
 #: data/effects/avfilter/avfilter_datascope.xml:8
-#: data/effects/avfilter/avfilter_graphmonitor.xml:8
-#, kde-format
-msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+#, fuzzy, kde-format
+#| msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
 msgstr "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
-
-#. i18n: Filesize
-#. i18n: Filesize
-#. i18n: ectx: property (text), widget (QLabel, label_20)
-#. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: data/effects/avfilter/avfilter_datascope.xml:9
-#: data/effects/avfilter/avfilter_graphmonitor.xml:9
-#: data/effects/avfilter/avfilter_oscilloscope.xml:16
-#: data/effects/frei0r/frei0r_medians.xml:12
-#: data/effects/frei0r/frei0r_sharpness.xml:11 src/ui/configcapture_ui.ui:369
-#: src/ui/managecache_ui.ui:364
-#, kde-format
-msgid "Size"
-msgstr "Izmērs"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, kde-format
@@ -2440,22 +2580,35 @@ msgid "Y offset"
 msgstr "Y nobīde"
 
 #: data/effects/avfilter/avfilter_datascope.xml:18
+#: data/effects/avfilter/avfilter_pixelize.xml:18
+#: data/effects/avfilter/avfilter_prewitt.xml:8
+#: data/effects/avfilter/avfilter_roberts.xml:8
+#: data/effects/avfilter/avfilter_sobel.xml:8
 #, kde-format
-msgid "mono,color,color2"
-msgstr "mono,krāsa,krāsa2"
+msgid ""
+"None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
+"Alpha"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_datascope.xml:19
+#: data/effects/avfilter/avfilter_oscilloscope.xml:45
+#: data/effects/avfilter/avfilter_waveform.xml:31
+#, kde-format
+msgid "Components"
+msgstr "Komponentes"
 
 #: data/effects/avfilter/avfilter_datascope.xml:22
-#: data/effects/avfilter/avfilter_delogo.xml:20
-#, kde-format
-msgid "Off,On"
-msgstr "Iesl./Izsl."
+#, fuzzy, kde-format
+#| msgid "mono,color,color2"
+msgid "Mono,Color,Color2"
+msgstr "mono,krāsa,krāsa2"
 
-#: data/effects/avfilter/avfilter_datascope.xml:23
+#: data/effects/avfilter/avfilter_datascope.xml:26
 #, kde-format
 msgid "Show Axis"
 msgstr "Rādīt asis"
 
-#: data/effects/avfilter/avfilter_datascope.xml:26
+#: data/effects/avfilter/avfilter_datascope.xml:29
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
@@ -2468,12 +2621,12 @@ msgstr "Rādīt asis"
 msgid "Opacity"
 msgstr "Necaurspīdība"
 
-#: data/effects/avfilter/avfilter_datascope.xml:29
+#: data/effects/avfilter/avfilter_datascope.xml:32
 #, kde-format
 msgid "Hex,Dec"
 msgstr "Heks./Dec."
 
-#: data/effects/avfilter/avfilter_datascope.xml:30 data/effects/timer.xml:46
+#: data/effects/avfilter/avfilter_datascope.xml:33 data/effects/timer.xml:46
 #, kde-format
 msgid "Format"
 msgstr "Formāts"
@@ -2495,7 +2648,7 @@ msgstr "<![CDATA[Nosaka virziena leņķi]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
-#: data/effects/avfilter/avfilter_gradfun.xml:16
+#: data/effects/avfilter/avfilter_gradfun.xml:17
 #: data/effects/avfilter/avfilter_sofalizer.xml:20 data/effects/qtcrop.xml:11
 #: data/effects/vignette.xml:17
 #, kde-format
@@ -2587,7 +2740,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
-#: data/effects/avfilter/avfilter_gblur.xml:18 data/effects/typewriter.xml:11
+#: data/effects/avfilter/avfilter_gblur.xml:19 data/effects/greyedge.xml:16
+#: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr "Sigma"
@@ -2915,6 +3069,11 @@ msgstr "Logotipa platums"
 msgid "Logo Height"
 msgstr "Logotipa augstums"
 
+#: data/effects/avfilter/avfilter_delogo.xml:20
+#, kde-format
+msgid "Off,On"
+msgstr "Iesl./Izsl."
+
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, kde-format
 msgid "Show borders"
@@ -3001,7 +3160,7 @@ msgstr "Iestata zilā mērogu"
 #: data/effects/frei0r/frei0r_brightness.xml:8
 #: data/effects/frei0r/frei0r_lenscorrection.xml:20
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:9
-#: data/effects/frei0r/frei0r_softglow.xml:13 data/effects/grain.xml:14
+#: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
 msgstr "Gaišums"
@@ -3158,8 +3317,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
-#: data/effects/avfilter/avfilter_fillborders.xml:24
-#: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2513
+#: data/effects/avfilter/avfilter_fillborders.xml:12
+#: data/effects/dropshadow.xml:20
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2513
 #: src/layouts/layoutcollection.cpp:24
 #: src/mltcontroller/clippropertiescontroller.cpp:640
 #, kde-format
@@ -3338,23 +3498,20 @@ msgstr "Režīmi"
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
 #: data/effects/avfilter/avfilter_gblur.xml:13
 #: data/effects/avfilter/avfilter_limiter.xml:16
-#: data/effects/avfilter/avfilter_pixelize.xml:18
-#: data/effects/avfilter/avfilter_prewitt.xml:8
-#: data/effects/avfilter/avfilter_roberts.xml:8
-#: data/effects/avfilter/avfilter_sobel.xml:8
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:21
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
 msgstr "Nav,Y,U,YU,V,YV,UV,YUV,Alfa"
 
 #: data/effects/avfilter/avfilter_elbg.xml:4
-#, kde-format
-msgid "ELBG Posterizer"
-msgstr "ELBG veidot par plakātu"
+#, fuzzy, kde-format
+#| msgid "Posterize"
+msgid "Posterize (ELBG)"
+msgstr "Plakāta efekts"
 
 #: data/effects/avfilter/avfilter_elbg.xml:5
-#, kde-format
-msgid "Apply posterize effect, using the ELBG algorithm"
+#, fuzzy, kde-format
+#| msgid "Apply posterize effect, using the ELBG algorithm"
+msgid "Apply posterize effect using the ELBG algorithm"
 msgstr "Pielietot plakāta efektu, izmantojot ELBG algoritmu"
 
 #: data/effects/avfilter/avfilter_elbg.xml:8
@@ -3364,10 +3521,21 @@ msgstr "Koda grāmatas garums"
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_gblur.xml:9
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:20
 #, kde-format
 msgid "Steps"
 msgstr "Soļi"
+
+#: data/effects/avfilter/avfilter_elbg.xml:14
+#, fuzzy, kde-format
+#| msgid "Output"
+msgid "Pal8 Output"
+msgstr "Izvade"
+
+#: data/effects/avfilter/avfilter_elbg.xml:17
+#, kde-format
+msgid "Include Alpha Values"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, kde-format
@@ -3562,8 +3730,9 @@ msgid "<![CDATA[Set block overlap]]>"
 msgstr "<![CDATA[Nosaka bloka pārklašanos]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:26
-#, kde-format
-msgid "wiener,hard"
+#, fuzzy, kde-format
+#| msgid "wiener,hard"
+msgid "Wiener,Hard"
 msgstr "vīnes,stipra"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
@@ -3590,10 +3759,11 @@ msgstr ""
 "        laiciskai trokšņu noņemšanai]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
+#: data/effects/avfilter/avfilter_median.xml:22
 #: data/effects/avfilter/avfilter_oscilloscope.xml:44
-#: data/effects/avfilter/avfilter_waveform.xml:30
-#, kde-format
-msgid "None,Y,U,YU,V,YV,UV,YUV"
+#, fuzzy, kde-format
+#| msgid "None,Y,U,YU,V,YV,UV,YUV"
+msgid "None,Y,U,YU,V,YV,UV,All"
 msgstr "Nekas,Y,U,YU,V,YV,UV,YUV"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:4
@@ -3673,23 +3843,34 @@ msgid "Transform the field order of the input video."
 msgstr "Transformē ievades video lauku secību."
 
 #: data/effects/avfilter/avfilter_fillborders.xml:4
-#, kde-format
-msgid "Fill borders"
+#, fuzzy, kde-format
+#| msgid "Fill borders"
+msgid "Fill Borders"
 msgstr "Aizpildīt apmales"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Fill borders of the input video, without changing video stream "
+#| "dimensions. Sometimes video can have garbage at the four edges and you "
+#| "may not want to crop video input to keep size multiple of some number"
 msgid ""
-"Fill borders of the input video, without changing video stream dimensions. "
+"Fill borders of the input video without changing video stream dimensions. "
 "Sometimes video can have garbage at the four edges and you may not want to "
-"crop video input to keep size multiple of some number"
+"crop video input to keep the size multiple of some number"
 msgstr ""
 "Aizpilda ievades video apmales, nemainot video straumes malu izmērus. Reizēm "
 "video celiņa četras malas var būt nederīgas, tāpēc varat vēlēties video "
 "ievadi apgriezt, lai paturētu noteikta skaitļa lielu izmēra reizinājumu"
 
+#: data/effects/avfilter/avfilter_fillborders.xml:8
+#, fuzzy, kde-format
+#| msgid "Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins"
+msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
+msgstr "Izsmērējums,Spoguļot,Fiksēts,Atspoguļot,Ietīt,Izgaist,Malas"
+
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
+#: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
 #: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
 #: data/effects/frei0r/frei0r_mask0mate.xml:8
 #: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
@@ -3699,7 +3880,7 @@ msgid "Left"
 msgstr "Pa kreisi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:11 data/effects/crop.xml:17
+#: data/effects/avfilter/avfilter_fillborders.xml:18 data/effects/crop.xml:17
 #: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
 #: data/effects/frei0r/frei0r_mask0mate.xml:11
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
@@ -3709,7 +3890,7 @@ msgid "Right"
 msgstr "Pa labi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:14 data/effects/crop.xml:8
+#: data/effects/avfilter/avfilter_fillborders.xml:21 data/effects/crop.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
@@ -3719,7 +3900,7 @@ msgid "Top"
 msgstr "Augšā"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/avfilter/avfilter_fillborders.xml:17 data/effects/crop.xml:14
+#: data/effects/avfilter/avfilter_fillborders.xml:24 data/effects/crop.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
 #: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
@@ -3727,11 +3908,6 @@ msgstr "Augšā"
 #, kde-format
 msgid "Bottom"
 msgstr "Apakšā"
-
-#: data/effects/avfilter/avfilter_fillborders.xml:20
-#, kde-format
-msgid "Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins"
-msgstr "Izsmērējums,Spoguļot,Fiksēts,Atspoguļot,Ietīt,Izgaist,Malas"
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
 #, kde-format
@@ -3786,7 +3962,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
-#: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
+#: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:22
 #: src/timeline2/view/qml/Track.qml:51 src/ui/clipspeed_ui.ui:36
 #: src/ui/editsub_ui.ui:524
 #, kde-format
@@ -3800,10 +3976,11 @@ msgstr "Iestata slaucīšanas sekundē (Hz). Diapazons ir 0,1—10."
 
 #: data/effects/avfilter/avfilter_flanger.xml:29
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
-#: data/effects/frei0r/frei0r_alphaspot.xml:9
+#: data/effects/frei0r/frei0r_alphaspot.xml:10
 #: data/effects/frei0r/frei0r_facedetect.xml:25
 #: data/effects/frei0r/frei0r_select0r.xml:29
 #: data/effects/frei0r/frei0r_select0r.xml:56
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:9
 #: data/effects/mask_start_frei0r_alphaspot.xml:9
 #: data/effects/mask_start_frei0r_select0r.xml:22
 #: data/effects/sox/sox_flanger.xml:23
@@ -3848,6 +4025,7 @@ msgstr "Lineārs,Kvadrātisks"
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
+#: data/effects/frei0r/frei0r_c0rners.xml:45
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
 #: src/ui/renderwidget_ui.ui:594
 #, kde-format
@@ -3924,28 +4102,35 @@ msgstr "1,2,3,4,5,6"
 msgid "Set number of steps for Gaussian approximation"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:15
-#, kde-format
-msgid "Set which planes to filter. By default all planes are filtered (YUV)."
+#: data/effects/avfilter/avfilter_gblur.xml:16
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set the amount of denoising.<br>\n"
+#| "       \tBy default all detected noise is reduced.]]>"
+msgid ""
+"<![CDATA[Set which planes to filter.<br>\n"
+"        By default all planes are filtered (YUV).]]>"
 msgstr ""
+"<![CDATA[Nosaka trokšņu noņemšanas daudzumu.<br>\n"
+"       \tBy default all detected noise is reduced.]]>"
 
-#: data/effects/avfilter/avfilter_gblur.xml:19
+#: data/effects/avfilter/avfilter_gblur.xml:21
 #, kde-format
 msgid ""
-"Set horizontal sigma, standard deviation of Gaussian blur. Determines the "
-"strength of the horizontal blur. Default is 10."
+"<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
+"        Determines the strength of the horizontal blur. Default is 10.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:22
+#: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
 msgid "Vertical Sigma"
 msgstr "Vertikālā Sigma"
 
-#: data/effects/avfilter/avfilter_gblur.xml:23
+#: data/effects/avfilter/avfilter_gblur.xml:26
 #, kde-format
 msgid ""
-"Set vertical sigma. Determines the strength of the vertical blur. Default is "
-"10."
+"<![CDATA[Set vertical sigma.<br>\n"
+"        Determines the strength of the vertical blur. Default is 10.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
@@ -3953,7 +4138,7 @@ msgstr ""
 msgid "gradfun"
 msgstr "gradfun"
 
-#: data/effects/avfilter/avfilter_gradfun.xml:8
+#: data/effects/avfilter/avfilter_gradfun.xml:9
 #, fuzzy, kde-format
 #| msgid ""
 #| "<![CDATA[Debands video quickly using gradients.<br>\n"
@@ -3965,15 +4150,15 @@ msgstr "gradfun"
 #| "compression, because compression tends to lose the dither and bring back "
 #| "the bands</b>.]]>"
 msgid ""
-"<![CDATA[<b>-= Deprecated =-</b><br>Debands video quickly using gradients."
-"<br>\n"
+"<![CDATA[<b>-= Deprecated =-</b><br>\n"
+"    Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
 "regions by truncation to 8-bit color depth.<br>\n"
 "    Interpolate the gradients that should go where the bands are, and dither "
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands</b>.]]>"
+"bands<b>.]]>"
 msgstr ""
 "<![CDATA[Ātri no video noņem joslas, izmantojot gradientus.<br>\n"
 "    Labo joslu artefaktus, kas bieži izveidojas gandrīz plakanos reģionos, "
@@ -3983,7 +4168,7 @@ msgstr ""
 "zaudējumradošas saspiešanas, jo saspiešana mēdz noņemt tonējumu un atgriezt "
 "joslas</b>.]]>"
 
-#: data/effects/avfilter/avfilter_gradfun.xml:13
+#: data/effects/avfilter/avfilter_gradfun.xml:14
 #, kde-format
 msgid ""
 "<![CDATA[The maximum amount by which the filter will change any one pixel."
@@ -3993,7 +4178,7 @@ msgstr ""
 "<![CDATA[Maksimālais lielums, ar kuru filtrs mainīs vienu pikseli.<br>\n"
 "       \tTas ir arī slieksnis gandrīz plakanu reģionu noteikšanai.]]>"
 
-#: data/effects/avfilter/avfilter_gradfun.xml:18
+#: data/effects/avfilter/avfilter_gradfun.xml:19
 #, kde-format
 msgid ""
 "<![CDATA[The neighborhood to fit the gradient to.<br>\n"
@@ -4014,6 +4199,11 @@ msgstr "Grafika monitors"
 msgid "Show various filtergraph stats"
 msgstr "Rāda dažādu filtru grafiku statistiku"
 
+#: data/effects/avfilter/avfilter_graphmonitor.xml:8
+#, kde-format
+msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+
 #: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #, kde-format
 msgid "Compact,Full"
@@ -4027,8 +4217,6 @@ msgstr ""
 "Formāts,Izmērs,Ātrums"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
-#: data/effects/avfilter/avfilter_vectorscope.xml:33
-#: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Flags"
 msgstr "Karogi"
@@ -4150,7 +4338,7 @@ msgstr "Pielieto augstas caurlaidības filtru ar 3 dB punkta frekvenci."
 #: data/effects/avfilter/avfilter_lowpass.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
 #: data/effects/avfilter/avfilter_sofalizer.xml:24
-#: data/effects/frei0r/frei0r_colortap.xml:8
+#: data/effects/frei0r/frei0r_colortap.xml:9
 #: data/effects/frei0r/frei0r_defish0r.xml:15
 #: data/effects/frei0r/frei0r_iirblur.xml:13
 #: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1299
@@ -4205,13 +4393,15 @@ msgid "Compute and draw a color distribution histogram for the input video"
 msgstr "Aprēķina un zīmē ievades video krāsu sadalījuma histogrammu"
 
 #: data/effects/avfilter/avfilter_histogram.xml:8
-#, kde-format
-msgid "Level height"
+#, fuzzy, kde-format
+#| msgid "Level height"
+msgid "Level Height"
 msgstr "Līmeņa augstums"
 
 #: data/effects/avfilter/avfilter_histogram.xml:11
-#, kde-format
-msgid "Scale height"
+#, fuzzy, kde-format
+#| msgid "Scale height"
+msgid "Scale Height"
 msgstr "Mēroga augstums"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
@@ -4222,21 +4412,24 @@ msgstr "Pārklājums,Grēdošana,Parāde"
 
 #: data/effects/avfilter/avfilter_histogram.xml:15
 #: data/effects/avfilter/avfilter_waveform.xml:26
-#: data/effects/frei0r/frei0r_alpha0ps.xml:10
-#: data/effects/frei0r/frei0r_alpha0ps.xml:35
+#: data/effects/frei0r/frei0r_alpha0ps.xml:11
+#: data/effects/frei0r/frei0r_alpha0ps.xml:37
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid "Display"
 msgstr "Parādīšana"
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
-#, kde-format
-msgid "All,Y,U,YU,V,YV,UV,All,Alpha"
-msgstr "Viss,Y,U,YU,V,YV,UV,Viss,Alfa"
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
+#, fuzzy, kde-format
+#| msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
+msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
+msgstr "Nav,Y,U,YU,V,YV,UV,YUV,Alfa"
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
-#, kde-format
-msgid "Components to display"
+#, fuzzy, kde-format
+#| msgid "Components to display"
+msgid "Components to Display"
 msgstr "Parādāmās komponentes"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
@@ -4245,20 +4438,35 @@ msgid "Foreground Opacity"
 msgstr "Priekšplāna necaurspīdība"
 
 #: data/effects/avfilter/avfilter_histogram.xml:29
-#: data/effects/avfilter/avfilter_vectorscope.xml:36
+#: data/effects/avfilter/avfilter_vectorscope.xml:42
 #: data/effects/avfilter/avfilter_waveform.xml:64
 #, kde-format
 msgid "Background Opacity"
 msgstr "Fona necaurspīdība"
 
-#: data/effects/avfilter/avfilter_hqdn3d.xml:4
+#: data/effects/avfilter/avfilter_histogram.xml:32
 #, kde-format
-msgid "High precision/quality 3d denoiser"
-msgstr "Augsta precizitāte/kvalitatīvs 3d trokšņu noņēmējs"
+msgid ""
+"White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
+"Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_histogram.xml:33
+#, fuzzy, kde-format
+#| msgid "Color Model"
+msgid "Colors Mode"
+msgstr "Krāsu modelis"
+
+#: data/effects/avfilter/avfilter_hqdn3d.xml:4
+#, fuzzy, kde-format
+#| msgid "Pixelize (avfilter)"
+msgid "HQ 3D Denoiser (avfilter)"
+msgstr "Pikselizēt („avfilter“)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
-#, kde-format
-msgid "Apply a High Quality 3D Denoise"
+#, fuzzy, kde-format
+#| msgid "Apply a High Quality 3D Denoise"
+msgid "Apply a high quality 3D denoiser"
 msgstr "Pielieto augstas kvalitāte 3D trokšņu noņemšanu"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
@@ -4299,6 +4507,199 @@ msgstr "Mērogo ievadi par 2, 3 vai 4, izmantojot hq*x tuvinājuma algoritmu"
 #| msgid "2x,3x"
 msgid "2x,3x,4x"
 msgstr "2×,3×"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:4
+#, kde-format
+msgid "HSV Hold"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:5
+#, kde-format
+msgid "Turns a certain HSV range into gray "
+msgstr ""
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:10
+#: data/effects/avfilter/avfilter_hsvkey.xml:10
+#, fuzzy, kde-format
+#| msgid "Set value which will be added to filtered result."
+msgid ""
+"<![CDATA[Set the hue value which<br>\n"
+"        will be used in color difference calculation]]>"
+msgstr "Iestatiet vērtību, kas tiks pievienota filtrētajam rezultātam."
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:15
+#: data/effects/avfilter/avfilter_hsvkey.xml:15
+#, fuzzy, kde-format
+#| msgid "Set value which will be added to filtered result."
+msgid ""
+"<![CDATA[Set the saturation value<br>\n"
+"        which will be used in color difference calculation]]>"
+msgstr "Iestatiet vērtību, kas tiks pievienota filtrētajam rezultātam."
+
+#. i18n: ectx: property (text), widget (QTreeWidget, infoList)
+#: data/effects/avfilter/avfilter_hsvhold.xml:18
+#: data/effects/avfilter/avfilter_hsvkey.xml:18
+#: data/transitions/frei0r/frei0r_value.xml:4 src/ui/managesubtitles_ui.ui:544
+#, kde-format
+msgid "Value"
+msgstr "Vērtība"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:20
+#: data/effects/avfilter/avfilter_hsvkey.xml:20
+#, fuzzy, kde-format
+#| msgid "Set value which will be added to filtered result."
+msgid ""
+"<![CDATA[Set the value which will<br>\n"
+"        be used in color difference calculation]]>"
+msgstr "Iestatiet vērtību, kas tiks pievienota filtrētajam rezultātam."
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:24
+#: data/effects/avfilter/avfilter_hsvkey.xml:24
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Disappearance Rate of the echo]]>"
+msgid "<![CDATA[Set similarity percentage with the key color]]>"
+msgstr "<![CDATA[Atbalss pazušanas ātrums]]>"
+
+#: data/effects/avfilter/avfilter_hsvhold.xml:28
+#: data/effects/avfilter/avfilter_hsvkey.xml:28
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Blend percentage]]>"
+msgstr "<![CDATA[Nosaka trokšņu nonemšanas metodi]]>"
+
+#: data/effects/avfilter/avfilter_hsvkey.xml:4
+#, fuzzy, kde-format
+#| msgid "HSV Value"
+msgid "HSV Key"
+msgstr "HSV vērtība"
+
+#: data/effects/avfilter/avfilter_hsvkey.xml:5
+#, kde-format
+msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:4
+#, fuzzy, kde-format
+#| msgid "Saturation threshold"
+msgid "Hue Saturation Intensity"
+msgstr "Piesātinājuma slieksnis"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:5
+#, kde-format
+msgid "Apply hue-saturation-intensity adjustments"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:8
+#, fuzzy, kde-format
+#| msgid "Color to select"
+msgid "Colors to Adjust"
+msgstr "Atlasāmā krāsa"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:9
+#, kde-format
+msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:11
+#, kde-format
+msgid ""
+"<![CDATA[Set which primary and<br>\n"
+"        complementary colors are going to be adjusted]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:14
+#: data/effects/hsl_range.xml:20
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift"
+msgstr "Nokrāsas nobīde"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:15
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the filter mode]]>"
+msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
+msgstr "<![CDATA[Norādiet filtra modeli]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:18
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Shift"
+msgstr "Piesātinājums"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:19
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the background opacity]]>"
+msgid "<![CDATA[Set the saturation shift]]>"
+msgstr "<![CDATA[Norādit fona necaurspīdību]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:22
+#, fuzzy, kde-format
+#| msgid "Intensity"
+msgid "Intensity Shift"
+msgstr "Intensitāte"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:23
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Tilting of the profile]]>"
+msgid "<![CDATA[Set the intensity shift]]>"
+msgstr "<![CDATA[Profila sasvēršana]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:27
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the filter mode]]>"
+msgid "<![CDATA[Set strength of filtering]]>"
+msgstr "<![CDATA[Norādiet filtra modeli]]>"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:30
+#, fuzzy, kde-format
+#| msgid "Preserve lightness"
+msgid "Preserve Lightness"
+msgstr "Saglabāt gaišumu"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:31
+#, fuzzy, kde-format
+#| msgid "Preserve lightness"
+msgid "<![CDATA[Preserve lightness]]>"
+msgstr "Saglabāt gaišumu"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:34
+#, fuzzy, kde-format
+#| msgid "Strength"
+msgid "Red Strength"
+msgstr "Stiprums"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:36
+#, kde-format
+msgid ""
+"<![CDATA[Set weight for RED component.<br>\n"
+"        Is used in saturation and lightess processing.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:39
+#, fuzzy, kde-format
+#| msgid "Strength"
+msgid "Green Strength"
+msgstr "Stiprums"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:41
+#, kde-format
+msgid ""
+"<![CDATA[Set weight for GREEN component.<br>\n"
+"        Is used in saturation and lightess processing.e]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:44
+#, fuzzy, kde-format
+#| msgid "Luma Strength"
+msgid "Blue Strength"
+msgstr "Luma stiprums"
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:46
+#, kde-format
+msgid ""
+"<![CDATA[Set weight for BLUE component.<br>\n"
+"        Is used in saturation and lightess processing.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -4393,7 +4794,7 @@ msgstr "Kodola rindpārlēces noņēmējs"
 #| "deinterling. Work on interlaced parts of a video to produce progressive "
 #| "frames. "
 msgid ""
-"Deinterlaces input video by applying Donald Graft’s adaptive kernel "
+"Deinterlace input video by applying Donald Graft’s adaptive kernel "
 "deinterling. Works on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
@@ -4462,6 +4863,16 @@ msgstr "Delta"
 msgid "Set value which will be added to filtered result."
 msgstr "Iestatiet vērtību, kas tiks pievienota filtrētajam rezultātam."
 
+#: data/effects/avfilter/avfilter_kirsch.xml:16
+#, fuzzy, kde-format
+#| msgid ""
+#| "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,"
+#| "Blue,All"
+msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
+msgstr ""
+"Alfa,Spilgtums (Y plakne),Tīrkrāsa (U plakne),Tīrkrāsa (V plakne),Sarkans,"
+"Zaļš,Zils,Visi"
+
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
 msgid "Lag Fun"
@@ -4473,33 +4884,62 @@ msgid "Slowly update darker pixels."
 msgstr "Lēnām atjaunināt tumšos pikseļus."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, kde-format
-msgid "Lens correction"
-msgstr "Lēcas korekcija"
+#, fuzzy, kde-format
+#| msgid "Lens Correction  (keyframable)"
+msgid "Lens Correction (avfilter)"
+msgstr "Lēcas korekcija (ar atslēgas kadriem)"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:5
 #, kde-format
-msgid "Correct radial lens distortion "
-msgstr "Labo lēcas apļveida kropļojumu "
+msgid ""
+"Correct radial lens distortion. This effect allows to specify a color for "
+"the unmapped pixels."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
-#, kde-format
-msgid "Focal point relative-X coord"
-msgstr "Fokālā punkta relatīvās X koord."
+#, fuzzy, kde-format
+#| msgid "Nearest,Bilinear"
+msgid "Nearest,Bi-linear"
+msgstr "Tuvākais,Bilineārs"
 
-#: data/effects/avfilter/avfilter_lenscorrection.xml:11
-#, kde-format
-msgid "Focal point relative-Y coord"
-msgstr "Fokālā punkta relatīvās Y koord."
+#: data/effects/avfilter/avfilter_lenscorrection.xml:9
+#, fuzzy, kde-format
+#| msgid "Interpolation"
+msgid "Interpolation Type"
+msgstr "Interpolācija"
 
-#: data/effects/avfilter/avfilter_lenscorrection.xml:14
+#: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
-msgid "Quadratic correction coeff."
-msgstr "Kvadrātiskās korekcijas koef."
+msgid "Unmapped Pixel Color"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_lenscorrection.xml:17
+#: data/effects/avfilter/avfilter_lenscorrection.xml:16
 #, kde-format
-msgid "DoubleQuadratic correction coeff."
+msgid ""
+"<![CDATA[Focal Point Relative<br>\n"
+"        X-Coordinate]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:20
+#, kde-format
+msgid ""
+"<![CDATA[Focal Point Relative<br>\n"
+"        Y-Coordinate]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[Quadratic<br>\n"
+"        Correction Coefficent]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:28
+#, fuzzy, kde-format
+#| msgid "DoubleQuadratic correction coeff."
+msgid ""
+"<![CDATA[Double Quadratic<br>\n"
+"        Correction Coefficent]]>"
 msgstr "Dubultās kvadrātiskās korekcijas koef."
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
@@ -4509,9 +4949,9 @@ msgstr ""
 "Ierobežo pikseļu komponentu vērtības līdz noteiktam diapazonam [min., maks.]"
 
 #: data/effects/avfilter/avfilter_limiter.xml:8
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:30
-#: data/effects/frei0r/frei0r_alphaspot.xml:30
+#: data/effects/frei0r/frei0r_alphaspot.xml:31
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:30
 #: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
 msgid "Min"
@@ -4523,9 +4963,9 @@ msgid "The Min value has not to be higher than the Max value"
 msgstr "Min. vērtība nedrīkst būt augstāka par maks. vērtību"
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:33
-#: data/effects/frei0r/frei0r_alphaspot.xml:33
+#: data/effects/frei0r/frei0r_alphaspot.xml:34
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:33
 #: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, kde-format
 msgid "Max"
@@ -4606,6 +5046,12 @@ msgstr "Zemo signālu caurlaidība"
 msgid "Apply a low-pass filter with 3dB point frequency."
 msgstr "Pielietot zemo signālu caurlaidības signālu ar 3 dB frekvenci."
 
+#: data/effects/avfilter/avfilter_lowpass.xml:11
+#, fuzzy, kde-format
+#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+msgid "Hz,Q-FActor,Octave,Slope,KHz"
+msgstr "Hz,Q koeficients,Oktāva,Slīpums,KHz"
+
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
 msgid "Low-shelf"
@@ -4644,6 +5090,7 @@ msgid "LUT file to apply"
 msgstr "Pielietojamā LUT file datne"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
+#: data/effects/avfilter/avfilter_shear.xml:18
 #, kde-format
 msgid "Interpolation Mode"
 msgstr "Interpolācijas režīms"
@@ -4715,10 +5162,14 @@ msgid "Vertical radius"
 msgstr "Vertikālais rādiuss"
 
 #: data/effects/avfilter/avfilter_median.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set median vertical radius.<br>\n"
+#| "       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
+#| "parameter.]]>"
 msgid ""
 "<![CDATA[Set median vertical radius.<br>\n"
-"       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
+"       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
 "parameter.]]>"
 msgstr ""
 "<![CDATA[Iestata vertikālo rādiusu.<br>\n"
@@ -4739,12 +5190,6 @@ msgstr ""
 "<![CDATA[Noklusējuma vērtība 50 vienmēr izvēlēsies mediānas vērtības,<br>\n"
 "       \tkamēr 0 izvēlēsies minimālās vērtības, bet 100 — maksimālās "
 "vērtības.]]>"
-
-#: data/effects/avfilter/avfilter_median.xml:22
-#, fuzzy, kde-format
-#| msgid "None,Y,U,YU,V,YV,UV,YUV"
-msgid "None,Y,U,YU,V,YV,UV,All"
-msgstr "Nekas,Y,U,YU,V,YV,UV,YUV"
 
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
@@ -4965,19 +5410,21 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
-#, kde-format
-msgid "Oscilloscope (avfilter)"
+#, fuzzy, kde-format
+#| msgid "Oscilloscope (avfilter)"
+msgid "Oscilloscope (simple)"
 msgstr "Osciloskops („avfilter“)"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:5
-#: data/effects/frei0r/frei0r_pr0file.xml:5
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:5
 #, kde-format
 msgid "2D video oscilloscope"
 msgstr "2D video osciloskops"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
-#, kde-format
-msgid "Trace X position"
+#, fuzzy, kde-format
+#| msgid "Trace X position"
+msgid "Trace X Position"
 msgstr "Trasēšanas X pozīcija"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
@@ -4986,8 +5433,9 @@ msgid "<![CDATA[X position of the trace profile]]>"
 msgstr "<![CDATA[Trasēšanas profila X pozīcija]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
-#, kde-format
-msgid "Trace Y position"
+#, fuzzy, kde-format
+#| msgid "Trace Y position"
+msgid "Trace Y Position"
 msgstr "Trasēšanas Y pozīcija"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
@@ -5003,9 +5451,9 @@ msgstr "<![CDATA[Trasēšanas profila izmērs/garums pikseļos]]>"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:24
-#: data/effects/frei0r/frei0r_alphagrad.xml:16
-#: data/effects/frei0r/frei0r_alphaspot.xml:24
-#: data/effects/frei0r/frei0r_pr0file.xml:16
+#: data/effects/frei0r/frei0r_alphagrad.xml:17
+#: data/effects/frei0r/frei0r_alphaspot.xml:25
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:24
 #: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, kde-format
 msgid "Tilt"
@@ -5022,8 +5470,9 @@ msgid "<![CDATA[Opacity of the scope display]]>"
 msgstr "<![CDATA[Pētītāja lodziņa caurspīdīgums]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
-#, kde-format
-msgid "Scope X position"
+#, fuzzy, kde-format
+#| msgid "Scope X position"
+msgid "Scope X Position"
 msgstr "Pētītāja X pozīcija"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
@@ -5032,8 +5481,9 @@ msgid "<![CDATA[X position of the scope display]]>"
 msgstr "<![CDATA[Pētītāja lodziņa X pozīcija]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
-#, kde-format
-msgid "Scope Y position"
+#, fuzzy, kde-format
+#| msgid "Scope Y position"
+msgid "Scope Y Position"
 msgstr "Pētītāja Y novietojums"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
@@ -5042,8 +5492,9 @@ msgid "<![CDATA[Y position of the scope display]]>"
 msgstr "<![CDATA[Pētītāja lodziņa Y pozīcija]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
-#, kde-format
-msgid "Scope width"
+#, fuzzy, kde-format
+#| msgid "Scope width"
+msgid "Scope Width"
 msgstr "Pētītāja platums"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
@@ -5052,8 +5503,9 @@ msgid "<![CDATA[Width of the scope display]]>"
 msgstr "<![CDATA[Pētītāja lodziņa platums]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
-#, kde-format
-msgid "Scope height"
+#, fuzzy, kde-format
+#| msgid "Scope height"
+msgid "Scope Height"
 msgstr "Pētītāja augstums"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
@@ -5061,20 +5513,15 @@ msgstr "Pētītāja augstums"
 msgid "<![CDATA[Height of the scope display]]>"
 msgstr "<![CDATA[Pētītāja lodziņa augstums]]>"
 
-#: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#: data/effects/avfilter/avfilter_waveform.xml:31
-#, kde-format
-msgid "Components"
-msgstr "Komponentes"
-
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
 msgstr "<![CDATA[Atlasa trasējamās komponentes]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
-#, kde-format
-msgid "Draw scope grid"
+#, fuzzy, kde-format
+#| msgid "Draw scope grid"
+msgid "Draw Scope Grid"
 msgstr "Zīmēt pētītāja režģi"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
@@ -5083,18 +5530,21 @@ msgid "<![CDATA[Switch grid on or off]]>"
 msgstr "<![CDATA[Izslēgt vai ieslēgt režģi]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
-#, kde-format
-msgid "Print statistics"
+#, fuzzy, kde-format
+#| msgid "Print statistics"
+msgid "Print Statistics"
 msgstr "Drukāt statistiku"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, kde-format
-msgid "<![CDATA[Switch statistics on or off]]>"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Switch statistics on or off]]>"
+msgid "<![CDATA[switch statistics on or off]]>"
 msgstr "<![CDATA[Ieslēgt vai izslēgt statistiku]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
-#, kde-format
-msgid "Draw trace profile line"
+#, fuzzy, kde-format
+#| msgid "Draw trace profile line"
+msgid "Draw Trace Profile Line"
 msgstr "Zīmēt trasēšanas profila līkni"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
@@ -5127,8 +5577,9 @@ msgstr ""
 "gan pārvietot nezināmo un mainīgo"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
-#, kde-format
-msgid "Photosensitivity"
+#, fuzzy, kde-format
+#| msgid "Photosensitivity"
+msgid "Photosensitivity Filter"
 msgstr "Fotojutība"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
@@ -5146,6 +5597,12 @@ msgstr "Izmantojamais kadrs"
 #, kde-format
 msgid "Set how many frames to use."
 msgstr "Norādīt, cik kadrus izmantot."
+
+#: data/effects/avfilter/avfilter_photosensitivity.xml:12
+#, fuzzy, kde-format
+#| msgid "Threshold"
+msgid "Theshold"
+msgstr "Slieksnis"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
@@ -5173,8 +5630,9 @@ msgid "Leave frames unchanged"
 msgstr "Neizmainīt kadrus"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
-#, kde-format
-msgid "Pixelize (avfilter)"
+#, fuzzy, kde-format
+#| msgid "Pixelize (avfilter)"
+msgid "Pixelize (advanced)"
 msgstr "Pikselizēt („avfilter“)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
@@ -5183,20 +5641,25 @@ msgid "Pixelize video"
 msgstr "Pikselizēt video"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
-#, kde-format
-msgid "Block width"
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:8
+#, fuzzy, kde-format
+#| msgid "Block width"
+msgid "Block Width"
 msgstr "Bloka platums"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
-#, kde-format
-msgid "Block height"
+#, fuzzy, kde-format
+#| msgid "Block height"
+msgid "Block Height"
 msgstr "Bloka augstums"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
-#, kde-format
-msgid "Pixelize mode"
+#, fuzzy, kde-format
+#| msgid "Pixelize mode"
+msgid "Pixelize Mode"
 msgstr "Pikselizēšanas režīms"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
@@ -5280,48 +5743,57 @@ msgid "Shift R/G/B/A pixels horizontally and/or vertically"
 msgstr "Nobīdīt R/G/B/A pikseļus horizontāli un/vai vertikāli"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
-#, kde-format
-msgid "Red Horizontal shift"
+#, fuzzy, kde-format
+#| msgid "Red Horizontal shift"
+msgid "Red Horizontal Shift"
 msgstr "Sarkanā horizontāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
-#, kde-format
-msgid "Red Vertical shift"
+#, fuzzy, kde-format
+#| msgid "Red Vertical shift"
+msgid "Red Vertical Shift"
 msgstr "Sarkanā vertikāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
-#, kde-format
-msgid "Green Horizontal shift"
+#, fuzzy, kde-format
+#| msgid "Green Horizontal shift"
+msgid "Green Horizontal Shift"
 msgstr "Zaļā horizontāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
-#, kde-format
-msgid "Green Vertical shift"
+#, fuzzy, kde-format
+#| msgid "Green Vertical shift"
+msgid "Green Vertical Shift"
 msgstr "Zaļā vertikāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
-#, kde-format
-msgid "Blue Horizontal shift"
+#, fuzzy, kde-format
+#| msgid "Blue Horizontal shift"
+msgid "Blue Horizontal Shift"
 msgstr "Zilā horizontāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
-#, kde-format
-msgid "Blue Vertical shift"
+#, fuzzy, kde-format
+#| msgid "Blue Vertical shift"
+msgid "Blue Vertical Shift"
 msgstr "Zilā vertikāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
-#, kde-format
-msgid "Alpha Horizontal shift"
+#, fuzzy, kde-format
+#| msgid "Alpha Horizontal shift"
+msgid "Alpha Horizontal Shift"
 msgstr "Alfa horizontāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
-#, kde-format
-msgid "Alpha Vertical shift"
+#, fuzzy, kde-format
+#| msgid "Alpha Vertical shift"
+msgid "Alpha Vertical Shift"
 msgstr "Alfa vertikāla nobīde"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
-#, kde-format
-msgid "Edge operation"
+#, fuzzy, kde-format
+#| msgid "Edge operation"
+msgid "Edge Operation"
 msgstr "Malas darbība"
 
 #: data/effects/avfilter/avfilter_roberts.xml:4
@@ -5330,8 +5802,9 @@ msgid "Roberts"
 msgstr "Robertss"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
-#, kde-format
-msgid "Apply roberts cross operator to input video stream"
+#, fuzzy, kde-format
+#| msgid "Apply roberts cross operator to input video stream"
+msgid "Apply Roberts cross operator (edge detection)"
 msgstr "Ievades video straumei pielietot Roberts šķērsoperatoru"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
@@ -5390,23 +5863,27 @@ msgid "Scroll"
 msgstr "Ritināšana"
 
 #: data/effects/avfilter/avfilter_scroll.xml:8
-#, kde-format
-msgid "Horizontal scrolling speed"
+#, fuzzy, kde-format
+#| msgid "Horizontal scrolling speed"
+msgid "Horizontal Scrolling Speed"
 msgstr "Horizontālās ritināšanas ātrums"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
-#, kde-format
-msgid "Vertical scrolling speed"
+#, fuzzy, kde-format
+#| msgid "Vertical scrolling speed"
+msgid "Vertical Scrolling Speed"
 msgstr "Vertikālās ritināšanas ātrums"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
-#, kde-format
-msgid "Initial horizontal position"
+#, fuzzy, kde-format
+#| msgid "Initial horizontal position"
+msgid "Initial Horizontal Position"
 msgstr "Sākotnējā horizontālā pozīcija"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
-#, kde-format
-msgid "Initial vertical position"
+#, fuzzy, kde-format
+#| msgid "Initial vertical position"
+msgid "Initial Vertical Position"
 msgstr "Sākotnējā vertikālā pozīcija"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
@@ -5517,29 +5994,27 @@ msgid "Apply shear transform to input video."
 msgstr "Ievades video pielieto bīdes transformāciju."
 
 #: data/effects/avfilter/avfilter_shear.xml:8
-#, kde-format
-msgid "X shear factor"
+#, fuzzy, kde-format
+#| msgid "X shear factor"
+msgid "X-axis Shear Factor"
 msgstr "X bīdes koeficients"
 
 #: data/effects/avfilter/avfilter_shear.xml:11
-#, kde-format
-msgid "Y shear factor"
+#, fuzzy, kde-format
+#| msgid "Y shear factor"
+msgid "Y-axis Shear Factor"
 msgstr "Y bīdes koeficients"
 
 #: data/effects/avfilter/avfilter_shear.xml:14
-#, kde-format
-msgid "Background fill color"
+#, fuzzy, kde-format
+#| msgid "Background fill color"
+msgid "Background Fill Color"
 msgstr "Fona aizpildījuma krāsa"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
 #, kde-format
 msgid "Nearest,Bilinear"
 msgstr "Tuvākais,Bilineārs"
-
-#: data/effects/avfilter/avfilter_shear.xml:18
-#, kde-format
-msgid "Interpolation mode"
-msgstr "Interpolācijas režīms"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -6372,113 +6847,138 @@ msgstr ""
 msgid "Wavelet Denoiser"
 msgstr "Maiņviļņa trokšņu noņēmējs"
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:5
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:6
 #, kde-format
-msgid "Wavelet based Denoiser"
-msgstr "Maiņviļņos balstīts trokšņu noņēmējs"
+msgid ""
+"<![CDATA[Wavelet based denoiser.<br>\n"
+"    It transforms each frame from the video input into the wavelet domain, "
+"using Cohen-Daubechies-Feauveau 9/7.]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:8
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
 msgid "Hard,Soft,Garrote"
 msgstr "Stiprs,Viegls,Garrote"
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:18
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
+#, kde-format
+msgid "Universal,Bayes"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
+#, fuzzy, kde-format
+#| msgid "Threshold"
+msgid "Threshold Type"
+msgstr "Slieksnis"
+
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:23
 #: src/jobs/speedtask.cpp:72
 #, kde-format
 msgid "Percentage"
 msgstr "Procenti"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
-#, kde-format
-msgid "Vectorscope (Advanced)"
+#, fuzzy, kde-format
+#| msgid "Vectorscope (Advanced)"
+msgid "Vectorscope (advanced)"
 msgstr "Vektorskops (papildu)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
-#, kde-format
-msgid ""
-"Display 2 color component values in the two dimensional graph (which is "
-"called a vectorscope)"
+#, fuzzy, kde-format
+#| msgid ""
+#| "Display 2 color component values in the two dimensional graph (which is "
+#| "called a vectorscope)"
+msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
 "Parāda divus krāsu komponenšu vērtības kā divdimensionālu grafiku (ko dēvē "
 "arī par vektoroskopu)."
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
-#, kde-format
-msgid "gray,color,color2,color3,color4,color5"
+#, fuzzy, kde-format
+#| msgid "gray,color,color2,color3,color4,color5"
+msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
 msgstr "Pelēks,krāsa,krāsa2,krāsa3,krāsa4,krāsa5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
-#: data/effects/avfilter/avfilter_zoompan.xml:11
-#: data/effects/frei0r/frei0r_pr0be.xml:12
-#: data/effects/frei0r/frei0r_pr0file.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:424
+#: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
-msgid "X"
-msgstr "X"
+msgid "Tint 1"
+msgstr "1. nokrāsa"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbY)
 #: data/effects/avfilter/avfilter_vectorscope.xml:15
-#: data/effects/avfilter/avfilter_zoompan.xml:14
-#: data/effects/frei0r/frei0r_pr0be.xml:15
-#: data/effects/frei0r/frei0r_pr0file.xml:12
-#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
-#, kde-format
-msgid "Y"
-msgstr "Y"
+#, fuzzy, kde-format
+#| msgid "Tint 0"
+msgid "Tint 2"
+msgstr "0. nokrāsa"
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:18
+#, fuzzy, kde-format
+#| msgid "Components"
+msgid "Component on X"
+msgstr "Komponentes"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:21
+#, fuzzy, kde-format
+#| msgid "Components"
+msgid "Component on Y"
+msgstr "Komponentes"
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:27
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
 msgid "None,Instant,Peak,Peak+Instant"
 msgstr "Nekas,Tūlītējs,Maksimums,Maksimums+tūlītējs"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:22
+#: data/effects/avfilter/avfilter_vectorscope.xml:28
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "Envelope"
 msgstr "Aploksne"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:25
-#, kde-format
-msgid "none,green,color"
+#: data/effects/avfilter/avfilter_vectorscope.xml:31
+#, fuzzy, kde-format
+#| msgid "none,green,color"
+msgid "None,Green,Color"
 msgstr "nekas,zaļš,krāsa"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:26
+#: data/effects/avfilter/avfilter_vectorscope.xml:32
 #: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
 msgid "Graticule"
 msgstr "Grādu tīkls"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:29
+#: data/effects/avfilter/avfilter_vectorscope.xml:35
 #: data/effects/avfilter/avfilter_waveform.xml:50
 #, kde-format
 msgid "Graticule Opacity"
 msgstr "Grādu tīkla necaurspīdība"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:32
+#: data/effects/avfilter/avfilter_vectorscope.xml:38
 #, kde-format
-msgid "White,Black,Name"
-msgstr "Balts,Melns,Nosaukums"
+msgid "Draw White Point,Draw Black Point,Draw Point Name"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
+#: data/effects/avfilter/avfilter_waveform.xml:56
+#, fuzzy, kde-format
+#| msgid "Graticule"
+msgid "Graticule Flags"
+msgstr "Grādu tīkls"
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
 msgid "Low Threshold"
 msgstr "Zems slieksnis"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:42
+#: data/effects/avfilter/avfilter_vectorscope.xml:48
 #, kde-format
 msgid "High Threshold"
 msgstr "Augsts slieksnis"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:45
+#: data/effects/avfilter/avfilter_vectorscope.xml:51
 #, kde-format
-msgid "Auto,601,709"
-msgstr "Auto,601,709"
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:46
-#, kde-format
-msgid "Colorspace"
-msgstr "Krāstelpa"
+msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
@@ -6581,8 +7081,9 @@ msgid "Frames to deinterlace"
 msgstr "Kadri, kuriem noņemt rindpārlēci"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
-#, kde-format
-msgid "Video waveform monitor"
+#, fuzzy, kde-format
+#| msgid "Video waveform monitor"
+msgid "Video Waveform Monitor"
 msgstr "Video viļņformas monitors"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
@@ -6616,9 +7117,13 @@ msgstr ""
 "apakša — 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Smaller values are useful for finding out how many values<br>\n"
+#| "       \tof the same luminance are distributed across input rows/"
+#| "columns]]>"
 msgid ""
-"<![CDATA[Smaller values are useful for finding out how many values<br>\n"
+"<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
 "<![CDATA[Mazākas vērtības ir lietderīgas, lai uzzinātu, cik daudz tāda "
@@ -6641,6 +7146,12 @@ msgstr ""
 msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[Norādiet parādīšanas režīmu]]>"
 
+#: data/effects/avfilter/avfilter_waveform.xml:30
+#, fuzzy, kde-format
+#| msgid "None,Y,U,YU,V,YV,UV,YUV"
+msgid "Y,U,YU,V,YV,UV,All"
+msgstr "Nekas,Y,U,YU,V,YV,UV,YUV"
+
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
@@ -6652,8 +7163,9 @@ msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<![CDATA[Iestatiet aploksnes režīmu]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, kde-format
-msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
+#, fuzzy, kde-format
+#| msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
+msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
 msgstr ""
 "Zemfrekvences,Plakans,A plakans, X plakans, Y plakans,Tīrkrāsa,Krāsa,akrāsa"
 
@@ -6687,8 +7199,9 @@ msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "<![CDATA[Norādiet grādu tīkla necaurspīdību]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
-#, kde-format
-msgid "Numbers,Dots"
+#, fuzzy, kde-format
+#| msgid "Numbers,Dots"
+msgid "Show numbers,Draw dots"
 msgstr "Skaitļi,Punkti"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
@@ -6697,8 +7210,9 @@ msgid "<![CDATA[Set graticule flags]]>"
 msgstr "<![CDATA[Norādiet grādu tīlku karodziņus]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
-#, kde-format
-msgid "Digital,Millivolts,Ire"
+#, fuzzy, kde-format
+#| msgid "Digital,Millivolts,Ire"
+msgid "Digital,Millivolts,IRE"
 msgstr "Digitāls,Milivolti,IRE"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
@@ -6718,20 +7232,18 @@ msgstr "0. nokrāsa"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Only used with <em>lowpass</em> filter and when display<br>\n"
+#| "       \tis not <em>overlay</em> and input pixel formats are not <em>RGB</"
+#| "em>]]>"
 msgid ""
-"<![CDATA[Only used with <em>lowpass</em> filter and when display<br>\n"
-"       \tis not <em>overlay</em> and input pixel formats are not <em>RGB</"
-"em>]]>"
+"<![CDATA[Only used with lowpass filter and when display<br>\n"
+"       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
 "<![CDATA[Izmntots tika iar <em>zemfrekvences</em> filtru un kad "
 "displejs<br>\n"
 "       \tnav <em>pārklāts</em>, kā arī pikseļu formāts nav <em>RGB</em>]]>"
-
-#: data/effects/avfilter/avfilter_waveform.xml:73
-#, kde-format
-msgid "Tint 1"
-msgstr "1. nokrāsa"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
@@ -6739,14 +7251,32 @@ msgid "None,Size"
 msgstr "Nekas,Izmērs"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, kde-format
-msgid "Fit mode"
+#, fuzzy, kde-format
+#| msgid "Fit mode"
+msgid "Fit Mode"
 msgstr "Ietilpināšanas režīms"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
 msgstr "<![CDATA[Norādiet ietilpināšanas režīmu]]>"
+
+#: data/effects/avfilter/avfilter_waveform.xml:83
+#, kde-format
+msgid "First available, All"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:84
+#, fuzzy, kde-format
+#| msgid "Input format"
+msgid "Input Format"
+msgstr "Ievades formāts"
+
+#: data/effects/avfilter/avfilter_waveform.xml:85
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the radius for the direction]]>"
+msgid "<![CDATA[Set input formats for filter to pick from]]>"
+msgstr "<![CDATA[Nosaka virziena rādiusu]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, kde-format
@@ -6775,11 +7305,14 @@ msgid "xBR Interpolator"
 msgstr "xBR interpolācija"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Apply the xBR high-quality magnification filter which is designed for "
+#| "pixel art. It follows a set of edge-detection rules, see https://forums."
+#| "libretro.com/t/xbr-algorithm-tutorial/123"
 msgid ""
 "Apply the xBR high-quality magnification filter which is designed for pixel "
-"art. It follows a set of edge-detection rules, see https://forums.libretro."
-"com/t/xbr-algorithm-tutorial/123"
+"art. It follows a set of edge-detection rules."
 msgstr ""
 "Pielietojiet xBR augstas kvalitātes tuvinājuma filtru, kas ir paredzēts "
 "pikseļu mākslai. Šis filtrs ievēro malu noteikšanas noteikumu. Vairāk varat "
@@ -6838,6 +7371,19 @@ msgstr "Pielietot tuvinājuma un panorāmas efektu"
 #, kde-format
 msgid "Zoom"
 msgstr "Tuvināt"
+
+#: data/effects/avfilter/avfilter_zoompan.xml:11
+#: src/assets/view/widgets/keyframeimport.cpp:424
+#, kde-format
+msgid "X"
+msgstr "X"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cbY)
+#: data/effects/avfilter/avfilter_zoompan.xml:14
+#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
+#, kde-format
+msgid "Y"
+msgstr "Y"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/avfilter/avfilter_zoompan.xml:17
@@ -6910,14 +7456,38 @@ msgid "Blur factor"
 msgstr "Aizmiglošanas koeficients"
 
 #: data/effects/brightness.xml:4
-#, kde-format
-msgid "Brightness (keyframable)"
-msgstr "Gaišums (ar atslēgkadriem)"
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Intensity (Brightness)"
+msgstr "Gaišums"
 
 #: data/effects/brightness.xml:5
-#, kde-format
-msgid "Change image brightness with keyframes"
+#, fuzzy, kde-format
+#| msgid "Change image brightness with keyframes"
+msgid "Change image intensity"
 msgstr "Mainīt attēla gaišumu ar atslēgkadriem"
+
+#: data/effects/burningtv.xml:4
+#, kde-format
+msgid "Burning TV"
+msgstr ""
+
+#: data/effects/burningtv.xml:5
+#, kde-format
+msgid "Simulate burning TV pixels"
+msgstr ""
+
+#: data/effects/burningtv.xml:8
+#, fuzzy, kde-format
+#| msgid "Foreground Opacity"
+msgid "Foreground Only"
+msgstr "Priekšplāna necaurspīdība"
+
+#: data/effects/burningtv.xml:11
+#, fuzzy, kde-format
+#| msgid "Level Threshold"
+msgid "Movement Threshold"
+msgstr "Līmeņa slieksnis"
 
 #: data/effects/channelcopy.xml:4
 #, kde-format
@@ -6974,9 +7544,10 @@ msgstr "Horizontālā izkliede"
 msgid "Vertical scatter"
 msgstr "Vertikālā izkliede"
 
-#: data/effects/charcoal.xml:20 data/effects/frei0r/frei0r_alpha0ps.xml:26
-#: data/effects/frei0r/frei0r_alpha0ps.xml:51
+#: data/effects/charcoal.xml:20 data/effects/frei0r/frei0r_alpha0ps.xml:27
+#: data/effects/frei0r/frei0r_alpha0ps.xml:53
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:25
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:8
 #: data/effects/frei0r/frei0r_mask0mate.xml:20
 #: data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
@@ -7060,18 +7631,21 @@ msgid "Trim the edges of a clip"
 msgstr "Apgriezt klipa malas"
 
 #: data/effects/crop.xml:20
-#, kde-format
-msgid "Automatic center-crop"
+#, fuzzy, kde-format
+#| msgid "Automatic center-crop"
+msgid "Automatic Center-crop"
 msgstr "Automātiska kadrēšana no centra"
 
 #: data/effects/crop.xml:23
-#, kde-format
-msgid "Center balance"
+#, fuzzy, kde-format
+#| msgid "Center balance"
+msgid "Center Balance"
 msgstr "Centra līdzsvars"
 
 #: data/effects/crop.xml:26
-#, kde-format
-msgid "Use project resolution"
+#, fuzzy, kde-format
+#| msgid "Use project resolution"
+msgid "Use Project Resolution"
 msgstr "Lietot projekta izšķirtspēju"
 
 #: data/effects/dance.xml:4
@@ -7474,9 +8048,10 @@ msgid "Fill with image or black"
 msgstr "Aizpildīt ar attēlu vai melnu krāsu"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
-#, kde-format
-msgid "Aech0r"
-msgstr "Aech0r"
+#, fuzzy, kde-format
+#| msgid "Create an analog video echo"
+msgid "Analog Video Echo"
+msgstr "Izveidot analoga video atbalsi"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
@@ -7539,21 +8114,22 @@ msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
 msgstr "<![CDATA[Stroboskopa ātrums (no 0 līdz 8 kadriem)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
-#: data/effects/frei0r/frei0r_alpha0ps.xml:30
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
-#, kde-format
-msgid "Alpha operations"
-msgstr "Alfa darbības"
-
-#: data/effects/frei0r/frei0r_alpha0ps.xml:6
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
-#, kde-format
-msgid "Display and manipulation of the alpha channel"
-msgstr "Alfa kanāla parādīšana un tā manipulēšana"
+#, fuzzy, kde-format
+#| msgid "Alpha Operation"
+msgid "Alpha Operations (SUPERCEDED)"
+msgstr "Alfa darbība"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:9
-#: data/effects/frei0r/frei0r_alpha0ps.xml:34
+#: data/effects/frei0r/frei0r_alpha0ps.xml:7
+#, kde-format
+msgid ""
+"<![CDATA[Display and manipulation of the alpha channel.<br>\n"
+"        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</"
+"em>.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_alpha0ps.xml:10
+#: data/effects/frei0r/frei0r_alpha0ps.xml:36
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
 #, kde-format
 msgid ""
@@ -7563,41 +8139,49 @@ msgstr ""
 "Attēls,Alfa kā pelēks,Pelēks + sarkans,Atlasi uz melnu,Atlasi uz pelēku,"
 "Atlasi uz baltu,Atlasi uz rūtiņām"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:13
-#: data/effects/frei0r/frei0r_alpha0ps.xml:38
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
+#: data/effects/frei0r/frei0r_alpha0ps.xml:14
+#: data/effects/frei0r/frei0r_alpha0ps.xml:40
 #, kde-format
 msgid "Display input alpha"
 msgstr "Parādīt ievades alfa"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:16
+#: data/effects/frei0r/frei0r_alpha0ps.xml:17
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
 msgstr ""
 "Bez darbības,Noskūt,Stipri samazināt,Viegli samazināt,Stipra palielināt,"
 "Viegli palielināt,Slieksnis"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:17
-#: data/effects/frei0r/frei0r_alpha0ps.xml:42
+#: data/effects/frei0r/frei0r_alpha0ps.xml:18
+#: data/effects/frei0r/frei0r_alpha0ps.xml:44
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
-#: data/effects/frei0r/frei0r_alphagrad.xml:29
-#: data/effects/frei0r/frei0r_alphaspot.xml:37
+#: data/effects/frei0r/frei0r_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alphaspot.xml:38
 #: data/effects/frei0r/frei0r_select0r.xml:37
 #: data/effects/frei0r/frei0r_select0r.xml:76
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_select0r.xml:42
 #, kde-format
 msgid "Operation"
 msgstr "Darbība"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:23
+#: data/effects/frei0r/frei0r_alpha0ps.xml:24
 #, kde-format
 msgid "Shrink/grow amount"
 msgstr "Samazināšanas/palielināšanas daudzums"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:41
+#: data/effects/frei0r/frei0r_alpha0ps.xml:33
+#, kde-format
+msgid ""
+"<![CDATA[Display and manipulation of the alpha channel.<br>\n"
+"        This effect has been replaced by <em>frei0r.alphaops_alphaops</"
+"em>.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_alpha0ps.xml:43
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
@@ -7605,27 +8189,48 @@ msgstr ""
 "Bez darbības,Noskūt,Stipri samazināt,Viegli samazināt,Stipra palielināt,"
 "Viegli palielināt,Slieksnis,Aizmiglot"
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:48
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
+#: data/effects/frei0r/frei0r_alpha0ps.xml:50
 #, kde-format
 msgid "Shrink/Grow/Blur amount"
 msgstr "Samazināšanas/palielināšanas/aizmiglošanas daudzums"
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
-#: data/effects/frei0r/frei0r_alphagrad.xml:4
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha Operation"
+msgid "Alpha Operations"
+msgstr "Alfa darbība"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
 #, kde-format
-msgid "Alpha gradient"
+msgid "Display and manipulation of the alpha channel"
+msgstr "Alfa kanāla parādīšana un tā manipulēšana"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
+#, fuzzy, kde-format
+#| msgid "Display input alpha"
+msgid "Display Input Alpha"
+msgstr "Parādīt ievades alfa"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
+#, fuzzy, kde-format
+#| msgid "Shrink/Grow/Blur amount"
+msgid "Shrink/Grow/Blur Amount"
+msgstr "Samazināšanas/palielināšanas/aizmiglošanas daudzums"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha gradient"
+msgid "Alpha Gradient"
 msgstr "Alfa gradients"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
-#: data/effects/frei0r/frei0r_alphagrad.xml:5
 #, kde-format
 msgid "Fill the alpha channel with a specified gradient"
 msgstr "Aizpildīt alfa kanālu ar attiecīgu gradientu"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
-#: data/effects/frei0r/frei0r_alphagrad.xml:8
+#: data/effects/frei0r/frei0r_alphagrad.xml:9
 #: src/assets/view/widgets/keyframeimport.cpp:421
 #: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
 #, kde-format
@@ -7633,50 +8238,64 @@ msgid "Position"
 msgstr "Novietojums"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:9
-#: data/effects/frei0r/frei0r_alphagrad.xml:9
+#: data/effects/frei0r/frei0r_alphagrad.xml:10
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
 msgstr "<![CDATA[Norādiet gradieta sākumu.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
-#: data/effects/frei0r/frei0r_alphagrad.xml:12
-#: data/effects/frei0r/frei0r_alphaspot.xml:27
-#: data/effects/mask_start_frei0r_alphaspot.xml:27
-#, kde-format
-msgid "Transition width"
+#: data/effects/frei0r/frei0r_alphagrad.xml:13
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:27
+#, fuzzy, kde-format
+#| msgid "Transition width"
+msgid "Transition Width"
 msgstr "Pārejas platums"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:13
-#: data/effects/frei0r/frei0r_alphagrad.xml:13
+#: data/effects/frei0r/frei0r_alphagrad.xml:14
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
 msgstr "<![CDATA[Norādiet pārejas starp blīvumiem platumu.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
-#: data/effects/frei0r/frei0r_alphagrad.xml:17
+#: data/effects/frei0r/frei0r_alphagrad.xml:18
 #, kde-format
 msgid "<![CDATA[Angle for the gradient.]]>"
 msgstr "<![CDATA [Gradienta leņķis]]>"
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
+#, fuzzy, kde-format
+#| msgid "Transparency top"
+msgid "Transparency Top"
+msgstr "Caurspīdības augša"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
+#: data/effects/frei0r/frei0r_alphagrad.xml:22
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
 msgstr "<![CDATA[Norādiet gradienta augšdaļas caurspīdību.]]>"
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
+#, fuzzy, kde-format
+#| msgid "Transparency bottom"
+msgid "Transparency Bottom"
+msgstr "Caurspīdības apakša"
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
+#: data/effects/frei0r/frei0r_alphagrad.xml:26
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
 msgstr "<![CDATA[Norādiet gradienta apakšas caurspīdību.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
-#: data/effects/frei0r/frei0r_alphagrad.xml:28
-#: data/effects/frei0r/frei0r_alphaspot.xml:36
+#: data/effects/frei0r/frei0r_alphagrad.xml:29
+#: data/effects/frei0r/frei0r_alphaspot.xml:37
 #: data/effects/frei0r/frei0r_select0r.xml:36
 #: data/effects/frei0r/frei0r_select0r.xml:75
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:36
 #: data/effects/mask_start_frei0r_alphaspot.xml:36
 #: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
@@ -7684,67 +8303,94 @@ msgid "Write on clear,Max,Min,Add,Subtract"
 msgstr "Rakstīt uz tukša,Maks.,Min.,Saskaitīt,Atņemt"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
-#: data/effects/frei0r/frei0r_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alphagrad.xml:31
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
 msgstr "<![CDATA[Norādiet kompozicionēšanas alfa darbību.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
-#: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, kde-format
-msgid "Alpha shapes"
+#, fuzzy, kde-format
+#| msgid "Alpha shapes"
+msgid "Alpha Shapes"
 msgstr "Alfa formas"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
-#: data/effects/frei0r/frei0r_alphaspot.xml:5
 #, kde-format
 msgid "Draws simple shapes into the alpha channel"
 msgstr "Alfa kanālā zīmē vienkāršas formas"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
-#: data/effects/frei0r/frei0r_alphaspot.xml:8
+#: data/effects/frei0r/frei0r_alphaspot.xml:9
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:8
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
 msgstr "Taisnstūris,Elipse,Trijstūris,Dimants"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:12
-#: data/effects/frei0r/frei0r_alphaspot.xml:12
+#: data/effects/frei0r/frei0r_alphaspot.xml:13
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:12
 #: data/effects/mask_start_frei0r_alphaspot.xml:12
 #, kde-format
 msgid "Position X"
 msgstr "X novietojums"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:15
-#: data/effects/frei0r/frei0r_alphaspot.xml:15
+#: data/effects/frei0r/frei0r_alphaspot.xml:16
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:15
 #: data/effects/mask_start_frei0r_alphaspot.xml:15
 #, kde-format
 msgid "Position Y"
 msgstr "Y novietojums"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:18
-#: data/effects/frei0r/frei0r_alphaspot.xml:18
+#: data/effects/frei0r/frei0r_alphaspot.xml:19
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:18
 #: data/effects/mask_start_frei0r_alphaspot.xml:18
 #, kde-format
 msgid "Size X"
 msgstr "X izmērs"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:21
-#: data/effects/frei0r/frei0r_alphaspot.xml:21
+#: data/effects/frei0r/frei0r_alphaspot.xml:22
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:21
 #: data/effects/mask_start_frei0r_alphaspot.xml:21
 #, kde-format
 msgid "Size Y"
 msgstr "Y izmērs"
 
-#: data/effects/frei0r/frei0r_alphagrad.xml:20
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
+#: data/effects/frei0r/frei0r_alphaspot.xml:28
+#: data/effects/mask_start_frei0r_alphaspot.xml:27
 #, kde-format
-msgid "Transparency top"
-msgstr "Caurspīdības augša"
+msgid "Transition width"
+msgstr "Pārejas platums"
 
-#: data/effects/frei0r/frei0r_alphagrad.xml:24
+#: data/effects/frei0r/frei0r_alphagrad.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha gradient"
+msgid "Alpha Gradient (SUPERCEDED)"
+msgstr "Alfa gradients"
+
+#: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
-msgid "Transparency bottom"
-msgstr "Caurspīdības apakša"
+msgid ""
+"<![CDATA[Fill the alpha channel with a specified gradient.<br>\n"
+"    This effect has been replaced by frei0r.alphaops_alphagrad.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_alphaspot.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha shapes (Mask)"
+msgid "Alpha Shapes (SUPERCEDED)"
+msgstr "Alfa formas (maska)"
+
+#: data/effects/frei0r/frei0r_alphaspot.xml:6
+#, kde-format
+msgid ""
+"<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
+"    This effect has been replaced by <em>frei0r,alphaops_alphaspot</em>.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -8840,9 +9486,26 @@ msgid "VR360 Transform"
 msgstr "VR360 transformēšana"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:5
-#, kde-format
-msgid "Rotates a panoramic image."
+#, fuzzy, kde-format
+#| msgid "Rotates a panoramic image."
+msgid "Rotates a panoramic image"
 msgstr "Rotē panorāmas attēlu."
+
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:4
+#, kde-format
+msgid "Blue Screen (Color to Alpha)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:5
+#, kde-format
+msgid "<![CDATA[Turns the selected color into alpha making it transparent.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:14
+#, fuzzy, kde-format
+#| msgid "Start Color"
+msgid "Distance to Color"
+msgstr "Sākuma krāsa"
 
 #: data/effects/frei0r/frei0r_brightness.xml:4
 #, kde-format
@@ -8917,7 +9580,7 @@ msgid "Enable Stretch"
 msgstr "Ieslēgt izstiepšanu"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/frei0r/frei0r_defish0r.xml:34
+#: data/effects/frei0r/frei0r_defish0r.xml:37
 #, kde-format
 msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
@@ -8925,12 +9588,6 @@ msgid ""
 msgstr ""
 "Tuvākais kaimiņš,Bilineāri,Bikubisks izlīdzinājums,Bikubisks asinājums,"
 "Splains 4✕4,Splains 6✕6,Lanczos"
-
-#: data/effects/frei0r/frei0r_c0rners.xml:45
-#: data/effects/frei0r/frei0r_defish0r.xml:35
-#, kde-format
-msgid "Interpolator"
-msgstr "Interpolators"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
@@ -8946,8 +9603,9 @@ msgid "Write on clear,Maximum,Minimum,Add,Subtract"
 msgstr "Rakstīt uz tīra,Maksimums,Minimums,Saskaitīt,Atņemt"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:52
+#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
-msgid "Alpha operation"
+msgid "Alpha Operation"
 msgstr "Alfa darbība"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:4
@@ -9036,29 +9694,50 @@ msgstr ""
 "Izslēgšana,HSL nokrāsa,HSL piesātinājums,HSL krāsa,HSL spožums"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:40
+#: data/effects/frei0r/frei0r_softglow.xml:10
 #, kde-format
 msgid "Blend Mode"
 msgstr "Apvienošanas režīms"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:4
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:17
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:29
 #, kde-format
 msgid "Video grid"
 msgstr "Video režģis"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:6
 #, kde-format
 msgid "Create a video Grid"
 msgstr "Izveidot video režģi"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:8
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:9
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:21
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:34
 #, kde-format
 msgid "Rows"
 msgstr "Rindas"
 
-#: data/effects/frei0r/frei0r_cairoimagegrid.xml:11
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:12
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:24
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:38
 #, kde-format
 msgid "Columns"
 msgstr "Kolonnas"
+
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:18
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:30
+#, fuzzy, kde-format
+#| msgid "Create a video Grid"
+msgid "Create a video grid"
+msgstr "Izveidot video režģi"
+
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:33
+#: data/effects/frei0r/frei0r_cairoimagegrid.xml:37
+#, fuzzy, kde-format
+#| msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgid "None,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -9081,21 +9760,25 @@ msgid "Difference space"
 msgstr "Atšķirību telpa"
 
 #: data/effects/frei0r/frei0r_cluster.xml:4
-#, kde-format
-msgid "K-Means Clustering"
+#, fuzzy, kde-format
+#| msgid "K-Means Clustering"
+msgid "K-Means Clustering (ABANDONED)"
 msgstr "Pudurošana pēc vidējiem"
 
-#: data/effects/frei0r/frei0r_cluster.xml:5
-#, kde-format
-msgid "Clusters of a source image by color and spatial distance"
+#: data/effects/frei0r/frei0r_cluster.xml:6
+#, fuzzy, kde-format
+#| msgid "Clusters of a source image by color and spatial distance"
+msgid ""
+"<![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>\n"
+"    Clusters of a source image by color and spatial distance]]>"
 msgstr "Puduro avota attēlu pēc krāsas un telpiskā attāluma"
 
-#: data/effects/frei0r/frei0r_cluster.xml:8
+#: data/effects/frei0r/frei0r_cluster.xml:9
 #, kde-format
 msgid "Amount of clusters"
 msgstr "Puduru daudzums"
 
-#: data/effects/frei0r/frei0r_cluster.xml:11
+#: data/effects/frei0r/frei0r_cluster.xml:12
 #, kde-format
 msgid "Weight on distance"
 msgstr "Attāluma svarīgums"
@@ -9194,13 +9877,6 @@ msgstr "Iekrāsot"
 msgid "Colorizes image to selected hue, saturation and lightness"
 msgstr "Iekrāso attēlu, izmantojot norādīto nokrāsu, piesātinājumu un gaišumu"
 
-#: data/effects/frei0r/frei0r_colorize.xml:8
-#: data/effects/frei0r/frei0r_hueshift0r.xml:8
-#: data/transitions/frei0r/frei0r_hue.xml:4
-#, kde-format
-msgid "Hue"
-msgstr "Nokrāsa"
-
 #: data/effects/frei0r/frei0r_colorize.xml:9
 #, kde-format
 msgid "Color shade of the colorized image."
@@ -9225,6 +9901,11 @@ msgstr "Krāsu efekts"
 #, kde-format
 msgid "Applies a pre-made color effect to image"
 msgstr "Attēlam pielieto iepriekš sagatavotu krāsu efektu"
+
+#: data/effects/frei0r/frei0r_colortap.xml:8
+#, kde-format
+msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
 #, kde-format
@@ -9384,8 +10065,9 @@ msgid "Non rectilinear lens mappings"
 msgstr "Ne taisnvirziena lēcu kartēšnas"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:11
-#, kde-format
-msgid "DeFish"
+#, fuzzy, kde-format
+#| msgid "DeFish"
+msgid "De-Fish"
 msgstr "Zivs acs noņemšana"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:14
@@ -9406,37 +10088,52 @@ msgstr "Aizpildīt,Centrēt,Piemērot,Manuāli"
 msgid "Scaling"
 msgstr "Mērogošana"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:22
-#, kde-format
-msgid "Straighten all edges of video frame"
+#: data/effects/frei0r/frei0r_defish0r.xml:23
+#, fuzzy, kde-format
+#| msgid "Straighten all edges of video frame"
+msgid ""
+"<![CDATA[Straighten all Edges<br>\n"
+"        of Video Frame]]>"
 msgstr "Iztaisnot visas video kadra malas"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:25
-#, kde-format
-msgid "Fix camera scaling between 4:3 and 16:9"
+#: data/effects/frei0r/frei0r_defish0r.xml:27
+#, fuzzy, kde-format
+#| msgid "Fix camera scaling between 4:3 and 16:9"
+msgid ""
+"<![CDATA[Fix Camera Scaling<br>\n"
+"        Between 4:3 and 16:9]]>"
 msgstr "Labot kameras mērogu starp 4:3 un 16:9"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:28
-#, kde-format
-msgid "Scale Y to affect aspect ratio"
+#: data/effects/frei0r/frei0r_defish0r.xml:31
+#, fuzzy, kde-format
+#| msgid "Scale Y to affect aspect ratio"
+msgid ""
+"<![CDATA[Scale Y to Affect<br>\n"
+"        Aspect Ratio]]>"
 msgstr "Mērogot Y, lai mainītu malu attiecību"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:31
+#: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
 msgid "Manual Scale"
 msgstr "Manuāls mērogs"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:38
 #, kde-format
+msgid "Interpolator"
+msgstr "Interpolators"
+
+#: data/effects/frei0r/frei0r_defish0r.xml:41
+#, kde-format
 msgid "Square,PAL DV,NTSC DV,HDV,Manual"
 msgstr "Kvadrāts,PAL DV,NTSC DV,HDV,Manuāls"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:39
-#, kde-format
-msgid "Aspect type"
+#: data/effects/frei0r/frei0r_defish0r.xml:42
+#, fuzzy, kde-format
+#| msgid "Aspect type"
+msgid "Aspect Type"
 msgstr "Malu attiecību tips"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:42
+#: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
 msgid "Manual Aspect"
 msgstr "Manuāla malu attiecība"
@@ -9466,6 +10163,41 @@ msgstr "Aiztures ķeršana"
 msgid "Delayed frame blitting mapped on a time bitmap"
 msgstr "Aizturēta kadra bitpārraide, kas kartēta uz laika bitkartes"
 
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
+#, kde-format
+msgid "HQ 3D Denoiser (frei0r)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
+#, fuzzy, kde-format
+#| msgid "High quality 3D denoiser"
+msgid "<![CDATA[High quality 3D denoiser]]>"
+msgstr "Augstas kvalitātes 3D trokšņu noņēmējs"
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
+#: data/effects/frei0r/frei0r_hqdn3d.xml:9
+#, kde-format
+msgid "Spatial"
+msgstr "Telpiski"
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:9
+#: data/effects/frei0r/frei0r_hqdn3d.xml:10
+#, kde-format
+msgid "Amount of spatial filtering"
+msgstr "Telpiskās filtrēšanas daudzums"
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:12
+#: data/effects/frei0r/frei0r_hqdn3d.xml:13
+#, kde-format
+msgid "Temporal"
+msgstr "Laiciski"
+
+#: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:13
+#: data/effects/frei0r/frei0r_hqdn3d.xml:14
+#, kde-format
+msgid "Amount of temporal filtering"
+msgstr "Laiciskās filtrēšanas daudzums"
+
 #: data/effects/frei0r/frei0r_distort0r.xml:4
 #, kde-format
 msgctxt "Distort Effect Name"
@@ -9473,14 +10205,26 @@ msgid "Distort"
 msgstr "Kropļot"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:5
-#, kde-format
-msgid "Plasma"
-msgstr "Plazma"
+#, fuzzy, kde-format
+#| msgid "Correct radial lens distortion "
+msgid "Creates a plasma like distortion"
+msgstr "Labo lēcas apļveida kropļojumu "
 
-#: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:8
+#: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:11
 #, kde-format
 msgid "Amplitude"
 msgstr "Amplitūda"
+
+#: data/effects/frei0r/frei0r_distort0r.xml:14
+#, kde-format
+msgid "Use Velocity"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_distort0r.xml:17
+#, fuzzy, kde-format
+#| msgid "opacity"
+msgid "Velocity"
+msgstr "necaurspīdība"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, kde-format
@@ -9507,18 +10251,21 @@ msgid "Number of values per channel."
 msgstr "Vērtību skaits kanālā."
 
 #: data/effects/frei0r/frei0r_dither.xml:13
-#, kde-format
-msgid "Matrix Id."
+#, fuzzy, kde-format
+#| msgid "Matrix Id."
+msgid "Matrix ID"
 msgstr "Matricas ID."
 
 #: data/effects/frei0r/frei0r_dither.xml:14
-#, kde-format
-msgid "Id of matrix used for dithering."
+#, fuzzy, kde-format
+#| msgid "Id of matrix used for dithering."
+msgid "ID of matrix used for dithering."
 msgstr "Matricas ID pustoņu imitēšanai."
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
-#, kde-format
-msgid "Edge glow"
+#, fuzzy, kde-format
+#| msgid "Edge glow"
+msgid "Edge Glow"
 msgstr "Malu spīdums"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
@@ -9531,15 +10278,85 @@ msgstr "Malu spīduma filtrs"
 msgid "Edge lightening threshold"
 msgstr "Malu gaišinājuma slieksnis"
 
-#: data/effects/frei0r/frei0r_edgeglow.xml:11
-#, kde-format
-msgid "Edge brightness upscaling multiplier"
+#: data/effects/frei0r/frei0r_edgeglow.xml:12
+#, fuzzy, kde-format
+#| msgid "Edge brightness upscaling multiplier"
+msgid ""
+"<![CDATA[Edge brightness<br>\n"
+"        upscaling multiplier]]>"
 msgstr "Malu gaišinājuma palielināšanas reizinātājs"
 
-#: data/effects/frei0r/frei0r_edgeglow.xml:14
-#, kde-format
-msgid "Non-edge brightness downscaling multiplier"
+#: data/effects/frei0r/frei0r_edgeglow.xml:16
+#, fuzzy, kde-format
+#| msgid "Non-edge brightness downscaling multiplier"
+msgid ""
+"<![CDATA[Non-edge brightness<br>\n"
+"        downscaling multiplier]]>"
 msgstr "Ne malu gaišinājuma samazināšanas reizinātājs"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:4
+#, fuzzy, kde-format
+#| msgid "Elastic In"
+msgid "Elastic Scale"
+msgstr "Elastīgs ienāk"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:5
+#, kde-format
+msgid "Scale non-linearly"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:8
+#: src/assets/view/widgets/keyframeimport.cpp:230
+#: src/assets/view/widgets/keyframeimport.cpp:240
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
+#: src/transitions/view/mixstackview.cpp:47
+#, kde-format
+msgid "Center"
+msgstr "Centrā"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:10
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Horizontal center position<br>\n"
+"        of the linear area (% of total width]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:13
+#, fuzzy, kde-format
+#| msgid "Outline Width"
+msgid "Linear Width"
+msgstr "Kontūras platums"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:14
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Width of the scope display]]>"
+msgid "<![CDATA[Width of the linear area]]>"
+msgstr "<![CDATA[Pētītāja lodziņa platums]]>"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:17
+#, fuzzy, kde-format
+#| msgid "Scale factor"
+msgid "Linear Scale Factor"
+msgstr "Mērogošanas koeficients"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:18
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[Amount how much the linear area is scaled]]>"
+msgstr "<![CDATA[Profila garums pikseļos]]>"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:21
+#, fuzzy, kde-format
+#| msgid "Nonlinear scale"
+msgid "Non-Linear Scale Factor"
+msgstr "Nelineārs mērogs"
+
+#: data/effects/frei0r/frei0r_elastic_scale.xml:23
+#, kde-format
+msgid ""
+"<![CDATA[Amount how much the<br>\n"
+"        outer left and outer right areas are scaled non linearly]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
 #, kde-format
@@ -9557,30 +10374,38 @@ msgstr "Avota attēlā izveido reljefa attēlu"
 msgid "Light direction"
 msgstr "Gaismas virziens"
 
-#: data/effects/frei0r/frei0r_emboss.xml:10
+#: data/effects/frei0r/frei0r_emboss.xml:11
 #, kde-format
-msgid "Light direction angle."
-msgstr "Gaismas virziena leņķis"
+msgid ""
+"<![CDATA[The direction of the<br>\n"
+"            embossing (practically simulating a light source)]]>"
+msgstr ""
 
-#: data/effects/frei0r/frei0r_emboss.xml:13
+#: data/effects/frei0r/frei0r_emboss.xml:14
 #, kde-format
 msgid "Background lightness"
 msgstr "Fona gaišums"
 
-#: data/effects/frei0r/frei0r_emboss.xml:14
+#: data/effects/frei0r/frei0r_emboss.xml:16
 #, kde-format
-msgid "Background lightness (0 to 90)."
-msgstr "Fona gaišums (no 0 līdz 90)."
+msgid ""
+"<![CDATA[Defines the lightness/brightness of the areas that are not embossed."
+"<br>\n"
+"            Range is 0 to 90.]]>"
+msgstr ""
 
-#: data/effects/frei0r/frei0r_emboss.xml:17
+#: data/effects/frei0r/frei0r_emboss.xml:19
 #, kde-format
 msgid "Bump height"
 msgstr "Izciļņu augstums"
 
-#: data/effects/frei0r/frei0r_emboss.xml:18
+#: data/effects/frei0r/frei0r_emboss.xml:21
 #, kde-format
-msgid "Bump height (0 to 40)."
-msgstr "Izciļņu augstums (no 0 līdz 40)."
+msgid ""
+"<![CDATA[Defines the thickness of the edges increasing/decreasing the "
+"perceived depth of the embossed areas.<br>\n"
+"            Range is 0 to 40.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
@@ -9732,7 +10557,7 @@ msgstr "Vai zīmēt ar nogludināšanu?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
-#: src/ui/gradientedit_ui.ui:120
+#: data/effects/gradientmap.xml:8 src/ui/gradientedit_ui.ui:120
 #, kde-format
 msgid "Color 1"
 msgstr "1. krāsa"
@@ -9744,7 +10569,7 @@ msgstr "Norādiet figūras krāsu pirmajai atrastajai sejai."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
-#: src/ui/gradientedit_ui.ui:24
+#: data/effects/gradientmap.xml:12 src/ui/gradientedit_ui.ui:24
 #, kde-format
 msgid "Color 2"
 msgstr "2. krāsa"
@@ -9799,7 +10624,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, fuzzy, kde-format
 #| msgid "Tint amount"
-msgid "Grain amount"
+msgid "Grain Amount"
 msgstr "Nokrāsas stiprums"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
@@ -9811,7 +10636,7 @@ msgstr "<![CDATA[Norādiet grādu tīkla necaurspīdību]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, fuzzy, kde-format
 #| msgid "Red balance"
-msgid "Red grain"
+msgid "Red Grain"
 msgstr "Sarkanā līdzsvars"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
@@ -9823,7 +10648,7 @@ msgstr "<![CDATA[Mēroga koeficients X ass virzienā]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, fuzzy, kde-format
 #| msgid "Green Tint"
-msgid "Green grain"
+msgid "Green Grain"
 msgstr "Zaļās krāsas nokrāsa"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
@@ -9835,7 +10660,7 @@ msgstr "<![CDATA[Mēroga koeficients X ass virzienā]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, fuzzy, kde-format
 #| msgid "Blue balance"
-msgid "Blue grain"
+msgid "Blue Grain"
 msgstr "Zilā līdzsvars"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
@@ -9847,7 +10672,7 @@ msgstr "<![CDATA[Mēroga koeficients X ass virzienā]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, fuzzy, kde-format
 #| msgid "Dry amount"
-msgid "Blur amount"
+msgid "Blur Amount"
 msgstr "Sausā summa"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
@@ -9859,7 +10684,7 @@ msgstr "<![CDATA[Profila sasvēršana]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, fuzzy, kde-format
 #| msgid "Wet amount"
-msgid "Dust amount"
+msgid "Dust Amount"
 msgstr "Slapjā summa"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
@@ -9869,9 +10694,10 @@ msgid "<![CDATA[The amount of dust particles on the image]]>"
 msgstr "<![CDATA[Profila garums pikseļos]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
-#, kde-format
-msgid "Flicker"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Dry amount"
+msgid "Flicker Amount"
+msgstr "Sausā summa"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
@@ -9909,29 +10735,34 @@ msgid "Extracts Green from Image"
 msgstr "No attēla izvelk zaļo krāsu"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
-#, kde-format
-msgid "Glitch0r"
-msgstr "Glitch0r"
+#, fuzzy, kde-format
+#| msgid "Glitch image shifting rows to and fro."
+msgid "Glitching (rows and color)"
+msgstr "Attēla kļūdas, mainot vietām rindas."
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
-#, kde-format
-msgid "Adds glitches and block shifting"
+#, fuzzy, kde-format
+#| msgid "Adds glitches and block shifting"
+msgid "Adds color glitches and block shifting"
 msgstr "Pievieno klupes un bloku pārbīdi"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
-#, kde-format
-msgid "Glitch frequency"
+#, fuzzy, kde-format
+#| msgid "Glitch frequency"
+msgid "Glitch Frequency"
 msgstr "Klupju biežums"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
-#, kde-format
-msgid "Shift intensity"
+#, fuzzy, kde-format
+#| msgid "Shift intensity"
+msgid "Shift Intensity"
 msgstr "Pārbīdes intensitāte"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
-#, kde-format
-msgid "Color glitching intensity"
+#, fuzzy, kde-format
+#| msgid "Color glitching intensity"
+msgid "Color Glitching Intensity"
 msgstr "Krāsu klupes intensitāte"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
@@ -9947,33 +10778,15 @@ msgstr "Izmanto valdzinošu mirdzumu"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
-msgid "Denoiser"
-msgstr "Trokšņu noņēmējs"
+msgid "Denoiser (SUPERCEDED)"
+msgstr ""
 
-#: data/effects/frei0r/frei0r_hqdn3d.xml:5
+#: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
-msgid "High quality 3D denoiser"
-msgstr "Augstas kvalitātes 3D trokšņu noņēmējs"
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:8
-#, kde-format
-msgid "Spatial"
-msgstr "Telpiski"
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:9
-#, kde-format
-msgid "Amount of spatial filtering"
-msgstr "Telpiskās filtrēšanas daudzums"
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:12
-#, kde-format
-msgid "Temporal"
-msgstr "Laiciski"
-
-#: data/effects/frei0r/frei0r_hqdn3d.xml:13
-#, kde-format
-msgid "Amount of temporal filtering"
-msgstr "Laiciskās filtrēšanas daudzums"
+msgid ""
+"<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
+"    High quality 3D denoiser]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, kde-format
@@ -10058,9 +10871,13 @@ msgid "Segmentation"
 msgstr "Segmentācija"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Kaleidoscope segmentation / 128; <br>\n"
+#| "        segmentations of 1, 2, or multiples of 4 work best. Default is "
+#| "16]]>"
 msgid ""
-"<![CDATA[Kaleidoscope segmentation / 128; <br>\n"
+"<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
 "<![CDATA[Kaleidoskopa segmentācija / 128; <br>\n"
@@ -10068,14 +10885,19 @@ msgstr ""
 "Noklusējums ir 16]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
-#, kde-format
-msgid "Specify source segment"
+#, fuzzy, kde-format
+#| msgid "Specify source segment"
+msgid "Specify Source Segment"
 msgstr "Precizēt avota segmentu"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[If checked, the source angle <br>\n"
+#| "        is read from the <em>source segment</em>, otherwise it is auto "
+#| "calculated]]>"
 msgid ""
-"<![CDATA[If checked, the source angle <br>\n"
+"<![CDATA[If checked, the source angle<br>\n"
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
@@ -10084,15 +10906,20 @@ msgstr ""
 "aprēķina automātiski]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
-#, kde-format
-msgid "Source segment"
+#, fuzzy, kde-format
+#| msgid "Source segment"
+msgid "Source Segment"
 msgstr "Avota segments"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
+#| "Segment</em> is checked. <br>\n"
+#| "        0 is in +x and rotates counter clockwise.]]>"
 msgid ""
 "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
-"Segment</em> is checked. <br>\n"
+"Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
 "<![CDATA[Avota segmenta centrs. Izmantojiet tikai tad, ja ir atzīmēts "
@@ -10105,8 +10932,9 @@ msgid "None,Counter Clockwise,Clockwise"
 msgstr "Nekas,Pretēji pulksteņrādītāja virzienam,Pulksteņrādītāja virzienā"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
-#, kde-format
-msgid "Segmentation direction"
+#, fuzzy, kde-format
+#| msgid "Segmentation direction"
+msgid "Segmentation Direction"
 msgstr "Segmentācijas virziens"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
@@ -10115,15 +10943,20 @@ msgid "Direction of the segmentation."
 msgstr "Segmentācijas virziens."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
-#, kde-format
-msgid "Reflect edges"
+#, fuzzy, kde-format
+#| msgid "Reflect edges"
+msgid "Reflect Edges"
 msgstr "Atspoguļot malas"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[If checked, reflections that end up outside the source reflect "
+#| "back into it. <br>\n"
+#| "        Otherwise the specified background color is used.]]>"
 msgid ""
 "<![CDATA[If checked, reflections that end up outside the source reflect back "
-"into it. <br>\n"
+"into it.<br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
 "<![CDATA[Ja atzīmēts, atspulgi, kas nonāk ārpus avota, atspoguļojas atpakaļ. "
@@ -10131,8 +10964,9 @@ msgstr ""
 "        Pretējā gadījumā izmanto noteikto fona krāsu.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
-#, kde-format
-msgid "Edge threshold"
+#, fuzzy, kde-format
+#| msgid "Edge threshold"
+msgid "Edge Threshold"
 msgstr "Malas slieksnis"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:43
@@ -10150,8 +10984,9 @@ msgid "Top right,Top left,Bottom left,Bottom right"
 msgstr "Augšā pa labi,Augšā pa kreisi,Apakšā pa kreisi,Apakšā pa labi"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
-#, kde-format
-msgid "Preferred corner"
+#, fuzzy, kde-format
+#| msgid "Preferred corner"
+msgid "Preferred Corner"
 msgstr "Vēlamais stūris"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
@@ -10178,31 +11013,34 @@ msgstr ""
 "<br>\n"
 "        Pretējā gadījumā meklē pretēji pulksteņrādītāja virzienam.]]>"
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, kde-format
-msgid "Background color"
-msgstr "Fona krāsa"
-
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:58
-#, kde-format
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:59
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Color to use if reflection lies <br>outside of the source image "
+#| "and not reflecting back in.]]>"
 msgid ""
-"<![CDATA[Color to use if reflection lies <br>outside of the source image and "
-"not reflecting back in.]]>"
+"<![CDATA[Color to use if reflection<br>\n"
+"        lies outside of the source image and not reflecting back in.]]>"
 msgstr ""
 "<![CDATA[Izmantojamā krāsa, ja atspulgs atrodas <br>ārpus avota attēlam un "
 "neatspoguļojas atpakaļ tajā..]]>"
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
-#, kde-format
-msgid "Use alpha background"
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
+#, fuzzy, kde-format
+#| msgid "Use alpha background"
+msgid "No Alpha Background"
 msgstr "Izmantot alfa fonu"
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:63
-#, kde-format
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:64
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[If checked, alpha will be used <br>\n"
+#| "        if reflection lies outside of the source image and not reflecting "
+#| "back in.]]>"
 msgid ""
-"<![CDATA[If checked, alpha will be used <br>\n"
-"        if reflection lies outside of the source image and not reflecting "
-"back in.]]>"
+"<![CDATA[If checked, the selected<br>\n"
+"        color will be used, if reflection lies outside of the source image "
+"and not reflecting back in.]]>"
 msgstr ""
 "<![CDATA[Ja atzīmēts, izmantos alfa, <br>\n"
 "        ja atspulgs atrodas ārpus avota attēla un neatspoguļojas atpakaļ "
@@ -10219,23 +11057,27 @@ msgid "Reduces the visibility of key color spill in chroma keying"
 msgstr "Samazina atslēgas krāsas pārgāšanos tīrkrāsas atkodēšanā"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:8
-#, kde-format
-msgid "Key color"
+#, fuzzy, kde-format
+#| msgid "Key color"
+msgid "Key Color"
 msgstr "Atslēgas krāsa"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
-#, kde-format
-msgid "Target color"
+#, fuzzy, kde-format
+#| msgid "Target color"
+msgid "Target Color"
 msgstr "Mērķa krāsas"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
-#, kde-format
-msgid "Color distance, Transparency, Edge inwards, Edge outwards"
+#, fuzzy, kde-format
+#| msgid "Color distance, Transparency, Edge inwards, Edge outwards"
+msgid "Color distance,Transparency,Edge inwards,Edge outwards"
 msgstr "Krāsu attālums, Caurspīdība, Mala uz iekšu, Mala uz āru"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
-#, kde-format
-msgid "Mask type"
+#, fuzzy, kde-format
+#| msgid "Mask type"
+msgid "Mask Type"
 msgstr "Maskas tips"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
@@ -10249,19 +11091,22 @@ msgid "Slope"
 msgstr "Slīpums"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:24
-#, kde-format
-msgid "Hue gate"
+#, fuzzy, kde-format
+#| msgid "Hue gate"
+msgid "Hue Gate"
 msgstr "Nokrāsas vārti"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:27
-#, kde-format
-msgid "Saturation threshold"
+#, fuzzy, kde-format
+#| msgid "Saturation threshold"
+msgid "Saturation Threshold"
 msgstr "Piesātinājuma slieksnis"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
-#, kde-format
-msgid "None, De-Key, Target, Desaturate, Luma adjust"
+#, fuzzy, kde-format
+#| msgid "None, De-Key, Target, Desaturate, Luma adjust"
+msgid "None,De-Key,Target,Desaturate,Luma adjust"
 msgstr "Nav, Noņemt atslēgu, Mērķis, Noņemt piesātinājumu, Koriģēt luma"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
@@ -10285,8 +11130,9 @@ msgid "Amount 2"
 msgstr "2. daudzums"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:44
-#, kde-format
-msgid "Show mask"
+#, fuzzy, kde-format
+#| msgid "Show mask"
+msgid "Show Mask"
 msgstr "Rādīt masku"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:47
@@ -10295,8 +11141,9 @@ msgid "Mask to Alpha"
 msgstr "Masku par alfa"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
-#, kde-format
-msgid "Lens Correction  (keyframable)"
+#, fuzzy, kde-format
+#| msgid "Lens Correction  (keyframable)"
+msgid "Lens Correction (frei0r)"
 msgstr "Lēcas korekcija (ar atslēgas kadriem)"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
@@ -10305,33 +11152,40 @@ msgid "Allows compensation of lens distortion"
 msgstr "Ļauj kompensēt lēcas kropļojumus"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:8
-#, kde-format
-msgid "Horizontal center"
+#, fuzzy, kde-format
+#| msgid "Horizontal center"
+msgid "Horizontal Center"
 msgstr "Horizontālais centrs"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
-#, kde-format
-msgid "Vertical center"
+#, fuzzy, kde-format
+#| msgid "Vertical center"
+msgid "Vertical Center"
 msgstr "Vertikālais centrs"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:14
-#, kde-format
-msgid "Center correction"
+#, fuzzy, kde-format
+#| msgid "Center correction"
+msgid "Center Correction"
 msgstr "Centra korekcija"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:17
-#, kde-format
-msgid "Edges correction"
+#, fuzzy, kde-format
+#| msgid "Edges correction"
+msgid "Edges Correction"
 msgstr "Malu korekcija"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:4
-#, kde-format
-msgid "LetterB0xed"
-msgstr "LetterB0xed"
+#, fuzzy, kde-format
+#| msgid "Letter spacing:"
+msgid "Letter-boxing"
+msgstr "Atstarpes starp burtiem:"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
-#, kde-format
-msgid "Adds black borders at top and bottom for cinema look"
+#, fuzzy, kde-format
+#| msgid "Adds black borders at top and bottom for cinema look"
+msgid ""
+"Adds black borders at the top and bottom for that widescreen cinema look"
 msgstr ""
 "Augšpusē un apakšpusē pievieno melnas apmales, lai nodrošināt kinofilmas "
 "izskatu"
@@ -10341,7 +11195,15 @@ msgstr ""
 msgid "Border Width"
 msgstr "Apmales platums"
 
-#: data/effects/frei0r/frei0r_letterb0xed.xml:11
+#: data/effects/frei0r/frei0r_letterb0xed.xml:10
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Specify the width of the border<br>\n"
+"        as % of half the vertical resolution (100% means both the topa and "
+"bottom half of the frame are black, i.e. there is no room for the picture)]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_letterb0xed.xml:13
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8 data/effects/vignette.xml:23
 #, kde-format
@@ -10761,6 +11623,354 @@ msgstr "Taisnstūra alfa maska"
 msgid "Creates an square alpha-channel mask"
 msgstr "Izveido kvadrāta formas ala kanāla masku"
 
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:4
+#, fuzzy, kde-format
+#| msgid "Video values"
+msgid "Video Values"
+msgstr "Video vērtības"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:5
+#, kde-format
+msgid "Measure video values"
+msgstr "Mērīt video vērtības"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:8
+#: data/effects/frei0r/frei0r_pr0be.xml:9
+#, fuzzy, kde-format
+#| msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
+msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:9
+#: data/effects/frei0r/frei0r_pr0be.xml:10
+#, kde-format
+msgid "Measurement"
+msgstr "Mērījums"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:12
+#: data/effects/frei0r/frei0r_pr0be.xml:13
+#, fuzzy, kde-format
+#| msgid "X position"
+msgid "X Position"
+msgstr "X novietojums"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:15
+#: data/effects/frei0r/frei0r_pr0be.xml:16
+#, fuzzy, kde-format
+#| msgid "Y position"
+msgid "Y Position"
+msgstr "Y novietojums"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:18
+#: data/effects/frei0r/frei0r_pr0be.xml:19
+#, fuzzy, kde-format
+#| msgid "Size"
+msgid "X Size"
+msgstr "Izmērs"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:21
+#: data/effects/frei0r/frei0r_pr0be.xml:22
+#, fuzzy, kde-format
+#| msgid "Size"
+msgid "Y Size"
+msgstr "Izmērs"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:24
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:81
+#: data/effects/frei0r/frei0r_pr0be.xml:25
+#: data/effects/frei0r/frei0r_pr0file.xml:82
+#, fuzzy, kde-format
+#| msgid "256 scale"
+msgid "256-Scale"
+msgstr "256 mērogs"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:27
+#: data/effects/frei0r/frei0r_pr0be.xml:28
+#, fuzzy, kde-format
+#| msgid "Show alpha"
+msgid "Show Alpha"
+msgstr "Rādīt alfa"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:30
+#: data/effects/frei0r/frei0r_pr0be.xml:31
+#, fuzzy, kde-format
+#| msgid "Big window"
+msgid "Big Window"
+msgstr "Liels logs"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:4
+#, fuzzy, kde-format
+#| msgid "Oscilloscope (Advanced)"
+msgid "Oscilloscope (advanced)"
+msgstr "Osciloskops (papildu)"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:8
+#: data/effects/frei0r/frei0r_pr0file.xml:9
+#, fuzzy, kde-format
+#| msgid "Logo X Position"
+msgid "Profile X Position"
+msgstr "Logotipa X novietojums"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:9
+#: data/effects/frei0r/frei0r_pr0file.xml:10
+#, kde-format
+msgid "<![CDATA[X coordinate of the profile]]>"
+msgstr "<![CDATA[Profila X koordināta]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:12
+#: data/effects/frei0r/frei0r_pr0file.xml:13
+#, fuzzy, kde-format
+#| msgid "Logo Y Position"
+msgid "Profile Y Position"
+msgstr "Logotipa Y novietojums"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:13
+#: data/effects/frei0r/frei0r_pr0file.xml:14
+#, kde-format
+msgid "<![CDATA[Y coordinate of the profile]]>"
+msgstr "<![CDATA[Profila Y koordināta]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:16
+#: data/effects/frei0r/frei0r_pr0file.xml:17
+#, fuzzy, kde-format
+#| msgid "Profile"
+msgid "Profile Tilt"
+msgstr "Profils"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:17
+#: data/effects/frei0r/frei0r_pr0file.xml:18
+#, kde-format
+msgid "<![CDATA[Tilting of the profile]]>"
+msgstr "<![CDATA[Profila sasvēršana]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:20
+#: data/effects/frei0r/frei0r_pr0file.xml:21
+#, fuzzy, kde-format
+#| msgid "Profile name:"
+msgid "Profile Length"
+msgstr "Profila nosaukums:"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:21
+#: data/effects/frei0r/frei0r_pr0file.xml:22
+#, kde-format
+msgid "<![CDATA[Length of the profile in pixel]]>"
+msgstr "<![CDATA[Profila garums pikseļos]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:24
+#: data/effects/frei0r/frei0r_pr0file.xml:25
+#, kde-format
+msgid "R,G,B,Y',Pr,Pb,Alpha"
+msgstr "R,G,B,Y',Pr,Pb,Alfa"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:26
+#: data/effects/frei0r/frei0r_pr0file.xml:27
+#, kde-format
+msgid "<![CDATA[Channel to numerically display]]>"
+msgstr "<![CDATA[Kanāls, ko parādīt skaitliski]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:29
+#: data/effects/frei0r/frei0r_pr0file.xml:30
+#, kde-format
+msgid "Marker 1"
+msgstr "1. marķieris"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:30
+#: data/effects/frei0r/frei0r_pr0file.xml:31
+#, kde-format
+msgid "<![CDATA[Position of marker 1]]>"
+msgstr "<![CDATA[1. marķiera novietojums]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:33
+#: data/effects/frei0r/frei0r_pr0file.xml:34
+#, kde-format
+msgid "Marker 2"
+msgstr "2. marķieris"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:34
+#: data/effects/frei0r/frei0r_pr0file.xml:35
+#, kde-format
+msgid "<![CDATA[Position of marker 2]]>"
+msgstr "<![CDATA[2. marķiera novietojums]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:37
+#: data/effects/frei0r/frei0r_pr0file.xml:38
+#, fuzzy, kde-format
+#| msgid "R trace"
+msgid "R Trace"
+msgstr "R līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:38
+#: data/effects/frei0r/frei0r_pr0file.xml:39
+#, kde-format
+msgid "<![CDATA[Show R trace (red) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt R līniju (sarkano)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:41
+#: data/effects/frei0r/frei0r_pr0file.xml:42
+#, fuzzy, kde-format
+#| msgid "G trace"
+msgid "G Trace"
+msgstr "G līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:42
+#: data/effects/frei0r/frei0r_pr0file.xml:43
+#, kde-format
+msgid "<![CDATA[Show G trace (green) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt G līniju (zaļo)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:45
+#: data/effects/frei0r/frei0r_pr0file.xml:46
+#, fuzzy, kde-format
+#| msgid "B trace"
+msgid "B Trace"
+msgstr "B līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:46
+#: data/effects/frei0r/frei0r_pr0file.xml:47
+#, kde-format
+msgid "<![CDATA[Show B trace (blue) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt B līniju (zilo)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:49
+#: data/effects/frei0r/frei0r_pr0file.xml:50
+#, fuzzy, kde-format
+#| msgid "Y trace"
+msgid "Y Trace"
+msgstr "Y līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:50
+#: data/effects/frei0r/frei0r_pr0file.xml:51
+#, kde-format
+msgid "<![CDATA[Show Y trace (luma) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt Y līniju (luma)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:53
+#: data/effects/frei0r/frei0r_pr0file.xml:54
+#, fuzzy, kde-format
+#| msgid "Pr trace"
+msgid "Pr Trace"
+msgstr "Pr līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:54
+#: data/effects/frei0r/frei0r_pr0file.xml:55
+#, kde-format
+msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt Pr līniju (sarkanās krāsas atšķirība)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:57
+#: data/effects/frei0r/frei0r_pr0file.xml:58
+#, fuzzy, kde-format
+#| msgid "Pb trace"
+msgid "Pb Trace"
+msgstr "Pb līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:58
+#: data/effects/frei0r/frei0r_pr0file.xml:59
+#, kde-format
+msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt Pb līniju (zilās krāsas atšķirība)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:61
+#: data/effects/frei0r/frei0r_pr0file.xml:62
+#, fuzzy, kde-format
+#| msgid "Alpha trace"
+msgid "Alpha Trace"
+msgstr "Alfa līnija"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:62
+#: data/effects/frei0r/frei0r_pr0file.xml:63
+#, kde-format
+msgid "<![CDATA[Show Alpha trace on scope]]>"
+msgstr "<![CDATA[Displejā rādīt alfa līniju]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:65
+#: data/effects/frei0r/frei0r_pr0file.xml:66
+#, kde-format
+msgid "Display average"
+msgstr "Rādīt vidējp"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:66
+#: data/effects/frei0r/frei0r_pr0file.xml:67
+#, kde-format
+msgid "<![CDATA[Show average on scope]]>"
+msgstr "<![CDATA[Displejā rādīt vidējo vērtību]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:69
+#: data/effects/frei0r/frei0r_pr0file.xml:70
+#, kde-format
+msgid "Display RMS"
+msgstr "Rādīt RMS"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:70
+#: data/effects/frei0r/frei0r_pr0file.xml:71
+#, kde-format
+msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
+msgstr "<![CDATA[Displejā rādīt RMS (vidējo kvadrātisko vērtību)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:73
+#: data/effects/frei0r/frei0r_pr0file.xml:74
+#, fuzzy, kde-format
+#| msgid "Display minimum"
+msgid "Display Minimum"
+msgstr "Rādīt minimumu"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:74
+#: data/effects/frei0r/frei0r_pr0file.xml:75
+#, kde-format
+msgid "<![CDATA[Show minimum on scope]]>"
+msgstr "<![CDATA[Displejā rādīt minimumu]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:77
+#: data/effects/frei0r/frei0r_pr0file.xml:78
+#, fuzzy, kde-format
+#| msgid "Display maximum"
+msgid "Display Maximum"
+msgstr "Rādīt maksimumu"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:78
+#: data/effects/frei0r/frei0r_pr0file.xml:79
+#, kde-format
+msgid "<![CDATA[Show maximum on scope]]>"
+msgstr "<![CDATA[Displejā rādīt maksimumu]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:82
+#: data/effects/frei0r/frei0r_pr0file.xml:83
+#, kde-format
+msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
+msgstr "<![CDATA[izmantot 0—255 mērogu, nevis 0,0—1,0]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:85
+#: data/effects/frei0r/frei0r_pr0file.xml:86
+#, kde-format
+msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:86
+#: data/effects/frei0r/frei0r_pr0file.xml:87
+#, fuzzy, kde-format
+#| msgid "Color encoding"
+msgid "Color Encoding"
+msgstr "Krāsu kodējums"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:87
+#: data/effects/frei0r/frei0r_pr0file.xml:88
+#, kde-format
+msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgstr "<![CDATA[Atlasiet starp rindpārleci (601) un progresīvu (709)]]>"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:90
+#: data/effects/frei0r/frei0r_pr0file.xml:91
+#, fuzzy, kde-format
+#| msgid "Crosshair color"
+msgid "Crosshair Color"
+msgstr "Krustiņa krāsa"
+
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:91
+#: data/effects/frei0r/frei0r_pr0file.xml:92
+#, kde-format
+msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgstr "<![CDATA[Izvēlieties krustiņa/profila līnijas krāsu]]>"
+
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
 msgid "Medians"
@@ -10842,33 +12052,26 @@ msgid "HSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
-#, kde-format
-msgid "Pixelize"
-msgstr "Pikselizēt"
+#, fuzzy, kde-format
+#| msgid "Pixelize (avfilter)"
+msgid "Pixelize (basic)"
+msgstr "Pikselizēt („avfilter“)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image."
+#, fuzzy, kde-format
+#| msgid "Pixelize input image."
+msgid "Pixelize input image"
 msgstr "Pikselizēt izvades attēlu."
-
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:8
-#, kde-format
-msgid "Block Size X"
-msgstr "Bloka izmērs X"
-
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
-#, kde-format
-msgid "Block Size Y"
-msgstr "Bloka izmērs Y"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
-msgid "Pixs0r"
-msgstr "Pixs0r"
+msgid "Glitching (rows only)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, kde-format
-msgid "Glitch image shifting rows to and fro."
+#, fuzzy, kde-format
+#| msgid "Glitch image shifting rows to and fro."
+msgid "Glitch image by shifting rows to and fro."
 msgstr "Attēla kļūdas, mainot vietām rindas."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -10882,8 +12085,9 @@ msgid "Height of each block whose shift is invariant (0 = random)"
 msgstr "Katra bloka augstums, kura nobīde ir nemainīta (0 = nejaušs)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
-#, kde-format
-msgid "Minimum block height"
+#, fuzzy, kde-format
+#| msgid "Minimum block height"
+msgid "Minimum Block Height"
 msgstr "Minimālais bloka augstums"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
@@ -10896,8 +12100,9 @@ msgstr ""
 "bloka augstumu.]]>"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
-#, kde-format
-msgid "Maximum block height"
+#, fuzzy, kde-format
+#| msgid "Maximum block height"
+msgid "Maximum Block Height"
 msgstr "Maksimālais bloka augstums"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
@@ -10926,239 +12131,28 @@ msgstr "(Krāsu) vērtību skaits uz kanālu"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
-msgid "Video values"
-msgstr "Video vērtības"
+msgid "Video Values (SUPERCEDED)"
+msgstr ""
 
-#: data/effects/frei0r/frei0r_pr0be.xml:5
+#: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
-msgid "Measure video values"
-msgstr "Mērīt video vērtības"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:8
-#, kde-format
-msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:9
-#, kde-format
-msgid "Measurement"
-msgstr "Mērījums"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:24
-#: data/effects/frei0r/frei0r_pr0file.xml:81
-#, kde-format
-msgid "256 scale"
-msgstr "256 mērogs"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:27
-#, kde-format
-msgid "Show alpha"
-msgstr "Rādīt alfa"
-
-#: data/effects/frei0r/frei0r_pr0be.xml:30
-#, kde-format
-msgid "Big window"
-msgstr "Liels logs"
+msgid ""
+"<![CDATA[Measure video values.<br>\n"
+"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, kde-format
-msgid "Oscilloscope (Advanced)"
+#, fuzzy, kde-format
+#| msgid "Oscilloscope (Advanced)"
+msgid "Oscilloscope (advanced) (SUPERCEDED)"
 msgstr "Osciloskops (papildu)"
 
-#: data/effects/frei0r/frei0r_pr0file.xml:9
+#: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
-msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr "<![CDATA[Profila X koordināta]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:13
-#, kde-format
-msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr "<![CDATA[Profila Y koordināta]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:17
-#, kde-format
-msgid "<![CDATA[Tilting of the profile]]>"
-msgstr "<![CDATA[Profila sasvēršana]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:20
-#, kde-format
-msgid "Length"
-msgstr "Garums"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:21
-#, kde-format
-msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr "<![CDATA[Profila garums pikseļos]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:24
-#, kde-format
-msgid "R,G,B,Y',Pr,Pb,Alpha"
-msgstr "R,G,B,Y',Pr,Pb,Alfa"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:26
-#, kde-format
-msgid "<![CDATA[Channel to numerically display]]>"
-msgstr "<![CDATA[Kanāls, ko parādīt skaitliski]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:29
-#, kde-format
-msgid "Marker 1"
-msgstr "1. marķieris"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:30
-#, kde-format
-msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[1. marķiera novietojums]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:33
-#, kde-format
-msgid "Marker 2"
-msgstr "2. marķieris"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:34
-#, kde-format
-msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[2. marķiera novietojums]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:37
-#, kde-format
-msgid "R trace"
-msgstr "R līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:38
-#, kde-format
-msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt R līniju (sarkano)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:41
-#, kde-format
-msgid "G trace"
-msgstr "G līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:42
-#, kde-format
-msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt G līniju (zaļo)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:45
-#, kde-format
-msgid "B trace"
-msgstr "B līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:46
-#, kde-format
-msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt B līniju (zilo)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:49
-#, kde-format
-msgid "Y trace"
-msgstr "Y līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:50
-#, kde-format
-msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt Y līniju (luma)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:53
-#, kde-format
-msgid "Pr trace"
-msgstr "Pr līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:54
-#, kde-format
-msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt Pr līniju (sarkanās krāsas atšķirība)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:57
-#, kde-format
-msgid "Pb trace"
-msgstr "Pb līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:58
-#, kde-format
-msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt Pb līniju (zilās krāsas atšķirība)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:61
-#, kde-format
-msgid "Alpha trace"
-msgstr "Alfa līnija"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:62
-#, kde-format
-msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr "<![CDATA[Displejā rādīt alfa līniju]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:65
-#, kde-format
-msgid "Display average"
-msgstr "Rādīt vidējp"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:66
-#, kde-format
-msgid "<![CDATA[Show average on scope]]>"
-msgstr "<![CDATA[Displejā rādīt vidējo vērtību]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:69
-#, kde-format
-msgid "Display RMS"
-msgstr "Rādīt RMS"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:70
-#, kde-format
-msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr "<![CDATA[Displejā rādīt RMS (vidējo kvadrātisko vērtību)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:73
-#, kde-format
-msgid "Display minimum"
-msgstr "Rādīt minimumu"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:74
-#, kde-format
-msgid "<![CDATA[Show minimum on scope]]>"
-msgstr "<![CDATA[Displejā rādīt minimumu]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:77
-#, kde-format
-msgid "Display maximum"
-msgstr "Rādīt maksimumu"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:78
-#, kde-format
-msgid "<![CDATA[Show maximum on scope]]>"
-msgstr "<![CDATA[Displejā rādīt maksimumu]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:82
-#, kde-format
-msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr "<![CDATA[izmantot 0—255 mērogu, nevis 0,0—1,0]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:85
-#, kde-format
-msgid "CCIR rec. 601,CCIR rec. 709"
-msgstr "CCIR rec. 601,CCIR rec. 709"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:86
-#, kde-format
-msgid "Color encoding"
-msgstr "Krāsu kodējums"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:87
-#, kde-format
-msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr "<![CDATA[Atlasiet starp rindpārleci (601) un progresīvu (709)]]>"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:90
-#, kde-format
-msgid "Crosshair color"
-msgstr "Krustiņa krāsa"
-
-#: data/effects/frei0r/frei0r_pr0file.xml:91
-#, kde-format
-msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr "<![CDATA[Izvēlieties krustiņa/profila līnijas krāsu]]>"
+msgid ""
+"<![CDATA[2D video oscilloscope.<br>\n"
+"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -11178,8 +12172,9 @@ msgid "Factor"
 msgstr "Koeficients"
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
-#, kde-format
-msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
+msgid "<![CDATA[Influence of mean pixel value]]>"
 msgstr "<![CDATA[Vidējās pikseļa vērtības ietekme, > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
@@ -11230,8 +12225,8 @@ msgstr "Rādīt video datu R, G un B koponenšu histogrammu"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
-msgid "rgbsplit0r"
-msgstr "rgbsplit0r"
+msgid "RGB Splitter"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
@@ -11239,14 +12234,26 @@ msgid "RGB splitting and shifting"
 msgstr "RGB dalīšana un bīdīšana"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
+#, fuzzy, kde-format
+#| msgid "Horizontal split distance"
+msgid "Horizontal Split Distance"
+msgstr "Horizontālais dalījuma attālums"
+
+#: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
-msgid "Vertical split distance"
+msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
+#, fuzzy, kde-format
+#| msgid "Vertical split distance"
+msgid "Vertical Split Distance."
 msgstr "Vertikālais dalījuma attālums"
 
-#: data/effects/frei0r/frei0r_rgbsplit0r.xml:11
+#: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
-msgid "Horizontal split distance"
-msgstr "Horizontālais dalījuma attālums"
+msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -11260,33 +12267,39 @@ msgid "Adjusts the saturation of a source image"
 msgstr "Koriģēt avota attēla piesātinājumu"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
-#, kde-format
-msgid "Crop, Scale and Tilt"
+#, fuzzy, kde-format
+#| msgid "Crop, Scale and Tilt"
+msgid "Crop, Scale, and Tilt"
 msgstr "Kadrēt, mērogot un mainīt savērsumu"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
-#, kde-format
-msgid "Scales, Tilts and Crops an Image"
+#, fuzzy, kde-format
+#| msgid "Scales, Tilts and Crops an Image"
+msgid "Scales, tilts, and crops an image"
 msgstr "Mērogo, maina savērsumu un kadrē attēlu"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:8 data/effects/gpsgraphic.xml:61
-#, kde-format
-msgid "Crop left"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:8
+#, fuzzy, kde-format
+#| msgid "Crop left"
+msgid "Crop Left"
 msgstr "Kadrēt kreiso pusi"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:11 data/effects/gpsgraphic.xml:66
-#, kde-format
-msgid "Crop right"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:11
+#, fuzzy, kde-format
+#| msgid "Crop right"
+msgid "Crop Right"
 msgstr "Kadrēt labo pusi"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:14 data/effects/gpsgraphic.xml:86
-#, kde-format
-msgid "Crop top"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:14
+#, fuzzy, kde-format
+#| msgid "Crop top"
+msgid "Crop Top"
 msgstr "Kadrēt augšu"
 
-#: data/effects/frei0r/frei0r_scale0tilt.xml:17 data/effects/gpsgraphic.xml:81
-#, kde-format
-msgid "Crop bottom"
+#: data/effects/frei0r/frei0r_scale0tilt.xml:17
+#, fuzzy, kde-format
+#| msgid "Crop bottom"
+msgid "Crop Bottom"
 msgstr "Kadrēt apakšu"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
@@ -11445,7 +12458,7 @@ msgid "Brightness of image."
 msgstr "Attēla gaišums."
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
-#: data/effects/frei0r/frei0r_softglow.xml:17
+#: data/effects/frei0r/frei0r_softglow.xml:22
 #, kde-format
 msgid "Sharpness"
 msgstr "Asums"
@@ -11478,38 +12491,39 @@ msgstr "Izceltajām vietām pievieno viegla spīduma efektu"
 
 #: data/effects/frei0r/frei0r_softglow.xml:9
 #, kde-format
-msgid "Blur of the glow"
-msgstr "Spīduma izpludinājums"
-
-#: data/effects/frei0r/frei0r_softglow.xml:10
-#: data/effects/frei0r/frei0r_softglow.xml:14
-#, kde-format
-msgid "Brightness of highlight areas."
-msgstr "Izcelto reģionu gaišums."
-
-#: data/effects/frei0r/frei0r_softglow.xml:18
-#, kde-format
-msgid "Sharpness of highlight areas."
-msgstr "Izcelto reģionu asums."
-
-#: data/effects/frei0r/frei0r_softglow.xml:21
-#, kde-format
 msgid "Screen,Overlay,Add"
 msgstr "Ekrāns,Pārklājums,Pievienot"
 
-#: data/effects/frei0r/frei0r_softglow.xml:22
-#: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
-#: data/transitions/frei0r/frei0r_cairoblend.xml:12
-#, kde-format
-msgid "Blend mode"
-msgstr "Apvienošanas režīms"
-
-#: data/effects/frei0r/frei0r_softglow.xml:23
-#, kde-format
-msgid "Blend mode used to blend highlight blur with input image."
+#: data/effects/frei0r/frei0r_softglow.xml:11
+#, fuzzy, kde-format
+#| msgid "Blend mode used to blend highlight blur with input image."
+msgid "Blend mode used to blend highlight blur with input image"
 msgstr ""
 "Apvienošanas režīms, ko izmanto izcelšanas izpludināšanas apvienošanai ar "
 "ievades attēlu."
+
+#: data/effects/frei0r/frei0r_softglow.xml:14
+#, fuzzy, kde-format
+#| msgid "Blur of the glow"
+msgid "Blur of the Glow"
+msgstr "Spīduma izpludinājums"
+
+#: data/effects/frei0r/frei0r_softglow.xml:15
+#, kde-format
+msgid "Blur of the glow"
+msgstr "Spīduma izpludinājums"
+
+#: data/effects/frei0r/frei0r_softglow.xml:19
+#, fuzzy, kde-format
+#| msgid "Brightness of highlight areas."
+msgid "Brightness of highlight areas"
+msgstr "Izcelto reģionu gaišums."
+
+#: data/effects/frei0r/frei0r_softglow.xml:23
+#, fuzzy, kde-format
+#| msgid "Sharpness of highlight areas."
+msgid "Sharpness of highlight areas"
+msgstr "Izcelto reģionu asums."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -11733,13 +12747,15 @@ msgid "Thresholds a source image"
 msgstr "Sliekšņi avota attēlam"
 
 #: data/effects/frei0r/frei0r_timeout.xml:5
-#, kde-format
-msgid "Timeout indicator"
+#, fuzzy, kde-format
+#| msgid "Timeout indicator"
+msgid "Timeout Indicator"
 msgstr "Noildzes indikators"
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
-#, kde-format
-msgid "Indicator color"
+#, fuzzy, kde-format
+#| msgid "Indicator color"
+msgid "Indicator Color"
 msgstr "Indikatora krāsa"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
@@ -11857,6 +12873,28 @@ msgstr "Notīrīt centra izmēru"
 #, kde-format
 msgid "Softness"
 msgstr "Mīkstums"
+
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha shapes (Mask)"
+msgid "Alpha Shapes (Mask)"
+msgstr "Alfa formas (maska)"
+
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:5
+#: data/effects/mask_start_frei0r_alphaspot.xml:5
+#, kde-format
+msgid ""
+"This filter makes a snapshot of the frame before it draws simple shapes into "
+"the alpha channel. Use it together with the mask_apply effect, that uses a "
+"transition to composite the current frame's image over the snapshot. The "
+"typical use case is to add effects in the following sequence: this effect, "
+"zero or more effects, mask_apply."
+msgstr ""
+"Šis filtrs uzņem kadra momentuzņēmumu pirms tas zīmē vienkāršu formu alfa "
+"kanālā. Izmantojiet kopā ar maskas pielietošanas efektu, kas izmanto pāreju, "
+"lai pašreizējā kadra attēlu uzliktu pāri momentuzņēmuma. Parasti to izmanto, "
+"efektus pievienojot šādā secībā: šis efekts, nulle vai vairāk efektu, maskas "
+"pielietošana."
 
 #: data/effects/gain.xml:4
 #, kde-format
@@ -12090,6 +13128,11 @@ msgstr ""
 "avota tipam) un laiks (milisekundēs kopš epoha) visiem pārējiem datu avotu "
 "tipiem)]]>"
 
+#: data/effects/gpsgraphic.xml:61
+#, kde-format
+msgid "Crop left"
+msgstr "Kadrēt kreiso pusi"
+
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
 msgid ""
@@ -12111,6 +13154,11 @@ msgstr ""
 "kopējam horizontālajam attālumam). Vērtības, kas pārsniedz 100 (procentu "
 "režīmā) neko neparādīs. Ja <em>grafika tips</em> ir <b>spidometrs</b>, visas "
 "kadrējuma kreisās/labās vērtības tiks ignorētas.]]>"
+
+#: data/effects/gpsgraphic.xml:66
+#, kde-format
+msgid "Crop right"
+msgstr "Kadrēt labo pusi"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -12158,6 +13206,11 @@ msgstr ""
 "bet, izmainot <em>apzīmējumu mērvienības</em> uz pēdām, tas nozīmēs 10 "
 "pēdu).]]>"
 
+#: data/effects/gpsgraphic.xml:81
+#, kde-format
+msgid "Crop bottom"
+msgstr "Kadrēt apakšu"
+
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
 msgid ""
@@ -12179,6 +13232,11 @@ msgstr ""
 "attālumam). Vērtības virs 100 (procentuālajā režīmā) nozīmēs, ka nekas "
 "netiks parādīts. Ja <em>grafika tips</em> ir <b>spidometrs</b>, šī būs "
 "minimālā rādītāja adatas pozīcija, kas nerādīs visas vēl zemākās vērtības.]]>"
+
+#: data/effects/gpsgraphic.xml:86
+#, kde-format
+msgid "Crop top"
+msgstr "Kadrēt augšu"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -12542,6 +13600,26 @@ msgstr "GPS apstrādes sākuma laiks"
 msgid "Updates per second"
 msgstr "Atjauninājumi sekundē"
 
+#: data/effects/gradientmap.xml:4
+#, fuzzy, kde-format
+#| msgid "Gradient"
+msgid "Gradient Map"
+msgstr "Gradients"
+
+#: data/effects/gradientmap.xml:5
+#, fuzzy, kde-format
+#| msgid "Apply deflate effect to the video"
+msgid "Apply a gradient map to the video"
+msgstr "Video celiņam pielietot saplacināšanas efektu"
+
+#: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
+#: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
+#: data/effects/greyedge.xml:17
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[]]>"
+msgstr "<![CDATA[Nosaka trokšņu nonemšanas metodi]]>"
+
 #: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
@@ -12552,6 +13630,31 @@ msgstr "Graudains"
 #, kde-format
 msgid "Grain over the image"
 msgstr "Graudains attēls"
+
+#: data/effects/greyedge.xml:4
+#, fuzzy, kde-format
+#| msgid "Edge"
+msgctxt "Greyscale Effect Name"
+msgid "Grey Edge"
+msgstr "Mala"
+
+#: data/effects/greyedge.xml:5
+#, kde-format
+msgid ""
+"A color constancy filter that applies color correction based on the "
+"grayworld assumption"
+msgstr ""
+
+#: data/effects/greyedge.xml:8
+#, fuzzy, kde-format
+#| msgid "Destination Folder"
+msgid "Differentiation Order"
+msgstr "Galamērķa mape"
+
+#: data/effects/greyedge.xml:12
+#, kde-format
+msgid "Minkowski Norm"
+msgstr ""
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -12729,12 +13832,6 @@ msgstr ""
 #| msgid "The amount in pixel to blur the edge of the shadow"
 msgid "The amount to blend the edges of the hue range"
 msgstr "Pikseļu daudzums, kas aizmiglos ēnas malas"
-
-#: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "Hue shift"
-msgid "Hue Shift"
-msgstr "Nokrāsas nobīde"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
@@ -13230,21 +14327,6 @@ msgstr ""
 msgid "Alpha shapes (Mask)"
 msgstr "Alfa formas (maska)"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:5
-#, kde-format
-msgid ""
-"This filter makes a snapshot of the frame before it draws simple shapes into "
-"the alpha channel. Use it together with the mask_apply effect, that uses a "
-"transition to composite the current frame's image over the snapshot. The "
-"typical use case is to add effects in the following sequence: this effect, "
-"zero or more effects, mask_apply."
-msgstr ""
-"Šis filtrs uzņem kadra momentuzņēmumu pirms tas zīmē vienkāršu formu alfa "
-"kanālā. Izmantojiet kopā ar maskas pielietošanas efektu, kas izmanto pāreju, "
-"lai pašreizējā kadra attēlu uzliktu pāri momentuzņēmuma. Parasti to izmanto, "
-"efektus pievienojot šādā secībā: šis efekts, nulle vai vairāk efektu, maskas "
-"pielietošana."
-
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
@@ -13291,11 +14373,6 @@ msgstr ""
 #, kde-format
 msgid "Alpha,Luma,RGB"
 msgstr "Alfa,Spožums,RGB"
-
-#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
-#, kde-format
-msgid "Alpha Operation"
-msgstr "Alfa darbība"
 
 #: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
@@ -13487,53 +14564,108 @@ msgstr "Apgabals"
 
 #: data/effects/oldfilm.xml:4
 #, kde-format
-msgid "Oldfilm"
-msgstr "Veca filma"
+msgid "Old Film Simulator"
+msgstr ""
 
 #: data/effects/oldfilm.xml:5
-#, kde-format
-msgid "Moves the Picture up and down and random brightness change"
+#, fuzzy, kde-format
+#| msgid "Moves the Picture up and down and random brightness change"
+msgid "Moves the picture up and down and adds random brightness changes"
 msgstr "Pārvietot attēlu augšup un lejup un nejauši mainīt gaišumu"
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
-msgid "Y-Delta"
-msgstr "Y delta"
+msgid "Maximum Up/Down Move"
+msgstr ""
 
-#: data/effects/oldfilm.xml:11
-#, no-c-format, kde-format
-msgid "% of picture have a delta"
-msgstr "% no attēla ir delta"
+#: data/effects/oldfilm.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
+msgstr "<![CDATA[Attālums starp vertikālajām līnijām pikseļos]]>"
 
-#: data/effects/oldfilm.xml:14
-#, kde-format
-msgid "Brightness up"
+#: data/effects/oldfilm.xml:12
+#, fuzzy, kde-format
+#| msgid "Frames to use"
+msgid "Frames With Movement"
+msgstr "Izmantojamais kadrs"
+
+#: data/effects/oldfilm.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
+msgstr "<![CDATA[Profila garums pikseļos]]>"
+
+#: data/effects/oldfilm.xml:16
+#, fuzzy, kde-format
+#| msgid "Brightness up"
+msgid "Brightness Up"
 msgstr "Gaišāks"
 
 #: data/effects/oldfilm.xml:17
-#, kde-format
-msgid "Brightness down"
-msgstr "Tumšāks"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the value in brightness change up]]>"
+msgstr "<![CDATA[Nosaka trokšņu nonemšanas metodi]]>"
 
 #: data/effects/oldfilm.xml:20
-#, kde-format
-msgid "Brightness every"
+#, fuzzy, kde-format
+#| msgid "Brightness down"
+msgid "Brightness Down"
+msgstr "Tumšāks"
+
+#: data/effects/oldfilm.xml:21
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the value in brightness change down]]>"
+msgstr "<![CDATA[Nosaka trokšņu nonemšanas metodi]]>"
+
+#: data/effects/oldfilm.xml:24
+#, fuzzy, kde-format
+#| msgid "Brightness every"
+msgid "Brightness Every"
 msgstr "Gaišums ik"
 
-#: data/effects/oldfilm.xml:23
-#, kde-format
-msgid "Unevendevelop up"
+#: data/effects/oldfilm.xml:25
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
+msgstr "<![CDATA[Mēroga koeficients X ass virzienā]]>"
+
+#: data/effects/oldfilm.xml:28
+#, fuzzy, kde-format
+#| msgid "Unevendevelop up"
+msgid "Uneven Develop Up"
 msgstr "Nevienmērīgi attīstīta vairāk"
 
-#: data/effects/oldfilm.xml:26
-#, kde-format
-msgid "Unevendevelop down"
+#: data/effects/oldfilm.xml:29
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the value in lightness change up]]>"
+msgstr "<![CDATA[Nosaka trokšņu nonemšanas metodi]]>"
+
+#: data/effects/oldfilm.xml:32
+#, fuzzy, kde-format
+#| msgid "Unevendevelop down"
+msgid "Uneven Develop Down"
 msgstr "Nevienmērīgi attīstīta mazāk"
 
-#: data/effects/oldfilm.xml:29
-#, kde-format
-msgid "Unevendevelop Duration"
+#: data/effects/oldfilm.xml:33
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the value in lightness change down]]>"
+msgstr "<![CDATA[Nosaka trokšņu nonemšanas metodi]]>"
+
+#: data/effects/oldfilm.xml:36
+#, fuzzy, kde-format
+#| msgid "Unevendevelop Duration"
+msgid "Uneven Develop Duration"
 msgstr "Nevienmērīgi attīstītas ilgums"
+
+#: data/effects/oldfilm.xml:37
+#, kde-format
+msgid "<![CDATA[Time (in frames) of an uneven development up/down cycle]]>"
+msgstr ""
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -13558,16 +14690,16 @@ msgstr "Kropļot"
 msgid "Normalise"
 msgstr "Normalizēt"
 
-#: data/effects/pan_zoom.xml:20 data/effects/rotate-3-way.xml:10
-#: data/effects/rotation.xml:44 data/effects/rotation_keyframable.xml:27
-#: data/effects/shear.xml:10 data/transitions/affine.xml:24
+#: data/effects/pan_zoom.xml:20 data/effects/rotation.xml:44
+#: data/effects/rotation_keyframable.xml:27 data/effects/shear.xml:10
+#: data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
 msgstr "Izslēgt atkārtošanos"
 
-#: data/effects/pan_zoom.xml:23 data/effects/rotate-3-way.xml:15
-#: data/effects/rotation.xml:47 data/effects/rotation_keyframable.xml:30
-#: data/effects/shear.xml:15 data/transitions/affine.xml:27
+#: data/effects/pan_zoom.xml:23 data/effects/rotation.xml:47
+#: data/effects/rotation_keyframable.xml:30 data/effects/shear.xml:15
+#: data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
 msgstr "Izslēgt spoguļošanu"
@@ -13624,8 +14756,9 @@ msgid "Rotate from center"
 msgstr "Pagriezt no centra"
 
 #: data/effects/qtcrop.xml:4
-#, kde-format
-msgid "Crop by padding"
+#, fuzzy, kde-format
+#| msgid "Crop by padding"
+msgid "Crop by Padding"
 msgstr "Apgriezt ar apmalēm"
 
 #: data/effects/qtcrop.xml:5
@@ -13741,6 +14874,12 @@ msgstr "Trīs virzienu pagriešana"
 msgid "Rotate clip in any 3 directions"
 msgstr "Pagriezt klipu jebkuros trīs virzienos"
 
+#: data/effects/rotate-3-way.xml:10
+#, fuzzy, kde-format
+#| msgid "Disable repeat"
+msgid "Disable Repeat"
+msgstr "Izslēgt atkārtošanos"
+
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
 #, kde-format
 msgid ""
@@ -13749,6 +14888,12 @@ msgid ""
 msgstr ""
 "<![CDATA[Kad animē īpašības ar atslēgkadriem,<br>\n"
 "\t    vai atkārtot animāciju, kad ir sasniegts pēdējais atslēgkadrs.]]>"
+
+#: data/effects/rotate-3-way.xml:15
+#, fuzzy, kde-format
+#| msgid "Disable mirror"
+msgid "Disable Mirror"
+msgstr "Izslēgt spoguļošanu"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -13763,9 +14908,10 @@ msgstr ""
 "\t    vai animācija katrā atkārtošanās reizē mainās starp atpakaļejošu un uz "
 "priekšu ejošu.]]>"
 
-#: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, kde-format
-msgid "Invert scale"
+#: data/effects/rotate-3-way.xml:20
+#, fuzzy, kde-format
+#| msgid "Invert scale"
+msgid "Invert Scale"
 msgstr "Invertēt mērogu"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
@@ -13780,57 +14926,57 @@ msgstr ""
 "        Tas ir noderīgi, ja vēlaties izveidot jēgpilnu animācijas "
 "interpolāciju, jo pretējā gadījumā mēroga vērtību animācija nebūs lineāra.]]>"
 
-#: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
+#: data/effects/rotate-3-way.xml:28 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
 #, kde-format
 msgid "Rotate X"
 msgstr "Pagriezt gar X"
 
-#: data/effects/rotate-3-way.xml:26
+#: data/effects/rotate-3-way.xml:29
 #, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgstr "<![CDATA[Rotācijas leņķis gar X asi]]>"
 
-#: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
+#: data/effects/rotate-3-way.xml:32 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
 #, kde-format
 msgid "Rotate Y"
 msgstr "Pagriezt gar Y"
 
-#: data/effects/rotate-3-way.xml:30
+#: data/effects/rotate-3-way.xml:33
 #, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
 msgstr "<![CDATA[Rotācijas leņķis gar Y asi]]>"
 
-#: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
+#: data/effects/rotate-3-way.xml:36 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
 #, kde-format
 msgid "Rotate Z"
 msgstr "Pagriezt gar Z"
 
-#: data/effects/rotate-3-way.xml:34
+#: data/effects/rotate-3-way.xml:37
 #, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
 msgstr "<![CDATA[Rotācijas leņķis gar Z asi]]>"
 
-#: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
+#: data/effects/rotate-3-way.xml:40 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
 #, kde-format
 msgid "Offset X"
 msgstr "Nobīde X"
 
-#: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
+#: data/effects/rotate-3-way.xml:41 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
 msgstr "<![CDATA[Nobīde no X ass]]>"
 
-#: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
+#: data/effects/rotate-3-way.xml:44 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
 #, kde-format
 msgid "Offset Y"
 msgstr "Nobīde Y"
 
-#: data/effects/rotate-3-way.xml:42
+#: data/effects/rotate-3-way.xml:45
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
 msgstr "<![CDATA[Nobīde no Y ass]]>"
@@ -13906,34 +15052,62 @@ msgid "Keyframable vector based rotoscoping"
 msgstr "Uz atslēgkadriem balstīta rotoskopija"
 
 #: data/effects/scratchlines.xml:4
-#, kde-format
-msgid "Scratchlines"
+#, fuzzy, kde-format
+#| msgid "Scratchlines"
+msgid "Scratch Lines"
 msgstr "Skrāpējumi"
 
 #: data/effects/scratchlines.xml:5
-#, kde-format
-msgid "Scratchlines over the picture"
+#, fuzzy, kde-format
+#| msgid "Scratchlines over the picture"
+msgid "Scratch lines over the picture"
 msgstr "Skrāpējumi uz attēla"
 
 #: data/effects/scratchlines.xml:8
-#, kde-format
-msgid "Width of line"
+#, fuzzy, kde-format
+#| msgid "Width of line"
+msgid "Width of Line"
 msgstr "Līnijas platums"
 
-#: data/effects/scratchlines.xml:11
-#, kde-format
-msgid "Max number of lines"
+#: data/effects/scratchlines.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Width of the scope display]]>"
+msgid "<![CDATA[Width on the line in the clip]]>"
+msgstr "<![CDATA[Pētītāja lodziņa platums]]>"
+
+#: data/effects/scratchlines.xml:12
+#, fuzzy, kde-format
+#| msgid "Max number of lines"
+msgid "Max Number of Lines"
 msgstr "Maksimālais rindu skaits"
 
-#: data/effects/scratchlines.xml:14
-#, kde-format
-msgid "Max darker"
+#: data/effects/scratchlines.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[Maximum number of lines in the clip]]>"
+msgstr "<![CDATA[Profila garums pikseļos]]>"
+
+#: data/effects/scratchlines.xml:16
+#, fuzzy, kde-format
+#| msgid "Max darker"
+msgid "Max Darker"
 msgstr "Maksimālais tumšinājums"
 
 #: data/effects/scratchlines.xml:17
 #, kde-format
-msgid "Max lighter"
+msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
+msgstr ""
+
+#: data/effects/scratchlines.xml:20
+#, fuzzy, kde-format
+#| msgid "Max lighter"
+msgid "Max Lighter"
 msgstr "Maksimālāsi gaišinājums"
+
+#: data/effects/scratchlines.xml:21
+#, kde-format
+msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
+msgstr ""
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -13976,6 +15150,11 @@ msgstr "Bīdīt"
 #, kde-format
 msgid "Shear a clip along the 3 axes"
 msgstr "Bīdīt klipu gar trim asīm"
+
+#: data/effects/shear.xml:20
+#, kde-format
+msgid "Invert scale"
+msgstr "Invertēt mērogu"
 
 #: data/effects/shear.xml:26
 #, kde-format
@@ -14214,8 +15393,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Definē taisnstūra apgabalu, kas tiks noņemts."
 
 #: data/effects/strobe.xml:4
-#, kde-format
-msgid "Alpha strobing"
+#, fuzzy, kde-format
+#| msgid "Alpha strobing"
+msgid "Alpha Strobing"
 msgstr "Alfa mirgošana"
 
 #: data/effects/strobe.xml:5
@@ -14655,22 +15835,22 @@ msgstr "Vilnis"
 msgid "Make waves on your clip with keyframes"
 msgstr "Veidot viļņus klipā ar atslēgkadriem"
 
-#: data/effects/wave.xml:11
+#: data/effects/wave.xml:14
 #, kde-format
 msgid "End Amplitude"
 msgstr "Beigu amplitūda"
 
-#: data/effects/wave.xml:14
+#: data/effects/wave.xml:19
 #, kde-format
 msgid "Wave Amplitude"
 msgstr "Viļņu amplitūda"
 
-#: data/effects/wave.xml:20
+#: data/effects/wave.xml:25
 #, kde-format
 msgid "Horizontal"
 msgstr "Horizontāli"
 
-#: data/effects/wave.xml:23
+#: data/effects/wave.xml:28
 #, kde-format
 msgid "Vertical"
 msgstr "Vertikāli"
@@ -14759,8 +15939,9 @@ msgid "White noise producer"
 msgstr "Baltā trokšņa radītājs"
 
 #: data/kdenliveeffectscategory.rc:6
-#, kde-format
-msgid "Alpha, Mask and Keying"
+#, fuzzy, kde-format
+#| msgid "Alpha, Mask and Keying"
+msgid "Alpha, Mask, and Keying"
 msgstr "Alfa, maska un atslēgas"
 
 #: data/kdenliveeffectscategory.rc:10
@@ -14769,8 +15950,9 @@ msgid "Blur and Sharpen"
 msgstr "Aizmiglošana un asināšana"
 
 #: data/kdenliveeffectscategory.rc:14
-#, kde-format
-msgid "Transform, Distort and Perspective"
+#, fuzzy, kde-format
+#| msgid "Transform, Distort and Perspective"
+msgid "Transform, Distort, and Perspective"
 msgstr "Transformēt, kropļot un perspektīva"
 
 #: data/kdenliveeffectscategory.rc:18
@@ -14779,8 +15961,9 @@ msgid "Grain and Noise"
 msgstr "Graudainums un troksnis"
 
 #: data/kdenliveeffectscategory.rc:22
-#, kde-format
-msgid "Utility"
+#, fuzzy, kde-format
+#| msgid "Utility"
+msgid "Utilities"
 msgstr "Noderīgi"
 
 #: data/kdenliveeffectscategory.rc:26
@@ -14794,18 +15977,21 @@ msgid "On Master"
 msgstr "Pamata"
 
 #: data/kdenliveeffectscategory.rc:34
-#, kde-format
-msgid "Color and Image correction"
+#, fuzzy, kde-format
+#| msgid "Color and Image correction"
+msgid "Color and Image Correction"
 msgstr "Krāsu un attēla korekcija"
 
 #: data/kdenliveeffectscategory.rc:38
-#, kde-format
-msgid "Audio correction"
+#, fuzzy, kde-format
+#| msgid "Audio correction"
+msgid "Audio Correction"
 msgstr "Audio korekcija"
 
 #: data/kdenliveeffectscategory.rc:42
-#, kde-format
-msgid "Image adjustment"
+#, fuzzy, kde-format
+#| msgid "Image adjustment"
+msgid "Image Adjustment"
 msgstr "Attēla koriģēšana"
 
 #: data/kdenliveeffectscategory.rc:46
@@ -14818,10 +16004,9 @@ msgstr "Stilizēt"
 msgid "Motion"
 msgstr "Kustība"
 
-#: data/kdenliveeffectscategory.rc:54
-#: src/effects/effectlist/model/effecttreemodel.cpp:51
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2503
 #, kde-format
-msgid "GPU effects"
+msgid "GPU Effects"
 msgstr "GPU efekti"
 
 #: data/kdenliveeffectscategory.rc:58
@@ -14830,8 +16015,9 @@ msgid "VR360 and 3D"
 msgstr "VR360 un 3D"
 
 #: data/kdenliveeffectscategory.rc:62
-#, kde-format
-msgid "More checks"
+#, fuzzy, kde-format
+#| msgid "More checks"
+msgid "More Checks"
 msgstr "Vairāk pārbaužu"
 
 #: data/kdenliveeffectscategory.rc:66
@@ -14845,13 +16031,15 @@ msgid "Volume and Dynamics"
 msgstr "Skaļums un dinamika"
 
 #: data/kdenliveeffectscategory.rc:74
-#, kde-format
-msgid "Reverb, Echo and Delays"
+#, fuzzy, kde-format
+#| msgid "Reverb, Echo and Delays"
+msgid "Reverb, Echo, and Delays"
 msgstr "Reverberācija, atbalss un aiztures"
 
 #: data/kdenliveeffectscategory.rc:78
-#, kde-format
-msgid "EQ and filters"
+#, fuzzy, kde-format
+#| msgid "EQ and filters"
+msgid "EQ and Filters"
 msgstr "Ekvalaizers un filtri"
 
 #: data/kdenliveeffectscategory.rc:82
@@ -14932,8 +16120,9 @@ msgid "Calf  Plugins"
 msgstr "„Calf“ spraudņi"
 
 #: data/kdenliveeffectscategory.rc:146
-#, kde-format
-msgid "LSP plugins"
+#, fuzzy, kde-format
+#| msgid "LSP plugins"
+msgid "LSP Plugins"
 msgstr "LSP spraudņi"
 
 #: data/kdenliveeffectscategory.rc:150
@@ -14958,8 +16147,8 @@ msgstr "VCO spraudņi"
 
 #: data/kdenliveeffectscategory.rc:166
 #, kde-format
-msgid "MLT ladspa"
-msgstr "MLT LADSPA"
+msgid "MLT LADSPA"
+msgstr ""
 
 #: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
@@ -15176,6 +16365,12 @@ msgstr "X mērogs"
 #, kde-format
 msgid "Y scale"
 msgstr "Y mērogs"
+
+#: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
+#: data/transitions/frei0r/frei0r_cairoblend.xml:12
+#, kde-format
+msgid "Blend mode"
+msgstr "Apvienošanas režīms"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:30
 #, kde-format
@@ -15494,12 +16689,6 @@ msgstr "UV karte"
 #, kde-format
 msgid "Uses Input 1 as UV Map to distort Input 2."
 msgstr "Izmantot 1. ievadi kā UV karti, lai mainītu 2. ievadi"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, infoList)
-#: data/transitions/frei0r/frei0r_value.xml:4 src/ui/managesubtitles_ui.ui:544
-#, kde-format
-msgid "Value"
-msgstr "Vērtība"
 
 #: data/transitions/frei0r/frei0r_value.xml:5
 #, kde-format
@@ -16604,14 +17793,6 @@ msgstr "Augšās pa labi"
 #, kde-format
 msgid "Left center"
 msgstr "Pa kreisi centrā"
-
-#: src/assets/view/widgets/keyframeimport.cpp:230
-#: src/assets/view/widgets/keyframeimport.cpp:240
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
-#: src/transitions/view/mixstackview.cpp:47
-#, kde-format
-msgid "Center"
-msgstr "Centrā"
 
 #: src/assets/view/widgets/keyframeimport.cpp:231
 #: src/assets/view/widgets/keyframeimport.cpp:241
@@ -22251,11 +23432,6 @@ msgstr ""
 "Vai vēlaties projektu konvertēt uz versiju, kas neizmanto GPU?\n"
 "Tas var novest pie datu zudumiem."
 
-#: src/doc/documentvalidator.cpp:2503
-#, kde-format
-msgid "GPU Effects"
-msgstr "GPU efekti"
-
 #: src/doc/documentvalidator.cpp:2596
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
@@ -22547,6 +23723,11 @@ msgstr "Rādīt virsrakstjoslas"
 #, kde-format
 msgid "Legacy"
 msgstr "Mantots"
+
+#: src/effects/effectlist/model/effecttreemodel.cpp:51
+#, kde-format
+msgid "GPU effects"
+msgstr "GPU efekti"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:66
 #: src/profiles/tree/profiletreemodel.cpp:56
@@ -29996,16 +31177,16 @@ msgstr "Zīmēt asis"
 msgid "Gradient reference line"
 msgstr "Gradienta atsauces līnija"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:169
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:175
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:181
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:173
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:179
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
 #, kde-format
 msgid "min: "
 msgstr "min.: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:189
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:195
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:201
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:193
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:199
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:205
 #, kde-format
 msgid "max: "
 msgstr "maks.: "
@@ -31591,18 +32772,40 @@ msgstr ""
 "Pievienot laika joslas sekvenci. Šī darbība rediģēšanai izveidos jaunu laika "
 "joslu. Katra laika josla atbilst sekvences klipam projekta lādē."
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:175
+#, kde-format
+msgid ""
+"The timeline sequence <b>%1</b> was shortened.<br/>Resize all instances in "
+"other timelines ?<br>Not resizing will temporarily keep the current duration "
+"in all other sequences."
+msgstr ""
+
+#: src/timeline2/view/timelinetabs.cpp:178
+#, fuzzy, kde-format
+#| msgid "Resize"
+msgctxt "@action:button"
+msgid "Resize"
+msgstr "Mainīt izmēru"
+
+#: src/timeline2/view/timelinetabs.cpp:179
+#, fuzzy, kde-format
+#| msgid "Resize"
+msgctxt "@action:button"
+msgid "Don't Resize"
+msgstr "Mainīt izmēru"
+
+#: src/timeline2/view/timelinetabs.cpp:261
 #, kde-format
 msgid "Close %1"
 msgstr "Aizvērt „%1“"
 
-#: src/timeline2/view/timelinetabs.cpp:345
+#: src/timeline2/view/timelinetabs.cpp:371
 #, fuzzy, kde-format
 #| msgid "Align Audio to Reference"
 msgid "Align to Reference"
 msgstr "Līdzināt audio pret atsauci"
 
-#: src/timeline2/view/timelinetabs.cpp:419
+#: src/timeline2/view/timelinetabs.cpp:445
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Pārdēvēt sekvenci"
@@ -36893,7 +38096,7 @@ msgstr "Atiestatīt vērtību"
 msgid "Show %1 in timeline"
 msgstr "Rādīt %1 laika joslā"
 
-#: src/widgets/dragvalue.cpp:755
+#: src/widgets/dragvalue.cpp:756
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "„Shift“ + vilkt, lai vērtību mainītu pa vienai"
@@ -36997,6 +38200,129 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 st."
 
+#~ msgid "Chroma-blue H shift"
+#~ msgstr "Zilās tīrkrāsas H nobīde"
+
+#~ msgid "Chroma-blue V shift"
+#~ msgstr "Zilās tīrkrāsas V nobīde"
+
+#~ msgid "Chroma-red H shift"
+#~ msgstr "Sarkanās tīrkrāsas H nobīde"
+
+#~ msgid "Chroma-red V shift"
+#~ msgstr "Sarkanās tīrkrāsas V nobīde"
+
+#~ msgid " Hue"
+#~ msgstr " Nokrāsa"
+
+#~ msgid "ELBG Posterizer"
+#~ msgstr "ELBG veidot par plakātu"
+
+#~ msgid "None,Y,U,YU,V,YV,UV,YUV"
+#~ msgstr "Nekas,Y,U,YU,V,YV,UV,YUV"
+
+#~ msgid "All,Y,U,YU,V,YV,UV,All,Alpha"
+#~ msgstr "Viss,Y,U,YU,V,YV,UV,Viss,Alfa"
+
+#~ msgid "High precision/quality 3d denoiser"
+#~ msgstr "Augsta precizitāte/kvalitatīvs 3d trokšņu noņēmējs"
+
+#~ msgid "Lens correction"
+#~ msgstr "Lēcas korekcija"
+
+#~ msgid "Focal point relative-X coord"
+#~ msgstr "Fokālā punkta relatīvās X koord."
+
+#~ msgid "Focal point relative-Y coord"
+#~ msgstr "Fokālā punkta relatīvās Y koord."
+
+#~ msgid "Quadratic correction coeff."
+#~ msgstr "Kvadrātiskās korekcijas koef."
+
+#~ msgid "Interpolation mode"
+#~ msgstr "Interpolācijas režīms"
+
+#~ msgid "Wavelet based Denoiser"
+#~ msgstr "Maiņviļņos balstīts trokšņu noņēmējs"
+
+#~ msgid "White,Black,Name"
+#~ msgstr "Balts,Melns,Nosaukums"
+
+#~ msgid "Auto,601,709"
+#~ msgstr "Auto,601,709"
+
+#~ msgid "Colorspace"
+#~ msgstr "Krāstelpa"
+
+#~ msgid "Brightness (keyframable)"
+#~ msgstr "Gaišums (ar atslēgkadriem)"
+
+#~ msgid "Aech0r"
+#~ msgstr "Aech0r"
+
+#~ msgid "Alpha operations"
+#~ msgstr "Alfa darbības"
+
+#~ msgid "Alpha operation"
+#~ msgstr "Alfa darbība"
+
+#~ msgid "Plasma"
+#~ msgstr "Plazma"
+
+#~ msgid "Light direction angle."
+#~ msgstr "Gaismas virziena leņķis"
+
+#~ msgid "Background lightness (0 to 90)."
+#~ msgstr "Fona gaišums (no 0 līdz 90)."
+
+#~ msgid "Bump height (0 to 40)."
+#~ msgstr "Izciļņu augstums (no 0 līdz 40)."
+
+#~ msgid "Glitch0r"
+#~ msgstr "Glitch0r"
+
+#~ msgid "Denoiser"
+#~ msgstr "Trokšņu noņēmējs"
+
+#~ msgid "Background color"
+#~ msgstr "Fona krāsa"
+
+#~ msgid "LetterB0xed"
+#~ msgstr "LetterB0xed"
+
+#~ msgid "Pixelize"
+#~ msgstr "Pikselizēt"
+
+#~ msgid "Block Size X"
+#~ msgstr "Bloka izmērs X"
+
+#~ msgid "Block Size Y"
+#~ msgstr "Bloka izmērs Y"
+
+#~ msgid "Pixs0r"
+#~ msgstr "Pixs0r"
+
+#~ msgid "Length"
+#~ msgstr "Garums"
+
+#~ msgid "CCIR rec. 601,CCIR rec. 709"
+#~ msgstr "CCIR rec. 601,CCIR rec. 709"
+
+#~ msgid "rgbsplit0r"
+#~ msgstr "rgbsplit0r"
+
+#~ msgid "Oldfilm"
+#~ msgstr "Veca filma"
+
+#~ msgid "Y-Delta"
+#~ msgstr "Y delta"
+
+#~ msgid "% of picture have a delta"
+#~ msgstr "% no attēla ir delta"
+
+#~ msgid "MLT ladspa"
+#~ msgstr "MLT LADSPA"
+
 #~ msgctxt "R as in Right"
 #~ msgid ""
 #~ "\n"
@@ -37055,9 +38381,6 @@ msgstr "%1 st."
 
 #~ msgid "y"
 #~ msgstr "y"
-
-#~ msgid "opacity"
-#~ msgstr "necaurspīdība"
 
 #~ msgctxt "@tooltip Transform, a tool to resize"
 #~ msgid "Transform"
@@ -37133,11 +38456,6 @@ msgstr "%1 st."
 
 #~ msgid "No available audio track for restore operation"
 #~ msgstr "Atjaunošanai nav pieejams audio celiņš"
-
-#, fuzzy
-#~| msgid "Threshold"
-#~ msgid "Theshold"
-#~ msgstr "Slieksnis"
 
 #, fuzzy
 #~| msgid "Intensity"
