@@ -110,10 +110,9 @@ QImage RGBParade::renderHUD(uint)
 
     QFontMetrics fm = davinci.fontMetrics();
 
-    const int HUD_SCALE_MARGIN = 5;
-    const int hudScaleOffset = offset + HUD_SCALE_MARGIN;
+    const int hudScaleOffsetTop = 2 * offset;
 
-    int x = scopeRect().width() - hudScaleOffset - fm.horizontalAdvance(QStringLiteral("255"));
+    int x = scopeRect().width() - offset - fm.horizontalAdvance(QStringLiteral("255"));
     int y = m_mousePos.y() - scopeRect().y();
     bool mouseWithinScope = m_mouseWithinWidget && y >= RGBParadeGenerator::distBorder &&
                             y <= (scopeRect().height() - RGBParadeGenerator::distBottom - RGBParadeGenerator::distBorder);
@@ -126,7 +125,7 @@ QImage RGBParade::renderHUD(uint)
             const int textMargin = 2;
 
             // Scale baseline positions
-            const int scaleTopY = RGBParadeGenerator::distBorder + hudScaleOffset;                                           // "255" position
+            const int scaleTopY = RGBParadeGenerator::distBorder + hudScaleOffsetTop;                                        // "255" position
             const int scaleBottomY = scopeRect().height() - RGBParadeGenerator::distBottom - RGBParadeGenerator::distBorder; // "0" position
 
             // Calculate the natural position for the current value text (centered on horizontal line)
@@ -167,7 +166,7 @@ QImage RGBParade::renderHUD(uint)
         // When mouse is not within scope, always show scale values
         davinci.setPen(palette().text().color());
         davinci.drawText(x, scopeRect().height() - RGBParadeGenerator::distBottom - RGBParadeGenerator::distBorder, QStringLiteral("0"));
-        davinci.drawText(x, RGBParadeGenerator::distBorder + 10, QStringLiteral("255"));
+        davinci.drawText(x, RGBParadeGenerator::distBorder + hudScaleOffsetTop, QStringLiteral("255"));
     }
 
     Q_EMIT signalHUDRenderingFinished(1, 1);

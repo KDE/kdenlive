@@ -25,5 +25,6 @@ public:
     ~WaveformGenerator() override;
 
     QImage calculateWaveform(const QSize &waveformSize, qreal scalingFactor, const QImage &image, const WaveformGenerator::PaintMode paintMode, bool drawAxis,
-                             const ITURec rec, uint accelFactor = 1, const QPalette &palette = QPalette());
+                             const ITURec rec, uint accelFactor = 1);
+    static const uchar distBorder;
 };

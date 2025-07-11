@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define CHOP255(a) ((255) < (a) ? (255) : int(a))
 #define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))
 
-const uchar RGBParadeGenerator::distRight(40);
+const uchar RGBParadeGenerator::distRight(31);
 const uchar RGBParadeGenerator::distBottom(40);
 const uchar RGBParadeGenerator::distBorder(2);
 
