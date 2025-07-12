@@ -3239,7 +3239,7 @@ void Monitor::activeChanged()
     bool isActive = m_monitorManager->isActive(m_id);
     QPalette pal = m_timePos->palette();
     KColorScheme scheme(QApplication::palette().currentColorGroup());
-    QColor bg = isActive ? scheme.foreground(KColorScheme::PositiveText).color() : scheme.foreground(KColorScheme::NormalText).color();
+    QColor bg = isActive ? scheme.decoration(KColorScheme::FocusColor).color() : scheme.foreground(KColorScheme::NormalText).color();
     pal.setColor(QPalette::Text, bg);
     m_timePos->setPalette(pal);
     m_timePos->setBold(isActive);
