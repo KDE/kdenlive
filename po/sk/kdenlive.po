@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-11 00:42+0000\n"
+"POT-Creation-Date: 2025-07-12 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -524,6 +524,7 @@ msgstr "Vstupný nárast (dB)"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
+#: data/effects/avfilter/avfilter_photosensitivity.xml:12
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:17
 #: data/effects/frei0r/frei0r_alpha0ps.xml:21
 #: data/effects/frei0r/frei0r_alpha0ps.xml:47
@@ -2229,7 +2230,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
-msgid "Output transfer characteristicse"
+msgid "Output transfer characteristics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
@@ -4003,7 +4004,7 @@ msgstr ""
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:22
 #: src/timeline2/view/qml/Track.qml:51 src/ui/clipspeed_ui.ui:36
-#: src/ui/editsub_ui.ui:524
+#: src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
 msgstr "Rýchlosť"
@@ -4187,7 +4188,7 @@ msgid ""
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands<b>.]]>"
+"bands</b>.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:14
@@ -4696,7 +4697,7 @@ msgstr "Roztiahnutie X"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
@@ -4709,7 +4710,7 @@ msgstr "Roztiahnutie X"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
-"        Is used in saturation and lightess processing.e]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
@@ -4722,7 +4723,7 @@ msgstr "Dĺžka"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:4
@@ -5615,12 +5616,6 @@ msgstr "Snímková frekvencia"
 msgid "Set how many frames to use."
 msgstr "Ukázať poslednú snímku cez video"
 
-#: data/effects/avfilter/avfilter_photosensitivity.xml:12
-#, fuzzy, kde-format
-#| msgid "Threshold"
-msgid "Theshold"
-msgstr "Prah"
-
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
@@ -5876,7 +5871,7 @@ msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
-#: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
+#: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
 #, fuzzy, kde-format
 #| msgid " Rolling "
 msgid "Scroll"
@@ -8377,7 +8372,7 @@ msgstr "Alfa tvary"
 #, kde-format
 msgid ""
 "<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
-"    This effect has been replaced by <em>frei0r,alphaops_alphaspot</em>.]]>"
+"    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_B.xml:4
@@ -9817,7 +9812,7 @@ msgstr "Červená"
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Green"
 msgstr "Zelená"
@@ -10090,7 +10085,7 @@ msgstr "Vyplniť,Vycentrovať,Prispôsobiť,Ručne"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:409
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Scaling"
 msgstr "Škálovanie"
@@ -10324,7 +10319,7 @@ msgstr "Počítadlo"
 #, no-c-format, kde-format
 msgid ""
 "<![CDATA[Horizontal center position<br>\n"
-"        of the linear area (% of total width]]>"
+"        of the linear area (% of total width)]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
@@ -11169,7 +11164,7 @@ msgstr "Šírka okraja"
 #, no-c-format, kde-format
 msgid ""
 "<![CDATA[Specify the width of the border<br>\n"
-"        as % of half the vertical resolution (100% means both the topa and "
+"        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 
@@ -17492,7 +17487,7 @@ msgstr "Vymazať vybranú vyrovnávaciu pamäť"
 msgid "Save effect"
 msgstr "Uložiť efekt"
 
-#: src/assets/view/assetparameterview.cpp:376
+#: src/assets/view/assetparameterview.cpp:371
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, fuzzy, kde-format
@@ -17501,7 +17496,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Zadať názov predvoľby"
 
-#: src/assets/view/assetparameterview.cpp:376
+#: src/assets/view/assetparameterview.cpp:371
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, fuzzy, kde-format
@@ -17567,7 +17562,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:1000
+#: src/assets/view/widgets/keyframecontainer.cpp:999
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -17662,46 +17657,46 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Parametre výberu"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:905
+#: src/assets/view/widgets/keyframecontainer.cpp:904
 #, fuzzy, kde-format
 #| msgid "Keyframe interpolation"
 msgid "Keyframes copied"
 msgstr "Interpolácia kľúčových snímok"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:916
-#: src/assets/view/widgets/keyframecontainer.cpp:957
-#: src/assets/view/widgets/keyframecontainer.cpp:964
+#: src/assets/view/widgets/keyframecontainer.cpp:915
+#: src/assets/view/widgets/keyframecontainer.cpp:956
+#: src/assets/view/widgets/keyframecontainer.cpp:963
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Žiadne informácie v schránke"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1008
+#: src/assets/view/widgets/keyframecontainer.cpp:1007
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Nemožno vytvoriť dočasný súbor"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1013
-#: src/assets/view/widgets/keyframecontainer.cpp:1024
+#: src/assets/view/widgets/keyframecontainer.cpp:1012
+#: src/assets/view/widgets/keyframecontainer.cpp:1023
 #, fuzzy, kde-format
 #| msgid "Keyframe interpolation"
 msgid "Current values copied"
 msgstr "Interpolácia kľúčových snímok"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1036
+#: src/assets/view/widgets/keyframecontainer.cpp:1035
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Žiadne informácie v schránke"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1117
+#: src/assets/view/widgets/keyframecontainer.cpp:1116
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to frame %1."
 msgid "Cannot remove the last keyframe"
 msgstr "Nie je možné presunúť klip do snímku %1."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1129
+#: src/assets/view/widgets/keyframecontainer.cpp:1128
 #, fuzzy, kde-format
 #| msgid "Remove keyframe"
 msgid "Remove keyframe"
@@ -19265,8 +19260,9 @@ msgstr[2] "Pridať klipy"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:610
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
-#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:612
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:106
+#: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
+#: src/ui/titlewidget_ui.ui:612
 #, kde-format
 msgid "Duration:"
 msgstr "Trvanie:"
@@ -21631,29 +21627,29 @@ msgstr ""
 msgid "Downloading multilingual model…"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:225
-#: src/dialogs/settings/pluginssettings.cpp:870
+#: src/dialogs/settings/pluginssettings.cpp:194
+#: src/dialogs/settings/pluginssettings.cpp:895
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Vybrať prechod"
 
-#: src/dialogs/settings/pluginssettings.cpp:258
+#: src/dialogs/settings/pluginssettings.cpp:227
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:266
-#: src/dialogs/settings/pluginssettings.cpp:378
+#: src/dialogs/settings/pluginssettings.cpp:235
+#: src/dialogs/settings/pluginssettings.cpp:323
 #, kde-format
 msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:336
+#: src/dialogs/settings/pluginssettings.cpp:308
 #, kde-format
 msgid ""
 "This will attempt to rebuild the plugin's virtual environment. Only use if "
@@ -21661,15 +21657,15 @@ msgid ""
 "plugin."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:452
+#: src/dialogs/settings/pluginssettings.cpp:477
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:469
-#: src/dialogs/settings/pluginssettings.cpp:483
+#: src/dialogs/settings/pluginssettings.cpp:494
+#: src/dialogs/settings/pluginssettings.cpp:508
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -21678,86 +21674,86 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:498 src/ui/configspeech_ui.ui:369
+#: src/dialogs/settings/pluginssettings.cpp:523 src/ui/configspeech_ui.ui:369
 #, fuzzy, kde-format
 #| msgid "Invalid transition"
 msgid "Install multilingual translation"
 msgstr "Neplatný prechod"
 
-#: src/dialogs/settings/pluginssettings.cpp:507
+#: src/dialogs/settings/pluginssettings.cpp:532
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:562
+#: src/dialogs/settings/pluginssettings.cpp:587
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select model to download"
 msgstr "Nástroj pre výber"
 
-#: src/dialogs/settings/pluginssettings.cpp:578
+#: src/dialogs/settings/pluginssettings.cpp:603
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:598
+#: src/dialogs/settings/pluginssettings.cpp:623
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading…"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:608
+#: src/dialogs/settings/pluginssettings.cpp:633
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading smallest model…"
 msgstr "Stiahnuť nové Wipe..."
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:627 src/ui/configspeech_ui.ui:832
+#: src/dialogs/settings/pluginssettings.cpp:652 src/ui/configspeech_ui.ui:832
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download models"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:679
-#: src/dialogs/settings/pluginssettings.cpp:692
+#: src/dialogs/settings/pluginssettings.cpp:704
+#: src/dialogs/settings/pluginssettings.cpp:717
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install a model"
 msgstr "Nainštalované moduly"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:694 src/ui/configspeech_ui.ui:463
+#: src/dialogs/settings/pluginssettings.cpp:719 src/ui/configspeech_ui.ui:463
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
 msgstr "Režim hrany"
 
-#: src/dialogs/settings/pluginssettings.cpp:753
+#: src/dialogs/settings/pluginssettings.cpp:778
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter url for the new dictionary"
 msgstr "Zadajte názov pre klip v knižnici"
 
-#: src/dialogs/settings/pluginssettings.cpp:759
+#: src/dialogs/settings/pluginssettings.cpp:784
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:769
+#: src/dialogs/settings/pluginssettings.cpp:794
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:775
-#: src/dialogs/settings/pluginssettings.cpp:829
+#: src/dialogs/settings/pluginssettings.cpp:800
+#: src/dialogs/settings/pluginssettings.cpp:854
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Nie je možné pridať video efekt do tohto klipu"
 
-#: src/dialogs/settings/pluginssettings.cpp:784
+#: src/dialogs/settings/pluginssettings.cpp:809
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -21765,55 +21761,55 @@ msgid ""
 "%1"
 msgstr "Vymazať priečinok"
 
-#: src/dialogs/settings/pluginssettings.cpp:804
+#: src/dialogs/settings/pluginssettings.cpp:829
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:808
+#: src/dialogs/settings/pluginssettings.cpp:833
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:836
+#: src/dialogs/settings/pluginssettings.cpp:861
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Extrahujem..."
 
-#: src/dialogs/settings/pluginssettings.cpp:843
+#: src/dialogs/settings/pluginssettings.cpp:868
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:971
+#: src/dialogs/settings/pluginssettings.cpp:996
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:975
+#: src/dialogs/settings/pluginssettings.cpp:1000
 #, kde-format
 msgid "CUDA %1"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:988
+#: src/dialogs/settings/pluginssettings.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Detected devices"
 msgid "Detected version: %1"
 msgstr "Detekované zariadenia"
 
-#: src/dialogs/settings/pluginssettings.cpp:991
+#: src/dialogs/settings/pluginssettings.cpp:1016
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1005
+#: src/dialogs/settings/pluginssettings.cpp:1030
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -21856,7 +21852,7 @@ msgid "No audio track found"
 msgstr "Nebola nájdená žiadna snímka"
 
 #: src/dialogs/speechdialog.cpp:189 src/dialogs/textbasededit.cpp:1060
-#: src/dialogs/textbasededit.cpp:1076
+#: src/dialogs/textbasededit.cpp:1073
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
@@ -21881,12 +21877,12 @@ msgstr "Zadržať zvukový export"
 msgid "Audio export failed"
 msgstr "Obnovenie zvuku zlyhalo"
 
-#: src/dialogs/speechdialog.cpp:376 src/dialogs/textbasededit.cpp:1097
+#: src/dialogs/speechdialog.cpp:376 src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:439 src/dialogs/textbasededit.cpp:1281
+#: src/dialogs/speechdialog.cpp:439 src/dialogs/textbasededit.cpp:1278
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition aborted."
@@ -22827,8 +22823,8 @@ msgid "Delete selection"
 msgstr "Vymazať vybraný klip"
 
 #: src/dialogs/textbasededit.cpp:357 src/dialogs/textbasededit.cpp:613
-#: src/dialogs/textbasededit.cpp:1301 src/dialogs/textbasededit.cpp:1371
-#: src/dialogs/textbasededit.cpp:1395 src/dialogs/textbasededit.cpp:1452
+#: src/dialogs/textbasededit.cpp:1298 src/dialogs/textbasededit.cpp:1368
+#: src/dialogs/textbasededit.cpp:1392 src/dialogs/textbasededit.cpp:1449
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No speech"
@@ -22925,86 +22921,86 @@ msgid ""
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1081
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1092
+#: src/dialogs/textbasededit.cpp:1089
 #, fuzzy, kde-format
 #| msgid "Clip in Project Bin"
 msgid "Select a clip with audio in Project Bin."
 msgstr "Klip v koši projektu"
 
-#: src/dialogs/textbasededit.cpp:1138
+#: src/dialogs/textbasededit.cpp:1135
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Vybrať klip pred kopírovaním"
 
-#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1195
-#: src/dialogs/textbasededit.cpp:1253
+#: src/dialogs/textbasededit.cpp:1144 src/dialogs/textbasededit.cpp:1192
+#: src/dialogs/textbasededit.cpp:1250
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot create temporary file."
 msgstr "Nemožno vytvoriť dočasný súbor"
 
-#: src/dialogs/textbasededit.cpp:1152
+#: src/dialogs/textbasededit.cpp:1149
 #, fuzzy, kde-format
 #| msgid "Creating audio thumbnails"
 msgid "Extracting audio for %1."
 msgstr "Vytváram audio miniatúry"
 
-#: src/dialogs/textbasededit.cpp:1160
+#: src/dialogs/textbasededit.cpp:1157
 #, fuzzy, kde-format
 #| msgid "Audio restore failed"
 msgid "Audio extract failed."
 msgstr "Obnovenie zvuku zlyhalo"
 
-#: src/dialogs/textbasededit.cpp:1166 src/dialogs/textbasededit.cpp:1231
+#: src/dialogs/textbasededit.cpp:1163 src/dialogs/textbasededit.cpp:1228
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Starting speech recognition on %1."
 msgstr "Vybrať prechod"
 
-#: src/dialogs/textbasededit.cpp:1285
+#: src/dialogs/textbasededit.cpp:1282
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1287
+#: src/dialogs/textbasededit.cpp:1284
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No speech detected."
 msgstr "Nie je vybraný profil"
 
-#: src/dialogs/textbasededit.cpp:1308
+#: src/dialogs/textbasededit.cpp:1305
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition finished."
 msgstr "Vybrať prechod"
 
-#: src/dialogs/textbasededit.cpp:1545
+#: src/dialogs/textbasededit.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Edit clip cut"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Upraviť strih klipu"
 
-#: src/dialogs/textbasededit.cpp:1577 src/dialogs/textbasededit.cpp:1659
+#: src/dialogs/textbasededit.cpp:1574 src/dialogs/textbasededit.cpp:1656
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Vytvoriť novú sekvenciu"
 
-#: src/dialogs/textbasededit.cpp:1584 src/dialogs/textbasededit.cpp:1620
+#: src/dialogs/textbasededit.cpp:1581 src/dialogs/textbasededit.cpp:1617
 #, fuzzy, kde-format
 #| msgid "Plain text export"
 msgid "No text to export"
 msgstr "Export jednoduchého textu"
 
-#: src/dialogs/textbasededit.cpp:1604
+#: src/dialogs/textbasededit.cpp:1601
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgid "Enter new playlist path"
@@ -23976,7 +23972,7 @@ msgstr ""
 "Vo vašom klipe sa nenašiel profil.\n"
 "Vytvoriť a prepnúť na nový profil (%1x%2, %3fps)%4?"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Yellow"
 msgstr "Žltá"
@@ -25087,7 +25083,7 @@ msgstr "Upraviť dĺžku trvania"
 
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
 #: src/layouts/layoutcollection.cpp:23 src/mainwindow.cpp:428
-#: src/mainwindow.cpp:513 src/ui/editsub_ui.ui:517
+#: src/mainwindow.cpp:513 src/ui/editsub_ui.ui:550
 #, kde-format
 msgid "Effects"
 msgstr "Efekty"
@@ -28221,7 +28217,7 @@ msgstr "Čierna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
+#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Biela"
@@ -30725,17 +30721,17 @@ msgstr "Priama aktualizácia"
 msgid "Checking configuration…"
 msgstr "Nastavenie..."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:207
+#: src/pythoninterfaces/abstractpythoninterface.cpp:213
 #, kde-format
 msgid "Successfully rebuilt environment"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:260
+#: src/pythoninterfaces/abstractpythoninterface.cpp:266
 #, kde-format
 msgid "Corrupted plugin, trying to reinstall…"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:304
+#: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -30743,7 +30739,7 @@ msgid ""
 "Please install it on your system.\n"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:316
+#: src/pythoninterfaces/abstractpythoninterface.cpp:322
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -30751,27 +30747,27 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:350
+#: src/pythoninterfaces/abstractpythoninterface.cpp:356
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:358
+#: src/pythoninterfaces/abstractpythoninterface.cpp:364
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:449
+#: src/pythoninterfaces/abstractpythoninterface.cpp:455
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to cut"
 msgid "Cannot find system python"
 msgstr "Nie je možné nájsť klip na strihanie"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:479
+#: src/pythoninterfaces/abstractpythoninterface.cpp:485
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary directory %1"
 msgid ""
@@ -30779,23 +30775,23 @@ msgid ""
 "%1"
 msgstr "Nie je možné vytvoriť dočasný adresár %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:497
+#: src/pythoninterfaces/abstractpythoninterface.cpp:503
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:572
+#: src/pythoninterfaces/abstractpythoninterface.cpp:578
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:585
+#: src/pythoninterfaces/abstractpythoninterface.cpp:591
 #, fuzzy, kde-format
 #| msgid "Using MLT version %1"
 msgid "Using python from %1"
 msgstr "Používa MLT verziu %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:608
+#: src/pythoninterfaces/abstractpythoninterface.cpp:614
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -30803,61 +30799,61 @@ msgid ""
 "happen offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:627
-#: src/pythoninterfaces/abstractpythoninterface.cpp:736
+#: src/pythoninterfaces/abstractpythoninterface.cpp:633
+#: src/pythoninterfaces/abstractpythoninterface.cpp:743
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:649
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:646
+#: src/pythoninterfaces/abstractpythoninterface.cpp:653
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:650
+#: src/pythoninterfaces/abstractpythoninterface.cpp:657
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please consider to update your setup."
 msgstr "Vybrať prechod"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:672
+#: src/pythoninterfaces/abstractpythoninterface.cpp:679
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Možnosti pre kresbu"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:680
+#: src/pythoninterfaces/abstractpythoninterface.cpp:687
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Žiadne informácie v schránke"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:760
+#: src/pythoninterfaces/abstractpythoninterface.cpp:767
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:795
+#: src/pythoninterfaces/abstractpythoninterface.cpp:802
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "Python exec not found"
 msgstr "Sekvencia nebola nájdená"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:799
+#: src/pythoninterfaces/abstractpythoninterface.cpp:806
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Zlyhalo vytvorenie súboru."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:838
+#: src/pythoninterfaces/abstractpythoninterface.cpp:845
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -30865,7 +30861,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:873
+#: src/pythoninterfaces/abstractpythoninterface.cpp:880
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
@@ -31659,19 +31655,19 @@ msgid "Unscaled"
 msgstr "Neškálované"
 
 #: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
 #: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/waveform.cpp:42
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Luma mode"
 msgstr "Luma režim"
@@ -34179,7 +34175,7 @@ msgstr "Zarovnať vpravo"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:48
-#: src/ui/editsub_ui.ui:93
+#: src/ui/editsub_ui.ui:132
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "Position:"
@@ -34460,13 +34456,13 @@ msgstr "Vymazať aktuálny bod"
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
-#: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:106
-#: src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:142 src/ui/editsub_ui.ui:165
-#: src/ui/editsub_ui.ui:193 src/ui/editsub_ui.ui:203 src/ui/editsub_ui.ui:213
-#: src/ui/editsub_ui.ui:223 src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:243
-#: src/ui/editsub_ui.ui:321 src/ui/editsub_ui.ui:604 src/ui/editsub_ui.ui:614
-#: src/ui/editsub_ui.ui:624 src/ui/editsub_ui.ui:634 src/ui/editsub_ui.ui:644
-#: src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
+#: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:145
+#: src/ui/editsub_ui.ui:158 src/ui/editsub_ui.ui:181 src/ui/editsub_ui.ui:204
+#: src/ui/editsub_ui.ui:232 src/ui/editsub_ui.ui:242 src/ui/editsub_ui.ui:252
+#: src/ui/editsub_ui.ui:262 src/ui/editsub_ui.ui:272 src/ui/editsub_ui.ui:282
+#: src/ui/editsub_ui.ui:360 src/ui/editsub_ui.ui:637 src/ui/editsub_ui.ui:647
+#: src/ui/editsub_ui.ui:657 src/ui/editsub_ui.ui:667 src/ui/editsub_ui.ui:677
+#: src/ui/editsub_ui.ui:687 src/ui/editsub_ui.ui:713
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:127 src/ui/gradientedit_ui.ui:147
 #: src/ui/guideslist_ui.ui:21 src/ui/guideslist_ui.ui:50
@@ -36658,14 +36654,22 @@ msgstr ""
 msgid "Enable manual editing"
 msgstr "Povoliť audio"
 
+#. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
+#. i18n: ectx: property (windowTitle), widget (QWidget, SubEdit_UI)
+#: src/ui/editsub_ui.ui:18 src/ui/maskmanage_ui.ui:18
+#, fuzzy, kde-format
+#| msgid "Format"
+msgid "Form"
+msgstr "Formát"
+
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:132
+#: src/ui/editsub_ui.ui:171
 #, kde-format
 msgid "End:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
-#: src/ui/editsub_ui.ui:152
+#: src/ui/editsub_ui.ui:191
 #, fuzzy, kde-format
 #| msgid "Style"
 msgid "Style:"
@@ -36673,39 +36677,39 @@ msgstr "Štýl"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_save)
 #. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
-#: src/ui/editsub_ui.ui:291 src/ui/profiledialog_ui.ui:375
+#: src/ui/editsub_ui.ui:330 src/ui/profiledialog_ui.ui:375
 #, kde-format
 msgid "S"
 msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
+#: src/ui/editsub_ui.ui:438 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
+#: src/ui/editsub_ui.ui:497 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
-#: src/ui/editsub_ui.ui:487
+#: src/ui/editsub_ui.ui:520
 #, fuzzy, kde-format
 #| msgid "Fields per second"
 msgid "Upper Bound"
 msgstr "Polí za sekundu"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
+#: src/ui/editsub_ui.ui:540 src/ui/editsubstyle_ui.ui:259
 #, fuzzy, kde-format
 #| msgid "Vertical center"
 msgid "Vertical margin"
 msgstr "Vertikálne na stred"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
-#: src/ui/editsub_ui.ui:554
+#: src/ui/editsub_ui.ui:587
 #, fuzzy, kde-format
 #| msgid "Power Blue"
 msgid "Lower Bound"
@@ -36713,14 +36717,14 @@ msgstr "Sila modrá"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:564 src/ui/markerdialog_ui.ui:66
+#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:66
 #: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
 msgid "Comment"
 msgstr "Komentár"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsub_ui.ui:581
+#: src/ui/editsub_ui.ui:614
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
 msgstr ""
@@ -37464,13 +37468,6 @@ msgstr "Počítadlo"
 #, kde-format
 msgid "Image preview"
 msgstr "Náhľad obrázka"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
-#: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Format"
-msgid "Form"
-msgstr "Formát"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -39089,37 +39086,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:410
+#: src/widgets/dragvalue.cpp:412
 #, kde-format
 msgid "Normal scale"
 msgstr "Normálna mierka"
 
-#: src/widgets/dragvalue.cpp:411
+#: src/widgets/dragvalue.cpp:413
 #, kde-format
 msgid "Pixel scale"
 msgstr "Pixlová mierka"
 
-#: src/widgets/dragvalue.cpp:412
+#: src/widgets/dragvalue.cpp:414
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Nelineárna mierka"
 
-#: src/widgets/dragvalue.cpp:416
+#: src/widgets/dragvalue.cpp:418
 #, kde-format
 msgid "Direct update"
 msgstr "Priama aktualizácia"
 
-#: src/widgets/dragvalue.cpp:421
+#: src/widgets/dragvalue.cpp:423
 #, kde-format
 msgid "Reset value"
 msgstr "Vynulovať hodnotu"
 
-#: src/widgets/dragvalue.cpp:426
+#: src/widgets/dragvalue.cpp:428
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Ukázať %1 v časovej osi"
 
-#: src/widgets/dragvalue.cpp:756
+#: src/widgets/dragvalue.cpp:758
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
@@ -39227,6 +39224,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Threshold"
+#~ msgid "Theshold"
+#~ msgstr "Prah"
 
 #, fuzzy
 #~| msgid "High quality 3D denoiser"
