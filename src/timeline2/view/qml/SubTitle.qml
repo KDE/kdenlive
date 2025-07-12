@@ -178,8 +178,8 @@ Item {
                     startMove = false
                     if (subtitleBase.x < 0)
                         subtitleBase.x = 0
-                    // if mouse out of the bottom of the SubtitleTrack, snappedLayer++
-                    if (mouse.y > subtitleRoot.height) {
+                    // if mouse out of the bottom of the SubtitleTrack with shift pressed, snappedLayer++
+                    if (mouse.y > subtitleRoot.height && mouse.modifiers & Qt.ShiftModifier) {
                         snappedLayer++
                     }
                     console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
