@@ -296,6 +296,7 @@ Rectangle {
         width: ruler.height * 1
         opacity: 1
         anchors.top: ruler.top
+        z: 2
         fillColor: activePalette.windowText
         x: controller.position * root.timeScale - ruler.rulerZoomOffset - (width / 2)
     }
