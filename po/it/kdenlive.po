@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 02:39+0000\n"
+"POT-Creation-Date: 2025-07-13 02:34+0000\n"
 "PO-Revision-Date: 2025-06-10 15:56+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4623,7 +4623,7 @@ msgstr "Forza"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
@@ -4636,7 +4636,7 @@ msgstr "Forza"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
-"        Is used in saturation and lightess processing.e]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
@@ -4649,7 +4649,7 @@ msgstr "Forza luma"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:4
@@ -9625,7 +9625,7 @@ msgstr "Rosso"
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Green"
 msgstr "Verde"
@@ -11000,7 +11000,7 @@ msgstr "Spessore del bordo"
 #, no-c-format, kde-format
 msgid ""
 "<![CDATA[Specify the width of the border<br>\n"
-"        as % of half the vertical resolution (100% means both the topa and "
+"        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 
@@ -23563,7 +23563,7 @@ msgstr ""
 "Nessun profilo trovato per la clip %1.\n"
 "Vuoi creare un nuovo profilo (%2x%3, %4fps) e usarlo subito?%5"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Yellow"
 msgstr "Giallo"
@@ -27648,7 +27648,7 @@ msgstr "Nero"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
+#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Bianco"
@@ -31068,19 +31068,19 @@ msgid "Unscaled"
 msgstr "Non riscalato"
 
 #: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
 #: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/waveform.cpp:42
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Luma mode"
 msgstr "Modalità luma"

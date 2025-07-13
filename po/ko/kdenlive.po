@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 02:39+0000\n"
+"POT-Creation-Date: 2025-07-13 02:34+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4711,7 +4711,7 @@ msgstr "늘이기"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
@@ -4724,7 +4724,7 @@ msgstr "늘이기"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
-"        Is used in saturation and lightess processing.e]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
@@ -4737,7 +4737,7 @@ msgstr "길이"
 #, kde-format
 msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:4
@@ -9814,7 +9814,7 @@ msgstr "빨간색"
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Green"
 msgstr "녹색"
@@ -11159,7 +11159,7 @@ msgstr "경계선 폭"
 #, no-c-format, kde-format
 msgid ""
 "<![CDATA[Specify the width of the border<br>\n"
-"        as % of half the vertical resolution (100% means both the topa and "
+"        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 
@@ -23723,7 +23723,7 @@ msgstr ""
 "클립에 대한 프로필이 없습니다.\n"
 "새 프로필(%1x %2, %3fps)을 만들고 전환하시겠습니까?%4"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Yellow"
 msgstr "노란색"
@@ -27900,7 +27900,7 @@ msgstr "검은색"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
+#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "흰색"
@@ -31388,19 +31388,19 @@ msgid "Unscaled"
 msgstr "비 눈금"
 
 #: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
 #: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/waveform.cpp:42
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Luma mode"
 msgstr "광도 모드"

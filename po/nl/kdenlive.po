@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 02:39+0000\n"
-"PO-Revision-Date: 2025-07-11 23:38+0200\n"
+"POT-Creation-Date: 2025-07-13 02:34+0000\n"
+"PO-Revision-Date: 2025-07-12 15:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -1704,7 +1704,7 @@ msgstr "Witpunt tonen"
 #: data/effects/avfilter/avfilter_ciescope.xml:42
 #, kde-format
 msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
-msgstr ""
+msgstr "<![CDATA[Witpunt op CIE-diagram tonen, standaard uitgeschakeld]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
@@ -1715,6 +1715,7 @@ msgstr "Invoergamma"
 #, kde-format
 msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
 msgstr ""
+"<![CDATA[Zet invoergamma. Alleen gebruikt met XYZ-invoer van kleurruimte.]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
@@ -2146,8 +2147,7 @@ msgstr ""
 "inhoud, BT.2020 voor 12-bits inhoud"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
-#, fuzzy, kde-format
-#| msgid "Output transfer characteristicse"
+#, kde-format
 msgid "Output transfer characteristics"
 msgstr "Uitvoer overdrachtskarakteristieken"
 
@@ -4154,16 +4154,13 @@ msgid "Vertical Sigma"
 msgstr "Vertical Sigma"
 
 #: data/effects/avfilter/avfilter_gblur.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set vertical sigma. Determines the strength of the vertical blur. Default "
-#| "is 10."
+#, kde-format
 msgid ""
 "<![CDATA[Set vertical sigma.<br>\n"
 "        Determines the strength of the vertical blur. Default is 10.]]>"
 msgstr ""
-"Zet verticale sigma. Bepaalt de sterkte van de verticale vervaging. "
-"Standaard is 10."
+"<![CDATA[Zet verticale sigma.<br>\n"
+"        Bepaalt de sterkte van de verticale vervaging. Standaard is 10.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -4171,17 +4168,7 @@ msgid "gradfun"
 msgstr "gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:9
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[<b>-= Deprecated =-</b><br>Debands video quickly using gradients."
-#| "<br>\n"
-#| "    Fix the banding artifacts that are sometimes introduced into nearly "
-#| "flat regions by truncation to 8-bit color depth.<br>\n"
-#| "    Interpolate the gradients that should go where the bands are, and "
-#| "dither them.<br>\n"
-#| "    <b>It is designed for playback only. Do not use it prior to lossy "
-#| "compression, because compression tends to lose the dither and bring back "
-#| "the bands</b>.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[<b>-= Deprecated =-</b><br>\n"
 "    Debands video quickly using gradients.<br>\n"
@@ -4193,8 +4180,8 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>.]]>"
 msgstr ""
-"<![CDATA[<b>-= Afgekeurd =-</b><br>Ontdoet video snel van bandvorming met "
-"gebruik van kleurverloop.<br>\n"
+"<![CDATA[<b>-= Afgekeurd =-</b><br>\n"
+"Ontdoet video snel van bandvorming met gebruik van kleurverloop.<br>\n"
 "    Repareer de artifacts met banden die soms geïntroduceerd worden in bijna "
 "vlakke gebieden door afkorten naar 8-bits kleurdiepte.<br>\n"
 "    Interpoleert de verlopen die zouden gaan waar de banden zijn en dither "
@@ -4457,10 +4444,9 @@ msgstr "Weergave"
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
-#, fuzzy, kde-format
-#| msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
+#, kde-format
 msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
-msgstr "Geen,Y,U,YU,V,YV,UV,YUV,Alfa"
+msgstr "Geen,Y,U,YU,V,YV,UV,Alles,Alfa"
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
 #, kde-format
@@ -4485,6 +4471,8 @@ msgid ""
 "White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
 "Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 msgstr ""
+"Wit op zwart,Zwart op wit,Wit op grijs,Zwart op grijs,Kleur op zwart,Kleur "
+"op wit,Kleur op grijs,Zwart op kleur,Wit op kleur,Grijs op Kleur"
 
 #: data/effects/avfilter/avfilter_histogram.xml:33
 #, kde-format
@@ -4492,16 +4480,14 @@ msgid "Colors Mode"
 msgstr "Kleurenmodus"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelize (avfilter)"
+#, kde-format
 msgid "HQ 3D Denoiser (avfilter)"
-msgstr "In pixelvorm brengen (avfilter)"
+msgstr "HQ 3D Ruis verwijderen (avfilter)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a High Quality 3D Denoise"
+#, kde-format
 msgid "Apply a high quality 3D denoiser"
-msgstr "Hoge kwaliteit 3d-ruis verwijderen toepassen"
+msgstr "Een hoge kwaliteit 3D-ruis verwijderen toepassen"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -4546,34 +4532,32 @@ msgstr "2x,3x,4x"
 #: data/effects/avfilter/avfilter_hsvhold.xml:4
 #, kde-format
 msgid "HSV Hold"
-msgstr ""
+msgstr "HSV behouden"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into gray "
-msgstr ""
+msgstr "Zet een bepaalde HSV-reeks om in grijs "
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the hue value which<br>\n"
 "        will be used in color difference calculation]]>"
 msgstr ""
-"<![CDATA[Stelt de waarde in die opgeteld zal worden bij het gefilterde "
-"resultaat]]>"
+"<![CDATA[Stelt de tintwaarde in die<br>\n"
+"        wordt gebruikt in berekeningen van kleurverschil]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the saturation value<br>\n"
 "        which will be used in color difference calculation]]>"
 msgstr ""
-"<![CDATA[Stelt de waarde in die opgeteld zal worden bij het gefilterde "
-"resultaat]]>"
+"<![CDATA[Stelt de verzadigingswaarde in<br>\n"
+"        die wordt gebruikt in berekeningen van kleurverschil]]>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/effects/avfilter/avfilter_hsvhold.xml:18
@@ -4585,61 +4569,55 @@ msgstr "Waarde"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:20
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the value which will<br>\n"
 "        be used in color difference calculation]]>"
 msgstr ""
-"<![CDATA[Stelt de waarde in die opgeteld zal worden bij het gefilterde "
-"resultaat]]>"
+"<![CDATA[Stelt de waarde in die<br>\n"
+"        wordt gebruikt in berekeningen van kleurverschil]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Disappearance Rate of the echo]]>"
+#, kde-format
 msgid "<![CDATA[Set similarity percentage with the key color]]>"
-msgstr "<![CDATA[Verdwijnsnelheid van de echo]]>"
+msgstr "<![CDATA[Stelt het percentage gelijkheid in met de sleutelkleur]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[comment]]>"
+#, kde-format
 msgid "<![CDATA[Blend percentage]]>"
-msgstr "<![CDATA[commentaar]]>"
+msgstr "<![CDATA[mengpercentage]]>"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Value"
+#, kde-format
 msgid "HSV Key"
-msgstr "HSV waarde"
+msgstr "HSV-sleutel"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
-msgstr ""
+msgstr "Zet een bepaalde HSV-reeks om in transparantie. werkt op YUV-kleuren."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:4
-#, fuzzy, kde-format
-#| msgid "Saturation threshold"
+#, kde-format
 msgid "Hue Saturation Intensity"
-msgstr "Tint/verzadiging/intensiteit"
+msgstr "Tint verzadiging intensiteit"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
 msgid "Apply hue-saturation-intensity adjustments"
-msgstr ""
+msgstr "Past tint-verzadiging-intensiteit aanpassingen toe"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Colors to Adjust"
-msgstr "Te kiezen kleur"
+msgstr "Aan te passen kleuren"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:9
 #, kde-format
 msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
-msgstr ""
+msgstr "Roden,Gelen,Groenen,Cyanen,Blauwen,Magenta's,Alle kleuren"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -4647,6 +4625,8 @@ msgid ""
 "<![CDATA[Set which primary and<br>\n"
 "        complementary colors are going to be adjusted]]>"
 msgstr ""
+"<![CDATA[Stel welke primaire en<br>\n"
+"        complementaire kleuren in die aangepast gaan worden]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:14
 #: data/effects/hsl_range.xml:20
@@ -4655,91 +4635,95 @@ msgid "Hue Shift"
 msgstr "Kleurtoonverschuiving"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
-msgstr "<![CDATA[Stel de modus van filteren in]]>"
+msgstr "<![CDATA[Stel de tintverschuiving in in toe te passen gradaties]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Shift"
-msgstr "Verzadiging"
+msgstr "Verzadigingsverschuiving"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the background opacity]]>"
+#, kde-format
 msgid "<![CDATA[Set the saturation shift]]>"
-msgstr "<![CDATA[Stel de dekking van de achtergrond in]]>"
+msgstr "<![CDATA[Stel de verzadigingsverschuiving in]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Intensity Shift"
-msgstr "Intensiteit"
+msgstr "Intensiteitsverschuiving"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The intensity of the blur]]>"
+#, kde-format
 msgid "<![CDATA[Set the intensity shift]]>"
-msgstr "<![CDATA[De intensiteit van de vervaging]]>"
+msgstr "<![CDATA[Stel de intensiteitsverschuiving in]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "<![CDATA[Set strength of filtering]]>"
-msgstr "<![CDATA[Stel de modus van filteren in]]>"
+msgstr "<![CDATA[Stel de sterkte van filteren in]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
-#, fuzzy, kde-format
-#| msgid "Preserve lightness"
+#, kde-format
 msgid "Preserve Lightness"
 msgstr "Lichtheid bewaren"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:31
-#, fuzzy, kde-format
-#| msgid "Preserve lightness"
+#, kde-format
 msgid "<![CDATA[Preserve lightness]]>"
-msgstr "Lichtheid bewaren"
+msgstr "<![CDATA[Lichtheid bewaren]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid "Red Strength"
-msgstr "Sterkte"
+msgstr "Sterkte van rood"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set weight for RED component.<br>\n"
+#| "        Is used in saturation and lightess processing.]]>"
 msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[Stel het gewicht voor de ROOD-component in.<br>\n"
+"        Wordt gebruikt in verwerking van verzadiging en lichtheid.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid "Green Strength"
-msgstr "Sterkte"
+msgstr "Sterkte van groen"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set weight for GREEN component.<br>\n"
+#| "        Is used in saturation and lightess processing.e]]>"
 msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
-"        Is used in saturation and lightess processing.e]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[Stel het gewicht voor de GROEN-component in.<br>\n"
+"        Wordt gebruikt in verwerking van verzadiging en lichtheid.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
-#, fuzzy, kde-format
-#| msgid "Luma Strength"
+#, kde-format
 msgid "Blue Strength"
-msgstr "Luma Strength"
+msgstr "Sterkte van blauw"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set weight for BLUE component.<br>\n"
+#| "        Is used in saturation and lightess processing.]]>"
 msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[Stel het gewicht voor de BLAUW-component in.<br>\n"
+"        Wordt gebruikt in verwerking van verzadiging en lichtheid.]]>"
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -4828,17 +4812,13 @@ msgid "Kernel Deinterlacer"
 msgstr "Interlace verwijderen met kernel"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Deinterlaces input video by applying Donald Graft’s adaptive kernel "
-#| "deinterling. Works on interlaced parts of a video to produce progressive "
-#| "frames. "
+#, kde-format
 msgid ""
 "Deinterlace input video by applying Donald Graft’s adaptive kernel "
 "deinterling. Works on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
-"Deinterlaces verwijdert interlace uit de invoervideo door toepassen van "
+"Deinterlace verwijdert interlace uit de invoervideo door toepassen van "
 "adaptieve kernel deinterling van Donald Graft. Werkt op delen met interlace "
 "van een video om progressieve frames te produceren. "
 
@@ -4904,14 +4884,9 @@ msgid "Set value which will be added to filtered result."
 msgstr "Waarde instellen die opgeteld zal worden bij het gefilterde resultaat."
 
 #: data/effects/avfilter/avfilter_kirsch.xml:16
-#, fuzzy, kde-format
-#| msgid ""
-#| "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,"
-#| "Blue,All"
+#, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
-msgstr ""
-"Alfa,Lichtkracht (Y vlak),Chroma (U vlak),Chroma (V vlak),Rood,Groen,Blauw,"
-"All"
+msgstr "Alfa,Y (Lichtkracht ),U (Chroma),V (Chroma),Rood,Groen,Blauw,Alles"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
@@ -4924,10 +4899,9 @@ msgid "Slowly update darker pixels."
 msgstr "Langzaam donkere pixels bijwerken."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens Correction  (keyframable)"
+#, kde-format
 msgid "Lens Correction (avfilter)"
-msgstr "Lenscorrectie (met keyframes)"
+msgstr "Lenscorrectie (avfilter)"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:5
 #, kde-format
@@ -4935,23 +4909,23 @@ msgid ""
 "Correct radial lens distortion. This effect allows to specify a color for "
 "the unmapped pixels."
 msgstr ""
+"Radiale lensvervorming corrigeren. Dit effect biedt het specificeren van een "
+"kleur voor niet toegekende pixels."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
-#, fuzzy, kde-format
-#| msgid "Nearest,Bilinear"
+#, kde-format
 msgid "Nearest,Bi-linear"
 msgstr "Dichtstbijzijnde,bi-lineair"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:9
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Type"
-msgstr "Interpolatie"
+msgstr "Type interpolatie"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
 msgid "Unmapped Pixel Color"
-msgstr ""
+msgstr "Niet toegekende pixelkleur"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:16
 #, kde-format
@@ -4959,6 +4933,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        X-Coordinate]]>"
 msgstr ""
+"<![CDATA[Relatief brandpunt<br>\n"
+"        X-coördinaat]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
 #, kde-format
@@ -4966,6 +4942,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        Y-Coordinate]]>"
 msgstr ""
+"<![CDATA[Relatief brandpunt<br>\n"
+"        Y-coördinaat]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
 #, kde-format
@@ -4973,14 +4951,17 @@ msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficent]]>"
 msgstr ""
+"<![CDATA[Kwadratische<br>\n"
+"        correctiecoëfficiënt]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid "DoubleQuadratic correction coeff."
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficent]]>"
-msgstr "Dubbel-kwadratische correctiecoëfficiënt"
+msgstr ""
+"<![CDATA[Dubbel kwadratische<br>\n"
+"        correctiecoëfficiënt]]>"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -5087,10 +5068,9 @@ msgid "Apply a low-pass filter with 3dB point frequency."
 msgstr "Een laag-doorlaatfilter met 3dB punt frequentie toepassen."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,KHz"
-msgstr "Hz,Q-Factor,Octaaf,Helling,kHz"
+msgstr "Hz,Q-FActor,Octaaf,Helling,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
@@ -5202,18 +5182,14 @@ msgid "Vertical radius"
 msgstr "Verticale straal"
 
 #: data/effects/avfilter/avfilter_median.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set median vertical radius.<br>\n"
-#| "       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
-#| "parameter.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set median vertical radius.<br>\n"
 "       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
 "parameter.]]>"
 msgstr ""
 "<![CDATA[Zet mediane verticale straal.<br>\n"
-"       \tIfndien het 0 is zal de waarde gepakt worden uit de parameter "
+"       \tIndien het 0 is zal de waarde genomen worden uit de parameter "
 "<em>Horizontale straal</em>.]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:17
@@ -5566,10 +5542,9 @@ msgid "Print Statistics"
 msgstr "Statistieken afdrukken"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Switch statistics on or off]]>"
+#, kde-format
 msgid "<![CDATA[switch statistics on or off]]>"
-msgstr "<![CDATA[Statistieken schakelen naar aan of uit]]>"
+msgstr "<![CDATA[Statistieken aan of uit schakelen]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
@@ -5606,10 +5581,9 @@ msgstr ""
 "Beiden vangen en transfer onbekend of variërend"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
-#, fuzzy, kde-format
-#| msgid "Photosensitivity"
+#, kde-format
 msgid "Photosensitivity Filter"
-msgstr "Foto-sensitiviteit"
+msgstr "Foto-sensitiviteitsfilter"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
@@ -5653,10 +5627,9 @@ msgid "Leave frames unchanged"
 msgstr "Frames ongewijzigd laten"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelize (avfilter)"
+#, kde-format
 msgid "Pixelize (advanced)"
-msgstr "In pixelvorm brengen (avfilter)"
+msgstr "In pixelvorm brengen (geavanceerd)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
 #, kde-format
@@ -5665,8 +5638,7 @@ msgstr "Video in pixelvorm brengen"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Block width"
+#, kde-format
 msgid "Block Width"
 msgstr "Blokbreedte"
 
@@ -5674,14 +5646,12 @@ msgstr "Blokbreedte"
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:11
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Block height"
+#, kde-format
 msgid "Block Height"
 msgstr "Blokhoogte"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
-#, fuzzy, kde-format
-#| msgid "Pixelize mode"
+#, kde-format
 msgid "Pixelize Mode"
 msgstr "Modus in pixelvorm brengen"
 
@@ -5767,56 +5737,47 @@ msgid "Shift R/G/B/A pixels horizontally and/or vertically"
 msgstr "R/G/B/A pixels horizontaal en/of verticaal verschuiven"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
-#, fuzzy, kde-format
-#| msgid "Red Horizontal shift"
+#, kde-format
 msgid "Red Horizontal Shift"
 msgstr "Rode horizontale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
-#, fuzzy, kde-format
-#| msgid "Red Vertical shift"
+#, kde-format
 msgid "Red Vertical Shift"
 msgstr "Rode verticale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
-#, fuzzy, kde-format
-#| msgid "Green Horizontal shift"
+#, kde-format
 msgid "Green Horizontal Shift"
 msgstr "Groene horizontale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
-#, fuzzy, kde-format
-#| msgid "Green Vertical shift"
+#, kde-format
 msgid "Green Vertical Shift"
 msgstr "Groene verticale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
-#, fuzzy, kde-format
-#| msgid "Blue Horizontal shift"
+#, kde-format
 msgid "Blue Horizontal Shift"
 msgstr "Blauwe horizontale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
-#, fuzzy, kde-format
-#| msgid "Blue Vertical shift"
+#, kde-format
 msgid "Blue Vertical Shift"
 msgstr "Blauwe verticale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
-#, fuzzy, kde-format
-#| msgid "Alpha Horizontal shift"
+#, kde-format
 msgid "Alpha Horizontal Shift"
 msgstr "Alfa horizontale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
-#, fuzzy, kde-format
-#| msgid "Alpha Vertical shift"
+#, kde-format
 msgid "Alpha Vertical Shift"
 msgstr "Alfa verticale verschuiving"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
-#, fuzzy, kde-format
-#| msgid "Edge operation"
+#, kde-format
 msgid "Edge Operation"
 msgstr "Randbewerking"
 
@@ -5826,10 +5787,9 @@ msgid "Roberts"
 msgstr "Roberts"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply Scharr operators for edge detection"
+#, kde-format
 msgid "Apply Roberts cross operator (edge detection)"
-msgstr "Scharr-operators toepassen voor detectie van rand"
+msgstr "Kruislingse operators van Roberts toepassen (detectie van rand)"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5889,26 +5849,22 @@ msgid "Scroll"
 msgstr "Schuiven"
 
 #: data/effects/avfilter/avfilter_scroll.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal scrolling speed"
+#, kde-format
 msgid "Horizontal Scrolling Speed"
 msgstr "Horizontaal schuifsnelheid"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical scrolling speed"
+#, kde-format
 msgid "Vertical Scrolling Speed"
 msgstr "Verticale schuifsnelheid"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
-#, fuzzy, kde-format
-#| msgid "Initial horizontal position"
+#, kde-format
 msgid "Initial Horizontal Position"
 msgstr "Initiële horizontale positie"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
-#, fuzzy, kde-format
-#| msgid "Initial vertical position"
+#, kde-format
 msgid "Initial Vertical Position"
 msgstr "Initiële verticale positie"
 
@@ -6888,6 +6844,9 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
+"<![CDATA[Op wavelet gebaseerde verwijdering van ruis.<br>\n"
+"    Het transformeert elk frame uit de video-invoer in het wavelet-domein, "
+"met gebruik van Cohen-Daubechies-Feauveau 9/7.]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
@@ -6897,13 +6856,12 @@ msgstr "Hard,Zacht,Garrote"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
 #, kde-format
 msgid "Universal,Bayes"
-msgstr ""
+msgstr "Universeel,Bayes"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Threshold Type"
-msgstr "Drempel"
+msgstr "Type drempel"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:23
 #: src/jobs/speedtask.cpp:72
@@ -6912,26 +6870,21 @@ msgid "Percentage"
 msgstr "Percentage"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope (Advanced)"
+#, kde-format
 msgid "Vectorscope (advanced)"
 msgstr "Vectorscope (geavanceerd)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display 2 color component values in the two dimensional graph (which is "
-#| "called a vectorscope)"
+#, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
-"Toon 2 kleurencomponentwaarden in de tweedimensionale grafiek (wat a "
+"Toon 2 kleurencomponentwaarden in de tweedimensionale grafiek (wat een "
 "vectorscope wordt genoemd)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
-#, fuzzy, kde-format
-#| msgid "gray,color,color2,color3,color4,color5"
+#, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
-msgstr "grijs,kleur,kleur2,kleur3,kleur4,kleur5"
+msgstr "Grijs,Tint,Kleur,Kleur 2,Kleur 3,Kleur 4,Kleur 5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:73
@@ -6940,22 +6893,19 @@ msgid "Tint 1"
 msgstr "Tint 1"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:15
-#, fuzzy, kde-format
-#| msgid "Tint 0"
+#, kde-format
 msgid "Tint 2"
-msgstr "Kleur"
+msgstr "Tint 2"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:18
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Component on X"
-msgstr "Componenten"
+msgstr "Component op X"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:21
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Component on Y"
-msgstr "Componenten"
+msgstr "Component op Y"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:27
 #: data/effects/avfilter/avfilter_waveform.xml:35
@@ -6970,10 +6920,9 @@ msgid "Envelope"
 msgstr "Envelop"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:31
-#, fuzzy, kde-format
-#| msgid "none,green,color"
+#, kde-format
 msgid "None,Green,Color"
-msgstr "geen,groen,kleur"
+msgstr "Geen,Groen,Kleur"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #: data/effects/avfilter/avfilter_waveform.xml:46
@@ -6990,7 +6939,7 @@ msgstr "Dekking van streepplaat"
 #: data/effects/avfilter/avfilter_vectorscope.xml:38
 #, kde-format
 msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
+msgstr "Teken witpunt,Teken zwartpunt,Teken puntnaam"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #: data/effects/avfilter/avfilter_waveform.xml:56
@@ -7113,8 +7062,7 @@ msgid "Frames to deinterlace"
 msgstr "Frames te ontdoen van interlace"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
-#, fuzzy, kde-format
-#| msgid "Video waveform monitor"
+#, kde-format
 msgid "Video Waveform Monitor"
 msgstr "Videogolfvormmonitor"
 
@@ -7150,16 +7098,12 @@ msgstr ""
 "en de onderzijde representeert waarde = 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Smaller values are useful for finding out how many values<br>\n"
-#| "       \tof the same luminance are distributed across input rows/"
-#| "columns]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
-"<![CDATA[Kleinere waarden zijn nuttig om te vinden hoeveel waarden<br>\n"
+"<![CDATA[Kleinere waarden zijn nuttig om uit te vinden hoeveel waarden<br>\n"
 "       \tvan dezelfde lichtkracht zijn verdeeld over invoerrijen/kolommen]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
@@ -7180,10 +7124,9 @@ msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[Stel de modus van tonen in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:30
-#, fuzzy, kde-format
-#| msgid "None,Y,U,YU,V,YV,UV,All"
+#, kde-format
 msgid "Y,U,YU,V,YV,UV,All"
-msgstr "Geen,Y,U,YU,V,YV,UV,allen"
+msgstr "Y,U,YU,V,YV,UV,Alles"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -7196,10 +7139,9 @@ msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<![CDATA[Stel de modus van de envelop in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, fuzzy, kde-format
-#| msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
+#, kde-format
 msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
-msgstr "Laagdoorlaat,Vlak,A-vlak,X-vlak,Y-vlak,Chroma,Kleur,akleur"
+msgstr "Laagdoorlaat,Vlak,A-vlak,X-vlak,Y-vlak,Chroma,Kleur,Akleur"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -9920,7 +9862,7 @@ msgstr "Rood"
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Green"
 msgstr "Groen"
@@ -11295,7 +11237,7 @@ msgstr "Randbreedte"
 #, no-c-format, kde-format
 msgid ""
 "<![CDATA[Specify the width of the border<br>\n"
-"        as % of half the vertical resolution (100% means both the topa and "
+"        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 
@@ -23821,7 +23763,7 @@ msgstr ""
 "Geen profiel gevonden voor uw clip %1.\n"
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
@@ -27869,7 +27811,7 @@ msgstr "Zwart"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
+#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Wit"
@@ -31247,19 +31189,19 @@ msgid "Unscaled"
 msgstr "Niet op schaal"
 
 #: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
 #: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/waveform.cpp:42
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Luma mode"
 msgstr "Luma mode"

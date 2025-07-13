@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 02:39+0000\n"
-"PO-Revision-Date: 2025-07-11 16:58+0200\n"
+"POT-Creation-Date: 2025-07-13 02:34+0000\n"
+"PO-Revision-Date: 2025-07-12 11:06+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2155,8 +2155,7 @@ msgstr ""
 "contingut de 10 bits, BT.2020 per a contingut de 12 bits"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
-#, fuzzy, kde-format
-#| msgid "Output transfer characteristicse"
+#, kde-format
 msgid "Output transfer characteristics"
 msgstr "Característiques de transferència de sortida"
 
@@ -4195,17 +4194,7 @@ msgstr "gradfun"
 
 # skip-rule: t-pu_sp
 #: data/effects/avfilter/avfilter_gradfun.xml:9
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[<b>-= Deprecated =-</b><br>\n"
-#| "    Debands video quickly using gradients.<br>\n"
-#| "    Fix the banding artifacts that are sometimes introduced into nearly "
-#| "flat regions by truncation to 8-bit color depth.<br>\n"
-#| "    Interpolate the gradients that should go where the bands are, and "
-#| "dither them.<br>\n"
-#| "    <b>It is designed for playback only. Do not use it prior to lossy "
-#| "compression, because compression tends to lose the dither and bring back "
-#| "the bands<b>.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[<b>-= Deprecated =-</b><br>\n"
 "    Debands video quickly using gradients.<br>\n"
@@ -4217,7 +4206,7 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>.]]>"
 msgstr ""
-"<![CDATA[<b>-= Obsolet =-</b><br>\n"
+"<![CDATA[</b>-= Obsolet =-</b><br>\n"
 "    Treu els defectes de bandes ràpidament emprant degradats.<br>\n"
 "    Corregeix els defectes de bandes que de vegades es presenten en regions "
 "gairebé llises per truncament a la profunditat de color de 8 bits.<br>\n"
@@ -4723,10 +4712,13 @@ msgid "Red Strength"
 msgstr "Intensitat del vermell"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set weight for RED component.<br>\n"
+#| "        Is used in saturation and lightess processing.]]>"
 msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 "<![CDATA[Estableix el pes del component VERMELL.<br>\n"
 "        Es fan servir en el processament de la saturació i la claredat.]]>"
@@ -4737,10 +4729,13 @@ msgid "Green Strength"
 msgstr "Intensitat del verd"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set weight for GREEN component.<br>\n"
+#| "        Is used in saturation and lightess processing.e]]>"
 msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
-"        Is used in saturation and lightess processing.e]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 "<![CDATA[Estableix el pes del component VERD.<br>\n"
 "        Es fan servir en el processament de la saturació i la claredat.]]>"
@@ -4751,10 +4746,13 @@ msgid "Blue Strength"
 msgstr "Intensitat del blau"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set weight for BLUE component.<br>\n"
+#| "        Is used in saturation and lightess processing.]]>"
 msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
-"        Is used in saturation and lightess processing.]]>"
+"        Is used in saturation and lightness processing.]]>"
 msgstr ""
 "<![CDATA[Estableix el pes del component BLAU.<br>\n"
 "        Es fan servir en el processament de la saturació i la claredat.]]>"
@@ -8389,11 +8387,7 @@ msgstr "Formes d'alfa (SUBSTITUÏT)"
 
 # skip-rule: t-pu_sp
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
-#| "    This effect has been replaced by <em>frei0r,alphaops_alphaspot</"
-#| "em>.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]>"
@@ -9873,7 +9867,7 @@ msgstr "Vermell"
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Green"
 msgstr "Verd"
@@ -10363,10 +10357,7 @@ msgid "Center"
 msgstr "Centre"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:10
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Horizontal center position<br>\n"
-#| "        of the linear area (% of total width]]>"
+#, no-c-format, kde-format
 msgid ""
 "<![CDATA[Horizontal center position<br>\n"
 "        of the linear area (% of total width)]]>"
@@ -11195,10 +11186,15 @@ msgid "Border Width"
 msgstr "Amplada de les vores"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:10
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
+#| msgid ""
+#| "<![CDATA[Specify the width of the border<br>\n"
+#| "        as % of half the vertical resolution (100% means both the topa "
+#| "and bottom half of the frame are black, i.e. there is no room for the "
+#| "picture)]]>"
 msgid ""
 "<![CDATA[Specify the width of the border<br>\n"
-"        as % of half the vertical resolution (100% means both the topa and "
+"        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 "<![CDATA[Especifica l'amplada de la vora<br>\n"
@@ -23693,7 +23689,7 @@ msgstr ""
 "No s'ha trobat cap perfil per al clip %1.\n"
 "El creo i canvio al perfil nou (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Yellow"
 msgstr "Groc"
@@ -27766,7 +27762,7 @@ msgstr "Negre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
+#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Blanc"
@@ -31170,19 +31166,19 @@ msgid "Unscaled"
 msgstr "Sense escalar"
 
 #: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
 #: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/waveform.cpp:42
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Luma mode"
 msgstr "Mode de luma"
