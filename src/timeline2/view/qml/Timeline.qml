@@ -1060,7 +1060,6 @@ Rectangle {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
-
                     isDisabled: root.subtitlesDisabled
                     isLocked: root.subtitlesLocked
                     collapsedHeight: root.collapsedHeight
