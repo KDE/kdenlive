@@ -175,7 +175,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow);
-    connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties);
+    connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties, Qt::QueuedConnection);
     m_mainWindow->addBin(bin, QString(), false);
 
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);

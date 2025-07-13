@@ -52,6 +52,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QToolBar>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtMath>
 
 AnalysisTree::AnalysisTree(QWidget *parent)
@@ -81,9 +82,9 @@ QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> &list) const
 class ExtractionResult : public KFileMetaData::ExtractionResult
 {
 public:
-    ExtractionResult(const QString &filename, const QString &mimetype, QTreeWidget *tree)
+    ExtractionResult(const QString &filename, const QString &mimetype, QMap<QString, QString> *results)
         : KFileMetaData::ExtractionResult(filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData)
-        , m_tree(tree)
+        , m_results(results)
     {
     }
 
@@ -122,28 +123,31 @@ public:
         }
         if (decode) {
             KFileMetaData::PropertyInfo info(property);
+            QString stringValue;
             if (info.valueType() == QMetaType::Type::QDateTime) {
                 QLocale locale;
-                new QTreeWidgetItem(m_tree, {info.displayName(), locale.toDateTime(value.toString(), QLocale::ShortFormat).toString()});
+                stringValue = locale.toDateTime(value.toString(), QLocale::ShortFormat).toString();
             } else if (info.valueType() == QMetaType::Type::Int) {
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(
-                        m_tree, QStringList{info.displayName(), QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                    stringValue = QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s");
                 } else {
-                    new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(val)});
+                    stringValue = QString::number(val);
                 }
             } else if (info.valueType() == QMetaType::Type::Double) {
-                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(value.toDouble())});
+                stringValue = QString::number(value.toDouble());
             } else {
-                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), value.toString()});
+                stringValue = value.toString();
+            }
+            if (!stringValue.isEmpty()) {
+                m_results->insert(info.displayName(), stringValue);
             }
         }
     }
 
 private:
-    QTreeWidget *m_tree;
+    QMap<QString, QString> *m_results;
     Q_DISABLE_COPY(ExtractionResult)
 };
 
@@ -219,7 +223,13 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
 }
 
-ClipPropertiesController::~ClipPropertiesController() = default;
+ClipPropertiesController::~ClipPropertiesController()
+{
+    if (m_watcher.isRunning()) {
+        m_closing = true;
+        m_watcher.waitForFinished();
+    }
+}
 
 void ClipPropertiesController::constructFileInfoPage()
 {
@@ -1432,12 +1442,18 @@ void ClipPropertiesController::fillProperties()
 
     if (m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Audio || m_type == ClipType::Video) {
         // Read File Metadata through KDE's metadata system
-        KFileMetaData::ExtractorCollection metaDataCollection;
-        QMimeDatabase mimeDatabase;
-        QMimeType mimeType = mimeDatabase.mimeTypeForFile(m_controller->clipUrl());
-        for (KFileMetaData::Extractor *plugin : metaDataCollection.fetchExtractors(mimeType.name())) {
-            ExtractionResult extractionResult(m_controller->clipUrl(), mimeType.name(), m_propertiesTree);
-            plugin->extract(&extractionResult);
+        if (!m_controller->hasProducerProperty(QStringLiteral("kdenlive:kextractor"))) {
+            m_extractJob = QtConcurrent::run(&ClipPropertiesController::extractInfo, this, m_controller->clipUrl());
+            m_watcher.setFuture(m_extractJob);
+        } else {
+            // we have cached metadata
+            Mlt::Properties subProperties;
+            subProperties.pass_values(*m_properties, "kdenlive:meta.extractor.");
+            if (subProperties.count() > 0) {
+                for (int i = 0; i < subProperties.count(); i++) {
+                    new QTreeWidgetItem(m_propertiesTree, QStringList{subProperties.get_name(i), subProperties.get(i)});
+                }
+            }
         }
     }
 
@@ -1511,6 +1527,32 @@ void ClipPropertiesController::fillProperties()
     }
     m_propertiesTree->setSortingEnabled(true);
     m_propertiesTree->resizeColumnToContents(0);
+}
+
+void ClipPropertiesController::extractInfo(const QString &url)
+{
+    KFileMetaData::ExtractorCollection metaDataCollection;
+    QMimeDatabase mimeDatabase;
+    QMimeType mimeType = mimeDatabase.mimeTypeForFile(url);
+    QMap<QString, QString> extractionMap;
+    for (KFileMetaData::Extractor *plugin : metaDataCollection.fetchExtractors(mimeType.name())) {
+        ExtractionResult extractionResult(url, mimeType.name(), &extractionMap);
+        plugin->extract(&extractionResult);
+    }
+    if (m_closing) {
+        return;
+    }
+    QMetaObject::invokeMethod(this, "addMetadata", Q_ARG(stringMap, extractionMap));
+}
+
+void ClipPropertiesController::addMetadata(const QMap<QString, QString> meta)
+{
+    m_controller->setProducerProperty(QStringLiteral("kdenlive:kextractor"), 1);
+    for (auto i = meta.cbegin(), end = meta.cend(); i != end; ++i) {
+        qDebug() << ":::::: GOT KDENLIT_META: " << i.key() << " = " << i.value();
+        new QTreeWidgetItem(m_propertiesTree, QStringList{i.key(), i.value()});
+        m_controller->setProducerProperty(QStringLiteral("kdenlive:meta.extractor.%1").arg(i.key()), i.value());
+    }
 }
 
 QMap<QString, QString> ClipPropertiesController::getMetadateMagicLantern()

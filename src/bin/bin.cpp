@@ -715,9 +715,22 @@ void MyListView::leaveEvent(QEvent *event)
 void MyListView::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        QModelIndex ix = indexAt(event->pos());
-        if (ix.isValid()) {
-            QAbstractItemDelegate *del = itemDelegateForIndex(ix);
+        QModelIndex clickedIndex = indexAt(event->pos());
+        auto selected = selectedIndexes();
+        if (clickedIndex.isValid()) {
+            QModelIndexList selection;
+            if (selected.contains(clickedIndex)) {
+                selection = selected;
+            } else {
+                selection = {clickedIndex};
+            }
+            m_clickedIndexes.clear();
+            for (auto &s : selection) {
+                if (s.column() == 0) {
+                    m_clickedIndexes << s;
+                }
+            }
+            QAbstractItemDelegate *del = itemDelegateForIndex(m_clickedIndexes.first());
             m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
         } else {
@@ -739,46 +752,16 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (!m_startPos.isNull() && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
-            QModelIndexList indexes = selectedIndexes();
-            if (indexes.isEmpty()) {
-                // Dragging from empty zone, abort
-                QListView::mouseMoveEvent(event);
-                return;
-            }
-            auto *drag = new QDrag(this);
-            auto *mData = model()->mimeData(indexes);
-            mData->setData(QStringLiteral("text/binId"), parentWidget()->parentWidget()->objectName().toLatin1());
-            drag->setMimeData(mData);
-            QModelIndex ix = indexes.constFirst();
-            if (ix.isValid()) {
-                QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
-                QPixmap pix = icon.pixmap(iconSize());
-                QSize size = pix.size() / 2;
-                QImage image(size, QImage::Format_ARGB32_Premultiplied);
-                image.fill(Qt::transparent);
-                QPainter p(&image);
-                p.setOpacity(0.7);
-                p.drawPixmap(0, 0, image.width(), image.height(), pix);
-                p.setOpacity(1);
-                if (indexes.count() > 1) {
-                    QPalette palette;
-                    int radius = size.height() / 3;
-                    p.setBrush(palette.highlight());
-                    p.setPen(palette.highlightedText().color());
-                    p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
-                    p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter,
-                               QString::number(indexes.count()));
-                }
-                p.end();
-                drag->setPixmap(QPixmap::fromImage(image));
-            }
-            drag->exec();
-            Q_EMIT processDragEnd();
-            return;
+            Q_EMIT updateDragMode(m_dragType);
+            Q_EMIT performDrag(m_clickedIndexes);
+            event->accept();
+        } else {
+            event->ignore();
         }
         QListView::mouseMoveEvent(event);
         return;
     }
+
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         if (KdenliveSettings::hoverPreview()) {
@@ -830,19 +813,35 @@ MyTreeView::MyTreeView(QWidget *parent)
 
 void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
-    QTreeView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
-        QModelIndex ix = indexAt(event->pos());
-        if (ix.isValid()) {
-            QAbstractItemDelegate *del = itemDelegateForIndex(ix);
+        QModelIndex clickedIndex = indexAt(event->pos());
+        auto selected = selectedIndexes();
+        if (clickedIndex.isValid()) {
+            QModelIndexList selection;
+            if (selected.contains(clickedIndex)) {
+                selection = selected;
+            } else {
+                selection = {clickedIndex};
+            }
+            m_clickedIndexes.clear();
+            for (auto &s : selection) {
+                if (s.column() == 0) {
+                    m_clickedIndexes << s;
+                }
+            }
+            /*qDebug() << "****************************************\n***   MOUSE CLICKED   ***\n\n******************************";
+            qDebug() << ":::::: CLICKED ON ROW: " << clickedIndex.row() << " / " << clickedIndex;
+            qDebug() << ":::::: FINAL SELECTION: " << m_clickedIndexes << "// INTERNAL ID: " << m_clickedIndexes.first().internalId()
+                     << "\n\n***************************************";*/
+            QAbstractItemDelegate *del = itemDelegateForIndex(clickedIndex);
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
-
         } else {
             m_dragType = PlaylistState::Disabled;
             m_startPos = QPoint();
         }
     }
+    QTreeView::mousePressEvent(event);
     event->accept();
 }
 
@@ -888,12 +887,12 @@ void MyTreeView::dropEvent(QDropEvent *event)
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) != 0u) {
-        if (!m_startPos.isNull()) {
-            int distance = (event->pos() - m_startPos).manhattanLength();
-            if (distance >= QApplication::startDragDistance()) {
-                performDrag();
-                return;
-            }
+        if (!m_startPos.isNull() && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
+            Q_EMIT updateDragMode(m_dragType);
+            Q_EMIT performDrag(m_clickedIndexes);
+            event->accept();
+        } else {
+            event->ignore();
         }
         QTreeView::mouseMoveEvent(event);
         return;
@@ -956,52 +955,6 @@ void MyTreeView::setEditing(bool edit)
         // Ensure edited item is selected
         Q_EMIT selectCurrent();
     }
-}
-
-bool MyTreeView::performDrag()
-{
-    QModelIndexList bases = selectedIndexes();
-    QModelIndexList indexes;
-    for (int i = 0; i < bases.count(); i++) {
-        if (bases.at(i).column() == 0) {
-            indexes << bases.at(i);
-        }
-    }
-    if (indexes.isEmpty()) {
-        return false;
-    }
-    // Check if we want audio or video only
-    Q_EMIT updateDragMode(m_dragType);
-    auto *drag = new QDrag(this);
-    auto *mData = model()->mimeData(indexes);
-    mData->setData(QStringLiteral("text/binId"), parentWidget()->parentWidget()->objectName().toLatin1());
-    drag->setMimeData(mData);
-    QModelIndex ix = indexes.constFirst();
-    if (ix.isValid()) {
-        QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
-        QPixmap pix = icon.pixmap(iconSize());
-        QSize size = pix.size() / 2;
-        QImage image(size, QImage::Format_ARGB32_Premultiplied);
-        image.fill(Qt::transparent);
-        QPainter p(&image);
-        p.setOpacity(0.7);
-        p.drawPixmap(0, 0, image.width(), image.height(), pix);
-        p.setOpacity(1);
-        if (indexes.count() > 1) {
-            QPalette palette;
-            int radius = size.height() / 3;
-            p.setBrush(palette.highlight());
-            p.setPen(palette.highlightedText().color());
-            p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
-            p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
-        }
-        p.end();
-        drag->setPixmap(QPixmap::fromImage(image));
-    }
-    drag->exec();
-    drag->deleteLater();
-    Q_EMIT processDragEnd();
-    return true;
 }
 
 SmallJobLabel::SmallJobLabel(QWidget *parent)
@@ -1862,7 +1815,7 @@ void Bin::slotReloadClip()
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
-            Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+            openClipInMonitor(std::shared_ptr<ProjectClip>());
             if (currentItem->clipStatus() == FileStatus::StatusMissing || currentItem->clipStatus() == FileStatus::StatusProxyOnly) {
                 // Don't attempt to reload missing clip
                 // Check if source file is available
@@ -2073,7 +2026,7 @@ void Bin::slotReplaceClip()
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
-            Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+            openClipInMonitor(std::shared_ptr<ProjectClip>());
             auto filter = FileFilter::Builder().setCategories({FileFilter::AllSupported}).toQFilter();
             QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement for %1", currentItem->clipName()),
                                                             QFileInfo(currentItem->url()).absolutePath(), filter);
@@ -2956,22 +2909,29 @@ void Bin::slotInitView(QAction *action)
     m_binListViewDelegate = nullptr;
 
     switch (m_listType) {
-    case BinIconView:
-        m_itemView = new MyListView(this);
+    case BinIconView: {
+        auto *lv = new MyListView(this);
+        m_itemView = lv;
         m_binListViewDelegate = new BinListItemDelegate(this);
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         m_showRating->setEnabled(false);
         m_upAction->setVisible(true);
+        connect(lv, &MyListView::performDrag, this, &Bin::performDrag);
         break;
-    default:
-        m_itemView = new MyTreeView(this);
+    }
+    default: {
+        new MyTreeView(this);
+        auto *tv = new MyTreeView(this);
+        m_itemView = tv;
         m_binTreeViewDelegate = new BinItemDelegate(this);
         m_showDate->setEnabled(true);
         m_showDesc->setEnabled(true);
         m_showRating->setEnabled(true);
         m_upAction->setVisible(false);
+        connect(tv, &MyTreeView::performDrag, this, &Bin::performDrag);
         break;
+    }
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(this);
@@ -3023,7 +2983,6 @@ void Bin::slotInitView(QAction *action)
         view->setSortingEnabled(true);
         view->setWordWrap(true);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
-        connect(view, &MyTreeView::processDragEnd, pCore.get(), &Core::processDragEnd);
         connect(view, &MyTreeView::selectCurrent, this, &Bin::ensureCurrent);
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
@@ -3081,7 +3040,6 @@ void Bin::slotInitView(QAction *action)
         view->setGridSize(QSize(m_iconSize.width() + 2, m_iconSize.height() + textHeight));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
-        connect(view, &MyListView::processDragEnd, pCore.get(), &Core::processDragEnd);
         if (!rootFolder.isEmpty()) {
             // Open view in a specific folder
             std::shared_ptr<AbstractProjectItem> folder = m_itemModel->getItemByBinId(rootFolder);
@@ -3651,15 +3609,18 @@ void Bin::setupGeneratorMenu()
     if (m_isMainBin) {
         connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     }
-    connect(this, &Bin::openClip, monitor, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
-        if (monitor->slotOpenClip(clip, in, out, uuid) && clip) {
-            Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
-            if (clip->hasLimitedDuration()) {
-                clip->refreshBounds();
-            }
+    connect(this, &Bin::openClip, this, &Bin::openClipInMonitor, Qt::QueuedConnection);
+}
+
+void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid)
+{
+    if (pCore->getMonitor(Kdenlive::ClipMonitor)->slotOpenClip(clip, in, out, uuid) && clip) {
+        Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
+        if (clip->hasLimitedDuration()) {
+            clip->refreshBounds();
         }
-        pCore->textEditWidget()->openClip(clip);
-    });
+    }
+    pCore->textEditWidget()->openClip(clip);
 }
 
 void Bin::setupMenu()
@@ -5049,7 +5010,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+    openClipInMonitor(std::shared_ptr<ProjectClip>());
     if (clipList.count() == 1) {
         // We only have one clip in the project, so this was called on a reset profile event.
         // Check if the clip is included in timeline to update it afterwards
@@ -5436,7 +5397,6 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
     }
     QMap<GenTime, QString> markers;
     GenTime clipDuration = clip->getPlaytime();
-    int ix = 0;
     std::set<int> missingFrames;
     for (auto m = markersData.cbegin(), end = markersData.cend(); m != end; ++m) {
         missingFrames.insert(m.key());
@@ -5450,7 +5410,6 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
         } else {
             markers.insert(p, m.value());
         }
-        ix++;
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
     if (KdenliveSettings::guidesShowThumbs()) {
@@ -6411,4 +6370,50 @@ void Bin::expandAll()
             }
         }
     }
+}
+
+bool Bin::performDrag(const QModelIndexList indexes)
+{
+    if (indexes.isEmpty() || !indexes.constFirst().isValid()) {
+        return false;
+    }
+    // Check if we want audio or video only
+    QModelIndexList mapped;
+    for (auto &i : indexes) {
+        mapped << m_proxyModel->mapToSource(i);
+    }
+    auto *mData = m_itemModel->mimeData(mapped);
+    if (!mData->hasText()) {
+        // Invalid or not ready to drag, abort
+        delete mData;
+        return false;
+    }
+    auto *drag = new QDrag(this);
+    mData->setData(QStringLiteral("text/binId"), parentWidget()->objectName().toLatin1());
+    drag->setMimeData(mData);
+    QModelIndex ix = mapped.constFirst();
+    QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
+    QPixmap pix = icon.pixmap(m_itemView->iconSize());
+    QSize size = pix.size() / 2;
+    QImage image(size, QImage::Format_ARGB32_Premultiplied);
+    image.fill(Qt::transparent);
+    QPainter p(&image);
+    p.setOpacity(0.7);
+    p.drawPixmap(0, 0, image.width(), image.height(), pix);
+    p.setOpacity(1);
+    if (indexes.count() > 1) {
+        QPalette palette;
+        int radius = size.height() / 3;
+        p.setBrush(palette.highlight());
+        p.setPen(palette.highlightedText().color());
+        p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
+        p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(mapped.count()));
+    }
+    p.end();
+    drag->setPixmap(QPixmap::fromImage(image));
+
+    drag->exec();
+    drag->deleteLater();
+    Q_EMIT pCore->processDragEnd();
+    return true;
 }

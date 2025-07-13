@@ -4930,7 +4930,7 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
         }
-        connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties);
+        connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties, Qt::QueuedConnection);
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
         tabifyDockWidget(m_projectBinDock, binDock);
         // Disable title bar since it is tabbed
