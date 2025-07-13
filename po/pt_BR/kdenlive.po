@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:42+0000\n"
+"POT-Creation-Date: 2025-07-13 00:42+0000\n"
 "PO-Revision-Date: 2025-03-28 01:05-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -27499,7 +27499,7 @@ msgstr "Abrir os dados de análise"
 msgid "Audio volume"
 msgstr "Volume do áudio"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -28246,7 +28246,7 @@ msgstr ""
 "<shortcut>Alt</shortcut> para buscar ao marcador, <shortcut>Home</"
 "shortcut> / <shortcut>End</shortcut> para ir ao primeiro / último quadro"
 
-#: src/monitor/view/MonitorRuler.qml:338
+#: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28256,7 +28256,7 @@ msgstr ""
 "<b>Arraste</b> para definir a área de entrada, <b>Shift+Arraste</b> para "
 "buscar enquanto ajusta a área de entrada"
 
-#: src/monitor/view/MonitorRuler.qml:387
+#: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30947,7 +30947,7 @@ msgid "HSV Saturation"
 msgstr "Saturação HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:264
+#: src/scopes/colorscopes/vectorscope.cpp:268
 #, kde-format
 msgid "%1°"
 msgstr "%1°"

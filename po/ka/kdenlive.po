@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:42+0000\n"
-"PO-Revision-Date: 2025-07-11 08:27+0200\n"
+"POT-Creation-Date: 2025-07-13 00:42+0000\n"
+"PO-Revision-Date: 2025-07-12 04:06+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1561,6 +1561,8 @@ msgid ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
 "709,UHD TV,Rec. 2020,DCI-P3"
 msgstr ""
+"NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
+"709,UHD TV,Rec. 2020,DCI-P3"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
 #, kde-format
@@ -2092,8 +2094,7 @@ msgstr ""
 "შემცველობისთვის, BT.2020 12-ბიტიანი შემცველობისთვის"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
-#, fuzzy, kde-format
-#| msgid "Output transfer characteristicse"
+#, kde-format
 msgid "Output transfer characteristics"
 msgstr "გამოტანის გადაცემის მახასიათებლები"
 
@@ -3378,7 +3379,7 @@ msgstr "Pal8 გამოტანა"
 #: data/effects/avfilter/avfilter_elbg.xml:17
 #, kde-format
 msgid "Include Alpha Values"
-msgstr ""
+msgstr "ალფას მნიშვნელობების ჩასმა"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, kde-format
@@ -4296,7 +4297,7 @@ msgstr "HSV შეკავება"
 #: data/effects/avfilter/avfilter_hsvhold.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into gray "
-msgstr ""
+msgstr "აქცევს გარკვეულ HSV დიაპაზონს ნაცრისფერად "
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
@@ -4366,7 +4367,7 @@ msgstr "ტონი გაჯერებულობა ინტენსი�
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
 msgid "Apply hue-saturation-intensity adjustments"
-msgstr ""
+msgstr "ტონი-გაჯერებულობა-ინტენსივობის მნიშვნელობების გადატარება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
 #, kde-format
@@ -4376,7 +4377,7 @@ msgstr "გასასწორებელი ფერები"
 #: data/effects/avfilter/avfilter_huesaturation.xml:9
 #, kde-format
 msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
-msgstr ""
+msgstr "წითლები,ყვითლები,მწვანეები,ციანები,ლურჯები,ალისფერი,ყველა ფერი"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -8914,7 +8915,7 @@ msgstr "მოაბრუნებს პანორამულ გამო�
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:4
 #, kde-format
 msgid "Blue Screen (Color to Alpha)"
-msgstr ""
+msgstr "ლურჯი ეკრანი (ფერიდან ალფამდე)"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
 #, kde-format
@@ -9563,7 +9564,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (frei0r)"
-msgstr ""
+msgstr "მაღალხარისხიანი 3D ხმაურის მომცილებელი (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, kde-format
@@ -11141,7 +11142,7 @@ msgstr "<![CDATA[0-255 მასშტაბის გამოყენებ�
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, kde-format
 msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
+msgstr "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
@@ -11257,7 +11258,7 @@ msgstr "შეყვანილი გამოსახულების პ�
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
 msgid "Glitching (rows only)"
-msgstr ""
+msgstr "გლიჩი (მხოლოდ მწკრივები)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
@@ -11318,7 +11319,7 @@ msgstr "(ფერის) მნიშვნელობების რაო�
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
 msgid "Video Values (SUPERCEDED)"
-msgstr ""
+msgstr "ვიდეოს მნიშვნელობები (ჩანაცვლებულია)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
@@ -26631,7 +26632,7 @@ msgstr "ანალიზის მონაცემების გახს�
 msgid "Audio volume"
 msgstr "აუდიოს ხმა"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -27367,7 +27368,7 @@ msgstr ""
 "<shortcut>Alt</shortcut> მარკერამდე გადასახვევად, <shortcut>Home</"
 "shortcut> / <shortcut>End</shortcut> პირველ / ბოლო კადრზე გადასასვლელად"
 
-#: src/monitor/view/MonitorRuler.qml:338
+#: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27377,7 +27378,7 @@ msgstr ""
 "<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, <shortcut>Shift"
 "+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
 
-#: src/monitor/view/MonitorRuler.qml:387
+#: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30045,7 +30046,7 @@ msgid "HSV Saturation"
 msgstr "HSV გაჯერებულობა"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:264
+#: src/scopes/colorscopes/vectorscope.cpp:268
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -33361,7 +33362,7 @@ msgstr "განახლებების შემოწმება"
 #: src/ui/configenv_ui.ui:118
 #, kde-format
 msgid "Prevent sleep when playing and rendering"
-msgstr ""
+msgstr "ძილის თავიდან აცილება დაკვრისას და რენდერისას"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:129

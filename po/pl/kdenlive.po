@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:42+0000\n"
+"POT-Creation-Date: 2025-07-13 00:42+0000\n"
 "PO-Revision-Date: 2025-05-24 08:16+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -27696,7 +27696,7 @@ msgstr "Otwórz Dane Analizy"
 msgid "Audio volume"
 msgstr "Głośność dźwięku"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -28431,7 +28431,7 @@ msgstr ""
 "shortcut> przewija do znacznika, <shortcut>Home</shortcut> / <shortcut>End</"
 "shortcut>, aby przejść do pierwszej / ostatniej klatki"
 
-#: src/monitor/view/MonitorRuler.qml:338
+#: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28442,7 +28442,7 @@ msgstr ""
 "<shortcut>Przeciągnij z Shiftem</shortcut>, aby przewijać podczas "
 "dostosowywania wejścia do zakresu"
 
-#: src/monitor/view/MonitorRuler.qml:387
+#: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31127,7 +31127,7 @@ msgid "HSV Saturation"
 msgstr "Nasycenie HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:264
+#: src/scopes/colorscopes/vectorscope.cpp:268
 #, kde-format
 msgid "%1°"
 msgstr "%1°"

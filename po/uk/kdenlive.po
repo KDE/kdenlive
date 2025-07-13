@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:42+0000\n"
-"PO-Revision-Date: 2025-07-11 22:02+0300\n"
+"POT-Creation-Date: 2025-07-13 00:42+0000\n"
+"PO-Revision-Date: 2025-07-12 20:01+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2135,8 +2135,7 @@ msgstr ""
 "даних, BT.2020 для 12-бітових даних"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
-#, fuzzy, kde-format
-#| msgid "Output transfer characteristicse"
+#, kde-format
 msgid "Output transfer characteristics"
 msgstr "Характеристики переходу до результату"
 
@@ -4159,17 +4158,7 @@ msgid "gradfun"
 msgstr "gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:9
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[<b>-= Deprecated =-</b><br>\n"
-#| "    Debands video quickly using gradients.<br>\n"
-#| "    Fix the banding artifacts that are sometimes introduced into nearly "
-#| "flat regions by truncation to 8-bit color depth.<br>\n"
-#| "    Interpolate the gradients that should go where the bands are, and "
-#| "dither them.<br>\n"
-#| "    <b>It is designed for playback only. Do not use it prior to lossy "
-#| "compression, because compression tends to lose the dither and bring back "
-#| "the bands<b>.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[<b>-= Deprecated =-</b><br>\n"
 "    Debands video quickly using gradients.<br>\n"
@@ -4682,10 +4671,7 @@ msgid "Red Strength"
 msgstr "Потужність червоного"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for RED component.<br>\n"
-#| "        Is used in saturation and lightess processing.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
@@ -4699,10 +4685,7 @@ msgid "Green Strength"
 msgstr "Потужність зеленого"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for GREEN component.<br>\n"
-#| "        Is used in saturation and lightess processing.e]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
@@ -4716,10 +4699,7 @@ msgid "Blue Strength"
 msgstr "Потужність синього"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for BLUE component.<br>\n"
-#| "        Is used in saturation and lightess processing.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
@@ -4885,14 +4865,11 @@ msgid "Set value which will be added to filtered result."
 msgstr "Встановлює значення, яке буде додано до фільтрованого результату."
 
 #: data/effects/avfilter/avfilter_kirsch.xml:16
-#, fuzzy, kde-format
-#| msgid ""
-#| "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,"
-#| "Blue,All"
+#, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
 msgstr ""
-"Альфа,Освітленість (площина Y),Колірність (площина U),Колірність (площина V),"
-"Червоний,Зелений,Синій,Усі"
+"Alpha,Y (освітленість),U (колірність),V (колірність),червоний,зелений,синій,"
+"усі"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
@@ -5796,10 +5773,9 @@ msgid "Roberts"
 msgstr "Робертс"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply Scharr operators for edge detection"
+#, kde-format
 msgid "Apply Roberts cross operator (edge detection)"
-msgstr "Застосувати оператори Шарра для виявлення країв"
+msgstr "Застосувати перехресний оператор Робертса (виявлення країв)"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -6883,20 +6859,15 @@ msgid "Vectorscope (advanced)"
 msgstr "Векторскоп (удосконалений)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display 2 color component values in the two dimensional graph (which is "
-#| "called a vectorscope)"
+#, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
-"Показати 2 значення компонентів кольорів у форматі двовимірного графіка "
-"(який називається векторскопом)"
+"Показати 2 значення компонентів кольорів у форматі двовимірного графіка"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
-#, fuzzy, kde-format
-#| msgid "gray,color,color2,color3,color4,color5"
+#, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
-msgstr "сірий,кольоровий,кольоровий2,кольоровий3,кольоровий4,кольоровий5"
+msgstr "сірий,відтінок,колір,колір 2,колір 3,колір 4,колір 5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:73
@@ -7251,10 +7222,9 @@ msgid "Input Format"
 msgstr "Вхідний формат"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Set input formats for filter to pick from]]>"
-msgstr "<![CDATA[Встановлює радіус напрямку]]>"
+msgstr "<![CDATA[Встановити вхідні формати для вибору у фільтрі]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, kde-format
@@ -8149,6 +8119,8 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alphaops_alphaops</"
 "em>.]]>"
 msgstr ""
+"<![CDATA[Показ каналу прозорості та керування ним.<br>\n"
+"        Цей ефект було замінено на <em>frei0r.alphaops_alphaops</em>.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:43
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
@@ -8339,6 +8311,8 @@ msgid ""
 "<![CDATA[Fill the alpha channel with a specified gradient.<br>\n"
 "    This effect has been replaced by frei0r.alphaops_alphagrad.]]>"
 msgstr ""
+"<![CDATA[Заповнити канал прозорості вказаним градієнтом.<br>\n"
+"    Цей ефект було замінено на frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
@@ -8346,17 +8320,13 @@ msgid "Alpha Shapes (SUPERCEDED)"
 msgstr "α-форми (ЗАМІНЕНО)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Display and manipulation of the alpha channel.<br>\n"
-#| "        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</"
-#| "em>.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]>"
 msgstr ""
-"<![CDATA[Показ альфа-каналу та керування ним.<br>\n"
-"        Цей ефект було замінено на <em>frei0r.alpha0ps_alpha0ps</em>.]]>"
+"<![CDATA[Малює прості форми на каналі прозорості.<br>\n"
+"    Цей ефект було замінено на <em>frei0r.alphaops_alphaspot</em>.]]>"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -9784,13 +9754,14 @@ msgid "K-Means Clustering (ABANDONED)"
 msgstr "Кластеризація за методом K-середніх (ЗАСТАРІВ)"
 
 #: data/effects/frei0r/frei0r_cluster.xml:6
-#, fuzzy, kde-format
-#| msgid "Clusters of a source image by color and spatial distance"
+#, kde-format
 msgid ""
 "<![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>\n"
 "    Clusters of a source image by color and spatial distance]]>"
 msgstr ""
-"Поділяє початкове зображення на основі відстаней за кольорами і у просторі"
+"<![CDATA[<b>Визнано застарілим через значне навантаження на процесор.</"
+"b><br>\n"
+"Поділяє початкове зображення на основі відстаней за кольорами і у просторі]]>"
 
 #: data/effects/frei0r/frei0r_cluster.xml:9
 #, kde-format
@@ -10099,20 +10070,22 @@ msgid "Scaling"
 msgstr "Масштабування"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:23
-#, fuzzy, kde-format
-#| msgid "Straighten all edges of video frame"
+#, kde-format
 msgid ""
 "<![CDATA[Straighten all Edges<br>\n"
 "        of Video Frame]]>"
-msgstr "Випрямити усі краї відеокадру"
+msgstr ""
+"<![CDATA[Випрямляє усі краї<br>\n"
+"        відеокадру]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
-#, fuzzy, kde-format
-#| msgid "Fix camera scaling between 4:3 and 16:9"
+#, kde-format
 msgid ""
 "<![CDATA[Fix Camera Scaling<br>\n"
 "        Between 4:3 and 16:9]]>"
-msgstr "Виправлення масштабування камерою між 4:3 і 16:9"
+msgstr ""
+"<![CDATA[Виправляє масштабування камери<br>\n"
+"        між 4:3 і 16:9]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
 #, kde-format
@@ -10283,20 +10256,22 @@ msgid "Edge lightening threshold"
 msgstr "Порогове значення підсвічування країв"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:12
-#, fuzzy, kde-format
-#| msgid "Edge brightness upscaling multiplier"
+#, kde-format
 msgid ""
 "<![CDATA[Edge brightness<br>\n"
 "        upscaling multiplier]]>"
-msgstr "Коефіцієнт збільшення яскравості точок країв"
+msgstr ""
+"<![CDATA[Коефіцієнт збільшення яскравості<br>\n"
+"        точок країв]]>"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:16
-#, fuzzy, kde-format
-#| msgid "Non-edge brightness downscaling multiplier"
+#, kde-format
 msgid ""
 "<![CDATA[Non-edge brightness<br>\n"
 "        downscaling multiplier]]>"
-msgstr "Коефіцієнт зменшення яскравості точок поза краями"
+msgstr ""
+"<![CDATA[Коефіцієнт зменшення яскравості<br>\n"
+" точок поза краями]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
 #, kde-format
@@ -10318,16 +10293,13 @@ msgid "Center"
 msgstr "За центром"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:10
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
-#| "poles]]>"
+#, no-c-format, kde-format
 msgid ""
 "<![CDATA[Horizontal center position<br>\n"
 "        of the linear area (% of total width)]]>"
 msgstr ""
-"<![CDATA[Частка за горизонталлю незміненої області для розмивання на "
-"полюсах]]>"
+"<![CDATA[Горизонтальна позиція центра<br>\n"
+"        лінійної області (у відсотках до загальної ширини)]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
 #, kde-format
@@ -10400,6 +10372,9 @@ msgid ""
 "<br>\n"
 "            Range is 0 to 90.]]>"
 msgstr ""
+"<![CDATA[Визначає освітленість або яскравість областей, які не буде "
+"витиснено.<br>\n"
+"            Діапазон значень — від 0 до 90.]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:19
 #, kde-format
@@ -10413,6 +10388,9 @@ msgid ""
 "perceived depth of the embossed areas.<br>\n"
 "            Range is 0 to 40.]]>"
 msgstr ""
+"<![CDATA[Визначає товщину країв підвищення-зниження видимої глибини "
+"витиснених областей.<br>\n"
+"            Діапазон значень — від 0 до 40.]]>"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
@@ -10998,17 +10976,13 @@ msgid "No Alpha Background"
 msgstr "Без прозорого тла"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If checked, alpha will be used <br>\n"
-#| "        if reflection lies outside of the source image and not reflecting "
-#| "back in.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[If checked, the selected<br>\n"
 "        color will be used, if reflection lies outside of the source image "
 "and not reflecting back in.]]>"
 msgstr ""
-"<![CDATA[Якщо позначено, буде використано прозорість, <br>\n"
+"<![CDATA[Якщо позначено, буде використано колір, <br>\n"
 "        якщо віддзеркалення лежить поза початковим зображенням і не "
 "відбивається всередину.]]>"
 
@@ -11137,13 +11111,12 @@ msgid "Letter-boxing"
 msgstr "Поштова скринька"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
-#, fuzzy, kde-format
-#| msgid "Adds black borders at top and bottom for cinema look"
+#, kde-format
 msgid ""
 "Adds black borders at the top and bottom for that widescreen cinema look"
 msgstr ""
 "Додає чорні смуги вгорі і внизу зображення так, щоб воно стало подібним на "
-"кінозображення"
+"широкоформатне кінозображення"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
 #, kde-format
@@ -11151,12 +11124,7 @@ msgid "Border Width"
 msgstr "Ширина смуг"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:10
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Specify the width of the border<br>\n"
-#| "        as % of half the vertical resolution (100% means both the topa "
-#| "and bottom half of the frame are black, i.e. there is no room for the "
-#| "picture)]]>"
+#, no-c-format, kde-format
 msgid ""
 "<![CDATA[Specify the width of the border<br>\n"
 "        as % of half the vertical resolution (100% means both the top and "
@@ -11601,10 +11569,9 @@ msgstr "Виміряти значення на відео"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:9
-#, fuzzy, kde-format
-#| msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+#, kde-format
 msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
-msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
+msgstr "RGB,Y'PbPr - Rec. 601,Y'PbPr - Rec. 709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:9
 #: data/effects/frei0r/frei0r_pr0be.xml:10
@@ -11663,10 +11630,9 @@ msgstr "Осцилоскоп (удосконалений)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:8
 #: data/effects/frei0r/frei0r_pr0file.xml:9
-#, fuzzy, kde-format
-#| msgid "Logo X Position"
+#, kde-format
 msgid "Profile X Position"
-msgstr "Розташування логотипа за X"
+msgstr "Розташування профілю за X"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:9
 #: data/effects/frei0r/frei0r_pr0file.xml:10
@@ -11676,10 +11642,9 @@ msgstr "<![CDATA[Координата профілю за X]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:12
 #: data/effects/frei0r/frei0r_pr0file.xml:13
-#, fuzzy, kde-format
-#| msgid "Logo Y Position"
+#, kde-format
 msgid "Profile Y Position"
-msgstr "Розташування логотипа за Y"
+msgstr "Розташування профілю за Y"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:13
 #: data/effects/frei0r/frei0r_pr0file.xml:14
@@ -11689,10 +11654,9 @@ msgstr "<![CDATA[Координата профілю за Y]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Tilt"
-msgstr "Профіль"
+msgstr "Нахил профілю"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:17
 #: data/effects/frei0r/frei0r_pr0file.xml:18
@@ -11702,10 +11666,9 @@ msgstr "<![CDATA[Нахил профілю]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
 #: data/effects/frei0r/frei0r_pr0file.xml:21
-#, fuzzy, kde-format
-#| msgid "Profile name"
+#, kde-format
 msgid "Profile Length"
-msgstr "Назва профілю"
+msgstr "Довжина профілю"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:21
 #: data/effects/frei0r/frei0r_pr0file.xml:22
@@ -12088,10 +12051,9 @@ msgstr ""
 "    Цей ефект замінено на <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (Advanced)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERCEDED)"
-msgstr "Осцилоскоп (удосконалений)"
+msgstr "Осцилоскоп (удосконалений) (ЗАМІНЕНО)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
@@ -12120,10 +12082,9 @@ msgid "Factor"
 msgstr "Множник"
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
+#, kde-format
 msgid "<![CDATA[Influence of mean pixel value]]>"
-msgstr "<![CDATA[Вплив середнього значення у пікселях, > 32 = 0]]>"
+msgstr "<![CDATA[Вплив середнього значення у пікселях]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -12187,9 +12148,11 @@ msgid "Horizontal Split Distance"
 msgstr "Відстань горизонтального розсіювання"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
-msgstr "Пересунути ліворуч"
+msgstr ""
+"<![CDATA[Значення < 0.500 пересувають праворуч, значення > 0.500 пересувають "
+"ліворуч.]]>"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, kde-format
@@ -12197,9 +12160,11 @@ msgid "Vertical Split Distance."
 msgstr "Відстань вертикального розсіювання"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
-msgstr "Пересунути вище"
+msgstr ""
+"<![CDATA[Значення < 0.500 пересувають вниз, значення > 0.500 пересувають "
+"вгору.]]>"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -13552,10 +13517,9 @@ msgid "Gradient Map"
 msgstr "Карта градієнта"
 
 #: data/effects/gradientmap.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply deflate effect to the video"
+#, kde-format
 msgid "Apply a gradient map to the video"
-msgstr "Застосувати ефект дефляції до відео"
+msgstr "Застосувати до відео карту градієнта"
 
 #: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
 #: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
@@ -13576,11 +13540,10 @@ msgid "Grain over the image"
 msgstr "Ефекти зернистості плівки на зображенні"
 
 #: data/effects/greyedge.xml:4
-#, fuzzy, kde-format
-#| msgid "Edge"
+#, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Grey Edge"
-msgstr "Край"
+msgstr "Сірий край"
 
 #: data/effects/greyedge.xml:5
 #, kde-format
@@ -13593,10 +13556,9 @@ msgstr ""
 "сірий світ"
 
 #: data/effects/greyedge.xml:8
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Differentiation Order"
-msgstr "Тека призначення"
+msgstr "Порядок диференціювання"
 
 #: data/effects/greyedge.xml:12
 #, kde-format
@@ -14498,8 +14460,7 @@ msgid "Old Film Simulator"
 msgstr "Імітація старої плівки"
 
 #: data/effects/oldfilm.xml:5
-#, fuzzy, kde-format
-#| msgid "Moves the Picture up and down and random brightness change"
+#, kde-format
 msgid "Moves the picture up and down and adds random brightness changes"
 msgstr ""
 "Випадкове пересування зображення вгору і вниз з випадковою зміною яскравості"
@@ -14510,10 +14471,9 @@ msgid "Maximum Up/Down Move"
 msgstr "Максимальний рух вгору-вниз"
 
 #: data/effects/oldfilm.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
-msgstr "<![CDATA[Відстань між вертикальними лініями у пікселях]]>"
+msgstr "<![CDATA[Визначає максимальне вертикальне пересування у пікселях]]>"
 
 #: data/effects/oldfilm.xml:12
 #, kde-format
@@ -14521,10 +14481,9 @@ msgid "Frames With Movement"
 msgstr "Кадри з пересуванням"
 
 #: data/effects/oldfilm.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees to fade the effect in over]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
-msgstr "<![CDATA[Градуси, протягом яких наростає ефект]]>"
+msgstr "<![CDATA[Визначає частку кадрів з вертикальним пересуванням]]>"
 
 #: data/effects/oldfilm.xml:16
 #, kde-format
@@ -14532,10 +14491,9 @@ msgid "Brightness Up"
 msgstr "Збільшити яскравість"
 
 #: data/effects/oldfilm.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change up]]>"
-msgstr "<![CDATA[Визначає спосіб дискретизації]]>"
+msgstr "<![CDATA[Визначає значення збільшення яскравості]]>"
 
 #: data/effects/oldfilm.xml:20
 #, kde-format
@@ -14543,10 +14501,9 @@ msgid "Brightness Down"
 msgstr "Зменшити яскравість"
 
 #: data/effects/oldfilm.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change down]]>"
-msgstr "<![CDATA[Визначає спосіб дискретизації]]>"
+msgstr "<![CDATA[Визначає значення зменшення яскравості]]>"
 
 #: data/effects/oldfilm.xml:24
 #, kde-format
@@ -14554,10 +14511,9 @@ msgid "Brightness Every"
 msgstr "Зміна яскравості кожні"
 
 #: data/effects/oldfilm.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
-msgstr "<![CDATA[Частка зернистості, застосована до каналу червоного]]>"
+msgstr "<![CDATA[Визначає частку кадрів зі зміною яскравості]]>"
 
 #: data/effects/oldfilm.xml:28
 #, kde-format
@@ -14565,10 +14521,9 @@ msgid "Uneven Develop Up"
 msgstr "Нерівномірне проявлення вгору"
 
 #: data/effects/oldfilm.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change up]]>"
-msgstr "<![CDATA[Визначає спосіб дискретизації]]>"
+msgstr "<![CDATA[Визначає значення збільшення освітленості]]>"
 
 #: data/effects/oldfilm.xml:32
 #, kde-format
@@ -14576,10 +14531,9 @@ msgid "Uneven Develop Down"
 msgstr "Нерівномірне проявлення вниз"
 
 #: data/effects/oldfilm.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change down]]>"
-msgstr "<![CDATA[Визначає спосіб дискретизації]]>"
+msgstr "<![CDATA[Визначає значення зменшення освітленості]]>"
 
 #: data/effects/oldfilm.xml:36
 #, kde-format
@@ -14983,10 +14937,9 @@ msgid "Scratch Lines"
 msgstr "Подряпини"
 
 #: data/effects/scratchlines.xml:5
-#, fuzzy, kde-format
-#| msgid "Scratchlines over the picture"
+#, kde-format
 msgid "Scratch lines over the picture"
-msgstr "Подряпини на зображенні"
+msgstr "Додає подряпини на зображення"
 
 #: data/effects/scratchlines.xml:8
 #, kde-format
@@ -14994,10 +14947,9 @@ msgid "Width of Line"
 msgstr "Товщина подряпин"
 
 #: data/effects/scratchlines.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the scope display]]>"
+#, kde-format
 msgid "<![CDATA[Width on the line in the clip]]>"
-msgstr "<![CDATA[Ширина панелі аналізатора]]>"
+msgstr "<![CDATA[Товщина подряпини на кліпі]]>"
 
 #: data/effects/scratchlines.xml:12
 #, kde-format
@@ -15005,10 +14957,9 @@ msgid "Max Number of Lines"
 msgstr "Макс. кількість подряпин"
 
 #: data/effects/scratchlines.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[Maximum number of lines in the clip]]>"
-msgstr "<![CDATA[Питома кількість часток пилу на зображенні]]>"
+msgstr "<![CDATA[Максимальна кількість подряпин у кліпі]]>"
 
 #: data/effects/scratchlines.xml:16
 #, kde-format
@@ -27648,7 +27599,7 @@ msgstr "Відкриття даних аналізу"
 msgid "Audio volume"
 msgstr "Гучність звуку"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -28394,7 +28345,7 @@ msgstr ""
 "<shortcut>Home</shortcut> / <shortcut>End</shortcut> — перейти до першого "
 "або останнього кадру"
 
-#: src/monitor/view/MonitorRuler.qml:338
+#: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28405,7 +28356,7 @@ msgstr ""
 "<shortcut>Shift+перетягніть</shortcut> для позиціювання разом із "
 "коригуванням входу до зони"
 
-#: src/monitor/view/MonitorRuler.qml:387
+#: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31111,7 +31062,7 @@ msgid "HSV Saturation"
 msgstr "Насиченість HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:264
+#: src/scopes/colorscopes/vectorscope.cpp:268
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -32843,6 +32794,10 @@ msgid ""
 "other timelines ?<br>Not resizing will temporarily keep the current duration "
 "in all other sequences."
 msgstr ""
+"Послідовність <b>%1</b> на монтажному столі було скорочено.<br/>Змінити "
+"розміри усіх екземплярів на інших монтажних столах?<br>Якщо не змінювати "
+"розміри, поточну тривалість буде тимчасово збережено в усіх інших "
+"послідовностях."
 
 #: src/timeline2/view/timelinetabs.cpp:178
 #, kde-format

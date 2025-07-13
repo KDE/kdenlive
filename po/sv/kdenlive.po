@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:42+0000\n"
+"POT-Creation-Date: 2025-07-13 00:42+0000\n"
 "PO-Revision-Date: 2025-06-12 17:25+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -26900,7 +26900,7 @@ msgstr "Öppna analysdata"
 msgid "Audio volume"
 msgstr "Ljudvolym"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
 msgstr "%1 %"
@@ -27631,7 +27631,7 @@ msgstr ""
 "<shortcut>Alt</shortcut> för att söka till markör, <shortcut>Home</shortcut> "
 "eller <shortcut>End</shortcut> för att gå till första eller sista bildrutan"
 
-#: src/monitor/view/MonitorRuler.qml:338
+#: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27641,7 +27641,7 @@ msgstr ""
 "<shortcut>Dra</shortcut> för att ställa in zon i punkt, <shortcut>Skift+dra</"
 "shortcut> för att söka medan zonen justeras in"
 
-#: src/monitor/view/MonitorRuler.qml:387
+#: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30310,7 +30310,7 @@ msgid "HSV Saturation"
 msgstr "HSV-färgmättnad"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:264
+#: src/scopes/colorscopes/vectorscope.cpp:268
 #, kde-format
 msgid "%1°"
 msgstr "%1°"

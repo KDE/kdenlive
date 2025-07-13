@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:42+0000\n"
+"POT-Creation-Date: 2025-07-13 00:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -27483,7 +27483,7 @@ msgstr "विश्लेषणदत्तांशं उद्घाटय�
 msgid "Audio volume"
 msgstr "श्रव्य मात्रा"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -28224,7 +28224,7 @@ msgstr ""
 "अन्वेष्टुं, <shortcut >गृह</shortcut> / ९. <shortcut>अन्तं</shortcut> प्रथमं / अन्तिमं "
 "फ्रेमं गन्तुं"
 
-#: src/monitor/view/MonitorRuler.qml:338
+#: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28234,7 +28234,7 @@ msgstr ""
 "<shortcut>कर्षयन्तु</shortcut> बिन्दुस्थाने क्षेत्रं सेट् कर्तुं, <shortcut>Shift+Drag</"
 "shortcut> क्षेत्रं समायोजयन् अन्वेष्टुं"
 
-#: src/monitor/view/MonitorRuler.qml:387
+#: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30904,7 +30904,7 @@ msgid "HSV Saturation"
 msgstr "एच् एस वी संतृप्ति"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:264
+#: src/scopes/colorscopes/vectorscope.cpp:268
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
