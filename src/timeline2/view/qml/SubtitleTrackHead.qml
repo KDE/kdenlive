@@ -153,7 +153,7 @@ Rectangle {
             id: subLayerRepeater
             delegate: Rectangle {
                 height: trackHeader.height / subLayerRepeater.count
-                width: trackHeader.width
+                width: subtitleLayerIndicator.width
                 color: subtitleLayerIndicator.bgColor
                 visible: (subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight)
                 border.color: root.frameColor
