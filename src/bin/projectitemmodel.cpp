@@ -390,8 +390,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     QStringList list;
     QString parentId;
     size_t duration = 0;
-    for (int i = 0; i < indices.count(); i++) {
-        QModelIndex ix = indices.at(i);
+    for (auto &ix : indices) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }

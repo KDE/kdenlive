@@ -84,11 +84,13 @@ Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
-    void processDragEnd();
+    void performDrag(const QModelIndexList indexes);
+
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
     QModelIndex m_lastHoveredItem;
+    QModelIndexList m_clickedIndexes;
 };
 
 /** @class MyTreeView
@@ -120,8 +122,8 @@ private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
     QModelIndex m_lastHoveredItem;
+    QModelIndexList m_clickedIndexes;
     bool m_editing;
-    bool performDrag();
     bool isEditing() const;
 
 Q_SIGNALS:
@@ -131,6 +133,7 @@ Q_SIGNALS:
     void processDragEnd();
     void selectCurrent();
     void editingChanged();
+    void performDrag(const QModelIndexList indexes);
 };
 
 /** @class SmallJobLabel
@@ -459,6 +462,10 @@ private Q_SLOTS:
     void slotApplyFilters();
     /** @brief Open a new Bin widget */
     void slotOpenNewBin();
+    /** @brief Open clip in monitor */
+    void openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1, const QUuid &uuid = QUuid());
+    /** @brief Perform the drag */
+    bool performDrag(const QModelIndexList indexes);
 
 public Q_SLOTS:
 
