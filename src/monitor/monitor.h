@@ -187,8 +187,8 @@ public:
     MaskModeType::MaskCreationMode maskMode();
     /** @brief Update the preview mask properties */
     void updatePreviewMask();
-    /** @brief Monitor active property changed, update timecode color */
-    void activeChanged();
+    /** @brief Apply timecode display styling based on current active state */
+    void applyTimecodeDisplayStyling();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

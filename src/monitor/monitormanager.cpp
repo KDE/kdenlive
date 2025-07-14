@@ -261,8 +261,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 }
             }
         }
-        m_clipMonitor->activeChanged();
-        m_projectMonitor->activeChanged();
+        m_clipMonitor->applyTimecodeDisplayStyling();
+        m_projectMonitor->applyTimecodeDisplayStyling();
     }
     if (!quickSwitch) {
         Q_EMIT checkColorScopes();

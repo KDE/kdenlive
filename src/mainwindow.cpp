@@ -190,29 +190,7 @@ void MainWindow::init()
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
     m_timelineToolBarContainer->setLayout(ctnLay);
-    QWidget *topFrame = new QWidget(this);
-    topFrame->setAutoFillBackground(true);
-    topFrame->setFixedHeight(2);
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
-    QPalette palette = topFrame->palette();
-    QColor color1 = scheme.decoration(KColorScheme::HoverColor).color();
-    QColor color2 = color1;
-    color2.setAlpha(100);
-    connect(this, &MainWindow::showTimelineFocus, this, [topFrame, color1, color2](bool focus, bool highlight) {
-        QPalette palette = topFrame->palette();
-        if (focus) {
-            if (highlight) {
-                palette.setColor(QPalette::Active, QPalette::Window, color2);
-            } else {
-                palette.setColor(QPalette::Active, QPalette::Window, color1);
-            }
-            topFrame->setPalette(palette);
-        } else {
-            palette.setColor(QPalette::Active, QPalette::Window, QApplication::palette().color(QPalette::Active, QPalette::Window));
-            topFrame->setPalette(palette);
-        }
-    });
-    ctnLay->addWidget(topFrame);
+    connect(this, &MainWindow::showTimelineFocus, this, &MainWindow::slotHighlightTimelineTimecode);
     ctnLay->addWidget(m_timelineToolBar);
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup mainConfig(config, QStringLiteral("MainWindow"));
@@ -924,6 +902,11 @@ void MainWindow::slotThemeChanged(const QString &name)
         m_timelineTabs->setPalette(plt);
         getCurrentTimeline()->controller()->resetView();
     }
+    if (m_timelineFocused) {
+        applyTimecodeButtonStyling();
+    }
+    applyToolMessageStyling();
+
     Q_EMIT pCore->updatePalette();
 }
 
@@ -1194,7 +1177,7 @@ void MainWindow::setupActions()
     connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
 
     auto tlsettings = new QMenu(this);
-    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     tlsettings->addAction(m_compositeAction);
     tlsettings->addSeparator();
     tlsettings->addAction(mixedView);
@@ -1204,7 +1187,7 @@ void MainWindow::setupActions()
     auto *timelineSett = new QToolButton(this);
     timelineSett->setPopupMode(QToolButton::InstantPopup);
     timelineSett->setMenu(tlsettings);
-    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     auto *tlButtonAction = new QWidgetAction(this);
     tlButtonAction->setDefaultWidget(timelineSett);
     tlButtonAction->setText(i18n("Track menu"));
@@ -3521,21 +3504,23 @@ void MainWindow::showToolMessage()
     if (getCurrentTimeline() && getCurrentTimeline()->model()) {
         mode = getCurrentTimeline()->model()->editMode();
     }
+
+    // Store the current edit mode for palette updates
+    m_currentEditMode = mode;
+
     if (mode != TimelineMode::NormalEdit) {
         if (!toolLabel.isEmpty()) {
             toolLabel.append(QStringLiteral(" | "));
         }
         if (mode == TimelineMode::InsertEdit) {
             toolLabel.append(i18n("Insert"));
-            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
         } else if (mode == TimelineMode::OverwriteEdit) {
             toolLabel.append(i18n("Overwrite"));
-            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
         }
-    } else {
-        m_trimLabel->setStyleSheet(
-            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
     }
+
+    applyToolMessageStyling();
+
     m_trimLabel->setText(toolLabel);
     m_messageLabel->setKeyMap(message);
 }
@@ -4156,6 +4141,62 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_projectMonitor->updateTimecodeFormat();
     Q_EMIT getCurrentTimeline()->controller()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+}
+
+void MainWindow::slotHighlightTimelineTimecode(bool focus, bool highlight)
+{
+    m_timelineFocused = focus;
+    m_timelineHighlighted = highlight;
+    applyTimecodeButtonStyling();
+}
+
+void MainWindow::applyTimecodeButtonStyling()
+{
+    // Get the QToolButton that represents the timecode action in the timeline toolbar
+    QToolButton *timecodeButton = qobject_cast<QToolButton *>(m_timelineToolBar->widgetForAction(m_timeFormatButton));
+    if (timecodeButton) {
+        KColorScheme scheme(QApplication::palette().currentColorGroup());
+        QColor focusColor = scheme.decoration(KColorScheme::FocusColor).color();
+        QColor highlightColor = scheme.decoration(KColorScheme::HoverColor).color();
+
+        if (m_timelineFocused) {
+            if (m_timelineHighlighted) {
+                timecodeButton->setStyleSheet(QStringLiteral("QToolButton { color: %1; font-weight: normal; }").arg(highlightColor.name(QColor::HexArgb)));
+            } else {
+                timecodeButton->setStyleSheet(QStringLiteral("QToolButton { color: %1; font-weight: bold; }").arg(focusColor.name(QColor::HexArgb)));
+            }
+        } else {
+            // Use normal button text color when not focused
+            timecodeButton->setStyleSheet(QString());
+        }
+    }
+}
+
+void MainWindow::applyToolMessageStyling()
+{
+    if (!m_trimLabel) {
+        return;
+    }
+
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+
+    switch (m_currentEditMode) {
+    case TimelineMode::InsertEdit:
+        // Use a red color from the palette for insert mode
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }")
+                                       .arg(scheme.foreground(KColorScheme::NegativeText).color().name()));
+        break;
+    case TimelineMode::OverwriteEdit:
+        // Use a green color from the palette for overwrite mode
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }")
+                                       .arg(scheme.foreground(KColorScheme::PositiveText).color().name()));
+        break;
+    default:
+        // Use normal window background color for normal edit mode
+        m_trimLabel->setStyleSheet(
+            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
+        break;
+    }
 }
 
 void MainWindow::slotRemoveFocus()

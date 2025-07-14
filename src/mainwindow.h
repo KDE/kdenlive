@@ -276,6 +276,13 @@ private:
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;
 
+    // Timeline Timecode styling state tracking
+    bool m_timelineFocused{false};
+    bool m_timelineHighlighted{false};
+
+    // Tool message styling state tracking
+    TimelineMode::EditMode m_currentEditMode{TimelineMode::NormalEdit};
+
     TimelineTabs *m_timelineTabs{nullptr};
     QVector<Bin *> m_binWidgets;
 
@@ -559,6 +566,12 @@ private Q_SLOTS:
     /** @brief Switches between displaying frames or timecode.
      * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
+    /** @brief Update timeline timecode button styling based on focus state */
+    void slotHighlightTimelineTimecode(bool focus, bool highlight);
+    /** @brief Apply timecode button styling based on current state */
+    void applyTimecodeButtonStyling();
+    /** @brief Apply tool message styling based on current edit mode */
+    void applyToolMessageStyling();
 
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
