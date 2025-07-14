@@ -226,7 +226,15 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     int current = getActiveEffect();
-    if (current >= rootItem->childCount() - 1) {
+    int hiddenOffset = 1;
+    // Check if we have hidden built-in effects
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (sourceEffect->hideFromStack()) {
+            hiddenOffset++;
+        }
+    }
+    if (current >= rootItem->childCount() - hiddenOffset) {
         setActiveEffect(current - 1);
     }
     int currentRow = effect->row();
@@ -1585,7 +1593,7 @@ void EffectStackModel::setActiveEffect(int ix)
     // Desactivate previous effect
     if (current > -1 && current != ix && current < rootItem->childCount()) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
-        if (effect) {
+        if (effect && !effect->hideFromStack()) {
             effect->setActive(false);
             pCore->updateItemKeyframes(m_ownerId);
             locker.unlock();
@@ -1595,7 +1603,7 @@ void EffectStackModel::setActiveEffect(int ix)
     // Activate new effect
     if (ix > -1 && ix < rootItem->childCount()) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
-        if (effect) {
+        if (effect && !effect->hideFromStack()) {
             effect->setActive(true);
             pCore->updateItemKeyframes(m_ownerId);
             locker.unlock();

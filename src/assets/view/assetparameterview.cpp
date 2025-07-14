@@ -247,7 +247,7 @@ void AssetParameterView::unsetModel()
 void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     QMutexLocker lock(&m_lock);
-    if (m_widgets.size() == 0) {
+    if (m_widgets.size() == 0 && !m_mainKeyframeWidget) {
         // no visible param for this asset, abort
         return;
     }
@@ -270,13 +270,13 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     if (bottomRight.isValid()) {
         max = qMin(max, size_t(bottomRight.row()));
     }
-    Q_ASSERT(max < m_widgets.size());
     for (auto i = size_t(topLeft.row()); i <= max; ++i) {
         if (m_widgets.at(i)) {
             m_widgets.at(i)->slotRefresh();
-        } else if (m_mainKeyframeWidget) {
-            m_mainKeyframeWidget->slotRefresh();
         }
+    }
+    if (m_mainKeyframeWidget) {
+        m_mainKeyframeWidget->slotRefresh();
     }
 }
 
