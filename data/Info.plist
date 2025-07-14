@@ -42,5 +42,37 @@
         <array>
         <string>https</string>
         </array>
+        <key>CFBundleDocumentTypes</key>
+        <array>
+        <dict>
+        <key>CFBundleTypeExtensions</key>
+        <array>
+          <string>kdenlive</string>
+          <string>KDENLIVE</string>
+        </array>
+        <key>CFBundleTypeIconFile</key>
+        <string>kdenlive.icns</string>
+        <key>CFBundleTypeMIMETypes</key>
+        <array>
+          <string>application/x-kdenlive</string>
+        </array>
+        <key>CFBundleTypeName</key>
+        <string>Kdenlive Project</string>
+        <key>CFBundleTypeOSTypes</key>
+        <array>
+          <string>kdenlive</string>
+        </array>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>LSHandlerRank</key>
+        <string>Owner</string>
+        <key>LSIsAppleDefaultForType</key>
+        <true/>
+        <key>LSItemContentTypes</key>
+        <array>
+          <string>org.kde.kdenlive</string>
+        </array>
+        </dict>
+        </array>
 </dict>
 </plist>
