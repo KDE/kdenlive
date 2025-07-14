@@ -578,6 +578,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     refreshMonitorTimer.setInterval(250);
     connect(&refreshMonitorTimer, &QTimer::timeout, this, &Monitor::updateTimelineProducer);
 
+    // Connect to palette updates to refresh timecode display styling
+    connect(pCore.get(), &Core::updatePalette, this, &Monitor::applyTimecodeDisplayStyling);
+
     // Power management
     m_preventSleepTimer.setSingleShot(true);
     // Only prevent sleep if we play for more than 20 seconds to avoid always turning it on/off
@@ -3234,7 +3237,7 @@ void Monitor::updatePreviewMask()
     refreshMonitor();
 }
 
-void Monitor::activeChanged()
+void Monitor::applyTimecodeDisplayStyling()
 {
     bool isActive = m_monitorManager->isActive(m_id);
     QPalette pal = m_timePos->palette();

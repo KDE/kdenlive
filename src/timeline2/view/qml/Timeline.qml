@@ -310,16 +310,20 @@ Rectangle {
         return Logic.getTrackIdFromPos(posInWidget.y - ruler.height + scrollView.contentY - subtitleTrack.height)
     }
 
-    function getTrackColor(audio, header) {
-        var col = activePalette.alternateBase
-        if (audio) {
-            col = Qt.tint(col, "#06FF00CC")
-        }
-        if (header) {
-            col = Qt.darker(col, 1.05)
-        }
-        return col
+function getTrackColor(audio, header) {
+    var isDarkTheme = activePalette.window.hslLightness < activePalette.windowText.hslLightness
+    var lighterColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.base : activePalette.alternateBase;
+    var darkerColor = activePalette.base.hslLightness > activePalette.alternateBase.hslLightness ? activePalette.alternateBase : activePalette.base;
+
+    if (isDarkTheme) {
+        // For dark themes, choose the lighter color
+        return header ? Qt.darker(lighterColor, 1.05) : lighterColor;
+    } else {
+        // For light themes, choose the darker color
+        return header ? Qt.darker(darkerColor, 1.05) : darkerColor;
     }
+
+}
 
     function centerViewOnCursor() {
         scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
