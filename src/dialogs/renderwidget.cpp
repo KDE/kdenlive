@@ -1169,7 +1169,20 @@ void RenderWidget::loadProfile()
     m_view.embed_subtitles->setEnabled(profile->extension() == QLatin1String("mkv") || profile->extension() == QLatin1String("matroska"));
 
     m_view.video_box->setChecked(profile->getParam(QStringLiteral("vn")) != QStringLiteral("1"));
-    m_view.audio_box->setChecked(profile->getParam(QStringLiteral("an")) != QStringLiteral("1"));
+    bool audioAllowed = profile->getParam(QStringLiteral("an")) != QStringLiteral("1");
+    if (audioAllowed) {
+        const QString mltProperties = profile->getParam(QStringLiteral("properties"));
+        if (!mltProperties.isEmpty()) {
+            Mlt::Properties props;
+            props.set("mlt_type", "consumer");
+            props.set("mlt_service", "avformat");
+            props.preset(mltProperties.toUtf8().constData());
+            if (props.get_int("an") == 1) {
+                audioAllowed = false;
+            }
+        }
+    }
+    m_view.audio_box->setChecked(audioAllowed);
 
     m_view.buttonRender->setEnabled(error.isEmpty());
     m_view.buttonGenerateScript->setEnabled(error.isEmpty());
