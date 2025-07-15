@@ -164,6 +164,27 @@ static void resetConfig()
     }
 }
 
+class Application : public QApplication
+{
+public:
+    QUrl url;
+    Application(int &argc, char **argv)
+        : QApplication(argc, argv)
+    {
+    }
+
+protected:
+    bool event(QEvent *event) override
+    {
+        if (event->type() == QEvent::FileOpen) {
+            QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
+            url = QUrl::fromLocalFile(openEvent->file());
+            return true;
+        } else
+            return QApplication::event(event);
+    }
+};
+
 int main(int argc, char *argv[])
 {
     int result = EXIT_SUCCESS;
@@ -198,7 +219,7 @@ int main(int argc, char *argv[])
     // trigger initialisation of proper icon theme
     KIconTheme::initTheme();
 
-    QApplication app(argc, argv);
+    Application app(argc, argv);
 
     // Default to org.kde.desktop style unless the user forces another style
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
@@ -324,15 +345,14 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    QUrl url;
     QUrl renderUrl;
     QString presetName;
     if (parser.positionalArguments().count() != 0) {
         const QString inputFilename = parser.positionalArguments().at(0);
         const QFileInfo fileInfo(inputFilename);
-        url = QUrl(inputFilename);
-        if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
-            url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
+        app.url = QUrl(inputFilename);
+        if (fileInfo.exists() || app.url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
+            app.url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
         }
         if (parser.positionalArguments().count() > 1) {
             // Output render
@@ -347,7 +367,7 @@ int main(int argc, char *argv[])
     qApp->processEvents(QEventLoop::AllEvents);
 
     if (parser.isSet(renderOption)) {
-        if (url.isEmpty()) {
+        if (app.url.isEmpty()) {
             qCritical() << "You need to give a valid file if you want to render from the command line.";
             return EXIT_FAILURE;
         }
@@ -364,7 +384,7 @@ int main(int argc, char *argv[])
         if (!Core::build(packageType, true)) {
             return EXIT_FAILURE;
         }
-        pCore->initHeadless(url);
+        pCore->initHeadless(app.url);
         app.processEvents();
 
         // ensure we have a proper kdenlive_render path, particular important for AppImage
@@ -474,7 +494,7 @@ int main(int argc, char *argv[])
         QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
-        pCore->initGUI(parser.value(mltPathOption), url, clipsToLoad);
+        pCore->initGUI(parser.value(mltPathOption), app.url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();
