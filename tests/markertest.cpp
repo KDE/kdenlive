@@ -324,7 +324,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
             double duration = model->data(idx, MarkerListModel::DurationRole).toDouble();
             if (duration > 0) {
                 foundRangeMarker = true;
-                double pos = model->data(idx, MarkerListModel::PosRole).toDouble();
+                double pos = model->data(idx, MarkerListModel::FrameRole).toDouble();
                 double endPos = model->data(idx, MarkerListModel::EndPosRole).toDouble();
                 bool hasRange = model->data(idx, MarkerListModel::HasRangeRole).toBool();
 
