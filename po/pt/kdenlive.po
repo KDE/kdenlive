@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-14 02:49+0000\n"
+"POT-Creation-Date: 2025-07-15 02:41+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -17389,7 +17389,7 @@ msgstr "efeito"
 msgid "Reset %1"
 msgstr "Repor o %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1374
+#: src/assets/keyframes/model/keyframemodel.cpp:1381
 #, kde-format
 msgid "Reset effect"
 msgstr "Repor o efeito"
@@ -18844,13 +18844,13 @@ msgstr "Seleccione um 'clip' para aplicar um efeito"
 msgid "Cannot apply effects on folders"
 msgstr "Não é possível aplicar os efeitos nas pastas"
 
-#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:734
-#: src/effects/effectstack/model/effectstackmodel.cpp:740
+#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Não é possível adicionar o efeito ao 'clip'"
 
-#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "Colar o efeito"
@@ -21066,7 +21066,7 @@ msgstr "Vídeo sem faixa de áudio"
 msgid "Audio without video track"
 msgstr "Áudio sem faixa de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1025 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:1025 src/main.cpp:435
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -23893,35 +23893,35 @@ msgstr "Mostrar as imagens-chave"
 msgid "Update zone for %1"
 msgstr "Actualizar a zona do %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:306
+#: src/effects/effectstack/model/effectstackmodel.cpp:314
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "Copiar o efeito"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:593
-#: src/effects/effectstack/model/effectstackmodel.cpp:720
-#: src/effects/effectstack/model/effectstackmodel.cpp:1493
+#: src/effects/effectstack/model/effectstackmodel.cpp:410
+#: src/effects/effectstack/model/effectstackmodel.cpp:601
+#: src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:1501
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Não é possível adicionar duas vezes o efeito %1."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5129
 #, kde-format
 msgid "Add effect %1"
 msgstr "Adicionar um efeito %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:716
+#: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, fuzzy, kde-format
 #| msgid "Effect %1 cannot be added twice."
 msgid "Effect %1 can only be added to master"
 msgstr "Não é possível adicionar duas vezes o efeito %1."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1276
+#: src/effects/effectstack/model/effectstackmodel.cpp:1284
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mover o efeito %1"
@@ -25187,207 +25187,207 @@ msgstr ""
 "Não é possível gravar na localização da biblioteca: %1, a usar a localização "
 "predefinida"
 
-#: src/main.cpp:238
+#: src/main.cpp:259
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Por favor comunique os erros em <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:243
+#: src/main.cpp:264
 #, fuzzy, kde-format
 #| msgid "You are using the %1 package.<br>"
 msgid "You are using the AppImage.<br>"
 msgstr "Está a usar o pacote %1.<br>"
 
-#: src/main.cpp:246
+#: src/main.cpp:267
 #, fuzzy, kde-format
 #| msgid "You are using the %1 package.<br>"
 msgid "You are using the Flatpak.<br>"
 msgstr "Está a usar o pacote %1.<br>"
 
-#: src/main.cpp:249
+#: src/main.cpp:270
 #, fuzzy, kde-format
 #| msgid "You are using the %1 package.<br>"
 msgid "You are using the Snap package.<br>"
 msgstr "Está a usar o pacote %1.<br>"
 
-#: src/main.cpp:255
+#: src/main.cpp:276
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:255
+#: src/main.cpp:276
 #, kde-format
 msgid "An open source video editor."
 msgstr "Um editor de vídeo em 'software' livre."
 
-#: src/main.cpp:256
+#: src/main.cpp:277
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2023 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2023 dos autores do Kdenlive"
 
-#: src/main.cpp:258
+#: src/main.cpp:279
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:258
+#: src/main.cpp:279
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
 "Versão MLT e para o KDE SC 4 / KF5, desenvolvimento principal e manutenção"
 
-#: src/main.cpp:260
+#: src/main.cpp:281
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:260
+#: src/main.cpp:281
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Reorganização do código & remodelação da linha temporal (2019)"
 
-#: src/main.cpp:261
+#: src/main.cpp:282
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:261
+#: src/main.cpp:282
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr ""
 "Desenvolvimento de funcionalidades, criação de pacotes, correcção de erros"
 
-#: src/main.cpp:262
+#: src/main.cpp:283
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:262
+#: src/main.cpp:283
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Migração para o KF5, versão compilada para o Windows, pacotes, correcção de "
 "erros"
 
-#: src/main.cpp:264
+#: src/main.cpp:285
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:264
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Manutenção do MLT, correcções de erros, etc."
 
-#: src/main.cpp:265
+#: src/main.cpp:286
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:265
+#: src/main.cpp:286
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Âmbitos de cores, correcção de erros, etc."
 
-#: src/main.cpp:266
+#: src/main.cpp:287
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:266
+#: src/main.cpp:287
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Correcção de erros e melhorias nos testes"
 
-#: src/main.cpp:268
+#: src/main.cpp:289
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:268
+#: src/main.cpp:289
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autor da versão original para o KDE 3 (não está mais activa)"
 
-#: src/main.cpp:270
+#: src/main.cpp:291
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:270
+#: src/main.cpp:291
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logótipo, promoção, testes"
 
-#: src/main.cpp:271
+#: src/main.cpp:292
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:271
+#: src/main.cpp:292
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Triagem de erros, testes, manutenção da documentação"
 
-#: src/main.cpp:272
+#: src/main.cpp:293
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:272
+#: src/main.cpp:293
 #, kde-format
 msgid "Logo"
 msgstr "Logótipo"
 
-#: src/main.cpp:273
+#: src/main.cpp:294
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:273
+#: src/main.cpp:294
 #, kde-format
 msgid "Testing"
 msgstr "Testes"
 
-#: src/main.cpp:274
+#: src/main.cpp:295
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:274
+#: src/main.cpp:295
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Conselhos avançados, testes"
 
-#: src/main.cpp:276
+#: src/main.cpp:297
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "José Nuno Pires,Marcelo Soares Souza"
 
-#: src/main.cpp:276
+#: src/main.cpp:297
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "zepires@gmail.com,marcelo@juntadados.org"
 
-#: src/main.cpp:279
+#: src/main.cpp:300
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:279
+#: src/main.cpp:300
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Plataforma multimédia em código aberto."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:281 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:302 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:281
+#: src/main.cpp:302
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25396,58 +25396,58 @@ msgstr ""
 "Uma solução completa e multi-plataforma para gravar, converter e transmitir "
 "áudio e vídeo."
 
-#: src/main.cpp:299
+#: src/main.cpp:320
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Definir um nome de ficheiro de configuração personalizado."
 
-#: src/main.cpp:300
+#: src/main.cpp:321
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Definir a localização do ambiente MLT."
 
-#: src/main.cpp:302
+#: src/main.cpp:323
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Configurar o nível de registo do MLT. Deixe isto indefinido para o nível "
 "\"aviso\"."
 
-#: src/main.cpp:305
+#: src/main.cpp:326
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Uma lista, separada por vírgulas, dos 'clips' a adicionar ao grupo."
 
-#: src/main.cpp:309
+#: src/main.cpp:330
 #, fuzzy, kde-format
 #| msgid "Parent folder of the project file"
 msgid "Directly render the project and exit."
 msgstr "Pasta-mãe do ficheiro do projecto"
 
-#: src/main.cpp:312
+#: src/main.cpp:333
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 
-#: src/main.cpp:317
+#: src/main.cpp:338
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
 
-#: src/main.cpp:320
+#: src/main.cpp:341
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "O documento do Kdenlive a abrir."
 
-#: src/main.cpp:321
+#: src/main.cpp:342
 #, fuzzy, kde-format
 #| msgid "Output file extension"
 msgid "Output file for rendered video."
 msgstr "Extensão do ficheiro do resultado:"
 
-#: src/main.cpp:434
+#: src/main.cpp:454
 #, kde-format
 msgid "Version %1"
 msgstr "Versão %1"

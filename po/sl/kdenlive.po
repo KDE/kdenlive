@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-14 02:49+0000\n"
+"POT-Creation-Date: 2025-07-15 02:41+0000\n"
 "PO-Revision-Date: 2025-07-10 14:30+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -17268,7 +17268,7 @@ msgstr "učinek"
 msgid "Reset %1"
 msgstr "Ponastavi %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1374
+#: src/assets/keyframes/model/keyframemodel.cpp:1381
 #, kde-format
 msgid "Reset effect"
 msgstr "Ponastavi učinek"
@@ -18717,13 +18717,13 @@ msgstr "Izberite posnetek čemur želite dodati učinek"
 msgid "Cannot apply effects on folders"
 msgstr "Ni možno dodati slikovnega učinka na mape"
 
-#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:734
-#: src/effects/effectstack/model/effectstackmodel.cpp:740
+#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Posnetku ni možno dodati slikovnega učinka"
 
-#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "Prilepi učinek"
@@ -20910,7 +20910,7 @@ msgstr "Video brez zvočne steze"
 msgid "Audio without video track"
 msgstr "Zvok brez video steze"
 
-#: src/dialogs/renderwidget.cpp:1025 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:1025 src/main.cpp:435
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Izrisovanje %1 se je pričelo"
@@ -23691,34 +23691,34 @@ msgstr "Pokaži ključne sličice"
 msgid "Update zone for %1"
 msgstr "Posodobi območje za %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:306
+#: src/effects/effectstack/model/effectstackmodel.cpp:314
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "Kopiraj učinek"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:593
-#: src/effects/effectstack/model/effectstackmodel.cpp:720
-#: src/effects/effectstack/model/effectstackmodel.cpp:1493
+#: src/effects/effectstack/model/effectstackmodel.cpp:410
+#: src/effects/effectstack/model/effectstackmodel.cpp:601
+#: src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:1501
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Učinka %1 ni možno dodati dvakrat."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5129
 #, kde-format
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:716
+#: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "Učinek %1 lahko dodate samo glavni stezi (master)"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1276
+#: src/effects/effectstack/model/effectstackmodel.cpp:1284
 #, kde-format
 msgid "Move effect %1"
 msgstr "Premakni učinek %1"
@@ -24939,199 +24939,199 @@ msgstr "Pot knjižnice je bila nastavljena na prilagojeno: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Ni možno pisati v pot knjižnice: %1, uporabljena bo privzeta"
 
-#: src/main.cpp:238
+#: src/main.cpp:259
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "O hroščih poročajte na <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:243
+#: src/main.cpp:264
 #, kde-format
 msgid "You are using the AppImage.<br>"
 msgstr "Uporabljate AppImage.<br>"
 
-#: src/main.cpp:246
+#: src/main.cpp:267
 #, kde-format
 msgid "You are using the Flatpak.<br>"
 msgstr "Uporabljate Flatpak.<br>"
 
-#: src/main.cpp:249
+#: src/main.cpp:270
 #, kde-format
 msgid "You are using the Snap package.<br>"
 msgstr "Uporabljate paket Snap.<br>"
 
-#: src/main.cpp:255
+#: src/main.cpp:276
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:255
+#: src/main.cpp:276
 #, kde-format
 msgid "An open source video editor."
 msgstr "Odprto-kodni program za montažo videa."
 
-#: src/main.cpp:256
+#: src/main.cpp:277
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2025 avtorji Kdenlive"
 
-#: src/main.cpp:258
+#: src/main.cpp:279
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:258
+#: src/main.cpp:279
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "Predelava za MLT in KDE SC 4/KF5, glavni razvijalec in vzdrževalec"
 
-#: src/main.cpp:260
+#: src/main.cpp:281
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:260
+#: src/main.cpp:281
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Preurejanje kode in ponovno programiranje časovnice (2019)"
 
-#: src/main.cpp:261
+#: src/main.cpp:282
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:261
+#: src/main.cpp:282
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Razvoj zmožnosti, pakiranje, odpravljanje napak"
 
-#: src/main.cpp:262
+#: src/main.cpp:283
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:262
+#: src/main.cpp:283
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "Prilagoditev na KF5, priprava gradnje za Windows, odprava napak"
 
-#: src/main.cpp:264
+#: src/main.cpp:285
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:264
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Vzdrževalec MLT, odpravljanje hroščev itn."
 
-#: src/main.cpp:265
+#: src/main.cpp:286
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:265
+#: src/main.cpp:286
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Barvni obsegi, odpravljanje hroščev itn."
 
-#: src/main.cpp:266
+#: src/main.cpp:287
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:266
+#: src/main.cpp:287
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Popravljanje napak in izboljšave preizkusov"
 
-#: src/main.cpp:268
+#: src/main.cpp:289
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:268
+#: src/main.cpp:289
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Avtor izvorne različice za KDE 3 (ni več dejaven)"
 
-#: src/main.cpp:270
+#: src/main.cpp:291
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:270
+#: src/main.cpp:291
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logotip, promocija, preizkušanje"
 
-#: src/main.cpp:271
+#: src/main.cpp:292
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:271
+#: src/main.cpp:292
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Triaža napak, preizkušanje, vzdrževanje dokumentacije"
 
-#: src/main.cpp:272
+#: src/main.cpp:293
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:272
+#: src/main.cpp:293
 #, kde-format
 msgid "Logo"
 msgstr "Logotip"
 
-#: src/main.cpp:273
+#: src/main.cpp:294
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:273
+#: src/main.cpp:294
 #, kde-format
 msgid "Testing"
 msgstr "Preizkušanje"
 
-#: src/main.cpp:274
+#: src/main.cpp:295
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:274
+#: src/main.cpp:295
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Strokovni nasveti, preizkušanje"
 
-#: src/main.cpp:276
+#: src/main.cpp:297
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Martin Srebotnjak,Andrej Mernik,Matjaž Jeran"
 
-#: src/main.cpp:276
+#: src/main.cpp:297
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "miles@filmsi.net,andrejm@ubuntu.si,matjaz.jeran@amis.net"
 
-#: src/main.cpp:279
+#: src/main.cpp:300
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:279
+#: src/main.cpp:300
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Odprto-kodno ogrodje za večpredstavnost."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:281 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:302 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:281
+#: src/main.cpp:302
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25140,41 +25140,41 @@ msgstr ""
 "Popolna rešitev za snemanje, pretvarjanje in pretakanje zvoka in videa, ki "
 "deluje na več platformah."
 
-#: src/main.cpp:299
+#: src/main.cpp:320
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Nastavi prilagojeno ime nastavitvene datoteke."
 
-#: src/main.cpp:300
+#: src/main.cpp:321
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Nastavite pot za okolje MLT."
 
-#: src/main.cpp:302
+#: src/main.cpp:323
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Nastavite raven beleženja zapisnika MLT. Pustite to nenastavljeno za raven "
 "»opozorilo« (angl. »warning«)."
 
-#: src/main.cpp:305
+#: src/main.cpp:326
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Z vejico ločen seznam datotek, ki bodo dodane v posodo kot posnetki."
 
-#: src/main.cpp:309
+#: src/main.cpp:330
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Neposredno izrišite projekt in ga zapustite."
 
-#: src/main.cpp:312
+#: src/main.cpp:333
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Ime prednastavitve za izrisovanje Kdenlive (če ni navedeno, se uporabi MP4-"
 "H264/AAC)."
 
-#: src/main.cpp:317
+#: src/main.cpp:338
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25183,17 +25183,17 @@ msgstr ""
 "Izhod po (ločenem) začetku procesa izrisovanje, brez te zastavice obstaja le "
 "po njegovem zaključku."
 
-#: src/main.cpp:320
+#: src/main.cpp:341
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Dokument Kdenlive, ki ga želite odpreti."
 
-#: src/main.cpp:321
+#: src/main.cpp:342
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Izhodna datoteka za izrisani videoposnetek."
 
-#: src/main.cpp:434
+#: src/main.cpp:454
 #, kde-format
 msgid "Version %1"
 msgstr "Različica %1"
