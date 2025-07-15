@@ -190,7 +190,7 @@ void EffectTreeModel::reloadTemplates()
     QStringList asset_dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
 #ifdef Q_OS_WIN
     // On Windows, KNS downloads effects in AppData/local
-    asset_dirs << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
+    asset_dirs << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
 #endif
     QListIterator<QString> dirs_it(asset_dirs);
     for (dirs_it.toBack(); dirs_it.hasPrevious();) {

@@ -201,7 +201,7 @@ QStringList EffectsRepository::assetDirs() const
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
 #ifdef Q_OS_WIN
     // On Windows, KNS downloads effects in AppData/local
-    dirs << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
+    dirs << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
 #endif
     dirs.append(QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory));
     return dirs;

@@ -227,9 +227,6 @@ void UrlListParamWidget::slotRefresh()
         m_listType = LUTLIST;
         // check for Kdenlive installed luts files
         QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-        customLuts << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-#endif
         const QString lastUsedPath = KRecentDirs::dir(QStringLiteral(":KdenliveUrlLutParamFolder"));
         if (!lastUsedPath.isEmpty()) {
             customLuts << lastUsedPath;

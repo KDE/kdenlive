@@ -1118,7 +1118,10 @@ QString DocumentChecker::fixLutFile(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    const QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+#ifdef Q_OS_WIN
+    resList << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, "luts", QStandardPaths::LocateDirectory);
+#endif
     for (auto &res : resList) {
         if (!res.isEmpty()) {
             searchPath.setPath(res);
@@ -1161,7 +1164,10 @@ QString DocumentChecker::fixLumaPath(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    const QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+#ifdef Q_OS_WIN
+    resList << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, "lumas", QStandardPaths::LocateDirectory);
+#endif
     for (auto &res : resList) {
         if (!res.isEmpty()) {
             searchPath.setPath(res);

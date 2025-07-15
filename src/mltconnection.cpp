@@ -273,10 +273,6 @@ void MltConnection::refreshLumas()
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-    // On Windows, KNS downloads effects in AppData/local
-    customLumas << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-#endif
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     customLumas.removeDuplicates();
     QStringList hdLumas;
