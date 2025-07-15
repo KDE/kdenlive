@@ -616,9 +616,9 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     case ClipIdRole:
         return m_clipId;
     case DurationRole:
-        return it->second.duration().seconds();
+        return it->second.duration().frames(pCore->getCurrentFps());
     case EndPosRole:
-        return it->second.endTime().seconds();
+        return it->second.endTime().frames(pCore->getCurrentFps());
     case HasRangeRole:
         return it->second.hasRange();
     }
@@ -982,7 +982,11 @@ bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWi
         for (auto &pos : positions) {
             marker = getMarker(pos, &exists);
             if (exists) {
-                addMarker(pos, marker.comment(), category, undo, redo);
+                if (marker.duration() > GenTime(0)) {
+                    addRangeMarker(pos, marker.duration(), marker.comment(), category, undo, redo);
+                } else {
+                    addMarker(pos, marker.comment(), category, undo, redo);
+                }
             }
         }
         PUSH_UNDO(undo, redo, i18n("Edit markers"));
@@ -1010,9 +1014,13 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
         Q_EMIT pCore->updateDefaultMarkerCategory();
         dialog->cacheThumbnail();
         if (exists && !createOnly) {
-            return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
+            return editMarker(pos, marker.time(), marker.comment(), marker.markerType(), marker.duration());
         }
-        return addMarker(marker.time(), marker.comment(), marker.markerType());
+        if (marker.duration() > GenTime(0)) {
+            return addRangeMarker(marker.time(), marker.duration(), marker.comment(), marker.markerType());
+        } else {
+            return addMarker(marker.time(), marker.comment(), marker.markerType());
+        }
     }
     return false;
 }
@@ -1041,7 +1049,11 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         for (int i = 0; i < max; i++) {
-            addMarker(startTime, marker.comment(), marker.markerType(), undo, redo);
+            if (marker.duration() > GenTime(0)) {
+                addRangeMarker(startTime, marker.duration(), marker.comment(), marker.markerType(), undo, redo);
+            } else {
+                addMarker(startTime, marker.comment(), marker.markerType(), undo, redo);
+            }
             startTime += interval;
         }
         dialog->cacheThumbnail();

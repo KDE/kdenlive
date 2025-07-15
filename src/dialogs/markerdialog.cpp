@@ -53,6 +53,7 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
 
     if (m_clip != nullptr) {
         m_in->setRange(0, m_clip->getFramePlaytime());
+        m_end->setRange(0, m_clip->getFramePlaytime());
         m_previewTimer->setInterval(100);
         connect(m_previewTimer, &QTimer::timeout, this, &MarkerDialog::slotUpdateThumb);
         int width = int(200 * pCore->getCurrentDar());
@@ -86,6 +87,7 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
         connect(m_in, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::updateThumb);
     } else {
         m_in->setFrameOffset(pCore->currentTimelineOffset());
+        m_end->setFrameOffset(pCore->currentTimelineOffset());
         clip_thumb->setHidden(true);
         label_category->setHidden(true);
     }
@@ -95,7 +97,84 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
     marker_comment->setFocus();
 
     buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(marker_category->count() > 0);
+
+    // Initialize range marker functionality
+    if (t.duration() > GenTime()) {
+        m_end->setValue(t.endTime());
+        range_marker_checkbox->setChecked(true);
+    } else {
+        m_end->setValue(t.time());
+        range_marker_checkbox->setChecked(false);
+    }
+    setupRangeMarkerConnections();
+    updateDurationDisplay();
+
     adjustSize();
+}
+
+void MarkerDialog::setupRangeMarkerConnections()
+{
+    connect(range_marker_checkbox, &QCheckBox::toggled, this, &MarkerDialog::slotRangeMarkerToggled);
+    connect(m_in, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::slotUpdateDuration);
+    connect(m_end, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::slotUpdateDuration);
+    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::slotUpdateEndTime);
+}
+
+void MarkerDialog::slotRangeMarkerToggled(bool enabled)
+{
+    if (enabled) {
+        // When enabling range marker, set end time to be at least 1 second after start time
+        GenTime startTime = m_in->gentime();
+        GenTime endTime = m_end->gentime();
+        if (endTime <= startTime) {
+            GenTime minDuration = GenTime(1, 1); // 1 second
+            m_end->setValue(startTime + minDuration);
+        }
+    } else {
+        m_end->setValue(m_in->gentime());
+    }
+    updateDurationDisplay();
+}
+
+void MarkerDialog::slotUpdateDuration()
+{
+    if (range_marker_checkbox->isChecked()) {
+        GenTime startTime = m_in->gentime();
+        GenTime endTime = m_end->gentime();
+
+        // Ensure end time is always after start time for range markers
+        if (endTime <= startTime) {
+            GenTime minDuration = GenTime(1, 1); // 1 second minimum
+            m_end->setValue(startTime + minDuration);
+        }
+    }
+    updateDurationDisplay();
+}
+
+void MarkerDialog::slotUpdateEndTime()
+{
+    if (range_marker_checkbox->isChecked()) {
+        GenTime startTime = m_in->gentime();
+        GenTime duration = m_duration->gentime();
+        if (duration < GenTime()) {
+            duration = GenTime();
+            m_duration->setValue(duration);
+        }
+        m_end->setValue(startTime + duration);
+    }
+}
+
+void MarkerDialog::updateDurationDisplay()
+{
+    GenTime startTime = m_in->gentime();
+    GenTime endTime = m_end->gentime();
+    GenTime duration = endTime - startTime;
+
+    if (duration < GenTime()) {
+        duration = GenTime();
+    }
+
+    m_duration->setValue(duration);
 }
 
 MarkerDialog::~MarkerDialog()
@@ -122,7 +201,20 @@ QImage MarkerDialog::markerImage() const
 CommentedTime MarkerDialog::newMarker()
 {
     KdenliveSettings::setDefault_marker_type(marker_category->currentCategory());
-    return CommentedTime(m_in->gentime(), marker_comment->text(), marker_category->currentCategory());
+
+    if (range_marker_checkbox->isChecked()) {
+        GenTime startTime = m_in->gentime();
+        GenTime endTime = m_end->gentime();
+        GenTime duration = endTime - startTime;
+
+        if (duration < GenTime()) {
+            duration = GenTime();
+        }
+
+        return CommentedTime(startTime, marker_comment->text(), marker_category->currentCategory(), duration);
+    } else {
+        return CommentedTime(m_in->gentime(), marker_comment->text(), marker_category->currentCategory());
+    }
 }
 
 void MarkerDialog::cacheThumbnail()

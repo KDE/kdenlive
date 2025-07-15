@@ -42,6 +42,9 @@ public:
 
 private Q_SLOTS:
     void slotUpdateThumb();
+    void slotUpdateDuration();
+    void slotUpdateEndTime();
+    void slotRangeMarkerToggled(bool enabled);
 
 private:
     ProjectClip *m_clip;
@@ -49,6 +52,8 @@ private:
     QTimer *m_previewTimer;
     QFuture<QImage> m_future;
     QFutureWatcher<QImage> m_watcher;
+    void updateDurationDisplay();
+    void setupRangeMarkerConnections();
 
 Q_SIGNALS:
     void updateThumb();

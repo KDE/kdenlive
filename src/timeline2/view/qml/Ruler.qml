@@ -108,7 +108,95 @@ Item {
         Item {
             id: guideRoot
             property bool activated : proxy.position == model.frame
+            property bool isRangeMarker: model.hasRange
+            property real markerDuration: model.duration
+            property real markerEndPos: model.endPos
             z: activated ? 20 : 10
+            
+            // Range marker span (for duration markers)
+            Rectangle {
+                id: rangeSpan
+                visible: guideRoot.isRangeMarker
+                x: Math.round(model.frame * timeline.scaleFactor)
+                width: Math.max(1, Math.round(guideRoot.markerDuration * timeline.scaleFactor))
+                height: Math.ceil(rulerRoot.height / 4) // One-quarter of timeline height
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: rulerRoot.zoneHeight
+                color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.3)
+                border.color: model.color
+                border.width: 1
+                
+                // Tapered end effect
+                Rectangle {
+                    id: rangeEndTaper
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    width: Math.min(parent.width / 8, 20 * timeline.scaleFactor)
+                    gradient: Gradient {
+                        orientation: Gradient.Horizontal
+                        GradientStop { position: 0.0; color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.3) }
+                        GradientStop { position: 1.0; color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.1) }
+                    }
+                }
+                
+                // Range marker label (positioned at start)
+                Rectangle {
+                    visible: K.KdenliveSettings.showmarkers && width < parent.width
+                    width: rangeLabel.contentWidth + 4 - guidesRepeater.radiusSize
+                    height: guideLabelHeight
+                    color: model.color
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                    ToolTip.visible: rangeArea.containsMouse
+                    ToolTip.text: model.comment + " (" + timeline.timecode(guideRoot.markerDuration) + ")"
+                    ToolTip.delay: 1000
+                    ToolTip.timeout: 5000
+                    Rectangle {
+                        visible: !K.KdenliveSettings.lockedGuides
+                        color: model.color
+                        anchors.fill: parent
+                        radius: guidesRepeater.radiusSize
+                        anchors.rightMargin: -guidesRepeater.radiusSize - 2
+                    }
+                    Text {
+                        id: rangeLabel
+                        text: model.comment
+                        topPadding: -1
+                        leftPadding: 2
+                        rightPadding: 2
+                        font: miniFont
+                        color: '#000'
+                    }
+                }
+                
+                MouseArea {
+                    id: rangeArea
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    onDoubleClicked: timeline.editGuide(model.frame)
+                    onClicked: mouse => {
+                        if (root.activeTool !== K.ToolType.SlipTool) {
+                            proxy.position = model.frame
+                        }
+                        if (mouse.button == Qt.RightButton) {
+                            root.showRulerMenu()
+                        }
+                    }
+                    onEntered: {
+                        rulerRoot.hoverGuide = true
+                    }
+                    onExited: {
+                        rulerRoot.hoverGuide = false
+                    }
+                }
+            }
+            
+            // Point marker line (for traditional markers or range marker start indicator)
             Rectangle {
                 id: markerBase
                 width: 1
@@ -116,8 +204,10 @@ Item {
                 x: Math.round(model.frame * timeline.scaleFactor)
                 color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
+                visible: !guideRoot.isRangeMarker || K.KdenliveSettings.showmarkers
+                
                 Rectangle {
-                    visible: K.KdenliveSettings.showmarkers
+                    visible: K.KdenliveSettings.showmarkers && !guideRoot.isRangeMarker
                     width: mlabel.contentWidth + 4 - guidesRepeater.radiusSize
                     height: guideLabelHeight
                     color: markerBase.color

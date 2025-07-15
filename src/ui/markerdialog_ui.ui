@@ -53,24 +53,65 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </item>
       </layout>
      </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QCheckBox" name="range_marker_checkbox">
+       <property name="text">
+        <string>Range Marker</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="0">
+      <widget class="QLabel" name="label_end_time">
+       <property name="text">
+        <string>End Time</string>
+       </property>
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="TimecodeDisplay" name="m_end">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_duration">
+       <property name="text">
+        <string>Duration</string>
+       </property>
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="TimecodeDisplay" name="m_duration">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
       <widget class="QLabel" name="label_category">
        <property name="text">
         <string>Category</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="clip_filesize_3">
        <property name="text">
         <string>Comment</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="4" column="1">
       <widget class="QLineEdit" name="marker_comment"/>
      </item>
-     <item row="3" column="1">
+     <item row="6" column="1">
       <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -83,7 +124,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </property>
       </spacer>
      </item>
-     <item row="2" column="1">
+     <item row="5" column="1">
       <widget class="MarkerCategoryChooser" name="marker_category">
        <property name="allowAll">
         <bool>false</bool>
@@ -238,6 +279,70 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>range_marker_checkbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_end_time</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>100</x>
+     <y>95</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>range_marker_checkbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_end</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>250</x>
+     <y>95</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>range_marker_checkbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_duration</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>100</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>range_marker_checkbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_duration</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>250</x>
+     <y>120</y>
     </hint>
    </hints>
   </connection>

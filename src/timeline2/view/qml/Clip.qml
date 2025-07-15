@@ -637,31 +637,63 @@ Rectangle {
                     property string markerText
                     property color markerColor
                     property int position
-                    width: 1
-                    height: container.height
+                    property bool hasRange: false
+                    property real duration: 0
+                    width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
+                    height: hasRange ? textMetrics.height + 2 : container.height
                     x: clipRoot.speed < 0
                     ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
                     : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
-                    color: markerColor
+                    y: hasRange ? Math.min(label.height, container.height - textMetrics.height) : 0
+                    color: hasRange ? Qt.rgba(markerColor.r, markerColor.g, markerColor.b, 0.7) : markerColor
+                    border.color: hasRange ? markerColor : "transparent"
+                    border.width: hasRange ? 1 : 0
+                    radius: hasRange ? 2 : 0
+
                     Rectangle {
-                        width: mlabel.contentWidth + 4
-                        height: mlabel.contentHeight
+                        visible: markerBase.hasRange
+                        x: 0
+                        y: -markerBase.y
+                        width: 1
+                        height: container.height
                         color: markerBase.markerColor
+                    }
+                    
+                    // Tapered end effect for range markers
+                    Rectangle {
+                        id: clipRangeEndTaper
+                        visible: markerBase.hasRange
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: Math.min(parent.width / 8, 10)
+                        gradient: Gradient {
+                            orientation: Gradient.Horizontal
+                            GradientStop { position: 0.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.3) }
+                            GradientStop { position: 1.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.1) }
+                        }
+                    }
+                    
+                    TextMetrics {
+                        id: textMetrics
+                        font: miniFont
+                        text: markerBase.markerText
+                        elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                        elideWidth: root.maxLabelWidth
+                    }
+                    Rectangle {
+                        id: labelRectangle
+                        width: textMetrics.width + 4
+                        height: textMetrics.height
+                        color: markerBase.hasRange ? "transparent" : markerBase.markerColor
                         radius: 2
                         opacity: 0.7
-                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
+                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
 
                         anchors {
                             top: parent.top
                             left: parent.left
-                            topMargin: Math.min(label.height, container.height - height)
-                        }
-                        TextMetrics {
-                            id: textMetrics
-                            font: miniFont
-                            text: markerBase.markerText
-                            elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
-                            elideWidth: root.maxLabelWidth
+                            topMargin: markerBase.hasRange ? (parent.height - height) / 2 : Math.min(label.height, container.height - height)
                         }
                         Text {
                             id: mlabel
@@ -680,7 +712,7 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
                             ToolTip.visible: containsMouse
-                            ToolTip.text: markerBase.markerText
+                            ToolTip.text: markerBase.hasRange ? (markerBase.markerText + " (" + timeline.simplifiedTC(markerBase.duration) + ")") : markerBase.markerText
                             ToolTip.delay: 1000
                             ToolTip.timeout: 5000
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, markerBase.position)
@@ -718,6 +750,18 @@ Rectangle {
                         target: loader.item
                         property: "markerColor"
                         value: modelData.color
+                        when: isInside && loader.status == Loader.Ready
+                    }
+                    Binding {
+                        target: loader.item
+                        property: "hasRange"
+                        value: modelData.hasRange || false
+                        when: isInside && loader.status == Loader.Ready
+                    }
+                    Binding {
+                        target: loader.item
+                        property: "duration"
+                        value: modelData.duration || 0
                         when: isInside && loader.status == Loader.Ready
                     }
                     sourceComponent: {
