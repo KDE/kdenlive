@@ -102,17 +102,6 @@ void RenderPresetRepository::refresh(bool fullRefresh)
     for (const QString &filename : std::as_const(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
-#ifdef Q_OS_WIN
-    // On Windows, KNS downloads effects in AppData/local
-    exportFolder = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/export/");
-    QDir directoryLocal(exportFolder);
-    if (directoryLocal.exists()) {
-        QStringList fileList = directory.entryList({QStringLiteral("*.xml")}, QDir::Files);
-        for (const QString &filename : std::as_const(fileList)) {
-            parseFile(directoryLocal.absoluteFilePath(filename), true);
-        }
-    }
-#endif
 
     // Parse some MLT's profiles
     parseMltPresets();

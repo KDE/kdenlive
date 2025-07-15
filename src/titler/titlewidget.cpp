@@ -798,10 +798,6 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     // system templates
     QStringList currentTitleTemplates =
         QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-    // On Windows, KNS downloads effects in AppData/local
-    currentTitleTemplates << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-#endif
     currentTitleTemplates.removeDuplicates();
     for (const QString &folderpath : std::as_const(currentTitleTemplates)) {
         QDir folder(folderpath);
