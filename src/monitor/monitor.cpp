@@ -230,23 +230,27 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     auto *scalingAction = new QComboBox(this);
     scalingAction->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
-    scalingAction->setWhatsThis(xi18nc("@info:whatsthis", "Sets the preview resolution of the project/clip monitor. One can select between 1:1, 720p, 540p, "
-                                                          "360p, 270p (the lower the resolution the faster the preview)."));
+    scalingAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                       "Sets the preview resolution of the project/clip monitor. One can select between 1:1, 1080p, 720p, 540p, "
+                                       "360p, 270p (the lower the resolution the faster the preview)."));
     // Combobox padding is bad, so manually add a space before text
-    scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"), QStringLiteral(" ") + i18n("720p"), QStringLiteral(" ") + i18n("540p"),
-                             QStringLiteral(" ") + i18n("360p"), QStringLiteral(" ") + i18n("270p")});
+    scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"), QStringLiteral(" ") + i18n("1080p"), QStringLiteral(" ") + i18n("720p"),
+                             QStringLiteral(" ") + i18n("540p"), QStringLiteral(" ") + i18n("360p"), QStringLiteral(" ") + i18n("270p")});
     connect(scalingAction, QOverload<int>::of(&QComboBox::activated), this, [this](int index) {
         switch (index) {
         case 1:
-            KdenliveSettings::setPreviewScaling(2);
+            KdenliveSettings::setPreviewScaling(1);
             break;
         case 2:
-            KdenliveSettings::setPreviewScaling(4);
+            KdenliveSettings::setPreviewScaling(2);
             break;
         case 3:
-            KdenliveSettings::setPreviewScaling(8);
+            KdenliveSettings::setPreviewScaling(4);
             break;
         case 4:
+            KdenliveSettings::setPreviewScaling(8);
+            break;
+        case 5:
             KdenliveSettings::setPreviewScaling(16);
             break;
         default:
@@ -260,17 +264,20 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
         m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
-        case 2:
+        case 1:
             scalingAction->setCurrentIndex(1);
             break;
-        case 4:
+        case 2:
             scalingAction->setCurrentIndex(2);
             break;
-        case 8:
+        case 4:
             scalingAction->setCurrentIndex(3);
             break;
-        case 16:
+        case 8:
             scalingAction->setCurrentIndex(4);
+            break;
+        case 16:
+            scalingAction->setCurrentIndex(5);
             break;
         default:
             scalingAction->setCurrentIndex(0);
