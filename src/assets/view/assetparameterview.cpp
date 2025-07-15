@@ -266,13 +266,15 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
         }
         return;
     }
-    size_t max = m_widgets.size() - 1;
-    if (bottomRight.isValid()) {
-        max = qMin(max, size_t(bottomRight.row()));
-    }
-    for (auto i = size_t(topLeft.row()); i <= max; ++i) {
-        if (m_widgets.at(i)) {
-            m_widgets.at(i)->slotRefresh();
+    if (!m_widgets.empty()) {
+        size_t max = m_widgets.size() - 1;
+        if (bottomRight.isValid()) {
+            max = qMin(max, size_t(bottomRight.row()));
+        }
+        for (auto i = size_t(topLeft.row()); i <= max; ++i) {
+            if (m_widgets.at(i)) {
+                m_widgets.at(i)->slotRefresh();
+            }
         }
     }
     if (m_mainKeyframeWidget) {
