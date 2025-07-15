@@ -1553,7 +1553,7 @@ void MainWindow::setupActions()
     scale_no->setCheckable(true);
     scale_no->setData(0);
     QAction *scale_1 = new QAction(i18n("1080p"), m_scaleGroup);
-    addAction(QStringLiteral("scale_0_preview"), scale_1, QKeySequence(), resolutionActionCategory);
+    addAction(QStringLiteral("scale_1_preview"), scale_1, QKeySequence(), resolutionActionCategory);
     scale_1->setCheckable(true);
     scale_1->setData(1);
     QAction *scale_2 = new QAction(i18n("720p"), m_scaleGroup);
@@ -1572,7 +1572,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("scale_16_preview"), scale_16, QKeySequence(), resolutionActionCategory);
     scale_16->setCheckable(true);
     scale_16->setData(16);
-    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, this, [scale_0, scale_2, scale_4, scale_8, scale_16, scale_no]() {
+    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, this, [scale_1, scale_2, scale_4, scale_8, scale_16, scale_no]() {
         switch (KdenliveSettings::previewScaling()) {
         case 1:
             scale_1->setChecked(true);
