@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-14 00:42+0000\n"
+"POT-Creation-Date: 2025-07-15 00:42+0000\n"
 "PO-Revision-Date: 2025-07-10 17:45+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -17458,7 +17458,7 @@ msgstr "efektua"
 msgid "Reset %1"
 msgstr "Berrezarri %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1374
+#: src/assets/keyframes/model/keyframemodel.cpp:1381
 #, kde-format
 msgid "Reset effect"
 msgstr "Berrabiarazi efektua"
@@ -18883,13 +18883,13 @@ msgstr "Hautatu klipa efektua aplikatzeko"
 msgid "Cannot apply effects on folders"
 msgstr "Ezin dira efektuak karpetatan aplikatu"
 
-#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:734
-#: src/effects/effectstack/model/effectstackmodel.cpp:740
+#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Ezin zaio efektua klipari aplikatu"
 
-#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "Itsatsi efektua"
@@ -23852,34 +23852,34 @@ msgstr "Erakutsi gako-fotogramak"
 msgid "Update zone for %1"
 msgstr "%1entzako zonaldea eguneratu"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:306
+#: src/effects/effectstack/model/effectstackmodel.cpp:314
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "Kopiatu efektua"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:593
-#: src/effects/effectstack/model/effectstackmodel.cpp:720
-#: src/effects/effectstack/model/effectstackmodel.cpp:1493
+#: src/effects/effectstack/model/effectstackmodel.cpp:410
+#: src/effects/effectstack/model/effectstackmodel.cpp:601
+#: src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:1501
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 efektua ezin da bitan gehitu."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5129
 #, kde-format
 msgid "Add effect %1"
 msgstr "Gehitu %1 efektua"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:716
+#: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "%1 efektua maisuari baino ezin zaio gehitu"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1276
+#: src/effects/effectstack/model/effectstackmodel.cpp:1284
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mugitu %1 efektua"

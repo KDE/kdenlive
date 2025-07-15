@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-14 00:42+0000\n"
+"POT-Creation-Date: 2025-07-15 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1375,7 +1375,7 @@ msgstr "强度"
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr ""
+msgstr "设置锐化强度。"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
@@ -1503,7 +1503,7 @@ msgstr "距离"
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, kde-format
 msgid "Chroma Shift"
-msgstr ""
+msgstr "色度偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, kde-format
@@ -1513,22 +1513,22 @@ msgstr "水平和/或垂直移动色度像素。 "
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
 msgid "Blue horizontal shift"
-msgstr ""
+msgstr "蓝色水平偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
 #, kde-format
 msgid "Blue vertical shift"
-msgstr ""
+msgstr "蓝色竖直偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
 #, kde-format
 msgid "Red horizontal shift"
-msgstr ""
+msgstr "红色水平偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
 #, kde-format
 msgid "Red vertical shift"
-msgstr ""
+msgstr "红色竖直偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
@@ -1547,12 +1547,12 @@ msgstr "边缘模式"
 #: data/effects/avfilter/avfilter_ciescope.xml:4
 #, kde-format
 msgid "CIE Scope"
-msgstr ""
+msgstr "CIE 示波器"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:5
 #, kde-format
 msgid "Display CIE color diagram with pixels overlaid onto it"
-msgstr ""
+msgstr "将像素叠加到CIE颜色图表上"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:8
 #: data/effects/avfilter/avfilter_ciescope.xml:18
@@ -1561,41 +1561,43 @@ msgid ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
 "709,UHD TV,Rec. 2020,DCI-P3"
 msgstr ""
+"NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
+"709,UHD TV,Rec. 2020,DCI-P3"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
 #, kde-format
 msgid "Color System"
-msgstr ""
+msgstr "色彩系统"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #, kde-format
 msgid "<![CDATA[Select the color system]]>"
-msgstr ""
+msgstr "<![CDATA[选择色彩系统]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:13
 #, kde-format
 msgid "xyY,UCS,LUV"
-msgstr ""
+msgstr "xyY,UCS,LUV"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:14
 #, kde-format
 msgid "CIE System"
-msgstr ""
+msgstr "CIE 系统"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
 msgid "<![CDATA[Select the CIE color space]]>"
-msgstr ""
+msgstr "<![CDATA[选择CIE色彩空间]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, kde-format
 msgid "Gamuts to Draw"
-msgstr ""
+msgstr "绘制色域"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:20
 #, kde-format
 msgid "<![CDATA[Set what gamuts to draw]]>"
-msgstr ""
+msgstr "<![CDATA[设置要绘制的色域]]>"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -1615,7 +1617,7 @@ msgstr "大小"
 #: data/effects/avfilter/avfilter_ciescope.xml:24
 #, kde-format
 msgid "<![CDATA[Set the size of the scope on screen]]>"
-msgstr ""
+msgstr "<![CDATA[设置屏幕上示波器的大小]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -1634,54 +1636,54 @@ msgstr "亮度"
 msgid ""
 "<![CDATA[Set the intensity used to<br>\n"
 "       \tmap input pixel values to CIE diagram]]>"
-msgstr ""
+msgstr "<![CDATA[设置用于将输入像素值映射到CIE图表的强度]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:34
 #, kde-format
 msgid ""
 "<![CDATA[Set contrast used to draw<br>\n"
 "       \ttongue colors that are out of active color system gamut]]>"
-msgstr ""
+msgstr "<![CDATA[设置用于绘制<br>超出当前色域范围的舌形图色彩的对比度]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
 #, kde-format
 msgid "Display Correct Gamma"
-msgstr ""
+msgstr "显示矫正的伽马值"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:38
 #, kde-format
 msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示矫正的伽马值，默认启用]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
 #, kde-format
 msgid "Show White Point"
-msgstr ""
+msgstr "显示白点"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:42
 #, kde-format
 msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
-msgstr ""
+msgstr "`<![CDATA[在 CIE 图上显示白点，默认禁用]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
 msgid "Input Gamma"
-msgstr ""
+msgstr "输入伽马"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:46
 #, kde-format
 msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
-msgstr ""
+msgstr "<![CDATA[设置输入伽马。仅当采用 XYZ 输入色彩空间时有效。]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
 msgid "Fill with CIE Colors"
-msgstr ""
+msgstr "使用 CIE 颜色填充"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:50
 #, kde-format
 msgid "<![CDATA[Fill with CIE colors. By default is enabled.]]>"
-msgstr ""
+msgstr "<![CDATA[使用 CIE 颜色填充。默认启用。]]>"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
@@ -2103,6 +2105,8 @@ msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
 "BT.2020,JEDEC P22"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
+"BT.2020,JEDEC P22"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -2462,7 +2466,7 @@ msgstr "Enable Clipping/启用剪辑"
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, kde-format
 msgid "Data Scope"
-msgstr ""
+msgstr "数据示波器"
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
 #, kde-format
@@ -2472,7 +2476,7 @@ msgstr "视频数据分析"
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
-msgstr ""
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, kde-format
@@ -2494,6 +2498,8 @@ msgid ""
 "None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
 "Alpha"
 msgstr ""
+"None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
+"Alpha"
 
 #: data/effects/avfilter/avfilter_datascope.xml:19
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
@@ -2505,7 +2511,7 @@ msgstr "颜色分量"
 #: data/effects/avfilter/avfilter_datascope.xml:22
 #, kde-format
 msgid "Mono,Color,Color2"
-msgstr ""
+msgstr "Mono,Color,Color2"
 
 #: data/effects/avfilter/avfilter_datascope.xml:26
 #, kde-format
@@ -3408,12 +3414,12 @@ msgstr "None,Y,U,YU,V,YV,UV,YUV,Alpha"
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
 msgid "Posterize (ELBG)"
-msgstr ""
+msgstr "色调分离 (ELBG)"
 
 #: data/effects/avfilter/avfilter_elbg.xml:5
 #, kde-format
 msgid "Apply posterize effect using the ELBG algorithm"
-msgstr ""
+msgstr "应用使用ELBG算法的色调分离滤镜"
 
 #: data/effects/avfilter/avfilter_elbg.xml:8
 #, kde-format
@@ -3430,12 +3436,12 @@ msgstr "Steps"
 #: data/effects/avfilter/avfilter_elbg.xml:14
 #, kde-format
 msgid "Pal8 Output"
-msgstr ""
+msgstr "Pal8 输出"
 
 #: data/effects/avfilter/avfilter_elbg.xml:17
 #, kde-format
 msgid "Include Alpha Values"
-msgstr ""
+msgstr "包含Alpha"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, kde-format
@@ -3631,7 +3637,7 @@ msgstr "<![CDATA[设置块重叠比例]]>"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:26
 #, kde-format
 msgid "Wiener,Hard"
-msgstr ""
+msgstr "Wiener,Hard"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
@@ -3742,7 +3748,7 @@ msgstr "转换输入视频的场顺序."
 #: data/effects/avfilter/avfilter_fillborders.xml:4
 #, kde-format
 msgid "Fill Borders"
-msgstr ""
+msgstr "边界填充"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:5
 #, kde-format
@@ -3751,11 +3757,12 @@ msgid ""
 "Sometimes video can have garbage at the four edges and you may not want to "
 "crop video input to keep the size multiple of some number"
 msgstr ""
+"填充视频边缘区域且保持原尺寸。适用于边缘含无效数据且需维持分辨率倍数的场景"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:8
 #, kde-format
 msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
-msgstr ""
+msgstr "延展填充,镜像反射,纯色填充,对称反射,循环填充,渐变淡出,自适应边距填充"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
@@ -3989,6 +3996,8 @@ msgid ""
 "<![CDATA[Set which planes to filter.<br>\n"
 "        By default all planes are filtered (YUV).]]>"
 msgstr ""
+"<![CDATA[设置平面过滤。<br>\n"
+"        默认过滤所有平面 (YUV)。]]>"
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
 #, kde-format
@@ -3996,6 +4005,8 @@ msgid ""
 "<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
 "        Determines the strength of the horizontal blur. Default is 10.]]>"
 msgstr ""
+"<![CDATA[设置 sigma，即高斯模糊的标准差。<br>\n"
+"        决定水平模糊的强度。默认值为 10。]]>"
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4008,6 +4019,8 @@ msgid ""
 "<![CDATA[Set vertical sigma.<br>\n"
 "        Determines the strength of the vertical blur. Default is 10.]]>"
 msgstr ""
+"<![CDATA[设置垂直标准差。<br>\n"
+"        该项决定垂直模糊的强度。默认值为 10。]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -4027,6 +4040,11 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>.]]>"
 msgstr ""
+"<![CDATA[<b>-=已废弃=-</b><br>使用梯度域方法快速消除视频色带伪影。<br>\n"
+"    修复因8位色深截断在近平坦区域产生的色带伪影。<br>\n"
+"    通过插值生成色带区域的应有梯度并进行抖动处理。<br>\n"
+"    <b>本滤镜仅设计用于播放环节。请勿在无损压缩前使用，因为有损压缩会消除抖动"
+"效果并重现色带问题<b>。]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:14
 #, kde-format
@@ -4252,12 +4270,12 @@ msgstr "计算并绘制输入视频的颜色分布直方图"
 #: data/effects/avfilter/avfilter_histogram.xml:8
 #, kde-format
 msgid "Level Height"
-msgstr ""
+msgstr "层高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:11
 #, kde-format
 msgid "Scale Height"
-msgstr ""
+msgstr "缩放高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
 #: data/effects/avfilter/avfilter_waveform.xml:25
@@ -4278,12 +4296,12 @@ msgstr "显示"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
-msgstr ""
+msgstr "None,Y,U,YU,V,YV,UV,All,Alpha"
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
 #, kde-format
 msgid "Components to Display"
-msgstr ""
+msgstr "显示组件"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
 #, kde-format
@@ -4303,21 +4321,23 @@ msgid ""
 "White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
 "Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 msgstr ""
+"White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
+"Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 
 #: data/effects/avfilter/avfilter_histogram.xml:33
 #, kde-format
 msgid "Colors Mode"
-msgstr ""
+msgstr "色彩模式"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (avfilter)"
-msgstr ""
+msgstr "HQ 3D 降噪器 (avfilter)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
 msgid "Apply a high quality 3D denoiser"
-msgstr ""
+msgstr "应用高质量3D降噪器"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -4361,12 +4381,12 @@ msgstr "2x,3x,4x"
 #: data/effects/avfilter/avfilter_hsvhold.xml:4
 #, kde-format
 msgid "HSV Hold"
-msgstr ""
+msgstr "HSV 保留"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into gray "
-msgstr ""
+msgstr "将特定 HSV 范围转换为灰色"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
@@ -4375,6 +4395,8 @@ msgid ""
 "<![CDATA[Set the hue value which<br>\n"
 "        will be used in color difference calculation]]>"
 msgstr ""
+"<![CDATA[设置色相值，<br>\n"
+"        该值将用于颜色差异计算]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
@@ -4383,6 +4405,8 @@ msgid ""
 "<![CDATA[Set the saturation value<br>\n"
 "        which will be used in color difference calculation]]>"
 msgstr ""
+"<![CDATA[设置饱和度值<br>\n"
+"        该值将用于颜色差异计算]]>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/effects/avfilter/avfilter_hsvhold.xml:18
@@ -4398,39 +4422,39 @@ msgstr "值"
 msgid ""
 "<![CDATA[Set the value which will<br>\n"
 "        be used in color difference calculation]]>"
-msgstr ""
+msgstr "<![CDATA[设置用于颜色差异计算的值]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
 #, kde-format
 msgid "<![CDATA[Set similarity percentage with the key color]]>"
-msgstr ""
+msgstr "<![CDATA[设置关键颜色的集合相似度百分比]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
 #, kde-format
 msgid "<![CDATA[Blend percentage]]>"
-msgstr ""
+msgstr "<![CDATA[混合百分比]]>"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
 #, kde-format
 msgid "HSV Key"
-msgstr ""
+msgstr "HSV键"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
-msgstr ""
+msgstr "将特定 HSV 范围转为透明。在 YUV 色彩上进行操作。"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:4
 #, kde-format
 msgid "Hue Saturation Intensity"
-msgstr ""
+msgstr "色相饱和度强度"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
 msgid "Apply hue-saturation-intensity adjustments"
-msgstr ""
+msgstr "应用色相-饱和度-亮度调整"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
 #, kde-format
@@ -16623,7 +16647,7 @@ msgstr "效果"
 msgid "Reset %1"
 msgstr "重置 %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1374
+#: src/assets/keyframes/model/keyframemodel.cpp:1381
 #, kde-format
 msgid "Reset effect"
 msgstr "重置效果"
@@ -18006,13 +18030,13 @@ msgstr "选择要应用效果的剪辑"
 msgid "Cannot apply effects on folders"
 msgstr "无法应用效果到文件夹"
 
-#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:734
-#: src/effects/effectstack/model/effectstackmodel.cpp:740
+#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "无法添加效果到剪辑"
 
-#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "粘贴效果"
@@ -22847,34 +22871,34 @@ msgstr "显示关键帧"
 msgid "Update zone for %1"
 msgstr "更新 %1 的区段"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:306
+#: src/effects/effectstack/model/effectstackmodel.cpp:314
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "复制效果"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:593
-#: src/effects/effectstack/model/effectstackmodel.cpp:720
-#: src/effects/effectstack/model/effectstackmodel.cpp:1493
+#: src/effects/effectstack/model/effectstackmodel.cpp:410
+#: src/effects/effectstack/model/effectstackmodel.cpp:601
+#: src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:1501
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5129
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:716
+#: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "效果 %1 只能添加到主通道。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1276
+#: src/effects/effectstack/model/effectstackmodel.cpp:1284
 #, kde-format
 msgid "Move effect %1"
 msgstr "移动效果 %1"
