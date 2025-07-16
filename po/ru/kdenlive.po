@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-15 02:41+0000\n"
-"PO-Revision-Date: 2025-07-14 17:21+0300\n"
+"POT-Creation-Date: 2025-07-16 03:14+0000\n"
+"PO-Revision-Date: 2025-07-15 17:19+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -2551,6 +2551,8 @@ msgid ""
 "None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
 "Alpha"
 msgstr ""
+"Нет,Y (яркость),U (насыщенность красный-разница),YU,V (Насыщенность синий-"
+"разница),YV,UV,Все,Альфа"
 
 #: data/effects/avfilter/avfilter_datascope.xml:19
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
@@ -2560,15 +2562,14 @@ msgid "Components"
 msgstr "Компоненты"
 
 #: data/effects/avfilter/avfilter_datascope.xml:22
-#, fuzzy, kde-format
-#| msgid "mono,color,color2"
+#, kde-format
 msgid "Mono,Color,Color2"
-msgstr "моно,цвет,цвет2"
+msgstr "Моно,Цвет,Цвет2"
 
 #: data/effects/avfilter/avfilter_datascope.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Axis"
-msgstr "Показать все"
+msgstr "Показать ось"
 
 #: data/effects/avfilter/avfilter_datascope.xml:29
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
@@ -2586,7 +2587,7 @@ msgstr "Непрозрачность"
 #: data/effects/avfilter/avfilter_datascope.xml:32
 #, kde-format
 msgid "Hex,Dec"
-msgstr ""
+msgstr "Шестн.,Дес."
 
 #: data/effects/avfilter/avfilter_datascope.xml:33 data/effects/timer.xml:46
 #, kde-format
@@ -2594,14 +2595,14 @@ msgid "Format"
 msgstr "Формат"
 
 #: data/effects/avfilter/avfilter_dblur.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Directional Blur"
-msgstr "Направление"
+msgstr "Направленное размытие"
 
 #: data/effects/avfilter/avfilter_dblur.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply directional blur filter"
-msgstr "Применить длительность ко всем элементам"
+msgstr "Применение фильтра направленного размытия"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, fuzzy, kde-format
@@ -4056,13 +4057,13 @@ msgid "Set number of steps for Gaussian approximation"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gblur.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<![CDATA[Set which planes to filter.<br>\n"
 "        By default all planes are filtered (YUV).]]>"
 msgstr ""
-"<![CDATA[Устанавливает объём устранения шума.<br>\n"
-"       \tПо умолчанию выполняется уменьшение всего обнаруженного шума.]]>"
+"<![CDATA[Устанавливает плоскости для фильтрации.<br>\n"
+"       \tПо умолчанию фильтруются все плоскости (YUV).]]>"
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
 #, kde-format
@@ -4411,9 +4412,9 @@ msgid "HQ 3D Denoiser (avfilter)"
 msgstr "Пикселизация (avfilter)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply a high quality 3D denoiser"
-msgstr "Высококачественное подавление шума в 3D"
+msgstr "Высококачественное устранение шума в 3D"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -4879,12 +4880,13 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid "DoubleQuadratic correction coeff."
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficent]]>"
-msgstr "Коэффициент двойной квадратичной поправки."
+msgstr ""
+"<![CDATA[Коэффициент двойной<br>\n"
+"        квадратичной поправки]]>"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -5007,9 +5009,9 @@ msgid "Apply a low shelf filter."
 msgstr "Применение низкочастотного полочного фильтра"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply LUT"
-msgstr "Применить"
+msgstr "Применение LUT"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:5
 #, kde-format
@@ -5018,6 +5020,9 @@ msgid ""
 "the color of a video. Supported formats: .3dl (AfterEffects), .cube "
 "(Iridas), .dat (DaVinci), .m3d (Pandora)"
 msgstr ""
+"Применить таблицу поиска (Look Up Table, LUT) к видео. С помощью LUT можно "
+"легко исправить цвет видео. Поддерживаемые форматы: .3dl (AfterEffects), ."
+"cube (Iridas), .dat (DaVinci), .m3d (Pandora)"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:8
 #, kde-format
@@ -5716,10 +5721,9 @@ msgid "Roberts"
 msgstr "Робертс"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply roberts cross operator to input video stream"
+#, kde-format
 msgid "Apply Roberts cross operator (edge detection)"
-msgstr "Применение перекрёстного оператора Робертса к входному видеопотоку"
+msgstr "Применение перекрёстного оператора Робертса (определение краёв)"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5750,12 +5754,12 @@ msgstr "Сила насыщенности"
 #: data/effects/avfilter/avfilter_scharr.xml:4
 #, kde-format
 msgid "Scharr"
-msgstr ""
+msgstr "Шарр"
 
 #: data/effects/avfilter/avfilter_scharr.xml:5
 #, kde-format
 msgid "Apply Scharr operators for edge detection"
-msgstr ""
+msgstr "Применение операторов Шарра для определения краёв"
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
 #, kde-format
@@ -6029,14 +6033,14 @@ msgid "Chroma radius"
 msgstr "Радиус насыщенности"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<![CDATA[Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
-"<![CDATA[Устанавливает  радиус насыщенности.<br>\n"
+"<![CDATA[Устанавливает радиус насыщенности.<br>\n"
 "            Это значение указывает отклонение гауссовского фильтра, который "
 "используется для размытия изображения (медленнее, если больше). Если "
 "значение не указано, то по умолчанию используется значение, установленное "
@@ -7116,7 +7120,7 @@ msgstr "Тон 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
@@ -7154,10 +7158,10 @@ msgid "Input Format"
 msgstr "Входной формат"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Set input formats for filter to pick from]]>"
-msgstr "<![CDATA[Устанавливает радиус для направления]]>"
+msgstr ""
+"<![CDATA[Устанавливает входные форматы, из которых выполняет выбор фильтр]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, fuzzy, kde-format
@@ -7996,6 +8000,8 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</"
 "em>.]]>"
 msgstr ""
+"<![CDATA[Показ альфа-канала и управление им.<br>\n"
+"        Этот эффект был заменён на <em>frei0r.alpha0ps_alpha0ps</em>.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:10
 #: data/effects/frei0r/frei0r_alpha0ps.xml:36
@@ -8049,6 +8055,8 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alphaops_alphaops</"
 "em>.]]>"
 msgstr ""
+"<![CDATA[Показ альфа-канала и управление им.<br>\n"
+"        Этот эффект был заменён на <em>frei0r.alphaops_alphaops</em>.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:43
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
@@ -8175,7 +8183,7 @@ msgstr "Перезапись,Максимум,Минимум,Сложение,В
 #: data/effects/frei0r/frei0r_alphagrad.xml:31
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
-msgstr ""
+msgstr "<![CDATA[Определяет работу альфа для композитинга.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #, fuzzy, kde-format
@@ -8247,6 +8255,8 @@ msgid ""
 "<![CDATA[Fill the alpha channel with a specified gradient.<br>\n"
 "    This effect has been replaced by frei0r.alphaops_alphagrad.]]>"
 msgstr ""
+"<![CDATA[Заполняет альфа-канал указанным градиентом.<br>\n"
+"    Этот эффект был заменён на frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
@@ -8260,6 +8270,8 @@ msgid ""
 "<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]>"
 msgstr ""
+"<![CDATA[Рисует простые фигуры в альфа-канале.<br>\n"
+"    Этот эффект был заменён на <em>frei0r.alphaops_alphaspot</em>.]]>"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -9990,13 +10002,12 @@ msgstr "Отсроченный блиттинг кадра, наложенный
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (frei0r)"
-msgstr ""
+msgstr "Высококачественное устранение шума в 3D (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "<![CDATA[High quality 3D denoiser]]>"
-msgstr "Высококачественное подавление шума в 3D"
+msgstr "<![CDATA[Высококачественное подавление шума в 3D]]>"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
@@ -10042,13 +10053,12 @@ msgstr "Амплитуда"
 #: data/effects/frei0r/frei0r_distort0r.xml:14
 #, kde-format
 msgid "Use Velocity"
-msgstr ""
+msgstr "Использовать скорость"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:17
-#, fuzzy, kde-format
-#| msgid "opacity"
+#, kde-format
 msgid "Velocity"
-msgstr "непрозрачность"
+msgstr "Скорость"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, kde-format
@@ -10103,12 +10113,13 @@ msgid "Edge lightening threshold"
 msgstr "Порог свечения краёв"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:12
-#, fuzzy, kde-format
-#| msgid "Edge brightness upscaling multiplier"
+#, kde-format
 msgid ""
 "<![CDATA[Edge brightness<br>\n"
 "        upscaling multiplier]]>"
-msgstr "Коэффициент увеличения яркости краёв"
+msgstr ""
+"<![CDATA[Коэффициент увеличения<br>\n"
+"        яркости краёв]]>"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:16
 #, fuzzy, kde-format
@@ -10127,7 +10138,7 @@ msgstr "Эластичная на входе"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:5
 #, kde-format
 msgid "Scale non-linearly"
-msgstr ""
+msgstr "Масштабировать нелинейно"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
@@ -10185,6 +10196,9 @@ msgid ""
 "<![CDATA[Amount how much the<br>\n"
 "        outer left and outer right areas are scaled non linearly]]>"
 msgstr ""
+"<![CDATA[Интенсивность<br>\n"
+"        нелинейного масштабирования внешней левой и внешней правой "
+"областей]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
 #, kde-format
@@ -10208,6 +10222,8 @@ msgid ""
 "<![CDATA[The direction of the<br>\n"
 "            embossing (practically simulating a light source)]]>"
 msgstr ""
+"<![CDATA[Направление<br>\n"
+"            рельефа (практически имитация источника света)]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
 #, kde-format
@@ -10221,6 +10237,8 @@ msgid ""
 "<br>\n"
 "            Range is 0 to 90.]]>"
 msgstr ""
+"<![CDATA[Определяет освещённость/яркость областей без рельефа.<br>\n"
+"            Диапазон: от 0 до 90.]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:19
 #, kde-format
@@ -10234,6 +10252,9 @@ msgid ""
 "perceived depth of the embossed areas.<br>\n"
 "            Range is 0 to 40.]]>"
 msgstr ""
+"<![CDATA[Определяет толщину краёв, увеличивая/уменьшая воспринимаемую "
+"глубину рельефных областей.<br>\n"
+"            Диапазон: от 0 до 40.]]>"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
@@ -10600,7 +10621,7 @@ msgstr "Создание чарующего свечения"
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
 msgid "Denoiser (SUPERCEDED)"
-msgstr ""
+msgstr "Устранение шума (ЗАМЕНЕНО)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -10698,11 +10719,14 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[Сегментация калейдоскопа / 128;<br>\n"
+"        лучше всего работают сегментации, равные 1, 2 или кратные 4. По "
+"умолчанию: 16]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "Specify Source Segment"
-msgstr "Исходное время"
+msgstr "Указать исходный сегмент"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
@@ -10711,11 +10735,14 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[Если флажок установлен, чтение данных исходного угла<br>\n"
+"        выполняется из <em>исходного сегмента</em>, в ином случае — "
+"рассчитывается автоматически]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Source Segment"
-msgstr "Исходное время"
+msgstr "Исходный сегмент"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
@@ -10724,6 +10751,9 @@ msgid ""
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Центр исходного сегмента. Используется только в том случае, если "
+"флажок <em>Указать исходный сегмент</em> установлен.<br>\n"
+"        0 в +x и поворачивает против часовой стрелки.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, fuzzy, kde-format
@@ -10736,9 +10766,9 @@ msgid "Segmentation Direction"
 msgstr "Длительность анимации"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
-#, fuzzy, kde-format
+#, kde-format
 msgid "Direction of the segmentation."
-msgstr "Направление градиента цвета."
+msgstr "Направление сегментации."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, fuzzy, kde-format
@@ -11912,7 +11942,7 @@ msgstr "Количество значений (цвета) на канал"
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
 msgid "Video Values (SUPERCEDED)"
-msgstr ""
+msgstr "Значения видео (ЗАМЕНЕНО)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
@@ -14314,10 +14344,10 @@ msgid "Maximum Up/Down Move"
 msgstr ""
 
 #: data/effects/oldfilm.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
-msgstr "<![CDATA[Расстояние между вертикальными линиями в пикселах]]>"
+msgstr ""
+"<![CDATA[Опредленяет максимальное перемещение по вертикали в пикселах]]>"
 
 #: data/effects/oldfilm.xml:12
 #, fuzzy, kde-format
@@ -14326,11 +14356,9 @@ msgid "Frames With Movement"
 msgstr "Кадры для использования"
 
 #: data/effects/oldfilm.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees to fade the effect in over]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
-msgstr ""
-"<![CDATA[Количество градусов, на протяжении которого нарастает эффект]]>"
+msgstr "<![CDATA[Определяет процент кадров с перемещением по вертикали]]>"
 
 #: data/effects/oldfilm.xml:16
 #, fuzzy, kde-format
@@ -14339,10 +14367,9 @@ msgid "Brightness Up"
 msgstr "Повышение яркости"
 
 #: data/effects/oldfilm.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change up]]>"
-msgstr "<![CDATA[Определяет метод дискретизации]]>"
+msgstr "<![CDATA[Определяет значение при повышении яркости]]>"
 
 #: data/effects/oldfilm.xml:20
 #, fuzzy, kde-format
@@ -14351,10 +14378,9 @@ msgid "Brightness Down"
 msgstr "Понижение яркости"
 
 #: data/effects/oldfilm.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change down]]>"
-msgstr "<![CDATA[Определяет метод дискретизации]]>"
+msgstr "<![CDATA[Определяет значение при понижении яркости]]>"
 
 #: data/effects/oldfilm.xml:24
 #, fuzzy, kde-format
@@ -14363,10 +14389,9 @@ msgid "Brightness Every"
 msgstr "Длительность яркости"
 
 #: data/effects/oldfilm.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
-msgstr "<![CDATA[Процент зернистости, применяемый к каналу красного]]>"
+msgstr "<![CDATA[Определяет процент кадров с изменениями яркости]]>"
 
 #: data/effects/oldfilm.xml:28
 #, fuzzy, kde-format
@@ -14375,10 +14400,9 @@ msgid "Uneven Develop Up"
 msgstr "Неравномерное проявление вверх"
 
 #: data/effects/oldfilm.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change up]]>"
-msgstr "<![CDATA[Определяет метод дискретизации]]>"
+msgstr "<![CDATA[Определяет значение при повышении освещённости]]>"
 
 #: data/effects/oldfilm.xml:32
 #, fuzzy, kde-format
@@ -14387,10 +14411,9 @@ msgid "Uneven Develop Down"
 msgstr "Неравномерное проявление вниз"
 
 #: data/effects/oldfilm.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change down]]>"
-msgstr "<![CDATA[Определяет метод дискретизации]]>"
+msgstr "<![CDATA[Определяет значение при понижении освещённости]]>"
 
 #: data/effects/oldfilm.xml:36
 #, fuzzy, kde-format
@@ -14939,7 +14962,7 @@ msgstr "Обработка звука с использованием эффек
 msgid "Analysis,Apply"
 msgstr "Обработать,Применить"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1899
 #: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -17327,7 +17350,7 @@ msgstr "Удаляет текущую предустановку."
 msgid "Save effect"
 msgstr "Сохранить эффект"
 
-#: src/assets/view/assetparameterview.cpp:371
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -17335,7 +17358,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ввод имени предустановки"
 
-#: src/assets/view/assetparameterview.cpp:371
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -19346,8 +19369,8 @@ msgstr "Идентификатор"
 msgid "Usage"
 msgstr "Использование"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1871
-#: src/doc/documentchecker.cpp:1901 src/doc/documentchecker.cpp:1921
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
 #: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
@@ -20183,12 +20206,12 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Экспорт данных направляющих"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1947
-#: src/dialogs/renderwidget.cpp:1971 src/doc/kdenlivedoc.cpp:766
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1960
+#: src/dialogs/renderwidget.cpp:1984 src/doc/kdenlivedoc.cpp:766
 #: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
-#: src/effects/effectlist/model/effecttreemodel.cpp:301
-#: src/effects/effectlist/model/effecttreemodel.cpp:314
-#: src/effects/effectsrepository.cpp:418
+#: src/effects/effectlist/model/effecttreemodel.cpp:305
+#: src/effects/effectlist/model/effecttreemodel.cpp:318
+#: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:762
 #: src/effects/effectstack/view/effectstackview.cpp:823
 #: src/profiles/profilerepository.cpp:189
@@ -20609,7 +20632,7 @@ msgstr ""
 msgid "Show Log"
 msgstr "Показать журнал"
 
-#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1772
+#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1785
 #, kde-format
 msgid "Waiting…"
 msgstr "Ожидание…"
@@ -20809,7 +20832,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодировать"
 
-#: src/dialogs/renderwidget.cpp:823 src/dialogs/renderwidget.cpp:1746
+#: src/dialogs/renderwidget.cpp:823 src/dialogs/renderwidget.cpp:1759
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -20829,7 +20852,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "При попытке сборки произошли следующие ошибки"
 
-#: src/dialogs/renderwidget.cpp:918 src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:918 src/dialogs/renderwidget.cpp:1772
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -20838,7 +20861,7 @@ msgstr ""
 "Уже выполняется задание по записи файла:<br><b>%1</b><br>Отмените это "
 "задание, чтобы перезаписать файл…"
 
-#: src/dialogs/renderwidget.cpp:919 src/dialogs/renderwidget.cpp:1760
+#: src/dialogs/renderwidget.cpp:919 src/dialogs/renderwidget.cpp:1773
 #, kde-format
 msgid "Already running"
 msgstr "Уже выполняется"
@@ -20878,19 +20901,19 @@ msgstr "Нет соответствующей предустановки"
 msgid "Invalid preset"
 msgstr "Недопустимая предустановка"
 
-#: src/dialogs/renderwidget.cpp:1265
+#: src/dialogs/renderwidget.cpp:1278
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "Сборка невозможна без звука и видео. Включите хотя бы что-то одно."
 
-#: src/dialogs/renderwidget.cpp:1443
+#: src/dialogs/renderwidget.cpp:1456
 #, kde-format
 msgid "Remaining time "
 msgstr "Осталось времени "
 
-#: src/dialogs/renderwidget.cpp:1445 src/dialogs/renderwidget.cpp:1533
+#: src/dialogs/renderwidget.cpp:1458 src/dialogs/renderwidget.cpp:1546
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -20899,64 +20922,64 @@ msgstr[1] "%1 дня "
 msgstr[2] "%1 дней "
 msgstr[3] "%1 день "
 
-#: src/dialogs/renderwidget.cpp:1457
+#: src/dialogs/renderwidget.cpp:1470
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 @ %2 кадров/с)"
 
-#: src/dialogs/renderwidget.cpp:1479
+#: src/dialogs/renderwidget.cpp:1492
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Объём оставшейся доступной памяти менее %1МБ."
 
-#: src/dialogs/renderwidget.cpp:1535
+#: src/dialogs/renderwidget.cpp:1548
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Сборка завершена за %1"
 
-#: src/dialogs/renderwidget.cpp:1543
+#: src/dialogs/renderwidget.cpp:1556
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Сборка %1 завершена за %2"
 
-#: src/dialogs/renderwidget.cpp:1564
+#: src/dialogs/renderwidget.cpp:1577
 #, fuzzy, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Во время сборки %1 произошёл сбой</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1566
+#: src/dialogs/renderwidget.cpp:1579
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Во время сборки %1 произошёл сбой</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1628 src/ui/renderwidget_ui.ui:907
+#: src/dialogs/renderwidget.cpp:1641 src/ui/renderwidget_ui.ui:907
 #, kde-format
 msgid "Abort Job"
 msgstr "Прервать задание"
 
-#: src/dialogs/renderwidget.cpp:1631
+#: src/dialogs/renderwidget.cpp:1644
 #, kde-format
 msgid "Remove Job"
 msgstr "Удалить задание"
 
-#: src/dialogs/renderwidget.cpp:2042
+#: src/dialogs/renderwidget.cpp:2055
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Добавить клипы на монтажный стол перед сборкой"
 
-#: src/dialogs/renderwidget.cpp:2047
+#: src/dialogs/renderwidget.cpp:2060
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Длина собранного файла: %1"
 
-#: src/dialogs/renderwidget.cpp:2050
+#: src/dialogs/renderwidget.cpp:2063
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, fuzzy, kde-format
 msgid "Timecode Offset:"
 msgstr "Смещение времени:"
 
-#: src/dialogs/renderwidget.cpp:2055
+#: src/dialogs/renderwidget.cpp:2068
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -20965,7 +20988,7 @@ msgstr[1] "<b>В проекте используются %1 отсутствую
 msgstr[2] "<b>В проекте используются %1 отсутствующих клипов.</b>"
 msgstr[3] "<b>В проекте используется один отсутствующий клип.</b>"
 
-#: src/dialogs/renderwidget.cpp:2057
+#: src/dialogs/renderwidget.cpp:2070
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -20974,12 +20997,12 @@ msgstr[1] "%1 отсутствующих клипа (не используютс
 msgstr[2] "%1 отсутствующих клипов (не используются)."
 msgstr[3] "Один отсутствующий клип (не используется)."
 
-#: src/dialogs/renderwidget.cpp:2059
+#: src/dialogs/renderwidget.cpp:2072
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Отсутствующих клипов: %1 (<b>используются в проекте: %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:2141
+#: src/dialogs/renderwidget.cpp:2154
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -20988,12 +21011,12 @@ msgstr ""
 "Параметры скорости кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2161
+#: src/dialogs/renderwidget.cpp:2174
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Добавить в текущий проект"
 
-#: src/dialogs/renderwidget.cpp:2170
+#: src/dialogs/renderwidget.cpp:2183
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
@@ -22419,7 +22442,7 @@ msgstr "<<< Отменить предпросмотр"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:281
+#: src/effects/effectlist/model/effecttreemodel.cpp:285
 #, kde-format
 msgid "Error"
 msgstr "Ошибка"
@@ -23036,111 +23059,111 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Идентификатор документа проекта неверен. Создан новый идентификатор."
 
-#: src/doc/documentchecker.cpp:1861
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Video clip"
 msgstr "Видеоклип"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1869
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Клип слайд-шоу"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1871
 #, kde-format
 msgid "Image clip"
 msgstr "Клип изображений"
 
-#: src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1873
 #, kde-format
 msgid "Playlist clip"
 msgstr "Клип списка воспроизведения"
 
-#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1885
+#: src/doc/documentchecker.cpp:1875 src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Title Image"
 msgstr "Изображение титров"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Clip"
 msgstr "Клип"
 
-#: src/doc/documentchecker.cpp:1883
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титров"
 
-#: src/doc/documentchecker.cpp:1887
+#: src/doc/documentchecker.cpp:1893
 #, kde-format
 msgid "Luma file"
 msgstr "Файл каше"
 
-#: src/doc/documentchecker.cpp:1889
+#: src/doc/documentchecker.cpp:1895
 #, kde-format
 msgid "Asset file"
 msgstr "Файл ресурса"
 
-#: src/doc/documentchecker.cpp:1891
+#: src/doc/documentchecker.cpp:1897
 #: src/mltcontroller/clippropertiescontroller.cpp:672
 #, kde-format
 msgid "Proxy clip"
 msgstr "Прокси-клип"
 
-#: src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1901
 #, kde-format
 msgid "Transition"
 msgstr "Переход"
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1903
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Клип без ссылок"
 
-#: src/doc/documentchecker.cpp:1899
+#: src/doc/documentchecker.cpp:1905
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Повреждённая последовательность"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1909 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1915 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фиксированная"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1917
 #, kde-format
 msgid "Reload"
 msgstr "Обновить"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1919
 #, kde-format
 msgid "Missing"
 msgstr "Отсутствует"
 
-#: src/doc/documentchecker.cpp:1915
+#: src/doc/documentchecker.cpp:1921
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Отсутствует, но доступен прокси"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1917 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1923 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заполнитель"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1919 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1925 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/doc/documentchecker.cpp:1930
+#: src/doc/documentchecker.cpp:1936
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проекта ссылается на отсутствующие клипы или файлы."
 
-#: src/doc/documentchecker.cpp:1933
+#: src/doc/documentchecker.cpp:1939
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
@@ -23580,7 +23603,7 @@ msgstr "Шаблоны"
 msgid " - deprecated"
 msgstr " — устарел"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:281
+#: src/effects/effectlist/model/effecttreemodel.cpp:285
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -30745,6 +30768,8 @@ msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
+"10-битная цветовая глубина будет преобразована в 8-битную, если используется "
+"композитинг или эффекты, не предоставляемые avfilter."
 
 #: src/renderpresets/renderpresetmodel.cpp:386
 #, kde-format
@@ -30770,7 +30795,7 @@ msgstr "Без потерь/В высоком качестве"
 #: src/renderpresets/renderpresetrepository.cpp:241
 #, kde-format
 msgid "10 Bit"
-msgstr ""
+msgstr "10 бит"
 
 #: src/renderpresets/renderpresetrepository.cpp:254
 #, kde-format
