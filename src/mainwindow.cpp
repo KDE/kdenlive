@@ -190,7 +190,6 @@ void MainWindow::init()
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
     m_timelineToolBarContainer->setLayout(ctnLay);
-    connect(this, &MainWindow::showTimelineFocus, this, &MainWindow::slotHighlightTimelineTimecode);
     ctnLay->addWidget(m_timelineToolBar);
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup mainConfig(config, QStringLiteral("MainWindow"));
@@ -901,9 +900,6 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
         getCurrentTimeline()->controller()->resetView();
-    }
-    if (m_timelineFocused) {
-        applyTimecodeButtonStyling();
     }
     applyToolMessageStyling();
 
@@ -4134,35 +4130,6 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_projectMonitor->updateTimecodeFormat();
     Q_EMIT getCurrentTimeline()->controller()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
-}
-
-void MainWindow::slotHighlightTimelineTimecode(bool focus, bool highlight)
-{
-    m_timelineFocused = focus;
-    m_timelineHighlighted = highlight;
-    applyTimecodeButtonStyling();
-}
-
-void MainWindow::applyTimecodeButtonStyling()
-{
-    // Get the QToolButton that represents the timecode action in the timeline toolbar
-    QToolButton *timecodeButton = qobject_cast<QToolButton *>(m_timelineToolBar->widgetForAction(m_timeFormatButton));
-    if (timecodeButton) {
-        KColorScheme scheme(QApplication::palette().currentColorGroup());
-        QColor focusColor = scheme.decoration(KColorScheme::FocusColor).color();
-        QColor highlightColor = scheme.decoration(KColorScheme::HoverColor).color();
-
-        if (m_timelineFocused) {
-            if (m_timelineHighlighted) {
-                timecodeButton->setStyleSheet(QStringLiteral("QToolButton { color: %1; font-weight: normal; }").arg(highlightColor.name(QColor::HexArgb)));
-            } else {
-                timecodeButton->setStyleSheet(QStringLiteral("QToolButton { color: %1; font-weight: bold; }").arg(focusColor.name(QColor::HexArgb)));
-            }
-        } else {
-            // Use normal button text color when not focused
-            timecodeButton->setStyleSheet(QString());
-        }
-    }
 }
 
 void MainWindow::applyToolMessageStyling()

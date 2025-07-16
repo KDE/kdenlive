@@ -539,31 +539,6 @@ void TimelineWidget::stopAudioRecord()
     }
 }
 
-bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
-{
-    switch (event->type()) {
-    case QEvent::Enter:
-        if (!hasFocus()) {
-            Q_EMIT pCore->window()->showTimelineFocus(true, true);
-        }
-        break;
-    case QEvent::Leave:
-        if (!hasFocus()) {
-            Q_EMIT pCore->window()->showTimelineFocus(false, true);
-        }
-        break;
-    case QEvent::FocusOut:
-        Q_EMIT pCore->window()->showTimelineFocus(false, false);
-        break;
-    case QEvent::FocusIn:
-        Q_EMIT pCore->window()->showTimelineFocus(true, false);
-        break;
-    default:
-        break;
-    }
-    return QQuickWidget::eventFilter(object, event);
-}
-
 void TimelineWidget::regainFocus()
 {
     if (underMouse() && rootObject()) {

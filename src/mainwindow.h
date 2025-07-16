@@ -276,10 +276,6 @@ private:
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;
 
-    // Timeline Timecode styling state tracking
-    bool m_timelineFocused{false};
-    bool m_timelineHighlighted{false};
-
     // Tool message styling state tracking
     TimelineMode::EditMode m_currentEditMode{TimelineMode::NormalEdit};
 
@@ -566,10 +562,6 @@ private Q_SLOTS:
     /** @brief Switches between displaying frames or timecode.
      * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
-    /** @brief Update timeline timecode button styling based on focus state */
-    void slotHighlightTimelineTimecode(bool focus, bool highlight);
-    /** @brief Apply timecode button styling based on current state */
-    void applyTimecodeButtonStyling();
     /** @brief Apply tool message styling based on current edit mode */
     void applyToolMessageStyling();
 
@@ -679,7 +671,6 @@ Q_SIGNALS:
     void adjustAssetPanelRange(int itemId, int in, int out);
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
-    bool showTimelineFocus(bool focus, bool highlight);
     void removeBinDock(const QString &name);
     /** @brief Connect a newly created dock to signals updating/hiding its title bar. */
     void connectDockAfterInit(QDockWidget *);
