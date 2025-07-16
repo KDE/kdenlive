@@ -404,7 +404,23 @@ Rectangle {
         model: markersModel
         delegate:
         Item {
+            id: guideRoot
             anchors.fill: parent
+            property bool isRangeMarker: model.hasRange
+            property real markerDuration: model.duration
+
+            Rectangle {
+                id: rangeSpan
+                visible: guideRoot.isRangeMarker
+                x: (model.frame * root.timeScale) - ruler.rulerZoomOffset
+                width: Math.max(1, guideRoot.markerDuration * root.timeScale)
+                height: parent.height / 2
+                anchors.bottom: parent.bottom
+                color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.9)
+                border.color: model.color
+                border.width: 1
+            }
+
             Rectangle {
                 id: markerBase
                 width: 1
@@ -439,7 +455,7 @@ Rectangle {
                 }
                 Text {
                     id: mlabel
-                    text: model.comment
+                    text: model.comment + (guideRoot.isRangeMarker ? " (" + controller.toTimecode(guideRoot.markerDuration) + ")" : "")
                     font: fixedFont
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
