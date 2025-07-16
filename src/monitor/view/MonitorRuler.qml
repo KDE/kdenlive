@@ -299,6 +299,7 @@ Rectangle {
         z: 2
         fillColor: activePalette.windowText
         x: controller.position * root.timeScale - ruler.rulerZoomOffset - (width / 2)
+        z: 2
     }
     MouseArea {
         id: trimInMouseArea
@@ -414,11 +415,8 @@ Rectangle {
                 visible: guideRoot.isRangeMarker
                 x: (model.frame * root.timeScale) - ruler.rulerZoomOffset
                 width: Math.max(1, guideRoot.markerDuration * root.timeScale)
-                height: parent.height / 2
-                anchors.bottom: parent.bottom
-                color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.9)
-                border.color: model.color
-                border.width: 1
+                height: parent.height
+                color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.5)
             }
 
             Rectangle {
@@ -428,6 +426,16 @@ Rectangle {
                 x: (model.frame) * root.timeScale - ruler.rulerZoomOffset;
                 color: model.color
             }
+
+            Rectangle {
+                id: markerEnd
+                visible: guideRoot.isRangeMarker
+                width: 1
+                height: parent.height
+                x: (model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset;
+                color: model.color
+            }
+
             Rectangle {
                 id: markerTooltip
                 visible: !rulerMouseArea.pressed && (guideArea.containsMouse || (rulerMouseArea.containsMouse && Math.abs(rulerMouseArea.mouseX - markerBase.x) < 4))
