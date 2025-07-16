@@ -54,7 +54,7 @@
         <string>kdenlive.icns</string>
         <key>CFBundleTypeMIMETypes</key>
         <array>
-          <string>application/x-kdenlive</string>
+          <string>application/vnd.kdenlive+xml</string>
         </array>
         <key>CFBundleTypeName</key>
         <string>Kdenlive Project</string>
@@ -68,10 +68,6 @@
         <string>Owner</string>
         <key>LSIsAppleDefaultForType</key>
         <true/>
-        <key>LSItemContentTypes</key>
-        <array>
-          <string>org.kde.kdenlive</string>
-        </array>
         </dict>
         </array>
 </dict>
