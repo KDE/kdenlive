@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-16 00:42+0000\n"
-"PO-Revision-Date: 2025-07-12 04:06+0200\n"
+"PO-Revision-Date: 2025-07-16 04:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1552,7 +1552,7 @@ msgstr "CIE-ის ფარგლები"
 #: data/effects/avfilter/avfilter_ciescope.xml:5
 #, kde-format
 msgid "Display CIE color diagram with pixels overlaid onto it"
-msgstr ""
+msgstr "CIE ფერის დიაგრამის ჩვენება ზედ გადადებული პიქსელებით"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:8
 #: data/effects/avfilter/avfilter_ciescope.xml:18
@@ -25046,7 +25046,7 @@ msgstr "სრული გაფართოება (1:1)"
 #: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:237
 #, kde-format
@@ -26648,12 +26648,7 @@ msgid "Preview resolution - lower resolution means faster preview"
 msgstr "მინიატურის გაფართოება - რაც დაბალია გაფართოება, მით სწრაფია მინიატურა"
 
 #: src/monitor/monitor.cpp:234
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Sets the preview resolution of the project/clip monitor. One can select "
-#| "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster "
-#| "the preview)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
@@ -26661,8 +26656,8 @@ msgid ""
 "faster the preview)."
 msgstr ""
 "მიუთითებს პროექტის/კლიპის მონიტორის მინიატურის გაფართოებას. შეგიძლიათ "
-"აირჩიოთ ერთ-ერთი სიიდან 1:1, 720p, 540p. 360p, 270p (რაც დაბალია გაფართოება, "
-"მით სწრაფია მინიატურა)."
+"აირჩიოთ ერთ-ერთი სიიდან 1:1, 1080p, 720p, 540p, 360p, 270p (რაც დაბალია "
+"გაფართოება, მით სწრაფია მინიატურა)."
 
 #: src/monitor/monitor.cpp:237
 #, kde-format

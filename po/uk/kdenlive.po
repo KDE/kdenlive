@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-16 00:42+0000\n"
-"PO-Revision-Date: 2025-07-12 20:01+0300\n"
+"PO-Revision-Date: 2025-07-16 17:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -25998,7 +25998,7 @@ msgstr "Повна роздільність (1:1)"
 #: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:237
 #, kde-format
@@ -27617,12 +27617,7 @@ msgstr ""
 "перегляд"
 
 #: src/monitor/monitor.cpp:234
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Sets the preview resolution of the project/clip monitor. One can select "
-#| "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster "
-#| "the preview)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
@@ -27630,7 +27625,7 @@ msgid ""
 "faster the preview)."
 msgstr ""
 "Встановлює роздільність попереднього перегляду для монітора проєкту або "
-"кліпу. Варіанти вибору: 1:1, 720p, 540p, 360p, 270p (чим меншою буде "
+"кліпу. Варіанти вибору: 1:1, 1080p, 720p, 540p, 360p, 270p (чим меншою буде "
 "роздільність, тим швидше працюватиме попередній перегляд)."
 
 #: src/monitor/monitor.cpp:237
