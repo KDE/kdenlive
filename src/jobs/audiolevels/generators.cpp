@@ -171,6 +171,14 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
     // Find and open codec for requested stream
     stream = fmt_ctx->streams[streamIdx];
 
+    // check for delay
+    if (stream->start_time > 0) {
+        // TODO: Handle delay in our libav code
+        // Stream with a delay, not currently handled in our avformat code, switch to MLT
+        qWarning() << "Stream with delay, switching to MLT" << streamIdx;
+        goto cleanup;
+    }
+
     // Set discard flag for all streams except our target audio stream to reduce unnecessary I/O operations
     for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
         if (i != streamIdx) {
