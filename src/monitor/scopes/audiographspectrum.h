@@ -45,15 +45,18 @@ public Q_SLOTS:
 protected:
     void paintEvent(QPaintEvent *pe) override;
     void resizeEvent(QResizeEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private:
     QVector<float> m_levels;
     QVector<int> m_dbLabels;
     QStringList m_freqLabels;
     QPixmap m_pixmap;
+    // Area of the widget used for drawing the bars
     QRect m_rect;
     int m_maxDb;
     void drawDbLabels(QPainter &p, const QRect &rect);
+    void fillBackground(QPainter &p, const QRect &rect);
     void drawChanLabels(QPainter &p, const QRect &rect, int barWidth);
 };
 
