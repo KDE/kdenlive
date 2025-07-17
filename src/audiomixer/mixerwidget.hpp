@@ -103,9 +103,9 @@ private:
     QPalette::ColorRole m_backgroundColorRole;
 
     // Add label pointers for enabled/disabled style control
-    QLabel *m_dbLabel;
-    QLabel *m_balanceLabelLeft;
-    QLabel *m_balanceLabelRight;
+    QLabel *m_dbLabel{nullptr};
+    QLabel *m_balanceLabelLeft{nullptr};
+    QLabel *m_balanceLabelRight{nullptr};
 
     // UI Building methods
     void buildAudioMeter();
