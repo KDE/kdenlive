@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-16 03:14+0000\n"
-"PO-Revision-Date: 2025-07-15 17:19+0300\n"
+"PO-Revision-Date: 2025-07-16 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -834,7 +834,7 @@ msgstr "Центральная частота"
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,KHz"
 msgstr "Гц,Q-коэффициент,Октава,Спад,кГц"
 
@@ -886,9 +886,9 @@ msgid "1,2"
 msgstr "1,2"
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "Order"
-msgstr "Рамка "
+msgstr "Порядок"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -910,9 +910,9 @@ msgstr "di,dii,tdii,latt"
 #: data/effects/avfilter/avfilter_highshelf.xml:32
 #: data/effects/avfilter/avfilter_lowpass.xml:29
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "Transform type"
-msgstr "Трансформация"
+msgstr "Тип преобразования"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -951,9 +951,9 @@ msgstr "Задержка в миллисекундах"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Triangular,Sinusoidal"
-msgstr "Треугольное окно"
+msgstr "Треугольный,Синусоидальный"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
 #, kde-format
@@ -1615,7 +1615,7 @@ msgstr "<![CDATA[Выбор цветовой системы]]>"
 #: data/effects/avfilter/avfilter_ciescope.xml:13
 #, kde-format
 msgid "xyY,UCS,LUV"
-msgstr ""
+msgstr "xyY,UCS,LUV"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:14
 #, kde-format
@@ -2746,6 +2746,9 @@ msgid ""
 "        If difference between current pixel and reference pixel is less than "
 "threshold, it will be considered as banded.]]>"
 msgstr ""
+"<![CDATA[Устанавливает порог выявления полос для каждой плоскости.<br>\n"
+"        Если разница между текущим пикселом и эталонным пикселом меньше "
+"порогового значения, то он считается попадающим в полосу.]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:13
 #, kde-format
@@ -2823,9 +2826,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "DeBlock"
-msgstr "Часы"
+msgstr "Устранение блоков"
 
 #: data/effects/avfilter/avfilter_deblock.xml:5
 #, kde-format
@@ -2871,15 +2874,15 @@ msgstr "Все,Y,U,V,Альфа,Красный,Зелёный,Синий"
 #: data/effects/avfilter/avfilter_dedot.xml:4
 #, kde-format
 msgid "DeDot"
-msgstr ""
+msgstr "Устранение точек"
 
 #: data/effects/avfilter/avfilter_dedot.xml:5
 #, kde-format
 msgid ""
 "Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video"
 msgstr ""
-"Уменьшить перекрёстную яркостную помеху (расползание точек) и перекрёстную "
-"цветовую помеху (радуги) на видео"
+"Уменьшение перекрёстной яркостной помехи (расползания точек) и перекрёстной "
+"цветовой помехи (радуги) на видео"
 
 #: data/effects/avfilter/avfilter_dedot.xml:8
 #, kde-format
@@ -3623,16 +3626,16 @@ msgstr ""
 "1.0 — звук не будет изменён, -1.0 — левый и правый каналы поменяются местами."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "3D FFT Denoiser"
-msgstr "Шумоподавление"
+msgstr "Устранение шума в 3D с помощью быстрого преобразования Фурье"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 3D FFT (frequency domain filtering)"
 msgstr ""
-"Устранение шума на кадрах с помощью трёхмерной фильтрации FFT в области "
-"частот"
+"Устранение шума на кадрах в 3D с помощью быстрого преобразования Фурье "
+"(фильтрация в области частот)"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:10
 #, kde-format
@@ -3793,17 +3796,12 @@ msgid "Transform the field order of the input video."
 msgstr "Преобразование порядка полей входного видео"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:4
-#, fuzzy, kde-format
-#| msgid "Fill borders"
+#, kde-format
 msgid "Fill Borders"
 msgstr "Заполнение по краям"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Fill borders of the input video, without changing video stream "
-#| "dimensions. Sometimes video can have garbage at the four edges and you "
-#| "may not want to crop video input to keep size multiple of some number"
+#, kde-format
 msgid ""
 "Fill borders of the input video without changing video stream dimensions. "
 "Sometimes video can have garbage at the four edges and you may not want to "
@@ -3814,12 +3812,9 @@ msgstr ""
 "(чтобы сохранить верные пропорции для кадров)"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:8
-#, fuzzy, kde-format
-#| msgid "Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins"
+#, kde-format
 msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
-msgstr ""
-"Смазывание,Зеркальное отражение,Фиксированное,Отражение,Обтекание,Угасание,"
-"Поля"
+msgstr "Смазывание,Зеркальное отражение,Цвет,Отражение,Обтекание,Угасание,Поля"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
@@ -3869,12 +3864,12 @@ msgstr "Флэнжер"
 #: data/effects/avfilter/avfilter_flanger.xml:5
 #, kde-format
 msgid "Apply a flanging effect to the audio. "
-msgstr ""
+msgstr "Применение к аудио эффекта флэнжера "
 
 #: data/effects/avfilter/avfilter_flanger.xml:9
 #, kde-format
 msgid "Set base delay in milliseconds. Range from 0 to 30."
-msgstr ""
+msgstr "Установить базовую задержку в миллисекундах. Диапазон: от 0 до 30."
 
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
@@ -4406,10 +4401,9 @@ msgid "Colors Mode"
 msgstr "Цветовая модель"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelize (avfilter)"
+#, kde-format
 msgid "HQ 3D Denoiser (avfilter)"
-msgstr "Пикселизация (avfilter)"
+msgstr "Высококачественное устранение шума в 3D (avfilter)"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
@@ -4841,6 +4835,8 @@ msgid ""
 "Correct radial lens distortion. This effect allows to specify a color for "
 "the unmapped pixels."
 msgstr ""
+"Коррекция радиальной дисторсии объектива. Этот эффект позволяет указать цвет "
+"для несопоставленных пикселов."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, fuzzy, kde-format
@@ -8982,9 +8978,9 @@ msgid "Nadir start"
 msgstr "Начало надира"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens distortion A"
-msgstr "Коррекция объектива"
+msgstr "Дисторсия объектива, A"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:78
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:83
@@ -8994,21 +8990,23 @@ msgid ""
 "<![CDATA[Lens distortion correction parameters.<br>\n"
 "    \tThe first three parameters are the same as in Hugin.]]>"
 msgstr ""
+"<![CDATA[Параметры коррекции дисторсии объектива.<br>\n"
+"    \tПервые три параметра такие же, как в Hugin.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens distortion B"
-msgstr "Коррекция объектива"
+msgstr "Дисторсия объектива, B"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens distortion C"
-msgstr "Коррекция объектива"
+msgstr "Дисторсия объектива, C"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:91
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens distortion radius"
-msgstr "Радиус по горизонтали"
+msgstr "Радиус дисторсии объектива"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:93
 #, kde-format
@@ -9018,11 +9016,16 @@ msgid ""
 "(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
 "hemispherical image, that would be 0.25.]]>"
 msgstr ""
+"<![CDATA[Параметры коррекции дисторсии объектива.<br>\n"
+"    \tЕсли используются параметры Hugin, «Радиус» следует установить в "
+"значение (0.5 * min(ширина изображения, высота изображения) / ширина "
+"изображения). Для изображения с двумя полусферами с соотношением сторон 2:1 "
+"это будет 0.25.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens vignetting A"
-msgstr "Естественный эффект виньетирования"
+msgstr "Виньетирование объектива, A"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:98
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:103
@@ -9034,26 +9037,29 @@ msgid ""
 "    \tThe first four parameters are the same as in Hugin, corresponding to "
 "the Va, Vb, Vc and Vd image parameters.]]>"
 msgstr ""
+"<![CDATA[Параметры коррекции виньетирования объектива.<br>\n"
+"    \tПервые четыре параметра такие же, как в Hugin, соответствуют "
+"параметрам Va, Vb, Vc и Vd изображения.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens vignetting B"
-msgstr "Естественный эффект виньетирования"
+msgstr "Виньетирование объектива, B"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:106
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens vignetting C"
-msgstr "Естественный эффект виньетирования"
+msgstr "Виньетирование объектива, C"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:111
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens vignetting D"
-msgstr "Естественный эффект виньетирования"
+msgstr "Виньетирование объектива, D"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens vignetting radius"
-msgstr "Радиус объектива"
+msgstr "Радиус виньетирования объектива"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:118
 #, kde-format
@@ -9067,12 +9073,14 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
 #, kde-format
 msgid "Use sensor response parameters"
-msgstr ""
+msgstr "Использовать параметры реакции датчика"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
 #, kde-format
 msgid "<![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]>"
 msgstr ""
+"<![CDATA[Включите, чтобы использовать параметры реакции датчика (EMoR "
+"h(x))]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
 #, kde-format
@@ -9092,6 +9100,11 @@ msgid ""
 "should also use these parameters, as Hugin's vignetting correction assumes "
 "that the sensor response has been corrected.]]>"
 msgstr ""
+"<![CDATA[Параметры реакции датчика.<br>\n"
+"    \tПараметры EMoR h(x) такие же, как Ra - Re в параметрах объектива "
+"Hugin. Если для коррекции виньетирования используются значения, полученные "
+"из Hugin, следует использовать также и эти параметры, так как коррекция "
+"виньетирования в Hugin предполагает, что реакция датчика скорректирована.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
 #, kde-format
@@ -10007,7 +10020,7 @@ msgstr "Высококачественное устранение шума в 3D
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, kde-format
 msgid "<![CDATA[High quality 3D denoiser]]>"
-msgstr "<![CDATA[Высококачественное подавление шума в 3D]]>"
+msgstr "<![CDATA[Высококачественное устранение шума в 3D]]>"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
@@ -10629,6 +10642,8 @@ msgid ""
 "<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
 "    High quality 3D denoiser]]>"
 msgstr ""
+"<![CDATA[<b>Заменён на frei0r.denoise_hqdn3d</b><br>\n"
+"    Высококачественное устранение шума в 3D]]>"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, kde-format
@@ -10888,8 +10903,7 @@ msgid "Color distance,Transparency,Edge inwards,Edge outwards"
 msgstr "Цветовое отличие, Прозрачность, Внутренние края, Внешние края"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
-#, fuzzy, kde-format
-#| msgid "Mask type"
+#, kde-format
 msgid "Mask Type"
 msgstr "Тип маски"
 
@@ -11086,6 +11100,10 @@ msgid ""
 "                This makes the dark areas even darker, influences the mid-"
 "tones a little and the highlights not at all. Increases contrast.]]>"
 msgstr ""
+"<![CDATA[Перемещает точку чёрного вправо: все пикселы с этим или меньшим "
+"значением будут чёрными.<br>\n"
+"                Это делает тёмные области ещё темнее, немного влияет на "
+"средние тона и вообще не влияет на блики. Увеличивает контрастность.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:89
 #, kde-format
@@ -11095,6 +11113,10 @@ msgid ""
 "                This makes bright areas even brighter, influences the mid-"
 "tones a little and the dark areas not at all. Increases contrast.]]>"
 msgstr ""
+"<![CDATA[Перемещает точку белого влево: все пикселы с этим или большим "
+"значением будут белыми.<br>\n"
+"                Это делает яркие области ещё ярче, немного влияет на средние "
+"тона и вообще не влияет на тёмные области. Увеличивает контрастность.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:94
 #, no-c-format, kde-format
@@ -11796,8 +11818,8 @@ msgid ""
 "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
 "VarSize"
 msgstr ""
-"Крест5,Квадрат3x3,Двухуровневый,Ромб3x3,Квадрат5x5,Temp3,Temp5,ArceBI,ML3D,"
-"ML3dEX,VarSize"
+"Крест5,Квадрат3x3,Двухуровневый,Ромб3x3,Квадрат5x5,Временной3,Временной5,"
+"ArceBI,ML3D,ML3dEX,ПерРазмер"
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
@@ -24007,7 +24029,7 @@ msgstr "Сбой задания"
 #: src/effects/effectstack/view/maskmanager.cpp:148
 #, kde-format
 msgid "Mask plugin crashed"
-msgstr ""
+msgstr "Произошёл сбой модуля маски"
 
 #: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
