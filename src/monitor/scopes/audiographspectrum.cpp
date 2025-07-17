@@ -89,6 +89,9 @@ static const band BAND_TAB[] = {
 static const int FIRST_AUDIBLE_BAND_INDEX = 12;
 static const int LAST_AUDIBLE_BAND_INDEX = 42;
 static const int AUDIBLE_BAND_COUNT = LAST_AUDIBLE_BAND_INDEX - FIRST_AUDIBLE_BAND_INDEX + 1;
+static const int PADDING = 2; // Space between the background and the content/bars
+static const int MARGIN = 2;  // Space between the background and the labels/text or widget borders
+static const int MIN_BAR_WIDTH = 2;
 
 const float log_factor = 1.0f / log10f(1.0f / 127);
 
@@ -124,7 +127,8 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent)
         m_freqLabels << BAND_TAB[i].label;
     }
     m_maxDb = 0;
-    setMinimumWidth(2 * m_freqLabels.size() + fontMetrics().horizontalAdvance(QStringLiteral("888")) + 2);
+    // space for drawing dB labels and all the bars with minimum width
+    setMinimumWidth(MIN_BAR_WIDTH * m_freqLabels.size() + fontMetrics().horizontalAdvance(QStringLiteral("-45")) + MARGIN + 2 * PADDING);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMinimumHeight(100);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -149,18 +153,28 @@ void AudioGraphWidget::drawDbLabels(QPainter &p, const QRect &rect)
     // dB scale is vertical along the left side
     int prevY = height();
     QColor textCol = palette().text().color();
-    p.setPen(textCol);
+    textCol.setAlphaF(0.8);
+    bool isDarkTheme = palette().color(QPalette::Window).lightness() < palette().color(QPalette::WindowText).lightness();
+    QColor lineCol;
+    if (isDarkTheme) {
+        lineCol = QColor(150, 255, 200, 32);
+    } else {
+        lineCol = QColor(60, 140, 80, 80);
+    }
+
     for (int i = 0; i < dbLabelCount; i++) {
         QString label = QString::number(m_dbLabels.at(i));
         int x = rect.left() + maxWidth - fontMetrics().horizontalAdvance(label);
         int yline = int(rect.bottom() - pow(10.0, double(m_dbLabels.at(i)) / 50.0) * rect.height() * 40.0 / 42);
         int y = yline + textHeight / 2;
-        if (y - textHeight < 0) {
+        if (y - textHeight < rect.top()) {
             y = textHeight;
         }
         if (prevY - y >= 2) {
+            p.setPen(textCol);
             p.drawText(x, y, label);
-            p.drawLine(rect.left() + maxWidth + 2, yline, rect.width(), yline);
+            p.setPen(lineCol);
+            p.drawLine(rect.left() + maxWidth + MARGIN, yline, rect.width(), yline);
             prevY = y - textHeight;
         }
     }
@@ -175,7 +189,15 @@ void AudioGraphWidget::drawChanLabels(QPainter &p, const QRect &rect, int barWid
         return;
     }
 
-    p.setPen(palette().text().color().rgb());
+    QColor textCol = palette().text().color();
+    textCol.setAlphaF(0.8);
+    bool isDarkTheme = palette().color(QPalette::Window).lightness() < palette().color(QPalette::WindowText).lightness();
+    QColor lineCol;
+    if (isDarkTheme) {
+        lineCol = QColor(150, 255, 200, 32);
+    } else {
+        lineCol = QColor(60, 140, 80, 80);
+    }
 
     // Channel labels are horizontal along the bottom.
 
@@ -190,22 +212,48 @@ void AudioGraphWidget::drawChanLabels(QPainter &p, const QRect &rect, int barWid
         stride++;
     }
 
-    int prevX = 0;
+    int prevXText = 0;
     int y = rect.bottom();
     for (int i = 0; i < chanLabelCount; i += stride) {
         QString label = m_freqLabels.at(i);
-        int x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().horizontalAdvance(label) / 2;
-        if (x > prevX) {
-            p.drawText(x, y, label);
-            prevX = x + fontMetrics().horizontalAdvance(label);
+        int xLine = rect.left() + (2 * i) + i * barWidth + barWidth / 2;
+        int xText = xLine - fontMetrics().horizontalAdvance(label) / 2;
+        if (xText > prevXText) {
+            p.setPen(textCol);
+            p.drawText(xText, y, label);
+
+            p.setPen(lineCol);
+            p.drawLine(xLine, rect.top(), xLine, rect.bottom() - fontMetrics().height());
+
+            prevXText = xText + fontMetrics().horizontalAdvance(label);
         }
     }
+}
+
+void AudioGraphWidget::fillBackground(QPainter &p, const QRect &rect)
+{
+    QRectF fillRect = rect.toRectF();
+
+    int linePenWidth = 1;
+    int xOffset = fontMetrics().horizontalAdvance(QStringLiteral("-45")) + MARGIN - linePenWidth / 2.0;
+    int yOffset = -fontMetrics().height();
+
+    fillRect.adjust(xOffset, 0, 0, yOffset);
+    p.fillRect(fillRect, palette().base().color());
 }
 
 void AudioGraphWidget::resizeEvent(QResizeEvent *event)
 {
     drawBackground();
     QWidget::resizeEvent(event);
+}
+
+void AudioGraphWidget::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::PaletteChange) {
+        drawBackground();
+    }
+    QWidget::changeEvent(event);
 }
 
 void AudioGraphWidget::drawBackground()
@@ -220,20 +268,26 @@ void AudioGraphWidget::drawBackground()
     if (m_pixmap.isNull()) {
         return;
     }
-    m_pixmap.fill(palette().base().color());
+    m_pixmap.fill(Qt::transparent);
     QPainter p(&m_pixmap);
-    QRect rect(0, 0, width() - 3, height());
+    QRect rect(0, 0, width(), height());
     p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    p.setOpacity(0.6);
-    int offset = fontMetrics().horizontalAdvance(QStringLiteral("888")) + 2;
-    if (rect.width() - offset > 10) {
-        drawDbLabels(p, rect);
-        rect.adjust(offset, 0, 0, 0);
-    }
+
+    int textHeight = fontMetrics().height();
+    int textWidth = fontMetrics().horizontalAdvance(QStringLiteral("-45"));
+
+    rect = QRect(0, 0, width(), height());
+    fillBackground(p, rect);
+
+    rect = QRect(0, PADDING, width(), height() - (2 * PADDING + textHeight));
+    drawDbLabels(p, rect);
+
+    int chanLabelsXOffset = textWidth + MARGIN + PADDING;
+    rect = QRect(chanLabelsXOffset, 0, width() - (chanLabelsXOffset + PADDING), height());
     int barWidth = (rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
     drawChanLabels(p, rect, barWidth);
-    rect.adjust(0, 0, 0, -fontMetrics().height());
-    m_rect = rect;
+
+    m_rect = QRect(chanLabelsXOffset, PADDING, width() - (chanLabelsXOffset + PADDING), height() - (2 * PADDING + textHeight));
 }
 
 void AudioGraphWidget::paintEvent(QPaintEvent *pe)
@@ -244,11 +298,12 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     if (m_levels.isEmpty()) {
         return;
     }
+    bool isDarkTheme = palette().color(QPalette::Window).lightness() < palette().color(QPalette::WindowText).lightness();
     int chanCount = m_levels.size();
     int height = m_rect.height();
     double barWidth = (m_rect.width() - (2.0 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
-    p.setOpacity(0.6);
-    QRectF rect(m_rect.left(), 0, barWidth, height);
+    p.setOpacity(0.7);
+    QRectF rect(m_rect.left(), m_rect.top(), barWidth, height);
     for (int i = 0; i < chanCount; i++) {
         float level = (0.5 + m_levels.at(i)) / 1.5 * height;
         if (level < 0) {
@@ -256,8 +311,8 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
         }
         rect.moveLeft(m_rect.left() + i * barWidth + (2 * i));
         rect.setHeight(level);
-        rect.moveBottom(height);
-        p.fillRect(rect, Qt::darkGreen);
+        rect.moveBottom(m_rect.bottom());
+        p.fillRect(rect, isDarkTheme ? Qt::white : Qt::black);
     }
 }
 
@@ -295,7 +350,6 @@ AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
         connect(m_manager, &MonitorManager::frameDisplayed, this, &ScopeWidget::onNewFrame, Qt::UniqueConnection);
     }
     connect(a, &QAction::triggered, this, &AudioGraphSpectrum::activate);
-    connect(pCore.get(), &Core::updatePalette, this, &AudioGraphSpectrum::refreshPixmap);
     addAction(a);
     setContextMenuPolicy(Qt::ActionsContextMenu);
 }
