@@ -4838,6 +4838,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         }
         if (highlightClip) {
             pCore->activeBin()->selectClipById(binId);
+
         }
         qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
         int endPos = recPosition.second;
