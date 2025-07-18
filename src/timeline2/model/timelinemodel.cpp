@@ -1906,7 +1906,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         qWarning() << "no clip found in bin for" << bid;
         return false;
     }
-
     bool audioDrop = false;
     if (!useTargets) {
         audioDrop = getTrackById_const(trackId)->isAudioTrack();
@@ -1920,6 +1919,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     }
 
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
+    if (!master) {
+        qDebug() << "Bin clip unavailable for operation";
+        return false;
+    }
     type = master->clipType();
     // Ensure we don't insert a timeline clip onto itself
     if (type == ClipType::Timeline && !master->canBeDropped(m_uuid)) {
@@ -1960,7 +1963,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             return false;
         }
         int audioStream = -1;
-        QList<int> keys = m_binAudioTargets.keys();
+        QList<int> keys = useTargets ? m_binAudioTargets.keys() : master->activeStreams().keys();
         if (!useTargets) {
             // Drag and drop, calculate target tracks
             if (audioDrop) {
