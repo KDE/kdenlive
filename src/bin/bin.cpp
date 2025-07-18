@@ -2631,7 +2631,6 @@ void Bin::selectAll()
 
 void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, bool activateMonitor)
 {
-    qDebug() << "CHECKING FOR BIN CLIP: " << clipId;
     if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == clipId) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
         if (clip) {
@@ -5768,8 +5767,10 @@ void Bin::updateClipsCount()
 
 void Bin::updateKeyBinding(const QString &bindingMessage)
 {
-    m_keyBindingMessage = bindingMessage;
-    showBinInfo();
+    if (bindingMessage != m_keyBindingMessage) {
+        m_keyBindingMessage = bindingMessage;
+        showBinInfo();
+    }
 }
 
 void Bin::showBinInfo()

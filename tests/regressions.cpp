@@ -743,6 +743,7 @@ TEST_CASE("FuzzBug4")
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         KdenliveTests::finishTimelineConstruct(timeline_0);
         pCore->projectManager()->testSetActiveTimeline(timeline_0);
+        KdenliveTests::setVideoTargets(timeline_0, 1);
 
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
@@ -774,7 +775,7 @@ TEST_CASE("FuzzBug4")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
+        const QString producerWithAudio = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -782,7 +783,7 @@ TEST_CASE("FuzzBug4")
         REQUIRE(timeline_0->checkConsistency());
         {
             int dummy_3;
-            bool res = timeline_0->requestClipInsertion("5", 1, 3, dummy_3, true, true, true);
+            bool res = timeline_0->requestClipInsertion(producerWithAudio, 1, 3, dummy_3, true, true, true);
             REQUIRE(res == true);
         }
         REQUIRE(timeline_0->checkConsistency());
@@ -950,7 +951,6 @@ TEST_CASE("FuzzBug5")
         {
             int dummy_3;
             bool res = timeline_1->requestClipInsertion("2", 5, 0, dummy_3, true, false, true);
-            qDebug() << "==== INSERTED FIRST CLIP DURATION: " << timeline_1->getClipPlaytime(dummy_3);
             REQUIRE(res == true);
         }
         pCore->projectManager()->testSetActiveTimeline(timeline_0);

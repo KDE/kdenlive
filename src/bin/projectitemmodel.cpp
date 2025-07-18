@@ -236,10 +236,10 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
         break;
     case AbstractProjectItem::SubSequenceItem:
         // Currently sub sequences can't be inserted into timeline, disable drag
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
         break;
     default:
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
     }
 }
 
