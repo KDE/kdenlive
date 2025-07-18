@@ -5768,8 +5768,10 @@ void Bin::updateClipsCount()
 
 void Bin::updateKeyBinding(const QString &bindingMessage)
 {
-    m_keyBindingMessage = bindingMessage;
-    showBinInfo();
+    if (bindingMessage != m_keyBindingMessage) {
+        m_keyBindingMessage = bindingMessage;
+        showBinInfo();
+    }
 }
 
 void Bin::showBinInfo()
