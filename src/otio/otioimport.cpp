@@ -339,7 +339,7 @@ int OtioImport::importClip(const std::shared_ptr<OtioImportData> &importData, co
     int clipId = -1;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    importData->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, true, undo, redo);
+    importData->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, false, undo, redo, {trackId});
     if (-1 == clipId) {
         return -1;
     }
