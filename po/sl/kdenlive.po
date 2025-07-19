@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-18 02:32+0000\n"
+"POT-Creation-Date: 2025-07-19 07:10+0000\n"
 "PO-Revision-Date: 2025-07-10 14:30+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -17109,7 +17109,7 @@ msgstr "Učinki steze %1"
 msgid "Bin %1 effects"
 msgstr "Učinki posode %1"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3804
+#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3803
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
@@ -17117,7 +17117,7 @@ msgstr "Učinki posode %1"
 msgid "Show log"
 msgstr "Pokaži dnevnik"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3807
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3806
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -18369,7 +18369,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Zamenjaj na časovnici"
 
-#: src/bin/bin.cpp:2105 src/bin/bin.cpp:5739 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2105 src/bin/bin.cpp:5738 src/bin/clipcreator.cpp:330
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -18522,13 +18522,13 @@ msgstr "Mapa"
 msgid "Create bin folder"
 msgstr "Ustvari mapo posode"
 
-#: src/bin/bin.cpp:2691 src/bin/bin.cpp:2704 src/bin/bin.cpp:3711
-#: src/timeline2/model/timelinemodel.cpp:2192
+#: src/bin/bin.cpp:2690 src/bin/bin.cpp:2703 src/bin/bin.cpp:3710
+#: src/timeline2/model/timelinemodel.cpp:2202
 #, kde-format
 msgid "Delete Clip"
 msgstr "Izbriši posnetek"
 
-#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706
+#: src/bin/bin.cpp:2692 src/bin/bin.cpp:2705
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18537,37 +18537,37 @@ msgid ""
 msgstr ""
 "Izbriše trenutno izbrane posnetke iz projektne posode in tudi iz časovnice."
 
-#: src/bin/bin.cpp:2694 src/bin/bin.cpp:2707 src/bin/bin.cpp:3687
+#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706 src/bin/bin.cpp:3686
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Posredni posnetek"
 
-#: src/bin/bin.cpp:2698
+#: src/bin/bin.cpp:2697
 #, kde-format
 msgid "Delete Folder"
 msgstr "Izbriši mapo"
 
-#: src/bin/bin.cpp:2699
+#: src/bin/bin.cpp:2698
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Mapa za posredne posnetke"
 
-#: src/bin/bin.cpp:2965
+#: src/bin/bin.cpp:2964
 #, kde-format
 msgid "Edit rating"
 msgstr "Uredi ocene"
 
-#: src/bin/bin.cpp:2967
+#: src/bin/bin.cpp:2966
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Ne morem določiti ocene za ta predmet"
 
-#: src/bin/bin.cpp:3631
+#: src/bin/bin.cpp:3630
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Dodaj posnetek ali mapo …"
 
-#: src/bin/bin.cpp:3632
+#: src/bin/bin.cpp:3631
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18581,97 +18581,97 @@ msgstr ""
 "puščice navzdol, če želite izbrati s seznama vrst virov.<nl/> Kliknite ikono "
 "medija, da odprete okno, kjer izberete izvorne datoteke."
 
-#: src/bin/bin.cpp:3638
+#: src/bin/bin.cpp:3637
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Dodaj barvni posnetek …"
 
-#: src/bin/bin.cpp:3640
+#: src/bin/bin.cpp:3639
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Dodaj zaporedje slik …"
 
-#: src/bin/bin.cpp:3642
+#: src/bin/bin.cpp:3641
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Dodaj posnetek naslova …"
 
-#: src/bin/bin.cpp:3644
+#: src/bin/bin.cpp:3643
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Dodaj predlogo naslova …"
 
-#: src/bin/bin.cpp:3646
+#: src/bin/bin.cpp:3645
 #, kde-format
 msgid "Create Animation…"
 msgstr "Ustvari animacijo …"
 
-#: src/bin/bin.cpp:3648
+#: src/bin/bin.cpp:3647
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Dodaj zaporedje …"
 
-#: src/bin/bin.cpp:3651 src/mainwindow.cpp:309
+#: src/bin/bin.cpp:3650 src/mainwindow.cpp:309
 #, kde-format
 msgid "Online Resources"
 msgstr "Spletni viri"
 
-#: src/bin/bin.cpp:3655
+#: src/bin/bin.cpp:3654
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Najdi posnetek …"
 
-#: src/bin/bin.cpp:3660
+#: src/bin/bin.cpp:3659
 #, kde-format
 msgid "Reload Clip"
 msgstr "Znova naloži posnetek"
 
-#: src/bin/bin.cpp:3666
+#: src/bin/bin.cpp:3665
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Prekodiraj v montaži prijazen zapis …"
 
-#: src/bin/bin.cpp:3671
+#: src/bin/bin.cpp:3670
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Zamenjaj posnetek …"
 
-#: src/bin/bin.cpp:3677
+#: src/bin/bin.cpp:3676
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Zamenjaj posnetek na časovnici …"
 
-#: src/bin/bin.cpp:3682
+#: src/bin/bin.cpp:3681
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Podvoji posnetek"
 
-#: src/bin/bin.cpp:3694 src/bin/bin.cpp:3749
+#: src/bin/bin.cpp:3693 src/bin/bin.cpp:3748
 #, kde-format
 msgid "Clip Properties"
 msgstr "Lastnosti posnetka"
 
-#: src/bin/bin.cpp:3699 src/mltcontroller/clippropertiescontroller.cpp:609
+#: src/bin/bin.cpp:3698 src/mltcontroller/clippropertiescontroller.cpp:609
 #, kde-format
 msgid "Edit Clip"
 msgstr "Uredi posnetek"
 
-#: src/bin/bin.cpp:3717
+#: src/bin/bin.cpp:3716
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Privzeta ciljna mapa za zaporedja"
 
-#: src/bin/bin.cpp:3722
+#: src/bin/bin.cpp:3721
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Privzeta ciljna mapa za zvočne zajeme"
 
-#: src/bin/bin.cpp:3726
+#: src/bin/bin.cpp:3725
 #, kde-format
 msgid "Create Folder"
 msgstr "Ustvari mapo"
 
-#: src/bin/bin.cpp:3729
+#: src/bin/bin.cpp:3728
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18681,18 +18681,18 @@ msgstr ""
 "Ustvari mapo na trenutnem mestu v projektni posodi. Omogoča boljšo "
 "organizacijo izvornih datotek. Mape lahko gnezdite."
 
-#: src/bin/bin.cpp:3867 src/bin/bin.cpp:3900
+#: src/bin/bin.cpp:3866 src/bin/bin.cpp:3899
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Ustvari novo zaporedje"
 
-#: src/bin/bin.cpp:3870 src/bin/bin.cpp:3873 src/bin/bin.cpp:3903
+#: src/bin/bin.cpp:3869 src/bin/bin.cpp:3872 src/bin/bin.cpp:3902
 #, kde-format
 msgid "Sequence %1"
 msgstr "Zaporedje %1"
 
-#: src/bin/bin.cpp:3934
+#: src/bin/bin.cpp:3933
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -18701,44 +18701,44 @@ msgstr[1] "Premakni posnetek"
 msgstr[2] "Premakni posnetka"
 msgstr[3] "Premakni posnetke"
 
-#: src/bin/bin.cpp:3976
+#: src/bin/bin.cpp:3975
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Ni veljavnega posnetka za vstavljanje"
 
-#: src/bin/bin.cpp:3989 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:3988 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3441
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Izberite posnetek čemur želite dodati učinek"
 
-#: src/bin/bin.cpp:4000
+#: src/bin/bin.cpp:3999
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Ni možno dodati slikovnega učinka na mape"
 
-#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/bin/bin.cpp:4027 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Posnetku ni možno dodati slikovnega učinka"
 
-#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4065 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "Prilepi učinek"
 
-#: src/bin/bin.cpp:4103 src/bin/bin.cpp:4110
+#: src/bin/bin.cpp:4102 src/bin/bin.cpp:4109
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Izberite posnetek, ki mu želite dodati značko"
 
-#: src/bin/bin.cpp:4249
+#: src/bin/bin.cpp:4248
 #, kde-format
 msgid "Edit Tags"
 msgstr "Uredi značke"
 
-#: src/bin/bin.cpp:4585 src/bin/projectclip.cpp:188
+#: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
 #: src/bin/projectclip.cpp:1974 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -18746,27 +18746,27 @@ msgstr "Uredi značke"
 msgid "Unnamed"
 msgstr "Neimenovano"
 
-#: src/bin/bin.cpp:4649
+#: src/bin/bin.cpp:4648
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Vnesite pot svojega programa za urejanje slik"
 
-#: src/bin/bin.cpp:4661
+#: src/bin/bin.cpp:4660
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Nastavite privzeti program za odpiranje slik"
 
-#: src/bin/bin.cpp:4666
+#: src/bin/bin.cpp:4665
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Vnesite pot svojega programa za urejanje zvoka"
 
-#: src/bin/bin.cpp:4678
+#: src/bin/bin.cpp:4677
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Nastavite privzeti program za odpiranje zvočnih datotek"
 
-#: src/bin/bin.cpp:4688 src/core.cpp:329 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4687 src/core.cpp:329 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
@@ -18776,12 +18776,12 @@ msgstr "Nastavite privzeti program za odpiranje zvočnih datotek"
 msgid "Cannot open file %1"
 msgstr "Ni možno odpreti datoteke %1"
 
-#: src/bin/bin.cpp:4725 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:4724 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(kopija)"
 
-#: src/bin/bin.cpp:4735
+#: src/bin/bin.cpp:4734
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -18790,75 +18790,75 @@ msgstr ""
 "Urejate zunanji posnetek naslova (%1). Ali želite shraniti spremembe v "
 "datoteko naslova ali shraniti spremembe le za ta projekt?"
 
-#: src/bin/bin.cpp:4738 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:4737 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "Shrani naslov"
 
-#: src/bin/bin.cpp:4738
+#: src/bin/bin.cpp:4737
 #, kde-format
 msgid "Save to title file"
 msgstr "Shrani v datoteko naslova"
 
-#: src/bin/bin.cpp:4739
+#: src/bin/bin.cpp:4738
 #, kde-format
 msgid "Save in project only"
 msgstr "Shrani le v projekt"
 
-#: src/bin/bin.cpp:4762 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4761 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Posnetek naslova"
 
-#: src/bin/bin.cpp:4812
+#: src/bin/bin.cpp:4811
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Posnetek ni veljaven, zato bo odstranjen iz projekta."
 
-#: src/bin/bin.cpp:4816
+#: src/bin/bin.cpp:4815
 #, kde-format
 msgid "Invalid clip"
 msgstr "Neveljaven posnetek"
 
-#: src/bin/bin.cpp:4930
+#: src/bin/bin.cpp:4929
 #, kde-format
 msgid "Enable proxies"
 msgstr "Omogoči posredne posnetke"
 
-#: src/bin/bin.cpp:4930
+#: src/bin/bin.cpp:4929
 #, kde-format
 msgid "Disable proxies"
 msgstr "Onemogoči posredne posnetke"
 
-#: src/bin/bin.cpp:5111
+#: src/bin/bin.cpp:5110
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Ponovno izgradi posredne posnetke"
 
-#: src/bin/bin.cpp:5345
+#: src/bin/bin.cpp:5344
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektna posoda"
 
-#: src/bin/bin.cpp:5361
+#: src/bin/bin.cpp:5360
 #, kde-format
 msgid "Add Tracks"
 msgstr "Dodaj steze"
 
-#: src/bin/bin.cpp:5363
+#: src/bin/bin.cpp:5362
 #, kde-format
 msgid "Edit Streams"
 msgstr "Uredi tokove"
 
-#: src/bin/bin.cpp:5379
+#: src/bin/bin.cpp:5378
 #, kde-format
 msgid "Don't ask again"
 msgstr "Ne sprašuj več"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5383
+#: src/bin/bin.cpp:5382
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -18867,7 +18867,7 @@ msgstr ""
 "Vaš projekt potrebuje več zvočnih stez za upravljanje vseh tokov. Ali želite "
 "dodati %1 zvočnih stez?"
 
-#: src/bin/bin.cpp:5395 src/mainwindow.cpp:2759
+#: src/bin/bin.cpp:5394 src/mainwindow.cpp:2759
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
@@ -18875,7 +18875,7 @@ msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5409 src/bin/model/markerlistmodel.cpp:738
+#: src/bin/bin.cpp:5408 src/bin/model/markerlistmodel.cpp:738
 #: src/definitions.cpp:75 src/definitions.cpp:100
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
@@ -18884,22 +18884,22 @@ msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
 msgid "Marker"
 msgstr "Označevalnik"
 
-#: src/bin/bin.cpp:5499
+#: src/bin/bin.cpp:5498
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ni bilo možno najti matičnega posnetka"
 
-#: src/bin/bin.cpp:5761
+#: src/bin/bin.cpp:5760
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> posnetkov | "
 
-#: src/bin/bin.cpp:5763
+#: src/bin/bin.cpp:5762
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> posnetkov (%2 izbranih) | "
 
-#: src/bin/bin.cpp:5830 src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5831 src/bin/bin.cpp:5908
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -18908,12 +18908,12 @@ msgstr[1] "Dodaj dodatni tok za posnetek"
 msgstr[2] "Dodaj dodatna tokova za posnetek"
 msgstr[3] "Dodaj dodatne tokove za posnetek"
 
-#: src/bin/bin.cpp:5851
+#: src/bin/bin.cpp:5852
 #, kde-format
 msgid "Import selected clips"
 msgstr "Uvozi izbrane posnetke"
 
-#: src/bin/bin.cpp:5853
+#: src/bin/bin.cpp:5854
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -18922,51 +18922,51 @@ msgstr ""
 "Dodatni tokovi za posnetek\n"
 " %1"
 
-#: src/bin/bin.cpp:5866 src/mltcontroller/clippropertiescontroller.cpp:725
+#: src/bin/bin.cpp:5867 src/mltcontroller/clippropertiescontroller.cpp:725
 #, kde-format
 msgid "Video stream %1"
 msgstr "Tok videa %1"
 
-#: src/bin/bin.cpp:5881
+#: src/bin/bin.cpp:5882
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Zvočni tok %1"
 
-#: src/bin/bin.cpp:5934
+#: src/bin/bin.cpp:5935
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Odstrani označevalnike posnetka"
 
-#: src/bin/bin.cpp:6094
+#: src/bin/bin.cpp:6095
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Priporočamo, da pred operacijo prekodiranja projekt shranite"
 
-#: src/bin/bin.cpp:6095
+#: src/bin/bin.cpp:6096
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Shrani projekt"
 
-#: src/bin/bin.cpp:6096
+#: src/bin/bin.cpp:6097
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Prekodiraj brez shranjevanja"
 
-#: src/bin/bin.cpp:6254 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6255 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Izbriši učinek %1"
 
-#: src/bin/bin.cpp:6320 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6321 src/mainwindow.cpp:302
 #, kde-format
 msgid "Project Bin"
 msgstr "Projektna posoda"
 
-#: src/bin/bin.cpp:6323 src/bin/bin.cpp:6326 src/mainwindow.cpp:4937
+#: src/bin/bin.cpp:6324 src/bin/bin.cpp:6327 src/mainwindow.cpp:4937
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektna posoda %1"
@@ -19263,7 +19263,7 @@ msgid "Cut clip"
 msgstr "Odreži posnetek"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4015
+#: src/timeline2/model/timelinemodel.cpp:4025
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Spremeni velikost podnaslova"
@@ -20262,8 +20262,8 @@ msgstr "Izvozi podatke vodil"
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
-#: src/timeline2/view/timelinecontroller.cpp:5192
-#: src/timeline2/view/timelinecontroller.cpp:5197
+#: src/timeline2/view/timelinecontroller.cpp:5193
+#: src/timeline2/view/timelinecontroller.cpp:5198
 #: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Cannot write to file %1"
@@ -23708,7 +23708,7 @@ msgstr "Učinka %1 ni možno dodati dvakrat."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5129
+#: src/timeline2/model/timelinemodel.cpp:5139
 #, kde-format
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
@@ -26444,7 +26444,7 @@ msgstr "Vstavi stezo …"
 msgid "Fit all Tracks in View"
 msgstr "Umeri vse steze na pogled"
 
-#: src/mainwindow.cpp:1885 src/timeline2/view/timelinecontroller.cpp:4919
+#: src/mainwindow.cpp:1885 src/timeline2/view/timelinecontroller.cpp:4920
 #, kde-format
 msgid "Master effects"
 msgstr "Glavni učinki"
@@ -26559,7 +26559,7 @@ msgstr "Uvozi datoteko s podnaslovi …"
 msgid "Export Subtitle File…"
 msgstr "Izvozi datoteko s podnaslovi …"
 
-#: src/mainwindow.cpp:1959 src/timeline2/model/timelinemodel.cpp:2196
+#: src/mainwindow.cpp:1959 src/timeline2/model/timelinemodel.cpp:2206
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Izbriši podnaslov"
@@ -27031,7 +27031,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Skrij menijsko vrstico"
 
-#: src/mainwindow.cpp:4806 src/timeline2/view/timelinecontroller.cpp:5150
+#: src/mainwindow.cpp:4806 src/timeline2/view/timelinecontroller.cpp:5151
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "V trenutnem projektu ni podnaslovov"
@@ -31614,7 +31614,7 @@ msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4706
+#: src/timeline2/model/timelinemodel.cpp:4716
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -31710,9 +31710,9 @@ msgid "Move clip"
 msgstr "Premakni posnetek"
 
 #: src/timeline2/model/timelinemodel.cpp:1869
-#: src/timeline2/model/timelinemodel.cpp:1959
-#: src/timeline2/model/timelinemodel.cpp:1982
-#: src/timeline2/model/timelinemodel.cpp:2005
+#: src/timeline2/model/timelinemodel.cpp:1962
+#: src/timeline2/model/timelinemodel.cpp:1986
+#: src/timeline2/model/timelinemodel.cpp:2015
 #: src/timeline2/view/timelinecontroller.cpp:3326
 #, kde-format
 msgid "No available track for insert operation"
@@ -31723,95 +31723,95 @@ msgstr "Nobene steze ni na voljo za vstavljanje"
 msgid "Insert Clip"
 msgstr "Vstavi posnetek"
 
-#: src/timeline2/model/timelinemodel.cpp:1927
+#: src/timeline2/model/timelinemodel.cpp:1930
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe"
 
-#: src/timeline2/model/timelinemodel.cpp:1975
-#: src/timeline2/model/timelinemodel.cpp:1997
+#: src/timeline2/model/timelinemodel.cpp:1979
+#: src/timeline2/model/timelinemodel.cpp:2007
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Ni dovolj zvočnih stez za vse tokove (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2081
+#: src/timeline2/model/timelinemodel.cpp:2091
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Nobene steze ni na voljo za delitev"
 
-#: src/timeline2/model/timelinemodel.cpp:2118
+#: src/timeline2/model/timelinemodel.cpp:2128
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Razdeljevanje zvoka ni uspelo: ni primerne steze"
 
-#: src/timeline2/model/timelinemodel.cpp:2126
+#: src/timeline2/model/timelinemodel.cpp:2136
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Razdeljevanje zvoka ni uspelo: ni možno ustvariti zvočnega posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:2189
+#: src/timeline2/model/timelinemodel.cpp:2199
 #, kde-format
 msgid "Remove group"
 msgstr "Odstrani skupino"
 
-#: src/timeline2/model/timelinemodel.cpp:2194
+#: src/timeline2/model/timelinemodel.cpp:2204
 #, kde-format
 msgid "Delete Composition"
 msgstr "Izbriši sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:2433
-#: src/timeline2/model/timelinemodel.cpp:2734
+#: src/timeline2/model/timelinemodel.cpp:2443
+#: src/timeline2/model/timelinemodel.cpp:2744
 #: src/timeline2/view/timelinecontroller.cpp:4310
 #, kde-format
 msgid "Move group"
 msgstr "Premakni skupino"
 
-#: src/timeline2/model/timelinemodel.cpp:3430
+#: src/timeline2/model/timelinemodel.cpp:3440
 #, kde-format
 msgid "Resize group"
 msgstr "Spremeni velikost skupine"
 
-#: src/timeline2/model/timelinemodel.cpp:3554
+#: src/timeline2/model/timelinemodel.cpp:3564
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:3713
+#: src/timeline2/model/timelinemodel.cpp:3723
 #, kde-format
 msgid "Remove mix"
 msgstr "Odstrani mešanico"
 
-#: src/timeline2/model/timelinemodel.cpp:3715
+#: src/timeline2/model/timelinemodel.cpp:3725
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Odstranjevanje mešanice ni uspelo"
 
-#: src/timeline2/model/timelinemodel.cpp:4011
+#: src/timeline2/model/timelinemodel.cpp:4021
 #, kde-format
 msgid "Resize clip"
 msgstr "Spremeni velikost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:4013
+#: src/timeline2/model/timelinemodel.cpp:4023
 #, kde-format
 msgid "Resize composition"
 msgstr "Spremeni velikost sestave"
 
-#: src/timeline2/model/timelinemodel.cpp:4332
+#: src/timeline2/model/timelinemodel.cpp:4342
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Spremeni velikost posnetka z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4334
+#: src/timeline2/model/timelinemodel.cpp:4344
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Spremeni velikost sestave z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4336
+#: src/timeline2/model/timelinemodel.cpp:4346
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Spremeni velikost podnaslova z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4479
+#: src/timeline2/model/timelinemodel.cpp:4489
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -31821,135 +31821,135 @@ msgstr[1] "Podrsaj posnetek"
 msgstr[2] "Podrsaj posnetka"
 msgstr[3] "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4514
+#: src/timeline2/model/timelinemodel.cpp:4524
 #, kde-format
 msgid "Slip clip"
 msgstr "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4549
+#: src/timeline2/model/timelinemodel.cpp:4559
 #, kde-format
 msgid "Group clips"
 msgstr "Združi posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4634
-#: src/timeline2/model/timelinemodel.cpp:4650
+#: src/timeline2/model/timelinemodel.cpp:4644
+#: src/timeline2/model/timelinemodel.cpp:4660
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Razdruži posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4815
+#: src/timeline2/model/timelinemodel.cpp:4825
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Delete Track"
 msgstr "Izbriši stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4825
+#: src/timeline2/model/timelinemodel.cpp:4835
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Zadnje steze na časovnici ni možno izbrisati"
 
-#: src/timeline2/model/timelinemodel.cpp:5050
+#: src/timeline2/model/timelinemodel.cpp:5060
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Učinka %1 ni možno dodati na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5057
+#: src/timeline2/model/timelinemodel.cpp:5067
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Učinka %1 ni možno dodati na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5078
+#: src/timeline2/model/timelinemodel.cpp:5088
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Ni možno prilepiti učinka na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5084
+#: src/timeline2/model/timelinemodel.cpp:5094
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Ni možno prilepiti učinka na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5132
+#: src/timeline2/model/timelinemodel.cpp:5142
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Izbranemu posnetku ni možno dodati slikovnega učinka %1"
 
-#: src/timeline2/model/timelinemodel.cpp:5156
+#: src/timeline2/model/timelinemodel.cpp:5166
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Prilagodi pojemanje"
 
-#: src/timeline2/model/timelinemodel.cpp:5521
+#: src/timeline2/model/timelinemodel.cpp:5531
 #, kde-format
 msgid "Insert Composition"
 msgstr "Vstavi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:5742
+#: src/timeline2/model/timelinemodel.cpp:5752
 #, kde-format
 msgid "Move composition"
 msgstr "Prenesi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6413
+#: src/timeline2/model/timelinemodel.cpp:6423
 #, kde-format
 msgid "Enable time remap"
 msgstr "Omogoči časovno preslikavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6487
+#: src/timeline2/model/timelinemodel.cpp:6497
 #, kde-format
 msgid "Change speed failed"
 msgstr "Sprememba hitrosti ni uspela"
 
-#: src/timeline2/model/timelinemodel.cpp:6497
+#: src/timeline2/model/timelinemodel.cpp:6507
 #, kde-format
 msgid "Change clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:6945
+#: src/timeline2/model/timelinemodel.cpp:6955
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Zakleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6950
+#: src/timeline2/model/timelinemodel.cpp:6960
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Odkleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6984
-#: src/timeline2/model/timelinemodel.cpp:7046
+#: src/timeline2/model/timelinemodel.cpp:6994
+#: src/timeline2/model/timelinemodel.cpp:7056
 #, kde-format
 msgid "Change composition"
 msgstr "Spremeni sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6998
+#: src/timeline2/model/timelinemodel.cpp:7008
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ni možno delovati na skupinski sestavi, najprej jo razdružite"
 
-#: src/timeline2/model/timelinemodel.cpp:7193
-#: src/timeline2/model/timelinemodel.cpp:7230
-#: src/timeline2/model/timelinemodel.cpp:7263
-#: src/timeline2/model/timelinemodel.cpp:7342
+#: src/timeline2/model/timelinemodel.cpp:7203
+#: src/timeline2/model/timelinemodel.cpp:7240
+#: src/timeline2/model/timelinemodel.cpp:7273
+#: src/timeline2/model/timelinemodel.cpp:7352
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka za manj kot 1 sličico"
 
-#: src/timeline2/model/timelinemodel.cpp:7204
-#: src/timeline2/model/timelinemodel.cpp:7238
-#: src/timeline2/model/timelinemodel.cpp:7280
-#: src/timeline2/model/timelinemodel.cpp:7366
+#: src/timeline2/model/timelinemodel.cpp:7214
+#: src/timeline2/model/timelinemodel.cpp:7248
+#: src/timeline2/model/timelinemodel.cpp:7290
+#: src/timeline2/model/timelinemodel.cpp:7376
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7380
+#: src/timeline2/model/timelinemodel.cpp:7390
 #, kde-format
 msgid "Resize mix"
 msgstr "Spremeni dolžino mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7500
+#: src/timeline2/model/timelinemodel.cpp:7510
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Napaka pri inicializiranju predogleda časovnice"
@@ -32382,7 +32382,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Opravila ni možno izvesti med vlečenjem po časovnici"
 
 #: src/timeline2/view/timelinecontroller.cpp:934
-#: src/timeline2/view/timelinecontroller.cpp:5080
+#: src/timeline2/view/timelinecontroller.cpp:5081
 #, kde-format
 msgid "Could not insert track"
 msgstr "Steze ni možno vstaviti"
@@ -32457,7 +32457,7 @@ msgid "No item to edit"
 msgstr "Ni predmeta urejanja"
 
 #: src/timeline2/view/timelinecontroller.cpp:2934
-#: src/timeline2/view/timelinecontroller.cpp:5340
+#: src/timeline2/view/timelinecontroller.cpp:5341
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Aktivirajte stezo za ta postopek s klikom na njeno oznako"
@@ -32573,22 +32573,22 @@ msgstr ""
 "Tukaj ni možno zajemati: zajem bi lahko prepisal druge posnetke. Odstranite "
 "posnetke za trenutnim položajem ali izberite drugo stezo"
 
-#: src/timeline2/view/timelinecontroller.cpp:4873
+#: src/timeline2/view/timelinecontroller.cpp:4874
 #, kde-format
 msgid "Record audio"
 msgstr "Snemaj zvok"
 
-#: src/timeline2/view/timelinecontroller.cpp:5020
+#: src/timeline2/view/timelinecontroller.cpp:5021
 #, kde-format
 msgid "Expand clip"
 msgstr "Razširi posnetek"
 
-#: src/timeline2/view/timelinecontroller.cpp:5023
+#: src/timeline2/view/timelinecontroller.cpp:5024
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Ni možno razširiti posnetka"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5079
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -32597,19 +32597,19 @@ msgstr[1] "Vstavi stezo"
 msgstr[2] "Vstavi stezi"
 msgstr[3] "Vstavi steze"
 
-#: src/timeline2/view/timelinecontroller.cpp:5157
+#: src/timeline2/view/timelinecontroller.cpp:5158
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Izvozi datoteko s podnaslovi"
 
-#: src/timeline2/view/timelinecontroller.cpp:5158
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Datoteka Sub Station Alpha v4.00+ (*.ass);;Datoteka s podnaslovi SubRip (*."
 "srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5172
+#: src/timeline2/view/timelinecontroller.cpp:5173
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -32622,12 +32622,12 @@ msgstr ""
 "podnaslovi iz najnižje plasti. To lahko povzroči izgubo nekaterih "
 "podnaslovov v izvoženi datoteki. Ali želite nadaljevati?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5177
+#: src/timeline2/view/timelinecontroller.cpp:5178
 #, kde-format
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: src/timeline2/view/timelinecontroller.cpp:5215
+#: src/timeline2/view/timelinecontroller.cpp:5216
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -32636,34 +32636,34 @@ msgstr ""
 "Filter avfilter.subtitles je obvezen, vendar ga ni možno najti. Funkcija "
 "podnaslovov verjetno ne bo delovala na pričakovan način."
 
-#: src/timeline2/view/timelinecontroller.cpp:5232
+#: src/timeline2/view/timelinecontroller.cpp:5233
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Pokaži stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5232
+#: src/timeline2/view/timelinecontroller.cpp:5233
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Skrij stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5255
+#: src/timeline2/view/timelinecontroller.cpp:5256
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Odkleni stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5255
+#: src/timeline2/view/timelinecontroller.cpp:5256
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Zakleni stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5417
-#: src/timeline2/view/timelinecontroller.cpp:5426
+#: src/timeline2/view/timelinecontroller.cpp:5418
+#: src/timeline2/view/timelinecontroller.cpp:5427
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Podnaslovi"
 
-#: src/timeline2/view/timelinecontroller.cpp:5428
+#: src/timeline2/view/timelinecontroller.cpp:5429
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"

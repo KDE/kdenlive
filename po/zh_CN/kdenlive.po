@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-18 02:32+0000\n"
+"POT-Creation-Date: 2025-07-19 07:10+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5585,7 +5585,7 @@ msgstr "Roberts"
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply Roberts cross operator (edge detection)"
-msgstr ""
+msgstr "应用罗伯茨交叉算子 (边缘检测)"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5643,22 +5643,22 @@ msgstr "滚动"
 #: data/effects/avfilter/avfilter_scroll.xml:8
 #, kde-format
 msgid "Horizontal Scrolling Speed"
-msgstr ""
+msgstr "水平滚动速度"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
 #, kde-format
 msgid "Vertical Scrolling Speed"
-msgstr ""
+msgstr "竖直滚动速度"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
 #, kde-format
 msgid "Initial Horizontal Position"
-msgstr ""
+msgstr "初始水平位置"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
 #, kde-format
 msgid "Initial Vertical Position"
-msgstr ""
+msgstr "初始竖直位置"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
 #, kde-format
@@ -5768,17 +5768,17 @@ msgstr "将斜切运算应用于输入视频"
 #: data/effects/avfilter/avfilter_shear.xml:8
 #, kde-format
 msgid "X-axis Shear Factor"
-msgstr ""
+msgstr "X轴剪切因子"
 
 #: data/effects/avfilter/avfilter_shear.xml:11
 #, kde-format
 msgid "Y-axis Shear Factor"
-msgstr ""
+msgstr "Y轴剪切因子"
 
 #: data/effects/avfilter/avfilter_shear.xml:14
 #, kde-format
 msgid "Background Fill Color"
-msgstr ""
+msgstr "背景填充颜色"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
 #, kde-format
@@ -6579,6 +6579,9 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
+"<![CDATA[小波降噪器。<br>\n"
+"    该工具将每帧画面从小波域进行转换，采用 Cohen-Daubechies-Feauveau 9/7 算"
+"法。]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
@@ -6588,12 +6591,12 @@ msgstr "Hard,Soft,Garrote"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
 #, kde-format
 msgid "Universal,Bayes"
-msgstr ""
+msgstr "通用,贝叶斯"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
 #, kde-format
 msgid "Threshold Type"
-msgstr ""
+msgstr "阈值模式"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:23
 #: src/jobs/speedtask.cpp:72
@@ -6604,17 +6607,17 @@ msgstr "百分比"
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
 #, kde-format
 msgid "Vectorscope (advanced)"
-msgstr ""
+msgstr "矢量示波器 (高级)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
-msgstr ""
+msgstr "在二维图中显示两个颜色分量值"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
-msgstr ""
+msgstr "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:73
@@ -6625,17 +6628,17 @@ msgstr "颜色 1"
 #: data/effects/avfilter/avfilter_vectorscope.xml:15
 #, kde-format
 msgid "Tint 2"
-msgstr ""
+msgstr "辅助色调参考角度"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:18
 #, kde-format
 msgid "Component on X"
-msgstr ""
+msgstr "X分量"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:21
 #, kde-format
 msgid "Component on Y"
-msgstr ""
+msgstr "Y分量"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:27
 #: data/effects/avfilter/avfilter_waveform.xml:35
@@ -6652,7 +6655,7 @@ msgstr "Envelope"
 #: data/effects/avfilter/avfilter_vectorscope.xml:31
 #, kde-format
 msgid "None,Green,Color"
-msgstr ""
+msgstr "无,绿色,彩色"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #: data/effects/avfilter/avfilter_waveform.xml:46
@@ -6669,13 +6672,13 @@ msgstr "网格不透明度"
 #: data/effects/avfilter/avfilter_vectorscope.xml:38
 #, kde-format
 msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
+msgstr "绘制白点,绘制黑点,绘制点名称"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Graticule Flags"
-msgstr ""
+msgstr "标线标记"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
@@ -6690,7 +6693,7 @@ msgstr "高阈值"
 #: data/effects/avfilter/avfilter_vectorscope.xml:51
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
-msgstr ""
+msgstr "自动,Rec.601 (interleaved),Rec.709 (progressive)"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
@@ -6792,7 +6795,7 @@ msgstr "去隔行帧"
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, kde-format
 msgid "Video Waveform Monitor"
-msgstr ""
+msgstr "视频波形监视器"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
 #, kde-format
@@ -6826,7 +6829,7 @@ msgstr ""
 msgid ""
 "<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
-msgstr ""
+msgstr "<![CDATA[较小的数值有助于分析相同亮度值在输入行/列中的分布情况]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
 #, kde-format
@@ -6846,7 +6849,7 @@ msgstr "<![CDATA[设置显示模式]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:30
 #, kde-format
 msgid "Y,U,YU,V,YV,UV,All"
-msgstr ""
+msgstr "Y,U,YU,V,YV,UV,All"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -6861,7 +6864,7 @@ msgstr "<![CDATA[设置包络模式]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
 msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
-msgstr ""
+msgstr "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -6895,7 +6898,7 @@ msgstr "<![CDATA[设置示波器标线的不透明度]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
 msgid "Show numbers,Draw dots"
-msgstr ""
+msgstr "显示数值,绘制点"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
@@ -6905,7 +6908,7 @@ msgstr "<![CDATA[设置标线标志]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
 msgid "Digital,Millivolts,IRE"
-msgstr ""
+msgstr "数字,毫伏,IRE单位"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
@@ -6929,6 +6932,8 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
+"<![CDATA[仅与低通滤波器配合使用，且仅当<br>非overlay模式/像素格式非RGB时生"
+"效]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
@@ -6938,7 +6943,7 @@ msgstr "无,大小"
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
 msgid "Fit Mode"
-msgstr ""
+msgstr "映射模式"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
@@ -6948,17 +6953,17 @@ msgstr "<![CDATA[设置适合模式]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:83
 #, kde-format
 msgid "First available, All"
-msgstr ""
+msgstr "第一可用值,全部"
 
 #: data/effects/avfilter/avfilter_waveform.xml:84
 #, kde-format
 msgid "Input Format"
-msgstr ""
+msgstr "输入格式"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
 #, kde-format
 msgid "<![CDATA[Set input formats for filter to pick from]]>"
-msgstr ""
+msgstr "<![CDATA[设置滤镜输入格式]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, kde-format
@@ -6990,7 +6995,7 @@ msgstr "xBR 插值算法"
 msgid ""
 "Apply the xBR high-quality magnification filter which is designed for pixel "
 "art. It follows a set of edge-detection rules."
-msgstr ""
+msgstr "应用专为像素艺术设计的xBR高质量放大滤镜。此方法使用边缘检测。"
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
@@ -7130,32 +7135,32 @@ msgstr "模糊系数"
 #: data/effects/brightness.xml:4
 #, kde-format
 msgid "Intensity (Brightness)"
-msgstr ""
+msgstr "强度(亮度)"
 
 #: data/effects/brightness.xml:5
 #, kde-format
 msgid "Change image intensity"
-msgstr ""
+msgstr "修改图像亮度"
 
 #: data/effects/burningtv.xml:4
 #, kde-format
 msgid "Burning TV"
-msgstr ""
+msgstr "烧屏效果"
 
 #: data/effects/burningtv.xml:5
 #, kde-format
 msgid "Simulate burning TV pixels"
-msgstr ""
+msgstr "模拟烧屏电视像素"
 
 #: data/effects/burningtv.xml:8
 #, kde-format
 msgid "Foreground Only"
-msgstr ""
+msgstr "仅前景"
 
 #: data/effects/burningtv.xml:11
 #, kde-format
 msgid "Movement Threshold"
-msgstr ""
+msgstr "移动阈值"
 
 #: data/effects/channelcopy.xml:4
 #, kde-format
@@ -7300,17 +7305,17 @@ msgstr "裁切剪辑的边缘"
 #: data/effects/crop.xml:20
 #, kde-format
 msgid "Automatic Center-crop"
-msgstr ""
+msgstr "自动中心裁剪"
 
 #: data/effects/crop.xml:23
 #, kde-format
 msgid "Center Balance"
-msgstr ""
+msgstr "中心平衡"
 
 #: data/effects/crop.xml:26
 #, kde-format
 msgid "Use Project Resolution"
-msgstr ""
+msgstr "使用项目分辨率"
 
 #: data/effects/dance.xml:4
 #, kde-format
@@ -7707,7 +7712,7 @@ msgstr "填充图像或黑色背景"
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
 msgid "Analog Video Echo"
-msgstr ""
+msgstr "模拟信号视频回响"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
@@ -7773,7 +7778,7 @@ msgstr "<![CDATA[频闪仪频率 (0 到 8 帧）]]>"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, kde-format
 msgid "Alpha Operations (SUPERCEDED)"
-msgstr ""
+msgstr "透明度操作(已淘汰)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -8030,7 +8035,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha Shapes (SUPERCEDED)"
-msgstr "透明度形状(已被取代)"
+msgstr "透明度形状(已淘汰)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -9699,7 +9704,7 @@ msgstr "非线性镜头映射"
 #: data/effects/frei0r/frei0r_defish0r.xml:11
 #, kde-format
 msgid "De-Fish"
-msgstr ""
+msgstr "去鱼眼畸变"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #, kde-format
@@ -9724,21 +9729,21 @@ msgstr "缩放"
 msgid ""
 "<![CDATA[Straighten all Edges<br>\n"
 "        of Video Frame]]>"
-msgstr ""
+msgstr "<![CDATA[拉直视频帧所有边缘]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
 #, kde-format
 msgid ""
 "<![CDATA[Fix Camera Scaling<br>\n"
 "        Between 4:3 and 16:9]]>"
-msgstr ""
+msgstr "<![CDATA[修复相机缩放比例 (4:3 至 16:9)]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
 #, kde-format
 msgid ""
 "<![CDATA[Scale Y to Affect<br>\n"
 "        Aspect Ratio]]>"
-msgstr ""
+msgstr "<![CDATA[缩放Y轴]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
@@ -9758,7 +9763,7 @@ msgstr "方形,PAL DV,NTSC DV,HDV,手动"
 #: data/effects/frei0r/frei0r_defish0r.xml:42
 #, kde-format
 msgid "Aspect Type"
-msgstr ""
+msgstr "宽高比类型"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
@@ -9793,12 +9798,12 @@ msgstr "延迟帧位块传输映射至时间位图"
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (frei0r)"
-msgstr ""
+msgstr "HQ 3D 降噪器 (avfilter)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, kde-format
 msgid "<![CDATA[High quality 3D denoiser]]>"
-msgstr ""
+msgstr "<![CDATA[高品质 3D 降噪器]]>"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
@@ -9833,7 +9838,7 @@ msgstr "畸变"
 #: data/effects/frei0r/frei0r_distort0r.xml:5
 #, kde-format
 msgid "Creates a plasma like distortion"
-msgstr ""
+msgstr "创建等离子体扭曲效果"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:11
 #, kde-format
@@ -9843,12 +9848,12 @@ msgstr "振幅"
 #: data/effects/frei0r/frei0r_distort0r.xml:14
 #, kde-format
 msgid "Use Velocity"
-msgstr ""
+msgstr "使用矢量速度"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:17
 #, kde-format
 msgid "Velocity"
-msgstr ""
+msgstr "矢量速度"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, kde-format
@@ -9877,17 +9882,17 @@ msgstr "每个通道的数值。"
 #: data/effects/frei0r/frei0r_dither.xml:13
 #, kde-format
 msgid "Matrix ID"
-msgstr ""
+msgstr "矩阵 ID"
 
 #: data/effects/frei0r/frei0r_dither.xml:14
 #, kde-format
 msgid "ID of matrix used for dithering."
-msgstr ""
+msgstr "用于抖动的矩阵 ID。"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
 #, kde-format
 msgid "Edge Glow"
-msgstr ""
+msgstr "Edge glow - 边缘发光"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
 #, kde-format
@@ -9904,24 +9909,24 @@ msgstr "边缘发光阈值"
 msgid ""
 "<![CDATA[Edge brightness<br>\n"
 "        upscaling multiplier]]>"
-msgstr ""
+msgstr "<![CDATA[边缘亮度放大因数]]>"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:16
 #, kde-format
 msgid ""
 "<![CDATA[Non-edge brightness<br>\n"
 "        downscaling multiplier]]>"
-msgstr ""
+msgstr "<![CDATA[非边缘亮度衰减因数]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
 #, kde-format
 msgid "Elastic Scale"
-msgstr ""
+msgstr "弹性缩放"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:5
 #, kde-format
 msgid "Scale non-linearly"
-msgstr ""
+msgstr "非线性缩放"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
@@ -9938,31 +9943,33 @@ msgid ""
 "<![CDATA[Horizontal center position<br>\n"
 "        of the linear area (% of total width)]]>"
 msgstr ""
+"<![CDATA[线性区域的水平中心位置<br>\n"
+"         (占总宽度的百分比) ]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
 #, kde-format
 msgid "Linear Width"
-msgstr ""
+msgstr "线性宽度"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
 #, kde-format
 msgid "<![CDATA[Width of the linear area]]>"
-msgstr ""
+msgstr "<![CDATA[线性区域宽度]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
 #, kde-format
 msgid "Linear Scale Factor"
-msgstr ""
+msgstr "线性缩放因子"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
 #, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr ""
+msgstr "<![CDATA[线性缩放量]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, kde-format
 msgid "Non-Linear Scale Factor"
-msgstr ""
+msgstr "非线性缩放因子"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:23
 #, kde-format
@@ -9970,6 +9977,8 @@ msgid ""
 "<![CDATA[Amount how much the<br>\n"
 "        outer left and outer right areas are scaled non linearly]]>"
 msgstr ""
+"<![CDATA[非线性缩放量<br>\n"
+"        (外部左右两侧区域)]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
 #, kde-format
@@ -9992,7 +10001,7 @@ msgstr "光源方向"
 msgid ""
 "<![CDATA[The direction of the<br>\n"
 "            embossing (practically simulating a light source)]]>"
-msgstr ""
+msgstr "<![CDATA[浮雕方向 (模拟光源) ]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
 #, kde-format
@@ -10006,6 +10015,8 @@ msgid ""
 "<br>\n"
 "            Range is 0 to 90.]]>"
 msgstr ""
+"<![CDATA[非浮雕区域亮度。<br>\n"
+"            0到90。]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:19
 #, kde-format
@@ -10019,6 +10030,8 @@ msgid ""
 "perceived depth of the embossed areas.<br>\n"
 "            Range is 0 to 40.]]>"
 msgstr ""
+"<![CDATA[边缘厚度<br>\n"
+"            增强/减弱浮雕区域的视觉景深感。0 到 40。]]>"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
@@ -10228,7 +10241,7 @@ msgstr "添加胶片颗粒并柔化图片"
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
 msgid "Grain Amount"
-msgstr ""
+msgstr "颗粒数量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, kde-format
@@ -10238,7 +10251,7 @@ msgstr "<![CDATA[颗粒强度]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
 msgid "Red Grain"
-msgstr ""
+msgstr "红色颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
 #, kde-format
@@ -10248,7 +10261,7 @@ msgstr "<![CDATA[应用于红色通道的颗粒百分比]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
 msgid "Green Grain"
-msgstr ""
+msgstr "绿色颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
 #, kde-format
@@ -10258,7 +10271,7 @@ msgstr "<![CDATA[应用于绿色通道的颗粒百分比]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, kde-format
 msgid "Blue Grain"
-msgstr ""
+msgstr "蓝色颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
 #, kde-format
@@ -10268,7 +10281,7 @@ msgstr "<![CDATA[应用于蓝色通道的颗粒百分比]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
 msgid "Blur Amount"
-msgstr ""
+msgstr "模糊量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, kde-format
@@ -10278,7 +10291,7 @@ msgstr "<![CDATA[模糊强度]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
 msgid "Dust Amount"
-msgstr ""
+msgstr "灰尘数量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
@@ -10288,7 +10301,7 @@ msgstr "<![CDATA[图像上模拟的灰尘颗粒数量]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker Amount"
-msgstr ""
+msgstr "闪烁数量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
@@ -10328,28 +10341,28 @@ msgstr "从图像中提取绿色通道"
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
 msgid "Glitching (rows and color)"
-msgstr ""
+msgstr "模拟故障 (行和颜色) "
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
 #, kde-format
 msgid "Adds color glitches and block shifting"
-msgstr ""
+msgstr "添加干扰和区块位移效果"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
 #, kde-format
 msgid "Glitch Frequency"
-msgstr ""
+msgstr "干扰频率"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
 #, kde-format
 msgid "Shift Intensity"
-msgstr ""
+msgstr "位移强度"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
 #, kde-format
 msgid "Color Glitching Intensity"
-msgstr ""
+msgstr "颜色干扰强度"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
 #, kde-format
@@ -10365,7 +10378,7 @@ msgstr "创建炫目的发光效果"
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
 msgid "Denoiser (SUPERCEDED)"
-msgstr ""
+msgstr "降噪器 (已淘汰)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -10373,6 +10386,8 @@ msgid ""
 "<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
 "    High quality 3D denoiser]]>"
 msgstr ""
+"<![CDATA[<b>已由 frei0r.denoise_hqdn3d 替代</b><br>\n"
+"    高质量 3D 降噪器]]>"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, kde-format
@@ -10461,11 +10476,13 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[万花筒分割段数 / 128;<br>\n"
+"        1、2 或 4 的倍数段数效果最佳。默认为 16。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
 msgid "Specify Source Segment"
-msgstr ""
+msgstr "指定源片段"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
@@ -10473,12 +10490,12 @@ msgid ""
 "<![CDATA[If checked, the source angle<br>\n"
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
-msgstr ""
+msgstr "<![CDATA[若勾选，则从“源片段”读取源角度；否则自动计算。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, kde-format
 msgid "Source Segment"
-msgstr ""
+msgstr "源片段"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
@@ -10487,6 +10504,8 @@ msgid ""
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[源片段中心。仅在勾选<em>指定源片段</em>时使用。<br>\n"
+"        0 位于 +x 方向并以逆时针方向旋转。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -10496,7 +10515,7 @@ msgstr "无,逆时针,顺时针"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, kde-format
 msgid "Segmentation Direction"
-msgstr ""
+msgstr "片段方向"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
 #, kde-format
@@ -10506,7 +10525,7 @@ msgstr "片段的方向"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, kde-format
 msgid "Reflect Edges"
-msgstr ""
+msgstr "边缘反射"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
 #, kde-format
@@ -10515,11 +10534,13 @@ msgid ""
 "into it.<br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
+"<![CDATA[若勾选，出现在源图像外的反射将反射回源图像。<br>\n"
+"        否则将使用指定的背景色。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, kde-format
 msgid "Edge Threshold"
-msgstr ""
+msgstr "边缘阈值"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:43
 #, kde-format
@@ -10538,7 +10559,7 @@ msgstr "右上,左上,左下,右下"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
 msgid "Preferred Corner"
-msgstr ""
+msgstr "首选角"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
@@ -10568,7 +10589,7 @@ msgstr ""
 msgid ""
 "<![CDATA[Color to use if reflection<br>\n"
 "        lies outside of the source image and not reflecting back in.]]>"
-msgstr ""
+msgstr "<![CDATA[当反射处于源图像范围之外且不反射回来时使用的颜色。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
 #, kde-format
@@ -16508,7 +16529,7 @@ msgstr "轨道 %1 效果"
 msgid "Bin %1 effects"
 msgstr "项目素材箱 %1 效果"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3804
+#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3803
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
@@ -16516,7 +16537,7 @@ msgstr "项目素材箱 %1 效果"
 msgid "Show log"
 msgstr "显示日志"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3807
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3806
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -17710,7 +17731,7 @@ msgstr "您无法将剪辑替换为不同类型的剪辑 (音频/视频不匹配
 msgid "Replace in timeline"
 msgstr "替换时间轴中的剪辑"
 
-#: src/bin/bin.cpp:2105 src/bin/bin.cpp:5739 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2105 src/bin/bin.cpp:5738 src/bin/clipcreator.cpp:330
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -17860,13 +17881,13 @@ msgstr "文件夹"
 msgid "Create bin folder"
 msgstr "创建项目素材箱文件夹"
 
-#: src/bin/bin.cpp:2691 src/bin/bin.cpp:2704 src/bin/bin.cpp:3711
-#: src/timeline2/model/timelinemodel.cpp:2192
+#: src/bin/bin.cpp:2690 src/bin/bin.cpp:2703 src/bin/bin.cpp:3710
+#: src/timeline2/model/timelinemodel.cpp:2202
 #, kde-format
 msgid "Delete Clip"
 msgstr "删除剪辑"
 
-#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706
+#: src/bin/bin.cpp:2692 src/bin/bin.cpp:2705
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17874,37 +17895,37 @@ msgid ""
 "timeline."
 msgstr "删除项目素材箱和时间轴中的当前选中剪辑。"
 
-#: src/bin/bin.cpp:2694 src/bin/bin.cpp:2707 src/bin/bin.cpp:3687
+#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706 src/bin/bin.cpp:3686
 #, kde-format
 msgid "Proxy Clip"
 msgstr "代理剪辑"
 
-#: src/bin/bin.cpp:2698
+#: src/bin/bin.cpp:2697
 #, kde-format
 msgid "Delete Folder"
 msgstr "删除文件夹"
 
-#: src/bin/bin.cpp:2699
+#: src/bin/bin.cpp:2698
 #, kde-format
 msgid "Proxy Folder"
 msgstr "代理文件夹"
 
-#: src/bin/bin.cpp:2965
+#: src/bin/bin.cpp:2964
 #, kde-format
 msgid "Edit rating"
 msgstr "编辑评分"
 
-#: src/bin/bin.cpp:2967
+#: src/bin/bin.cpp:2966
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "无法设置此项目的评分"
 
-#: src/bin/bin.cpp:3631
+#: src/bin/bin.cpp:3630
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "添加剪辑或文件夹…"
 
-#: src/bin/bin.cpp:3632
+#: src/bin/bin.cpp:3631
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17917,97 +17938,97 @@ msgstr ""
 ">点击下箭头图标可以打开用于选择来源类型的列表。<nl/>点击媒体图标可以打开用于"
 "选择来源文件的窗口。"
 
-#: src/bin/bin.cpp:3638
+#: src/bin/bin.cpp:3637
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "添加颜色剪辑…"
 
-#: src/bin/bin.cpp:3640
+#: src/bin/bin.cpp:3639
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "添加图像序列…"
 
-#: src/bin/bin.cpp:3642
+#: src/bin/bin.cpp:3641
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "添加字幕剪辑…"
 
-#: src/bin/bin.cpp:3644
+#: src/bin/bin.cpp:3643
 #, kde-format
 msgid "Add Template Title…"
 msgstr "添加模板字幕…"
 
-#: src/bin/bin.cpp:3646
+#: src/bin/bin.cpp:3645
 #, kde-format
 msgid "Create Animation…"
 msgstr "创建动画…"
 
-#: src/bin/bin.cpp:3648
+#: src/bin/bin.cpp:3647
 #, kde-format
 msgid "Add Sequence…"
 msgstr "添加序列…"
 
-#: src/bin/bin.cpp:3651 src/mainwindow.cpp:309
+#: src/bin/bin.cpp:3650 src/mainwindow.cpp:309
 #, kde-format
 msgid "Online Resources"
 msgstr "在线资源"
 
-#: src/bin/bin.cpp:3655
+#: src/bin/bin.cpp:3654
 #, kde-format
 msgid "Locate Clip…"
 msgstr "定位剪辑…"
 
-#: src/bin/bin.cpp:3660
+#: src/bin/bin.cpp:3659
 #, kde-format
 msgid "Reload Clip"
 msgstr "重新加载剪辑"
 
-#: src/bin/bin.cpp:3666
+#: src/bin/bin.cpp:3665
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "转码为便于编辑的格式…"
 
-#: src/bin/bin.cpp:3671
+#: src/bin/bin.cpp:3670
 #, kde-format
 msgid "Replace Clip…"
 msgstr "替换剪辑…"
 
-#: src/bin/bin.cpp:3677
+#: src/bin/bin.cpp:3676
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "替换时间轴中的剪辑…"
 
-#: src/bin/bin.cpp:3682
+#: src/bin/bin.cpp:3681
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "创建剪辑副本"
 
-#: src/bin/bin.cpp:3694 src/bin/bin.cpp:3749
+#: src/bin/bin.cpp:3693 src/bin/bin.cpp:3748
 #, kde-format
 msgid "Clip Properties"
 msgstr "剪辑属性"
 
-#: src/bin/bin.cpp:3699 src/mltcontroller/clippropertiescontroller.cpp:609
+#: src/bin/bin.cpp:3698 src/mltcontroller/clippropertiescontroller.cpp:609
 #, kde-format
 msgid "Edit Clip"
 msgstr "编辑剪辑"
 
-#: src/bin/bin.cpp:3717
+#: src/bin/bin.cpp:3716
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "序列的默认目标文件夹"
 
-#: src/bin/bin.cpp:3722
+#: src/bin/bin.cpp:3721
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "音频捕获的默认目标文件夹"
 
-#: src/bin/bin.cpp:3726
+#: src/bin/bin.cpp:3725
 #, kde-format
 msgid "Create Folder"
 msgstr "创建文件夹"
 
-#: src/bin/bin.cpp:3729
+#: src/bin/bin.cpp:3728
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18017,61 +18038,61 @@ msgstr ""
 "创建一个文件夹到项目素材箱中的当前位置。您可以通过文件夹来整理来源文件。文件"
 "夹可以嵌套。"
 
-#: src/bin/bin.cpp:3867 src/bin/bin.cpp:3900
+#: src/bin/bin.cpp:3866 src/bin/bin.cpp:3899
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "创建新序列"
 
-#: src/bin/bin.cpp:3870 src/bin/bin.cpp:3873 src/bin/bin.cpp:3903
+#: src/bin/bin.cpp:3869 src/bin/bin.cpp:3872 src/bin/bin.cpp:3902
 #, kde-format
 msgid "Sequence %1"
 msgstr "序列 %1"
 
-#: src/bin/bin.cpp:3934
+#: src/bin/bin.cpp:3933
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "移动剪辑"
 
-#: src/bin/bin.cpp:3976
+#: src/bin/bin.cpp:3975
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "无可供插入的有效剪辑"
 
-#: src/bin/bin.cpp:3989 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:3988 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3441
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "选择要应用效果的剪辑"
 
-#: src/bin/bin.cpp:4000
+#: src/bin/bin.cpp:3999
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "无法应用效果到文件夹"
 
-#: src/bin/bin.cpp:4028 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/bin/bin.cpp:4027 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "无法添加效果到剪辑"
 
-#: src/bin/bin.cpp:4066 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4065 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "粘贴效果"
 
-#: src/bin/bin.cpp:4103 src/bin/bin.cpp:4110
+#: src/bin/bin.cpp:4102 src/bin/bin.cpp:4109
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "选择要添加标签的剪辑"
 
-#: src/bin/bin.cpp:4249
+#: src/bin/bin.cpp:4248
 #, kde-format
 msgid "Edit Tags"
 msgstr "编辑标签"
 
-#: src/bin/bin.cpp:4585 src/bin/projectclip.cpp:188
+#: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
 #: src/bin/projectclip.cpp:1974 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -18079,27 +18100,27 @@ msgstr "编辑标签"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/bin/bin.cpp:4649
+#: src/bin/bin.cpp:4648
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "输入图像编辑应用程序的路径"
 
-#: src/bin/bin.cpp:4661
+#: src/bin/bin.cpp:4660
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "请设置用于打开图像文件的默认程序"
 
-#: src/bin/bin.cpp:4666
+#: src/bin/bin.cpp:4665
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "输入音频编辑应用程序的路径"
 
-#: src/bin/bin.cpp:4678
+#: src/bin/bin.cpp:4677
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "请设置用于打开音频文件的默认程序"
 
-#: src/bin/bin.cpp:4688 src/core.cpp:329 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4687 src/core.cpp:329 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
@@ -18109,12 +18130,12 @@ msgstr "请设置用于打开音频文件的默认程序"
 msgid "Cannot open file %1"
 msgstr "无法打开文件 %1"
 
-#: src/bin/bin.cpp:4725 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:4724 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(副本)"
 
-#: src/bin/bin.cpp:4735
+#: src/bin/bin.cpp:4734
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -18123,82 +18144,82 @@ msgstr ""
 "您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
 "目？"
 
-#: src/bin/bin.cpp:4738 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:4737 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "保存字幕"
 
-#: src/bin/bin.cpp:4738
+#: src/bin/bin.cpp:4737
 #, kde-format
 msgid "Save to title file"
 msgstr "保存到字幕文件"
 
-#: src/bin/bin.cpp:4739
+#: src/bin/bin.cpp:4738
 #, kde-format
 msgid "Save in project only"
 msgstr "仅保存到项目"
 
-#: src/bin/bin.cpp:4762 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4761 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "字幕剪辑"
 
-#: src/bin/bin.cpp:4812
+#: src/bin/bin.cpp:4811
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "剪辑无效，它将被从项目中移除。"
 
-#: src/bin/bin.cpp:4816
+#: src/bin/bin.cpp:4815
 #, kde-format
 msgid "Invalid clip"
 msgstr "无效剪辑"
 
-#: src/bin/bin.cpp:4930
+#: src/bin/bin.cpp:4929
 #, kde-format
 msgid "Enable proxies"
 msgstr "启用代理"
 
-#: src/bin/bin.cpp:4930
+#: src/bin/bin.cpp:4929
 #, kde-format
 msgid "Disable proxies"
 msgstr "禁用代理"
 
-#: src/bin/bin.cpp:5111
+#: src/bin/bin.cpp:5110
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "重建代理"
 
-#: src/bin/bin.cpp:5345
+#: src/bin/bin.cpp:5344
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:5361
+#: src/bin/bin.cpp:5360
 #, kde-format
 msgid "Add Tracks"
 msgstr "添加轨道"
 
-#: src/bin/bin.cpp:5363
+#: src/bin/bin.cpp:5362
 #, kde-format
 msgid "Edit Streams"
 msgstr "编辑流"
 
-#: src/bin/bin.cpp:5379
+#: src/bin/bin.cpp:5378
 #, kde-format
 msgid "Don't ask again"
 msgstr "不再询问"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5383
+#: src/bin/bin.cpp:5382
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr "此项目需要更多音频轨道来处理所有流。添加 %1 条音频轨道吗？"
 
-#: src/bin/bin.cpp:5395 src/mainwindow.cpp:2759
+#: src/bin/bin.cpp:5394 src/mainwindow.cpp:2759
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "无法找到要添加标记的剪辑"
@@ -18206,7 +18227,7 @@ msgstr "无法找到要添加标记的剪辑"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5409 src/bin/model/markerlistmodel.cpp:738
+#: src/bin/bin.cpp:5408 src/bin/model/markerlistmodel.cpp:738
 #: src/definitions.cpp:75 src/definitions.cpp:100
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
@@ -18215,33 +18236,33 @@ msgstr "无法找到要添加标记的剪辑"
 msgid "Marker"
 msgstr "标记"
 
-#: src/bin/bin.cpp:5499
+#: src/bin/bin.cpp:5498
 #, kde-format
 msgid "Could not find master clip"
 msgstr "无法找到主剪辑"
 
-#: src/bin/bin.cpp:5761
+#: src/bin/bin.cpp:5760
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 条剪辑 | "
 
-#: src/bin/bin.cpp:5763
+#: src/bin/bin.cpp:5762
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 条剪辑 (已选择 %2 条) | "
 
-#: src/bin/bin.cpp:5830 src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5831 src/bin/bin.cpp:5908
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "添加额外流到剪辑"
 
-#: src/bin/bin.cpp:5851
+#: src/bin/bin.cpp:5852
 #, kde-format
 msgid "Import selected clips"
 msgstr "导入所选剪辑"
 
-#: src/bin/bin.cpp:5853
+#: src/bin/bin.cpp:5854
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -18250,51 +18271,51 @@ msgstr ""
 "剪辑的额外流\n"
 " %1"
 
-#: src/bin/bin.cpp:5866 src/mltcontroller/clippropertiescontroller.cpp:725
+#: src/bin/bin.cpp:5867 src/mltcontroller/clippropertiescontroller.cpp:725
 #, kde-format
 msgid "Video stream %1"
 msgstr "视频流 %1"
 
-#: src/bin/bin.cpp:5881
+#: src/bin/bin.cpp:5882
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音频流 %1"
 
-#: src/bin/bin.cpp:5934
+#: src/bin/bin.cpp:5935
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除剪辑标记"
 
-#: src/bin/bin.cpp:6094
+#: src/bin/bin.cpp:6095
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我们建议您在进行转码操作之前保存项目"
 
-#: src/bin/bin.cpp:6095
+#: src/bin/bin.cpp:6096
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "保存项目"
 
-#: src/bin/bin.cpp:6096
+#: src/bin/bin.cpp:6097
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "转码但不保存"
 
-#: src/bin/bin.cpp:6254 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6255 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "删除效果 %1"
 
-#: src/bin/bin.cpp:6320 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6321 src/mainwindow.cpp:302
 #, kde-format
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:6323 src/bin/bin.cpp:6326 src/mainwindow.cpp:4937
+#: src/bin/bin.cpp:6324 src/bin/bin.cpp:6327 src/mainwindow.cpp:4937
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -18588,7 +18609,7 @@ msgid "Cut clip"
 msgstr "切割剪辑"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4015
+#: src/timeline2/model/timelinemodel.cpp:4025
 #, kde-format
 msgid "Resize subtitle"
 msgstr "调整字幕大小"
@@ -19571,8 +19592,8 @@ msgstr "导出辅助线数据…"
 #: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
-#: src/timeline2/view/timelinecontroller.cpp:5192
-#: src/timeline2/view/timelinecontroller.cpp:5197
+#: src/timeline2/view/timelinecontroller.cpp:5193
+#: src/timeline2/view/timelinecontroller.cpp:5198
 #: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Cannot write to file %1"
@@ -22908,7 +22929,7 @@ msgstr "效果 %1 不能被添加两次。"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5129
+#: src/timeline2/model/timelinemodel.cpp:5139
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
@@ -25578,7 +25599,7 @@ msgstr "插入轨道…"
 msgid "Fit all Tracks in View"
 msgstr "视图缩放至适合所有轨道"
 
-#: src/mainwindow.cpp:1885 src/timeline2/view/timelinecontroller.cpp:4919
+#: src/mainwindow.cpp:1885 src/timeline2/view/timelinecontroller.cpp:4920
 #, kde-format
 msgid "Master effects"
 msgstr "主效果"
@@ -25693,7 +25714,7 @@ msgstr "导入字幕文件…"
 msgid "Export Subtitle File…"
 msgstr "导出字幕文件…"
 
-#: src/mainwindow.cpp:1959 src/timeline2/model/timelinemodel.cpp:2196
+#: src/mainwindow.cpp:1959 src/timeline2/model/timelinemodel.cpp:2206
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "删除字幕"
@@ -26155,7 +26176,7 @@ msgstr "这将完全隐藏菜单栏。按 Ctrl+M 可以重新显示。"
 msgid "Hide menu bar"
 msgstr "隐藏菜单栏"
 
-#: src/mainwindow.cpp:4806 src/timeline2/view/timelinecontroller.cpp:5150
+#: src/mainwindow.cpp:4806 src/timeline2/view/timelinecontroller.cpp:5151
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "当前项目不含字幕"
@@ -30613,7 +30634,7 @@ msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4706
+#: src/timeline2/model/timelinemodel.cpp:4716
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -30706,9 +30727,9 @@ msgid "Move clip"
 msgstr "移动剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:1869
-#: src/timeline2/model/timelinemodel.cpp:1959
-#: src/timeline2/model/timelinemodel.cpp:1982
-#: src/timeline2/model/timelinemodel.cpp:2005
+#: src/timeline2/model/timelinemodel.cpp:1962
+#: src/timeline2/model/timelinemodel.cpp:1986
+#: src/timeline2/model/timelinemodel.cpp:2015
 #: src/timeline2/view/timelinecontroller.cpp:3326
 #, kde-format
 msgid "No available track for insert operation"
@@ -30719,230 +30740,230 @@ msgstr "没有可用于插入操作的轨道"
 msgid "Insert Clip"
 msgstr "插入剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:1927
+#: src/timeline2/model/timelinemodel.cpp:1930
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "您不能插入一个包含它自身的序列"
 
-#: src/timeline2/model/timelinemodel.cpp:1975
-#: src/timeline2/model/timelinemodel.cpp:1997
+#: src/timeline2/model/timelinemodel.cpp:1979
+#: src/timeline2/model/timelinemodel.cpp:2007
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "没有足够的音频轨道来承载所有流 (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2081
+#: src/timeline2/model/timelinemodel.cpp:2091
 #, kde-format
 msgid "No available track for split operation"
 msgstr "没有可用于拆分操作的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:2118
+#: src/timeline2/model/timelinemodel.cpp:2128
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "音频拆分失败：没有可用的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:2126
+#: src/timeline2/model/timelinemodel.cpp:2136
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "音频拆分失败：无法创建音频剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:2189
+#: src/timeline2/model/timelinemodel.cpp:2199
 #, kde-format
 msgid "Remove group"
 msgstr "移除组合"
 
-#: src/timeline2/model/timelinemodel.cpp:2194
+#: src/timeline2/model/timelinemodel.cpp:2204
 #, kde-format
 msgid "Delete Composition"
 msgstr "删除合成"
 
-#: src/timeline2/model/timelinemodel.cpp:2433
-#: src/timeline2/model/timelinemodel.cpp:2734
+#: src/timeline2/model/timelinemodel.cpp:2443
+#: src/timeline2/model/timelinemodel.cpp:2744
 #: src/timeline2/view/timelinecontroller.cpp:4310
 #, kde-format
 msgid "Move group"
 msgstr "移动组合"
 
-#: src/timeline2/model/timelinemodel.cpp:3430
+#: src/timeline2/model/timelinemodel.cpp:3440
 #, kde-format
 msgid "Resize group"
 msgstr "调整组合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3554
+#: src/timeline2/model/timelinemodel.cpp:3564
 #, kde-format
 msgid "Resize clip speed"
 msgstr "调整剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:3713
+#: src/timeline2/model/timelinemodel.cpp:3723
 #, kde-format
 msgid "Remove mix"
 msgstr "移除混合"
 
-#: src/timeline2/model/timelinemodel.cpp:3715
+#: src/timeline2/model/timelinemodel.cpp:3725
 #, kde-format
 msgid "Removing mix failed"
 msgstr "移除混合失败"
 
-#: src/timeline2/model/timelinemodel.cpp:4011
+#: src/timeline2/model/timelinemodel.cpp:4021
 #, kde-format
 msgid "Resize clip"
 msgstr "调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4013
+#: src/timeline2/model/timelinemodel.cpp:4023
 #, kde-format
 msgid "Resize composition"
 msgstr "调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4332
+#: src/timeline2/model/timelinemodel.cpp:4342
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "波纹调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4334
+#: src/timeline2/model/timelinemodel.cpp:4344
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "波纹调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4336
+#: src/timeline2/model/timelinemodel.cpp:4346
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "波纹调整字幕大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4479
+#: src/timeline2/model/timelinemodel.cpp:4489
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4514
+#: src/timeline2/model/timelinemodel.cpp:4524
 #, kde-format
 msgid "Slip clip"
 msgstr "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4549
+#: src/timeline2/model/timelinemodel.cpp:4559
 #, kde-format
 msgid "Group clips"
 msgstr "组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4634
-#: src/timeline2/model/timelinemodel.cpp:4650
+#: src/timeline2/model/timelinemodel.cpp:4644
+#: src/timeline2/model/timelinemodel.cpp:4660
 #, kde-format
 msgid "Ungroup clips"
 msgstr "取消组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4815
+#: src/timeline2/model/timelinemodel.cpp:4825
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Delete Track"
 msgstr "删除轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4825
+#: src/timeline2/model/timelinemodel.cpp:4835
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "无法删除时间轴中的最后一条轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5050
+#: src/timeline2/model/timelinemodel.cpp:5060
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "无法添加效果 %1 到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5057
+#: src/timeline2/model/timelinemodel.cpp:5067
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "无法添加效果 %1 到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5078
+#: src/timeline2/model/timelinemodel.cpp:5088
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "无法粘贴效果到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5084
+#: src/timeline2/model/timelinemodel.cpp:5094
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "无法粘贴效果到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:5132
+#: src/timeline2/model/timelinemodel.cpp:5142
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "无法添加效果 %1 到所选剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:5156
+#: src/timeline2/model/timelinemodel.cpp:5166
 #, kde-format
 msgid "Adjust Fade"
 msgstr "调整渐隐渐显"
 
-#: src/timeline2/model/timelinemodel.cpp:5521
+#: src/timeline2/model/timelinemodel.cpp:5531
 #, kde-format
 msgid "Insert Composition"
 msgstr "插入合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5742
+#: src/timeline2/model/timelinemodel.cpp:5752
 #, kde-format
 msgid "Move composition"
 msgstr "移动合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6413
+#: src/timeline2/model/timelinemodel.cpp:6423
 #, kde-format
 msgid "Enable time remap"
 msgstr "启用时间重新映射"
 
-#: src/timeline2/model/timelinemodel.cpp:6487
+#: src/timeline2/model/timelinemodel.cpp:6497
 #, kde-format
 msgid "Change speed failed"
 msgstr "更改速度失败"
 
-#: src/timeline2/model/timelinemodel.cpp:6497
+#: src/timeline2/model/timelinemodel.cpp:6507
 #, kde-format
 msgid "Change clip speed"
 msgstr "更改剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:6945
+#: src/timeline2/model/timelinemodel.cpp:6955
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6950
+#: src/timeline2/model/timelinemodel.cpp:6960
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "解锁轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6984
-#: src/timeline2/model/timelinemodel.cpp:7046
+#: src/timeline2/model/timelinemodel.cpp:6994
+#: src/timeline2/model/timelinemodel.cpp:7056
 #, kde-format
 msgid "Change composition"
 msgstr "更改合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6998
+#: src/timeline2/model/timelinemodel.cpp:7008
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "无法对组合的合成进行操作，请先取消组合"
 
-#: src/timeline2/model/timelinemodel.cpp:7193
-#: src/timeline2/model/timelinemodel.cpp:7230
-#: src/timeline2/model/timelinemodel.cpp:7263
-#: src/timeline2/model/timelinemodel.cpp:7342
+#: src/timeline2/model/timelinemodel.cpp:7203
+#: src/timeline2/model/timelinemodel.cpp:7240
+#: src/timeline2/model/timelinemodel.cpp:7273
+#: src/timeline2/model/timelinemodel.cpp:7352
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "无法调整混合大小到小于 1 帧"
 
-#: src/timeline2/model/timelinemodel.cpp:7204
-#: src/timeline2/model/timelinemodel.cpp:7238
-#: src/timeline2/model/timelinemodel.cpp:7280
-#: src/timeline2/model/timelinemodel.cpp:7366
+#: src/timeline2/model/timelinemodel.cpp:7214
+#: src/timeline2/model/timelinemodel.cpp:7248
+#: src/timeline2/model/timelinemodel.cpp:7290
+#: src/timeline2/model/timelinemodel.cpp:7376
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "无法调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7380
+#: src/timeline2/model/timelinemodel.cpp:7390
 #, kde-format
 msgid "Resize mix"
 msgstr "调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7500
+#: src/timeline2/model/timelinemodel.cpp:7510
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "初始化时间轴预览出错"
@@ -31353,7 +31374,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "拖动时间轴时无法进行操作"
 
 #: src/timeline2/view/timelinecontroller.cpp:934
-#: src/timeline2/view/timelinecontroller.cpp:5080
+#: src/timeline2/view/timelinecontroller.cpp:5081
 #, kde-format
 msgid "Could not insert track"
 msgstr "无法插入轨道"
@@ -31426,7 +31447,7 @@ msgid "No item to edit"
 msgstr "没有可编辑的项目"
 
 #: src/timeline2/view/timelinecontroller.cpp:2934
-#: src/timeline2/view/timelinecontroller.cpp:5340
+#: src/timeline2/view/timelinecontroller.cpp:5341
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "请点击一条轨道的名称标记，为此操作激活一条轨道"
@@ -31540,38 +31561,38 @@ msgstr ""
 "无法在此捕获：捕获操作可能会覆盖剪辑。请移除当前位置之后的剪辑，或选择另一条"
 "轨道。"
 
-#: src/timeline2/view/timelinecontroller.cpp:4873
+#: src/timeline2/view/timelinecontroller.cpp:4874
 #, kde-format
 msgid "Record audio"
 msgstr "录制音频"
 
-#: src/timeline2/view/timelinecontroller.cpp:5020
+#: src/timeline2/view/timelinecontroller.cpp:5021
 #, kde-format
 msgid "Expand clip"
 msgstr "延长剪辑"
 
-#: src/timeline2/view/timelinecontroller.cpp:5023
+#: src/timeline2/view/timelinecontroller.cpp:5024
 #, kde-format
 msgid "Could not expand clip"
 msgstr "无法延长剪辑"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5079
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "插入轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5157
+#: src/timeline2/view/timelinecontroller.cpp:5158
 #, kde-format
 msgid "Export subtitle file"
 msgstr "导出字幕文件"
 
-#: src/timeline2/view/timelinecontroller.cpp:5158
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "Sub Station Alpha v4.00+ 文件 (*.ass);;SubRip 字幕文件 (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5172
+#: src/timeline2/view/timelinecontroller.cpp:5173
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -31583,12 +31604,12 @@ msgstr ""
 "有位于最下方图层的字幕会被保留。这可能会造成导出的文件中丢失部分字幕。您想要"
 "继续吗？"
 
-#: src/timeline2/view/timelinecontroller.cpp:5177
+#: src/timeline2/view/timelinecontroller.cpp:5178
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: src/timeline2/view/timelinecontroller.cpp:5215
+#: src/timeline2/view/timelinecontroller.cpp:5216
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -31596,34 +31617,34 @@ msgid ""
 msgstr ""
 "需要 avfilter.subtitles 滤镜，但无法在本机找到。字幕功能可能无法正常工作。"
 
-#: src/timeline2/view/timelinecontroller.cpp:5232
+#: src/timeline2/view/timelinecontroller.cpp:5233
 #, kde-format
 msgid "Show subtitle track"
 msgstr "显示字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5232
+#: src/timeline2/view/timelinecontroller.cpp:5233
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "隐藏字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5255
+#: src/timeline2/view/timelinecontroller.cpp:5256
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "解除锁定字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5255
+#: src/timeline2/view/timelinecontroller.cpp:5256
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "锁定字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5417
-#: src/timeline2/view/timelinecontroller.cpp:5426
+#: src/timeline2/view/timelinecontroller.cpp:5418
+#: src/timeline2/view/timelinecontroller.cpp:5427
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/timeline2/view/timelinecontroller.cpp:5428
+#: src/timeline2/view/timelinecontroller.cpp:5429
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
