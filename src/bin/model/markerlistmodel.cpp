@@ -597,8 +597,13 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Qt::DisplayRole:
     case Qt::EditRole:
-    case CommentRole:
-        return it->second.comment();
+    case CommentRole: {
+        QString text = it->second.comment();
+        if (it->second.hasRange()) {
+            text.append(QStringLiteral(" (%1s)").arg(QString::number(it->second.duration().seconds(), 'f', 0)));
+        }
+        return text;
+    }
     case PosRole:
         return it->second.time().seconds();
     case FrameRole:
