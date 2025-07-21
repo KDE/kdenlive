@@ -263,3 +263,9 @@ path = "snapcraft.yaml"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Scarlett Moore"
 SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = ".well-known/funding-manifest-urls"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Farid Abdelnour"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
