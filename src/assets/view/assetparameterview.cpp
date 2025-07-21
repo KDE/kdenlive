@@ -259,7 +259,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     if (type == ParamType::ColorWheel) {
         // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
         // Should be better managed
-        if (m_widgets.at(0)) {
+        if (!m_widgets.empty() && m_widgets.at(0)) {
             m_widgets.at(0)->slotRefresh();
         } else if (m_mainKeyframeWidget) {
             m_mainKeyframeWidget->slotRefresh();
