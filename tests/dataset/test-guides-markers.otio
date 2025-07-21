@@ -77,7 +77,7 @@
                     {
                         "OTIO_SCHEMA": "Clip.2",
                         "metadata": {},
-                        "name": "blue.mp4",
+                        "name": "blue.mpg",
                         "source_range": {
                             "OTIO_SCHEMA": "TimeRange.1",
                             "duration": {
@@ -154,7 +154,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "blue.mp4"
+                                "target_url": "blue.mpg"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -183,7 +183,7 @@
                     {
                         "OTIO_SCHEMA": "Clip.2",
                         "metadata": {},
-                        "name": "yellow.mp4",
+                        "name": "yellow.mpg",
                         "source_range": {
                             "OTIO_SCHEMA": "TimeRange.1",
                             "duration": {
@@ -240,7 +240,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "yellow.mp4"
+                                "target_url": "yellow.mpg"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -293,7 +293,7 @@
                     {
                         "OTIO_SCHEMA": "Clip.2",
                         "metadata": {},
-                        "name": "red.mp4",
+                        "name": "red.mpg",
                         "source_range": {
                             "OTIO_SCHEMA": "TimeRange.1",
                             "duration": {
@@ -370,7 +370,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "red.mp4"
+                                "target_url": "red.mpg"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -423,7 +423,7 @@
                     {
                         "OTIO_SCHEMA": "Clip.2",
                         "metadata": {},
-                        "name": "red.mp4",
+                        "name": "red.mpg",
                         "source_range": {
                             "OTIO_SCHEMA": "TimeRange.1",
                             "duration": {
@@ -500,7 +500,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "red.mp4"
+                                "target_url": "red.mpg"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -532,7 +532,7 @@
                     {
                         "OTIO_SCHEMA": "Clip.2",
                         "metadata": {},
-                        "name": "blue.mp4",
+                        "name": "blue.mpg",
                         "source_range": {
                             "OTIO_SCHEMA": "TimeRange.1",
                             "duration": {
@@ -609,7 +609,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "blue.mp4"
+                                "target_url": "blue.mpg"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -638,7 +638,7 @@
                     {
                         "OTIO_SCHEMA": "Clip.2",
                         "metadata": {},
-                        "name": "yellow.mp4",
+                        "name": "yellow.mpg",
                         "source_range": {
                             "OTIO_SCHEMA": "TimeRange.1",
                             "duration": {
@@ -695,7 +695,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "yellow.mp4"
+                                "target_url": "yellow.mpg"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
