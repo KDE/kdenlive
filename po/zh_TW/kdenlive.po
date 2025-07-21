@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 07:10+0000\n"
+"POT-Creation-Date: 2025-07-21 02:36+0000\n"
 "PO-Revision-Date: 2025-07-03 23:26+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -7211,7 +7211,7 @@ msgstr "持續時間"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:435
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Subtitles"
 msgstr "字幕"
@@ -17697,7 +17697,7 @@ msgstr "名稱"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1244 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "日期"
@@ -18106,7 +18106,7 @@ msgstr "播放清單"
 msgid "Sequences"
 msgstr "序列"
 
-#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "字幕 / 標題"
@@ -19745,7 +19745,7 @@ msgstr "效果停用時停用參數"
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:907
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "自動 (%1)"
@@ -19753,15 +19753,15 @@ msgstr "自動 (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:684
-#: src/project/dialogs/projectsettings.cpp:911
+#: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "自動"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:946
-#: src/project/dialogs/projectsettings.cpp:976
+#: src/project/dialogs/projectsettings.cpp:944
+#: src/project/dialogs/projectsettings.cpp:974
 #, kde-format
 msgid "Current Settings"
 msgstr "目前設定"
@@ -20836,7 +20836,7 @@ msgstr "輸入 Glaxnimate 應用程式的路徑"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:981
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "請選取一個影片編碼方案"
@@ -26539,7 +26539,7 @@ msgstr "顯示關於音訊串流/資料/編碼器的詳細資訊。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "描述資訊"
@@ -26924,7 +26924,7 @@ msgstr "儲存分析數據"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1762
 #: src/mltcontroller/clippropertiescontroller.cpp:1775
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "文字檔案 (*.txt)"
@@ -27773,7 +27773,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "由 <a href=\"%1\"> 建立"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:224
+#: src/project/dialogs/projectsettings.cpp:222
 #, kde-format
 msgid "Author"
 msgstr "作者"
@@ -28716,57 +28716,57 @@ msgstr "選擇專案的設定檔（預設檔）"
 msgid "Default: %1"
 msgstr "預設：%1"
 
-#: src/project/dialogs/projectsettings.cpp:142
+#: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
 msgstr "快取資料"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "顯示預設參數"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "管理代理設定檔"
 
-#: src/project/dialogs/projectsettings.cpp:195
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "比對代理設定檔效率"
 
-#: src/project/dialogs/projectsettings.cpp:198
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "選取預設的代理設定檔"
 
-#: src/project/dialogs/projectsettings.cpp:205
+#: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "選取攝錄機設定檔"
 
-#: src/project/dialogs/projectsettings.cpp:230
+#: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
 msgid "Artist"
 msgstr "作者"
 
-#: src/project/dialogs/projectsettings.cpp:236
+#: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
 msgstr "版權"
 
-#: src/project/dialogs/projectsettings.cpp:243
+#: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
 msgid "Year"
 msgstr "年"
 
-#: src/project/dialogs/projectsettings.cpp:383
+#: src/project/dialogs/projectsettings.cpp:381
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "您的磁碟上沒有能刪除的檔案。"
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:389
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -28777,47 +28777,47 @@ msgstr ""
 "這個動作無法復原，請只在完全理解您在做什麼的情況下使用此功能。\n"
 "您確定要繼續嗎？"
 
-#: src/project/dialogs/projectsettings.cpp:393
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid "Delete unused clips"
 msgstr "刪除未使用的素材"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:412
 #, kde-format
 msgid "Video clips"
 msgstr "視訊素材"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Audio clips"
 msgstr "音訊素材"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Image clips"
 msgstr "圖片素材"
 
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Slideshow clips"
 msgstr "幻燈片素材"
 
-#: src/project/dialogs/projectsettings.cpp:426
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Text clips"
 msgstr "文字素材"
 
-#: src/project/dialogs/projectsettings.cpp:429
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Playlist clips"
 msgstr "播放清單素材"
 
-#: src/project/dialogs/projectsettings.cpp:432
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Other clips"
 msgstr "其他素材"
 
-#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -28827,13 +28827,13 @@ msgstr ""
 "您已變更時間軸預覽編碼方案。這將會移除此專案的所有現存的時間軸預覽。\n"
 "您確定要繼續嗎？"
 
-#: src/project/dialogs/projectsettings.cpp:554
-#: src/project/dialogs/projectsettings.cpp:564
+#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid "Confirm profile change"
 msgstr "確認修改編碼方案"
 
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:560
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -28845,35 +28845,35 @@ msgstr ""
 "建議您在執行此作業前先儲存您的專案，因為它可能在轉換過程中造成損毀。\n"
 "您確定要繼續嗎？"
 
-#: src/project/dialogs/projectsettings.cpp:791
-#: src/project/dialogs/projectsettings.cpp:806
+#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:804
 #: src/project/dialogs/slideshowclip.cpp:335
 #, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "找到 %1 張圖片"
 
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Save As"
 msgstr "另存新檔"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
 msgstr "專案資料夾：%1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
 msgstr "專案編碼方案：%1"
 
-#: src/project/dialogs/projectsettings.cpp:821
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "素材總計：%1 個（時間軸內已使用 %2 個）。"
 
-#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -32943,7 +32943,7 @@ msgstr "刪除目前的點。"
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -33405,7 +33405,7 @@ msgstr "頻道："
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:105
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -34100,13 +34100,13 @@ msgid "Timeline Preview profile:"
 msgstr "時間軸預覽編碼方案："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:40
+#: src/ui/configproxy_ui.ui:37
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "啟用代理素材"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:62
+#: src/ui/configproxy_ui.ui:59
 #, fuzzy, kde-format
 #| msgid "Generate for videos larger than"
 msgid "Generate for videos larger than:"
@@ -34116,27 +34116,27 @@ msgstr "為大於以下值的影片產生"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
-#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
+#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
+#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
 #, kde-format
 msgid " pixels"
 msgstr " 像素"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:82
+#: src/ui/configproxy_ui.ui:79
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "代理影片調整大小（寬度）："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#: src/ui/configproxy_ui.ui:129
+#: src/ui/configproxy_ui.ui:126
 #, fuzzy, kde-format
 #| msgid "Generate for images larger than"
 msgid "Generate for images larger than:"
 msgstr "為大於以下值的圖片產生"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:155
+#: src/ui/configproxy_ui.ui:149
 #, fuzzy, kde-format
 #| msgid "Proxy image size"
 msgid "Proxy image size:"
@@ -34144,7 +34144,7 @@ msgstr "代理圖片大小"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "外部代理素材："
@@ -34153,14 +34153,14 @@ msgstr "外部代理素材："
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "啟用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:219
+#: src/ui/configproxy_ui.ui:210
 #, fuzzy, kde-format
 #| msgid "You have a clip with an alpha channel. "
 #| msgid_plural "You have %1 clips with an alpha channel. "

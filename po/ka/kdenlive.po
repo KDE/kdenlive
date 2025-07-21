@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 07:10+0000\n"
+"POT-Creation-Date: 2025-07-21 02:36+0000\n"
 "PO-Revision-Date: 2025-07-13 05:46+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -6931,7 +6931,7 @@ msgstr "ხანგრძლოვობა"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:435
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Subtitles"
 msgstr "სუბტიტრები"
@@ -17250,7 +17250,7 @@ msgstr "სახელი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1244 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "თარიღი"
@@ -17675,7 +17675,7 @@ msgstr "დასაკრავი სია"
 msgid "Sequences"
 msgstr "მიმდევრობები"
 
-#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "სათაური"
@@ -19331,7 +19331,7 @@ msgstr "აჩვენებს პარამეტრებს არჩე�
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:907
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "ავტომატური (%1)"
@@ -19339,15 +19339,15 @@ msgstr "ავტომატური (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:684
-#: src/project/dialogs/projectsettings.cpp:911
+#: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "ავტომატური"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:946
-#: src/project/dialogs/projectsettings.cpp:976
+#: src/project/dialogs/projectsettings.cpp:944
+#: src/project/dialogs/projectsettings.cpp:974
 #, kde-format
 msgid "Current Settings"
 msgstr "მიმდინარე პარამეტრები"
@@ -20427,7 +20427,7 @@ msgstr "შეიყვანეთ ბილიკი თქვენს Glaxni
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:981
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "აირჩიეთ ვიდეო პროფილი"
@@ -26231,7 +26231,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "მეტამონაცემები"
@@ -26616,7 +26616,7 @@ msgstr "ანალიზის მონაცემების შენა�
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1762
 #: src/mltcontroller/clippropertiescontroller.cpp:1775
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "ტექსტური ფაილი (*.txt)"
@@ -27480,7 +27480,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "ავტორი <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:224
+#: src/project/dialogs/projectsettings.cpp:222
 #, kde-format
 msgid "Author"
 msgstr "ავტორი"
@@ -28427,57 +28427,57 @@ msgstr "აირჩიეთ პროექტის პროფილი (�
 msgid "Default: %1"
 msgstr "ნაგულისხმევი: %1"
 
-#: src/project/dialogs/projectsettings.cpp:142
+#: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
 msgstr "ქეშის მონაცემები"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "ნაგულისხმევი პროფილის პარამეტრების ჩვენება"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "პროქსის პროფილების მართვა"
 
-#: src/project/dialogs/projectsettings.cpp:195
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "პროქსის პროფილების ეფექტურობის შედარება"
 
-#: src/project/dialogs/projectsettings.cpp:198
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "აირჩიეთ ნაგულისხმევი პროქსის პროფილი"
 
-#: src/project/dialogs/projectsettings.cpp:205
+#: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "აირჩიეთ კამკორდერის პროფილი"
 
-#: src/project/dialogs/projectsettings.cpp:230
+#: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
 msgid "Artist"
 msgstr "შემსრულებელი"
 
-#: src/project/dialogs/projectsettings.cpp:236
+#: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
 msgstr "საავტორო უფლებები"
 
-#: src/project/dialogs/projectsettings.cpp:243
+#: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
 msgid "Year"
 msgstr "წელი"
 
-#: src/project/dialogs/projectsettings.cpp:383
+#: src/project/dialogs/projectsettings.cpp:381
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "დისკზე წასაშლელი ფაილები აღმოჩენილი არაა."
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:389
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -28488,47 +28488,47 @@ msgstr ""
 "ეს ქმედება შეუქცევადია. გამოიყენეთ ის, თუ ზუსტად იცით, რას აკეთებთ.\n"
 "დარწმუნებული ბრძანდებით, რომ გნებავთ, გააგრძელოთ?"
 
-#: src/project/dialogs/projectsettings.cpp:393
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid "Delete unused clips"
 msgstr "გამოუყენებელი კლიპების წაშლა"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:412
 #, kde-format
 msgid "Video clips"
 msgstr "ვიდეოკლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Audio clips"
 msgstr "აუდიოკლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Image clips"
 msgstr "გამოსახულების კლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Slideshow clips"
 msgstr "სლაიდშოუს კლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:426
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Text clips"
 msgstr "ტექსტის კლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:429
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Playlist clips"
 msgstr "დასაკრავი სიის კლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:432
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Other clips"
 msgstr "სხვა კლიპები"
 
-#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -28539,13 +28539,13 @@ msgstr ""
 "მინიატურას წაშლის ამ პროექტისთვის.\n"
 "დარწმუნებული ბრძანდებით, რომ გნებავთ, გააგრძელოთ?"
 
-#: src/project/dialogs/projectsettings.cpp:554
-#: src/project/dialogs/projectsettings.cpp:564
+#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid "Confirm profile change"
 msgstr "დაადასტურეთ პროფილის შეცვლა"
 
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:560
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -28558,8 +28558,8 @@ msgstr ""
 "გადაყვანებისას, შეიძლება, დაზიანებები გამოიწვიოს.\n"
 "გნებავთ გაგრძელება?"
 
-#: src/project/dialogs/projectsettings.cpp:791
-#: src/project/dialogs/projectsettings.cpp:806
+#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:804
 #: src/project/dialogs/slideshowclip.cpp:335
 #, kde-format
 msgid "1 image found"
@@ -28567,27 +28567,27 @@ msgid_plural "%1 images found"
 msgstr[0] "ნაპოვნია 1 გამოსახულება"
 msgstr[1] "ნაპოვნია %1 გამოსახულება"
 
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Save As"
 msgstr "შენახვა როგორც"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
 msgstr "პროექტის საქაღალდე: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
 msgstr "პროექტის პროფილი: %1"
 
-#: src/project/dialogs/projectsettings.cpp:821
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "კლიპები სულ: %1 (%2 გამოყენებულია დროი ხაზზე)"
 
-#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -32723,7 +32723,7 @@ msgstr "მიმდინარე წერტილის წაშლა."
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -33192,7 +33192,7 @@ msgstr "არხები:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:105
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -33894,13 +33894,13 @@ msgid "Timeline Preview profile:"
 msgstr "დროის ხაზის მინიატურის პროფილი:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:40
+#: src/ui/configproxy_ui.ui:37
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "პროქსი კლიპების ჩართვა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:62
+#: src/ui/configproxy_ui.ui:59
 #, kde-format
 msgid "Generate for videos larger than:"
 msgstr "გენერაცია ვიდეოებისთვის, რომლებიც დიდია, ვიდრე:"
@@ -33909,33 +33909,33 @@ msgstr "გენერაცია ვიდეოებისთვის, რ
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
-#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
+#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
+#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
 #, kde-format
 msgid " pixels"
 msgstr "  პიქსელი"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:82
+#: src/ui/configproxy_ui.ui:79
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "პროქსი ვიდეოების ზომის შეცვლა (სიგანე):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#: src/ui/configproxy_ui.ui:129
+#: src/ui/configproxy_ui.ui:126
 #, kde-format
 msgid "Generate for images larger than:"
 msgstr "გენერაცია გამოსახულებებისთვის, რომლებიც დიდია, ვიდრე:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:155
+#: src/ui/configproxy_ui.ui:149
 #, kde-format
 msgid "Proxy image size:"
 msgstr "პროქსი გამოსახულების ზომა:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "გარე პროქსი კლიპები:"
@@ -33944,14 +33944,14 @@ msgstr "გარე პროქსი კლიპები:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "ჩართვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:219
+#: src/ui/configproxy_ui.ui:210
 #, kde-format
 msgid "Profile for clips with alpha channel:"
 msgstr "პროფილი ალფა არხის მქონე კლიპებისთვის:"

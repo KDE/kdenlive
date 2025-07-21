@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 07:10+0000\n"
+"POT-Creation-Date: 2025-07-21 02:36+0000\n"
 "PO-Revision-Date: 2025-07-17 08:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -7344,7 +7344,7 @@ msgstr "Тривалість"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:435
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Subtitles"
 msgstr "Субтитри"
@@ -18078,7 +18078,7 @@ msgstr "Назва"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1244 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Дата"
@@ -18507,7 +18507,7 @@ msgstr "Список відтворення"
 msgid "Sequences"
 msgstr "Послідовності"
 
-#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Титри"
@@ -20188,7 +20188,7 @@ msgstr "Показує параметри позначеного профілю"
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:907
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Автоматично (%1)"
@@ -20196,15 +20196,15 @@ msgstr "Автоматично (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:684
-#: src/project/dialogs/projectsettings.cpp:911
+#: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Автоматично"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:946
-#: src/project/dialogs/projectsettings.cpp:976
+#: src/project/dialogs/projectsettings.cpp:944
+#: src/project/dialogs/projectsettings.cpp:974
 #, kde-format
 msgid "Current Settings"
 msgstr "Поточні параметри"
@@ -21299,7 +21299,7 @@ msgstr "Введіть шлях до програми Glaxnimate"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:981
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Будь ласка, виберіть профіль відео"
@@ -27194,7 +27194,7 @@ msgstr "Показує докладні відомості щодо звуков
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Метадані"
@@ -27583,7 +27583,7 @@ msgstr "Збереження даних аналізу"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1762
 #: src/mltcontroller/clippropertiescontroller.cpp:1775
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "текстовий файл (*.txt)"
@@ -28459,7 +28459,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "Створено <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:224
+#: src/project/dialogs/projectsettings.cpp:222
 #, kde-format
 msgid "Author"
 msgstr "Автор"
@@ -29414,57 +29414,57 @@ msgstr "Виберіть профіль (налаштування) проєкт�
 msgid "Default: %1"
 msgstr "Типовий: %1"
 
-#: src/project/dialogs/projectsettings.cpp:142
+#: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
 msgstr "Дані кешу"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "Показати параметри типового профілю"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "Керувати профілями проміжних кліпів"
 
-#: src/project/dialogs/projectsettings.cpp:195
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "Порівняти ефективність профілів проміжних кліпів"
 
-#: src/project/dialogs/projectsettings.cpp:198
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "Вибрати типовий профіль проміжного кліпу"
 
-#: src/project/dialogs/projectsettings.cpp:205
+#: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "Виберіть профіль камери"
 
-#: src/project/dialogs/projectsettings.cpp:230
+#: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
 msgid "Artist"
 msgstr "Художник"
 
-#: src/project/dialogs/projectsettings.cpp:236
+#: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
 msgstr "Авторські права"
 
-#: src/project/dialogs/projectsettings.cpp:243
+#: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
 msgid "Year"
 msgstr "Рік"
 
-#: src/project/dialogs/projectsettings.cpp:383
+#: src/project/dialogs/projectsettings.cpp:381
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "На вашому диску немає файлів для вилучення."
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:389
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -29476,47 +29476,47 @@ msgstr ""
 "щодо наслідків.\n"
 "Ви справді хочете виконати цю дію?"
 
-#: src/project/dialogs/projectsettings.cpp:393
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid "Delete unused clips"
 msgstr "Вилучити невикористані кліпи"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:412
 #, kde-format
 msgid "Video clips"
 msgstr "Відеокліпи"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Audio clips"
 msgstr "Звукові кліпи"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Image clips"
 msgstr "Кліпи-зображення"
 
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Slideshow clips"
 msgstr "Кліпи показу слайдів"
 
-#: src/project/dialogs/projectsettings.cpp:426
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Text clips"
 msgstr "Текстові кліпи"
 
-#: src/project/dialogs/projectsettings.cpp:429
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Playlist clips"
 msgstr "Кліпи списку відтворення"
 
-#: src/project/dialogs/projectsettings.cpp:432
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Other clips"
 msgstr "Інші кліпи"
 
-#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -29528,13 +29528,13 @@ msgstr ""
 "для цього проєкту.\n"
 " Ви справді хочете, щоб програма виконала цю дію?"
 
-#: src/project/dialogs/projectsettings.cpp:554
-#: src/project/dialogs/projectsettings.cpp:564
+#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Підтвердження зміни профілю"
 
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:560
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -29547,8 +29547,8 @@ msgstr ""
 "призвести до пошкодження переходів.\n"
 " Ви справді бажаєте продовжити виконання дії?"
 
-#: src/project/dialogs/projectsettings.cpp:791
-#: src/project/dialogs/projectsettings.cpp:806
+#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:804
 #: src/project/dialogs/slideshowclip.cpp:335
 #, kde-format
 msgid "1 image found"
@@ -29558,27 +29558,27 @@ msgstr[1] "Знайдено %1 зображення"
 msgstr[2] "Знайдено %1 зображень"
 msgstr[3] "Знайдено одне зображення"
 
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Save As"
 msgstr "Зберегти як"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Тека проєкту: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Профіль проєкту: %1"
 
-#: src/project/dialogs/projectsettings.cpp:821
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Загалом кліпів: %1 (використано на монтажному столі: %2)."
 
-#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -33777,7 +33777,7 @@ msgstr "Вилучити поточну точку."
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -34249,7 +34249,7 @@ msgstr "Канали:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:105
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -34953,13 +34953,13 @@ msgid "Timeline Preview profile:"
 msgstr "Профіль перегляду на монтажному столі:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:40
+#: src/ui/configproxy_ui.ui:37
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "Увімкнути проміжні кліпи"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:62
+#: src/ui/configproxy_ui.ui:59
 #, kde-format
 msgid "Generate for videos larger than:"
 msgstr "Створювати для відео, більших за"
@@ -34968,33 +34968,33 @@ msgstr "Створювати для відео, більших за"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
-#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
+#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
+#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
 #, kde-format
 msgid " pixels"
 msgstr " пікселів"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:82
+#: src/ui/configproxy_ui.ui:79
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "Зміна розмірів проміжного відео (ширина):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#: src/ui/configproxy_ui.ui:129
+#: src/ui/configproxy_ui.ui:126
 #, kde-format
 msgid "Generate for images larger than:"
 msgstr "Створювати для зображень, більших за"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:155
+#: src/ui/configproxy_ui.ui:149
 #, kde-format
 msgid "Proxy image size:"
 msgstr "Розмір проміжного зображення:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "Зовнішні проміжні кліпи:"
@@ -35003,14 +35003,14 @@ msgstr "Зовнішні проміжні кліпи:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "Увімкнути"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:219
+#: src/ui/configproxy_ui.ui:210
 #, kde-format
 msgid "Profile for clips with alpha channel:"
 msgstr "Профіль для кліпів із каналом прозорості:"

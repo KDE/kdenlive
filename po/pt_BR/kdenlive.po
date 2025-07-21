@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 07:10+0000\n"
+"POT-Creation-Date: 2025-07-21 02:36+0000\n"
 "PO-Revision-Date: 2025-03-28 01:05-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -7259,7 +7259,7 @@ msgstr "Duração"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:435
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Subtitles"
 msgstr "Legendas"
@@ -18025,7 +18025,7 @@ msgstr "Nome"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1244 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
@@ -18452,7 +18452,7 @@ msgstr "Lista de reprodução"
 msgid "Sequences"
 msgstr "Sequências"
 
-#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Título"
@@ -20124,7 +20124,7 @@ msgstr "Exibe os parâmetros para o perfil selecionado"
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:907
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automático (%1)"
@@ -20132,15 +20132,15 @@ msgstr "Automático (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:684
-#: src/project/dialogs/projectsettings.cpp:911
+#: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automático"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:946
-#: src/project/dialogs/projectsettings.cpp:976
+#: src/project/dialogs/projectsettings.cpp:944
+#: src/project/dialogs/projectsettings.cpp:974
 #, kde-format
 msgid "Current Settings"
 msgstr "Configurações atuais"
@@ -21231,7 +21231,7 @@ msgstr "Digite o caminho para o aplicativo Glaxnimate"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:981
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Favor selecionar um perfil de vídeo"
@@ -27098,7 +27098,7 @@ msgstr "Exibe informações detalhadas sobre os fluxos de áudio/dados/codec."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Metadados"
@@ -27483,7 +27483,7 @@ msgstr "Salvar os dados de análise"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1762
 #: src/mltcontroller/clippropertiescontroller.cpp:1775
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Arquivo Texto (*.txt)"
@@ -28360,7 +28360,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "Criado por <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:224
+#: src/project/dialogs/projectsettings.cpp:222
 #, kde-format
 msgid "Author"
 msgstr "Autor"
@@ -29312,58 +29312,58 @@ msgstr "Selecione o perfil (predefinição) do projeto"
 msgid "Default: %1"
 msgstr "Padrão: %1"
 
-#: src/project/dialogs/projectsettings.cpp:142
+#: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
 msgstr "Dados de Cache"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "Mostrar os parâmetros do perfil padrão"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "Gerenciar os perfis do proxy"
 
-#: src/project/dialogs/projectsettings.cpp:195
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "Comparar a eficiência dos perfis de proxy"
 
-#: src/project/dialogs/projectsettings.cpp:198
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "Selecione o perfil de proxy padrão"
 
-#: src/project/dialogs/projectsettings.cpp:205
+#: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "Selecione o perfil da filmadora"
 
-#: src/project/dialogs/projectsettings.cpp:230
+#: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
 msgid "Artist"
 msgstr "Artista"
 
 # Não traduzir.
-#: src/project/dialogs/projectsettings.cpp:236
+#: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/project/dialogs/projectsettings.cpp:243
+#: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
 msgid "Year"
 msgstr "Ano"
 
-#: src/project/dialogs/projectsettings.cpp:383
+#: src/project/dialogs/projectsettings.cpp:381
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "Nenhum arquivo para excluir em sua unidade."
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:389
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -29375,47 +29375,47 @@ msgstr ""
 "fazendo.\n"
 "Tem certeza que quer continuar?"
 
-#: src/project/dialogs/projectsettings.cpp:393
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid "Delete unused clips"
 msgstr "Excluir clipes inutilizados"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:412
 #, kde-format
 msgid "Video clips"
 msgstr "Clipes de vídeo"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Audio clips"
 msgstr "Clipes de áudio"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Image clips"
 msgstr "Clipes de imagem"
 
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Slideshow clips"
 msgstr "Clipes de apresentação"
 
-#: src/project/dialogs/projectsettings.cpp:426
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Text clips"
 msgstr "Clipes de texto"
 
-#: src/project/dialogs/projectsettings.cpp:429
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Playlist clips"
 msgstr "Clipes da lista de reprodução"
 
-#: src/project/dialogs/projectsettings.cpp:432
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Other clips"
 msgstr "Outros clipes"
 
-#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -29426,13 +29426,13 @@ msgstr ""
 "prévias da linha do tempo existentes para este projeto.\n"
 " Deseja realmente continuar?"
 
-#: src/project/dialogs/projectsettings.cpp:554
-#: src/project/dialogs/projectsettings.cpp:564
+#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Confirmar mudança de perfil"
 
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:560
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -29445,8 +29445,8 @@ msgstr ""
 "causar erros graves nas transições.\n"
 "Tem certeza que deseja continuar?"
 
-#: src/project/dialogs/projectsettings.cpp:791
-#: src/project/dialogs/projectsettings.cpp:806
+#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:804
 #: src/project/dialogs/slideshowclip.cpp:335
 #, kde-format
 msgid "1 image found"
@@ -29454,27 +29454,27 @@ msgid_plural "%1 images found"
 msgstr[0] "%1 imagem encontrada"
 msgstr[1] "%1 imagens encontradas"
 
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Save As"
 msgstr "Salvar como"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Pasta do Projeto: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Perfil do projeto: %1"
 
-#: src/project/dialogs/projectsettings.cpp:821
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Total de clipes: %1 (%2 usado na linha do tempo)."
 
-#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -33642,7 +33642,7 @@ msgstr "Excluir o ponto atual."
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -34110,7 +34110,7 @@ msgstr "Canais:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:105
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -34812,13 +34812,13 @@ msgid "Timeline Preview profile:"
 msgstr "Perfil de prévia da linha do tempo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:40
+#: src/ui/configproxy_ui.ui:37
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "Habilitar clipes de proxy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:62
+#: src/ui/configproxy_ui.ui:59
 #, kde-format
 msgid "Generate for videos larger than:"
 msgstr "Gerar para vídeos maiores que:"
@@ -34827,33 +34827,33 @@ msgstr "Gerar para vídeos maiores que:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
-#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
+#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
+#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
 #, kde-format
 msgid " pixels"
 msgstr " pixels"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:82
+#: src/ui/configproxy_ui.ui:79
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "Redimensionamento do vídeo de proxy (largura):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#: src/ui/configproxy_ui.ui:129
+#: src/ui/configproxy_ui.ui:126
 #, kde-format
 msgid "Generate for images larger than:"
 msgstr "Gerar para imagens maiores que"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:155
+#: src/ui/configproxy_ui.ui:149
 #, kde-format
 msgid "Proxy image size:"
 msgstr "Tamanho da imagem proxy:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "Clipes de proxy externo:"
@@ -34862,14 +34862,14 @@ msgstr "Clipes de proxy externo:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "Habilitar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:219
+#: src/ui/configproxy_ui.ui:210
 #, kde-format
 msgid "Profile for clips with alpha channel:"
 msgstr "Perfil para clipes com canal alfa:"

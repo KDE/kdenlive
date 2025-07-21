@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 07:10+0000\n"
-"PO-Revision-Date: 2025-07-10 17:45+0200\n"
+"POT-Creation-Date: 2025-07-21 02:36+0000\n"
+"PO-Revision-Date: 2025-07-20 22:56+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -30,7 +30,7 @@ msgstr "Iñigo Gebara,Iñigo Salvador Azurmendi"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "igebara@disroot.org,xalba@euskalnet.net"
+msgstr "igebara@disroot.org,xalba@ni.eus"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:196 src/audiomixer/mixerwidget.cpp:222
@@ -41,7 +41,7 @@ msgstr "Oreka"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr "Doitu ezker/eskuineko oreka"
+msgstr "Doitu ezkerreko/eskuineko oreka"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -61,14 +61,14 @@ msgstr "Erabili IEC 60268-18 eskala"
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "Audio maila bistaratzeko iragazkia"
+msgstr "Audio maila irudikatzeko iragazkia"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
 msgstr ""
-"Audioa bistaratzeko iragazki bat, irudian audio-maila neurgailu bat "
+"Audioa irudikatzeko iragazki bat, irudian audio-maila neurgailu bat "
 "marrazten duena."
 
 #: data/effects/audiolevelgraph.xml:8
@@ -85,7 +85,7 @@ msgstr "Grafiko mota"
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
-msgstr "Mailak bistaratzeko grafiko-mota."
+msgstr "Mailak irudikatzeko grafiko-mota."
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -95,12 +95,12 @@ msgstr "Mailak bistaratzeko grafiko-mota."
 #: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
-msgstr "Atzeko planoko kolorea"
+msgstr "Atzeko planoaren kolorea"
 
 #: data/effects/audiolevelgraph.xml:14
 #, kde-format
 msgid "The background color to be applied to the entire frame."
-msgstr "Fotograma osoari aplikatu beharreko atzeko-planoko kolorea."
+msgstr "Fotograma osoari aplikatu beharreko atzeko-planoaren kolorea."
 
 #: data/effects/audiolevelgraph.xml:17
 #, kde-format
@@ -111,7 +111,7 @@ msgstr "Gradientearen kolorea 1"
 #: data/effects/audiolevelgraph.xml:26
 #, kde-format
 msgid "The color of the waveform gradient."
-msgstr "Uhin-formaren gradientearen kolorea."
+msgstr "Uhin-forma gradientearen kolorea."
 
 #: data/effects/audiolevelgraph.xml:21
 #, kde-format
@@ -127,7 +127,7 @@ msgstr "Gradientearen kolorea 3"
 #: data/effects/audiowaveform.xml:13
 #, kde-format
 msgid "Line Thickness"
-msgstr "Marraren lodiera"
+msgstr "Lerroaren lodiera"
 
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
@@ -147,7 +147,7 @@ msgstr "Angelua"
 #: data/effects/audiowaveform.xml:17
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
-msgstr "Uhin-formari aplikatu beharreko biraketa angelua."
+msgstr "Uhin-formari aplikatu beharreko biraketa-angelua."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20 data/effects/lightshow.xml:26
@@ -186,7 +186,7 @@ msgstr "Ispilatu espektroa laukizuzenaren zentroa erabiliz."
 #: data/transitions/mix.xml:8
 #, kde-format
 msgid "Reverse"
-msgstr "Atzekoz-aurrera egin"
+msgstr "Atzekoz-aurrera"
 
 #: data/effects/audiolevelgraph.xml:46
 #, kde-format
@@ -216,17 +216,17 @@ msgstr "Kanalak"
 #: data/effects/audiolevelgraph.xml:55
 #, kde-format
 msgid "The number of channels to show."
-msgstr "Erakutsi beharreko kanal kopurua."
+msgstr "Erakutsi beharreko kanal-kopurua."
 
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr "Segmentuaren tartea"
+msgstr "Segmentuen arteko tartea"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr "Segmentuen arteko tartea (pixeletan)."
+msgstr "Segmentuen artean dagoen tartea pixeletan."
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
@@ -278,18 +278,18 @@ msgstr "CH6 iturria"
 #, kde-format
 msgctxt "Pan Effect Name"
 msgid "Pan"
-msgstr "Panorama"
+msgstr "Pan"
 
 #: data/effects/audiopan.xml:5
 #, kde-format
 msgid "Adjust the left/right spread of a channel"
-msgstr "Doitu kanal baten ezker/eskuineko luzera"
+msgstr "Doitu kanal baten ezker/eskuin hedapena"
 
 #: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
 #: data/effects/channelcopy.xml:12
 #, kde-format
 msgid "Left,Right"
-msgstr "Ezker, Eskuin"
+msgstr "Ezker,Eskuin"
 
 #: data/effects/audiopan.xml:9 data/effects/frei0r/frei0r_bezier_curves.xml:9
 #: data/effects/frei0r/frei0r_curves.xml:10
@@ -307,28 +307,29 @@ msgstr "Kanala"
 #, kde-format
 msgctxt "Audio Pan"
 msgid "Pan"
-msgstr "Panorama"
+msgstr "Pan"
 
 #: data/effects/audiospectrum.xml:5
 #, kde-format
 msgid "Audio Spectrum Filter"
-msgstr "Audio espektroaren Iragazkia"
+msgstr "Audio-espektroaren iragazkia"
 
 #: data/effects/audiospectrum.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
-msgstr "Audio bistaratze iragazkia; audio-espektroa marrazten du irudian."
+msgstr ""
+"Audioa irudikatzeko iragazki bat, irudian audio-espektro bat marrazten duena."
 
 #: data/effects/audiospectrum.xml:9
 #, kde-format
 msgid "Line,Bar"
-msgstr "Lerroa, barra"
+msgstr "Lerroa,Barra"
 
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr "Espektroa bistaratzeko grafiko-mota."
+msgstr "Espektroa irudikatzeko grafiko-mota."
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -336,7 +337,7 @@ msgid ""
 "The background color to be applied to the entire frame. The default color is "
 "transparent."
 msgstr ""
-"Fotograma osoaren atzeko-planoari aplikatzeko kolorea. Kolore lehenetsia "
+"Fotograma osoan atzeko-planoan aplikatzeko kolorea. Kolore lehenetsia "
 "gardena da."
 
 #: data/effects/audiospectrum.xml:18
@@ -355,14 +356,14 @@ msgid ""
 "The thickness of the line used to draw the waveform for line graph. The "
 "thickness of the bar for bar graph."
 msgstr ""
-"Grafikoan uhin-forma marrazteko erabiltzen den lerroaren lodiera. Barren "
-"lodiera barra-grafikoen kasuan."
+"Lerro-grafikoan uhin-forma marrazteko erabiltzen den lerroaren lodiera. "
+"Barra-grafikoan barraren lodiera."
 
 #: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
-msgstr "Bete"
+msgstr "Betetzea"
 
 #: data/effects/audiospectrum.xml:35
 #, kde-format
@@ -370,8 +371,8 @@ msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
 msgstr ""
-"Baldin eta uhin-formaren azpiko eremua bete behar bada. Bakarrik lerro "
-"motako grafikoari aplikatzen zaio."
+"Uhin-formaren azpiko eremua bete behar den ala ez. Lerro-grafiko motari "
+"bakarrik aplikatzen zaio."
 
 #: data/effects/audiospectrum.xml:43
 #, kde-format
@@ -391,10 +392,10 @@ msgid ""
 "Values < 0 and > 100 will cause loops in the lines. Only applies to line "
 "graph type."
 msgstr ""
-"Kurbaren kopuruari eragiten dio lerroaren puntuen artean interpolatuz. 0.0 = "
-"lerro zuzena puntuen artean. 100 = puntuen arteko lerro oso kurbadunak . <0 "
-"eta >100 balioek kiribiltzeak sortuko dituzte lerroetan. Bakarrik lerro "
-"grafiko moduan aplikatzen da."
+"Puntuen arteko lerro interpolatuak duen kurbadura mailari eragiten dio. 0.0 "
+"= puntuen arteko lerro zuzena. 100 = puntuen arteko lerro oso kurbatuak. "
+"Balioak < 0 eta > 100 izatea lerroetan begiztak eragingo ditu. Lerro-grafiko "
+"motari bakarrik aplikatzen zaio."
 
 #: data/effects/audiospectrum.xml:50
 #, kde-format
@@ -407,7 +408,7 @@ msgid ""
 "The number of bands to draw in the spectrum. Each band shows up as a data "
 "point in the graph."
 msgstr ""
-"Espektroan marraztu beharreko banda kopurua. Banda bakoitza datu-puntu "
+"Espektroan marraztu beharreko banda kopurua. Banda bakoitza datu-puntu bat "
 "moduan azaltzen da grafikoan."
 
 #: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
@@ -418,7 +419,7 @@ msgstr "Maiztasun baxua"
 #: data/effects/audiospectrum.xml:55
 #, kde-format
 msgid "The low end of the frequency range to be used for the graph."
-msgstr "Grafikoan erabiliko den maiztasun barrutiaren beheko amaiera."
+msgstr "Grafikoan erabili beharreko maiztasun-barrutiaren beheko muga."
 
 #: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, kde-format
@@ -428,12 +429,12 @@ msgstr "Maiztasun altua"
 #: data/effects/audiospectrum.xml:59
 #, kde-format
 msgid "The high end of the frequency range to be used for the graph."
-msgstr "Grafikoan erabiliko den maiztasun barrutiaren goiko amaiera."
+msgstr "Grafikoan erabili beharreko maiztasun-barrutiaren goiko muga."
 
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
 msgid "Level Threshold"
-msgstr "Maila atalasea"
+msgstr "Maila-atalasea"
 
 #: data/effects/audiospectrum.xml:63
 #, kde-format
@@ -441,8 +442,8 @@ msgid ""
 "The minimum amplitude of sound that must occur within the frequency range to "
 "cause the value to be applied."
 msgstr ""
-"Balioa ezartzeko maiztasun barrutian eman behar den soinuaren zabalera "
-"minimoa."
+"Balioa aplikatzea eragiteko, maiztasun-barrutian eman behar den soinuaren "
+"anplitude minimoa."
 
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, kde-format
@@ -459,12 +460,12 @@ msgid ""
 "performed as a sliding window so that the most recent samples are always "
 "transformed."
 msgstr ""
-"FFT gauzatuko den lagin kopurua. Leihoaren tamaina fotograma bakoitzeko "
-"lagin kopurua baino txikiagoa bada, lagin  gehigarriak baztertuko dira.  "
-"Leihoaren tamaina fotograma bakoitzeko lagin kopurua baino handiagoa bada, "
-"laginak aurreko aurreko fotogrametatik gordetakoetatik hartuko dira leihoa "
-"betetzeko. Buffering-a leiho irristakor moduan egikarituko da, beti, lagin "
-"berrienak eraldatuko direlarik."
+"FFT zenbat laginetan gauzatuko den. Leihoaren tamaina fotograma bateko lagin "
+"kopurua baino txikiagoa bada, lagin gehigarriak ez dira kontuan hartuko. "
+"Leihoaren tamaina fotograma bateko lagin kopurua baino handiagoa bada, "
+"aurreko fotogrametako laginak bufferrean gordeko dira leihoa betetzeko. "
+"Bufferra leiho irristakor baten moduan egiten da, lagin berrienak beti "
+"eraldatu daitezen."
 
 #: data/effects/audiowave.xml:4
 #, kde-format
@@ -474,28 +475,28 @@ msgstr "Audio-uhina"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Bistaratu audioaren uhin-forma bideoaren ordez"
+msgstr "Azaldu audioaren uhin-forma bideoaren ordez"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr "Audio Uhin-formaren Iragazkia"
+msgstr "Audio uhin-formaren iragazkia"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
-msgstr "Lehen planoko kolorea"
+msgstr "Aurreko planoaren kolorea"
 
 #: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr "Bateratu,Denak,1,2,3,4,5,6,7,8,9,10"
+msgstr "Bateratu,Dena,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/audiowaveform.xml:27
 #, kde-format
 msgid "Channel to draw"
-msgstr "Marrazteko kanala"
+msgstr "Marraztu beharreko kanala"
 
 #: data/effects/avfilter/acompressor.xml:4
 #, kde-format
@@ -530,7 +531,7 @@ msgstr "Atalasea"
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
 #, kde-format
 msgid "Ratio"
-msgstr "Proportzioa"
+msgstr "Erlazioa"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
@@ -7357,7 +7358,7 @@ msgstr "Iraupena"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:435
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Subtitles"
 msgstr "Azpidatziak"
@@ -18241,7 +18242,7 @@ msgstr "Izena"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1244 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
@@ -18668,7 +18669,7 @@ msgstr "Erreprodukzio-zerrenda"
 msgid "Sequences"
 msgstr "Sekuentziak"
 
-#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Izenburua"
@@ -20336,7 +20337,7 @@ msgstr "Hautatutako profilerako parametroak azaltzen ditu"
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:907
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automatikoa (%1)"
@@ -20344,15 +20345,15 @@ msgstr "Automatikoa (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:684
-#: src/project/dialogs/projectsettings.cpp:911
+#: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automatikoa"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:946
-#: src/project/dialogs/projectsettings.cpp:976
+#: src/project/dialogs/projectsettings.cpp:944
+#: src/project/dialogs/projectsettings.cpp:974
 #, kde-format
 msgid "Current Settings"
 msgstr "Uneko ezarpenak"
@@ -21439,7 +21440,7 @@ msgstr "Sartu bidea Glaxnimate aplikaziorako"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:981
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Mesedez aukeratu bideo profila"
@@ -27279,7 +27280,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Metadatuak"
@@ -27668,7 +27669,7 @@ msgstr "Gorde Azterketaren Datuak"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1762
 #: src/mltcontroller/clippropertiescontroller.cpp:1775
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Testu fitxategia (*.txt)"
@@ -28537,7 +28538,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "<a href=\"%1\">ek sortua"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:224
+#: src/project/dialogs/projectsettings.cpp:222
 #, kde-format
 msgid "Author"
 msgstr "Egilea"
@@ -29484,57 +29485,57 @@ msgstr "Hautatu proiektuaren profila (aurrezarpena)"
 msgid "Default: %1"
 msgstr "Lehenetsia: %1"
 
-#: src/project/dialogs/projectsettings.cpp:142
+#: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
 msgstr "Cachearen datuak"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "Bistaratu lehenetsitako profilaren parametroak"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "Kudeatu ordezkari-profilak"
 
-#: src/project/dialogs/projectsettings.cpp:195
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "Alderatu ordezkari-profilen eraginkortasuna"
 
-#: src/project/dialogs/projectsettings.cpp:198
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "Hautatu ordezkari-profil lehenetsia"
 
-#: src/project/dialogs/projectsettings.cpp:205
+#: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "Aukeratu bideokamera profila"
 
-#: src/project/dialogs/projectsettings.cpp:230
+#: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
 msgid "Artist"
 msgstr "Artista"
 
-#: src/project/dialogs/projectsettings.cpp:236
+#: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
 msgstr "Copyright-a"
 
-#: src/project/dialogs/projectsettings.cpp:243
+#: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
 msgid "Year"
 msgstr "Urtea"
 
-#: src/project/dialogs/projectsettings.cpp:383
+#: src/project/dialogs/projectsettings.cpp:381
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "Ez dago zure unitatean ezabatzeko fitxategirik."
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:389
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -29546,47 +29547,47 @@ msgstr ""
 "badakizu.\n"
 "Ziur zaude jarraitu nahi duzula?"
 
-#: src/project/dialogs/projectsettings.cpp:393
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid "Delete unused clips"
 msgstr "Ezabatu erabili gabeko klipak"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:412
 #, kde-format
 msgid "Video clips"
 msgstr "Bideo klipak"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Audio clips"
 msgstr "Audio klipak"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Image clips"
 msgstr "Irudi klipak"
 
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Slideshow clips"
 msgstr "Irudi-segida klipak"
 
-#: src/project/dialogs/projectsettings.cpp:426
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Text clips"
 msgstr "Testu klipak"
 
-#: src/project/dialogs/projectsettings.cpp:429
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Playlist clips"
 msgstr "Erreprodukzio zerrendako klipak"
 
-#: src/project/dialogs/projectsettings.cpp:432
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Other clips"
 msgstr "Beste klipak"
 
-#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -29597,13 +29598,13 @@ msgstr ""
 "lerroko aurrebista guztiak ezabatuko ditu.\n"
 "Ziur zaude aurrera egin nahi duzula?"
 
-#: src/project/dialogs/projectsettings.cpp:554
-#: src/project/dialogs/projectsettings.cpp:564
+#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Baieztatu profil aldaketa"
 
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:560
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -29616,8 +29617,8 @@ msgstr ""
 "dezakeen eragiketa hau burutu baino lehen.\n"
 "Ziur zaude jarraitu nahi duzula?"
 
-#: src/project/dialogs/projectsettings.cpp:791
-#: src/project/dialogs/projectsettings.cpp:806
+#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:804
 #: src/project/dialogs/slideshowclip.cpp:335
 #, kde-format
 msgid "1 image found"
@@ -29625,27 +29626,27 @@ msgid_plural "%1 images found"
 msgstr[0] "Irudi bat aurkitu da"
 msgstr[1] "%1 irudi aurkitu dira"
 
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Save As"
 msgstr "Gorde honela"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Proiektuaren karpeta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Proiektuaren profila: %1"
 
-#: src/project/dialogs/projectsettings.cpp:821
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Klipak guztira: %1 (%2 denbora-lerroan erabilita)"
 
-#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -33798,7 +33799,7 @@ msgstr "Ezabatu uneko puntua."
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -34269,7 +34270,7 @@ msgstr "Kanalak:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:105
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -34969,13 +34970,13 @@ msgid "Timeline Preview profile:"
 msgstr "Denbora-lerroaren aurreikuspenaren profila:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:40
+#: src/ui/configproxy_ui.ui:37
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "Gaitu klip-ordezkariak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:62
+#: src/ui/configproxy_ui.ui:59
 #, kde-format
 msgid "Generate for videos larger than:"
 msgstr "Sortu hau baino bideo handiagoetarako:"
@@ -34984,33 +34985,33 @@ msgstr "Sortu hau baino bideo handiagoetarako:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
-#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
+#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
+#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
 #, kde-format
 msgid " pixels"
 msgstr " pixelak"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:82
+#: src/ui/configproxy_ui.ui:79
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "Bideo-ordezkariaren tamaina aldatzea (zabalera):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#: src/ui/configproxy_ui.ui:129
+#: src/ui/configproxy_ui.ui:126
 #, kde-format
 msgid "Generate for images larger than:"
 msgstr "Sortu hau baino irudi handiagoetarako:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:155
+#: src/ui/configproxy_ui.ui:149
 #, kde-format
 msgid "Proxy image size:"
 msgstr "Ordezkari-irudiaren tamaina:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "Kanpoko ordezkari-klipak:"
@@ -35019,14 +35020,14 @@ msgstr "Kanpoko ordezkari-klipak:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "Gaitu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:219
+#: src/ui/configproxy_ui.ui:210
 #, kde-format
 msgid "Profile for clips with alpha channel:"
 msgstr "Alfa kanala duten klipetarako profila:"
