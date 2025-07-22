@@ -1,5 +1,1 @@
-{
-  "manifests": [
-    "https://ev.kde.org/.well-known/funding.json"
-  ]
-}
+https://ev.kde.org/.well-known/funding.json
