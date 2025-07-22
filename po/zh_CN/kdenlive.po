@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: kdeorg\n"
-"X-Crowdin-Project-ID: 269464\n"
-"X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
 "X-Crowdin-File-ID: 49586\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10594,7 +10595,7 @@ msgstr "<![CDATA[当反射处于源图像范围之外且不反射回来时使用
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
 #, kde-format
 msgid "No Alpha Background"
-msgstr ""
+msgstr "禁用透明背景"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:64
 #, kde-format
@@ -10603,6 +10604,8 @@ msgid ""
 "        color will be used, if reflection lies outside of the source image "
 "and not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[若勾选此项，当反射位于源图像外部且未反射回来时，将使用您所选的颜"
+"色。]]>"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -10617,22 +10620,22 @@ msgstr "降低色度关键帧中关键帧颜色溢出的可见性"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:8
 #, kde-format
 msgid "Key Color"
-msgstr ""
+msgstr "关键色"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
 #, kde-format
 msgid "Target Color"
-msgstr ""
+msgstr "目标颜色"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
 #, kde-format
 msgid "Color distance,Transparency,Edge inwards,Edge outwards"
-msgstr ""
+msgstr "颜色距离, 透明度, 边缘向内, 边缘向外"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, kde-format
 msgid "Mask Type"
-msgstr ""
+msgstr "蒙版类型"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
@@ -10647,18 +10650,18 @@ msgstr "斜率"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:24
 #, kde-format
 msgid "Hue Gate"
-msgstr ""
+msgstr "色相阈值"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:27
 #, kde-format
 msgid "Saturation Threshold"
-msgstr ""
+msgstr "饱和度阈值"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
 msgid "None,De-Key,Target,Desaturate,Luma adjust"
-msgstr ""
+msgstr "无, 去色调, 目标, 去色, 亮度调整"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
 #, kde-format
@@ -10683,7 +10686,7 @@ msgstr "效果强度 2"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:44
 #, kde-format
 msgid "Show Mask"
-msgstr ""
+msgstr "显示蒙版"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:47
 #, kde-format
@@ -10693,7 +10696,7 @@ msgstr "蒙版转透明度通道"
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
 #, kde-format
 msgid "Lens Correction (frei0r)"
-msgstr ""
+msgstr "镜头校正 (frei0r)"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
 #, kde-format
@@ -10703,33 +10706,33 @@ msgstr "补偿镜头畸变"
 #: data/effects/frei0r/frei0r_lenscorrection.xml:8
 #, kde-format
 msgid "Horizontal Center"
-msgstr ""
+msgstr "水平中心"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
 #, kde-format
 msgid "Vertical Center"
-msgstr ""
+msgstr "垂直中心"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:14
 #, kde-format
 msgid "Center Correction"
-msgstr ""
+msgstr "中心校正"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:17
 #, kde-format
 msgid "Edges Correction"
-msgstr ""
+msgstr "边缘校正"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:4
 #, kde-format
 msgid "Letter-boxing"
-msgstr ""
+msgstr "黑边填充"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
 #, kde-format
 msgid ""
 "Adds black borders at the top and bottom for that widescreen cinema look"
-msgstr ""
+msgstr "在顶部和底部添加黑色边框，或实现宽屏电影效果 (letterbox) "
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
 #, kde-format
@@ -10743,6 +10746,8 @@ msgid ""
 "        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
+"<![CDATA[将边框宽度指定为垂直分辨率一半的百分比<br>\n"
+"        （100% 表示画面上下半部均为黑色——即无图像显示空间）]]>"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:13
 #: data/effects/frei0r/frei0r_timeout.xml:14
@@ -11145,7 +11150,7 @@ msgstr "创建正方形的透明度通道蒙版"
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:4
 #, kde-format
 msgid "Video Values"
-msgstr ""
+msgstr "Video Values - 视频明度"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:5
 #, kde-format
@@ -11156,7 +11161,7 @@ msgstr "测量视频明度"
 #: data/effects/frei0r/frei0r_pr0be.xml:9
 #, kde-format
 msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
-msgstr ""
+msgstr "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:9
 #: data/effects/frei0r/frei0r_pr0be.xml:10
@@ -11168,25 +11173,25 @@ msgstr "测量"
 #: data/effects/frei0r/frei0r_pr0be.xml:13
 #, kde-format
 msgid "X Position"
-msgstr ""
+msgstr "X位置"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:15
 #: data/effects/frei0r/frei0r_pr0be.xml:16
 #, kde-format
 msgid "Y Position"
-msgstr ""
+msgstr "Y 位置"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:18
 #: data/effects/frei0r/frei0r_pr0be.xml:19
 #, kde-format
 msgid "X Size"
-msgstr ""
+msgstr "X 大小"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:21
 #: data/effects/frei0r/frei0r_pr0be.xml:22
 #, kde-format
 msgid "Y Size"
-msgstr ""
+msgstr "Y 大小"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:24
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:81
@@ -11194,30 +11199,30 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "256-Scale"
-msgstr ""
+msgstr "256 色阶"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:27
 #: data/effects/frei0r/frei0r_pr0be.xml:28
 #, kde-format
 msgid "Show Alpha"
-msgstr ""
+msgstr "显示透明度通道"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:30
 #: data/effects/frei0r/frei0r_pr0be.xml:31
 #, kde-format
 msgid "Big Window"
-msgstr ""
+msgstr "大窗口"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:4
 #, kde-format
 msgid "Oscilloscope (advanced)"
-msgstr ""
+msgstr "示波器 (高级)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:8
 #: data/effects/frei0r/frei0r_pr0file.xml:9
 #, kde-format
 msgid "Profile X Position"
-msgstr ""
+msgstr "曲线 X 位置"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:9
 #: data/effects/frei0r/frei0r_pr0file.xml:10
@@ -11229,7 +11234,7 @@ msgstr "<![CDATA[波形的 X 坐标]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:13
 #, kde-format
 msgid "Profile Y Position"
-msgstr ""
+msgstr "曲线 Y 位置"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:13
 #: data/effects/frei0r/frei0r_pr0file.xml:14
@@ -11241,7 +11246,7 @@ msgstr "<![CDATA[波形的 Y 坐标]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:17
 #, kde-format
 msgid "Profile Tilt"
-msgstr ""
+msgstr "曲线倾斜"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:17
 #: data/effects/frei0r/frei0r_pr0file.xml:18
@@ -11253,7 +11258,7 @@ msgstr "<![CDATA[波形倾斜调整]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:21
 #, kde-format
 msgid "Profile Length"
-msgstr ""
+msgstr "曲线长度"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:21
 #: data/effects/frei0r/frei0r_pr0file.xml:22
@@ -11301,7 +11306,7 @@ msgstr "<![CDATA[标记 2 的位置]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
 msgid "R Trace"
-msgstr ""
+msgstr "红轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:38
 #: data/effects/frei0r/frei0r_pr0file.xml:39
@@ -11313,7 +11318,7 @@ msgstr "<![CDATA[在示波器上显示 R 轨迹（红色）]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
 msgid "G Trace"
-msgstr ""
+msgstr "绿轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:42
 #: data/effects/frei0r/frei0r_pr0file.xml:43
@@ -11325,7 +11330,7 @@ msgstr "<![CDATA[在示波器上显示 G 轨迹（绿色）]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
 msgid "B Trace"
-msgstr ""
+msgstr "蓝轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:46
 #: data/effects/frei0r/frei0r_pr0file.xml:47
@@ -11337,7 +11342,7 @@ msgstr "<![CDATA[在示波器上显示 B 轨迹（蓝色）]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "Y Trace"
-msgstr ""
+msgstr "Y 轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:50
 #: data/effects/frei0r/frei0r_pr0file.xml:51
@@ -11349,7 +11354,7 @@ msgstr "<![CDATA[在示波器上显示 Y 轨迹（亮度）]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
 msgid "Pr Trace"
-msgstr ""
+msgstr "Pr 轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:54
 #: data/effects/frei0r/frei0r_pr0file.xml:55
@@ -11361,7 +11366,7 @@ msgstr "<![CDATA[在示波器上显示 Pr 轨迹 (red-difference)]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
 msgid "Pb Trace"
-msgstr ""
+msgstr "Pb 轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:58
 #: data/effects/frei0r/frei0r_pr0file.xml:59
@@ -11373,7 +11378,7 @@ msgstr "<![CDATA[在示波器上显示 Pb 轨迹 (blue_difference)]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
 msgid "Alpha Trace"
-msgstr ""
+msgstr "透明度轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:62
 #: data/effects/frei0r/frei0r_pr0file.xml:63
@@ -11409,7 +11414,7 @@ msgstr "<![CDATA[在示波器上显示 RMS (root mean square)]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
 msgid "Display Minimum"
-msgstr ""
+msgstr "显示最小值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:74
 #: data/effects/frei0r/frei0r_pr0file.xml:75
@@ -11421,7 +11426,7 @@ msgstr "<![CDATA[在示波器上显示最小值]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
 msgid "Display Maximum"
-msgstr ""
+msgstr "显示最大值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:78
 #: data/effects/frei0r/frei0r_pr0file.xml:79
@@ -11439,13 +11444,13 @@ msgstr "<![CDATA[使用0-255的而不是规格化的0.0-1.0]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, kde-format
 msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
+msgstr "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "Color Encoding"
-msgstr ""
+msgstr "颜色编码"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
@@ -11457,7 +11462,7 @@ msgstr "<![CDATA[在隔行扫描（601）或逐行扫描（709）之间选择]]>
 #: data/effects/frei0r/frei0r_pr0file.xml:91
 #, kde-format
 msgid "Crosshair Color"
-msgstr ""
+msgstr "准星颜色"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:91
 #: data/effects/frei0r/frei0r_pr0file.xml:92
@@ -11545,22 +11550,22 @@ msgstr "水平同步"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize (basic)"
-msgstr ""
+msgstr "像素化(基本)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image"
-msgstr ""
+msgstr "对输入图像进行像素化处理"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
 msgid "Glitching (rows only)"
-msgstr ""
+msgstr "模拟故障 (行和颜色) "
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
 msgid "Glitch image by shifting rows to and fro."
-msgstr ""
+msgstr "通过来回移动行制造故障图像"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -11575,7 +11580,7 @@ msgstr "每个移位不变的块的高度 (0=随机)"
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
 #, kde-format
 msgid "Minimum Block Height"
-msgstr ""
+msgstr "最小马赛克高度"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
 #, kde-format
@@ -11588,7 +11593,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, kde-format
 msgid "Maximum Block Height"
-msgstr ""
+msgstr "最大马赛克高度"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
 #, kde-format
@@ -11616,7 +11621,7 @@ msgstr "每个通道的 (颜色) 值。"
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
 msgid "Video Values (SUPERCEDED)"
-msgstr ""
+msgstr "视频亮度 (已废弃)  "
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
@@ -11624,11 +11629,13 @@ msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
+"<![CDATA[测量视频亮度<br>\n"
+"    此效果已被 <em>frei0r.measure_pr0be</em> 替代]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, kde-format
 msgid "Oscilloscope (advanced) (SUPERCEDED)"
-msgstr ""
+msgstr "示波器 (高级) (已淘汰)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
