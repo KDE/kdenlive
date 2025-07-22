@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 05:21+0000\n"
-"PO-Revision-Date: 2025-07-19 14:04+0300\n"
+"POT-Creation-Date: 2025-07-22 00:42+0000\n"
+"PO-Revision-Date: 2025-07-21 22:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4515,21 +4515,23 @@ msgstr "Belirli bir HSV erimini griye döndürür."
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the hue value which<br>\n"
 "        will be used in color difference calculation]]>"
-msgstr "<![CDATA[Süzülen sonuca eklenecek değeri ayarlar.]]>"
+msgstr ""
+"<![CDATA[Renk farkı hesaplamasında kullanılacak<br>\n"
+"        ton değerini ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the saturation value<br>\n"
 "        which will be used in color difference calculation]]>"
-msgstr "<![CDATA[Süzülen sonuca eklenecek değeri ayarlar.]]>"
+msgstr ""
+"<![CDATA[Renk farkı hesaplamasında kullanılacak<br>\n"
+"        doygunluk değerini ayarlayın.]]>"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/effects/avfilter/avfilter_hsvhold.xml:18
@@ -4541,59 +4543,56 @@ msgstr "Değer"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:20
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the value which will<br>\n"
 "        be used in color difference calculation]]>"
-msgstr "<![CDATA[Süzülen sonuca eklenecek değeri ayarlar.]]>"
+msgstr ""
+"<![CDATA[Renk farkı hesaplamasında kullanılacak<br>\n"
+"        değeri ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Disappearance Rate of the echo]]>"
+#, kde-format
 msgid "<![CDATA[Set similarity percentage with the key color]]>"
-msgstr "<![CDATA[Yankının kaybolma oranı]]>"
+msgstr "<![CDATA[Anahtar renkle benzerlik yüzdesini ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Blend percentage]]>"
-msgstr "<![CDATA[Gürültü kaldırma yöntemini ayarlayın.]]>"
+msgstr "<![CDATA[Harmanlama yüzdesi]]>"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Value"
+#, kde-format
 msgid "HSV Key"
-msgstr "HSV Değeri"
+msgstr "HSV anahtarı"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
-msgstr ""
+msgstr "Belirli bir HSV erimini saydamlığa döndürür. YUV renklerinde çalışır."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:4
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Hue Saturation Intensity"
-msgstr "Değişiklik eşiği"
+msgstr "Ton Doygunluk Yoğunluk"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
 msgid "Apply hue-saturation-intensity adjustments"
-msgstr ""
+msgstr "Ton, doygunluk, yoğunluk ayarlamalarını uygulayın."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Colors to Adjust"
-msgstr "Seçilecek renk"
+msgstr "Ayarlanacak renkler"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:9
 #, kde-format
 msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
 msgstr ""
+"Kırmızılar,Sarılar,Yeşiller,Camgöbekleri,Maviler,Eflatunlar,Tüm renkler"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -4601,67 +4600,59 @@ msgid ""
 "<![CDATA[Set which primary and<br>\n"
 "        complementary colors are going to be adjusted]]>"
 msgstr ""
+"<![CDATA[Hangi ana ve yardımcı renklerin ayardan<br>\n"
+"        geçeceğini ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:14
 #: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue Shift"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
-msgstr "<![CDATA[Süzgeç kipini seçin.]]>"
+msgstr "<![CDATA[Derece türünden uygulanacak ton kaymasını ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Shift"
-msgstr "Doygunluk"
+msgstr "Doygunluk kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the background opacity]]>"
+#, kde-format
 msgid "<![CDATA[Set the saturation shift]]>"
-msgstr "<![CDATA[Arka plan matlığını ayarlayın.]]>"
+msgstr "<![CDATA[Doygunluk kaymasını ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Intensity Shift"
-msgstr "Yoğunluk"
+msgstr "Yoğunluk kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set the intensity shift]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Yoğunluk kaymasını ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "<![CDATA[Set strength of filtering]]>"
-msgstr "<![CDATA[Süzgeç kipini seçin.]]>"
+msgstr "<![CDATA[Süzme gücünü ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
-#, fuzzy, kde-format
-#| msgid "Preserve lightness"
+#, kde-format
 msgid "Preserve Lightness"
 msgstr "Açıklığı koru"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:31
-#, fuzzy, kde-format
-#| msgid "Preserve lightness"
+#, kde-format
 msgid "<![CDATA[Preserve lightness]]>"
-msgstr "Açıklığı koru"
+msgstr "<![CDATA[Açıklığı koruyun.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid "Red Strength"
-msgstr "Güç"
+msgstr "Kırmızı gücü"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
 #, kde-format
@@ -7374,7 +7365,7 @@ msgstr "Süre"
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
 #: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
-#: src/project/dialogs/projectsettings.cpp:435
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Subtitles"
 msgstr "Altyazılar"
@@ -15008,44 +14999,37 @@ msgid "Keyframable vector based rotoscoping"
 msgstr "Anahtar kareleştirilebilir vektör tabanlı kare boyama"
 
 #: data/effects/scratchlines.xml:4
-#, fuzzy, kde-format
-#| msgid "Scratchlines"
+#, kde-format
 msgid "Scratch Lines"
 msgstr "Çizikler"
 
 #: data/effects/scratchlines.xml:5
-#, fuzzy, kde-format
-#| msgid "Scratchlines over the picture"
+#, kde-format
 msgid "Scratch lines over the picture"
 msgstr "Resim üzerinde çizikler"
 
 #: data/effects/scratchlines.xml:8
-#, fuzzy, kde-format
-#| msgid "Width of line"
+#, kde-format
 msgid "Width of Line"
 msgstr "Çizgi genişliği"
 
 #: data/effects/scratchlines.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the scope display]]>"
+#, kde-format
 msgid "<![CDATA[Width on the line in the clip]]>"
-msgstr "<![CDATA[Kapsam görüntüsünün genişliği]]>"
+msgstr "<![CDATA[Klipteki çizginin genişliği]]>"
 
 #: data/effects/scratchlines.xml:12
-#, fuzzy, kde-format
-#| msgid "Max number of lines"
+#, kde-format
 msgid "Max Number of Lines"
 msgstr "En fazla çizgi sayısı"
 
 #: data/effects/scratchlines.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Maximum number of lines in the clip]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Klipteki en çok çizgi sayısı]]>"
 
 #: data/effects/scratchlines.xml:16
-#, fuzzy, kde-format
-#| msgid "Max darker"
+#, kde-format
 msgid "Max Darker"
 msgstr "En fazla koyulaştırıcı"
 
@@ -15053,10 +15037,10 @@ msgstr "En fazla koyulaştırıcı"
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
 msgstr ""
+"<![CDATA[Görseli çizginin ardında <em>n</em> değer kadar koyu yapın.]]>"
 
 #: data/effects/scratchlines.xml:20
-#, fuzzy, kde-format
-#| msgid "Max lighter"
+#, kde-format
 msgid "Max Lighter"
 msgstr "En fazla aydınlatıcı"
 
@@ -15064,6 +15048,7 @@ msgstr "En fazla aydınlatıcı"
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
 msgstr ""
+"<![CDATA[Görseli çizginin ardında <em>n</em> değer kadar açık yapın.]]>"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -15772,22 +15757,19 @@ msgid "Adjustable Vignette"
 msgstr "Ayarlanabilir Vignette"
 
 #: data/effects/vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "use cos instead of linear"
+#, kde-format
 msgid "Use cos instead of linear"
-msgstr "doğrusal yerine kosinüs kullan"
+msgstr "Doğrusal yerine kosinüs kullan"
 
 #: data/effects/vignette.xml:11
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Center X"
-msgstr "Orta"
+msgstr "X ortası"
 
 #: data/effects/vignette.xml:14
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Center Y"
-msgstr "Orta"
+msgstr "Y ortası"
 
 #: data/effects/vignette.xml:20 src/assets/keyframes/model/keyframemodel.cpp:49
 #, kde-format
@@ -15920,8 +15902,7 @@ msgid "White noise producer"
 msgstr "Beyaz gürültü üreteci"
 
 #: data/kdenliveeffectscategory.rc:6
-#, fuzzy, kde-format
-#| msgid "Alpha, Mask and Keying"
+#, kde-format
 msgid "Alpha, Mask, and Keying"
 msgstr "Alfa, Maske ve Anahtarlama"
 
@@ -15931,8 +15912,7 @@ msgid "Blur and Sharpen"
 msgstr "Bulanıklaştır ve Keskinleştir"
 
 #: data/kdenliveeffectscategory.rc:14
-#, fuzzy, kde-format
-#| msgid "Transform, Distort and Perspective"
+#, kde-format
 msgid "Transform, Distort, and Perspective"
 msgstr "Dönüştür, Deforme Et ve Perspektif"
 
@@ -15942,10 +15922,9 @@ msgid "Grain and Noise"
 msgstr "Tanecik ve Gürültü"
 
 #: data/kdenliveeffectscategory.rc:22
-#, fuzzy, kde-format
-#| msgid "Utility"
+#, kde-format
 msgid "Utilities"
-msgstr "Program"
+msgstr "İzlenceler"
 
 #: data/kdenliveeffectscategory.rc:26
 #, kde-format
@@ -15958,20 +15937,17 @@ msgid "On Master"
 msgstr "Ana İçerik Üzerinde"
 
 #: data/kdenliveeffectscategory.rc:34
-#, fuzzy, kde-format
-#| msgid "Color and Image correction"
+#, kde-format
 msgid "Color and Image Correction"
 msgstr "Renk ve Görsel Düzeltmesi"
 
 #: data/kdenliveeffectscategory.rc:38
-#, fuzzy, kde-format
-#| msgid "Audio correction"
+#, kde-format
 msgid "Audio Correction"
 msgstr "Ses Düzeltmesi"
 
 #: data/kdenliveeffectscategory.rc:42
-#, fuzzy, kde-format
-#| msgid "Image adjustment"
+#, kde-format
 msgid "Image Adjustment"
 msgstr "Görsel İnce Ayarı"
 
@@ -15996,10 +15972,9 @@ msgid "VR360 and 3D"
 msgstr "VR360 ve 3B"
 
 #: data/kdenliveeffectscategory.rc:62
-#, fuzzy, kde-format
-#| msgid "More checks"
+#, kde-format
 msgid "More Checks"
-msgstr "Daha çok denetim"
+msgstr "Daha Çok Denetim"
 
 #: data/kdenliveeffectscategory.rc:66
 #, kde-format
@@ -16012,14 +15987,12 @@ msgid "Volume and Dynamics"
 msgstr "Hacim ve Dinamikler"
 
 #: data/kdenliveeffectscategory.rc:74
-#, fuzzy, kde-format
-#| msgid "Reverb, Echo and Delays"
+#, kde-format
 msgid "Reverb, Echo, and Delays"
 msgstr "Yankı ve Gecikmeler"
 
 #: data/kdenliveeffectscategory.rc:78
-#, fuzzy, kde-format
-#| msgid "EQ and filters"
+#, kde-format
 msgid "EQ and Filters"
 msgstr "Ekolayzer ve Süzgeçler"
 
@@ -16101,10 +16074,9 @@ msgid "Calf  Plugins"
 msgstr "CMT Eklentileri"
 
 #: data/kdenliveeffectscategory.rc:146
-#, fuzzy, kde-format
-#| msgid "LSP plugins"
+#, kde-format
 msgid "LSP Plugins"
-msgstr "BLOP Eklentileri"
+msgstr "LSP Eklentileri"
 
 #: data/kdenliveeffectscategory.rc:150
 #, kde-format
@@ -16129,7 +16101,7 @@ msgstr "VCO Eklentileri"
 #: data/kdenliveeffectscategory.rc:166
 #, kde-format
 msgid "MLT LADSPA"
-msgstr ""
+msgstr "MLT LADSPA"
 
 #: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
@@ -16339,35 +16311,30 @@ msgid "Y position"
 msgstr "Y konumu"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:14
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "X scale"
-msgstr "Piksel ölçeği"
+msgstr "X ölçeği"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:17
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "Y scale"
-msgstr "Piksel ölçeği"
+msgstr "Y ölçeği"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
 #: data/transitions/frei0r/frei0r_cairoblend.xml:12
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Blend mode"
-msgstr "Kenar kipi"
+msgstr "Harman kipi"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotate from center"
+#, kde-format
 msgid "Rotation X center"
-msgstr "Merkezden döndür"
+msgstr "X merkezinden döndür"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:33
-#, fuzzy, kde-format
-#| msgid "Rotate from center"
+#, kde-format
 msgid "Rotation Y center"
-msgstr "Merkezden döndür"
+msgstr "Y merkezinden döndür"
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:4
 #, kde-format
@@ -17251,7 +17218,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:270
 #, kde-format
 msgid "%1 effects"
-msgstr "%1 efektleri"
+msgstr "%1 Efektleri"
 
 #: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:72
 #, kde-format
@@ -17507,7 +17474,7 @@ msgstr "%1 Düzenle"
 #: src/assets/model/assetcommand.cpp:231 src/assets/model/assetcommand.cpp:233
 #, kde-format
 msgid "Edit %1 keyframe"
-msgstr "%1 anahtar kareyi düzenle"
+msgstr "%1 Anahtar Kareyi Düzenle"
 
 #: src/assets/model/assetcommand.cpp:289 src/assets/model/assetcommand.cpp:291
 #, kde-format
@@ -17540,7 +17507,7 @@ msgstr "Önayarı Kaydet…"
 #: src/assets/view/assetparameterview.cpp:57
 #, kde-format
 msgid "Update current preset"
-msgstr "Geçerli önayarı güncelleştir"
+msgstr "Geçerli önayarı güncelleştirin."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:299
@@ -18208,7 +18175,7 @@ msgstr "Ad"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1244 src/bin/projectitemmodel.cpp:328
-#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Tarih"
@@ -18630,7 +18597,7 @@ msgstr "Oynatma Listesi"
 msgid "Sequences"
 msgstr "Sekanslar"
 
-#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2458 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Başlık"
@@ -20289,7 +20256,7 @@ msgstr "Seçili profil için olan parametreleri görüntüler."
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
-#: src/project/dialogs/projectsettings.cpp:909
+#: src/project/dialogs/projectsettings.cpp:907
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Kendiliğinden (%1)"
@@ -20297,15 +20264,15 @@ msgstr "Kendiliğinden (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:684
-#: src/project/dialogs/projectsettings.cpp:911
+#: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Kendiliğinden"
 
 #: src/dialogs/encodingprofilesdialog.cpp:333
-#: src/project/dialogs/projectsettings.cpp:946
-#: src/project/dialogs/projectsettings.cpp:976
+#: src/project/dialogs/projectsettings.cpp:944
+#: src/project/dialogs/projectsettings.cpp:974
 #, kde-format
 msgid "Current Settings"
 msgstr "Geçerli Ayarlar"
@@ -21385,7 +21352,7 @@ msgstr "Glaxnimate uygulaması yolunu girin"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:981
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Lütfen bir video profili seçin"
@@ -26015,7 +25982,7 @@ msgstr "Tam Çözünürlük (1:1)"
 #: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:237
 #, kde-format
@@ -27207,7 +27174,7 @@ msgstr "Ses akışları/kodlayıcıları üzerine ayrıntılı bilgi görüntül
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Üst Veri"
@@ -27595,7 +27562,7 @@ msgstr "Çözümleme Verisini Kaydet"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1762
 #: src/mltcontroller/clippropertiescontroller.cpp:1775
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Metin dosyası (*.txt)"
@@ -28464,7 +28431,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "<a href=\"%1\"> tarafından oluşturuldu"
 
 #: src/onlineresources/resourcewidget.cpp:482
-#: src/project/dialogs/projectsettings.cpp:224
+#: src/project/dialogs/projectsettings.cpp:222
 #, kde-format
 msgid "Author"
 msgstr "Yazar"
@@ -29407,57 +29374,57 @@ msgstr "Projenin profili (önayarları) seçin"
 msgid "Default: %1"
 msgstr "Öntanımlı: %1"
 
-#: src/project/dialogs/projectsettings.cpp:142
+#: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
 msgstr "Önbellekteki veri"
 
-#: src/project/dialogs/projectsettings.cpp:191
+#: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "Öntanımlı profil parametrelerini göster"
 
-#: src/project/dialogs/projectsettings.cpp:193
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "Vekil profilleri yönet"
 
-#: src/project/dialogs/projectsettings.cpp:195
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "Vekil profillerin verimliliğini karşılaştır"
 
-#: src/project/dialogs/projectsettings.cpp:198
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "Öntanımlı vekil profili seç"
 
-#: src/project/dialogs/projectsettings.cpp:205
+#: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "Kamera profili seçin"
 
-#: src/project/dialogs/projectsettings.cpp:230
+#: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
 msgid "Artist"
 msgstr "Sanatçı"
 
-#: src/project/dialogs/projectsettings.cpp:236
+#: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
 msgstr "Telif hakları"
 
-#: src/project/dialogs/projectsettings.cpp:243
+#: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
 msgid "Year"
 msgstr "Yıl"
 
-#: src/project/dialogs/projectsettings.cpp:383
+#: src/project/dialogs/projectsettings.cpp:381
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "Sürücünüzde silinecek dosya yok."
 
-#: src/project/dialogs/projectsettings.cpp:391
+#: src/project/dialogs/projectsettings.cpp:389
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -29468,47 +29435,47 @@ msgstr ""
 "Bu işlem geri alınamaz; yalnızca ne yaptığınızı biliyorsanız ilerleyin.\n"
 "Sürdürmek istediğinizden emin misiniz?"
 
-#: src/project/dialogs/projectsettings.cpp:393
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid "Delete unused clips"
 msgstr "Kullanılmayan klipleri sil"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:412
 #, kde-format
 msgid "Video clips"
 msgstr "Video klipleri"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Audio clips"
 msgstr "Ses klipleri"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Image clips"
 msgstr "Görsel klipleri"
 
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Slideshow clips"
 msgstr "Slayt gösterisi klipleri"
 
-#: src/project/dialogs/projectsettings.cpp:426
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Text clips"
 msgstr "Metin klipleri"
 
-#: src/project/dialogs/projectsettings.cpp:429
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Playlist clips"
 msgstr "Oynatma listesi klipleri"
 
-#: src/project/dialogs/projectsettings.cpp:432
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Other clips"
 msgstr "Diğer klipler"
 
-#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -29519,13 +29486,13 @@ msgstr ""
 "olan tüm zaman akışı önizlemelerini kaldırır.\n"
 "Sürdürmek istediğinizden emin misiniz?"
 
-#: src/project/dialogs/projectsettings.cpp:554
-#: src/project/dialogs/projectsettings.cpp:564
+#: src/project/dialogs/projectsettings.cpp:552
+#: src/project/dialogs/projectsettings.cpp:562
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Profil değişikliğini onayla"
 
-#: src/project/dialogs/projectsettings.cpp:562
+#: src/project/dialogs/projectsettings.cpp:560
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -29538,8 +29505,8 @@ msgstr ""
 "başlamadan önce projenizi kaydetmeniz önerilir.\n"
 "Sürdürmek istediğinizden emin misiniz?"
 
-#: src/project/dialogs/projectsettings.cpp:791
-#: src/project/dialogs/projectsettings.cpp:806
+#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:804
 #: src/project/dialogs/slideshowclip.cpp:335
 #, kde-format
 msgid "1 image found"
@@ -29547,27 +29514,27 @@ msgid_plural "%1 images found"
 msgstr[0] "1 görsel bulundu"
 msgstr[1] "%1 görsel bulundu"
 
-#: src/project/dialogs/projectsettings.cpp:813
+#: src/project/dialogs/projectsettings.cpp:811
 #, kde-format
 msgid "Save As"
 msgstr "Farklı Kaydet"
 
-#: src/project/dialogs/projectsettings.cpp:819
+#: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Proje klasörü: %1"
 
-#: src/project/dialogs/projectsettings.cpp:820
+#: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Proje profili: %1"
 
-#: src/project/dialogs/projectsettings.cpp:821
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Toplam klip: %1 (zaman akışında kullanılan %2)."
 
-#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -33705,7 +33672,7 @@ msgstr "Geçerli noktayı silin."
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -34174,7 +34141,7 @@ msgstr "Kanallar:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:105
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -34342,7 +34309,7 @@ msgstr "Güncellemeleri denetle"
 #: src/ui/configenv_ui.ui:118
 #, kde-format
 msgid "Prevent sleep when playing and rendering"
-msgstr ""
+msgstr "Oynatırken ve sunarken uykuyu engelle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:129
@@ -34874,13 +34841,13 @@ msgid "Timeline Preview profile:"
 msgstr "Zaman akışı önizlemesi profili:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:40
+#: src/ui/configproxy_ui.ui:37
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "Vekil klipleri etkinleştir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:62
+#: src/ui/configproxy_ui.ui:59
 #, kde-format
 msgid "Generate for videos larger than:"
 msgstr "Şundan büyük videolar için üret:"
@@ -34889,33 +34856,33 @@ msgstr "Şundan büyük videolar için üret:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
-#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
+#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
+#: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
 #, kde-format
 msgid " pixels"
 msgstr " piksel"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:82
+#: src/ui/configproxy_ui.ui:79
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "Vekil video boyutlandırması (genişlik):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#: src/ui/configproxy_ui.ui:129
+#: src/ui/configproxy_ui.ui:126
 #, kde-format
 msgid "Generate for images larger than:"
 msgstr "Şundan büyük görseller için üret:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:155
+#: src/ui/configproxy_ui.ui:149
 #, kde-format
 msgid "Proxy image size:"
 msgstr "Vekil görsel boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "Dış vekil klipler:"
@@ -34924,14 +34891,14 @@ msgstr "Dış vekil klipler:"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "Etkinleştir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:219
+#: src/ui/configproxy_ui.ui:210
 #, kde-format
 msgid "Profile for clips with alpha channel:"
 msgstr "Alfa kanallı klipler için profil:"
