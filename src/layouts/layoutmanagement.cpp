@@ -89,11 +89,8 @@ LayoutManagement::LayoutManagement(QObject *parent)
     l1->addWidget(m_layoutSwitcher);
     m_container->setLayout(l1);
 
-    KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
-    QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
-    pal = m_container->palette();
-    pal.setColor(QPalette::Active, QPalette::Button, bg);
-    m_container->setPalette(pal);
+    slotUpdatePalette();
+    connect(pCore.get(), &Core::updatePalette, this, &LayoutManagement::slotUpdatePalette);
     m_container->setAutoFillBackground(true);
     // TODO: Setting up right corner of the menu bar should also probably sit elsewhere. Wouldn't expect to find this in the layout management class.
     main->menuBar()->setCornerWidget(m_container, Qt::TopRightCorner);
@@ -348,4 +345,14 @@ void LayoutManagement::slotDockAreaColumns()
     pCore->window()->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
     pCore->window()->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+}
+
+void LayoutManagement::slotUpdatePalette()
+{
+    MainWindow *main = pCore->window();
+    QPalette pal = m_container->palette();
+    KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
+    pal.setColor(QPalette::Active, QPalette::Button, bg);
+    m_container->setPalette(pal);
 }

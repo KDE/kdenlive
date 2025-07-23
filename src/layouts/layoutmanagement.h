@@ -47,6 +47,8 @@ private Q_SLOTS:
     void hideAutoSave();
     /** @brief Show the autosave indicator for 2 seconds. */
     void startAutoSave();
+    /** @brief Update Layout Switcher container palette on palette/theme change. */
+    void slotUpdatePalette();
 
 private:
     /** @brief Saves the given layout asking the user for a name.
