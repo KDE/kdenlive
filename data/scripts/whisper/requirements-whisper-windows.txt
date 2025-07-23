@@ -1,5 +1,0 @@
-numba==0.60
-numpy==2.0.*
-torch==2.5.1
-openai-whisper==20240930
-srt

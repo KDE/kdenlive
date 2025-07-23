@@ -1,5 +1,4 @@
 --index-url https://download.pytorch.org/whl/cu118
 torch
-torchvision
-triton
-torchaudio
+# Downgrade torch/triton on Linux to support older Python versions: https://github.com/triton-lang/triton/issues/5919
+triton==3.1.0 ; python_version<'3.13' and ((platform_machine=='x86_64' and sys_platform=='linux') or sys_platform=='linux2')
