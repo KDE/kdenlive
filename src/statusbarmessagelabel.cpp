@@ -362,3 +362,16 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     d.exec();
     confirmErrorMessage();
 }
+
+void StatusBarMessageLabel::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::PaletteChange) {
+        if (m_currentMessage.type == MltError) {
+            QColor errorBgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(palette()).color();
+            m_container->setColor(errorBgColor);
+        } else {
+            m_container->setColor(palette().window().color());
+        }
+    }
+    QWidget::changeEvent(event);
+}
