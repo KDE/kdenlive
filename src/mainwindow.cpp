@@ -2564,8 +2564,43 @@ void MainWindow::slotEditKeys()
 
     KNSWidgets::Action *downloadKeybordSchemes =
         new KNSWidgets::Action(i18n("Download New Keyboard Schemes…"), QStringLiteral(":data/kdenlive_keyboardschemes.knsrc"), this);
-    connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+    connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&, dialog](const QList<KNSCore::Entry> &changedEntries) {
         if (changedEntries.count() > 0) {
+            for (auto &entry : changedEntries) {
+                const QStringList files = entry.installedFiles();
+                for (auto &file : files) {
+                    KConfig conf(file);
+                    KConfigGroup group(&conf, "Shortcuts");
+                    if (group.exists()) {
+                        QMap<QString, QString> values = group.entryMap();
+                        // This is an ui.rc file, convert to xml
+                        QDomDocument doc;
+                        auto node = doc.createElement(QStringLiteral("gui"));
+                        node.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive"));
+                        node.setAttribute(QStringLiteral("version"), QStringLiteral("1"));
+                        doc.appendChild(node);
+                        auto list = doc.createElement(QStringLiteral("ActionProperties"));
+                        node.appendChild(list);
+                        for (auto i = values.cbegin(), end = values.cend(); i != end; ++i) {
+                            if (i.value() == QLatin1String("none")) {
+                                continue;
+                            }
+                            auto e = doc.createElement(QStringLiteral("Action"));
+                            e.setAttribute(QStringLiteral("name"), i.key());
+                            e.setAttribute(QStringLiteral("shortcut"), i.value());
+                            list.appendChild(e);
+                        }
+                        QFile f(file);
+                        if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                            qDebug() << "/// COULD NOT open shortcut file : " << file;
+                            continue;
+                        }
+                        QTextStream stream(&f);
+                        stream << doc.toString();
+                        f.close();
+                    }
+                }
+            }
             dialog->refreshSchemes();
         }
     });
