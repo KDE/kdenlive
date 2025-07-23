@@ -4,14 +4,13 @@
 # Automatically generated, 2015.
 #
 # SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Gabriel Gazzán <gabcorreo@gmail.com>
-# SPDX-FileCopyrightText: 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-22 00:42+0000\n"
-"PO-Revision-Date: 2025-07-14 01:39+0100\n"
-"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"PO-Revision-Date: 2025-07-23 01:02+0100\n"
+"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -26186,7 +26185,7 @@ msgstr "Resolución original (1:1)"
 #: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:237
 #, kde-format
@@ -27800,12 +27799,7 @@ msgid "Preview resolution - lower resolution means faster preview"
 msgstr "Resolución de previsualización - una menor resolución será más ágil"
 
 #: src/monitor/monitor.cpp:234
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Sets the preview resolution of the project/clip monitor. One can select "
-#| "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster "
-#| "the preview)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
@@ -27813,8 +27807,8 @@ msgid ""
 "faster the preview)."
 msgstr ""
 "Establece la resolución de previsualización de los monitores del proyecto/"
-"clips. Es posible escoger entre Original, 720p, 540p, 360p, 270p (cuanto más "
-"baja sea la resolución, más rápida será la previsualización)."
+"clips. Es posible escoger entre Original, 1080p, 720p, 540p, 360p, 270p "
+"(cuanto más baja sea la resolución, más rápida será la previsualización)."
 
 #: src/monitor/monitor.cpp:237
 #, kde-format
