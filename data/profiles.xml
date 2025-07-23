@@ -26,10 +26,9 @@
    qualities="15,45" defaultquality="25"
    audioqualities="10,0" defaultaudioquality="5"
    args="f=webm vcodec=libvpx-vp9 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tile-columns=4 frame-parallel=1 acodec=libopus compression_level=%audioquality"/>
-  <profile name="WebM-AV1/Opus (libre)" extension="webm"
-   qualities="15,45" defaultquality="25"
-   audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=webm vcodec=libaom-av1 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tiles=2x2 frame-parallel=1 strict=experimental acodec=libopus ab=%audiobitrate+'k'"/>
+  <profile name="WebM-AV1/Opus (libre-dav1d)" extension="webm"
+           audiobitrates="256,64" defaultaudiobitrate="160"
+           args="f=webm acodec=libopus ab=%audiobitrate+'k' vcodec=libsvtav1 vbr=off svtav1-params=scd=1:enable-dg=1:pred-struct=2:lp=0:preset=5:tile-columns=1:fast-decode=0:tune=0:film-grain=0:film-grain-denoise=0:enable-overlays=1:enable-variance-boost=1:variance-boost-strength=1:variance-octile=7:enable-qm=1:qm-min=0 g=150"/>
   <profile name="MP4-H265 (HEVC)" extension="mp4"
    qualities="15,45" defaultquality="28"
    audiobitrates="256,64" defaultaudiobitrate="160"
