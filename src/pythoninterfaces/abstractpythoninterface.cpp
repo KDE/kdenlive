@@ -717,6 +717,8 @@ QStringList AbstractPythonInterface::parseDependencies(const QStringList deps, b
                 QString line = textStream.readLine();
                 if (line.simplified().isEmpty())
                     continue;
+                else if (line.contains(QLatin1Char(';')))
+                    continue;
                 else if (!line.startsWith(QLatin1Char('#'))) {
                     if (line.contains(QLatin1Char('>'))) {
                         line = line.section(QLatin1Char('>'), 0, 0);
