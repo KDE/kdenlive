@@ -42,7 +42,7 @@ RGBParade::RGBParade(QWidget *parent)
 
     connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RGBParade::forceUpdateScope);
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
-    connect(pCore.get(), &Core::updatePalette, this, &RGBParade::forceUpdateScope);
+    connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
     init();
