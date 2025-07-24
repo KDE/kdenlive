@@ -2729,8 +2729,10 @@ void Bin::selectProxyModel(const QModelIndex &id)
             }
             m_editAction->setVisible(!isFolder);
             m_editAction->setEnabled(true);
-            m_extractAudioAction->menuAction()->setVisible(hasAudio);
-            m_extractAudioAction->setEnabled(hasAudio);
+            if (m_extractAudioAction) {
+                m_extractAudioAction->menuAction()->setVisible(hasAudio);
+                m_extractAudioAction->setEnabled(hasAudio);
+            }
             m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text ||
                                      type == ClipType::Animation);
             m_openAction->setVisible(!isFolder);
@@ -2792,7 +2794,9 @@ void Bin::selectProxyModel(const QModelIndex &id)
     if (m_clipsActionsMenu) {
         m_clipsActionsMenu->setEnabled(false);
     }
-    m_extractAudioAction->setEnabled(false);
+    if (m_extractAudioAction) {
+        m_extractAudioAction->setEnabled(false);
+    }
     m_transcodeAction->setEnabled(false);
     m_proxyAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
