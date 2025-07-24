@@ -3043,9 +3043,17 @@ void ProjectClip::removeSequenceWarpResources() {}
 std::pair<int, int> ProjectClip::fpsInfo() const
 {
     if (m_clipStatus == FileStatus::StatusReady) {
+        return fpsInfo(m_masterProducer);
+    }
+    return pCore->getProjectFpsInfo();
+}
+
+std::pair<int, int> ProjectClip::fpsInfo(std::shared_ptr<Mlt::Producer> producer)
+{
+    if (producer) {
         std::vector<int> allowedfps = {0, 1, 2, 125, 1001};
-        int fps_num = m_masterProducer->get_int("meta.media.frame_rate_num");
-        int fps_den = m_masterProducer->get_int("meta.media.frame_rate_den");
+        int fps_num = producer->get_int("meta.media.frame_rate_num");
+        int fps_den = producer->get_int("meta.media.frame_rate_den");
         if (std::find(allowedfps.begin(), allowedfps.end(), fps_den) == allowedfps.end()) {
             // This is not an allowed fps_den, adjust
             double target_fps = double(fps_num) / fps_den;

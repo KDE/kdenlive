@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/slideshowclip.h"
+#include "project/transcodeseek.h"
 #include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
@@ -498,23 +499,26 @@ void ClipLoadTask::run()
     if (producer->get_length() == INT_MAX && producer->get("eof") == QLatin1String("loop")) {
         // This is a live source or broken clip
         // Check for AV
-        ClipType::ProducerType cType = type;
+        TranscodeSeek::TranscodeInfo info;
+        info.url = resource;
+        info.fps_info = ProjectClip::fpsInfo(producer);
         if (producer) {
-            if (mltService.startsWith(QLatin1String("avformat")) && cType == ClipType::Unknown) {
+            if (mltService.startsWith(QLatin1String("avformat")) && type == ClipType::Unknown) {
                 // Check if it is an audio or video only clip
                 if (producer->get_int("video_index") == -1) {
-                    cType = ClipType::Audio;
+                    type = ClipType::Audio;
                 } else if (producer->get_int("audio_index") == -1) {
-                    cType = ClipType::Video;
+                    type = ClipType::Video;
                 } else {
-                    cType = ClipType::AV;
+                    type = ClipType::AV;
                 }
             }
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                  Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile),
-                                  Q_ARG(QString, QString()),
+        info.type = type;
+
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                  Q_ARG(TranscodeSeek::TranscodeInfo, info), Q_ARG(bool, pCore->bin()->shouldCheckProfile), Q_ARG(QString, QString()),
                                   Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
@@ -694,19 +698,22 @@ void ClipLoadTask::run()
             if (checkProfile) {
                 pCore->bin()->shouldCheckProfile = false;
             }
-            ClipType::ProducerType cType = type;
-            if (cType == ClipType::Unknown) {
+            TranscodeSeek::TranscodeInfo info;
+            info.url = resource;
+            info.fps_info = ProjectClip::fpsInfo(producer);
+            if (type == ClipType::Unknown) {
                 // Check if it is an audio or video only clip
                 if (!hasVideo) {
-                    cType = ClipType::Audio;
+                    type = ClipType::Audio;
                 } else if (!hasAudio) {
-                    cType = ClipType::Video;
+                    type = ClipType::Video;
                 } else {
-                    cType = ClipType::AV;
+                    type = ClipType::AV;
                 }
             }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()),
+            info.type = type;
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                      Q_ARG(TranscodeSeek::TranscodeInfo, info), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()),
                                       Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
         }
 
@@ -721,21 +728,23 @@ void ClipLoadTask::run()
                 int integerFps = qRound(fps);
                 adjustedFpsString = QStringLiteral("-%1fps").arg(integerFps);
             }
-            ClipType::ProducerType cType = type;
-            if (cType == ClipType::Unknown) {
+            TranscodeSeek::TranscodeInfo info;
+            info.url = resource;
+            info.fps_info = ProjectClip::fpsInfo(producer);
+            if (type == ClipType::Unknown) {
                 // Check if it is an audio or video only clip
                 if (!hasVideo) {
-                    cType = ClipType::Audio;
+                    type = ClipType::Audio;
                 } else if (!hasAudio) {
-                    cType = ClipType::Video;
+                    type = ClipType::Video;
                 } else {
-                    cType = ClipType::AV;
+                    type = ClipType::AV;
                 }
             }
+            info.type = type;
             producer->set("_wait_for_transcode", 1);
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile),
-                                      Q_ARG(QString, adjustedFpsString),
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                      Q_ARG(TranscodeSeek::TranscodeInfo, info), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString),
                                       Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
         }
 

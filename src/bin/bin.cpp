@@ -48,7 +48,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
 #include "project/projectmanager.h"
-#include "project/transcodeseek.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
@@ -5556,18 +5555,16 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                 ObjectId oid(KdenliveObjectType::BinClip, i.key().toInt(), QUuid());
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), 0, clip->frameDuration(), replace, clip.get(),
-                                         false, false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.key()),
+                                         m_transcodingDialog->info(i.key()), 0, clip->frameDuration(), replace, clip.get(), false, false);
                 } else {
                     if (replace) {
                         // Abort audio and proxy tasks as they will run after transcoding
                         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB, true);
                         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::PROXYJOB, true);
                     }
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(clip, i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false,
-                                         false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.key()),
+                                         m_transcodingDialog->info(i.key()), -1, -1, replace, clip.get(), false, false);
                 }
             }
             m_transcodingDialog->deleteLater();
@@ -5582,23 +5579,26 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
     for (const auto &id : ids) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
-            const QString clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-            if (clipService.startsWith(QLatin1String("avformat"))) {
-                QString resource = clip->clipUrl();
-                ClipType::ProducerType type = clip->clipType();
-                std::pair<int, int> fpsInfo = clip->fpsInfo();
-                int integerFps = qRound(double(fpsInfo.first) / fpsInfo.second);
-                QString suffix = QStringLiteral("-%1fps").arg(integerFps);
-                m_transcodingDialog->addUrl(resource, id, suffix, type, QString());
-            } else {
-                m_transcodingDialog->addUrl(clip->clipName(), id, QString(), clip->clipType(), QString());
+            TranscodeSeek::TranscodeInfo info;
+            info.type = clip->clipType();
+            info.url = info.type == ClipType::Timeline || info.type == ClipType::Text ? clip->clipName() : clip->clipUrl();
+            info.fps_info = clip->fpsInfo();
+            if (clip->statusReady()) {
+                info.vCodec = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
             }
+            const QString clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+            QString suffix;
+            if (clipService.startsWith(QLatin1String("avformat"))) {
+                int integerFps = qRound(double(info.fps_info.first) / info.fps_info.second);
+                suffix = QStringLiteral("-%1fps").arg(integerFps);
+            }
+            m_transcodingDialog->addUrl(id, info, suffix, QString());
         }
     }
     m_transcodingDialog->show();
 }
 
-void Bin::requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix, const QString &message)
+void Bin::requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix, const QString &message)
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(false, false, this);
@@ -5612,10 +5612,13 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
                     if (clip == nullptr) {
+                        TranscodeTask::start(ObjectId(KdenliveObjectType::NoItem, i.key().toInt(), QUuid()), i.value().first(),
+                                             m_transcodingDialog->preParams(), m_transcodingDialog->params(i.key()), m_transcodingDialog->info(i.key()), -1, -1,
+                                             true, clip.get(), false, i.key() == firstId ? checkProfile : false);
                         continue;
                     }
                     TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(clip, i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
+                                         m_transcodingDialog->params(i.key()), m_transcodingDialog->info(i.key()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
                 }
             }
@@ -5651,16 +5654,16 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     }
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (clip) {
-        ClipType::ProducerType cType = (ClipType::ProducerType)type;
-        if (cType == ClipType::Unknown) {
-            cType = clip->clipType();
+        if (info.type == ClipType::Unknown) {
+            info.type = clip->clipType();
         }
-        if (url.isEmpty()) {
-            QString resource = clip->clipUrl();
-            m_transcodingDialog->addUrl(resource, id, suffix, cType, message);
-        } else {
-            m_transcodingDialog->addUrl(url, id, suffix, cType, message);
+        if (clip->statusReady()) {
+            info.vCodec = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
         }
+        if (info.url.isEmpty()) {
+            info.url = clip->clipUrl();
+        }
+        m_transcodingDialog->addUrl(id, info, suffix, message);
     }
     m_transcodingDialog->show();
 }
