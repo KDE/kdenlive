@@ -3988,6 +3988,13 @@ void MainWindow::buildDynamicActions()
                     clipOut = -1;
                 }
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
+                TranscodeSeek::TranscodeInfo info;
+                info.url = clip->clipUrl();
+                info.type = clip->clipType();
+                if (clip->statusReady()) {
+                    info.vCodec = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
+                }
+                info.fps_info = clip->fpsInfo();
                 if (clipStreamSelection.contains(clipId)) {
                     // Extract selected audio streams only, create one task per stream
                     QVector<int> selectedStreams = clipStreamSelection.value(clipId);
@@ -4004,12 +4011,12 @@ void MainWindow::buildDynamicActions()
                             suffix = i18n("-stream-%1", ix);
                         }
                         args.append(tData);
-                        TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, clipIn, clipOut, false,
-                                             clip.get());
+                        TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, info, clipIn, clipOut,
+                                             false, clip.get());
                     }
                 } else {
-                    TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
-                                         clip.get());
+                    TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, info, clipIn, clipOut,
+                                         false, clip.get());
                 }
             }
         });

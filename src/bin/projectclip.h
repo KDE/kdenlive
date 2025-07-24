@@ -161,6 +161,7 @@ public:
     double getOriginalFps() const;
     /** @brief Returns the original clip's fps as {frame_rate_num, frame_rate_den}. */
     std::pair<int, int> fpsInfo() const;
+    static std::pair<int, int> fpsInfo(std::shared_ptr<Mlt::Producer> producer);
 
     bool rename(const QString &name, int column) override;
 

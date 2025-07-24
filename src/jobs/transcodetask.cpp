@@ -23,8 +23,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 
-TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out,
-                             bool replaceProducer, QObject *object, bool checkProfile)
+TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, TranscodeSeek::TranscodeInfo info,
+                             int in, int out, bool replaceProducer, QObject *object, bool checkProfile)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
@@ -35,18 +35,19 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const
     , m_inPoint(in)
     , m_outPoint(out)
     , m_checkProfile(checkProfile)
+    , m_transcodeInfo(info)
 {
     m_description = i18n("Transcoding");
 }
 
-void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer,
-                          QObject *object, bool force, bool checkProfile)
+void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, TranscodeSeek::TranscodeInfo info,
+                          int in, int out, bool replaceProducer, QObject *object, bool force, bool checkProfile)
 {
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
         // return;
     }
-    TranscodeTask *task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
+    TranscodeTask *task = new TranscodeTask(owner, suffix, preParams, params, info, in, out, replaceProducer, object, checkProfile);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
@@ -64,23 +65,20 @@ void TranscodeTask::run()
     m_progress = 0;
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
-    ClipType::ProducerType type = binClip->clipType();
-    QString source;
     QTemporaryFile src;
-    if (type == ClipType::Text || type == ClipType::Timeline) {
+    if (m_transcodeInfo.type == ClipType::Text || m_transcodeInfo.type == ClipType::Timeline) {
         src.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
         if (src.open()) {
-            source = src.fileName();
+            m_transcodeInfo.url = src.fileName();
             QDomDocument doc;
             binClip->getProducerXML(doc, false, true);
             QTextStream out(&src);
             out << doc.toString();
             src.close();
         }
-    } else {
-        source = binClip->url();
     }
-    if (source.isEmpty()) {
+    if (m_transcodeInfo.url.isEmpty()) {
+        qDebug() << "::: URL TO TRANSCODE IS EMPTY...";
         return;
     }
 
@@ -90,10 +88,10 @@ void TranscodeTask::run()
         m_progress = 100;
         return;
     }
-    QFileInfo finfo(source);
+    QFileInfo finfo(m_transcodeInfo.url);
     QString fileName;
     QDir dir;
-    if (type == ClipType::Text) {
+    if (m_transcodeInfo.type == ClipType::Text) {
         fileName = binClip->name();
         dir = QDir(pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile()
                                                         : KdenliveSettings::defaultprojectfolder());
@@ -118,7 +116,8 @@ void TranscodeTask::run()
     QString destUrl = dir.absoluteFilePath(path.section(QLatin1Char('.'), 0, -2));
 
     bool result;
-    if (type == ClipType::Playlist || type == ClipType::SlideShow || type == ClipType::Text || type == ClipType::Timeline) {
+    if (m_transcodeInfo.type == ClipType::Playlist || m_transcodeInfo.type == ClipType::SlideShow || m_transcodeInfo.type == ClipType::Text ||
+        m_transcodeInfo.type == ClipType::Timeline) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         // insert transcoded filename
@@ -162,7 +161,7 @@ void TranscodeTask::run()
             mltParameters.prepend(QStringLiteral("out=%1").arg(m_outPoint));
             mltParameters.prepend(QStringLiteral("in=%1").arg(m_inPoint));
         }
-        mltParameters.prepend(source);
+        mltParameters.prepend(m_transcodeInfo.url);
         mltParameters.prepend(QStringLiteral("error"));
         mltParameters.prepend(QStringLiteral("-loglevel"));
         m_jobProcess = new QProcess(this);
@@ -183,7 +182,11 @@ void TranscodeTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)));
             return;
         }
-        m_jobDuration = int(binClip->duration().seconds());
+        if (binClip) {
+            m_jobDuration = int(binClip->duration().seconds());
+        } else {
+            m_jobDuration = -1;
+        }
         parameters << QStringLiteral("-y");
         if (m_inPoint > -1) {
             parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
@@ -192,7 +195,7 @@ void TranscodeTask::run()
         if (!m_transcodePreParams.isEmpty()) {
             parameters << m_transcodePreParams.split(QStringLiteral(" "));
         }
-        parameters << QStringLiteral("-i") << source;
+        parameters << QStringLiteral("-i") << m_transcodeInfo.url;
         if (m_outPoint > -1) {
             parameters << QStringLiteral("-to") << QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds());
         }

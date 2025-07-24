@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "transcodeseek.h"
 #include "bin/projectclip.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 
 #include <KLocalizedString>
@@ -68,12 +69,13 @@ TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *par
 
 TranscodeSeek::~TranscodeSeek() {}
 
-void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message)
+void TranscodeSeek::addUrl(const QString &id, TranscodeSeek::TranscodeInfo info, const QString &suffix, const QString &message)
 {
-    QListWidgetItem *it = new QListWidgetItem(file, listWidget);
+    m_clipInfos.insert(id, info);
+    QListWidgetItem *it = new QListWidgetItem(info.url, listWidget);
     it->setData(Qt::UserRole, id);
     it->setData(Qt::UserRole + 1, suffix);
-    it->setData(Qt::UserRole + 2, QString::number(type));
+    it->setData(Qt::UserRole + 2, QString::number(info.type));
     if (!message.isEmpty()) {
         if (messagewidget->text().isEmpty()) {
             messagewidget->setText(message);
@@ -90,7 +92,7 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
     }
     const QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
     if (listWidget->count() == 1) {
-        if (type == ClipType::Audio) {
+        if (info.type == ClipType::Audio) {
             if (!currentParams.endsWith(QLatin1String(";audio"))) {
                 // Switch to audio only profile
                 QMapIterator<QString, QString> i(m_encodeParams);
@@ -105,7 +107,7 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
                     }
                 }
             }
-        } else if (type == ClipType::Video) {
+        } else if (info.type == ClipType::Video) {
             if (!currentParams.endsWith(QLatin1String(";video"))) {
                 // Check current HW accel
                 HWENCODINGFMT fmt = formatForProfile(currentParams);
@@ -127,8 +129,8 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
             }
         }
     } else {
-        if ((type != ClipType::Video && currentParams.endsWith(QLatin1String(";video"))) ||
-            (type != ClipType::Audio && currentParams.endsWith(QLatin1String(";audio")))) {
+        if ((info.type != ClipType::Video && currentParams.endsWith(QLatin1String(";video"))) ||
+            (info.type != ClipType::Audio && currentParams.endsWith(QLatin1String(";audio")))) {
             // Check current HW accel
             HWENCODINGFMT fmt = formatForProfile(currentParams);
             // Switch back to an AV profile
@@ -185,11 +187,16 @@ QMap<QString, QStringList> TranscodeSeek::ids() const
     return urls;
 }
 
-QString TranscodeSeek::params(std::shared_ptr<ProjectClip> clip, int clipType, std::pair<int, int> fps_info) const
+QString TranscodeSeek::params(const QString &cid) const
 {
-    QString parameters = params(clipType, fps_info);
-    const QString pix_fmt = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
-    if (pix_fmt.contains(QLatin1String("p10"))) {
+    QString parameters;
+    Q_ASSERT(m_clipInfos.contains(cid));
+    if (!m_clipInfos.contains(cid)) {
+        return params(ClipType::AV, pCore->getProjectFpsInfo());
+    }
+    TranscodeInfo info = m_clipInfos.value(cid);
+    parameters = params(info.type, info.fps_info);
+    if (info.vCodec.contains(QLatin1String("p10"))) {
         // 10 bit source, not supported on nvidia hw, enforce 8 bit
         if (parameters.contains(QLatin1String(" h264_nvenc "))) {
             parameters.replace(QStringLiteral(" h264_nvenc "), QStringLiteral(" h264_nvenc -pix_fmt yuv420p "));
@@ -290,4 +297,13 @@ QString TranscodeSeek::preParams() const
     } else {
         return QStringLiteral("-noautorotate");
     }
+}
+
+TranscodeSeek::TranscodeInfo TranscodeSeek::info(const QString &id) const
+{
+    Q_ASSERT(m_clipInfos.contains(id));
+    if (!m_clipInfos.contains(id)) {
+        return {};
+    }
+    return m_clipInfos.value(id);
 }
