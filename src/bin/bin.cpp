@@ -97,6 +97,7 @@ static QImage m_videoIcon;
 static QImage m_audioIcon;
 static QImage m_audioUsedIcon;
 static QImage m_videoUsedIcon;
+static QImage m_effectIcon;
 static QSize m_iconSize;
 static QIcon m_folderIcon;
 static QIcon m_sequenceFolderIcon;
@@ -352,9 +353,14 @@ public:
                     // Overlay icon if necessary
                     QVariant v = index.data(AbstractProjectItem::IconOverlay);
                     if (!v.isNull()) {
-                        QIcon reload = QIcon::fromTheme(v.toString());
                         int size = style->pixelMetric(QStyle::PM_SmallIconSize);
-                        reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
+                        if (v.toString() == QLatin1String("tools-wizard")) {
+                            painter->drawImage(QRect(r.left() + 2, r.bottom() - size - 2, size, size), m_effectIcon);
+                        } else {
+                            QIcon reload = QIcon::fromTheme(v.toString());
+                            QPixmap pix = reload.pixmap(size);
+                            reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
+                        }
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
@@ -1126,6 +1132,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         // Init icons
         m_audioIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
+        m_effectIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
         m_sequenceFolderIcon = QIcon::fromTheme(QStringLiteral("folder-yellow"));
         // Ensure icons are correctly created
@@ -1499,18 +1506,29 @@ void Bin::slotUpdatePalette()
         // Refresh icons
         QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
         QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+        QIcon effectIcon = QIcon::fromTheme(QStringLiteral("tools-wizard"));
         m_audioIcon.fill(Qt::transparent);
         m_videoIcon.fill(Qt::transparent);
+        QImage effectIconFg = m_effectIcon;
+        effectIconFg.fill(Qt::transparent);
+        m_effectIcon.fill(QColor(QStringLiteral("#fdbc4b")));
         QPainter p(&m_audioIcon);
         audioIcon.paint(&p, 0, 0, m_audioIcon.width(), m_audioIcon.height());
         p.end();
         QPainter p2(&m_videoIcon);
         videoIcon.paint(&p2, 0, 0, m_videoIcon.width(), m_videoIcon.height());
         p2.end();
+        QPainter p3(&effectIconFg);
+        effectIcon.paint(&p3, 0, 0, effectIconFg.width(), effectIconFg.height());
+        p3.end();
         m_audioUsedIcon = m_audioIcon;
         KIconEffect::toMonochrome(m_audioUsedIcon, palette().link().color(), palette().link().color(), 1);
         m_videoUsedIcon = m_videoIcon;
         KIconEffect::toMonochrome(m_videoUsedIcon, palette().link().color(), palette().link().color(), 1);
+        KIconEffect::toMonochrome(effectIconFg, Qt::black, Qt::black, 1);
+        QPainter p4(&m_effectIcon);
+        p4.drawImage(0, 0, effectIconFg);
+        p4.end();
     }
 }
 
@@ -2284,7 +2302,9 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
 
     // Cleanup previous project
-    m_itemModel->clean();
+    if (m_isMainBin) {
+        m_itemModel->clean();
+    }
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
         QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
@@ -2296,7 +2316,9 @@ void Bin::cleanDocument()
     isLoading = false;
     shouldCheckProfile = false;
     m_doc = nullptr;
-    pCore->textEditWidget()->openClip(nullptr);
+    if (m_isMainBin) {
+        pCore->textEditWidget()->openClip(nullptr);
+    }
 }
 
 const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
@@ -6425,4 +6447,9 @@ bool Bin::performDrag(const QModelIndexList indexes)
     drag->deleteLater();
     Q_EMIT pCore->processDragEnd();
     return true;
+}
+
+bool Bin::isMainBin() const
+{
+    return m_isMainBin;
 }

@@ -394,6 +394,7 @@ public:
     void expandCurrent();
     /** @brief Expand / collapse all items */
     void expandAll();
+    bool isMainBin() const;
 
 private Q_SLOTS:
     void slotAddClip();
