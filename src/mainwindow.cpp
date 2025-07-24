@@ -5002,7 +5002,18 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
 
 void MainWindow::cleanBins()
 {
+    // Clean secondary bins first
     for (auto &bin : m_binWidgets) {
+        if (bin->isMainBin()) {
+            continue;
+        }
+        bin->cleanDocument();
+    }
+    // Clean main bins last
+    for (auto &bin : m_binWidgets) {
+        if (!bin->isMainBin()) {
+            continue;
+        }
         bin->cleanDocument();
     }
 }

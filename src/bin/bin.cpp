@@ -97,6 +97,7 @@ static QImage m_videoIcon;
 static QImage m_audioIcon;
 static QImage m_audioUsedIcon;
 static QImage m_videoUsedIcon;
+static QImage m_effectIcon;
 static QSize m_iconSize;
 static QIcon m_folderIcon;
 static QIcon m_sequenceFolderIcon;
@@ -352,9 +353,14 @@ public:
                     // Overlay icon if necessary
                     QVariant v = index.data(AbstractProjectItem::IconOverlay);
                     if (!v.isNull()) {
-                        QIcon reload = QIcon::fromTheme(v.toString());
                         int size = style->pixelMetric(QStyle::PM_SmallIconSize);
-                        reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
+                        if (v.toString() == QLatin1String("tools-wizard")) {
+                            painter->drawImage(QRect(r.left() + 2, r.bottom() - size - 2, size, size), m_effectIcon);
+                        } else {
+                            QIcon reload = QIcon::fromTheme(v.toString());
+                            QPixmap pix = reload.pixmap(size);
+                            reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
+                        }
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
@@ -1126,6 +1132,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         // Init icons
         m_audioIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
+        m_effectIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
         m_sequenceFolderIcon = QIcon::fromTheme(QStringLiteral("folder-yellow"));
         // Ensure icons are correctly created
@@ -1499,18 +1506,29 @@ void Bin::slotUpdatePalette()
         // Refresh icons
         QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
         QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+        QIcon effectIcon = QIcon::fromTheme(QStringLiteral("tools-wizard"));
         m_audioIcon.fill(Qt::transparent);
         m_videoIcon.fill(Qt::transparent);
+        QImage effectIconFg = m_effectIcon;
+        effectIconFg.fill(Qt::transparent);
+        m_effectIcon.fill(QColor(QStringLiteral("#fdbc4b")));
         QPainter p(&m_audioIcon);
         audioIcon.paint(&p, 0, 0, m_audioIcon.width(), m_audioIcon.height());
         p.end();
         QPainter p2(&m_videoIcon);
         videoIcon.paint(&p2, 0, 0, m_videoIcon.width(), m_videoIcon.height());
         p2.end();
+        QPainter p3(&effectIconFg);
+        effectIcon.paint(&p3, 0, 0, effectIconFg.width(), effectIconFg.height());
+        p3.end();
         m_audioUsedIcon = m_audioIcon;
         KIconEffect::toMonochrome(m_audioUsedIcon, palette().link().color(), palette().link().color(), 1);
         m_videoUsedIcon = m_videoIcon;
         KIconEffect::toMonochrome(m_videoUsedIcon, palette().link().color(), palette().link().color(), 1);
+        KIconEffect::toMonochrome(effectIconFg, Qt::black, Qt::black, 1);
+        QPainter p4(&m_effectIcon);
+        p4.drawImage(0, 0, effectIconFg);
+        p4.end();
     }
 }
 
@@ -2284,7 +2302,9 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
 
     // Cleanup previous project
-    m_itemModel->clean();
+    if (m_isMainBin) {
+        m_itemModel->clean();
+    }
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
         QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
@@ -2296,7 +2316,9 @@ void Bin::cleanDocument()
     isLoading = false;
     shouldCheckProfile = false;
     m_doc = nullptr;
-    pCore->textEditWidget()->openClip(nullptr);
+    if (m_isMainBin) {
+        pCore->textEditWidget()->openClip(nullptr);
+    }
 }
 
 const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
@@ -2727,13 +2749,12 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 // Disable find in timeline option
                 m_openAction->setEnabled(false);
             }
-            if (m_clipsActionsMenu) {
-                m_clipsActionsMenu->setEnabled(!isFolder);
-            }
             m_editAction->setVisible(!isFolder);
             m_editAction->setEnabled(true);
-            m_extractAudioAction->menuAction()->setVisible(hasAudio);
-            m_extractAudioAction->setEnabled(hasAudio);
+            if (m_extractAudioAction) {
+                m_extractAudioAction->menuAction()->setVisible(hasAudio);
+                m_extractAudioAction->setEnabled(hasAudio);
+            }
             m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text ||
                                      type == ClipType::Animation);
             m_openAction->setVisible(!isFolder);
@@ -2752,26 +2773,28 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_replaceAction->setVisible(!isFolder);
             m_replaceInTimelineAction->setEnabled(isClip);
             m_replaceInTimelineAction->setVisible(!isFolder);
-            // Enable actions depending on clip type
-            for (auto &a : m_clipsActionsMenu->actions()) {
-                qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
-                QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
-                qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
-                if (actionType.isEmpty()) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
-                    a->setEnabled(true);
-                } else {
-                    a->setEnabled(false);
+            if (m_clipsActionsMenu) {
+                m_clipsActionsMenu->setEnabled(!isFolder);
+                // Enable actions depending on clip type
+                for (auto &a : m_clipsActionsMenu->actions()) {
+                    qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
+                    QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
+                    qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
+                    if (actionType.isEmpty()) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
+                        a->setEnabled(true);
+                    } else {
+                        a->setEnabled(false);
+                    }
                 }
+                m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
+                                                                           type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
             }
-            m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
-                                                                       type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
-
             m_transcodeAction->setEnabled(!isFolder);
             m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Timeline || type == ClipType::Text ||
                                                         clipService.contains(QStringLiteral("avformat"))));
@@ -2790,8 +2813,12 @@ void Bin::selectProxyModel(const QModelIndex &id)
         Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
     m_editAction->setEnabled(false);
-    m_clipsActionsMenu->setEnabled(false);
-    m_extractAudioAction->setEnabled(false);
+    if (m_clipsActionsMenu) {
+        m_clipsActionsMenu->setEnabled(false);
+    }
+    if (m_extractAudioAction) {
+        m_extractAudioAction->setEnabled(false);
+    }
     m_transcodeAction->setEnabled(false);
     m_proxyAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
@@ -6420,4 +6447,9 @@ bool Bin::performDrag(const QModelIndexList indexes)
     drag->deleteLater();
     Q_EMIT pCore->processDragEnd();
     return true;
+}
+
+bool Bin::isMainBin() const
+{
+    return m_isMainBin;
 }
