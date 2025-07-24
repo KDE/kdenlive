@@ -1,4 +1,3 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
@@ -12,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 49586\n"
-"X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49586\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11643,6 +11642,8 @@ msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
+"<![CDATA[2D 视频示波器。<br>\n"
+"    此效果已被 <em>frei0r.measure_pr0file</em> 取代。]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -11664,7 +11665,7 @@ msgstr "因子"
 #: data/effects/frei0r/frei0r_primaries.xml:9
 #, kde-format
 msgid "<![CDATA[Influence of mean pixel value]]>"
-msgstr ""
+msgstr "<![CDATA[平均像素值影响]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -11715,7 +11716,7 @@ msgstr "显示视频数据的 RGB 颜色数值分量直方图"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
 msgid "RGB Splitter"
-msgstr ""
+msgstr "RGB 分离器"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
@@ -11725,22 +11726,22 @@ msgstr "对图像的 RGB 通道颜色进行分离和偏移"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
 #, kde-format
 msgid "Horizontal Split Distance"
-msgstr ""
+msgstr "水平分离距离"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
 msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
-msgstr ""
+msgstr "<![CDATA[数值 < 0.500 向右移动；数值 > 0.500 向左移动]]>"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, kde-format
 msgid "Vertical Split Distance."
-msgstr ""
+msgstr "垂直分离距离"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
 msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
-msgstr ""
+msgstr "<![CDATA[值小于 0.5002 时下移，值大于 0.500 时上移。]]>"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -11756,32 +11757,32 @@ msgstr "调整来源图像的饱和度"
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
 #, kde-format
 msgid "Crop, Scale, and Tilt"
-msgstr ""
+msgstr "Crop, Scale and Tilt - 裁剪, 缩放, 倾斜"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
 #, kde-format
 msgid "Scales, tilts, and crops an image"
-msgstr ""
+msgstr "对图像进行裁剪、缩放和倾斜处理"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:8
 #, kde-format
 msgid "Crop Left"
-msgstr ""
+msgstr "裁剪左侧"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:11
 #, kde-format
 msgid "Crop Right"
-msgstr ""
+msgstr "裁剪右侧"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:14
 #, kde-format
 msgid "Crop Top"
-msgstr ""
+msgstr "裁剪顶部"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:17
 #, kde-format
 msgid "Crop Bottom"
-msgstr ""
+msgstr "裁剪底部"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/frei0r/frei0r_scale0tilt.xml:20
@@ -11976,12 +11977,12 @@ msgstr "屏幕,覆盖,添加"
 #: data/effects/frei0r/frei0r_softglow.xml:11
 #, kde-format
 msgid "Blend mode used to blend highlight blur with input image"
-msgstr ""
+msgstr "混合模式用于高亮模糊和输入图像。"
 
 #: data/effects/frei0r/frei0r_softglow.xml:14
 #, kde-format
 msgid "Blur of the Glow"
-msgstr ""
+msgstr "发光模糊"
 
 #: data/effects/frei0r/frei0r_softglow.xml:15
 #, kde-format
@@ -11991,12 +11992,12 @@ msgstr "发光模糊"
 #: data/effects/frei0r/frei0r_softglow.xml:19
 #, kde-format
 msgid "Brightness of highlight areas"
-msgstr ""
+msgstr "高光区域亮度"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
 #, kde-format
 msgid "Sharpness of highlight areas"
-msgstr ""
+msgstr "高光区域锐利度"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -12219,12 +12220,12 @@ msgstr "对来源图像进行阈值处理"
 #: data/effects/frei0r/frei0r_timeout.xml:5
 #, kde-format
 msgid "Timeout Indicator"
-msgstr ""
+msgstr "Timeout indicator - 超时指示器"
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
 #, kde-format
 msgid "Indicator Color"
-msgstr ""
+msgstr "指示器颜色"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
 #, kde-format
@@ -12345,7 +12346,7 @@ msgstr "柔和度"
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha Shapes (Mask)"
-msgstr ""
+msgstr "Alpha shapes (Mask) - 透明度形状 (蒙版)"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:5
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
@@ -13013,19 +13014,19 @@ msgstr "每秒更新次数"
 #: data/effects/gradientmap.xml:4
 #, kde-format
 msgid "Gradient Map"
-msgstr ""
+msgstr "渐变映射"
 
 #: data/effects/gradientmap.xml:5
 #, kde-format
 msgid "Apply a gradient map to the video"
-msgstr ""
+msgstr "将渐变映射到视频"
 
 #: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
 #: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
 #: data/effects/greyedge.xml:17
 #, kde-format
 msgid "<![CDATA[]]>"
-msgstr ""
+msgstr "<![CDATA[]]>"
 
 #: data/effects/grain.xml:4
 #, kde-format
@@ -13042,24 +13043,24 @@ msgstr "在图像上绘制颗粒纹理"
 #, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Grey Edge"
-msgstr ""
+msgstr "灰色边缘"
 
 #: data/effects/greyedge.xml:5
 #, kde-format
 msgid ""
 "A color constancy filter that applies color correction based on the "
 "grayworld assumption"
-msgstr ""
+msgstr "基于灰度世界假设的色彩恒常性滤镜(色彩校正)"
 
 #: data/effects/greyedge.xml:8
 #, kde-format
 msgid "Differentiation Order"
-msgstr ""
+msgstr "微分阶数"
 
 #: data/effects/greyedge.xml:12
 #, kde-format
 msgid "Minkowski Norm"
-msgstr ""
+msgstr "闵可夫斯基范数"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -13930,92 +13931,92 @@ msgstr "区域"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Old Film Simulator"
-msgstr ""
+msgstr "旧胶片模拟"
 
 #: data/effects/oldfilm.xml:5
 #, kde-format
 msgid "Moves the picture up and down and adds random brightness changes"
-msgstr ""
+msgstr "上下抖动画面并随机改变亮度"
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Maximum Up/Down Move"
-msgstr ""
+msgstr "最大上/下移动"
 
 #: data/effects/oldfilm.xml:9
 #, kde-format
 msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
-msgstr ""
+msgstr "<![CDATA[最大垂直移动像素]]>"
 
 #: data/effects/oldfilm.xml:12
 #, kde-format
 msgid "Frames With Movement"
-msgstr ""
+msgstr "移动帧"
 
 #: data/effects/oldfilm.xml:13
 #, kde-format
 msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
-msgstr ""
+msgstr "<![CDATA[垂直移动帧百分比]]>"
 
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr ""
+msgstr "提高亮度"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
 msgid "<![CDATA[Determines the value in brightness change up]]>"
-msgstr ""
+msgstr "<![CDATA[亮度上调值]]>"
 
 #: data/effects/oldfilm.xml:20
 #, kde-format
 msgid "Brightness Down"
-msgstr ""
+msgstr "降低亮度"
 
 #: data/effects/oldfilm.xml:21
 #, kde-format
 msgid "<![CDATA[Determines the value in brightness change down]]>"
-msgstr ""
+msgstr "<![CDATA[亮度降低值]]>"
 
 #: data/effects/oldfilm.xml:24
 #, kde-format
 msgid "Brightness Every"
-msgstr ""
+msgstr "亮度频闪率"
 
 #: data/effects/oldfilm.xml:25
 #, kde-format
 msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
-msgstr ""
+msgstr "<![CDATA[亮度变化帧的百分比]]>"
 
 #: data/effects/oldfilm.xml:28
 #, kde-format
 msgid "Uneven Develop Up"
-msgstr ""
+msgstr "显影不均匀增强"
 
 #: data/effects/oldfilm.xml:29
 #, kde-format
 msgid "<![CDATA[Determines the value in lightness change up]]>"
-msgstr ""
+msgstr "<![CDATA[明度增加量]]>"
 
 #: data/effects/oldfilm.xml:32
 #, kde-format
 msgid "Uneven Develop Down"
-msgstr ""
+msgstr "显影不均匀减弱"
 
 #: data/effects/oldfilm.xml:33
 #, kde-format
 msgid "<![CDATA[Determines the value in lightness change down]]>"
-msgstr ""
+msgstr "<![CDATA[亮度降低值]]>"
 
 #: data/effects/oldfilm.xml:36
 #, kde-format
 msgid "Uneven Develop Duration"
-msgstr ""
+msgstr "不均匀显影时长"
 
 #: data/effects/oldfilm.xml:37
 #, kde-format
 msgid "<![CDATA[Time (in frames) of an uneven development up/down cycle]]>"
-msgstr ""
+msgstr "<![CDATA[不均匀显影上下循环时间 (帧) ]]>"
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -14107,7 +14108,7 @@ msgstr "旋转 (从中心)"
 #: data/effects/qtcrop.xml:4
 #, kde-format
 msgid "Crop by Padding"
-msgstr ""
+msgstr "Crop by padding - 加边框裁剪"
 
 #: data/effects/qtcrop.xml:5
 #, kde-format
@@ -14220,7 +14221,7 @@ msgstr "旋转剪辑 (在任意 3 个方向上)"
 #: data/effects/rotate-3-way.xml:10
 #, kde-format
 msgid "Disable Repeat"
-msgstr ""
+msgstr "禁用循环"
 
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
 #, kde-format
@@ -14234,7 +14235,7 @@ msgstr ""
 #: data/effects/rotate-3-way.xml:15
 #, kde-format
 msgid "Disable Mirror"
-msgstr ""
+msgstr "禁用镜像"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -14250,7 +14251,7 @@ msgstr ""
 #: data/effects/rotate-3-way.xml:20
 #, kde-format
 msgid "Invert Scale"
-msgstr ""
+msgstr "反转缩放"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -14392,52 +14393,52 @@ msgstr "基于矢量的转描效果，支持通过关键帧调整"
 #: data/effects/scratchlines.xml:4
 #, kde-format
 msgid "Scratch Lines"
-msgstr ""
+msgstr "刮痕线"
 
 #: data/effects/scratchlines.xml:5
 #, kde-format
 msgid "Scratch lines over the picture"
-msgstr ""
+msgstr "在画面上生成划痕"
 
 #: data/effects/scratchlines.xml:8
 #, kde-format
 msgid "Width of Line"
-msgstr ""
+msgstr "划痕宽度"
 
 #: data/effects/scratchlines.xml:9
 #, kde-format
 msgid "<![CDATA[Width on the line in the clip]]>"
-msgstr ""
+msgstr "<![CDATA[片段中划痕宽度]]>"
 
 #: data/effects/scratchlines.xml:12
 #, kde-format
 msgid "Max Number of Lines"
-msgstr ""
+msgstr "最大划痕数"
 
 #: data/effects/scratchlines.xml:13
 #, kde-format
 msgid "<![CDATA[Maximum number of lines in the clip]]>"
-msgstr ""
+msgstr "<![CDATA[片段中最大划痕数]]>"
 
 #: data/effects/scratchlines.xml:16
 #, kde-format
 msgid "Max Darker"
-msgstr ""
+msgstr "最大暗划痕数"
 
 #: data/effects/scratchlines.xml:17
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
-msgstr ""
+msgstr "<![CDATA[使线条后方图像最多变暗 <em>n</em> 个]]>"
 
 #: data/effects/scratchlines.xml:20
 #, kde-format
 msgid "Max Lighter"
-msgstr ""
+msgstr "最大亮划痕数"
 
 #: data/effects/scratchlines.xml:21
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
-msgstr ""
+msgstr "<![CDATA[使线条后方的图像最多变亮 <em>n</em> 个]]>"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -14725,7 +14726,7 @@ msgstr "指定需要移除的矩形区域。"
 #: data/effects/strobe.xml:4
 #, kde-format
 msgid "Alpha Strobing"
-msgstr ""
+msgstr "Alpha strobing - 透明度选通脉冲"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -15258,7 +15259,7 @@ msgstr "白噪音生产来源"
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
 msgid "Alpha, Mask, and Keying"
-msgstr ""
+msgstr "Alpha, Mask and Keying - 透明，遮罩和关键帧"
 
 #: data/kdenliveeffectscategory.rc:10
 #, kde-format
@@ -15268,7 +15269,7 @@ msgstr "Blur, Sharpen - 模糊, 锐化"
 #: data/kdenliveeffectscategory.rc:14
 #, kde-format
 msgid "Transform, Distort, and Perspective"
-msgstr ""
+msgstr "Transform, Distort and Perspective - 变形，扭曲和透视"
 
 #: data/kdenliveeffectscategory.rc:18
 #, kde-format
@@ -15278,7 +15279,7 @@ msgstr "Grain, Noise - 颗粒, 噪声"
 #: data/kdenliveeffectscategory.rc:22
 #, kde-format
 msgid "Utilities"
-msgstr ""
+msgstr "实用工具"
 
 #: data/kdenliveeffectscategory.rc:26
 #, kde-format
@@ -15293,17 +15294,17 @@ msgstr "On Master, 主声道处理"
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format
 msgid "Color and Image Correction"
-msgstr ""
+msgstr "Color and Image correction - 颜色和图像校正"
 
 #: data/kdenliveeffectscategory.rc:38
 #, kde-format
 msgid "Audio Correction"
-msgstr ""
+msgstr "音频校正"
 
 #: data/kdenliveeffectscategory.rc:42
 #, kde-format
 msgid "Image Adjustment"
-msgstr ""
+msgstr "Image Adjustment - 图像调整"
 
 #: data/kdenliveeffectscategory.rc:46
 #, kde-format
@@ -15328,7 +15329,7 @@ msgstr "VR360, 3D - 虚拟现实 360, 3D"
 #: data/kdenliveeffectscategory.rc:62
 #, kde-format
 msgid "More Checks"
-msgstr ""
+msgstr "More checks - 更多检查"
 
 #: data/kdenliveeffectscategory.rc:66
 #, kde-format
@@ -15343,12 +15344,12 @@ msgstr "音量和动态"
 #: data/kdenliveeffectscategory.rc:74
 #, kde-format
 msgid "Reverb, Echo, and Delays"
-msgstr ""
+msgstr "Reverb, Echo and Delays - 混响、回声和延迟"
 
 #: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "EQ and Filters"
-msgstr ""
+msgstr "EQ和滤波器"
 
 #: data/kdenliveeffectscategory.rc:82
 #, kde-format
@@ -15430,7 +15431,7 @@ msgstr "Calf  Plugins - Calf 插件"
 #: data/kdenliveeffectscategory.rc:146
 #, kde-format
 msgid "LSP Plugins"
-msgstr ""
+msgstr "LSP plugins - LSP 插件"
 
 #: data/kdenliveeffectscategory.rc:150
 #, kde-format
@@ -15455,7 +15456,7 @@ msgstr "VCO Plugins - VCO 插件"
 #: data/kdenliveeffectscategory.rc:166
 #, kde-format
 msgid "MLT LADSPA"
-msgstr ""
+msgstr "MLT LADSPA 音频插件"
 
 #: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
@@ -31678,6 +31679,8 @@ msgid ""
 "other timelines ?<br>Not resizing will temporarily keep the current duration "
 "in all other sequences."
 msgstr ""
+"时间线序列 <b>%1</b> 已缩短。<br/>调整其他时间线中的所有实例？<br>若不调整其"
+"他时间线将会暂时保留所有其他序列的当前持续时间。"
 
 #: src/timeline2/view/timelinetabs.cpp:178
 #, kde-format
@@ -31689,7 +31692,7 @@ msgstr "调整大小"
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
-msgstr ""
+msgstr "不改变大小"
 
 #: src/timeline2/view/timelinetabs.cpp:261
 #, kde-format
