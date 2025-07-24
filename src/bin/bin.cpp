@@ -2727,9 +2727,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 // Disable find in timeline option
                 m_openAction->setEnabled(false);
             }
-            if (m_clipsActionsMenu) {
-                m_clipsActionsMenu->setEnabled(!isFolder);
-            }
             m_editAction->setVisible(!isFolder);
             m_editAction->setEnabled(true);
             m_extractAudioAction->menuAction()->setVisible(hasAudio);
@@ -2752,26 +2749,28 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_replaceAction->setVisible(!isFolder);
             m_replaceInTimelineAction->setEnabled(isClip);
             m_replaceInTimelineAction->setVisible(!isFolder);
-            // Enable actions depending on clip type
-            for (auto &a : m_clipsActionsMenu->actions()) {
-                qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
-                QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
-                qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
-                if (actionType.isEmpty()) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
-                    a->setEnabled(true);
-                } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
-                    a->setEnabled(true);
-                } else {
-                    a->setEnabled(false);
+            if (m_clipsActionsMenu) {
+                m_clipsActionsMenu->setEnabled(!isFolder);
+                // Enable actions depending on clip type
+                for (auto &a : m_clipsActionsMenu->actions()) {
+                    qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
+                    QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
+                    qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
+                    if (actionType.isEmpty()) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
+                        a->setEnabled(true);
+                    } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
+                        a->setEnabled(true);
+                    } else {
+                        a->setEnabled(false);
+                    }
                 }
+                m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
+                                                                           type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
             }
-            m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
-                                                                       type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
-
             m_transcodeAction->setEnabled(!isFolder);
             m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Timeline || type == ClipType::Text ||
                                                         clipService.contains(QStringLiteral("avformat"))));
@@ -2790,7 +2789,9 @@ void Bin::selectProxyModel(const QModelIndex &id)
         Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
     m_editAction->setEnabled(false);
-    m_clipsActionsMenu->setEnabled(false);
+    if (m_clipsActionsMenu) {
+        m_clipsActionsMenu->setEnabled(false);
+    }
     m_extractAudioAction->setEnabled(false);
     m_transcodeAction->setEnabled(false);
     m_proxyAction->setEnabled(false);
