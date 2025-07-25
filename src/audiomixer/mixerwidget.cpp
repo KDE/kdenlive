@@ -16,6 +16,7 @@
 #include "mlt++/MltFilter.h"
 #include "mlt++/MltProfile.h"
 #include "mlt++/MltTractor.h"
+#include "utils/styledspinbox.hpp"
 
 #include <KDualAction>
 #include <KLocalizedString>
@@ -176,7 +177,7 @@ void MixerWidget::buildVolumeControls()
     // Set dB value-to-slider mapping
     m_volumeSlider->setValueToSliderFunction([](double dB) { return static_cast<int>(fromDB(dB) * 100.0); });
 
-    m_volumeSpin = new QDoubleSpinBox(this);
+    m_volumeSpin = new StyledDoubleSpinBox(NEUTRAL_VOLUME, this);
     m_volumeSpin->setRange(-50, 24);
     m_volumeSpin->setFrame(true);
     m_volumeSpin->setKeyboardTracking(false);
@@ -215,7 +216,7 @@ void MixerWidget::buildBalanceControls()
     m_balanceLabelRight = new QLabel(i18nc("Right", "R"), this);
     m_balanceLabelRight->setAlignment(Qt::AlignHCenter);
 
-    m_balanceSpin = new QSpinBox(this);
+    m_balanceSpin = new StyledSpinBox(NEUTRAL_BALANCE, this);
     m_balanceSpin->setRange(-50, 50);
     m_balanceSpin->setValue(0);
     m_balanceSpin->setFrame(true);
@@ -442,16 +443,14 @@ void MixerWidget::setupConnections()
     connect(m_showEffects, &QToolButton::clicked, this, [&]() { Q_EMIT m_manager->showEffectStack(m_tid); });
 
     connect(m_volumeSlider, &QAbstractSlider::valueChanged, this, [&](int value) {
-        QSignalBlocker bk(m_volumeSpin);
+        QSignalBlocker bk(m_volumeSlider);
         if (m_recording || (m_monitor && m_monitor->isChecked())) {
             m_volumeSpin->setValue(value / 100);
-            updateSpinBoxStyle(m_volumeSpin, NEUTRAL_VOLUME);
             KdenliveSettings::setAudiocapturevolume(value / 100);
             Q_EMIT m_manager->updateRecVolume();
         } else if (m_levelFilter != nullptr) {
             double dbValue = toDB(value / 100.0);
             m_volumeSpin->setValue(dbValue);
-            updateSpinBoxStyle(m_volumeSpin, NEUTRAL_VOLUME);
             m_levelFilter->set("level", dbValue);
             m_levelFilter->set("disable", value == 60 ? 1 : 0);
             m_levels.clear();
@@ -465,15 +464,16 @@ void MixerWidget::setupConnections()
         } else {
             m_volumeSlider->setValue(fromDB(val) * 100.);
         }
-        updateSpinBoxStyle(m_volumeSpin, NEUTRAL_VOLUME);
     });
 
     if (m_balanceSlider) {
-        connect(m_balanceSlider, &QAbstractSlider::valueChanged, m_balanceSpin, [this]() { m_balanceSpin->setValue(m_balanceSlider->value()); });
-        connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
+        connect(m_balanceSlider, &QAbstractSlider::valueChanged, m_balanceSpin, [this]() {
             QSignalBlocker bk(m_balanceSlider);
+            m_balanceSpin->setValue(m_balanceSlider->value());
+        });
+        connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
+            QSignalBlocker bk(m_balanceSpin);
             m_balanceSlider->setValue(value);
-            updateSpinBoxStyle(m_balanceSpin, NEUTRAL_BALANCE);
             if (m_balanceFilter != nullptr) {
                 m_balanceFilter->set("start", (value + 50) / 100.);
                 m_balanceFilter->set("disable", value == 0 ? 1 : 0);
@@ -527,26 +527,15 @@ void MixerWidget::setMute(bool mute)
     QSignalBlocker bk(m_muteAction);
     m_muteAction->setActive(mute);
     m_volumeSlider->setEnabled(!mute);
-    m_volumeSpin->setPalette(palette());
     m_volumeSpin->setEnabled(!mute);
     m_audioMeterWidget->setEnabled(!mute);
-    if (mute) {
-        // Reset the palette to the default one so we get the correct color for the spinbox in its disabled state
-        m_volumeSpin->setPalette(palette());
-        if (m_balanceSpin) {
-            m_balanceSpin->setPalette(palette());
-        }
-    } else {
-        updateSpinBoxStyle(m_volumeSpin, NEUTRAL_VOLUME);
-        if (m_balanceSpin) {
-            updateSpinBoxStyle(m_balanceSpin, NEUTRAL_BALANCE);
-        }
+    m_dbLabel->setEnabled(!mute);
+    if (m_balanceSpin) {
+        m_balanceSpin->setEnabled(!mute);
     }
     if (m_balanceSlider) {
-        m_balanceSpin->setEnabled(!mute);
         m_balanceSlider->setEnabled(!mute);
     }
-    m_dbLabel->setEnabled(!mute);
     if (m_balanceLabelLeft) {
         m_balanceLabelLeft->setEnabled(!mute);
     }
@@ -641,8 +630,6 @@ void MixerWidget::gotRecLevels(QVector<qreal> levels)
 
 void MixerWidget::updateMonitorState()
 {
-    QSignalBlocker bk(m_volumeSpin);
-    QSignalBlocker bk2(m_volumeSlider);
     if (m_monitor && m_monitor->isChecked()) {
         connect(pCore->getAudioDevice().get(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         if (m_balanceSlider) {
@@ -656,8 +643,8 @@ void MixerWidget::updateMonitorState()
         m_volumeSlider->setTickPositions(tickValues);
         m_volumeSlider->setTickLabelsVisible(true);
         m_volumeSlider->setNeutralPosition(KdenliveSettings::audiocapturevolume() * 100);
+        m_volumeSpin->setNeutralPosition(KdenliveSettings::audiocapturevolume());
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
-        m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume() * 100);
     } else {
         disconnect(pCore->getAudioDevice().get(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         if (m_balanceSlider) {
@@ -671,9 +658,9 @@ void MixerWidget::updateMonitorState()
         QVector<double> gainValues({-24, -10, -4, 0, 4, 10, 24});
         m_volumeSlider->setTickPositions(gainValues);
         m_volumeSlider->setTickLabelsVisible(true);
-        m_volumeSlider->setNeutralPosition(fromDB(0) * 100);
+        m_volumeSlider->setNeutralPosition(fromDB(NEUTRAL_VOLUME) * 100);
+        m_volumeSpin->setNeutralPosition(NEUTRAL_VOLUME);
         m_volumeSpin->setValue(level);
-        m_volumeSlider->setValue(fromDB(level) * 100.);
     }
     updateTrackLabelStyle();
 }
