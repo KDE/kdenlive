@@ -58,6 +58,16 @@ bool ProfileFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePar
     }
 
     std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(profile_path);
+    if (!m_searchString.isEmpty()) {
+        QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
+        if (!index0.isValid()) {
+            return false;
+        }
+        auto data = sourceModel()->data(index0, Qt::DisplayRole);
+        if (!data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
+            return false;
+        }
+    }
 
     return filterInterlaced(profile) && filterFps(profile);
 }
@@ -66,4 +76,10 @@ bool ProfileFilter::isVisible(const QModelIndex &sourceIndex)
 {
     auto parent = sourceModel()->parent(sourceIndex);
     return filterAcceptsRow(sourceIndex.row(), parent);
+}
+
+void ProfileFilter::slotSetSearchString(const QString &str)
+{
+    m_searchString = str;
+    invalidateFilter();
 }

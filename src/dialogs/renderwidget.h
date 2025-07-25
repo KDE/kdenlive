@@ -13,6 +13,7 @@ namespace Purpose {
 class Menu;
 }
 
+#include "abstractmodel/treeproxymodel.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
 #include "render/renderrequest.h"
@@ -189,6 +190,7 @@ private:
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;
     RenderPresetParams m_params;
+    std::unique_ptr<TreeProxyModel> m_proxyModel;
     int m_renderDuration{0};
     int m_missingClips{0};
     int m_missingUsedClips{0};

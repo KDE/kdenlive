@@ -496,6 +496,17 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.shareButton->setIcon(QIcon::fromTheme(QStringLiteral("document-share")));
     connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
 
+    // Search
+    m_view.searchLine->setClearButtonEnabled(true);
+    m_view.searchLine->setPlaceholderText(i18n("Search…"));
+    connect(m_view.searchLine, &QLineEdit::textChanged, this, [this](const QString &str) {
+        m_proxyModel->slotSetSearchString(str);
+        if (str.isEmpty()) {
+            // focus last selected item when clearing search line
+            focusItem(m_currentProfile);
+        }
+    });
+
     // Memory check timer
     connect(&m_memCheckTimer, &QTimer::timeout, this, &RenderWidget::slotCheckFreeMemory);
     // Devault interval check is 10 seconds
@@ -755,11 +766,12 @@ void RenderWidget::focusItem(const QString &profile)
         index = m_treeModel->findPreset(KdenliveSettings::renderProfile());
     }
     if (index.isValid()) {
-        selection->select(index, QItemSelectionModel::ClearAndSelect);
+        auto mapped = m_proxyModel->mapFromSource(index);
+        selection->select(mapped, QItemSelectionModel::ClearAndSelect);
         // expand corresponding category
         auto parent = m_treeModel->parent(index);
-        m_view.profileTree->expand(parent);
-        m_view.profileTree->scrollTo(index, QAbstractItemView::PositionAtCenter);
+        m_view.profileTree->expand(m_proxyModel->mapFromSource(parent));
+        m_view.profileTree->scrollTo(mapped, QAbstractItemView::PositionAtCenter);
     }
 }
 
@@ -1104,17 +1116,18 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 
 void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
 {
-    if (m_treeModel->parent(current) == QModelIndex()) {
+    auto mapped = m_proxyModel->mapToSource(current);
+    if (m_treeModel->parent(mapped) == QModelIndex()) {
         // in that case, we have selected a category, which we don't want
         QItemSelectionModel *selection = m_view.profileTree->selectionModel();
         selection->select(previous, QItemSelectionModel::ClearAndSelect);
         // expand corresponding category
-        auto parent = m_treeModel->parent(previous);
+        auto parent = m_treeModel->parent(m_proxyModel->mapToSource(previous));
         m_view.profileTree->expand(parent);
         m_view.profileTree->scrollTo(previous, QAbstractItemView::PositionAtCenter);
         return;
     }
-    m_currentProfile = m_treeModel->getPreset(current);
+    m_currentProfile = m_treeModel->getPreset(mapped);
     KdenliveSettings::setRenderProfile(m_currentProfile);
     loadProfile();
 }
@@ -1391,7 +1404,10 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
 {
     m_treeModel.reset();
     m_treeModel = RenderPresetTreeModel::construct(this);
-    m_view.profileTree->setModel(m_treeModel.get());
+    m_proxyModel = std::make_unique<TreeProxyModel>(this);
+    m_view.profileTree->setModel(m_proxyModel.get());
+    // Connect models
+    m_proxyModel->setSourceModel(m_treeModel.get());
     QItemSelectionModel *selectionModel = m_view.profileTree->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &RenderWidget::slotChangeSelection);
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection &selected, const QItemSelection &deselected) {
