@@ -1832,5 +1832,5 @@ int Core::currentTimelineOffset()
 
 void Core::updateHwDecoding()
 {
-    setenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8().constData(), 1);
+    qputenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8());
 }

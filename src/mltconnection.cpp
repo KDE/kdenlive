@@ -54,9 +54,9 @@ MltConnection::MltConnection(const QString &mltPath)
 {
     // Disable VDPAU that crashes in multithread environment.
     // TODO: make configurable
-    setenv("MLT_NO_VDPAU", "1", 1);
+    qputenv("MLT_NO_VDPAU", "1");
     if (!KdenliveSettings::hwDecoding().isEmpty()) {
-        setenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8().constData(), 1);
+        qputenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8());
     }
 
     // After initialising the MLT factory, set the locale back from user default to C
