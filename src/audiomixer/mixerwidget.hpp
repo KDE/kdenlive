@@ -19,8 +19,8 @@ class AudioLevelWidget;
 class AudioSlider;
 class QSlider;
 class QDial;
-class QSpinBox;
-class QDoubleSpinBox;
+class StyledDoubleSpinBox;
+class StyledSpinBox;
 class QLabel;
 class QToolButton;
 class MixerManager;
@@ -80,9 +80,9 @@ protected:
     QMap<int, QVector<double>> m_levels;
     int m_channels;
     KDualAction *m_muteAction;
-    QSpinBox *m_balanceSpin;
+    StyledSpinBox *m_balanceSpin;
     AudioSlider *m_balanceSlider;
-    QDoubleSpinBox *m_volumeSpin;
+    StyledDoubleSpinBox *m_volumeSpin;
     int m_maxLevels;
 
 private:
