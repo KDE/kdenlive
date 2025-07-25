@@ -1182,3 +1182,8 @@ bool CollapsibleEffectView::isCollapsed() const
 {
     return !m_collapse->isActive();
 }
+
+bool CollapsibleEffectView::isBuiltIn() const
+{
+    return m_model->isBuiltIn();
+}

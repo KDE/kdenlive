@@ -889,7 +889,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
             m_dragging = true;
             if (o) {
                 auto coll = static_cast<CollapsibleEffectView *>(o);
-                if (coll) {
+                if (coll && !coll->isBuiltIn()) {
                     ObjectId item = m_model->getOwnerId();
                     startDrag(coll->getDragPixmap(), coll->getAssetId(), item, coll->getEffectRow(), me->modifiers() & Qt::AltModifier);
                 }
