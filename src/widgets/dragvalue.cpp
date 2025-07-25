@@ -757,8 +757,10 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     if (m_showSlider) {
         setToolTip(xi18n("Shift + Drag to adjust value one by one."));
     }
-    setRange(0, range);
-    if (!showSlider) {
+    if (showSlider) {
+        setRange(0, 1000);
+    } else {
+        setRange(0, range);
         QSize sh;
         const QFontMetrics &fm = fontMetrics();
         sh.setWidth(fm.horizontalAdvance(QLatin1Char(' ') + label + QLatin1Char(' ')));
