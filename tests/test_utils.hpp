@@ -13,8 +13,10 @@
 #include <random>
 #include <string>
 
+#ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic push
+#endif
 #include "fakeit.hpp"
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltProducer.h>

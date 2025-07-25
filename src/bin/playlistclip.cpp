@@ -55,15 +55,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
 #include <rttr/registration>
 
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+
 RTTR_REGISTRATION
 {
     using namespace rttr;
