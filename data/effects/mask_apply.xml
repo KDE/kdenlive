@@ -4,5 +4,5 @@
     <name context="Mask Apply Effect Name">Mask Apply</name>
     <description>Apply the previous effects in the zone defined by a Mask Start effect.</description>
     <author>Dan Dennedy</author>
-    <parameter type="fixed" name="transition" default="qtblend"></parameter>
+    <parameter type="fixed" name="transition" default="qtblend" value="qtblend"></parameter>
 </effect>

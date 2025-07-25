@@ -79,6 +79,7 @@ public:
     /** @brief Collapse / expand the effect */
     void collapseEffect(bool collapse);
     bool isCollapsed() const;
+    bool isBuiltIn() const;
 
 public Q_SLOTS:
     void slotSyncEffectsPos(int pos);

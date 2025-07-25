@@ -192,6 +192,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     m_mainWindow->init();
 
     // Secondary bins
+    m_guiConstructed = true;
     for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
         bin = new Bin(m_projectItemModel, m_mainWindow, false);
         m_mainWindow->addBin(bin, QString(), false);
@@ -253,9 +254,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         m_mainWindow->restore(1, false);
     }
     m_mainWindow->show();
-    // bin->slotUpdatePalette();
     Q_EMIT m_mainWindow->GUISetupDone();
-    m_guiConstructed = true;
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
