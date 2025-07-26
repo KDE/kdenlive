@@ -326,7 +326,10 @@ public:
                             m_videoDragRect = videoIconRect.adjusted(-1, -1, 1, 1);
                             painter->drawImage(audioRect.topLeft(), m_audioIcon);
                             painter->drawImage(videoIconRect.topLeft(), m_videoIcon);
-                            painter->setPen(opt.palette.highlight().color());
+                            // Use text color when selected (for better contrast) as selected background color is pretty close to highlight color
+                            // Use main window palette as highlight color of "option" was too dark
+                            QColor rectColor = selected ? qApp->palette().text().color() : qApp->palette().highlight().color();
+                            painter->setPen(rectColor);
                             painter->drawRect(m_audioDragRect);
                             painter->drawRect(m_videoDragRect);
                         } else if (!usage.isEmpty()) {
