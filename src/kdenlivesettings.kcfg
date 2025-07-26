@@ -1055,6 +1055,10 @@
       <default>true</default>
     </entry>
 
+    <entry name="showClipOverlays" type="Bool">
+      <label>Show clip name and infos in timeline.</label>
+      <default>true</default>
+    </entry>
     <entry name="rippleResize" type="Bool">
       <label>Enable Ripple edit when changing multiple clips duration.</label>
       <default>false</default>

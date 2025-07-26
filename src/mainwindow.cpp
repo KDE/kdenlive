@@ -1417,10 +1417,15 @@ void MainWindow::setupActions()
 
     m_buttonSnap = new QAction(QIcon::fromTheme(QStringLiteral("snap")), i18n("Snap"), this);
     m_buttonSnap->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the snap function (clips snap to playhead, edges, markers, guides and others)."));
-
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
+
+    m_buttonHideClipOverlays = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show Clip Names"), this);
+    m_buttonHideClipOverlays->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of clip names and info in timeline."));
+    m_buttonHideClipOverlays->setCheckable(true);
+    m_buttonHideClipOverlays->setChecked(KdenliveSettings::showClipOverlays());
+    connect(m_buttonHideClipOverlays, &QAction::triggered, this, &MainWindow::slotSwitchClipOverlays);
 
     m_buttonTimelineTags = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show Color Tags in Timeline"), this);
     m_buttonTimelineTags->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of clip tags in the timeline (default is On)."));
@@ -1474,6 +1479,7 @@ void MainWindow::setupActions()
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(audioThumbsButtonAction);
     toolbar->addAction(m_buttonShowMarkers);
+    toolbar->addAction(m_buttonHideClipOverlays);
     toolbar->addAction(m_buttonSnap);
     toolbar->addSeparator();
     toolbar->addAction(m_buttonFitZoom);
@@ -1513,6 +1519,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("show_audio_thumbs"), m_buttonAudioThumbs);
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
     addAction(QStringLiteral("snap"), m_buttonSnap);
+    addAction(QStringLiteral("hide_overlay"), m_buttonHideClipOverlays);
     addAction(QStringLiteral("zoom_fit"), m_buttonFitZoom);
 
 #if defined(Q_OS_WIN)
@@ -2846,6 +2853,12 @@ void MainWindow::slotSwitchSnap()
 {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
+}
+
+void MainWindow::slotSwitchClipOverlays()
+{
+    KdenliveSettings::setShowClipOverlays(!KdenliveSettings::showClipOverlays());
+    m_buttonHideClipOverlays->setChecked(KdenliveSettings::showClipOverlays());
 }
 
 void MainWindow::slotShowTimelineTags()

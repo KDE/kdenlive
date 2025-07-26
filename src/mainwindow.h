@@ -325,6 +325,7 @@ private:
     QAction *m_buttonSlideTool;
     QAction *m_buttonMulticamTool;
     QAction *m_buttonSnap;
+    QAction *m_buttonHideClipOverlays;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
     QAction *m_zoomIn;
@@ -452,6 +453,7 @@ private Q_SLOTS:
     void slotConnectMonitors();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
+    void slotSwitchClipOverlays();
     void slotShowTimelineTags();
     void slotRenderProject();
     void slotStopRenderProject();
