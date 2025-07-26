@@ -1504,7 +1504,7 @@ void Bin::slotUpdatePalette()
 {
     if (m_isMainBin) {
         // Refresh icons
-        QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+        QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-high"));
         QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
         QIcon effectIcon = QIcon::fromTheme(QStringLiteral("tools-wizard"));
         m_audioIcon.fill(Qt::transparent);
