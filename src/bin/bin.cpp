@@ -224,6 +224,7 @@ public:
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
+            painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
             painter->setClipRect(r1);
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
@@ -314,12 +315,13 @@ public:
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+                    int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
-                        QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
+                        QRect audioRect(0, 0, logicalIconSize, logicalIconSize);
                         audioRect.moveTop(bounding.top() + 1);
                         QRect videoIconRect = audioRect;
                         videoIconRect.moveRight(
-                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + m_audioIcon.width())), option.rect.right() - (2 * textMargin)));
+                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + logicalIconSize)), option.rect.right() - (2 * textMargin)));
                         audioRect.moveRight(videoIconRect.left() - (2 * textMargin) - 1);
                         if (opt.state & QStyle::State_MouseOver) {
                             m_audioDragRect = audioRect.adjusted(-1, -1, 1, 1);
@@ -341,9 +343,9 @@ public:
                             }
                         }
                     } else if (!usage.isEmpty()) {
-                        QRect iconRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
+                        QRect iconRect(0, 0, logicalIconSize, logicalIconSize);
                         iconRect.moveTop(bounding.top() + 1);
-                        int minPos = bounding.right() + (2 * textMargin) + m_audioIcon.width();
+                        int minPos = bounding.right() + (2 * textMargin) + logicalIconSize;
                         iconRect.moveRight(qMax(minPos, option.rect.right() - (2 * textMargin)));
                         if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
                             painter->drawImage(iconRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
@@ -487,6 +489,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (!index.data().isNull()) {
+            painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
             // QStyledItemDelegate::paint(painter, opt, index);
@@ -550,16 +553,17 @@ public:
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+            int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
             if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline) &&
-                m_thumbRect.height() > 2.5 * m_audioIcon.height()) {
+                m_thumbRect.height() > 2.5 * logicalIconSize) {
                 QRect thumbRect = m_thumbRect;
-                thumbRect.setLeft(opt.rect.right() - m_audioIcon.width() - 6);
+                thumbRect.setLeft(opt.rect.right() - logicalIconSize - 6);
                 if (opt.state & QStyle::State_MouseOver || !usage.isEmpty()) {
                     QColor bgColor = option.palette.window().color();
                     bgColor.setAlphaF(.7);
                     painter->fillRect(thumbRect, bgColor);
                 }
-                thumbRect.setSize(m_audioIcon.size());
+                thumbRect.setSize(QSize(logicalIconSize, logicalIconSize));
                 thumbRect.translate(3, 2);
                 QRect videoThumbRect = thumbRect;
                 videoThumbRect.moveTop(thumbRect.bottom() + 2);
@@ -1133,9 +1137,14 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     if (m_isMainBin) {
         // Init icons
-        m_audioIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
-        m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
-        m_effectIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
+        qreal dpr = this->devicePixelRatioF();
+        QSize iconPxSize = QSize(iconSize, iconSize) * dpr;
+        m_audioIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_audioIcon.setDevicePixelRatio(dpr);
+        m_videoIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_videoIcon.setDevicePixelRatio(dpr);
+        m_effectIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_effectIcon.setDevicePixelRatio(dpr);
         m_folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
         m_sequenceFolderIcon = QIcon::fromTheme(QStringLiteral("folder-yellow"));
         // Ensure icons are correctly created
@@ -1507,22 +1516,32 @@ void Bin::slotUpdatePalette()
 {
     if (m_isMainBin) {
         // Refresh icons
+        qreal dpr = this->devicePixelRatioF();
+        int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+        QSize iconPxSize = QSize(iconSize, iconSize) * dpr;
         QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-high"));
         QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
         QIcon effectIcon = QIcon::fromTheme(QStringLiteral("tools-wizard"));
+        m_audioIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_audioIcon.setDevicePixelRatio(dpr);
+        m_videoIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_videoIcon.setDevicePixelRatio(dpr);
+        QImage effectIconFg = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        effectIconFg.setDevicePixelRatio(dpr);
+        effectIconFg.fill(Qt::transparent);
+        m_effectIcon = QImage(iconPxSize, QImage::Format_ARGB32_Premultiplied);
+        m_effectIcon.setDevicePixelRatio(dpr);
+        m_effectIcon.fill(QColor(QStringLiteral("#fdbc4b")));
         m_audioIcon.fill(Qt::transparent);
         m_videoIcon.fill(Qt::transparent);
-        QImage effectIconFg = m_effectIcon;
-        effectIconFg.fill(Qt::transparent);
-        m_effectIcon.fill(QColor(QStringLiteral("#fdbc4b")));
         QPainter p(&m_audioIcon);
-        audioIcon.paint(&p, 0, 0, m_audioIcon.width(), m_audioIcon.height());
+        audioIcon.paint(&p, 0, 0, iconSize, iconSize);
         p.end();
         QPainter p2(&m_videoIcon);
-        videoIcon.paint(&p2, 0, 0, m_videoIcon.width(), m_videoIcon.height());
+        videoIcon.paint(&p2, 0, 0, iconSize, iconSize);
         p2.end();
         QPainter p3(&effectIconFg);
-        effectIcon.paint(&p3, 0, 0, effectIconFg.width(), effectIconFg.height());
+        effectIcon.paint(&p3, 0, 0, iconSize, iconSize);
         p3.end();
         m_audioUsedIcon = m_audioIcon;
         QColor highlightColor = qApp->palette().highlight().color();
