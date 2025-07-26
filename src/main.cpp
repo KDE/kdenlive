@@ -281,8 +281,7 @@ int main(int argc, char *argv[])
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
-    aboutData.addComponent(i18n("Kdenlive"), QString(), QString("%1, %2").arg(KDENLIVE_FULL_VERSION_STRING, packageTypeName),
-                           QStringLiteral("https://kdenlive.org") /*, KAboutLicense::LGPL_V2_1*/);
+    aboutData.addComponent(aboutData.displayName(), QString(), KDENLIVE_FULL_VERSION_STRING, aboutData.homepage());
 
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
                            QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
