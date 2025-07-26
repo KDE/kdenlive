@@ -21,6 +21,7 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: activePalette.window
     property bool debugmode: K.KdenliveSettings.uiDebugMode
+    property bool showClipOverlays: K.KdenliveSettings.showClipOverlays
     property bool validMenu: false
     property bool subtitleMoving: false
     property var subtitleItem
