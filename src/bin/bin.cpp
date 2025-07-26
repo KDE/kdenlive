@@ -719,6 +719,7 @@ void MyListView::leaveEvent(QEvent *event)
 
 void MyListView::mousePressEvent(QMouseEvent *event)
 {
+    QListView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
         QModelIndex clickedIndex = indexAt(event->pos());
         auto selected = selectedIndexes();
@@ -744,7 +745,6 @@ void MyListView::mousePressEvent(QMouseEvent *event)
         }
         Q_EMIT updateDragMode(m_dragType);
     }
-    QListView::mousePressEvent(event);
 }
 
 void MyListView::mouseReleaseEvent(QMouseEvent *event)
@@ -818,6 +818,7 @@ MyTreeView::MyTreeView(QWidget *parent)
 
 void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
+    QTreeView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
         QModelIndex clickedIndex = indexAt(event->pos());
         auto selected = selectedIndexes();
@@ -846,7 +847,6 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
             m_startPos = QPoint();
         }
     }
-    QTreeView::mousePressEvent(event);
     event->accept();
 }
 
