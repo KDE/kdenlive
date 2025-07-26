@@ -1292,7 +1292,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     });
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
-    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
+    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("tools-wizard")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
