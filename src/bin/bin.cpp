@@ -1522,9 +1522,10 @@ void Bin::slotUpdatePalette()
         effectIcon.paint(&p3, 0, 0, effectIconFg.width(), effectIconFg.height());
         p3.end();
         m_audioUsedIcon = m_audioIcon;
-        KIconEffect::toMonochrome(m_audioUsedIcon, palette().link().color(), palette().link().color(), 1);
+        QColor highlightColor = qApp->palette().highlight().color();
+        KIconEffect::toMonochrome(m_audioUsedIcon, highlightColor, highlightColor, 1);
         m_videoUsedIcon = m_videoIcon;
-        KIconEffect::toMonochrome(m_videoUsedIcon, palette().link().color(), palette().link().color(), 1);
+        KIconEffect::toMonochrome(m_videoUsedIcon, highlightColor, highlightColor, 1);
         KIconEffect::toMonochrome(effectIconFg, Qt::black, Qt::black, 1);
         QPainter p4(&m_effectIcon);
         p4.drawImage(0, 0, effectIconFg);
