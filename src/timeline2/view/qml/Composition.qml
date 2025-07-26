@@ -50,6 +50,7 @@ Item {
     property color color: displayRect.color
     property color borderColor: 'black'
     property bool hideCompoViews: !visible || width < root.minClipWidthForViews
+    property bool hideDecorations: !root.showClipOverlays || trimInMouseArea.drag.active || trimOutMouseArea.drag.active
     property int scrollStart: scrollView.contentX - (compositionRoot.modelStart * root.timeScale)
     visible: scrollView.width + compositionRoot.scrollStart >= 0 && compositionRoot.scrollStart < compositionRoot.width
 
@@ -468,6 +469,18 @@ Item {
                     }
                     color: 'black'
                 }
+                states: [
+                    State { when: !compositionRoot.hideDecorations
+                        PropertyChanges { target: labelRect; opacity: 1.0 }
+                    },
+                    State { when: compositionRoot.hideDecorations
+                        PropertyChanges { target: labelRect; opacity: 0.0 }
+                    }
+                ]
+                transitions: Transition {
+                    NumberAnimation { property: "opacity"; duration: 250}
+                }
+
             }
         }
         Loader {
