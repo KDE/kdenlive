@@ -149,6 +149,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 #elif defined(Q_OS_MACOS)
     m_glMonitor = new MetalVideoWidget(id, this);
 #else
+    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
+        qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    }
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
     //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
