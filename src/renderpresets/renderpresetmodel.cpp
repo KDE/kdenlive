@@ -136,7 +136,12 @@ RenderPresetParams::RateControl RenderPresetParams::videoRateControl() const
     QString vbufsize = value(QStringLiteral("vbufsize"));
     QString vcodec = value(QStringLiteral("vcodec"));
     if (contains(QStringLiteral("crf"))) {
-        return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
+        if (!vbufsize.isEmpty()) {
+            return RateControl::Constrained;
+        } else {
+            // If the video buffer size is empty, control is Quality AKA unconstrained VBR
+            return vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality;
+        }
     }
     if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vqp")) || contains(QStringLiteral("vglobal_quality")) ||
         contains(QStringLiteral("qscale"))) {
@@ -252,7 +257,8 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
 }
 
 RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension,
-                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString &defaultABitrate,
+                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString & vQualities,
+                                     const QString &defaultABitrate,
                                      const QString &defaultAQuality, const QString &speedsString, bool manualPreset)
     : m_presetFile()
     , m_editable()
@@ -267,7 +273,7 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_topFieldFirst()
     , m_vBitrates()
     , m_defaultVBitrate(defaultVBitrate)
-    , m_vQualities()
+    , m_vQualities(vQualities)
     , m_defaultVQuality(defaultVQuality)
     , m_aBitrates()
     , m_defaultABitrate(defaultABitrate)

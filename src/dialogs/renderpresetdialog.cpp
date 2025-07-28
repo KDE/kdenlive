@@ -439,9 +439,16 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         QString speeds_list_str = speeds_list->toPlainText().replace('\n', ';').simplified();
 
+        QString qualities_str{""};
+        // If the base preset had a custom quality scale, get it
+        if (preset) {
+            qualities_str = preset->videoQualities().join(',');
+        }
+
         std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(newPresetName, newGroupName, parameters->toPlainText().simplified(),
                                                                            preset_extension->text().simplified(), QString::number(default_vbitrate->value()),
-                                                                           QString::number(default_vquality->value()), QString::number(aBitrate->value()),
+                                                                           QString::number(default_vquality->value()), qualities_str,
+                                                                           QString::number(aBitrate->value()),
                                                                            QString::number(aQuality->value()), speeds_list_str, m_manualPreset));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
@@ -730,7 +737,7 @@ void RenderPresetDialog::slotUpdateParams()
             break;
         }
         case RenderPresetParams::RateControl::Quality: {
-            if (vcodec.startsWith("libx264")) {
+            if (vcodec.startsWith("libx264") || vcodec.startsWith("libsvtav1")) {
                 params.append(QStringLiteral("crf=%quality"));
             } else if (vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
                 params.append(QStringLiteral("crf=%quality"));
@@ -744,7 +751,7 @@ void RenderPresetDialog::slotUpdateParams()
             break;
         }
         case RenderPresetParams::RateControl::Constrained: {
-            if (vcodec.startsWith("libx264") || vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
+            if (vcodec.startsWith("libx264") || vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-") || vcodec.startsWith("libsvtav1")) {
                 params.append(QStringLiteral("crf=%quality"));
             } else if (vcodec.endsWith("_qsv") || vcodec.endsWith("_videotoolbox")) {
                 params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
