@@ -17,7 +17,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     SECTION("Test getters")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("GettersTest"), QStringLiteral("Test"), QString(), QStringLiteral("mp4"),
-                                                                       QString(), QString(), QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), QString(), QString(), false));
         CHECK(model->name() == QStringLiteral("GettersTest"));
         CHECK(model->groupName() == QStringLiteral("Test"));
         CHECK(model->extension() == QStringLiteral("mp4"));
@@ -30,7 +30,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
                                                                        QStringLiteral("one=first two=second value three=third four=4"), QString(), QString(),
-                                                                       QString(), QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
         // test hasParam
         CHECK(model->hasParam("one"));
         CHECK(model->hasParam("two"));
@@ -97,7 +97,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     SECTION("Test profile with no parameters")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("EmptyParamTest"), QStringLiteral("Test"), QString(), QString(),
-                                                                       QString(), QString(), QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), QString(), QString(), false));
 
         // check there are really no parameters
         CHECK(model->params().toString().length() == 0);
@@ -107,7 +107,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     SECTION("Test unknown rate control")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("UnknownRate"), QStringLiteral("Test"), QString(), QStringLiteral("mp4"),
-                                                                       QString(), QString(), QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), QString(), QString(), false));
         CHECK(model->params().videoRateControl() == RenderPresetParams::RateControl::Unknown);
     }
 
@@ -136,7 +136,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ErrorTest"), QStringLiteral("Test"),
                                                                        QStringLiteral("acodec=doesnotexist"), QStringLiteral("mp4"), QString(), QString(),
-                                                                       QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), false));
 
         // we have a unknown audio codec, the error message should not be empty
         CHECK_FALSE(model->error().isEmpty());
@@ -146,7 +146,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
                                                                        QStringLiteral("one=%hello two=this%isaphval value three=%isaph four=4"), QString(),
-                                                                       QString(), QString(), QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), QString(), QString(), false));
 
         RenderPresetParams params = model->params();
         CHECK_FALSE(params.toString().contains(QStringLiteral("one=world")));
@@ -164,11 +164,11 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     SECTION("Test alpha detection placeholders")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("AlphaTest"), QStringLiteral("Test"), QStringLiteral(""), QString(),
-                                                                       QString(), QString(), QString(), QString(), QString(), false));
+                                                                       QString(), QString(), QString(), QString(), QString(), QString(), false));
         CHECK_FALSE(model->params().hasAlpha());
 
         model.reset(new RenderPresetModel(QStringLiteral("AlphaTest"), QStringLiteral("Test"), QStringLiteral("pix_fmt=rgba"), QString(), QString(), QString(),
-                                          QString(), QString(), QString(), false));
+                                          QString(), QString(), QString(), QString(), false));
         CHECK(model->params().hasAlpha());
     }
 
@@ -177,7 +177,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         std::unique_ptr<RenderPresetModel> model(
             new RenderPresetModel(QStringLiteral("AlphaTest"), QStringLiteral("Test"),
                                   QStringLiteral("properties=x265-medium f=mp4 vcodec=libx265 crf=%quality acodec=aac ab=%audiobitrate+'k'"), QString(),
-                                  QString(), QString(), QString(), QString(), QString(), false));
+                                  QString(), QString(), QString(), QString(), QString(), QString(), false));
 
         RenderPresetParams params = model->params();
 
