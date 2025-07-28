@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-27 00:41+0000\n"
+"POT-Creation-Date: 2025-07-28 00:40+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -109,7 +109,7 @@ msgstr "Тип графика для отображения уровня зву�
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57 data/effects/pan_zoom.xml:17
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:452
+#: src/monitor/monitor.cpp:456
 #, kde-format
 msgid "Background Color"
 msgstr "Цвет фона"
@@ -20825,7 +20825,7 @@ msgstr "Звук без видеодорожки"
 msgid "Rendering %1 started"
 msgstr "Сборка %1 запущена"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1380
+#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "безымянный"
@@ -24738,7 +24738,7 @@ msgstr "кГц "
 msgid "Hz "
 msgstr "Гц "
 
-#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:328
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:332
 #, kde-format
 msgid "Merged streams"
 msgstr "Объединенные потоки"
@@ -25346,7 +25346,7 @@ msgstr "Кнопка сборки"
 msgid "Rendering preview"
 msgstr "Предпросмотр результата сборки"
 
-#: src/mainwindow.cpp:604 src/monitor/monitor.cpp:436
+#: src/mainwindow.cpp:604 src/monitor/monitor.cpp:440
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Перейти к направляющей…"
@@ -25887,27 +25887,27 @@ msgstr "Действия с клипом"
 msgid "Full Resolution (1:1)"
 msgstr "Полный кадр (1:1)"
 
-#: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "1080p"
 msgstr ""
 
-#: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1542 src/monitor/monitor.cpp:238
+#: src/mainwindow.cpp:1542 src/monitor/monitor.cpp:242
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1546 src/monitor/monitor.cpp:238
+#: src/mainwindow.cpp:1546 src/monitor/monitor.cpp:242
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1550 src/monitor/monitor.cpp:238
+#: src/mainwindow.cpp:1550 src/monitor/monitor.cpp:242
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -27261,13 +27261,13 @@ msgid "Enable audio"
 msgstr "Включить звук"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:827
-#: src/monitor/monitor.cpp:311
+#: src/monitor/monitor.cpp:315
 #, kde-format
 msgid "Audio streams"
 msgstr "Звуковые потоки"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:849
-#: src/monitor/monitor.cpp:2053
+#: src/monitor/monitor.cpp:2057
 #, kde-format
 msgid "Merge all streams"
 msgstr "Объединить все потоки"
@@ -27491,13 +27491,13 @@ msgstr "Громкость звука"
 msgid "%1%"
 msgstr "%1 %"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:236
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 "Разрешение предпросмотра: чем ниже разрешение, тем быстрее предпросмотр"
 
-#: src/monitor/monitor.cpp:234
+#: src/monitor/monitor.cpp:238
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27509,49 +27509,49 @@ msgstr ""
 "возможность выбора между 1:1, 720p, 540p, 360p, 270p (чем меньше разрешение, "
 "тем быстрее предпросмотр)."
 
-#: src/monitor/monitor.cpp:237
+#: src/monitor/monitor.cpp:241
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:381 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "Установить начало участка"
 
-#: src/monitor/monitor.cpp:382 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Установить конец участка"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:398 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "Назад"
 
-#: src/monitor/monitor.cpp:399 src/monitor/monitor.cpp:402
+#: src/monitor/monitor.cpp:403 src/monitor/monitor.cpp:406
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Воспроизвести"
 
-#: src/monitor/monitor.cpp:402 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:406 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "Пауза"
 
-#: src/monitor/monitor.cpp:422 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:426 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "Вперёд"
 
-#: src/monitor/monitor.cpp:426
+#: src/monitor/monitor.cpp:430
 #, kde-format
 msgid "More Options…"
 msgstr "Дополнительно…"
 
-#: src/monitor/monitor.cpp:427
+#: src/monitor/monitor.cpp:431
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27561,33 +27561,33 @@ msgstr ""
 "Открывает список параметров монитора проекта/клипов (например, громкость "
 "звука, размер монитора)."
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:440
 #, kde-format
 msgid "Go to Marker…"
 msgstr "Перейти к маркеру…"
 
-#: src/monitor/monitor.cpp:440
+#: src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Принудительно задать размер монитора"
 
-#: src/monitor/monitor.cpp:441
+#: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Force 100%"
 msgstr "Принудительно задать размер 100%"
 
-#: src/monitor/monitor.cpp:443
+#: src/monitor/monitor.cpp:447
 #, kde-format
 msgid "Force 50%"
 msgstr "Принудительно задать размер 50%"
 
-#: src/monitor/monitor.cpp:445
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Free Resize"
 msgstr "Произвольный размер"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:453 src/scopes/colorscopes/vectorscope.cpp:54
+#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:54
 #: src/scopes/colorscopes/vectorscope.cpp:59
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
@@ -27595,107 +27595,107 @@ msgid "Black"
 msgstr "Чёрный"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:455 src/scopes/colorscopes/rgbparade.cpp:30
+#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:30
 #: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Белый"
 
-#: src/monitor/monitor.cpp:457
+#: src/monitor/monitor.cpp:461
 #, kde-format
 msgid "Pink"
 msgstr "Розовый"
 
-#: src/monitor/monitor.cpp:460
+#: src/monitor/monitor.cpp:464
 #, kde-format
 msgid "Checkerboard"
 msgstr "В клетку"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:536
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:542
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:548
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:550
+#: src/monitor/monitor.cpp:554
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:705
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Extract Zone"
 msgstr "Извлечь участок"
 
-#: src/monitor/monitor.cpp:719
+#: src/monitor/monitor.cpp:723
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Установить текущее изображение как миниатюру"
 
-#: src/monitor/monitor.cpp:726
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Всегда показывать миниатюры звука"
 
-#: src/monitor/monitor.cpp:740
+#: src/monitor/monitor.cpp:744
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Показать уровни звука"
 
-#: src/monitor/monitor.cpp:747
+#: src/monitor/monitor.cpp:751
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Показать тайм-код источника"
 
-#: src/monitor/monitor.cpp:784
+#: src/monitor/monitor.cpp:788
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Разрешение экрана не позволяет выполнить это действие"
 
-#: src/monitor/monitor.cpp:918 src/monitor/monitor.cpp:954
+#: src/monitor/monitor.cpp:922 src/monitor/monitor.cpp:958
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Невозможно изменить участок во время создания маски"
 
-#: src/monitor/monitor.cpp:947 src/monitor/monitor.cpp:983
+#: src/monitor/monitor.cpp:951 src/monitor/monitor.cpp:987
 #: src/timeline2/view/timelinecontroller.cpp:1831
 #, kde-format
 msgid "Set Zone"
 msgstr "Установка участка"
 
-#: src/monitor/monitor.cpp:1393
+#: src/monitor/monitor.cpp:1397
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Сохранение изображения в проект"
 
-#: src/monitor/monitor.cpp:1393
+#: src/monitor/monitor.cpp:1397
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Сохранение изображения"
 
-#: src/monitor/monitor.cpp:1400
+#: src/monitor/monitor.cpp:1404
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Экспорт изображения с разрешением источника"
 
-#: src/monitor/monitor.cpp:1940
+#: src/monitor/monitor.cpp:1944
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Выйти из режима маски?"
 
-#: src/monitor/monitor.cpp:2038 src/monitor/monitor.cpp:2170
+#: src/monitor/monitor.cpp:2042 src/monitor/monitor.cpp:2174
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -27704,12 +27704,12 @@ msgstr[1] "%1 звуковых потока"
 msgstr[2] "%1 звуковых потоков"
 msgstr[3] "%1 звуковой поток"
 
-#: src/monitor/monitor.cpp:2491
+#: src/monitor/monitor.cpp:2495
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Не удалось инициализировать менеджер GLSL Movit, отключите Movit"
 
-#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
+#: src/monitor/monitor.cpp:2537 src/monitor/monitor.cpp:2594
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -27718,17 +27718,17 @@ msgstr ""
 "Для данной функции требуется фильтр alphagrad. Установите frei0r и "
 "перезапустите Kdenlive"
 
-#: src/monitor/monitor.cpp:2553
+#: src/monitor/monitor.cpp:2557
 #, kde-format
 msgid "Clip has no effects"
 msgstr "В клипе отсутствуют какие-либо эффекты"
 
-#: src/monitor/monitor.cpp:2555
+#: src/monitor/monitor.cpp:2559
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Для сравнения эффектов выберите клип в корзине проекта"
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2601
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27737,17 +27737,17 @@ msgstr ""
 "Для данной функции требуется переход cairoblend. Установите frei0r и "
 "перезапустите Kdenlive"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2677
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Для изменения эффекта включите в мониторе режим редактирования"
 
-#: src/monitor/monitor.cpp:3173
+#: src/monitor/monitor.cpp:3177
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "В мониторе клипов не выбран клип"
 
-#: src/monitor/monitor.cpp:3194
+#: src/monitor/monitor.cpp:3198
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Не удалось получить средство создания для монитора клипов"

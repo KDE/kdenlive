@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-27 00:41+0000\n"
+"POT-Creation-Date: 2025-07-28 00:40+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -90,7 +90,7 @@ msgstr "Typ grafu na zobrazenie spektra."
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57 data/effects/pan_zoom.xml:17
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:452
+#: src/monitor/monitor.cpp:456
 #, kde-format
 msgid "Background Color"
 msgstr "Farba pozadia"
@@ -21192,7 +21192,7 @@ msgstr "Video bez zvukovej stopy"
 msgid "Rendering %1 started"
 msgstr "Renderovanie <i>%1</i> spustené"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1380
+#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "nepomenovaný"
@@ -25282,7 +25282,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz"
 
-#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:328
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:332
 #, fuzzy, kde-format
 #| msgid "Audio stream"
 msgid "Merged streams"
@@ -25889,7 +25889,7 @@ msgstr "Tlačidlo renderovania"
 msgid "Rendering preview"
 msgstr "Vykresľovanie náhľadu"
 
-#: src/mainwindow.cpp:604 src/monitor/monitor.cpp:436
+#: src/mainwindow.cpp:604 src/monitor/monitor.cpp:440
 #, fuzzy, kde-format
 #| msgid "Go to guide..."
 msgid "Go to Guide…"
@@ -26449,27 +26449,27 @@ msgstr "Prekrytie monitora bezpečné zóny"
 msgid "Full Resolution (1:1)"
 msgstr "Úplné Rozlíšenie (1:1)"
 
-#: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "1080p"
 msgstr ""
 
-#: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1542 src/monitor/monitor.cpp:238
+#: src/mainwindow.cpp:1542 src/monitor/monitor.cpp:242
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1546 src/monitor/monitor.cpp:238
+#: src/mainwindow.cpp:1546 src/monitor/monitor.cpp:242
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1550 src/monitor/monitor.cpp:238
+#: src/mainwindow.cpp:1550 src/monitor/monitor.cpp:242
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -27869,13 +27869,13 @@ msgid "Enable audio"
 msgstr "Povoliť audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:827
-#: src/monitor/monitor.cpp:311
+#: src/monitor/monitor.cpp:315
 #, kde-format
 msgid "Audio streams"
 msgstr "Zvukové prúdy"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:849
-#: src/monitor/monitor.cpp:2053
+#: src/monitor/monitor.cpp:2057
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -28126,12 +28126,12 @@ msgstr "Hlasitosť zvuku"
 msgid "%1%"
 msgstr "%1 %%"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:236
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:234
+#: src/monitor/monitor.cpp:238
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28140,50 +28140,50 @@ msgid ""
 "faster the preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:237
+#: src/monitor/monitor.cpp:241
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:381 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "Nastaviť zónu vnútri"
 
-#: src/monitor/monitor.cpp:382 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Nastaviť zónu von"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:398 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "Pretočiť dozadu"
 
-#: src/monitor/monitor.cpp:399 src/monitor/monitor.cpp:402
+#: src/monitor/monitor.cpp:403 src/monitor/monitor.cpp:406
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Prehrať"
 
-#: src/monitor/monitor.cpp:402 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:406 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "Pozastaviť"
 
-#: src/monitor/monitor.cpp:422 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:426 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "Dopredu"
 
-#: src/monitor/monitor.cpp:426
+#: src/monitor/monitor.cpp:430
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "More Options…"
 msgstr "Viac možností"
 
-#: src/monitor/monitor.cpp:427
+#: src/monitor/monitor.cpp:431
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28191,34 +28191,34 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:440
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Marker…"
 msgstr "Prejsť na značku"
 
-#: src/monitor/monitor.cpp:440
+#: src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Vynútiť veľkosť monitora"
 
-#: src/monitor/monitor.cpp:441
+#: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Force 100%"
 msgstr "Vynútiť 100%"
 
-#: src/monitor/monitor.cpp:443
+#: src/monitor/monitor.cpp:447
 #, kde-format
 msgid "Force 50%"
 msgstr "Vynútiť 50%"
 
-#: src/monitor/monitor.cpp:445
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Free Resize"
 msgstr "Voľná zmena veľkosti"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:453 src/scopes/colorscopes/vectorscope.cpp:54
+#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:54
 #: src/scopes/colorscopes/vectorscope.cpp:59
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
@@ -28226,116 +28226,116 @@ msgid "Black"
 msgstr "Čierna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:455 src/scopes/colorscopes/rgbparade.cpp:30
+#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:30
 #: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Biela"
 
-#: src/monitor/monitor.cpp:457
+#: src/monitor/monitor.cpp:461
 #, kde-format
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:460
+#: src/monitor/monitor.cpp:464
 #, fuzzy, kde-format
 #| msgid "Checkered"
 msgid "Checkerboard"
 msgstr "Kockované"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:536
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:542
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:548
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:550
+#: src/monitor/monitor.cpp:554
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:705
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Extract Zone"
 msgstr "Extrahovať zónu"
 
-#: src/monitor/monitor.cpp:719
+#: src/monitor/monitor.cpp:723
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Nastaviť súčasný obrázok ako náhľad"
 
-#: src/monitor/monitor.cpp:726
+#: src/monitor/monitor.cpp:730
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "Ukazovať zvukové náhľady"
 
-#: src/monitor/monitor.cpp:740
+#: src/monitor/monitor.cpp:744
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Zobraziť úrovne zvuku"
 
-#: src/monitor/monitor.cpp:747
+#: src/monitor/monitor.cpp:751
 #, fuzzy, kde-format
 #| msgid "Show Record Control"
 msgid "Show Source Timecode"
 msgstr "Zobraziť ovládanie nahrávania"
 
-#: src/monitor/monitor.cpp:784
+#: src/monitor/monitor.cpp:788
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Vaše rozlíšenie obrazovky nie je dostatočné na túto akciu"
 
-#: src/monitor/monitor.cpp:918 src/monitor/monitor.cpp:954
+#: src/monitor/monitor.cpp:922 src/monitor/monitor.cpp:958
 #, fuzzy, kde-format
 #| msgid "Cannot change grouped clips"
 msgid "Cannot change zone when creating a mask"
 msgstr "Nie je možné rozdeliť zoskupené klipy"
 
-#: src/monitor/monitor.cpp:947 src/monitor/monitor.cpp:983
+#: src/monitor/monitor.cpp:951 src/monitor/monitor.cpp:987
 #: src/timeline2/view/timelinecontroller.cpp:1831
 #, kde-format
 msgid "Set Zone"
 msgstr "Nastaviť zónu"
 
-#: src/monitor/monitor.cpp:1393
+#: src/monitor/monitor.cpp:1397
 #, fuzzy, kde-format
 #| msgid "Save Image to Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Uložiť obrázok do projektu"
 
-#: src/monitor/monitor.cpp:1393
+#: src/monitor/monitor.cpp:1397
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Uložiť obrázok"
 
-#: src/monitor/monitor.cpp:1400
+#: src/monitor/monitor.cpp:1404
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1940
+#: src/monitor/monitor.cpp:1944
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "Upraviť dĺžku trvania"
 
-#: src/monitor/monitor.cpp:2038 src/monitor/monitor.cpp:2170
+#: src/monitor/monitor.cpp:2042 src/monitor/monitor.cpp:2174
 #, fuzzy, kde-format
 #| msgid "Audio stream"
 msgid "%1 audio stream"
@@ -28344,12 +28344,12 @@ msgstr[0] "Audio stream"
 msgstr[1] "Audio stream"
 msgstr[2] "Audio stream"
 
-#: src/monitor/monitor.cpp:2491
+#: src/monitor/monitor.cpp:2495
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nemôžem inicializovať správcu GLSL od Movit, prosím zakážte Movit"
 
-#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
+#: src/monitor/monitor.cpp:2537 src/monitor/monitor.cpp:2594
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28358,17 +28358,17 @@ msgstr ""
 "Na túto funkciu je potrebný filter alphagrad filter, prosím nainštalujte "
 "frei0r a reštartujte Kdenlive"
 
-#: src/monitor/monitor.cpp:2553
+#: src/monitor/monitor.cpp:2557
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip nemá žiadne efekty"
 
-#: src/monitor/monitor.cpp:2555
+#: src/monitor/monitor.cpp:2559
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Vyberte klip v projektovom koši na efekt porovnania"
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2601
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28377,18 +28377,18 @@ msgstr ""
 "Na túto funkciu je potrebný prechod cairoblend, prosím nainštalujte frei0r a "
 "reštartujte Kdenlive"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2677
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3173
+#: src/monitor/monitor.cpp:3177
 #, fuzzy, kde-format
 #| msgid "No clip selected"
 msgid "No clip selected in Clip Monitor"
 msgstr "Nie je vybraný klip"
 
-#: src/monitor/monitor.cpp:3194
+#: src/monitor/monitor.cpp:3198
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
