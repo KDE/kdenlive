@@ -22,7 +22,6 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_scenelist(scenelist)
     , m_dest(target)
     , m_progress(0)
-    , m_prog(render)
     , m_kdenlivesocket(new QLocalSocket(this))
     , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(debugMode == false && (scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QStringLiteral("xml:%1").arg(QDir::tempPath()))))
@@ -36,6 +35,9 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_debugMode(debugMode)
     , m_renderProcess(&m_looper)
 {
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    m_renderProcess.setProgram(render);
+    m_renderProcess.setProcessEnvironment(env);
     m_renderProcess.setReadChannel(QProcess::StandardError);
     connect(&m_renderProcess, &QProcess::finished, this, &RenderJob::slotIsOver);
 
@@ -236,8 +238,9 @@ void RenderJob::start()
     }
     // Because of the logging, we connect to stderr in all cases.
     connect(&m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
-    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
-    m_renderProcess.start(m_prog, m_args);
+    m_logstream << "Started render process: " << m_renderProcess.program() << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
+    m_renderProcess.setArguments(m_args);
+    m_renderProcess.start();
     if (m_debugMode) {
         m_logstream << "Using MLT REPOSITORY: " << qgetenv("MLT_REPOSITORY") << "\n";
         m_logstream << "Using MLT DATA: " << qgetenv("MLT_DATA") << "\n";
