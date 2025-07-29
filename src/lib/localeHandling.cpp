@@ -35,7 +35,6 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 void LocaleHandling::resetLocale()
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    // const QString decimalPoint = QLocale().decimalPoint();
     std::setlocale(MLT_LC_CATEGORY, "en_US.UTF-8");
     ::qputenv(MLT_LC_NAME, "en_US.UTF-8");
 #elif defined(Q_OS_FREEBSD)
@@ -49,12 +48,16 @@ void LocaleHandling::resetLocale()
 
 void LocaleHandling::resetAllLocale()
 {
-#ifdef Q_OS_FREEBSD
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    std::setlocale(LC_ALL, "en_US.UTF-8");
+    ::qputenv("LC_ALL", "en_US.UTF-8");
+#elif defined Q_OS_FREEBSD
     setlocale(LC_ALL, "C.UTF-8");
+    ::qputenv("LC_ALL", "C.UTF-8");
 #else
     std::setlocale(LC_ALL, "C.UTF-8");
-#endif
     ::qputenv("LC_ALL", "C.UTF-8");
+#endif
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)
