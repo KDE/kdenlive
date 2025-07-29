@@ -42,7 +42,6 @@ private:
     QString m_scenelist;
     QString m_dest;
     int m_progress;
-    QString m_prog;
     QEventLoop m_looper;
 
     QLocalSocket* m_kdenlivesocket;

@@ -146,23 +146,23 @@ Rectangle {
         anchors.top: trackHeader.top
         anchors.bottom: trackHeader.bottom
         property color bgColor: Qt.darker(getTrackColor(false, true), 0.55)
-        visible: maxSubLayer > 0
+        visible: maxSubLayer > 0 && subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight
 
         Repeater {
-            model: maxSubLayer + 1
+            model: subtitleLayerIndicator.visible ? maxSubLayer + 1 : 0
             id: subLayerRepeater
             delegate: Rectangle {
+                id: layerLabel
                 height: trackHeader.height / subLayerRepeater.count
                 width: subtitleLayerIndicator.width
                 color: subtitleLayerIndicator.bgColor
-                visible: (subtitleTrack.visible && subtitleTrack.height !== trackHeader.collapsedHeight)
                 border.color: root.frameColor
                 Text {
                     id: name
                     font: miniFont
                     text: "S" + index
                     color: activePalette.text
-                    anchors.centerIn: trackHeader
+                    anchors.centerIn: layerLabel
                 }
             }
         }
