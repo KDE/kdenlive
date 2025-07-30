@@ -2707,6 +2707,12 @@ QVector<int16_t> ProjectClip::audioFrameCache(const int streamIdx) const
 
 void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
 {
+    if (status == FileStatus::StatusMissing && hasProxy()) {
+        // Proxy is broken. revert to original url
+        setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        setProducerProperty(QStringLiteral("resource"), getProducerProperty("kdenlive:originalurl"));
+        status = FileStatus::StatusReady;
+    }
     FileStatus::ClipStatus previousStatus = m_clipStatus;
     AbstractProjectItem::setClipStatus(status);
     updateTimelineClips({TimelineModel::StatusRole});

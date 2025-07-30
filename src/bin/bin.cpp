@@ -685,7 +685,7 @@ MyListView::MyListView(QWidget *parent)
 void MyListView::focusInEvent(QFocusEvent *event)
 {
     QListView::focusInEvent(event);
-    if (event->reason() == Qt::MouseFocusReason) {
+    if (event->reason() == Qt::MouseFocusReason || event->reason() == Qt::ActiveWindowFocusReason) {
         Q_EMIT focusView();
     }
 }
@@ -866,7 +866,7 @@ void MyTreeView::mouseReleaseEvent(QMouseEvent *event)
 void MyTreeView::focusInEvent(QFocusEvent *event)
 {
     QTreeView::focusInEvent(event);
-    if (event->reason() == Qt::MouseFocusReason) {
+    if (event->reason() == Qt::MouseFocusReason || event->reason() == Qt::ActiveWindowFocusReason) {
         Q_EMIT focusView();
     }
 }
