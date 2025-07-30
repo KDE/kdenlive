@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 00:40+0000\n"
-"PO-Revision-Date: 2025-07-26 16:39+0300\n"
+"POT-Creation-Date: 2025-07-30 00:42+0000\n"
+"PO-Revision-Date: 2025-07-29 22:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -60,7 +60,7 @@ msgstr "IEC 60268-18 ölçeği kullan"
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "Ses düzeyi görselleştirme süzgeci"
+msgstr "Ses Düzeyi Görselleştirme Süzgeci"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
@@ -310,7 +310,7 @@ msgstr "Kaydır"
 #: data/effects/audiospectrum.xml:5
 #, kde-format
 msgid "Audio Spectrum Filter"
-msgstr "Ses tayfı süzgeci"
+msgstr "Ses Tayfı Süzgeci"
 
 #: data/effects/audiospectrum.xml:6
 #, kde-format
@@ -464,7 +464,7 @@ msgstr ""
 #: data/effects/audiowave.xml:4
 #, kde-format
 msgid "Audio Wave"
-msgstr "Ses dalgası"
+msgstr "Ses Dalgası"
 
 #: data/effects/audiowave.xml:5
 #, kde-format
@@ -474,7 +474,7 @@ msgstr "Video yerine ses dalga biçimini görüntüleyin."
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr "Ses dalga biçimi süzgeci"
+msgstr "Ses Dalga Biçimi Süzgeci"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
@@ -1055,7 +1055,7 @@ msgstr "Ortalama için kare sayısı"
 #: data/effects/avfilter/avfilter_avgblur.xml:4
 #, kde-format
 msgid "Average Blur"
-msgstr "Ortalama bulanıklık"
+msgstr "Ortalama Bulanıklık"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
@@ -1183,7 +1183,7 @@ msgstr "Kutuplar"
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
 msgid "Bilateral"
-msgstr "Çift yönlü"
+msgstr "Çift Yönlü"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
@@ -1220,7 +1220,7 @@ msgstr "Alfa,Y,U,V,Kırmızı,Yeşil,Mavi,Tümü"
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
 msgid "Planes Blur"
-msgstr "Düzlemler bulanıklaştırması"
+msgstr "Düzlemler Bulanıklaştırması"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1372,7 +1372,7 @@ msgstr "Ayrıştır"
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
 msgid "Contrast Adaptive Sharpen"
-msgstr "Karşıtlığa uyarlanır keskinleştirme"
+msgstr "Karşıtlığa Uyarlanır Keskinleştirme"
 
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
@@ -1399,7 +1399,7 @@ msgstr "Keskinleştirme gücünü ayarlayın."
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
 msgid "Chroma Hold"
-msgstr "Renk tutumu"
+msgstr "Renk Parlaklığı Tutma"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
@@ -1525,7 +1525,7 @@ msgstr "Uzaklık"
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, kde-format
 msgid "Chroma Shift"
-msgstr "Renk kayması"
+msgstr "Renk Kayması"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, kde-format
@@ -1719,7 +1719,7 @@ msgstr "<![CDATA[CIE renkleriyle doldurun. Öntanımlı olarak etkindir.]]>"
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
 msgid "Color balance"
-msgstr "Renk dengesi"
+msgstr "Renk Dengesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:5
 #, kde-format
@@ -1783,7 +1783,7 @@ msgstr "Açıklığı koru"
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
 msgid "Color Channel Mixer"
-msgstr "Renk kanalı karıştırıcısı"
+msgstr "Renk Kanalı Karıştırıcısı"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -1842,7 +1842,7 @@ msgstr "Mavi–Mavi"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
 #, kde-format
 msgid "Color Contrast"
-msgstr "Renk karşıtlığı"
+msgstr "Renk Karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
@@ -1887,7 +1887,7 @@ msgstr "Açıklığı korumak"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, kde-format
 msgid "Color Correct"
-msgstr "Renk düzeltmesi"
+msgstr "Renk Düzeltmesi"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:5
 #, kde-format
@@ -1946,7 +1946,7 @@ msgstr "Çözümleme kipi"
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, kde-format
 msgid "Color Hold"
-msgstr "Renk tutma"
+msgstr "Renk Tutma"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
@@ -1959,7 +1959,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
 msgid "Color Overlay"
-msgstr "Renk kaplaması"
+msgstr "Renk Kaplaması"
 
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
@@ -1985,7 +1985,7 @@ msgstr "Açıklık"
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
 #, kde-format
 msgid "Color levels"
-msgstr "Renk düzeyleri"
+msgstr "Renk Düzeyleri"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
@@ -2242,7 +2242,7 @@ msgstr "Girdi renk erimini geçersiz kıl"
 #: data/effects/frei0r/frei0r_colgate.xml:11
 #, kde-format
 msgid "Color Temperature"
-msgstr "Renk sıcaklığı"
+msgstr "Renk Sıcaklığı"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
@@ -2608,12 +2608,12 @@ msgstr "Biçim"
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, kde-format
 msgid "Directional Blur"
-msgstr "Yönlü bulanıklık"
+msgstr "Yönlü Bulanıklaştırma"
 
 #: data/effects/avfilter/avfilter_dblur.xml:5
 #, kde-format
 msgid "Apply directional blur filter"
-msgstr "Yönlü bulanıklık süzgecini uygula"
+msgstr "Yönlü bulanıklaştırma süzgecini uygulayın."
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, kde-format
@@ -2660,7 +2660,7 @@ msgstr "<![CDATA[Efektin uygulanacağı renk uzayı düzlemini ayarlar.]]>"
 #: data/effects/avfilter/avfilter_dcshift.xml:10
 #, kde-format
 msgid "DC shift"
-msgstr "DC kaydırması"
+msgstr "DC Kayması"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:7
 #, kde-format
@@ -2671,7 +2671,7 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
-"Sese bir DC kaydırması uygulayın.\n"
+"Sese bir DC kayması uygulayın.\n"
 "Bu, sesten bir DC ofsetini (belki de kayıt zincirindeki bir donanım "
 "sorunundan kaynaklanır) kaldırmak için yararlı olabilir.\n"
 "DC ofsetinin etkisi, azaltılmış boşluk ve dolayısıyla ses düzeyidir. Bir "
@@ -2684,8 +2684,8 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
-"DC kaydırmasını ayarlayın, izin verilen erim [−1, 1]’dir. Sesin "
-"kaydırılacağı miktarı belirtir."
+"DC kaymasını ayarlayın, izin verilen erim [−1, 1]’dir. Sesin kaydırılacağı "
+"miktarı belirtir."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
@@ -3115,7 +3115,7 @@ msgstr "Yükleme kipi"
 #: data/effects/avfilter/avfilter_despill.xml:4
 #, kde-format
 msgid "Despill"
-msgstr "Renk sızmasını azalt"
+msgstr "Renk Sızmasını Azalt"
 
 #: data/effects/avfilter/avfilter_despill.xml:5
 #, kde-format
@@ -3473,7 +3473,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, kde-format
 msgid "Edge detection"
-msgstr "Kenar algılama"
+msgstr "Kenar Algılama"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:5
 #, kde-format
@@ -3566,7 +3566,7 @@ msgstr "Ölçek çarpanı"
 #: data/effects/avfilter/avfilter_eq.xml:4
 #, kde-format
 msgid "Video Equalizer"
-msgstr "Video dengeleyicisi"
+msgstr "Video Ekolayzerı"
 
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
@@ -3774,7 +3774,7 @@ msgstr "Yok,Y,U,YU,V,YV,UV,Tümü"
 #: data/effects/avfilter/avfilter_fftfilt.xml:4
 #, kde-format
 msgid "FTT-based FIR"
-msgstr "FIT tabanlı FIR"
+msgstr "FIT Tabanlı FIR"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:5
 #, kde-format
@@ -4087,12 +4087,12 @@ msgstr "B karelerde nicemleme parametresi"
 #: data/effects/avfilter/avfilter_gblur.xml:4
 #, kde-format
 msgid "Gaussian Blur"
-msgstr "Gauss bulanıklaştırması"
+msgstr "Gauss Bulanıklaştırması"
 
 #: data/effects/avfilter/avfilter_gblur.xml:5
 #, kde-format
 msgid "Apply Gaussian Blur filter"
-msgstr "Gauss bulanıklaştırması süzgeci uygulayın."
+msgstr "Gauss bulanıklaştırması süzgecini uygulayın."
 
 #: data/effects/avfilter/avfilter_gblur.xml:8
 #, kde-format
@@ -4360,7 +4360,7 @@ msgstr "Bir yüksek raf süzgeci uygulayın."
 #: data/effects/avfilter/avfilter_histeq.xml:4
 #, kde-format
 msgid "Histogram Equalizer"
-msgstr "Histogram ekolayzerı"
+msgstr "Histogram Ekolayzerı"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
@@ -4506,7 +4506,7 @@ msgstr "2×,3×,4×"
 #: data/effects/avfilter/avfilter_hsvhold.xml:4
 #, kde-format
 msgid "HSV Hold"
-msgstr "HSV tut"
+msgstr "HSV Tut"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:5
 #, kde-format
@@ -4566,7 +4566,7 @@ msgstr "<![CDATA[Harmanlama yüzdesi]]>"
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
 #, kde-format
 msgid "HSV Key"
-msgstr "HSV anahtarı"
+msgstr "HSV Anahtarı"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
@@ -4607,7 +4607,7 @@ msgstr ""
 #: data/effects/hsl_range.xml:20
 #, kde-format
 msgid "Hue Shift"
-msgstr "Ton kayması"
+msgstr "Ton Kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
 #, kde-format
@@ -4617,7 +4617,7 @@ msgstr "<![CDATA[Derece türünden uygulanacak ton kaymasını ayarlayın.]]>"
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
 msgid "Saturation Shift"
-msgstr "Doygunluk kayması"
+msgstr "Doygunluk Kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
 #, kde-format
@@ -4627,7 +4627,7 @@ msgstr "<![CDATA[Doygunluk kaymasını ayarlayın.]]>"
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
 #, kde-format
 msgid "Intensity Shift"
-msgstr "Yoğunluk kayması"
+msgstr "Yoğunluk Kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
 #, kde-format
@@ -5049,7 +5049,7 @@ msgstr "Bir alçak raf süzgeci uygulayın."
 #: data/effects/avfilter/avfilter_lut3d.xml:4
 #, kde-format
 msgid "Apply LUT"
-msgstr "LUT uygula"
+msgstr "LUT Uygula"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:5
 #, kde-format
@@ -5177,7 +5177,7 @@ msgstr "<![CDATA[İşlenecek düzlemleri seçin.]]>"
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
 msgid "Monochrome"
-msgstr "Tek renkli"
+msgstr "Tek Renkli"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
@@ -5319,7 +5319,7 @@ msgstr "Bayrak koy: Bileşen 3"
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
 msgid "Normalize RGB video"
-msgstr "RGB videoyu normalleştir"
+msgstr "RGB Videoyu Normalleştir"
 
 #: data/effects/avfilter/avfilter_normalize.xml:5
 #, kde-format
@@ -5545,7 +5545,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
 msgid "Photosensitivity Filter"
-msgstr "Fotoduyarlılık süzgeci"
+msgstr "Fotoduyarlılık Süzgeci"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
@@ -5592,7 +5592,7 @@ msgstr "Kareleri değişmemiş olarak bırakın."
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
 msgid "Pixelize (advanced)"
-msgstr "Pikselleştir (gelişmiş)"
+msgstr "Pikselleştir (Gelişmiş)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
 #, kde-format
@@ -5692,7 +5692,7 @@ msgstr "4. düzlem için olan kip"
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, kde-format
 msgid "RGBA Shift"
-msgstr "RGBA kaydırması"
+msgstr "RGBA Kayması"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
@@ -5702,42 +5702,42 @@ msgstr "R/G/B/A piksellerini yatay veya dikey olarak kaydırın."
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, kde-format
 msgid "Red Horizontal Shift"
-msgstr "Kırmızı yatay kaydırma"
+msgstr "Kırmızı yatay kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
 #, kde-format
 msgid "Red Vertical Shift"
-msgstr "Kırmızı dikey kaydırma"
+msgstr "Kırmızı dikey kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
 #, kde-format
 msgid "Green Horizontal Shift"
-msgstr "Yeşil yatay kaydırma"
+msgstr "Yeşil yatay kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
 #, kde-format
 msgid "Green Vertical Shift"
-msgstr "Kırmızı dikey kaydırma"
+msgstr "Kırmızı dikey kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
 #, kde-format
 msgid "Blue Horizontal Shift"
-msgstr "Mavi yatay kaydırma"
+msgstr "Mavi yatay kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
 #, kde-format
 msgid "Blue Vertical Shift"
-msgstr "Mavi dikey kaydırma"
+msgstr "Mavi dikey kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
 #, kde-format
 msgid "Alpha Horizontal Shift"
-msgstr "Alfa yatay kaydırma"
+msgstr "Alfa yatay kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
 #, kde-format
 msgid "Alpha Vertical Shift"
-msgstr "Alfa dikey kaydırma"
+msgstr "Alfa dikey kaydır"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, kde-format
@@ -5758,7 +5758,7 @@ msgstr "Roberts çapraz işlecini uygulayın (kenar algılama)."
 #: data/effects/avfilter/avfilter_sab.xml:5
 #, kde-format
 msgid "Shape Adaptive Blur"
-msgstr "Şekle uyarlanır bulanıklaştırma"
+msgstr "Şekle Uyarlanır Bulanıklaştırma"
 
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
@@ -5830,7 +5830,7 @@ msgstr "Dikey başlangıç konumu"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
 #, kde-format
 msgid "CMYK adjust"
-msgstr "CMYK ayarı"
+msgstr "CMYK Ayarla"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
@@ -5986,7 +5986,7 @@ msgstr "4. çıktı düzlemi"
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, kde-format
 msgid "Smartblur"
-msgstr "Akıllı bulanıklaştırma"
+msgstr "Akıllı Bulanıklaştırma"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
@@ -6156,7 +6156,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
 msgid "Sobel with planes"
-msgstr "Düzlemlerle Sobel"
+msgstr "Düzlemli Sobel"
 
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
@@ -6783,7 +6783,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
 msgid "Wavelet Denoiser"
-msgstr "Dalgacık gürültü kaldırıcısı"
+msgstr "Dalgacık Gürültü Kaldırıcısı"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:6
 #, kde-format
@@ -7376,10 +7376,9 @@ msgid "Blur factor"
 msgstr "Bulanıklık çarpanı"
 
 #: data/effects/brightness.xml:4
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgid "Intensity (Brightness)"
-msgstr "Parlaklık"
+msgstr "Yoğunluk (Parlaklık)"
 
 #: data/effects/brightness.xml:5
 #, fuzzy, kde-format
@@ -7390,12 +7389,12 @@ msgstr "Görüntü parlaklığını anahtar karelerle değiştir"
 #: data/effects/burningtv.xml:4
 #, kde-format
 msgid "Burning TV"
-msgstr ""
+msgstr "Yanmış TV"
 
 #: data/effects/burningtv.xml:5
 #, kde-format
 msgid "Simulate burning TV pixels"
-msgstr ""
+msgstr "Yanmış TV piksellerine öykünün."
 
 #: data/effects/burningtv.xml:8
 #, fuzzy, kde-format
@@ -7481,7 +7480,7 @@ msgstr "Tersine çevir"
 #: data/effects/chroma.xml:4
 #, kde-format
 msgid "Chroma Key: Basic"
-msgstr "Renk parlaklığı anahtarı: Yalın"
+msgstr "Renk Anahtarı: Yalın"
 
 #: data/effects/chroma.xml:5
 #, kde-format
@@ -7579,7 +7578,7 @@ msgid ""
 "An audio visualization filter that moves the image around proportional to "
 "the magnitude of the audio spectrum."
 msgstr ""
-"Görseli, ses tayfının büyüklüğüne orantılı olarak hareket ettiren bir ses "
+"Görseli, ses tayfının büyüklüğüne orantılı olarak taşıyan bir ses "
 "görselleştirme süzgeci."
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
@@ -7967,10 +7966,9 @@ msgid "Fill with image or black"
 msgstr "Görselle veya siyahla doldur"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Analog Video Echo"
-msgstr "Analog video yankısı oluştur"
+msgstr "Analog Video Yankısı"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
@@ -8034,10 +8032,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha Operations (SUPERCEDED)"
-msgstr "Alpha İşlemi"
+msgstr "Alfa İşlemleri (YERİNE GEÇİLMİŞ)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -8109,10 +8106,9 @@ msgid "Shrink/Grow/Blur amount"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha Operations"
-msgstr "Alpha İşlemi"
+msgstr "Alfa İşlemleri"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
 #, fuzzy, kde-format
@@ -8132,10 +8128,9 @@ msgid "Shrink/Grow/Blur Amount"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha Gradient"
-msgstr "Alpha İşlemi"
+msgstr "Alfa Gradyanı"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #, kde-format
@@ -8180,10 +8175,9 @@ msgstr "<![CDATA[X eksenindeki döndürme açısı]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency Top"
-msgstr "Saydamlık:"
+msgstr "Saydamlık Üst"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
 #: data/effects/frei0r/frei0r_alphagrad.xml:22
@@ -8193,10 +8187,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency Bottom"
-msgstr "Saydamlık:"
+msgstr "Saydamlık Alt"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
 #: data/effects/frei0r/frei0r_alphagrad.xml:26
@@ -8224,10 +8217,9 @@ msgid "<![CDATA[Define the alpha operation for compositing.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes (Mask)"
+#, kde-format
 msgid "Alpha Shapes"
-msgstr "Alfa şekilleri (Maske)"
+msgstr "Alfa Şekilleri"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #, fuzzy, kde-format
@@ -8283,10 +8275,9 @@ msgid "Transition width"
 msgstr "Geçiş genişliği"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha Gradient (SUPERCEDED)"
-msgstr "Alpha İşlemi"
+msgstr "Alfa Gradyanı (YERİNE GEÇİLMİŞ)"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
@@ -8296,10 +8287,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes (Mask)"
+#, kde-format
 msgid "Alpha Shapes (SUPERCEDED)"
-msgstr "Alfa şekilleri (Maske)"
+msgstr "Alfa Şekilleri (YERİNE GEÇİLMİŞ)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -8311,7 +8301,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
 msgid "Channel Extractor BLUE"
-msgstr ""
+msgstr "Kanal Çıkarıcısı MAVİ"
 
 #: data/effects/frei0r/frei0r_B.xml:5
 #, kde-format
@@ -8319,11 +8309,10 @@ msgid "Extracts Blue from Image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgctxt "White Balance Effect Name"
 msgid "White Balance"
-msgstr "Denge"
+msgstr "Beyaz Dengesi"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:6
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
@@ -8347,10 +8336,9 @@ msgid "Green Tint"
 msgstr "Yeşil 2"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "White Balance"
-msgstr "Denge"
+msgstr "Beyaz Dengesi"
 
 #: data/effects/frei0r/frei0r_baltan.xml:4
 #, kde-format
@@ -8365,15 +8353,14 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
 msgid "Bézier Curves"
-msgstr ""
+msgstr "Bézier Eğrileri"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:5
 #: data/effects/frei0r/frei0r_curves.xml:6
 #: data/effects/frei0r/frei0r_curves.xml:61
-#, fuzzy, kde-format
-#| msgid "Image adjustment"
+#, kde-format
 msgid "Color curves adjustment"
-msgstr "Görsel İnce Ayarı"
+msgstr "Renk eğrileri ayarı"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:8
 #: data/effects/frei0r/frei0r_curves.xml:64
@@ -9401,7 +9388,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:4
 #, kde-format
 msgid "Blue Screen (Color to Alpha)"
-msgstr ""
+msgstr "Mavi Ekran (Renkten Alfaya)"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
 #, kde-format
@@ -9679,7 +9666,7 @@ msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
 msgid "Cartoon"
-msgstr ""
+msgstr "Çizgi Film"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:5
 #, kde-format
@@ -9722,7 +9709,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_colgate.xml:4
 #, kde-format
 msgid "White Balance (LMS space)"
-msgstr ""
+msgstr "Beyaz Dengesi (LMS Uzayı)"
 
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
@@ -9787,10 +9774,9 @@ msgid "Alpha controlled"
 msgstr "Alfa yanıp söndürmesi"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color Distance"
-msgstr "Renk aralığı"
+msgstr "Renk Uzaklığı"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:5
 #, kde-format
@@ -9806,11 +9792,10 @@ msgid "Source Color"
 msgstr "Kaynak klip"
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "Colorize Effect Name"
 msgid "Colorize"
-msgstr "Renk"
+msgstr "Renklendir"
 
 #: data/effects/frei0r/frei0r_colorize.xml:5
 #, kde-format
@@ -9834,10 +9819,9 @@ msgid "Lightness of the colorized image."
 msgstr "Renk gradyanının yönü."
 
 #: data/effects/frei0r/frei0r_colortap.xml:4
-#, fuzzy, kde-format
-#| msgid "Collapse Effect"
+#, kde-format
 msgid "Color Effect"
-msgstr "Efekti Daralt"
+msgstr "Renk Efekti"
 
 #: data/effects/frei0r/frei0r_colortap.xml:5
 #, kde-format
@@ -9850,8 +9834,7 @@ msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgctxt "Contrast Effect Name"
 msgid "Contrast"
 msgstr "Karşıtlık"
@@ -9865,7 +9848,7 @@ msgstr ""
 #, kde-format
 msgctxt "Curves Effect Name"
 msgid "Curves"
-msgstr ""
+msgstr "Eğriler"
 
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:9
@@ -9958,15 +9941,14 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Graph position"
-msgstr "Y konumu"
+msgstr "Grafik konumu"
 
 #: data/effects/frei0r/frei0r_curves.xml:60
 #, kde-format
 msgid "Curves"
-msgstr ""
+msgstr "Eğriler"
 
 #: data/effects/frei0r/frei0r_d90stairsteppingfix.xml:4
 #, kde-format
@@ -10195,10 +10177,9 @@ msgid "ID of matrix used for dithering."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
-#, fuzzy, kde-format
-#| msgid "Edge Crop"
+#, kde-format
 msgid "Edge Glow"
-msgstr "Kenar Kırpma"
+msgstr "Kenar Parlaması"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
 #, fuzzy, kde-format
@@ -10294,7 +10275,7 @@ msgstr ""
 #, kde-format
 msgctxt "Emboss Effect Name"
 msgid "Emboss"
-msgstr ""
+msgstr "Kabart"
 
 #: data/effects/frei0r/frei0r_emboss.xml:6
 #, kde-format
@@ -10669,7 +10650,7 @@ msgstr "Eksen Çiz"
 #: data/effects/frei0r/frei0r_G.xml:4
 #, kde-format
 msgid "Channel Extractor GREEN"
-msgstr ""
+msgstr "Kanal Çıkarıcısı YEŞİL"
 
 #: data/effects/frei0r/frei0r_G.xml:5
 #, kde-format
@@ -10694,10 +10675,9 @@ msgstr "Yüksek frekans"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Shift Intensity"
-msgstr "Yoğunluk"
+msgstr "Kayma Yoğunluğu"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
 #, kde-format
@@ -10708,7 +10688,7 @@ msgstr ""
 #, kde-format
 msgctxt "Glow Effect Name"
 msgid "Glow"
-msgstr ""
+msgstr "Parlat"
 
 #: data/effects/frei0r/frei0r_glow.xml:5
 #, fuzzy, kde-format
@@ -10729,10 +10709,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue shift"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton Kayması"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:5
 #, kde-format
@@ -10781,10 +10760,9 @@ msgid "Enable edge compensation"
 msgstr "Çevrimiçi belgelendirme"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Kaleidoscope"
-msgstr "Vektörskop"
+msgstr "Çiçek Dürbünü"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
 #, fuzzy, kde-format
@@ -10954,7 +10932,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
 msgid "Key Spill Mop Up"
-msgstr ""
+msgstr "Renk Sızıntısını Temizle"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:5
 #, kde-format
@@ -11002,10 +10980,9 @@ msgid "Hue Gate"
 msgstr "Erim ayarla"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:27
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Saturation Threshold"
-msgstr "Değişiklik eşiği"
+msgstr "Doygunluk Eşiği"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
@@ -11114,16 +11091,15 @@ msgstr ""
 #: data/effects/frei0r/frei0r_letterb0xed.xml:13
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8 data/effects/vignette.xml:23
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency"
-msgstr "Saydamlık:"
+msgstr "Saydamlık"
 
 #: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
-msgstr ""
+msgstr "Düzeyler"
 
 #: data/effects/frei0r/frei0r_levels.xml:6
 #: data/effects/frei0r/frei0r_levels.xml:37
@@ -11465,10 +11441,9 @@ msgid "Creates a luminance map of the image"
 msgstr "Görselin bir aydınlatma haritasını oluşturur."
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:4
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Alpha mask"
-msgstr "Dikdörtgen pencere"
+msgstr "Dörtgensel Alfa Maskesi"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:5
 #, fuzzy, kde-format
@@ -11915,10 +11890,9 @@ msgid "HSync"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelize (avfilter)"
+#, kde-format
 msgid "Pixelize (basic)"
-msgstr "Pikselleştir (avfilter)"
+msgstr "Pikselleştir (Temel)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
@@ -12017,7 +11991,7 @@ msgstr ""
 #, kde-format
 msgctxt "Primaries Effect Name"
 msgid "Primaries"
-msgstr ""
+msgstr "Ana Renkler"
 
 #: data/effects/frei0r/frei0r_primaries.xml:5
 #, kde-format
@@ -12037,10 +12011,9 @@ msgid "<![CDATA[Influence of mean pixel value]]>"
 msgstr "<![CDATA[X eksenindeki ofset]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
-#, fuzzy, kde-format
-#| msgid "Channel to draw"
+#, kde-format
 msgid "Channel Extractor RED"
-msgstr "Çekilecek kanal"
+msgstr "Kanal Çıkarıcısı KIRMIZI"
 
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
@@ -12087,7 +12060,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
 msgid "RGB Splitter"
-msgstr ""
+msgstr "RGB Bölücüsü"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
@@ -12118,11 +12091,10 @@ msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgctxt "Saturation Effect Name"
 msgid "Saturation"
-msgstr "HSV Doygunluğu"
+msgstr "Doygunluk"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:5
 #, kde-format
@@ -12305,7 +12277,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:5
 #, kde-format
 msgid "Sigmoidal Transfer"
-msgstr ""
+msgstr "C Şekilli Aktarım"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:6
 #, kde-format
@@ -12347,7 +12319,7 @@ msgstr "Altyazı dosyası:"
 #, kde-format
 msgctxt "Soft Glow Effect Name"
 msgid "Soft Glow"
-msgstr ""
+msgstr "Yumuşak Parlama"
 
 #: data/effects/frei0r/frei0r_softglow.xml:6
 #, kde-format
@@ -12524,18 +12496,14 @@ msgid "The overall saturation will be changed in the last step of this filter."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2 Bars"
+#, kde-format
 msgid "Square Blur"
-msgstr "Kareden Çubuklara"
+msgstr "Kare Bulanıklaştırma"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:5
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square blur"
-msgstr "Kare 2"
+msgstr "Kare bulanıklaştırma efektini uygulayın."
 
 #: data/effects/frei0r/frei0r_squareblur.xml:8
 #, fuzzy, kde-format
@@ -12561,10 +12529,9 @@ msgid "Interval"
 msgstr "Aralık"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "3 point balance"
-msgstr "Merkez dengesi"
+msgstr "Üç Noktalı Denge"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
 #, kde-format
@@ -12602,10 +12569,9 @@ msgid "Source image on left side"
 msgstr "Kaynak aralığı %1 konumundan %2 konumuna"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "3-level Threshold"
-msgstr "Düzey Eşiği"
+msgstr "Üç Düzeyli Eşik"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:5
 #, fuzzy, kde-format
@@ -12640,7 +12606,7 @@ msgstr "Sayaç"
 #, kde-format
 msgctxt "Tint Effect Name"
 msgid "Tint"
-msgstr ""
+msgstr "Ton"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:5
 #, kde-format
@@ -12661,14 +12627,13 @@ msgstr "Harita ipucu"
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
 msgid "Tint amount"
-msgstr ""
+msgstr "Ton miktarı"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgctxt "Transparency"
 msgid "Transparency"
-msgstr "Saydamlık:"
+msgstr "Saydamlık"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
 #, fuzzy, kde-format
@@ -12679,7 +12644,7 @@ msgstr "Alfa kanalının tersini kullanın."
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
 msgid "Binarize dynamically"
-msgstr ""
+msgstr "Devingen Biçimde İkilileştir"
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:5
 #, fuzzy, kde-format
@@ -12759,10 +12724,9 @@ msgid "Softness"
 msgstr "Yumuşaklık"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes (Mask)"
+#, kde-format
 msgid "Alpha Shapes (Mask)"
-msgstr "Alfa şekilleri (Maske)"
+msgstr "Alfa Şekilleri (Maske)"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:5
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
@@ -12795,7 +12759,7 @@ msgstr "Ses düzeyini anahtar kareler olmadan ayarla"
 #, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
-msgstr "Gama (anahtar kareleştirilebilir)"
+msgstr "Gama (Anahtar Karelenebilir)"
 
 #: data/effects/gamma.xml:5
 #, kde-format
@@ -13482,10 +13446,9 @@ msgid "Updates per second"
 msgstr "Saniyedeki güncelleme"
 
 #: data/effects/gradientmap.xml:4
-#, fuzzy, kde-format
-#| msgid "Gradient"
+#, kde-format
 msgid "Gradient Map"
-msgstr "Gradyan"
+msgstr "Gradyan Haritası"
 
 #: data/effects/gradientmap.xml:5
 #, fuzzy, kde-format
@@ -13541,7 +13504,7 @@ msgstr ""
 #, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Greyscale"
-msgstr "Gri Tonlama"
+msgstr "Gri Tonlu"
 
 #: data/effects/greyscale.xml:5
 #, kde-format
@@ -13551,7 +13514,7 @@ msgstr "Renk bilgisini çıkar"
 #: data/effects/hsl_primaries.xml:4
 #, kde-format
 msgid "HSL Primaries"
-msgstr ""
+msgstr "HSL Ana Renkleri"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -13561,16 +13524,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue Shift Red"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton Kayması Kırmızı"
 
 #: data/effects/hsl_primaries.xml:11
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Red"
-msgstr "Doygunluk"
+msgstr "Doygunluk Ölçeği Kırmızı"
 
 #: data/effects/hsl_primaries.xml:14
 #, fuzzy, kde-format
@@ -13579,16 +13540,14 @@ msgid "Lightness Scale Red"
 msgstr "Açıklık"
 
 #: data/effects/hsl_primaries.xml:17
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue Shift Yellow"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton Kayması Sarı"
 
 #: data/effects/hsl_primaries.xml:20
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Yellow"
-msgstr "Doygunluk"
+msgstr "Doygunluk Ölçeği Sarı"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
@@ -13596,16 +13555,14 @@ msgid "Lightness Scale Yellow"
 msgstr ""
 
 #: data/effects/hsl_primaries.xml:26
-#, fuzzy, kde-format
-#| msgid "Lift: Green"
+#, kde-format
 msgid "Hue Shift Green"
-msgstr "Yukarı kaldır: Yeşil"
+msgstr "Ton Kayması Yeşil"
 
 #: data/effects/hsl_primaries.xml:29
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Green"
-msgstr "Doygunluk"
+msgstr "Doygunluk Ölçeği Yeşil"
 
 #: data/effects/hsl_primaries.xml:32
 #, fuzzy, kde-format
@@ -13614,16 +13571,14 @@ msgid "Lightness Scale Green"
 msgstr "Açıklık"
 
 #: data/effects/hsl_primaries.xml:35
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue Shift Cyan"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton Kayması Camgöbeği"
 
 #: data/effects/hsl_primaries.xml:38
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Cyan"
-msgstr "Doygunluk"
+msgstr "Doygunluk Ölçeği Camgöbeği"
 
 #: data/effects/hsl_primaries.xml:41
 #, fuzzy, kde-format
@@ -13632,16 +13587,14 @@ msgid "Lightness Scale Cyan"
 msgstr "Açıklık"
 
 #: data/effects/hsl_primaries.xml:44
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue Shift Blue"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton Kayması Mavi"
 
 #: data/effects/hsl_primaries.xml:47
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Blue"
-msgstr "Doygunluk"
+msgstr "Doygunluk Ölçeği Mavi"
 
 #: data/effects/hsl_primaries.xml:50
 #, fuzzy, kde-format
@@ -13650,15 +13603,14 @@ msgid "Lightness Scale Blue"
 msgstr "Açıklık"
 
 #: data/effects/hsl_primaries.xml:53
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue Shift Magenta"
-msgstr "HSV Ton Kaydırma"
+msgstr "Ton Kayması Eflatun"
 
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
 msgid "Saturation Scale Magenta"
-msgstr ""
+msgstr "Doygunluk Ölçeği Eflatun"
 
 #: data/effects/hsl_primaries.xml:59
 #, fuzzy, kde-format
@@ -13672,10 +13624,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr ""
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "HSL Range"
-msgstr "Erim ayarla"
+msgstr "HSL Erimi"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -13685,10 +13636,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/hsl_range.xml:8
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Hue Center"
-msgstr "Orta"
+msgstr "Ton Merkezi"
 
 #: data/effects/hsl_range.xml:9
 #, kde-format
@@ -13696,10 +13646,9 @@ msgid "The center value for the hue range"
 msgstr ""
 
 #: data/effects/hsl_range.xml:12
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Hue Range"
-msgstr "Erim ayarla"
+msgstr "Ton Erimi"
 
 #: data/effects/hsl_range.xml:13
 #, kde-format
@@ -13718,10 +13667,9 @@ msgid "The amount to shift the hue in the hue range"
 msgstr ""
 
 #: data/effects/hsl_range.xml:24
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale"
-msgstr "Doygunluk"
+msgstr "Doygunluk Ölçeği"
 
 #: data/effects/hsl_range.xml:25
 #, kde-format
@@ -13813,17 +13761,17 @@ msgstr "100 Hz"
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
 #, kde-format
 msgid "156 Hz"
-msgstr ""
+msgstr "156 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
 #, kde-format
 msgid "220 Hz"
-msgstr ""
+msgstr "220 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
 #, kde-format
 msgid "311 Hz"
-msgstr ""
+msgstr "311 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
 #, kde-format
@@ -13833,7 +13781,7 @@ msgstr "440 Hz"
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
 msgid "622 Hz"
-msgstr ""
+msgstr "622 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
 #, kde-format
@@ -14185,10 +14133,9 @@ msgid "Analyse to Apply Effect"
 msgstr "Efekti Etkinleştirmek için Çözümle"
 
 #: data/effects/lumaliftgaingamma.xml:4
-#, fuzzy, kde-format
-#| msgid "LumaLiftGainGamma"
+#, kde-format
 msgid "Luma LiftGainGamma"
-msgstr "LumaKaldırmaKazanımıGaması"
+msgstr "Luma Kaldırma Kazanımı Gaması"
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, fuzzy, kde-format
@@ -14223,7 +14170,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes (Mask)"
-msgstr "Alfa şekilleri (Maske)"
+msgstr "Alfa Şekilleri (Maske)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
@@ -14451,7 +14398,7 @@ msgstr "Pencere"
 #, kde-format
 msgctxt "Obscure Effect Name"
 msgid "Obscure"
-msgstr "Belirsiz"
+msgstr "Belirsizleştir"
 
 #: data/effects/obscure.xml:5
 #, kde-format
@@ -14466,7 +14413,7 @@ msgstr "Alan"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Old Film Simulator"
-msgstr ""
+msgstr "Eski Film Benzeticisi"
 
 #: data/effects/oldfilm.xml:5
 #, fuzzy, kde-format
@@ -15296,7 +15243,7 @@ msgstr "Klibi daha hızlı veya yavaş oynat"
 #: data/effects/spot_remover.xml:4
 #, kde-format
 msgid "Spot Remover"
-msgstr "Benek Kaldırıcı"
+msgstr "Benek Kaldırıcısı"
 
 #: data/effects/spot_remover.xml:5
 #, kde-format
@@ -15314,10 +15261,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Kaldırılacak olan alanın dörtgenini tanımlar."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha strobing"
+#, kde-format
 msgid "Alpha Strobing"
-msgstr "Alfa yanıp söndürmesi"
+msgstr "Alfa Yanıp Söndürmesi"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -15368,7 +15314,7 @@ msgstr "Kırmızı/Yeşil eksen"
 #: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
-msgstr "İkileştir"
+msgstr "İkilileştir"
 
 #: data/effects/threshold.xml:5
 #, kde-format
@@ -15466,7 +15412,7 @@ msgstr ""
 #: data/effects/tracker.xml:4
 #, kde-format
 msgid "Motion Tracker"
-msgstr "Hareket takipçisi"
+msgstr "Hareket Takipçisi"
 
 #: data/effects/tracker.xml:5
 #, kde-format
@@ -15531,7 +15477,7 @@ msgstr "Bulanıklık türü"
 #: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "Daktilo (başlık klipleri için)"
+msgstr "Daktilo (Başlık Klipleri İçin)"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
@@ -15911,7 +15857,7 @@ msgstr "Görsel İnce Ayarı"
 #: data/kdenliveeffectscategory.rc:46
 #, kde-format
 msgid "Stylize"
-msgstr "Biçem Uygula"
+msgstr "Stilize Et"
 
 #: data/kdenliveeffectscategory.rc:50
 #, kde-format
@@ -16028,7 +15974,7 @@ msgstr "DPF Pklentileri"
 #: data/kdenliveeffectscategory.rc:142
 #, kde-format
 msgid "Calf  Plugins"
-msgstr "CMT Eklentileri"
+msgstr "Calf Eklentileri"
 
 #: data/kdenliveeffectscategory.rc:146
 #, kde-format
@@ -16164,7 +16110,7 @@ msgstr "Piksel kaynaklarının bir RGB[A] toplaması işlemini gerçekleştirin.
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
 msgid "addition_alpha"
-msgstr ""
+msgstr "Alfa Toplaması"
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
@@ -16174,57 +16120,57 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, kde-format
 msgid "Alpha ATOP"
-msgstr ""
+msgstr "Alfa ÜSTÜNDEN"
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:5
 #, kde-format
 msgid "The alpha ATOP operation"
-msgstr "Alpha ATOP işlemi"
+msgstr "Alfa ÜSTÜNDEN işlemi"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:4
 #, kde-format
 msgid "Alpha IN"
-msgstr ""
+msgstr "Alfa İÇERİ"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:5
 #, kde-format
 msgid "The alpha IN operation"
-msgstr "Alpha IN işlemi"
+msgstr "Alfa İÇERİ işlemi"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:4
 #, kde-format
 msgid "Alpha OUT"
-msgstr ""
+msgstr "Alfa DIŞARI"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:5
 #, kde-format
 msgid "The alpha OUT operation"
-msgstr "Alpha OUT işlemi"
+msgstr "Alfa DIŞARI işlemi"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:4
 #, kde-format
 msgid "Alpha OVER"
-msgstr ""
+msgstr "Alfa ÜSTÜNE"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:5
 #, kde-format
 msgid "The alpha OVER operation"
-msgstr "Alpha OVER işlemi"
+msgstr "Alfa ÜSTÜNE işlemi"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:4
 #, kde-format
 msgid "Alpha XOR"
-msgstr ""
+msgstr "Alfa KESİŞİM"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:5
 #, kde-format
 msgid "The alpha XOR operation"
-msgstr "Alpha XOR işlemi"
+msgstr "Alfa KESİŞİM işlemi"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
 #, kde-format
 msgid "Burn"
-msgstr ""
+msgstr "Yak"
 
 #: data/transitions/frei0r/frei0r_burn.xml:5
 #, kde-format
@@ -16237,7 +16183,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
 msgid "Cairo Affine Blend"
-msgstr ""
+msgstr "Cairo Afin Harmanı"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:5
 #, fuzzy, kde-format
@@ -16296,7 +16242,7 @@ msgstr "Y merkezinden döndür"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:4
 #, kde-format
 msgid "Cairo Blend"
-msgstr ""
+msgstr "Cairo Harmanı"
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:5
 #, fuzzy, kde-format
@@ -16311,10 +16257,9 @@ msgstr ""
 "birleştirir,opaklık ve ölçek."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Color Only"
-msgstr "Renk anahtarı"
+msgstr "Yalnızca Renk"
 
 #: data/transitions/frei0r/frei0r_color_only.xml:5
 #, kde-format
@@ -16324,10 +16269,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Darken"
-msgstr "İmleyici"
+msgstr "Koyulaştır"
 
 #: data/transitions/frei0r/frei0r_darken.xml:5
 #, kde-format
@@ -16339,7 +16283,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
 msgid "Difference"
-msgstr ""
+msgstr "Fark"
 
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
@@ -16347,10 +16291,9 @@ msgid "Perform an RGB[A] difference operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
-#, fuzzy, kde-format
-#| msgid "Disable video"
+#, kde-format
 msgid "Divide"
-msgstr "Videoyu kapat"
+msgstr "Böl"
 
 #: data/transitions/frei0r/frei0r_divide.xml:5
 #, kde-format
@@ -16362,7 +16305,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_dodge.xml:4
 #, kde-format
 msgid "Dodge"
-msgstr ""
+msgstr "Parlat"
 
 #: data/transitions/frei0r/frei0r_dodge.xml:5
 #, kde-format
@@ -16372,10 +16315,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgid "Grain Extract"
-msgstr "Çıkar"
+msgstr "Tanecik Çıkar"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:5
 #, kde-format
@@ -16383,10 +16325,9 @@ msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
-#, fuzzy, kde-format
-#| msgid "Grain over the image"
+#, kde-format
 msgid "Grain Merge"
-msgstr "Görüntü üzerine tanecikler serp"
+msgstr "Tanecik Birleştir"
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:5
 #, kde-format
@@ -16394,10 +16335,9 @@ msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Hardlight"
-msgstr "Yükseklik"
+msgstr "Sert Işık"
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:5
 #, kde-format
@@ -16412,11 +16352,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Light"
+#, kde-format
 msgid "Lighten"
-msgstr "Açık"
+msgstr "Açıklaştır"
 
 #: data/transitions/frei0r/frei0r_lighten.xml:5
 #, kde-format
@@ -16426,10 +16364,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
-#, fuzzy, kde-format
-#| msgid "Multicam"
+#, kde-format
 msgid "Multiply"
-msgstr "Çoklu Kamera"
+msgstr "Çarp"
 
 #: data/transitions/frei0r/frei0r_multiply.xml:5
 #, kde-format
@@ -16437,10 +16374,9 @@ msgid "Perform an RGB[A] multiply operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
-#, fuzzy, kde-format
-#| msgid "Overlay:"
+#, kde-format
 msgid "Overlay"
-msgstr "Üzerine Koy:"
+msgstr "Üzerine Koy"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format
@@ -16450,57 +16386,52 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Pushto"
+#, kde-format
 msgid "Push Down"
-msgstr "Peştuca"
+msgstr "Aşağı İt"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:5
 #, kde-format
 msgid "Push from top to bottom."
-msgstr ""
+msgstr "Yukarıdan aşağıya doğru itin."
 
 #: data/transitions/frei0r/frei0r_push-down.xml:8
 #: data/transitions/frei0r/frei0r_push-left.xml:8
 #: data/transitions/frei0r/frei0r_push-right.xml:8
 #: data/transitions/frei0r/frei0r_push-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Push position"
-msgstr "Y konumu"
+msgstr "İtme konumu"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Pushto"
+#, kde-format
 msgid "Push Left"
-msgstr "Peştuca"
+msgstr "Sola İt"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:5
 #, kde-format
 msgid "Push from right to left."
-msgstr ""
+msgstr "Sağdan sola doğru itin."
 
 #: data/transitions/frei0r/frei0r_push-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Push Right"
-msgstr "Sağ"
+msgstr "Sağa İt"
 
 #: data/transitions/frei0r/frei0r_push-right.xml:5
 #, kde-format
 msgid "Push from left to right."
-msgstr ""
+msgstr "Soldan sağa doğru itin."
 
 #: data/transitions/frei0r/frei0r_push-up.xml:4
-#, fuzzy, kde-format
-#| msgid "Pushto"
+#, kde-format
 msgid "Push Up"
-msgstr "Peştuca"
+msgstr "Yukarı İt"
 
 #: data/transitions/frei0r/frei0r_push-up.xml:5
 #, kde-format
 msgid "Push from bottom to top."
-msgstr ""
+msgstr "Aşağıdan yukarıya doğru itin."
 
 #: data/transitions/frei0r/frei0r_saturation.xml:5
 #, kde-format
@@ -16510,10 +16441,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Screen"
-msgstr "Yeşil"
+msgstr "Ekran"
 
 #: data/transitions/frei0r/frei0r_screen.xml:5
 #, kde-format
@@ -16523,69 +16453,57 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Slideshow"
+#, kde-format
 msgid "Slide Down"
-msgstr "Slayt Gösterisi"
+msgstr "Aşağı Doğru Kaydır"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to bottom."
+#, kde-format
 msgid "Slide from top to bottom."
-msgstr "Ögeyi aşağı hizalayın."
+msgstr "Aşağıdan yukarıya doğru kaydırın."
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:8
 #: data/transitions/frei0r/frei0r_slide-left.xml:8
 #: data/transitions/frei0r/frei0r_slide-right.xml:8
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Slide position"
-msgstr "Konumu Ayarla"
+msgstr "Kaydırma konumu"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Slide Transition Name"
-#| msgid "Slide"
+#, kde-format
 msgid "Slide Left"
-msgstr "Kaydır"
+msgstr "Sola Doğru Kaydır"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to left."
+#, kde-format
 msgid "Slide from right to left."
-msgstr "Ögeyi sola hizalayın."
+msgstr "Sağdan sola doğru kaydırın."
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Slide Transition Name"
-#| msgid "Slide"
+#, kde-format
 msgid "Slide Up"
-msgstr "Kaydır"
+msgstr "Yukarı Doğru Kaydır"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to top."
+#, kde-format
 msgid "Slide from bottom to top."
-msgstr "Ögeyi yukarı hizalayın."
+msgstr "Aşağıdan yukarıya doğru kaydırın."
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:4
-#, fuzzy, kde-format
-#| msgid "Align right"
+#, kde-format
 msgid "Slide Right"
-msgstr "Sağa hizala"
+msgstr "Sağa Doğru Kaydır"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to right."
+#, kde-format
 msgid "Slide from left to right."
-msgstr "Ögeyi sağa hizalayın."
+msgstr "Soldan sağa doğru kaydırın."
 
 #: data/transitions/frei0r/frei0r_softlight.xml:4
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Softlight"
-msgstr "Sol,Sağ"
+msgstr "Yumuşak Işık"
 
 #: data/transitions/frei0r/frei0r_softlight.xml:5
 #, kde-format
@@ -16608,7 +16526,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
 msgid "UV Map"
-msgstr ""
+msgstr "UV Haritası"
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:5
 #, kde-format
@@ -16623,10 +16541,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
-#, fuzzy, kde-format
-#| msgid "Horizontal Flip"
+#, kde-format
 msgid "Horizontal Barn Door Wipe"
-msgstr "Yatay Ters Çevir"
+msgstr "Yatay Ahır Kapısı Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:5
 #, fuzzy, kde-format
@@ -16642,10 +16559,9 @@ msgid "Edges position"
 msgstr "Y konumu"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Vertical Barn Door Wipe"
-msgstr "Dikey kenar boşluğu"
+msgstr "Dikey Ahır Kapısı Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:5
 #, fuzzy, kde-format
@@ -16654,10 +16570,9 @@ msgid "Vertical barn door wipe."
 msgstr "Dikey kenar boşluğu"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
-#, fuzzy, kde-format
-#| msgid "Circle"
+#, kde-format
 msgid "Circle Wipe"
-msgstr "Çember"
+msgstr "Dairesel Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
@@ -16672,7 +16587,7 @@ msgstr "Daire boyutu:"
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
 #, kde-format
 msgid "Wipe Down"
-msgstr "Aşağı doğru sil"
+msgstr "Aşağı Doğru Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
 #, kde-format
@@ -16690,7 +16605,7 @@ msgstr "Kenar konumu"
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
 #, kde-format
 msgid "Wipe Left"
-msgstr "Sola doğru sil"
+msgstr "Sola Doğru Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
 #, kde-format
@@ -16700,7 +16615,7 @@ msgstr "Sağdan sola doğru süpürüp silin."
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
 #, kde-format
 msgid "Rectangular Wipe"
-msgstr "Dörtgensel sil"
+msgstr "Dörtgensel Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
@@ -16715,7 +16630,7 @@ msgstr "Dikdörtgen boyutu"
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
 #, kde-format
 msgid "Wipe Right"
-msgstr "Sağa doğru sil"
+msgstr "Sağa Doğru Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
@@ -16725,7 +16640,7 @@ msgstr "Soldan sağa doğru süpürüp silin."
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
 #, kde-format
 msgid "Wipe Up"
-msgstr "Yukarı süpür"
+msgstr "Yukarı Doğru Süpür"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
 #, kde-format
@@ -16820,7 +16735,7 @@ msgstr "Kaydır"
 #: data/transitions/slide.xml:5
 #, kde-format
 msgid "Slide image from one side to another."
-msgstr "Resmi bir taraftan diğer tarafa kaydır."
+msgstr "Görseli bir taraftan diğerine doğru kaydırın."
 
 #: data/transitions/vqm.xml:4
 #, kde-format
@@ -16959,12 +16874,12 @@ msgstr "Sık Kullanılanlara Ekle"
 #: src/assets/assetlist/view/assetlistwidget.cpp:62
 #, kde-format
 msgid "Delete custom effect"
-msgstr "Özel efekti sil"
+msgstr "Özel Efekti Sil"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:67
 #, kde-format
 msgid "Reload custom effect"
-msgstr "Özel efekti yeniden yükle"
+msgstr "Özel Efekti Yeniden Yükle"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:72
 #, kde-format
@@ -16979,7 +16894,7 @@ msgstr "XML Olarak Dışa Aktar…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:89
 #, kde-format
 msgid "Main effects"
-msgstr "Ana Efektler"
+msgstr "Ana efektler"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:89
 #, kde-format
@@ -17009,22 +16924,22 @@ msgstr "Yalnızca geçişleri göster"
 #: src/assets/assetlist/view/assetlistwidget.cpp:117
 #, kde-format
 msgid "Show favorite items"
-msgstr "Sık Kullanılan Ögeleri Göster"
+msgstr "Sık kullanılan ögeleri göster"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:122
 #, kde-format
 msgid "Download New Effects..."
-msgstr "Yeni Efektler İndir…"
+msgstr "Yeni efektler indir…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:142
 #, kde-format
 msgid "Download New Wipes..."
-msgstr "Yeni Süpürme Efektleri İndir…"
+msgstr "Yeni süpürme efektleri indir…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:163
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr "Yalnızca gözden geçirilmeiş varlıkları göster"
+msgstr "Yalnızca gözden geçirilmiş varlıkları göster"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:168
 #, kde-format
@@ -17954,7 +17869,7 @@ msgid ""
 "equally."
 msgstr ""
 "İzin çıkış dengesini ayarlar. Negatif değerler çıkışı sola, pozitif değerler "
-"sağa doğru hareket ettirir. Tüm ses kliplerini eşit olarak etkiler."
+"sağa doğru taşır. Tüm ses kliplerini eşit olarak etkiler."
 
 #: src/audiomixer/mixerwidget.cpp:206
 #, kde-format
@@ -18146,7 +18061,7 @@ msgstr "Açıklama"
 #: src/bin/bin.cpp:1278
 #, kde-format
 msgid "Insert Order"
-msgstr "Ekleme Sıralaması"
+msgstr "Yerleştirme Sıralaması"
 
 #: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:346
 #, kde-format
@@ -18332,12 +18247,12 @@ msgstr ""
 #: src/bin/bin.cpp:1977
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr "Geçerli <b>%1</b> klibi etkin zaman akışına eklenmedi."
+msgstr "Geçerli klip <b>%1</b>, etkin zaman akışına yerleştirilmedi."
 
 #: src/bin/bin.cpp:1982
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "<b>%1</b> sekansını kendisine ekleyemezsiniz."
+msgstr "<b>%1</b> sekansını kendisine yerleştiremezsiniz."
 
 #: src/bin/bin.cpp:2001
 #, kde-format
@@ -18757,7 +18672,7 @@ msgstr[1] "Klipleri Taşı"
 #: src/bin/bin.cpp:4024
 #, kde-format
 msgid "No valid clip to insert"
-msgstr "Eklenecek geçerli klip yok"
+msgstr "Eklenecek/yerleştirilecek geçerli klip yok"
 
 #: src/bin/bin.cpp:4037 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3441
@@ -19081,7 +18996,8 @@ msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr ""
-"Aşağıdaki klipler halihazırda projeye eklenmiş. Yinelemek istiyor musunuz?"
+"Aşağıdaki klipler halihazırda projeye yerleştirilmiş. Yinelemek istiyor "
+"musunuz?"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
@@ -19871,12 +19787,12 @@ msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
 msgid "Loading clips"
 msgstr "Klipler yükleniyor"
 
-#: src/core.cpp:1450
+#: src/core.cpp:1452
 #, kde-format
 msgid "Marker %1"
 msgstr "İmleyici %1"
 
-#: src/core.cpp:1804
+#: src/core.cpp:1806
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19887,7 +19803,7 @@ msgstr ""
 "bir tarayıcı penceresi açacaktır:\n"
 " %1"
 
-#: src/core.cpp:1805
+#: src/core.cpp:1807
 #, kde-format
 msgid "Open Browser"
 msgstr "Tarayıcıyı Aç"
@@ -19998,8 +19914,8 @@ msgid ""
 msgstr ""
 "Çıktı dosyası adı, değiştirilmiş uzantıyla birlikte kaynak kova klibi dosya "
 "adıyla aynı olacaktır. Argümanların sonuna iliştirilir veya bulunursa "
-"<b>{output}</b> yerine eklenir. Çıktı dosyası adı halihazırda varsa bir "
-"-0001 dizgisi iliştirilir."
+"<b>{output}</b> yerine yerleştirilir. Çıktı dosyası adı halihazırda varsa "
+"bir -0001 dizgisi iliştirilir."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
@@ -20955,7 +20871,7 @@ msgstr "Ses izi olmayan video"
 msgid "Audio without video track"
 msgstr "Video izi olmayan ses"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:435
+#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "%1 sunumu başladı"
@@ -21003,7 +20919,7 @@ msgstr[1] "%1 gün "
 #: src/dialogs/renderwidget.cpp:1486
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
-msgstr " (kare %1 @ %2 fps)"
+msgstr " (kare %1, @%2 fps)"
 
 #: src/dialogs/renderwidget.cpp:1508
 #, kde-format
@@ -21237,7 +21153,7 @@ msgstr ""
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
 #, kde-format
 msgid "Transcode"
-msgstr "Arakodlama"
+msgstr "Arakodla"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:527
 #, kde-format
@@ -21617,7 +21533,7 @@ msgstr "Lütfen konuşmadan metneyi yapılandırın."
 #: src/dialogs/textbasededit.cpp:991
 #, kde-format
 msgid "Please install speech recognition models"
-msgstr "Lütfen konuşma tanıma modelleri kurun"
+msgstr "Lütfen konuşma tanıma modelleri kurun."
 
 #: src/dialogs/speechdialog.cpp:290
 #, kde-format
@@ -22577,7 +22493,7 @@ msgstr "Düzenlemeyle yeni sekans oluştur"
 #: src/dialogs/textbasededit.cpp:706
 #, kde-format
 msgid "Insert selection in timeline"
-msgstr "Zaman akışında seçim ekle"
+msgstr "Zaman akışında seçimi yerleştir"
 
 #: src/dialogs/textbasededit.cpp:707
 #, kde-format
@@ -22721,7 +22637,8 @@ msgstr "Klip başlangıcından önce ilk kaynak anahtar kare taşınamıyor"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr "Geçerli oynatma kafası konumunda/karesinde bir anahtar kare ekler."
+msgstr ""
+"Geçerli oynatma kafası konumunda/karesinde bir anahtar kare yerleştirir."
 
 #: src/dialogs/timeremap.cpp:1616
 #, kde-kuit-format
@@ -24526,13 +24443,13 @@ msgstr "Seçim"
 #: src/kdenliveui.rc:129
 #, kde-format
 msgid "Insertion"
-msgstr "Ekleme"
+msgstr "Yerleştir"
 
 #. i18n: ectx: Menu (keyboard_remove)
 #: src/kdenliveui.rc:133
 #, kde-format
 msgid "Removal"
-msgstr "Kaldırma"
+msgstr "Kaldır"
 
 #. i18n: ectx: Menu (current_clip)
 #: src/kdenliveui.rc:146
@@ -24962,202 +24879,202 @@ msgstr "Kitaplık yolu özel olarak ayarlı: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Kitaplık yoluna yazılamadı: %1, öntanımlı kullanılıyor"
 
-#: src/main.cpp:259
+#: src/main.cpp:279
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Lütfen hataları <a href=\"%1\">%2</a> adresine bildirin"
 
-#: src/main.cpp:264
+#: src/main.cpp:284
 #, kde-format
 msgid "You are using the AppImage.<br>"
 msgstr "AppImage’i kullanıyorsunuz.<br>"
 
-#: src/main.cpp:267
+#: src/main.cpp:287
 #, kde-format
 msgid "You are using the Flatpak.<br>"
 msgstr "Flatpak’i kullanıyorsunuz.<br>"
 
-#: src/main.cpp:270
+#: src/main.cpp:290
 #, kde-format
 msgid "You are using the Snap package.<br>"
 msgstr "Snap paketini kullanıyorsunuz.<br>"
 
-#: src/main.cpp:276
+#: src/main.cpp:296
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:276
+#: src/main.cpp:296
 #, kde-format
 msgid "An open source video editor."
 msgstr "Açık kaynak kodlu bir video düzenleyicisi."
 
-#: src/main.cpp:277
+#: src/main.cpp:297
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "© 2007–2025 Kdenlive yazarları"
 
-#: src/main.cpp:279
+#: src/main.cpp:299
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean–Baptiste Mardelle"
 
-#: src/main.cpp:279
+#: src/main.cpp:299
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT ve KDE SC 4/KF5 geçişi, ana geliştirici ve bakımcı"
 
-#: src/main.cpp:281
+#: src/main.cpp:301
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:281
+#: src/main.cpp:301
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
 "Kod mimarisin yeniden düzenlenmesi ve zaman akışının yeniden yazılması (2019)"
 
-#: src/main.cpp:282
+#: src/main.cpp:302
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:282
+#: src/main.cpp:302
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Özellik geliştirmeleri, paketleme, hata düzeltmeleri"
 
-#: src/main.cpp:283
+#: src/main.cpp:303
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:283
+#: src/main.cpp:303
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 geçişi, Windows çapraz yapısı, paketleme, hata düzeltme"
 
-#: src/main.cpp:285
+#: src/main.cpp:305
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:285
+#: src/main.cpp:305
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT bakımcısı, hata düzeltmeleri vb."
 
-#: src/main.cpp:286
+#: src/main.cpp:306
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:286
+#: src/main.cpp:306
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Renk kapsamları, hata onarımları, vb."
 
-#: src/main.cpp:287
+#: src/main.cpp:307
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:287
+#: src/main.cpp:307
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Hata düzeltmeleri ve sınama iyileştirmeleri"
 
-#: src/main.cpp:289
+#: src/main.cpp:309
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:289
+#: src/main.cpp:309
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Özgün KDE 3 sürümünün yazarı (artık etkin değil)"
 
-#: src/main.cpp:291
+#: src/main.cpp:311
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:291
+#: src/main.cpp:311
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, Promosyon, Sınama"
 
-#: src/main.cpp:292
+#: src/main.cpp:312
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:292
+#: src/main.cpp:312
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Hata triyajı, sınama, belgelendirme bakımcısı"
 
-#: src/main.cpp:293
+#: src/main.cpp:313
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:293
+#: src/main.cpp:313
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:294
+#: src/main.cpp:314
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:294
+#: src/main.cpp:314
 #, kde-format
 msgid "Testing"
 msgstr "Sınama"
 
-#: src/main.cpp:295
+#: src/main.cpp:315
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:295
+#: src/main.cpp:315
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Uzman görüşü, sınama"
 
-#: src/main.cpp:297
+#: src/main.cpp:317
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Anıl Özbek, Serdar Soytetir, Volkan Gezer, Emir SARI"
 
-#: src/main.cpp:297
+#: src/main.cpp:317
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "ozbekanil@gmail.com, tulliana@gmail.com, volkangezer@gmail.com, "
 "emir_sari@icloud.com"
 
-#: src/main.cpp:300
+#: src/main.cpp:320
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:300
+#: src/main.cpp:320
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Açık kaynaklı çoklu ortam kod kitaplığı."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:302 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:322 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:302
+#: src/main.cpp:322
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25166,38 +25083,38 @@ msgstr ""
 "Ses ve video kayıt, dönüştürme ve aktarmak için tam ve çapraz platform bir "
 "çözüm."
 
-#: src/main.cpp:320
+#: src/main.cpp:340
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Özel yapılandırma dosyası adı ayarlayın."
 
-#: src/main.cpp:321
+#: src/main.cpp:341
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT ortamının yolunu ayarlayın."
 
-#: src/main.cpp:323
+#: src/main.cpp:343
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT günlük düzeyini ayarlayın. “Uyarı” düzeyi için bunu boş bırakın."
 
-#: src/main.cpp:326
+#: src/main.cpp:346
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Kovaya klipler olarak eklenecek dosyaların virgülle ayrılmış listesi."
 
-#: src/main.cpp:330
+#: src/main.cpp:350
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Projeyi doğrudan sunun ve çıkın."
 
-#: src/main.cpp:333
+#: src/main.cpp:353
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive sunum önayarı adı (bir tane verilmezse MP4-H264/AAC kullanılır)."
 
-#: src/main.cpp:338
+#: src/main.cpp:358
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25206,17 +25123,17 @@ msgstr ""
 "(Ayrık) sunum işlemi başladıktan sonra çık; bu bayrak olmadan yalnızca işi "
 "bittikten sonra çıkar."
 
-#: src/main.cpp:341
+#: src/main.cpp:361
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Açılacak Kdenlive belgesi."
 
-#: src/main.cpp:342
+#: src/main.cpp:362
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Sunulan videonun çıktı dosyası."
 
-#: src/main.cpp:454
+#: src/main.cpp:474
 #, kde-format
 msgid "Version %1"
 msgstr "Sürüm %1"
@@ -25537,7 +25454,7 @@ msgstr "Üzerine Yazma Kipi"
 #: src/mainwindow.cpp:1122
 #, kde-format
 msgid "Insert Mode"
-msgstr "Ekleme Kipi"
+msgstr "Yerleştirme Kipi"
 
 #: src/mainwindow.cpp:1126
 #, kde-format
@@ -25551,18 +25468,18 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
-"Normal, Üzerine Yazma ve Ekleme kipi arasında geçiş yapar. Zaman akışındaki "
-"klipleri işlerken kullanılan öntanımlı eylemi belirler."
+"Normal, Üzerine Yazma ve Yerleştirme kipi arasında geçiş yapar. Zaman "
+"akışındaki klipleri işlerken kullanılan öntanımlı eylemi belirler."
 
 #: src/mainwindow.cpp:1137
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
-msgstr "Ekleme için Zaman Akışı Bölgesini Kullanma"
+msgstr "Yerleştirmek için zaman akışı bölgesini kullanma"
 
 #: src/mainwindow.cpp:1137
 #, kde-format
 msgid "Use Timeline Zone for Insert"
-msgstr "Eklemek için Zaman Akışı Bölgesini Kullan"
+msgstr "Yerleştirmek için zaman akışı bölgesini kullan"
 
 #: src/mainwindow.cpp:1138
 #, kde-kuit-format
@@ -25570,8 +25487,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
-"Eklemek için zaman akışı bölgesini kullanma (açık) veya kullanmama (kapalı) "
-"arasında geçiş yapar."
+"Eklemek/yerleştirmek için zaman akışı bölgesini kullanma (açık) veya "
+"kullanmama (kapalı) arasında geçiş yapar."
 
 #: src/mainwindow.cpp:1145
 #, kde-format
@@ -25648,7 +25565,7 @@ msgstr ""
 #: src/mainwindow.cpp:1233
 #, kde-format
 msgid "Ripple Tool"
-msgstr "Dalgacık Aracı"
+msgstr "Dalgalama Aracı"
 
 #: src/mainwindow.cpp:1236
 #, kde-kuit-format
@@ -25657,8 +25574,8 @@ msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
-"Seçildiğinde, bir klibin kenarlarını sürüklemek, klibi uzatır veya kısaltır "
-"ve bunu yaparken bitişik klipleri ileri geri hareket ettirir."
+"Seçildiğinde bir klibin kenarlarını sürüklemek, klibi uzatır veya kısaltır "
+"ve bunu yaparken bitişik klipleri ileri–geri taşır."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -25667,7 +25584,7 @@ msgstr ""
 #: src/mainwindow.cpp:1246
 #, kde-format
 msgid "Slip Tool"
-msgstr "Sürçme Aracı"
+msgstr "Taşıma Aracı"
 
 #: src/mainwindow.cpp:1247
 #, kde-kuit-format
@@ -25676,8 +25593,8 @@ msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
-"Seçildiğinde, bir klibi sürüklemek klibi verilen pencerenin altında ileri "
-"geri kaydırır."
+"Seçildiğinde, bir klibi sürüklemek klibi verilen pencerenin altında ileri–"
+"geri taşır."
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -25988,7 +25905,7 @@ msgstr "Rec. 709 (TV)"
 #: src/mainwindow.cpp:1598
 #, kde-format
 msgid "Insert Zone in Project Bin"
-msgstr "Proje Kovasına Bölge Ekle"
+msgstr "Proje Kovasındaki Bölgeyi Yerleştir"
 
 #: src/mainwindow.cpp:1600
 #, kde-kuit-format
@@ -26054,14 +25971,14 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 msgstr ""
-"Tıklandığında, klibin proje bölmesinde seçili olan bölgesi etkin zaman "
-"akışındaki oynatma kafası konumuna eklenir. Ekleme konumundaki klipler "
-"kesilir ve üzerine yazılır."
+"Tıklandığında, proje bölmesinde seçili olan klip bölgesi, etkin zaman "
+"akışındaki oynatma başlığı konumuna yerleştirilir. Yerleştirme konumundaki "
+"klipler kesilir ve üzerine yazılır."
 
 #: src/mainwindow.cpp:1633
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
-msgstr "Zaman Akışına Klip Bölgesi Ekle"
+msgstr "Klip Bölgesini Zaman Akışında Yerleştir"
 
 #: src/mainwindow.cpp:1635
 #, kde-kuit-format
@@ -26071,8 +25988,8 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and shifted to the right."
 msgstr ""
-"Tıklandığında, klibin proje bölmesinde seçili olan bölgesi etkin zaman "
-"akışındaki oynatma kafası konumuna eklenir. Ekleme konumundaki klipler "
+"Tıklandığında, proje bölmesinde seçili olan klip bölgesi, etkin zaman "
+"akışındaki oynatma başlığı konumuna eklenir. Yerleştirme konumundaki klipler "
 "kesilir ve sağa kaydırılır."
 
 #: src/mainwindow.cpp:1637
@@ -26423,7 +26340,7 @@ msgstr "Anahtar Kare Ekle/Kaldır"
 #: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Insert Space…"
-msgstr "Boşluk Ekle…"
+msgstr "Boşluk Yerleştir…"
 
 #: src/mainwindow.cpp:1876
 #, kde-format
@@ -26449,7 +26366,7 @@ msgstr "Tüm İzlerden Boşlukları Kaldır"
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
-msgstr "İz Ekle…"
+msgstr "İz Yerleştir…"
 
 #: src/mainwindow.cpp:1886
 #, kde-format
@@ -26534,7 +26451,8 @@ msgid ""
 "or inserting/removing blank in tracks."
 msgstr ""
 "Kılavuzları kilitle. Kilitlendiğinde, kılavuzlar, boşluk aracı "
-"kullanıldığında veya izlere boş alan eklerken/kaldırırken hareket etmezler."
+"kullanıldığında veya izlere boş alan yerleştirirken/kaldırırken hareket "
+"etmezler."
 
 #: src/mainwindow.cpp:1953
 #, kde-format
@@ -26810,7 +26728,7 @@ msgstr "Üzerine yazma bölgesi"
 #: src/timeline2/view/timelinecontroller.cpp:3155
 #, kde-format
 msgid "Could not insert zone"
-msgstr "Bölge eklenemedi"
+msgstr "Bölge yerleştirilemedi"
 
 #: src/mainwindow.cpp:3115
 #, kde-format
@@ -26821,7 +26739,7 @@ msgstr "Proje kovasında seçili klip yok"
 #: src/timeline2/view/timelinecontroller.cpp:3153
 #, kde-format
 msgid "Insert zone"
-msgstr "Ekleme bölgesi"
+msgstr "Yerleştirme bölgesi"
 
 #: src/mainwindow.cpp:3289
 #, kde-format
@@ -26841,10 +26759,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Üst Karakter+tıkla</shortcut>, gruplanmış bir klibi başka bir "
-"ize taşımak için <shortcut>Meta+sürükle</shortcut>, kaydırma için "
-"<shortcut>Kontrol+sürükle</shortcut>"
+"Lastik seçimi için <shortcut>Üst Karakter+Sürükle</shortcut>, çoklu seçim "
+"için <shortcut>Üst Karakter+Tıkla</shortcut>, gruplanmış bir klibi başka bir "
+"ize taşımak için <shortcut>Meta+Sürükle</shortcut>, kaydırma için "
+"<shortcut>Kontrol+Sürükle</shortcut>"
 
 #: src/mainwindow.cpp:3504
 #, kde-kuit-format
@@ -26855,10 +26773,10 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Üst Karakter+tıkla</shortcut>, gruplanmış bir klibi başka bir "
-"ize taşımak için <shortcut>Meta+Alt+sürükle</shortcut>, kaydırma için "
-"<shortcut>Kontrol+sürükle</shortcut>"
+"Lastik seçimi için <shortcut>Üst Karakter+Sürükle</shortcut>, çoklu seçim "
+"için <shortcut>Üst Karakter+Tıkla</shortcut>, gruplanmış bir klibi başka bir "
+"ize taşımak için <shortcut>Meta+Alt+Sürükle</shortcut>, kaydırma için "
+"<shortcut>Kontrol+Sürükle</shortcut>"
 
 #: src/mainwindow.cpp:3507
 #, kde-format
@@ -26900,14 +26818,14 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"Sürçmek için bir ögenin üzerine <shortcut>tıklayın</shortcut>, çoklu seçim "
-"için <shortcut>Üst Karakter+tıklayın</shortcut>"
+"Taşımak için bir ögenin üzerine <shortcut>Tıkla</shortcut>, çoklu seçim için "
+"<shortcut>Üst Karakter+Tıkla</shortcut>"
 
 #: src/mainwindow.cpp:3518
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
-msgstr "Sürçme"
+msgstr "Taşı"
 
 #: src/mainwindow.cpp:3523
 #, kde-kuit-format
@@ -26918,7 +26836,7 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "Lastik seçimi için <shortcut>Üst Karakter+Sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Üst Karakter+Tıkla</shortcut>, bir gruptaki bir ögeyi seçmek "
+"için <shortcut>Üst Karakter+Tıkla</shortcut>, bir gruptaki bir ögeyi seçmek "
 "için <shortcut>Seçenek+Tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
 "+Sürükle</shortcut>"
 
@@ -26926,7 +26844,7 @@ msgstr ""
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
-msgstr "Dalgacık"
+msgstr "Dalgala"
 
 #: src/mainwindow.cpp:3531
 #, kde-kuit-format
@@ -26941,7 +26859,7 @@ msgstr ""
 #: src/mainwindow.cpp:3547
 #, kde-format
 msgid "Insert"
-msgstr "Ekle"
+msgstr "Yerleştir"
 
 #: src/mainwindow.cpp:3839 src/mainwindow.cpp:3841
 #, kde-format
@@ -29203,7 +29121,7 @@ msgstr "Kılavuzları kaldır"
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
 msgid "Insert current timecode"
-msgstr "Geçerli zaman kodunu ekle"
+msgstr "Geçerli zaman kodunu yerleştir"
 
 #: src/project/dialogs/noteswidget.cpp:47
 #, kde-format
@@ -30947,7 +30865,7 @@ msgstr "RGB düzlemi, tek bileşen değişken"
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
 #, kde-format
 msgid "HSV Hue Shift"
-msgstr "HSV Ton Kaydırma"
+msgstr "HSV Ton Kayması"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:33
 #: src/scopes/colorscopes/colorplaneexport.cpp:245
@@ -31344,7 +31262,7 @@ msgstr "Şu izdeki videosuz olarak künyelenmiş %1 klibi onarıldı: "
 #: src/timeline2/model/timelinefunctions.cpp:132
 #, kde-format
 msgid "Insert Clips"
-msgstr "Klipler Ekle"
+msgstr "Klipler Yerleştir"
 
 #: src/timeline2/model/timelinefunctions.cpp:296
 #, kde-format
@@ -31377,7 +31295,7 @@ msgstr "Tüm klipleri kes"
 #: src/timeline2/view/timelinecontroller.cpp:1476
 #, kde-format
 msgid "Insert space"
-msgstr "Boşluk ekle"
+msgstr "Boşluk Yerleştir"
 
 #: src/timeline2/model/timelinefunctions.cpp:694
 #: src/timeline2/view/timelinecontroller.cpp:1478
@@ -31598,13 +31516,13 @@ msgstr "İzdeki klipleri sil"
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
-msgstr "İz Ekle"
+msgstr "İz Yerleştir"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
 #, kde-format
 msgctxt "@action"
 msgid "Insert Tracks"
-msgstr "İzler Ekle"
+msgstr "İzler Yerleştir"
 
 #: src/timeline2/model/timelineitemmodel.cpp:548
 #, kde-format
@@ -31694,17 +31612,17 @@ msgstr "Klibi taşı"
 #: src/timeline2/view/timelinecontroller.cpp:3326
 #, kde-format
 msgid "No available track for insert operation"
-msgstr "Ekleme işlemi için kullanılabilir iz yok"
+msgstr "Yerleştirme işlemi için kullanılabilir iz yok"
 
 #: src/timeline2/model/timelinemodel.cpp:1881
 #, kde-format
 msgid "Insert Clip"
-msgstr "Klip Ekle"
+msgstr "Klip Yerleştir"
 
 #: src/timeline2/model/timelinemodel.cpp:1937
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "Kendini içeren bir sekans ekleyemezsiniz"
+msgstr "Kendini içeren bir sekans yerleştiremezsiniz"
 
 #: src/timeline2/model/timelinemodel.cpp:1986
 #: src/timeline2/model/timelinemodel.cpp:2014
@@ -31777,30 +31695,30 @@ msgstr "Bileşikleştirmeyi yeniden boyutlandır"
 #: src/timeline2/model/timelinemodel.cpp:4349
 #, kde-format
 msgid "Ripple resize clip"
-msgstr "Klibi dalgacık ile yeniden boyutlandır"
+msgstr "Klibi dalgalayarak yeniden boyutlandır"
 
 #: src/timeline2/model/timelinemodel.cpp:4351
 #, kde-format
 msgid "Ripple resize composition"
-msgstr "Bileşikleştirmeyi dalgacıkla yeniden boyutlandır"
+msgstr "Bileşikleştirmeyi dalgalayarak yeniden boyutlandır"
 
 #: src/timeline2/model/timelinemodel.cpp:4353
 #, kde-format
 msgid "Ripple resize subtitle"
-msgstr "Altyazıyı dalgacıkla yeniden boyutlandır"
+msgstr "Altyazıyı dalgalayarak yeniden boyutlandır"
 
 #: src/timeline2/model/timelinemodel.cpp:4496
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
-msgstr[0] "Klibi sürç"
-msgstr[1] "Klipleri sürç"
+msgstr[0] "Klibi Taşı"
+msgstr[1] "Klipleri Taşı"
 
 #: src/timeline2/model/timelinemodel.cpp:4531
 #, kde-format
 msgid "Slip clip"
-msgstr "Klibi sürç"
+msgstr "Klibi taşı"
 
 #: src/timeline2/model/timelinemodel.cpp:4566
 #, kde-format
@@ -31857,7 +31775,7 @@ msgstr "Solmayı Ayarla"
 #: src/timeline2/model/timelinemodel.cpp:5538
 #, kde-format
 msgid "Insert Composition"
-msgstr "Bileşikleştirme Ekle"
+msgstr "Bileşikleştirme Yerleştir"
 
 #: src/timeline2/model/timelinemodel.cpp:5759
 #, kde-format
@@ -31943,7 +31861,7 @@ msgstr "%1 klip için süre düzenleniyor."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Dalgacık kipinde yeniden boyutlanıyor."
+msgstr "Dalgalama kipinde yeniden boyutlanıyor."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:319
 #, kde-format
@@ -32147,7 +32065,7 @@ msgstr "Solarak gir: %1"
 #: src/timeline2/view/qml/Clip.qml:1633
 #, kde-format
 msgid "Slip Clip"
-msgstr "Klibi Sürç"
+msgstr "Klibi Taşı"
 
 #: src/timeline2/view/qml/Composition.qml:264
 #, kde-format
@@ -32250,8 +32168,8 @@ msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
-"İzi hedef olarak ayarlamak için tıklayın. Hedef izler eklenen klipleri "
-"alacaklardır"
+"İzi hedef olarak ayarlamak için tıklayın. Hedef izler yerleştirilen klipleri "
+"alacaklardır."
 
 #: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
@@ -32358,7 +32276,7 @@ msgstr "Zaman akışında sürükleme yapılırken işlem gerçekleştirilemiyor
 #: src/timeline2/view/timelinecontroller.cpp:5081
 #, kde-format
 msgid "Could not insert track"
-msgstr "İz eklenemedi"
+msgstr "İz yerleştirilemedi"
 
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
@@ -32399,13 +32317,13 @@ msgstr "Giriş: %1, Çıkış: %2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
-"Sürçme yalnızca video, ses veya canlandırma kliplerinin üzerinde "
+"Taşıma, yalnızca video, ses veya canlandırma kliplerinin üzerinde "
 "gerçekleştirilebilir"
 
 #: src/timeline2/view/timelinecontroller.cpp:2736
 #, kde-format
 msgid "No clips found to insert space"
-msgstr "Boşluk eklenecek klip bulunamadı"
+msgstr "Boşluk yerleştirilecek klip bulunamadı"
 
 #: src/timeline2/view/timelinecontroller.cpp:2754
 #, kde-format
@@ -32564,8 +32482,8 @@ msgstr "Klip genişletilemedi"
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
-msgstr[0] "İz Ekle"
-msgstr[1] "İzler Ekle"
+msgstr[0] "İz Yerleştir"
+msgstr[1] "İzler Yerleştir"
 
 #: src/timeline2/view/timelinecontroller.cpp:5158
 #, kde-format
@@ -32695,12 +32613,12 @@ msgstr "Sekansı Yeniden Adlandır"
 #: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert an effect..."
-msgstr "Bir Efekt Ekle…"
+msgstr "Efekt Yerleştir…"
 
 #: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
-msgstr "Bir Bileşikleştirme Ekle…"
+msgstr "Bileşikleştirme Yerleştir…"
 
 #: src/timeline2/view/timelinewidget.cpp:327
 #, kde-format
@@ -32815,7 +32733,7 @@ msgstr "Yazıtipi ağırlığı"
 #: src/titler/titlewidget.cpp:312
 #, kde-format
 msgid "Insert Unicode character"
-msgstr "Unicode karakter ekle"
+msgstr "Unicode karakter yerleştir"
 
 #: src/titler/titlewidget.cpp:318
 #, kde-format
@@ -33132,8 +33050,9 @@ msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
-"Denetim karakteri. Eklenemez/yazdırılamaz. <a href=\"https://en.wikipedia."
-"org/wiki/Control_character\">Wikipedia:Control_character</a> adresine bakın"
+"Denetim karakteri. Yerleştirilemez/yazdırılamaz. <a href=\"https://en."
+"wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a> "
+"adresine bakın."
 
 #: src/titler/unicodedialog.cpp:147
 #, kde-format
@@ -33422,7 +33341,7 @@ msgstr " iz"
 #: src/ui/addtrack_ui.ui:75
 #, kde-format
 msgid "Insert:"
-msgstr "Ekle:"
+msgstr "Yerleştir:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
 #: src/ui/addtrack_ui.ui:97
@@ -33754,7 +33673,7 @@ msgstr "Kırpma bitişi:"
 #: src/ui/clipdurationdialog_ui.ui:108
 #, kde-format
 msgid "Ripple resize"
-msgstr "Dalgacıklı yeniden boyutlandır"
+msgstr "Dalgalayarak yeniden boyutlandır"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -37024,7 +36943,7 @@ msgstr "Etkin"
 #: src/ui/renderwidget_ui.ui:580
 #, kde-format
 msgid "Overlay:"
-msgstr "Üzerine Koy:"
+msgstr "Üzerine koy:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:614
@@ -37381,7 +37300,7 @@ msgstr "Boşluk Ekle"
 #: src/ui/spacerdialog_ui.ui:44
 #, kde-format
 msgid "Insert space in all tracks"
-msgstr "Tüm izlere boşluk ekle"
+msgstr "Tüm izlere boşluk yerleştir"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/spectrogram_ui.ui:56

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 00:40+0000\n"
+"POT-Creation-Date: 2025-07-30 00:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -19859,13 +19859,13 @@ msgstr "भवतः परियोजनाप्रोफाइलः अम�
 msgid "Loading clips"
 msgstr "क्लिप्स् लोड् भवति"
 
-#: src/core.cpp:1450
+#: src/core.cpp:1452
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "मार्करः"
 
-#: src/core.cpp:1804
+#: src/core.cpp:1806
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19876,7 +19876,7 @@ msgstr ""
 "।\n"
 " %1"
 
-#: src/core.cpp:1805
+#: src/core.cpp:1807
 #, kde-format
 msgid "Open Browser"
 msgstr "ब्राउजर् उद्घाटयन्तु"
@@ -20942,7 +20942,7 @@ msgstr "श्रव्यपट्टिकां विना विडिय�
 msgid "Audio without video track"
 msgstr "विडियो ट्रैक विना ऑडियो"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:435
+#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -24934,239 +24934,239 @@ msgstr "पुस्तकालयमार्गः कस्टम् इत�
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Library path: %1 इत्यत्र लिखितुं न शक्यते, पूर्वनिर्धारितस्य उपयोगेन"
 
-#: src/main.cpp:259
+#: src/main.cpp:279
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "कृपया <a href=\"%1\">%2</a> इत्यस्मै दोषान् निवेदयन्तु"
 
-#: src/main.cpp:264
+#: src/main.cpp:284
 #, kde-format
 msgid "You are using the AppImage.<br>"
 msgstr "भवान् AppImage इत्यस्य उपयोगं करोति ।<br>"
 
-#: src/main.cpp:267
+#: src/main.cpp:287
 #, kde-format
 msgid "You are using the Flatpak.<br>"
 msgstr "भवान् Flatpak इत्यस्य उपयोगं करोति ।<br>"
 
-#: src/main.cpp:270
+#: src/main.cpp:290
 #, kde-format
 msgid "You are using the Snap package.<br>"
 msgstr "भवान् Snap संकुलस्य उपयोगं करोति ।<br>"
 
-#: src/main.cpp:276
+#: src/main.cpp:296
 #, kde-format
 msgid "Kdenlive"
 msgstr "क्डेन्लिव्"
 
-#: src/main.cpp:276
+#: src/main.cpp:296
 #, kde-format
 msgid "An open source video editor."
 msgstr "एकः मुक्तस्रोतः विडियो सम्पादकः ।"
 
-#: src/main.cpp:277
+#: src/main.cpp:297
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "प्रतिलिपि अधिकार © 2007–2024 Kdenlive लेखक"
 
-#: src/main.cpp:279
+#: src/main.cpp:299
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "जीन-बैप्टिस्ट मार्डेले"
 
-#: src/main.cpp:279
+#: src/main.cpp:299
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT तथा KDE SC 4 / KF5 पोर्ट्, मुख्यविकासकः परिपालकः च"
 
-#: src/main.cpp:281
+#: src/main.cpp:301
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "निकोलस कैरियन"
 
-#: src/main.cpp:281
+#: src/main.cpp:301
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "कोड पुनः वास्तुकला एवं समयरेखा पुनर्लेखन (2019)"
 
-#: src/main.cpp:282
+#: src/main.cpp:302
 #, kde-format
 msgid "Julius Künzel"
 msgstr "जूलियस कुन्जेल"
 
-#: src/main.cpp:282
+#: src/main.cpp:302
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "विशेषताविकासः, पैकेजिंग्, दोषनिराकरणम्"
 
-#: src/main.cpp:283
+#: src/main.cpp:303
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "विन्सेन्ट् पिनोन"
 
-#: src/main.cpp:283
+#: src/main.cpp:303
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 पोर्ट्, विण्डोज क्रॉस्-बिल्ड्, पैकेजिंग्, बग् फिक्सिंग् च"
 
-#: src/main.cpp:285
+#: src/main.cpp:305
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "दान डेण्डी"
 
-#: src/main.cpp:285
+#: src/main.cpp:305
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT maintainer, Bug fixing इत्यादि।"
 
-#: src/main.cpp:286
+#: src/main.cpp:306
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "सिमोन ए यूगस्टर"
 
-#: src/main.cpp:286
+#: src/main.cpp:306
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "वर्णव्याप्तिः, दोषनिवारणम् इत्यादयः ।"
 
-#: src/main.cpp:287
+#: src/main.cpp:307
 #, kde-format
 msgid "Eric Jiang"
 msgstr "एरिक जियांग"
 
-#: src/main.cpp:287
+#: src/main.cpp:307
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "दोषनिवारणं परीक्षणसुधारं च"
 
-#: src/main.cpp:289
+#: src/main.cpp:309
 #, kde-format
 msgid "Jason Wood"
 msgstr "जेसन वुड्"
 
-#: src/main.cpp:289
+#: src/main.cpp:309
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "मूल KDE 3 संस्करणस्य लेखकः (अधुना सक्रियः नास्ति)"
 
-#: src/main.cpp:291
+#: src/main.cpp:311
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "फरीद अब्देलनौर"
 
-#: src/main.cpp:291
+#: src/main.cpp:311
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "लोगो, प्रचार, परीक्षण"
 
-#: src/main.cpp:292
+#: src/main.cpp:312
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "यूजीन मोहर्"
 
-#: src/main.cpp:292
+#: src/main.cpp:312
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "बग ट्रायेज्, परीक्षणम्, दस्तावेजीकरणस्य परिपालकः"
 
-#: src/main.cpp:293
+#: src/main.cpp:313
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "नारा ओलिवेरा"
 
-#: src/main.cpp:293
+#: src/main.cpp:313
 #, kde-format
 msgid "Logo"
 msgstr "लोगो"
 
-#: src/main.cpp:294
+#: src/main.cpp:314
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ब्रूनो सन्तोस्"
 
-#: src/main.cpp:294
+#: src/main.cpp:314
 #, kde-format
 msgid "Testing"
 msgstr "परीक्षणम्"
 
-#: src/main.cpp:295
+#: src/main.cpp:315
 #, kde-format
 msgid "Massimo Stella"
 msgstr "मास्सिमो स्टेला"
 
-#: src/main.cpp:295
+#: src/main.cpp:315
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "विशेषज्ञ सल्लाहः, परीक्षणम्"
 
-#: src/main.cpp:297
+#: src/main.cpp:317
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "अनुवादकानां नाम"
 
-#: src/main.cpp:297
+#: src/main.cpp:317
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "अनुवादकानां ईमेल"
 
-#: src/main.cpp:300
+#: src/main.cpp:320
 #, kde-format
 msgid "MLT"
 msgstr "एम.एल.टी"
 
-#: src/main.cpp:300
+#: src/main.cpp:320
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "मुक्तस्रोतबहुमाध्यमरूपरेखा।"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:302 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:322 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:302
+#: src/main.cpp:322
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "श्रव्य-वीडियो-अभिलेखयितुं, परिवर्तयितुं, प्रवाहयितुं च सम्पूर्णं, पार-मञ्च-समाधानम् ।"
 
-#: src/main.cpp:320
+#: src/main.cpp:340
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "इष्टं विन्याससञ्चिकानाम सेट् कुर्वन्तु ।"
 
-#: src/main.cpp:321
+#: src/main.cpp:341
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT वातावरणस्य कृते मार्गं सेट् कुर्वन्तु ।"
 
-#: src/main.cpp:323
+#: src/main.cpp:343
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT log स्तरं सेट् कुर्वन्तु । \"चेतावनी\" स्तरस्य कृते एतत् अनिर्मितं त्यजन्तु ।"
 
-#: src/main.cpp:326
+#: src/main.cpp:346
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "बिन् मध्ये क्लिप्स् रूपेण योजयितुं सञ्चिकानां अल्पविरामेन पृथक्कृता सूची ।"
 
-#: src/main.cpp:330
+#: src/main.cpp:350
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "प्रत्यक्षतया परियोजनां रेण्डर् कृत्वा निर्गच्छतु।"
 
-#: src/main.cpp:333
+#: src/main.cpp:353
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive render preset name (यदि कोऽपि न दत्तः तर्हि MP4-H264/AAC इत्यस्य उपयोगः "
 "भविष्यति) ।"
 
-#: src/main.cpp:338
+#: src/main.cpp:358
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25175,17 +25175,17 @@ msgstr ""
 "(विच्छिन्न) रेण्डर् प्रक्रिया आरब्धस्य अनन्तरं निर्गच्छतु, एतत् ध्वजं विना समाप्तस्य अनन्तरमेव "
 "विद्यते ।"
 
-#: src/main.cpp:341
+#: src/main.cpp:361
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Kdenlive दस्तावेजं उद्घाटयितुं।"
 
-#: src/main.cpp:342
+#: src/main.cpp:362
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "रेण्डर्ड् विडियो कृते आउटपुट् सञ्चिका ।"
 
-#: src/main.cpp:454
+#: src/main.cpp:474
 #, kde-format
 msgid "Version %1"
 msgstr "संस्करणम् %1"

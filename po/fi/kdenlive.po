@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 00:40+0000\n"
+"POT-Creation-Date: 2025-07-30 00:42+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -20067,13 +20067,13 @@ msgstr "Projektin profiili on virheellinen: hahmonnus voi epäonnistua."
 msgid "Loading clips"
 msgstr "Avataan leikkeitä"
 
-#: src/core.cpp:1450
+#: src/core.cpp:1452
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Merkki 2"
 
-#: src/core.cpp:1804
+#: src/core.cpp:1806
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20083,7 +20083,7 @@ msgstr ""
 "Tämä avaa selaimen ja näyttää Kdenliven online-ohjeet osoitteessa:\n"
 " %1"
 
-#: src/core.cpp:1805
+#: src/core.cpp:1807
 #, kde-format
 msgid "Open Browser"
 msgstr "Avaa selaimeen"
@@ -21156,7 +21156,7 @@ msgstr "Video ilman ääniraitaa"
 msgid "Audio without video track"
 msgstr "Ääni ilman videoraitaa"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:435
+#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25180,202 +25180,202 @@ msgstr "Kirjaston polku asetettu mukautetuksi: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Kirjaston polkuun %1 ei voi kirjoittaa, käytetään oletusta"
 
-#: src/main.cpp:259
+#: src/main.cpp:279
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Ilmoita bugeista <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:264
+#: src/main.cpp:284
 #, kde-format
 msgid "You are using the AppImage.<br>"
 msgstr "Käytät AppImagea.<br>"
 
-#: src/main.cpp:267
+#: src/main.cpp:287
 #, kde-format
 msgid "You are using the Flatpak.<br>"
 msgstr "Käytät Flatpakiä.<br>"
 
-#: src/main.cpp:270
+#: src/main.cpp:290
 #, kde-format
 msgid "You are using the Snap package.<br>"
 msgstr "Käytät Snapiä.<br>"
 
 # pmap: =:gen=Kdenliven:
 # pmap: =:elat=Kdenlivestä:
-#: src/main.cpp:276
+#: src/main.cpp:296
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:276
+#: src/main.cpp:296
 #, kde-format
 msgid "An open source video editor."
 msgstr "Avoimen lähdekoodin videoeditointi-ohjelma."
 
-#: src/main.cpp:277
+#: src/main.cpp:297
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Tekijänoikeudet © 2007–2024 Kdenliven tekijät"
 
-#: src/main.cpp:279
+#: src/main.cpp:299
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:279
+#: src/main.cpp:299
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "Koodin siirto MLT ja KDE SC 4 / KF5, pääkehittäjä ja ylläpitäjä"
 
-#: src/main.cpp:281
+#: src/main.cpp:301
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:281
+#: src/main.cpp:301
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Koodiarkkitehtuurin ja aikajanan uudistaminen (2019)"
 
-#: src/main.cpp:282
+#: src/main.cpp:302
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:282
+#: src/main.cpp:302
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Ominaisuuskehitys, paketointi, virheenkorjaus"
 
-#: src/main.cpp:283
+#: src/main.cpp:303
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:283
+#: src/main.cpp:303
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5-portti, Windows sovitus, paketointi, virheenkorjaus"
 
-#: src/main.cpp:285
+#: src/main.cpp:305
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:285
+#: src/main.cpp:305
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT-ylläpitäjä, virheenkorjaus jne."
 
-#: src/main.cpp:286
+#: src/main.cpp:306
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:286
+#: src/main.cpp:306
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Värialueet, virhekorjaukset jne."
 
-#: src/main.cpp:287
+#: src/main.cpp:307
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:287
+#: src/main.cpp:307
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Virheenkorjaus ja parannusten kokeilu"
 
-#: src/main.cpp:289
+#: src/main.cpp:309
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:289
+#: src/main.cpp:309
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Alkuperäinen KDE 3 version kehittäjä (ei enää aktiivinen)"
 
-#: src/main.cpp:291
+#: src/main.cpp:311
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:291
+#: src/main.cpp:311
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, mainonta, testaus"
 
-#: src/main.cpp:292
+#: src/main.cpp:312
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:292
+#: src/main.cpp:312
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Virheiden diagnosointi ja kokeilu, ohjeistuksen ylläpitäjä"
 
-#: src/main.cpp:293
+#: src/main.cpp:313
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:293
+#: src/main.cpp:313
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:294
+#: src/main.cpp:314
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:294
+#: src/main.cpp:314
 #, kde-format
 msgid "Testing"
 msgstr "Testaus"
 
-#: src/main.cpp:295
+#: src/main.cpp:315
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:295
+#: src/main.cpp:315
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Asiantuntijan neuvoja, testaus"
 
-#: src/main.cpp:297
+#: src/main.cpp:317
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Tommi Nieminen,Antti Sokero,Kimmo Kujansuu"
 
-#: src/main.cpp:297
+#: src/main.cpp:317
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "translator@legisign.org,antti@sokero.com,mrkujansuu@gmail.com"
 
-#: src/main.cpp:300
+#: src/main.cpp:320
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:300
+#: src/main.cpp:320
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Avoimen lähdekoodin multimedia kehitysympäristö."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:302 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:322 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:302
+#: src/main.cpp:322
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25384,43 +25384,43 @@ msgstr ""
 "Täydellinen, alustariippumaton ratkaisu äänen ja videon tallentamiseen, "
 "muuntamiseen ja suoratoistoon."
 
-#: src/main.cpp:320
+#: src/main.cpp:340
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Aseta mukautetun asetustiedoston nimi."
 
-#: src/main.cpp:321
+#: src/main.cpp:341
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Aseta MLT-ympäristön polku."
 
-#: src/main.cpp:323
+#: src/main.cpp:343
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Aseta MLT-lokin kirjaustaso. Jätä tämä asettamatta niin tason on "
 "\"varoitukset\"."
 
-#: src/main.cpp:326
+#: src/main.cpp:346
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Pilkuilla eroteltu luettelo tiedostoista, jotka lisätään leikkeiksi "
 "roskakoriin."
 
-#: src/main.cpp:330
+#: src/main.cpp:350
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Hahmonna projekti ja lopeta."
 
-#: src/main.cpp:333
+#: src/main.cpp:353
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenliven hahmonnusesiasetuksen nimi (käytetään MP4-H264/AAC, ellei mitään "
 "anneta)."
 
-#: src/main.cpp:338
+#: src/main.cpp:358
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25429,17 +25429,17 @@ msgstr ""
 "Lopeta (irrotetun) hahmonnusprosessin käynnistyttyä; ilman tätä lopetetaan "
 "vasta sen valmistuttua."
 
-#: src/main.cpp:341
+#: src/main.cpp:361
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Avattava Kdenlive-dokumentti."
 
-#: src/main.cpp:342
+#: src/main.cpp:362
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Hahmonnetun videon tulostiedosto."
 
-#: src/main.cpp:454
+#: src/main.cpp:474
 #, kde-format
 msgid "Version %1"
 msgstr "Versio %1"
