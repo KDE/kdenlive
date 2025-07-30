@@ -490,6 +490,12 @@ void ClipLoadTask::run()
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
             Q_EMIT taskDone();
         } else {
+            // If this is a proxy, warn user
+            if (binClip && binClip->hasProxy()) {
+                QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                          Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
+                                          Q_ARG(int, int(KMessageWidget::Warning)));
+            }
             Q_EMIT taskDone();
             abort();
         }
@@ -815,7 +821,6 @@ void ClipLoadTask::abort()
             } else {
                 // An existing clip just became invalid, mark it as missing.
                 QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::QueuedConnection, Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
-                binClip->setClipStatus(FileStatus::StatusMissing);
             }
         }
     }
