@@ -160,6 +160,9 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/OverlayCenterDiagonal.qml
     monitor/view/OverlayThirds.qml
     monitor/view/OverlayLabel.qml
+    monitor/view/ResizeHandle.qml
+    monitor/view/ResizeLogic.js
+    monitor/view/RotationHandle.qml
     timeline2/view/qml/Timeline.qml
     timeline2/view/qml/TimelineLogic.js
     timeline2/view/qml/TrackHead.qml
