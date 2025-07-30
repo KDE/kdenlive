@@ -181,7 +181,9 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin(), &Bin::refreshClip);
     connect(m_projectItemModel.get(), &ProjectItemModel::itemDropped, m_mainWindow->activeBin(), &Bin::slotItemDropped, Qt::QueuedConnection);
-    connect(m_projectItemModel.get(), &ProjectItemModel::urlsDropped, m_mainWindow->activeBin(), &Bin::slotUrlsDropped, Qt::QueuedConnection);
+    connect(m_projectItemModel.get(), &ProjectItemModel::urlsDropped, this, [this](const QList<QUrl> urls, const QModelIndex parent) {
+        QMetaObject::invokeMethod(m_mainWindow->activeBin(), "slotUrlsDropped", Qt::QueuedConnection, Q_ARG(QList<QUrl>, urls), Q_ARG(QModelIndex, parent));
+    });
 
     connect(m_projectItemModel.get(), &ProjectItemModel::effectDropped, m_mainWindow->activeBin(), &Bin::slotEffectDropped);
     connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin(), &Bin::slotTagDropped);
