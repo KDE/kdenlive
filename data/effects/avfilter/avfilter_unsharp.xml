@@ -31,15 +31,15 @@
         <comment><![CDATA[Set the chroma effect strength.<br>
             Reasonable values are between -1.5 and 1.5. Negative values will blur the input video, while positive values will sharpen it, a value of zero will disable the effect. ]]></comment>
     </parameter>
-    <parameter type="constant" name="av.ax" max="13" min="3" default="5" odd="1">
+    <parameter type="fixed" name="av.ax" max="13" min="3" default="5" odd="1" value="5">
         <name>Alpha horizontal matrix</name>
         <comment><![CDATA[Set the alpha matrix horizontal size]]></comment>
     </parameter>
-    <parameter type="constant" name="av.ay" max="13" min="3" default="5" odd="1">
+    <parameter type="fixed" name="av.ay" max="13" min="3" default="5" odd="1" value="5">
         <name>Alpha vertical matrix</name>
         <comment><![CDATA[Set the alpha matrix vertical size]]></comment>
     </parameter>
-    <parameter type="constant" name="av.aa" max="5" min="-2" default="0" decimals="2">
+    <parameter type="fixed" name="av.aa" max="5" min="-2" default="0" decimals="2" value="0">
         <name>Alpha strength</name>
         <comment><![CDATA[Set the alpha effect strength.<br>
             Reasonable values are between -1.5 and 1.5. Negative values will blur the input video, while positive values will sharpen it, a value of zero will disable the effect. ]]></comment>
