@@ -22,6 +22,7 @@ Rectangle {
     // Signals
     signal rotationStart()
     signal rotationEnd()
+    // Returns rotation angle between -360 and 360 (inclusive)
     signal rotationChanged(real angle)
     signal captureRightClick(bool capture)
     signal addRemoveKeyframe()
@@ -67,11 +68,14 @@ Rectangle {
                 angleDiff += 360
             }
             
-            var newAngle = startingAngle + angleDiff
-
-            // If value is 360° show it as 0°
-            if (Math.abs(newAngle) === 360) {
-                newAngle = 0
+            var newAngle = (startingAngle + angleDiff)
+            
+            // Normalize angle to equivalent value between -360 and +360 (inclusive ends)
+            while (newAngle > 360) {
+                newAngle -= 360
+            }
+            while (newAngle < -360) {
+                newAngle += 360
             }
 
             return newAngle
