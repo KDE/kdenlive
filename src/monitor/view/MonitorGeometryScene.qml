@@ -103,7 +103,8 @@ Item {
     
     function shouldFlipText(rotationAngle) {
         // Flip text when rotation is between 90-270 degrees to prevent upside-down text
-        var normalizedRotation = ResizeLogic.normalizeRotation(rotationAngle)
+        // Direction/sign of the rotation does not matter for this purpose
+        var normalizedRotation = Math.abs(rotationAngle)
         return normalizedRotation >= 90 && normalizedRotation <= 270
     }
 

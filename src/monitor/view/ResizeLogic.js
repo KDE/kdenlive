@@ -55,15 +55,11 @@ function Point(x, y) {
     this.y = y || 0
 }
 
-// Keep rotation in 0-360 range
-function normalizeRotation(rotationDegrees) {
-    return ((rotationDegrees % 360) + 360) % 360
-}
-
 // Map logical handle type to visual handle type based on rotation angle
 // so we can show the correct cursor pointing in (roughly) the right direction
 function getVisualHandleType(logicalHandleType, rotationDegrees) {
-    var normalizedRotation = normalizeRotation(rotationDegrees)
+    // Bring rotation in 0-360 range (negative rotation is converted to positive as we don't need the directional information)
+    var normalizedRotation =  ((rotationDegrees % 360) + 360) % 360
     
     // Round to nearest 90 degrees for handle mapping
     var quadrant = Math.round(normalizedRotation / 90) % 4
