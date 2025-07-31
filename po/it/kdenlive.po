@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 02:32+0000\n"
+"POT-Creation-Date: 2025-07-31 02:33+0000\n"
 "PO-Revision-Date: 2025-07-13 18:11+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -7238,7 +7238,7 @@ msgstr "Durata"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:704 src/kdenliveui.rc:30 src/mainwindow.cpp:208
+#: src/core.cpp:706 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -18602,9 +18602,10 @@ msgstr "Inserisci il percorso dell'applicazione per l'elaborazione audio"
 msgid "Please set a default application to open audio files"
 msgstr "Imposta un'applicazione predefinita per aprire i file audio"
 
-#: src/bin/bin.cpp:4736 src/core.cpp:328 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
+#: src/bin/bin.cpp:4736 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/jobs/cliploadtask.cpp:484 src/jobs/cliploadtask.cpp:496
+#: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
+#: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
 #: src/renderpresets/renderpresetrepository.cpp:385
@@ -19207,22 +19208,22 @@ msgstr "Il file esiste già"
 msgid "Adjust timeline clips"
 msgstr "Regola le clip nella linea temporale"
 
-#: src/bin/projectclip.cpp:2756
+#: src/bin/projectclip.cpp:2762
 #, kde-format
 msgid "Add stream effect"
 msgstr "Aggiungi effetto del flusso"
 
-#: src/bin/projectclip.cpp:2781
+#: src/bin/projectclip.cpp:2787
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Rimuovi effetto del flusso"
 
-#: src/bin/projectclip.cpp:3115
+#: src/bin/projectclip.cpp:3121
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Maschera aggiunta alla clip"
 
-#: src/bin/projectclip.cpp:3119
+#: src/bin/projectclip.cpp:3125
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Clip mancante per la maschera"
@@ -19372,7 +19373,7 @@ msgstr ""
 "Kdenlive è andato in crash durante l'ultimo avvio.\n"
 "Vuoi reimpostare i file di configurazione?"
 
-#: src/core.cpp:216
+#: src/core.cpp:218
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -19381,19 +19382,19 @@ msgstr ""
 "Il profilo predefinito di Kdenlive non è stato impostato o non è valido, "
 "premi OK per impostarlo ad un valore corretto."
 
-#: src/core.cpp:228
+#: src/core.cpp:230
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Seleziona il profilo predefinito"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:228 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:230 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profilo:"
 
-#: src/core.cpp:241
+#: src/core.cpp:243
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -19402,268 +19403,268 @@ msgstr ""
 "Il profilo fornito non è valido. Passeremo al profilo «dv_pal», ma puoi "
 "cambiarlo dal pannello delle impostazioni di Kdenlive"
 
-#: src/core.cpp:259 src/project/projectmanager.cpp:833
+#: src/core.cpp:261 src/project/projectmanager.cpp:833
 #, kde-format
 msgid "Loading project…"
 msgstr "Caricamento del progetto…"
 
-#: src/core.cpp:380
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Quadrato 2 barre"
 
-#: src/core.cpp:381
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Scacchiera piccola"
 
-#: src/core.cpp:382
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Tende orizzontali"
 
-#: src/core.cpp:383
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radiale"
 
-#: src/core.cpp:384
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "X lineare"
 
-#: src/core.cpp:385
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "X bi lineare"
 
-#: src/core.cpp:386
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Y lineare"
 
-#: src/core.cpp:387
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Y bi lineare"
 
-#: src/core.cpp:388
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Quadrato"
 
-#: src/core.cpp:389
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Quadrato 2"
 
-#: src/core.cpp:390
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nuvola"
 
-#: src/core.cpp:391
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Orologio simmetrico"
 
-#: src/core.cpp:392
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barre radiali"
 
-#: src/core.cpp:393
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spirale"
 
-#: src/core.cpp:394
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spirale 2"
 
-#: src/core.cpp:395
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Sipario"
 
-#: src/core.cpp:396
+#: src/core.cpp:398
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Scoppio"
 
-#: src/core.cpp:397
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Orologio"
 
-#: src/core.cpp:399
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barra orizzontale"
 
-#: src/core.cpp:400
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barra verticale"
 
-#: src/core.cpp:401
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Porta del fienile orizzontale"
 
-#: src/core.cpp:402
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Porta del fienile verticale"
 
-#: src/core.cpp:403
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Porta del fienile diagonale SO-NE"
 
-#: src/core.cpp:404
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Porta del fienile diagonale NO-SE"
 
-#: src/core.cpp:405
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonale in alto a sinistra"
 
-#: src/core.cpp:406
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonale in alto a destra"
 
-#: src/core.cpp:407
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Cascata a matrice orizzontale"
 
-#: src/core.cpp:408
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Cascata a matrice verticale"
 
-#: src/core.cpp:409
+#: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Serpente a matrice orizzontale"
 
-#: src/core.cpp:410
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Serpente a matrice orizzontale parallela"
 
-#: src/core.cpp:411
+#: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Serpente a matrice verticale"
 
-#: src/core.cpp:412
+#: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Serpente a matrice verticale parallela"
 
-#: src/core.cpp:413
+#: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Fienile a V in su"
 
-#: src/core.cpp:414
+#: src/core.cpp:416
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Riquadro a iris"
 
-#: src/core.cpp:415
+#: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Iris doppio"
 
-#: src/core.cpp:416
+#: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Riquadro a iris"
 
-#: src/core.cpp:417
+#: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Riquadro in basso a destra"
 
-#: src/core.cpp:418
+#: src/core.cpp:420
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Riquadro in basso a sinistra"
 
-#: src/core.cpp:419
+#: src/core.cpp:421
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Riquadro in centro a destra"
 
-#: src/core.cpp:420
+#: src/core.cpp:422
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Orologio sopra"
 
-#: src/core.cpp:650
+#: src/core.cpp:652
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Il profilo del progetto non è valido, l'esportazione potrebbe non riuscire."
 
-#: src/core.cpp:1014
+#: src/core.cpp:1016
 #, kde-format
 msgid "Loading clips"
 msgstr "Caricamento clip"
 
-#: src/core.cpp:1450
+#: src/core.cpp:1454
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcatore %1"
 
-#: src/core.cpp:1804
+#: src/core.cpp:1808
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19674,7 +19675,7 @@ msgstr ""
 "di Kdenlive al seguente url:\n"
 " %1"
 
-#: src/core.cpp:1805
+#: src/core.cpp:1809
 #, kde-format
 msgid "Open Browser"
 msgstr "Apri il browser"
@@ -24034,17 +24035,17 @@ msgstr "Miniature video"
 msgid "Loading clip"
 msgstr "Caricamento clip"
 
-#: src/jobs/cliploadtask.cpp:522
+#: src/jobs/cliploadtask.cpp:528
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "La durata del file <b>%1</b> non può essere determinata."
 
-#: src/jobs/cliploadtask.cpp:717
+#: src/jobs/cliploadtask.cpp:723
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Impossibile cercare nel file <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:748
+#: src/jobs/cliploadtask.cpp:754
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Il file <b>%1</b> ha una frequenza dei fotogrammi variabile."

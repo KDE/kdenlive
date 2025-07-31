@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 02:32+0000\n"
+"POT-Creation-Date: 2025-07-31 02:33+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -7366,7 +7366,7 @@ msgstr "Időtartam"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:704 src/kdenliveui.rc:30 src/mainwindow.cpp:208
+#: src/core.cpp:706 src/kdenliveui.rc:30 src/mainwindow.cpp:208
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, fuzzy, kde-format
@@ -19016,9 +19016,10 @@ msgstr ""
 "Állítsa be a „Beállítások” ablakban azt az alapértelmezett alkalmazást, "
 "amellyel a hangfájlokat kívánja megnyitni"
 
-#: src/bin/bin.cpp:4736 src/core.cpp:328 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
+#: src/bin/bin.cpp:4736 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/jobs/cliploadtask.cpp:484 src/jobs/cliploadtask.cpp:496
+#: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
+#: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
 #: src/renderpresets/renderpresetrepository.cpp:385
@@ -19686,25 +19687,25 @@ msgstr "A profil már létezik"
 msgid "Adjust timeline clips"
 msgstr "Idővonal klip törlése"
 
-#: src/bin/projectclip.cpp:2756
+#: src/bin/projectclip.cpp:2762
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Videó effektus hozzáadása"
 
-#: src/bin/projectclip.cpp:2781
+#: src/bin/projectclip.cpp:2787
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
 msgstr "Effekt visszaállítása"
 
-#: src/bin/projectclip.cpp:3115
+#: src/bin/projectclip.cpp:3121
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Mask added to clip"
 msgstr "Lejátszólista klipek"
 
-#: src/bin/projectclip.cpp:3119
+#: src/bin/projectclip.cpp:3125
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -19864,14 +19865,14 @@ msgid ""
 "Do you want to reset the configuration files ?"
 msgstr ""
 
-#: src/core.cpp:216
+#: src/core.cpp:218
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:228
+#: src/core.cpp:230
 #, fuzzy, kde-format
 #| msgid "Default Profile"
 msgctxt "@title:window"
@@ -19879,284 +19880,284 @@ msgid "Select Default Profile"
 msgstr "Alapértelmezett profil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:228 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:230 src/ui/profiledialog_ui.ui:37
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile:"
 msgstr "Profil"
 
-#: src/core.cpp:241
+#: src/core.cpp:243
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:259 src/project/projectmanager.cpp:833
+#: src/core.cpp:261 src/project/projectmanager.cpp:833
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
 msgstr "Projekt betöltése"
 
-#: src/core.cpp:380
+#: src/core.cpp:382
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Szögletes elmosás"
 
-#: src/core.cpp:381
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:382
+#: src/core.cpp:384
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Vízszintes"
 
-#: src/core.cpp:383
+#: src/core.cpp:385
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Sugár"
 
-#: src/core.cpp:384
+#: src/core.cpp:386
 #, fuzzy, kde-format
 #| msgid "Shear X"
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Nyírás X"
 
-#: src/core.cpp:385
+#: src/core.cpp:387
 #, fuzzy, kde-format
 #| msgid "Bilinear (good)"
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilineáris (jó)"
 
-#: src/core.cpp:386
+#: src/core.cpp:388
 #, fuzzy, kde-format
 #| msgid "Shear Y"
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Nyírás Y"
 
-#: src/core.cpp:387
+#: src/core.cpp:389
 #, fuzzy, kde-format
 #| msgid "Bilinear (good)"
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilineáris (jó)"
 
-#: src/core.cpp:388
+#: src/core.cpp:390
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Szögletes elmosás"
 
-#: src/core.cpp:389
+#: src/core.cpp:391
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Szögletes elmosás"
 
-#: src/core.cpp:390
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:391
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:392
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:393
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:394
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:395
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:396
+#: src/core.cpp:398
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:397
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:399
+#: src/core.cpp:401
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Vízszintes"
 
-#: src/core.cpp:400
+#: src/core.cpp:402
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Függőleges"
 
-#: src/core.cpp:401
+#: src/core.cpp:403
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Vízszintes"
 
-#: src/core.cpp:402
+#: src/core.cpp:404
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Függőleges"
 
-#: src/core.cpp:403
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:404
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:405
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:406
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:407
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:408
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:409
+#: src/core.cpp:411
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Vízszintes"
 
-#: src/core.cpp:410
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:411
+#: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:412
+#: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:413
+#: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:414
+#: src/core.cpp:416
 #, fuzzy, kde-format
 #| msgid "Circle radius"
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Kör sugár"
 
-#: src/core.cpp:415
+#: src/core.cpp:417
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Proxyk törlése"
 
-#: src/core.cpp:416
+#: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:417
+#: src/core.cpp:419
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Először az alsó"
 
-#: src/core.cpp:418
+#: src/core.cpp:420
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Először az alsó"
 
-#: src/core.cpp:419
+#: src/core.cpp:421
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:420
+#: src/core.cpp:422
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:650
+#: src/core.cpp:652
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -20165,18 +20166,18 @@ msgstr ""
 "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett mappa "
 "lesz használatba véve: %1"
 
-#: src/core.cpp:1014
+#: src/core.cpp:1016
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipek betöltése"
 
-#: src/core.cpp:1450
+#: src/core.cpp:1454
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "2. jelölő"
 
-#: src/core.cpp:1804
+#: src/core.cpp:1808
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20184,7 +20185,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1805
+#: src/core.cpp:1809
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
@@ -24698,17 +24699,17 @@ msgstr "Bélyegképek"
 msgid "Loading clip"
 msgstr "Klipek betöltése"
 
-#: src/jobs/cliploadtask.cpp:522
+#: src/jobs/cliploadtask.cpp:528
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:717
+#: src/jobs/cliploadtask.cpp:723
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:748
+#: src/jobs/cliploadtask.cpp:754
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
