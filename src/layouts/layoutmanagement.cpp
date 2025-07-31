@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileDialog>
 #include <QFrame>
 #include <QInputDialog>
+#include <QLabel>
 #include <QListWidget>
 #include <QMenu>
 #include <QMenuBar>
@@ -24,6 +25,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layouts/layoutswitcher.h"
 #include <KColorScheme>
 #include <KConfigGroup>
+#include <KIconEffect>
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KToolBar>
@@ -73,25 +75,46 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
     auto *l1 = new QHBoxLayout;
     l1->addStretch();
+    // space between the corner widget and the menu bar
     l1->setContentsMargins(6, 0, 0, 0);
+    // space between the autosave label and the layout switcher
     l1->setSpacing(0);
 
+    // Create separate containers for autosave label and layout switcher so we can apply different background colors
+    m_autosaveContainer = new QWidget(m_container);
+    m_autosaveContainer->setAutoFillBackground(false);
+    m_switcherContainer = new QWidget(m_container);
+    m_switcherContainer->setAutoFillBackground(true);
+
+    auto *autosaveLayout = new QHBoxLayout(m_autosaveContainer);
+    autosaveLayout->setContentsMargins(4, 0, 4, 0);
+    autosaveLayout->setSpacing(0);
+
+    auto *switcherLayout = new QHBoxLayout(m_switcherContainer);
+    switcherLayout->setContentsMargins(0, 0, 0, 0);
+    switcherLayout->setSpacing(0);
+
     // TOOD: This autosave label & timer is not about autosaving layouts but the current project. Need to find a better location for this.
-    m_autosaveLabel = new QFrame(main);
-    m_autosaveLabel->setAutoFillBackground(false);
+    m_autosaveLabel = new QLabel(QString(), m_autosaveContainer);
     m_autosaveLabel->setToolTip(i18n("Auto Save"));
-    QPalette pal = m_autosaveLabel->palette();
     int iconSize = main->style()->pixelMetric(QStyle::PM_SmallIconSize);
     m_autosaveLabel->setFixedSize(iconSize, iconSize);
-    pal.setColor(QPalette::Active, QPalette::Button, QColor(80, 250, 80));
-    m_autosaveLabel->setPalette(pal);
-    l1->addWidget(m_autosaveLabel);
-    l1->addWidget(m_layoutSwitcher);
+    m_autosaveLabel->setScaledContents(true);
+    updateAutosaveIcon();
+    m_autosaveLabel->hide(); // Initially hidden
+
+    // Set fixed width for autosave container to prevent switcher from moving when icon is shown/hidden (8px for content margins)
+    m_autosaveContainer->setFixedWidth(iconSize + 8);
+
+    autosaveLayout->addWidget(m_autosaveLabel);
+    switcherLayout->addWidget(m_layoutSwitcher);
+
+    l1->addWidget(m_autosaveContainer);
+    l1->addWidget(m_switcherContainer);
     m_container->setLayout(l1);
 
     slotUpdatePalette();
     connect(pCore.get(), &Core::updatePalette, this, &LayoutManagement::slotUpdatePalette);
-    m_container->setAutoFillBackground(true);
     // TODO: Setting up right corner of the menu bar should also probably sit elsewhere. Wouldn't expect to find this in the layout management class.
     main->menuBar()->setCornerWidget(m_container, Qt::TopRightCorner);
 
@@ -106,13 +129,15 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
 void LayoutManagement::startAutoSave()
 {
-    m_autosaveLabel->setAutoFillBackground(true);
+    m_autosaveContainer->setAutoFillBackground(true);
+    m_autosaveLabel->show();
     m_autosaveDisplayTimer.start();
 }
 
 void LayoutManagement::hideAutoSave()
 {
-    m_autosaveLabel->setAutoFillBackground(false);
+    m_autosaveLabel->hide();
+    m_autosaveContainer->setAutoFillBackground(false);
 }
 
 void LayoutManagement::initializeLayouts()
@@ -350,9 +375,32 @@ void LayoutManagement::slotDockAreaColumns()
 void LayoutManagement::slotUpdatePalette()
 {
     MainWindow *main = pCore->window();
-    QPalette pal = m_container->palette();
+    QPalette pal = m_switcherContainer->palette();
     KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
     QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
     pal.setColor(QPalette::Active, QPalette::Button, bg);
-    m_container->setPalette(pal);
+    m_switcherContainer->setPalette(pal);
+
+    pal = m_autosaveContainer->palette();
+    // Create similar but more muted version of the same color
+    QColor mutedBg = bg;
+    mutedBg.setHsv(mutedBg.hue(), qMax(0, mutedBg.saturation() - 30), qMin(255, mutedBg.value() + 20));
+    pal.setColor(QPalette::Active, QPalette::Button, mutedBg);
+    m_autosaveContainer->setPalette(pal);
+
+    updateAutosaveIcon();
+}
+
+void LayoutManagement::updateAutosaveIcon()
+{
+    MainWindow *main = pCore->window();
+    qreal dpr = main->devicePixelRatioF();
+    int iconSize = main->style()->pixelMetric(QStyle::PM_SmallIconSize);
+
+    QSize iconPxSize = QSize(iconSize, iconSize) * dpr;
+    QIcon icon = QIcon::fromTheme(QStringLiteral("document-save"));
+    QPixmap iconPixmap = icon.pixmap(iconPxSize);
+    iconPixmap.setDevicePixelRatio(dpr);
+
+    m_autosaveLabel->setPixmap(iconPixmap);
 }
