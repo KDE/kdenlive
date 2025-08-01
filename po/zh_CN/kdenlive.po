@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-31 02:33+0000\n"
+"POT-Creation-Date: 2025-08-01 02:44+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -21,19 +21,19 @@ msgstr ""
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"AngelSherry, DuckSoft, fangzheng, Guo Yunhe, ikochina, magsom, mrwang, ovo-"
-"Tim, phone-burner, Tyson Tan, Wu Junjie(ShiroAzusa), Yuchen Deng, Zhang Jie, "
-"大宝, 潘晓宇, 阎金昭"
+"AngelSherry, DuckSoft, fangzheng, Guo Yunhe, ikochina, magsom, Monstorix, "
+"mrwang, ovo-Tim, phone-burner, Tyson Tan, Wu Junjie(ShiroAzusa), Yuchen "
+"Deng, Zhang Jie, 大宝, 潘晓宇, 阎金昭"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "angelsherry@kde.org, ducksoft@kde.org, fangzheng@kde.org, i@guoyunhe.me, "
-"ikochina@kde.org, magsom@kde.org, mywang@kde.org, ovo-Tim@kde.org, phone-"
-"burner@kde.org, phoxtail@kde.org, tds00@qq.com, shiroazusa@qq.com, "
-"loaden@kde.org, zhangjie@kde.org, linux.dabao@gmail.com, panxiaoyu6@kde.org, "
-"leonardyan@kde.org"
+"ikochina@kde.org, magsom@kde.org, Monstorix@kde.org, mywang@kde.org, ovo-"
+"Tim@kde.org, phone-burner@kde.org, phoxtail@kde.org, tds00@qq.com, "
+"shiroazusa@qq.com, loaden@kde.org, zhangjie@kde.org, linux.dabao@gmail.com, "
+"panxiaoyu6@kde.org, leonardyan@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
@@ -19988,7 +19988,7 @@ msgstr "自定义"
 msgid "The preset name can't be empty"
 msgstr "预设名称不能为空"
 
-#: src/dialogs/renderpresetdialog.cpp:855
+#: src/dialogs/renderpresetdialog.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -26886,12 +26886,12 @@ msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 个音频流"
 
-#: src/monitor/monitor.cpp:2488
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "无法初始化Movit 的 GLSL 管理器，请禁用 Movit"
 
-#: src/monitor/monitor.cpp:2530 src/monitor/monitor.cpp:2587
+#: src/monitor/monitor.cpp:2525 src/monitor/monitor.cpp:2582
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -26899,17 +26899,17 @@ msgid ""
 msgstr ""
 "该功能需要透明度渐变 (alphagrad) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2550
+#: src/monitor/monitor.cpp:2545
 #, kde-format
 msgid "Clip has no effects"
 msgstr "剪辑没有使用效果"
 
-#: src/monitor/monitor.cpp:2552
+#: src/monitor/monitor.cpp:2547
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "选择项目素材箱中的一段剪辑来比较效果"
 
-#: src/monitor/monitor.cpp:2594
+#: src/monitor/monitor.cpp:2589
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -26917,17 +26917,17 @@ msgid ""
 msgstr ""
 "该功能需要 Cairo 混合 (cairoblend) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2670
+#: src/monitor/monitor.cpp:2665
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "启用监视器编辑模式以编辑效果"
 
-#: src/monitor/monitor.cpp:3170
+#: src/monitor/monitor.cpp:3165
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "剪辑监视器中没有选中剪辑"
 
-#: src/monitor/monitor.cpp:3191
+#: src/monitor/monitor.cpp:3186
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "无法获取剪辑监视器的生产来源"
@@ -27327,7 +27327,7 @@ msgstr "转到蒙版起点"
 msgid "Go to mask end"
 msgstr "转到蒙版终点"
 
-#: src/monitor/view/MonitorGeometryScene.qml:306
+#: src/monitor/view/MonitorGeometryScene.qml:322
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29779,51 +29779,51 @@ msgstr "无法打开与导出任务 %1 的通信"
 msgid "Communication error with render job"
 msgstr "导出任务通信错误"
 
-#: src/renderpresets/renderpresetmodel.cpp:193
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:198
+#: src/renderpresets/renderpresetmodel.cpp:285
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "自定义"
 
-#: src/renderpresets/renderpresetmodel.cpp:315
+#: src/renderpresets/renderpresetmodel.cpp:321
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "标准 (%1) 不兼容项目编码方案 (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:325
+#: src/renderpresets/renderpresetmodel.cpp:331
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "帧速率 (%1) 不兼容项目编码方案 (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:339
-#: src/renderpresets/renderpresetmodel.cpp:362
+#: src/renderpresets/renderpresetmodel.cpp:345
+#: src/renderpresets/renderpresetmodel.cpp:368
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "不支持的视频格式：%1"
 
-#: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:375
+#: src/renderpresets/renderpresetmodel.cpp:350
+#: src/renderpresets/renderpresetmodel.cpp:381
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "不支持的视频编码：%1"
 
-#: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:369
+#: src/renderpresets/renderpresetmodel.cpp:355
+#: src/renderpresets/renderpresetmodel.cpp:375
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "不支持的音频编码：%1"
 
-#: src/renderpresets/renderpresetmodel.cpp:354
-#: src/renderpresets/renderpresetmodel.cpp:381
+#: src/renderpresets/renderpresetmodel.cpp:360
+#: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr "使用合成或非 avfilter 提供的特效时，10 位色深将会转换为 8 位。"
 
-#: src/renderpresets/renderpresetmodel.cpp:386
+#: src/renderpresets/renderpresetmodel.cpp:392
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "

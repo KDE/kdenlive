@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-31 02:33+0000\n"
-"PO-Revision-Date: 2025-03-13 11:43+0400\n"
+"POT-Creation-Date: 2025-08-01 02:44+0000\n"
+"PO-Revision-Date: 2025-07-31 18:14+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -13304,7 +13304,7 @@ msgstr ""
 "\tالأسطر ذات قيم صغيرة تتوافق كل منها مع قيمة مصدر البيانات الحالية عند 0%، "
 "و25%، و50%، و75%، و100% من الرسم البياني الحالي الموضح، وتتأثر بنوع <em>وحدة "
 "الإيضاح</em> إذا كان ذلك ممكنًا، و مع السلسلة الملحقة بالقيمة. بالنسبة لنوع "
-"عداد السرعة، يعرض هذا قيم القسمة (ولكن بدون إضافة وحدة).]]>"
+"عداد السرعة، يعرض هذا قيم القسمة (ولكن دون إضافة وحدة).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -15666,7 +15666,7 @@ msgstr "أقصى تحريك"
 #: data/effects/vidstab.xml:29
 #, kde-format
 msgid "Max number of pixels to shift (-1 = no limit)"
-msgstr "أقصى عدد من البكسلات لتحريكها (-1 = بدون حد)"
+msgstr "أقصى عدد من البكسلات لتحريكها (-1 = دون حد)"
 
 #: data/effects/vidstab.xml:32
 #, kde-format
@@ -17925,7 +17925,7 @@ msgstr "<حدّد كلمة مفتاحيّة>"
 #: src/assets/view/widgets/urllistparamwidget.cpp:192
 #, kde-format
 msgid "None (Dissolve)"
-msgstr "بدون (إذابة)"
+msgstr "بلا شيء (إذابة)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:61
 #, kde-format
@@ -18562,7 +18562,7 @@ msgstr "اُمْحُ المرشحات"
 #: src/bin/bin.cpp:2426
 #, kde-format
 msgid "No Tags"
-msgstr "بدون وسوم"
+msgstr "بلا وسوم"
 
 #: src/bin/bin.cpp:2445
 #, kde-format
@@ -18608,7 +18608,7 @@ msgstr "مقطع صوتية ومرئية"
 #: src/bin/bin.cpp:2478
 #, kde-format
 msgid "Mute Video"
-msgstr "فيديو بدون صوت"
+msgstr "فيديو بلا صوت"
 
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
@@ -20800,7 +20800,7 @@ msgstr "مخصّص"
 msgid "The preset name can't be empty"
 msgstr "لا يمكن أن يكون اسم الإعداد المسبق فارغاً"
 
-#: src/dialogs/renderpresetdialog.cpp:855
+#: src/dialogs/renderpresetdialog.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -20916,7 +20916,7 @@ msgstr "رمز الوقت"
 #: src/dialogs/renderwidget.cpp:352
 #, kde-format
 msgid "Timecode Non Drop Frame"
-msgstr "رمز الوقت بدون إسقاط الأطر"
+msgstr "رمز الوقت بلا إسقاط الأطر"
 
 #: src/dialogs/renderwidget.cpp:353
 #, kde-format
@@ -22652,7 +22652,7 @@ msgstr "امح المحدد"
 #: src/dialogs/textbasededit.cpp:1399 src/dialogs/textbasededit.cpp:1456
 #, kde-format
 msgid "No speech"
-msgstr "بدون كلام"
+msgstr "بلا كلام"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -24120,7 +24120,7 @@ msgid ""
 "Save effect with no description?"
 msgstr ""
 "لم يعطَ وصف.\n"
-"هل أحفظ التأثير بدون وصف؟"
+"هل أحفظ التأثير بلا وصف؟"
 
 #: src/effects/effectstack/view/effectstackview.cpp:982
 #: src/effects/effectstack/view/effectstackview.cpp:1008
@@ -27866,12 +27866,12 @@ msgstr[3] "%1 دفق صوتية"
 msgstr[4] "%1 دفق صوتية"
 msgstr[5] "%1 دفق صوتية"
 
-#: src/monitor/monitor.cpp:2488
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "لا يمكن بدء مدير GLSL لـMovit ، الرجاء تعطيل Movit"
 
-#: src/monitor/monitor.cpp:2530 src/monitor/monitor.cpp:2587
+#: src/monitor/monitor.cpp:2525 src/monitor/monitor.cpp:2582
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -27879,17 +27879,17 @@ msgid ""
 msgstr ""
 "مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2550
+#: src/monitor/monitor.cpp:2545
 #, kde-format
 msgid "Clip has no effects"
 msgstr "المقطع لا يحوي تأثيرات"
 
-#: src/monitor/monitor.cpp:2552
+#: src/monitor/monitor.cpp:2547
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "اختر مقطع في سلة المشروع لتقاران التأثير"
 
-#: src/monitor/monitor.cpp:2594
+#: src/monitor/monitor.cpp:2589
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27897,17 +27897,17 @@ msgid ""
 msgstr ""
 "مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2670
+#: src/monitor/monitor.cpp:2665
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"
 
-#: src/monitor/monitor.cpp:3170
+#: src/monitor/monitor.cpp:3165
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "لا يوجد مقطع محدد في شاشة المقاطع"
 
-#: src/monitor/monitor.cpp:3191
+#: src/monitor/monitor.cpp:3186
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "لا يمكن الحصول على منتج لشاشة المقاطع"
@@ -28315,7 +28315,7 @@ msgstr "انتقل إلى بداية القناع"
 msgid "Go to mask end"
 msgstr "انتقل إلى نهاية القناع"
 
-#: src/monitor/view/MonitorGeometryScene.qml:306
+#: src/monitor/view/MonitorGeometryScene.qml:322
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30833,51 +30833,51 @@ msgstr "لا يمكن فتح تواصل مع مهمة التصيير %1"
 msgid "Communication error with render job"
 msgstr "خطأ في التّواصل مع مهمة التصيير"
 
-#: src/renderpresets/renderpresetmodel.cpp:193
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:198
+#: src/renderpresets/renderpresetmodel.cpp:285
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "مخصّص"
 
-#: src/renderpresets/renderpresetmodel.cpp:315
+#: src/renderpresets/renderpresetmodel.cpp:321
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "القياسيّ (%1) غير متوافق مع تشكيلة المشروع (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:325
+#: src/renderpresets/renderpresetmodel.cpp:331
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "معدّل الإطارات (%1) غير متوافق مع تشكيلة المشروع (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:339
-#: src/renderpresets/renderpresetmodel.cpp:362
+#: src/renderpresets/renderpresetmodel.cpp:345
+#: src/renderpresets/renderpresetmodel.cpp:368
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "نسق الفيديو غير مدعوم: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:375
+#: src/renderpresets/renderpresetmodel.cpp:350
+#: src/renderpresets/renderpresetmodel.cpp:381
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "مرماز الفيديو غير مدعوم: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:369
+#: src/renderpresets/renderpresetmodel.cpp:355
+#: src/renderpresets/renderpresetmodel.cpp:375
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "مرماز الصّوت غير مدعوم: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:354
-#: src/renderpresets/renderpresetmodel.cpp:381
+#: src/renderpresets/renderpresetmodel.cpp:360
+#: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:386
+#: src/renderpresets/renderpresetmodel.cpp:392
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -30895,7 +30895,7 @@ msgstr "مخصّص"
 #: src/renderpresets/renderpresetrepository.cpp:228
 #, kde-format
 msgid "Lossless/HQ"
-msgstr "بدون فقد/عالي الدقة"
+msgstr "دون فقد/عالي الدقة"
 
 #: src/renderpresets/renderpresetrepository.cpp:241
 #, kde-format
@@ -31129,7 +31129,7 @@ msgstr "قيمة ن‌ش‌ق HSV"
 #: src/scopes/colorscopes/histogram.cpp:28
 #, kde-format
 msgid "Unscaled"
-msgstr "بدون قياس"
+msgstr "بلا قياس"
 
 #: src/scopes/colorscopes/histogram.cpp:31
 #: src/scopes/colorscopes/waveform.cpp:40
@@ -31374,13 +31374,13 @@ msgstr "عُثر على مقطع %1 (%2) بمزج مفقود وأعيد تحجي
 #: src/timeline2/model/builders/meltBuilder.cpp:954
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
-msgstr "عُثر على مقطع بدون مزج %1 وأع تحجميه في مسار %2 عند %3."
+msgstr "عُثر على مقطع دون مزج %1 وأُعيد تحجميه في مسار %2 عند %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:929
 #: src/timeline2/model/builders/meltBuilder.cpp:960
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
-msgstr "عُثر على مقطع غير صالح بدون مزج %1 وأزيل في مسار %2 عند %3."
+msgstr "عُثر على مقطع غير صالح دون مزج %1 وأزيل في مسار %2 عند %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:931
 #: src/timeline2/model/builders/meltBuilder.cpp:962
@@ -33375,7 +33375,7 @@ msgid ""
 "Dash</a></p>"
 msgstr ""
 "<p>شرطة إم (شرطة بعرض m).</p><p>أمثلة الاستعمال: في الإنجليزية لتعلم "
-"&#x2014؛ مثل هنا&#x2014؛ أفكار. تقليديا بدون فراغات. </p><p>طالع <a href="
+"&#x2014؛ مثل هنا&#x2014؛ أفكار. تقليديا بلا فراغات. </p><p>طالع <a href="
 "\"https://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 
 #: src/titler/unicodedialog.cpp:189
@@ -33390,10 +33390,10 @@ msgid ""
 msgstr ""
 "<p>مسافة ضيقة غير فاصلة. يملك نفس عرض U+2009.</p><p>الاستعمال: لوحدات "
 "(فراغات معلمة بـ U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, "
-"50&#x2423;lb, <em>but</em> 90&deg; (بدون فراغ). في الاختصارات الألمانية "
-"(مثل: i.&#x202f;d.&#x202f;R. بدلا عن i.&#xa0;d.&#xa0;R. هذه U+00a0).</"
-"p><p>طالع <a href=\"https://de.wikipedia.org/wiki/Schmales_Leerzeichen"
-"\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
+"50&#x2423;lb, <em>but</em> 90&deg; (بلا فراغ). في الاختصارات الألمانية (مثل: "
+"i.&#x202f;d.&#x202f;R. بدلا عن i.&#xa0;d.&#xa0;R. هذه U+00a0).</p><p>طالع <a "
+"href=\"https://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:"
+"Schmales_Leerzeichen</a></p>"
 
 #: src/titler/unicodedialog.cpp:194
 #, kde-format
