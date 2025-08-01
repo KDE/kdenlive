@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-31 00:41+0000\n"
-"PO-Revision-Date: 2025-07-23 14:00+0200\n"
+"POT-Creation-Date: 2025-08-01 00:42+0000\n"
+"PO-Revision-Date: 2025-07-31 17:32+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -4453,10 +4453,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:33
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Colors Mode"
-msgstr "Kolore-eredua"
+msgstr "Kolore modua"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, fuzzy, kde-format
@@ -4506,7 +4505,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqx.xml:8
 #, kde-format
 msgid "2x,3x,4x"
-msgstr ""
+msgstr "2x,3x,4x"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:4
 #, kde-format
@@ -4859,10 +4858,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_roberts.xml:15
 #: data/effects/avfilter/avfilter_scharr.xml:17
 #: data/effects/avfilter/avfilter_sobel.xml:15
-#, fuzzy, kde-format
-#| msgid "Y-Delta"
+#, kde-format
 msgid "Delta"
-msgstr "Y-Delta"
+msgstr "Delta"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:13
 #, kde-format
@@ -4905,10 +4903,9 @@ msgid "Nearest,Bi-linear"
 msgstr "Ondoz-ondokorik gertuena,Bilinearra"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:9
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Type"
-msgstr "Interpolazioa"
+msgstr "Interpolazio mota"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
@@ -5144,10 +5141,9 @@ msgid "Pick median pixel from certain rectangle defined by radius."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal End"
+#, kde-format
 msgid "Horizontal radius"
-msgstr "Amaiera horizontala"
+msgstr "Erradio horizontala"
 
 #: data/effects/avfilter/avfilter_median.xml:9
 #, fuzzy, kde-format
@@ -5156,10 +5152,9 @@ msgid "<![CDATA[Set median radius]]>"
 msgstr "<![CDATA[Y ardatzean zehar desplazamendua]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
-#, fuzzy, kde-format
-#| msgid "Vertical End"
+#, kde-format
 msgid "Vertical radius"
-msgstr "Amaiera Bertikala"
+msgstr "Erradio bertikala"
 
 #: data/effects/avfilter/avfilter_median.xml:14
 #, kde-format
@@ -5182,16 +5177,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr "<![CDATA[X ardatzari aplikatutako eskala-faktorea]]>"
+msgstr "<![CDATA[Hautatu zein plano prozesatu]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
-#, fuzzy, kde-format
-#| msgid "Make monochrome clip"
+#, kde-format
 msgid "Monochrome"
-msgstr "Sortu klip monokromoa"
+msgstr "Monokromoa"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
@@ -5243,7 +5236,7 @@ msgstr "Difuminatu Alfa"
 #: data/effects/avfilter/avfilter_noise.xml:4
 #, kde-format
 msgid "Video Noise Generator"
-msgstr ""
+msgstr "Bideo-zarata sortzailea"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
@@ -5535,13 +5528,12 @@ msgstr "Marraztu sareta"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Piztu edo itzali sareta]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
-#, fuzzy, kde-format
-#| msgid "Show brightness statistics"
+#, kde-format
 msgid "Print Statistics"
-msgstr "Bistaratu argien estatistikak"
+msgstr "Inprimatu estatistikak"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, fuzzy, kde-format
@@ -5627,43 +5619,38 @@ msgid "Leave frames unchanged"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelize input image."
+#, kde-format
 msgid "Pixelize (advanced)"
-msgstr "Pixelatu sarrerako irudia."
+msgstr "Pixelatu (aurreratua)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize"
+#, kde-format
 msgid "Pixelize video"
-msgstr "Pixelatu"
+msgstr "Pixelatu bideoa"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Macroblock width"
+#, kde-format
 msgid "Block Width"
-msgstr "Makroblokearean zabalera"
+msgstr "Blokearen zabalera"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:11
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Macroblock height"
+#, kde-format
 msgid "Block Height"
-msgstr "Makroblokearen altuera"
+msgstr "Blokearen altuera"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
-#, fuzzy, kde-format
-#| msgid "Pixelize"
+#, kde-format
 msgid "Pixelize Mode"
-msgstr "Pixelatu"
+msgstr "Pixelatzeko modua"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
 msgid "Average,Minimum,Maximum"
-msgstr ""
+msgstr "Batezbestekoa,gutxienez,gehienez"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
@@ -12021,10 +12008,9 @@ msgid "HSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixelize input image."
+#, kde-format
 msgid "Pixelize (basic)"
-msgstr "Pixelatu sarrerako irudia."
+msgstr "Pixelatu (oinarrizkoa)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
@@ -12092,10 +12078,9 @@ msgstr ""
 "du"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
-#, fuzzy, kde-format
-#| msgid "Number of values per channel."
+#, kde-format
 msgid "Number of (color) values per channel"
-msgstr "Kanal bakoitzeko balio kopurua"
+msgstr "Kanal bakoitzeko (kolore) balio kopurua"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
@@ -12487,16 +12472,14 @@ msgid "Blur of the glow"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:19
-#, fuzzy, kde-format
-#| msgid "Brightness of highlight areas."
+#, kde-format
 msgid "Brightness of highlight areas"
-msgstr "Distira argi altuko eremuetan."
+msgstr "Nabarmendutako eskualdeen distira"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
-#, fuzzy, kde-format
-#| msgid "Sharpness of highlight areas."
+#, kde-format
 msgid "Sharpness of highlight areas"
-msgstr "Eskualde nabarmenduen enfokatzea"
+msgstr "Nabarmendutako eskualdeen zorroztasuna"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -12722,14 +12705,12 @@ msgid "Thresholds a source image"
 msgstr "Jatorriko irudiari muga ezartzen dio"
 
 #: data/effects/frei0r/frei0r_timeout.xml:5
-#, fuzzy, kde-format
-#| msgid "Timeout indicator"
+#, kde-format
 msgid "Timeout Indicator"
 msgstr "Denbora-mugaren adierazlea"
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
-#, fuzzy, kde-format
-#| msgid "Indicator color"
+#, kde-format
 msgid "Indicator Color"
 msgstr "Adierazlearen kolorea"
 
@@ -12855,8 +12836,7 @@ msgid "Softness"
 msgstr "Leuntasuna"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes (Mask)"
+#, kde-format
 msgid "Alpha Shapes (Mask)"
 msgstr "Alfa formak (Maskara)"
 
@@ -13591,24 +13571,21 @@ msgid "Updates per second"
 msgstr "Eguneraketak segundoko"
 
 #: data/effects/gradientmap.xml:4
-#, fuzzy, kde-format
-#| msgid "Gradient"
+#, kde-format
 msgid "Gradient Map"
-msgstr "Gradientea"
+msgstr "Gradiente-mapa"
 
 #: data/effects/gradientmap.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Apply a gradient map to the video"
-msgstr "Gainjarri GPSaren testua bideoan."
+msgstr "Bideoari gradiente-mapa bat aplikatu"
 
 #: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
 #: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
 #: data/effects/greyedge.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[]]>"
-msgstr "<![CDATA[X ardatzean zehar desplazamendua]]>"
+msgstr "<![CDATA[]]>"
 
 #: data/effects/grain.xml:4
 #, kde-format
@@ -14908,10 +14885,9 @@ msgstr ""
 "txandakatu behar duen.]]>"
 
 #: data/effects/rotate-3-way.xml:20
-#, fuzzy, kde-format
-#| msgid "Invert scale"
+#, kde-format
 msgid "Invert Scale"
-msgstr "Alderantzikatu eskala"
+msgstr "Alderantzizko eskala"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -15064,10 +15040,9 @@ msgid "Scratch lines over the picture"
 msgstr "Irudiaren gaineko marratzeak"
 
 #: data/effects/scratchlines.xml:8
-#, fuzzy, kde-format
-#| msgid "Width of line"
+#, kde-format
 msgid "Width of Line"
-msgstr "Marraren lodiera"
+msgstr "Lerroaren zabalera"
 
 #: data/effects/scratchlines.xml:9
 #, fuzzy, kde-format
@@ -15076,16 +15051,14 @@ msgid "<![CDATA[Width on the line in the clip]]>"
 msgstr "<![CDATA[X ardatzean zehar desplazamendua]]>"
 
 #: data/effects/scratchlines.xml:12
-#, fuzzy, kde-format
-#| msgid "Max number of lines"
+#, kde-format
 msgid "Max Number of Lines"
-msgstr "Marra kopuru maximoa"
+msgstr "Gehienezko lerro kopurua"
 
 #: data/effects/scratchlines.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Maximum number of lines in the clip]]>"
-msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
+msgstr "<![CDATA[Kliparen gehienezko lerro kopurua]]>"
 
 #: data/effects/scratchlines.xml:16
 #, fuzzy, kde-format
@@ -16541,7 +16514,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Overlay:"
 msgid "Overlay"
-msgstr "Gainjarri:"
+msgstr "Estalgarria"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format
@@ -16733,10 +16706,9 @@ msgstr "Amaiera horizontala"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:8
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edges position"
-msgstr "Y kokapena"
+msgstr "Ertzen kokapena"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
 #, fuzzy, kde-format
@@ -16751,15 +16723,14 @@ msgid "Vertical barn door wipe."
 msgstr "Marjina bertikala"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
-#, fuzzy, kde-format
-#| msgid "Circle"
+#, kde-format
 msgid "Circle Wipe"
-msgstr "Zirkulua"
+msgstr "Zirkulu-garbiketa"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a circle."
-msgstr ""
+msgstr "Garbitu erditik zirkulu baten ertzera."
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
 #, kde-format
@@ -16767,48 +16738,42 @@ msgid "Circle size"
 msgstr "Zirkuluaren neurria"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Wipe Softness"
+#, kde-format
 msgid "Wipe Down"
-msgstr "Ekortze lehuntasuna"
+msgstr "Garbitu behera"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to bottom."
+#, kde-format
 msgid "Wipe from top to bottom."
-msgstr "Lerrokatu elementua behean."
+msgstr "Garbitu goitik behera."
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:8
 #: data/transitions/frei0r/frei0r_wipe-left.xml:8
 #: data/transitions/frei0r/frei0r_wipe-right.xml:8
 #: data/transitions/frei0r/frei0r_wipe-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edge position"
-msgstr "Y kokapena"
+msgstr "Ertzaren kokapena"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Wipe Left"
-msgstr "Goian Ezkerrean"
+msgstr "Garbitu ezkerrera"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to left."
+#, kde-format
 msgid "Wipe from right to left."
-msgstr "Lerrokatu elementua ezkerrean."
+msgstr "Garbitu eskuinetik ezkerrera."
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Wipe"
-msgstr "Leiho laukizuzena"
+msgstr "Garbiketa laukizuzena"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a rectangle."
-msgstr ""
+msgstr "Garbitu erditik laukizuzen baten ertzera."
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
 #, kde-format
@@ -16816,27 +16781,24 @@ msgid "Rectangle size"
 msgstr "Laukizuzenaren neurria"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Right"
+#, kde-format
 msgid "Wipe Right"
-msgstr "Goian Eskuinean"
+msgstr "Garbitu eskuinera"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
 msgid "Wipe from left to right."
-msgstr ""
+msgstr "Garbitu ezkerretik eskuinera."
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
-#, fuzzy, kde-format
-#| msgid "Wipe"
+#, kde-format
 msgid "Wipe Up"
-msgstr "Gortina"
+msgstr "Garbitu gora"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
-#, fuzzy, kde-format
-#| msgid "Raise object to top"
+#, kde-format
 msgid "Wipe from bottom to top."
-msgstr "Eraman objektua goraino"
+msgstr "Garbitu behetik gora."
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -17971,22 +17933,19 @@ msgid "Invalid LUT file %1"
 msgstr "%1 LUT fitxategi baliogabea"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Solid Fill"
-msgstr "Kolore so&lidoa:"
+msgstr "Betegarri solidoa"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
-#, fuzzy, kde-format
-#| msgid "Gradient"
+#, kde-format
 msgid "Gradient Fill"
-msgstr "Gradientea"
+msgstr "Gradiente betegarria"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
-#, fuzzy, kde-format
-#| msgid "Show channels"
+#, kde-format
 msgid "Show Block Lines"
-msgstr "Erakutsi kanalak"
+msgstr "Erakutsi bloke-erroak"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
 #, kde-format
@@ -19553,10 +19512,9 @@ msgid "Mask added to clip"
 msgstr "Klipean maskara gehitu da"
 
 #: src/bin/projectclip.cpp:3131
-#, fuzzy, kde-format
-#| msgid "Missing source frames"
+#, kde-format
 msgid "Missing clip for mask"
-msgstr "Sorburu-fotogramak falta dira"
+msgstr "Maskararako klipa falta da"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -20829,7 +20787,7 @@ msgstr "Pertsonalizatua"
 msgid "The preset name can't be empty"
 msgstr "Aurrezarpenaren izenak ezin du hutsik egon"
 
-#: src/dialogs/renderpresetdialog.cpp:855
+#: src/dialogs/renderpresetdialog.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -23331,43 +23289,37 @@ msgid "Corrupted sequence"
 msgstr "Sekuentzia akastuna"
 
 #: src/doc/documentchecker.cpp:1915
-#, fuzzy, kde-format
-#| msgid "Fixed"
+#, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
-msgstr "Finkoa"
+msgstr "Konponduta"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be perfomed on a missing clip"
 msgid "Reload"
-msgstr "Birkargatu"
+msgstr "Birzamatu"
 
 #: src/doc/documentchecker.cpp:1919
-#, fuzzy, kde-format
-#| msgid "Missing"
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Falta da"
 
 #: src/doc/documentchecker.cpp:1921
-#, fuzzy, kde-format
-#| msgid "Missing, but proxy available"
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
-msgstr "Falta da, baina ordezkari erabilgarri dago"
+msgstr "Falta da, baina ordezkaria erabilgarri dago"
 
 #: src/doc/documentchecker.cpp:1923
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Leku-marka"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be perfomed on a missing clip"
 msgid "Remove"
 msgstr "Kendu"
@@ -24206,7 +24158,7 @@ msgstr "Lanak huts egin du"
 #: src/effects/effectstack/view/maskmanager.cpp:148
 #, kde-format
 msgid "Mask plugin crashed"
-msgstr ""
+msgstr "Maskara plugina kraskatu da"
 
 #: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
@@ -26097,7 +26049,7 @@ msgstr "Bereizmen osoa (1:1)"
 #: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:241
 #, kde-format
@@ -26469,16 +26421,14 @@ msgid "Align Audio to Reference"
 msgstr "Lerrokatu audioa erreferentziarekin"
 
 #: src/mainwindow.cpp:1775
-#, fuzzy, kde-format
-#| msgid "Set Audio Reference"
+#, kde-format
 msgid "Set Timecode Reference"
-msgstr "Audio erreferentzia zehaztu"
+msgstr "Ezarri denbora-kode erreferentzia"
 
 #: src/mainwindow.cpp:1778
-#, fuzzy, kde-format
-#| msgid "Align Audio to Reference"
+#, kde-format
 msgid "Align Timecode to Reference"
-msgstr "Lerrokatu audioa erreferentziarekin"
+msgstr "Lerrokatu denbora-kodea erreferentziarekin"
 
 #: src/mainwindow.cpp:1782
 #, kde-format
@@ -26764,10 +26714,9 @@ msgid "Toggle Track Disabled"
 msgstr "Txandakatu ezgaitutako pista"
 
 #: src/mainwindow.cpp:2013
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle All Tracks Disabled"
-msgstr "Txandakatu ezgaitutako pista"
+msgstr "Txandakatu pista guztiak ezgaitzea"
 
 #: src/mainwindow.cpp:2015
 #, kde-format
@@ -26775,10 +26724,9 @@ msgid "Toggle Track Lock"
 msgstr "Txandakatu pista giltzatzea"
 
 #: src/mainwindow.cpp:2017
-#, fuzzy, kde-format
-#| msgid "Toggle All Track Lock"
+#, kde-format
 msgid "Toggle All Tracks Lock"
-msgstr "Txandakatu pista guztien giltzatzea"
+msgstr "Txandakatu pista guztiak giltzatzea"
 
 #: src/mainwindow.cpp:2019
 #, kde-format
@@ -27712,12 +27660,7 @@ msgstr ""
 "Aurrebistaren bereizmena - bereizmen baxuagoak aurrebista azkarragoa dakar"
 
 #: src/monitor/monitor.cpp:238
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Sets the preview resolution of the project/clip monitor. One can select "
-#| "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster "
-#| "the preview)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
@@ -27725,8 +27668,8 @@ msgid ""
 "faster the preview)."
 msgstr ""
 "Proiektu/klip begiralearen aurreikuspen bereizmena ezartzen du. Hauen artean "
-"hauta daiteke 1:1, 720p, 540p, 360p, 270p (zenbat eta bereizmen txikiagoa "
-"orduan eta aurreikuste azkarragoa)."
+"hauta daiteke 1:1, 1080p, 720p, 540p, 360p, 270p (zenbat eta bereizmen "
+"txikiagoa orduan eta aurreispegi azkarragoa)."
 
 #: src/monitor/monitor.cpp:241
 #, kde-format
@@ -27921,12 +27864,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 audio korrontea"
 msgstr[1] "%1 audio korronteak"
 
-#: src/monitor/monitor.cpp:2495
+#: src/monitor/monitor.cpp:2490
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Ezin izan da Movit's GLSL manager hasieratu, mesedez desgaitu Movit"
 
-#: src/monitor/monitor.cpp:2537 src/monitor/monitor.cpp:2594
+#: src/monitor/monitor.cpp:2532 src/monitor/monitor.cpp:2589
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -27935,17 +27878,17 @@ msgstr ""
 "Alfagradu filtroa beharrezkoa da ezaugarri honentzako, mesedez instalatu "
 "frei0r eta berrabiarazi Kdenlive"
 
-#: src/monitor/monitor.cpp:2557
+#: src/monitor/monitor.cpp:2552
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipak ez du efekturik"
 
-#: src/monitor/monitor.cpp:2559
+#: src/monitor/monitor.cpp:2554
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Hautatu proiektu-ontziko klip bat efektuak konparatzeko"
 
-#: src/monitor/monitor.cpp:2601
+#: src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27954,17 +27897,17 @@ msgstr ""
 "cairoblend trantsizioa beharrezkoa da eginkizun hau burutzeko, mesedez "
 "instalatu frei0r eta berrabiarazi Kdenlive"
 
-#: src/monitor/monitor.cpp:2677
+#: src/monitor/monitor.cpp:2672
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Gaitu edizio modua monitorean efektua editatzeko"
 
-#: src/monitor/monitor.cpp:3177
+#: src/monitor/monitor.cpp:3172
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klip-monitorean ez da klipik hautatu"
 
-#: src/monitor/monitor.cpp:3198
+#: src/monitor/monitor.cpp:3193
 #, fuzzy, kde-format
 #| msgid "Cannot get duration for file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -28373,7 +28316,7 @@ msgstr "Joan maskararen hasierara"
 msgid "Go to mask end"
 msgstr "Joan maskararen amaierara"
 
-#: src/monitor/view/MonitorGeometryScene.qml:306
+#: src/monitor/view/MonitorGeometryScene.qml:322
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29939,10 +29882,9 @@ msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Berresleitu hautatutako denbora-kodeak Ontziko uneko klipari"
 
 #: src/project/notesplugin.cpp:161
-#, fuzzy, kde-format
-#| msgid "Reassign selected timecodes to current Bin clip"
+#, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
-msgstr "Berresleitu hautatutako denbora-kodeak Ontziko uneko klipari"
+msgstr "Berresleitu hautatutako denbora-kodeak denbora-lerroko uneko klipari"
 
 #: src/project/notesplugin.cpp:165
 #, kde-format
@@ -30894,52 +30836,54 @@ msgstr "Ezin da %1 errendatze-lanarekin komunikazioa ireki"
 msgid "Communication error with render job"
 msgstr "Komunikazio akatsa errendatze lanarekin"
 
-#: src/renderpresets/renderpresetmodel.cpp:193
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:198
+#: src/renderpresets/renderpresetmodel.cpp:285
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Pertsonalizatua"
 
-#: src/renderpresets/renderpresetmodel.cpp:315
+#: src/renderpresets/renderpresetmodel.cpp:321
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "(%1) estandarra bateraezina proiektuaren (%2) profilarekin"
 
-#: src/renderpresets/renderpresetmodel.cpp:325
+#: src/renderpresets/renderpresetmodel.cpp:331
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr ""
 "Fotogramen (%1) abiadura ez da bateragarria proiektuaren (%2) profilarekin"
 
-#: src/renderpresets/renderpresetmodel.cpp:339
-#: src/renderpresets/renderpresetmodel.cpp:362
+#: src/renderpresets/renderpresetmodel.cpp:345
+#: src/renderpresets/renderpresetmodel.cpp:368
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Onartu gabeko bideo formatua: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:375
+#: src/renderpresets/renderpresetmodel.cpp:350
+#: src/renderpresets/renderpresetmodel.cpp:381
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Onartu gabeko bideo kodeka: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:369
+#: src/renderpresets/renderpresetmodel.cpp:355
+#: src/renderpresets/renderpresetmodel.cpp:375
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Onartu gabeko bideo kodeka: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:354
-#: src/renderpresets/renderpresetmodel.cpp:381
+#: src/renderpresets/renderpresetmodel.cpp:360
+#: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
+"10 biteko kolore-sakonera 8 bitera bihurtuko da avfilter(r)ek hornitutako "
+"konposatzea edo efektuak erabiltzen ez badituzu."
 
-#: src/renderpresets/renderpresetmodel.cpp:386
+#: src/renderpresets/renderpresetmodel.cpp:392
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -31498,17 +31442,18 @@ msgstr "%1 klipa (%2) azpi-pista ez-egokiarekin aurkitu da"
 #: src/timeline2/model/builders/meltBuilder.cpp:994
 #, kde-format
 msgid "Removed clip %1 with no audio found in audio track "
-msgstr ""
+msgstr "%1 klipa kendu da, audio-pistan audiorik aurkitu ez zaiona "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:997
 #, kde-format
 msgid "Removed clip %1 with no video found in video track "
-msgstr ""
+msgstr "%1 klipa kendu da, bideo-pistan bideorik aurkitu ez zaiona "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1000
 #, kde-format
 msgid "Removed clip %1 with incorrect audio or video type on track "
 msgstr ""
+"%1 klipa kendu da, pistan audio edo bideo mota ez zuzena aurkitu zaiona "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1003
 #, kde-format
@@ -31518,12 +31463,12 @@ msgstr "Klip baliogabea kendu da, %1."
 #: src/timeline2/model/builders/meltBuilder.cpp:1018
 #, kde-format
 msgid "Repaired clip %1 tagged with no audio in track "
-msgstr ""
+msgstr "%1 klipa konpondu da, pistan audiorik ez etiketatutakoa "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1021
 #, kde-format
 msgid "Repaired clip %1 tagged with no video in track "
-msgstr ""
+msgstr "%1 klipa konpondu da, pistan bideorik ez etiketatutakoa "
 
 #: src/timeline2/model/timelinefunctions.cpp:132
 #, kde-format
@@ -32651,16 +32596,14 @@ msgstr "Ezarri audio erreferentzia lerrokatzen saiatu aurretik"
 
 #: src/timeline2/view/timelinecontroller.cpp:3455
 #: src/timeline2/view/timelinecontroller.cpp:3477
-#, fuzzy, kde-format
-#| msgid "No timecode found in selection"
+#, kde-format
 msgid "No timecode for clip"
-msgstr "Ez da denbora-koderik aurkitu hautapenean"
+msgstr "Ez dago kliperako denbora-koderik"
 
 #: src/timeline2/view/timelinecontroller.cpp:3472
-#, fuzzy, kde-format
-#| msgid "Set audio reference before attempting to align"
+#, kde-format
 msgid "Set timecode reference before attempting to align"
-msgstr "Ezarri audio erreferentzia lerrokatzen saiatu aurretik"
+msgstr "Ezarri denbora-kode erreferentzia lerrokatzen saiatu aurretik"
 
 #: src/timeline2/view/timelinecontroller.cpp:3606
 #, kde-format
@@ -32851,20 +32794,21 @@ msgid ""
 "other timelines ?<br>Not resizing will temporarily keep the current duration "
 "in all other sequences."
 msgstr ""
+"<b>%1</b> denbora-lerro sekuentzia laburtu da.<br/>Beste denbora-lerroetako "
+"instantzia guztien neurria aldatu?<br>Neurria ez aldatzeak beste sekuentzia "
+"guztietako uneko iraupena mantenduko du."
 
 #: src/timeline2/view/timelinetabs.cpp:178
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "Neurria aldatu"
 
 #: src/timeline2/view/timelinetabs.cpp:179
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgctxt "@action:button"
 msgid "Don't Resize"
-msgstr "Neurria aldatu"
+msgstr "Ez neurria aldatu"
 
 #: src/timeline2/view/timelinetabs.cpp:261
 #, kde-format

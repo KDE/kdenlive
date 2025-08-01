@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-31 00:41+0000\n"
+"POT-Creation-Date: 2025-08-01 00:42+0000\n"
 "PO-Revision-Date: 2025-07-13 18:11+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -20501,7 +20501,7 @@ msgstr "Personalizzato"
 msgid "The preset name can't be empty"
 msgstr "Il nome della preimpostazione non può essere vuoto"
 
-#: src/dialogs/renderpresetdialog.cpp:855
+#: src/dialogs/renderpresetdialog.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -27652,12 +27652,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "Un flusso audio"
 msgstr[1] "%1 flussi audio"
 
-#: src/monitor/monitor.cpp:2495
+#: src/monitor/monitor.cpp:2490
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Impossibile inizializzare il gestore GLSL di Movit, disabilita Movit"
 
-#: src/monitor/monitor.cpp:2537 src/monitor/monitor.cpp:2594
+#: src/monitor/monitor.cpp:2532 src/monitor/monitor.cpp:2589
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -27666,18 +27666,18 @@ msgstr ""
 "Per questa funzionalità è richiesto il filtro alphagrad, installa frei0r e "
 "riavvia Kdenlive"
 
-#: src/monitor/monitor.cpp:2557
+#: src/monitor/monitor.cpp:2552
 #, kde-format
 msgid "Clip has no effects"
 msgstr "La clip non ha effetti"
 
-#: src/monitor/monitor.cpp:2559
+#: src/monitor/monitor.cpp:2554
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 "Seleziona una clip nel contenitore del progetto per confrontare l'effetto"
 
-#: src/monitor/monitor.cpp:2601
+#: src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27686,17 +27686,17 @@ msgstr ""
 "Per questa funzionalità è richiesta la transizione cairoblend, installa "
 "frei0r e riavvia Kdenlive"
 
-#: src/monitor/monitor.cpp:2677
+#: src/monitor/monitor.cpp:2672
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Abilita la modalità di modifica nel controllo per modificare l'effetto"
 
-#: src/monitor/monitor.cpp:3177
+#: src/monitor/monitor.cpp:3172
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Nessuna clip selezionata nel Controllo del progetto"
 
-#: src/monitor/monitor.cpp:3198
+#: src/monitor/monitor.cpp:3193
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Impossibile ottenere il produttore del controllo della clip"
@@ -28105,7 +28105,7 @@ msgstr "Vai all'inizio della maschera"
 msgid "Go to mask end"
 msgstr "Vai alla fine della maschera"
 
-#: src/monitor/view/MonitorGeometryScene.qml:306
+#: src/monitor/view/MonitorGeometryScene.qml:322
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30661,46 +30661,46 @@ msgstr "Impossibile aprire la comunicazione col processo di esportazione %1"
 msgid "Communication error with render job"
 msgstr "Errore di comunicazione col processo di esportazione"
 
-#: src/renderpresets/renderpresetmodel.cpp:193
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:198
+#: src/renderpresets/renderpresetmodel.cpp:285
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Personalizzato"
 
-#: src/renderpresets/renderpresetmodel.cpp:315
+#: src/renderpresets/renderpresetmodel.cpp:321
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Standard (%1) non compatibile con il profilo del progetto (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:325
+#: src/renderpresets/renderpresetmodel.cpp:331
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr ""
 "Frequenza dei fotogrammi (%1) non compatibile con il profilo di progetto "
 "selezionato (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:339
-#: src/renderpresets/renderpresetmodel.cpp:362
+#: src/renderpresets/renderpresetmodel.cpp:345
+#: src/renderpresets/renderpresetmodel.cpp:368
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Formato video non supportato: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:375
+#: src/renderpresets/renderpresetmodel.cpp:350
+#: src/renderpresets/renderpresetmodel.cpp:381
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Codec video non supportato: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:369
+#: src/renderpresets/renderpresetmodel.cpp:355
+#: src/renderpresets/renderpresetmodel.cpp:375
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Codec audio non supportato: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:354
-#: src/renderpresets/renderpresetmodel.cpp:381
+#: src/renderpresets/renderpresetmodel.cpp:360
+#: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
@@ -30709,7 +30709,7 @@ msgstr ""
 "La profondità di colore a 10 bit verrà convertita a 8 bit se utilizzi un "
 "compositing o degli effetti non forniti da avfilter."
 
-#: src/renderpresets/renderpresetmodel.cpp:386
+#: src/renderpresets/renderpresetmodel.cpp:392
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "

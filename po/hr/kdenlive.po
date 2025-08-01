@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-31 00:41+0000\n"
+"POT-Creation-Date: 2025-08-01 00:42+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -20271,7 +20271,7 @@ msgstr "Prilagođeno"
 msgid "The preset name can't be empty"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:855
+#: src/dialogs/renderpresetdialog.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -27512,49 +27512,49 @@ msgstr[0] "Audio traka"
 msgstr[1] "Audio traka"
 msgstr[2] "Audio traka"
 
-#: src/monitor/monitor.cpp:2495
+#: src/monitor/monitor.cpp:2490
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2537 src/monitor/monitor.cpp:2594
+#: src/monitor/monitor.cpp:2532 src/monitor/monitor.cpp:2589
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2557
+#: src/monitor/monitor.cpp:2552
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Isječak nema oznaka"
 
-#: src/monitor/monitor.cpp:2559
+#: src/monitor/monitor.cpp:2554
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Odaberite isječak ako želite dodati efekt"
 
-#: src/monitor/monitor.cpp:2601
+#: src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2677
+#: src/monitor/monitor.cpp:2672
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3177
+#: src/monitor/monitor.cpp:3172
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected in Clip Monitor"
 msgstr "isječak nije kopiran"
 
-#: src/monitor/monitor.cpp:3198
+#: src/monitor/monitor.cpp:3193
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -27961,7 +27961,7 @@ msgstr "Idi na početak isječka"
 msgid "Go to mask end"
 msgstr "Idi na kraj isječka"
 
-#: src/monitor/view/MonitorGeometryScene.qml:306
+#: src/monitor/view/MonitorGeometryScene.qml:322
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30456,8 +30456,8 @@ msgstr ""
 msgid "Communication error with render job"
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:193
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:198
+#: src/renderpresets/renderpresetmodel.cpp:285
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, fuzzy, kde-format
 #| msgid "Custom"
@@ -30465,43 +30465,43 @@ msgctxt "Category Name"
 msgid "Custom"
 msgstr "Prilagođeno"
 
-#: src/renderpresets/renderpresetmodel.cpp:315
+#: src/renderpresets/renderpresetmodel.cpp:321
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:325
+#: src/renderpresets/renderpresetmodel.cpp:331
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:339
-#: src/renderpresets/renderpresetmodel.cpp:362
+#: src/renderpresets/renderpresetmodel.cpp:345
+#: src/renderpresets/renderpresetmodel.cpp:368
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Nepodržani video format: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:375
+#: src/renderpresets/renderpresetmodel.cpp:350
+#: src/renderpresets/renderpresetmodel.cpp:381
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Nepodržani video kodek: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:369
+#: src/renderpresets/renderpresetmodel.cpp:355
+#: src/renderpresets/renderpresetmodel.cpp:375
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Nepodržani audio kodek: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:354
-#: src/renderpresets/renderpresetmodel.cpp:381
+#: src/renderpresets/renderpresetmodel.cpp:360
+#: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:386
+#: src/renderpresets/renderpresetmodel.cpp:392
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
