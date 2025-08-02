@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-01 02:44+0000\n"
-"PO-Revision-Date: 2025-07-31 20:36+0200\n"
+"PO-Revision-Date: 2025-08-01 09:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -22361,25 +22361,19 @@ msgid "Fixed"
 msgstr "Fast"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgid "Reload"
 msgstr "Uppdatera"
 
 #: src/doc/documentchecker.cpp:1919
-#, fuzzy, kde-format
-#| msgctxt "status of a missing clip"
-#| msgid "Missing"
+#, kde-format
 msgid "Missing"
 msgstr "Saknas"
 
 #: src/doc/documentchecker.cpp:1921
-#, fuzzy, kde-format
-#| msgctxt "status of a missing clip"
-#| msgid "Missing, but proxy available"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Saknas, men ersättningsklipp tillgänglig"
+msgstr "Saknas, men ersättningsklipp tillgängligt"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1923 src/ui/editrenderpreset_ui.ui:525
@@ -26710,12 +26704,7 @@ msgstr ""
 "förhandsgranskning"
 
 #: src/monitor/monitor.cpp:237
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Sets the preview resolution of the project/clip monitor. One can select "
-#| "between 1:1, 1080p, 720p, 540p, 360p, 270p (the lower the resolution the "
-#| "faster the preview)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
@@ -26723,8 +26712,8 @@ msgid ""
 "preview)."
 msgstr ""
 "Ställer in projekt/klippskärmens förhandsgranskningsupplösning. Man kan "
-"välja mellan 1:1, 1080p, 720p, 540p, 360p, 270p (ju lägre upplösning desto "
-"snabbare förhandsgranskning)."
+"välja mellan 1:1, 720p, 540p, 360p, 270p (ju lägre upplösning desto snabbare "
+"förhandsgranskning)."
 
 #: src/monitor/monitor.cpp:240
 #, kde-format
