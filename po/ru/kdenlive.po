@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-01 00:42+0000\n"
+"POT-Creation-Date: 2025-08-03 00:41+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -20792,12 +20792,12 @@ msgstr ""
 "Не удалось создать папку «%1».\n"
 "Убедитесь в наличии соответствующих прав."
 
-#: src/dialogs/renderwidget.cpp:891
+#: src/dialogs/renderwidget.cpp:885
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "При попытке сборки произошли следующие ошибки"
 
-#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:1788
+#: src/dialogs/renderwidget.cpp:924 src/dialogs/renderwidget.cpp:1788
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -20806,47 +20806,47 @@ msgstr ""
 "Уже выполняется задание по записи файла:<br><b>%1</b><br>Отмените это "
 "задание, чтобы перезаписать файл…"
 
-#: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:1789
 #, kde-format
 msgid "Already running"
 msgstr "Уже выполняется"
 
-#: src/dialogs/renderwidget.cpp:953
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "Видео без звуковой дорожки"
 
-#: src/dialogs/renderwidget.cpp:955
+#: src/dialogs/renderwidget.cpp:949
 #, kde-format
 msgid "Audio without video track"
 msgstr "Звук без видеодорожки"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:455
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Сборка %1 запущена"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "безымянный"
 
-#: src/dialogs/renderwidget.cpp:1141
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid "No preset selected"
 msgstr "Предустановка не выбрана"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1137
 #, kde-format
 msgid "No matching preset"
 msgstr "Нет соответствующей предустановки"
 
-#: src/dialogs/renderwidget.cpp:1155
+#: src/dialogs/renderwidget.cpp:1149
 #, kde-format
 msgid "Invalid preset"
 msgstr "Недопустимая предустановка"
 
-#: src/dialogs/renderwidget.cpp:1291
+#: src/dialogs/renderwidget.cpp:1285
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -20908,23 +20908,23 @@ msgstr "Прервать задание"
 msgid "Remove Job"
 msgstr "Удалить задание"
 
-#: src/dialogs/renderwidget.cpp:2071
+#: src/dialogs/renderwidget.cpp:2073
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Добавить клипы на монтажный стол перед сборкой"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2078
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Длина собранного файла: %1"
 
-#: src/dialogs/renderwidget.cpp:2079
+#: src/dialogs/renderwidget.cpp:2081
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, fuzzy, kde-format
 msgid "Timecode Offset:"
 msgstr "Смещение времени:"
 
-#: src/dialogs/renderwidget.cpp:2084
+#: src/dialogs/renderwidget.cpp:2086
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -20933,7 +20933,7 @@ msgstr[1] "<b>В проекте используются %1 отсутствую
 msgstr[2] "<b>В проекте используются %1 отсутствующих клипов.</b>"
 msgstr[3] "<b>В проекте используется один отсутствующий клип.</b>"
 
-#: src/dialogs/renderwidget.cpp:2086
+#: src/dialogs/renderwidget.cpp:2088
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -20942,12 +20942,12 @@ msgstr[1] "%1 отсутствующих клипа (не используютс
 msgstr[2] "%1 отсутствующих клипов (не используются)."
 msgstr[3] "Один отсутствующий клип (не используется)."
 
-#: src/dialogs/renderwidget.cpp:2088
+#: src/dialogs/renderwidget.cpp:2090
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Отсутствующих клипов: %1 (<b>используются в проекте: %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:2170
+#: src/dialogs/renderwidget.cpp:2172
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -20956,12 +20956,12 @@ msgstr ""
 "Параметры скорости кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2190
+#: src/dialogs/renderwidget.cpp:2192
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Добавить в текущий проект"
 
-#: src/dialogs/renderwidget.cpp:2199
+#: src/dialogs/renderwidget.cpp:2201
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format

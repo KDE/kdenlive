@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-01 00:42+0000\n"
+"POT-Creation-Date: 2025-08-03 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -20214,12 +20214,12 @@ msgstr ""
 "无法创建目录 %1。\n"
 "请确保您具备所需的权限。"
 
-#: src/dialogs/renderwidget.cpp:891
+#: src/dialogs/renderwidget.cpp:885
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "尝试渲染时发生以下错误"
 
-#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:1788
+#: src/dialogs/renderwidget.cpp:924 src/dialogs/renderwidget.cpp:1788
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -20228,47 +20228,47 @@ msgstr ""
 "当前已经有一项任务正在写入文件：<br/><b>%1</b><br/>如果您想要覆盖它，请中止这"
 "项任务…"
 
-#: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:1789
 #, kde-format
 msgid "Already running"
 msgstr "已在执行"
 
-#: src/dialogs/renderwidget.cpp:953
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "无音轨视频"
 
-#: src/dialogs/renderwidget.cpp:955
+#: src/dialogs/renderwidget.cpp:949
 #, kde-format
 msgid "Audio without video track"
 msgstr "无视频的音频轨道"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:455
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "渲染 %1 已开始"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "未命名"
 
-#: src/dialogs/renderwidget.cpp:1141
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid "No preset selected"
 msgstr "未选择预设"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1137
 #, kde-format
 msgid "No matching preset"
 msgstr "无匹配预设"
 
-#: src/dialogs/renderwidget.cpp:1155
+#: src/dialogs/renderwidget.cpp:1149
 #, kde-format
 msgid "Invalid preset"
 msgstr "无效预设"
 
-#: src/dialogs/renderwidget.cpp:1291
+#: src/dialogs/renderwidget.cpp:1285
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -20327,40 +20327,40 @@ msgstr "中止任务"
 msgid "Remove Job"
 msgstr "移除任务"
 
-#: src/dialogs/renderwidget.cpp:2071
+#: src/dialogs/renderwidget.cpp:2073
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "请在进行渲染前添加剪辑到时间轴"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2078
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "已导出的文件长度：%1"
 
-#: src/dialogs/renderwidget.cpp:2079
+#: src/dialogs/renderwidget.cpp:2081
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "时区偏移："
 
-#: src/dialogs/renderwidget.cpp:2084
+#: src/dialogs/renderwidget.cpp:2086
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>%1 个缺失的剪辑已在项目中使用。</b>"
 
-#: src/dialogs/renderwidget.cpp:2086
+#: src/dialogs/renderwidget.cpp:2088
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "%1 个缺失的剪辑 (未被使用)。"
 
-#: src/dialogs/renderwidget.cpp:2088
+#: src/dialogs/renderwidget.cpp:2090
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 个缺失的剪辑 (<b>%2 个已在项目中使用</b>)。"
 
-#: src/dialogs/renderwidget.cpp:2170
+#: src/dialogs/renderwidget.cpp:2172
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -20369,12 +20369,12 @@ msgstr ""
 "编解码器速度参数：\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2190
+#: src/dialogs/renderwidget.cpp:2192
 #, kde-format
 msgid "Add to Current Project"
 msgstr "添加到当前项目"
 
-#: src/dialogs/renderwidget.cpp:2199
+#: src/dialogs/renderwidget.cpp:2201
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format

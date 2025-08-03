@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-01 00:42+0000\n"
+"POT-Creation-Date: 2025-08-03 00:41+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -21103,12 +21103,12 @@ msgstr ""
 "Mappen %1 kunne ikke oprettes.\n"
 "Sørg for at du har de nødvendige rettigheder."
 
-#: src/dialogs/renderwidget.cpp:891
+#: src/dialogs/renderwidget.cpp:885
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:1788
+#: src/dialogs/renderwidget.cpp:924 src/dialogs/renderwidget.cpp:1788
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -21120,52 +21120,52 @@ msgstr ""
 "Der er allerede et job der skriver filen:<br /><b>%1</b><br />Afbryd jobbet "
 "hvis du vil overskrive filen..."
 
-#: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:1789
 #, kde-format
 msgid "Already running"
 msgstr "Kører allerede"
 
-#: src/dialogs/renderwidget.cpp:953
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video uden lydspor"
 
-#: src/dialogs/renderwidget.cpp:955
+#: src/dialogs/renderwidget.cpp:949
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video uden lydspor"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:455
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
 msgstr "Rendering af <i>%1</i> påbegyndt"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "unavngivet"
 
-#: src/dialogs/renderwidget.cpp:1141
+#: src/dialogs/renderwidget.cpp:1135
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No preset selected"
 msgstr "Ingen profil valgt"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1137
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Ingen matchende profil"
 
-#: src/dialogs/renderwidget.cpp:1155
+#: src/dialogs/renderwidget.cpp:1149
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "Ugyldig profil"
 
-#: src/dialogs/renderwidget.cpp:1291
+#: src/dialogs/renderwidget.cpp:1285
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -21227,26 +21227,26 @@ msgstr "Afbryd job"
 msgid "Remove Job"
 msgstr "Fjern job"
 
-#: src/dialogs/renderwidget.cpp:2071
+#: src/dialogs/renderwidget.cpp:2073
 #, fuzzy, kde-format
 #| msgid "Select a clip to play"
 msgid "Add clips in timeline before rendering"
 msgstr "Vælg et klip som skal afspilles"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2078
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Rendered File Length: %1"
 msgstr "Rendér-knap"
 
-#: src/dialogs/renderwidget.cpp:2079
+#: src/dialogs/renderwidget.cpp:2081
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Timecode Offset:"
 msgstr "Tid"
 
-#: src/dialogs/renderwidget.cpp:2084
+#: src/dialogs/renderwidget.cpp:2086
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -21255,7 +21255,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "Du har %1 manglende klip i dit projekt."
 msgstr[1] "Du har %1 manglende klip i dit projekt."
 
-#: src/dialogs/renderwidget.cpp:2086
+#: src/dialogs/renderwidget.cpp:2088
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
@@ -21263,14 +21263,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Tjek manglende klip"
 msgstr[1] "Tjek manglende klip"
 
-#: src/dialogs/renderwidget.cpp:2088
+#: src/dialogs/renderwidget.cpp:2090
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Du har %1 manglende klip i dit projekt."
 
-#: src/dialogs/renderwidget.cpp:2170
+#: src/dialogs/renderwidget.cpp:2172
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -21279,13 +21279,13 @@ msgstr ""
 "Codec hastighedsparametre:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2190
+#: src/dialogs/renderwidget.cpp:2192
 #, fuzzy, kde-format
 #| msgid "Add to current project"
 msgid "Add to Current Project"
 msgstr "Tilføj til aktuelt projekt"
 
-#: src/dialogs/renderwidget.cpp:2199
+#: src/dialogs/renderwidget.cpp:2201
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, fuzzy, kde-format

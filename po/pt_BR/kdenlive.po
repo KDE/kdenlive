@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-01 00:42+0000\n"
-"PO-Revision-Date: 2025-08-01 14:38-0300\n"
+"POT-Creation-Date: 2025-08-03 00:41+0000\n"
+"PO-Revision-Date: 2025-08-02 09:38-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -20862,12 +20862,12 @@ msgstr ""
 "A pasta %1, pode não ser criada.\n"
 "Certifique-se de que você tem as permissões necessárias."
 
-#: src/dialogs/renderwidget.cpp:891
+#: src/dialogs/renderwidget.cpp:885
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Os seguintes erros ocorreram ao tentar renderizar"
 
-#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:1788
+#: src/dialogs/renderwidget.cpp:924 src/dialogs/renderwidget.cpp:1788
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -20876,47 +20876,47 @@ msgstr ""
 "Já existe uma tarefa escrevendo no arquivo:<br /><b>%1</b><br />Cancele o "
 "trabalho se quiser sobrescrevê-lo…"
 
-#: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:1789
 #, kde-format
 msgid "Already running"
 msgstr "Já em execução"
 
-#: src/dialogs/renderwidget.cpp:953
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "Vídeo sem trilha de áudio"
 
-#: src/dialogs/renderwidget.cpp:955
+#: src/dialogs/renderwidget.cpp:949
 #, kde-format
 msgid "Audio without video track"
 msgstr "Áudio sem trilha de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:455
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Renderização %1 iniciada"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "sem título"
 
-#: src/dialogs/renderwidget.cpp:1141
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid "No preset selected"
 msgstr "Nenhuma predefinição selecionada"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1137
 #, kde-format
 msgid "No matching preset"
 msgstr "Nenhuma predefinição correspondente"
 
-#: src/dialogs/renderwidget.cpp:1155
+#: src/dialogs/renderwidget.cpp:1149
 #, kde-format
 msgid "Invalid preset"
 msgstr "Predefinição inválida"
 
-#: src/dialogs/renderwidget.cpp:1291
+#: src/dialogs/renderwidget.cpp:1285
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -20977,42 +20977,42 @@ msgstr "Cancelar Tarefa"
 msgid "Remove Job"
 msgstr "Remover Tarefa"
 
-#: src/dialogs/renderwidget.cpp:2071
+#: src/dialogs/renderwidget.cpp:2073
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Adicionar clipes à linha do tempo antes de renderizar"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2078
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Duração do arquivo renderizado: %1"
 
-#: src/dialogs/renderwidget.cpp:2079
+#: src/dialogs/renderwidget.cpp:2081
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Deslocamento do código de tempo:"
 
-#: src/dialogs/renderwidget.cpp:2084
+#: src/dialogs/renderwidget.cpp:2086
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Um clipe faltante utilizado no projeto.</b>"
 msgstr[1] "<b>%1 clipes faltantes utilizados no projeto.</b>"
 
-#: src/dialogs/renderwidget.cpp:2086
+#: src/dialogs/renderwidget.cpp:2088
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Um clipe faltante (não utilizado)."
 msgstr[1] "%1 clipes faltantes (não utilizados)."
 
-#: src/dialogs/renderwidget.cpp:2088
+#: src/dialogs/renderwidget.cpp:2090
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 clipes faltantes (<b>%2 usados no projeto</b>)."
 
-#: src/dialogs/renderwidget.cpp:2170
+#: src/dialogs/renderwidget.cpp:2172
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -21021,12 +21021,12 @@ msgstr ""
 "Parâmetros de velocidade do codec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2190
+#: src/dialogs/renderwidget.cpp:2192
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Adicionar ao projeto atual"
 
-#: src/dialogs/renderwidget.cpp:2199
+#: src/dialogs/renderwidget.cpp:2201
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
@@ -23133,37 +23133,37 @@ msgid "Corrupted sequence"
 msgstr "Sequência corrompida"
 
 #: src/doc/documentchecker.cpp:1915
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Corrigido"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "action that will be perfomed on a missing clip"
 msgid "Reload"
 msgstr "Recarregar"
 
 #: src/doc/documentchecker.cpp:1919
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Faltando"
 
 #: src/doc/documentchecker.cpp:1921
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Faltando, mas com proxy disponível"
 
 #: src/doc/documentchecker.cpp:1923
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Substituto"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "action that will be perfomed on a missing clip"
 msgid "Remove"
 msgstr "Remover"
@@ -25909,7 +25909,7 @@ msgstr "Resolução total (1:1)"
 #: src/mainwindow.cpp:1534 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 #: src/mainwindow.cpp:1538 src/monitor/monitor.cpp:241
 #, kde-format
@@ -27526,7 +27526,7 @@ msgstr ""
 "rápida"
 
 #: src/monitor/monitor.cpp:238
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
@@ -27534,8 +27534,8 @@ msgid ""
 "faster the preview)."
 msgstr ""
 "Define a resolução de prévia do monitor de projeto/clipe. Pode-se selecionar "
-"entre 1:1, 720p, 540p, 360p, 270p (quanto menor a resolução, mais rápida a "
-"prévia)."
+"entre 1:1, 1080p, 720p, 540p, 360p, 270p (quanto menor a resolução, mais "
+"rápida a prévia)."
 
 #: src/monitor/monitor.cpp:241
 #, kde-format
@@ -29221,10 +29221,10 @@ msgid "Fps:"
 msgstr "FPS:"
 
 #: src/project/dialogs/profilewidget.cpp:45
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@label Scanning as the video method: interlaced or progressive"
 msgid "Scanning:"
-msgstr "Procurando:"
+msgstr "Escaneando:"
 
 #: src/project/dialogs/profilewidget.cpp:55
 #, kde-format

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-01 00:42+0000\n"
-"PO-Revision-Date: 2025-08-01 20:21+0200\n"
+"POT-Creation-Date: 2025-08-03 00:41+0000\n"
+"PO-Revision-Date: 2025-08-02 22:58+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -2746,7 +2746,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
 msgid "1st plane threshold"
-msgstr "1:a plantröskel"
+msgstr "Första plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:10
 #: data/effects/avfilter/avfilter_deband.xml:15
@@ -2765,17 +2765,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deband.xml:13
 #, kde-format
 msgid "2nd plane threshold"
-msgstr "2:a plantröskel"
+msgstr "Andra plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:18
 #, kde-format
 msgid "3rd plane threshold"
-msgstr "3:e plantröskel"
+msgstr "Tredje plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:23
 #, kde-format
 msgid "4th plane threshold"
-msgstr "4:e plantröskel"
+msgstr "Fjärde plantröskel"
 
 #: data/effects/avfilter/avfilter_deband.xml:30
 #, kde-format
@@ -3183,7 +3183,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_erosion.xml:9
 #, kde-format
 msgid "1st Plane Threshold"
-msgstr "1:a plantröskel"
+msgstr "Första plantröskel"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
 #: data/effects/avfilter/avfilter_dilation.xml:16
@@ -3205,19 +3205,19 @@ msgstr ""
 #: data/effects/avfilter/avfilter_erosion.xml:14
 #, kde-format
 msgid "2nd Plane Threshold"
-msgstr "2:e plantröskel"
+msgstr "Andra plantröskel"
 
 #: data/effects/avfilter/avfilter_dilation.xml:19
 #: data/effects/avfilter/avfilter_erosion.xml:19
 #, kde-format
 msgid "3rd Plane Threshold"
-msgstr "3:e plantröskel"
+msgstr "Tredje plantröskel"
 
 #: data/effects/avfilter/avfilter_dilation.xml:24
 #: data/effects/avfilter/avfilter_erosion.xml:24
 #, kde-format
 msgid "4th Plane Threshold"
-msgstr "4:e plantröskel"
+msgstr "Fjärde plantröskel"
 
 #: data/effects/avfilter/avfilter_dilation.xml:29
 #: data/effects/avfilter/avfilter_erosion.xml:29
@@ -4149,6 +4149,15 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>.]]>"
 msgstr ""
+"<![CDATA[<b>-= Föråldrad =-</b><br>\n"
+"    Tar bort bandning från video snabbt med hjälp av toningar.<br>\n"
+"    Åtgärda bandningsförvrängningar som ibland introduceras i nästan plana "
+"områden genom trunkering till 8-bitars färgdjup.<br>\n"
+"    Interpolera toningarna som ska vara där bandningen är och lägga till "
+"gitter i dem.<br>\n"
+"<b>Den är endast utformad för uppspelning. Använd inte före förstörande "
+"komprimering, eftersom komprimering tenderar att förstöra tillagt gitter och "
+"få tillbaka banden</b>.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:14
 #, kde-format
@@ -4157,6 +4166,8 @@ msgid ""
 "<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
+"<![CDATA[Det maximala beloppet som filtret ändrar en bildpunkt med.<br>\n"
+"       \tDet är också tröskeln för att detektera nästan plana områden.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:19
 #, kde-format
@@ -4165,16 +4176,19 @@ msgid ""
 "       \tA larger radius makes for smoother gradients, but also prevents the "
 "filter from modifying the pixels near detailed regions.]]>"
 msgstr ""
+"<![CDATA[Grannskapet att anpassa lutningen till.<br>\n"
+"       \tEn större radie ger jämnare toningar, men förhindrar också att "
+"filtret modifierar bildpunkter nära detaljerade områden.]]>"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
 #, kde-format
 msgid "Graph Monitor"
-msgstr ""
+msgstr "Diagramskärm"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:5
 #, kde-format
 msgid "Show various filtergraph stats"
-msgstr ""
+msgstr "Visar diverse filterdiagramstatistik"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #, kde-format
@@ -4190,6 +4204,7 @@ msgstr "Kompakt,Fullständig"
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"Kö,Bildantal in,Bildantal ut,Pts,Tid,Tidsbas,Format,Storlek,Förhållande"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #, kde-format
@@ -4204,7 +4219,7 @@ msgstr "Videoproportion"
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
 msgid "Haas Stereo Enhancer"
-msgstr ""
+msgstr "Haas stereoförbättring"
 
 #: data/effects/avfilter/avfilter_haas.xml:6
 #, kde-format
@@ -4214,6 +4229,10 @@ msgid ""
 "applied to mono signals it give some directionality and stretches its stereo "
 "image."
 msgstr ""
+"Använd Haas-effekt för ljud.\n"
+"Observera att det är mest logiskt att använda den på monosignaler. När "
+"filtret används för monosignaler ger det viss riktning och sträcker ut "
+"stereobilden."
 
 #: data/effects/avfilter/avfilter_haas.xml:9
 #, kde-format
@@ -4457,7 +4476,7 @@ msgstr "Tidsmässig krominansstyrka"
 #: data/effects/avfilter/avfilter_hqx.xml:4
 #, kde-format
 msgid "Hq*x Interpolator"
-msgstr "HQ*X-interpolering"
+msgstr "Hq*x-interpolering"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -4465,6 +4484,8 @@ msgid ""
 "Apply a high-quality magnification filter designed for pixel art. Scaling is "
 "done by 2, 3 or 4 using the hq*x magnification algorithm."
 msgstr ""
+"Använd ett högkvalitativt förstoringsfilter avsett för bildpunktskonst. "
+"Skalning görs med 2, 3 eller 4 med hjälp av förstoringsalgoritmen hq*x."
 
 #: data/effects/avfilter/avfilter_hqx.xml:8
 #, kde-format
@@ -4551,7 +4572,7 @@ msgstr "Färgton färgmättnad intensitet"
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
 msgid "Apply hue-saturation-intensity adjustments"
-msgstr ""
+msgstr "Utför justeringar av färgton, färgmättnad, intensitet"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
 #, kde-format
@@ -4562,6 +4583,8 @@ msgstr "Färger att justera"
 #, kde-format
 msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
 msgstr ""
+"Röda färger,Gula färger,Gröna  färger, Cyanfärger,Blåa  färger,Magenta  "
+"färger,Alla färger"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -4569,6 +4592,8 @@ msgid ""
 "<![CDATA[Set which primary and<br>\n"
 "        complementary colors are going to be adjusted]]>"
 msgstr ""
+"<![CDATA[Ställ in vilka grundfärger och<br>\n"
+"        komplementfärger som ska justeras]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:14
 #: data/effects/hsl_range.xml:20
@@ -4579,7 +4604,7 @@ msgstr "Färgtonsändring"
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
 #, kde-format
 msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in färgtonsskifte i grader som ska göras]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
@@ -4589,7 +4614,7 @@ msgstr "Färgmättnadsskifte"
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
 #, kde-format
 msgid "<![CDATA[Set the saturation shift]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in färgmättnadsskifte]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
 #, kde-format
@@ -4599,12 +4624,12 @@ msgstr "Intensitetsskifte"
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
 #, kde-format
 msgid "<![CDATA[Set the intensity shift]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in intensitetsskifte]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
 #, kde-format
 msgid "<![CDATA[Set strength of filtering]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in filtreringens styrka]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
 #, kde-format
@@ -4627,6 +4652,8 @@ msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[Ställ in vikten för RÖD komponent.<br>\n"
+"        Används i bearbetning av färgmättnad och ljushet.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
 #, kde-format
@@ -4639,6 +4666,8 @@ msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[Ställ in vikten för GRÖN komponent.<br>\n"
+"        Används i bearbetning av färgmättnad och ljushet.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
 #, kde-format
@@ -4651,23 +4680,25 @@ msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[Ställ in vikten för BLÅ komponent.<br>\n"
+"        Används i bearbetning av färgmättnad och ljushet.]]>"
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
 msgid "Interleave - Deinterleave"
-msgstr ""
+msgstr "Infläta - Ta bort inflätning"
 
 #: data/effects/avfilter/avfilter_il.xml:5
 #, kde-format
 msgid "Deinterleave or interleave fields"
-msgstr ""
+msgstr "Ta bort inflätning eller infläta fält"
 
 #: data/effects/avfilter/avfilter_il.xml:8
 #: data/effects/avfilter/avfilter_il.xml:12
 #: data/effects/avfilter/avfilter_il.xml:16
 #, kde-format
 msgid "None,Deinterleave,Interleave"
-msgstr ""
+msgstr "Ingen,Inflätningsborttagning,Infläta"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #, kde-format
@@ -4687,17 +4718,17 @@ msgstr "Alfaläge"
 #: data/effects/avfilter/avfilter_il.xml:20
 #, kde-format
 msgid "Swap Luma Fields"
-msgstr ""
+msgstr "Byt luminansfält"
 
 #: data/effects/avfilter/avfilter_il.xml:23
 #, kde-format
 msgid "Swap Chroma Fields"
-msgstr ""
+msgstr "Byt krominansfält"
 
 #: data/effects/avfilter/avfilter_il.xml:26
 #, kde-format
 msgid "Swap Alpha Fields"
-msgstr ""
+msgstr "Byt alfafält"
 
 #: data/effects/avfilter/avfilter_inflate.xml:4
 #, kde-format
@@ -4710,6 +4741,8 @@ msgid ""
 "Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
 msgstr ""
+"Ersätter bildpunkten med det lokala (3 x 3) medelvärdet genom att endast ta "
+"hänsyn till värden som är större än bildpunkten."
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -4743,6 +4776,9 @@ msgid ""
 "deinterling. Works on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
+"Ta bort inflätning i indatavideon genom att använda Donald Grafts adaptiva "
+"kärninflätningsborttagning. Arbetar på inflätade delar av en video för att "
+"producera progressiva bildrutor."
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:11
 #, kde-format
@@ -4772,7 +4808,7 @@ msgstr "Kirsch"
 #: data/effects/avfilter/avfilter_kirsch.xml:5
 #, kde-format
 msgid "Apply kirsch operator."
-msgstr ""
+msgstr "Använd kirsch-operator."
 
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
@@ -4807,17 +4843,17 @@ msgstr "Ange värde som läggs till det filtrerade resultatet."
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
-msgstr ""
+msgstr "Alfa,Y (luminans),U (krominans),V (krominans),Röd,Grön,Blå,Alla"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
 msgid "Lag Fun"
-msgstr ""
+msgstr "Eftersläpningsskoj"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:5
 #, kde-format
 msgid "Slowly update darker pixels."
-msgstr ""
+msgstr "Långsamt uppdatera mörkare bildpunkter."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -4830,6 +4866,8 @@ msgid ""
 "Correct radial lens distortion. This effect allows to specify a color for "
 "the unmapped pixels."
 msgstr ""
+"Korrigera radiell linsförvrängning. Effekten gör det möjligt att ange en "
+"färg för oavbildade bildpunkter."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
@@ -4844,7 +4882,7 @@ msgstr "Interpoleringstyp"
 #: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
 msgid "Unmapped Pixel Color"
-msgstr ""
+msgstr "Oavbildade bildpunktsfärg"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:16
 #, kde-format
@@ -4852,6 +4890,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        X-Coordinate]]>"
 msgstr ""
+"<![CDATA[Fokuspunktens relativa<br>\n"
+"        X-koordinat]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
 #, kde-format
@@ -4859,6 +4899,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        Y-Coordinate]]>"
 msgstr ""
+"<![CDATA[Fokuspunktens relativa<br>\n"
+"        Y-koordinat]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
 #, kde-format
@@ -4866,6 +4908,8 @@ msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficent]]>"
 msgstr ""
+"<![CDATA[Kvadratisk<br>\n"
+"        korrektionskoefficient]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
 #, kde-format
@@ -4873,6 +4917,8 @@ msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficent]]>"
 msgstr ""
+"<![CDATA[Dubbel kvadratisk<br>\n"
+"        korrektionskoefficient]]>"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -4893,7 +4939,7 @@ msgstr "Min"
 #: data/effects/avfilter/avfilter_limiter.xml:9
 #, kde-format
 msgid "The Min value has not to be higher than the Max value"
-msgstr ""
+msgstr "Det minimala värdet får inte vara större än det maximala värdet"
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:33
@@ -4907,7 +4953,7 @@ msgstr "Max"
 #: data/effects/avfilter/avfilter_limiter.xml:13
 #, kde-format
 msgid "The Max value has not to be lower than the Min value"
-msgstr ""
+msgstr "Det maximala värdet får inte vara mindre än det minimala värdet"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:4
 #, kde-format
@@ -4987,7 +5033,7 @@ msgstr "Hz,Q-faktor,Oktav,Lutning,KHz"
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
 msgid "Low-shelf"
-msgstr ""
+msgstr "Låg-hylla"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:5
 #, kde-format
@@ -5024,22 +5070,22 @@ msgstr "Interpoleringsläge"
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
 msgid "Nearest, Trilinear, Tetrahedral"
-msgstr ""
+msgstr "Närmaste,Trilinjär,Tetraedrisk"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:4
 #, kde-format
 msgid "Motion compensation deinterlacer"
-msgstr ""
+msgstr "Inflätningsborttagning med rörelsekompensering"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:5
 #, kde-format
 msgid "Apply motion-compensation deinterlacing"
-msgstr ""
+msgstr "Använd inflätningsborttagning med rörelsekompensering"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:8
 #, kde-format
 msgid "Fast,Medium,Slow,Extra slow"
-msgstr ""
+msgstr "Snabb,Medium,Långsam,Extra långsam"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:13
 #, kde-format
@@ -5059,6 +5105,10 @@ msgid ""
 "            Higher values should result in a smoother motion vector field "
 "but less optimal individual vectors. Default value is 1.]]>"
 msgstr ""
+"<![CDATA[Ställer in kvantiseringsparametern (QP) per block använd av den "
+"interna kodaren.<br>\n"
+"            Större värden bör resultera i ett jämnare rörelsevektorfält, men "
+"mindre optimala individuella vektorer. Standardvärdet är 1.]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, kde-format
@@ -5069,7 +5119,7 @@ msgstr "Median"
 #: data/effects/avfilter/avfilter_scroll.xml:5
 #, kde-format
 msgid "Pick median pixel from certain rectangle defined by radius."
-msgstr ""
+msgstr "Välj medianbildpunkten från en given rektangel definierad av radien."
 
 #: data/effects/avfilter/avfilter_median.xml:8
 #, kde-format
@@ -5079,7 +5129,7 @@ msgstr "Horisontell radie"
 #: data/effects/avfilter/avfilter_median.xml:9
 #, kde-format
 msgid "<![CDATA[Set median radius]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in medianradie]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, kde-format
@@ -5093,11 +5143,14 @@ msgid ""
 "       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
 "parameter.]]>"
 msgstr ""
+"<![CDATA[Ställ in vertikal medianradie.<br>\n"
+"       \tOm den är 0, hämtas värdet från parametern <em>Horisontell "
+"radie<em>.]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:17
 #, kde-format
 msgid "Median percentile"
-msgstr ""
+msgstr "Medianpercentil"
 
 #: data/effects/avfilter/avfilter_median.xml:19
 #, kde-format
@@ -5105,11 +5158,13 @@ msgid ""
 "<![CDATA[Default value of 50 will pick always median values,<br>\n"
 "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
 msgstr ""
+"<![CDATA[Standardvärdet 50 väljer alltid medianvärden,<br>\n"
+"       \tmedan 0 väljer minimivärden och 100 maximivärden.]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr ""
+msgstr "<![CDATA[Välj vilka plan som ska behandlas]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -5119,7 +5174,7 @@ msgstr "Monokrom"
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
 msgid "Convert video to gray using custom color filter."
-msgstr ""
+msgstr "Konvertera video till grått med ett anpassat färgfilter."
 
 #: data/effects/avfilter/avfilter_monochrome.xml:8
 #, kde-format
@@ -5164,7 +5219,7 @@ msgstr "Videobrusgenerator"
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
 msgid "Add noise on video input frame"
-msgstr ""
+msgstr "Lägg till brus i videons indatabildruta"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, kde-format
@@ -5194,27 +5249,27 @@ msgstr "Brusfrö för komponent nr. 3"
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, kde-format
 msgid "All components strength"
-msgstr ""
+msgstr "Styrka för alla komponenter"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
 #, kde-format
 msgid "Component #0 strength"
-msgstr ""
+msgstr "Styrka för komponent nr. 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
 #, kde-format
 msgid "Component #1 strength"
-msgstr ""
+msgstr "Styrka för komponent nr. 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
 #, kde-format
 msgid "Component #2 strength"
-msgstr ""
+msgstr "Styrka för komponent nr. 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
 #, kde-format
 msgid "Component #3 strength"
-msgstr ""
+msgstr "Styrka för komponent nr. 3"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
 #: data/effects/avfilter/avfilter_noise.xml:42
@@ -5235,22 +5290,22 @@ msgstr "Flagga alla"
 #: data/effects/avfilter/avfilter_noise.xml:43
 #, kde-format
 msgid "Flag component 0"
-msgstr ""
+msgstr "Flagga komponent 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:47
 #, kde-format
 msgid "Flag component 1"
-msgstr ""
+msgstr "Flagga komponent 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:51
 #, kde-format
 msgid "Flag component 2"
-msgstr ""
+msgstr "Flagga komponent 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:55
 #, kde-format
 msgid "Flag component 3"
-msgstr ""
+msgstr "Flagga komponent 3"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -5261,11 +5316,13 @@ msgstr "Normalisera RGB-video"
 #, kde-format
 msgid "Normalize RGB video (aka histogram stretching, contrast stretching)"
 msgstr ""
+"Normalisera RGB-video (också kallad histogramutsträckning, "
+"kontrastutsträckning)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:8
 #, kde-format
 msgid "Output darkest input color"
-msgstr ""
+msgstr "Mata ut mörkaste indatafärg"
 
 #: data/effects/avfilter/avfilter_normalize.xml:9
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
@@ -5277,7 +5334,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_normalize.xml:12
 #, kde-format
 msgid "Output brightest input color"
-msgstr ""
+msgstr "Mata ut ljusaste indatafärg"
 
 #: data/effects/avfilter/avfilter_normalize.xml:13
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
@@ -5334,27 +5391,27 @@ msgstr "Tvådimensionellt video-oscilloskop"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
 #, kde-format
 msgid "Trace X Position"
-msgstr ""
+msgstr "Kurvans X-position"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
 #, kde-format
 msgid "<![CDATA[X position of the trace profile]]>"
-msgstr ""
+msgstr "<![CDATA[Kurvprofilens X-position]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, kde-format
 msgid "Trace Y Position"
-msgstr ""
+msgstr "Kurvans Y-position"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
 #, kde-format
 msgid "<![CDATA[Y position of the trace profile]]>"
-msgstr ""
+msgstr "<![CDATA[Kurvprofilens Y-position]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
 #, kde-format
 msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Kurvprofilens storlek/längd i bildpunkter]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
@@ -5370,32 +5427,32 @@ msgstr "Lutning"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
 #, kde-format
 msgid "<![CDATA[Tilting of the trace profile]]>"
-msgstr ""
+msgstr "<![CDATA[Kurvprofilens lutning]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
 #, kde-format
 msgid "<![CDATA[Opacity of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[Oscilloskopskärmens ogenomskinlighet]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, kde-format
 msgid "Scope X Position"
-msgstr ""
+msgstr "Oscilloskopets X-position"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
 #, kde-format
 msgid "<![CDATA[X position of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[Oscilloskopskärmens X-position]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, kde-format
 msgid "Scope Y Position"
-msgstr ""
+msgstr "Oscilloskopets Y-position"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
 #, kde-format
 msgid "<![CDATA[Y position of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[Oscilloskopskärmens Y-position]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, kde-format
@@ -5405,7 +5462,7 @@ msgstr "Oscilloskopbredd"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
 #, kde-format
 msgid "<![CDATA[Width of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[Oscilloskopskärmens bredd]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
 #, kde-format
@@ -5415,12 +5472,12 @@ msgstr "Oscilloskophöjd"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
 #, kde-format
 msgid "<![CDATA[Height of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[Oscilloskopskärmens höjd]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr ""
+msgstr "<![CDATA[Välj komponenter som ska ritas upp]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, kde-format
@@ -5430,7 +5487,7 @@ msgstr "Rita oscilloskoprutnät"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr ""
+msgstr "<![CDATA[VIsa eller dölj rutnät]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
@@ -5440,23 +5497,24 @@ msgstr "Skriv ut statistik"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, kde-format
 msgid "<![CDATA[switch statistics on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Sätt på eller stäng av statistik]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
 msgid "Draw Trace Profile Line"
-msgstr ""
+msgstr "Rita kurvprofilens linje"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Sätt på eller stäng av uppritning av kurvprofilens linje]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
 msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
+"Fördröj inflätad video med tiden för ett fält så att fältordningen ändras"
 
 #: data/effects/avfilter/avfilter_phase.xml:8
 #, kde-format
@@ -5468,6 +5526,12 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"Fördröj det undre fältet,Fördröj det övre fältet,Behåll fältordningen,Hämta "
+"fältordning automatiskt och överför motsatt,Hämta okänt eller varierande och "
+"överför motsatt,Hämta ovanifrån först och överför okänt eller varierande,"
+"Hämta underifrån först och överför okänt eller varierande,Hämta bestämd av "
+"fältflaggor och överför okänt eller varierande,Både hämta och överför okänt "
+"eller varierande"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
@@ -5477,7 +5541,7 @@ msgstr "Ljuskänslighetsfilter"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
-msgstr ""
+msgstr "Filtrera bort blixtar som framkallar ljuskänsliga epilepsianfall."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, kde-format
@@ -5492,7 +5556,7 @@ msgstr "Ställ in antal bildrutor att använda."
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
-msgstr ""
+msgstr "Ställ in tröskelfaktor för detektering, lägre är strängare"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
@@ -5502,7 +5566,7 @@ msgstr "Hoppa över"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, kde-format
 msgid "Set pixels to skip when sampling frames"
-msgstr ""
+msgstr "Ställ in bildpunkter att hoppa över när bildrutor samplas"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:20
 #, kde-format
@@ -5512,17 +5576,17 @@ msgstr "Gå förbi"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
 msgid "Leave frames unchanged"
-msgstr ""
+msgstr "Lämna bilrutor orörda"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
 msgid "Pixelize (advanced)"
-msgstr ""
+msgstr "Bildpunktstillägg (avancerat)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
 #, kde-format
 msgid "Pixelize video"
-msgstr ""
+msgstr "Lägg till bildpunkter i video"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
@@ -5541,7 +5605,7 @@ msgstr "Blockhöjd"
 #: data/effects/avfilter/avfilter_pixelize.xml:14
 #, kde-format
 msgid "Pixelize Mode"
-msgstr ""
+msgstr "Bildpunktstilläggsläge"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
@@ -5556,7 +5620,7 @@ msgstr "Prewitt"
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "Använd prewitt-operator på videons indataström"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5569,11 +5633,13 @@ msgid ""
 "Flush video frames from internal cache of frames into a random order. No "
 "frame is discarded. Inspired by frei0r nervous filter."
 msgstr ""
+"Hämtar bildrutor från intern bildcache i en slumpmässig, Inga bildrutor "
+"kasseras. Inspirerat av det nervösa filtret från frei0r."
 
 #: data/effects/avfilter/avfilter_random.xml:8
 #, kde-format
 msgid "Number of frames in cache"
-msgstr ""
+msgstr "Antal bildrutor i cachen"
 
 #: data/effects/avfilter/avfilter_random.xml:11
 #, kde-format
@@ -5583,42 +5649,44 @@ msgstr "Frö"
 #: data/effects/avfilter/avfilter_removegrain.xml:4
 #, kde-format
 msgid "Grain Removal"
-msgstr ""
+msgstr "Kornighetsborttagning"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:5
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
 msgstr ""
+"Kornighetsborttagningsfiltret är ett rumsligt brusreduceringsfilter för "
+"progressiv video"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
 #, kde-format
 msgid "Mode for 1st plane"
-msgstr ""
+msgstr "Läge för första planet"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:11
 #, kde-format
 msgid "Mode for 2nd plane"
-msgstr ""
+msgstr "Läge för andra planet"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:14
 #, kde-format
 msgid "Mode for 3rd plane"
-msgstr ""
+msgstr "Läge för tredje planet"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:17
 #, kde-format
 msgid "Mode for 4th plane"
-msgstr ""
+msgstr "Läge för fjärde planet"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, kde-format
 msgid "RGBA Shift"
-msgstr "RGBA-skift"
+msgstr "RGBA-skifte"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
 msgid "Shift R/G/B/A pixels horizontally and/or vertically"
-msgstr ""
+msgstr "Skifta R/G(B/A-bildpunkter horisontellt och/eller vertikalt"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, kde-format
@@ -5673,7 +5741,7 @@ msgstr "Roberts"
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply Roberts cross operator (edge detection)"
-msgstr ""
+msgstr "Använd Roberts korsoperator (kantdetektering)"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5684,7 +5752,7 @@ msgstr "Adaptiv formsuddighet"
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
 msgid "Luma pre-filter radius"
-msgstr ""
+msgstr "Luminans förfilterradie"
 
 #: data/effects/avfilter/avfilter_sab.xml:14
 #, kde-format
@@ -5709,18 +5777,21 @@ msgstr "Scharr"
 #: data/effects/avfilter/avfilter_scharr.xml:5
 #, kde-format
 msgid "Apply Scharr operators for edge detection"
-msgstr ""
+msgstr "Använd Scharr-operatorer för kantdetektering"
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
 #, kde-format
 msgid ""
 "<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
 msgstr ""
+"<![CDATA[Ställer in värdet som det filtrerade resultatet ska multipliceras "
+"med ]]>"
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
 #, kde-format
 msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
 msgstr ""
+"<![CDATA[Ställer in värdet som ska läggas till det filtrerade resultatet]]>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
@@ -5756,7 +5827,7 @@ msgstr "CMYK-justering"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
 msgid "Apply CMYK correction to specific color ranges"
-msgstr ""
+msgstr "Utför CMYK-korrektion för specifika färgintervall"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, kde-format
@@ -5825,6 +5896,9 @@ msgid ""
 "fields, producing a new half height clip with twice the frame rate and twice "
 "the frame count. "
 msgstr ""
+"Det tar bildrutebaserad videoindata och delar upp varje bildruta i dess "
+"komponentfält, vilket producerar ett nytt klipp med halv höjd men dubbelt så "
+"hög bildfrekvens och dubbelt så många bildrutor."
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, kde-format
@@ -5834,12 +5908,12 @@ msgstr "Ställ in intervall"
 #: data/effects/avfilter/avfilter_setrange.xml:5
 #, kde-format
 msgid "Force color range for the output video frame"
-msgstr ""
+msgstr "Tvinga färgintervall för utdatavideobilden"
 
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
-msgstr ""
+msgstr "Automatiskt,Ospecificerat,Okänt,Begränsat,TV,Mpeg,Fullständigt,PC,Jpeg"
 
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
@@ -5849,7 +5923,7 @@ msgstr "Skjuva"
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
 msgid "Apply shear transform to input video."
-msgstr ""
+msgstr "Utför skjuvningstransformering av indatavideon."
 
 #: data/effects/avfilter/avfilter_shear.xml:8
 #, kde-format
@@ -5874,32 +5948,32 @@ msgstr "Närmaste,Bilinjär"
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
 msgid "Shuffle planes"
-msgstr ""
+msgstr "Flytta om plan"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:5
 #, kde-format
 msgid "Reorder and/or duplicate video planes"
-msgstr ""
+msgstr "Ordna om och/eller duplicera videoplan"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
 #, kde-format
 msgid "1st Output Plane"
-msgstr ""
+msgstr "Första utdataplan"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
 #, kde-format
 msgid "2nd Output Plane"
-msgstr ""
+msgstr "Andra utdataplan"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
 #, kde-format
 msgid "3rd Output Plane"
-msgstr ""
+msgstr "Tredje utdataplan"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
 #, kde-format
 msgid "4th Output Plane"
-msgstr ""
+msgstr "Fjärde utdataplan"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, kde-format
@@ -5909,7 +5983,7 @@ msgstr "Smart suddighet"
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
 msgid "Blur the input video without impacting the outlines. "
-msgstr ""
+msgstr "Gör indatavideon suddigt utan att påverka konturerna."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
 #, kde-format
@@ -5923,6 +5997,9 @@ msgid ""
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger).]]>"
 msgstr ""
+"<![CDATA[Ställ in luminansradie.<br>\n"
+"            Värdet anger variansen för gaussfiltret som används för att göra "
+"bilden oskarp (långsammare om den är större).]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
@@ -5937,6 +6014,9 @@ msgid ""
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image.]]>"
 msgstr ""
+"<![CDATA[Ställ in luminansstyrka.<br>\n"
+"            Värdet ställer in oskärpan. Ett positivt värde gör bilden "
+"suddig, medan ett negativt värde gör bilden skarpare.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, kde-format
@@ -5951,6 +6031,10 @@ msgid ""
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges.]]>"
 msgstr ""
+"<![CDATA[Ställ in luminanströskeln använd som en koefficient<br>\n"
+"            för att avgöra om en bildpunkt ska vara suddig eller inte. "
+"Värdet 0 filtrerar hela bilden, positiva värden filtrera platta områden, "
+"negative värden filtrera kanter.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, kde-format
@@ -5965,6 +6049,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Ställ in luminansradie.<br>\n"
+"            Värdet anger variansen för gaussfiltret som används för att göra "
+"bilden oskarp (långsammare om den är större). Om det inte anges, får det "
+"sitt standardvärde från värdet inställt för <em>Luminansradie</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5980,6 +6068,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Ställ in krominansstyrka.<br>\n"
+"            Värdet ställer in oskärpan. Ett positivt värde gör bilden "
+"suddig, medan ett negativt värde gör bilden skarpare.</em>. Om det inte "
+"anges, får det sitt standardvärde från värdet inställt för "
+"<em>Luminansstyrka</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -5995,6 +6088,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Ställ in krominanströskeln använd som en koefficient<br>\n"
+"            för att avgöra om en bildpunkt ska vara suddig eller inte. "
+"Värdet 0 filtrerar hela bilden, positiva värden filtrera platta områden, "
+"negative värden filtrera kanter. Om den inte anges, får den sitt "
+"standardvärde från värdet inställt för <em>Luminanströskel</em></em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -6009,6 +6107,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Ställ in alfaradie.<br>\n"
+"            Värdet anger variansen för gaussfiltret som används för att göra "
+"bilden oskarp (långsammare om den är större). Om det inte anges, får det "
+"sitt standardvärde från värdet inställt för <em>Luminansradie</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -6024,6 +6126,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Ställ in alfastyrka.<br>\n"
+"            Värdet ställer in oskärpan. Ett positivt värde gör bilden "
+"suddig, medan ett negativt värde gör bilden skarpare.</em>. Om det inte "
+"anges, får det sitt standardvärde från värdet inställt för "
+"<em>Luminansstyrka</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -6034,6 +6141,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Ställ in alfatröskeln använd som en koefficient<br>\n"
+"            för att avgöra om en bildpunkt ska vara suddig eller inte. "
+"Värdet 0 filtrerar hela bilden, positiva värden filtrera platta områden, "
+"negative värden filtrera kanter. Om den inte anges, får den sitt "
+"standardvärde från värdet inställt för <em>Luminanströskel</em></em>]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -6043,7 +6155,7 @@ msgstr "Sobel med plan"
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
 msgid "Apply sobel operator to input video stream."
-msgstr ""
+msgstr "Använd sobel-operator på videons indataström."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
 #, kde-format
@@ -6068,7 +6180,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
 #, kde-format
 msgid "SOFA file"
-msgstr ""
+msgstr "SOFA-fil"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
@@ -6094,7 +6206,7 @@ msgstr "Frekvens,Tid"
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
 #, kde-format
 msgid "LFE Gain"
-msgstr ""
+msgstr "LFE-förstärkning"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
 #, kde-format
@@ -6104,7 +6216,7 @@ msgstr "Bildstorlek"
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
 msgid "Use if option ‘type’ is set to freq."
-msgstr ""
+msgstr "Använt om alternativet 'typ' är inställt till frekvens."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, kde-format
@@ -6114,7 +6226,7 @@ msgstr "Interpolera"
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, kde-format
 msgid "Minphase"
-msgstr ""
+msgstr "Minimal fas"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:43
 #, kde-format
@@ -6125,17 +6237,17 @@ msgstr "Vinkelsteg"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr ""
+msgstr "Används bara om alternativet interpolera är aktiverat."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
 msgid "Radstep"
-msgstr ""
+msgstr "Radsteg"
 
 #: data/effects/avfilter/avfilter_sr.xml:4
 #, kde-format
 msgid "AI Super resolution"
-msgstr ""
+msgstr "AI-superupplösning"
 
 #: data/effects/avfilter/avfilter_sr.xml:5
 #, kde-format
@@ -6143,11 +6255,13 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Skala indata genom att använda en av superupplösningsmetoderna baserade på "
+"neurala faltningsnätverk."
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
 msgid "Scale factor for SRCNN"
-msgstr ""
+msgstr "Skalfaktor för SUNFN"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:4
 #, kde-format
@@ -6157,7 +6271,7 @@ msgstr "Stereoskopisk 3D"
 #: data/effects/avfilter/avfilter_stereo3D.xml:5
 #, kde-format
 msgid "Convert between different stereoscopic image formats. "
-msgstr ""
+msgstr "Konvertera mellan olika stereoskopiska bildformat."
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
 #, kde-format
@@ -6166,6 +6280,10 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
+"sida vid sida parallellt,sida vid sida skelögt,över-under (vänster överst),"
+"över-under (höger överst),sammanflätade rader (vänster överst),sammanflätade "
+"rader (höger överst),sammanflätade kolumner vänster öga först,sammanflätade "
+"kolumner höger öga först"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
@@ -6186,6 +6304,16 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
+"sida vid sida parallellt,sida vid sida skelögt,över-under vänster överst,"
+"över-under höger överst,sammanflätade rader (vänster överst),sammanflätade "
+"rader (höger överst),anaglyf röd/blå grå,anaglyf röd/grön grå,anaglyf röd/"
+"cyan grå,anaglyf röd/cyan halvfärgad,anaglyf röd/cyan färgad,anaglyf röd/"
+"cyan dubois, anaglyf grön/magenta grå, anaglyf grön/magenta halvfärgad, "
+"anaglyf grön/magenta färgad,anaglyf grön/magenta dubois,anaglyf gul/blå grå,"
+"anaglyf gul/blå halvfärgad,anaglyf gul/blå färgad,anaglyf gul/blå dubois,"
+"monoutgång vänster,monoutgång höger,schackrutigt vänster öga först,"
+"schackrutigt höger öga först,sammanflätade kolumner vänster öga först,"
+"sammanflätade kolumner höger öga först,HDMI-rampaket"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
@@ -6220,6 +6348,8 @@ msgid ""
 "Set input level before filtering for both channels.\n"
 "Allowed range is from 0.015625 to 64."
 msgstr ""
+"Ställ in indatanivå innan filtrering för båda kanaler.\n"
+"Tillåtet intervall är från 0,015625 till 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
 #, kde-format
@@ -6239,6 +6369,8 @@ msgid ""
 "Set input balance between both channels. Default is 0. Allowed range is from "
 "-1 to 1."
 msgstr ""
+"Ställ in indatabalans mellan båda kanaler. Standardvärdet är 0. Tillåtet "
+"intervall är från -1 till 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
@@ -6249,7 +6381,7 @@ msgstr "Balans UT"
 #: data/effects/avfilter/avfilter_stereotools.xml:26
 #, kde-format
 msgid "Softclip"
-msgstr ""
+msgstr "Mjuk klippning"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:27
 #, kde-format
@@ -6257,16 +6389,18 @@ msgid ""
 "Enable softclipping. Results in analog distortion instead of harsh digital "
 "0dB clipping."
 msgstr ""
+"Aktivera mjuk klippning. Resulterar i analog förvrängning istället för hård "
+"digital 0 dB klippning."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
 #, kde-format
 msgid "Mute Left"
-msgstr ""
+msgstr "Tysta vänster"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
 #, kde-format
 msgid "Mute Right"
-msgstr ""
+msgstr "Tysta höger"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, kde-format
@@ -6296,6 +6430,11 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"Vänster/höger till vänster/höger,Vänster/höger till mitt/sida,Mitt/sida till "
+"vänster/höger,Vänster/höger till vänster/vänster,Vänster/höger till höger/"
+"höger,Vänster/höger till vänster + höger,Vänster/höger till höger/vänster, "
+"Mitt/sida till vänster/vänster,Mitt/sida till höger/höger,Mitt/sida till "
+"höger/vänster,Vänster/Höger till vänster - höger"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
 #, kde-format
@@ -6318,7 +6457,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:52
 #, kde-format
 msgid "Side Balance"
-msgstr ""
+msgstr "Sidobalans"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:53
 #, kde-format
@@ -6331,7 +6470,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:56
 #, kde-format
 msgid "Mid Level"
-msgstr ""
+msgstr "Mellannivå"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:57
 #, kde-format
@@ -6345,7 +6484,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, kde-format
 msgid "Mid Pan"
-msgstr ""
+msgstr "Mellanpanorering"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
@@ -6381,7 +6520,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, kde-format
 msgid "S/C level"
-msgstr ""
+msgstr "S/C-nivå"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
 #, kde-format
@@ -6411,6 +6550,13 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"‘balans’\n"
+"Klassiskt balansläge. Dämpa en kanal i taget. Förstärkningen ökas upp till "
+"1.\n"
+"‘amplitud’\n"
+"Liknar klassiskt läge ovan men förstärkningen ökas upp till 2.\n"
+"‘effekt’\n"
+"Jämn effektfördelning, från -6 dB till +6 dB."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, kde-format
@@ -6439,7 +6585,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
 #, kde-format
 msgid "Feedback Gain"
-msgstr ""
+msgstr "Återkopplingsförstärkning"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -6448,11 +6594,14 @@ msgid ""
 "Gives a delay effect of left signal in right output and vice versa which "
 "gives widening effect."
 msgstr ""
+"Förstärkningsvärde i fördröjd signal till höger och vice versa.\n"
+"Ger en fördröjningseffekt av vänster signal i höger utgång och vice versa, "
+"vilket ger en breddningseffekt."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
 #, kde-format
 msgid "Cross feed"
-msgstr ""
+msgstr "Korsmatning"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:19
 #, kde-format
@@ -6461,16 +6610,19 @@ msgid ""
 "the mono.\n"
 "If the value is 1 it will cancel all the signal common to both channels. "
 msgstr ""
+"Korsmatning av vänster till höger med inverterad fas. Det hjälper till att "
+"dämpa monoljudet.\n"
+"Om värdet är 1 försvinner all signal som är gemensam för båda kanalerna."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:22
 #, kde-format
 msgid "Drymix"
-msgstr ""
+msgstr "Torrmix"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:23
 #, kde-format
 msgid "Set level of input signal of original channel."
-msgstr ""
+msgstr "Ställ in nivån på ingångssignalen för den ursprungliga kanalen."
 
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
@@ -6500,7 +6652,7 @@ msgstr "Transponera rader med kolumner i indatavideon och vänd den eventuellt"
 #: data/effects/avfilter/avfilter_transpose.xml:8
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
-msgstr ""
+msgstr "Medurs,Medurs vändning,Moturs,Moturs vändning"
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
@@ -6530,7 +6682,7 @@ msgstr "Luminans horisontell matris"
 #: data/effects/avfilter/avfilter_unsharp.xml:10
 #, kde-format
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in luminansmatrisens horisontella storlek]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
 #, kde-format
@@ -6540,7 +6692,7 @@ msgstr "Luminans vertikal matris"
 #: data/effects/avfilter/avfilter_unsharp.xml:14
 #, kde-format
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in luminansmatrisens vertikala storlek]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -6550,6 +6702,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Ställ in luminanseffektens styrka.<br>\n"
+"            Rimliga värden är mellan -1,5 och 1,5. Negativa värden gör "
+"indatavideon suddig, medan positiva värden gör den skarpare. Ett värde på 0 "
+"inaktiverar effekten. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, kde-format
@@ -6559,7 +6715,7 @@ msgstr "Krominans horisontell matris"
 #: data/effects/avfilter/avfilter_unsharp.xml:23
 #, kde-format
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in krominansmatrisens horisontella storlek]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
 #, kde-format
@@ -6569,7 +6725,7 @@ msgstr "Krominans vertikal matris"
 #: data/effects/avfilter/avfilter_unsharp.xml:27
 #, kde-format
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in krominansmatrisens vertikala storlek]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
@@ -6579,26 +6735,30 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Ställ in krominanseffektens styrka.<br>\n"
+"            Rimliga värden är mellan -1,5 och 1,5. Negativa värden gör "
+"indatavideon suddig, medan positiva värden gör den skarpare. Ett nollvärde "
+"inaktiverar effekten. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
 #, kde-format
 msgid "Alpha horizontal matrix"
-msgstr ""
+msgstr "Alfa horisontell matris"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
 #, kde-format
 msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in alfamatrisens horisontella storlek]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
 #, kde-format
 msgid "Alpha vertical matrix"
-msgstr ""
+msgstr "Alfa vertikal matris"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
 #, kde-format
 msgid "<![CDATA[Set the alpha matrix vertical size]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in alfamatrisens vertikala storlek]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:45
 #, kde-format
@@ -6608,11 +6768,15 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Ställ in alfaeffektens styrka.<br>\n"
+"            Rimliga värden är mellan -1,5 och 1,5. Negativa värden gör "
+"indatavideon suddig, medan positiva värden gör den skarpare. Ett nollvärde "
+"inaktiverar effekten. ]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
 msgid "Wavelet Denoiser"
-msgstr ""
+msgstr "Brusreducering med vågelement"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:6
 #, kde-format
@@ -6621,16 +6785,19 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
+"<![CDATA[Vågelementbaserad brusreducering.<br>\n"
+"    Den omvandlar varje bildruta från videoindata till vågelementdomänen med "
+"användning av Cohen-Daubechies-Feauveau 9/7.]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
 msgid "Hard,Soft,Garrote"
-msgstr ""
+msgstr "Hård,Mjuk,Garrote"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
 #, kde-format
 msgid "Universal,Bayes"
-msgstr ""
+msgstr "Generell,Bayes"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
 #, kde-format
@@ -6651,12 +6818,12 @@ msgstr "Vektoroscilloskop (avancerat)"
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
-msgstr ""
+msgstr "Visa två färgkomponentvärden i ett tvådimensionellt diagram"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
-msgstr ""
+msgstr "Grå,Nyans,Färg,Färg 2,Färg 3,Färg 4,Färg 5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:73
@@ -6683,24 +6850,24 @@ msgstr "Komponenter på Y"
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
 msgid "None,Instant,Peak,Peak+Instant"
-msgstr ""
+msgstr "Ingen,Omedelbar,Topp,Topp+omedelbar"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:28
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "Envelope"
-msgstr ""
+msgstr "Inneslutning"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:31
 #, kde-format
 msgid "None,Green,Color"
-msgstr ""
+msgstr "Ingen,Grön,Färg"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
 msgid "Graticule"
-msgstr ""
+msgstr "Rutnätslinjer"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:35
 #: data/effects/avfilter/avfilter_waveform.xml:50
@@ -6711,13 +6878,13 @@ msgstr "Rutnätslinjernas ogenomskinlighet"
 #: data/effects/avfilter/avfilter_vectorscope.xml:38
 #, kde-format
 msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
+msgstr "Rita vitpunkt,Rita svartpunkt,Rita punktnamn"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Graticule Flags"
-msgstr ""
+msgstr "Rutnätslinjeflaggor"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
@@ -6732,7 +6899,7 @@ msgstr "Hög tröskel"
 #: data/effects/avfilter/avfilter_vectorscope.xml:51
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
-msgstr ""
+msgstr "Automatisk,Rek.601 (inflätad),Rek.709 (progressiv)"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
@@ -6752,37 +6919,37 @@ msgstr "Livlighet"
 #: data/effects/avfilter/avfilter_vibrance.xml:5
 #, kde-format
 msgid "Boost or alter saturation. "
-msgstr ""
+msgstr "Öka eller ändra färgmättnad"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
 #, kde-format
 msgid "Red balance"
-msgstr ""
+msgstr "Röd balans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:14
 #, kde-format
 msgid "Green balance"
-msgstr ""
+msgstr "Grön balans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:17
 #, kde-format
 msgid "Blue balance"
-msgstr ""
+msgstr "Blå balans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "Röd luminans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
 #, kde-format
 msgid "Green luma"
-msgstr ""
+msgstr "Grön luminans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
 #, kde-format
 msgid "Blue luma"
-msgstr ""
+msgstr "Blå luminans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
@@ -6797,12 +6964,12 @@ msgstr "Vibrato"
 #: data/effects/avfilter/avfilter_vibrato.xml:5
 #, kde-format
 msgid "Vibrato effect."
-msgstr ""
+msgstr "Vibratoeffekt."
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
 #, kde-format
 msgid "w3fdif Deinterlacer"
-msgstr ""
+msgstr "w3fdif-inflätningsborttagning"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:5
 #, kde-format
@@ -6810,6 +6977,8 @@ msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
 msgstr ""
+"Inflätningsborttagning av indatavideon \"w3fdif\" står för Weston 3 Field "
+"Deinterlacing Filter"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
@@ -6824,12 +6993,12 @@ msgstr "Filterkoefficienter"
 #: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
-msgstr ""
+msgstr "Inflätningsborttagning för alla bildrutor,Markera bara som inflätad"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
 #, kde-format
 msgid "Frames to deinterlace"
-msgstr ""
+msgstr "Bildrutor för inflätningsborttagning"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, kde-format
@@ -6861,6 +7030,11 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+"<![CDATA[I radläge representerar grafen på vänster sida<br>\n"
+"       \tfärgkomponentens värde 0 och höger sida representerar värdet = 255."
+"<br>\n"
+"       \tI kolumnläge representerar översidan färgkomponentens värde = 0 och "
+"undersidan representerar värdet = 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
@@ -6868,6 +7042,10 @@ msgid ""
 "<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
+"<![CDATA[Mindre värden är användbara för att ta reda på hur många "
+"värden<br>\n"
+"       \tmed samma luminans är distribuerade över rader eller kolumner i "
+"indata]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
 #, kde-format
@@ -6876,31 +7054,34 @@ msgid ""
 "       \ton the left side for <em>row</em> mode and at the top for "
 "<em>column</em> mode.]]>"
 msgstr ""
+"<![CDATA[I speglat läge representeras större värden<br>\n"
+"       \tpå vänster sida för <em>radläge</em> och överst för "
+"<em>kolumnvärde</em>.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
 msgid "<![CDATA[Set the display mode]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in visningsläge]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:30
 #, kde-format
 msgid "Y,U,YU,V,YV,UV,All"
-msgstr ""
+msgstr "Y,U,YU,V,YV,UV,Alla"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr ""
+msgstr "<![CDATA[Välj komponenterna som ska visas]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr ""
+msgstr "<![CDATA[Välj inneslutningsläget]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
 msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
-msgstr ""
+msgstr "Lågpass,Plan,A-plan,X-plan,Y-plan,Krominans,Färg,A-färg"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -6914,47 +7095,47 @@ msgstr "Filter"
 #: data/effects/avfilter/avfilter_waveform.xml:42
 #, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in filterläget]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
 msgid "None,Green,Orange,Invert"
-msgstr ""
+msgstr "ingen,Grön,Orange,Invertera"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in vilka rutnätslinjer som ska visas]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, kde-format
 msgid "<![CDATA[Set the opacity of the graticule]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in rutnätslinjernas ogenomskinlighet]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
 msgid "Show numbers,Draw dots"
-msgstr ""
+msgstr "Visa nummer,Rita punkter"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
 msgid "<![CDATA[Set graticule flags]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in rutnätslinjeflaggor]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
 msgid "Digital,Millivolts,IRE"
-msgstr ""
+msgstr "Digitalt,Millivolt,IRE"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "<![CDATA[Set scale used for displaying graticule]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in skala använd för att visa rutnätslinjerna]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, kde-format
 msgid "<![CDATA[Set the background opacity]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in bakgrundens ogenomskinlighet]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
@@ -6968,26 +7149,28 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
+"<![CDATA[Används bara med lågpassfilter och när skärmen<br>\n"
+"       \tinte är överlagrad och bildpunktsformatet för indata inte är RGB]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
 msgid "None,Size"
-msgstr ""
+msgstr "Ingen,Storlek"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
 msgid "Fit Mode"
-msgstr ""
+msgstr "Anpassningsläge"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in anpassningsläge]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:83
 #, kde-format
 msgid "First available, All"
-msgstr ""
+msgstr "Forst tillgänglig,Alla"
 
 #: data/effects/avfilter/avfilter_waveform.xml:84
 #, kde-format
@@ -6997,12 +7180,12 @@ msgstr "Indataformat"
 #: data/effects/avfilter/avfilter_waveform.xml:85
 #, kde-format
 msgid "<![CDATA[Set input formats for filter to pick from]]>"
-msgstr ""
+msgstr "<![CDATA[Ställ in indataformat som filtret kan välja bland]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, kde-format
 msgid "Weave interlacer"
-msgstr ""
+msgstr "Vävinflätning"
 
 #: data/effects/avfilter/avfilter_weave.xml:5
 #, kde-format
@@ -7011,16 +7194,20 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"Vävningen tar fältbaserad videoindata och sammanfogar vart och ett av två "
+"sekventiella fält till en enda bildruta, vilket producerar ett nytt klipp "
+"med dubbel höjd med hälften så hög bildfrekvens och hälften så många "
+"bildrutor."
 
 #: data/effects/avfilter/avfilter_weave.xml:8
 #, kde-format
 msgid "Top,Bottom"
-msgstr ""
+msgstr "Över,Under"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
 #, kde-format
 msgid "xBR Interpolator"
-msgstr ""
+msgstr "xBR-interpolering"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -7028,21 +7215,23 @@ msgid ""
 "Apply the xBR high-quality magnification filter which is designed for pixel "
 "art. It follows a set of edge-detection rules."
 msgstr ""
+"Använd det högkvalitativa förstoringsfiltret xBR, som är konstruerat för "
+"bildpunktskonst Det följer en uppsättning kantdetekteringsregler."
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
 msgid "2x BR,3x BR,4x BR"
-msgstr ""
+msgstr "2x BR,3x BR,4x BR"
 
 #: data/effects/avfilter/avfilter_xbr.xml:9
 #, kde-format
 msgid "Scaling dimension"
-msgstr ""
+msgstr "Skalningsdimensioner"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, kde-format
 msgid "Yadif Deinterlacer"
-msgstr ""
+msgstr "Yadif-inflätningsborttagning"
 
 #: data/effects/avfilter/avfilter_yadif.xml:5
 #, kde-format
@@ -7050,11 +7239,15 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"Tar bort inflätning från indatavideon (\"yadif\" betyder \"yet another "
+"deinterlacing filter\")"
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
+"Skicka bildruta,Skicka fält,Skicka bildruta ickerumslig,Skicka fält "
+"ickerumsligt"
 
 #: data/effects/avfilter/avfilter_yadif.xml:12
 #, kde-format
@@ -7121,7 +7314,7 @@ msgstr "Återge textning på videon"
 #: data/effects/avfilter/subtitles.xml:8
 #, kde-format
 msgid "Subtitle file to apply"
-msgstr ""
+msgstr "Textningsfil att använda"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -7164,22 +7357,22 @@ msgstr "Suddighetsfaktor"
 #: data/effects/brightness.xml:4
 #, kde-format
 msgid "Intensity (Brightness)"
-msgstr ""
+msgstr "Intensitet (ljusstyrka)"
 
 #: data/effects/brightness.xml:5
 #, kde-format
 msgid "Change image intensity"
-msgstr ""
+msgstr "Ändra bildintensitet"
 
 #: data/effects/burningtv.xml:4
 #, kde-format
 msgid "Burning TV"
-msgstr ""
+msgstr "Bränd tv"
 
 #: data/effects/burningtv.xml:5
 #, kde-format
 msgid "Simulate burning TV pixels"
-msgstr ""
+msgstr "Simulera brända tv-bildpunkter"
 
 #: data/effects/burningtv.xml:8
 #, kde-format
@@ -7189,7 +7382,7 @@ msgstr "Bara förgrund"
 #: data/effects/burningtv.xml:11
 #, kde-format
 msgid "Movement Threshold"
-msgstr ""
+msgstr "Rörelsetröskel"
 
 #: data/effects/channelcopy.xml:4
 #, kde-format
@@ -7761,12 +7954,12 @@ msgstr "Borttoningsfaktor"
 #: data/effects/frei0r/frei0r_aech0r.xml:9
 #, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr ""
+msgstr "<![CDATA[Ekots avklingningstid]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
 msgid "<![CDATA[Darker or Brighter echo]]>"
-msgstr ""
+msgstr "<![CDATA[Mörkare eller ljusare eko]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
@@ -7776,7 +7969,7 @@ msgstr "Behåll RÖD"
 #: data/effects/frei0r/frei0r_aech0r.xml:17
 #, kde-format
 msgid "<![CDATA[Influence on Red channel]]>"
-msgstr ""
+msgstr "<![CDATA[Påverkan på röd kanal]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
 #, kde-format
@@ -7786,7 +7979,7 @@ msgstr "Behåll GRÖN"
 #: data/effects/frei0r/frei0r_aech0r.xml:21
 #, kde-format
 msgid "<![CDATA[Influence on Green channel]]>"
-msgstr ""
+msgstr "<![CDATA[Påverkan på grön kanal]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
@@ -7796,7 +7989,7 @@ msgstr "Behåll BLÅ"
 #: data/effects/frei0r/frei0r_aech0r.xml:25
 #, kde-format
 msgid "<![CDATA[Influence on Blue channel]]>"
-msgstr ""
+msgstr "<![CDATA[Påverkan på blå kanal]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, kde-format
@@ -7806,13 +7999,13 @@ msgstr "Stroboskopperiod"
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
 msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
-msgstr ""
+msgstr "<![CDATA[Stroboskopets frekvens (från 0 till 8 bildrutor)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, kde-format
 msgid "Alpha Operations (SUPERCEDED)"
-msgstr ""
+msgstr "Alfaoperationer (ERSATT)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -7821,6 +8014,8 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</"
 "em>.]]>"
 msgstr ""
+"<![CDATA[Visning och manipulation av alfakanalen.<br>\n"
+"        Effekten har ersatts av <em>frei0r.alpha0ps_alpha0ps</em>.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:10
 #: data/effects/frei0r/frei0r_alpha0ps.xml:36
@@ -7874,6 +8069,8 @@ msgid ""
 "        This effect has been replaced by <em>frei0r.alphaops_alphaops</"
 "em>.]]>"
 msgstr ""
+"<![CDATA[Visning och manipulation av alfakanalen.<br>\n"
+"        Effekten har ersatts av <em>frei0r.alphaops_alphaops</em>]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:43
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
@@ -7931,7 +8128,7 @@ msgstr "Position"
 #: data/effects/frei0r/frei0r_alphagrad.xml:10
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
-msgstr ""
+msgstr "<![CDATA[Definiera var toningen börjar.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
@@ -7944,13 +8141,13 @@ msgstr "Övertoningsbredd"
 #: data/effects/frei0r/frei0r_alphagrad.xml:14
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
-msgstr ""
+msgstr "<![CDATA[Definiera bredden på övergången mellan densiteterna.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:18
 #, kde-format
 msgid "<![CDATA[Angle for the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[Toningens vinkel.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
@@ -7962,7 +8159,7 @@ msgstr "Övre genomskinlighet"
 #: data/effects/frei0r/frei0r_alphagrad.xml:22
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[Definiera genomskinligheten längst upp i toningen.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
@@ -7974,7 +8171,7 @@ msgstr "Undre genomskinlighet"
 #: data/effects/frei0r/frei0r_alphagrad.xml:26
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[Definiera genomskinligheten längst ner i toningen.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
@@ -7993,7 +8190,7 @@ msgstr "Skriv om tom,Max,Min,Addera,Subtrahera"
 #: data/effects/frei0r/frei0r_alphagrad.xml:31
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
-msgstr ""
+msgstr "<![CDATA[Definiera alfaoperation för sammansättning.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #, kde-format
@@ -8055,7 +8252,7 @@ msgstr "Övertoningsbredd"
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, kde-format
 msgid "Alpha Gradient (SUPERCEDED)"
-msgstr ""
+msgstr "Alfatoning (ERSATT)"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
@@ -8063,11 +8260,13 @@ msgid ""
 "<![CDATA[Fill the alpha channel with a specified gradient.<br>\n"
 "    This effect has been replaced by frei0r.alphaops_alphagrad.]]>"
 msgstr ""
+"<![CDATA[Fyll alfakanalen med en angiven toning.<br>\n"
+"    Effekten har ersatts av frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha Shapes (SUPERCEDED)"
-msgstr ""
+msgstr "Alfaformer (ERSATT)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -8075,6 +8274,8 @@ msgid ""
 "<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
 "    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]>"
 msgstr ""
+"<![CDATA[Ritar enkla former i alfakanalen.<br>\n"
+"    Effekten har ersatts av <em>frei0r.alphaops_alphaspot</em>.]]>"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -8168,7 +8369,7 @@ msgstr "Bakgrundssubtraktion"
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:5
 #, kde-format
 msgid "Remove the background of a static video"
-msgstr ""
+msgstr "Ta bort en statisk videos bakgrund"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:8
 #, kde-format
@@ -8183,7 +8384,7 @@ msgstr "Brusreducera"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
 #, kde-format
 msgid "VR360 Cap Top and Bottom"
-msgstr ""
+msgstr "VR360 begränsa topp och botten"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
 #, kde-format
@@ -8192,6 +8393,9 @@ msgid ""
 "data. It samples a band of latitude near the start of the effect and "
 "stretches and blurs it over the pole."
 msgstr ""
+"Försöker fylla i zenit och nadir genom att sträcka och sudda ut bilddata. "
+"Det samplar ett latitudband nära effektens början och sträcker ut och suddar "
+"ut det över polen."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:24
@@ -8210,22 +8414,22 @@ msgstr "Närmaste granne bilinjär"
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:25
 #, kde-format
 msgid "<![CDATA[Determines the sampling method.]]>"
-msgstr ""
+msgstr "<![CDATA[Bestämmer samplingsmetoden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
 #, kde-format
 msgid "Top Enabled"
-msgstr ""
+msgstr "Topp aktiverad"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
 #, kde-format
 msgid "<![CDATA[Enables parameters for top portion]]>"
-msgstr ""
+msgstr "<![CDATA[Aktiverar parametrar för toppdelen]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
 #, kde-format
 msgid "<![CDATA[<b>--Top--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--Topp--</b> början]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
 #, kde-format
@@ -8233,6 +8437,8 @@ msgid ""
 "<![CDATA[Degrees from the horizon<br>\n"
 "    \twhere we start to fill in]]>"
 msgstr ""
+"<![CDATA[Grader från horisonten<br>\n"
+"    \tdär vi börjar fylla i]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -8250,30 +8456,32 @@ msgid ""
 "<![CDATA[Degrees from the horizon<br>\n"
 "    \twhere we reach maximum blur]]>"
 msgstr ""
+"<![CDATA[Grader från horisonten<br>\n"
+"    \tdär vi når maximal oskärpa]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
 #, kde-format
 msgid "Blend In"
-msgstr ""
+msgstr "Blanda in"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
 #, kde-format
 msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
-msgstr ""
+msgstr "<![CDATA[Grader mot horisonten att sampla från]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
 #, kde-format
 msgid "Blend Out"
-msgstr ""
+msgstr "Blanda ut"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
 #, kde-format
 msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
-msgstr ""
+msgstr "<![CDATA[Grader bort från horisonten att sampla till]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
@@ -8285,84 +8493,92 @@ msgstr "Tona in"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
 #, kde-format
 msgid "<![CDATA[Degrees to fade the effect in over]]>"
-msgstr ""
+msgstr "<![CDATA[Grader att tona in effekten över]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
 #, kde-format
 msgid "<![CDATA[Blur width at start]]>"
-msgstr ""
+msgstr "<![CDATA[Oskärpebredd från början]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
 msgstr ""
+"<![CDATA[Horisontell vinkel att lägga till oskärpa för i början av "
+"ifyllnaden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
 #, kde-format
 msgid "<![CDATA[Blur width at end]]>"
-msgstr ""
+msgstr "<![CDATA[Oskärpebredd i slutet]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
 msgstr ""
+"<![CDATA[Horisontell vinkel att lägga till oskärpa för i slutet av "
+"ifyllnaden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
 #, kde-format
 msgid "<![CDATA[Blur height at start]]>"
-msgstr ""
+msgstr "<![CDATA[Oskärpehöjd från början]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
 #, kde-format
 msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
 msgstr ""
+"<![CDATA[Vertikal vinkel att lägga till oskärpa för i början av ifyllnaden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
 #, kde-format
 msgid "<![CDATA[Blur height at end]]>"
-msgstr ""
+msgstr "<![CDATA[Oskärpehöjd i slutet]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
 #, kde-format
 msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
 msgstr ""
+"<![CDATA[Vertikal vinkel att lägga till oskärpa för i slutet av ifyllnaden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
 #, kde-format
 msgid "Bottom Enabled"
-msgstr ""
+msgstr "Botten aktiverad"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
 #, kde-format
 msgid "<![CDATA[comment]]>"
-msgstr ""
+msgstr "<![CDATA[kommentar]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, kde-format
 msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
 msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
-msgstr ""
+msgstr "<![CDATA[Grader från horisonten där vi börjar fylla i]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
 #, kde-format
 msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
-msgstr ""
+msgstr "<![CDATA[Grader från horisonten där vi når maximal oskärpa]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
 msgstr ""
+"<![CDATA[Horisontell vinkel att lägga till oskärpa för\ti början av "
+"ifyllnaden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
@@ -8392,6 +8608,8 @@ msgid ""
 "area. The <b>End</b> is the half the height in degrees where the matte is at "
 "100%.]]>"
 msgstr ""
+"<![CDATA[<b>Början</b> är halva höjden i grader av det icke matta området. "
+"<b>Slutet</b> är halva höjden i grader där mattheten är 100%.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
 #, kde-format
@@ -8404,6 +8622,8 @@ msgid ""
 "<![CDATA[The Start is half the height in degrees of the un-matted area. The "
 "End is the half the height in degrees where the matte is at 100%.]]>"
 msgstr ""
+"<![CDATA[Början är halva höjden i grader av det icke matta området. Slutet "
+"är halva höjden i grader där mattheten är 100%.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
 #, kde-format
@@ -8417,6 +8637,8 @@ msgid ""
 "<![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The "
 "<b>End</b> is the width in degrees where the matte is at 100%.]]>"
 msgstr ""
+"<![CDATA[<b>Början</b> är bredden i grader av det icke matta området. "
+"<b>Slutet</b> är bredden i grader där mattheten är 100%.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #, kde-format
@@ -8454,6 +8676,8 @@ msgid ""
 "<![CDATA[The amount to rotate the image<br>\n"
 "    \t(nose moves from side to side).]]>"
 msgstr ""
+"<![CDATA[Hur mycket bilden ska roteras<br>\n"
+"    \t(nosen flyttas från sida till sida).]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
@@ -8469,6 +8693,8 @@ msgid ""
 "<![CDATA[The amount to rotate the image<br>\n"
 "    \t(nose up or down).]]>"
 msgstr ""
+"<![CDATA[Hur mycket bilden ska roteras<br>\n"
+"    \t(nos upp eller ner).]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
@@ -8484,6 +8710,8 @@ msgid ""
 "<![CDATA[The amount to rotate the image<br>\n"
 "    \t(clockwise or anticlockwise rotation along the axis of movement).]]>"
 msgstr ""
+"<![CDATA[Hur mycket bilden ska roteras<br>\n"
+"    \t(medurs eller moturs rotation längs rörelseaxeln).]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
@@ -8498,6 +8726,8 @@ msgid ""
 "<br>\n"
 "    \tAny value over 179 results in a fisheye projection.]]>"
 msgstr ""
+"<![CDATA[Det horisontella synfältet, i grader, av resultatbilden.<br>\n"
+"    \tAlla värden över 179 resulterar i en fiskögeprojektion.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:28
 #, kde-format
@@ -8510,6 +8740,8 @@ msgid ""
 "<![CDATA[The amount of fisheye to mix in.<br>\n"
 "    \t100 means that you get a 100% fisheye lens.]]>"
 msgstr ""
+"<![CDATA[Hur mycket fisköga som ska blandas in.<br>\n"
+"    \t100 betyder att man får en 100 % fiskögelins.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -8522,6 +8754,8 @@ msgid ""
 "Projects a stereographic image from an equirectangular. Use this to create "
 "the little planet effect from a VR360 footage."
 msgstr ""
+"Projicerar en stereografisk bild från en ekvirektangulär. Använd det för att "
+"skapa effekten \"liten planet\" från VR360-material."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, kde-format
@@ -8539,11 +8773,13 @@ msgid ""
 "Stretches a section of the equirectangular panorama to cover the entire VR "
 "sphere"
 msgstr ""
+"Sträcker ut en del av det ekvirektangulära panoramat för att täcka hela VR-"
+"sfären"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
 #, kde-format
 msgid "<![CDATA[Determines the sampling method]]>"
-msgstr ""
+msgstr "<![CDATA[Bestämmer samplingsmetoden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
@@ -8551,12 +8787,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
 #, kde-format
 msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
-msgstr ""
+msgstr "<![CDATA[Grader från bildens centrum att behålla oförändrade]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
 #, kde-format
 msgid "Blur start"
-msgstr ""
+msgstr "Oskärpestart"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
 #, kde-format
@@ -8564,11 +8800,13 @@ msgid ""
 "<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
 "equator band]]>"
 msgstr ""
+"<![CDATA[Horisontell del av det oförändrade området att gör oskarpt över i "
+"ekvatorbandet]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
 #, kde-format
 msgid "Blur end"
-msgstr ""
+msgstr "Oskärpeslut"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
 #, kde-format
@@ -8576,6 +8814,8 @@ msgid ""
 "<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
 "poles]]>"
 msgstr ""
+"<![CDATA[Horisontell del av det oförändrade området att gör oskarpt över "
+"polerna]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
@@ -8596,7 +8836,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
 #, kde-format
 msgid "Alignment yaw"
-msgstr ""
+msgstr "GIrinriktning"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:15
@@ -8607,11 +8847,15 @@ msgid ""
 "degrees apart.<br>\n"
 "    \tThese parameters adds a rotation to both lenses to correct for this.]]>"
 msgstr ""
+"<![CDATA[De två fiskögekamerorna i en 360-graderskamera är sällan perfekt "
+"180 grader ifrån varandra..<br>\n"
+"    \tDe här parametrarna lägger till en rotation för båda linserna för att "
+"korrigera för det.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:13
 #, kde-format
 msgid "Alignment pitch"
-msgstr "Inriktningstipp"
+msgstr "Tippinriktning"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
 #, kde-format
@@ -8634,6 +8878,8 @@ msgid ""
 "<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
 "like the Ricoh Theta and Garmin Virb360 are supported.]]>"
 msgstr ""
+"<![CDATA[Fiskögats projektionstyp. För närvarande stöds endast ekvidistanta "
+"fiskögeobjektiv, som Ricoh Theta och Garmin Virb 360.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:28
 #, kde-format
@@ -8646,6 +8892,8 @@ msgid ""
 "<![CDATA[The field of view of a single hemisphere in degrees, expressed as a "
 "fraction of the frame width.]]>"
 msgstr ""
+"<![CDATA[Synfältet för en enda halvsfär i grader, uttryckt som en bråkdel av "
+"bildbredden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
 #, kde-format
@@ -8658,6 +8906,7 @@ msgid ""
 "<![CDATA[The radius of the image circle, expressed as a fraction of the "
 "frame width.]]>"
 msgstr ""
+"<![CDATA[Bildcirkelns radie, uttryckt som en bråkdel av bildbredden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
 #, kde-format
@@ -8671,6 +8920,8 @@ msgid ""
 "<br>\n"
 "    \tThe X parameter is a fraction of the image width.]]>"
 msgstr ""
+"<![CDATA[Bildcentrum och bildorientering för den framåtvända kameran.<br>\n"
+"    \tX-parametern är en bråkdel av bildbredden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:41
 #, kde-format
@@ -8684,6 +8935,8 @@ msgid ""
 "<br>\n"
 "    \tThe Y parameter a fraction of the image height.]]>"
 msgstr ""
+"<![CDATA[Bildcentrum och bildorientering för den framåtvända kameran.<br>\n"
+"    \tY-parametern är en bråkdel av bildhöjden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:46
 #, kde-format
@@ -8698,6 +8951,9 @@ msgid ""
 "    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
 "direction towards the frame top edge.]]>"
 msgstr ""
+"<![CDATA[Bildcentrum och bildorientering för den framåtvända kameran.<br>\n"
+"    \tUpp är riktningen \"upp\" i bilden, i grader medsols från en riktning "
+"mot bildens övre kant.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
 #, kde-format
@@ -8711,6 +8967,8 @@ msgid ""
 "<br>\n"
 "    \tThe X parameter is a fraction of the image width..]]>"
 msgstr ""
+"<![CDATA[Bildcentrum och bildorientering för den bakåtvända kameran..<br>\n"
+"    \tX-parametern är en bråkdel av bildbredden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:56
 #, kde-format
@@ -8724,6 +8982,8 @@ msgid ""
 "<br>\n"
 "    \tThe Y parameter a fraction of the image height.]]>"
 msgstr ""
+"<![CDATA[Bildcentrum och bildorientering för den bakåtvända kameran.<br>\n"
+"    \tY-parametern är en bråkdel av bildhöjden.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:61
 #, kde-format
@@ -8738,6 +8998,9 @@ msgid ""
 "    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
 "direction towards the frame top edge.]]>"
 msgstr ""
+"<![CDATA[Bildcentrum och bildorientering för den bakåtvända kameran.<br>\n"
+"    \tUpp är riktningen \"upp\" i bilden, i grader medsols från en riktning "
+"mot bildens övre kant.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:66
 #, kde-format
@@ -8754,6 +9017,10 @@ msgid ""
 "    \tThis parameter \"stretches\" the image near nadir to cover up the "
 "missing parts.]]>"
 msgstr ""
+"<![CDATA[360-kameror som Theta har problem med nadirriktningen där man, "
+"oavsett, ser en liten del av kameran i bilden..<br>\n"
+"    \tParametern \"sträcker\" bilden nära nadir för att täcka över de "
+"saknade delarna.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
 #, kde-format
@@ -8763,7 +9030,7 @@ msgstr "Nadirstart"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:76
 #, kde-format
 msgid "Lens distortion A"
-msgstr ""
+msgstr "Linsförvrängning A"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:78
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:83
@@ -8773,16 +9040,18 @@ msgid ""
 "<![CDATA[Lens distortion correction parameters.<br>\n"
 "    \tThe first three parameters are the same as in Hugin.]]>"
 msgstr ""
+"<![CDATA[Parametrar för korrigering av linsförvrängning.<br>\n"
+"    \tDe tre första parametrarna är desamma som i Hugin.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
 #, kde-format
 msgid "Lens distortion B"
-msgstr ""
+msgstr "Linsförvrängning B"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:86
 #, kde-format
 msgid "Lens distortion C"
-msgstr ""
+msgstr "Linsförvrängning C"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:91
 #, kde-format
@@ -8797,11 +9066,15 @@ msgid ""
 "(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
 "hemispherical image, that would be 0.25.]]>"
 msgstr ""
+"<![CDATA[Parametrar för korrigering av linsförvrängning.<br>\n"
+"    \tOm Hugin-parametrar används bör radien ställas in till värdet (0,5 * "
+"min(bildbredd, bildhöjd) / bildbredd). För en 2:1-bild med dubbel "
+"halvsfärisk form skulle det bli 0,25.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
 #, kde-format
 msgid "Lens vignetting A"
-msgstr ""
+msgstr "Linsvinjettering A"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:98
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:103
@@ -8817,22 +9090,22 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
 #, kde-format
 msgid "Lens vignetting B"
-msgstr ""
+msgstr "Linsvinjettering B"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:106
 #, kde-format
 msgid "Lens vignetting C"
-msgstr ""
+msgstr "Linsvinjettering C"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:111
 #, kde-format
 msgid "Lens vignetting D"
-msgstr ""
+msgstr "Linsvinjettering D"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:116
 #, kde-format
 msgid "Lens vignetting radius"
-msgstr ""
+msgstr "Linsvinjetteringsradie"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:118
 #, kde-format
@@ -8946,7 +9219,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
 msgid "Start offset"
-msgstr ""
+msgstr "Startposition"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:19
 #, kde-format
@@ -10353,7 +10626,7 @@ msgstr "Skapar en glamorös glöd"
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
 msgid "Denoiser (SUPERCEDED)"
-msgstr ""
+msgstr "Brusreducering (ERSATT)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -10804,7 +11077,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:102
 #, kde-format
 msgid "Opposite of Input white level"
-msgstr ""
+msgstr "Motsatsen till vit indatanivå"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -11387,7 +11660,7 @@ msgstr "Visa minimum"
 #: data/effects/frei0r/frei0r_pr0file.xml:75
 #, kde-format
 msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa minimum på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:77
 #: data/effects/frei0r/frei0r_pr0file.xml:78
@@ -11399,7 +11672,7 @@ msgstr "Visa maximum"
 #: data/effects/frei0r/frei0r_pr0file.xml:79
 #, kde-format
 msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa maximum på oscilloskop]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
@@ -11411,7 +11684,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, kde-format
 msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
+msgstr "CCIR Rek.601 (inflätat),CCIR Rek.709 (progressiv)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
@@ -11519,12 +11792,12 @@ msgstr "Horisontell synkronisering"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize (basic)"
-msgstr ""
+msgstr "Bildpunktstillägg (grundläggande)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image"
-msgstr ""
+msgstr "Bildpunktstillägg i indatabild"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11593,7 +11866,7 @@ msgstr "Antal (färg)värden per kanal"
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
 msgid "Video Values (SUPERCEDED)"
-msgstr ""
+msgstr "Videovärden (ERSATT)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
@@ -11601,11 +11874,13 @@ msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
+"<![CDATA[Mät videovärden.<br>\n"
+"    Effekten har ersatts av <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, kde-format
 msgid "Oscilloscope (advanced) (SUPERCEDED)"
-msgstr ""
+msgstr "Oscilloskop (avancerat) (ERSATT)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
@@ -11613,6 +11888,8 @@ msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
+"<![CDATA[Tvådimensionellt videooscilloskop.<br>\n"
+"    Effekten har ersatts av <em>frei0r.measure_pr0file</em>]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -11685,7 +11962,7 @@ msgstr "Visa ett histogram av R-, G- och B-komponenterna i videodata"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
 msgid "RGB Splitter"
-msgstr ""
+msgstr "RGB-delning"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
@@ -13070,7 +13347,7 @@ msgstr "Filmkorn"
 #: data/effects/grain.xml:5
 #, kde-format
 msgid "Grain over the image"
-msgstr "Korn över bilden"
+msgstr "Filmkorn över bilden"
 
 #: data/effects/greyedge.xml:4
 #, kde-format
@@ -13123,92 +13400,92 @@ msgstr ""
 #: data/effects/hsl_primaries.xml:8
 #, kde-format
 msgid "Hue Shift Red"
-msgstr ""
+msgstr "Färgton skiftar röd"
 
 #: data/effects/hsl_primaries.xml:11
 #, kde-format
 msgid "Saturation Scale Red"
-msgstr ""
+msgstr "Färgmättnad skalar röd"
 
 #: data/effects/hsl_primaries.xml:14
 #, kde-format
 msgid "Lightness Scale Red"
-msgstr ""
+msgstr "Ljushet skalar röd"
 
 #: data/effects/hsl_primaries.xml:17
 #, kde-format
 msgid "Hue Shift Yellow"
-msgstr ""
+msgstr "Färgton skiftar gul"
 
 #: data/effects/hsl_primaries.xml:20
 #, kde-format
 msgid "Saturation Scale Yellow"
-msgstr ""
+msgstr "Färgmättnad skalar gul"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
 msgid "Lightness Scale Yellow"
-msgstr ""
+msgstr "Ljushet skalar gul"
 
 #: data/effects/hsl_primaries.xml:26
 #, kde-format
 msgid "Hue Shift Green"
-msgstr ""
+msgstr "Färgton skiftar grön"
 
 #: data/effects/hsl_primaries.xml:29
 #, kde-format
 msgid "Saturation Scale Green"
-msgstr ""
+msgstr "Färgmättnad skalar grön"
 
 #: data/effects/hsl_primaries.xml:32
 #, kde-format
 msgid "Lightness Scale Green"
-msgstr ""
+msgstr "Ljushet skalar grön"
 
 #: data/effects/hsl_primaries.xml:35
 #, kde-format
 msgid "Hue Shift Cyan"
-msgstr ""
+msgstr "Färgton skiftar cyan"
 
 #: data/effects/hsl_primaries.xml:38
 #, kde-format
 msgid "Saturation Scale Cyan"
-msgstr ""
+msgstr "Färgmättnad skalar cyan"
 
 #: data/effects/hsl_primaries.xml:41
 #, kde-format
 msgid "Lightness Scale Cyan"
-msgstr ""
+msgstr "Ljushet skalar cyan"
 
 #: data/effects/hsl_primaries.xml:44
 #, kde-format
 msgid "Hue Shift Blue"
-msgstr ""
+msgstr "Färgton skiftar blå"
 
 #: data/effects/hsl_primaries.xml:47
 #, kde-format
 msgid "Saturation Scale Blue"
-msgstr ""
+msgstr "Färgmättnad skalar blå"
 
 #: data/effects/hsl_primaries.xml:50
 #, kde-format
 msgid "Lightness Scale Blue"
-msgstr ""
+msgstr "Ljushet skalar blå"
 
 #: data/effects/hsl_primaries.xml:53
 #, kde-format
 msgid "Hue Shift Magenta"
-msgstr "Färgtonsändring magenta"
+msgstr "Färgton skiftar magenta"
 
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
 msgid "Saturation Scale Magenta"
-msgstr ""
+msgstr "Färgmättnad skalar magenta"
 
 #: data/effects/hsl_primaries.xml:59
 #, kde-format
 msgid "Lightness Scale Magenta"
-msgstr ""
+msgstr "Ljushet skalar magenta"
 
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
@@ -15345,7 +15622,7 @@ msgstr "Transformering, Förvrängning och Perspektiv"
 #: data/kdenliveeffectscategory.rc:18
 #, kde-format
 msgid "Grain and Noise"
-msgstr "Korn och brus"
+msgstr "Filmkorn och brus"
 
 #: data/kdenliveeffectscategory.rc:22
 #, kde-format
@@ -15847,22 +16124,22 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
 msgid "Grain Extract"
-msgstr "Extrahera ådring"
+msgstr "Filmkornsextrahering"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:5
 #, kde-format
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
-msgstr "Utför en RGB[A] kornextraktion mellan bildpunktskällorna."
+msgstr "Utför en RGB[A] filmkornsextrahering mellan bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, kde-format
 msgid "Grain Merge"
-msgstr "Sammanfoga ådring"
+msgstr "Filmkornssammanfogning"
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:5
 #, kde-format
 msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
-msgstr "Utför en RGB[A] kornsammanfogning mellan bildpunktskällorna."
+msgstr "Utför en RGB[A] filmkornssammanfogning mellan bildpunktskällorna."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, kde-format
@@ -20381,12 +20658,12 @@ msgstr ""
 "Katalogen %1 kunde inte skapas.\n"
 "Försäkra dig om att du har nödvändiga rättigheter."
 
-#: src/dialogs/renderwidget.cpp:891
+#: src/dialogs/renderwidget.cpp:885
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Följande fel uppstod vid försök till återgivning"
 
-#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:1788
+#: src/dialogs/renderwidget.cpp:924 src/dialogs/renderwidget.cpp:1788
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -20395,47 +20672,47 @@ msgstr ""
 "Det finns redan ett jobb som skriver i filen:<br /><b>%1</b><br />Avbryt "
 "jobbet om du vill skriva över den…"
 
-#: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:1789
 #, kde-format
 msgid "Already running"
 msgstr "Kör redan"
 
-#: src/dialogs/renderwidget.cpp:953
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video utan ljudspår"
 
-#: src/dialogs/renderwidget.cpp:955
+#: src/dialogs/renderwidget.cpp:949
 #, kde-format
 msgid "Audio without video track"
 msgstr "Ljud utan videospår"
 
-#: src/dialogs/renderwidget.cpp:1037 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:455
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Återgivning %1 startad"
 
-#: src/dialogs/renderwidget.cpp:1102 src/monitor/monitor.cpp:1384
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "namnlös"
 
-#: src/dialogs/renderwidget.cpp:1141
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid "No preset selected"
 msgstr "Ingen förinställningar vald"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1137
 #, kde-format
 msgid "No matching preset"
 msgstr "Ingen matchande förinställning"
 
-#: src/dialogs/renderwidget.cpp:1155
+#: src/dialogs/renderwidget.cpp:1149
 #, kde-format
 msgid "Invalid preset"
 msgstr "Ogiltig förinställning"
 
-#: src/dialogs/renderwidget.cpp:1291
+#: src/dialogs/renderwidget.cpp:1285
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -20496,42 +20773,42 @@ msgstr "Avbryt jobb"
 msgid "Remove Job"
 msgstr "Ta bort jobb"
 
-#: src/dialogs/renderwidget.cpp:2071
+#: src/dialogs/renderwidget.cpp:2073
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Lägg till klipp i tidslinje innan återgivning"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2078
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Återgiven fillängd: %1"
 
-#: src/dialogs/renderwidget.cpp:2079
+#: src/dialogs/renderwidget.cpp:2081
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Tidskodsposition:"
 
-#: src/dialogs/renderwidget.cpp:2084
+#: src/dialogs/renderwidget.cpp:2086
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Ett saknat klipp används i projektet.</b>"
 msgstr[1] "<b>%1 saknade klipp används i projektet.</b>"
 
-#: src/dialogs/renderwidget.cpp:2086
+#: src/dialogs/renderwidget.cpp:2088
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Ett saknat klipp (oanvänt)."
 msgstr[1] "%1 saknade klipp (oanvända)."
 
-#: src/dialogs/renderwidget.cpp:2088
+#: src/dialogs/renderwidget.cpp:2090
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 saknade klipp (<b>%2 använda i projektet</b>)."
 
-#: src/dialogs/renderwidget.cpp:2170
+#: src/dialogs/renderwidget.cpp:2172
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -20540,12 +20817,12 @@ msgstr ""
 "Hastighetsparametrar för kodare:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2190
+#: src/dialogs/renderwidget.cpp:2192
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Lägg till i aktuellt projekt"
 
-#: src/dialogs/renderwidget.cpp:2199
+#: src/dialogs/renderwidget.cpp:2201
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
