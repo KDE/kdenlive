@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-01 02:44+0000\n"
-"PO-Revision-Date: 2025-07-28 11:59+0300\n"
+"PO-Revision-Date: 2025-08-02 21:18+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4224,12 +4224,12 @@ msgstr "היסטוגרמה"
 msgid ""
 "This filter applies a global color histogram equalization on a per-frame "
 "basis"
-msgstr ""
+msgstr "המסנן הזה מחיל השוואת היסטוגרמת צבע מקיפה לפי תמונית"
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
 msgid "None,Weak,Strong"
-msgstr ""
+msgstr "ללא,חלש,חזק"
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
 #, kde-format
@@ -18628,7 +18628,7 @@ msgstr "הוספת סמנים"
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
 msgid "Edit global subtitle style"
-msgstr "עריכת סגנון כתוביות כללי"
+msgstr "עריכת סגנון כתוביות מקיף"
 
 #: src/bin/model/subtitlemodel.cpp:420 src/bin/model/subtitlemodel.cpp:634
 #: src/bin/model/subtitlemodel.cpp:1579 src/bin/model/subtitlemodel.cpp:2154
@@ -19765,7 +19765,7 @@ msgstr "העתקה אל…"
 #: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:584
 #, kde-format
 msgid "Global"
-msgstr "כללי"
+msgstr "מקיף"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
