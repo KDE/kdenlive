@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 00:41+0000\n"
-"PO-Revision-Date: 2025-08-02 22:58+0200\n"
+"POT-Creation-Date: 2025-08-04 00:41+0000\n"
+"PO-Revision-Date: 2025-08-03 12:36+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8765,7 +8765,7 @@ msgstr "Närmaste granne,Bilinjär"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
 #, kde-format
 msgid "VR360 Wrap"
-msgstr ""
+msgstr "VR360-svep"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
 #, kde-format
@@ -9086,6 +9086,9 @@ msgid ""
 "    \tThe first four parameters are the same as in Hugin, corresponding to "
 "the Va, Vb, Vc and Vd image parameters.]]>"
 msgstr ""
+"<![CDATA[Parametrar för korrigering av linsförvrängning.<br>\n"
+"    \tDe fyra första parametrarna är desamma som i Hugin, och motsvarar "
+"bildparametrarna Va, Vb, Vc och Vd.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
 #, kde-format
@@ -9115,21 +9118,27 @@ msgid ""
 "    \tFor a 2:1 aspect dual hemispherical image, that would be 0.5590. Use "
 "the A parameter to scale the effect and avoid overexposing highlights]]>"
 msgstr ""
+"<![CDATA[Om du använder Hugin-parametrar ska radien sättas till värdet (0,5 "
+"* bilddiagonal / bildbredd).<br>\n"
+"    \tFör en dubbel halvsfärisk bild med förhållandet 2:1 skulle det vara "
+"0,5590. Använd parametern A för att skala effekten och undvika "
+"överexponering av högdagrar.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
 #, kde-format
 msgid "Use sensor response parameters"
-msgstr ""
+msgstr "Använd sensorresponsparametrar"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
 #, kde-format
 msgid "<![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]>"
 msgstr ""
+"<![CDATA[Sätt på för att använda sensorresponsparametrar (EMoR h(x))]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
 #, kde-format
 msgid "EMoR h(1)"
-msgstr ""
+msgstr "EMoR h(1)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:127
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:132
@@ -9144,26 +9153,32 @@ msgid ""
 "should also use these parameters, as Hugin's vignetting correction assumes "
 "that the sensor response has been corrected.]]>"
 msgstr ""
+"<![CDATA[Sensorresponsparametrar.<br>\n"
+"    \tEMoR h(x)-parametrarna är desamma som Hugins Ra - Re i "
+"linsparametrarna. Om man använder värden härledda från Hugin för korrigering "
+"av linsförvrängning bör också de här parametrarna användas, eftersom Hugins "
+"korrigering av linsförvrängning förutsätter att sensorrespons har "
+"korrigerats.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
 #, kde-format
 msgid "EMoR h(2)"
-msgstr ""
+msgstr "EMoR h(2)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:135
 #, kde-format
 msgid "EMoR h(3)"
-msgstr ""
+msgstr "EMoR h(3)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:140
 #, kde-format
 msgid "EMoR h(4)"
-msgstr ""
+msgstr "EMoR h(4)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:145
 #, kde-format
 msgid "EMoR h(5)"
-msgstr ""
+msgstr "EMoR h(5)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:4
 #, kde-format
@@ -9194,6 +9209,11 @@ msgid ""
 "analyzing footage, it detects frame-to-frame rotation, and when stabilizing "
 "it tries to correct high-frequency motion (shake).]]>"
 msgstr ""
+"<![CDATA[Stabilsera 360-filmmaterial.<br>\n"
+"\n"
+"    Filtret fungerar i två faser: analys och stabilisering. När det "
+"analyserar filmmaterial detekterar det bild-till-bild-rotation, och när det "
+"stabiliseras försöker det korrigera högfrekvent rörelse (skakning).]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:9
 #, kde-format
@@ -9204,7 +9224,7 @@ msgstr "Analysera"
 #, kde-format
 msgid ""
 "<![CDATA[Switch on for analysis phase; switch off for stabilization phase.]]>"
-msgstr ""
+msgstr "<![CDATA[Sätt på för analysfasen; stäng av för stabiliseringsfasen.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
 #, kde-format
@@ -9214,7 +9234,7 @@ msgstr "Rörelseanalysfil"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
 #, kde-format
 msgid "<![CDATA[Select the file to store stabilization data in]]>"
-msgstr ""
+msgstr "<![CDATA[Välj filen att lagra stabiliseringsdata i]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
@@ -9230,6 +9250,11 @@ msgid ""
 "split it into three clips of 10 seconds each, then the start offsets should "
 "be 0s, 10s, and 20s.]]>"
 msgstr ""
+"<![CDATA[Positionen i stabiliseringsfilen som motsvarar början av det här "
+"klippet.<br>\n"
+"    \tOm man till exempel har ett 30 sekunder långt klipp, analyserar allt "
+"och sedan delar upp det i tre klipp på 10 sekunder vardera, ska "
+"startpositionerna vara 0 s, 10 s och 20 s.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
 #, kde-format
@@ -9239,7 +9264,7 @@ msgstr "Analyssamplingsradie"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
 msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
-msgstr ""
+msgstr "<![CDATA[Radien för den kvadrat som stabilisatorn samplar]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #, kde-format
@@ -9250,6 +9275,7 @@ msgstr "Analyssökradie"
 #, kde-format
 msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
 msgstr ""
+"<![CDATA[Den maximala storleken på rörelsen som stabilisatorn upptäcker]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, kde-format
@@ -9259,12 +9285,12 @@ msgstr "Analysposition"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
 #, kde-format
 msgid "<![CDATA[The distance between the track points]]>"
-msgstr ""
+msgstr "<![CDATA[Avståndet mellan spårpunkterna]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
 msgid "Use backwards-facing track points"
-msgstr ""
+msgstr "Använd bakåtvända spårpunkter"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:36
 #, kde-format
@@ -9273,6 +9299,9 @@ msgid ""
 "detect pitch and yaw motion.<br>\n"
 "    \tDisable if, for example, you show up holding the camera there]]>"
 msgstr ""
+"<![CDATA[Om inställt används sex bakåtvända spårpunkter också för att "
+"detektera tipp- och girrörelser.<br>\n"
+"    \tInaktivera om du till exempel syns när du håller kameran där]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
 #, kde-format
@@ -9287,6 +9316,9 @@ msgid ""
 "    \t100% means that the stabilizer will make the camera as steady as it "
 "can. Smaller values reduce the amount of stabilization.]]>"
 msgstr ""
+"<![CDATA[Värdet på stabiliseringen som ska användas.<br>\n"
+"    \t100 % betyder att stabilisatorn gör kameran så stadig som den kan. "
+"Mindre värden minskar stabiliseringen.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
@@ -9299,6 +9331,8 @@ msgid ""
 "<![CDATA[The number of frames to use to smooth out the shakes. The higher "
 "the value, the slower the camera will follow any intended motion.]]>"
 msgstr ""
+"<![CDATA[Antal bildrutor som används för att jämna ut skakningarna. Ju "
+"större värde, desto långsammare följer kameran den avsedda rörelsen.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
 #, kde-format
@@ -9318,11 +9352,18 @@ msgid ""
 "ahead of the intended camera movement. A value of zero should make the "
 "camera follow the intended path.]]>"
 msgstr ""
+"<![CDATA[Flytta bildrutorna som används för att jämna ut skakningarna i "
+"förhållande till den stabiliserade bildrutan.<br>\n"
+"    \tEtt värde mindre än noll ger mer vikt åt tidigare bildrutor, och "
+"kameran kommer att tyckas ligga efter avsedd rörelse. Ett värde större än "
+"noll ger större vikt åt framtida bildrutor, och kameran kommer att tyckas gå "
+"före den avsedda kamerarörelsen. Ett värde på noll bör få kameran att följa "
+"den avsedda vägen.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
 #, kde-format
 msgid "Pitch amount"
-msgstr ""
+msgstr "Tippvärde"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
 #, no-c-format, kde-format
@@ -9331,6 +9372,9 @@ msgid ""
 "stabilizer will make the camera as steady as it can. Smaller values reduce "
 "the amount of stabilization.]]>"
 msgstr ""
+"<![CDATA[Hur mycket stabilisering som ska användas. 100 % betyder att "
+"stabilisatorn gör kameran så stabil som möjligt. Lägre värden minskar "
+"stabiliseringen.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
 #, kde-format
@@ -9345,11 +9389,15 @@ msgid ""
 "    \tThe higher the value, the slower the camera will follow any intended "
 "motion.]]>"
 msgstr ""
+"<![CDATA[Antalet bildrutor som ska användas för att jämna ut skakningarna."
+"<br>\n"
+"    \t Ju större värde, desto långsammare följer kameran alla avsedda "
+"rörelser.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
 #, kde-format
 msgid "Pitch time bias"
-msgstr ""
+msgstr "Tipptidsförspänning"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:67
 #, kde-format
@@ -9379,12 +9427,13 @@ msgstr "Roterar en panoramabild"
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:4
 #, kde-format
 msgid "Blue Screen (Color to Alpha)"
-msgstr ""
+msgstr "Blå skärm (färg till alfa)"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
 #, kde-format
 msgid "<![CDATA[Turns the selected color into alpha making it transparent.]]>"
 msgstr ""
+"<![CDATA[Gör den valda färgen till alfa vilket gör den genomskinlig.]]>"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:14
 #, kde-format
@@ -9644,7 +9693,7 @@ msgstr "Skillnadsrymd"
 #: data/effects/frei0r/frei0r_cluster.xml:4
 #, kde-format
 msgid "K-Means Clustering (ABANDONED)"
-msgstr ""
+msgstr "Kluster med k-medelvärde (ÖVERGIVEN)"
 
 #: data/effects/frei0r/frei0r_cluster.xml:6
 #, kde-format
@@ -9652,6 +9701,8 @@ msgid ""
 "<![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>\n"
 "    Clusters of a source image by color and spatial distance]]>"
 msgstr ""
+"<![CDATA[<b>Övergiven på grund av hög processorbelastning.</b><br>\n"
+"    Kluster av en källbild enligt färg och rumsavstånd]]>"
 
 #: data/effects/frei0r/frei0r_cluster.xml:9
 #, kde-format
@@ -9784,7 +9835,7 @@ msgstr "Lägger till en färdig färgeffekt i bilden"
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #, kde-format
 msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
-msgstr ""
+msgstr "X-Pro,Sepia,Hetta,Röd-grön,Gammalt foto,Röntgen,Ess (Ss),Gul-blå"
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
 #, kde-format
@@ -10040,7 +10091,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
 msgid "HQ 3D Denoiser (frei0r)"
-msgstr ""
+msgstr "HQ tredimensionell brusreducering (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, kde-format
@@ -10080,7 +10131,7 @@ msgstr "Förvräng"
 #: data/effects/frei0r/frei0r_distort0r.xml:5
 #, kde-format
 msgid "Creates a plasma like distortion"
-msgstr ""
+msgstr "Skapar en plasmaliknande förvrängning"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:11
 #, kde-format
@@ -10090,7 +10141,7 @@ msgstr "Amplitud"
 #: data/effects/frei0r/frei0r_distort0r.xml:14
 #, kde-format
 msgid "Use Velocity"
-msgstr ""
+msgstr "Använd hastighet"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:17
 #, kde-format
@@ -10172,7 +10223,7 @@ msgstr "Elastisk skala"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:5
 #, kde-format
 msgid "Scale non-linearly"
-msgstr ""
+msgstr "Skala icke-linjärt"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
@@ -10181,7 +10232,7 @@ msgstr ""
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
-msgstr "I mitten"
+msgstr "Mitt"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:10
 #, no-c-format, kde-format
@@ -10189,6 +10240,8 @@ msgid ""
 "<![CDATA[Horizontal center position<br>\n"
 "        of the linear area (% of total width)]]>"
 msgstr ""
+"<![CDATA[Horisontell mittposition<br>\n"
+"        för det linjära området (procent av total bredd)]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
 #, kde-format
@@ -10198,7 +10251,7 @@ msgstr "Linjär bredd"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
 #, kde-format
 msgid "<![CDATA[Width of the linear area]]>"
-msgstr ""
+msgstr "<![CDATA[Det linjära områdets bredd]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
 #, kde-format
@@ -10208,7 +10261,7 @@ msgstr "Linjär skalfaktor"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
 #, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr ""
+msgstr "<![CDATA[Storlek på hur mycket det linjära området skalas]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, kde-format
@@ -10221,6 +10274,8 @@ msgid ""
 "<![CDATA[Amount how much the<br>\n"
 "        outer left and outer right areas are scaled non linearly]]>"
 msgstr ""
+"<![CDATA[Storlek på hur mycket de<br>\n"
+"        yttre vänstra och yttre högra områdena skalas icke-linjärt]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
 #, kde-format
@@ -10244,6 +10299,8 @@ msgid ""
 "<![CDATA[The direction of the<br>\n"
 "            embossing (practically simulating a light source)]]>"
 msgstr ""
+"<![CDATA[Riktningen för<br>\n"
+"            reliefen (i praktiken simulera en ljuskälla)]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
 #, kde-format
@@ -10257,6 +10314,9 @@ msgid ""
 "<br>\n"
 "            Range is 0 to 90.]]>"
 msgstr ""
+"<![CDATA[Definierar ljusheten/ljusstyrkan för de områden som inte har relief."
+"<br>\n"
+"            Intervallet är 0 till 90.]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:19
 #, kde-format
@@ -10270,6 +10330,9 @@ msgid ""
 "perceived depth of the embossed areas.<br>\n"
 "            Range is 0 to 40.]]>"
 msgstr ""
+"<![CDATA[Definierar kanternas tjocklek och ökar/minskar det upplevda djupet "
+"för reliefområdena.<br>\n"
+"            Intervallet är 0 till 40.]]>"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
@@ -10494,7 +10557,7 @@ msgstr "Kornighetsvärde"
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr ""
+msgstr "<![CDATA[Filmkornets intensitet]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
@@ -10505,6 +10568,7 @@ msgstr "Röd kornighet"
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
 msgstr ""
+"<![CDATA[Procentandelen filmkorn som applicerats på den röda kanalen]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -10515,6 +10579,7 @@ msgstr "Grön kornighet"
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
 msgstr ""
+"<![CDATA[Procentandelen filmkorn som applicerats på den gröna kanalen]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, kde-format
@@ -10525,16 +10590,17 @@ msgstr "Blå kornighet"
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
 msgstr ""
+"<![CDATA[Procentandelen filmkorn som applicerats på den blåa kanalen]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
 msgid "Blur Amount"
-msgstr "Suddighetsvärde"
+msgstr "Oskärpevärde"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr ""
+msgstr "<![CDATA[Oskärpans intensitet]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
@@ -10544,7 +10610,7 @@ msgstr "Dammvärde"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr ""
+msgstr "<![CDATA[Antal dammpartiklar på bilden]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10554,7 +10620,7 @@ msgstr "Flimmervärde"
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[Storleken på variation i ljusstyrka mellan bildrutor]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -10579,7 +10645,7 @@ msgstr "Y-axel"
 #: data/effects/frei0r/frei0r_G.xml:4
 #, kde-format
 msgid "Channel Extractor GREEN"
-msgstr ""
+msgstr "Kanalextrahering GRÖN"
 
 #: data/effects/frei0r/frei0r_G.xml:5
 #, kde-format
@@ -10589,17 +10655,17 @@ msgstr "Extrahera grön från bild"
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
 msgid "Glitching (rows and color)"
-msgstr ""
+msgstr "Störningar (rader och färg)"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
 #, kde-format
 msgid "Adds color glitches and block shifting"
-msgstr "Lägger till färgglitchar och blockskiftning"
+msgstr "Lägger till färgstörningar och blockskiftning"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
 #, kde-format
 msgid "Glitch Frequency"
-msgstr "Glitchfrekvens"
+msgstr "Störningsfrekvens"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
@@ -10610,7 +10676,7 @@ msgstr "Skiftintensitet"
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
 #, kde-format
 msgid "Color Glitching Intensity"
-msgstr "Färgernas glitchintensitet"
+msgstr "Färgernas störningsintensitet"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
 #, kde-format
@@ -10634,6 +10700,8 @@ msgid ""
 "<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
 "    High quality 3D denoiser]]>"
 msgstr ""
+"<![CDATA[<b>Ersatt av frei0r.denoise_hqdn3d</b><br>\n"
+"    Tredimensionell brusreducering med hög kvalitet]]>"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, kde-format
@@ -10700,7 +10768,7 @@ msgstr "Origo X"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:9
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the X axis"
-msgstr ""
+msgstr "Flytta kalejdoskopets origo längs X-axeln"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
 #, kde-format
@@ -10710,7 +10778,7 @@ msgstr "Origo Y"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:13
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the Y axis"
-msgstr ""
+msgstr "Flytta kalejdoskopets origo längs y-axeln"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
 #, kde-format
@@ -10723,6 +10791,9 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[Kalejdoskopsegmentering / 128;<br>\n"
+"        segmentering 1, 2, eller multipler av 4 fungerar bäst. "
+"Standardvärdet är 16]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
@@ -10736,6 +10807,8 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[Om markerat, läses källvinkeln<br>\n"
+"        från <em>källsegmentet</em>, annars beräknas den automatiskt]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, kde-format
@@ -10749,6 +10822,9 @@ msgid ""
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Mitten av källsegmentet. Används endast om <em>Ange källsegment</"
+"em> är markerat.<br>\n"
+"        0 är i +x och roteras moturs.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -10777,6 +10853,9 @@ msgid ""
 "into it.<br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
+"<![CDATA[Om markerat reflekteras reflektioner som hamnar utanför källan "
+"tillbaka in i den.<br>\n"
+"        Annars används den angivna bakgrundsfärgen.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, kde-format
@@ -10789,6 +10868,8 @@ msgid ""
 "<![CDATA[Edge threshold / 4, reflections <br>\n"
 "        outside the image but within this distance clamp to the edge.]]>"
 msgstr ""
+"<![CDATA[Kanttröskel / 4, reflektioner <br>\n"
+"        utanför bilden men inom det avståndet låses mot kanten.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
@@ -10806,6 +10887,8 @@ msgid ""
 "<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
 "        this parameter defines the preferred corner.]]>"
 msgstr ""
+"<![CDATA[Om <em>Reflektera kanter</em> inte är markerat, <br>\n"
+"        definierar den här parametern föredraget hörn.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, kde-format
@@ -10818,6 +10901,8 @@ msgid ""
 "<![CDATA[If checked, search clockwise for furthest corner.<br>\n"
 "        Otherwise search counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Om markerat, sök medurs för hörnet längst bort.<br>\n"
+"        Annars, sök moturs.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:59
 #, kde-format
@@ -10825,6 +10910,8 @@ msgid ""
 "<![CDATA[Color to use if reflection<br>\n"
 "        lies outside of the source image and not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[Färg att använda om reflektionen<br>\n"
+"        ligger utanför källbilden och inte reflekteras tillbaka in.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
 #, kde-format
@@ -10838,6 +10925,9 @@ msgid ""
 "        color will be used, if reflection lies outside of the source image "
 "and not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[Om markerad, används alfa<br>\n"
+"        om reflektionen ligger utanför källbilden och inte reflekteras "
+"tillbaka in.]]>"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -10958,7 +11048,7 @@ msgstr "Kantkorrektion"
 #: data/effects/frei0r/frei0r_letterb0xed.xml:4
 #, kde-format
 msgid "Letter-boxing"
-msgstr ""
+msgstr "Brevlådeeffekt"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
 #, kde-format
@@ -10978,6 +11068,10 @@ msgid ""
 "        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
+"<![CDATA[Ange kantbredden<br>\n"
+"        som procent av halva vertikala upplösningen (100 % betyder att både "
+"överdelen och underdelen av bildrutan är svart, dvs. det finns inget utrymme "
+"för bilden)]]>"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:13
 #: data/effects/frei0r/frei0r_timeout.xml:14
@@ -11049,6 +11143,10 @@ msgid ""
 "                This makes the dark areas even darker, influences the mid-"
 "tones a little and the highlights not at all. Increases contrast.]]>"
 msgstr ""
+"<![CDATA[Flyttar svartpunkten åt höger: alla bildpunkter med det värdet "
+"eller mindre blir svarta.<br>\n"
+"                Det gör de mörka områdena ännu mörkare, påverkar "
+"mellantonerna lite och dagarna inte alls. Ökar kontrasten.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:89
 #, kde-format
@@ -11058,6 +11156,10 @@ msgid ""
 "                This makes bright areas even brighter, influences the mid-"
 "tones a little and the dark areas not at all. Increases contrast.]]>"
 msgstr ""
+"<![CDATA[Flyttar vitpunkten åt vänster: alla bildpunkter med det värdet "
+"eller större blir vita.<br>\n"
+"                Det gör de ljusa områdena ännu ljusare, påverkar "
+"mellantonerna lite och mörka områden inte alls. Ökar kontrasten.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:94
 #, no-c-format, kde-format
@@ -11068,11 +11170,16 @@ msgid ""
 "the bar to the left) make the image darker, higher values (moving the bar to "
 "the right) make it brighter.]]>"
 msgstr ""
+"<![CDATA[Ändrar bildens totala ljusstyrka.<br>\n"
+"                Påverkar endast mellantonerna, svart och vitt påverkas inte. "
+"Standardvärdet är 25 %, motsvarande Gamma 1,0. Lägre värden (flytta stapeln "
+"åt vänster) gör bilden mörkare, högre värden (flyttar stapeln åt höger) gör "
+"den ljusare.]]>"
 
 #: data/effects/frei0r/frei0r_levels.xml:98
 #, kde-format
 msgid "Opposite of Input black level"
-msgstr ""
+msgstr "Motsatsen till svart indatanivå"
 
 #: data/effects/frei0r/frei0r_levels.xml:102
 #, kde-format
@@ -11468,7 +11575,7 @@ msgstr "Profilens X-position"
 #: data/effects/frei0r/frei0r_pr0file.xml:10
 #, kde-format
 msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr ""
+msgstr "<![CDATA[Profilens X-koordinat]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:12
 #: data/effects/frei0r/frei0r_pr0file.xml:13
@@ -11480,7 +11587,7 @@ msgstr "Profilens Y-position"
 #: data/effects/frei0r/frei0r_pr0file.xml:14
 #, kde-format
 msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr ""
+msgstr "<![CDATA[Profilens Y-koordinat]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
@@ -11492,7 +11599,7 @@ msgstr "Profilens lutning"
 #: data/effects/frei0r/frei0r_pr0file.xml:18
 #, kde-format
 msgid "<![CDATA[Tilting of the profile]]>"
-msgstr ""
+msgstr "<![CDATA[Profilens lutning]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
 #: data/effects/frei0r/frei0r_pr0file.xml:21
@@ -11504,7 +11611,7 @@ msgstr "Profilens längd"
 #: data/effects/frei0r/frei0r_pr0file.xml:22
 #, kde-format
 msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Profilens längden i bildpunkter]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:25
@@ -11516,7 +11623,7 @@ msgstr "R,G,B,Y',Pr,Pb,Alfa"
 #: data/effects/frei0r/frei0r_pr0file.xml:27
 #, kde-format
 msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
+msgstr "<![CDATA[Kanal att visa numeriskt]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
 #: data/effects/frei0r/frei0r_pr0file.xml:30
@@ -11528,7 +11635,7 @@ msgstr "Markör 1"
 #: data/effects/frei0r/frei0r_pr0file.xml:31
 #, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr ""
+msgstr "<![CDATA[Position för markör 1]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -11540,7 +11647,7 @@ msgstr "Markör 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:35
 #, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr ""
+msgstr "<![CDATA[Position för markör 2]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -11552,7 +11659,7 @@ msgstr "R-spår"
 #: data/effects/frei0r/frei0r_pr0file.xml:39
 #, kde-format
 msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa R-spår (rött) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:41
 #: data/effects/frei0r/frei0r_pr0file.xml:42
@@ -11564,7 +11671,7 @@ msgstr "G-spår"
 #: data/effects/frei0r/frei0r_pr0file.xml:43
 #, kde-format
 msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa G-spår (grönt) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:45
 #: data/effects/frei0r/frei0r_pr0file.xml:46
@@ -11576,7 +11683,7 @@ msgstr "B-spår"
 #: data/effects/frei0r/frei0r_pr0file.xml:47
 #, kde-format
 msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa B-spår (blått) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:49
 #: data/effects/frei0r/frei0r_pr0file.xml:50
@@ -11588,7 +11695,7 @@ msgstr "Y-spår"
 #: data/effects/frei0r/frei0r_pr0file.xml:51
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa Y-spår (luminans) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:53
 #: data/effects/frei0r/frei0r_pr0file.xml:54
@@ -11600,7 +11707,7 @@ msgstr "Pr-spår"
 #: data/effects/frei0r/frei0r_pr0file.xml:55
 #, kde-format
 msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa Pr-spår (röd skillnad) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
 #: data/effects/frei0r/frei0r_pr0file.xml:58
@@ -11612,7 +11719,7 @@ msgstr "Pb-spår"
 #: data/effects/frei0r/frei0r_pr0file.xml:59
 #, kde-format
 msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa Pb-spår (blå skillnad) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
 #: data/effects/frei0r/frei0r_pr0file.xml:62
@@ -11624,7 +11731,7 @@ msgstr "Alfaspår"
 #: data/effects/frei0r/frei0r_pr0file.xml:63
 #, kde-format
 msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa alfaspår på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:65
 #: data/effects/frei0r/frei0r_pr0file.xml:66
@@ -11636,7 +11743,7 @@ msgstr "Visa medelvärde"
 #: data/effects/frei0r/frei0r_pr0file.xml:67
 #, kde-format
 msgid "<![CDATA[Show average on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa medelvärde på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:69
 #: data/effects/frei0r/frei0r_pr0file.xml:70
@@ -11648,7 +11755,7 @@ msgstr "Visa effektivvärde"
 #: data/effects/frei0r/frei0r_pr0file.xml:71
 #, kde-format
 msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Visa effektivvärde (RMS) på oscilloskopet]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
 #: data/effects/frei0r/frei0r_pr0file.xml:74
@@ -11678,7 +11785,7 @@ msgstr "<![CDATA[Visa maximum på oscilloskop]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:83
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[Använd skalan 0-255 istället för 0,0-1,0]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
@@ -11696,7 +11803,7 @@ msgstr "Färgkodning"
 #: data/effects/frei0r/frei0r_pr0file.xml:88
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[Välj mellan inflätat (601) eller progressivt (709)]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
 #: data/effects/frei0r/frei0r_pr0file.xml:91
@@ -11708,7 +11815,7 @@ msgstr "Hårkorsets färg"
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr ""
+msgstr "<![CDATA[Välj en färg för hårkorset/profillinjen]]>"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
@@ -11802,12 +11909,12 @@ msgstr "Bildpunktstillägg i indatabild"
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
 msgid "Glitching (rows only)"
-msgstr ""
+msgstr "Störningar (bara rader)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
 msgid "Glitch image by shifting rows to and fro."
-msgstr ""
+msgstr "Stör bilden med skiftning av rader fram och tillbaka."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -11978,6 +12085,8 @@ msgstr "Horisontellt delningsavstånd"
 #, kde-format
 msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
 msgstr ""
+"<![CDATA[Värden < 0,500 flyttar åt höger, värden > 0,500 flyttar åt "
+"vänster.]]>"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, kde-format
@@ -11988,6 +12097,7 @@ msgstr "Vertikalt delningsavstånd"
 #, kde-format
 msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
 msgstr ""
+"<![CDATA[Värden < 0,5002 flyttar neråt, värden > 0.500 flyttar uppåt.]]>"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -13329,7 +13439,7 @@ msgstr "Toningsavbildning"
 #: data/effects/gradientmap.xml:5
 #, kde-format
 msgid "Apply a gradient map to the video"
-msgstr ""
+msgstr "Använd en toningsavbildning på videon"
 
 #: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
 #: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
@@ -13361,6 +13471,8 @@ msgid ""
 "A color constancy filter that applies color correction based on the "
 "grayworld assumption"
 msgstr ""
+"Ett färgkonstansfilter som tillämpar färgkorrigering baserat på ett "
+"gråvärldsantagande"
 
 #: data/effects/greyedge.xml:8
 #, kde-format
@@ -13370,7 +13482,7 @@ msgstr "Deriveringsordning"
 #: data/effects/greyedge.xml:12
 #, kde-format
 msgid "Minkowski Norm"
-msgstr ""
+msgstr "Minkowski-norm"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -13700,17 +13812,17 @@ msgstr "Filter för borttagning av bakgrundsljud från mikrofon"
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, no-c-format, kde-format
 msgid "VAD Threshold (%)"
-msgstr ""
+msgstr "VAD-tröskel (%)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "VAD-respitperiod (ms)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "Retroaktiv VAD-respitperiod (ms)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
@@ -13984,7 +14096,7 @@ msgstr "Analysera för att verkställa effekt"
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "Luma LiftGainGamma"
-msgstr ""
+msgstr "Luminans höj, förstärkning, gamma"
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
@@ -24395,59 +24507,59 @@ msgstr "Redigering"
 msgid "Effects"
 msgstr "Effekter"
 
-#: src/layouts/layoutmanagement.cpp:36
+#: src/layouts/layoutmanagement.cpp:38
 #, kde-format
 msgid "Layouts"
 msgstr "Layouter"
 
-#: src/layouts/layoutmanagement.cpp:37
+#: src/layouts/layoutmanagement.cpp:39
 #, kde-format
 msgid "Load Layout"
 msgstr "Läs in layout"
 
-#: src/layouts/layoutmanagement.cpp:44
+#: src/layouts/layoutmanagement.cpp:46
 #, kde-format
 msgid "Save Layout…"
 msgstr "Spara layout…"
 
-#: src/layouts/layoutmanagement.cpp:48
+#: src/layouts/layoutmanagement.cpp:50
 #, kde-format
 msgid "Manage Layouts…"
 msgstr "Hantera layouter…"
 
-#: src/layouts/layoutmanagement.cpp:59
+#: src/layouts/layoutmanagement.cpp:61
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr "Arrangera dockningsområden i rader"
 
-#: src/layouts/layoutmanagement.cpp:63
+#: src/layouts/layoutmanagement.cpp:65
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr "Arrangera dockningsområden i kolumner"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
+#: src/layouts/layoutmanagement.cpp:99 src/ui/configmisc_ui.ui:344
 #, kde-format
 msgid "Auto Save"
 msgstr "Spara automatiskt"
 
-#: src/layouts/layoutmanagement.cpp:163
+#: src/layouts/layoutmanagement.cpp:188
 #, kde-format
 msgid "Layout %1: %2"
 msgstr "Layout %1: %2"
 
-#: src/layouts/layoutmanagement.cpp:261
+#: src/layouts/layoutmanagement.cpp:286
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Spara layout"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:286 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "Layoutnamn:"
 
-#: src/layouts/layoutmanagement.cpp:275 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:300 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "Layouten %1 finns redan. Vill du ersätta den?"

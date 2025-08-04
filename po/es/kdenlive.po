@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 00:41+0000\n"
+"POT-Creation-Date: 2025-08-04 00:41+0000\n"
 "PO-Revision-Date: 2025-07-26 12:49+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -24890,59 +24890,59 @@ msgstr "Edición"
 msgid "Effects"
 msgstr "Efectos"
 
-#: src/layouts/layoutmanagement.cpp:36
+#: src/layouts/layoutmanagement.cpp:38
 #, kde-format
 msgid "Layouts"
 msgstr "Organizaciones"
 
-#: src/layouts/layoutmanagement.cpp:37
+#: src/layouts/layoutmanagement.cpp:39
 #, kde-format
 msgid "Load Layout"
 msgstr "Cargar organización"
 
-#: src/layouts/layoutmanagement.cpp:44
+#: src/layouts/layoutmanagement.cpp:46
 #, kde-format
 msgid "Save Layout…"
 msgstr "Guardar organización actual…"
 
-#: src/layouts/layoutmanagement.cpp:48
+#: src/layouts/layoutmanagement.cpp:50
 #, kde-format
 msgid "Manage Layouts…"
 msgstr "Administrar organizaciones…"
 
-#: src/layouts/layoutmanagement.cpp:59
+#: src/layouts/layoutmanagement.cpp:61
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr "Distribuir áreas empotradas en filas"
 
-#: src/layouts/layoutmanagement.cpp:63
+#: src/layouts/layoutmanagement.cpp:65
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr "Distribuir áreas empotradas en columnas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
+#: src/layouts/layoutmanagement.cpp:99 src/ui/configmisc_ui.ui:344
 #, kde-format
 msgid "Auto Save"
 msgstr "Guardado automático"
 
-#: src/layouts/layoutmanagement.cpp:163
+#: src/layouts/layoutmanagement.cpp:188
 #, kde-format
 msgid "Layout %1: %2"
 msgstr "%1: %2"
 
-#: src/layouts/layoutmanagement.cpp:261
+#: src/layouts/layoutmanagement.cpp:286
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Guardar organización"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:286 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "Nombre de organización:"
 
-#: src/layouts/layoutmanagement.cpp:275 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:300 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La organización %1 ya existe. ¿Sobrescribirla?"

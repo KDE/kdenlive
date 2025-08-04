@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 00:41+0000\n"
+"POT-Creation-Date: 2025-08-04 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -24639,60 +24639,60 @@ msgstr "संपादन"
 msgid "Effects"
 msgstr "प्रभाव"
 
-#: src/layouts/layoutmanagement.cpp:36
+#: src/layouts/layoutmanagement.cpp:38
 #, kde-format
 msgid "Layouts"
 msgstr "लेआउट"
 
-#: src/layouts/layoutmanagement.cpp:37
+#: src/layouts/layoutmanagement.cpp:39
 #, kde-format
 msgid "Load Layout"
 msgstr "लोड लेआउट"
 
-#: src/layouts/layoutmanagement.cpp:44
+#: src/layouts/layoutmanagement.cpp:46
 #, kde-format
 msgid "Save Layout…"
 msgstr "लेआउट सहेजें…"
 
-#: src/layouts/layoutmanagement.cpp:48
+#: src/layouts/layoutmanagement.cpp:50
 #, kde-format
 msgid "Manage Layouts…"
 msgstr "लेआउट प्रबंधित करें…"
 
-#: src/layouts/layoutmanagement.cpp:59
+#: src/layouts/layoutmanagement.cpp:61
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr "डॉक क्षेत्रों को पंक्तियों में व्यवस्थित करें"
 
-#: src/layouts/layoutmanagement.cpp:63
+#: src/layouts/layoutmanagement.cpp:65
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr "डॉक क्षेत्रों को कॉलम में व्यवस्थित करें"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
+#: src/layouts/layoutmanagement.cpp:99 src/ui/configmisc_ui.ui:344
 #, fuzzy, kde-format
 #| msgid "Save"
 msgid "Auto Save"
 msgstr "बचाना"
 
-#: src/layouts/layoutmanagement.cpp:163
+#: src/layouts/layoutmanagement.cpp:188
 #, kde-format
 msgid "Layout %1: %2"
 msgstr "लेआउट %1: %2"
 
-#: src/layouts/layoutmanagement.cpp:261
+#: src/layouts/layoutmanagement.cpp:286
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "लेआउट सहेजें"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:286 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "लेआउट नाम:"
 
-#: src/layouts/layoutmanagement.cpp:275 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:300 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "लेआउट %1 पहले से मौजूद है। क्या आप इसे बदलना चाहते हैं?"

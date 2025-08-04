@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 00:41+0000\n"
+"POT-Creation-Date: 2025-08-04 00:41+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -25042,64 +25042,64 @@ msgstr "Muuda hinnangut"
 msgid "Effects"
 msgstr "Efektid"
 
-#: src/layouts/layoutmanagement.cpp:36
+#: src/layouts/layoutmanagement.cpp:38
 #, kde-format
 msgid "Layouts"
 msgstr "Paigutused"
 
-#: src/layouts/layoutmanagement.cpp:37
+#: src/layouts/layoutmanagement.cpp:39
 #, kde-format
 msgid "Load Layout"
 msgstr "Paigutuse laadimine"
 
-#: src/layouts/layoutmanagement.cpp:44
+#: src/layouts/layoutmanagement.cpp:46
 #, fuzzy, kde-format
 #| msgid "Save Layout"
 msgid "Save Layout…"
 msgstr "Paigutuse salvestamine"
 
-#: src/layouts/layoutmanagement.cpp:48
+#: src/layouts/layoutmanagement.cpp:50
 #, fuzzy, kde-format
 #| msgid "Save Layout"
 msgid "Manage Layouts…"
 msgstr "Paigutuse salvestamine"
 
-#: src/layouts/layoutmanagement.cpp:59
+#: src/layouts/layoutmanagement.cpp:61
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:63
+#: src/layouts/layoutmanagement.cpp:65
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
+#: src/layouts/layoutmanagement.cpp:99 src/ui/configmisc_ui.ui:344
 #, fuzzy, kde-format
 #| msgid "Auto Play"
 msgid "Auto Save"
 msgstr "Automaatne esitus"
 
-#: src/layouts/layoutmanagement.cpp:163
+#: src/layouts/layoutmanagement.cpp:188
 #, fuzzy, kde-format
 #| msgid "Layout %1"
 msgid "Layout %1: %2"
 msgstr "Paigutus %1"
 
-#: src/layouts/layoutmanagement.cpp:261
+#: src/layouts/layoutmanagement.cpp:286
 #, fuzzy, kde-format
 #| msgid "Save Layout"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Paigutuse salvestamine"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:286 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "Paigutuse nimi:"
 
-#: src/layouts/layoutmanagement.cpp:275 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:300 src/layouts/layoutmanagerdialog.cpp:174
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"

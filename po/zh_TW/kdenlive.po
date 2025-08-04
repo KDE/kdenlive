@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 00:41+0000\n"
+"POT-Creation-Date: 2025-08-04 00:41+0000\n"
 "PO-Revision-Date: 2025-07-03 23:26+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -24107,59 +24107,59 @@ msgstr "編輯"
 msgid "Effects"
 msgstr "效果"
 
-#: src/layouts/layoutmanagement.cpp:36
+#: src/layouts/layoutmanagement.cpp:38
 #, kde-format
 msgid "Layouts"
 msgstr "版面配置"
 
-#: src/layouts/layoutmanagement.cpp:37
+#: src/layouts/layoutmanagement.cpp:39
 #, kde-format
 msgid "Load Layout"
 msgstr "載入版面配置"
 
-#: src/layouts/layoutmanagement.cpp:44
+#: src/layouts/layoutmanagement.cpp:46
 #, kde-format
 msgid "Save Layout…"
 msgstr "儲存版面配置…"
 
-#: src/layouts/layoutmanagement.cpp:48
+#: src/layouts/layoutmanagement.cpp:50
 #, kde-format
 msgid "Manage Layouts…"
 msgstr "管理版面配置…"
 
-#: src/layouts/layoutmanagement.cpp:59
+#: src/layouts/layoutmanagement.cpp:61
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr "縱向排列工具面板"
 
-#: src/layouts/layoutmanagement.cpp:63
+#: src/layouts/layoutmanagement.cpp:65
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr "橫向排列工具面板"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
+#: src/layouts/layoutmanagement.cpp:99 src/ui/configmisc_ui.ui:344
 #, fuzzy, kde-format
 msgid "Auto Save"
 msgstr "將擷取的影片自動添加到素材清單中 "
 
-#: src/layouts/layoutmanagement.cpp:163
+#: src/layouts/layoutmanagement.cpp:188
 #, kde-format
 msgid "Layout %1: %2"
 msgstr "版面配置 %1：%2"
 
-#: src/layouts/layoutmanagement.cpp:261
+#: src/layouts/layoutmanagement.cpp:286
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "儲存版面配置"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:286 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "版面配置名稱："
 
-#: src/layouts/layoutmanagement.cpp:275 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:300 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "版面配置 %1 已存在。您要覆寫它嗎？"
