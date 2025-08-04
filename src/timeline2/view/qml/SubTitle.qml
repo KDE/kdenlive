@@ -36,6 +36,10 @@ Item {
     onSubLayerChanged: {
         y = height * subLayer
     }
+    
+    onHeightChanged: {
+        y = height * subLayer
+    }
 
     onFakeStartFrameChanged: {
         if (subtitleRoot.fakeStartFrame == -1) {
