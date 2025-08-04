@@ -807,7 +807,7 @@ GraphicsSceneRectMove::resizeModes GraphicsSceneRectMove::resizeMode() const
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     m_pan = false;
-    if (m_tool == TITLE_RECTANGLE && (m_selectedItem != nullptr)) {
+    if (m_selectedItem && (m_tool == TITLE_RECTANGLE || m_tool == TITLE_ELLIPSE)) {
         setSelectedItem(m_selectedItem);
     }
     if (m_createdText && m_selectedItem) {
@@ -879,8 +879,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_dragPoint  = m_clickPoint;
     m_resizeMode = m_possibleAction;
     QList<QGraphicsItem *> list = items(e->scenePos());
-    bool initiallySelected = m_selectedItem && list.contains(m_selectedItem);
-    if (m_selectedItem && (m_resizeMode != NoResize || initiallySelected)) {
+    bool initiallySelected = m_selectedItem && (list.contains(m_selectedItem) || m_resizeMode != NoResize);
+    if (m_selectedItem && initiallySelected) {
         // Ensure selected item is considered first
         list.removeAll(m_selectedItem);
         list.prepend(m_selectedItem);
@@ -1056,8 +1056,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     }
 
     if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
-        if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsEllipseItem::Type ||
-            m_selectedItem->type() == QGraphicsSvgItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) {
+        int objectType = m_selectedItem->type();
+        if (objectType == QGraphicsRectItem::Type || objectType == QGraphicsEllipseItem::Type || objectType == QGraphicsSvgItem::Type ||
+            objectType == QGraphicsPixmapItem::Type) {
             int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
             int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
@@ -1081,7 +1082,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 break;
             }
             if (m_resizeMode != NoResize) {
-                if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsEllipseItem::Type) {
+                if (objectType == QGraphicsRectItem::Type || objectType == QGraphicsEllipseItem::Type) {
                     // Resize using aspect ratio
                     if (!m_selectedItem->data(0).isNull()) {
                         // we want to keep aspect ratio
@@ -1096,41 +1097,41 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                         m_dragPoint = m_clickPoint + newDrag;
                     }
                 }
-                if (m_selectedItem->type() == QGraphicsRectItem::Type) {
+                if (objectType == QGraphicsRectItem::Type) {
                     auto *gi = static_cast<MyRectItem *>(m_selectedItem);
                     if (centerResize) {
                         QRectF oldrect = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect();
                         oldrect.translate(gi->scenePos());
-                        QPointF center = (oldrect.bottomRight() + oldrect.topLeft()) * 0.5;
+                        const QPointF center = (oldrect.bottomRight() + oldrect.topLeft()) * 0.5;
                         m_clickPoint = center * 2.0 - m_dragPoint;
                     }
-                    QRectF newrect = QRectF(m_clickPoint, m_dragPoint).normalized();
+                    const QRectF newrect = QRectF(m_clickPoint, m_dragPoint).normalized();
                     gi->setPos(newrect.topLeft());
                     gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
                     return;
                 }
-                if (m_selectedItem->type() == QGraphicsEllipseItem::Type) {
+                if (objectType == QGraphicsEllipseItem::Type) {
                     auto *gi = static_cast<MyEllipseItem *>(m_selectedItem);
                     if (centerResize) {
                         QRectF oldrect = static_cast<QGraphicsEllipseItem *>(m_selectedItem)->rect();
                         oldrect.translate(gi->scenePos());
-                        QPointF center = (oldrect.bottomRight() + oldrect.topLeft()) * 0.5;
+                        const QPointF center = (oldrect.bottomRight() + oldrect.topLeft()) * 0.5;
                         m_clickPoint = center * 2.0 - m_dragPoint;
                     }
-                    QRectF newrect = QRectF(m_clickPoint, m_dragPoint).normalized();
+                    const QRectF newrect = QRectF(m_clickPoint, m_dragPoint).normalized();
                     gi->setPos(newrect.topLeft());
                     gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
                     return;
                 }
-                if ((m_selectedItem->type() == QGraphicsPixmapItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type)) {
+                if ((objectType == QGraphicsPixmapItem::Type || objectType == QGraphicsSvgItem::Type)) {
+                    const QRectF oldrect = m_selectedItem->boundingRect();
                     if (centerResize) {
-                        QRectF oldrect = m_selectedItem->sceneBoundingRect();
-                        QPointF center = (oldrect.bottomRight() + oldrect.topLeft()) * 0.5;
+                        const QPointF center = (oldrect.bottomRight() + oldrect.topLeft()) * 0.5;
                         m_clickPoint = center * 2.0 - m_dragPoint;
                     }
-                    QRectF newrect = QRectF(m_clickPoint, m_dragPoint).normalized();
-                    double scalex = newrect.width() / m_selectedItem->boundingRect().width();
-                    double scaley = newrect.height() / m_selectedItem->boundingRect().height();
+                    const QRectF newrect = QRectF(m_clickPoint, m_dragPoint).normalized();
+                    double scalex = newrect.width() / oldrect.width();
+                    double scaley = newrect.height() / oldrect.height();
                     if (!m_selectedItem->data(0).isNull()) {
                         // Scale accordinf to aspect ratio
                         if (m_resizeMode == Up || m_resizeMode == Down) {
@@ -1148,7 +1149,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 }
             }
             QGraphicsScene::mouseMoveEvent(e);
-        } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
+        } else if (objectType == QGraphicsTextItem::Type) {
             qDebug() << "///// MOVING AN ITEM WITH TEXT\nXXXXXXXXXXXXXXXXXXXXXX";
             auto *t = static_cast<MyTextItem *>(m_selectedItem);
             if (t->textInteractionFlags() & static_cast<int>((Qt::TextEditorInteraction) != 0)) {
