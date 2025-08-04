@@ -807,7 +807,7 @@ GraphicsSceneRectMove::resizeModes GraphicsSceneRectMove::resizeMode() const
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     m_pan = false;
-    if (m_tool == TITLE_RECTANGLE && (m_selectedItem != nullptr)) {
+    if (m_selectedItem && (m_tool == TITLE_RECTANGLE || m_tool == TITLE_ELLIPSE)) {
         setSelectedItem(m_selectedItem);
     }
     if (m_createdText && m_selectedItem) {
@@ -879,8 +879,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_dragPoint  = m_clickPoint;
     m_resizeMode = m_possibleAction;
     QList<QGraphicsItem *> list = items(e->scenePos());
-    bool initiallySelected = m_selectedItem && list.contains(m_selectedItem);
-    if (m_selectedItem && (m_resizeMode != NoResize || initiallySelected)) {
+    bool initiallySelected = m_selectedItem && (list.contains(m_selectedItem) || m_resizeMode != NoResize);
+    if (m_selectedItem && initiallySelected) {
         // Ensure selected item is considered first
         list.removeAll(m_selectedItem);
         list.prepend(m_selectedItem);
