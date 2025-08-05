@@ -547,7 +547,7 @@ Item {
                 transformedFrame.isRotating = false
             }
             
-            onRotationChanged: (angle) => {
+            onHandleRotationChanged: (angle) => {
                 root.pendingRotation = angle
                 root.effectRotationChanged(angle)
             }

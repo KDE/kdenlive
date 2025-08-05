@@ -2341,6 +2341,7 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
     } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
+
     if (!r.isEmpty()) {
         root->setProperty("framesize", r);
     }

@@ -23,7 +23,7 @@ Rectangle {
     signal rotationStart()
     signal rotationEnd()
     // Returns rotation angle between -360 and 360 (inclusive)
-    signal rotationChanged(real angle)
+    signal handleRotationChanged(real angle)
     signal captureRightClick(bool capture)
     signal addRemoveKeyframe()
     
@@ -97,7 +97,7 @@ Rectangle {
             if (!pressed) return
             
             rotationHandle.rotationAngle = calculateNewAngle(mouse, rotationHandle.rotationAngle)
-            rotationHandle.rotationChanged(rotationHandle.rotationAngle)
+            rotationHandle.handleRotationChanged(rotationHandle.rotationAngle)
             
             if (rotationHandle.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                 rotationHandle.addRemoveKeyframe()
@@ -112,7 +112,7 @@ Rectangle {
         onDoubleClicked: {
             // Reset rotation to 0 on double-click
             rotationHandle.rotationAngle = 0
-            rotationHandle.rotationChanged(rotationHandle.rotationAngle)
+            rotationHandle.handleRotationChanged(rotationHandle.rotationAngle)
             if (rotationHandle.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                 rotationHandle.addRemoveKeyframe()
             }
