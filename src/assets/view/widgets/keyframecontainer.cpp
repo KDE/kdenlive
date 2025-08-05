@@ -588,8 +588,7 @@ void KeyframeContainer::initNeededSceneAndHelper()
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
-        QString assetId = m_model->getAssetId();
+        const QString assetId = m_model->getAssetId();
         if (assetId == QLatin1String("qtblend")) {
             m_neededScene = MonitorSceneType::MonitorSceneRotatedGeometry;
             m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
@@ -598,17 +597,17 @@ void KeyframeContainer::initNeededSceneAndHelper()
             m_neededScene = MonitorSceneType::MonitorSceneRoto;
             m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
+        } else if (type == ParamType::AnimatedRect) {
+            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            break;
         } else if (assetId == QLatin1String("frei0r.c0rners")) {
             m_neededScene = MonitorSceneType::MonitorSceneCorners;
             m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
-        } else if (assetId.contains(QLatin1String("frei0r.alphaspot"))) {
+        } else if (assetId == QLatin1String("frei0r.alpha0ps_alphaspot") || assetId.contains(QLatin1String("frei0r.alphaspot"))) {
             m_neededScene = MonitorSceneType::MonitorSceneGeometry;
             m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
-            break;
-        } else if (type == ParamType::AnimatedRect) {
-            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
-            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
             break;
         }
     }
@@ -717,7 +716,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 }
             }
         }
-        if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
+        if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot")) || m_model->getAssetId() == QLatin1String("frei0r.alpha0ps_alphaspot")) {
             if (type == ParamType::KeyframeParam) {
                 if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
                     paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {

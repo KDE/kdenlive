@@ -92,11 +92,20 @@ void GeometryEditWidget::slotInitMonitor(bool active, bool)
     m_geom->connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
-        pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(m_geom->getRect());
         // We have no keyframes, allow editing even if
         monitor->setEffectKeyframe(true, false);
         connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
     } else {
         disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);
+    }
+    if (monitor->effectSceneDisplayed(MonitorSceneType::MonitorSceneGeometry)) {
+        monitor->setUpEffectGeometry(m_geom->getRect());
+    } else {
+        // Scene is not ready yet
+        connect(monitor, &Monitor::sceneChanged, this, [this](MonitorSceneType sceneType) {
+            if (sceneType == MonitorSceneType::MonitorSceneGeometry) {
+                pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(m_geom->getRect());
+            }
+        });
     }
 }
