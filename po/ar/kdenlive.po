@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-04 02:52+0000\n"
-"PO-Revision-Date: 2025-08-03 16:06+0400\n"
+"PO-Revision-Date: 2025-08-04 19:54+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7631,7 +7631,7 @@ msgstr "المساواة"
 #: data/effects/dynamic_loudness.xml:5
 #, kde-format
 msgid "Dynamically correct audio loudness as recommended by EBU R128"
-msgstr "يصحح علو الصوت آليا كما أوصت به EBU R128"
+msgstr "يصحح علو الصوت آليّا كما أوصت به EBU R128"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -12985,7 +12985,7 @@ msgstr ""
 "(بالنسبة لنوع مصدر الموقع) والارتفاع ومعدل ضربات القلب والسرعة بالنسبة للقيم "
 "الأخرى التي يتم تفسيرها على أنهانوع <em>إيضاح</em>\n"
 "حيثما ينطبق ذلك (على سبيل المثال: سيتم اعتبار القيمة 10 للارتفاع أمتارًا "
-"افتراضيًا\n"
+"مبدئيًا\n"
 "ولكن إذا تم تغيير <em>وحدة الإيضاح</em> إلى أقدام، فهذا يعني 10 أقدام).]]>"
 
 #: data/effects/gpsgraphic.xml:81
@@ -13191,9 +13191,8 @@ msgid ""
 msgstr ""
 "<![CDATA[يحدد الوحدة التي سيتم استخدامها لعرض قيم من نوع الارتفاع والسرعة."
 "<br>\n"
-"القيمة الافتراضية هي الأمتار والكيلومتر/الساعة على التوالي. يتم مطابقة "
-"الوحدة في أي مكان في السلسلة حتى يمكن استخدام المسافات الإضافية لتعديل "
-"العرض.]]>"
+"القيمة المبدئية هي الأمتار والكيلومتر/الساعة على التوالي. ستُطابق الوحدة في "
+"أي مكان في السلسلة حتى يمكن استخدام المسافات الإضافية لتعديل العرض.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -13301,7 +13300,7 @@ msgstr "تاريخ ووقت ملف الفيديو."
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr "بداية الإزاحة الآلية"
+msgstr "بداية الإزاحة الآليّة"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -13316,7 +13315,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr "الإزاحة الآلية للحالي"
+msgstr "الإزاحة الآليّة للحالي"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -15539,7 +15538,7 @@ msgstr "التكبير الأمثل"
 #, kde-format
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
-msgstr "سيحدد أفضل تكبير آليا. 1 - تكبير ثابت، 2 - تكبير متكيف"
+msgstr "سيحدد أفضل تكبير آليّا. 1 - تكبير ثابت، 2 - تكبير متكيف"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
@@ -17081,7 +17080,7 @@ msgstr "تأثيرات سلة %1"
 #: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
-msgstr "أظهر السّجلّ"
+msgstr "أظهر السجل"
 
 #: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3855
 #: src/dialogs/textbasededit.cpp:765
@@ -17253,7 +17252,7 @@ msgstr "حدث التأثير"
 #: src/assets/keyframes/model/keyframemodellist.cpp:919
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
-msgstr "عثر على إطار رئيس مفقود عند %1، وأضيف آلياً"
+msgstr "عثر على إطار رئيس مفقود عند %1، وأضيف آليّاً"
 
 #: src/assets/keyframes/view/keyframeview.cpp:141
 #, kde-format
@@ -18612,12 +18611,12 @@ msgstr "حرّر المقطع"
 #: src/bin/bin.cpp:3765
 #, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "المجلّد الهدف للمتسلسلات"
+msgstr "المجلّد الهدف المبدئي للمتسلسلات"
 
 #: src/bin/bin.cpp:3770
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "المجلّد الهدف لالتقاطات الصوت"
+msgstr "المجلّد الهدف المبدئي لالتقاطات الصوت"
 
 #: src/bin/bin.cpp:3774
 #, kde-format
@@ -19510,7 +19509,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
-msgstr "اختر تشكيلة الافتراضيّة"
+msgstr "اختر تشكيلة المبدئية"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/core.cpp:230 src/ui/profiledialog_ui.ui:37
@@ -19975,7 +19974,7 @@ msgstr ""
 #: src/dialogs/clipjobmanager.cpp:289
 #, kde-format
 msgid "Automatic Scene Split…"
-msgstr "افصل المشهد آلياً…"
+msgstr "افصل المشهد آليّاً…"
 
 #: src/dialogs/clipjobmanager.cpp:319
 #, kde-format
@@ -20023,8 +20022,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
-"سيؤدي هذا إلى حذف كافة تشكيلات كاميرا الفيديو المخصصة وإعادة تعيين القيم إلى "
-"الإعدادات الافتراضية"
+"سيؤدي هذا إلى حذف كافة تشكيلات كاميرا الفيديو المخصصة وتصفير القيم إلى "
+"الإعدادات المبدئية"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -20151,7 +20150,7 @@ msgid ""
 "reverting to Automatic."
 msgstr ""
 "تشكيلة الخط الزمني المحددة لا تتوافق مع معدل أطر المشروع،\n"
-"سيرجع إلى المعدل الآلي."
+"سيرجع إلى المعدل الآليّ."
 
 #: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
@@ -20489,7 +20488,7 @@ msgstr "عُدّلت التّشكيلة المخصّصة، أتريد حفظها
 #: src/dialogs/profilesdialog.cpp:244
 #, kde-format
 msgid "Save your profile before setting it to default"
-msgstr "احفظ التشكيلة قبل ضبطها كافتراضيّة"
+msgstr "احفظ التشكيلة قبل ضبطها كمبدئية"
 
 #: src/dialogs/profilesdialog.cpp:269
 #, kde-format
@@ -20497,7 +20496,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"توجد تشكيلة بنفس الاسم بالفعل في تشكيلات MLT الافتراضيّة، رجاء اختر وصفًا آخر "
+"توجد تشكيلة بنفس الاسم بالفعل في تشكيلات MLT المبدئية، رجاء اختر وصفًا آخر "
 "للاحتك المخصّصة."
 
 #: src/dialogs/profilesdialog.cpp:344
@@ -20619,7 +20618,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:169 src/dialogs/renderwidget.cpp:171
 #, kde-format
 msgid "Show Log"
-msgstr "أظهر السّجلّ"
+msgstr "أظهر السجل"
 
 #: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1785
 #, kde-format
@@ -21053,7 +21052,7 @@ msgstr "متنوّع"
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
-msgstr "تلقائي"
+msgstr "آليّ"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:221
 #, kde-kuit-format
@@ -21070,12 +21069,12 @@ msgstr ""
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "اختر التشكيلة الافتراضيّة (مسبقة الإعداد)"
+msgstr "اختر التشكيلة المبدئية (مسبقة الإعداد)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
 #, kde-format
 msgid "Project Defaults"
-msgstr "افتراضيّات المشروع"
+msgstr "مبدئيات المشروع"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:314
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:339
@@ -21237,7 +21236,7 @@ msgstr "أدخل مسار تطبيق Glaxnimate"
 #: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
-msgstr "رجاء اضبط تشكيلة الفيديو الافتراضيّة"
+msgstr "رجاء اضبط تشكيلة الفيديو المبدئية"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1320
 #, kde-format
@@ -21498,7 +21497,7 @@ msgstr ""
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
 msgid "Automatic Subtitling"
-msgstr "ترجمة آلية"
+msgstr "ترجمة آليّة"
 
 #: src/dialogs/speechdialog.cpp:53
 #, kde-format
@@ -22304,7 +22303,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
-msgstr "تُصفر طراز النص المحدد أو النص الذي يتبع موضع المؤشر."
+msgstr "تُصفّر طراز النص المحدد أو النص الذي يتبع موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:327
 #, kde-format
@@ -23247,7 +23246,7 @@ msgid ""
 "Do you want to convert the project to a non-GPU version?\n"
 "This might result in data loss."
 msgstr ""
-"يستخدم ملفّ المشروع بعضًا من تأثيرات وحدة الرّسوميّات. التّسريع الرّسوميّ ليس مفعّلًا "
+"يستخدم ملفّ المشروع بعضًا من تأثيرات وحدة الرّسوميّات. التّسريع الرّسوميّ ليس ممكّنًا "
 "حاليًّا.\n"
 "أتريد تحويل هذا المشروع إلى نسخة دون وحدة رسوميّات؟\n"
 "قد ينتج فقد للبيانات."
@@ -23315,12 +23314,12 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:292
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
-msgstr "مجلّد مشروع المستند غير صالح، سأستخدم مجلّدات النّظام الافتراضيّة"
+msgstr "مجلّد مشروع المستند غير صالح، سأستخدم مجلّدات النّظام المبدئية"
 
 #: src/doc/kdenlivedoc.cpp:585 src/doc/kdenlivedoc.cpp:595
 #, kde-format
 msgid "Cannot create autosave file %1"
-msgstr "تعذّر إنشاء حفظ تلقائي للملف %1"
+msgstr "تعذّر إنشاء حفظ آليّ للملف %1"
 
 #: src/doc/kdenlivedoc.cpp:590 src/doc/kdenlivedoc.cpp:727
 #, kde-format
@@ -23467,23 +23466,23 @@ msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
-"تشكيلة المشروع الافتراضيّة هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
-"أتريد تغيير التشكيلة الافتراضيّة للمشاريع القادمة؟"
+"تشكيلة المشروع المبدئية هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
+"أتريد تغيير التشكيلة المبدئية للمشاريع القادمة؟"
 
 #: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default project profile"
-msgstr "غيّر تشكيلة المشاريع الافتراضيّة"
+msgstr "غيّر تشكيلة المشاريع المبدئية"
 
 #: src/doc/kdenlivedoc.cpp:2028
 #, kde-format
 msgid "Change default to %1"
-msgstr "غيّر الافتراضيّ إلى %1"
+msgstr "غيّر المبدئي إلى %1"
 
 #: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Keep current default %1"
-msgstr "أبقِ الحاليّ %1 افتراضيّ"
+msgstr "أبقِ الحاليّ %1 مبدئي"
 
 #: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
@@ -23736,7 +23735,7 @@ msgstr "عطّل التّأثير"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, kde-format
 msgid "Enable Effect"
-msgstr "فعّل التّأثير"
+msgstr "مكّن التّأثير"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
@@ -23880,7 +23879,7 @@ msgstr "يصدر…"
 #: src/timeline2/view/timelinecontroller.cpp:3292
 #, kde-format
 msgid "Enable Effect Stack"
-msgstr "فعّل كومة التّأثيرات"
+msgstr "مكّن كومة التّأثيرات"
 
 #: src/effects/effectstack/view/effectstackview.cpp:698
 #: src/timeline2/view/timelinecontroller.cpp:3292
@@ -24562,7 +24561,7 @@ msgstr "التّأثيرات"
 #: src/layouts/layoutmanagement.cpp:38
 #, kde-format
 msgid "Layouts"
-msgstr "التّخطيطات"
+msgstr "التخطيطات"
 
 #: src/layouts/layoutmanagement.cpp:39
 #, kde-format
@@ -24572,12 +24571,12 @@ msgstr "حمّل تخطيطًا"
 #: src/layouts/layoutmanagement.cpp:46
 #, kde-format
 msgid "Save Layout…"
-msgstr "احفظ التّخطيط…"
+msgstr "احفظ التخطيط…"
 
 #: src/layouts/layoutmanagement.cpp:50
 #, kde-format
 msgid "Manage Layouts…"
-msgstr "أدر التّخطيطات…"
+msgstr "أدر التخطيطات…"
 
 #: src/layouts/layoutmanagement.cpp:61
 #, kde-format
@@ -24593,23 +24592,23 @@ msgstr "رتب مساحات الإرساء في أعمدة"
 #: src/layouts/layoutmanagement.cpp:99 src/ui/configmisc_ui.ui:344
 #, kde-format
 msgid "Auto Save"
-msgstr "حفظ تلقائي"
+msgstr "حفظ آليّ"
 
 #: src/layouts/layoutmanagement.cpp:188
 #, kde-format
 msgid "Layout %1: %2"
-msgstr "التّخطيط %1: %2"
+msgstr "التخطيط %1: %2"
 
 #: src/layouts/layoutmanagement.cpp:286
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
-msgstr "احفظ التّخطيط"
+msgstr "احفظ التخطيط"
 
 #: src/layouts/layoutmanagement.cpp:286 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
-msgstr "اسم التّخطيط:"
+msgstr "اسم التخطيط:"
 
 #: src/layouts/layoutmanagement.cpp:300 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
@@ -24619,7 +24618,7 @@ msgstr "التخطيط %1 موجود فعلاً. هل تريد استبداله�
 #: src/layouts/layoutmanagerdialog.cpp:30
 #, kde-format
 msgid "Manage Layouts"
-msgstr "أدر التّخطيطات"
+msgstr "أدر التخطيطات"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -24629,7 +24628,7 @@ msgstr "التخطيطات الحاليّة"
 #: src/layouts/layoutmanagerdialog.cpp:58
 #, kde-format
 msgid "Delete the layout."
-msgstr "احذف التّخطيط"
+msgstr "احذف التخطيط"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
 #: src/layouts/layoutmanagerdialog.cpp:80 src/ui/resourcewidget_ui.ui:234
@@ -24643,10 +24642,9 @@ msgid "Export selected"
 msgstr "تصدير المحدد"
 
 #: src/layouts/layoutmanagerdialog.cpp:140
-#, fuzzy, kde-format
-#| msgid "Current Layouts"
+#, kde-format
 msgid "Reset Layouts"
-msgstr "التخطيطات الحاليّة"
+msgstr "صفّر التخطيطات"
 
 #: src/layouts/layoutmanagerdialog.cpp:141
 #, kde-format
@@ -24872,7 +24870,7 @@ msgstr "عيين مسار المكتبة لمكان مخصص: %1"
 #: src/library/librarywidget.cpp:513
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
-msgstr "تعذّرت الكتابة إلى مسار المكتبة: %1، سأستخدم الافتراضيّ"
+msgstr "تعذّرت الكتابة إلى مسار المكتبة: %1، سأستخدم المبدئي"
 
 #: src/main.cpp:279
 #, kde-format
@@ -24917,7 +24915,7 @@ msgstr "جان بابتيست ماردل"
 #: src/main.cpp:299
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
-msgstr "منفذ MLT و KDE SC 4 / KF5 ، المطور الرئيس والمصين"
+msgstr "منفذ MLT و KDE SC 4 / KF5 ، المطور الرئيس والصائن"
 
 #: src/main.cpp:301
 #, kde-format
@@ -25150,7 +25148,7 @@ msgstr "وسوم السلة"
 #: src/mainwindow.cpp:169
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
-msgstr "تعذّر العثور على التشكيلة الافتراضيّة، سأحوّل إلى ATSC 1080p 25"
+msgstr "تعذّر العثور على التشكيلة المبدئية، سأحوّل إلى ATSC 1080p 25"
 
 #: src/mainwindow.cpp:207
 #, kde-format
@@ -25366,7 +25364,7 @@ msgstr "عاين مستخدمًا المقاطع الوسيطة"
 #: src/mainwindow.cpp:703
 #, kde-format
 msgid "Automatic Preview"
-msgstr "معانية آلية"
+msgstr "معانية آليّة"
 
 #: src/mainwindow.cpp:803
 #, kde-format
@@ -25769,7 +25767,7 @@ msgstr "أوقف التّصيير"
 #: src/mainwindow.cpp:1455
 #, kde-format
 msgid "Reset Configuration…"
-msgstr "أعد الضبط…"
+msgstr "صفّر الضبط…"
 
 #: src/mainwindow.cpp:1460
 #, kde-format
@@ -26685,7 +26683,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
-msgstr "أعد الضبط"
+msgstr "صفّر الضبط"
 
 #: src/mainwindow.cpp:2812 src/mainwindow.cpp:2839
 #, kde-format
@@ -26921,7 +26919,7 @@ msgstr "حجم الأيقونات"
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
-msgstr "الافتراضيّ"
+msgstr "المبدئي"
 
 #: src/mainwindow.cpp:4474 src/mainwindow.cpp:4502
 #, kde-format
@@ -27093,7 +27091,7 @@ msgstr "طبّق"
 #: src/mltcontroller/clippropertiescontroller.cpp:628
 #, kde-format
 msgid "Disable autorotate"
-msgstr "عطّل التدوير الآلي"
+msgstr "عطّل التدوير الآليّ"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:643
 #, kde-format
@@ -27162,7 +27160,7 @@ msgstr "ترتيب الحقل:"
 #: src/mltcontroller/clippropertiescontroller.cpp:699
 #, kde-format
 msgid "%1 (default)"
-msgstr "%1 (الافتراضيّ)"
+msgstr "%1 (المبدئي)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:704
 #, kde-format
@@ -27177,7 +27175,7 @@ msgstr "عطّل الفيديو"
 #: src/mltcontroller/clippropertiescontroller.cpp:713
 #, kde-format
 msgid "Enable video"
-msgstr "فعّل الفيديو"
+msgstr "مكّن الفيديو"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:721
 #, kde-format
@@ -27217,7 +27215,7 @@ msgstr "عطّل الصّوت"
 #: src/mltcontroller/clippropertiescontroller.cpp:819
 #, kde-format
 msgid "Enable audio"
-msgstr "فعّل الصّوت"
+msgstr "مكّن الصّوت"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:827
 #: src/monitor/monitor.cpp:308
@@ -27900,7 +27898,7 @@ msgstr "يجب أن يكون MLT مصرّفًا بدعم libfftw3 لتفعيل �
 #: src/monitor/scopes/audiographspectrum.cpp:346
 #, kde-format
 msgid "Enable Audio Spectrum"
-msgstr "فعّل طيف الصّوت"
+msgstr "مكّن طيف الصّوت"
 
 #: src/monitor/videowidget.cpp:1122
 #, kde-format
@@ -29263,7 +29261,7 @@ msgstr "بيانات الخبيئة"
 #: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
-msgstr "أظهر معاملات التشكيلة الافتراضيّة"
+msgstr "أظهر معاملات التشكيلة المبدئية"
 
 #: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
@@ -29658,7 +29656,7 @@ msgstr ""
 #: src/project/effectsettings.cpp:61
 #, kde-format
 msgid "Enable/Disable all effects"
-msgstr "فعّل/عطّل كلّ التّأثيرات"
+msgstr "مكّن/عطّل كلّ التّأثيرات"
 
 #: src/project/effectsettings.cpp:66
 #, kde-format
@@ -30069,7 +30067,7 @@ msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
 msgstr ""
-"فشل في إنشاء البيئة الافتراضية:\n"
+"فشل في إنشاء البيئة الافتراضية لبيثون:\n"
 "%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:503
@@ -30349,12 +30347,12 @@ msgstr "ميزات الكلام"
 #: src/pythoninterfaces/speechtotextvosk.cpp:33
 #, kde-format
 msgid "automated subtitling"
-msgstr "ترجمة آلية"
+msgstr "ترجمة آليّة"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:58
 #, kde-format
 msgid "Autodetect"
-msgstr "اكتشفه آليًا"
+msgstr "اكتشفه آليًّا"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:60
 #, kde-format
@@ -30714,7 +30712,7 @@ msgstr "اسم الإعداد المسبق موجود فعلاً. غيّر ال�
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
 msgid "Auto Refresh"
-msgstr "محلق التحديث التلقائي"
+msgstr "محلق التحديث الآليّ"
 
 #: src/scopes/abstractscopewidget.cpp:68
 #, kde-format
@@ -31512,7 +31510,7 @@ msgstr "تغيير اسم المسار"
 #: src/timeline2/model/timelineitemmodel.cpp:605
 #, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "فعّل كومة تأثير التتبع"
+msgstr "مكّن كومة تأثير التتبع"
 
 #: src/timeline2/model/timelineitemmodel.cpp:605
 #, kde-format
@@ -32041,7 +32039,7 @@ msgstr "تلاشٍ للخارج: %1"
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
-"<b> السحب </b> لضبط التلاشي ، <b>النقر</b> لإضافة تتلاشى المدة الافتراضية"
+"<b> السحب </b> لضبط التلاشي ، <b>النقر</b> لإضافة تتلاشى المدة المبدئية"
 
 #: src/timeline2/view/qml/Clip.qml:1538 src/timeline2/view/qml/Clip.qml:1545
 #, kde-format
@@ -33594,7 +33592,7 @@ msgstr "اربط مقابض الموضع للنقطة الحالية.<br /> ال
 #: src/ui/bezierspline_ui.ui:118
 #, kde-format
 msgid "Reset the selected spline."
-msgstr "صفر اللُسَيِّن المحدد"
+msgstr "صفّر اللُسَيِّن المحدد"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowPixmap)
 #: src/ui/bezierspline_ui.ui:134
@@ -34502,7 +34500,7 @@ msgstr "أبقِ بحجم الإطار الأصلي عند الاستيراد"
 #: src/ui/configmisc_ui.ui:107
 #, kde-format
 msgid "Automatically import all streams in multi stream clips"
-msgstr "استيراد جميع التدفقات تلقائيًا في مقاطع الدفق المتعددة"
+msgstr "استيراد جميع التدفقات آليًّا في مقاطع الدفق المتعددة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoimagesequence)
 #: src/ui/configmisc_ui.ui:114
@@ -34998,10 +34996,9 @@ msgstr "احذف كل النماذج"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, sam_rebuild)
 #: src/ui/configspeech_ui.ui:977
-#, fuzzy, kde-format
-#| msgid "Disabling virtual environment"
+#, kde-format
 msgid "Rebuild Virtual Environment"
-msgstr "يعطل البيئة الافتراضية"
+msgstr "أعد بناء البيئة الافتراضية"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:1074
@@ -35023,13 +35020,13 @@ msgstr "المصغّرات:"
 #: src/ui/configtimeline_ui.ui:28
 #, kde-format
 msgid "Enable for Video"
-msgstr "فعّل للفيديو"
+msgstr "مكّن للفيديو"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:35
 #, kde-format
 msgid "Enable for Audio"
-msgstr "فعّل للصّوت"
+msgstr "مكّن للصّوت"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:45
@@ -35064,10 +35061,9 @@ msgstr "اقصد مقطع عند إضافة تأثير"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "التّحديد"
+msgstr "عند التّحديد:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -35196,7 +35192,7 @@ msgstr "أطر رئيسة"
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr "الحد الأدنى لفاصل الإطارات للإطارات الرئيسة التلقائية:"
+msgstr "الحد الأدنى لفاصل الإطارات للإطارات الرئيسة الآليّة:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -35206,8 +35202,8 @@ msgid ""
 "the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
-"عند إضافة إطارات رئيسة تلقائية (على سبيل المثال في تأثير التحويل) أثناء "
-"تشغيل الشاشة، يكون هذا هو الحد الأدنى لفاصل الإطارات بين إطارين رئيسين."
+"عند إضافة إطارات رئيسة آليّة (على سبيل المثال في تأثير التحويل) أثناء تشغيل "
+"الشاشة، يكون هذا هو الحد الأدنى لفاصل الإطارات بين إطارين رئيسين."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -35299,7 +35295,7 @@ msgstr "احذف التشكيلة"
 #: src/ui/customcamcorderproxy_ui.ui:135
 #, kde-format
 msgid "Reset all profiles"
-msgstr "صفر كل التشكيلات"
+msgstr "صفّر كل التشكيلات"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
@@ -35584,7 +35580,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:1088
 #, kde-format
 msgid "Enable manual editing"
-msgstr "فعّل التحرير اليدوي"
+msgstr "مكّن التحرير اليدوي"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #. i18n: ectx: property (windowTitle), widget (QWidget, SubEdit_UI)
@@ -36515,7 +36511,7 @@ msgstr "احفظ التشكيلة"
 #: src/ui/profiledialog_ui.ui:411
 #, kde-format
 msgid "Use as default"
-msgstr "استخدم كافتراضيّ"
+msgstr "استخدم كمبدئي"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProjectSettings_UI)
 #: src/ui/projectsettings_ui.ui:18
