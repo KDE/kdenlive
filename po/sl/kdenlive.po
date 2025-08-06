@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-05 00:42+0000\n"
-"PO-Revision-Date: 2025-07-29 13:36+0200\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2025-08-06 00:43+0000\n"
+"PO-Revision-Date: 2025-08-05 11:41+0200\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Lokalize 25.04.3\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -2592,7 +2592,7 @@ msgstr "Pokaži os"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
-#: src/assets/view/widgets/keyframecontainer.cpp:633
+#: src/assets/view/widgets/keyframecontainer.cpp:632
 #: src/widgets/geometrywidget.cpp:146
 #, kde-format
 msgid "Opacity"
@@ -3419,7 +3419,7 @@ msgstr "<![CDATA[Razdalja od zgornjega roba v slikovnih točkah]]>"
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:280
 #: src/assets/view/widgets/keyframecontainer.cpp:336
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:630
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3435,7 +3435,7 @@ msgstr "<![CDATA[Razdalja med navpičnimi črtami v slikovnih točkah]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:279
 #: src/assets/view/widgets/keyframecontainer.cpp:330
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:630
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -10261,7 +10261,7 @@ msgstr "Faktor linearnega spreminjanja velikosti"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
 #, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr "<![CDATA[Količina, za kolikor se linearna površina spremeni.]]"
+msgstr "<![CDATA[Količina, za kolikor se linearna površina spremeni.]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, kde-format
@@ -11809,7 +11809,7 @@ msgstr "Barva križca"
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr "<! [CDATA[Izberite barvo za križec/črto profila]]>"
+msgstr "<![CDATA[Izberite barvo za križec/črto profila]]>"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
@@ -16108,7 +16108,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:282
 #: src/assets/view/widgets/keyframecontainer.cpp:342
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:630
 #, kde-format
 msgid "X position"
 msgstr "Pozicija X"
@@ -16116,7 +16116,7 @@ msgstr "Pozicija X"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:348
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:630
 #, kde-format
 msgid "Y position"
 msgstr "Pozicija Y"
@@ -17392,7 +17392,7 @@ msgstr ""
 "vrednosti parametrov, če ni izbrana nobena ključna sličica."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:999
+#: src/assets/view/widgets/keyframecontainer.cpp:998
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Prilepi ključno sličico"
@@ -17483,40 +17483,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Izberite parametre za kopiranje"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:904
+#: src/assets/view/widgets/keyframecontainer.cpp:903
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ključne sličice kopirane"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:915
-#: src/assets/view/widgets/keyframecontainer.cpp:956
-#: src/assets/view/widgets/keyframecontainer.cpp:963
+#: src/assets/view/widgets/keyframecontainer.cpp:914
+#: src/assets/view/widgets/keyframecontainer.cpp:955
+#: src/assets/view/widgets/keyframecontainer.cpp:962
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Ni veljavnih podatkov ključnih sličic na odložišču"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1007
+#: src/assets/view/widgets/keyframecontainer.cpp:1006
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ni možno kopirati trenutnih vrednosti parametrov"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1012
-#: src/assets/view/widgets/keyframecontainer.cpp:1023
+#: src/assets/view/widgets/keyframecontainer.cpp:1011
+#: src/assets/view/widgets/keyframecontainer.cpp:1022
 #, kde-format
 msgid "Current values copied"
 msgstr "Trenutne vrednosti kopirane"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1035
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Ni podatkov ključnih sličic na odložišču"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1116
+#: src/assets/view/widgets/keyframecontainer.cpp:1115
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Zadnje ključne sličice ni možno odstraniti"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1128
+#: src/assets/view/widgets/keyframecontainer.cpp:1127
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -27641,12 +27641,12 @@ msgstr[1] "%1 tok zvoka"
 msgstr[2] "%1 tokova zvoka"
 msgstr[3] "%1 tokovi zvoka"
 
-#: src/monitor/monitor.cpp:2490
+#: src/monitor/monitor.cpp:2491
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Ni možno začeti upravljalnika GLSL za Movit. Onemogočite Movit"
 
-#: src/monitor/monitor.cpp:2532 src/monitor/monitor.cpp:2589
+#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -27655,17 +27655,17 @@ msgstr ""
 "Za to zmožnost je zahtevan filter alphagrad. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2552
+#: src/monitor/monitor.cpp:2553
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Posnetek nima učinkov"
 
-#: src/monitor/monitor.cpp:2554
+#: src/monitor/monitor.cpp:2555
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Izberite posnetek v posodi projekta, če želite primerjati učinek"
 
-#: src/monitor/monitor.cpp:2596
+#: src/monitor/monitor.cpp:2597
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27674,17 +27674,17 @@ msgstr ""
 "Za to zmožnost je zahtevan prehod cairoblend. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2672
+#: src/monitor/monitor.cpp:2673
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Omogoči urejanje in nadzoruj učinke urejanja"
 
-#: src/monitor/monitor.cpp:3172
+#: src/monitor/monitor.cpp:3173
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "V ogledu posnetka ni izbran noben posnetek"
 
-#: src/monitor/monitor.cpp:3193
+#: src/monitor/monitor.cpp:3194
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Ni mogoče pridobiti ustvarjalnika za ogled posnetka"
