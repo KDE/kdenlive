@@ -263,7 +263,8 @@ target_link_libraries(kdenliveLib PUBLIC
     # Qt${QT_MAJOR_VERSION}::Test
 )
 
-target_link_libraries(kdenliveLib PUBLIC PkgConfig::LIBAV)
+target_include_directories(kdenliveLib SYSTEM PRIVATE ${FFMPEG_INCLUDE_DIRS})
+target_link_libraries(kdenliveLib PUBLIC ${FFMPEG_LIBRARIES})
 
 if(WIN32)
     target_link_libraries(kdenliveLib PUBLIC d3d11 d3dcompiler)

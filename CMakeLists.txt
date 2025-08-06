@@ -149,12 +149,11 @@ set_package_properties(MLT PROPERTIES DESCRIPTION "Multimedia framework"
 message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
 # LibAV
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
-    libavformat
-    libavcodec
-    libswresample
-    libavutil
+find_package(FFmpeg REQUIRED COMPONENTS
+    AVFORMAT
+    AVCODEC
+    SWRESAMPLE
+    AVUTIL
 )
 
 # OpenTimelineIO
