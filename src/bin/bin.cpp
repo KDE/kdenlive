@@ -2973,7 +2973,6 @@ void Bin::slotInitView(QAction *action)
         break;
     }
     default: {
-        new MyTreeView(this);
         auto *tv = new MyTreeView(this);
         m_itemView = tv;
         m_binTreeViewDelegate = new BinItemDelegate(this);
