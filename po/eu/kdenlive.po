@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-06 00:43+0000\n"
-"PO-Revision-Date: 2025-07-31 17:32+0200\n"
+"PO-Revision-Date: 2025-08-06 12:36+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1302,15 +1302,14 @@ msgid "How many times should the boxblur be applied to alpha"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo to mono"
+#, kde-format
 msgid "Stereo to binaural"
-msgstr "Estereotik monora"
+msgstr "Estereotik binauralera"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
 msgid "Bauer stereo to binaural transformation."
-msgstr ""
+msgstr "Bauer(r)en estereotik binauralerako eraldaketa."
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
@@ -1337,10 +1336,9 @@ msgid "Feed level"
 msgstr "Audio mailak"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Bob Weaver Deinterlacer"
-msgstr "Gurutzelarkatzailea"
+msgstr "Bob-Weaver desgurutzelarkatzailea"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:5
 #, kde-format
@@ -1374,8 +1372,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Deinterlace"
 msgstr "Desgurutzelarkatu"
 
@@ -3855,10 +3852,9 @@ msgid "Field priority"
 msgstr "Goiko eremua aurrena"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:4
-#, fuzzy, kde-format
-#| msgid "Force field order"
+#, kde-format
 msgid "Interlace field order"
-msgstr "Behartu eremuen hurrenkera"
+msgstr "Gurutzelarkatze eremuen hurrenkera"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:5
 #, kde-format
@@ -4791,10 +4787,9 @@ msgid "threshold3"
 msgstr "Atalasea"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Kernel Deinterlacer"
-msgstr "Gurutzelarkatzailea"
+msgstr "Kernel desgurutzelarkatzailea"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
 #, kde-format
@@ -7014,10 +7009,9 @@ msgid "Vibrato effect."
 msgstr "Itsatsi efektua"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "w3fdif Deinterlacer"
-msgstr "Gurutzelarkatzailea"
+msgstr "w3fdif desgurutzelarkatzailea"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:5
 #, kde-format
@@ -7041,12 +7035,13 @@ msgstr "Koefizientea"
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
 msgstr ""
+"Desgurutzelarkatu fotograma guztiak,Gurutzelarkatu gisa markatutakoak "
+"bakarrik"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
-#, fuzzy, kde-format
-#| msgid "Force Interlaced"
+#, kde-format
 msgid "Frames to deinterlace"
-msgstr "Behartu gurutzelarkatua"
+msgstr "Desgurutzelarkatu beharreko fotogramak"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, fuzzy, kde-format
@@ -7230,10 +7225,9 @@ msgid "<![CDATA[Set input formats for filter to pick from]]>"
 msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Weave interlacer"
-msgstr "Gurutzelarkatzailea"
+msgstr "Weave gurutzelarkatzailea"
 
 #: data/effects/avfilter/avfilter_weave.xml:5
 #, kde-format
@@ -7274,10 +7268,9 @@ msgid "Scaling dimension"
 msgstr "Lerroaren tentsioa"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Yadif Deinterlacer"
-msgstr "Gurutzelarkatzailea"
+msgstr "Yadif desgurutzelarkatzailea"
 
 #: data/effects/avfilter/avfilter_yadif.xml:5
 #, kde-format
@@ -7285,6 +7278,8 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"Desgurutzelarkatu sarrerako bideoa (\"yadif\": \"yet another deinterlacing "
+"filter\" / Desgurutzelarkatzeko beste iragazki bat)"
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
@@ -11864,10 +11859,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
 #: data/effects/frei0r/frei0r_pr0file.xml:74
-#, fuzzy, kde-format
-#| msgid "Display minimum"
+#, kde-format
 msgid "Display Minimum"
-msgstr "Bistaratu minimoa"
+msgstr "Azaldu minimoa"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:74
 #: data/effects/frei0r/frei0r_pr0file.xml:75
@@ -11877,10 +11871,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:77
 #: data/effects/frei0r/frei0r_pr0file.xml:78
-#, fuzzy, kde-format
-#| msgid "Display maximum"
+#, kde-format
 msgid "Display Maximum"
-msgstr "Bistaratu maximoa"
+msgstr "Azaldu maximoa"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:78
 #: data/effects/frei0r/frei0r_pr0file.xml:79
@@ -11898,12 +11891,11 @@ msgstr "<![CDATA[Erabili 0-255 eskala bat 0.0-1.0 erabili ordez]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, kde-format
 msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
+msgstr "CCIR Rec.601 (gurutzelarkatua),CCIR Rec.709 (progresiboa)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
-#, fuzzy, kde-format
-#| msgid "Color encoding"
+#, kde-format
 msgid "Color Encoding"
 msgstr "Kolore-kodeketa"
 
@@ -11912,6 +11904,7 @@ msgstr "Kolore-kodeketa"
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
 msgstr ""
+"<![CDATA[Hautatu gurutzelarkatu (601) edo prograsiboaren (709) artean]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
 #: data/effects/frei0r/frei0r_pr0file.xml:91
@@ -14572,28 +14565,24 @@ msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
 msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
 #: data/effects/oldfilm.xml:16
-#, fuzzy, kde-format
-#| msgid "Brightness up"
+#, kde-format
 msgid "Brightness Up"
-msgstr "Distira handitu"
+msgstr "Distira igo"
 
 #: data/effects/oldfilm.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change up]]>"
-msgstr "<![CDATA[X ardatzean zehar desplazamendua]]>"
+msgstr "<![CDATA[Distira igoera aldaketaren balioa zehazten du]]>"
 
 #: data/effects/oldfilm.xml:20
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness Down"
-msgstr "Distira txikitu"
+msgstr "Distira jaitsi"
 
 #: data/effects/oldfilm.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change down]]>"
-msgstr "<![CDATA[X ardatzean zehar desplazamendua]]>"
+msgstr "<![CDATA[Distira jaitsiera aldaketaren balioa zehazten du]]>"
 
 #: data/effects/oldfilm.xml:24
 #, fuzzy, kde-format
@@ -16045,7 +16034,7 @@ msgstr "Tresnak"
 #: data/kdenliveeffectscategory.rc:98
 #, kde-format
 msgid "Stereo and Binaural Images"
-msgstr "Irudi estereo eta Binauralak"
+msgstr "Irudi estereo eta binauralak"
 
 #: data/kdenliveeffectscategory.rc:102
 #, kde-format
@@ -16876,7 +16865,7 @@ msgid "Alpha Channel Operation"
 msgstr "Alfa kanalaren eragiketa"
 
 #: data/transitions/region.xml:39
-#, kde-format
+#, fuzzy, kde-format
 msgid "Force Deinterlace Overlay"
 msgstr "Behartu gainjartze desgurutzelarkatua"
 
@@ -28001,7 +27990,7 @@ msgstr "Edizio modua txandakatzen du (eta objektuaren heldulekuak azaltzea)."
 #: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Deinterlacer"
-msgstr "Gurutzelarkatzailea"
+msgstr "Desgurutzelarkatzailea"
 
 #: src/monitor/monitormanager.cpp:624
 #, kde-format
@@ -35234,6 +35223,8 @@ msgid ""
 "This offloads some of the memory used to the RAM instead of the GPU memory, "
 "allowing to process longer sequences."
 msgstr ""
+"Honek erabilitako memoriaren zati baten zama RAMera pasatzen du GPUaren "
+"memoriara egin ordez, sekuentzia luzeagoak prozesatzeko aukera emanez."
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configspeech_ui.ui:839
