@@ -6,6 +6,7 @@
 import QtQuick 2.15
 
 import org.kde.kdenlive as K
+import "SnappingLogic.js" as SnappingLogic
 
 Item {
     id: root
@@ -64,11 +65,7 @@ Item {
         if (!K.KdenliveSettings.showMonitorGrid) {
             return position
         }
-        var deltax = Math.round(position.x / root.scalex)
-        var deltay = Math.round(position.y / root.scaley)
-        deltax = Math.round(deltax / K.KdenliveSettings.monitorGridH) * K.KdenliveSettings.monitorGridH
-        deltay = Math.round(deltay / K.KdenliveSettings.monitorGridV) * K.KdenliveSettings.monitorGridV
-        return Qt.point(deltax * root.scalex, deltay * root.scaley)
+        return SnappingLogic.getSnappedPoint(position, root.scalex, root.scaley, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
     function updateClickCapture() {
