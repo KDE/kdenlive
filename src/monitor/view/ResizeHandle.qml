@@ -6,6 +6,7 @@
 import QtQuick
 import org.kde.kdenlive as K
 import "ResizeLogic.js" as ResizeLogic
+import "SnappingLogic.js" as SnappingLogic
 
 Rectangle {
     id: handle
@@ -38,7 +39,7 @@ Rectangle {
     border.color: "#ff0000"
     visible: showHandle
     opacity: otherResizeHandleInUse ? 0 : isKeyframe ? 1 : 0.4
-    
+
     // Signals
     signal resize(rect adjustedFrame)
     signal resizeStart()
@@ -112,7 +113,27 @@ Rectangle {
                 rotationAngle
             )
 
-            handle.resize(adjustedFrame)
+            // Apply snapping to the resized frame (similar to how move operations work)
+            // Convert to screen coordinates for snapping
+            var snapFrameRect = Qt.rect(
+                adjustedFrame.x * scalex, 
+                adjustedFrame.y * scaley, 
+                adjustedFrame.width * scalex, 
+                adjustedFrame.height * scaley
+            )
+            var snappedRect = K.KdenliveSettings.showMonitorGrid ? 
+                SnappingLogic.getSnappedResizeRect(snapFrameRect, rotationAngle, handleType, scalex, scaley, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV) :
+                snapFrameRect
+            
+            // Convert back to logical coordinates
+            var snappedFrame = Qt.rect(
+                snappedRect.x / scalex,
+                snappedRect.y / scaley, 
+                snappedRect.width / scalex,
+                snappedRect.height / scaley
+            )
+
+            handle.resize(snappedFrame)
             
             if (!isKeyframe && K.KdenliveSettings.autoKeyframe) {
                 handle.addRemoveKeyframe()
