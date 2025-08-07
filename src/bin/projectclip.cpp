@@ -2573,6 +2573,40 @@ void ProjectClip::replaceInTimeline()
     }
 }
 
+void ProjectClip::limitMaxDuration(int maxDuration)
+{
+    if (!hasLimitedDuration()) {
+        return;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool pushUndo = false;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    QMap<QUuid, std::pair<int, int>> sequencesToUpdate;
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
+            if (!timeline) {
+                if (pCore->projectItemModel()->closing) {
+                    break;
+                }
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
+            }
+            for (auto &cid : instances) {
+                if (timeline->limitClipMaxDuration(cid, maxDuration, undo, redo)) {
+                    pushUndo = true;
+                }
+            }
+        }
+    }
+    if (pushUndo) {
+        pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+}
+
 int ProjectClip::lastBound()
 {
     return 0;
