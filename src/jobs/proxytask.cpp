@@ -409,7 +409,7 @@ void ProxyTask::run()
             }
         } else if (binClip) {
             // Job successful
-            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString, dest));
+            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::BlockingQueuedConnection, Q_ARG(QString, dest));
         }
     } else {
         // Proxy process crashed of failed
