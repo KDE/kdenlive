@@ -441,7 +441,12 @@ void EffectStackView::loadEffects()
             del->setHeight(ix, 0);
             continue;
         }
-        const QString assetName = EffectsRepository::get()->getName(effectModel->getAssetId());
+        QString assetId = effectModel->getAssetId();
+        // Safety check in case a custom effect was deleted
+        if (!EffectsRepository::get()->exists(assetId)) {
+            assetId = effectModel->getAssetMltService();
+        }
+        const QString assetName = EffectsRepository::get()->getName(assetId);
         view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, this);
         connect(view, &CollapsibleEffectView::deleteEffect, this, &EffectStackView::slotDeleteEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);

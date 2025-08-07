@@ -1014,6 +1014,11 @@ const QString AssetParameterModel::getAssetMltId()
     return m_asset->get("id");
 }
 
+const QString AssetParameterModel::getAssetMltService()
+{
+    return m_asset->get("mlt_service");
+}
+
 void AssetParameterModel::setActive(bool active)
 {
     m_active = active;
