@@ -65,7 +65,7 @@ Item {
         if (!K.KdenliveSettings.showMonitorGrid) {
             return position
         }
-        return SnappingLogic.getSnappedPoint(position, root.scalex, root.scaley, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
+        return SnappingLogic.getSnappedPoint(position, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
     function updateClickCapture() {
@@ -253,9 +253,10 @@ Item {
             if (root.iskeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {
                 var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
-                var adjustedMouse = getSnappedPos(mousePos)
-                root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x / root.scalex;
-                root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y / root.scaley;
+                var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
+                var adjustedMouse = getSnappedPos(logicalMousePos)
+                root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
+                root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                 canvas.requestPaint()
                 root.effectPolygonChanged()
             } else {

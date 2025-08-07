@@ -91,14 +91,14 @@ Item {
       if (!K.KdenliveSettings.showMonitorGrid) {
         return position
       }
-      return SnappingLogic.getSnappedPoint(position, root.scalex, root.scaley, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
+      return SnappingLogic.getSnappedPoint(position, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
     function getSnappedRect(frameRect, rotationAngle) {
       if (!K.KdenliveSettings.showMonitorGrid) {
         return frameRect
       }
-      return SnappingLogic.getSnappedRect(frameRect, rotationAngle, root.scalex, root.scaley, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
+      return SnappingLogic.getSnappedRect(frameRect, rotationAngle, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV)
     }
 
     function updateClickCapture() {
@@ -294,9 +294,10 @@ Item {
                     root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
                   } else {
                     var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                    var adjustedMouse = getSnappedPoint(positionInFrame)
-                    root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x / root.scalex;
-                    root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y / root.scaley;
+                    var logicalPosition = Qt.point(positionInFrame.x / root.scalex, positionInFrame.y / root.scaley)
+                    var adjustedMouse = getSnappedPoint(logicalPosition)
+                    root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
+                    root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                   }
                   canvas.requestPaint()
                   root.centersChanged()
@@ -519,10 +520,10 @@ Item {
                 delta.x += - mouseClickPos.x + frameClicksize.x
                 delta.y += - mouseClickPos.y + frameClicksize.y
 
-                var snapFrameRect = Qt.rect(delta.x, delta.y, _framesize.width * root.scalex, _framesize.height * root.scaley)
-                var snappedRect = getSnappedRect(snapFrameRect, root._rotation)
-                root.pendingFramesize.x = snappedRect.x / root.scalex;
-                root.pendingFramesize.y = snappedRect.y / root.scaley;
+                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, _framesize.width, _framesize.height)
+                var snappedRect = getSnappedRect(logicalFrameRect, root._rotation)
+                root.pendingFramesize.x = snappedRect.x;
+                root.pendingFramesize.y = snappedRect.y;
                 
                 if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                   controller.addRemoveKeyframe();

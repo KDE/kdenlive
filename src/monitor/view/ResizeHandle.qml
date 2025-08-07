@@ -113,25 +113,10 @@ Rectangle {
                 rotationAngle
             )
 
-            // Apply snapping to the resized frame (similar to how move operations work)
-            // Convert to screen coordinates for snapping
-            var snapFrameRect = Qt.rect(
-                adjustedFrame.x * scalex, 
-                adjustedFrame.y * scaley, 
-                adjustedFrame.width * scalex, 
-                adjustedFrame.height * scaley
-            )
-            var snappedRect = K.KdenliveSettings.showMonitorGrid ? 
-                SnappingLogic.getSnappedResizeRect(snapFrameRect, rotationAngle, handleType, scalex, scaley, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV) :
-                snapFrameRect
-            
-            // Convert back to logical coordinates
-            var snappedFrame = Qt.rect(
-                snappedRect.x / scalex,
-                snappedRect.y / scaley, 
-                snappedRect.width / scalex,
-                snappedRect.height / scaley
-            )
+            // Apply snapping to the resized frame (similar to how move operations works)
+            var snappedFrame = K.KdenliveSettings.showMonitorGrid ? 
+                SnappingLogic.getSnappedResizeRect(adjustedFrame, rotationAngle, handleType, K.KdenliveSettings.monitorGridH, K.KdenliveSettings.monitorGridV) :
+                adjustedFrame
 
             handle.resize(snappedFrame)
             
