@@ -86,16 +86,54 @@ Item {
       canvas.requestPaint()
     }
 
-    function getSnappedPos(frameRect) {
+    function getSnappedPoint(position) {
+      if (!K.KdenliveSettings.showMonitorGrid) {
+        return position
+      }
+      var deltax = Math.round(position.x / root.scalex)
+      var deltay = Math.round(position.y / root.scaley)
+      deltax = Math.round(deltax / K.KdenliveSettings.monitorGridH) * K.KdenliveSettings.monitorGridH
+      deltay = Math.round(deltay / K.KdenliveSettings.monitorGridV) * K.KdenliveSettings.monitorGridV
+      return Qt.point(deltax * root.scalex, deltay * root.scaley)
+    }
+
+    function getRotatedBoundingRect(frameRect, rotationAngle) {
+        if (Math.abs(rotationAngle) < 0.1) {
+            return frameRect;
+        }
+
+        const angleRad = rotationAngle * Math.PI / 180.0;
+        const absCos = Math.abs(Math.cos(angleRad));
+        const absSin = Math.abs(Math.sin(angleRad));
+
+        const originalWidth = frameRect.width;
+        const originalHeight = frameRect.height;
+
+        const rotatedWidth = originalWidth * absCos + originalHeight * absSin;
+        const rotatedHeight = originalWidth * absSin + originalHeight * absCos;
+
+        const centerX = frameRect.x + originalWidth / 2;
+        const centerY = frameRect.y + originalHeight / 2;
+
+        const x = centerX - rotatedWidth / 2;
+        const y = centerY - rotatedHeight / 2;
+
+        return Qt.rect(x, y, rotatedWidth, rotatedHeight);
+    }
+
+    function getSnappedPos(frameRect, rotationAngle) {
       if (!K.KdenliveSettings.showMonitorGrid) {
         return frameRect
       }
       
-      // Convert frame bounds to grid coordinates
-      var gridX = frameRect.x / root.scalex
-      var gridY = frameRect.y / root.scaley
-      var gridWidth = frameRect.width / root.scalex
-      var gridHeight = frameRect.height / root.scaley
+      // Continue with the bounded rectangle of frameRect to support rotation
+      var boundingRect = getRotatedBoundingRect(frameRect, rotationAngle || 0)
+      
+      // Convert bounding rect to grid coordinates
+      var gridX = boundingRect.x / root.scalex
+      var gridY = boundingRect.y / root.scaley
+      var gridWidth = boundingRect.width / root.scalex
+      var gridHeight = boundingRect.height / root.scaley
 
       // Get positions of the frame's edges
       var leftEdge = gridX
@@ -148,8 +186,12 @@ Item {
         }
       }
       
-      // Convert back to screen coordinates
-      return Qt.rect(adjustedX * root.scalex, adjustedY * root.scaley, frameRect.width, frameRect.height)
+      // Calculate the offset between original and snapped bounding rect
+      var offsetX = (adjustedX - gridX) * root.scalex
+      var offsetY = (adjustedY - gridY) * root.scaley
+      
+      // Apply the offset to the original frame position
+      return Qt.rect(frameRect.x + offsetX, frameRect.y + offsetY, frameRect.width, frameRect.height)
     }
 
     function updateClickCapture() {
@@ -345,7 +387,7 @@ Item {
                     root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
                   } else {
                     var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                    var adjustedMouse = getSnappedPos(positionInFrame)
+                    var adjustedMouse = getSnappedPoint(positionInFrame)
                     root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x / root.scalex;
                     root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y / root.scaley;
                   }
@@ -571,7 +613,7 @@ Item {
                 delta.y += - mouseClickPos.y + frameClicksize.y
 
                 var snapFrameRect = Qt.rect(delta.x, delta.y, _framesize.width * root.scalex, _framesize.height * root.scaley)
-                var snappedRect = getSnappedPos(snapFrameRect)
+                var snappedRect = getSnappedPos(snapFrameRect, root._rotation)
                 root.pendingFramesize.x = snappedRect.x / root.scalex;
                 root.pendingFramesize.y = snappedRect.y / root.scaley;
                 
