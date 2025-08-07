@@ -86,15 +86,70 @@ Item {
       canvas.requestPaint()
     }
 
-    function getSnappedPos(position) {
+    function getSnappedPos(frameRect) {
       if (!K.KdenliveSettings.showMonitorGrid) {
-        return position
+        return frameRect
       }
-      var deltax = Math.round(position.x / root.scalex)
-      var deltay = Math.round(position.y / root.scaley)
-      deltax = Math.round(deltax / K.KdenliveSettings.monitorGridH) * K.KdenliveSettings.monitorGridH
-      deltay = Math.round(deltay / K.KdenliveSettings.monitorGridV) * K.KdenliveSettings.monitorGridV
-      return Qt.point(deltax * root.scalex, deltay * root.scaley)
+      
+      // Convert frame bounds to grid coordinates
+      var gridX = frameRect.x / root.scalex
+      var gridY = frameRect.y / root.scaley
+      var gridWidth = frameRect.width / root.scalex
+      var gridHeight = frameRect.height / root.scaley
+
+      // Get positions of the frame's edges
+      var leftEdge = gridX
+      var rightEdge = gridX + gridWidth
+      var topEdge = gridY
+      var bottomEdge = gridY + gridHeight
+      
+      var gridH = K.KdenliveSettings.monitorGridH
+      var gridV = K.KdenliveSettings.monitorGridV
+      
+      // Find nearest grid lines for each edge
+      var nearestLeftGrid = Math.round(leftEdge / gridH) * gridH
+      var nearestRightGrid = Math.round(rightEdge / gridH) * gridH
+      var nearestTopGrid = Math.round(topEdge / gridV) * gridV
+      var nearestBottomGrid = Math.round(bottomEdge / gridV) * gridV
+      
+      // Calculate distances (in grid units)
+      var leftDist = Math.abs(leftEdge - nearestLeftGrid)
+      var rightDist = Math.abs(rightEdge - nearestRightGrid)
+      var topDist = Math.abs(topEdge - nearestTopGrid)
+      var bottomDist = Math.abs(bottomEdge - nearestBottomGrid)
+      
+      // Snap tolerance (in grid units)
+      var snapTolerance = Math.max(gridH, gridV) * 0.3
+      
+      var adjustedX = gridX
+      var adjustedY = gridY
+      
+      // Find closest horizontal edge
+      var minHorizontalDist = Math.min(leftDist, rightDist)
+      if (minHorizontalDist <= snapTolerance) {
+        if (leftDist <= rightDist) {
+          // Snap left edge
+          adjustedX = nearestLeftGrid
+        } else {
+          // Snap right edge  
+          adjustedX = nearestRightGrid - gridWidth
+        }
+      }
+      
+      // Find closest vertical edge
+      var minVerticalDist = Math.min(topDist, bottomDist)
+      if (minVerticalDist <= snapTolerance) {
+        if (topDist <= bottomDist) {
+          // Snap top edge
+          adjustedY = nearestTopGrid
+        } else {
+          // Snap bottom edge
+          adjustedY = nearestBottomGrid - gridHeight
+        }
+      }
+      
+      // Convert back to screen coordinates
+      return Qt.rect(adjustedX * root.scalex, adjustedY * root.scaley, frameRect.width, frameRect.height)
     }
 
     function updateClickCapture() {
@@ -514,9 +569,12 @@ Item {
                 var delta = mapToItem(frame, mouse.x, mouse.y)
                 delta.x += - mouseClickPos.x + frameClicksize.x
                 delta.y += - mouseClickPos.y + frameClicksize.y
-                var adjustedMouse = getSnappedPos(delta)
-                root.pendingFramesize.x = adjustedMouse.x / root.scalex;
-                root.pendingFramesize.y = adjustedMouse.y / root.scaley;
+
+                var snapFrameRect = Qt.rect(delta.x, delta.y, _framesize.width * root.scalex, _framesize.height * root.scaley)
+                var snappedRect = getSnappedPos(snapFrameRect)
+                root.pendingFramesize.x = snappedRect.x / root.scalex;
+                root.pendingFramesize.y = snappedRect.y / root.scaley;
+                
                 if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                   controller.addRemoveKeyframe();
                 }
