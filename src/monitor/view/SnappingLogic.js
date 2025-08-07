@@ -3,13 +3,32 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+// Calculate snap threshold based on grid size
+// If the distance to the nearest grid line is less than the snap threshold, snap to the grid line.
+function calculateSnapThreshold(gridH, gridV) {
+    return Math.max(gridH, gridV) * 0.3
+}
+
 // Get snapped position for moving a point
-function getSnappedPoint(position, scalex, scaley, gridH, gridV) {
-    var deltax = Math.round(position.x / scalex)
-    var deltay = Math.round(position.y / scaley)
-    deltax = Math.round(deltax / gridH) * gridH
-    deltay = Math.round(deltay / gridV) * gridV
-    return Qt.point(deltax * scalex, deltay * scaley)
+function getSnappedPoint(point, gridH, gridV) {
+    var origX = point.x
+    var origY = point.y
+    
+    var snapThreshold = calculateSnapThreshold(gridH, gridV)
+    
+    // Find nearest grid positions
+    var nearestGridX = Math.round(origX / gridH) * gridH
+    var nearestGridY = Math.round(origY / gridV) * gridV
+    
+    // Calculate distances to nearest grid lines
+    var distX = Math.abs(origX - nearestGridX)
+    var distY = Math.abs(origY - nearestGridY)
+    
+    // Only snap if within threshold
+    var snappedX = distX <= snapThreshold ? nearestGridX : origX
+    var snappedY = distY <= snapThreshold ? nearestGridY : origY
+    
+    return Qt.point(snappedX, snappedY)
 }
 
 // Get the rotated bounding rectangle for the frame
@@ -38,91 +57,85 @@ function getRotatedBoundingRect(frameRect, rotationAngle) {
 }
 
 // Get snapped resize position for a frame based on handle type
-function getSnappedResizeRect(frameRect, rotationAngle, handleType, scalex, scaley, gridH, gridV) {
+function getSnappedResizeRect(frameRect, rotationAngle, handleType, gridH, gridV) {
     if (Math.abs(rotationAngle) > 0.1) {
         // todo: not implemented yet
         return frameRect
     }
     
-    // Convert frameRect to grid coordinates
-    var gridX = frameRect.x / scalex
-    var gridY = frameRect.y / scaley
-    var gridWidth = frameRect.width / scalex
-    var gridHeight = frameRect.height / scaley
+    var origX = frameRect.x
+    var origY = frameRect.y
+    var origWidth = frameRect.width
+    var origHeight = frameRect.height
     
-    var snapTolerance = Math.max(gridH, gridV) * 0.3
+    var snapThreshold = calculateSnapThreshold(gridH, gridV)
     
-    var adjustedFrame = Qt.rect(gridX, gridY, gridWidth, gridHeight)
+    var adjustedFrame = Qt.rect(origX, origY, origWidth, origHeight)
     
     // Determine which edges to snap based on handle type
     var snapLeft = handleType.includes("LEFT")
     var snapRight = handleType.includes("RIGHT") 
     var snapTop = handleType.includes("TOP")
     var snapBottom = handleType.includes("BOTTOM")
+
+    // Calculate distances to nearest grid lines and snap only if within threshold
     
     // Snap horizontal edges
     if (snapLeft) {
-        var leftEdge = gridX
+        var leftEdge = origX
         var nearestLeftGrid = Math.round(leftEdge / gridH) * gridH
         var leftDist = Math.abs(leftEdge - nearestLeftGrid)
-        if (leftDist <= snapTolerance) {
+        if (leftDist <= snapThreshold) {
             var deltaX = nearestLeftGrid - leftEdge
             adjustedFrame.x = nearestLeftGrid
-            adjustedFrame.width = gridWidth - deltaX  // Expand/shrink from left
+            adjustedFrame.width = origWidth - deltaX  // Expand/shrink from left
         }
     } else if (snapRight) {
-        var rightEdge = gridX + gridWidth
+        var rightEdge = origX + origWidth
         var nearestRightGrid = Math.round(rightEdge / gridH) * gridH
         var rightDist = Math.abs(rightEdge - nearestRightGrid)
-        if (rightDist <= snapTolerance) {
-            adjustedFrame.width = nearestRightGrid - gridX  // Expand/shrink from right
+        if (rightDist <= snapThreshold) {
+            adjustedFrame.width = nearestRightGrid - origX  // Expand/shrink from right
         }
     }
     
     // Snap vertical edges
     if (snapTop) {
-        var topEdge = gridY
+        var topEdge = origY
         var nearestTopGrid = Math.round(topEdge / gridV) * gridV
         var topDist = Math.abs(topEdge - nearestTopGrid)
-        if (topDist <= snapTolerance) {
+        if (topDist <= snapThreshold) {
             var deltaY = nearestTopGrid - topEdge
             adjustedFrame.y = nearestTopGrid
-            adjustedFrame.height = gridHeight - deltaY  // Expand/shrink from top
+            adjustedFrame.height = origHeight - deltaY  // Expand/shrink from top
         }
     } else if (snapBottom) {
-        var bottomEdge = gridY + gridHeight
+        var bottomEdge = origY + origHeight
         var nearestBottomGrid = Math.round(bottomEdge / gridV) * gridV
         var bottomDist = Math.abs(bottomEdge - nearestBottomGrid)
-        if (bottomDist <= snapTolerance) {
-            adjustedFrame.height = nearestBottomGrid - gridY  // Expand/shrink from bottom
+        if (bottomDist <= snapThreshold) {
+            adjustedFrame.height = nearestBottomGrid - origY  // Expand/shrink from bottom
         }
     }
     
-    // Convert back to screen coordinates
-    return Qt.rect(
-        adjustedFrame.x * scalex,
-        adjustedFrame.y * scaley, 
-        adjustedFrame.width * scalex,
-        adjustedFrame.height * scaley
-    )
+    return adjustedFrame
 }
 
 // Get snapped position for moving a frame
-function getSnappedRect(frameRect, rotationAngle, scalex, scaley, gridH, gridV) {
+function getSnappedRect(frameRect, rotationAngle, gridH, gridV) {
     // Continue with the bounded rectangle of frameRect to support rotation
     var boundingRect = getRotatedBoundingRect(frameRect, rotationAngle || 0)
     
-    // Convert bounding rect to grid coordinates
-    var gridX = boundingRect.x / scalex
-    var gridY = boundingRect.y / scaley
-    var gridWidth = boundingRect.width / scalex
-    var gridHeight = boundingRect.height / scaley
+    var origX = boundingRect.x
+    var origY = boundingRect.y
+    var origWidth = boundingRect.width
+    var origHeight = boundingRect.height
 
     // Get positions of the frame's edges
-    var leftEdge = gridX
-    var rightEdge = gridX + gridWidth
-    var topEdge = gridY
-    var bottomEdge = gridY + gridHeight
+    var leftEdge = origX
+    var rightEdge = origX + origWidth
+    var topEdge = origY
+    var bottomEdge = origY + origHeight
     
     // Find nearest grid lines for each edge
     var nearestLeftGrid = Math.round(leftEdge / gridH) * gridH
@@ -130,45 +143,46 @@ function getSnappedRect(frameRect, rotationAngle, scalex, scaley, gridH, gridV) 
     var nearestTopGrid = Math.round(topEdge / gridV) * gridV
     var nearestBottomGrid = Math.round(bottomEdge / gridV) * gridV
     
-    // Calculate distances (in grid units)
+    // Calculate distances to nearest grid lines
     var leftDist = Math.abs(leftEdge - nearestLeftGrid)
     var rightDist = Math.abs(rightEdge - nearestRightGrid)
     var topDist = Math.abs(topEdge - nearestTopGrid)
     var bottomDist = Math.abs(bottomEdge - nearestBottomGrid)
     
-    // Snap tolerance (in grid units)
-    var snapTolerance = Math.max(gridH, gridV) * 0.3
+    var snapThreshold = calculateSnapThreshold(gridH, gridV)
     
-    var adjustedX = gridX
-    var adjustedY = gridY
+    var adjustedX = origX
+    var adjustedY = origY
     
     // Find closest horizontal edge
     var minHorizontalDist = Math.min(leftDist, rightDist)
-    if (minHorizontalDist <= snapTolerance) {
+    // Only snap if within threshold
+    if (minHorizontalDist <= snapThreshold) {
         if (leftDist <= rightDist) {
             // Snap left edge
             adjustedX = nearestLeftGrid
         } else {
             // Snap right edge  
-            adjustedX = nearestRightGrid - gridWidth
+            adjustedX = nearestRightGrid - origWidth
         }
     }
     
     // Find closest vertical edge
     var minVerticalDist = Math.min(topDist, bottomDist)
-    if (minVerticalDist <= snapTolerance) {
+    // Only snap if within threshold
+    if (minVerticalDist <= snapThreshold) {
         if (topDist <= bottomDist) {
             // Snap top edge
             adjustedY = nearestTopGrid
         } else {
             // Snap bottom edge
-            adjustedY = nearestBottomGrid - gridHeight
+            adjustedY = nearestBottomGrid - origHeight
         }
     }
     
     // Calculate the offset between original and snapped bounding rect
-    var offsetX = (adjustedX - gridX) * scalex
-    var offsetY = (adjustedY - gridY) * scaley
+    var offsetX = adjustedX - origX
+    var offsetY = adjustedY - origY
     
     // Apply the offset to the original frame position
     return Qt.rect(frameRect.x + offsetX, frameRect.y + offsetY, frameRect.width, frameRect.height)
