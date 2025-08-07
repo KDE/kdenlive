@@ -6332,7 +6332,8 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     // in order to make the producer change effective, we need to unplant / replant the clip in its track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
-    int oldOut = getClipIn(clipId) + getClipPlaytime(clipId);
+    int oldIn = getClipIn(clipId);
+    int oldOut = oldIn + getClipPlaytime(clipId);
     int currentSubplaylist = m_allClips[clipId]->getSubPlaylistIndex();
     int maxDuration = m_allClips[clipId]->getMaxDuration();
     bool hasPitch = false;
@@ -6345,19 +6346,32 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     bool timeremap = m_allClips[clipId]->hasTimeRemap();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    bool clipIsShorter = oldOut > int(binClip->frameDuration());
-    bool refreshView = clipIsShorter || forceDuration > -1;
-    if (old_trackId != -1) {
-        if (clipIsShorter && forceDuration == -1 && binClip->hasLimitedDuration()) {
-            // replacement clip is shorter, resize first
-            int resizeDuration = int(binClip->frameDuration());
-            requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
+    int updatedDuration = binClip->frameDuration();
+    bool clipIsShorter = oldOut > updatedDuration;
+    if (clipIsShorter) {
+        // Check if clip should be completely deleted
+        if (oldIn >= updatedDuration) {
+            bool result = true;
+            if (m_groups->isInGroup(clipId)) {
+                result = requestClipUngroup(clipId, local_undo, local_redo);
+            }
+            if (old_trackId != -1) {
+                result = requestClipDeletion(clipId, local_undo, local_redo, true);
+            }
+            return result;
         }
+    }
+    bool refreshView = clipIsShorter || forceDuration > -1;
+    bool clipResized = false;
+    if (old_trackId != -1) {
         bool result = getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false, {}, true);
         Q_ASSERT(result);
         m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch, currentSubplaylist == 1, timeremap);
-        if (forceDuration > -1) {
-            m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
+        if (clipIsShorter && binClip->hasLimitedDuration()) {
+            // replacement clip is shorter, resize first
+            int resizeDuration = qMin(oldOut, updatedDuration) - oldIn;
+            clipResized = true;
+            requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
         }
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo, false, false, {}, true);
         if (maxDuration != m_allClips[clipId]->getMaxDuration()) {
@@ -6365,7 +6379,36 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
             Q_EMIT dataChanged(ix, ix, {TimelineModel::MaxDurationRole});
         }
     }
-    return clipIsShorter;
+    return clipResized;
+}
+
+bool TimelineModel::limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo)
+{
+    if (m_closing) {
+        return false;
+    }
+    // in order to make the producer change effective, we need to unplant / replant the clip in its track
+    int oldIn = getClipIn(clipId);
+    int oldOut = oldIn + getClipPlaytime(clipId);
+    // Check if clip out is longer than actual producer duration
+    if (oldOut <= maxDuration) {
+        // Nothing to do
+        return false;
+    }
+    // Check if clip should be completely deleted
+    if (oldIn >= maxDuration) {
+        bool result = true;
+        if (m_groups->isInGroup(clipId)) {
+            result = requestClipUngroup(clipId, local_undo, local_redo);
+        }
+        result = requestClipDeletion(clipId, local_undo, local_redo, true);
+        return result;
+    }
+
+    // resize
+    int resizeDuration = maxDuration - oldIn;
+    requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
+    return true;
 }
 
 void TimelineModel::replugClip(int clipId)

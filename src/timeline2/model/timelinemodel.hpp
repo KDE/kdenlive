@@ -845,6 +845,10 @@ public:
      *  @returns true if the timeline clip was shortened by the reload operation
      */
     bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
+    /** @brief Ensure a clip occurrence is not longer than maxDuration
+     *  @returns true if the timeline clip was shortened by the operation
+     */
+    bool limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);

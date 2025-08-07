@@ -1983,21 +1983,18 @@ void MainWindow::setupActions()
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
-    connect(this, &MainWindow::enableUndo, this, [this, undo](bool enable) {
-        if (enable) {
-            enable = m_commandStack->activeStack()->canUndo();
-        }
-        undo->setEnabled(enable);
-    });
 
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
-    connect(this, &MainWindow::enableUndo, this, [this, redo](bool enable) {
-        if (enable) {
+    connect(this, &MainWindow::enableUndo, this, [this, undo, redo](bool enable) {
+        bool undoEnabled = enable;
+        if (enable && m_commandStack->activeStack()) {
             enable = m_commandStack->activeStack()->canRedo();
+            undoEnabled = m_commandStack->activeStack()->canUndo();
         }
         redo->setEnabled(enable);
+        undo->setEnabled(undoEnabled);
     });
 
     addAction(QStringLiteral("copy_debuginfo"), i18n("Copy Debug Information"), this, SLOT(slotCopyDebugInfo()), QIcon::fromTheme(QStringLiteral("edit-copy")));

@@ -347,6 +347,7 @@ protected:
     */
     void deregisterTimelineClip(int clipId, bool audioClip, const QUuid &uuid);
     void replaceInTimeline();
+    void limitMaxDuration(int maxDuration);
     void connectEffectStack() override;
 
 public Q_SLOTS:

@@ -22,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
 #include "model/markersortmodel.h"
@@ -704,6 +705,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     updateTimelineClips({TimelineModel::IsProxyRole});
     if (!waitForTranscode) {
         checkProxy(rebuildProxy);
+    }
+    if (pCore->window()) {
+        Q_EMIT pCore->window()->enableUndo(true);
     }
     return true;
 }
@@ -1853,7 +1857,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
             ProxyTask::start(oid, this);
         } else {
+            if (pCore->window()) {
+                // Disable undo / redo while a clip is loading, else we could attempt operations on a clip not completely loaded
+                QMetaObject::invokeMethod(pCore->window(), "enableUndo", Qt::QueuedConnection, Q_ARG(bool, false));
+            }
             reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
+            if (!refreshOnly) {
+                return;
+            }
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
@@ -2579,6 +2590,40 @@ void ProjectClip::replaceInTimeline()
     }
 }
 
+void ProjectClip::limitMaxDuration(int maxDuration)
+{
+    if (!hasLimitedDuration()) {
+        return;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool pushUndo = false;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    QMap<QUuid, std::pair<int, int>> sequencesToUpdate;
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
+            if (!timeline) {
+                if (pCore->projectItemModel()->closing) {
+                    break;
+                }
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
+            }
+            for (auto &cid : instances) {
+                if (timeline->limitClipMaxDuration(cid, maxDuration, undo, redo)) {
+                    pushUndo = true;
+                }
+            }
+        }
+    }
+    if (pushUndo) {
+        pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+}
+
 int ProjectClip::lastBound()
 {
     return 0;
@@ -2954,6 +2999,10 @@ void ProjectClip::setInvalid()
 {
     m_isInvalid = true;
     m_producerLock.unlock();
+    // In case the undo system was disabled on clip reload
+    if (pCore->window()) {
+        Q_EMIT pCore->window()->enableUndo(true);
+    }
 }
 
 void ProjectClip::updateProxyProducer(const QString &path)
