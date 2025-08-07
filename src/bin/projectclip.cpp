@@ -700,7 +700,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (!waitForTranscode) {
         checkProxy(rebuildProxy);
     }
-    Q_EMIT pCore->window()->enableUndo(true);
+    if (pCore->window()) {
+        Q_EMIT pCore->window()->enableUndo(true);
+    }
     return true;
 }
 
@@ -2992,7 +2994,9 @@ void ProjectClip::setInvalid()
     m_isInvalid = true;
     m_producerLock.unlock();
     // In case the undo system was disabled on clip reload
-    Q_EMIT pCore->window()->enableUndo(true);
+    if (pCore->window()) {
+        Q_EMIT pCore->window()->enableUndo(true);
+    }
 }
 
 void ProjectClip::updateProxyProducer(const QString &path)
