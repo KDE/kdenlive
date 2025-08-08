@@ -112,6 +112,24 @@ Item {
         return normalizedRotation >= 90 && normalizedRotation <= 270
     }
 
+    // Returns the index of the handle under the mouse for a given source item (whose mouseX/mouseY are passed) or -1 if none.
+    // Mouse and handle coordinates are compared in root coordinates.
+    function getHandleIndexAtMouse(mouseX, mouseY, sourceItem) {
+        if (root.centerPoints.length === 0) {
+            return -1
+        }
+        var mouseInRoot = sourceItem.mapToItem(root, mouseX, mouseY)
+        for (var i = 0; i < root.centerPoints.length; i++) {
+            var localPoint = Qt.point(root.centerPoints[i].x * root.scalex, root.centerPoints[i].y * root.scaley)
+            var mappedPoint = frame.mapToItem(transformedFrame, localPoint.x, localPoint.y)
+            var handleInRoot = transformedFrame.mapToItem(root, mappedPoint.x, mappedPoint.y)
+            if (Math.abs(handleInRoot.x - mouseInRoot.x) <= canvas.handleSize && Math.abs(handleInRoot.y - mouseInRoot.y) <= canvas.handleSize) {
+                return i
+            }
+        }
+        return -1
+    }
+
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
     }
@@ -264,22 +282,15 @@ Item {
         cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !root.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
         readonly property bool handleContainsMouse: {
               if (isMoving) {
-                  return true;
+                  return true
               }
               if (root.disableHandles) {
-                root.requestedKeyFrame = -1
-                return false
+                  root.requestedKeyFrame = -1
+                  return false
               }
-              for(var i = 0; i < root.centerPoints.length; i++)
-              {
-                var p1 = canvas.convertPoint(root.centerPoints[i])
-                if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
-                    root.requestedKeyFrame = i
-                    return true
-                }
-              }
-              root.requestedKeyFrame = -1
-              return false
+              var idx = getHandleIndexAtMouse(mouseX, mouseY, global)
+              root.requestedKeyFrame = idx
+              return idx !== -1
         }
 
         onPositionChanged: mouse => {
@@ -464,22 +475,15 @@ Item {
           hoverEnabled: true
           readonly property bool handleContainsMouse: {
               if (pressed) {
-                  return false;
+                  return false
               }
               if (root.centerPoints.length <= 1) {
-                root.requestedKeyFrame = -1
-                return false
+                  root.requestedKeyFrame = -1
+                  return false
               }
-              for(var i = 0; i < root.centerPoints.length; i++)
-              {
-                var p1 = canvas.convertPoint(root.centerPoints[i])
-                if (Math.abs(p1.x - (mouseX + transformedFrame.x)) <= canvas.handleSize && Math.abs(p1.y - (mouseY + transformedFrame.y)) <= canvas.handleSize) {
-                    root.requestedKeyFrame = i
-                    return true
-                }
-              }
-              root.requestedKeyFrame = -1
-              return false
+              var idx = getHandleIndexAtMouse(mouseX, mouseY, moveArea)
+              root.requestedKeyFrame = idx
+              return idx !== -1
           }
           onPressed: mouse => {
             if (mouse.button & Qt.LeftButton) {
