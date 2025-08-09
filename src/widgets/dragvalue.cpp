@@ -30,6 +30,7 @@ MySpinBox::MySpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
+    qDebug() << "::: BUILDING MySpinBox with sizeHint: " << lineEdit()->sizeHint();
     setMinimumHeight(lineEdit()->sizeHint().height() + 4);
 }
 
@@ -304,7 +305,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
 
-    auto *l = new QHBoxLayout;
+    auto *l = new QHBoxLayout(this);
     l->setSpacing(2);
     l->setContentsMargins(0, 0, 0, 0);
     int minWidth = 0;
@@ -395,7 +396,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     if (!showSlider && !isInGroup) {
         l->addStretch(10);
     }
-    setLayout(l);
     int minimumHeight = 0;
     if (m_intEdit) {
         minimumHeight = m_intEdit->minimumHeight();
@@ -432,7 +432,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         m_menu->addAction(timeline);
     }
-
+    qDebug() << ":::: SETTING DRAGVALUE MIN WIDTH: " << minWidth;
     setMinimumWidth(minWidth);
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
     connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);

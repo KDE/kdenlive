@@ -122,11 +122,6 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     tbAlign->addAction(alignbottom);
     m_allWidgets << tbAlign;
 
-    /*QToolBar *tbScale = new QToolBar(this);
-    tbScale->setIconSize(QSize(size, size));
-    tbScale->setStyleSheet(QStringLiteral("QToolBar { padding: 0; } QToolBar QToolButton { padding: 0; margin: 0; }"));
-    tbScale->setFixedHeight(m_spinX->height());
-    tbScale->setToolButtonStyle(Qt::ToolButtonIconOnly);*/
     tbAlign->addAction(m_originalSize);
     tbAlign->addAction(adjustSize);
     tbAlign->addAction(fitToWidth);
