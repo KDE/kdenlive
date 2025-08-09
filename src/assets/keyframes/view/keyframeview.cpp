@@ -203,6 +203,10 @@ void KeyframeView::slotCenterKeyframe()
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
 {
+    if (m_duration == 0) {
+        // Edge case: when a keyframable effect is added as a track effect to an empty project
+        return;
+    }
     Q_EMIT activateEffect();
     int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
