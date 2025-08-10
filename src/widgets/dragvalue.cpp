@@ -318,7 +318,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
         minWidth += m_label->sizeHint().width();
     } else if (!isInGroup) {
-        l->addStretch(10);
+        //l->addStretch(10);
     }
     int charWidth = QFontMetrics(font()).averageCharWidth();
 
@@ -394,7 +394,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
     if (!showSlider && !isInGroup) {
-        l->addStretch(10);
+        //l->addStretch(10);
     }
     int minimumHeight = 0;
     if (m_intEdit) {
