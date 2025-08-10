@@ -7,7 +7,9 @@
 
 #include "monitorproxy.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
@@ -637,6 +639,74 @@ void MonitorProxy::clearJobsProgress()
 void MonitorProxy::terminateJob(const QString &uuid)
 {
     pCore->taskManager.discardJob(ObjectId(KdenliveObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));
+}
+
+void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int newPosition)
+{
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        // For clip monitor, use the currently active clip
+        auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (!activeClip.isEmpty()) {
+            auto clip = pCore->bin()->getBinClip(activeClip);
+            if (clip) {
+                GenTime pos(position, pCore->getCurrentFps());
+                bool exists;
+                CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &exists);
+                if (exists && marker.hasRange()) {
+                    GenTime newDuration(duration, pCore->getCurrentFps());
+                    GenTime newStartTime;
+
+                    if (isStart) {
+                        if (newPosition != -1) {
+                            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+                        } else {
+                            GenTime endTime = marker.endTime();
+                            newStartTime = endTime - newDuration;
+                        }
+                    } else {
+                        newStartTime = pos;
+                    }
+
+                    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+                        newDuration = GenTime(1, pCore->getCurrentFps());
+                    }
+
+                    clip->getMarkerModel()->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+                }
+            }
+        }
+    } else if (q->m_id == int(Kdenlive::ProjectMonitor)) {
+        // For project monitor, use the timeline guide model
+        if (pCore->currentDoc()) {
+            auto guideModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+            if (guideModel) {
+                GenTime pos(position, pCore->getCurrentFps());
+                bool exists;
+                CommentedTime marker = guideModel->getMarker(pos, &exists);
+                if (exists && marker.hasRange()) {
+                    GenTime newDuration(duration, pCore->getCurrentFps());
+                    GenTime newStartTime;
+
+                    if (isStart) {
+                        if (newPosition != -1) {
+                            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+                        } else {
+                            GenTime endTime = marker.endTime();
+                            newStartTime = endTime - newDuration;
+                        }
+                    } else {
+                        newStartTime = pos;
+                    }
+
+                    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+                        newDuration = GenTime(1, pCore->getCurrentFps());
+                    }
+
+                    guideModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+                }
+            }
+        }
+    }
 }
 
 bool MonitorProxy::monitorIsActive() const

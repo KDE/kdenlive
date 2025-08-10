@@ -320,6 +320,14 @@ public:
     /** @brief Ask for marker delete
      */
     Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
+    /** @brief Resize a range marker
+     * @param cid The clip id
+     * @param position The marker position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeMarker(int cid, int position, int duration, bool isStart = false, int newPosition = -1);
     /** @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid = -1);

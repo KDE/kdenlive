@@ -110,6 +110,13 @@ public:
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
+    /** @brief Resize a range marker in monitor view
+     * @param position The marker position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeMarker(int position, int duration, bool isStart = false, int newPosition = -1);
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);

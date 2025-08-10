@@ -721,6 +721,153 @@ Rectangle {
                             : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
                         }
                     }
+                    
+                    // Left resize handle for range markers
+                    Rectangle {
+                        id: leftResizeHandle
+                        visible: markerBase.hasRange && markerBase.width > 10
+                        width: 4
+                        height: markerBase.height
+                        x: 0
+                        y: 0
+                        color: Qt.darker(markerBase.markerColor, 1.3)
+                        opacity: leftResizeArea.containsMouse || leftResizeArea.isResizing ? 0.8 : 0.5
+                        
+                        MouseArea {
+                            id: leftResizeArea
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            z: 15
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            
+                            property bool isResizing: false
+                            property real startX: 0
+                            property real globalStartX: 0
+                            property real startDuration: 0
+                            property real startPosition: 0
+                            property real originalEndPosition: 0
+                            
+                            onPressed: {
+                                isResizing = true
+                                startX = mouseX
+                                globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                startDuration = markerBase.duration
+                                startPosition = markerBase.position
+                                originalEndPosition = markerBase.position + markerBase.duration
+                                cursorShape = Qt.SizeHorCursor
+                            }
+                            
+                            onPositionChanged: {
+                                if (isResizing) {
+                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    var realDeltaX = globalCurrentX - globalStartX
+                                    
+                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    var newStartPosition = Math.max(clipRoot.inPoint * clipRoot.speed, startPosition + deltaFrames)
+                                    var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+                                    
+                                    markerBase.position = newStartPosition
+                                    markerBase.duration = newDuration
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onReleased: {
+                                if (isResizing) {
+                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, true, markerBase.position)
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onCanceled: {
+                                if (isResizing) {
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Right resize handle for range markers
+                    Rectangle {
+                        id: rightResizeHandle
+                        visible: markerBase.hasRange && markerBase.width > 10
+                        width: 4
+                        height: markerBase.height
+                        anchors.right: parent.right
+                        y: 0
+                        color: Qt.darker(markerBase.markerColor, 1.3)
+                        opacity: rightResizeArea.containsMouse || rightResizeArea.isResizing ? 0.8 : 0.5
+                        
+                        MouseArea {
+                            id: rightResizeArea
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            z: 15
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            
+                            property bool isResizing: false
+                            property real startX: 0
+                            property real globalStartX: 0
+                            property real startDuration: 0
+                            property real startPosition: 0
+                            
+                            onPressed: {
+                                isResizing = true
+                                startX = mouseX
+                                globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                startDuration = markerBase.duration
+                                startPosition = markerBase.position
+                                cursorShape = Qt.SizeHorCursor
+                            }
+                            
+                            onPositionChanged: {
+                                if (isResizing) {
+                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    var realDeltaX = globalCurrentX - globalStartX
+                                    
+                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    var maxEnd = (clipRoot.inPoint + clipRoot.outPoint) * clipRoot.speed
+                                    var newDuration = Math.max(1, Math.min(startDuration + deltaFrames, maxEnd - startPosition))
+                                    
+                                    markerBase.duration = newDuration
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onReleased: {
+                                if (isResizing) {
+                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, false)
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onCanceled: {
+                                if (isResizing) {
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

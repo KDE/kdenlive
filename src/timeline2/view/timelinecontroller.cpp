@@ -1415,6 +1415,62 @@ void TimelineController::deleteMarker(int cid, int position)
     clip->getMarkerModel()->removeMarker(pos);
 }
 
+void TimelineController::resizeMarker(int cid, int position, int duration, bool isStart, int newPosition)
+{
+    if (cid == -1) {
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return;
+        }
+    }
+    Q_ASSERT(m_model->isClip(cid));
+    double speed = m_model->getClipSpeed(cid);
+    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
+        return;
+    }
+
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    GenTime pos(position, pCore->getCurrentFps());
+
+    bool exists;
+    CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &exists);
+    if (!exists || !marker.hasRange()) {
+        pCore->displayMessage(i18n("No range marker found at position"), ErrorMessage, 500);
+        return;
+    }
+
+    GenTime newDuration(duration, pCore->getCurrentFps());
+    GenTime newStartTime;
+
+    if (isStart) {
+        if (newPosition != -1) {
+            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+        } else {
+            GenTime endTime = marker.endTime();
+            newStartTime = endTime - newDuration;
+        }
+        GenTime minStart(m_model->getClipIn(cid) * speed, pCore->getCurrentFps());
+        if (newStartTime < minStart) {
+            newStartTime = minStart;
+            newDuration = marker.endTime() - newStartTime;
+        }
+    } else {
+        newStartTime = pos;
+        GenTime maxEnd(m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid), pCore->getCurrentFps());
+        if (newStartTime + newDuration > maxEnd) {
+            newDuration = maxEnd - newStartTime;
+        }
+    }
+
+    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+        newDuration = GenTime(1, pCore->getCurrentFps());
+    }
+
+    clip->getMarkerModel()->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+}
+
 void TimelineController::deleteAllMarkers(int cid)
 {
     if (cid == -1) {

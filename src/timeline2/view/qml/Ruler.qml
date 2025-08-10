@@ -107,6 +107,7 @@ Item {
         delegate:
         Item {
             id: guideRoot
+            anchors.fill: parent
             property bool activated : proxy.position == model.frame
             property bool isRangeMarker: model.hasRange
             property real markerDuration: model.duration
@@ -119,9 +120,9 @@ Item {
                 visible: guideRoot.isRangeMarker
                 x: Math.round(model.frame * timeline.scaleFactor)
                 width: Math.max(1, Math.round(guideRoot.markerDuration * timeline.scaleFactor))
-                height: Math.ceil(rulerRoot.height / 4) // One-quarter of timeline height
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: rulerRoot.zoneHeight
+                height: rulerRoot.guideLabelHeight
+                anchors.top: parent.top
+                anchors.topMargin: 0
                 color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.3)
                 border.color: model.color
                 border.width: 1
