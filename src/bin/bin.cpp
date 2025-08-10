@@ -1416,7 +1416,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     } else {
         // small info button for pending jobs
         m_infoLabel = new SmallJobLabel(this);
-        m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
+        // m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
         connect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
         QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
         m_jobsMenu = new QMenu(this);

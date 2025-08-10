@@ -36,7 +36,7 @@ void SlideWidget::slotRefresh()
 {
     QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QColor bg = QPalette().highlight().color();
-    setStyleSheet(QStringLiteral("QPushButton:checked {background-color:rgb(%1,%2,%3);}").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
+    // setStyleSheet(QStringLiteral("QPushButton:checked {background-color:rgb(%1,%2,%3);}").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
     wipeInfo w = getWipeInfo(value);
     switch (w.start) {
     case UP:

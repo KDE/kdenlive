@@ -1356,7 +1356,7 @@ void MainWindow::setupActions()
         QLabel *warnLabel = new QLabel(i18n("Experimental GPU processing enabled - not for production"), this);
         warnLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
         warnLabel->setAlignment(Qt::AlignHCenter);
-        warnLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; color:black;padding-left:2px;padding-right:2px}"));
+        // warnLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; color:black;padding-left:2px;padding-right:2px}"));
         toolbar->addWidget(warnLabel);
     }
 
@@ -4189,18 +4189,18 @@ void MainWindow::applyToolMessageStyling()
     switch (m_currentEditMode) {
     case TimelineMode::InsertEdit:
         // Use a red color from the palette for insert mode
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }")
-                                       .arg(scheme.foreground(KColorScheme::NegativeText).color().name()));
+        // m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1;
+        // }").arg(scheme.foreground(KColorScheme::NegativeText).color().name()));
         break;
     case TimelineMode::OverwriteEdit:
         // Use a green color from the palette for overwrite mode
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }")
-                                       .arg(scheme.foreground(KColorScheme::PositiveText).color().name()));
+        // m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1;
+        // }").arg(scheme.foreground(KColorScheme::PositiveText).color().name()));
         break;
     default:
         // Use normal window background color for normal edit mode
-        m_trimLabel->setStyleSheet(
-            QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
+        // m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1;
+        // }").arg(palette().window().color().name()));
         break;
     }
 }

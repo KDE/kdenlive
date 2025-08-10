@@ -56,7 +56,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_progress = new QProgressBar(this);
     m_progress->setMaximumHeight(m_button->height() / 5);
     m_progress->setTextVisible(false);
-    m_progress->setStyleSheet(QStringLiteral("QProgressBar::chunk {background-color: %1;}").arg(m_progress->palette().highlight().color().name()));
+    // m_progress->setStyleSheet(QStringLiteral("QProgressBar::chunk {background-color: %1;}").arg(m_progress->palette().highlight().color().name()));
     layout->addWidget(m_progress);
     m_progress->setVisible(false);
     setMinimumHeight(m_button->sizeHint().height());

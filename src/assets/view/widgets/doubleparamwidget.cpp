@@ -6,14 +6,14 @@
 #include "doubleparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "widgets/doublewidget.h"
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <utility>
 
 DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_doubleWidget(nullptr)
 {
-    m_lay = new QVBoxLayout(this);
+    m_lay = new QHBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(0);
 
@@ -37,7 +37,7 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     // Connect signal
     connect(m_doubleWidget, &DoubleWidget::valueChanged, this,
             [this](double val, bool createUndoEntry) { Q_EMIT valueChanged(m_index, QString::number(val, 'f'), createUndoEntry); });
-    slotRefresh();
+    // slotRefresh();
 }
 
 QLabel *DoubleParamWidget::createLabel()
