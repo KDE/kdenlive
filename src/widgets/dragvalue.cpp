@@ -28,8 +28,8 @@
 MySpinBox::MySpinBox(QWidget *parent)
     : QSpinBox(parent)
 {
-    installEventFilter(this);
-    lineEdit()->installEventFilter(this);
+    //installEventFilter(this);
+    //lineEdit()->installEventFilter(this);
     qDebug() << "::: BUILDING MySpinBox with sizeHint: " << lineEdit()->sizeHint();
     setMinimumHeight(lineEdit()->sizeHint().height() + 4);
 }
