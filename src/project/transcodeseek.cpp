@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *parent)
     : QDialog(parent)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     if (onUserRequest) {
         label->setVisible(false);

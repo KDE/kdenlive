@@ -26,7 +26,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     , m_timecode(tc)
     , m_thumbJob(nullptr)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     setWindowTitle(i18nc("@title:window", "Add Image Sequence"));
     if (clip) {

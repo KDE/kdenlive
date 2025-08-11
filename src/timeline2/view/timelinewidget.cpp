@@ -55,7 +55,7 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     setVisible(false);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFocusPolicy(Qt::StrongFocus);
     m_favEffects = new QMenu(i18n("Insert an effect..."), this);
     m_favCompositions = new QMenu(i18n("Insert a composition..."), this);

@@ -129,7 +129,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent)
     m_maxDb = 0;
     // space for drawing dB labels and all the bars with minimum width
     setMinimumWidth(MIN_BAR_WIDTH * m_freqLabels.size() + fontMetrics().horizontalAdvance(QStringLiteral("-45")) + MARGIN + 2 * PADDING);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMinimumHeight(100);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
@@ -271,7 +271,7 @@ void AudioGraphWidget::drawBackground()
     m_pixmap.fill(Qt::transparent);
     QPainter p(&m_pixmap);
     QRect rect(0, 0, width(), height());
-    p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 
     int textHeight = fontMetrics().height();
     int textWidth = fontMetrics().horizontalAdvance(QStringLiteral("-45"));

@@ -49,7 +49,7 @@ RemapView::RemapView(QWidget *parent)
 {
     setMouseTracking(true);
     setMinimumSize(QSize(150, 80));
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     int size = QFontInfo(font()).pixelSize() * 3;
     setFixedHeight(size * 4);
     // Reference height of the rulers
@@ -1574,7 +1574,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     : QWidget(parent)
     , m_cid(-1)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     warningMessage->hide();
     QAction *ac = new QAction(i18n("Transcode"), this);

@@ -55,10 +55,11 @@ TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
-    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    /*const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
     setFont(ft);
-    lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);*/
+    const QFont ft = font();
     QFontMetrics fm(ft);
     setFrame(false);
     QPalette palette;

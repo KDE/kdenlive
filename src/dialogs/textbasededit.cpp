@@ -69,7 +69,7 @@ void VideoTextEdit::cleanup()
     m_hoveredBlock = -1;
     clear();
     document()->setDefaultStyleSheet(QStringLiteral("a {text-decoration:none;color:%1}").arg(palette().text().color().name()));
-    setCurrentFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setCurrentFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
 const QString VideoTextEdit::selectionStartAnchor(QTextCursor &cursor, int start, int max)
@@ -653,7 +653,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
     , m_stt(nullptr)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
     connect(pCore.get(), &Core::speechEngineChanged, this, &TextBasedEdit::updateEngine);
@@ -692,9 +692,9 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     m_visualEditor->installEventFilter(this);
     l->addWidget(m_visualEditor);
     text_frame->setLayout(l);
-    m_document.setDefaultFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    // m_document = m_visualEditor->document();
     // m_document.setDefaultFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //  m_document = m_visualEditor->document();
+    //  m_document.setDefaultFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_visualEditor->setDocument(&m_document);
     connect(&m_document, &QTextDocument::blockCountChanged, this, [this](int ct) {
         m_visualEditor->repaintLines();
@@ -898,10 +898,10 @@ void TextBasedEdit::slotZoomOut()
 {
     QTextCursor cursor = m_visualEditor->textCursor();
     m_visualEditor->selectAll();
-    qreal fontSize = QFontInfo(m_visualEditor->currentFont()).pointSizeF() / 1.2;
+    /*qreal fontSize = QFontInfo(m_visualEditor->currentFont()).pointSizeF() / 1.2;
     fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
-    m_visualEditor->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+    m_visualEditor->setFontPointSize(KdenliveSettings::subtitleEditFontSize());*/
     m_visualEditor->setTextCursor(cursor);
 }
 

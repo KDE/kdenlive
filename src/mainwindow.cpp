@@ -1190,7 +1190,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_settings"), tlButtonAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
-    m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    // m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
     m_timeFormatButton->addAction(i18n("Frames"));
     if (KdenliveSettings::frametimecode()) {
@@ -1354,14 +1354,14 @@ void MainWindow::setupActions()
 
     if (KdenliveSettings::gpu_accel()) {
         QLabel *warnLabel = new QLabel(i18n("Experimental GPU processing enabled - not for production"), this);
-        warnLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+        // warnLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
         warnLabel->setAlignment(Qt::AlignHCenter);
         // warnLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; color:black;padding-left:2px;padding-right:2px}"));
         toolbar->addWidget(warnLabel);
     }
 
     m_trimLabel = new QLabel(QString(), this);
-    m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
     m_trimLabel->setMinimumWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
     m_trimLabel->setToolTip(i18n("Active tool and editing mode"));
@@ -2082,11 +2082,11 @@ bool MainWindow::readOptions()
     }
 
     if (KdenliveSettings::trackheight() == 0) {
-        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+        /*QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
         // Height of the icon row
         int baseUnit = qMax(28, qCeil(QFontInfo(ft).pixelSize() * 1.8));
         int trackHeight = baseUnit + qMax(22, qCeil(QFontInfo(ft).pixelSize() * 2.5) + 6);
-        KdenliveSettings::setTrackheight(trackHeight);
+        KdenliveSettings::setTrackheight(trackHeight);*/
     }
     bool firstRun = false;
     KConfigGroup initialGroup(config, "version");
@@ -4175,7 +4175,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
     Q_EMIT getCurrentTimeline()->controller()->frameFormatChanged();
-    m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    // m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 }
 
 void MainWindow::applyToolMessageStyling()

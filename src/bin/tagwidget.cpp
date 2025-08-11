@@ -109,7 +109,7 @@ const QString &DragButton::description() const
 TagWidget::TagWidget(QWidget *parent)
     : QWidget(parent)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     auto *lay = new QHBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addStretch(10);

@@ -74,7 +74,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     , m_model(nullptr)
 {
     setupUi(this);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     auto *filter = new SimpleEditorEventFilter(this);
     simpleSubText->installEventFilter(filter);
     connect(filter, &SimpleEditorEventFilter::singleKeyPress, this, [this](QKeyEvent *event) {
@@ -459,9 +459,9 @@ void SubtitleEdit::slotZoomOut()
     } else {
         fontSize = subText->fontPointSize() / 1.2;
     }
-    fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
+    /*fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
-    applyFontSize();
+    applyFontSize();*/
 }
 
 void SubtitleEdit::applyFontSize()

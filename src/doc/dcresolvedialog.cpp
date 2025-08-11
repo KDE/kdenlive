@@ -17,7 +17,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     , m_url(projectUrl)
 {
     setupUi(this);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 
     m_model = DocumentCheckerTreeModel::construct(items, this);
     removeSelected->setEnabled(false);

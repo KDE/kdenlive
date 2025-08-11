@@ -18,7 +18,7 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, QWidget 
     : QDialog(parent)
     , m_in(nullptr, tc)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     inputLayout->addWidget(&m_in);
     m_in.setValue(duration);

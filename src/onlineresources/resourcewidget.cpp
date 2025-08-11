@@ -33,7 +33,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
     , m_showloadingWarning(true)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
 
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);

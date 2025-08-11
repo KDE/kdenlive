@@ -508,7 +508,7 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
     int unitSize = info.ascent();
     auto *hb = new QGridLayout(this);
     m_wheelName = new QLabel(name, this);
-    m_wheelName->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // m_wheelName->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_wheelName->setFixedHeight(info.height());
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     hb->addWidget(m_wheelName, 0, 0, 1, -1, Qt::AlignLeft);

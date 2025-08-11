@@ -749,8 +749,8 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     , m_value(0.)
 // m_precision(pow(10, precision)),
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    // setFormat(QLatin1Char(' ') + label);
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //  setFormat(QLatin1Char(' ') + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);

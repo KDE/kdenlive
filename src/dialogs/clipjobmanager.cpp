@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     : QDialog(parent)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Manage Bin Clip Jobs"));
     connect(job_list, &QListWidget::currentRowChanged, this, &ClipJobManager::displayJob);

@@ -46,7 +46,7 @@ MaskManager::MaskManager(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     maskColor->setColor(KdenliveSettings::maskColor());
     borderColor->setColor(KdenliveSettings::maskBorderColor());
     borderWidth->setValue(KdenliveSettings::maskBorderWidth());

@@ -164,7 +164,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     , m_activeAudioStreams(-1)
 {
     m_controller->mirrorOriginalProperties(m_sourceProperties);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);

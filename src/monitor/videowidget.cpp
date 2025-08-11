@@ -80,7 +80,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_consumer(nullptr)
     , m_producer(nullptr)
     , m_id(id)
-    , m_rulerHeight(int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5))
+    , m_rulerHeight(20) // int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5))
     , m_sendFrame(false)
     , m_analyseSem(1)
     , m_zoom(1.0f)
@@ -295,9 +295,9 @@ void VideoWidget::refreshRect()
 
 void VideoWidget::updateRulerHeight(int addedHeight)
 {
-    m_displayRulerHeight =
+    /*m_displayRulerHeight =
         m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
-    resizeVideo(width(), height());
+    resizeVideo(width(), height());*/
 }
 
 bool VideoWidget::isReady() const
@@ -1363,8 +1363,8 @@ bool VideoWidget::updateScaling()
 
 void VideoWidget::switchRuler(bool show)
 {
-    m_rulerHeight = show ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) : 0;
+    /*m_rulerHeight = show ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) : 0;
     m_displayRulerHeight = m_rulerHeight;
     resizeVideo(width(), height());
-    Q_EMIT m_proxy->rulerHeightChanged();
+    Q_EMIT m_proxy->rulerHeightChanged();*/
 }

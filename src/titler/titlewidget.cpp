@@ -106,7 +106,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
         TITLERVERSION = KdenliveSettings::titlerVersion();
     }
     setMinimumSize(200, 200);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame_properties->setEnabled(false);
     frame_properties->setFixedHeight(frame_toolbar->height());
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
@@ -1919,11 +1919,11 @@ void TitleWidget::slotUpdateText()
 {
     QFont font = font_family->currentFont();
     QString selected = font.family();
-    if (!QFontDatabase::families().contains(selected)) {
+    /*if (!QFontDatabase::families().contains(selected)) {
         QSignalBlocker bk(font_family);
         font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
         font_family->setCurrentFont(font);
-    }
+    }*/
     font.setPixelSize(font_size->value());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());

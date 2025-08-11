@@ -31,7 +31,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     , m_vbox(nullptr)
     , m_assetModel(nullptr)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18nc("@title:window", "Stabilize Clip"));
     // QString stylesheet = EffectStackView2::getStyleSheet();

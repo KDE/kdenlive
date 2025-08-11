@@ -22,7 +22,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
     , m_automaticMode(automaticMode)
     , m_postParams(std::move(postParams))
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     m_infoMessage = new KMessageWidget;

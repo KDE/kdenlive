@@ -27,7 +27,7 @@ ProxyTest::ProxyTest(QWidget *parent)
     : QDialog(parent)
     , m_closing(false)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18nc("@title:window", "Compare Proxy Profile"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Test Proxy Profiles"));

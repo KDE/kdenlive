@@ -175,7 +175,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->setContentsMargins(0, 0, 0, 0);
     layZone->setSpacing(0);
     QLabel *in = new QLabel(i18n("In:"), this);
-    in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(in);
     auto *setIn = new QToolButton(this);
     setIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
@@ -187,7 +187,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->addWidget(m_inPos);
     layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
     QLabel *out = new QLabel(i18n("Out:"), this);
-    out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(out);
     auto *setOut = new QToolButton(this);
     setOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));

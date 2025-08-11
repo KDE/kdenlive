@@ -289,7 +289,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         }
     });
     scalingAction->setFrame(false);
-    scalingAction->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // scalingAction->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_toolbar->addWidget(scalingAction);
     m_toolbar->addSeparator();
 

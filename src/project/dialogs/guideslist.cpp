@@ -104,7 +104,7 @@ GuidesList::GuidesList(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     int fontHeight = QFontMetrics(font()).lineSpacing();
     m_proxy = new GuidesProxyModel(fontHeight, this);
     connect(guides_list, &QListView::doubleClicked, this, &GuidesList::editGuide);
