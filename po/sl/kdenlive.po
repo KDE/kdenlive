@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-07 18:29+0000\n"
-"PO-Revision-Date: 2025-08-05 11:41+0200\n"
+"PO-Revision-Date: 2025-08-10 23:16+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11779,7 +11779,7 @@ msgstr "<![CDATA[Pokaži največjo vrednost na merilniku]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:83
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr "<![CDATA[Uporabi lestvico od 0 do 255 namesto 0,0-1,0]>"
+msgstr "<![CDATA[Uporabi lestvico od 0 do 255 namesto 0,0-1,0]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
