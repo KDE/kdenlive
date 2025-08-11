@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-07 20:25+0000\n"
-"PO-Revision-Date: 2025-07-29 14:54+0200\n"
+"PO-Revision-Date: 2025-08-10 23:18+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -10261,7 +10261,7 @@ msgstr "Faktor linearnega spreminjanja velikosti"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
 #, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr "<![CDATA[Količina, za kolikor se linearna površina spremeni.]]"
+msgstr "<![CDATA[Količina, za kolikor se linearna površina spremeni.]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, kde-format
@@ -11809,7 +11809,7 @@ msgstr "Barva križca"
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr "<! [CDATA[Izberite barvo za križec/črto profila]]>"
+msgstr "<![CDATA[Izberite barvo za križec/črto profila]]>"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
