@@ -487,7 +487,6 @@ Item {
           }
           onPressed: mouse => {
             if (mouse.button & Qt.LeftButton) {
-                transformedFrame.isMoving = true
                 if (mouse.modifiers & Qt.AltModifier) {
                     mouse.accepted = true
                     root.captureRightClick = true
@@ -507,6 +506,7 @@ Item {
                 }
                 mouse.accepted = true
                 root.captureRightClick = true
+                transformedFrame.isMoving = true
             }
           }
           onReleased: mouse => {
