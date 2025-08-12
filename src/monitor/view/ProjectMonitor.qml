@@ -56,7 +56,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font.family: fixedFont
     }
 
     signal editCurrentMarker()
@@ -197,7 +197,7 @@ Item {
             }
             Label {
                 id: labelSpeed
-                font: fixedFont
+                font.family: fixedFont
                 anchors {
                     left: parent.left
                     top: parent.top
@@ -213,7 +213,7 @@ Item {
             }
             Label {
                 id: inPoint
-                font: fixedFont
+                font.family: fixedFont
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -230,7 +230,7 @@ Item {
             }
             Label {
                 id: outPoint
-                font: fixedFont
+                font.family: fixedFont
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
@@ -247,7 +247,7 @@ Item {
             }
             TextField {
                 id: marker
-                font: fixedFont
+                font.family: fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
                 onEditingFinished: {

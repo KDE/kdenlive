@@ -285,7 +285,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
             text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut - 1) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
-            font: fixedFont
+            font.family: fixedFont
             color: activePalette.text
         }
     }
@@ -440,7 +440,7 @@ Rectangle {
                 Text {
                     id: mlabel
                     text: model.comment
-                    font: fixedFont
+                    font.family: fixedFont
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     anchors {

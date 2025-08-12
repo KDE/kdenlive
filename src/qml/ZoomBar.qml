@@ -189,7 +189,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
-            //font: fixedFont
+            //font.family: fixedFont
             text: zoomContainer.toolTipText
         }
     }

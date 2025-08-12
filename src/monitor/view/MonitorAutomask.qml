@@ -106,7 +106,7 @@ Item {
     
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font.family: fixedFont
     }
 
     Timer {

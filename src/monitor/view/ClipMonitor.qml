@@ -75,7 +75,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font: fixedFont
+        font.family: fixedFont
     }
 
     Timer {
@@ -243,7 +243,7 @@ Item {
 
                 Label {
                     id: clipStreamLabel
-                    font: fixedFont
+                    font.family: fixedFont
                     anchors {
                         bottom: audioThumb.isAudioClip ? parent.bottom : parent.top
                         horizontalCenter: parent.horizontalCenter
@@ -434,7 +434,7 @@ Item {
                     model: controller.lastClips
                     MenuItem {
                         text: modelData
-                        font: fixedFont
+                        font.family: fixedFont
                         onTriggered: {
                             controller.selectClip(index)
                             //showAnimate.restart()
@@ -558,7 +558,7 @@ Item {
             }
             Label {
                 id: labelSpeed
-                font: fixedFont
+                font.family: fixedFont
                 anchors {
                     left: parent.left
                     top: parent.top
@@ -574,7 +574,7 @@ Item {
             }
             Label {
                 id: inPoint
-                font: fixedFont
+                font.family: fixedFont
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -596,7 +596,7 @@ Item {
             }
             Label {
                 id: outPoint
-                font: fixedFont
+                font.family: fixedFont
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
@@ -618,7 +618,7 @@ Item {
             }
             TextField {
                 id: marker
-                font: fixedFont
+                font.family: fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
                 text: controller.markerComment
