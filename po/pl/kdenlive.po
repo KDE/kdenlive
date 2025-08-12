@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 18:29+0000\n"
+"POT-Creation-Date: 2025-08-12 00:42+0000\n"
 "PO-Revision-Date: 2025-05-24 08:16+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -17461,7 +17461,7 @@ msgstr "Wykryto brakującą klatkę kluczową w %1, dodano ją"
 msgid "Duplicate keyframe"
 msgstr "Powiel klatkę kluczową"
 
-#: src/assets/keyframes/view/keyframeview.cpp:495
+#: src/assets/keyframes/view/keyframeview.cpp:499
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
@@ -17469,38 +17469,38 @@ msgstr[0] "Przenieś klatkę kluczową"
 msgstr[1] "Przenieś klatki kluczowe"
 msgstr[2] "Przenieś klatki kluczowe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:747
+#: src/assets/keyframes/view/keyframeview.cpp:751
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Uaktualnij położenie X klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:755
+#: src/assets/keyframes/view/keyframeview.cpp:759
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Uaktualnij położenie Y klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:763
+#: src/assets/keyframes/view/keyframeview.cpp:767
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Uaktualnij szerokość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:771
+#: src/assets/keyframes/view/keyframeview.cpp:775
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Uaktualnij wysokość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:779
+#: src/assets/keyframes/view/keyframeview.cpp:783
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Uaktualnij nieprzezroczystość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:784
-#: src/assets/keyframes/view/keyframeview.cpp:786
+#: src/assets/keyframes/view/keyframeview.cpp:788
+#: src/assets/keyframes/view/keyframeview.cpp:790
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Uaktualnij wartość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:790
+#: src/assets/keyframes/view/keyframeview.cpp:794
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Skopiowano wartość klatki kluczowej"

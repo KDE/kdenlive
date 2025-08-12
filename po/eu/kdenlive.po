@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 18:29+0000\n"
-"PO-Revision-Date: 2025-08-06 12:36+0200\n"
+"POT-Creation-Date: 2025-08-12 00:42+0000\n"
+"PO-Revision-Date: 2025-08-11 14:19+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -17437,45 +17437,45 @@ msgstr "Fotograma falta da %1en, automatikoki gehitu da"
 msgid "Duplicate keyframe"
 msgstr "Bikoiztu gako-fotograma"
 
-#: src/assets/keyframes/view/keyframeview.cpp:495
+#: src/assets/keyframes/view/keyframeview.cpp:499
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Mugitu gako-fotograma"
 msgstr[1] "Mugitu gako-fotograma"
 
-#: src/assets/keyframes/view/keyframeview.cpp:747
+#: src/assets/keyframes/view/keyframeview.cpp:751
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Eguneratu gako-fotogramaren X posizioa"
 
-#: src/assets/keyframes/view/keyframeview.cpp:755
+#: src/assets/keyframes/view/keyframeview.cpp:759
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Eguneratu gako-fotogramaren Y posizioa"
 
-#: src/assets/keyframes/view/keyframeview.cpp:763
+#: src/assets/keyframes/view/keyframeview.cpp:767
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Eguneratu gako-fotogramaren zabalera"
 
-#: src/assets/keyframes/view/keyframeview.cpp:771
+#: src/assets/keyframes/view/keyframeview.cpp:775
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Eguneratu gako-fotogramaren altuera"
 
-#: src/assets/keyframes/view/keyframeview.cpp:779
+#: src/assets/keyframes/view/keyframeview.cpp:783
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Eguneratu gako-fotogramaren opakotasuna"
 
-#: src/assets/keyframes/view/keyframeview.cpp:784
-#: src/assets/keyframes/view/keyframeview.cpp:786
+#: src/assets/keyframes/view/keyframeview.cpp:788
+#: src/assets/keyframes/view/keyframeview.cpp:790
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Eguneratu gako-fotogramaren balioa"
 
-#: src/assets/keyframes/view/keyframeview.cpp:790
+#: src/assets/keyframes/view/keyframeview.cpp:794
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Gako-fotogramen balioa kopiatu da"
@@ -27160,16 +27160,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
-"«Kdenlive»n zure bertsioa urtebete baino zaharragoa da, biziki gomendatzen "
-"dizugu bertsio-berritzea"
+"Kdenliven zure bertsioa urtebete baino zaharragoa da, bertsio-berritzea "
+"biziki gomendatzen dizugu."
 
 #: src/mainwindow.cpp:5162
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
-"«Kdenlive»n zure bertsioa 6 hilabete baino zaharragoa da, biziki gomendatzen "
-"dizugu bertsio-berritzea"
+"Kdenliven zure bertsioa 6 hilabete baino zaharragoa da, bertsio-berritzea "
+"gomendatzen dizugu."
 
 #: src/mainwindow.cpp:5204
 #, kde-format

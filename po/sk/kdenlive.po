@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 18:29+0000\n"
+"POT-Creation-Date: 2025-08-12 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -17368,7 +17368,7 @@ msgstr ""
 msgid "Duplicate keyframe"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:495
+#: src/assets/keyframes/view/keyframeview.cpp:499
 #, fuzzy, kde-format
 #| msgid "Move keyframe"
 msgid "Move keyframe"
@@ -17377,44 +17377,44 @@ msgstr[0] "Presunúť kľúčový snímok"
 msgstr[1] "Presunúť kľúčový snímok"
 msgstr[2] "Presunúť kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:747
+#: src/assets/keyframes/view/keyframeview.cpp:751
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes X position"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:755
+#: src/assets/keyframes/view/keyframeview.cpp:759
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes Y position"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:763
+#: src/assets/keyframes/view/keyframeview.cpp:767
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes width"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:771
+#: src/assets/keyframes/view/keyframeview.cpp:775
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes height"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:779
+#: src/assets/keyframes/view/keyframeview.cpp:783
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes opacity"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:784
-#: src/assets/keyframes/view/keyframeview.cpp:786
+#: src/assets/keyframes/view/keyframeview.cpp:788
+#: src/assets/keyframes/view/keyframeview.cpp:790
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes value"
 msgstr "Aktualizovať kľúčový snímok"
 
-#: src/assets/keyframes/view/keyframeview.cpp:790
+#: src/assets/keyframes/view/keyframeview.cpp:794
 #, fuzzy, kde-format
 #| msgid "Keyframe interpolation"
 msgid "Keyframe value copied"
