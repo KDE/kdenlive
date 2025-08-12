@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-07 20:25+0000\n"
-"PO-Revision-Date: 2025-08-06 12:36+0200\n"
+"PO-Revision-Date: 2025-08-11 14:19+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -27151,16 +27151,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
-"«Kdenlive»n zure bertsioa urtebete baino zaharragoa da, biziki gomendatzen "
-"dizugu bertsio-berritzea"
+"Kdenliven zure bertsioa urtebete baino zaharragoa da, bertsio-berritzea "
+"biziki gomendatzen dizugu."
 
 #: src/mainwindow.cpp:5155
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
-"«Kdenlive»n zure bertsioa 6 hilabete baino zaharragoa da, biziki gomendatzen "
-"dizugu bertsio-berritzea"
+"Kdenliven zure bertsioa 6 hilabete baino zaharragoa da, bertsio-berritzea "
+"gomendatzen dizugu."
 
 #: src/mainwindow.cpp:5197
 #, kde-format
