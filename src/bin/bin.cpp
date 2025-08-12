@@ -1164,7 +1164,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     // Search line
     m_searchLine = new QLineEdit(this);
     m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    m_searchLine->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // m_searchLine->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     //  m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search…"));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
@@ -1372,7 +1372,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterButton = new QToolButton;
     m_filterButton->setCheckable(true);
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     m_filterButton->setToolTip(i18n("Filter"));
     m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the project bin contents. Click on the filter icon to toggle the filter display. Click on "
