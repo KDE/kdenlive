@@ -45,7 +45,7 @@ AudioSlider::AudioSlider(Qt::Orientation orientation, QWidget *parent, bool narr
     setAttribute(Qt::WA_Hover, true);
     setMouseTracking(true);
 
-    QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
     ft.setPointSizeF(ft.pointSize() * 0.6);
 
     setFont(ft);

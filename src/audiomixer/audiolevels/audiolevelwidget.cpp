@@ -54,7 +54,7 @@ AudioLevelWidget::AudioLevelWidget(QWidget *parent, Qt::Orientation orientation,
     , m_axisDimensionsNeedUpdate(true)
     , m_renderer(new AudioLevelRenderer(this))
 {
-    QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
     ft.setPointSizeF(ft.pointSize() * 0.6);
     setFont(ft);
     setupContextMenu();
