@@ -11,7 +11,7 @@
 
 class AssetParameterModel;
 class DoubleWidget;
-class QHBoxLayout;
+class QVBoxLayout;
 
 /** @class DoubleParamWidget
     @brief This represent a double parameter
@@ -35,5 +35,5 @@ public Q_SLOTS:
 
 protected:
     DoubleWidget *m_doubleWidget;
-    QHBoxLayout *m_lay;
+    QVBoxLayout *m_lay;
 };

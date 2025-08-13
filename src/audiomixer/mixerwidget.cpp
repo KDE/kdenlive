@@ -573,7 +573,7 @@ void MixerWidget::updateTrackLabelStyle()
     }
 
     style = QString("%1 %2 padding: 2px; margin: 0; border: 1px solid %3; %4").arg(bg).arg(text).arg(borderColor.name(QColor::HexArgb)).arg(underline);
-    // m_trackLabel->setStyleSheet(style);
+    m_trackLabel->setStyleSheet(style);
 }
 
 void MixerWidget::updateAudioLevel(int pos)
