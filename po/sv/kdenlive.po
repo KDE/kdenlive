@@ -15381,8 +15381,7 @@ msgstr "Formfärg"
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr ""
-"Medianoskärpa,Gaussisk oskärpa,gör till bildpunkter,ogenomskinlig ifyllnad,"
-"Ingen"
+"Medianoskärpa,Gaussisk oskärpa,utför pixelering,ogenomskinlig ifyllnad,Ingen"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -39418,7 +39417,7 @@ msgstr "%1 t"
 
 #~| msgid "Pixelize"
 #~ msgid "Pixelate"
-#~ msgstr "Dela upp i bildpunkter"
+#~ msgstr "Pixelering"
 
 #~ msgid "Trim Mode"
 #~ msgstr "Beskärningsläge"
