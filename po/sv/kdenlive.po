@@ -5581,12 +5581,12 @@ msgstr "Lämna bilrutor orörda"
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
 msgid "Pixelize (advanced)"
-msgstr "Bildpunktstillägg (avancerat)"
+msgstr "Pixelering (avancerat)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
 #, kde-format
 msgid "Pixelize video"
-msgstr "Lägg till bildpunkter i video"
+msgstr "Utför pixelering av video"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
@@ -5605,7 +5605,7 @@ msgstr "Blockhöjd"
 #: data/effects/avfilter/avfilter_pixelize.xml:14
 #, kde-format
 msgid "Pixelize Mode"
-msgstr "Bildpunktstilläggsläge"
+msgstr "Pixeleringsläge"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
@@ -11899,12 +11899,12 @@ msgstr "Horisontell synkronisering"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize (basic)"
-msgstr "Bildpunktstillägg (grundläggande)"
+msgstr "Pixelering (enkel)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image"
-msgstr "Bildpunktstillägg i indatabild"
+msgstr "Utför pixelering av indatabild"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -15381,8 +15381,7 @@ msgstr "Formfärg"
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr ""
-"Medianoskärpa,Gaussisk oskärpa,gör till bildpunkter,ogenomskinlig ifyllnad,"
-"Ingen"
+"Medianoskärpa,Gaussisk oskärpa,utför pixelering,ogenomskinlig ifyllnad,Ingen"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -39431,7 +39430,7 @@ msgstr "%1 t"
 
 #~| msgid "Pixelize"
 #~ msgid "Pixelate"
-#~ msgstr "Dela upp i bildpunkter"
+#~ msgstr "Pixelering"
 
 #~ msgid "Trim Mode"
 #~ msgstr "Beskärningsläge"

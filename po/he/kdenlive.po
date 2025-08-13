@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-12 00:42+0000\n"
-"PO-Revision-Date: 2025-08-02 21:18+0300\n"
+"PO-Revision-Date: 2025-08-12 14:51+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1007,10 +1007,9 @@ msgid "Milliseconds"
 msgstr "מילישניות"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency in Hz"
-msgstr "תדר"
+msgstr "תדירות בהרץ"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
@@ -1064,10 +1063,9 @@ msgid "Number of frames for averaging"
 msgstr "מספר התמוניות לסינון מעביר תדרים נמוכים"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Average Bitrate"
+#, kde-format
 msgid "Average Blur"
-msgstr "קצב סיביות ממוצע"
+msgstr "טשטוש ממוצע"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
@@ -1351,7 +1349,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
 msgid "Send frame,Send field"
-msgstr ""
+msgstr "שליחת תמונית,שליחת שדה"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
 #, fuzzy, kde-format
@@ -1602,10 +1600,9 @@ msgid "Color System"
 msgstr "מרחב צבעים"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "<![CDATA[Select the color system]]>"
-msgstr "<![CDATA[הגדרת מצב המסנן]]>"
+msgstr "<![CDATA[נא לבחור את מערכת הצבע]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:13
 #, kde-format
@@ -1717,7 +1714,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
 msgid "Fill with CIE Colors"
-msgstr ""
+msgstr "מילוי עם צבעי CIE"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:50
 #, kde-format
@@ -1890,9 +1887,9 @@ msgid "Preserving lightness"
 msgstr "שימור בהירות"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color Correct"
-msgstr "אפקט"
+msgstr "תיקון צבע"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:5
 #, kde-format
@@ -4416,10 +4413,9 @@ msgid "<![CDATA[Blend percentage]]>"
 msgstr "<![CDATA[הערה]]>"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Value"
+#, kde-format
 msgid "HSV Key"
-msgstr "ערך HSV"
+msgstr "מפתח HSV"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
@@ -4438,10 +4434,9 @@ msgid "Apply hue-saturation-intensity adjustments"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:8
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Colors to Adjust"
-msgstr "צבע לבחירה"
+msgstr "צבעים לכוונון"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:9
 #, kde-format
@@ -9728,10 +9723,9 @@ msgid "Square,PAL DV,NTSC DV,HDV,Manual"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:42
-#, fuzzy, kde-format
-#| msgid "Aspect type"
+#, kde-format
 msgid "Aspect Type"
-msgstr "‏‮יחס מימדים"
+msgstr "סוג יחס תצוגה"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
@@ -9739,9 +9733,9 @@ msgid "Manual Aspect"
 msgstr "היבט ידני"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "delay0r"
-msgstr "שיהוי"
+msgstr "delay0r"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:5
 #, kde-format
@@ -9849,8 +9843,7 @@ msgid "Number of values per channel."
 msgstr "מספר הערכים בערוץ."
 
 #: data/effects/frei0r/frei0r_dither.xml:13
-#, fuzzy, kde-format
-#| msgid "Matrix Id."
+#, kde-format
 msgid "Matrix ID"
 msgstr "מזהה מטריצה"
 
@@ -9921,10 +9914,9 @@ msgid "Linear Width"
 msgstr "רוחב קווי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Width of the linear area]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[רוחב האזור הקווי]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
 #, kde-format
@@ -9932,10 +9924,9 @@ msgid "Linear Scale Factor"
 msgstr "מקדם קנה מידה קווי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr "<![CDATA[כמות חלקיקי האבק בתמונה]]>"
+msgstr "<![CDATA[כמות לשינוי גודל האזור הקווי]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, fuzzy, kde-format
@@ -11865,7 +11856,7 @@ msgstr "חדות"
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:14
 #, kde-format
 msgid "Sharpness of transfer."
-msgstr ""
+msgstr "חדות ההעברה."
 
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
@@ -13256,7 +13247,7 @@ msgstr "100 הרץ"
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
 #, kde-format
 msgid "156 Hz"
-msgstr ""
+msgstr "156 הרץ"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
 #, kde-format
@@ -13266,7 +13257,7 @@ msgstr "220 הרץ"
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
 #, kde-format
 msgid "311 Hz"
-msgstr ""
+msgstr "311 הרץ"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
 #, kde-format
@@ -13276,7 +13267,7 @@ msgstr "440 הרץ"
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
 msgid "622 Hz"
-msgstr ""
+msgstr "622 הרץ"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
 #, kde-format
@@ -13884,7 +13875,7 @@ msgstr "אזור"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Old Film Simulator"
-msgstr ""
+msgstr "מדמה סרט ישן"
 
 #: data/effects/oldfilm.xml:5
 #, kde-format
@@ -13894,7 +13885,7 @@ msgstr "מעלה ומוריד את התמונה ומוסיף שינויי בהי
 #: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Maximum Up/Down Move"
-msgstr ""
+msgstr "העלאה/הורדה מרביים"
 
 #: data/effects/oldfilm.xml:9
 #, fuzzy, kde-format
@@ -13903,82 +13894,69 @@ msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
 msgstr "<![CDATA[היסט לאורך ציר X]]>"
 
 #: data/effects/oldfilm.xml:12
-#, fuzzy, kde-format
-#| msgid "Frames to use"
+#, kde-format
 msgid "Frames With Movement"
-msgstr "תמוניות לשימוש"
+msgstr "תמוניות עם תנועה"
 
 #: data/effects/oldfilm.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
-msgstr "<![CDATA[אורך הפרופיל בפיקסלים]]>"
+msgstr "<![CDATA[קביעת אחוז התמוניות עם תנועה אנכית]]>"
 
 #: data/effects/oldfilm.xml:16
-#, fuzzy, kde-format
-#| msgid "Brightness up"
+#, kde-format
 msgid "Brightness Up"
-msgstr "הבהרה"
+msgstr "הגברת בהירות"
 
 #: data/effects/oldfilm.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change up]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[קביעת השינוי החיובי בערך הבהירות]]>"
 
 #: data/effects/oldfilm.xml:20
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness Down"
-msgstr "החשכה"
+msgstr "הפחתת בהירות"
 
 #: data/effects/oldfilm.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change down]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[קביעת השינוי השלילי בערך הבהירות]]>"
 
 #: data/effects/oldfilm.xml:24
-#, fuzzy, kde-format
-#| msgid "Brightness every"
+#, kde-format
 msgid "Brightness Every"
 msgstr "בהירות כל"
 
 #: data/effects/oldfilm.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
-msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ האדום]]>"
+msgstr "<![CDATA[קביעת אחוז התמוניות עם שינויי בהירות]]>"
 
 #: data/effects/oldfilm.xml:28
-#, fuzzy, kde-format
-#| msgid "Unevendevelop up"
+#, kde-format
 msgid "Uneven Develop Up"
-msgstr "עוצמת הבהרה"
+msgstr "התפתחות לא שוויונית למעלה (הבהרה)"
 
 #: data/effects/oldfilm.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change up]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[קביעת ערך הבהירות שמשתנה למעלה (הבהרה)]]>"
 
 #: data/effects/oldfilm.xml:32
-#, fuzzy, kde-format
-#| msgid "Unevendevelop down"
+#, kde-format
 msgid "Uneven Develop Down"
-msgstr "עוצמת החשכה"
+msgstr "התפתחות לא שוויונית למטה (החשכה)"
 
 #: data/effects/oldfilm.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change down]]>"
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "<![CDATA[קביעת ערך הבהירות שמשתנה למטה (החשכה)]]>"
 
 #: data/effects/oldfilm.xml:36
-#, fuzzy, kde-format
-#| msgid "Unevendevelop Duration"
+#, kde-format
 msgid "Uneven Develop Duration"
-msgstr "משך הבהרה/החשכה"
+msgstr "משך התפתחות לא שוויונית (הבהרה/החשכה)"
 
 #: data/effects/oldfilm.xml:37
 #, kde-format
@@ -14390,8 +14368,7 @@ msgid "<![CDATA[Maximum number of lines in the clip]]>"
 msgstr "<![CDATA[מספר הקווים המרבי בסרטון]]>"
 
 #: data/effects/scratchlines.xml:16
-#, fuzzy, kde-format
-#| msgid "Max darker"
+#, kde-format
 msgid "Max Darker"
 msgstr "החשכה מרבית"
 
@@ -14401,8 +14378,7 @@ msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
 msgstr ""
 
 #: data/effects/scratchlines.xml:20
-#, fuzzy, kde-format
-#| msgid "Max lighter"
+#, kde-format
 msgid "Max Lighter"
 msgstr "הבהרה מרבית"
 
@@ -14516,16 +14492,14 @@ msgid "Gain to normalize"
 msgstr "נרמול"
 
 #: data/effects/sox/sox.xml:18
-#, fuzzy, kde-format
-#| msgid "Use Luma"
+#, kde-format
 msgid "Use peak"
-msgstr "להשתמש בלומה"
+msgstr "להשתמש בפסגה"
 
 #: data/effects/sox/sox.xml:21
-#, fuzzy, kde-format
-#| msgid "Dynamically normalise the audio volume"
+#, kde-format
 msgid "Dynamic normalization"
-msgstr "נרמול עוצמת השמע דינמית"
+msgstr "נרמול דינמי"
 
 #: data/effects/sox/sox.xml:24
 #, fuzzy, kde-format
