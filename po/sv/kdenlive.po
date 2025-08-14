@@ -27957,7 +27957,7 @@ msgstr "Förflyttningsverktygsrad"
 #: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
 msgid "Generate Mask"
-msgstr "Generate mask"
+msgstr "Generera mask"
 
 #: src/monitor/view/MaskToolBar.qml:81
 #, kde-format

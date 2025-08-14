@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-07 20:25+0000\n"
-"PO-Revision-Date: 2025-08-09 23:00+0400\n"
+"PO-Revision-Date: 2025-08-13 21:19+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -449,7 +449,7 @@ msgid ""
 msgstr ""
 "عدد العينات التي سينفذ تحويل فورييه السريع FFT عليها. إذا كان حجم النافذة "
 "أقل من عدد العينات في الإطار،فإن العينات الإضافية ستتجاهل.إذا كان حجم "
-"النافذة أكثر من عدد العينات في الإطار ، فستخزن العينات من الإطارات السابقة "
+"النافذة أكثر من عدد العينات في الإطار، فستخزن العينات من الإطارات السابقة "
 "لملء النافذة. ينفذ التخزين المؤقت كنافذة منزلق بحيث تُحول أحدث العينات دائمًا."
 
 #: data/effects/audiowave.xml:4
@@ -12681,9 +12681,9 @@ msgid ""
 "zero or more effects, mask_apply."
 msgstr ""
 "يصنع هذا المرشح لقطة من الإطار قبل أن يرسم أشكالًا بسيطة إلى قناة ألفا. "
-"استخدمه مع تأثير Mask_apply ، الذي يستخدم عملية انتقال لتركيب صورة الإطار "
+"استخدمه مع تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب صورة الإطار "
 "الحالي على اللقطة. تتمثل حالة الاستخدام النموذجية بإضافة تأثيرات بالتسلسل "
-"التالي: هذا التأثير ، صفر أو أكثر من التأثيرات ، Mask_apply."
+"التالي: هذا التأثير، صفر أو أكثر من التأثيرات، Mask_apply."
 
 #: data/effects/gain.xml:4
 #, kde-format
@@ -14129,9 +14129,9 @@ msgid ""
 msgstr ""
 "يقوم هذا المرشح بإجراء لقطة من الإطار قبل تطبيق اختيار مفتاح الصفاء اللوني "
 "للأطر الرئيسة مع خيارات أكثر تقدمًا (مثل نماذج الألوان المختلفة). استخدمه مع "
-"تأثير Mask_apply ، الذي يستخدم عملية انتقال لتركيب صورة الإطار الحالي على "
+"تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب صورة الإطار الحالي على "
 "اللقطة. تتمثل حالة الاستخدام النموذجية في إضافة تأثيرات في التسلسل التالي: "
-"هذا التأثير ، صفر أو أكثر من التأثيرات ، Mask_apply."
+"هذا التأثير، صفر أو أكثر من التأثيرات، Mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
@@ -14148,9 +14148,9 @@ msgid ""
 "effect, zero or more effects, mask_apply."
 msgstr ""
 "يقوم هذا المرشح بإجراء لقطة من الإطار قبل تطبيق إسقاط بالاعتماد على متجه "
-"بالأطر الرئيسة. استخدمه مع تأثير Mask_apply ، الذي يستخدم عملية انتقال "
-"لتركيب صورة الإطار الحالي على اللقطة. تتمثل حالة الاستخدام النموذجية في "
-"إضافة تأثيرات في التسلسل التالي: هذا التأثير ، صفر أو أكثر من التأثيرات ، "
+"بالأطر الرئيسة. استخدمه مع تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب "
+"صورة الإطار الحالي على اللقطة. تتمثل حالة الاستخدام النموذجية في إضافة "
+"تأثيرات في التسلسل التالي: هذا التأثير، صفر أو أكثر من التأثيرات ، "
 "Mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
@@ -14188,9 +14188,9 @@ msgid ""
 "the following sequence: this effect, zero or more effects, mask_apply."
 msgstr ""
 "يصنع هذا المرشح لقطة من الإطار قبل إنشاء قناة ألفا (الشفافية). استخدمه مع "
-"تأثير Mask_apply ، الذي يستخدم عملية انتقال لتركيب صورة الإطار الحالي على "
+"تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب صورة الإطار الحالي على "
 "اللقطة. تتمثل حالة الاستخدام النموذجية بإضافة تأثيرات بالتسلسل التالي: هذا "
-"التأثير ، صفر أو أكثر من التأثيرات ، Mask_apply."
+"التأثير، صفر أو أكثر من التأثيرات، Mask_apply."
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -14212,8 +14212,8 @@ msgid ""
 "When using mix (threshold) how soft to make the edge around the threshold. "
 "0.0 = no softness, 1.0 = too soft."
 msgstr ""
-"عند استخدام المزج (عتبة) كيف يجعل الحواف حول العتبة لينة.0.0 = لا نعومة ، "
-"1.0 = لينة جدا."
+"عند استخدام المزج (عتبة) كيف يجعل الحواف حول العتبة لينة.0.0 = لا نعومة، 1.0 "
+"= لينة جدا."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, kde-format
@@ -14582,11 +14582,11 @@ msgid ""
 "less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale "
 "is set."
 msgstr ""
-"تحول الأوكتاف. هذا هو التحول الأوكتاف لتردد المصدر. على سبيل المثال ، من شأن "
-"تحول +1 مضاعفة التردد ؛ -1 من شأنه أن يرفع التردد و 0 سيترك الحدة غير "
-"متأثرة. لوضع هذا بمصطلحات التردد ، هو تحول التردد F (حيث يكون F أكبر من واحد "
-"للتحول الصاعد وأقل من واحد لأسفل) هو:  O = log (f) / log (2). سيتجاهل إذا "
-"عُين مقياس الحدة."
+"تحول الأوكتاف. هذا هو التحول الأوكتاف لتردد المصدر. على سبيل المثال، من شأن "
+"تحول +1 مضاعفة التردد؛ -1 من شأنه أن يرفع التردد و 0 سيترك الحدة غير متأثرة. "
+"لوضع هذا بمصطلحات التردد، هو تحول التردد F (حيث يكون F أكبر من واحد للتحول "
+"الصاعد وأقل من واحد لأسفل) هو:  O = log (f) / log (2). سيتجاهل إذا عُين مقياس "
+"الحدة."
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, kde-format
@@ -14633,10 +14633,10 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 "نسبة تحجيم الحدة. هذه هي نسبة التردد المستهدف إلى تردد المصدر. على سبيل "
-"المثال ، ستتحول نسبة 2.0 بأوكتاف واحد ؛ 0.5 لأسفل بواسطة أوكتاف واحد. أو 1.0 "
-"ستترك الحدة غير متأثرة. لوضع هذا من الناحية الموسيقية ، تكون نسبة تحجيم "
-"الحدة المقابلة لتحول o -octaves (حيث o إيجابية لتحول صعودًا وسلبيًا لأسفل) هي: "
-"F = pow (2.0 ، o). يتجاوز Octaveshift."
+"المثال، ستتحول نسبة 2.0 بأوكتاف واحد؛ 0.5 لأسفل بواسطة أوكتاف واحد. أو 1.0 "
+"ستترك الحدة غير متأثرة. لوضع هذا من الناحية الموسيقية، تكون نسبة تحجيم الحدة "
+"المقابلة لتحول o -octaves (حيث o إيجابية لتحول صعودًا وسلبيًا لأسفل) هي: F = "
+"pow (2.0، o). يتجاوز Octaveshift."
 
 #: data/effects/rotate-3-way.xml:4
 #, kde-format
@@ -15233,7 +15233,7 @@ msgstr "متعدد الالوان"
 #: data/effects/tcolor.xml:5
 #, kde-format
 msgid "Oversaturate the color in video, like in old Technicolor movies"
-msgstr "تشبع اللون في الفيديو ، كما هو الحال في أفلام متعددة الألوان القديمة"
+msgstr "تشبع اللون في الفيديو، كما هو الحال في أفلام متعددة الألوان القديمة"
 
 #: data/effects/tcolor.xml:8
 #, kde-format
@@ -18244,7 +18244,7 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
-"استبدال مثيلات المقطع <b>%1</b> (%2)<br/>في المخطط الزمني\n"
+"استبدال نسخةات المقطع <b>%1</b> (%2)<br/>في المخطط الزمني\n"
 "النشط بالمقطع <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:2019
@@ -18253,7 +18253,7 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
-"استبدال مثيلات المقطع <b>%1</b><br/>في المخطط الزمني\n"
+"استبدال نسخةات المقطع <b>%1</b><br/>في المخطط الزمني\n"
 "النشط بالمقطع <b>%2</b>"
 
 #: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
@@ -19001,7 +19001,7 @@ msgid ""
 "You may want to copy it first to your hard-drive. Would you like to add it "
 "anyways?"
 msgstr ""
-"مقطع <b>%1</b><br /> على جهاز قابل للإزالة ، لن يكون متاحًا عندما يفصل الجهاز "
+"مقطع <b>%1</b><br /> على جهاز قابل للإزالة، لن يكون متاحًا عندما يفصل الجهاز "
 "أو يضم في مكان مختلف. \n"
 "قد ترغب في نسخها أولاً إلى القرص الصلبة. هل ترغب في إضافته على أي حال؟"
 
@@ -19305,7 +19305,7 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 "أبعاد الصورة أصغر من 8 بكسل.\n"
-"لا يدعم هذا بشكل صحيح بواسطة إطار الفيديو الخاص بنا."
+"هذا غير متاح بشكل صحيح بواسطة إطار الفيديو الخاص بنا."
 
 #: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:270
 #, kde-format
@@ -19519,7 +19519,7 @@ msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
-"التشكيلة المحدد غير صالحة. رجعنا إلى التشكيلة المبدئية \"dv_pal\" ، ولكن "
+"التشكيلة المحدد غير صالحة. رجعنا إلى التشكيلة المبدئية \"dv_pal\"، ولكن "
 "يمكنك تغيير هذا من لوحة إعدادات كدنلايف"
 
 #: src/core.cpp:261 src/project/projectmanager.cpp:833
@@ -20161,7 +20161,7 @@ msgid ""
 "2. There must be at least three timestamps in ascending order.\n"
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
-"إذا كنت تستخدم النص المُصدّر ليوتيوب ، فقد ترغب في التحقق من: \n"
+"إذا كنت تستخدم النص المُصدّر ليوتيوب، فقد ترغب في التحقق من: \n"
 "1. يجب أن يكون لوقت بدء 00:00 فصلًا. \n"
 "2. يجب أن يكون هناك ثلاثة طوابع زمنية على الأقل بترتيب تصاعدي. \n"
 "3. الحد الأدنى للطول لفصول الفيديو هو 10 ثوان."
@@ -20825,7 +20825,7 @@ msgid ""
 "Please make sure you have the required permissions."
 msgstr ""
 "تعذّر إنشاء الدّليل %1.\n"
-"رجاء تحقّق من امتلاكك التّصاريح المطلوبة."
+"رجاء تحقّق من امتلاكك الأذونات المطلوبة."
 
 #: src/dialogs/renderwidget.cpp:873
 #, kde-format
@@ -21458,7 +21458,7 @@ msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
-"دعم وحدة معالجة الرسومات انفيديا لـ %1\n"
+"إتاحة وحدة معالجة الرسومات انفيديا لـ %1\n"
 "اختر إصدار كودا الذي تريد تثبيته."
 
 #: src/dialogs/settings/pluginssettings.cpp:1000
@@ -23249,7 +23249,7 @@ msgstr ""
 #: src/doc/documentvalidator.cpp:2596
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
-msgstr "المرشحات/الانتقالات التالية حولت إلى إصدارة لا تدعم العتاد الرسومي:"
+msgstr "المرشحات/الانتقالات التالية حوّلت إلى إصدارة لا تتيح العتاد الرسومي:"
 
 #: src/doc/documentvalidator.cpp:2599
 #, kde-format
@@ -23303,7 +23303,7 @@ msgid ""
 "Defaulting to system folders"
 msgstr ""
 "تعذّر إنشاء دليل المشروع %1.\n"
-"رجاء تحقّق من امتلاكك التّصاريح المطلوبة.\n"
+"رجاء تحقّق من امتلاكك الأذونات المطلوبة.\n"
 "سيستخدم مجلدات النظام المبدئية"
 
 #: src/doc/kdenlivedoc.cpp:292
@@ -23438,7 +23438,7 @@ msgstr[5] "أزل مقاطع وسيطة"
 #: src/doc/kdenlivedoc.cpp:1691 src/doc/kdenlivedoc.cpp:1751
 #, kde-format
 msgid "Clip type does not support proxies"
-msgstr "نوع المقطع لا يدعم الوسطاء"
+msgstr "نوع المقطع لا يتيح الوسطاء"
 
 #: src/doc/kdenlivedoc.cpp:1890
 #, kde-format
@@ -23820,7 +23820,7 @@ msgstr "تحذف التأثير من كومة التأثيرات."
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:382
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr "%1 مثيل لهذا التأثير في المجموعة"
+msgstr "%1 نسخة لهذا التأثير في المجموعة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:592
 #, kde-format
@@ -24910,7 +24910,7 @@ msgstr "جان بابتيست ماردل"
 #: src/main.cpp:299
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
-msgstr "منفذ MLT و KDE SC 4 / KF5 ، المطور الرئيس والصائن"
+msgstr "منفذ MLT و KDE SC 4 / KF5، المطور الرئيس والصائن"
 
 #: src/main.cpp:301
 #, kde-format
@@ -24940,7 +24940,7 @@ msgstr "فنسنت بينون"
 #: src/main.cpp:303
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
-msgstr "منفذ KF5 ، البناء عبر Windows ، التغليف ، إصلاح الأخطاء"
+msgstr "منفذ KF5، البناء عبر Windows، التغليف، إصلاح الأخطاء"
 
 #: src/main.cpp:305
 #, kde-format
@@ -25030,7 +25030,7 @@ msgstr "ماسيمو ستيلا"
 #: src/main.cpp:315
 #, kde-format
 msgid "Expert advice, testing"
-msgstr "نصيحة خبراء ، والاختبار"
+msgstr "نصيحة خبراء، والاختبار"
 
 #: src/main.cpp:317
 #, kde-format
@@ -26751,7 +26751,7 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut> سحب مع shift </shortcut> للتحديد النطاق المطاطي ، <shortcut>النقر "
+"<shortcut> سحب مع shift </shortcut> للتحديد النطاق المطاطي، <shortcut>النقر "
 "مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta</shortcut> لنقل "
 "المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
 
@@ -26764,7 +26764,7 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"<shortcut> سحب مع shift </shortcut> للتحديد النطاق المطاطي ، <shortcut>النقر "
+"<shortcut> سحب مع shift </shortcut> للتحديد النطاق المطاطي، <shortcut>النقر "
 "مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta + Alt</shortcut> "
 "لنقل المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
 
@@ -26824,7 +26824,7 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut> سحب مع Shift </shortcut> للتحديد النطاق المطاطي ، <shortcut>النقر "
+"<shortcut> سحب مع Shift </shortcut> للتحديد النطاق المطاطي، <shortcut>النقر "
 "مع Shift</shortcut> للتحديد المتعدد، <shortcut>النقر مع Alt</shortcut> لتحيد "
 "عنصر في مجموعة،<shortcut>سحب مع Ctrl</shortcut> للتوزيع"
 
@@ -27658,7 +27658,7 @@ msgstr[5] "%1 دفق صوتية"
 #: src/monitor/monitor.cpp:2484
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
-msgstr "لا يمكن بدء مدير GLSL لـMovit ، الرجاء تعطيل Movit"
+msgstr "لا يمكن بدء مدير GLSL لـMovit، الرجاء تعطيل Movit"
 
 #: src/monitor/monitor.cpp:2526 src/monitor/monitor.cpp:2583
 #, kde-format
@@ -27666,7 +27666,7 @@ msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
-"مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
+"مطلوب مرشح alphagrad لتلك الميزة، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
 #: src/monitor/monitor.cpp:2546
 #, kde-format
@@ -27684,7 +27684,7 @@ msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
-"مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
+"مطلوب مرشح cairoblend لتلك الميزة، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
 #: src/monitor/monitor.cpp:2666
 #, kde-format
@@ -27888,7 +27888,7 @@ msgstr "انهار الالتقاط، رجاء تحقّق من معاملاتك"
 #: src/monitor/scopes/audiographspectrum.cpp:339
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
-msgstr "يجب أن يكون MLT مصرّفًا بدعم libfftw3 لتفعيل طيف الصّوت"
+msgstr "يجب أن يكون MLT مصرّفًا بـ libfftw3 لتفعيل طيف الصّوت"
 
 #: src/monitor/scopes/audiographspectrum.cpp:346
 #, kde-format
@@ -27926,7 +27926,7 @@ msgid ""
 "shortcut> to zoom"
 msgstr ""
 "<shortcut> النقر</shortcut> للتشغيل، <shortcut> النقر المزدوج</shortcut> "
-"للحصول على ملء الشاشة ، <shortcut> تحوم اليمين </shortcut> للبحث، <shortcut> "
+"للحصول على ملء الشاشة، <shortcut> تحوم اليمين </shortcut> للبحث، <shortcut> "
 "Ctrl مع العجلة </shortcut> للتكبير"
 
 #: src/monitor/view/ClipMonitor.qml:551 src/monitor/view/ProjectMonitor.qml:190
@@ -28168,8 +28168,8 @@ msgid ""
 "to first / last frame"
 msgstr ""
 "<shortcut> العجلة </shortcut> أو <shortcut> الأسهم </shortcut> للبحث عن إطار "
-"واحد ، <shortcut> Shift </shortcut> لقصد ثانية واحدة ، <shortcut>Alt </"
-"shortcut> لقصد علامة ، <shortcut >Home</shortcut> / <shortcut> End </"
+"واحد، <shortcut> Shift </shortcut> لقصد ثانية واحدة، <shortcut>Alt </"
+"shortcut> لقصد علامة، <shortcut >Home</shortcut> / <shortcut> End </"
 "shortcut> للانتقال إلى الإطار الأول / الأخير"
 
 #: src/monitor/view/MonitorRuler.qml:339
@@ -28198,8 +28198,8 @@ msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
-"<b>النقر</b> للتشغيل، <b> انقر نقرًا مزدوجًا </b> للحصول على ملء الشاشة ، "
-"<b>الحوم  يميناً</b> لشريط الأدوات ، <b>تدوير العجلة</b> أو <b> الأسهم </b> "
+"<b>النقر</b> للتشغيل، <b> انقر نقرًا مزدوجًا </b> للحصول على ملء الشاشة، "
+"<b>الحوم  يميناً</b> لشريط الأدوات، <b>تدوير العجلة</b> أو <b> الأسهم </b> "
 "للبحث ،<b> Ctrl مع العجلة </b> للتكبير"
 
 #: src/monitor/view/ProjectMonitor.qml:294
@@ -28477,7 +28477,7 @@ msgid ""
 "this license, visit %5"
 msgstr ""
 "يستخدم هذا الفيديو \"%1\" (%2) بواسطة \"%3\" المرخصة تحت %4. لعرض نسخة من "
-"هذا الترخيص ، تفضل بزيارة %5"
+"هذا الترخيص، تفضل بزيارة %5"
 
 #: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
@@ -29483,7 +29483,7 @@ msgstr ""
 "<br/> <b>بيانات النسخ الاحتياطي</b> هو أرشيف للإصدارات السابقة من ملفات "
 "المشروع. مفيد إذا كنت بحاجة إلى استرداد إصدار سابق من المشروع. لا يمكن "
 "استرداد هذه البيانات. <br/> <b>مقاطع وسيطة</b> هي ملفات فيديو أقل دقة تستخدم "
-"للتحرير بشكل أسرع. حذفها آمن ، يمكن إعادة إنشاء مقاطع وسيطة إذا كان لديك "
+"للتحرير بشكل أسرع. حذفها آمن، يمكن إعادة إنشاء مقاطع وسيطة إذا كان لديك "
 "مقاطع المصدر الأصلية."
 
 #: src/project/dialogs/temporarydata.cpp:187
@@ -29506,7 +29506,7 @@ msgid ""
 msgstr ""
 "حذف جميع البيانات في مجلد المعاينة: \n"
 "%1\n"
-"يحتوي مجلد المعاينة على معاينات الخط الزمني ، ويمكن إعادة إنشائها مع مشروع "
+"يحتوي مجلد المعاينة على معاينات الخط الزمني، ويمكن إعادة إنشائها مع مشروع "
 "المصدر."
 
 #: src/project/dialogs/temporarydata.cpp:363
@@ -29756,7 +29756,7 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 "تغير مكان ملف المشروع. لقد حددت أن تستخدم مكان ملف المشروع لحفظ الملفات "
-"المؤقتة. سيؤدي إلى نقل جميع الملفات المؤقتة من <b>%1</b> إلى <b>%2</b> ، و "
+"المؤقتة. سيؤدي إلى نقل جميع الملفات المؤقتة من <b>%1</b> إلى <b>%2</b>، و "
 "إعادة تحميل ملف المشروع"
 
 #: src/project/projectmanager.cpp:649
@@ -30030,7 +30030,7 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"لا يمكن العثور على %1 ، يرجى تثبيته على نظامك. \n"
+"لا يمكن العثور على %1، يرجى تثبيته على نظامك. \n"
 "إذا كان مثبت فعلاً، تحقق من تثبيته في دليل مدرج في متغير بيئة PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
@@ -30234,7 +30234,7 @@ msgstr "الوظيفة الأساسية لـ OpenTimelineIO"
 #: src/pythoninterfaces/otioconvertions.cpp:24
 #, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "دعم OpenTimelineIO كدنلايف"
+msgstr "إتاحة OpenTimelineIO كدنلايف"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -31091,7 +31091,7 @@ msgid ""
 msgstr ""
 "اكتشاف بعض الأخطاء في ملف المشروع. \n"
 "عُدّل المشروع لإصلاح التضاربات. جميع التغييرات التي أجريت على المشروع مسردة في "
-"علامة التبويب ملاحظات المشروع،\n"
+"لسان ملاحظات المشروع،\n"
 " يرجى مراجعتها لضمان سلامة مشروعك."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:629
@@ -31856,7 +31856,7 @@ msgstr "سرعة المقطع"
 #: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
-msgstr "يجب أن يكون MLT مصرّفًا بدعم rubberband لتفعيل تصحيح حدة الصّوت"
+msgstr "يجب أن يكون MLT مصرّفًا بـ rubberband لتفعيل تصحيح حدة الصّوت"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:46
 #, kde-format
@@ -32033,8 +32033,7 @@ msgstr "تلاشٍ للخارج: %1"
 #: src/timeline2/view/qml/Clip.qml:1442 src/timeline2/view/qml/Clip.qml:1549
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
-msgstr ""
-"<b> السحب </b> لضبط التلاشي ، <b>النقر</b> لإضافة تتلاشى المدة المبدئية"
+msgstr "<b> السحب </b> لضبط التلاشي، <b>النقر</b> لإضافة تتلاشى المدة المبدئية"
 
 #: src/timeline2/view/qml/Clip.qml:1538 src/timeline2/view/qml/Clip.qml:1545
 #, kde-format
@@ -32499,7 +32498,7 @@ msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
-"مطلوب مرشح avfilter.subtitles ، ولكن لم يعثر عليه. من المحتمل ألا تعمل ميزة "
+"مطلوب مرشح avfilter.subtitles، ولكن لم يعثر عليه. من المحتمل ألا تعمل ميزة "
 "الترجمة كما هو متوقع."
 
 #: src/timeline2/view/timelinecontroller.cpp:5233
@@ -34909,14 +34908,14 @@ msgid ""
 "Nvidia GPU Support button"
 msgstr ""
 "إذا لم تكن وحدة معالجة الرسومات إنفيديا الخاصة بك غير مدرجة في القائمة، "
-"فحاول تثبيت بديل باستخدام زر دعم وحدة معالجة الرسومات إنفيديا"
+"فحاول تثبيت بديل باستخدام زر إتاحة وحدة معالجة الرسومات إنفيديا"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
 #: src/ui/configspeech_ui.ui:538 src/ui/configspeech_ui.ui:766
 #, kde-format
 msgid "GPU Support"
-msgstr "دعم وحدة معالجة الرسومات"
+msgstr "إتاحة وحدة معالجة الرسومات"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
 #: src/ui/configspeech_ui.ui:547
