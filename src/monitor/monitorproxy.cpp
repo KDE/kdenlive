@@ -643,68 +643,48 @@ void MonitorProxy::terminateJob(const QString &uuid)
 
 void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int newPosition)
 {
+    std::shared_ptr<MarkerListModel> markerModel;
+
     if (q->m_id == int(Kdenlive::ClipMonitor)) {
         // For clip monitor, use the currently active clip
         auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
         if (!activeClip.isEmpty()) {
             auto clip = pCore->bin()->getBinClip(activeClip);
             if (clip) {
-                GenTime pos(position, pCore->getCurrentFps());
-                bool exists;
-                CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &exists);
-                if (exists && marker.hasRange()) {
-                    GenTime newDuration(duration, pCore->getCurrentFps());
-                    GenTime newStartTime;
-
-                    if (isStart) {
-                        if (newPosition != -1) {
-                            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
-                        } else {
-                            GenTime endTime = marker.endTime();
-                            newStartTime = endTime - newDuration;
-                        }
-                    } else {
-                        newStartTime = pos;
-                    }
-
-                    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
-                        newDuration = GenTime(1, pCore->getCurrentFps());
-                    }
-
-                    clip->getMarkerModel()->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
-                }
+                markerModel = clip->getMarkerModel();
             }
         }
-    } else if (q->m_id == int(Kdenlive::ProjectMonitor)) {
+    } else {
         // For project monitor, use the timeline guide model
         if (pCore->currentDoc()) {
-            auto guideModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
-            if (guideModel) {
-                GenTime pos(position, pCore->getCurrentFps());
-                bool exists;
-                CommentedTime marker = guideModel->getMarker(pos, &exists);
-                if (exists && marker.hasRange()) {
-                    GenTime newDuration(duration, pCore->getCurrentFps());
-                    GenTime newStartTime;
+            markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+        }
+    }
 
-                    if (isStart) {
-                        if (newPosition != -1) {
-                            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
-                        } else {
-                            GenTime endTime = marker.endTime();
-                            newStartTime = endTime - newDuration;
-                        }
-                    } else {
-                        newStartTime = pos;
-                    }
+    if (markerModel) {
+        GenTime pos(position, pCore->getCurrentFps());
+        bool exists;
+        CommentedTime marker = markerModel->getMarker(pos, &exists);
+        if (exists && marker.hasRange()) {
+            GenTime newDuration(duration, pCore->getCurrentFps());
+            GenTime newStartTime;
 
-                    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
-                        newDuration = GenTime(1, pCore->getCurrentFps());
-                    }
-
-                    guideModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+            if (isStart) {
+                if (newPosition != -1) {
+                    newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+                } else {
+                    GenTime endTime = marker.endTime();
+                    newStartTime = endTime - newDuration;
                 }
+            } else {
+                newStartTime = pos;
             }
+
+            if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+                newDuration = GenTime(1, pCore->getCurrentFps());
+            }
+
+            markerModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
         }
     }
 }
