@@ -518,6 +518,7 @@ Rectangle {
                     property real currentNewDuration: 0
                     
                     onPressed: {
+                        root.captureRightClick = true
                         isResizing = true
                         startX = mouseX
                         globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
@@ -556,6 +557,7 @@ Rectangle {
                             rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
                             markerBase.x = Qt.binding(function() { return (model.frame) * root.timeScale - ruler.rulerZoomOffset; })
                         }
+                        root.updateClickCapture()
                     }
                     
                     onCanceled: {
@@ -600,6 +602,7 @@ Rectangle {
                     property real lastUpdateTime: 0
                     
                     onPressed: {
+                        root.captureRightClick = true
                         isResizing = true
                         startX = mouseX
                         globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
@@ -634,6 +637,7 @@ Rectangle {
                             rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
                             markerEnd.x = Qt.binding(function() { return (model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset; })
                         }
+                        root.updateClickCapture()
                     }
                     
                     onCanceled: {
