@@ -432,15 +432,10 @@ void KeyframeContainer::slotRefreshParams()
         }
         i++;
     }
-    bool hasRotation = false;
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-        QString name = m_model->data(w.first, AssetParameterModel::NameRole).toString();
         if (type == ParamType::KeyframeParam) {
             (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
-            if (name == QLatin1String("rotation")) {
-                hasRotation = true;
-            }
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
@@ -464,7 +459,7 @@ void KeyframeContainer::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
-    if (m_monitorHelper && m_model->isActive() && (m_curveeditorcontainer->isEnabled() || hasRotation)) {
+    if (m_monitorHelper && m_model->isActive() && m_curveeditorcontainer->isEnabled()) {
         m_monitorHelper->refreshParams(pos);
     }
 }
