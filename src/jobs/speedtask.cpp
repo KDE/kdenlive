@@ -41,7 +41,7 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &destination, int in, 
 void SpeedTask::start(QObject *object, bool force)
 {
     Q_UNUSED(object)
-    std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     // Show config dialog
     QDialog d(qApp->activeWindow());
     d.setWindowTitle(i18nc("@title:window", "Clip Speed"));
