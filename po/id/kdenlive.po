@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-12 00:42+0000\n"
+"POT-Creation-Date: 2025-08-14 00:41+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -28251,7 +28251,7 @@ msgstr "Menuju ke Awal Klip"
 msgid "Go to mask end"
 msgstr "Menuju ke Akhir Klip"
 
-#: src/monitor/view/MonitorGeometryScene.qml:327
+#: src/monitor/view/MonitorGeometryScene.qml:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

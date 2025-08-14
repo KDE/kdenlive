@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-12 00:42+0000\n"
-"PO-Revision-Date: 2025-08-12 14:51+0300\n"
+"POT-Creation-Date: 2025-08-14 00:41+0000\n"
+"PO-Revision-Date: 2025-08-13 15:35+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1575,10 +1575,9 @@ msgid "Edge mode"
 msgstr "מצב קצוות"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:4
-#, fuzzy, kde-format
-#| msgid "Scopes"
+#, kde-format
 msgid "CIE Scope"
-msgstr "טווחים"
+msgstr "תחום CIE"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:5
 #, kde-format
@@ -1594,10 +1593,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color System"
-msgstr "מרחב צבעים"
+msgstr "מערכת צבע"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #, kde-format
@@ -6162,10 +6160,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level IN"
-msgstr "רמות"
+msgstr "רמה נכנסת"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:10
 #: data/effects/avfilter/avfilter_stereotools.xml:15
@@ -6176,17 +6173,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level OUT"
-msgstr "רמות"
+msgstr "רמה יוצאת"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
 #: data/effects/avfilter/avfilter_stereotools.xml:86
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Balance IN"
-msgstr "איזון"
+msgstr "איזון נכנס"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:19
 #: data/effects/avfilter/avfilter_stereotools.xml:23
@@ -6198,10 +6193,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Balance OUT"
-msgstr "איזון"
+msgstr "איזון יוצא"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:26
 #, fuzzy, kde-format
@@ -6801,16 +6795,14 @@ msgid "Deinterlace all frames,Marked as interlaced only"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
-#, fuzzy, kde-format
-#| msgid "Force Interlaced"
+#, kde-format
 msgid "Frames to deinterlace"
-msgstr "כפה סריקה שלובה"
+msgstr "תמוניות לביטול שזירה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Video Waveform Monitor"
-msgstr "מסנן צורת גל של שמע"
+msgstr "צג צורת גל של וידאו"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
 #, kde-format
@@ -6991,10 +6983,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_weave.xml:8
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Top,Bottom"
-msgstr "מלמעלה למטה"
+msgstr "למעלה,למטה"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
 #, fuzzy, kde-format
@@ -7104,10 +7095,9 @@ msgid "Render subtitles onto the video"
 msgstr "הוספת שעון תזמון על גבי הסרטון"
 
 #: data/effects/avfilter/subtitles.xml:8
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle file to apply"
-msgstr "קובץ כתוביות:"
+msgstr "קובץ כתוביות להחלה"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -7148,10 +7138,9 @@ msgid "Blur factor"
 msgstr "מקדם טשטוש"
 
 #: data/effects/brightness.xml:4
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgid "Intensity (Brightness)"
-msgstr "בהירות"
+msgstr "עוצמה (בהירות)"
 
 #: data/effects/brightness.xml:5
 #, kde-format
@@ -7718,10 +7707,9 @@ msgid "Invert rotation assignment"
 msgstr "היפוך הקצאת סיבוב"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:35
-#, fuzzy, kde-format
-#| msgid "Don't ask again"
+#, kde-format
 msgid "Don't blank mask"
-msgstr "לא לשאול שוב"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
@@ -7729,10 +7717,9 @@ msgid "Fill with image or black"
 msgstr "מילוי בתמונה או שחור"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Analog Video Echo"
-msgstr "סרטון מצגת שקופיות"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, fuzzy, kde-format
@@ -7741,10 +7728,9 @@ msgid "Create an analog video echo"
 msgstr "סרטון מצגת שקופיות"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Factor"
+#, kde-format
 msgid "Fade factor"
-msgstr "גורם"
+msgstr "מקדם עמעום"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
 #, fuzzy, kde-format
@@ -27426,7 +27412,7 @@ msgstr "מעבר לתחילת המסכה"
 msgid "Go to mask end"
 msgstr "מעבר לסוף המסכה"
 
-#: src/monitor/view/MonitorGeometryScene.qml:327
+#: src/monitor/view/MonitorGeometryScene.qml:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

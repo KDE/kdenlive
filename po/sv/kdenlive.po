@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-12 00:42+0000\n"
+"POT-Creation-Date: 2025-08-14 00:41+0000\n"
 "PO-Revision-Date: 2025-08-03 12:36+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -27965,7 +27965,7 @@ msgstr "Förflyttningsverktygsrad"
 #: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
 msgid "Generate Mask"
-msgstr "Generate mask"
+msgstr "Generera mask"
 
 #: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
@@ -28053,7 +28053,7 @@ msgstr "Gå till maskeringens början"
 msgid "Go to mask end"
 msgstr "Gå till maskeringens slut"
 
-#: src/monitor/view/MonitorGeometryScene.qml:327
+#: src/monitor/view/MonitorGeometryScene.qml:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
