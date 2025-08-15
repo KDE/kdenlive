@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:41+0000\n"
+"POT-Creation-Date: 2025-08-15 00:44+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -17630,40 +17630,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Esiasetuksen %1 lataaminen epäonnistui"
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Alusta tehoste oletuksiin"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, kde-format
 msgid "Save preset…"
 msgstr "Tallenna esiasetus…"
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, kde-format
 msgid "Update current preset"
 msgstr "Päivitä nykyinen esiasetus"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "Poista esiasetus"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Poistaa valitun esiasetuksen."
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, kde-format
 msgid "Save effect"
 msgstr "Tallenna tehoste"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -17671,7 +17671,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Anna esiasetuksen nimi"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -28984,18 +28984,18 @@ msgstr "SD/DVD"
 msgid "SD/DVD Widescreen"
 msgstr "SD/DVD Widescreen"
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Vakauta leike"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, kde-format
 msgid "Last setting"
 msgstr "Nykyiset asetukset"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"

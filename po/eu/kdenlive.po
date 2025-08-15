@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:41+0000\n"
+"POT-Creation-Date: 2025-08-15 00:44+0000\n"
 "PO-Revision-Date: 2025-08-13 23:50+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -17509,40 +17509,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "%1 aurrezarpena zamatzea huts egin du"
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Berrabiarazi Efektua"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, kde-format
 msgid "Save preset…"
 msgstr "Gorde aurrezarpena…"
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, kde-format
 msgid "Update current preset"
 msgstr "Eguneratu momentuko aurrezarpena"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "Ezabatu aurrezarpena"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Hautatutako aurrezarpena ezabatzen du."
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, kde-format
 msgid "Save effect"
 msgstr "Gorde efektua"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -17550,7 +17550,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Sartu Aurrezarpen Izena"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -28827,18 +28827,18 @@ msgstr "SD/DVD"
 msgid "SD/DVD Widescreen"
 msgstr "SD/DVD pantaila-zabala"
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Egonkortu Klipa"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, kde-format
 msgid "Last setting"
 msgstr "Azken ezarpenak"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"

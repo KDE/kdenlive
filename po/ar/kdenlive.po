@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:41+0000\n"
-"PO-Revision-Date: 2025-08-13 21:19+0400\n"
+"POT-Creation-Date: 2025-08-15 00:44+0000\n"
+"PO-Revision-Date: 2025-08-14 08:46+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -12813,8 +12813,8 @@ msgid ""
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
 "خط خريطة أساسي ثنائي الأبعاد (للموقع) أو رسم بياني أحادي الأبعاد لكل مرة "
-"(آخرون)، قم بتكبير الخريطة/الرسم البياني المتمركز حول الموقع الحالي، ارسم "
-"عداد السرعة"
+"(آخرون)، كبّر الخريطة/الرسم البياني المتمركز حول الموقع الحالي، ارسم عداد "
+"السرعة"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -14127,11 +14127,11 @@ msgid ""
 "case is to add effects in the following sequence: this effect, zero or more "
 "effects, mask_apply."
 msgstr ""
-"يقوم هذا المرشح بإجراء لقطة من الإطار قبل تطبيق اختيار مفتاح الصفاء اللوني "
-"للأطر الرئيسة مع خيارات أكثر تقدمًا (مثل نماذج الألوان المختلفة). استخدمه مع "
-"تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب صورة الإطار الحالي على "
-"اللقطة. تتمثل حالة الاستخدام النموذجية في إضافة تأثيرات في التسلسل التالي: "
-"هذا التأثير، صفر أو أكثر من التأثيرات، Mask_apply."
+"يأخذ هذا المرشح لقطة من الإطار قبل تطبيق اختيار مفتاح الصفاء اللوني للأطر "
+"الرئيسة مع خيارات أكثر تقدمًا (مثل نماذج الألوان المختلفة). استخدمه مع تأثير "
+"Mask_apply، الذي يستخدم عملية انتقال لتركيب صورة الإطار الحالي على اللقطة. "
+"تتمثل حالة الاستخدام النموذجية في إضافة تأثيرات في التسلسل التالي: هذا "
+"التأثير، صفر أو أكثر من التأثيرات، Mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
@@ -14147,11 +14147,10 @@ msgid ""
 "The typical use case is to add effects in the following sequence: this "
 "effect, zero or more effects, mask_apply."
 msgstr ""
-"يقوم هذا المرشح بإجراء لقطة من الإطار قبل تطبيق إسقاط بالاعتماد على متجه "
-"بالأطر الرئيسة. استخدمه مع تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب "
-"صورة الإطار الحالي على اللقطة. تتمثل حالة الاستخدام النموذجية في إضافة "
-"تأثيرات في التسلسل التالي: هذا التأثير، صفر أو أكثر من التأثيرات ، "
-"Mask_apply."
+"يأخذ هذا المرشح لقطة من الإطار قبل تطبيق إسقاط بالاعتماد على متجه بالأطر "
+"الرئيسة. استخدمه مع تأثير Mask_apply، الذي يستخدم عملية انتقال لتركيب صورة "
+"الإطار الحالي على اللقطة. تتمثل حالة الاستخدام النموذجية في إضافة تأثيرات في "
+"التسلسل التالي: هذا التأثير، صفر أو أكثر من التأثيرات ، Mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -17332,40 +17331,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "فشل تحميل الإعداد المسبق %1"
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "صفّر التّأثير"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, kde-format
 msgid "Save preset…"
 msgstr "احفظ الإعداد مسبق..."
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, kde-format
 msgid "Update current preset"
 msgstr "حدث الإعداد المسبق الحالي"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "احذف الإعداد المسبق"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "تحذف الإعداد المسبق المحدّدة الآن."
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, kde-format
 msgid "Save effect"
 msgstr "احفظ التّأثير"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -17373,7 +17372,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "أدخل اسم الإعداد المسبق"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -19239,7 +19238,7 @@ msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
-"الملفّ %1 موجود بالفعل.\n"
+"الملفّ %1 موجود فعلًا.\n"
 "أتريد الكتابة فوقه؟"
 
 #: src/bin/model/subtitlemodel.cpp:1610 src/titler/titlewidget.cpp:412
@@ -19318,7 +19317,7 @@ msgstr "غير صالح"
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
 msgid "File already exists"
-msgstr "الملفّ موجود بالفعل"
+msgstr "الملفّ موجود فعلًا"
 
 #: src/bin/projectclip.cpp:2584 src/bin/projectclip.cpp:2623
 #, kde-format
@@ -19905,7 +19904,7 @@ msgid ""
 msgstr ""
 "سيكون اسم ملف الإخراج هو نفس اسم ملف مقطع سلة المشروع المصدر، مع الامتداد "
 "المعدل. سيلحق في نهاية الوسائط أو إدراجه بدلاً من <b>{output}</b> إذا عثر "
-"عليه. إذا كان اسم ملف الإخراج موجودًا بالفعل، فسيلحق نمط -0001."
+"عليه. إذا كان اسم ملف الإخراج موجودًا فعلًا، فسيلحق نمط -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
@@ -19965,8 +19964,7 @@ msgstr "يفتقد تنفيذي"
 #: src/dialogs/clipjobmanager.cpp:261
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr ""
-"البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ، قم بتغيير الأذونات"
+msgstr "البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ،غيّر الأذونات"
 
 #: src/dialogs/clipjobmanager.cpp:289
 #, kde-format
@@ -20493,7 +20491,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"توجد تشكيلة بنفس الاسم بالفعل في تشكيلات MLT المبدئية، رجاء اختر وصفًا آخر "
+"توجد تشكيلة بنفس الاسم فعلًا في تشكيلات MLT المبدئية، رجاء اختر وصفًا آخر "
 "للاحتك المخصّصة."
 
 #: src/dialogs/profilesdialog.cpp:344
@@ -20817,7 +20815,7 @@ msgstr "تبديل الترميز"
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
-msgstr "الملفّ الخرج موجود بالفعل. أتريد الكتابة فوقه؟"
+msgstr "الملفّ الخرج موجود فعلًا. أتريد الكتابة فوقه؟"
 
 #: src/dialogs/renderwidget.cpp:843 src/monitor/recmanager.cpp:191
 #, kde-format
@@ -20839,7 +20837,7 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"هناك بالفعل مهمّة تكتب ملفّ:<br /><b>%1</b><br />أجهض المهمّة إن أردت الكتابة "
+"هناك فعلًا مهمّة تكتب ملفّ:<br /><b>%1</b><br />أجهض المهمّة إن أردت الكتابة "
 "فوقه…"
 
 #: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:1789
@@ -22232,7 +22230,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
-msgstr "يقوم بتبديل طراز التثخين للنص المحدد أو النص الذي يلي موضع المؤشر."
+msgstr "يبدل طراز الثخين للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:301
 #, kde-format
@@ -22245,7 +22243,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
-msgstr "يقوم بتبديل طراز الميلان للنص المحدد أو النص الذي يلي موضع المؤشر."
+msgstr "يبدل طراز الميلان للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:306
 #, kde-format
@@ -22258,7 +22256,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
-msgstr "يقوم بتبديل طراز التسطير للنص المحدد أو النص الذي يلي موضع المؤشر."
+msgstr "يبدل طراز التسطير للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:311
 #, kde-format
@@ -22271,7 +22269,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
-msgstr "يقوم بتبديل طراز الشطب للنص المحدد أو النص الذي يلي موضع المؤشر."
+msgstr "يبدل طراز الشطب للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
@@ -22429,7 +22427,7 @@ msgstr "خطأ"
 #: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name already exists."
-msgstr "اسم الطراز موجود بالفعل."
+msgstr "اسم الطراز موجود فعلًا."
 
 #: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
@@ -23230,7 +23228,7 @@ msgstr "صوت إضافي"
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "ملف الترجمة:<br/>%1<br/>موجود بالفعل. هل تريد الكتابة فوقه؟"
+msgstr "ملف الترجمة:<br/>%1<br/>موجود فعلًا. هل تريد الكتابة فوقه؟"
 
 #: src/doc/documentvalidator.cpp:2201 src/mainwindow.cpp:3546
 #, kde-format
@@ -24849,7 +24847,7 @@ msgstr "أدخل اسم المجلّد"
 #: src/library/librarywidget.cpp:397
 #, kde-format
 msgid "Folder %1 already exists"
-msgstr "المجلّد %1 موجود بالفعل"
+msgstr "المجلّد %1 موجود فعلًا"
 
 #: src/library/librarywidget.cpp:401
 #, kde-format
@@ -28636,18 +28634,18 @@ msgstr "SD/DVD"
 msgid "SD/DVD Widescreen"
 msgstr "SD/DVD شاشة عريضة"
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "وازن المقطع"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, kde-format
 msgid "Last setting"
 msgstr "أخر إعداد"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"
@@ -32389,7 +32387,7 @@ msgstr "عيّن مرجع الصوت قبل محاولة المحاذاة"
 #: src/timeline2/view/timelinecontroller.cpp:3606
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr "جميع التدفقات مسندة بالفعل، ألغ تحديد هدف صوتي آخر أولاً"
+msgstr "جميع التدفقات مسندة فعلًا، ألغ تحديد هدف صوتي آخر أولاً"
 
 #: src/timeline2/view/timelinecontroller.cpp:3765
 #, kde-format

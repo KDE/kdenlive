@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:41+0000\n"
+"POT-Creation-Date: 2025-08-15 00:44+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -17360,32 +17360,32 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "A eșuat crearea fișierului."
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Reinițializează efectul"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Save preset…"
 msgstr "Salvează marcajele"
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Update current preset"
 msgstr "Configurări curente"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Delete preset"
 msgstr "Șterge proxy-urile"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, fuzzy, kde-kuit-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -17393,13 +17393,13 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Șterge clipul ales"
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "Salvează efectul"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, fuzzy, kde-format
@@ -17408,7 +17408,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Introduceți o valoare Unicod"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -29268,20 +29268,20 @@ msgstr "NTSC 16:9"
 msgid "SD/DVD Widescreen"
 msgstr ""
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, fuzzy, kde-format
 #| msgid "Stabilize Clip"
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Stabilizează clipul"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Last setting"
 msgstr "Configurări curente"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, fuzzy, kde-format
 #| msgid "Stabilize clip"
 msgctxt "Description"
