@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 20:25+0000\n"
+"POT-Creation-Date: 2025-08-15 02:58+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -17357,45 +17357,45 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Ní féidir comhad %1 a oscailt"
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Athshocraigh an Mhaisíocht"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Save preset…"
 msgstr "Sábháil marcóirí"
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, fuzzy, kde-format
 #| msgid "Current Settings"
 msgid "Update current preset"
 msgstr "Socraithe Reatha"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:299
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:299
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Delete preset"
 msgstr "Scrios an Phróifíl"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, fuzzy, kde-kuit-format
 #| msgid "Delete Selected Item"
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, fuzzy, kde-format
@@ -17404,7 +17404,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ainm na próifíle"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -29105,20 +29105,20 @@ msgstr ""
 msgid "SD/DVD Widescreen"
 msgstr ""
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, fuzzy, kde-format
 #| msgid "Title"
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Teideal"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Last setting"
 msgstr "Socruithe"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, fuzzy, kde-format
 #| msgid "Title"
 msgctxt "Description"

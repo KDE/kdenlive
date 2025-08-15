@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 20:25+0000\n"
-"PO-Revision-Date: 2025-07-27 23:10+0200\n"
+"POT-Creation-Date: 2025-08-15 02:58+0000\n"
+"PO-Revision-Date: 2025-08-09 13:52+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2395,6 +2395,8 @@ msgstr "Distanza in centimetri"
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"Imposta la distanza in cm. Si tratta della distanza di compensazione per la "
+"regolazione della distanza di serraggio."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
@@ -5821,7 +5823,7 @@ msgstr "Regola CMYK"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
 msgid "Apply CMYK correction to specific color ranges"
-msgstr "Applica la correzione CMYK ad intervalli specifici di colori"
+msgstr "Applica la correzione CMYK ad intervalli di colori specifici"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, kde-format
@@ -5902,7 +5904,7 @@ msgstr "Imposta intervallo"
 #: data/effects/avfilter/avfilter_setrange.xml:5
 #, kde-format
 msgid "Force color range for the output video frame"
-msgstr "Forza l'intervallo del colore per il fotogramma dell'uscita video"
+msgstr "Forza l'intervallo di colori per il fotogramma dell'uscita video"
 
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
@@ -7008,10 +7010,9 @@ msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[Imposta la modalità di visualizzazione]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:30
-#, fuzzy, kde-format
-#| msgid "None,Y,U,YU,V,YV,UV,All"
+#, kde-format
 msgid "Y,U,YU,V,YV,UV,All"
-msgstr "Nessuno,Y,U,YU,V,YV,UV,Tutti"
+msgstr "Y,U,YU,V,YV,UV,Tutti"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -9136,6 +9137,8 @@ msgstr "Analizza"
 msgid ""
 "<![CDATA[Switch on for analysis phase; switch off for stabilization phase.]]>"
 msgstr ""
+"<![CDATA[Attivare per la fase di analisi; disattivare per quella di "
+"stabilizzazione.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
 #, kde-format
@@ -9171,7 +9174,7 @@ msgstr "Raggio campione di analisi"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
 msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
-msgstr ""
+msgstr "<![CDATA[Il raggio del quadrato che lo stabilizzatore campionerà]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #, kde-format
@@ -9182,6 +9185,8 @@ msgstr "Raggio di ricerca analisi"
 #, kde-format
 msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
 msgstr ""
+"<![CDATA[La quantità massima di movimento che lo stabilizzatore è in grado "
+"di rilevare]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, kde-format
@@ -9189,10 +9194,9 @@ msgid "Analysis offset"
 msgstr "Scostamento analisi"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[The distance between the track points]]>"
-msgstr "<![CDATA[Distanza in pixel tra le linee verticali]]>"
+msgstr "<![CDATA[La distanza tra i punti di tracciamento]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -9220,6 +9224,10 @@ msgid ""
 "    \t100% means that the stabilizer will make the camera as steady as it "
 "can. Smaller values reduce the amount of stabilization.]]>"
 msgstr ""
+"<![CDATA[La quantità di stabilizzazione da applicare.<br>\n"
+"    \t100% significa che lo stabilizzatore renderà la fotocamera il più "
+"stabile possibile. Valori inferiori riducono il livello di "
+"stabilizzazione.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
@@ -10136,6 +10144,8 @@ msgid ""
 "<![CDATA[Horizontal center position<br>\n"
 "        of the linear area (% of total width)]]>"
 msgstr ""
+"<![CDATA[Posizione centrale orizzontale<br>\n"
+"        dell'area lineare (% della larghezza totale)]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
 #, kde-format
@@ -10153,10 +10163,9 @@ msgid "Linear Scale Factor"
 msgstr "Linear Scale Factor (fattore di scala lineare)"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr "<![CDATA[La quantità di particelle di polvere sull'immagine]]>"
+msgstr "<![CDATA[Di quanto viene ridimensionata l'area lineare]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, kde-format
@@ -11477,10 +11486,9 @@ msgstr "Oscilloscopio (avanzato)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:8
 #: data/effects/frei0r/frei0r_pr0file.xml:9
-#, fuzzy, kde-format
-#| msgid "Logo X Position"
+#, kde-format
 msgid "Profile X Position"
-msgstr "Posizione X del logo"
+msgstr "Posizione X del profilo"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:9
 #: data/effects/frei0r/frei0r_pr0file.xml:10
@@ -11490,10 +11498,9 @@ msgstr "<![CDATA[Coordinata X del profilo]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:12
 #: data/effects/frei0r/frei0r_pr0file.xml:13
-#, fuzzy, kde-format
-#| msgid "Logo Y Position"
+#, kde-format
 msgid "Profile Y Position"
-msgstr "Posizione Y del logo"
+msgstr "Posizione Y del profilo"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:13
 #: data/effects/frei0r/frei0r_pr0file.xml:14
@@ -11503,10 +11510,9 @@ msgstr "<![CDATA[Coordinata Y del profilo]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Tilt"
-msgstr "Profilo"
+msgstr "Inclinazione del profilo"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:17
 #: data/effects/frei0r/frei0r_pr0file.xml:18
@@ -13342,10 +13348,9 @@ msgid "Gradient Map"
 msgstr "Mappa sfumature"
 
 #: data/effects/gradientmap.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Apply a gradient map to the video"
-msgstr "Sovrapponi il testo relativo al GPS sul video."
+msgstr "Applica una mappa di gradiente al video"
 
 #: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
 #: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
@@ -14772,10 +14777,9 @@ msgid "Width of Line"
 msgstr "Spessore della riga"
 
 #: data/effects/scratchlines.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the scope display]]>"
+#, kde-format
 msgid "<![CDATA[Width on the line in the clip]]>"
-msgstr "<![CDATA[Larghezza del visore]]>"
+msgstr "<![CDATA[Larghezza sulla linea nella clip]]>"
 
 #: data/effects/scratchlines.xml:12
 #, kde-format
@@ -14783,10 +14787,9 @@ msgid "Max Number of Lines"
 msgstr "Numero massimo di righe"
 
 #: data/effects/scratchlines.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[Maximum number of lines in the clip]]>"
-msgstr "<![CDATA[La quantità di particelle di polvere sull'immagine]]>"
+msgstr "<![CDATA[Numero massimo di righe nella clip]]>"
 
 #: data/effects/scratchlines.xml:16
 #, kde-format
@@ -17217,40 +17220,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Impossibile caricare la preimpostazione %1"
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Ripristina effetto"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, kde-format
 msgid "Save preset…"
 msgstr "Salva preimpostazione..."
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, kde-format
 msgid "Update current preset"
 msgstr "Aggiorna l'attuale preimpostazione"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:299
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:299
 #, kde-format
 msgid "Delete preset"
 msgstr "Elimina preimpostazione"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Elimina la preselezione attualmente selezionata."
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, kde-format
 msgid "Save effect"
 msgstr "Salva effetto"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -17258,7 +17261,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Inserisci il nome della preimpostazione"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -17642,10 +17645,9 @@ msgid "Gradient Fill"
 msgstr "Riempimento a sfumatura"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
-#, fuzzy, kde-format
-#| msgid "Show channels"
+#, kde-format
 msgid "Show Block Lines"
-msgstr "Mostra i canali"
+msgstr "Mostra linee di blocco"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
 #, kde-format
@@ -18432,7 +18434,7 @@ msgstr "Aggiungi clip titolatrice…"
 #: src/bin/bin.cpp:3695
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Aggiungi modello di titolo…"
+msgstr "Aggiungi titolo del modello…"
 
 #: src/bin/bin.cpp:3697
 #, kde-format
@@ -19743,7 +19745,7 @@ msgstr "Crea clip di testo"
 #: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
-msgstr "Modello di clip titolatrice"
+msgstr "Clip da titolo del modello"
 
 #: src/dialogs/clipjobmanager.cpp:25
 #, kde-format
@@ -24351,7 +24353,7 @@ msgstr "Estrai audio"
 #: src/kdenliveui.rc:96 src/mainwindow.cpp:3913
 #, kde-format
 msgid "Clip Jobs"
-msgstr "Processi sulla clip"
+msgstr "Processi sulle clip"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:110
@@ -26173,16 +26175,14 @@ msgid "Align Audio to Reference"
 msgstr "Allinea l'audio al riferimento"
 
 #: src/mainwindow.cpp:1768
-#, fuzzy, kde-format
-#| msgid "Set Audio Reference"
+#, kde-format
 msgid "Set Timecode Reference"
-msgstr "Imposta riferimento audio"
+msgstr "Imposta riferimento codice temporale"
 
 #: src/mainwindow.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Align Audio to Reference"
+#, kde-format
 msgid "Align Timecode to Reference"
-msgstr "Allinea l'audio al riferimento"
+msgstr "Allinea il codice temporale al riferimento"
 
 #: src/mainwindow.cpp:1775
 #, kde-format
@@ -27058,7 +27058,7 @@ msgstr "Applica"
 #: src/mltcontroller/clippropertiescontroller.cpp:628
 #, kde-format
 msgid "Disable autorotate"
-msgstr "Disabilita auto-rotazione"
+msgstr "Disabilita rotazione automatica"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:643
 #, kde-format
@@ -27167,7 +27167,7 @@ msgstr "Completa (JPEG)"
 #: src/mltcontroller/clippropertiescontroller.cpp:775
 #, kde-format
 msgid "Color range:"
-msgstr "Intervallo di colore:"
+msgstr "Intervallo di colori:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:780
 #, kde-format
@@ -28614,18 +28614,18 @@ msgstr "SD/DVD"
 msgid "SD/DVD Widescreen"
 msgstr "SD/DVD a schermo largo"
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Stabilizza clip"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, kde-format
 msgid "Last setting"
 msgstr "Ultima impostazione"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"
@@ -29662,10 +29662,10 @@ msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Riassegna data e ora selezionate alla clip del contenitore corrente"
 
 #: src/project/notesplugin.cpp:161
-#, fuzzy, kde-format
-#| msgid "Reassign selected timecodes to current Bin clip"
+#, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
-msgstr "Riassegna data e ora selezionate alla clip del contenitore corrente"
+msgstr ""
+"Riassegna data e ora selezionate alla clip della linea temporale corrente"
 
 #: src/project/notesplugin.cpp:165
 #, kde-format
@@ -32434,10 +32434,10 @@ msgid "No timecode for clip"
 msgstr "Nessun codice temporale per la clip"
 
 #: src/timeline2/view/timelinecontroller.cpp:3472
-#, fuzzy, kde-format
-#| msgid "Set audio reference before attempting to align"
+#, kde-format
 msgid "Set timecode reference before attempting to align"
-msgstr "Imposta riferimento audio prima di provare ad allineare"
+msgstr ""
+"Imposta il riferimento al codice temporale prima di provare ad allineare"
 
 #: src/timeline2/view/timelinecontroller.cpp:3606
 #, kde-format
@@ -33869,7 +33869,7 @@ msgstr "Nome della cartella"
 #: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Custom clip jobs"
-msgstr "Processi sulla clip personalizzati"
+msgstr "Processi sulle clip personalizzati"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
 #: src/ui/clipjobmanager_ui.ui:375
@@ -37425,7 +37425,7 @@ msgstr "Dimensione file"
 #: src/ui/textbasededit_ui.ui:86
 #, kde-format
 msgid "Selected zone only"
-msgstr "Seleziona solo la zona"
+msgstr "Solo la zona selezionata"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:106

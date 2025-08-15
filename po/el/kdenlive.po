@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 20:25+0000\n"
+"POT-Creation-Date: 2025-08-15 02:58+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -17260,31 +17260,31 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Αποτυχία δημιουργίας αρχείου."
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Επαναφορά εφέ"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, fuzzy, kde-format
 msgid "Save preset…"
 msgstr "Διαγραφή δείκτη"
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Update current preset"
 msgstr "Τρέχουσες ρυθμίσεις"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:299
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:299
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Delete preset"
 msgstr "Διαγραφή διαμεσολαβητών"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, fuzzy, kde-kuit-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -17292,12 +17292,12 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, kde-format
 msgid "Save effect"
 msgstr "Αποθήκευση εφέ"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, fuzzy, kde-format
@@ -17306,7 +17306,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Εισάγετε όνομα ακολουθίας"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -29019,19 +29019,19 @@ msgstr "NTSC 16:9"
 msgid "SD/DVD Widescreen"
 msgstr ""
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Σταθεροποίηση κλιπ"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Last setting"
 msgstr "Τρέχουσες ρυθμίσεις"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, fuzzy, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"

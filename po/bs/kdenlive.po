@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 20:25+0000\n"
+"POT-Creation-Date: 2025-08-15 02:58+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -16850,32 +16850,32 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Kreiranje datoteke nije uspjelo."
 
-#: src/assets/view/assetparameterview.cpp:54
+#: src/assets/view/assetparameterview.cpp:53
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restartuj efekat"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:55
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Save preset…"
 msgstr "Sačuvaj obilježivač"
 
-#: src/assets/view/assetparameterview.cpp:57
+#: src/assets/view/assetparameterview.cpp:56
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Update current preset"
 msgstr "Trenutna podešavanja"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:60 src/ui/renderwidget_ui.ui:299
+#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:299
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Delete preset"
 msgstr "Izbriši proxies"
 
-#: src/assets/view/assetparameterview.cpp:61
+#: src/assets/view/assetparameterview.cpp:60
 #, fuzzy, kde-kuit-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -16883,13 +16883,13 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Obriši odabrani snimak"
 
-#: src/assets/view/assetparameterview.cpp:78
+#: src/assets/view/assetparameterview.cpp:77
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "Sačuvaj efekat"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, fuzzy, kde-format
@@ -16898,7 +16898,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unesi ime sekvence"
 
-#: src/assets/view/assetparameterview.cpp:373
+#: src/assets/view/assetparameterview.cpp:372
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1440
 #, kde-format
@@ -28769,20 +28769,20 @@ msgstr "NTSC 16:9"
 msgid "SD/DVD Widescreen"
 msgstr ""
 
-#: src/project/clipstabilize.cpp:36
+#: src/project/clipstabilize.cpp:34
 #, fuzzy, kde-format
 #| msgid "Stabilize Clip"
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Stabiliziraj snimak"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:50
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Last setting"
 msgstr "Trenutna podešavanja"
 
-#: src/project/clipstabilize.cpp:87
+#: src/project/clipstabilize.cpp:85
 #, fuzzy, kde-format
 #| msgid "Stabilize clip"
 msgctxt "Description"
