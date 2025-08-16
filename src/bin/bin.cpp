@@ -523,6 +523,36 @@ public:
         return false;
     }
 
+    bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override
+    {
+        // We override this function to show custom tooltips for audio/video drag areas and usage icons.
+
+        // Preserve default behavior...
+        // ... for non-tooltip events
+        if (event->type() != QEvent::ToolTip) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+        // ... for non-clip/subclip/subsequence items
+        int itemType = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (itemType != AbstractProjectItem::ClipItem && itemType != AbstractProjectItem::SubClipItem && itemType != AbstractProjectItem::SubSequenceItem) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+
+        // Show custom tooltips when over audio/video drag areas
+        const QPoint pos = event->pos();
+        if (m_audioDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only audio to timeline"), view);
+            return true;
+        }
+        if (m_videoDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only video to timeline"), view);
+            return true;
+        }
+
+        // Otherwise, show default tooltip
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (!index.data().isNull()) {
