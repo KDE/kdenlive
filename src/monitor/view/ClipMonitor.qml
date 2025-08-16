@@ -714,6 +714,10 @@ Item {
                         target: null
                         enabled: false
                     }
+                    ToolTip {
+                        visible: videoDragButton.hovered
+                        text: i18n("Drag to add only video to timeline")
+                    }
                 }
                 ToolButton {
                     id: audioDragButton
@@ -747,6 +751,10 @@ Item {
                         acceptedButtons: Qt.LeftButton
                         target: null
                         enabled: false
+                    }
+                    ToolTip {
+                        visible: audioDragButton.hovered
+                        text: i18n("Drag to add only audio to timeline")
                     }
                 }
             }

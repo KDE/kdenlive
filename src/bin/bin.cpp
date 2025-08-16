@@ -79,12 +79,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QCryptographicHash>
 #include <QDrag>
 #include <QFile>
+#include <QHelpEvent>
 #include <QMenu>
 #include <QMimeData>
 #include <QSlider>
 #include <QStyledItemDelegate>
 #include <QTimeLine>
 #include <QToolBar>
+#include <QToolTip>
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
@@ -158,6 +160,41 @@ public:
         event->ignore();
         return false;
     }
+
+    bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override
+    {
+        // We override this function to show custom tooltips for audio/video drag areas inside of the name column.
+
+        // Preserve default behavior...
+        // ... for non-name column
+        if (index.column() != 0 || !index.isValid()) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+        // ... for non-tooltip events
+        if (event->type() != QEvent::ToolTip) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+        // ... for non-clip/subclip/subsequence items
+        int itemType = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (itemType != AbstractProjectItem::ClipItem && itemType != AbstractProjectItem::SubClipItem && itemType != AbstractProjectItem::SubSequenceItem) {
+            return QStyledItemDelegate::helpEvent(event, view, option, index);
+        }
+
+        // Show custom tooltips when over audio/video drag areas
+        const QPoint pos = event->pos();
+        if (m_audioDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only audio to timeline"), view);
+            return true;
+        }
+        if (m_videoDragRect.contains(pos)) {
+            QToolTip::showText(event->globalPos(), i18n("Drag to add only video to timeline"), view);
+            return true;
+        }
+
+        // Otherwise, show default tooltip
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() != 0) {
