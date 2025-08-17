@@ -184,7 +184,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     m_warningMessage->setWordWrap(true);
     m_warningMessage->hide();
     m_tabWidget = new QTabWidget(this);
-    m_tabWidget->setDocumentMode(true);
+    m_tabWidget->setDocumentMode(false);
     m_tabWidget->setTabPosition(QTabWidget::East);
     m_tabWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     lay->addWidget(m_tabWidget);
