@@ -586,10 +586,10 @@ bool ClipController::hasProducerProperty(const QString &name) const
 
 QString ClipController::getProducerProperty(const QString &name) const
 {
-    QReadLocker lock(&m_producerLock);
     if (m_properties == nullptr) {
         return m_tempProps.value(name).toString();
     }
+    QReadLocker lock(&m_producerLock);
     if (m_usesProxy && name.startsWith(QLatin1String("meta."))) {
         QString correctedName = QStringLiteral("kdenlive:") + name;
         return m_properties->get(correctedName.toUtf8().constData());
