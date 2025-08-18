@@ -35532,7 +35532,7 @@ msgstr "أخرى"
 #: src/ui/editrenderpreset_ui.ui:1019
 #, kde-format
 msgid "Speed options:"
-msgstr "خيارات السّرعة:"
+msgstr "خيارات السرعة:"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, speeds_list)
 #: src/ui/editrenderpreset_ui.ui:1026
@@ -36931,7 +36931,7 @@ msgstr ""
 #: src/ui/renderwidget_ui.ui:717
 #, kde-format
 msgid "Speed:"
-msgstr "السّرعة:"
+msgstr "السرعة:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

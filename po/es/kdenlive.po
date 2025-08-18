@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-15 02:58+0000\n"
-"PO-Revision-Date: 2025-07-14 01:37+0100\n"
+"PO-Revision-Date: 2025-08-17 11:40+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2700,7 +2700,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dcshift.xml:10
 #, kde-format
 msgid "DC shift"
-msgstr "Desplazamiento de CC"
+msgstr "Desfasaje de CC"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:7
 #, kde-format
@@ -2711,13 +2711,13 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
-"Permite aplicar un desplazamiento de corriente continua (CC) al audio de un "
-"clip.\n"
-"Esto podrá resultar útil para eliminar un desplazamiento de corriente "
-"continua (causado por un problema de hardware en la cadena de grabación).\n"
-"El efecto de un desplazamiento de este tipo será una reducción de espacio y "
-"por lo tanto del volumen. El filtro 'astats' podrá ser usado para determinar "
-"si una señal presenta un desplazamiento de CC."
+"Permite aplicar un desplazamiento a la fase del audio de un clip.\n"
+"Esto podrá resultar útil para eliminar un desfasaje de corriente continua "
+"(causado por un problema de hardware en la cadena de grabación).\n"
+"El efecto de este tipo de problema sobre una señal de audio viene "
+"caracterizado por una reducción del espacio restante y por lo tanto del "
+"rango dinámico de la misma. El efecto 'astats' podrá ser usado para "
+"determinar si una señal presenta o no un desfasaje de CC."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:11
 #, kde-format
@@ -2725,13 +2725,13 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
-"Establece el desplazamiento de CC, el rango permitido es de -1 a 1. Indica "
-"la magnitud del desplazamiento del audio."
+"Establece el grado de desplazamiento a ser aplicado a la fase de la señal, "
+"el rango permitido es de -1 a 1."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
 msgid "Limiter gain"
-msgstr "Ganancia de limitador"
+msgstr "Ganancia del limitador"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:15
 #, kde-format
@@ -3540,7 +3540,7 @@ msgid ""
 "Detect and draw edges. The filter uses the Canny Edge Detection algorithm. "
 msgstr ""
 "Permite detectar bordes en la imagen de un clip y dibujar líneas sobre "
-"ellos. El filtro usar el algoritmo de detección de bordes Canny. "
+"ellos. El filtro usar el algoritmo de detección de bordes de Canny. "
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
 #, kde-format
@@ -3555,7 +3555,7 @@ msgstr "Umbral superior"
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
 #, kde-format
 msgid "Wires,Colormix,Canny"
-msgstr "Alambres,Mezcla de color,Astuto"
+msgstr "Alambres,Mezcla de color,Canny"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
 #, kde-format
@@ -4783,19 +4783,19 @@ msgstr ""
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
 msgid "Interleave - Deinterleave"
-msgstr "Entrelazar - Desentrelazar"
+msgstr "Intercalar - Entresacar"
 
 #: data/effects/avfilter/avfilter_il.xml:5
 #, kde-format
 msgid "Deinterleave or interleave fields"
-msgstr "Permite entrelazar o desentrelazar los campos de la imagen de un clip"
+msgstr "Permite entresacar o intercalar campos de la imagen de un clip"
 
 #: data/effects/avfilter/avfilter_il.xml:8
 #: data/effects/avfilter/avfilter_il.xml:12
 #: data/effects/avfilter/avfilter_il.xml:16
 #, kde-format
 msgid "None,Deinterleave,Interleave"
-msgstr "Nada,Desentrelazar,Entrelazar"
+msgstr "Nada,Entresacar,Intercalar"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #, kde-format
@@ -6403,10 +6403,10 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
-"lado a lado (paralelo),lado a lado (cruzado),arriba-abajo (izq arriba),"
-"arriba-abajo (der arriba),filas entrelazadas (izq arriba),filas entrelazadas "
-"(der arriba),columnas entrelazadas (ojo izq primero),columnas entrelazadas "
-"(ojo der primero)"
+"lado a lado (paralelas),lado a lado (cruzadas),arriba-abajo (izq arriba),"
+"arriba-abajo (der arriba),filas intercaladas (izq arriba),filas intercaladas "
+"(der arriba),columnas intercaladas (izq primero),columnas intercaladas (der "
+"primero)"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
@@ -6427,17 +6427,17 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
-"lado a lado (paralelo),lado a lado (cruzado),arriba-abajo (izq arriba),"
-"arriba-abajo (der arriba),filas entrelazadas (izq arriba),filas entrelazadas "
+"lado a lado (paralelas),lado a lado (cruzadas),arriba-abajo (izq arriba),"
+"arriba-abajo (der arriba),filas intercaladas (izq arriba),filas intercaladas "
 "(der arriba),anaglifo rojo/azul gris,anaglifo rojo/verde gris,anaglifo rojo/"
-"cian gris,anaglifo rojo/cian coloreado medio,anaglifo rojo/cian coloreado,"
+"cian gris,anaglifo rojo/cian semi coloreado,anaglifo rojo/cian coloreado,"
 "anaglifo rojo/cian dubois,anaglifo verde/magenta gris,anaglifo verde/magenta "
-"coloreado medio,anaglifo verde/magenta coloreado,anaglifo verde/magenta "
-"dubois,anaglifo amarillo/azul gris,anaglifo amarillo/azul coloreado medio,"
+"semi coloreado,anaglifo verde/magenta coloreado,anaglifo verde/magenta "
+"dubois,anaglifo amarillo/azul gris,anaglifo amarillo/azul semi coloreado,"
 "anaglifo amarillo/azul coloreado,anaglifo amarillo/azul dubois,salida mono "
-"izq,salida mono der,damero (ojo izq primero),damero (ojo der primero),"
-"columnas entrelazadas (ojo izq primero),columnas entrelazadas (ojo der "
-"primero),paquete de fotogramas HDMI"
+"izq,salida mono der,damero (izq primero),damero (der primero),columnas "
+"intercaladas (izq primero),columnas intercaladas (der primero),paquete de "
+"fotogramas HDMI"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
