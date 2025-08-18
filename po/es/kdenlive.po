@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-15 00:44+0000\n"
-"PO-Revision-Date: 2025-08-14 20:25+0100\n"
+"POT-Creation-Date: 2025-08-18 00:41+0000\n"
+"PO-Revision-Date: 2025-08-17 11:39+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2628,7 +2628,7 @@ msgstr "Mostrar ejes"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
-#: src/assets/view/widgets/keyframecontainer.cpp:632
+#: src/assets/view/widgets/keyframecontainer.cpp:627
 #: src/widgets/geometrywidget.cpp:146
 #, kde-format
 msgid "Opacity"
@@ -2700,7 +2700,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dcshift.xml:10
 #, kde-format
 msgid "DC shift"
-msgstr "Desplazamiento de CC"
+msgstr "Desfasaje de CC"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:7
 #, kde-format
@@ -2711,13 +2711,13 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
-"Permite aplicar un desplazamiento de corriente continua (CC) al audio de un "
-"clip.\n"
-"Esto podrá resultar útil para eliminar un desplazamiento de corriente "
-"continua (causado por un problema de hardware en la cadena de grabación).\n"
-"El efecto de un desplazamiento de este tipo será una reducción de espacio y "
-"por lo tanto del volumen. El filtro 'astats' podrá ser usado para determinar "
-"si una señal presenta un desplazamiento de CC."
+"Permite aplicar un desplazamiento a la fase del audio de un clip.\n"
+"Esto podrá resultar útil para eliminar un desfasaje de corriente continua "
+"(causado por un problema de hardware en la cadena de grabación).\n"
+"El efecto de este tipo de problema sobre una señal de audio viene "
+"caracterizado por una reducción del espacio restante y por lo tanto del "
+"rango dinámico de la misma. El efecto 'astats' podrá ser usado para "
+"determinar si una señal presenta o no un desfasaje de CC."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:11
 #, kde-format
@@ -2725,13 +2725,13 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
-"Establece el desplazamiento de CC, el rango permitido es de -1 a 1. Indica "
-"la magnitud del desplazamiento del audio."
+"Establece el grado de desplazamiento a ser aplicado a la fase de la señal, "
+"el rango permitido es de -1 a 1."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
 msgid "Limiter gain"
-msgstr "Ganancia de limitador"
+msgstr "Ganancia del limitador"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:15
 #, kde-format
@@ -3469,7 +3469,7 @@ msgstr "<![CDATA[Distancia desde el borde superior de la imagen, en píxeles]]>"
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:280
 #: src/assets/view/widgets/keyframecontainer.cpp:336
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3485,7 +3485,7 @@ msgstr "<![CDATA[Distancia entre las líneas verticales, en píxeles]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:279
 #: src/assets/view/widgets/keyframecontainer.cpp:330
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -3540,7 +3540,7 @@ msgid ""
 "Detect and draw edges. The filter uses the Canny Edge Detection algorithm. "
 msgstr ""
 "Permite detectar bordes en la imagen de un clip y dibujar líneas sobre "
-"ellos. El filtro usar el algoritmo de detección de bordes Canny. "
+"ellos. El filtro usar el algoritmo de detección de bordes de Canny. "
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
 #, kde-format
@@ -3555,7 +3555,7 @@ msgstr "Umbral superior"
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
 #, kde-format
 msgid "Wires,Colormix,Canny"
-msgstr "Líneas,Mezcla de color,Perceptivo"
+msgstr "Líneas,Mezcla de color,Canny"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
 #, kde-format
@@ -4783,19 +4783,19 @@ msgstr ""
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
 msgid "Interleave - Deinterleave"
-msgstr "Entrelazar - Desentrelazar"
+msgstr "Intercalar - Entresacar"
 
 #: data/effects/avfilter/avfilter_il.xml:5
 #, kde-format
 msgid "Deinterleave or interleave fields"
-msgstr "Permite entrelazar o desentrelazar los campos de la imagen de un clip"
+msgstr "Permite entresacar o intercalar campos de la imagen de un clip"
 
 #: data/effects/avfilter/avfilter_il.xml:8
 #: data/effects/avfilter/avfilter_il.xml:12
 #: data/effects/avfilter/avfilter_il.xml:16
 #, kde-format
 msgid "None,Deinterleave,Interleave"
-msgstr "Nada,Desentrelazar,Entrelazar"
+msgstr "Nada,Entresacar,Intercalar"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #, kde-format
@@ -6406,8 +6406,8 @@ msgid ""
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
 "lado a lado (paralelas),lado a lado (cruzadas),arriba-abajo (izq arriba),"
-"arriba-abajo (der arriba),filas entrelazadas (izq arriba),filas entrelazadas "
-"(der arriba),columnas entrelazadas (izq primero),columnas entrelazadas (der "
+"arriba-abajo (der arriba),filas intercaladas (izq arriba),filas intercaladas "
+"(der arriba),columnas intercaladas (izq primero),columnas intercaladas (der "
 "primero)"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
@@ -6430,7 +6430,7 @@ msgid ""
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
 "lado a lado (paralelas),lado a lado (cruzadas),arriba-abajo (izq arriba),"
-"arriba-abajo (der arriba),filas entrelazadas (izq arriba),filas entrelazadas "
+"arriba-abajo (der arriba),filas intercaladas (izq arriba),filas intercaladas "
 "(der arriba),anaglifo rojo/azul gris,anaglifo rojo/verde gris,anaglifo rojo/"
 "cian gris,anaglifo rojo/cian semi coloreado,anaglifo rojo/cian coloreado,"
 "anaglifo rojo/cian dubois,anaglifo verde/magenta gris,anaglifo verde/magenta "
@@ -6438,7 +6438,7 @@ msgstr ""
 "dubois,anaglifo amarillo/azul gris,anaglifo amarillo/azul semi coloreado,"
 "anaglifo amarillo/azul coloreado,anaglifo amarillo/azul dubois,salida mono "
 "izq,salida mono der,damero (izq primero),damero (der primero),columnas "
-"entrelazadas (izq primero),columnas entrelazadas (der primero),paquete de "
+"intercaladas (izq primero),columnas intercaladas (der primero),paquete de "
 "fotogramas HDMI"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
@@ -16416,7 +16416,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:282
 #: src/assets/view/widgets/keyframecontainer.cpp:342
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #, kde-format
 msgid "X position"
 msgstr "Posición X"
@@ -16424,7 +16424,7 @@ msgstr "Posición X"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:348
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #, kde-format
 msgid "Y position"
 msgstr "Posición Y"
@@ -17728,7 +17728,7 @@ msgstr ""
 "actuales de los parámetros, en caso de que no haya claves seleccionados."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:998
+#: src/assets/view/widgets/keyframecontainer.cpp:993
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Pegar clave"
@@ -17819,40 +17819,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Seleccionar parámetros a copiar"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:903
+#: src/assets/view/widgets/keyframecontainer.cpp:898
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Claves copiados"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:914
-#: src/assets/view/widgets/keyframecontainer.cpp:955
-#: src/assets/view/widgets/keyframecontainer.cpp:962
+#: src/assets/view/widgets/keyframecontainer.cpp:909
+#: src/assets/view/widgets/keyframecontainer.cpp:950
+#: src/assets/view/widgets/keyframecontainer.cpp:957
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "No hay datos válidos de claves en el portapapeles"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1006
+#: src/assets/view/widgets/keyframecontainer.cpp:1001
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "No es posible copiar los valores actuales de los parámetros"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1011
-#: src/assets/view/widgets/keyframecontainer.cpp:1022
+#: src/assets/view/widgets/keyframecontainer.cpp:1006
+#: src/assets/view/widgets/keyframecontainer.cpp:1017
 #, kde-format
 msgid "Current values copied"
 msgstr "Valores actuales copiados"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1029
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "No hay datos de claves en el portapapeles"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1115
+#: src/assets/view/widgets/keyframecontainer.cpp:1110
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "No es posible eliminar el último clave"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1127
+#: src/assets/view/widgets/keyframecontainer.cpp:1122
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
