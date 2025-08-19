@@ -296,7 +296,7 @@ bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
         return false;
     }
     CommentedTime current = marker(pos);
-    Fun local_undo = addMarker_lambda(pos, current.comment(), current.markerType());
+    Fun local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), nullptr);
     Fun local_redo = deleteMarker_lambda(pos);
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -348,17 +348,56 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = true;
-    if (oldPos != pos) {
-        res = removeMarker(oldPos, undo, redo);
-    }
+
+    CommentedTime oldState = current;
+    int mid = getIdFromPos(oldPos);
+    Q_ASSERT(mid != -1);
+
+    Fun local_undo = [this, oldPos, oldState, mid]() {
+        int oldFrame = m_markerList[mid].time().frames(pCore->getCurrentFps());
+        m_markerPositions.remove(oldFrame);
+        removeSnapPoint(m_markerList[mid].time());
+
+        m_markerPositions.insert(oldPos.frames(pCore->getCurrentFps()), mid);
+        m_markerList[mid] = oldState;
+        addSnapPoint(oldPos);
+
+        int row = getRowfromId(mid);
+        Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
+        return true;
+    };
+
+    Fun local_redo = [this, oldPos, pos, comment, type, duration, mid]() {
+        int row = getRowfromId(mid);
+
+        if (oldPos != pos) {
+            m_markerPositions.remove(oldPos.frames(pCore->getCurrentFps()));
+            m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
+            removeSnapPoint(oldPos);
+            addSnapPoint(pos);
+        }
+
+        m_markerList[mid].setTime(pos);
+        m_markerList[mid].setComment(comment);
+        m_markerList[mid].setMarkerType(type);
+        m_markerList[mid].setDuration(duration);
+
+        Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
+        return true;
+    };
+
+    res = local_redo();
     if (res) {
-        res = addRangeMarker(pos, duration, comment, type, undo, redo);
-    }
-    if (res) {
-        PUSH_UNDO(undo, redo, i18n("Edit marker"));
-    } else {
-        bool undone = undo();
-        Q_ASSERT(undone);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        QString undoText;
+        if (oldPos != pos) {
+            undoText = i18n("Move marker");
+        } else if (current.duration() != duration) {
+            undoText = i18n("Resize marker");
+        } else {
+            undoText = i18n("Edit marker");
+        }
+        PUSH_UNDO(undo, redo, undoText);
     }
     return res;
 }
