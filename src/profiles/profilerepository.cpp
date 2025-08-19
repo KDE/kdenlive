@@ -16,11 +16,10 @@
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
 std::once_flag ProfileRepository::m_onceFlag;
-std::vector<std::pair<int, QString>> ProfileRepository::colorProfiles{{601, QStringLiteral("ITU-R BT.601")},
-                                                                      {709, QStringLiteral("ITU-R BT.709")},
-                                                                      {240, QStringLiteral("SMPTE ST240")},
-                                                                      {9, QStringLiteral("ITU-R BT.2020")},
-                                                                      {10, QStringLiteral("ITU-R BT.2020")}};
+std::vector<std::pair<int, QString>> ProfileRepository::colorProfiles{{601, QStringLiteral("ITU-R BT.601")},       {709, QStringLiteral("ITU-R BT.709")},
+                                                                      {240, QStringLiteral("SMPTE ST240")},        {170, QStringLiteral("SMPTE ST170")},
+                                                                      {2020, QStringLiteral("ITU-R BT.2020 NCL")}, {2021, QStringLiteral("ITU-R BT.2020 CL")},
+                                                                      {470, QStringLiteral("ITU-R BT.470 BG")}};
 
 ProfileRepository::ProfileRepository()
 {

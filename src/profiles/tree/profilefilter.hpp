@@ -34,6 +34,9 @@ public:
      */
     bool isVisible(const QModelIndex &sourceIndex);
 
+    /** @brief Set a string search */
+    void slotSetSearchString(const QString &str);
+
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
@@ -43,6 +46,7 @@ private:
 
     bool m_interlaced_enabled;
     bool m_interlaced_value;
+    QString m_searchString;
 
     bool m_fps_enabled;
     double m_fps_value;

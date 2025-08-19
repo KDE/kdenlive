@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="gradientmap" id="gradientmap">
+    <name>Gradient Map</name>
+    <description>Apply a gradient map to the video</description>
+    <author>Martin Rodriguez Reboredo</author>
+    <parameter type="color" name="stop.1" default="#ff000000 0.0">
+        <name>Color 1</name>
+        <comment><![CDATA[]]></comment>
+    </parameter>
+    <parameter type="color" name="stop.2" default="#ffffffff 1.0">
+        <name>Color 2</name>
+        <comment><![CDATA[]]></comment>
+    </parameter>
+</effect>

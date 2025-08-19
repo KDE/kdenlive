@@ -25,14 +25,23 @@ public:
     ~TranscodeSeek() override;
 
     enum HWENCODINGFMT { None, Nvidia, Vaapi };
-    void addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message);
+    struct TranscodeInfo
+    {
+        QString url;
+        ClipType::ProducerType type;
+        std::pair<int, int> fps_info;
+        QString vCodec;
+    };
+    void addUrl(const QString &id, TranscodeSeek::TranscodeInfo info, const QString &suffix, const QString &message);
     QMap<QString,QStringList>  ids() const;
-    QString params(std::shared_ptr<ProjectClip> clip, int clipType, std::pair<int, int> fps_info) const;
+    QString params(const QString &cid) const;
     QString params(int clipType, std::pair<int, int> fps_info) const;
     QString preParams() const;
-    
+    TranscodeSeek::TranscodeInfo info(const QString &id) const;
+
 private:
     QMap<QString, QString> m_encodeParams;
+    QMap<QString, TranscodeInfo> m_clipInfos;
     bool profileMatches(const QString &profileString, HWENCODINGFMT fmt);
     HWENCODINGFMT formatForProfile(const QString &profileString);
 };

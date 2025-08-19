@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "25")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MINOR "11")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -131,7 +131,7 @@ find_package(Qt${QT_MAJOR_VERSION}
     NetworkAuth
     SvgWidgets
     Xml
-#    Test
+    # Test
 )
 
 if(USE_DBUS)
@@ -149,12 +149,11 @@ set_package_properties(MLT PROPERTIES DESCRIPTION "Multimedia framework"
 message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
 # LibAV
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
-    libavformat
-    libavcodec
-    libswresample
-    libavutil
+find_package(FFmpeg REQUIRED COMPONENTS
+    AVFORMAT
+    AVCODEC
+    SWRESAMPLE
+    AVUTIL
 )
 
 # OpenTimelineIO

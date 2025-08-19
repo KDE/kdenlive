@@ -188,11 +188,13 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     Q_EMIT pCore->loadingMessageNewStage(i18n("Upgrading project version…"), 0);
     // The document is too new
     if (version > currentVersion) {
-        qCCritical(KDENLIVE_LOG) << "Unable to open document with version " << version << "because it is newer than what this Kdenlive release supports (" << currentVersion << ")";
-        KMessageBox::error(
-            QApplication::activeWindow(),
-            i18n("This project is unsupported because its document version (%1) is new than what this Kdenlive release supports (version %2 and older).\nPlease consider upgrading your Kdenlive version.", version, currentVersion),
-            i18n("Unable to open project"));
+        qCCritical(KDENLIVE_LOG) << "Unable to open document with version " << version << "because it is newer than what this Kdenlive release supports ("
+                                 << currentVersion << ")";
+        KMessageBox::error(QApplication::activeWindow(),
+                           i18n("This project is unsupported because its document version (%1) is new than what this Kdenlive release supports (version %2 and "
+                                "older).\nPlease consider upgrading your Kdenlive version.",
+                                version, currentVersion),
+                           i18n("Unable to open project"));
         return false;
     }
 

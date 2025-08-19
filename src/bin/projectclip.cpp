@@ -22,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
 #include "model/markersortmodel.h"
@@ -56,15 +57,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
 #include <rttr/registration>
 
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+
 RTTR_REGISTRATION
 {
     using namespace rttr;
@@ -699,6 +706,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (!waitForTranscode) {
         checkProxy(rebuildProxy);
     }
+    if (pCore->window()) {
+        Q_EMIT pCore->window()->enableUndo(true);
+    }
     return true;
 }
 
@@ -882,7 +892,6 @@ int ProjectClip::getStartTimecode()
     }
 
     recTime = getStartTCFromProperties();
-    recTime = qMax(recTime, 0);
 
     // cache the value in a kdenlive property
     m_masterProducer->set("kdenlive:record_start_frame", recTime);
@@ -1848,7 +1857,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
             ProxyTask::start(oid, this);
         } else {
+            if (pCore->window()) {
+                // Disable undo / redo while a clip is loading, else we could attempt operations on a clip not completely loaded
+                QMetaObject::invokeMethod(pCore->window(), "enableUndo", Qt::QueuedConnection, Q_ARG(bool, false));
+            }
             reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
+            if (!refreshOnly) {
+                return;
+            }
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
@@ -2027,7 +2043,7 @@ const QVariant ProjectClip::getData(DataType type) const
         if (m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
             return QVariant("emblem-warning");
         }
-        return m_effectStack && m_effectStack->hasEffects() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
+        return m_effectStack && m_effectStack->hasEffects() > 0 ? QVariant("tools-wizard") : QVariant();
     default:
         return AbstractProjectItem::getData(type);
     }
@@ -2574,6 +2590,40 @@ void ProjectClip::replaceInTimeline()
     }
 }
 
+void ProjectClip::limitMaxDuration(int maxDuration)
+{
+    if (!hasLimitedDuration()) {
+        return;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool pushUndo = false;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    QMap<QUuid, std::pair<int, int>> sequencesToUpdate;
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
+            if (!timeline) {
+                if (pCore->projectItemModel()->closing) {
+                    break;
+                }
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
+            }
+            for (auto &cid : instances) {
+                if (timeline->limitClipMaxDuration(cid, maxDuration, undo, redo)) {
+                    pushUndo = true;
+                }
+            }
+        }
+    }
+    if (pushUndo) {
+        pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+}
+
 int ProjectClip::lastBound()
 {
     return 0;
@@ -2702,6 +2752,12 @@ QVector<int16_t> ProjectClip::audioFrameCache(const int streamIdx) const
 
 void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
 {
+    if (status == FileStatus::StatusMissing && hasProxy()) {
+        // Proxy is broken. revert to original url
+        setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        setProducerProperty(QStringLiteral("resource"), getProducerProperty("kdenlive:originalurl"));
+        status = FileStatus::StatusReady;
+    }
     FileStatus::ClipStatus previousStatus = m_clipStatus;
     AbstractProjectItem::setClipStatus(status);
     updateTimelineClips({TimelineModel::StatusRole});
@@ -2943,6 +2999,10 @@ void ProjectClip::setInvalid()
 {
     m_isInvalid = true;
     m_producerLock.unlock();
+    // In case the undo system was disabled on clip reload
+    if (pCore->window()) {
+        Q_EMIT pCore->window()->enableUndo(true);
+    }
 }
 
 void ProjectClip::updateProxyProducer(const QString &path)
@@ -3044,9 +3104,17 @@ void ProjectClip::removeSequenceWarpResources() {}
 std::pair<int, int> ProjectClip::fpsInfo() const
 {
     if (m_clipStatus == FileStatus::StatusReady) {
+        return fpsInfo(m_masterProducer);
+    }
+    return pCore->getProjectFpsInfo();
+}
+
+std::pair<int, int> ProjectClip::fpsInfo(std::shared_ptr<Mlt::Producer> producer)
+{
+    if (producer) {
         std::vector<int> allowedfps = {0, 1, 2, 125, 1001};
-        int fps_num = m_masterProducer->get_int("meta.media.frame_rate_num");
-        int fps_den = m_masterProducer->get_int("meta.media.frame_rate_den");
+        int fps_num = producer->get_int("meta.media.frame_rate_num");
+        int fps_den = producer->get_int("meta.media.frame_rate_den");
         if (std::find(allowedfps.begin(), allowedfps.end(), fps_den) == allowedfps.end()) {
             // This is not an allowed fps_den, adjust
             double target_fps = double(fps_num) / fps_den;

@@ -142,6 +142,7 @@ public:
     /** @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
     const QString getAssetMltId();
+    const QString getAssetMltService();
     void setActive(bool active);
     bool isActive() const;
 

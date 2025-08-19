@@ -19,7 +19,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include <KIO/RenameDialog>
 #include <KMessageBox>
-#include <QFontDatabase>
 #include <QPushButton>
 #include <memory>
 #include <mlt++/Mlt.h>
@@ -31,7 +30,6 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     , m_vbox(nullptr)
     , m_assetModel(nullptr)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18nc("@title:window", "Stabilize Clip"));
     // QString stylesheet = EffectStackView2::getStyleSheet();

@@ -3,17 +3,22 @@
 <effect tag="wave" id="wave">
     <name context="Wave Effect Name">Wave</name>
     <description>Make waves on your clip with keyframes</description>
-    <author>Leny Grisel</author>
+    <author>Leny Grisel, Jean-Baptiste Mardelle</author>
+<!--
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+parameters not supported anymore
     <parameter type="animated" name="start" max="100" min="0" default="10">
         <name>Amplitude</name>
     </parameter>
     <parameter type="animated" name="end" max="100" min="1" default="10">
         <name>End Amplitude</name>
     </parameter>
-    <parameter type="animated" name="wave" max="100" min="1" default="10">
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-->
+    <parameter type="animated" name="wave" max="1000" min="1" default="10">
         <name>Wave Amplitude</name>
     </parameter>
-    <parameter type="animated" name="speed" max="100" min="0" default="5">
+    <parameter type="animated" name="speed" max="1000" min="0" default="5">
         <name>Speed</name>
     </parameter>
     <parameter type="bool" name="deformX" default="1">

@@ -443,7 +443,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     m_autoSaveChangeCount = 0;
     if ((m_project != nullptr) && m_project->isModified() && saveChanges) {
         QString message;
-        if (m_project->url().fileName().isEmpty()) {
+        if (m_project->url().isEmpty()) {
             message = i18n("Save changes to document?");
         } else {
             message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName());
@@ -1740,39 +1740,50 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended
     bool saveInTempFile = false;
-    if (m_project && m_project->isModified()) {
-        switch (KMessageBox::warningTwoActionsCancel(pCore->window(),
-                                                     i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?",
-                                                          m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()),
-                                                     {}, KStandardGuiItem::save(), KStandardGuiItem::dontSave())) {
-        case KMessageBox::PrimaryAction:
-            // save document here. If saving fails, return false;
-            if (!saveFile()) {
-                Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
-                return;
-            }
-            break;
-        case KMessageBox::Cancel:
-            Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
-            return;
-            break;
-        default:
-            saveInTempFile = true;
-            break;
-        }
-    }
-
+    qDebug() << "::: INIT PROJECT CHANGE....";
     if (!m_project) {
         Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
         return;
+    }
+    qDebug() << "::: INIT PROJECT CHANGE....STEP 2: " << m_project->url();
+    if (m_project && m_project->isModified()) {
+        // Save the project in a tmp file to convert
+        if (!m_project->url().isEmpty()) {
+            switch (KMessageBox::warningTwoActionsCancel(
+                pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName()), {},
+                KStandardGuiItem::save(), KStandardGuiItem::dontSave())) {
+            case KMessageBox::PrimaryAction:
+                // save document here. If saving fails, return false;
+                if (!saveFile()) {
+                    Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+                    return;
+                }
+                break;
+            default:
+                saveInTempFile = true;
+                break;
+            }
+        } else {
+            saveInTempFile = true;
+        }
     }
     QString currentFile = m_project->url().toLocalFile();
 
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
     QString convertedFile = QStringUtils::appendToFilename(currentFile, QStringLiteral("-%1").arg(int(newProfile->fps() * 100)));
-    QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
+    QString saveFolder =
+        m_project->url().isEmpty() ? QDir::tempPath() : m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
+    QTemporaryFile tmpFile2(saveFolder + "/kdenlive-XXXXXX.mlt");
+    if (saveInTempFile && m_project->url().isEmpty()) {
+        if (!tmpFile2.open()) {
+            // Something went wrong
+            Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+            return;
+        }
+        convertedFile = tmpFile2.fileName();
+    }
     if (saveInTempFile) {
         // Save current playlist in tmp file
         if (!tmpFile.open()) {
@@ -1826,39 +1837,44 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         QDomElement e = playlists.at(i).toElement();
         if (e.attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
             Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.profile"), updatedProfile);
-            // Update guides
-            const QString &guidesData = Xml::getXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"));
-            if (!guidesData.isEmpty()) {
-                // Update guides position
-                auto json = QJsonDocument::fromJson(guidesData.toUtf8());
-
-                QJsonArray updatedList;
-                if (json.isArray()) {
-                    auto list = json.array();
-                    for (const auto &entry : std::as_const(list)) {
-                        if (!entry.isObject()) {
-                            qDebug() << "Warning : Skipping invalid marker data";
-                            continue;
-                        }
-                        auto entryObj = entry.toObject();
-                        if (!entryObj.contains(QLatin1String("pos"))) {
-                            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
-                            continue;
-                        }
-                        int pos = qRound(double(entryObj[QLatin1String("pos")].toInt()) * fpsRatio);
-                        QJsonObject currentMarker;
-                        currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
-                        currentMarker.insert(QLatin1String("comment"), entryObj[QLatin1String("comment")]);
-                        currentMarker.insert(QLatin1String("type"), entryObj[QLatin1String("type")]);
-                        updatedList.push_back(currentMarker);
-                    }
-                    QJsonDocument updatedJSon(updatedList);
-                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"), QString::fromUtf8(updatedJSon.toJson()));
-                }
-            }
             break;
         }
     }
+    QDomNodeList tractors = doc.documentElement().elementsByTagName(QStringLiteral("tractor"));
+    // Update guides
+    for (int i = 0; i < tractors.count(); ++i) {
+        QDomElement e = tractors.at(i).toElement();
+        const QString &guidesData = Xml::getXmlProperty(e, QStringLiteral("kdenlive:sequenceproperties.guides"));
+        if (!guidesData.isEmpty()) {
+            // Update guides position
+            auto json = QJsonDocument::fromJson(guidesData.toUtf8());
+
+            QJsonArray updatedList;
+            if (json.isArray()) {
+                auto list = json.array();
+                for (const auto &entry : std::as_const(list)) {
+                    if (!entry.isObject()) {
+                        qDebug() << "Warning : Skipping invalid marker data";
+                        continue;
+                    }
+                    auto entryObj = entry.toObject();
+                    if (!entryObj.contains(QLatin1String("pos"))) {
+                        qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
+                        continue;
+                    }
+                    int pos = qRound(double(entryObj[QLatin1String("pos")].toInt()) * fpsRatio);
+                    QJsonObject currentMarker;
+                    currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                    currentMarker.insert(QLatin1String("comment"), entryObj[QLatin1String("comment")]);
+                    currentMarker.insert(QLatin1String("type"), entryObj[QLatin1String("type")]);
+                    updatedList.push_back(currentMarker);
+                }
+                QJsonDocument updatedJSon(updatedList);
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:sequenceproperties.guides"), QString::fromUtf8(updatedJSon.toJson()));
+            }
+        }
+    }
+
     QDomNodeList producers = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
@@ -1899,14 +1915,16 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
             Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getCurrentTimeline()->controller()->framesToClock(length));
         }
     }
-    if (QFile::exists(convertedFile)) {
+    QFile file(convertedFile);
+    bool temporaryProjectFile = QFileInfo(file).dir() == QDir::temp();
+    if (!temporaryProjectFile && file.exists()) {
         if (KMessageBox::warningTwoActions(qApp->activeWindow(), i18n("Output file %1 already exists.\nDo you want to overwrite it?", convertedFile), {},
                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
     }
-    QFile file(convertedFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", convertedFile));
         return;
     }
     QTextStream out(&file);
@@ -1922,6 +1940,9 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         QFile(currentFile + QStringLiteral(".ass")).copy(convertedFile + QStringLiteral(".ass"));
     }
     openFile(QUrl::fromLocalFile(convertedFile));
+    if (temporaryProjectFile) {
+        m_project->setUrl(QUrl());
+    }
     Q_EMIT pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }
 

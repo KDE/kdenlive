@@ -32,6 +32,7 @@ class MarkerListModel : public QAbstractListModel, public enable_shared_from_thi
     Q_OBJECT
 
     friend class ClipController;
+    friend class KdenliveDoc;
 
 public:
     /** @brief Construct a marker list bound to the bin clip with given id */

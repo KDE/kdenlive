@@ -9,7 +9,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include <QSlider>
 #include <QWidget>
 
 namespace Mlt {
@@ -20,14 +19,7 @@ class MixerWidget;
 class QHBoxLayout;
 class TimelineItemModel;
 class QScrollArea;
-
-/** MySlider class is only here to get the slider handle size used when painting the audio level scale */
-class MySlider : public QSlider
-{
-public:
-    explicit MySlider(QWidget *parent = nullptr);
-    int getHandleHeight();
-};
+class QFrame;
 
 class MixerManager : public QWidget
 {
@@ -71,10 +63,12 @@ Q_SIGNALS:
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
+    std::unordered_map<int, QWidget *> m_separators;
     std::shared_ptr<MixerWidget> m_masterMixer;
     QSize sizeHint() const override;
 
 private:
+    QWidget *m_masterSeparator; // Separator between master and tracks
     std::shared_ptr<Mlt::Tractor> m_masterService;
     std::shared_ptr<TimelineItemModel> m_model;
     QHBoxLayout *m_box;
@@ -87,5 +81,4 @@ private:
     int m_recommendedWidth;
     int m_monitorTrack;
     bool m_filterIsV2;
-    int m_sliderHandle;
 };

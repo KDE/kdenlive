@@ -41,7 +41,7 @@ private:
     QAction *m_aRec709;
     QActionGroup *m_agRec;
 
-    static const QSize m_textWidth;
+    int m_textWidth;
     static const int m_paddingBottom;
 
     QImage m_waveform;

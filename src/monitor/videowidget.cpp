@@ -1324,6 +1324,9 @@ bool VideoWidget::updateScaling()
 {
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
+    case 1:
+        previewHeight = qMin(previewHeight, 1080);
+        break;
     case 2:
         previewHeight = qMin(previewHeight, 720);
         break;

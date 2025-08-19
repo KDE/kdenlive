@@ -243,6 +243,7 @@ public:
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
     Q_INVOKABLE int copyItem();
+    void cutItem();
     std::pair<int, QString> getCopyItemData();
     Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
@@ -467,6 +468,8 @@ public:
 
     Q_INVOKABLE void setAudioRef(int clipId = -1);
     Q_INVOKABLE void alignAudio(int clipId = -1);
+    Q_INVOKABLE void setTimecodeRef(int clipId = -1);
+    Q_INVOKABLE void alignTimecode(int clipId = -1);
     Q_INVOKABLE void urlDropped(QStringList droppedFile, int frame, int tid);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
@@ -642,6 +645,7 @@ public:
     bool refreshIfVisible(int cid);
     /** @brief Collapse / expand active track */
     void collapseActiveTrack();
+    void collapseAllTracks();
     /** @brief Expand MLT playlist to its contained clips/compositions */
     void expandActiveClip();
     /** @brief Retrieve a list of possible audio stream targets */
@@ -760,7 +764,8 @@ private:
     bool m_usePreview;
     int m_audioTarget;
     int m_videoTarget;
-    int m_audioRef;
+    int m_audioRef{-1};
+    int m_timecodeRef{-1};
     int m_timelineMouseOffset{0};
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};

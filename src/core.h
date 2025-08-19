@@ -352,6 +352,8 @@ public:
     std::pair<QString, int> getSelectedClipAndOffset();
     /** @brief Get the current offset for active timeline */
     int currentTimelineOffset();
+    /** HW decoder changed */
+    void updateHwDecoding();
 
 private:
     explicit Core(LinuxPackageType packageType);
@@ -475,6 +477,8 @@ Q_SIGNALS:
     void clipInstanceResized(const QString &binId);
     /** @brief Contains the project audio levels */
     void audioLevelsAvailable(const QVector<double> &levels);
+    /** @brief Audio levels config changed, update audio level widgets */
+    void audioLevelsConfigChanged();
     /** @brief A frame was displayed in monitor, update audio mixer */
     void updateMixerLevels(int pos);
     /** @brief Audio recording was started or stopped*/

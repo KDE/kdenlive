@@ -44,7 +44,7 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, cons
 
 void CustomJobTask::start(QObject *object, const QString &jobId)
 {
-    std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     QMap<QString, QString> jobData = ClipJobManager::getJobParameters(jobId);
     if (jobData.size() < 4) {
         qDebug() << ":::: INVALID JOB DATA FOR: " << jobId << "\n____________________";

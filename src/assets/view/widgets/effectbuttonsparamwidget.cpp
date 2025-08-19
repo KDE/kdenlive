@@ -19,7 +19,8 @@ EffectButtonsParamWidget::EffectButtonsParamWidget(std::shared_ptr<AssetParamete
     qDebug() << "====== \nFOUND PARAME NAMES: " << buttonNames;
     const QStringList comments = m_model->data(m_index, AssetParameterModel::CommentRole).toString().split(QLatin1Char(';'));
     const QStringList icons = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
-    // setToolTip(comment);
+    // Discard default tooltip
+    setToolTip(QString());
     QStringList bNames = buttonNames.split(QLatin1Char(';'));
     int ix = 0;
     for (auto &b : bNames) {

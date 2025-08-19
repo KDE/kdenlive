@@ -71,7 +71,8 @@ Or install the dependencies explicitly:
 ```bash
 # Qt6 modules
 sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev \
-qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop
+qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop \
+qt6-declarative-private-dev
 
 # KDE Frameworks 6, based on Qt6
 sudo apt install kf6-breeze-icon-theme libkf6archive-dev libkf6bookmarks-dev \
@@ -80,6 +81,9 @@ libkf6crash-dev libkf6dbusaddons-dev libkf6doctools-dev libkf6filemetadata-dev \
 libkf6guiaddons-dev libkf6iconthemes-dev libkf6kio-dev libkf6newstuff-dev \
 libkf6notifications-dev libkf6notifyconfig-dev libkf6purpose-dev \
 libkf6solid-dev libkf6textwidgets-dev libkf6widgetsaddons-dev libkf6xmlgui-dev
+
+# KDE Style Breeze
+sudo apt install kde-style-breeze
 
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg mediainfo

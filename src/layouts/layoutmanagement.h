@@ -18,7 +18,7 @@ class QAction;
 class QButtonGroup;
 class QAbstractButton;
 class QHBoxLayout;
-class QFrame;
+class QLabel;
 class LayoutSwitcher;
 
 class LayoutManagement : public QObject
@@ -47,6 +47,8 @@ private Q_SLOTS:
     void hideAutoSave();
     /** @brief Show the autosave indicator for 2 seconds. */
     void startAutoSave();
+    /** @brief Update Layout Switcher container palette on palette/theme change. */
+    void slotUpdatePalette();
 
 private:
     /** @brief Saves the given layout asking the user for a name.
@@ -57,9 +59,13 @@ private:
     std::pair<QString, QString> saveLayout(const QString &layout, const QString &suggestedName);
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
+    /** @brief Updates the autosave icon with highlight color. */
+    void updateAutosaveIcon();
     QWidget *m_container;
+    QWidget *m_autosaveContainer;
+    QWidget *m_switcherContainer;
     LayoutSwitcher *m_layoutSwitcher;
-    QFrame *m_autosaveLabel{nullptr};
+    QLabel *m_autosaveLabel;
     QTimer m_autosaveDisplayTimer;
     KSelectAction *m_loadLayout;
     QList<QAction *> m_layoutActions;

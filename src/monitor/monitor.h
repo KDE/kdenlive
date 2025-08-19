@@ -187,8 +187,8 @@ public:
     MaskModeType::MaskCreationMode maskMode();
     /** @brief Update the preview mask properties */
     void updatePreviewMask();
-    /** @brief Monitor active property changed, update timecode color */
-    void activeChanged();
+    /** @brief Apply timecode display styling based on current active state */
+    void applyTimecodeDisplayStyling();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -280,6 +280,7 @@ private:
     bool m_dirty{false};
     QMutex m_openMutex;
     QString m_activeControllerId;
+    QTimer m_preventSleepTimer;
 
 protected:
     void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant(), bool resetProperties = false);
@@ -320,6 +321,8 @@ private Q_SLOTS:
     void addControlPoint(double x, double y, bool extend, bool exclude);
     void moveControlPoint(int ix, double x, double y);
     void addControlRect(double x, double y, double width, double height, bool extend);
+    /** @brief Check if powermanagement sleep should be inhibited*/
+    void updatePowerManagement();
 
 public Q_SLOTS:
     void updateTimelineProducer();

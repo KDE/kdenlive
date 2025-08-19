@@ -162,6 +162,7 @@ private:
     QPointF m_sceneClickPoint;
     TITLETOOL m_tool{TITLE_RECTANGLE};
     QPointF m_clickPoint;
+    QPointF m_dragPoint;
     int m_fontSize;
     int m_gridSize{20};
     bool m_createdText{false};

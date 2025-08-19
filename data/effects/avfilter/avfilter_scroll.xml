@@ -5,15 +5,15 @@
     <description>Pick median pixel from certain rectangle defined by radius.</description>
     <author>libavfilter</author>
     <parameter type="animated" name="av.h" min="-1000" max="1000" default="0" factor="1000">
-        <name>Horizontal scrolling speed</name>
+        <name>Horizontal Scrolling Speed</name>
     </parameter>
     <parameter type="animated" name="av.v" min="-1000" max="1000" default="0" factor="1000">
-        <name>Vertical scrolling speed</name>
+        <name>Vertical Scrolling Speed</name>
     </parameter>
     <parameter type="animated" name="av.hpos" min="0" max="%width" default="0" factor="%width">
-        <name>Initial horizontal position</name>
+        <name>Initial Horizontal Position</name>
     </parameter>
     <parameter type="animated" name="av.vpos" min="0" max="%height" default="0" factor="%height">
-        <name>Initial vertical position</name>
+        <name>Initial Vertical Position</name>
     </parameter>
 </effect>

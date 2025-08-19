@@ -17,17 +17,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFont>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QVBoxLayout>
 
-MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
+MonitorAudioLevel::MonitorAudioLevel(QWidget *parent)
     : ScopeWidget(parent)
     , audioChannels(2)
-    , m_height(height)
-    , m_channelHeight(height / 2)
-    , m_channelDistance(1)
-    , m_channelFillHeight(m_channelHeight)
 {
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setFixedHeight(height()); // Fixed height for QToolbar to prevent expansion
     isValid = true;
+    m_audioLevelWidget = std::make_unique<AudioLevelWidget>(this, Qt::Horizontal, AudioLevel::TickLabelsMode::HideIfSpaceIsLimited);
+    auto *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(m_audioLevelWidget.get());
     connect(this, &MonitorAudioLevel::audioLevelsAvailable, this, &MonitorAudioLevel::setAudioValues);
 }
 
@@ -67,151 +69,29 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
     }
 }
 
-void MonitorAudioLevel::resizeEvent(QResizeEvent *event)
-{
-    drawBackground(m_peaks.size());
-    ScopeWidget::resizeEvent(event);
-}
-
 void MonitorAudioLevel::refreshPixmap()
 {
-    drawBackground(m_peaks.size());
+    if (m_audioLevelWidget) m_audioLevelWidget->refreshPixmap();
 }
 
-void MonitorAudioLevel::drawBackground(int channels)
-{
-    if (height() == 0) {
-        return;
-    }
-    QSize newSize = QWidget::size();
-    if (!newSize.isValid()) {
-        return;
-    }
-    QFont ft = font();
-    ft.setPixelSize(newSize.height() / 3);
-    setFont(ft);
-    int textHeight = fontMetrics().ascent();
-    newSize.setHeight(newSize.height() - textHeight);
-    // Channel labels are horizontal along the bottom.
-    QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
-    int dbLabelCount = dbscale.size();
-    m_maxDb = dbscale.first();
-    QLinearGradient gradient(0, 0, newSize.width(), 0);
-    double gradientVal = 0.;
-    gradient.setColorAt(gradientVal, Qt::darkGreen);
-    gradientVal = IEC_ScaleMax(-12, m_maxDb);
-    gradient.setColorAt(gradientVal, Qt::green); // -12db, green
-    gradientVal = IEC_ScaleMax(-8, m_maxDb);
-    gradient.setColorAt(gradientVal, Qt::yellow); // -8db, yellow
-    gradientVal = IEC_ScaleMax(-5, m_maxDb);
-    gradient.setColorAt(gradientVal, QColor(255, 200, 20)); // -5db, orange
-    gradient.setColorAt(1., Qt::red);                       // 0db, red
-    qreal scalingFactor = devicePixelRatioF();
-    m_pixmap = QPixmap(QWidget::size() * scalingFactor);
-    m_pixmap.setDevicePixelRatio(scalingFactor);
-    if (m_pixmap.isNull()) {
-        return;
-    }
-    m_pixmap.fill(Qt::transparent);
-    int totalHeight;
-    if (channels < 2) {
-        m_channelHeight = newSize.height() / 2;
-        totalHeight = m_channelHeight;
-    } else {
-        m_channelHeight = (newSize.height() - (channels - 1)) / channels;
-        totalHeight = channels * m_channelHeight + (channels - 1);
-    }
-    QRect rect(0, 0, newSize.width(), totalHeight);
-    QPainter p(&m_pixmap);
-    p.setOpacity(0.6);
-    p.setFont(ft);
-    p.fillRect(rect, QBrush(gradient));
-    // dB scale is horizontal along the bottom
-    int y = totalHeight + textHeight;
-    int prevX = -1;
-    int x = 0;
-    for (int i = 0; i < dbLabelCount; i++) {
-        int value = dbscale[i];
-        QString label = QString::asprintf("%d", value);
-        int labelWidth = fontMetrics().horizontalAdvance(label);
-        x = IEC_ScaleMax(value, m_maxDb) * m_pixmap.width();
-        p.setPen(palette().window().color());
-        p.drawLine(x, 0, x, totalHeight);
-        x -= qRound(labelWidth / 2.);
-        if (x + labelWidth > m_pixmap.width()) {
-            x = m_pixmap.width() - labelWidth;
-        }
-        if (prevX < 0 || prevX - (x + labelWidth) > 2) {
-            p.setPen(palette().text().color().rgb());
-            p.drawText(x, y, label);
-            prevX = x;
-        }
-    }
-    p.setOpacity(1);
-    p.setPen(palette().window().color());
-    // Clear space between the 2 channels
-    p.setCompositionMode(QPainter::CompositionMode_Source);
-    m_channelDistance = 1;
-    m_channelFillHeight = m_channelHeight;
-    for (int i = 1; i < channels; i++) {
-        p.drawLine(0, i * (m_channelHeight + m_channelDistance) - 1, rect.width() - 1, i * (m_channelHeight + m_channelDistance) - 1);
-    }
-    p.end();
-}
-
-// cppcheck-suppress unusedFunction
 void MonitorAudioLevel::setAudioValues(const QVector<double> &values)
 {
-    m_values = values;
-    if (m_peaks.size() != m_values.size()) {
-        m_peaks = values;
-        drawBackground(values.size());
-    } else {
-        for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i] -= 0.2;
-            if (m_values.at(i) > m_peaks.at(i)) {
-                m_peaks[i] = m_values.at(i);
-            }
-        }
+    if (m_audioLevelWidget) m_audioLevelWidget->setAudioValues(values);
+}
+
+QSize MonitorAudioLevel::sizeHint() const
+{
+    if (!isVisible()) {
+        return QSize(0, 0);
     }
-    update();
+    if (m_audioLevelWidget) return m_audioLevelWidget->sizeHint();
+    return QWidget::sizeHint();
 }
 
 void MonitorAudioLevel::setVisibility(bool enable)
 {
-    if (enable) {
-        setVisible(true);
-        setFixedHeight(m_height);
-    } else {
-        // set height to 0 so the toolbar layout is not affected
-        setFixedHeight(0);
-        setVisible(false);
-    }
-}
-
-void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
-{
-    if (!isVisible()) {
-        return;
-    }
-    QPainter p(this);
-    p.setClipRect(pe->rect());
-    QRect rect(0, 0, width(), height());
-    if (m_values.isEmpty()) {
-        p.setOpacity(0.2);
-        p.drawPixmap(rect, m_pixmap);
-        return;
-    }
-    p.drawPixmap(rect, m_pixmap);
-    p.setOpacity(0.9);
-    int width = m_channelDistance == 1 ? rect.width() : rect.width() - 1;
-    for (int i = 0; i < m_values.count(); i++) {
-        if (m_values.at(i) >= 100) {
-            continue;
-        }
-        int val = IEC_ScaleMax(m_values.at(i), m_maxDb) * width;
-        int peak = IEC_ScaleMax(m_peaks.at(i), m_maxDb) * width;
-        p.fillRect(val, i * (m_channelHeight + m_channelDistance), width - val, m_channelFillHeight, palette().window());
-        p.fillRect(peak, i * (m_channelHeight + m_channelDistance), 1, m_channelFillHeight, palette().text());
+    setVisible(enable);
+    if (m_audioLevelWidget) {
+        m_audioLevelWidget->setVisible(enable);
     }
 }

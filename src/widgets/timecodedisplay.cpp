@@ -71,6 +71,7 @@ TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
+    setMinimumHeight(lineEdit()->sizeHint().height());
     connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
 }
 

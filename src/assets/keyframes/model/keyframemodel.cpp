@@ -1248,6 +1248,13 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         // This is a fake query to force the animation to be parsed
         (void)mlt_prop.anim_get_double("key", 0, out);
         mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
+        if (animData.contains(QLatin1Char('%'))) {
+            const QSize profileSize = pCore->getCurrentFrameSize();
+            rect.x *= profileSize.width();
+            rect.y *= profileSize.height();
+            rect.w *= profileSize.width();
+            rect.h *= profileSize.height();
+        }
         QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
         if (useOpacity) {
             res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));

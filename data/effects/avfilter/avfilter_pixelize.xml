@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.pixelize" id="avfilter.pixelize">
-    <name>Pixelize (avfilter)</name>
+    <name>Pixelize (advanced)</name>
     <description>Pixelize video</description>
     <author>libavfilter maintainers</author>
     <parameter type="animated" name="av.width" default="16" min="1" max="1024">
-        <name>Block width</name>
+        <name>Block Width</name>
     </parameter>
     <parameter type="animated" name="av.height" default="16" min="1" max="1024">
-        <name>Block height</name>
+        <name>Block Height</name>
     </parameter>
     <parameter type="list" name="av.mode" default="avg" paramlist="avg;min;max">
-        <name>Pixelize mode</name>
+        <name>Pixelize Mode</name>
         <paramlistdisplay>Average,Minimum,Maximum</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7;8">
-        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
+        <paramlistdisplay>None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,Alpha</paramlistdisplay>
         <name>Planes</name>
     </parameter>
 </effect>

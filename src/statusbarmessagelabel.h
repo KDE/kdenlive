@@ -84,6 +84,7 @@ protected:
 
     /** @see QWidget::resizeEvent() */
     void resizeEvent(QResizeEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 public Q_SLOTS:
     void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100, bool allowInterrupt = false);

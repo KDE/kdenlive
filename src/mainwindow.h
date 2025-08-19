@@ -40,6 +40,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivecore_export.h"
 #include "otio/otioexport.h"
 #include "otio/otioimport.h"
+#include "powermanagementinterface.h"
 #include "statusbarmessagelabel.h"
 #include "utils/gentime.h"
 
@@ -82,6 +83,10 @@ class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
     Q_OBJECT
 
 public:
+    friend class RenderWidget;
+    friend class Monitor;
+    friend class KdenliveSettingsDialog;
+
     explicit MainWindow(QWidget *parent = nullptr);
     /** @brief Initialises the main window.
      * @param MltPath (optional) path to MLT environment
@@ -209,6 +214,8 @@ public:
     void reloadAssetPanel();
     /** @brief If any task is running, ask user before closing */
     bool hasRunningTask() const;
+    /** @brief If a render task is running */
+    bool hasRunningRenderTask() const;
 
 protected:
     /** @brief Closes the window.
@@ -230,6 +237,9 @@ protected:
     void saveProperties(KConfigGroup &config) override;
 
     void saveNewToolbarConfig() override;
+    /** @brief Power management to inhibit sleep while rendering */
+    PowerManagementInterface mPowerInterface;
+    Kdenlive::ConfigPage m_lastConfigPage = Kdenlive::NoPage;
 
 private:
     /** @brief Sets up all the actions and attaches them to the collection. */
@@ -265,6 +275,9 @@ private:
 
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;
+
+    // Tool message styling state tracking
+    TimelineMode::EditMode m_currentEditMode{TimelineMode::NormalEdit};
 
     TimelineTabs *m_timelineTabs{nullptr};
     QVector<Bin *> m_binWidgets;
@@ -508,6 +521,7 @@ private Q_SLOTS:
     void slotDeleteAllGuides();
 
     void slotCopy();
+    void slotCut();
     void slotPaste();
     void slotPasteEffects();
     void slotResizeItemStart();
@@ -536,6 +550,8 @@ private Q_SLOTS:
     void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
+    void slotSetTimecodeReference();
+    void slotAlignTimecode();
     void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscodeClip();
@@ -546,6 +562,8 @@ private Q_SLOTS:
     /** @brief Switches between displaying frames or timecode.
      * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
+    /** @brief Apply tool message styling based on current edit mode */
+    void applyToolMessageStyling();
 
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
@@ -600,6 +618,7 @@ private Q_SLOTS:
     void slotGrabItem();
     /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
     void slotCollapse();
+    void slotCollapseAll();
     /** @brief Cycle zoom audio waveforms*/
     void slotZoomWaveForm();
     /** @brief Save currently selected timeline clip as bin subclip*/
@@ -652,7 +671,6 @@ Q_SIGNALS:
     void adjustAssetPanelRange(int itemId, int in, int out);
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
-    bool showTimelineFocus(bool focus, bool highlight);
     void removeBinDock(const QString &name);
     /** @brief Connect a newly created dock to signals updating/hiding its title bar. */
     void connectDockAfterInit(QDockWidget *);

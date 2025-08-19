@@ -27,9 +27,6 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
 
-    // setup the comment
-    setToolTip(comment);
-    m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));

@@ -13,9 +13,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KMessageWidget>
 
+#include <QFutureWatcher>
+#include <QLabel>
 #include <QString>
 #include <QTreeWidget>
-#include <QLabel>
 
 #include <mlt++/Mlt.h>
 
@@ -75,12 +76,17 @@ private Q_SLOTS:
     void slotAspectValueChanged(int);
     void slotTextChanged();
     void updateTab(int ix);
+    void extractInfo(const QString &url);
+    void addMetadata(const QMap<QString, QString> meta);
 
 private:
     ClipController *m_controller;
     QTabWidget *m_tabWidget;
     ElidedFileLinkLabel *m_clipLabel;
     QString m_id;
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_extractJob;
+    bool m_closing{false};
     ClipType::ProducerType m_type;
     /** @brief: the properties of the active producer (can be a proxy) */
     std::shared_ptr<Mlt::Properties> m_properties;

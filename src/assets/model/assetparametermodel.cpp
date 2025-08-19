@@ -277,6 +277,11 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
             if (isDefault()) {
                 m_asset->set("disable", 1);
             }
+        } else {
+            // Asset disabled
+            if (!isDefault()) {
+                m_asset->clear("disable");
+            }
         }
     }
     if (m_fixedParams.count(name) == 0) {
@@ -458,6 +463,11 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         if (!isDisabled) {
             if (isDefault()) {
                 m_asset->set("disable", 1);
+            }
+        } else {
+            // Asset disabled
+            if (!isDefault()) {
+                m_asset->clear("disable");
             }
         }
     }
@@ -1002,6 +1012,11 @@ QString AssetParameterModel::getAssetId() const
 const QString AssetParameterModel::getAssetMltId()
 {
     return m_asset->get("id");
+}
+
+const QString AssetParameterModel::getAssetMltService()
+{
+    return m_asset->get("mlt_service");
 }
 
 void AssetParameterModel::setActive(bool active)

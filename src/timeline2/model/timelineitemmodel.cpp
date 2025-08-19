@@ -30,14 +30,21 @@
 #include <mlt++/MltTransition.h>
 
 #ifdef CRASH_AUTO_TEST
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
 #include <rttr/registration>
+
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+
 RTTR_REGISTRATION
 {
     using namespace rttr;

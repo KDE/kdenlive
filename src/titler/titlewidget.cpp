@@ -1529,16 +1529,16 @@ void TitleWidget::scalePixmap(QGraphicsItem *item, double scalex, double scaley,
     const QRectF original = item->sceneBoundingRect();
     item->setTransform(qtrans);
     QPointF pos = item->pos();
+    const QRectF updated = item->sceneBoundingRect();
     if (center) {
-        const QRectF updated = item->sceneBoundingRect();
         QPointF delta((updated.width() - original.width()) / 2., (updated.height() - original.height()) / 2.);
         pos -= delta;
     } else {
         if (resize == GraphicsSceneRectMove::Up || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::TopRight) {
-            pos.setY(original.bottom() - item->sceneBoundingRect().height());
+            pos.ry() += (original.height() - updated.height());
         }
         if (resize == GraphicsSceneRectMove::Left || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::BottomLeft) {
-            pos.setX(original.right() - item->sceneBoundingRect().width());
+            pos.rx() += (original.width() - updated.width());
         }
     }
     item->setPos(pos);
@@ -3128,7 +3128,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 if (!i->data(TitleDocument::Gradient).toString().isNull()) {
                     gradients_combo->blockSignals(true);
                     gradient_color->setChecked(true);
-                    QString gradientData = i->data(TitleDocument::Gradient).toString();
+                    const QString gradientData = i->data(TitleDocument::Gradient).toString();
                     int ix = gradients_combo->findData(gradientData);
                     if (ix == -1) {
                         // This gradient does not exist in our settings, store it
@@ -3373,12 +3373,13 @@ void TitleWidget::slotEditGradient()
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
-        combo->clear();
+        gradients_combo->clear();
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradMap.constEnd()) {
             if (i.value().isEmpty()) {
                 // Don't allow empty gradients
+                ++i;
                 continue;
             }
             group.writeEntry(i.key(), i.value());
@@ -3388,7 +3389,7 @@ void TitleWidget::slotEditGradient()
             ix++;
         }
         group.sync();
-        combo->setCurrentIndex(d.selectedGradient());
+        combo->setCurrentIndex(qMax(0, d.selectedGradient()));
     }
 }
 

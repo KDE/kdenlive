@@ -4,16 +4,16 @@
     <name>Color Overlay</name>
     <description>Overlay a solid color on the video stream with mixing feature.</description>
     <author>libavfilter</author>
-    <parameter type="animated" name="av.hue" default="0" min="0" max="360" decimals="3">
-        <name> Hue</name>
+    <parameter type="animated" name="av.hue" default="0" min="0" max="360" factor="360" suffix="°">
+        <name>Hue</name>
     </parameter>
-    <parameter type="animated" name="av.saturation" default="0.5" min="0" max="1" decimals="3">
+    <parameter type="animated" name="av.saturation" default="0.5" min="0" max="100" factor="100" suffix="%">
         <name>Saturation</name>
     </parameter>
     <parameter type="animated" name="av.lightness" default="0.5" min="0" max="1" decimals="3">
         <name>Lightness</name>
     </parameter>
-    <parameter type="animated" name="av.mix" default="1" min="0" max="1" decimals="3">
+    <parameter type="animated" name="av.mix" default="1" min="0" max="100" factor="100" decimals="1" suffix="%">
         <name>Mix</name>
     </parameter>
 </effect>

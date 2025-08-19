@@ -1307,7 +1307,6 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
                 out << line << "\n" << startTimeStringSRT << " --> " << endTimeStringSRT << "\n" << sub.text() << "\n" << '\n';
                 qDebug() << sub.text() << '\n';
             }
-
         }
         outF.close();
     }

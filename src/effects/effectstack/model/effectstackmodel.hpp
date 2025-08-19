@@ -206,6 +206,7 @@ private:
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
     std::pair<bool, bool> doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo);
+    Fun checkLambdaOrder(const std::shared_ptr<EffectItemModel> &effect);
 
 private Q_SLOTS:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change

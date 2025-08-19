@@ -236,10 +236,10 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
         break;
     case AbstractProjectItem::SubSequenceItem:
         // Currently sub sequences can't be inserted into timeline, disable drag
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
         break;
     default:
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
     }
 }
 
@@ -390,8 +390,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     QStringList list;
     QString parentId;
     size_t duration = 0;
-    for (int i = 0; i < indices.count(); i++) {
-        QModelIndex ix = indices.at(i);
+    for (auto &ix : indices) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }

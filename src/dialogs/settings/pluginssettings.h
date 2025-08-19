@@ -86,6 +86,13 @@ private Q_SLOTS:
     void doDeleteSamModels();
     /** @brief Check if SAM is corectly setup */
     void checkSamEnvironement(bool afterInstall = true);
+    void gotWhisperFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
+    void whisperFinished(const QString &scriptName, const QStringList &args);
+    void whisperAvailable();
+    void whisperMissing();
+    void gotSamFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
+    void samFinished(const QString &scriptName, const QStringList &args);
+    void samMissing(const QStringList &);
     void samDependenciesChecked();
 
 Q_SIGNALS:

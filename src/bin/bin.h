@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "abstractprojectitem.h"
+#include "project/transcodeseek.h"
 #include "utils/timecode.h"
 
 #include <KMessageWidget>
@@ -84,11 +85,13 @@ Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
-    void processDragEnd();
+    void performDrag(const QModelIndexList indexes);
+
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
     QModelIndex m_lastHoveredItem;
+    QModelIndexList m_clickedIndexes;
 };
 
 /** @class MyTreeView
@@ -120,8 +123,8 @@ private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
     QModelIndex m_lastHoveredItem;
+    QModelIndexList m_clickedIndexes;
     bool m_editing;
-    bool performDrag();
     bool isEditing() const;
 
 Q_SIGNALS:
@@ -131,6 +134,7 @@ Q_SIGNALS:
     void processDragEnd();
     void selectCurrent();
     void editingChanged();
+    void performDrag(const QModelIndexList indexes);
 };
 
 /** @class SmallJobLabel
@@ -386,6 +390,11 @@ public:
     const QList<std::shared_ptr<MarkerListModel>> getAllClipsMarkers();
     /** @brief Get the first selected clip*/
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
+    /** @brief Expand / collapse current item */
+    void expandCurrent();
+    /** @brief Expand / collapse all items */
+    void expandAll();
+    bool isMainBin() const;
 
 private Q_SLOTS:
     void slotAddClip();
@@ -452,9 +461,13 @@ private Q_SLOTS:
     /** @brief Set (or unset) the default folder for newly created audio captures. */
     void setDefaultAudioCaptureFolder(bool enable);
     /** @brief Fetch the filters from the UI and apply them to the proxy model */
-    void slotApplyFilters();
+    void slotApplyFilters(bool fromFilterButton = false);
     /** @brief Open a new Bin widget */
     void slotOpenNewBin();
+    /** @brief Open clip in monitor */
+    void openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1, const QUuid &uuid = QUuid());
+    /** @brief Perform the drag */
+    bool performDrag(const QModelIndexList indexes);
 
 public Q_SLOTS:
 
@@ -510,7 +523,8 @@ public Q_SLOTS:
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */
-    void requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix = QString(), const QString &message = QString());
+    void requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix = QString(),
+                            const QString &message = QString());
     /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
     void requestSelectionTranscoding(bool forceReplace = false);
     /** @brief Build the project bin audio/video icons according to color theme */

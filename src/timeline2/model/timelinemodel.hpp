@@ -327,6 +327,9 @@ public:
        @param clipId Id of the clip to test
     */
     QPoint getClipInDuration(int clipId) const;
+    /** @brief Returns the rec timecode for a timeline clip
+     */
+    int64_t getClipTimecodeOffset(int clipId) const;
 
     /** @brief Returns the clip state (audio/video only) and type (Video, Color, Title...)
      */
@@ -389,7 +392,8 @@ public:
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackIndex(int trackId) const;
-    int getTopVideoTrackIndex();
+    int getTopVideoTrackIndex() const;
+    int getLowestVideoTrackIndex() const;
 
     /** @brief Set the marker model on this timeline (usually the marker model from its Bin Sequence clip.
      */
@@ -841,6 +845,10 @@ public:
      *  @returns true if the timeline clip was shortened by the reload operation
      */
     bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
+    /** @brief Ensure a clip occurrence is not longer than maxDuration
+     *  @returns true if the timeline clip was shortened by the operation
+     */
+    bool limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);

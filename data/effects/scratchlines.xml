@@ -1,19 +1,23 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="lines" id="lines" type="video" requires_in_out="1" unique="1">
-    <name>Scratchlines</name>
-    <description>Scratchlines over the picture</description>
+    <name>Scratch Lines</name>
+    <description>Scratch lines over the picture</description>
     <author>Marco Gittler</author>
-    <parameter type="animated" name="line_width" max="100" min="0" default="2">
-        <name>Width of line</name>
+    <parameter type="animated" name="line_width" max="100" min="0" default="2" suffix="px">
+        <name>Width of Line</name>
+        <comment><![CDATA[Width on the line in the clip]]></comment>
     </parameter>
     <parameter type="animated" name="num" max="100" min="0" default="5">
-        <name>Max number of lines</name>
+        <name>Max Number of Lines</name>
+        <comment><![CDATA[Maximum number of lines in the clip]]></comment>
     </parameter>
     <parameter type="animated" name="darker" max="100" min="0" default="40">
-        <name>Max darker</name>
+        <name>Max Darker</name>
+        <comment><![CDATA[Make image up to <em>n</em> values darker behind line]]></comment>
     </parameter>
     <parameter type="animated" name="lighter" max="100" min="0" default="40">
-        <name>Max lighter</name>
+        <name>Max Lighter</name>
+        <comment><![CDATA[Make image up to <em>n</em> values lighter behind line]]></comment>
     </parameter>
 </effect>

@@ -2,12 +2,18 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.distort0r" id="frei0r.distort0r">
     <name context="Distort Effect Name">Distort</name>
-    <description>Plasma</description>
+    <description>Creates a plasma like distortion</description>
     <author>Gephex crew</author>
-    <parameter type="animated" name="Amplitude" max="1000" min="-1000" default="0" factor="1000">
+    <parameter type="animated" name="Amplitude" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>Amplitude</name>
     </parameter>
-    <parameter type="animated" name="Frequency" max="2000" min="-2000" default="0" factor="1000">
+    <parameter type="animated" name="Frequency" max="100" min="0" default="0.005" factor="100" decimals="1" suffix="%">
         <name>Frequency</name>
+    </parameter>
+    <parameter type="bool" name="Use Velocity" max="1" min="0" default="1">
+        <name>Use Velocity</name>
+    </parameter>
+    <parameter type="animated" name="Velocity" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
+        <name>Velocity</name>
     </parameter>
 </effect>

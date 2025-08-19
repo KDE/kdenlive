@@ -726,6 +726,17 @@ int ClipModel::getPlaytime() const
     return m_producer->get_playtime();
 }
 
+int64_t ClipModel::getStartTimecodeOffset() const
+{
+    READ_LOCK();
+    auto binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    int recTC = binClip->getStartTimecode();
+    if (recTC >= 0) {
+        return recTC + getIn();
+    }
+    return -1;
+}
+
 void ClipModel::setTimelineEffectsEnabled(bool enabled)
 {
     QWriteLocker locker(&m_lock);
@@ -889,6 +900,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     }
 
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    // Q_ASSERT(binClip->statusReady());
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist, remapInfo);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);

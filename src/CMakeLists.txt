@@ -86,6 +86,7 @@ list(APPEND kdenlive_SRCS
     undohelper.cpp
     glaxnimatelauncher.cpp
     filefilter.cpp
+    powermanagementinterface.cpp
 )
 
 if(CRASH_AUTO_TEST)
@@ -159,6 +160,10 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/OverlayCenterDiagonal.qml
     monitor/view/OverlayThirds.qml
     monitor/view/OverlayLabel.qml
+    monitor/view/ResizeHandle.qml
+    monitor/view/ResizeLogic.js
+    monitor/view/SnappingLogic.js
+    monitor/view/RotationHandle.qml
     timeline2/view/qml/Timeline.qml
     timeline2/view/qml/TimelineLogic.js
     timeline2/view/qml/TrackHead.qml
@@ -256,10 +261,11 @@ target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::Multimedia
     Qt${QT_MAJOR_VERSION}::NetworkAuth
     Qt${QT_MAJOR_VERSION}::SvgWidgets
-#    Qt${QT_MAJOR_VERSION}::Test
+    # Qt${QT_MAJOR_VERSION}::Test
 )
 
-target_link_libraries(kdenliveLib PUBLIC PkgConfig::LIBAV)
+target_include_directories(kdenliveLib SYSTEM PRIVATE ${FFMPEG_INCLUDE_DIRS})
+target_link_libraries(kdenliveLib PUBLIC ${FFMPEG_LIBRARIES})
 
 if(WIN32)
     target_link_libraries(kdenliveLib PUBLIC d3d11 d3dcompiler)

@@ -1,5 +1,4 @@
 --index-url https://download.pytorch.org/whl/cu126
 torch
-torchvision
-triton
-torchaudio
+# Cannot apply workaround of downgrading triton to fix https://github.com/triton-lang/triton/issues/5919 as this version of triton incompatible with torch/cuda 12.6
+# so for cuda 12.6 support on Linux python3.13 is mandatory

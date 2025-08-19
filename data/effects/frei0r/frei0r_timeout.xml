@@ -2,15 +2,15 @@
 <!DOCTYPE kpartgui>
 <group>
     <effect tag="frei0r.timeout" id="frei0r.timeout">
-        <name>Timeout indicator</name>
+        <name>Timeout Indicator</name>
         <author>Simon A. Eugster (Granjow)</author>
         <parameter type="color" name="color" default="0x6893C8ff">
-            <name>Indicator color</name>
+            <name>Indicator Color</name>
         </parameter>
         <parameter type="animated" name="time" default="0" min="0" max="1000" factor="1000">
             <name>Time</name>
         </parameter>
-        <parameter type="animated" name="transparency" default="0" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="transparency" default="0" min="0" max="100" factor="100" suffix="%">
             <name>Transparency</name>
         </parameter>
     </effect>

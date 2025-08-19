@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.ciescope" id="avfilter.ciescope">
+    <name>CIE Scope</name>
+    <description>Display CIE color diagram with pixels overlaid onto it</description>
+    <author>libavfilter</author>
+    <parameter type="list" name="av.system" default="rec709" paramlist="ntsc;470m;ebu;470bg;smpte;240m;apple;widergb;cie1931;hdtv;rec709;uhdtv;rec2020;dcip3">
+        <paramlistdisplay>NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. 709,UHD TV,Rec. 2020,DCI-P3</paramlistdisplay>
+        <name>Color System</name>
+       	<comment><![CDATA[Select the color system]]></comment>
+    </parameter>
+    <parameter type="list" name="av.cie" default="xyy" paramlist="xyy;ucs;luv">
+        <paramlistdisplay>xyY,UCS,LUV</paramlistdisplay>
+        <name>CIE System</name>
+       	<comment><![CDATA[Select the CIE color space]]></comment>
+    </parameter>
+    <parameter type="list" name="av.gamuts" default="rec709" paramlist="ntsc;470m;ebu;470bg;smpte;240m;apple;widergb;cie1931;hdtv;rec709;uhdtv;rec2020;dcip3">
+        <paramlistdisplay>NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. 709,UHD TV,Rec. 2020,DCI-P3</paramlistdisplay>
+        <name>Gamuts to Draw</name>
+       	<comment><![CDATA[Set what gamuts to draw]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.size" min="256" max="8192" default="512">
+        <name>Size</name>
+       	<comment><![CDATA[Set the size of the scope on screen]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.intensity" min="0" max="1000" default="0.001" factor="1000">
+        <name>Intensity</name>
+       	<comment><![CDATA[Set the intensity used to<br>
+       	map input pixel values to CIE diagram]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.contrast" min="0" max="100" default="0.75" factor="100">
+        <name>Contrast</name>
+       	<comment><![CDATA[Set contrast used to draw<br>
+       	tongue colors that are out of active color system gamut]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.corrgamma" min="0" max="1" default="1">
+        <name>Display Correct Gamma</name>
+       	<comment><![CDATA[Correct gamma displayed on scope, by default enabled]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.showwhite" min="0" max="1" default="0">
+        <name>Show White Point</name>
+       	<comment><![CDATA[Show white point on CIE diagram, by default disabled]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.gamma" min="0.1" max="6" default="2.6" decimals="1">
+        <name>Input Gamma</name>
+       	<comment><![CDATA[Set input gamma. Used only with XYZ input color space.]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.fill" min="0" max="1" default="1">
+        <name>Fill with CIE Colors</name>
+       	<comment><![CDATA[Fill with CIE colors. By default is enabled.]]></comment>
+    </parameter>
+</effect>

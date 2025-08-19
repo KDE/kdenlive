@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.greyedge" id="avfilter.greyedge">
+    <name context="Greyscale Effect Name">Grey Edge</name>
+    <description>A color constancy filter that applies color correction based on the grayworld assumption</description>
+    <author>libavfilter</author>
+    <parameter type="animated" name="av.difford" min="0" max="2" default="1" factor="1" decimals="0" suffix="">
+        <name>Differentiation Order</name>
+        <comment><![CDATA[]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.minknorm" min="0" max="20" default="1" factor="1" decimals="0" suffix="">
+        <name>Minkowski Norm</name>
+        <comment><![CDATA[]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.sigma" min="0" max="1024" default="1" factor="1" decimals="2" suffix="">
+        <name>Sigma</name>
+        <comment><![CDATA[]]></comment>
+    </parameter>
+</effect>

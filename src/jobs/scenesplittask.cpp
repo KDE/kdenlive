@@ -66,7 +66,7 @@ void SceneSplitTask::start(QObject *object, bool force)
     KdenliveSettings::setScenesplitmarkers(view.add_markers->isChecked());
     KdenliveSettings::setScenesplitsubclips(view.cut_scenes->isChecked());
 
-    std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     for (auto &id : binIds) {
         SceneSplitTask *task = nullptr;
         ObjectId owner;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.alpha0ps_alphaspot" id="frei0r.alpha0ps_alphaspot">
-    <name>Alpha shapes</name>
+    <name>Alpha Shapes</name>
     <description>Draws simple shapes into the alpha channel</description>
     <author>Marko Cebokli</author>
     <parameter type="list" name="Shape" default="0" paramlist="0;0.38;0.62;1">

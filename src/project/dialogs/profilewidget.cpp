@@ -29,13 +29,20 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
+
+    // Search bar
+    QLineEdit *searchBar = new QLineEdit(this);
+    searchBar->setPlaceholderText(i18n("Search…"));
+    searchBar->setClearButtonEnabled(true);
+    labelLay->addWidget(searchBar);
+
     auto *fpsLabel = new QLabel(i18n("Fps:"), this);
     m_fpsFilt = new QComboBox(this);
     fpsLabel->setBuddy(m_fpsFilt);
     labelLay->addWidget(fpsLabel);
     labelLay->addWidget(m_fpsFilt);
 
-    auto *scanningLabel = new QLabel(i18n("Scanning:"), this);
+    auto *scanningLabel = new QLabel(i18nc("@label Scanning as the video method: interlaced or progressive", "Scanning:"), this);
     m_scanningFilt = new QComboBox(this);
     scanningLabel->setBuddy(m_scanningFilt);
     labelLay->addWidget(scanningLabel);
@@ -59,6 +66,15 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_filter = new ProfileFilter(this);
     m_filter->setSourceModel(m_treeModel.get());
     m_treeView->setModel(m_filter);
+
+    connect(searchBar, &QLineEdit::textChanged, this, [this](const QString &str) {
+        m_filter->slotSetSearchString(str);
+        if (str.isEmpty()) {
+            // focus last selected item when clearing search line
+            trySelectProfile(m_currentProfile);
+        }
+    });
+
     for (int i = 1; i < m_treeModel->columnCount(); ++i) {
         m_treeView->hideColumn(i);
     }

@@ -13,7 +13,7 @@
     <parameter type="constant" name="av.y" default="0" min="0" max="%height" factor="1">
         <name>Y</name>
     </parameter>
-    <parameter type="fixed" name="av.d" default="1">
+    <parameter type="fixed" name="av.d" default="90">
         <name>Duration</name>
     </parameter>
 </effect>

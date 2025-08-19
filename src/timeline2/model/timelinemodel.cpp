@@ -45,14 +45,21 @@
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
+
 #include <rttr/registration>
+
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+
 RTTR_REGISTRATION
 {
     using namespace rttr;
@@ -384,6 +391,14 @@ QPoint TimelineModel::getClipInDuration(int clipId) const
     return {clip->getIn(), clip->getPlaytime()};
 }
 
+int64_t TimelineModel::getClipTimecodeOffset(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    return clip->getStartTimecodeOffset();
+}
+
 std::pair<PlaylistState::ClipState, ClipType::ProducerType> TimelineModel::getClipState(int clipId) const
 {
     READ_LOCK();
@@ -578,12 +593,25 @@ int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
     return 0;
 }
 
-int TimelineModel::getTopVideoTrackIndex()
+int TimelineModel::getLowestVideoTrackIndex() const
+{
+    READ_LOCK();
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if (!(*it)->isAudioTrack()) {
+            return (*it)->getId();
+        }
+        it++;
+    }
+    return 0;
+}
+
+int TimelineModel::getTopVideoTrackIndex() const
 {
     READ_LOCK();
     auto it = m_allTracks.end();
     --it;
-    if (it != m_allTracks.cbegin()) {
+    if (it != m_allTracks.cend()) {
         if (!(*it)->isAudioTrack()) {
             return (*it)->getId();
         }
@@ -1885,7 +1913,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         qWarning() << "no clip found in bin for" << bid;
         return false;
     }
-
     bool audioDrop = false;
     if (!useTargets) {
         audioDrop = getTrackById_const(trackId)->isAudioTrack();
@@ -1899,6 +1926,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     }
 
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
+    if (!master) {
+        qDebug() << "Bin clip unavailable for operation";
+        return false;
+    }
     type = master->clipType();
     // Ensure we don't insert a timeline clip onto itself
     if (type == ClipType::Timeline && !master->canBeDropped(m_uuid)) {
@@ -1943,6 +1974,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (!useTargets) {
             // Drag and drop, calculate target tracks
             if (audioDrop) {
+                keys = master->activeStreams().keys();
                 if (keys.count() > 1) {
                     // Dropping a clip with several audio streams
                     int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
@@ -1967,8 +1999,14 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 int mirror = getMirrorTrackId(trackId);
                 QList<int> audioTids = {};
                 if (mirror > -1) {
-                    audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                    if (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)) {
+                        mirror = -1;
+                        keys.clear();
+                    } else {
+                        audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                    }
                 }
+                // keys = master->activeStreams().keys();
                 if (audioTids.count() < keys.count() - 1 || (mirror == -1 && !keys.isEmpty())) {
                     // Check if project has enough audio tracks
                     if (keys.count() > getTracksIds(true).count()) {
@@ -2003,7 +2041,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == TimelineModel::MoveSuccess);
         // Get mirror track
         int mirror = dropType == PlaylistState::Disabled ? getMirrorTrackId(trackId) : -1;
-        if (mirror > -1 && getTrackById_const(mirror)->isLocked() && !useTargets) {
+        if (mirror > -1 && ((getTrackById_const(mirror)->isLocked() && !useTargets) || (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)))) {
             mirror = -1;
         }
         QList<int> target_track;
@@ -2038,12 +2076,12 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     audioTids = getLowerTracksId(trackId, TrackType::AudioTrack);
                 }
                 // First audio stream already inserted in target_track or in timeline
-                streamsCount = m_binAudioTargets.count() - 1;
+                streamsCount = keys.count() - 1;
                 while (streamsCount > 0 && !audioTids.isEmpty()) {
                     target_track << audioTids.takeFirst();
                     streamsCount--;
                 }
-                QList<int> aTargets = m_binAudioTargets.keys();
+                QList<int> aTargets = keys;
                 if (audioDrop) {
                     aTargets.removeAll(audioStream);
                 }
@@ -2108,7 +2146,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     break;
                 }
             }
-            if (res) {
+            if (res && !target_track.isEmpty()) {
                 requestClipsGroup(createdMirrors, audio_undo, audio_redo, GroupType::AVSplit);
                 UPDATE_UNDO_REDO(audio_redo, audio_undo, local_undo, local_redo);
             }
@@ -5289,7 +5327,7 @@ std::pair<int, int> TimelineModel::durations() const
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
     if (binClip) {
         boundsDuration = binClip->lastBound();
-        if (boundsDuration < duration) {
+        if (boundsDuration <= duration) {
             boundsDuration = 0;
         }
     }
@@ -6294,7 +6332,8 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     // in order to make the producer change effective, we need to unplant / replant the clip in its track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
-    int oldOut = getClipIn(clipId) + getClipPlaytime(clipId);
+    int oldIn = getClipIn(clipId);
+    int oldOut = oldIn + getClipPlaytime(clipId);
     int currentSubplaylist = m_allClips[clipId]->getSubPlaylistIndex();
     int maxDuration = m_allClips[clipId]->getMaxDuration();
     bool hasPitch = false;
@@ -6307,19 +6346,32 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     bool timeremap = m_allClips[clipId]->hasTimeRemap();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    bool clipIsShorter = oldOut > int(binClip->frameDuration());
-    bool refreshView = clipIsShorter || forceDuration > -1;
-    if (old_trackId != -1) {
-        if (clipIsShorter && forceDuration == -1 && binClip->hasLimitedDuration()) {
-            // replacement clip is shorter, resize first
-            int resizeDuration = int(binClip->frameDuration());
-            requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
+    int updatedDuration = binClip->frameDuration();
+    bool clipIsShorter = oldOut > updatedDuration;
+    if (clipIsShorter) {
+        // Check if clip should be completely deleted
+        if (oldIn >= updatedDuration) {
+            bool result = true;
+            if (m_groups->isInGroup(clipId)) {
+                result = requestClipUngroup(clipId, local_undo, local_redo);
+            }
+            if (old_trackId != -1) {
+                result = requestClipDeletion(clipId, local_undo, local_redo, true);
+            }
+            return result;
         }
+    }
+    bool refreshView = clipIsShorter || forceDuration > -1;
+    bool clipResized = false;
+    if (old_trackId != -1) {
         bool result = getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false, {}, true);
         Q_ASSERT(result);
         m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch, currentSubplaylist == 1, timeremap);
-        if (forceDuration > -1) {
-            m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
+        if (clipIsShorter && binClip->hasLimitedDuration()) {
+            // replacement clip is shorter, resize first
+            int resizeDuration = qMin(oldOut, updatedDuration) - oldIn;
+            clipResized = true;
+            requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
         }
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo, false, false, {}, true);
         if (maxDuration != m_allClips[clipId]->getMaxDuration()) {
@@ -6327,7 +6379,36 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
             Q_EMIT dataChanged(ix, ix, {TimelineModel::MaxDurationRole});
         }
     }
-    return clipIsShorter;
+    return clipResized;
+}
+
+bool TimelineModel::limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo)
+{
+    if (m_closing) {
+        return false;
+    }
+    // in order to make the producer change effective, we need to unplant / replant the clip in its track
+    int oldIn = getClipIn(clipId);
+    int oldOut = oldIn + getClipPlaytime(clipId);
+    // Check if clip out is longer than actual producer duration
+    if (oldOut <= maxDuration) {
+        // Nothing to do
+        return false;
+    }
+    // Check if clip should be completely deleted
+    if (oldIn >= maxDuration) {
+        bool result = true;
+        if (m_groups->isInGroup(clipId)) {
+            result = requestClipUngroup(clipId, local_undo, local_redo);
+        }
+        result = requestClipDeletion(clipId, local_undo, local_redo, true);
+        return result;
+    }
+
+    // resize
+    int resizeDuration = maxDuration - oldIn;
+    requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
+    return true;
 }
 
 void TimelineModel::replugClip(int clipId)

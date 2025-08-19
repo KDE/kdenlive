@@ -119,4 +119,5 @@ Q_SIGNALS:
     void reloadEffect(const QString &path);
     void switchCurrentComposition(int tid, const QString &compoId);
     void slotSaveStack();
+    void slotSwitchCollapseAll();
 };

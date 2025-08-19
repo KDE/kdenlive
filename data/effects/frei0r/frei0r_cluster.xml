@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.cluster" id="frei0r.cluster" type="video" unique="1">
-    <name>K-Means Clustering</name>
-    <description>Clusters of a source image by color and spatial distance</description>
+    <name>K-Means Clustering (ABANDONED)</name>
+    <description><![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>
+    Clusters of a source image by color and spatial distance]]></description>
     <author>binarymillenium</author>
     <parameter type="animated" name="Num" max="40" min="0" default="20">
         <name>Amount of clusters</name>

@@ -18,7 +18,6 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     : AbstractParamWidget(std::move(model), index, parent)
 {
     auto *layout = new QHBoxLayout(this);
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
@@ -55,8 +54,6 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
 
         Q_EMIT AbstractParamWidget::valueChanged(m_index, value, true);
     });
-
-    setToolTip(comment);
 }
 
 PositionEditWidget::~PositionEditWidget() = default;

@@ -211,7 +211,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
     m_hasVideoTarget = hasVideo;
     m_hasAudioTarget = audioTargets.size();
     if (m_hasVideoTarget) {
-        videoTrack = m_model->getTopVideoTrackIndex();
+        videoTrack = m_model->getLowestVideoTrackIndex();
     }
     if (m_hasAudioTarget > 0) {
         if (m_lastAudioTarget.count() == audioTargets.count()) {
@@ -859,6 +859,12 @@ int TimelineController::copyItem()
     clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);
     return clipId;
+}
+
+void TimelineController::cutItem()
+{
+    copyItem();
+    deleteSelectedClips();
 }
 
 std::pair<int, QString> TimelineController::getCopyItemData()
@@ -1598,6 +1604,23 @@ void TimelineController::adjustAllTrackHeight(int trackId, int height)
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
     Q_EMIT m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+
+void TimelineController::collapseAllTracks()
+{
+    int tid = m_activeTrack;
+    if (!m_model->isTrack(tid)) {
+        auto it = m_model->m_allTracks.cbegin();
+        if (it != m_model->m_allTracks.cend()) {
+            tid = (*it)->getId();
+        }
+        if (!m_model->isTrack(tid)) {
+            return;
+        }
+    }
+    bool collapsed = m_model->getTrackById_const(tid)->getProperty("kdenlive:collapsed").toInt() > 0;
+    int collapsedHeight = m_root->property("collapsedHeight").toInt();
+    collapseAllTrackHeight(tid, !collapsed, collapsedHeight);
 }
 
 void TimelineController::collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight)
@@ -3419,6 +3442,49 @@ void TimelineController::alignAudio(int clipId)
     }
 }
 
+void TimelineController::setTimecodeRef(int clipId)
+{
+    if (clipId == -1) {
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return;
+        }
+    }
+    if (m_model->getClipTimecodeOffset(clipId) == -1) {
+        pCore->displayMessage(i18n("No timecode for clip"), ErrorMessage, 500);
+        return;
+    }
+    m_timecodeRef = clipId;
+}
+
+void TimelineController::alignTimecode(int clipId)
+{
+    // find other clip
+    if (clipId == -1) {
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return;
+        }
+    }
+    if (m_timecodeRef == -1 || m_timecodeRef == clipId || !m_model->isClip(m_timecodeRef)) {
+        pCore->displayMessage(i18n("Set timecode reference before attempting to align"), InformationMessage, 500);
+        return;
+    }
+    int clipOffset = m_model->getClipTimecodeOffset(clipId);
+    if (clipOffset == -1) {
+        pCore->displayMessage(i18n("No timecode for clip"), ErrorMessage, 500);
+        return;
+    }
+
+    int newPos = clipOffset - m_model->getClipTimecodeOffset(m_timecodeRef) + m_model->getClipPosition(m_timecodeRef);
+    bool result = m_model->requestClipMove(clipId, m_model->getClipTrackId(clipId), newPos, true, true, true);
+    if (!result) {
+        pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), ErrorMessage, 500);
+    }
+}
+
 void TimelineController::zoomWaveform()
 {
     if (KdenliveSettings::normalizechannels()) {
@@ -4763,7 +4829,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
     Fun redo = []() { return true; };
     std::function<void(const QString &)> callBack = [model = m_model, track = tid, recPosition, highlightClip](const QString &binId) {
         int id = -1;
-        if (track == -1) {
+        if (track == -1 || model->isSubtitleTrack(track)) {
             return;
         }
         std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
@@ -4772,6 +4838,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         }
         if (highlightClip) {
             pCore->activeBin()->selectClipById(binId);
+
         }
         qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
         int endPos = recPosition.second;

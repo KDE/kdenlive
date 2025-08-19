@@ -129,6 +129,12 @@ For double values these placeholders are available:
 * represented by a checkbox
 
 
+##### `"multiswitch"`
+* 2 possible options defined by strings (max / min)
+* this special parameter type will affect 2 different parameters when changed. the `name` of this parameter will contain the name of the 2 final parameters, separated by a LF character: `&#10;`. Same thing for the `default`,  `min` and `max` which will contain the values for these 2 parameters, separated by an LF character. See for example the fade_to_black effect.
+* represented by a checkbox
+
+
 ##### `"list"`
 * multiple choice
 * represented by a drop-down menu

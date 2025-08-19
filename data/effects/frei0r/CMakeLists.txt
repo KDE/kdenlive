@@ -24,6 +24,7 @@ frei0r_bigsh0t_hemi_to_eq.xml
 frei0r_bigsh0t_rect_to_eq.xml
 frei0r_bigsh0t_stabilize_360.xml
 frei0r_bigsh0t_transform_360.xml
+frei0r_bluescreen0r.xml
 frei0r_brightness.xml
 frei0r_c0rners.xml
 frei0r_cairogradient.xml
@@ -41,9 +42,11 @@ frei0r_d90stairsteppingfix.xml
 frei0r_defish0r.xml
 frei0r_delay0r.xml
 frei0r_delaygrab.xml
+frei0r_denoise_hqdn3d.xml
 frei0r_distort0r.xml
 frei0r_dither.xml
 frei0r_edgeglow.xml
+frei0r_elastic_scale.xml
 frei0r_emboss.xml
 frei0r_equaliz0r.xml
 frei0r_facebl0r.xml
@@ -63,6 +66,8 @@ frei0r_letterb0xed.xml
 frei0r_levels.xml
 frei0r_lightgraffiti.xml
 frei0r_luminance.xml
+frei0r_measure_pr0be.xml
+frei0r_measure_pr0file.xml
 frei0r_mask0mate.xml
 frei0r_medians.xml
 frei0r_nervous.xml
@@ -99,4 +104,5 @@ frei0r_twolay0r.xml
 frei0r_vectorscope.xml
 frei0r_vertigo.xml
 frei0r_vignette.xml
+mask_start_frei0r_alphaspot.xml
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/effects)

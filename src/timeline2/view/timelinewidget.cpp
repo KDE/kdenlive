@@ -281,6 +281,9 @@ void TimelineWidget::showHeaderMenu()
     QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
     for (QAction *ac : std::as_const(menuActions)) {
         if (allowedActions.contains(ac->data().toString())) {
+            if (ac->data().toString() == QLatin1String("separate_channels")) {
+                ac->setChecked(KdenliveSettings::displayallchannels());
+            }
             audioActions << ac;
         }
     }
@@ -534,31 +537,6 @@ void TimelineWidget::stopAudioRecord()
     if (rootObject()) {
         QMetaObject::invokeMethod(rootObject(), "stopAudioRecord", Qt::DirectConnection);
     }
-}
-
-bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
-{
-    switch (event->type()) {
-    case QEvent::Enter:
-        if (!hasFocus()) {
-            Q_EMIT pCore->window()->showTimelineFocus(true, true);
-        }
-        break;
-    case QEvent::Leave:
-        if (!hasFocus()) {
-            Q_EMIT pCore->window()->showTimelineFocus(false, true);
-        }
-        break;
-    case QEvent::FocusOut:
-        Q_EMIT pCore->window()->showTimelineFocus(false, false);
-        break;
-    case QEvent::FocusIn:
-        Q_EMIT pCore->window()->showTimelineFocus(true, false);
-        break;
-    default:
-        break;
-    }
-    return QQuickWidget::eventFilter(object, event);
 }
 
 void TimelineWidget::regainFocus()

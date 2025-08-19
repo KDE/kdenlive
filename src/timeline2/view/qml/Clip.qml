@@ -77,6 +77,7 @@ Rectangle {
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
     visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
     property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
+    property bool hideDecorations: !visible || trimInMouseArea.drag.active || trimOutMouseArea.drag.active || fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
@@ -993,6 +994,18 @@ Rectangle {
                 anchors.fill: parent
                 anchors.leftMargin: clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
                 clip: true
+                states: [
+                    State { when: !clipRoot.hideDecorations
+                        PropertyChanges { target: nameContainer; opacity: 1.0 }
+                    },
+                    State { when: clipRoot.hideDecorations
+                        PropertyChanges { target: nameContainer; opacity: 0.0 }
+                    }
+                ]
+                transitions: Transition {
+                    NumberAnimation { property: "opacity"; duration: 250}
+                }
+
                 Rectangle {
                     // Debug: Clip Id background
                     id: debugCidRect

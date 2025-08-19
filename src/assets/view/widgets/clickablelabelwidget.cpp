@@ -20,8 +20,6 @@ ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParame
 {
     // setup the comment
     m_displayName = m_model->data(m_index, Qt::DisplayRole).toString();
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
     auto *layout = new QHBoxLayout(this);
     m_tb = new QToolButton(this);
     m_tb->setCursor(Qt::PointingHandCursor);

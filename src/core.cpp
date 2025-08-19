@@ -175,13 +175,15 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow);
-    connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties);
+    connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties, Qt::QueuedConnection);
     m_mainWindow->addBin(bin, QString(), false);
 
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin(), &Bin::refreshClip);
     connect(m_projectItemModel.get(), &ProjectItemModel::itemDropped, m_mainWindow->activeBin(), &Bin::slotItemDropped, Qt::QueuedConnection);
-    connect(m_projectItemModel.get(), &ProjectItemModel::urlsDropped, m_mainWindow->activeBin(), &Bin::slotUrlsDropped, Qt::QueuedConnection);
+    connect(m_projectItemModel.get(), &ProjectItemModel::urlsDropped, this, [this](const QList<QUrl> urls, const QModelIndex parent) {
+        QMetaObject::invokeMethod(m_mainWindow->activeBin(), "slotUrlsDropped", Qt::QueuedConnection, Q_ARG(QList<QUrl>, urls), Q_ARG(QModelIndex, parent));
+    });
 
     connect(m_projectItemModel.get(), &ProjectItemModel::effectDropped, m_mainWindow->activeBin(), &Bin::slotEffectDropped);
     connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin(), &Bin::slotTagDropped);
@@ -192,6 +194,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     m_mainWindow->init();
 
     // Secondary bins
+    m_guiConstructed = true;
     for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
         bin = new Bin(m_projectItemModel, m_mainWindow, false);
         m_mainWindow->addBin(bin, QString(), false);
@@ -253,9 +256,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         m_mainWindow->restore(1, false);
     }
     m_mainWindow->show();
-    // bin->slotUpdatePalette();
     Q_EMIT m_mainWindow->GUISetupDone();
-    m_guiConstructed = true;
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
@@ -1018,13 +1019,15 @@ void Core::loadingClips(int count, bool allowInterrupt)
 void Core::displayBinMessagePrivate(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
     if (m_mainWindow) {
-        m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
+        activeBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
     }
 }
 
 void Core::displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo)
 {
-    m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
+    if (m_mainWindow) {
+        activeBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
+    }
 }
 
 void Core::clearAssetPanel(int itemId)
@@ -1829,4 +1832,9 @@ std::pair<QString, int> Core::getSelectedClipAndOffset()
 int Core::currentTimelineOffset()
 {
     return currentDoc()->getSequenceProperty(currentDoc()->activeUuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+}
+
+void Core::updateHwDecoding()
+{
+    qputenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8());
 }

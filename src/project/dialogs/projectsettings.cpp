@@ -89,8 +89,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(generate_proxy, &QAbstractButton::toggled, proxy_minsize, &QWidget::setEnabled);
     connect(checkProxy, &QToolButton::clicked, pCore.get(), &Core::testProxies);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
-    connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
-    connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
     connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             video_tracks->setValue(1);

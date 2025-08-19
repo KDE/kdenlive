@@ -178,42 +178,11 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         connect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
     });
 
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, this, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
-        Q_UNUSED(args);
-        if (scriptName.contains("checkgpu")) {
-            combo_wr_device->clear();
-            for (auto &s : jobData) {
-                if (s.contains(QLatin1Char('#'))) {
-                    combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-                } else {
-                    combo_wr_device->addItem(s.simplified(), s.simplified());
-                }
-            }
-        }
-    });
-
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, this, &PluginsSettings::gotWhisperFeedback);
     connect(deleteWrVenv, &QPushButton::clicked, this, &PluginsSettings::doDeleteWrVenv);
-
-    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
-        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
-        if (scriptName.contains("checkgpu")) {
-            if (!KdenliveSettings::whisperDevice().isEmpty()) {
-                int ix = combo_wr_device->findData(KdenliveSettings::whisperDevice());
-                if (ix > -1) {
-                    combo_wr_device->setCurrentIndex(ix);
-                }
-            } else if (combo_wr_device->count() > 0) {
-                combo_wr_device->setCurrentIndex(0);
-                KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
-            }
-        }
-    });
-    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
-        // Check if a GPU is available
-        whispersettings->setEnabled(true);
-        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
-    });
-    connect(m_sttWhisper, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { whispersettings->setEnabled(false); });
+    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, this, &PluginsSettings::whisperFinished);
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, &PluginsSettings::whisperAvailable);
+    connect(m_sttWhisper, &SpeechToText::dependenciesMissing, this, &PluginsSettings::whisperMissing);
 
     // VOSK
     vosk_folder->setPlaceholderText(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
@@ -331,7 +300,10 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(m_samInterface, &AbstractPythonInterface::venvSetupChanged, this,
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
     connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
-    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &) { modelBox->setEnabled(false); });
+
+    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, &PluginsSettings::samMissing);
+    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this, &PluginsSettings::gotSamFeedback);
+    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, this, &PluginsSettings::samFinished);
     connect(sam_rebuild, &QToolButton::clicked, this, [this]() {
         if (KMessageBox::warningContinueCancel(this, i18n("This will attempt to rebuild the plugin's virtual environment. Only use if the plugin fails. If "
                                                           "this does not work, try deleting and reinstalling the plugin.")) != KMessageBox::Continue) {
@@ -343,34 +315,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         setCursor(Qt::ArrowCursor);
         sam_rebuild->setEnabled(true);
     });
-    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this,
-            [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
-                Q_UNUSED(args);
-                if (scriptName.contains("checkgpu")) {
-                    combo_sam_device->clear();
-                    for (auto &s : jobData) {
-                        if (s.contains(QLatin1Char('#'))) {
-                            combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-                        } else {
-                            combo_sam_device->addItem(s.simplified(), s.simplified());
-                        }
-                    }
-                }
-            });
-    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
-        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
-        if (scriptName.contains("checkgpu")) {
-            if (!KdenliveSettings::samDevice().isEmpty()) {
-                int ix = combo_sam_device->findData(KdenliveSettings::samDevice());
-                if (ix > -1) {
-                    combo_sam_device->setCurrentIndex(ix);
-                }
-            } else if (combo_sam_device->count() > 0) {
-                combo_sam_device->setCurrentIndex(0);
-                KdenliveSettings::setSamDevice(combo_sam_device->currentData().toString());
-            }
-        }
-    });
+
     if (modelBox->isEnabled()) {
         m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
     }
@@ -407,6 +352,86 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             checkSamEnvironement(false);
         }
     });
+}
+
+void PluginsSettings::whisperAvailable()
+{
+    // Check if a GPU is available
+    whispersettings->setEnabled(true);
+    m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+}
+
+void PluginsSettings::whisperMissing()
+{
+    // Check if a GPU is available
+    whispersettings->setEnabled(false);
+}
+
+void PluginsSettings::whisperFinished(const QString &scriptName, const QStringList &args)
+{
+    qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
+    if (scriptName.contains("checkgpu")) {
+        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+            int ix = combo_wr_device->findData(KdenliveSettings::whisperDevice());
+            if (ix > -1) {
+                combo_wr_device->setCurrentIndex(ix);
+            }
+        } else if (combo_wr_device->count() > 0) {
+            combo_wr_device->setCurrentIndex(0);
+            KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
+        }
+    }
+}
+
+void PluginsSettings::gotWhisperFeedback(const QString &scriptName, const QStringList args, const QStringList jobData)
+{
+    Q_UNUSED(args);
+    if (scriptName.contains("checkgpu")) {
+        combo_wr_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                combo_wr_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    }
+}
+
+void PluginsSettings::samFinished(const QString &scriptName, const QStringList &args)
+{
+    qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
+    if (scriptName.contains("checkgpu")) {
+        if (!KdenliveSettings::samDevice().isEmpty()) {
+            int ix = combo_sam_device->findData(KdenliveSettings::samDevice());
+            if (ix > -1) {
+                combo_sam_device->setCurrentIndex(ix);
+            }
+        } else if (combo_sam_device->count() > 0) {
+            combo_sam_device->setCurrentIndex(0);
+            KdenliveSettings::setSamDevice(combo_sam_device->currentData().toString());
+        }
+    }
+}
+
+void PluginsSettings::samMissing(const QStringList &)
+{
+    modelBox->setEnabled(false);
+}
+
+void PluginsSettings::gotSamFeedback(const QString &scriptName, const QStringList args, const QStringList jobData)
+{
+    Q_UNUSED(args);
+    if (scriptName.contains("checkgpu")) {
+        combo_sam_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                combo_sam_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    }
 }
 
 void PluginsSettings::samDependenciesChecked()

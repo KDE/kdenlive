@@ -149,6 +149,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 #elif defined(Q_OS_MACOS)
     m_glMonitor = new MetalVideoWidget(id, this);
 #else
+    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
+        qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    }
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
     //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
@@ -230,23 +234,27 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     auto *scalingAction = new QComboBox(this);
     scalingAction->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
-    scalingAction->setWhatsThis(xi18nc("@info:whatsthis", "Sets the preview resolution of the project/clip monitor. One can select between 1:1, 720p, 540p, "
-                                                          "360p, 270p (the lower the resolution the faster the preview)."));
+    scalingAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                       "Sets the preview resolution of the project/clip monitor. One can select between 1:1, 1080p, 720p, 540p, "
+                                       "360p, 270p (the lower the resolution the faster the preview)."));
     // Combobox padding is bad, so manually add a space before text
-    scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"), QStringLiteral(" ") + i18n("720p"), QStringLiteral(" ") + i18n("540p"),
-                             QStringLiteral(" ") + i18n("360p"), QStringLiteral(" ") + i18n("270p")});
+    scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"), QStringLiteral(" ") + i18n("1080p"), QStringLiteral(" ") + i18n("720p"),
+                             QStringLiteral(" ") + i18n("540p"), QStringLiteral(" ") + i18n("360p"), QStringLiteral(" ") + i18n("270p")});
     connect(scalingAction, QOverload<int>::of(&QComboBox::activated), this, [this](int index) {
         switch (index) {
         case 1:
-            KdenliveSettings::setPreviewScaling(2);
+            KdenliveSettings::setPreviewScaling(1);
             break;
         case 2:
-            KdenliveSettings::setPreviewScaling(4);
+            KdenliveSettings::setPreviewScaling(2);
             break;
         case 3:
-            KdenliveSettings::setPreviewScaling(8);
+            KdenliveSettings::setPreviewScaling(4);
             break;
         case 4:
+            KdenliveSettings::setPreviewScaling(8);
+            break;
+        case 5:
             KdenliveSettings::setPreviewScaling(16);
             break;
         default:
@@ -260,17 +268,20 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
         m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
-        case 2:
+        case 1:
             scalingAction->setCurrentIndex(1);
             break;
-        case 4:
+        case 2:
             scalingAction->setCurrentIndex(2);
             break;
-        case 8:
+        case 4:
             scalingAction->setCurrentIndex(3);
             break;
-        case 16:
+        case 8:
             scalingAction->setCurrentIndex(4);
+            break;
+        case 16:
+            scalingAction->setCurrentIndex(5);
             break;
         default:
             scalingAction->setCurrentIndex(0);
@@ -503,8 +514,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addWidget(m_timePos);
     m_toolbar->addAction(m_configMenuAction);
     m_toolbar->addSeparator();
-    QMargins mrg = m_toolbar->contentsMargins();
-    m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - mrg.top() - mrg.bottom(), this);
+    m_audioMeterWidget = new MonitorAudioLevel(this);
     m_toolbar->addWidget(m_audioMeterWidget);
     if (!m_audioMeterWidget->isValid) {
         KdenliveSettings::setMonitoraudio(0x01);
@@ -578,6 +588,15 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     refreshMonitorTimer.setSingleShot(true);
     refreshMonitorTimer.setInterval(250);
     connect(&refreshMonitorTimer, &QTimer::timeout, this, &Monitor::updateTimelineProducer);
+
+    // Connect to palette updates to refresh timecode display styling
+    connect(pCore.get(), &Core::updatePalette, this, &Monitor::applyTimecodeDisplayStyling);
+
+    // Power management
+    m_preventSleepTimer.setSingleShot(true);
+    // Only prevent sleep if we play for more than 20 seconds to avoid always turning it on/off
+    m_preventSleepTimer.setInterval(20000);
+    connect(&m_preventSleepTimer, &QTimer::timeout, this, &Monitor::updatePowerManagement);
 }
 
 Monitor::~Monitor()
@@ -1402,6 +1421,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject, bool
     relativeUrl.setPath(frameName);
     fileWidget->setSelectedUrl(relativeUrl);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+    dlg->winId(); // Make sure window gets created before getting the handle
     QWindow *handle = dlg->windowHandle();
     if ((handle != nullptr) && conf->hasGroup("FileDialogSize")) {
         KWindowConfig::restoreWindowSize(handle, conf->group("FileDialogSize"));
@@ -1835,6 +1855,15 @@ void Monitor::slotSwitchPlay()
     } else {
         m_droppedTimer.stop();
     }
+    if (m_playAction->isActive()) {
+        m_preventSleepTimer.start();
+    } else {
+        if (!m_preventSleepTimer.isActive()) {
+            updatePowerManagement();
+        } else {
+            m_preventSleepTimer.stop();
+        }
+    }
 }
 
 void Monitor::slotPlay()
@@ -2053,7 +2082,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             return false;
         }
         if (KdenliveSettings::rectimecode()) {
-            m_timePos->setFrameOffset(m_controller->getStartTimecode());
+            m_timePos->setFrameOffset(qMax(0, m_controller->getStartTimecode()));
         }
         if (m_controller->statusReady()) {
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
@@ -2312,13 +2341,9 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
     } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
+
     if (!r.isEmpty()) {
-        if (isPlaying()) {
-            // Don't refresh rect if we are moving it
-            QMetaObject::invokeMethod(root, "updateEffectRect", Q_ARG(QRect, r));
-        } else {
-            root->setProperty("framesize", r);
-        }
+        root->setProperty("framesize", r);
     }
 }
 
@@ -3051,7 +3076,7 @@ void Monitor::slotSwitchRecTimecode(bool enable)
         return;
     }
     if (m_controller) {
-        m_timePos->setFrameOffset(m_controller->getStartTimecode());
+        m_timePos->setFrameOffset(qMax(0, m_controller->getStartTimecode()));
     }
 }
 
@@ -3219,14 +3244,23 @@ void Monitor::updatePreviewMask()
     refreshMonitor();
 }
 
-void Monitor::activeChanged()
+void Monitor::applyTimecodeDisplayStyling()
 {
     bool isActive = m_monitorManager->isActive(m_id);
     QPalette pal = m_timePos->palette();
     KColorScheme scheme(QApplication::palette().currentColorGroup());
-    QColor bg = isActive ? scheme.foreground(KColorScheme::PositiveText).color() : scheme.foreground(KColorScheme::NormalText).color();
+    QColor bg = isActive ? scheme.decoration(KColorScheme::FocusColor).color() : scheme.foreground(KColorScheme::NormalText).color();
     pal.setColor(QPalette::Text, bg);
     m_timePos->setPalette(pal);
     m_timePos->setBold(isActive);
     Q_EMIT getControllerProxy() -> activeMonitorChanged();
+}
+
+void Monitor::updatePowerManagement()
+{
+    if (m_playAction->isActive()) {
+        pCore->window()->mPowerInterface.setPreventDim(true);
+    } else {
+        pCore->window()->mPowerInterface.setPreventDim(false);
+    }
 }

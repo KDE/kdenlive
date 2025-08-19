@@ -178,6 +178,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_mixWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
     m_maskManager->setVisible(false);
+    connect(this, &AssetPanel::slotSwitchCollapseAll, m_effectStackWidget, &EffectStackView::slotSwitchCollapseAll);
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
     connect(m_effectStackWidget, &EffectStackView::checkDragScrolling, this, &AssetPanel::checkDragScroll);
@@ -437,10 +438,10 @@ void AssetPanel::scrollTo(QRect rect)
 {
     // Ensure the scrollview widget adapted its height to the effectstackview height change
     m_sc->widget()->adjustSize();
-    if (rect.height() < m_sc->height()) {
-        m_sc->ensureVisible(0, rect.y() + rect.height(), 0, 0);
+    if (rect.y() < m_sc->verticalScrollBar()->value()) {
+        m_sc->ensureVisible(0, rect.y(), 0, 0);
     } else {
-        m_sc->ensureVisible(0, rect.y() + m_sc->height(), 0, 0);
+        m_sc->ensureVisible(0, rect.y() + qMin(m_sc->height(), rect.height()), 0, 0);
     }
 }
 

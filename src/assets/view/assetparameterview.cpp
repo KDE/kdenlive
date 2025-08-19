@@ -31,9 +31,8 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 {
     m_lay = new QFormLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
-    m_lay->setVerticalSpacing(0);
+    m_lay->setVerticalSpacing(2);
     m_lay->setHorizontalSpacing(m_lay->horizontalSpacing() * 3);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
     m_presetMenu = new QMenu(this);
 }
@@ -79,17 +78,14 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     });
     Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    int minHeight = 0;
-    int keyframeRow = -1;
     // First pass: find and create the keyframe widget for the first animated parameter
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (!m_mainKeyframeWidget && (AssetParameterModel::isAnimated(type) || type == ParamType::Geometry)) {
+        if (!m_mainKeyframeWidget && AssetParameterModel::isAnimated(type)) {
             auto paramWidgets = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
             if (paramWidgets.second) {
                 m_mainKeyframeWidget = paramWidgets.second;
-                keyframeRow = i;
                 connect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &KeyframeContainer::slotInitMonitor);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
@@ -101,17 +97,17 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeContainer::addRemove);
                 connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeContainer::sendStandardCommand);
-                minHeight += m_mainKeyframeWidget->minimumHeight();
                 m_mainKeyframeWidget->initNeededSceneAndHelper();
             }
             break;
         }
     }
     // Second pass: add all animated params to the keyframe widget, and all others to the layout
+    int nonKeyframeRow = 0;
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget && (AssetParameterModel::isAnimated(type) || type == ParamType::Geometry)) {
+        if (m_mainKeyframeWidget && (AssetParameterModel::isAnimated(type))) {
             if (type != ParamType::ColorWheel) {
                 m_mainKeyframeWidget->addParameter(index);
             }
@@ -125,26 +121,18 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
                 connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                    setFixedHeight(contentHeight());
+                    setMinimumHeight(contentHeight());
                     Q_EMIT updateHeight();
                 });
                 if (type != ParamType::Hidden) {
-                    if (keyframeRow == -1) {
-                        m_lay->addRow(w->createLabel(), w);
-                    } else {
-                        m_lay->insertRow(keyframeRow, w->createLabel(), w);
-                        keyframeRow++;
-                    }
-                    minHeight += w->minimumHeight();
+                    m_lay->insertRow(nonKeyframeRow, w->createLabel(), w);
+                    nonKeyframeRow++;
                 }
             }
             m_widgets.push_back(w);
         }
     }
-    setMinimumHeight(minHeight);
-    if (addSpacer) {
-        // m_lay->addStretch();
-    }
+    setMinimumHeight(contentHeight());
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     Q_EMIT monitor->seekPosition(monitor->position());
@@ -258,7 +246,7 @@ void AssetParameterView::unsetModel()
 void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     QMutexLocker lock(&m_lock);
-    if (m_widgets.size() == 0) {
+    if (m_widgets.size() == 0 && !m_mainKeyframeWidget) {
         // no visible param for this asset, abort
         return;
     }
@@ -270,24 +258,26 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     if (type == ParamType::ColorWheel) {
         // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
         // Should be better managed
-        if (m_widgets.at(0)) {
+        if (!m_widgets.empty() && m_widgets.at(0)) {
             m_widgets.at(0)->slotRefresh();
         } else if (m_mainKeyframeWidget) {
             m_mainKeyframeWidget->slotRefresh();
         }
         return;
     }
-    size_t max = m_widgets.size() - 1;
-    if (bottomRight.isValid()) {
-        max = qMin(max, size_t(bottomRight.row()));
-    }
-    Q_ASSERT(max < m_widgets.size());
-    for (auto i = size_t(topLeft.row()); i <= max; ++i) {
-        if (m_widgets.at(i)) {
-            m_widgets.at(i)->slotRefresh();
-        } else if (m_mainKeyframeWidget) {
-            m_mainKeyframeWidget->slotRefresh();
+    if (!m_widgets.empty()) {
+        size_t max = m_widgets.size() - 1;
+        if (bottomRight.isValid()) {
+            max = qMin(max, size_t(bottomRight.row()));
         }
+        for (auto i = size_t(topLeft.row()); i <= max; ++i) {
+            if (m_widgets.at(i)) {
+                m_widgets.at(i)->slotRefresh();
+            }
+        }
+    }
+    if (m_mainKeyframeWidget) {
+        m_mainKeyframeWidget->slotRefresh();
     }
 }
 

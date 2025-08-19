@@ -12,9 +12,6 @@
 SwitchParamWidget::SwitchParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
     QHBoxLayout *lay = new QHBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
     m_checkBox = new QCheckBox(this);

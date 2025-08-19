@@ -371,7 +371,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     QMargins mrg = m_layout->contentsMargins();
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
     m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
-    m_addedHeight = mrg.top() + mrg.bottom();
+    m_addedHeight = mrg.top() + mrg.bottom() + m_layout->horizontalSpacing();
     if (isColorWheel) {
         addParameter(index);
     }
@@ -432,15 +432,10 @@ void KeyframeContainer::slotRefreshParams()
         }
         i++;
     }
-    bool hasRotation = false;
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-        QString name = m_model->data(w.first, AssetParameterModel::NameRole).toString();
         if (type == ParamType::KeyframeParam) {
             (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
-            if (name == QLatin1String("rotation")) {
-                hasRotation = true;
-            }
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
@@ -464,7 +459,7 @@ void KeyframeContainer::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
-    if (m_monitorHelper && m_model->isActive() && (m_curveeditorcontainer->isEnabled() || hasRotation)) {
+    if (m_monitorHelper && m_model->isActive() && m_curveeditorcontainer->isEnabled()) {
         m_monitorHelper->refreshParams(pos);
     }
 }
@@ -588,8 +583,7 @@ void KeyframeContainer::initNeededSceneAndHelper()
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
-        QString assetId = m_model->getAssetId();
+        const QString assetId = m_model->getAssetId();
         if (assetId == QLatin1String("qtblend")) {
             m_neededScene = MonitorSceneType::MonitorSceneRotatedGeometry;
             m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
@@ -598,17 +592,17 @@ void KeyframeContainer::initNeededSceneAndHelper()
             m_neededScene = MonitorSceneType::MonitorSceneRoto;
             m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
+        } else if (type == ParamType::AnimatedRect) {
+            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            break;
         } else if (assetId == QLatin1String("frei0r.c0rners")) {
             m_neededScene = MonitorSceneType::MonitorSceneCorners;
             m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
-        } else if (assetId.contains(QLatin1String("frei0r.alphaspot"))) {
+        } else if (assetId == QLatin1String("frei0r.alpha0ps_alphaspot") || assetId.contains(QLatin1String("frei0r.alphaspot"))) {
             m_neededScene = MonitorSceneType::MonitorSceneGeometry;
             m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
-            break;
-        } else if (type == ParamType::AnimatedRect) {
-            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
-            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
             break;
         }
     }
@@ -717,8 +711,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 }
             }
         }
-        if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
-
+        if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot")) || m_model->getAssetId() == QLatin1String("frei0r.alpha0ps_alphaspot")) {
             if (type == ParamType::KeyframeParam) {
                 if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
                     paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
@@ -764,7 +757,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         } else {
             m_layout->addRow(paramWidget);
         }
-        m_addedHeight += paramWidget->minimumHeight();
+        m_addedHeight += paramWidget->minimumHeight() + m_layout->horizontalSpacing();
         m_fixedHeight = m_baseHeight + m_addedHeight;
     } else {
         m_parameters[index] = nullptr;

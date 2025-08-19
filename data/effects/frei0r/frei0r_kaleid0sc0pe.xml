@@ -14,37 +14,37 @@
     </parameter>
     <parameter type="animated" name="segmentation" default="0.125" min="0" max="128" factor="128">
         <name>Segmentation</name>
-        <comment><![CDATA[Kaleidoscope segmentation / 128; <br>
+        <comment><![CDATA[Kaleidoscope segmentation / 128;<br>
         segmentations of 1, 2, or multiples of 4 work best. Default is 16]]></comment> 
     </parameter>
     <parameter type="bool" name="specify_source" default="0" min="0" max="1" factor="1">
-        <name>Specify source segment</name>
-        <comment><![CDATA[If checked, the source angle <br>
+        <name>Specify Source Segment</name>
+        <comment><![CDATA[If checked, the source angle<br>
         is read from the <em>source segment</em>, otherwise it is auto calculated]]></comment>
     </parameter>
     <parameter type="animated" name="source_segment" default="0" min="0" max="128" factor="128">
-        <name>Source segment</name>
-        <comment><![CDATA[Center of the source segment. Only used if <em>Specify Source Segment</em> is checked. <br>
+        <name>Source Segment</name>
+        <comment><![CDATA[Center of the source segment. Only used if <em>Specify Source Segment</em> is checked.<br>
         0 is in +x and rotates counter clockwise.]]></comment>
     </parameter>
     <parameter type="list" name="segmentation_direction" default="1" paramlist="0;0.5;1">
     	<paramlistdisplay>None,Counter Clockwise,Clockwise</paramlistdisplay>
-        <name>Segmentation direction</name>
+        <name>Segmentation Direction</name>
         <comment>Direction of the segmentation.</comment>
     </parameter>
     <parameter type="bool" name="reflect_edges" default="1" min="0" max="1">
-        <name>Reflect edges</name>
-        <comment><![CDATA[If checked, reflections that end up outside the source reflect back into it. <br>
+        <name>Reflect Edges</name>
+        <comment><![CDATA[If checked, reflections that end up outside the source reflect back into it.<br>
         Otherwise the specified background color is used.]]></comment>
     </parameter>
     <parameter type="animated" name="edge_threshold" default="0" min="0" max="1" decimals="3">
-        <name>Edge threshold</name>
+        <name>Edge Threshold</name>
         <comment><![CDATA[Edge threshold / 4, reflections <br>
         outside the image but within this distance clamp to the edge.]]></comment>
     </parameter>
     <parameter type="list" name="preferred_corner" default="0" paramlist="0;0.25;0.5;0.75">
     	<paramlistdisplay>Top right,Top left,Bottom left,Bottom right</paramlistdisplay>
-        <name>Preferred corner</name>
+        <name>Preferred Corner</name>
         <comment><![CDATA[If <em>Reflect Edges</em> is not checked, <br>
         this parameter defines the preferred corner.]]></comment>
     </parameter>
@@ -53,13 +53,14 @@
         <comment><![CDATA[If checked, search clockwise for furthest corner.<br>
         Otherwise search counter clockwise.]]></comment>
     </parameter>
-    <parameter type="fixedcolor" name="bg_color" default="#ff00ff">
-        <name>Background color</name>
-        <comment><![CDATA[Color to use if reflection lies <br>outside of the source image and not reflecting back in.]]></comment>
+    <parameter type="color" name="bg_color" default="#ff00ff">
+        <name>Background Color</name>
+        <comment><![CDATA[Color to use if reflection<br>
+        lies outside of the source image and not reflecting back in.]]></comment>
     </parameter>
     <parameter type="bool" name="bg_alpha" default="1" min="0" max="1">
-        <name>Use alpha background</name>
-        <comment><![CDATA[If checked, alpha will be used <br>
-        if reflection lies outside of the source image and not reflecting back in.]]></comment>
+        <name>No Alpha Background</name>
+        <comment><![CDATA[If checked, the selected<br>
+        color will be used, if reflection lies outside of the source image and not reflecting back in.]]></comment>
     </parameter>
 </effect>

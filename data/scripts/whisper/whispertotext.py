@@ -56,7 +56,8 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
     with (
         open(checkpoint_file, "rb")
     ) as fp:
-        checkpoint = torch.load(fp, map_location=device)
+        kwargs = {"weights_only": True} if torch.__version__ >= "1.13" else {}
+        checkpoint = torch.load(fp, map_location=device, **kwargs)
     del checkpoint_file
     dims = whisper.ModelDimensions(**checkpoint["dims"])
     model = whisper.Whisper(dims)
@@ -169,7 +170,7 @@ def main():
     if ffmpeg_path:
         jobArgs = f"ffmpeg_path={ffmpeg_path} "
     if language:
-        jobArgs = f"language={language} "
+        jobArgs += f"language={language} "
 
     result = run_whisper(source, model, device, task, jobArgs)
 

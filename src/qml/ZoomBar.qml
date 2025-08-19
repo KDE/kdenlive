@@ -79,6 +79,13 @@ Rectangle {
                     minimumX: 0
                     maximumX: zoomHandleContainer.width - zoomBar.width
                 }
+                onPressed: {
+                    root.captureRightClick = true
+                }
+                onReleased: {
+                    root.captureRightClick = false
+                }
+
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         zoomContainer.proposeContentPos(zoomBar.x / zoomHandleContainer.width)
@@ -120,6 +127,12 @@ Rectangle {
             height: zoomBar.height
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
+            onPressed: {
+                root.captureRightClick = true
+            }
+            onReleased: {
+                root.captureRightClick = false
+            }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.max(0, x + mouseX)
@@ -154,6 +167,12 @@ Rectangle {
             height: zoomBar.height
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
+            onPressed: {
+                root.captureRightClick = true
+            }
+            onReleased: {
+                root.captureRightClick = false
+            }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)

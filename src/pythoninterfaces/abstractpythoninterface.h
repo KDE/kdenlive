@@ -9,6 +9,7 @@
 
 #include <KMessageWidget>
 
+#include <QFutureWatcher>
 #include <QMap>
 #include <QMutex>
 #include <QObject>
@@ -51,7 +52,7 @@ public:
     QStringList missingDependencies(const QStringList &filter = {});
     /** @brief Install an additional requirements file. */
     virtual bool installRequirements(const QString reqFile);
-    QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
+    QString runScript(const QString &script, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
     virtual PythonExec venvPythonExecs(bool checkPip = false);
     virtual bool useSystemPython();
     QString systemPythonExec();
@@ -104,6 +105,8 @@ private:
     QMap<QString, QString> m_versions;
     bool m_dependenciesChecked{false};
     QMutex m_versionsMutex;
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_scriptJob;
     const QString locateScript(const QString &script);
     QString runPackageScript(QString mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);
     int versionToInt(const QString &version);

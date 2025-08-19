@@ -120,7 +120,6 @@ TEST_CASE("Export/import", "[OTIO]")
         QString inputPath = sourcesPath + "/dataset/test-guides-markers.otio";
         OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
             dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
-        const int otioClipCount = otioTestTimeline->find_clips().size();
 
         // Import the OTIO test timeline.
         OtioImport otioImport;
@@ -199,7 +198,6 @@ TEST_CASE("Export/import", "[OTIO]")
         OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
             dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
         const auto otioClips = otioTestTimeline->find_clips();
-        const int otioClipCount = otioClips.size();
 
         // Import the OTIO test timeline.
         OtioImport otioImport;
@@ -250,7 +248,6 @@ TEST_CASE("Export/import", "[OTIO]")
         OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
             dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
         const auto otioClips = otioTestTimeline->find_clips();
-        const int otioClipCount = otioClips.size();
 
         // Import the OTIO test timeline.
         OtioImport otioImport;

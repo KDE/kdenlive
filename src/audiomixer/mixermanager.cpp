@@ -9,6 +9,7 @@
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "mixerseparator.h"
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -21,22 +22,10 @@
 #include <QModelIndex>
 #include <QScreen>
 #include <QScrollArea>
-#include <QStyle>
-#include <QStyleOptionSlider>
 #include <QTimer>
 
-MySlider::MySlider(QWidget *parent)
-    : QSlider(parent)
-{
-}
-
-int MySlider::getHandleHeight()
-{
-    // Get slider handle size
-    QStyleOptionSlider opt;
-    initStyleOption(&opt);
-    return style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderHandle).height();
-}
+constexpr QMargins kMarginAroundMixer = QMargins(6, 6, 6, 6);
+constexpr QMargins kNoMargin = QMargins(0, 0, 0, 0);
 
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
@@ -48,10 +37,11 @@ MixerManager::MixerManager(QWidget *parent)
     , m_filterIsV2(false)
 {
     m_masterBox = new QHBoxLayout;
-    setContentsMargins(0, 0, 0, 0);
+    setContentsMargins(kNoMargin);
     m_channelsBox = new QScrollArea(this);
-    m_channelsBox->setContentsMargins(0, 0, 0, 0);
+    m_channelsBox->setContentsMargins(kNoMargin);
     m_box = new QHBoxLayout;
+    m_box->setContentsMargins(kNoMargin);
     m_box->setSpacing(0);
     auto *channelsBoxContainer = new QWidget(this);
     m_channelsBox->setWidget(channelsBoxContainer);
@@ -59,21 +49,15 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsBox->setFrameShape(QFrame::NoFrame);
     m_box->addWidget(m_channelsBox);
     m_channelsLayout = new QHBoxLayout;
-    m_channelsLayout->setContentsMargins(0, 0, 0, 0);
-    m_masterBox->setContentsMargins(0, 0, 0, 0);
-    // m_channelsLayout->setSpacing(4);
-    m_channelsLayout->setSpacing(1);
+    m_channelsLayout->setContentsMargins(kNoMargin);
+    m_masterBox->setContentsMargins(kNoMargin);
+    m_channelsLayout->setSpacing(0);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
-    QFrame *line = new QFrame(this);
-    line->setFrameShape(QFrame::VLine);
-    line->setFrameShadow(QFrame::Sunken);
-    line->setFixedWidth(3);
-    m_box->addWidget(line);
+    m_masterSeparator = new MixerSeparator(this);
+    m_box->addWidget(m_masterSeparator);
     m_box->addLayout(m_masterBox);
     setLayout(m_box);
-    MySlider slider;
-    m_sliderHandle = slider.getHandleHeight();
 }
 
 void MixerManager::checkAudioLevelVersion()
@@ -118,7 +102,14 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
         // Track already registered
         return;
     }
-    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, m_sliderHandle, this));
+    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
+    mixer->setContentsMargins(kMarginAroundMixer);
+
+    // Use alternating background colors for mixers
+    int mixerCount = m_mixers.size();
+    QPalette::ColorRole colorRole = (mixerCount % 2 == 0) ? QPalette::Base : QPalette::AlternateBase;
+    mixer->setBackgroundColor(colorRole);
+
     connect(mixer.get(), &MixerWidget::muteTrack, this,
             [&](int id, bool mute) { m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3")); });
     if (m_visibleMixerManager) {
@@ -154,8 +145,15 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
             }
         }
     });
+
+    if (mixerCount > 0) {
+        QWidget *separator = new MixerSeparator(this);
+        m_channelsLayout->insertWidget(0, separator);
+        m_separators[tid] = separator;
+    }
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
+
     m_recommendedWidth = (mixer->minimumWidth() + 1) * (qMin(2, int(m_mixers.size()))) + 3;
     if (!KdenliveSettings::mixerCollapse()) {
         m_channelsBox->setMinimumWidth(m_recommendedWidth);
@@ -165,7 +163,29 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
 void MixerManager::deregisterTrack(int tid)
 {
     Q_ASSERT(m_mixers.count(tid) > 0);
+
+    // Remove the mixer widget
+    QWidget *mixerWidget = m_mixers[tid].get();
+    m_channelsLayout->removeWidget(mixerWidget);
+    mixerWidget->deleteLater();
+
+    // Remove the separator if it exists
+    if (m_separators.count(tid) > 0) {
+        QWidget *separator = m_separators[tid];
+        m_channelsLayout->removeWidget(separator);
+        separator->deleteLater();
+        m_separators.erase(tid);
+    }
+
     m_mixers.erase(tid);
+
+    // Update background colors of remaining tracks to maintain alternating pattern
+    int index = 0;
+    for (auto &pair : m_mixers) {
+        QPalette::ColorRole colorRole = (index % 2 == 0) ? QPalette::Base : QPalette::AlternateBase;
+        pair.second->setBackgroundColor(colorRole);
+        index++;
+    }
 }
 
 void MixerManager::cleanup()
@@ -178,6 +198,7 @@ void MixerManager::cleanup()
     }
     m_channelsLayout->addStretch(10);
     m_mixers.clear();
+    m_separators.clear();
     m_monitorTrack = -1;
     if (m_masterMixer) {
         m_masterMixer->reset();
@@ -217,7 +238,8 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         // delete previous master mixer
         m_masterBox->removeWidget(m_masterMixer.get());
     }
-    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), m_sliderHandle, this));
+    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
+    m_masterMixer->setContentsMargins(kMarginAroundMixer);
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) { m_model->tractor()->set("hide", mute ? 3 : 1); });
     if (m_visibleMixerManager) {
         m_masterMixer->connectMixer(true);
@@ -252,19 +274,19 @@ void MixerManager::collapseMixers()
 {
     connectMixer(m_visibleMixerManager);
     if (KdenliveSettings::mixerCollapse()) {
-        m_expandedWidth = width();
-        m_channelsBox->setFixedWidth(0);
-        // m_line->setMaximumWidth(0);
-        if (!pCore->window()->isMixedTabbed()) {
-            setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+        m_channelsBox->setVisible(false);
+        if (m_masterSeparator) m_masterSeparator->hide();
+        if (m_masterMixer) {
+            m_masterBox->setAlignment(Qt::AlignHCenter);
         }
     } else {
-        // m_line->setMaximumWidth(QWIDGETSIZE_MAX);
-        m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
-        m_channelsBox->setMinimumWidth(m_recommendedWidth);
-        setFixedWidth(m_expandedWidth);
-        QMetaObject::invokeMethod(this, "resetSizePolicy", Qt::QueuedConnection);
+        m_channelsBox->setVisible(true);
+        if (m_masterSeparator) m_masterSeparator->show();
+        if (m_masterMixer) {
+            m_masterBox->setAlignment(Qt::Alignment()); // Remove alignment
+        }
     }
+    QMetaObject::invokeMethod(this, "resetSizePolicy", Qt::QueuedConnection);
 }
 
 void MixerManager::resetSizePolicy()

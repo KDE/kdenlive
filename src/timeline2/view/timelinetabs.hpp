@@ -109,4 +109,5 @@ private:
     QAction *m_editGuideAction;
     QMenu *m_timelineSubtitleClipMenu;
     QMutex m_lock;
+    int getTimelineIndex(const QUuid &uuid);
 };

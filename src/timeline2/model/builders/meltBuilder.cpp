@@ -336,7 +336,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 
     // load locked state as last step
     for (int tid : std::as_const(lockedTracksIndexes)) {
-        timeline->setTrackLockedState(tid, true);
+        timeline->lockTrack(tid, true);
     }
 
     if (!ok) {

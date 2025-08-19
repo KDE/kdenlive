@@ -1,18 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.vectorscope" id="avfilter.vectorscope">
-    <name>Vectorscope (Advanced)</name>
-    <description>Display 2 color component values in the two dimensional graph (which is called a vectorscope)</description>
+    <name>Vectorscope (advanced)</name>
+    <description>Display 2 color component values in a two dimensional graph</description>
     <author>libavfilter</author>
-    <parameter type="list" name="av.m" default="color3" paramlist="gray;color;color2;color3;color4;color5">
-        <paramlistdisplay>gray,color,color2,color3,color4,color5</paramlistdisplay>
+    <parameter type="list" name="av.m" default="color3" paramlist="gray;tint;color;color2;color3;color4;color5">
+        <paramlistdisplay>Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5</paramlistdisplay>
         <name>Mode</name>
     </parameter>
+    <parameter type="constant" name="av.t0" default="0" min="-1" max="1" decimals="2">
+        <name>Tint 1</name>
+    </parameter>
+    <parameter type="constant" name="av.t1" default="0" min="-1" max="1" decimals="2">
+        <name>Tint 2</name>
+    </parameter>
     <parameter type="constant" name="av.x" default="1" min="0" max="2" factor="1">
-        <name>X</name>
+        <name>Component on X</name>
     </parameter>
     <parameter type="constant" name="av.y" default="2" min="0" max="2" factor="1">
-        <name>Y</name>
+        <name>Component on Y</name>
     </parameter>
     <parameter type="constant" name="av.i" default="0.004" min="0" max="1" decimals="3">
         <name>Intensity</name>
@@ -22,15 +28,15 @@
         <name>Envelope</name>
     </parameter>
     <parameter type="list" name="av.g" default="color" paramlist="none;green;color">
-        <paramlistdisplay>none,green,color</paramlistdisplay>
+        <paramlistdisplay>None,Green,Color</paramlistdisplay>
         <name>Graticule</name>
     </parameter>
     <parameter type="constant" name="av.o" default="0.75" min="0" max="1" decimals="2">
         <name>Graticule Opacity</name>
     </parameter>
     <parameter type="list" name="av.f" default="name" paramlist="white;black;name">
-        <paramlistdisplay>White,Black,Name</paramlistdisplay>
-        <name>Flags</name>
+        <paramlistdisplay>Draw White Point,Draw Black Point,Draw Point Name</paramlistdisplay>
+        <name>Graticule Flags</name>
     </parameter>
     <parameter type="constant" name="av.b" default="0.3" min="0" max="1" decimals="2">
         <name>Background Opacity</name>
@@ -42,7 +48,7 @@
         <name>High Threshold</name>
     </parameter>
     <parameter type="list" name="av.c" default="auto" paramlist="auto;601;709">
-        <paramlistdisplay>Auto,601,709</paramlistdisplay>
-        <name>Colorspace</name>
+        <paramlistdisplay>Auto,Rec.601 (interleaved),Rec.709 (progressive)</paramlistdisplay>
+        <name>Color Space</name>
     </parameter>
 </effect>

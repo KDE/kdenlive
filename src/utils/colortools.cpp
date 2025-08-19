@@ -386,6 +386,7 @@ QImage ColorTools::FixedColorCircle(const QSize &size, QRgb color)
     circle.fill(qRgba(0, 0, 0, 0));
 
     QPainter p(&circle);
+    p.setRenderHint(QPainter::Antialiasing, true);
     p.setPen(Qt::NoPen);
     p.setBrush(QColor(color));
     p.drawEllipse(QRect(0, 0, size.width(), size.height()));

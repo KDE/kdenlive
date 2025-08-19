@@ -65,6 +65,14 @@ bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
         return itemType == m_type_value || itemType == AssetListType::AssetType::CustomAudio || itemType == AssetListType::TemplateCustom ||
                itemType == AssetListType::TemplateCustomAudio;
     }
+    if (m_type_value == AssetListType::AssetType::Video) {
+        return itemType == m_type_value || itemType == AssetListType::AssetType::Custom || itemType == AssetListType::Template ||
+               itemType == AssetListType::TemplateCustom;
+    }
+    if (m_type_value == AssetListType::AssetType::Audio) {
+        return itemType == m_type_value || itemType == AssetListType::AssetType::CustomAudio || itemType == AssetListType::TemplateAudio ||
+               itemType == AssetListType::TemplateCustomAudio;
+    }
     return itemType == m_type_value;
 }
 

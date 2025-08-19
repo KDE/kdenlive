@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.alpha0ps_alpha0ps" id="frei0r.alpha0ps_alpha0ps" version="0.4">
-    <name>Alpha operations</name>
+    <name>Alpha Operations</name>
     <description>Display and manipulation of the alpha channel</description>
     <author>Marko Cebokli</author>
     <parameter type="list" name="Display" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
@@ -9,7 +9,7 @@
         <name>Display</name>
     </parameter>
     <parameter type="bool" name="Display input alpha" default="0">
-        <name>Display input alpha</name>
+        <name>Display Input Alpha</name>
     </parameter>
     <parameter type="list" name="Operation" default="0" paramlist="0;0.2;0.3;0.4;0.6;0.7;0.8;1">
         <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur</paramlistdisplay>
@@ -19,7 +19,7 @@
         <name>Threshold</name>
     </parameter>
     <parameter type="animated" name="Shrink/Grow/Blur amount" default="0.5" min="0" max="1000" factor="1000" intimeline="1">
-        <name>Shrink/Grow/Blur amount</name>
+        <name>Shrink/Grow/Blur Amount</name>
     </parameter>
     <parameter type="bool" name="Invert" default="0">
         <name>Invert</name>

@@ -172,43 +172,91 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         m_startLayout->addWidget(lab);
         // HW accel
         const QString detectedCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));
-        QCheckBox *cb = new QCheckBox(i18n("VAAPI hardware acceleration"), this);
-        m_startLayout->addWidget(cb);
-        cb->setChecked(detectedCodecs.contains(QLatin1String("_vaapi")));
-        QCheckBox *cbn = new QCheckBox(i18n("NVIDIA hardware acceleration"), this);
-        m_startLayout->addWidget(cbn);
-        cbn->setChecked(detectedCodecs.contains(QLatin1String("_nvenc")));
-        QCheckBox *cba = new QCheckBox(i18n("AMF hardware acceleration"), this);
-        m_startLayout->addWidget(cba);
-        cba->setChecked(detectedCodecs.contains(QLatin1String("_amf")));
-        QCheckBox *cbq = new QCheckBox(i18n("QSV hardware acceleration"), this);
-        m_startLayout->addWidget(cbq);
-        cbq->setChecked(detectedCodecs.contains(QLatin1String("_qsv")));
-        QCheckBox *cbv = new QCheckBox(i18n("Video Toolbox hardware acceleration"), this);
-        m_startLayout->addWidget(cbv);
-        cbv->setChecked(detectedCodecs.contains(QLatin1String("_videotoolbox")));
+        QCheckBox *cb_vaapi = new QCheckBox(i18n("VAAPI hardware acceleration"), this);
+        m_startLayout->addWidget(cb_vaapi);
+        cb_vaapi->setChecked(detectedCodecs.contains(QLatin1String("_vaapi")));
+        QCheckBox *cb_nvidia = new QCheckBox(i18n("NVIDIA hardware acceleration"), this);
+        m_startLayout->addWidget(cb_nvidia);
+        cb_nvidia->setChecked(detectedCodecs.contains(QLatin1String("_nvenc")));
+        QCheckBox *cb_amf = new QCheckBox(i18n("AMF hardware acceleration"), this);
+        m_startLayout->addWidget(cb_amf);
+        cb_amf->setChecked(detectedCodecs.contains(QLatin1String("_amf")));
+        QCheckBox *cb_qsv = new QCheckBox(i18n("QSV hardware acceleration"), this);
+        m_startLayout->addWidget(cb_qsv);
+        cb_qsv->setChecked(detectedCodecs.contains(QLatin1String("_qsv")));
+        QCheckBox *cb_videotoolbox = new QCheckBox(i18n("Video Toolbox hardware acceleration"), this);
+        m_startLayout->addWidget(cb_videotoolbox);
+        cb_videotoolbox->setChecked(detectedCodecs.contains(QLatin1String("_videotoolbox")));
 #if !defined(Q_OS_WIN)
-        cba->setVisible(false);
-        cbq->setVisible(false);
+        cb_amf->setVisible(false);
+        cb_qsv->setVisible(false);
 #endif
 #if !defined(Q_OS_MAC)
-        cbv->setVisible(false);
+        cb_videotoolbox->setVisible(false);
 #else
-        cbn->setVisible(false);
+        cb_nvidia->setVisible(false);
 #endif
-#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-        cb->setVisible(false);
+#if defined(Q_OS_MAC)
+        cb_vaapi->setVisible(false);
 #endif
+        QCheckBox *cb_decoding = new QCheckBox(i18n("Enable hardware decoding"), this);
+        if (!KdenliveSettings::hwDecoding().isEmpty()) {
+            cb_decoding->setChecked(true);
+            cb_decoding->setText(i18n("Enable hardware decoding: %1", KdenliveSettings::hwDecoding()));
+        }
+        connect(cb_decoding, &QCheckBox::toggled, this, [this, cb_vaapi, cb_nvidia, cb_amf, cb_qsv, cb_videotoolbox, cb_decoding](bool enabled) {
+            if (!enabled) {
+                KdenliveSettings::setHwDecoding(QString());
+                Q_EMIT pCore->updateHwDecoding();
+            } else if (cb_nvidia->isChecked()) {
+                KdenliveSettings::setHwDecoding(QStringLiteral("nvdec"));
+            } else if (cb_vaapi->isChecked()) {
+                KdenliveSettings::setHwDecoding(QStringLiteral("vaapi"));
+            } else if (cb_videotoolbox->isChecked()) {
+                KdenliveSettings::setHwDecoding(QStringLiteral("videotoolbox"));
+            } else if (cb_qsv->isChecked() || cb_amf->isChecked()) {
+                KdenliveSettings::setHwDecoding(QStringLiteral("d3d11va"));
+            }
+            if (KdenliveSettings::hwDecoding().isEmpty()) {
+                cb_decoding->setChecked(false);
+                cb_decoding->setText(i18n("Enable hardware decoding"));
+            } else {
+                cb_decoding->setText(i18n("Enable hardware decoding: %1", KdenliveSettings::hwDecoding()));
+                Q_EMIT pCore->updateHwDecoding();
+            }
+        });
+        m_startLayout->addWidget(cb_decoding);
         QPushButton *pb = new QPushButton(i18n("Check hardware acceleration"), this);
-        connect(pb, &QPushButton::clicked, this, [&, cb, cbn, cba, cbq, cbv, pb]() {
+        connect(pb, &QPushButton::clicked, this, [&, cb_vaapi, cb_nvidia, cb_amf, cb_qsv, cb_videotoolbox, cb_decoding, pb]() {
             testHwEncoders();
             pb->setEnabled(false);
             const QString detectedCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));
-            cb->setChecked(detectedCodecs.contains(QLatin1String("_vaapi")));
-            cbn->setChecked(detectedCodecs.contains(QLatin1String("_nvenc")));
-            cba->setChecked(detectedCodecs.contains(QLatin1String("_amf")));
-            cbq->setChecked(detectedCodecs.contains(QLatin1String("_qsv")));
-            cbv->setChecked(detectedCodecs.contains(QLatin1String("_videotoolbox")));
+            cb_vaapi->setChecked(detectedCodecs.contains(QLatin1String("_vaapi")));
+            cb_nvidia->setChecked(detectedCodecs.contains(QLatin1String("_nvenc")));
+            cb_amf->setChecked(detectedCodecs.contains(QLatin1String("_amf")));
+            cb_qsv->setChecked(detectedCodecs.contains(QLatin1String("_qsv")));
+            cb_videotoolbox->setChecked(detectedCodecs.contains(QLatin1String("_videotoolbox")));
+            if (cb_decoding->isChecked()) {
+                const QString lastDecoder = KdenliveSettings::hwDecoding();
+                if (cb_nvidia->isChecked()) {
+                    KdenliveSettings::setHwDecoding(QStringLiteral("nvdec"));
+                } else if (cb_vaapi->isChecked()) {
+                    KdenliveSettings::setHwDecoding(QStringLiteral("vaapi"));
+                } else if (cb_videotoolbox->isChecked()) {
+                    KdenliveSettings::setHwDecoding(QStringLiteral("videotoolbox"));
+                } else if (cb_qsv->isChecked() || cb_amf->isChecked()) {
+                    KdenliveSettings::setHwDecoding(QStringLiteral("d3d11va"));
+                }
+                if (lastDecoder != KdenliveSettings::hwDecoding()) {
+                    Q_EMIT pCore->updateHwDecoding();
+                }
+                if (KdenliveSettings::hwDecoding().isEmpty()) {
+                    cb_decoding->setChecked(false);
+                    cb_decoding->setText(i18n("Enable hardware decoding"));
+                } else {
+                    cb_decoding->setText(i18n("Enable hardware decoding: %1", KdenliveSettings::hwDecoding()));
+                }
+            }
             updateHwStatus();
             pb->setEnabled(true);
         });

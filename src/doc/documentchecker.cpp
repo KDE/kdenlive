@@ -1118,7 +1118,10 @@ QString DocumentChecker::fixLutFile(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    const QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+#ifdef Q_OS_WIN
+    resList << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, "luts", QStandardPaths::LocateDirectory);
+#endif
     for (auto &res : resList) {
         if (!res.isEmpty()) {
             searchPath.setPath(res);
@@ -1161,7 +1164,10 @@ QString DocumentChecker::fixLumaPath(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    const QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+#ifdef Q_OS_WIN
+    resList << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, "lumas", QStandardPaths::LocateDirectory);
+#endif
     for (auto &res : resList) {
         if (!res.isEmpty()) {
             searchPath.setPath(res);
@@ -1906,17 +1912,17 @@ QString DocumentChecker::readableNameForMissingStatus(MissingStatus type)
 {
     switch (type) {
     case MissingStatus::Fixed:
-        return i18n("Fixed");
+        return i18nc("status of a missing clip; fixed as in repaired", "Fixed");
     case MissingStatus::Reload:
-        return i18n("Reload");
+        return i18nc("action that will be perfomed on a missing clip", "Reload");
     case MissingStatus::Missing:
-        return i18n("Missing");
+        return i18nc("status of a missing clip", "Missing");
     case MissingStatus::MissingButProxy:
-        return i18n("Missing, but proxy available");
+        return i18nc("status of a missing clip", "Missing, but proxy available");
     case MissingStatus::Placeholder:
-        return i18n("Placeholder");
+        return i18nc("status of a missing clip", "Placeholder");
     case MissingStatus::Remove:
-        return i18n("Remove");
+        return i18nc("action that will be perfomed on a missing clip", "Remove");
     default:
         return i18n("Unknown");
     }

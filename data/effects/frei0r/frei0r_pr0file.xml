@@ -1,23 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.pr0file" id="frei0r.pr0file">
-    <name>Oscilloscope (Advanced)</name>
-    <description>2D video oscilloscope</description>
+    <name>Oscilloscope (advanced) (SUPERCEDED)</name>
+    <description><![CDATA[2D video oscilloscope.<br>
+    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]></description>
     <author>Marko Cebokli</author>
     <parameter type="animated" name="X" default="0.5" min="0" max="%width" factor="%width">
-        <name>X</name>
+        <name>Profile X Position</name>
        	<comment><![CDATA[X coordinate of the profile]]></comment>
     </parameter>
     <parameter type="animated" name="Y" default="0.5" min="0" max="%height" factor="%height">
-        <name>Y</name>
+        <name>Profile Y Position</name>
        	<comment><![CDATA[Y coordinate of the profile]]></comment>
     </parameter>
     <parameter type="animated" name="Tilt" default="0.5" min="0" max="1000" factor="1000">
-        <name>Tilt</name>
+        <name>Profile Tilt</name>
        	<comment><![CDATA[Tilting of the profile]]></comment>
     </parameter>
     <parameter type="animated" name="Length" default="0.5" min="0" max="%width" factor="%width">
-        <name>Length</name>
+        <name>Profile Length</name>
        	<comment><![CDATA[Length of the profile in pixel]]></comment>
     </parameter>
     <parameter type="list" name="Channel" default="0.5" paramlist="0;0.2;0.4;0.5;0.6;0.8;1">
@@ -34,31 +35,31 @@
        	<comment><![CDATA[Position of marker 2]]></comment>
     </parameter>
     <parameter type="bool" name="R trace" default="1">
-        <name>R trace</name>
+        <name>R Trace</name>
        	<comment><![CDATA[Show R trace (red) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="G trace" default="1">
-        <name>G trace</name>
+        <name>G Trace</name>
        	<comment><![CDATA[Show G trace (green) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="B trace" default="1">
-        <name>B trace</name>
+        <name>B Trace</name>
        	<comment><![CDATA[Show B trace (blue) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Y trace" default="0">
-        <name>Y trace</name>
+        <name>Y Trace</name>
        	<comment><![CDATA[Show Y trace (luma) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Pr trace" default="0">
-        <name>Pr trace</name>
+        <name>Pr Trace</name>
        	<comment><![CDATA[Show Pr trace (red-difference) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Pb trace" default="0">
-        <name>Pb trace</name>
+        <name>Pb Trace</name>
        	<comment><![CDATA[Show Pb trace (blue_difference) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Alpha trace" default="0">
-        <name>Alpha trace</name>
+        <name>Alpha Trace</name>
        	<comment><![CDATA[Show Alpha trace on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Display average" default="1">
@@ -70,24 +71,24 @@
        	<comment><![CDATA[Show RMS (root mean square) on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Display minimum" default="0">
-        <name>Display minimum</name>
+        <name>Display Minimum</name>
        	<comment><![CDATA[Show minimum on scope]]></comment>
     </parameter>
     <parameter type="bool" name="Display maximum" default="0">
-        <name>Display maximum</name>
+        <name>Display Maximum</name>
        	<comment><![CDATA[Show maximum on scope]]></comment>
     </parameter>
     <parameter type="bool" name="256 scale" default="0">
-        <name>256 scale</name>
+        <name>256-Scale</name>
        	<comment><![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]></comment>
     </parameter>
     <parameter type="list" name="Color" default="0" paramlist="0;1">
-        <paramlistdisplay>CCIR rec. 601,CCIR rec. 709</paramlistdisplay>
-        <name>Color encoding</name>
+        <paramlistdisplay>CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)</paramlistdisplay>
+        <name>Color Encoding</name>
        	<comment><![CDATA[Select between interlaced (601) or progressive (709)]]></comment>
     </parameter>
     <parameter type="animated" name="Crosshair color" default="0" min="0" max="1000" factor="1000">
-        <name>Crosshair color</name>
+        <name>Crosshair Color</name>
        	<comment><![CDATA[Choose a color for the crosshair/profile line]]></comment>
     </parameter>
 </effect>

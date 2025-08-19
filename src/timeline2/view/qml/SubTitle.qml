@@ -36,6 +36,10 @@ Item {
     onSubLayerChanged: {
         y = height * subLayer
     }
+    
+    onHeightChanged: {
+        y = height * subLayer
+    }
 
     onFakeStartFrameChanged: {
         if (subtitleRoot.fakeStartFrame == -1) {
@@ -178,8 +182,8 @@ Item {
                     startMove = false
                     if (subtitleBase.x < 0)
                         subtitleBase.x = 0
-                    // if mouse out of the bottom of the SubtitleTrack, snappedLayer++
-                    if (mouse.y > subtitleRoot.height) {
+                    // if mouse out of the bottom of the SubtitleTrack with shift pressed, snappedLayer++
+                    if (mouse.y > subtitleRoot.height && mouse.modifiers & Qt.ShiftModifier) {
                         snappedLayer++
                     }
                     console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
@@ -203,13 +207,13 @@ Item {
             }
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true)) {
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true)) {
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }

@@ -12,6 +12,7 @@ Item {
     property color textColor: "white"
     property int padding: 6
     property alias font: label.font
+    property bool flipText: false
     width: label.width + 2 * padding
     height: label.height + padding
 
@@ -26,5 +27,6 @@ Item {
         color: overlayLabel.textColor
         font.bold: true
         text: ""
+        rotation: overlayLabel.flipText ? 180 : 0
     }
 } 

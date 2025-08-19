@@ -980,6 +980,9 @@ QUrl KdenliveDoc::url() const
 void KdenliveDoc::setUrl(const QUrl &url)
 {
     m_url = url;
+    if (url.isEmpty()) {
+        setModified(true);
+    }
 }
 
 QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
@@ -1905,7 +1908,8 @@ void KdenliveDoc::loadDocumentProperties()
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
     double fps = pCore->getCurrentFps();
-    double fpsChanged = m_timecode.fps() / fps;
+    double previousFps = m_timecode.fps();
+    double fpsChanged = previousFps / fps;
     if (fpsChanged) {
         pCore->taskManager.slotCancelJobs(false);
     } else {
@@ -1916,6 +1920,25 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
         return;
     }
     pCore->bin()->reloadAllProducers(reloadThumbs);
+    if (fpsChanged != 1.) {
+        // Update timeline guides
+        QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+        while (j.hasNext()) {
+            j.next();
+            auto guides = j.value()->getGuideModel();
+            int count = guides->rowCount();
+            if (count > 0) {
+                // Remove previous snap points, and re-add to correct place
+                for (int i = 0; i < count; i++) {
+                    double seconds = guides->data(guides->index(i), MarkerListModel::PosRole).toDouble();
+                    GenTime pos(seconds);
+                    guides->removeSnapPoint(GenTime(pos.frames(previousFps), fps));
+                    guides->addSnapPoint(pos);
+                }
+                guides->dataChanged(guides->index(0), guides->index(count - 1), {});
+            }
+        }
+    }
 }
 
 void KdenliveDoc::resetProfile(bool reloadThumbs)

@@ -69,7 +69,6 @@ def main():
                 break
             if rec.AcceptWaveform(data):
                 results.append(rec.Result())
-            results.append(rec.FinalResult())
 
         for i, res in enumerate(results):
             jres = json.loads(res)

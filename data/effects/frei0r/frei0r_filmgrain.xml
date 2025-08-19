@@ -5,31 +5,31 @@
     <description>Adds film-like grain and softens the picture</description>
     <author>esmane</author>
     <parameter type="animated" name="grain_amt" min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Grain amount</name>
+        <name>Grain Amount</name>
 	    <comment><![CDATA[The intensity of the grain]]></comment>
     </parameter>
     <parameter type="animated" name="grain_r"  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Red grain</name>
+        <name>Red Grain</name>
     	<comment><![CDATA[The percentage of grain applied to the red channel]]></comment>
     </parameter>
     <parameter type="animated" name="grain_g"  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Green grain</name>
+        <name>Green Grain</name>
         <comment><![CDATA[The percentage of grain applied to the green channel]]></comment>
     </parameter>
      <parameter type="animated" name="grain_b"  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Blue grain</name>
+        <name>Blue Grain</name>
 	    <comment><![CDATA[The percentage of grain applied to the blue channel]]></comment>
     </parameter>
-    <parameter type="animated" name="blur_amt ="  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Blur amount</name>
+    <parameter type="animated" name="blur_amt"  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
+        <name>Blur Amount</name>
 	    <comment><![CDATA[The intensity of the blur]]></comment>
     </parameter>
-    <parameter type="animated" name="dust_amt "  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Dust amount</name>
+    <parameter type="animated" name="dust_amt"  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
+        <name>Dust Amount</name>
 	    <comment><![CDATA[The amount of dust particles on the image]]></comment>
     </parameter>
     <parameter type="animated" name="flicker_amt"  min="0" max="100" default="0.5" decimals="1" factor="100" suffix="%">
-        <name>Flicker</name>
+        <name>Flicker Amount</name>
 	    <comment><![CDATA[The amount of variation in brightness between frames]]></comment>
     </parameter>
 </effect>

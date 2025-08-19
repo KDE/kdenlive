@@ -155,7 +155,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             m_editing = false;
         }
     }
-    return QObject::eventFilter(watched, event);
+    return QSpinBox::eventFilter(watched, event);
 }
 
 MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
@@ -286,7 +286,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             m_editing = false;
         }
     }
-    return QObject::eventFilter(watched, event);
+    return QDoubleSpinBox::eventFilter(watched, event);
 }
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
@@ -345,6 +345,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setPalette(pal);
         // Try to have all spin boxes of the same size
         m_intEdit->setMinimumWidth(charWidth * 9);
+        setMinimumHeight(m_intEdit->minimumHeight());
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
@@ -386,6 +387,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setValue(m_default);
         // Try to have all spin boxes of the same size
         m_doubleEdit->setMinimumWidth(charWidth * 9);
+        setMinimumHeight(m_doubleEdit->minimumHeight());
         m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
@@ -651,10 +653,11 @@ void DragValue::setValue(double value, bool final, bool createUndoEntry, bool up
         m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
     }
     if (m_intEdit) {
+        int val = qRound(value);
         m_intEdit->blockSignals(true);
-        m_intEdit->setValue((int)value);
+        m_intEdit->setValue(val);
         m_intEdit->blockSignals(false);
-        Q_EMIT customValueChanged(qRound(value), final, createUndoEntry);
+        Q_EMIT customValueChanged(double(val), final, createUndoEntry);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
