@@ -452,6 +452,16 @@
       <default>false</default>
     </entry>
 
+    <entry name="effectsFilter" type="Bool">
+      <label>Filter effects by property.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="transitionsFilter" type="Bool">
+      <label>Filter transitions by property.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="scrollvertically" type="Bool">
       <label>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</label>
       <default>false</default>

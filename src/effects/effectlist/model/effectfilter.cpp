@@ -84,7 +84,7 @@ bool EffectFilter::applyAll(std::shared_ptr<TreeItem> item) const
         }
         return filterType(item) && filterName(item);
     } else {
-        if (KdenliveSettings::tenbitpipeline()) {
+        if (KdenliveSettings::effectsFilter() && KdenliveSettings::tenbitpipeline()) {
             if (!item->dataColumn(AssetTreeModel::IdCol).toString().contains(QLatin1String("avfilter"))) {
                 return false;
             }

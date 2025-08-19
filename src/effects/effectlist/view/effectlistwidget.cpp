@@ -156,5 +156,6 @@ bool EffectListWidget::isMasterOnly(const QString &assetId) const
 
 void EffectListWidget::switchTenBitFilter()
 {
+    KdenliveSettings::setEffectsFilter(m_filterButton->isChecked());
     m_proxyModel->invalidate();
 }
