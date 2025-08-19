@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-18 00:41+0000\n"
-"PO-Revision-Date: 2025-07-26 12:22+0200\n"
+"PO-Revision-Date: 2025-08-18 14:17+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -25411,7 +25411,7 @@ msgstr "Navegador multimèdia"
 #: src/mainwindow.cpp:330
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "Pila d'efectes/composició"
+msgstr "Pila d'efectes/composicions"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:408

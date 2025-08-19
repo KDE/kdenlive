@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-18 00:41+0000\n"
-"PO-Revision-Date: 2025-08-09 13:52+0200\n"
+"PO-Revision-Date: 2025-08-16 09:32+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6806,10 +6806,9 @@ msgstr "Nessuna,Istantanea,Picco,Picco+istantanea"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:28
 #: data/effects/avfilter/avfilter_waveform.xml:36
-#, fuzzy, kde-format
-#| msgid "Slope"
+#, kde-format
 msgid "Envelope"
-msgstr "Inclinazione"
+msgstr "Involucro"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:31
 #, kde-format
@@ -7020,10 +7019,9 @@ msgid "<![CDATA[Select the components to be displayed]]>"
 msgstr "<![CDATA[Seleziona le componenti da visualizzare]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr "<![CDATA[Imposta l'opacità dell'immagine di sfondo]]>"
+msgstr "<![CDATA[Imposta la modalità dell'involucro]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
@@ -14800,6 +14798,8 @@ msgstr "Massimo delle più scure"
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
 msgstr ""
+"<![CDATA[Rendi l'immagine più scura fino a <em>n</em> valori dietro la "
+"linea]]>"
 
 #: data/effects/scratchlines.xml:20
 #, kde-format
@@ -14810,6 +14810,8 @@ msgstr "Massimo delle più chiare"
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
 msgstr ""
+"<![CDATA[Rendi l'immagine più chiara fino a <em>n</em> valori dietro la "
+"linea]]>"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -20862,10 +20864,9 @@ msgstr "Lunghezza del file esportato: %1"
 
 #: src/dialogs/renderwidget.cpp:2081
 #: src/mltcontroller/clippropertiescontroller.cpp:615
-#, fuzzy, kde-format
-#| msgid "Time offset:"
+#, kde-format
 msgid "Timecode Offset:"
-msgstr "Scostamento temporale:"
+msgstr "Scostamento codice temporale:"
 
 #: src/dialogs/renderwidget.cpp:2086
 #, kde-format
