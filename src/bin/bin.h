@@ -461,7 +461,7 @@ private Q_SLOTS:
     /** @brief Set (or unset) the default folder for newly created audio captures. */
     void setDefaultAudioCaptureFolder(bool enable);
     /** @brief Fetch the filters from the UI and apply them to the proxy model */
-    void slotApplyFilters();
+    void slotApplyFilters(bool fromFilterButton = false);
     /** @brief Open a new Bin widget */
     void slotOpenNewBin();
     /** @brief Open clip in monitor */

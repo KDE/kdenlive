@@ -1384,7 +1384,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             m_proxyModel->slotClearSearchFilters();
             return;
         }
-        slotApplyFilters();
+        slotApplyFilters(true);
     });
 
     connect(m_filterMenu, &QMenu::triggered, this, [this](QAction *action) {
@@ -1400,7 +1400,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             m_filterButton->setChecked(false);
             return;
         }
-        slotApplyFilters();
+        slotApplyFilters(false);
     });
 
     m_tagAction->setCheckable(true);
@@ -2517,7 +2517,7 @@ void Bin::rebuildFilters(int tagsCount)
     typeMenu->addAction(typeFilter);
 }
 
-void Bin::slotApplyFilters()
+void Bin::slotApplyFilters(bool fromFilterButton)
 {
     QList<QAction *> list = m_filterMenu->actions();
     QList<int> rateFilters;
@@ -2547,6 +2547,9 @@ void Bin::slotApplyFilters()
     if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usageFilter != ProjectSortProxyModel::All) {
         m_filterButton->setChecked(true);
     } else {
+        if (fromFilterButton) {
+            doDisplayMessage(i18n("Select an option in the menu to enable filtering"), KMessageWidget::Information, {}, false, BinMessage::TimedMessage);
+        }
         m_filterButton->setChecked(false);
     }
     m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usageFilter);
