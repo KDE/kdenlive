@@ -84,6 +84,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     lay2->addWidget(m_label);
     lay2->addWidget(m_progress);
     lay->addWidget(m_keyMap);
+    m_keyMap->setAccessibleDescription(i18n("Status Message"));
 
     auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     lay->addItem(spacer);
