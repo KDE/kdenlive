@@ -121,39 +121,72 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QWidget *empty = new QWidget(this);
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(empty);
+
+    // Filter button
+    m_filterButton = new QToolButton(this);
+    m_filterButton->setCheckable(true);
+    m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
+    m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
+    m_filterButton->setToolTip(i18n("Filter"));
+    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the assets list. Click on the filter icon to toggle the filter display. Click on "
+                                                           "the arrow icon to open a list of possible filter settings."));
+    m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+
+    // Menu
+    QMenu *more = new QMenu(this);
+    m_filterButton->setMenu(more);
+
     // Include list
-    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
+    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("approved")), i18n("Only show reviewed assets"), this);
     includeList->setCheckable(true);
     // Disable include list on startup until ready
     KdenliveSettings::setEnableAssetsIncludeList(false);
     includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
-    connect(includeList, &QAction::triggered, this, [this](bool enable) {
-        KdenliveSettings::setEnableAssetsIncludeList(enable);
-        m_proxyModel->updateIncludeList();
-    });
-    includeList->setToolTip(i18n("Only show reviewed assets"));
-    m_toolbar->addAction(includeList);
+    more->addAction(includeList);
 
-    // Menu
-    QToolButton *tb = new QToolButton;
-    tb->setPopupMode(QToolButton::InstantPopup);
-    tb->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    QMenu *more = new QMenu(this);
-    tb->setMenu(more);
-    m_toolbar->addWidget(tb);
-
+    // 10 bit filter
     QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Show 10 bit compatible only"), this);
     tenBit->setCheckable(true);
     tenBit->setChecked(KdenliveSettings::tenbitpipeline());
     tenBit->setToolTip(i18n("Only show assets that support 10 bit color depth"));
     more->addAction(tenBit);
-    connect(tenBit, &QAction::toggled, this, [this](bool enabled) {
+
+    connect(includeList, &QAction::triggered, this, [this, tenBit](bool enable) {
+        KdenliveSettings::setEnableAssetsIncludeList(enable);
+        if (enable) {
+            if (!m_filterButton->isChecked()) {
+                QSignalBlocker bk(m_filterButton);
+                m_filterButton->setChecked(true);
+            }
+        } else if (m_filterButton->isChecked() && !tenBit->isChecked()) {
+            QSignalBlocker bk(m_filterButton);
+            m_filterButton->setChecked(false);
+        }
+        m_proxyModel->updateIncludeList();
+    });
+
+    connect(tenBit, &QAction::toggled, this, [this, includeList](bool enabled) {
         KdenliveSettings::setTenbitpipeline(enabled);
+        if (enabled) {
+            if (!m_filterButton->isChecked()) {
+                QSignalBlocker bk(m_filterButton);
+                m_filterButton->setChecked(true);
+            }
+        } else if (m_filterButton->isChecked() && !includeList->isChecked()) {
+            QSignalBlocker bk(m_filterButton);
+            m_filterButton->setChecked(false);
+        }
         switchTenBitFilter();
     });
+
+    connect(m_filterButton, &QToolButton::toggled, this, [this]() {
+        switchTenBitFilter();
+        m_proxyModel->updateIncludeList();
+    });
+
     if (m_isEffect) {
         KNSWidgets::Action *downloadAction = new KNSWidgets::Action(i18n("Download New Effects..."), QStringLiteral(":data/kdenlive_effects.knsrc"), this);
-        more->addAction(downloadAction);
+        m_toolbar->addAction(downloadAction);
         connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 for (auto &ent : changedEntries) {
@@ -173,13 +206,15 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
         });
     } else {
         KNSWidgets::Action *downloadAction = new KNSWidgets::Action(i18n("Download New Wipes..."), QStringLiteral(":data/kdenlive_wipes.knsrc"), this);
-        more->addAction(downloadAction);
+        m_toolbar->addAction(downloadAction);
         connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 MltConnection::refreshLumas();
             }
         });
     }
+
+    m_toolbar->addWidget(m_filterButton);
 
     // Asset Info
     QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);

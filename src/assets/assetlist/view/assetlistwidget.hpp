@@ -18,6 +18,7 @@ class QVBoxLayout;
 class QMenu;
 class QTextDocument;
 class QLineEdit;
+class QToolButton;
 
 /** @class AssetListWidget
     @brief This class is a generic widget that display the list of available assets
@@ -95,6 +96,7 @@ protected:
     QMenu *m_contextMenu;
     QLineEdit *m_searchLine;
     QTreeView *m_effectsTree;
+    QToolButton *m_filterButton;
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private Q_SLOTS:

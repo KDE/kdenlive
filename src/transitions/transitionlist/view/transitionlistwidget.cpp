@@ -75,5 +75,6 @@ void TransitionListWidget::exportCustomEffect(const QModelIndex &){};
 
 void TransitionListWidget::switchTenBitFilter()
 {
+    KdenliveSettings::setTransitionsFilter(m_filterButton->isChecked());
     m_proxyModel->invalidate();
 }
