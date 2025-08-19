@@ -106,7 +106,8 @@ parts:
       - libxkbcommon0
       - lsp-plugins-ladspa
     stage-snaps:
-      - glaxnimate
+      - on amd64:
+        - glaxnimate
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
