@@ -47,6 +47,7 @@ Item{
             clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
             speedController.visible = true
             speedController.updatedSpeed = Math.round(clip.speed*100)
+            speedController.resizeRight = right
             // var delta = newDuration - clip.originalDuration
             // var s = timeline.simplifiedTC(Math.abs(delta))
             let s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
@@ -499,13 +500,14 @@ Item{
         property int lastValidDuration: 0
         property real originalSpeed: 1
         property real updatedSpeed: 100
+        property bool resizeRight: true
         Text {
             id: speedLabel
             text: i18n("%1% | Adjusting speed", speedController.updatedSpeed)
             font: miniFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: speedLabel.implicitWidth > speedController.width ? Text.AlignLeft : Text.AlignHCenter
+            horizontalAlignment: speedController.resizeRight ? (speedLabel.implicitWidth > speedController.width ? Text.AlignLeft : Text.AlignRight) : Text.AlignLeft
             color: activePalette.highlightedText
         }
         transitions: [ Transition {
