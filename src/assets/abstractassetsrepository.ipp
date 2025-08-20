@@ -24,7 +24,9 @@ template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAsset
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {
     // Parse include/exclude lists
-    parseAssetList(assetExcludedPath(), m_excludedList);
+    if (!KdenliveSettings::disableExcludes()) {
+        parseAssetList(assetExcludedPath(), m_excludedList);
+    }
     parseAssetList(assetIncludedPath(), m_includedList);
 
     // Parse preferred list

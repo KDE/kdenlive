@@ -9,6 +9,7 @@
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "mltconnection.h"
 
+#include <KMessageBox>
 #include <KNSCore/Entry>
 #include <KNSWidgets/Action>
 #include <KStandardAction>
@@ -145,11 +146,35 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     more->addAction(includeList);
 
     // 10 bit filter
-    QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Show 10 bit compatible only"), this);
+    QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Only show 10 bit compatible assets"), this);
     tenBit->setCheckable(true);
     tenBit->setChecked(KdenliveSettings::tenbitpipeline());
-    tenBit->setToolTip(i18n("Only show assets that support 10 bit color depth"));
     more->addAction(tenBit);
+
+    // Exclude list
+    QAction *excludeList = new QAction(QIcon::fromTheme(QStringLiteral("tools-report-bug")), i18n("Show all assets including unsupported ones"), this);
+    excludeList->setCheckable(true);
+    excludeList->setChecked(KdenliveSettings::disableExcludes());
+    if (KdenliveSettings::disableExcludes()) {
+        tenBit->setEnabled(false);
+        includeList->setEnabled(false);
+    }
+    more->addSeparator();
+    more->addAction(excludeList);
+    connect(excludeList, &QAction::triggered, this, [this, excludeList](bool enable) {
+        if (enable) {
+            if (KMessageBox::warningContinueCancel(
+                    this, i18n("This will make unsupported effects and transitions available. This should only be used for testing, crashes can be expected. "
+                               "Restarting Kdenlive is required to make this change effective.")) != KMessageBox::Continue) {
+                excludeList->setChecked(false);
+                return;
+            }
+            KdenliveSettings::setDisableExcludes(true);
+        } else {
+            KdenliveSettings::setDisableExcludes(false);
+            KMessageBox::information(this, i18n("Restart Kdenlive to hide experimental assets."));
+        }
+    });
 
     connect(includeList, &QAction::triggered, this, [this, tenBit](bool enable) {
         KdenliveSettings::setEnableAssetsIncludeList(enable);
