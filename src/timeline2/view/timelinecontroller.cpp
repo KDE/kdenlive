@@ -5691,3 +5691,52 @@ void TimelineController::setTimecodeOffset(int offset)
     m_timecodeOffset = offset;
     Q_EMIT timecodeOffsetChanged();
 }
+
+void TimelineController::resizeGuide(int position, int duration, bool isStart, int newPosition)
+{
+    auto guideModel = m_model->getGuideModel();
+    GenTime pos(position, pCore->getCurrentFps());
+
+    bool exists;
+    CommentedTime marker = guideModel->getMarker(pos, &exists);
+    if (!exists || !marker.hasRange()) {
+        pCore->displayMessage(i18n("No range guide found at position"), ErrorMessage, 500);
+        return;
+    }
+
+    GenTime newDuration(duration, pCore->getCurrentFps());
+    GenTime newStartTime;
+
+    if (isStart) {
+        if (newPosition != -1) {
+            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+        } else {
+            GenTime endTime = marker.endTime();
+            newStartTime = endTime - newDuration;
+        }
+        if (newStartTime < GenTime(0, pCore->getCurrentFps())) {
+            newStartTime = GenTime(0, pCore->getCurrentFps());
+            newDuration = marker.endTime() - newStartTime;
+        }
+    } else {
+        newStartTime = pos;
+        GenTime maxEnd(pCore->projectDuration(), pCore->getCurrentFps());
+        if (newStartTime + newDuration > maxEnd) {
+            newDuration = maxEnd - newStartTime;
+        }
+    }
+
+    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+        newDuration = GenTime(1, pCore->getCurrentFps());
+    }
+
+    guideModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+}
+
+int TimelineController::suggestSnapPoint(int position, int snapDistance)
+{
+    if (snapDistance <= 0) {
+        return position;
+    }
+    return m_model->suggestSnapPoint(position, snapDistance);
+}
