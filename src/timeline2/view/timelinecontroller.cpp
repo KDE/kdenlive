@@ -3485,19 +3485,6 @@ void TimelineController::alignTimecode(int clipId)
     }
 }
 
-void TimelineController::zoomWaveform()
-{
-    if (KdenliveSettings::normalizechannels()) {
-        KdenliveSettings::setNormalizechannels(false);
-    }
-    if (KdenliveSettings::waveformScaler() < 5) {
-        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
-    } else {
-        KdenliveSettings::setWaveformScaler(1);
-    }
-    pCore->window()->slotNormalizeAudioChannel(true);
-}
-
 void TimelineController::switchTrackActive(int trackId)
 {
     if (trackId == -1) {

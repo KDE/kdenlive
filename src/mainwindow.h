@@ -246,6 +246,8 @@ private:
     void setupActions();
     /** @brief Rebuild the dock menu according to existing dock widgets. */
     void updateDockMenu();
+    /** @brief Update the audio thumbnails action icon based on current zoom and toggle state */
+    void updateAudioWaveformActionIcon();
 
     OtioExport *m_otioExport{nullptr};
     OtioImport *m_otioImport{nullptr};
@@ -325,6 +327,8 @@ private:
     QSlider *m_zoomSlider;
     QAction *m_zoomIn;
     QAction *m_zoomOut;
+    QAction *m_audioZoomIn;
+    QAction *m_audioZoomOut;
     QAction *m_loopZone;
     QAction *m_playZone;
     QAction *m_playZoneFromCursor;
@@ -619,8 +623,8 @@ private Q_SLOTS:
     /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
     void slotCollapse();
     void slotCollapseAll();
-    /** @brief Cycle zoom audio waveforms*/
-    void slotZoomWaveForm();
+    void slotAudioZoomIn();
+    void slotAudioZoomOut();
     /** @brief Save currently selected timeline clip as bin subclip*/
     void slotExtractClip();
     /** @brief Save currently selected timeline clip as bin subclip*/

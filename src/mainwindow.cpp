@@ -88,6 +88,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KCoreAddons>
 #include <KDualAction>
 #include <KEditToolBar>
+#include <KIconEffect>
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -1172,6 +1173,14 @@ void MainWindow::setupActions()
     clipTypeGroup->addAction(splitView2);
     connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
 
+    // Create audio waveform zoom actions
+    m_audioZoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In Audio Waveforms"), this);
+    m_audioZoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out Audio Waveforms"), this);
+    connect(m_audioZoomIn, &QAction::triggered, this, &MainWindow::slotAudioZoomIn);
+    connect(m_audioZoomOut, &QAction::triggered, this, &MainWindow::slotAudioZoomOut);
+    addAction(QStringLiteral("audio_zoom_in"), m_audioZoomIn);
+    addAction(QStringLiteral("audio_zoom_out"), m_audioZoomOut);
+
     auto tlsettings = new QMenu(this);
     tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     tlsettings->addAction(m_compositeAction);
@@ -1269,10 +1278,6 @@ void MainWindow::setupActions()
 
     toolGroup->setExclusive(true);
 
-    QAction *zoomWaveform = new QAction(QIcon::fromTheme(QStringLiteral("zoom-1-to-2")), i18n("Zoom Audio Waveforms"), this);
-    addAction(QStringLiteral("zoom_audio_thumbs"), zoomWaveform);
-    connect(zoomWaveform, &QAction::triggered, this, &MainWindow::slotZoomWaveForm);
-
     QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
@@ -1306,6 +1311,71 @@ void MainWindow::setupActions()
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, &QAction::triggered, this, &MainWindow::slotSwitchAudioThumbs);
+
+    // Create split button for audio thumbnails with zoom controls
+    auto *audioThumbsButton = new QToolButton(this);
+    audioThumbsButton->setDefaultAction(m_buttonAudioThumbs);
+    audioThumbsButton->setPopupMode(QToolButton::MenuButtonPopup);
+    audioThumbsButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
+
+    // Set initial icon colorization based on current zoom level
+    updateAudioWaveformActionIcon();
+
+    // Create menu for zoom controls
+    auto *audioThumbsMenu = new QMenu(this);
+    QWidget *statusAudioZoomWidget = new QWidget();
+    QVBoxLayout *statusAudioZoomLayout = new QVBoxLayout(statusAudioZoomWidget);
+    statusAudioZoomLayout->setContentsMargins(4, 2, 4, 2);
+    statusAudioZoomLayout->setSpacing(4);
+
+    // Current zoom level (top)
+    QLabel *statusZoomLevelLabel = new QLabel(i18n("%1×", KdenliveSettings::waveformScaler()));
+    QFont statusBoldFont = statusZoomLevelLabel->font();
+    statusBoldFont.setBold(true);
+    statusZoomLevelLabel->setFont(statusBoldFont);
+    statusZoomLevelLabel->setAlignment(Qt::AlignCenter);
+    statusZoomLevelLabel->setToolTip(i18n("Current Audio Waveform Zoom Level"));
+    statusAudioZoomLayout->addWidget(statusZoomLevelLabel);
+
+    // Zoom in button (middle)
+    QToolButton *statusZoomInButton = new QToolButton();
+    statusZoomInButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
+    statusZoomInButton->setToolTip(i18n("Zoom In Audio Waveforms"));
+    connect(statusZoomInButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomIn);
+    statusAudioZoomLayout->addWidget(statusZoomInButton);
+
+    // Zoom out button (bottom)
+    QToolButton *statusZoomOutButton = new QToolButton();
+    statusZoomOutButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
+    statusZoomOutButton->setToolTip(i18n("Zoom Out Audio Waveforms"));
+    connect(statusZoomOutButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomOut);
+    statusAudioZoomLayout->addWidget(statusZoomOutButton);
+
+    // Set initial button states
+    statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
+    statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+
+    auto *statusAudioZoomAction = new QWidgetAction(this);
+    statusAudioZoomAction->setDefaultWidget(statusAudioZoomWidget);
+    audioThumbsMenu->addAction(statusAudioZoomAction);
+
+    // Connect to update zoom level display when it changes
+    connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this,
+            [this, statusZoomLevelLabel, statusZoomInButton, statusZoomOutButton, waveformIconName]() {
+                statusZoomLevelLabel->setText(i18n("%1×", KdenliveSettings::waveformScaler()));
+                // Update button states based on zoom level
+                statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
+                statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+                updateAudioWaveformActionIcon();
+            });
+
+    audioThumbsButton->setMenu(audioThumbsMenu);
+
+    // Create widget action for the split button
+    auto *audioThumbsButtonAction = new QWidgetAction(this);
+    audioThumbsButtonAction->setDefaultWidget(audioThumbsButton);
+    audioThumbsButtonAction->setText(i18n("Audio Thumbnails"));
+    audioThumbsButtonAction->setIcon(QIcon::fromTheme(waveformIconName));
 
     m_buttonShowMarkers = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-markers")), i18n("Show Markers Comments"), this);
 
@@ -1370,7 +1440,7 @@ void MainWindow::setupActions()
     toolbar->addSeparator();
     toolbar->addAction(m_buttonTimelineTags);
     toolbar->addAction(m_buttonVideoThumbs);
-    toolbar->addAction(m_buttonAudioThumbs);
+    toolbar->addAction(audioThumbsButtonAction);
     toolbar->addAction(m_buttonShowMarkers);
     toolbar->addAction(m_buttonSnap);
     toolbar->addSeparator();
@@ -2730,6 +2800,8 @@ void MainWindow::slotSwitchAudioThumbs()
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->bin()->checkAudioThumbs();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
+    // Preserve icon colorization based on zoom level after toggle
+    updateAudioWaveformActionIcon();
 }
 
 void MainWindow::slotSwitchMarkersComments()
@@ -4647,9 +4719,40 @@ void MainWindow::slotGrabItem()
     getCurrentTimeline()->controller()->grabCurrent();
 }
 
-void MainWindow::slotZoomWaveForm()
+void MainWindow::slotAudioZoomIn()
 {
-    getCurrentTimeline()->controller()->zoomWaveform();
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    if (KdenliveSettings::waveformScaler() < 5) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
+    }
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::slotAudioZoomOut()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    if (KdenliveSettings::waveformScaler() > 1) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() / 2);
+    }
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::updateAudioWaveformActionIcon()
+{
+    // TODO: remove icon check once we require KF > 6.1
+    QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
+    if (KdenliveSettings::waveformScaler() > 1 && KdenliveSettings::audiothumbnails()) {
+        int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+        QImage img = QIcon::fromTheme(waveformIconName).pixmap(iconSize, iconSize).toImage();
+        KIconEffect::toMonochrome(img, Qt::red, Qt::red, 1.0);
+        m_buttonAudioThumbs->setIcon(QIcon(QPixmap::fromImage(img)));
+    } else {
+        m_buttonAudioThumbs->setIcon(QIcon::fromTheme(waveformIconName));
+    }
 }
 
 void MainWindow::slotCollapse()

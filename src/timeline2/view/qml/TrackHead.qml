@@ -453,7 +453,7 @@ Rectangle {
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
-            anchors.rightMargin: audioZoomLabel.visible ? audioZoomLabel.width + 4 : 2
+            anchors.rightMargin: 2
             height: nameEdit.height
             Rectangle {
                 id: trackLabel
@@ -523,37 +523,6 @@ Rectangle {
                         visible = false
                     }
                 }
-            }
-        }
-        Label {
-            id: audioZoomLabel
-            anchors.bottom: trackHeadColumn.bottom
-            anchors.right: trackHeadColumn.right
-            anchors.margins: 2
-
-            background: Rectangle {
-                color: audioZoomLabel.text == "X1" ? 'transparent' : 'darkred'
-            }
-            height: nameEdit.height
-            width: height
-            text: trackHeadRoot.isAudio && trackHeadRoot.trackTag == "A1" ? timeline.audioZoomText : ""
-            font: miniFont
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            visible: trackLabel.visible && text.length > 0
-            MouseArea {
-                id: zoomMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    timeline.zoomWaveform()
-                }
-            }
-            ToolTip {
-                visible: zoomMouseArea.containsMouse
-                font: miniFont
-                text: i18n("Click to cycle audio waveforms zoom")
             }
         }
     }
