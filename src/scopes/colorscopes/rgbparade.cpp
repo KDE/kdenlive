@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "rgbparade.h"
 #include "rgbparadegenerator.h"
+#include <QActionGroup>
 #include <QDebug>
 #include <QElapsedTimer>
 #include <QPainter>
@@ -26,21 +27,52 @@ RGBParade::RGBParade(QWidget *parent)
     m_ui = new Ui::RGBParade_UI();
     m_ui->setupUi(this);
 
-    m_ui->paintMode->addItem(i18n("RGB"), QVariant(RGBParadeGenerator::PaintMode_RGB));
-    m_ui->paintMode->addItem(i18n("White"), QVariant(RGBParadeGenerator::PaintMode_White));
+    // Disable legacy right-click context menu; use hamburger menu instead
+    setContextMenuPolicy(Qt::NoContextMenu);
 
-    m_menu->addSeparator();
+    // Create settings menu
+    m_settingsMenu = new QMenu(this);
+    m_ui->hamburgerButton->setMenu(m_settingsMenu);
+
+    // Paint mode submenu
+    m_paintModeMenu = new QMenu(i18n("Paint Mode"), m_settingsMenu);
+    m_settingsMenu->addMenu(m_paintModeMenu);
+
+    m_aPaintModeRGB = new QAction(i18n("RGB"), this);
+    m_aPaintModeRGB->setCheckable(true);
+    connect(m_aPaintModeRGB, &QAction::toggled, this, &RGBParade::slotPaintModeChanged);
+
+    m_aPaintModeWhite = new QAction(i18n("White"), this);
+    m_aPaintModeWhite->setCheckable(true);
+    connect(m_aPaintModeWhite, &QAction::toggled, this, &RGBParade::slotPaintModeChanged);
+
+    m_agPaintMode = new QActionGroup(this);
+    m_agPaintMode->addAction(m_aPaintModeRGB);
+    m_agPaintMode->addAction(m_aPaintModeWhite);
+
+    m_paintModeMenu->addAction(m_aPaintModeRGB);
+    m_paintModeMenu->addAction(m_aPaintModeWhite);
+
+    // Add separator and other options to settings menu
+    m_settingsMenu->addSeparator();
     m_aAxis = new QAction(i18n("Draw axis"), this);
     m_aAxis->setCheckable(true);
-    m_menu->addAction(m_aAxis);
     connect(m_aAxis, &QAction::changed, this, &RGBParade::forceUpdateScope);
+    m_settingsMenu->addAction(m_aAxis);
 
     m_aGradRef = new QAction(i18n("Gradient reference line"), this);
     m_aGradRef->setCheckable(true);
-    m_menu->addAction(m_aGradRef);
     connect(m_aGradRef, &QAction::changed, this, &RGBParade::forceUpdateScope);
+    m_settingsMenu->addAction(m_aGradRef);
 
-    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RGBParade::forceUpdateScope);
+    m_settingsMenu->addSeparator();
+    m_settingsMenu->addAction(m_aAutoRefresh);
+    m_settingsMenu->addAction(m_aRealtime);
+
+    // Remove auto refresh and realtime from parent's context menu since they're now in hamburger menu
+    m_menu->removeAction(m_aAutoRefresh);
+    m_menu->removeAction(m_aRealtime);
+
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
     connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });
 
@@ -54,6 +86,12 @@ RGBParade::~RGBParade()
 
     delete m_ui;
     delete m_rgbParadeGenerator;
+
+    // Delete settings menu actions
+    delete m_aPaintModeRGB;
+    delete m_aPaintModeWhite;
+    delete m_agPaintMode;
+
     delete m_aAxis;
     delete m_aGradRef;
 }
@@ -64,7 +102,22 @@ void RGBParade::readConfig()
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    m_ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
+
+    // Read paint mode
+    int paintMode = scopeConfig.readEntry("paintmode", 0);
+    switch (paintMode) {
+    case 0:
+        m_aPaintModeRGB->setChecked(true);
+        break;
+    case 1:
+        m_aPaintModeWhite->setChecked(true);
+        break;
+    default:
+        m_aPaintModeRGB->setChecked(true);
+        break;
+    }
+    slotPaintModeChanged();
+
     m_aAxis->setChecked(scopeConfig.readEntry("axis", false));
     m_aGradRef->setChecked(scopeConfig.readEntry("gradref", false));
 }
@@ -73,7 +126,15 @@ void RGBParade::writeConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    scopeConfig.writeEntry("paintmode", m_ui->paintMode->currentIndex());
+
+    // Write paint mode
+    int paintMode = 0;
+    if (m_aPaintModeRGB->isChecked())
+        paintMode = 0;
+    else if (m_aPaintModeWhite->isChecked())
+        paintMode = 1;
+    scopeConfig.writeEntry("paintmode", paintMode);
+
     scopeConfig.writeEntry("axis", m_aAxis->isChecked());
     scopeConfig.writeEntry("gradref", m_aGradRef->isChecked());
     scopeConfig.sync();
@@ -86,7 +147,7 @@ QString RGBParade::widgetName() const
 
 QRect RGBParade::scopeRect()
 {
-    QPoint topleft(offset, m_ui->verticalSpacer->geometry().y() + 2 * offset);
+    QPoint topleft(offset, m_ui->hamburgerButton->geometry().bottom() + 2 * offset);
     return QRect(topleft, QPoint(this->size().width() - offset, this->size().height() - offset));
 }
 
@@ -178,8 +239,7 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     QElapsedTimer timer;
     timer.start();
 
-    int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), devicePixelRatioF(), qimage, RGBParadeGenerator::PaintMode(paintmode),
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), devicePixelRatioF(), qimage, RGBParadeGenerator::PaintMode(m_iPaintMode),
                                                              m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor, palette());
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return parade;
@@ -203,4 +263,19 @@ bool RGBParade::isScopeDependingOnInput() const
 bool RGBParade::isBackgroundDependingOnInput() const
 {
     return false;
+}
+
+void RGBParade::showSettingsMenu()
+{
+    m_settingsMenu->exec(m_ui->hamburgerButton->mapToGlobal(m_ui->hamburgerButton->rect().bottomLeft()));
+}
+
+void RGBParade::slotPaintModeChanged()
+{
+    if (m_aPaintModeRGB->isChecked()) {
+        m_iPaintMode = RGBParadeGenerator::PaintMode_RGB;
+    } else if (m_aPaintModeWhite->isChecked()) {
+        m_iPaintMode = RGBParadeGenerator::PaintMode_White;
+    }
+    forceUpdateScope();
 }

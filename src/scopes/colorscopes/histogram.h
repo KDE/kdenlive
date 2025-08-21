@@ -30,6 +30,30 @@ protected:
 
 private:
     HistogramGenerator *m_histogramGenerator;
+
+    // Settings menu
+    QMenu *m_settingsMenu;
+    QMenu *m_componentsMenu;
+    QMenu *m_scaleMenu;
+
+    // Component actions
+    QAction *m_aComponentY;
+    QAction *m_aComponentS;
+    QAction *m_aComponentR;
+    QAction *m_aComponentG;
+    QAction *m_aComponentB;
+
+    // Scale actions
+    QActionGroup *m_agScale;
+    QAction *m_aScaleLinear;
+    QAction *m_aScaleLogarithmic;
+
+    /** Components flags */
+    int m_components;
+
+    /** Scale type */
+    bool m_logScale;
+
     QAction *m_aUnscaled;
     QAction *m_aRec601;
     QAction *m_aRec709;
@@ -43,4 +67,9 @@ private:
     QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
     QImage renderBackground(uint accelerationFactor) override;
     Ui::Histogram_UI *m_ui;
+
+private Q_SLOTS:
+    void showSettingsMenu();
+    void slotComponentsChanged();
+    void slotScaleChanged();
 };

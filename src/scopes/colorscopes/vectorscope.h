@@ -51,6 +51,30 @@ private:
 
     ColorTools *m_colorTools;
 
+    // Settings menu
+    QMenu *m_settingsMenu;
+    QMenu *m_paintModeMenu;
+    QMenu *m_backgroundModeMenu;
+
+    // Paint mode actions
+    QActionGroup *m_agPaintMode;
+    QAction *m_aPaintModeGreen2;
+    QAction *m_aPaintModeGreen;
+    QAction *m_aPaintModeBlack;
+    QAction *m_aPaintModeChroma;
+    QAction *m_aPaintModeYUV;
+    QAction *m_aPaintModeOriginal;
+
+    // Background mode actions
+    QActionGroup *m_agBackgroundMode;
+    QAction *m_aBackgroundDark;
+    QAction *m_aBackgroundYUV;
+    QAction *m_aBackgroundChroma;
+    QAction *m_aBackgroundYPbPr;
+
+    // Gain action (removed - now using UI widgets)
+    // QAction *m_aGain;
+
     QActionGroup *m_agColorSpace;
     QAction *m_aColorSpace_YUV;
     QAction *m_aColorSpace_YPbPr;
@@ -63,6 +87,9 @@ private:
 
     /** How to represent the pixels on the scope (green, original color, ...) */
     int m_iPaintMode;
+
+    /** Background mode */
+    BACKGROUND_MODE m_backgroundMode;
 
     /** Custom scaling of the vectorscope */
     float m_gain{1};
@@ -82,4 +109,10 @@ private Q_SLOTS:
     void slotBackgroundChanged();
     void slotExportBackground();
     void slotColorSpaceChanged();
+    void showSettingsMenu();
+    void showGainDialog();
+    void slotPaintModeChanged();
+    void slotBackgroundModeChanged();
+    void slotGainSliderChanged(int);
+    void slotGainButtonClicked();
 };

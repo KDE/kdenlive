@@ -34,6 +34,18 @@ private:
     Ui::RGBParade_UI *m_ui;
     RGBParadeGenerator *m_rgbParadeGenerator;
 
+    // Settings menu
+    QMenu *m_settingsMenu;
+    QMenu *m_paintModeMenu;
+
+    // Paint mode actions
+    QActionGroup *m_agPaintMode;
+    QAction *m_aPaintModeRGB;
+    QAction *m_aPaintModeWhite;
+
+    /** Paint mode */
+    int m_iPaintMode;
+
     QAction *m_aAxis;
     QAction *m_aGradRef;
 
@@ -44,4 +56,8 @@ private:
     QImage renderHUD(uint accelerationFactor) override;
     QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
     QImage renderBackground(uint accelerationFactor) override;
+
+private Q_SLOTS:
+    void showSettingsMenu();
+    void slotPaintModeChanged();
 };
