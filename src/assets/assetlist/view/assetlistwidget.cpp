@@ -7,9 +7,11 @@
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/asseticonprovider.hpp"
+#include "mainwindow.h"
 #include "mltconnection.h"
 
 #include <KMessageBox>
+#include <KMessageWidget>
 #include <KNSCore/Entry>
 #include <KNSWidgets/Action>
 #include <KStandardAction>
@@ -155,24 +157,23 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QAction *excludeList = new QAction(QIcon::fromTheme(QStringLiteral("tools-report-bug")), i18n("Show all assets including unsupported ones"), this);
     excludeList->setCheckable(true);
     excludeList->setChecked(KdenliveSettings::disableExcludes());
-    if (KdenliveSettings::disableExcludes()) {
-        tenBit->setEnabled(false);
-        includeList->setEnabled(false);
-    }
     more->addSeparator();
     more->addAction(excludeList);
     connect(excludeList, &QAction::triggered, this, [this, excludeList](bool enable) {
         if (enable) {
             if (KMessageBox::warningContinueCancel(
                     this, i18n("This will make unsupported effects and transitions available. This should only be used for testing, crashes can be expected. "
-                               "Restarting Kdenlive is required to make this change effective.")) != KMessageBox::Continue) {
+                               "Restart Kdenlive to make this change effective ?")) != KMessageBox::Continue) {
                 excludeList->setChecked(false);
                 return;
             }
             KdenliveSettings::setDisableExcludes(true);
+            QMetaObject::invokeMethod(pCore->window(), "slotRestart", Q_ARG(bool, false));
         } else {
             KdenliveSettings::setDisableExcludes(false);
-            KMessageBox::information(this, i18n("Restart Kdenlive to hide experimental assets."));
+            if (KMessageBox::warningContinueCancel(this, i18n("Restart Kdenlive now to make this change effective ?")) == KMessageBox::Continue) {
+                QMetaObject::invokeMethod(pCore->window(), "slotRestart", Q_ARG(bool, false));
+            }
         }
     });
 
@@ -287,6 +288,16 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     viewSplitter->insertWidget(1, textEdit);
     m_lay->addWidget(viewSplitter);
     viewSplitter->setSizes({50, 0});
+
+    if (KdenliveSettings::disableExcludes()) {
+        tenBit->setEnabled(false);
+        includeList->setEnabled(false);
+        KMessageWidget *mw = new KMessageWidget(this);
+        mw->setMessageType(KMessageWidget::Warning);
+        mw->setText(i18n("You have enabled unsupported assets"));
+        mw->setCloseButtonVisible(false);
+        m_lay->addWidget(mw);
+    }
     connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
         if (showInfo->isChecked()) {
             int height;
