@@ -188,9 +188,20 @@ ecm_target_qml_sources(kdenliveLib
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
 
-## Icon for Windows and OSX
-file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
-ecm_add_app_icon(kdenlive ICONS ${ICONS_SRCS}) # icon name = variable name
+## Icon for Windows and MacOS.
+## The svg (or svgz) icon must be provided first to be used on MacOS
+set(ICONS_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/../data/icons)
+set(ICON_FILES
+  ${ICONS_FOLDER}/sc-apps-kdenlive.svgz
+  ${ICONS_FOLDER}/16-apps-kdenlive.png
+  ${ICONS_FOLDER}/22-apps-kdenlive.png
+  ${ICONS_FOLDER}/32-apps-kdenlive.png
+  ${ICONS_FOLDER}/48-apps-kdenlive.png
+  ${ICONS_FOLDER}/64-apps-kdenlive.png
+  ${ICONS_FOLDER}/128-apps-kdenlive.png
+  ${ICONS_FOLDER}/256-apps-kdenlive.png
+)
+ecm_add_app_icon(kdenlive ICONS ${ICON_FILES})
 
 ## Kdenlive Executable
 add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
