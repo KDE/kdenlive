@@ -66,12 +66,7 @@ RGBParade::RGBParade(QWidget *parent)
     m_settingsMenu->addAction(m_aGradRef);
 
     m_settingsMenu->addSeparator();
-    m_settingsMenu->addAction(m_aAutoRefresh);
     m_settingsMenu->addAction(m_aRealtime);
-
-    // Remove auto refresh and realtime from parent's context menu since they're now in hamburger menu
-    m_menu->removeAction(m_aAutoRefresh);
-    m_menu->removeAction(m_aRealtime);
 
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
     connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });

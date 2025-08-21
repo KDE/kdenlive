@@ -82,10 +82,7 @@ Waveform::Waveform(QWidget *parent)
     m_settingsMenu->addAction(m_aRec709);
 
     m_settingsMenu->addSeparator();
-    m_settingsMenu->addAction(m_aAutoRefresh);
     m_settingsMenu->addAction(m_aRealtime);
-    m_menu->removeAction(m_aAutoRefresh);
-    m_menu->removeAction(m_aRealtime);
 
     connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
     connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });

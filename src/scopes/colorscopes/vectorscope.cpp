@@ -180,10 +180,7 @@ Vectorscope::Vectorscope(QWidget *parent)
     m_settingsMenu->addAction(m_aColorSpace_YUV);
 
     m_settingsMenu->addSeparator();
-    m_settingsMenu->addAction(m_aAutoRefresh);
     m_settingsMenu->addAction(m_aRealtime);
-    m_menu->removeAction(m_aAutoRefresh);
-    m_menu->removeAction(m_aRealtime);
 
     init();
 }
