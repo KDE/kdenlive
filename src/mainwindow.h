@@ -371,8 +371,6 @@ private:
 
 public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
-    /** @brief Close Kdenlive and try to restart it */
-    void slotRestart(bool clean = false);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
     Q_SCRIPTABLE void addProjectClip(const QString &url, const QString &folder = QStringLiteral("-1"));
@@ -460,6 +458,8 @@ private Q_SLOTS:
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
+    /** @brief Close Kdenlive and try to restart it */
+    void slotRestart(bool clean = false);
 
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();

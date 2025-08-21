@@ -7,7 +7,6 @@
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/asseticonprovider.hpp"
-#include "mainwindow.h"
 #include "mltconnection.h"
 
 #include <KMessageBox>
@@ -49,7 +48,7 @@ protected:
     }
 };
 
-AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
+AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent)
     : QWidget(parent)
     , m_isEffect(isEffect)
 {
@@ -155,42 +154,14 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_filterButton->setMenu(more);
 
     // Include list
-    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("approved")), i18n("Only show reviewed assets"), this);
-    includeList->setCheckable(true);
-    // Disable include list on startup until ready
-    KdenliveSettings::setEnableAssetsIncludeList(false);
-    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
     more->addAction(includeList);
 
     // 10 bit filter
-    QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Only show 10 bit compatible assets"), this);
-    tenBit->setCheckable(true);
-    tenBit->setChecked(KdenliveSettings::tenbitpipeline());
     more->addAction(tenBit);
 
     // Exclude list
-    QAction *excludeList = new QAction(QIcon::fromTheme(QStringLiteral("tools-report-bug")), i18n("Show all assets including unsupported ones"), this);
-    excludeList->setCheckable(true);
-    excludeList->setChecked(KdenliveSettings::disableExcludes());
     more->addSeparator();
     more->addAction(excludeList);
-    connect(excludeList, &QAction::triggered, this, [this, excludeList](bool enable) {
-        if (enable) {
-            if (KMessageBox::warningContinueCancel(
-                    this, i18n("This will make unsupported effects and transitions available. This should only be used for testing, crashes can be expected. "
-                               "Restart Kdenlive to make this change effective ?")) != KMessageBox::Continue) {
-                excludeList->setChecked(false);
-                return;
-            }
-            KdenliveSettings::setDisableExcludes(true);
-            QMetaObject::invokeMethod(pCore->window(), "slotRestart", Q_ARG(bool, false));
-        } else {
-            KdenliveSettings::setDisableExcludes(false);
-            if (KMessageBox::warningContinueCancel(this, i18n("Restart Kdenlive now to make this change effective ?")) == KMessageBox::Continue) {
-                QMetaObject::invokeMethod(pCore->window(), "slotRestart", Q_ARG(bool, false));
-            }
-        }
-    });
 
     connect(includeList, &QAction::triggered, this, [this, tenBit](bool enable) {
         KdenliveSettings::setEnableAssetsIncludeList(enable);

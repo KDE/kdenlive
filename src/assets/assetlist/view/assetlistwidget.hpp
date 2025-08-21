@@ -31,7 +31,7 @@ class AssetListWidget : public QWidget
     Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
-    AssetListWidget(bool isEffect, QWidget *parent = Q_NULLPTR);
+    AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent = Q_NULLPTR);
     ~AssetListWidget() override;
 
     virtual bool isEffect() const = 0;
