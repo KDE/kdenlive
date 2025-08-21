@@ -55,7 +55,7 @@ Rectangle {
             when: trackHeadRoot.current
             PropertyChanges {
                 target: trackHeadRoot
-                color: showAudioRecord ? Qt.tint(selectedTrackColor, Qt.rgba(1, 0, 0, 0.5)) : selectedTrackColor
+                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : selectedTrackColor
             }
         },
         State {
@@ -443,7 +443,7 @@ Rectangle {
                 asynchronous: true 
                 anchors.fill: parent
                 visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
-                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
+                source: isAudio && showAudioRecord ? "AudioRecordingControls.qml" : ""
                 onLoaded: item.trackId = trackId
             }
         }

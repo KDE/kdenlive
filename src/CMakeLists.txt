@@ -168,6 +168,8 @@ ecm_target_qml_sources(kdenliveLib
     timeline2/view/qml/TimelineLogic.js
     timeline2/view/qml/TrackHead.qml
     timeline2/view/qml/SubtitleTrackHead.qml
+    timeline2/view/qml/AudioRecordingControls.qml
+    timeline2/view/qml/AudioRecordButton.qml
     timeline2/view/qml/AudioLevels.qml
     timeline2/view/qml/Track.qml
     timeline2/view/qml/Ruler.qml
