@@ -121,6 +121,21 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 if (m_includedList.contains(result.mltId)) {
                     result.included = true;
                 }
+                switch (result.type) {
+                case AssetListType::AssetType::Video:
+                case AssetListType::AssetType::Custom:
+                case AssetListType::AssetType::Template:
+                case AssetListType::AssetType::TemplateCustom:
+                case AssetListType::AssetType::VideoShortComposition:
+                case AssetListType::AssetType::VideoComposition:
+                case AssetListType::VideoTransition:
+                    result.tenBit = result.mltId.startsWith(QLatin1String("avfilter.")) || m_tenBitList.contains(result.mltId);
+                    break;
+                default:
+                    // Audio effects should be set to true
+                    result.tenBit = true;
+                    break;
+                }
                 customAssets[result.id] = result;
             }
             return;
@@ -186,6 +201,21 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         if (m_includedList.contains(result.mltId)) {
             result.included = true;
         }
+        switch (result.type) {
+        case AssetListType::AssetType::Video:
+        case AssetListType::AssetType::Custom:
+        case AssetListType::AssetType::Template:
+        case AssetListType::AssetType::TemplateCustom:
+        case AssetListType::AssetType::VideoShortComposition:
+        case AssetListType::AssetType::VideoComposition:
+        case AssetListType::VideoTransition:
+            result.tenBit = result.mltId.startsWith(QLatin1String("avfilter.")) || m_tenBitList.contains(result.mltId);
+            break;
+        default:
+            // Audio effects should be set to true
+            result.tenBit = true;
+            break;
+        }
         customAssets[result.id] = result;
     }
 }
@@ -236,9 +266,9 @@ QString EffectsRepository::assetPreferredListPath() const
     return QStringLiteral(":data/preferred_effects.txt");
 }
 
-bool EffectsRepository::isPreferred(const QString &effectId) const
+QStringList EffectsRepository::assetTenBitPath() const
 {
-    return m_preferred_list.contains(effectId);
+    return {QStringLiteral(":data/tenbit_effects.txt")};
 }
 
 std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectId) const

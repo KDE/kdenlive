@@ -30,9 +30,6 @@ public:
     QPair<QString, QString> reloadCustom(const QString &path);
     QString getCustomPath(const QString &id);
 
-    /** @brief Returns whether this belongs to main effects */
-    bool isPreferred(const QString &effectId) const;
-
     /** @brief Check custom effects (older custom effects need an update to default and current values
      *  returns a list of effects that were incorrectly converted */
     QPair<QStringList, QStringList> fixDeprecatedEffects();
@@ -63,6 +60,9 @@ protected:
 
     /** @brief Returns the path to the effects that will be hidden*/
     QStringList assetExcludedPath() const override;
+
+    /** @brief Returns the path to the effects that support 10 bit color depth*/
+    QStringList assetTenBitPath() const override;
 
     /** @brief Returns the path to the effects' preferred list*/
     QString assetPreferredListPath() const override;

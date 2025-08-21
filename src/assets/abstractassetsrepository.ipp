@@ -27,7 +27,8 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     if (!KdenliveSettings::disableExcludes()) {
         parseAssetList(assetExcludedPath(), m_excludedList);
     }
-    parseAssetList(assetIncludedPath(), m_includedList);
+    // List effects with 10 bit support
+    parseAssetList(assetTenBitPath(), m_tenBitList);
 
     // Parse preferred list
     parseAssetList({assetPreferredListPath()}, m_preferred_list);
@@ -37,6 +38,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     QStringList emptyMetaAssets;
     int max = assets->count();
     QString sox = QStringLiteral("sox.");
+    QString avPrefix = QStringLiteral("avfilter.");
     for (int i = 0; i < max; ++i) {
         Info info;
         QString name = assets->get_name(i);
@@ -47,7 +49,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         }
         if (!m_excludedList.contains(name)) {
             if (parseInfoFromMlt(name, info)) {
-                m_assets[name] = info;
                 if (m_includedList.contains(name)) {
                     info.included = true;
                 }
@@ -55,6 +56,22 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
                     // Metadata was invalid
                     emptyMetaAssets << name;
                 }
+                switch (info.type) {
+                    case AssetType::Video:
+                    case AssetType::Custom:
+                    case AssetType::Template:
+                    case AssetType::TemplateCustom:
+                    case AssetType::VideoShortComposition:
+                    case AssetType::VideoComposition:
+                    case AssetType::VideoTransition:
+                        info.tenBit = name.startsWith(avPrefix) || m_tenBitList.contains(name);
+                        break;
+                    default:
+                        // Audio assets should be set to true
+                        info.tenBit = true;
+                        break;
+                }
+                m_assets[name] = info;
             } else {
                 qWarning() << "Failed to parse" << name;
             }
@@ -352,6 +369,15 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isInclud
 {
     Q_ASSERT(m_assets.count(assetId) > 0);
     return m_assets.at(assetId).included;
+}
+
+template <typename AssetType> void AbstractAssetsRepository<AssetType>::getAttributes(const QString &assetId, bool *isPreferred, bool *isIncluded, bool *supportsTenBit)
+{
+    Q_ASSERT(m_assets.count(assetId) > 0);
+    *isPreferred = m_preferred_list.contains(assetId);
+    const Info asset = m_assets.at(assetId);
+    *isIncluded = asset.included;
+    *supportsTenBit = asset.tenBit;
 }
 
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isUnique(const QString &assetId) const

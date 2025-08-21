@@ -78,17 +78,20 @@ bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 
 bool EffectFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
+    if (KdenliveSettings::effectsFilter() && KdenliveSettings::tenbitpipeline() &&
+        item->dataColumn(AssetTreeModel::IdCol).toString() != QLatin1String("root")) {
+        qDebug() << ":::: FILTERING EFFECT ITEM: " << item->dataColumn(AssetTreeModel::IdCol).toString() << " = "
+                 << item->dataColumn(AssetTreeModel::TenBitCol).toBool();
+        if (!item->dataColumn(AssetTreeModel::TenBitCol).toBool()) {
+            return false;
+        }
+    }
     if (!m_name_value.isEmpty()) {
         if (m_type_value == AssetListType::AssetType::Preferred) {
             return filterName(item);
         }
         return filterType(item) && filterName(item);
     } else {
-        if (KdenliveSettings::effectsFilter() && KdenliveSettings::tenbitpipeline()) {
-            if (!item->dataColumn(AssetTreeModel::IdCol).toString().contains(QLatin1String("avfilter"))) {
-                return false;
-            }
-        }
         return filterType(item);
     }
 }
