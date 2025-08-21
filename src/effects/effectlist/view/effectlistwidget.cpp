@@ -25,8 +25,8 @@
 
 #include <memory>
 
-EffectListWidget::EffectListWidget(QWidget *parent)
-    : AssetListWidget(true, parent)
+EffectListWidget::EffectListWidget(QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent)
+    : AssetListWidget(true, includeList, tenBit, excludeList, parent)
 {
 
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
