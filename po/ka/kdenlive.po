@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-20 00:42+0000\n"
-"PO-Revision-Date: 2025-07-26 03:38+0200\n"
+"POT-Creation-Date: 2025-08-21 00:42+0000\n"
+"PO-Revision-Date: 2025-08-20 08:03+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3785,7 +3785,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:22
-#: src/timeline2/view/qml/Track.qml:51 src/ui/clipspeed_ui.ui:36
+#: src/timeline2/view/qml/Track.qml:53 src/ui/clipspeed_ui.ui:36
 #: src/ui/editsub_ui.ui:557
 #, kde-format
 msgid "Speed"
@@ -6921,8 +6921,8 @@ msgstr "ი"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
-#: src/timeline2/view/qml/Track.qml:53 src/timeline2/view/qml/Track.qml:79
-#: src/timeline2/view/qml/Track.qml:87 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
+#: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "ხანგრძლოვობა"
@@ -7414,7 +7414,7 @@ msgstr "ვიდეოს გამოჩენა სიშავიდან"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:169
-#: src/monitor/view/MonitorTrimming.qml:110 src/timeline2/view/qml/Track.qml:85
+#: src/monitor/view/MonitorTrimming.qml:110 src/timeline2/view/qml/Track.qml:87
 #, kde-format
 msgid "In"
 msgstr "შეყვანა"
@@ -17687,10 +17687,9 @@ msgid "Title Template"
 msgstr "სათაურის შაბლონი"
 
 #: src/bin/bin.cpp:2551
-#, fuzzy, kde-format
-#| msgid "Select an object in the image first"
+#, kde-format
 msgid "Select an option in the menu to enable filtering"
-msgstr "ჯერ აირჩიეთ ობიექტი გამოსახულებაში"
+msgstr "აირჩიეთ პუნქტი მენიუში გაფილტვრის ჩასართავად"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:2606 src/ui/managecache_ui.ui:359
@@ -31346,14 +31345,15 @@ msgstr "ჩაწერა"
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
 
-#: src/timeline2/view/qml/Track.qml:460 src/timeline2/view/qml/Track.qml:478
+#: src/timeline2/view/qml/Track.qml:462 src/timeline2/view/qml/Track.qml:480
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, ხანგრძლივობა = %3"
 
-#: src/timeline2/view/qml/Track.qml:502
-#, kde-format
-msgid "Adjusting speed"
+#: src/timeline2/view/qml/Track.qml:506
+#, fuzzy, kde-format
+#| msgid "Adjusting speed"
+msgid "%1% | Adjusting speed"
 msgstr "სიჩქარის გასწორება"
 
 #: src/timeline2/view/qml/TrackHead.qml:166
