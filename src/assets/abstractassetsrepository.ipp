@@ -26,7 +26,9 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // Parse include/exclude lists
     if (!KdenliveSettings::disableExcludes()) {
         parseAssetList(assetExcludedPath(), m_excludedList);
+        parseAssetList(assetIncludedPath(), m_includedList);
     }
+
     // List effects with 10 bit support
     parseAssetList(assetTenBitPath(), m_tenBitList);
 
