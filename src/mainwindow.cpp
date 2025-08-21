@@ -1176,10 +1176,17 @@ void MainWindow::setupActions()
     // Create audio waveform zoom actions
     m_audioZoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In Audio Waveforms"), this);
     m_audioZoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out Audio Waveforms"), this);
+    m_audioZoomReset = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Reset Audio Waveform Zoom"), this);
+    m_audioZoomCycle = new QAction(QIcon::fromTheme(QStringLiteral("zoom-1-to-2")), i18n("Cycle Audio Waveform Zoom Levels"), this);
     connect(m_audioZoomIn, &QAction::triggered, this, &MainWindow::slotAudioZoomIn);
     connect(m_audioZoomOut, &QAction::triggered, this, &MainWindow::slotAudioZoomOut);
-    addAction(QStringLiteral("audio_zoom_in"), m_audioZoomIn);
-    addAction(QStringLiteral("audio_zoom_out"), m_audioZoomOut);
+    connect(m_audioZoomReset, &QAction::triggered, this, &MainWindow::slotAudioZoomReset);
+    connect(m_audioZoomCycle, &QAction::triggered, this, &MainWindow::slotAudioZoomCycle);
+    addAction(QStringLiteral("zoom_audio_in"), m_audioZoomIn);
+    addAction(QStringLiteral("zoom_audio_out"), m_audioZoomOut);
+    addAction(QStringLiteral("zoom_audio_reset"), m_audioZoomReset);
+    addAction(QStringLiteral("zoom_audio_thumbs"),
+              m_audioZoomCycle); // kept action name zoom_audio_thumbs for backwards compatibility before in/out/reset were introduced
 
     auto tlsettings = new QMenu(this);
     tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
@@ -1325,8 +1332,8 @@ void MainWindow::setupActions()
     auto *audioThumbsMenu = new QMenu(this);
     QWidget *statusAudioZoomWidget = new QWidget();
     QVBoxLayout *statusAudioZoomLayout = new QVBoxLayout(statusAudioZoomWidget);
-    statusAudioZoomLayout->setContentsMargins(4, 2, 4, 2);
-    statusAudioZoomLayout->setSpacing(4);
+    statusAudioZoomLayout->setContentsMargins(2, 2, 2, 2);
+    statusAudioZoomLayout->setSpacing(2);
 
     // Current zoom level (top)
     QLabel *statusZoomLevelLabel = new QLabel(i18n("%1×", KdenliveSettings::waveformScaler()));
@@ -1337,23 +1344,41 @@ void MainWindow::setupActions()
     statusZoomLevelLabel->setToolTip(i18n("Current Audio Waveform Zoom Level"));
     statusAudioZoomLayout->addWidget(statusZoomLevelLabel);
 
-    // Zoom in button (middle)
+    // Separator between label and buttons
+    QFrame *statusZoomSeparator = new QFrame();
+    statusZoomSeparator->setFrameShape(QFrame::HLine);
+    statusZoomSeparator->setFixedHeight(1);
+    statusZoomSeparator->setLineWidth(1);
+    statusAudioZoomLayout->addWidget(statusZoomSeparator);
+
+    // Zoom in button
     QToolButton *statusZoomInButton = new QToolButton();
     statusZoomInButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     statusZoomInButton->setToolTip(i18n("Zoom In Audio Waveforms"));
+    statusZoomInButton->setAutoRaise(true);
     connect(statusZoomInButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomIn);
     statusAudioZoomLayout->addWidget(statusZoomInButton);
 
-    // Zoom out button (bottom)
+    // Zoom out button
     QToolButton *statusZoomOutButton = new QToolButton();
     statusZoomOutButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     statusZoomOutButton->setToolTip(i18n("Zoom Out Audio Waveforms"));
+    statusZoomOutButton->setAutoRaise(true);
     connect(statusZoomOutButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomOut);
     statusAudioZoomLayout->addWidget(statusZoomOutButton);
+
+    // Reset zoom button (bottom)
+    QToolButton *statusZoomResetButton = new QToolButton();
+    statusZoomResetButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
+    statusZoomResetButton->setToolTip(i18n("Reset Audio Waveform Zoom"));
+    statusZoomResetButton->setAutoRaise(true);
+    connect(statusZoomResetButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomReset);
+    statusAudioZoomLayout->addWidget(statusZoomResetButton);
 
     // Set initial button states
     statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
     statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+    statusZoomResetButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
 
     auto *statusAudioZoomAction = new QWidgetAction(this);
     statusAudioZoomAction->setDefaultWidget(statusAudioZoomWidget);
@@ -1361,11 +1386,12 @@ void MainWindow::setupActions()
 
     // Connect to update zoom level display when it changes
     connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this,
-            [this, statusZoomLevelLabel, statusZoomInButton, statusZoomOutButton, waveformIconName]() {
+            [this, statusZoomLevelLabel, statusZoomInButton, statusZoomOutButton, statusZoomResetButton, waveformIconName]() {
                 statusZoomLevelLabel->setText(i18n("%1×", KdenliveSettings::waveformScaler()));
                 // Update button states based on zoom level
                 statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
                 statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+                statusZoomResetButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
                 updateAudioWaveformActionIcon();
             });
 
@@ -4737,6 +4763,28 @@ void MainWindow::slotAudioZoomOut()
     }
     if (KdenliveSettings::waveformScaler() > 1) {
         KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() / 2);
+    }
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::slotAudioZoomReset()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    KdenliveSettings::setWaveformScaler(1);
+    slotNormalizeAudioChannel(true);
+}
+
+void MainWindow::slotAudioZoomCycle()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+    }
+    if (KdenliveSettings::waveformScaler() < 5) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
+    } else {
+        KdenliveSettings::setWaveformScaler(1);
     }
     slotNormalizeAudioChannel(true);
 }

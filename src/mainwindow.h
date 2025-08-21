@@ -329,6 +329,8 @@ private:
     QAction *m_zoomOut;
     QAction *m_audioZoomIn;
     QAction *m_audioZoomOut;
+    QAction *m_audioZoomReset;
+    QAction *m_audioZoomCycle;
     QAction *m_loopZone;
     QAction *m_playZone;
     QAction *m_playZoneFromCursor;
@@ -625,6 +627,8 @@ private Q_SLOTS:
     void slotCollapseAll();
     void slotAudioZoomIn();
     void slotAudioZoomOut();
+    void slotAudioZoomReset();
+    void slotAudioZoomCycle();
     /** @brief Save currently selected timeline clip as bin subclip*/
     void slotExtractClip();
     /** @brief Save currently selected timeline clip as bin subclip*/
