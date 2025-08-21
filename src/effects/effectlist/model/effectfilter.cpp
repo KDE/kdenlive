@@ -80,8 +80,6 @@ bool EffectFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
     if (KdenliveSettings::effectsFilter() && KdenliveSettings::tenbitpipeline() &&
         item->dataColumn(AssetTreeModel::IdCol).toString() != QLatin1String("root")) {
-        qDebug() << ":::: FILTERING EFFECT ITEM: " << item->dataColumn(AssetTreeModel::IdCol).toString() << " = "
-                 << item->dataColumn(AssetTreeModel::TenBitCol).toBool();
         if (!item->dataColumn(AssetTreeModel::TenBitCol).toBool()) {
             return false;
         }

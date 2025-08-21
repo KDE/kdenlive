@@ -16,6 +16,7 @@
 #include <KNSWidgets/Action>
 #include <KStandardAction>
 #include <QAction>
+#include <QActionGroup>
 #include <QFontDatabase>
 #include <QKeyEvent>
 #include <QLineEdit>
@@ -87,38 +88,52 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
     m_toolbar->setIconSize(QSize(iconSize, iconSize));
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    QActionGroup *filterGroup = new QActionGroup(this);
     QAction *allEffects = new QAction(this);
     allEffects->setIcon(QIcon::fromTheme(QStringLiteral("show-all-effects")));
     allEffects->setToolTip(m_isEffect ? i18n("Main effects") : i18n("Main compositions"));
     connect(allEffects, &QAction::triggered, this, [this]() { setFilterType(QLatin1String()); });
+    allEffects->setCheckable(true);
+    allEffects->setChecked(true);
+    filterGroup->addAction(allEffects);
     m_toolbar->addAction(allEffects);
     if (m_isEffect) {
         QAction *videoEffects = new QAction(this);
         videoEffects->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
         videoEffects->setToolTip(i18n("Show all video effects"));
         connect(videoEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("video")); });
+        videoEffects->setCheckable(true);
+        filterGroup->addAction(videoEffects);
         m_toolbar->addAction(videoEffects);
         QAction *audioEffects = new QAction(this);
         audioEffects->setIcon(QIcon::fromTheme(QStringLiteral("audio-volume-high")));
         audioEffects->setToolTip(i18n("Show all audio effects"));
         connect(audioEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("audio")); });
+        audioEffects->setCheckable(true);
+        filterGroup->addAction(audioEffects);
         m_toolbar->addAction(audioEffects);
         QAction *customEffects = new QAction(this);
         customEffects->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-custom-effect")));
         customEffects->setToolTip(i18n("Show all custom effects"));
         connect(customEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("custom")); });
+        customEffects->setCheckable(true);
+        filterGroup->addAction(customEffects);
         m_toolbar->addAction(customEffects);
     } else {
         QAction *transOnly = new QAction(this);
         transOnly->setIcon(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")));
         transOnly->setToolTip(i18n("Show transitions only"));
         connect(transOnly, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("transition")); });
+        transOnly->setCheckable(true);
+        filterGroup->addAction(transOnly);
         m_toolbar->addAction(transOnly);
     }
     QAction *favEffects = new QAction(this);
     favEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     favEffects->setToolTip(i18n("Show favorite items"));
     connect(favEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("favorites")); });
+    favEffects->setCheckable(true);
+    filterGroup->addAction(favEffects);
     m_toolbar->addAction(favEffects);
     m_lay->addWidget(m_toolbar);
     QWidget *empty = new QWidget(this);
