@@ -34,6 +34,8 @@ public:
     AssetType getType(const QString &assetId) const;
     bool isIncludedInList(const QString &assetId) const;
 
+    void getAttributes(const QString &assetId, bool *isPreferred, bool *isIncluded, bool *supportsTenBit);
+
     /** @brief Return type of asset */
     bool isUnique(const QString &assetId) const;
 
@@ -56,6 +58,7 @@ protected:
         QString name, description, author, version_str;
         int version{};
         bool included{false};
+        bool tenBit{false};
         QDomElement xml;
         AssetType type;
     };
@@ -92,11 +95,14 @@ protected:
     /** @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;
 
-    /** @brief Returns the path to the assets that will be displayed*/
+    /** @brief Returns the path to the asset list that will be displayed*/
     virtual QStringList assetIncludedPath() const = 0;
 
-    /** @brief Returns the path to the assets that will be hidden*/
+    /** @brief Returns the path to the asset list that will be hidden*/
     virtual QStringList assetExcludedPath() const = 0;
+
+    /** @brief Returns the path to the asset list that support 10 bit depth*/
+    virtual QStringList assetTenBitPath() const = 0;
 
     /** @brief Returns the path to the assets' preferred list*/
     virtual QString assetPreferredListPath() const = 0;
@@ -105,6 +111,7 @@ protected:
 
     QSet<QString> m_excludedList;
     QSet<QString> m_includedList;
+    QSet<QString> m_tenBitList;
 
     QSet<QString> m_preferred_list;
 };

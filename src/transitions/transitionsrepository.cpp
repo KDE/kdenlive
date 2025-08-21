@@ -93,6 +93,17 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
                 result.type = AssetListType::AssetType::VideoTransition;
             }
         }
+        switch (result.type) {
+        case AssetListType::AssetType::VideoShortComposition:
+        case AssetListType::AssetType::VideoComposition:
+        case AssetListType::VideoTransition:
+            result.tenBit = result.id.startsWith(QLatin1String("avfilter.")) || m_tenBitList.contains(result.id);
+            break;
+        default:
+            // Audio effects should be set to true
+            result.tenBit = true;
+            break;
+        }
         customAssets[result.id] = result;
     }
 }
@@ -154,6 +165,11 @@ QString TransitionsRepository::assetPreferredListPath() const
     // Transitions do not have "Main" filter implemented, so we return an empty
     // string instead of path to a file with that list
     return QLatin1String("");
+}
+
+QStringList TransitionsRepository::assetTenBitPath() const
+{
+    return {QStringLiteral(":data/tenbit_transitions.txt")};
 }
 
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const
