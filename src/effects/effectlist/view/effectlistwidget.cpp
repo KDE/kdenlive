@@ -25,10 +25,9 @@
 
 #include <memory>
 
-EffectListWidget::EffectListWidget(QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent)
-    : AssetListWidget(true, includeList, tenBit, excludeList, parent)
+EffectListWidget::EffectListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
+    : AssetListWidget(true, includeList, tenBit, parent)
 {
-
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model = EffectTreeModel::construct(effectCategory, this);
     m_proxyModel = std::make_unique<EffectFilter>(this);

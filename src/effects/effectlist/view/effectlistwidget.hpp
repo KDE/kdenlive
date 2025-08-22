@@ -22,7 +22,7 @@ class EffectListWidget : public AssetListWidget
     Q_OBJECT
 
 public:
-    EffectListWidget(QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent = Q_NULLPTR);
+    EffectListWidget(QAction *includeList, QAction *tenBit, QWidget *parent = Q_NULLPTR);
     ~EffectListWidget() override;
     bool isEffect() const override { return true; }
     void setFilterType(const QString &type) override;

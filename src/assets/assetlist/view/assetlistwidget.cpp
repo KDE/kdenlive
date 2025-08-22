@@ -48,7 +48,7 @@ protected:
     }
 };
 
-AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent)
+AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent)
     : QWidget(parent)
     , m_isEffect(isEffect)
 {
@@ -158,10 +158,6 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
 
     // 10 bit filter
     more->addAction(tenBit);
-
-    // Exclude list
-    more->addSeparator();
-    more->addAction(excludeList);
 
     connect(includeList, &QAction::triggered, this, [this, tenBit](bool enable) {
         KdenliveSettings::setEnableAssetsIncludeList(enable);
@@ -275,7 +271,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     m_lay->addWidget(viewSplitter);
     viewSplitter->setSizes({50, 0});
 
-    if (KdenliveSettings::disableExcludes()) {
+    if (pCore->debugMode) {
         tenBit->setEnabled(false);
         includeList->setEnabled(false);
         KMessageWidget *mw = new KMessageWidget(this);
