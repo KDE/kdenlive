@@ -142,7 +142,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
 
 void MixerWidget::buildAudioMeter()
 {
-    m_audioMeterWidget.reset(new AudioLevelWidget(this, Qt::Vertical, AudioLevel::TickLabelsMode::Show));
+    m_audioMeterWidget.reset(new AudioLevelWidget(this, Qt::Vertical, AudioLevel::TickLabelsMode::Show, true));
     for (int i = 0; i < m_channels; i++) {
         m_audioData << -100;
     }

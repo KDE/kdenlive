@@ -15,7 +15,7 @@ AudioLevelStyleProvider &AudioLevelStyleProvider::instance()
     return instance;
 }
 
-AudioLevelStyleProvider::LevelColors AudioLevelStyleProvider::getLevelsFillColors(const QPalette &palette) const
+AudioLevelStyleProvider::LevelColors AudioLevelStyleProvider::getLevelsFillColors() const
 {
     LevelColors colors;
     colors.darkGreen = QColor(0, 135, 60);
@@ -60,10 +60,15 @@ QColor AudioLevelStyleProvider::getBorderColor(const QPalette &palette, bool isE
     }
 }
 
+QColor AudioLevelStyleProvider::getClippingColor() const
+{
+    return QColor(225, 39, 41); // Same as the red from LevelColors
+}
+
 QColor AudioLevelStyleProvider::getPeakColor(const QPalette &palette, double peakValue) const
 {
     if (AudioLevelConfig::instance().peakIndicatorStyle() == AudioLevel::PeakIndicatorStyle::Colorful) {
-        LevelColors levelColors = getLevelsFillColors(palette);
+        LevelColors levelColors = getLevelsFillColors();
         if (peakValue > LevelColors::yellowThreshold) {
             return levelColors.red;
         } else if (peakValue > LevelColors::greenThreshold) {
@@ -91,9 +96,9 @@ QColor AudioLevelStyleProvider::getChannelBackgroundColor(const QPalette &palett
     }
 }
 
-QLinearGradient AudioLevelStyleProvider::getLevelsFillGradient(const QPalette &palette, Qt::Orientation orientation, double maxDb) const
+QLinearGradient AudioLevelStyleProvider::getLevelsFillGradient(Qt::Orientation orientation, double maxDb) const
 {
-    auto levelColors = getLevelsFillColors(palette);
+    auto levelColors = getLevelsFillColors();
     QLinearGradient gradient;
 
     if (orientation == Qt::Horizontal) {

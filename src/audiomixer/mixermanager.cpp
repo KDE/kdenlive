@@ -22,7 +22,6 @@
 #include <QModelIndex>
 #include <QScreen>
 #include <QScrollArea>
-#include <QTimer>
 
 constexpr QMargins kMarginAroundMixer = QMargins(6, 6, 6, 6);
 constexpr QMargins kNoMargin = QMargins(0, 0, 0, 0);

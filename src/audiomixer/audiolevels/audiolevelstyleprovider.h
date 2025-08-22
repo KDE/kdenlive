@@ -32,11 +32,12 @@ public:
 
     static AudioLevelStyleProvider &instance();
 
-    LevelColors getLevelsFillColors(const QPalette &palette) const;
+    LevelColors getLevelsFillColors() const;
     QColor getBorderColor(const QPalette &palette, bool isEnabled) const;
+    QColor getClippingColor() const;
     QColor getPeakColor(const QPalette &palette, double peakValue) const;
     QColor getChannelBackgroundColor(const QPalette &palette) const;
-    QLinearGradient getLevelsFillGradient(const QPalette &palette, Qt::Orientation orientation, double maxDb) const;
+    QLinearGradient getLevelsFillGradient(Qt::Orientation orientation, double maxDb) const;
 
 private:
     AudioLevelStyleProvider() = default; // Private constructor for singleton

@@ -29,6 +29,10 @@ constexpr int MAXIMUM_SECONDARY_AXIS_LENGTH = 7; // maximum height/width for aud
 constexpr int NO_AUDIO_PRIMARY_AXIS_POSITION = -1;
 constexpr double MIN_DISPLAY_DB = -100.0; // Don't display levels below this threshold
 
+// Clipping indicator constants
+constexpr int CLIPPING_INDICATOR_SPACING = 4; // 4px spacing between levels and clipping indicator
+constexpr int CLIPPING_INDICATOR_SIZE = 5;    // Size of the clipping indicator rectangle
+
 constexpr qreal HIDPI_OFFSET_ADJUSTMENT = 0.5;
 constexpr qreal HIDPI_LENGTH_ADJUSTMENT = 1.0;
 
@@ -219,7 +223,8 @@ void AudioLevelRenderer::drawChannelBorders(QPainter &painter, const RenderData 
     } else {
         qreal totalWidth = data.audioChannels * data.secondaryAxisLength + (data.audioChannels + 1) * CHANNEL_BORDER_WIDTH;
         qreal totalHeight = data.primaryAxisLength + 2 * CHANNEL_BORDER_WIDTH;
-        QRectF drawingRect = PainterUtils::adjustedForPen(QRectF(effectiveBorderOffset, 0, totalWidth, totalHeight), pen.widthF());
+        qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
+        QRectF drawingRect = PainterUtils::adjustedForPen(QRectF(effectiveBorderOffset, verticalOffset, totalWidth, totalHeight), pen.widthF());
         if (fillBackground && channelBackgroundColor.isValid()) {
             painter.fillRect(drawingRect, channelBackgroundColor);
         }
@@ -227,7 +232,9 @@ void AudioLevelRenderer::drawChannelBorders(QPainter &painter, const RenderData 
         qreal channelWidth = data.secondaryAxisLength;
         for (int i = 1; i < data.audioChannels; ++i) {
             qreal x = effectiveBorderOffset + i * (channelWidth + CHANNEL_BORDER_WIDTH);
-            painter.drawLine(PainterUtils::adjustedVerticalLine(x, CHANNEL_BORDER_WIDTH, data.primaryAxisLength + 1, pen.widthF()));
+            qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
+            painter.drawLine(
+                PainterUtils::adjustedVerticalLine(x, verticalOffset + CHANNEL_BORDER_WIDTH, verticalOffset + data.primaryAxisLength + 1, pen.widthF()));
         }
     }
     painter.restore();
@@ -306,7 +313,8 @@ void AudioLevelRenderer::drawDbScale(QPainter &painter, const RenderData &data) 
             (data.layoutState.shouldDrawLabels() || data.layoutState.isInHoverLabelMode()) && data.layoutState.getWidgetSize().height() >= spaceForTwoLabels;
         for (int i = 0; i < dbLabelCount; i++) {
             int value = dbscale.at(i);
-            y = dBToPrimaryOffset(value, data.maxDb, data.primaryAxisLength, data.orientation);
+            qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
+            y = dBToPrimaryOffset(value, data.maxDb, data.primaryAxisLength, data.orientation) + verticalOffset;
             // Draw tick mark
             painter.drawLine(PainterUtils::adjustedHorizontalLine(y, x, x + TICK_MARK_LENGTH, pen.widthF()));
 
@@ -457,13 +465,14 @@ void AudioLevelRenderer::drawChannelPeakIndicator(QPainter &painter, const Rende
                 peakY = peakHeight;
             }
         }
-        painter.fillRect(QRectF(secondaryOffset, peakY - peakHeight, secondaryLength, peakHeight), peakColor);
+        qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
+        painter.fillRect(QRectF(secondaryOffset, verticalOffset + peakY - peakHeight, secondaryLength, peakHeight), peakColor);
     }
 }
 
 void AudioLevelRenderer::drawChannelLevelsSolid(QPainter &painter, const RenderData &data) const
 {
-    auto levelColors = AudioLevelStyleProvider::instance().getLevelsFillColors(data.palette);
+    auto levelColors = AudioLevelStyleProvider::instance().getLevelsFillColors();
 
     for (int i = 0; i < data.audioChannels; i++) {
         double value = data.valueDecibels.at(i);
@@ -504,13 +513,14 @@ void AudioLevelRenderer::drawChannelLevelsSolid(QPainter &painter, const RenderD
                     painter.fillRect(QRectF(segStart, secondaryOffset, segEnd - segStart, secondaryLength), levelColors.red);
                 }
             } else { // Vertical orientation
+                qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
                 if (drawGreen) {
-                    segStart = CHANNEL_BORDER_WIDTH + data.primaryAxisLength;
+                    segStart = verticalOffset + CHANNEL_BORDER_WIDTH + data.primaryAxisLength;
                     segEnd =
                         qMax(dBToPrimaryOffset(AudioLevelStyleProvider::LevelColors::greenThreshold, data.maxDb, data.primaryAxisLength, data.orientation) - 1,
                              valuePrimaryAxisPosition);
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapDown(segEnd);
-                    painter.fillRect(QRectF(secondaryOffset, segEnd, secondaryLength, segStart - segEnd), levelColors.green);
+                    painter.fillRect(QRectF(secondaryOffset, segEnd + verticalOffset, secondaryLength, segStart - segEnd), levelColors.green);
                 }
                 if (drawYellow) {
                     segStart = segEnd;
@@ -518,14 +528,14 @@ void AudioLevelRenderer::drawChannelLevelsSolid(QPainter &painter, const RenderD
                         qMax(dBToPrimaryOffset(AudioLevelStyleProvider::LevelColors::yellowThreshold, data.maxDb, data.primaryAxisLength, data.orientation) - 1,
                              valuePrimaryAxisPosition);
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapDown(segEnd);
-                    painter.fillRect(QRectF(secondaryOffset, segEnd, secondaryLength, segStart - segEnd), levelColors.yellow);
+                    painter.fillRect(QRectF(secondaryOffset, segEnd + verticalOffset, secondaryLength, segStart - segEnd), levelColors.yellow);
                 }
                 if (drawRed) {
                     segStart = segEnd;
                     segEnd = valuePrimaryAxisPosition;
                     if (AudioLevelConfig::instance().drawBlockLines()) segEnd = snapDown(segEnd);
                     segEnd += CHANNEL_BORDER_WIDTH;
-                    painter.fillRect(QRectF(secondaryOffset, segEnd, secondaryLength, segStart - segEnd), levelColors.red);
+                    painter.fillRect(QRectF(secondaryOffset, segEnd + verticalOffset, secondaryLength, segStart - segEnd), levelColors.red);
                 }
             }
         }
@@ -547,7 +557,7 @@ void AudioLevelRenderer::drawChannelLevelsGradient(QPainter &painter, const Rend
             QColor bgColor = AudioLevelStyleProvider::instance().getChannelBackgroundColor(data.palette);
             painter.setOpacity(1.0);
             if (data.orientation == Qt::Horizontal) {
-                QLinearGradient gradient = AudioLevelStyleProvider::instance().getLevelsFillGradient(data.palette, data.orientation, data.maxDb);
+                QLinearGradient gradient = AudioLevelStyleProvider::instance().getLevelsFillGradient(data.orientation, data.maxDb);
                 gradient.setStart(CHANNEL_BORDER_WIDTH, 0);
                 gradient.setFinalStop(data.primaryAxisLength, 0);
                 painter.fillRect(QRectF(CHANNEL_BORDER_WIDTH, secondaryOffset, data.primaryAxisLength - CHANNEL_BORDER_WIDTH, secondaryLength), gradient);
@@ -555,12 +565,14 @@ void AudioLevelRenderer::drawChannelLevelsGradient(QPainter &painter, const Rend
                     painter.fillRect(QRectF(valuePrimaryOffset, secondaryOffset, data.primaryAxisLength - valuePrimaryOffset, secondaryLength), bgColor);
                 }
             } else {
-                QLinearGradient gradient = AudioLevelStyleProvider::instance().getLevelsFillGradient(data.palette, data.orientation, data.maxDb);
-                gradient.setStart(0, CHANNEL_BORDER_WIDTH + data.primaryAxisLength);
-                gradient.setFinalStop(0, CHANNEL_BORDER_WIDTH);
-                painter.fillRect(QRectF(secondaryOffset, CHANNEL_BORDER_WIDTH, secondaryLength, data.primaryAxisLength), gradient);
+                QLinearGradient gradient = AudioLevelStyleProvider::instance().getLevelsFillGradient(data.orientation, data.maxDb);
+                qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
+                gradient.setStart(0, verticalOffset + CHANNEL_BORDER_WIDTH + data.primaryAxisLength);
+                gradient.setFinalStop(0, verticalOffset + CHANNEL_BORDER_WIDTH);
+                painter.fillRect(QRectF(secondaryOffset, verticalOffset + CHANNEL_BORDER_WIDTH, secondaryLength, data.primaryAxisLength), gradient);
                 if (valuePrimaryOffset > CHANNEL_BORDER_WIDTH) {
-                    painter.fillRect(QRectF(secondaryOffset, CHANNEL_BORDER_WIDTH, secondaryLength, valuePrimaryOffset - CHANNEL_BORDER_WIDTH), bgColor);
+                    painter.fillRect(QRectF(secondaryOffset, verticalOffset + CHANNEL_BORDER_WIDTH, secondaryLength, valuePrimaryOffset - CHANNEL_BORDER_WIDTH),
+                                     bgColor);
                 }
             }
         }
@@ -576,4 +588,49 @@ void AudioLevelRenderer::drawChannelLevels(QPainter &painter, const RenderData &
         drawChannelLevelsGradient(painter, data);
     }
     drawBlockLines(painter, data);
+}
+
+void AudioLevelRenderer::drawClippingIndicators(QPainter &painter, const RenderData &data)
+{
+    if (!data.showClippingIndicator || data.clippingStates.size() != data.audioChannels) {
+        return;
+    }
+
+    QColor borderColor = AudioLevelStyleProvider::instance().getBorderColor(data.palette, data.isEnabled);
+    QColor clippingColor = AudioLevelStyleProvider::instance().getClippingColor();
+    QColor neutralColor = AudioLevelStyleProvider::instance().getChannelBackgroundColor(data.palette);
+
+    for (int i = 0; i < data.audioChannels; i++) {
+
+        bool isClipping = data.clippingStates[i];
+        QColor fillColor = isClipping ? clippingColor : neutralColor;
+
+        // To fix glitches in HiDPI with fractional scaling lets slightly enlarge the drawing area as we could otherwise end up with a gap of 1px between the
+        // levels fill and the border. We'll have to redraw the borders to ensure they are not covered by the levels.
+        qreal secondaryOffset =
+            channelToSecondaryOffset(i, data.secondaryAxisLength, data.layoutState.getBorderOffset(), data.orientation) - HIDPI_OFFSET_ADJUSTMENT;
+        qreal secondaryLength = data.secondaryAxisLength + HIDPI_LENGTH_ADJUSTMENT;
+
+        if (data.orientation == Qt::Horizontal) {
+            // Draw clipping indicator to the right of the levels
+            qreal indicatorX = data.primaryAxisLength + CLIPPING_INDICATOR_SPACING;
+            qreal indicatorY = secondaryOffset;
+            qreal indicatorWidth = CLIPPING_INDICATOR_SIZE;
+            qreal indicatorHeight = secondaryLength;
+
+            painter.fillRect(QRectF(indicatorX, indicatorY, indicatorWidth, indicatorHeight), fillColor);
+            painter.setPen(QPen(borderColor, CHANNEL_BORDER_WIDTH));
+            painter.drawRect(QRectF(indicatorX, indicatorY, indicatorWidth, indicatorHeight));
+        } else {
+            // Draw clipping indicator above the levels
+            qreal indicatorX = secondaryOffset;
+            qreal indicatorY = 0;
+            qreal indicatorWidth = secondaryLength;
+            qreal indicatorHeight = CLIPPING_INDICATOR_SIZE;
+
+            painter.fillRect(QRectF(indicatorX, indicatorY, indicatorWidth, indicatorHeight), fillColor);
+            painter.setPen(QPen(borderColor, CHANNEL_BORDER_WIDTH));
+            painter.drawRect(QRectF(indicatorX, indicatorY, indicatorWidth, indicatorHeight));
+        }
+    }
 }

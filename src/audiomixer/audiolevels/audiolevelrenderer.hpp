@@ -90,6 +90,10 @@ public:
         // Layout state - replaces multiple individual parameters
         AudioLevelLayoutState layoutState;
 
+        // Clipping indicator support
+        bool showClippingIndicator = false;
+        QVector<bool> clippingStates;
+
         RenderData(const AudioLevelLayoutState::Config &layoutConfig)
             : layoutState(layoutConfig)
         {
@@ -103,6 +107,7 @@ public:
     void drawBackground(QPainter &painter, const RenderData &data);
     void drawChannelLevels(QPainter &painter, const RenderData &data);
     void drawChannelBordersToPixmap(QPixmap &pixmap, const RenderData &data);
+    void drawClippingIndicators(QPainter &painter, const RenderData &data);
 
     // Helper methods for coordinate conversion
     static int dBToPrimaryOffset(double dB, int maxDb, int primaryLength, Qt::Orientation orientation);

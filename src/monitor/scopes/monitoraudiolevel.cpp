@@ -26,7 +26,7 @@ MonitorAudioLevel::MonitorAudioLevel(QWidget *parent)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setFixedHeight(height()); // Fixed height for QToolbar to prevent expansion
     isValid = true;
-    m_audioLevelWidget = std::make_unique<AudioLevelWidget>(this, Qt::Horizontal, AudioLevel::TickLabelsMode::HideIfSpaceIsLimited);
+    m_audioLevelWidget = std::make_unique<AudioLevelWidget>(this, Qt::Horizontal, AudioLevel::TickLabelsMode::HideIfSpaceIsLimited, true);
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_audioLevelWidget.get());
