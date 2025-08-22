@@ -16,8 +16,8 @@
 #include <QtMath>
 #include <cmath>
 
-GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
-                               bool useOpacity, QWidget *parent, QFormLayout *layout)
+GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
+                               bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout)
     : QObject(parent)
     , m_min(range.first)
     , m_max(range.second)
@@ -53,7 +53,8 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     poslayout->addStretch(10);
     m_allWidgets << label;
 
-    m_spinWidth = new DragValue(i18nc("Image Size (Width)", "Size W"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, parent, true);
+    m_spinWidth =
+        new DragValue(i18nc("Image Size (Width)", "Size W"), m_defaultSize.width(), 0, allowNullRect ? 0 : 1, 99000, -1, QString(), false, false, parent, true);
     connect(m_spinWidth, &DragValue::customValueChanged, this, &GeometryWidget::slotAdjustRectWidth);
     m_spinWidth->setObjectName("spinW");
     m_allWidgets << m_spinWidth;
@@ -68,7 +69,8 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     ratioButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_allWidgets << ratioButton;
 
-    m_spinHeight = new DragValue(i18nc("Image Height", "H"), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, parent, true);
+    m_spinHeight =
+        new DragValue(i18nc("Image Height", "H"), m_defaultSize.height(), 0, allowNullRect ? 0 : 1, 99000, -1, QString(), false, false, parent, true);
     connect(m_spinHeight, &DragValue::customValueChanged, this, &GeometryWidget::slotAdjustRectHeight);
     m_spinHeight->setObjectName("spinH");
     QHBoxLayout *sizelayout = new QHBoxLayout;
@@ -134,7 +136,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     tbAlign->setMinimumWidth(m_spinX->height());
 
     QHBoxLayout *scaleLayout = new QHBoxLayout;
-    m_spinSize = new DragValue(i18n("Scale"), 100, 2, 1, 99000, -1, i18n("%"), false, false, parent, true);
+    m_spinSize = new DragValue(i18n("Scale"), 100, 2, allowNullRect ? 0 : 1, 99000, -1, i18n("%"), false, false, parent, true);
     m_spinSize->setStep(5);
     m_spinSize->setObjectName("spinS");
     connect(m_spinSize, &DragValue::customValueChanged, this, &GeometryWidget::slotResize);
@@ -519,7 +521,7 @@ void GeometryWidget::slotAdjustRectYKeyframeValue()
 void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
 {
     if (!r.isValid()) {
-        return;
+        qDebug() << "::: UPDATING WITH NULL RECT";
     }
     m_spinX->blockSignals(true);
     m_spinY->blockSignals(true);
@@ -533,7 +535,6 @@ void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    // Q_EMIT updateMonitorGeometry(r);
     adjustSizeValue();
     if (m_spinX->isEnabled()) {
         Q_EMIT valueChanged(getValue(), -1, m_frameForRect);
@@ -542,10 +543,10 @@ void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
 
 void GeometryWidget::setValue(const QRect r, double opacity, int frame)
 {
-    if (!r.isValid()) {
-        return;
-    }
     m_frameForRect = frame;
+    if (!r.isValid()) {
+        qDebug() << "::: Setting null rectangle";
+    }
     m_spinX->blockSignals(true);
     m_spinY->blockSignals(true);
     m_spinWidth->blockSignals(true);

@@ -543,6 +543,7 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, int i
     }
     if (auto ptr = m_model.lock()) {
         const QVariant previousValue = getKeyModel(index)->getInterpolatedValue(pos);
+        qDebug() << "::::: UPDATE KLMMODELLIST KEYFRAME AT: " << pos.frames(25);
         auto *command = new AssetKeyframeCommand(ptr, index, value, pos, parentCommand);
         pCore->groupAssetKeyframeCommand(ptr->getOwnerId(), ptr->getAssetId(), index, pos, previousValue, value, ix, command);
         if (parentCommand == nullptr) {

@@ -29,8 +29,8 @@ public:
      * @param frameSize The frame size of the original source video
      * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
      */
-    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
-                            bool useOpacity, QWidget *parent, QFormLayout *layout);
+    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
+                            bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout);
     void setValue(const QRect r, double opacity = 1, int frame = -1);
     void connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);

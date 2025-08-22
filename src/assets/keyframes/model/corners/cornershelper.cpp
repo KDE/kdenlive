@@ -79,6 +79,6 @@ void CornersHelper::refreshParams(int pos)
         }
     }
     if (m_monitor) {
-        m_monitor->setUpEffectGeometry(QRect(), points);
+        m_monitor->setUpEffectGeometry(points);
     }
 }

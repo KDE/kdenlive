@@ -105,6 +105,8 @@ public:
     QPoint getZoneInfo() const;
     /** @brief Initialize the qml monitor overlay with points and rect related to the current frame
      */
+    void setUpEffectGeometry(const QVariantList &list, const QVariantList &types = QVariantList(), const QVariantList &keyframes = QVariantList(),
+                             const QRect &box = QRect());
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList(),
                              const QVariantList &keyframes = QVariantList(), const QRect &box = QRect());
     /** @brief Set a property on the effect scene */

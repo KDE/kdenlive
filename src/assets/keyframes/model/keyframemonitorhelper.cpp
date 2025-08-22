@@ -120,7 +120,7 @@ void KeyframeMonitorHelper::refreshParams(int pos)
                 return;
             }
         }
-        m_monitor->setUpEffectGeometry(QRect(), points, types);
+        m_monitor->setUpEffectGeometry(points, types);
     }
 }
 

@@ -2323,7 +2323,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     loadQmlScene(sceneType, sceneData);
 }
 
-void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types, const QVariantList &keyframes, const QRect &box)
+void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &types, const QVariantList &keyframes, const QRect &box)
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) {
@@ -2341,10 +2341,16 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
     } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
+}
 
-    if (!r.isEmpty()) {
-        root->setProperty("framesize", r);
+void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types, const QVariantList &keyframes, const QRect &box)
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (!root) {
+        return;
     }
+    setUpEffectGeometry(list, types, keyframes, box);
+    root->setProperty("framesize", r);
 }
 
 void Monitor::setEffectSceneProperty(const QString &name, const QVariant &value)
