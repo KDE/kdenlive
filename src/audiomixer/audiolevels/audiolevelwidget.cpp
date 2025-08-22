@@ -23,7 +23,8 @@ constexpr int MINIMUM_SECONDARY_AXIS_LENGTH = 3;   // minimum height/width for a
 constexpr int MAXIMUM_SECONDARY_AXIS_LENGTH = 7;   // maximum height/width for audio level channels
 constexpr int MARGIN_BETWEEN_LABEL_AND_LEVELS = 4; // px between decibels scale labels and audio levels
 constexpr int TICK_MARK_LENGTH = 2;                // px for tick mark
-constexpr int NO_AUDIO_DB = -100;
+constexpr double MIN_DISPLAY_DB = -100.0;          // Minimum displayable audio level, used to hide decayed peaks and no audio audio levels
+constexpr double CLIPPING_THRESHOLD_DB = 0.0;      // Maximum displayable audio level
 constexpr int NO_AUDIO_PRIMARY_AXIS_POSITION = -1;
 
 /**
@@ -278,7 +279,14 @@ void AudioLevelWidget::drawBackground()
 // cppcheck-suppress unusedFunction
 void AudioLevelWidget::setAudioValues(const QVector<double> &values)
 {
-    m_valueDecibels = values;
+    // Clamp all incoming audio values to reasonable bounds that we can visualize
+    m_valueDecibels.clear();
+    m_valueDecibels.reserve(values.size());
+    for (double value : values) {
+        double clampedValue = qBound(MIN_DISPLAY_DB, value, CLIPPING_THRESHOLD_DB);
+        m_valueDecibels.append(clampedValue);
+    }
+
     bool channelCountChanged = m_valueDecibels.size() != audioChannels;
     bool peaksInitialized = m_peakDecibels.size() != m_valueDecibels.size();
 
@@ -288,19 +296,43 @@ void AudioLevelWidget::setAudioValues(const QVector<double> &values)
         updateLayoutAndSizing();
     }
     if (peaksInitialized) {
-        m_peakDecibels = values;
+        m_peakDecibels = m_valueDecibels;
     }
 
     if (peaksInitialized || channelCountChanged) {
         drawBackground();
     } else {
+        // Peak decay logic: peaks slowly decay over time to make the peak naturally fade out
+        // Each time new values arrive, existing peaks decay by 0.2 dB
+        // If current level is higher than decaying peak, peak is updated to current level
+        // This creates a "hold" effect that makes it easier to see brief loud moments.
         for (int i = 0; i < m_valueDecibels.size(); i++) {
             m_peakDecibels[i] -= .2;
             if (m_valueDecibels.at(i) > m_peakDecibels.at(i)) {
                 m_peakDecibels[i] = m_valueDecibels.at(i);
             }
+            // Clamp peaks to minimum level when fully decayed
+            if (m_peakDecibels[i] < MIN_DISPLAY_DB) {
+                m_peakDecibels[i] = MIN_DISPLAY_DB;
+            }
         }
     }
+    updatePrimaryAxisPositions();
+    update();
+}
+
+void AudioLevelWidget::reset()
+{
+    // Reset levels
+    for (int i = 0; i < m_valueDecibels.size(); i++) {
+        m_valueDecibels[i] = MIN_DISPLAY_DB;
+    }
+
+    // Reset peaks
+    for (int i = 0; i < m_peakDecibels.size(); i++) {
+        m_peakDecibels[i] = MIN_DISPLAY_DB;
+    }
+
     updatePrimaryAxisPositions();
     update();
 }
@@ -324,7 +356,7 @@ void AudioLevelWidget::updateToolTip()
         }
 
         // Add value or "No audio"
-        if (m_valueDecibels.at(i) == NO_AUDIO_DB) {
+        if (m_valueDecibels.at(i) <= MIN_DISPLAY_DB) {
             tip.append(i18n("No audio"));
         } else {
             // Format the number with 2 digits before decimal point and 2 after
@@ -369,13 +401,19 @@ void AudioLevelWidget::updatePrimaryAxisPositions()
     m_valuePrimaryAxisPositions.resize(channels);
     m_peakPrimaryAxisPositions.resize(channels);
     for (int i = 0; i < channels; i++) {
-        if (m_valueDecibels.at(i) == NO_AUDIO_DB || m_peakDecibels.at(i) == NO_AUDIO_DB || m_valueDecibels.at(i) >= 100) {
+        // Hide current level position if below display threshold
+        if (m_valueDecibels.at(i) <= MIN_DISPLAY_DB) {
             m_valuePrimaryAxisPositions[i] = NO_AUDIO_PRIMARY_AXIS_POSITION;
-            m_peakPrimaryAxisPositions[i] = NO_AUDIO_PRIMARY_AXIS_POSITION;
-            continue;
+        } else {
+            m_valuePrimaryAxisPositions[i] = AudioLevelRenderer::dBToPrimaryOffset(m_valueDecibels.at(i), m_maxDb, m_cachedPrimaryAxisLength, m_orientation);
         }
-        m_valuePrimaryAxisPositions[i] = AudioLevelRenderer::dBToPrimaryOffset(m_valueDecibels.at(i), m_maxDb, m_cachedPrimaryAxisLength, m_orientation);
-        m_peakPrimaryAxisPositions[i] = AudioLevelRenderer::dBToPrimaryOffset(m_peakDecibels.at(i), m_maxDb, m_cachedPrimaryAxisLength, m_orientation);
+
+        // Hide peak position if below display threshold
+        if (m_peakDecibels.at(i) <= MIN_DISPLAY_DB) {
+            m_peakPrimaryAxisPositions[i] = NO_AUDIO_PRIMARY_AXIS_POSITION;
+        } else {
+            m_peakPrimaryAxisPositions[i] = AudioLevelRenderer::dBToPrimaryOffset(m_peakDecibels.at(i), m_maxDb, m_cachedPrimaryAxisLength, m_orientation);
+        }
     }
 }
 

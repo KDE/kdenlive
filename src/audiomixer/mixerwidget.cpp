@@ -543,6 +543,9 @@ void MixerWidget::setMute(bool mute)
         m_balanceLabelRight->setEnabled(!mute);
     }
     updateTrackLabelStyle();
+    if (mute) {
+        reset();
+    }
 }
 
 void MixerWidget::updateTrackLabelStyle()
@@ -591,7 +594,7 @@ void MixerWidget::reset()
 {
     QMutexLocker lk(&m_storeMutex);
     m_levels.clear();
-    m_audioMeterWidget->setAudioValues(m_audioData);
+    m_audioMeterWidget->reset();
 }
 
 void MixerWidget::clear()
