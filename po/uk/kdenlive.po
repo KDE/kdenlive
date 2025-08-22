@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-21 00:42+0000\n"
-"PO-Revision-Date: 2025-08-20 11:27+0300\n"
+"PO-Revision-Date: 2025-08-21 08:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -32391,10 +32391,9 @@ msgid "%1%2, Duration = %3"
 msgstr "%1%2, тривалість = %3"
 
 #: src/timeline2/view/qml/Track.qml:506
-#, fuzzy, kde-format
-#| msgid "Adjusting speed"
+#, kde-format
 msgid "%1% | Adjusting speed"
-msgstr "Коригуємо швидкість"
+msgstr "%1 | Коригуємо швидкість"
 
 #: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format

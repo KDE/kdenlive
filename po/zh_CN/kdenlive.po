@@ -31293,10 +31293,9 @@ msgid "%1%2, Duration = %3"
 msgstr "%1%2，持续时间 = %3"
 
 #: src/timeline2/view/qml/Track.qml:506
-#, fuzzy, kde-format
-#| msgid "Adjusting speed"
+#, kde-format
 msgid "%1% | Adjusting speed"
-msgstr "正在调整速度"
+msgstr ""
 
 #: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
