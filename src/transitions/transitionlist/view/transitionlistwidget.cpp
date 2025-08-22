@@ -15,8 +15,8 @@
 
 #include <QHeaderView>
 
-TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent)
-    : AssetListWidget(false, includeList, tenBit, excludeList, parent)
+TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
+    : AssetListWidget(false, includeList, tenBit, parent)
 {
     m_model = TransitionTreeModel::construct(true, this);
     m_proxyModel = std::make_unique<TransitionFilter>(this);

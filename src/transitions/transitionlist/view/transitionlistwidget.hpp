@@ -18,7 +18,7 @@ class TransitionListWidget : public AssetListWidget
     Q_OBJECT
 
 public:
-    TransitionListWidget(QAction *includeList, QAction *tenBit, QAction *excludeList, QWidget *parent = Q_NULLPTR);
+    TransitionListWidget(QAction *includeList, QAction *tenBit, QWidget *parent = Q_NULLPTR);
     ~TransitionListWidget() override;
     bool isEffect() const override { return false; }
     void setFilterType(const QString &type) override;

@@ -47,12 +47,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 std::unique_ptr<Core> Core::m_self;
-Core::Core(LinuxPackageType packageType)
+Core::Core(LinuxPackageType packageType, bool debugMode)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
     , sessionId(QUuid::createUuid().toString())
+    , debugMode(debugMode)
 {
 }
 
@@ -77,12 +78,12 @@ void Core::finishShutdown()
 
 Core::~Core() {}
 
-bool Core::build(LinuxPackageType packageType, bool testMode)
+bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode)
 {
     if (m_self) {
         return true;
     }
-    m_self.reset(new Core(packageType));
+    m_self.reset(new Core(packageType, debugMode));
     m_self->initLocale();
 
     qRegisterMetaType<audioShortVector>("audioShortVector");

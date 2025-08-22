@@ -1355,10 +1355,6 @@
       <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
-    <entry name="disableExcludes" type="Bool">
-      <label>Display all available MLT resources, ignoring exclude lists.</label>
-      <default>false</default>
-    </entry>
     <entry name="force_breeze" type="Bool">
       <label>Force breeze icon theme for consistent look.</label>
       <default>false</default>

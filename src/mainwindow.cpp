@@ -410,34 +410,13 @@ void MainWindow::init()
     QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Only show 10 bit compatible assets"), this);
     tenBit->setCheckable(true);
     tenBit->setChecked(KdenliveSettings::tenbitpipeline());
-    // Disable all exclude lists
-    QAction *excludeList = new QAction(QIcon::fromTheme(QStringLiteral("tools-report-bug")), i18n("Show all assets including unsupported ones"), this);
-    excludeList->setCheckable(true);
-    excludeList->setChecked(KdenliveSettings::disableExcludes());
-    connect(excludeList, &QAction::triggered, this, [this, excludeList](bool enable) {
-        if (enable) {
-            if (KMessageBox::warningContinueCancel(
-                    this, i18n("This will make unsupported effects and transitions available. This should only be used for testing, crashes can be expected. "
-                               "Restart Kdenlive to make this change effective ?")) != KMessageBox::Continue) {
-                excludeList->setChecked(false);
-                return;
-            }
-            KdenliveSettings::setDisableExcludes(true);
-            slotRestart(false);
-        } else {
-            KdenliveSettings::setDisableExcludes(false);
-            if (KMessageBox::warningContinueCancel(this, i18n("Restart Kdenlive now to make this change effective ?")) == KMessageBox::Continue) {
-                slotRestart(false);
-            }
-        }
-    });
 
-    m_effectList2 = new EffectListWidget(includeList, tenBit, excludeList, this);
+    m_effectList2 = new EffectListWidget(includeList, tenBit, this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
 
-    m_compositionList = new TransitionListWidget(includeList, tenBit, excludeList, this);
+    m_compositionList = new TransitionListWidget(includeList, tenBit, this);
     m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList);
 
     // Add monitors here to keep them at the right of the window
