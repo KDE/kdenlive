@@ -11,7 +11,6 @@ ecm_install_icons(ICONS
   128-apps-kdenlive.png
   256-apps-kdenlive.png
   512-apps-kdenlive.png
-  1024-apps-kdenlive.png
   32-mimetypes-application-x-kdenlivetitle.png
   64-mimetypes-application-x-kdenlivetitle.png
   128-mimetypes-application-x-kdenlivetitle.png
