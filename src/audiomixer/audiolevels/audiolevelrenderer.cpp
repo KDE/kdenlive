@@ -26,8 +26,8 @@ constexpr int MARGIN_BETWEEN_LABEL_AND_LEVELS = TICK_MARK_LENGTH + 2; // px betw
 constexpr int MINIMUM_SECONDARY_AXIS_LENGTH = 3; // minimum height/width for audio level channels
 constexpr int MAXIMUM_SECONDARY_AXIS_LENGTH = 7; // maximum height/width for audio level channels
 
-constexpr int NO_AUDIO_DB = -100;
 constexpr int NO_AUDIO_PRIMARY_AXIS_POSITION = -1;
+constexpr double MIN_DISPLAY_DB = -100.0; // Don't display levels below this threshold
 
 constexpr qreal HIDPI_OFFSET_ADJUSTMENT = 0.5;
 constexpr qreal HIDPI_LENGTH_ADJUSTMENT = 1.0;
@@ -472,7 +472,7 @@ void AudioLevelRenderer::drawChannelLevelsSolid(QPainter &painter, const RenderD
         qreal secondaryOffset =
             channelToSecondaryOffset(i, data.secondaryAxisLength, data.layoutState.getBorderOffset(), data.orientation) - HIDPI_OFFSET_ADJUSTMENT;
         qreal secondaryLength = data.secondaryAxisLength + HIDPI_LENGTH_ADJUSTMENT;
-        bool drawLevels = data.valueDecibels.at(i) != NO_AUDIO_DB;
+        bool drawLevels = data.valueDecibels.at(i) > MIN_DISPLAY_DB;
         if (drawLevels) {
             bool drawGreen = true;
             bool drawYellow = value >= AudioLevelStyleProvider::LevelColors::greenThreshold;
@@ -542,7 +542,7 @@ void AudioLevelRenderer::drawChannelLevelsGradient(QPainter &painter, const Rend
             channelToSecondaryOffset(i, data.secondaryAxisLength, data.layoutState.getBorderOffset(), data.orientation) - HIDPI_OFFSET_ADJUSTMENT;
         qreal secondaryLength = data.secondaryAxisLength + HIDPI_LENGTH_ADJUSTMENT;
         int valuePrimaryOffset = data.valuePrimaryAxisPositions[i];
-        bool drawLevels = data.valueDecibels.at(i) != NO_AUDIO_DB;
+        bool drawLevels = data.valueDecibels.at(i) > MIN_DISPLAY_DB;
         if (drawLevels) {
             QColor bgColor = AudioLevelStyleProvider::instance().getChannelBackgroundColor(data.palette);
             painter.setOpacity(1.0);

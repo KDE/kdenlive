@@ -83,4 +83,6 @@ private:
 
 public Q_SLOTS:
     void setAudioValues(const QVector<double> &values);
+    /** @brief force reset of all audio levels and clipping and peak indicators */
+    void reset();
 };
