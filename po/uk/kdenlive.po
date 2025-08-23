@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:42+0000\n"
+"POT-Creation-Date: 2025-08-23 00:41+0000\n"
 "PO-Revision-Date: 2025-08-21 08:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -1170,6 +1170,7 @@ msgstr ""
 #: data/effects/normalise.xml:8 data/effects/sox/sox_bass.xml:8
 #: data/effects/sox/sox_gain.xml:8 data/effects/volume.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:32
+#: src/scopes/colorscopes/vectorscope.cpp:772
 #, kde-format
 msgid "Gain"
 msgstr "Підсилення"
@@ -2079,7 +2080,7 @@ msgstr "Матриця кольорів призначення"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
-#: src/scopes/colorscopes/vectorscope.cpp:99
+#: src/scopes/colorscopes/vectorscope.cpp:169
 #, kde-format
 msgid "Color Space"
 msgstr "Простір кольорів"
@@ -2574,6 +2575,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_datascope.xml:19
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
+#: src/scopes/colorscopes/histogram.cpp:36
 #, kde-format
 msgid "Components"
 msgstr "Компоненти"
@@ -2596,7 +2598,7 @@ msgstr "Показ вісі"
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
 #: src/assets/view/widgets/keyframecontainer.cpp:627
-#: src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
 msgstr "Непрозорість"
@@ -4395,7 +4397,7 @@ msgid "Antibanding Level"
 msgstr "Рівень запобігання смугам"
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
-#: src/scopes/scopemanager.cpp:296
+#: src/scopes/scopemanager.cpp:278
 #, kde-format
 msgid "Histogram"
 msgstr "Гістограма"
@@ -4840,7 +4842,7 @@ msgstr "Застосувати оператор Кірша."
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
-#: src/widgets/geometrywidget.cpp:137
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Scale"
 msgstr "Масштаб"
@@ -7320,9 +7322,8 @@ msgstr "Масштабування"
 msgid "X"
 msgstr "X"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbY)
 #: data/effects/avfilter/avfilter_zoompan.xml:14
-#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:425
 #, kde-format
 msgid "Y"
 msgstr "Y"
@@ -9803,8 +9804,8 @@ msgstr "Червоний"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:68
+#: src/scopes/colorscopes/waveform.cpp:55
 #, kde-format
 msgid "Green"
 msgstr "Зелений"
@@ -12121,7 +12122,7 @@ msgid "Amount of noise added."
 msgstr "Частка доданого шуму."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, RGBParade_UI)
-#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:295
+#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:277
 #: src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
@@ -15920,7 +15921,7 @@ msgstr "Вилучення шумів та відновлення звуку"
 
 #: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:87 src/mainwindow.cpp:1399
-#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:144
 #, kde-format
 msgid "Tools"
 msgstr "Інструменти"
@@ -16059,7 +16060,7 @@ msgid "Crop to fill"
 msgstr "Обрізати для заповнення"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:183
+#: src/widgets/geometrywidget.cpp:185
 #, kde-format
 msgid "Align"
 msgstr "Вирівняти"
@@ -17162,8 +17163,8 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr "Вам слід визначити точки включення у першому відеокадрі послідовності."
 
-#. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Лінійна"
@@ -17268,7 +17269,7 @@ msgid "Move keyframe"
 msgstr "Пересунути ключовий кадр"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:527
-#: src/assets/keyframes/model/keyframemodellist.cpp:590
+#: src/assets/keyframes/model/keyframemodellist.cpp:591
 #, kde-format
 msgid "Update keyframe"
 msgstr "Оновити ключовий кадр"
@@ -17299,13 +17300,13 @@ msgstr "Відновити параметри ефекту"
 msgid "Delete keyframes"
 msgstr "Вилучити ключові кадри"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:698
+#: src/assets/keyframes/model/keyframemodellist.cpp:699
 #: src/assets/model/assetparametermodel.cpp:1574
 #, kde-format
 msgid "Update effect"
 msgstr "Оновити ефект"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:919
+#: src/assets/keyframes/model/keyframemodellist.cpp:920
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
@@ -17804,62 +17805,62 @@ msgstr "Нетиповий…"
 msgid "Invalid LUT file %1"
 msgstr "Некоректний файл таблиці пошуку %1"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:175
 #, kde-format
 msgid "Solid Fill"
 msgstr "Заповнення суцільним кольором"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:180
 #, kde-format
 msgid "Gradient Fill"
 msgstr "Заповнення градієнтом"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:185
 #, kde-format
 msgid "Show Block Lines"
 msgstr "Показувати лінії блоків"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:191
 #, kde-format
 msgid "Colorful Peak Indicator"
 msgstr "Кольоровий індикатор піків"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:196
 #, kde-format
 msgid "Monochrome Peak Indicator"
 msgstr "Монохромний індикатор піків"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, kde-format
 msgctxt "L as in Left"
 msgid "L: "
 msgstr "Л: "
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, kde-format
 msgctxt "R as in Right"
 msgid "R: "
 msgstr "Ч: "
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:414
 #, kde-format
 msgctxt "CH as in Channel"
 msgid "CH"
 msgstr "Кан"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
 #, kde-format
 msgid "No audio"
 msgstr "Немає звукових даних"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
-#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:656
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:423
+#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:659
 #: src/mltcontroller/clippropertiescontroller.cpp:1038
 #, kde-format
 msgid "dB"
 msgstr "дБ"
 
-#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1014
+#: src/audiomixer/mixermanager.cpp:240 src/timeline2/view/qml/Timeline.qml:1014
 #, kde-format
 msgid "Master"
 msgstr "Основний"
@@ -23644,7 +23645,7 @@ msgstr ""
 "Не знайдено наявного профілю для вашого кліпу %1.\n"
 "Створити профіль (%2⨯%3, %4 кадрів за секунду) і перемкнутися на нього?%5"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Жовтий"
@@ -25320,8 +25321,8 @@ msgstr "Переприв'язка за часом"
 msgid "Guides"
 msgstr "Напрямні"
 
-#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioLevels.qml:28
-#: src/timeline2/view/qml/AudioLevels.qml:44
+#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Record"
 msgstr "Записати"
@@ -27613,7 +27614,7 @@ msgstr "Відкриття даних аналізу"
 msgid "Audio volume"
 msgstr "Гучність звуку"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -27715,16 +27716,16 @@ msgid "Free Resize"
 msgstr "Довільна зміна розмірів"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:54
-#: src/scopes/colorscopes/vectorscope.cpp:59
+#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:72
+#: src/scopes/colorscopes/vectorscope.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "Чорний"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
+#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:51 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Білий"
@@ -27832,14 +27833,14 @@ msgstr[1] "%1 звукових потоки"
 msgstr[2] "%1 звукових потоків"
 msgstr[3] "%1 звуковий потік"
 
-#: src/monitor/monitor.cpp:2491
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Не вдалося ініціалізувати засіб керування GLSL Movit. Будь ласка, вимкніть "
 "Movit."
 
-#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
+#: src/monitor/monitor.cpp:2539 src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -27848,17 +27849,17 @@ msgstr ""
 "Для реалізації цієї можливості потрібен фільтр alphagrad. Будь ласка, "
 "встановіть frei0r і перезапустіть Kdenlive."
 
-#: src/monitor/monitor.cpp:2553
+#: src/monitor/monitor.cpp:2559
 #, kde-format
 msgid "Clip has no effects"
 msgstr "У кліпі немає ефектів"
 
-#: src/monitor/monitor.cpp:2555
+#: src/monitor/monitor.cpp:2561
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Виберіть кліп у контейнері проєкту для порівняння ефектів"
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2603
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -27867,17 +27868,17 @@ msgstr ""
 "Для реалізації цієї можливості потрібен перехід cairoblend. Будь ласка, "
 "встановіть frei0r і перезапустіть Kdenlive."
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2679
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Увімкнути режим редагування у монітор для редагування ефекту"
 
-#: src/monitor/monitor.cpp:3173
+#: src/monitor/monitor.cpp:3179
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "На панелі монітора кліпів не вибрано кліпу"
 
-#: src/monitor/monitor.cpp:3194
+#: src/monitor/monitor.cpp:3200
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Не вдалося отримати засіб створення для монітора кліпу"
@@ -30928,11 +30929,6 @@ msgstr ""
 
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
-msgid "Auto Refresh"
-msgstr "Автоматичне оновлення"
-
-#: src/scopes/abstractscopewidget.cpp:68
-#, kde-format
 msgid "Realtime (with precision loss)"
 msgstr "Інтерактивно (з втратою точності)"
 
@@ -31054,8 +31050,8 @@ msgid "YUV Y plane"
 msgstr "Площина Y YUV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
-#: src/scopes/colorscopes/vectorscope.cpp:55
-#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:115
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr "Змінена YUV (насиченість)"
@@ -31082,7 +31078,7 @@ msgid "HSV Saturation"
 msgstr "Насиченість HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:268
+#: src/scopes/colorscopes/vectorscope.cpp:435
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -31134,25 +31130,57 @@ msgstr "Яскравість"
 msgid "HSV Value"
 msgstr "Значення HSV"
 
-#: src/scopes/colorscopes/histogram.cpp:28
+#: src/scopes/colorscopes/histogram.cpp:39
+#, fuzzy, kde-format
+#| msgid "Luma"
+msgid "Y (Luma)"
+msgstr "Яскравість"
+
+#: src/scopes/colorscopes/histogram.cpp:43
+#, kde-format
+msgid "Sum"
+msgstr "Сума"
+
+#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
+#: src/scopes/colorscopes/histogram.cpp:47 src/ui/titlewidget_ui.ui:373
+#, kde-format
+msgid "R"
+msgstr "R"
+
+#: src/scopes/colorscopes/histogram.cpp:51
+#, kde-format
+msgid "G"
+msgstr "G"
+
+#: src/scopes/colorscopes/histogram.cpp:55
+#, kde-format
+msgid "B"
+msgstr "B"
+
+#: src/scopes/colorscopes/histogram.cpp:73
+#, kde-format
+msgid "Logarithmic"
+msgstr "Логарифмічна"
+
+#: src/scopes/colorscopes/histogram.cpp:84
 #, kde-format
 msgid "Unscaled"
 msgstr "Немасштабоване"
 
-#: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/histogram.cpp:88
+#: src/scopes/colorscopes/waveform.cpp:68
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:42
+#: src/scopes/colorscopes/histogram.cpp:92
+#: src/scopes/colorscopes/waveform.cpp:72
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:103
+#: src/scopes/colorscopes/waveform.cpp:80
 #, kde-format
 msgid "Luma mode"
 msgstr "Режим яскравості"
@@ -31167,18 +31195,26 @@ msgstr "мін."
 msgid "max"
 msgstr "макс."
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/waveform.cpp:44
+#, fuzzy, kde-format
+#| msgid "Paint mode:"
+msgid "Paint Mode"
+msgstr "Режим малювання:"
+
+#: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
 msgid "RGB"
 msgstr "RGB"
 
-#: src/scopes/colorscopes/rgbparade.cpp:33
-#: src/scopes/colorscopes/vectorscope.cpp:89
+#: src/scopes/colorscopes/rgbparade.cpp:58
+#: src/scopes/colorscopes/vectorscope.cpp:158
 #, kde-format
 msgid "Draw axis"
 msgstr "Показувати вісі"
 
-#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/rgbparade.cpp:63
 #, kde-format
 msgid "Gradient reference line"
 msgstr "Еталонна лінія градієнта"
@@ -31197,55 +31233,72 @@ msgstr "мін.: "
 msgid "max: "
 msgstr "макс.: "
 
-#: src/scopes/colorscopes/vectorscope.cpp:52
+#: src/scopes/colorscopes/vectorscope.cpp:64
 #, kde-format
 msgid "Green 2"
 msgstr "Зелений 2"
 
-#: src/scopes/colorscopes/vectorscope.cpp:56
-#: src/scopes/colorscopes/vectorscope.cpp:60
-#: src/scopes/colorscopes/vectorscope.cpp:102
+#: src/scopes/colorscopes/vectorscope.cpp:80
+#: src/scopes/colorscopes/vectorscope.cpp:111
+#: src/scopes/colorscopes/vectorscope.cpp:173
 #, kde-format
 msgid "YUV"
 msgstr "YUV"
 
-#: src/scopes/colorscopes/vectorscope.cpp:57
+#: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Original Color"
 msgstr "Початковий колір"
 
-#: src/scopes/colorscopes/vectorscope.cpp:62
-#: src/scopes/colorscopes/vectorscope.cpp:100
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
+#: src/scopes/colorscopes/vectorscope.cpp:104
+#: src/transitions/view/transitionstackview.cpp:49
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
+#: src/ui/titlewidget_ui.ui:1515
+#, kde-format
+msgid "Background"
+msgstr "Тло"
+
+#: src/scopes/colorscopes/vectorscope.cpp:119
+#: src/scopes/colorscopes/vectorscope.cpp:170
 #, kde-format
 msgid "YPbPr"
 msgstr "YPbPr"
 
-#: src/scopes/colorscopes/vectorscope.cpp:78
+#: src/scopes/colorscopes/vectorscope.cpp:146
 #, kde-format
 msgid "Export background"
 msgstr "Експортувати тло"
 
-#: src/scopes/colorscopes/vectorscope.cpp:82
+#: src/scopes/colorscopes/vectorscope.cpp:151
 #, kde-format
 msgid "Drawing options"
 msgstr "Параметри малювання"
 
-#: src/scopes/colorscopes/vectorscope.cpp:84
+#: src/scopes/colorscopes/vectorscope.cpp:153
 #, kde-format
 msgid "75% box"
 msgstr "75%-блок"
 
-#: src/scopes/colorscopes/vectorscope.cpp:94
+#: src/scopes/colorscopes/vectorscope.cpp:163
 #, kde-format
 msgid "Draw I/Q lines"
 msgstr "Малювати лінії I/Q"
 
-#: src/scopes/scopemanager.cpp:293
+#: src/scopes/colorscopes/vectorscope.cpp:772
+#, fuzzy, kde-format
+#| msgid "Gain: Blue"
+msgid "Gain value:"
+msgstr "Підсилення: синій"
+
+#: src/scopes/scopemanager.cpp:275
 #, kde-format
 msgid "Vectorscope"
 msgstr "Векторний перегляд"
 
-#: src/scopes/scopemanager.cpp:294
+#: src/scopes/scopemanager.cpp:276
 #, kde-format
 msgid "Waveform"
 msgstr "Хвиля"
@@ -32187,19 +32240,25 @@ msgstr ""
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
 #, kde-format
+msgid "Mic level"
+msgstr "Рівень мікрофона"
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
+#, kde-format
+msgid "Track is locked. Cannot start Recording."
+msgstr ""
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:253
+#, kde-format
 msgid "Stop"
 msgstr "Зупинити"
 
-#: src/timeline2/view/qml/AudioLevels.qml:25
+#: src/timeline2/view/qml/AudioRecordButton.qml:257
 #: src/timeline2/view/qml/Timeline.qml:2004
 #, kde-format
 msgid "Paused"
 msgstr "Призупинено"
-
-#: src/timeline2/view/qml/AudioLevels.qml:77
-#, kde-format
-msgid "Mic level"
-msgstr "Рівень мікрофона"
 
 #: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:949
 #, kde-format
@@ -32927,7 +32986,7 @@ msgstr "Ширина рамки"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:137 src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:139 src/widgets/geometrywidget.cpp:148
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -33520,12 +33579,12 @@ msgid "Some of your favorite compositions are invalid and were removed: %1"
 msgstr ""
 "Деякі з ваших улюблених композицій є некоректними, їх було вилучено: %1"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:98
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:100
 #, kde-format
 msgid "Align left"
 msgstr "Вирівняти ліворуч"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:102
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:104
 #, kde-format
 msgid "Align right"
 msgstr "Вирівняти праворуч"
@@ -33537,16 +33596,6 @@ msgstr "Вирівняти праворуч"
 #, kde-format
 msgid "Position:"
 msgstr "Позиція:"
-
-#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
-#: src/ui/titlewidget_ui.ui:1515
-#, kde-format
-msgid "Background"
-msgstr "Тло"
 
 #: src/transitions/view/transitionstackview.cpp:61
 #, kde-format
@@ -36157,60 +36206,14 @@ msgstr "KSqueezedTextLabel"
 msgid "Search Markers"
 msgstr "Шукати позначки"
 
-#. i18n: ectx: property (text), widget (QLabel, lblComponents)
-#: src/ui/histogram_ui.ui:31
+#. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: src/ui/histogram_ui.ui:69 src/ui/projectsettings_ui.ui:41
+#: src/ui/rgbparade_ui.ui:72 src/ui/vectorscope_ui.ui:119
+#: src/ui/waveform_ui.ui:69
 #, kde-format
-msgid "Components:"
-msgstr "Компоненти:"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:38
-#, kde-format
-msgid "RGB summed up."
-msgstr "Сума RGB."
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:41
-#, kde-format
-msgid "Sum"
-msgstr "Сума"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbY)
-#: src/ui/histogram_ui.ui:48
-#, kde-format
-msgid "Luma value."
-msgstr "Значення яскравості."
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbR)
-#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
-#: src/ui/histogram_ui.ui:61 src/ui/titlewidget_ui.ui:373
-#, kde-format
-msgid "R"
-msgstr "R"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbG)
-#: src/ui/histogram_ui.ui:68
-#, kde-format
-msgid "G"
-msgstr "G"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbB)
-#: src/ui/histogram_ui.ui:75
-#, kde-format
-msgid "B"
-msgstr "B"
-
-#. i18n: ectx: property (text), widget (QLabel, lblScale)
-#: src/ui/histogram_ui.ui:105
-#, kde-format
-msgid "Scale:"
-msgstr "Масштаб:"
-
-#. i18n: ectx: property (text), widget (QRadioButton, rbLogarithmic)
-#: src/ui/histogram_ui.ui:122
-#, kde-format
-msgid "Logarithmic"
-msgstr "Логарифмічна"
+msgid "Settings"
+msgstr "Параметри"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
@@ -36837,12 +36840,6 @@ msgstr "Зробити типовим"
 msgid "Project Settings"
 msgstr "Параметри проєкту"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/projectsettings_ui.ui:41
-#, kde-format
-msgid "Settings"
-msgstr "Параметри"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:47
 #, kde-format
@@ -37016,8 +37013,7 @@ msgid "Outline:"
 msgstr "Контур:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_bg)
-#. i18n: ectx: property (text), widget (QLabel, lblBackground)
-#: src/ui/qtextclip_ui.ui:164 src/ui/vectorscope_ui.ui:50
+#: src/ui/qtextclip_ui.ui:164
 #, kde-format
 msgid "Background:"
 msgstr "Тло:"
@@ -37399,14 +37395,6 @@ msgstr "Фотографії надано надавачем прикладів"
 #, kde-format
 msgid "Service:"
 msgstr "Служба:"
-
-#. i18n: ectx: property (text), widget (QLabel, lblPaintMode)
-#. i18n: ectx: property (text), widget (QLabel, lblPaintmode)
-#: src/ui/rgbparade_ui.ui:37 src/ui/vectorscope_ui.ui:33
-#: src/ui/waveform_ui.ui:34
-#, kde-format
-msgid "Paint mode:"
-msgstr "Режим малювання:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -38099,6 +38087,27 @@ msgstr "Введіть значення Unicode"
 msgid "Additional Information"
 msgstr "Додаткова інформація"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Zoom"
+msgstr "Скинути %1"
+
+#. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
+#. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
+#, fuzzy, kde-format
+#| msgid "Color levels"
+msgid "Zoom level"
+msgstr "Рівні кольорів"
+
+#. i18n: ectx: property (text), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:106
+#, kde-format
+msgid "1.0×"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -38176,59 +38185,59 @@ msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:57
 #, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "Розмір (Ш)"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:63
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "Зафіксувати співвідношення розмірів"
 
-#: src/widgets/geometrywidget.cpp:71
+#: src/widgets/geometrywidget.cpp:73
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "В"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:90
 #, kde-format
 msgid "Adjust to original size"
 msgstr "Скоригувати до початкових розмірів"
 
-#: src/widgets/geometrywidget.cpp:91
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "Вирівняти і розмістити у центрі кадру"
 
-#: src/widgets/geometrywidget.cpp:93
+#: src/widgets/geometrywidget.cpp:95
 #, kde-format
 msgid "Fit to width"
 msgstr "За шириною"
 
-#: src/widgets/geometrywidget.cpp:95
+#: src/widgets/geometrywidget.cpp:97
 #, kde-format
 msgid "Fit to height"
 msgstr "За висотою"
 
-#: src/widgets/geometrywidget.cpp:100
+#: src/widgets/geometrywidget.cpp:102
 #, kde-format
 msgid "Center horizontally"
 msgstr "По центру горизонтально"
 
-#: src/widgets/geometrywidget.cpp:104
+#: src/widgets/geometrywidget.cpp:106
 #, kde-format
 msgid "Align top"
 msgstr "Притиснути догори"
 
-#: src/widgets/geometrywidget.cpp:106
+#: src/widgets/geometrywidget.cpp:108
 #, kde-format
 msgid "Center vertically"
 msgstr "По центру вертикально"
 
-#: src/widgets/geometrywidget.cpp:108
+#: src/widgets/geometrywidget.cpp:110
 #, kde-format
 msgid "Align bottom"
 msgstr "Притиснути донизу"
@@ -38262,6 +38271,21 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Auto Refresh"
+#~ msgstr "Автоматичне оновлення"
+
+#~ msgid "Components:"
+#~ msgstr "Компоненти:"
+
+#~ msgid "RGB summed up."
+#~ msgstr "Сума RGB."
+
+#~ msgid "Luma value."
+#~ msgstr "Значення яскравості."
+
+#~ msgid "Scale:"
+#~ msgstr "Масштаб:"
 
 #~| msgid "Threshold"
 #~ msgid "Theshold"

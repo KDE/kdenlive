@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:42+0000\n"
+"POT-Creation-Date: 2025-08-23 00:41+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -1201,6 +1201,7 @@ msgstr ""
 #: data/effects/normalise.xml:8 data/effects/sox/sox_bass.xml:8
 #: data/effects/sox/sox_gain.xml:8 data/effects/volume.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:32
+#: src/scopes/colorscopes/vectorscope.cpp:772
 #, kde-format
 msgid "Gain"
 msgstr ""
@@ -2146,7 +2147,7 @@ msgstr "Beschrieven"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
-#: src/scopes/colorscopes/vectorscope.cpp:99
+#: src/scopes/colorscopes/vectorscope.cpp:169
 #, kde-format
 msgid "Color Space"
 msgstr ""
@@ -2583,6 +2584,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_datascope.xml:19
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
+#: src/scopes/colorscopes/histogram.cpp:36
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Components"
@@ -2607,7 +2609,7 @@ msgstr "All wiesen"
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
 #: src/assets/view/widgets/keyframecontainer.cpp:627
-#: src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
 msgstr ""
@@ -4352,7 +4354,7 @@ msgid "Antibanding Level"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
-#: src/scopes/scopemanager.cpp:296
+#: src/scopes/scopemanager.cpp:278
 #, kde-format
 msgid "Histogram"
 msgstr "Histogramm"
@@ -4804,7 +4806,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
-#: src/widgets/geometrywidget.cpp:137
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:139
 #, fuzzy, kde-format
 #| msgid "Scaling"
 msgid "Scale"
@@ -7203,9 +7205,8 @@ msgstr "Ansichtgrött"
 msgid "X"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbY)
 #: data/effects/avfilter/avfilter_zoompan.xml:14
-#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:425
 #, kde-format
 msgid "Y"
 msgstr ""
@@ -9652,8 +9653,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:68
+#: src/scopes/colorscopes/waveform.cpp:55
 #, kde-format
 msgid "Green"
 msgstr ""
@@ -11939,7 +11940,7 @@ msgid "Amount of noise added."
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, RGBParade_UI)
-#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:295
+#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:277
 #: src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
@@ -15691,7 +15692,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:87 src/mainwindow.cpp:1399
-#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:144
 #, kde-format
 msgid "Tools"
 msgstr ""
@@ -15832,7 +15833,7 @@ msgid "Crop to fill"
 msgstr "Baven utrichten"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:183
+#: src/widgets/geometrywidget.cpp:185
 #, kde-format
 msgid "Align"
 msgstr "Utrichten"
@@ -16987,8 +16988,8 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr ""
@@ -17098,7 +17099,7 @@ msgid "Move keyframe"
 msgstr " Biller"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:527
-#: src/assets/keyframes/model/keyframemodellist.cpp:590
+#: src/assets/keyframes/model/keyframemodellist.cpp:591
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframe"
@@ -17134,14 +17135,14 @@ msgstr "Keen Effekt"
 msgid "Delete keyframes"
 msgstr " Biller"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:698
+#: src/assets/keyframes/model/keyframemodellist.cpp:699
 #: src/assets/model/assetparametermodel.cpp:1574
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Update effect"
 msgstr "Effekten"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:919
+#: src/assets/keyframes/model/keyframemodellist.cpp:920
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
@@ -17685,67 +17686,67 @@ msgstr "Topasst"
 msgid "Invalid LUT file %1"
 msgstr "Profil sekern"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:175
 #, fuzzy, kde-format
 #| msgid "Outline"
 msgid "Solid Fill"
 msgstr "Ümreet"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:180
 #, fuzzy, kde-format
 #| msgid "Alpha shapes"
 msgid "Gradient Fill"
 msgstr "Alpha-Formen"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:185
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Show Block Lines"
 msgstr "Klangkanaals"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:191
 #, kde-format
 msgid "Colorful Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:196
 #, kde-format
 msgid "Monochrome Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, kde-format
 msgctxt "L as in Left"
 msgid "L: "
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, kde-format
 msgctxt "R as in Right"
 msgid "R: "
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:414
 #, kde-format
 msgctxt "CH as in Channel"
 msgid "CH"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "No audio"
 msgstr "Opnehmen"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
-#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:656
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:423
+#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:659
 #: src/mltcontroller/clippropertiescontroller.cpp:1038
 #, fuzzy, kde-format
 #| msgid "B"
 msgid "dB"
 msgstr "G"
 
-#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1014
+#: src/audiomixer/mixermanager.cpp:240 src/timeline2/view/qml/Timeline.qml:1014
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -23574,7 +23575,7 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr ""
@@ -25328,8 +25329,8 @@ msgstr ""
 msgid "Guides"
 msgstr ""
 
-#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioLevels.qml:28
-#: src/timeline2/view/qml/AudioLevels.qml:44
+#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Record"
 msgstr "Opnehmen"
@@ -27693,7 +27694,7 @@ msgstr ""
 msgid "Audio volume"
 msgstr ""
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
 msgstr ""
@@ -27792,16 +27793,16 @@ msgid "Free Resize"
 msgstr "Rahmengrött"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:54
-#: src/scopes/colorscopes/vectorscope.cpp:59
+#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:72
+#: src/scopes/colorscopes/vectorscope.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
+#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:51 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr ""
@@ -27917,48 +27918,48 @@ msgid_plural "%1 audio streams"
 msgstr[0] "Klangkanaals"
 msgstr[1] "Klangkanaals"
 
-#: src/monitor/monitor.cpp:2491
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
+#: src/monitor/monitor.cpp:2539 src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2553
+#: src/monitor/monitor.cpp:2559
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Clip has no effects"
 msgstr "Utwiedern anmaken"
 
-#: src/monitor/monitor.cpp:2555
+#: src/monitor/monitor.cpp:2561
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2603
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2679
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3173
+#: src/monitor/monitor.cpp:3179
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "No clip selected in Clip Monitor"
 msgstr "Projekt warrt laadt"
 
-#: src/monitor/monitor.cpp:3194
+#: src/monitor/monitor.cpp:3200
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -30951,11 +30952,6 @@ msgstr ""
 
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
-msgid "Auto Refresh"
-msgstr ""
-
-#: src/scopes/abstractscopewidget.cpp:68
-#, kde-format
 msgid "Realtime (with precision loss)"
 msgstr ""
 
@@ -31068,8 +31064,8 @@ msgid "YUV Y plane"
 msgstr ""
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
-#: src/scopes/colorscopes/vectorscope.cpp:55
-#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:115
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr ""
@@ -31096,7 +31092,7 @@ msgid "HSV Saturation"
 msgstr ""
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:268
+#: src/scopes/colorscopes/vectorscope.cpp:435
 #, kde-format
 msgid "%1°"
 msgstr ""
@@ -31149,25 +31145,56 @@ msgstr ""
 msgid "HSV Value"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:28
+#: src/scopes/colorscopes/histogram.cpp:39
+#, kde-format
+msgid "Y (Luma)"
+msgstr ""
+
+#: src/scopes/colorscopes/histogram.cpp:43
+#, kde-format
+msgid "Sum"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
+#: src/scopes/colorscopes/histogram.cpp:47 src/ui/titlewidget_ui.ui:373
+#, kde-format
+msgid "R"
+msgstr "R"
+
+#: src/scopes/colorscopes/histogram.cpp:51
+#, kde-format
+msgid "G"
+msgstr "G"
+
+#: src/scopes/colorscopes/histogram.cpp:55
+#, kde-format
+msgid "B"
+msgstr "G"
+
+#: src/scopes/colorscopes/histogram.cpp:73
+#, kde-format
+msgid "Logarithmic"
+msgstr ""
+
+#: src/scopes/colorscopes/histogram.cpp:84
 #, kde-format
 msgid "Unscaled"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/histogram.cpp:88
+#: src/scopes/colorscopes/waveform.cpp:68
 #, kde-format
 msgid "Rec. 601"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:42
+#: src/scopes/colorscopes/histogram.cpp:92
+#: src/scopes/colorscopes/waveform.cpp:72
 #, kde-format
 msgid "Rec. 709"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:103
+#: src/scopes/colorscopes/waveform.cpp:80
 #, kde-format
 msgid "Luma mode"
 msgstr ""
@@ -31184,18 +31211,26 @@ msgstr "Min."
 msgid "max"
 msgstr "Max."
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/waveform.cpp:44
+#, fuzzy, kde-format
+#| msgid "Insert mode"
+msgid "Paint Mode"
+msgstr "Inföögbedrief"
+
+#: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
 msgid "RGB"
 msgstr ""
 
-#: src/scopes/colorscopes/rgbparade.cpp:33
-#: src/scopes/colorscopes/vectorscope.cpp:89
+#: src/scopes/colorscopes/rgbparade.cpp:58
+#: src/scopes/colorscopes/vectorscope.cpp:158
 #, kde-format
 msgid "Draw axis"
 msgstr ""
 
-#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/rgbparade.cpp:63
 #, kde-format
 msgid "Gradient reference line"
 msgstr ""
@@ -31214,55 +31249,73 @@ msgstr ""
 msgid "max: "
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:52
+#: src/scopes/colorscopes/vectorscope.cpp:64
 #, kde-format
 msgid "Green 2"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:56
-#: src/scopes/colorscopes/vectorscope.cpp:60
-#: src/scopes/colorscopes/vectorscope.cpp:102
+#: src/scopes/colorscopes/vectorscope.cpp:80
+#: src/scopes/colorscopes/vectorscope.cpp:111
+#: src/scopes/colorscopes/vectorscope.cpp:173
 #, kde-format
 msgid "YUV"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:57
+#: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Original Color"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:62
-#: src/scopes/colorscopes/vectorscope.cpp:100
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
+#: src/scopes/colorscopes/vectorscope.cpp:104
+#: src/transitions/view/transitionstackview.cpp:49
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
+#: src/ui/titlewidget_ui.ui:1515
+#, fuzzy, kde-format
+#| msgid "Show background"
+msgid "Background"
+msgstr "Achtergrund wiesen"
+
+#: src/scopes/colorscopes/vectorscope.cpp:119
+#: src/scopes/colorscopes/vectorscope.cpp:170
 #, kde-format
 msgid "YPbPr"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:78
+#: src/scopes/colorscopes/vectorscope.cpp:146
 #, kde-format
 msgid "Export background"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:82
+#: src/scopes/colorscopes/vectorscope.cpp:151
 #, kde-format
 msgid "Drawing options"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:84
+#: src/scopes/colorscopes/vectorscope.cpp:153
 #, kde-format
 msgid "75% box"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:94
+#: src/scopes/colorscopes/vectorscope.cpp:163
 #, kde-format
 msgid "Draw I/Q lines"
 msgstr ""
 
-#: src/scopes/scopemanager.cpp:293
+#: src/scopes/colorscopes/vectorscope.cpp:772
+#, fuzzy, kde-format
+#| msgid "Gamma"
+msgid "Gain value:"
+msgstr "Gamma"
+
+#: src/scopes/scopemanager.cpp:275
 #, kde-format
 msgid "Vectorscope"
 msgstr ""
 
-#: src/scopes/scopemanager.cpp:294
+#: src/scopes/scopemanager.cpp:276
 #, kde-format
 msgid "Waveform"
 msgstr "Bülgenform"
@@ -32219,22 +32272,28 @@ msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
+#, fuzzy, kde-format
+#| msgid "Enable Stretch"
+msgid "Mic level"
+msgstr "Utwiedern anmaken"
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
+#, kde-format
+msgid "Track is locked. Cannot start Recording."
+msgstr ""
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:253
 #, kde-format
 msgid "Stop"
 msgstr "Anhollen"
 
-#: src/timeline2/view/qml/AudioLevels.qml:25
+#: src/timeline2/view/qml/AudioRecordButton.qml:257
 #: src/timeline2/view/qml/Timeline.qml:2004
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
 msgstr "Paus"
-
-#: src/timeline2/view/qml/AudioLevels.qml:77
-#, fuzzy, kde-format
-#| msgid "Enable Stretch"
-msgid "Mic level"
-msgstr "Utwiedern anmaken"
 
 #: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:949
 #, kde-format
@@ -32986,7 +33045,7 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:137 src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:139 src/widgets/geometrywidget.cpp:148
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -33531,12 +33590,12 @@ msgstr ""
 msgid "Some of your favorite compositions are invalid and were removed: %1"
 msgstr ""
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:98
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:100
 #, kde-format
 msgid "Align left"
 msgstr "Linkerhand utrichten"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:102
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:104
 #, kde-format
 msgid "Align right"
 msgstr "Rechterhand utrichten"
@@ -33549,17 +33608,6 @@ msgstr "Rechterhand utrichten"
 #| msgid "Position"
 msgid "Position:"
 msgstr "Positschoon"
-
-#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
-#: src/ui/titlewidget_ui.ui:1515
-#, fuzzy, kde-format
-#| msgid "Show background"
-msgid "Background"
-msgstr "Achtergrund wiesen"
 
 #: src/transitions/view/transitionstackview.cpp:61
 #, fuzzy, kde-format
@@ -36305,62 +36353,15 @@ msgstr ""
 msgid "Search Markers"
 msgstr "Automaatsch söken"
 
-#. i18n: ectx: property (text), widget (QLabel, lblComponents)
-#: src/ui/histogram_ui.ui:31
+#. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: src/ui/histogram_ui.ui:69 src/ui/projectsettings_ui.ui:41
+#: src/ui/rgbparade_ui.ui:72 src/ui/vectorscope_ui.ui:119
+#: src/ui/waveform_ui.ui:69
 #, fuzzy, kde-format
-#| msgid "Position"
-msgid "Components:"
-msgstr "Positschoon"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:38
-#, kde-format
-msgid "RGB summed up."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:41
-#, kde-format
-msgid "Sum"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbY)
-#: src/ui/histogram_ui.ui:48
-#, kde-format
-msgid "Luma value."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbR)
-#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
-#: src/ui/histogram_ui.ui:61 src/ui/titlewidget_ui.ui:373
-#, kde-format
-msgid "R"
-msgstr "R"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbG)
-#: src/ui/histogram_ui.ui:68
-#, kde-format
-msgid "G"
-msgstr "G"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbB)
-#: src/ui/histogram_ui.ui:75
-#, kde-format
-msgid "B"
-msgstr "G"
-
-#. i18n: ectx: property (text), widget (QLabel, lblScale)
-#: src/ui/histogram_ui.ui:105
-#, fuzzy, kde-format
-#| msgid "Scaling"
-msgid "Scale:"
-msgstr "Grött topassen"
-
-#. i18n: ectx: property (text), widget (QRadioButton, rbLogarithmic)
-#: src/ui/histogram_ui.ui:122
-#, kde-format
-msgid "Logarithmic"
-msgstr ""
+#| msgid "Project Settings"
+msgid "Settings"
+msgstr "Projektinstellen"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
@@ -37049,13 +37050,6 @@ msgstr ""
 msgid "Project Settings"
 msgstr "Projektinstellen"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project Settings"
-msgid "Settings"
-msgstr "Projektinstellen"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:47
 #, kde-format
@@ -37245,8 +37239,7 @@ msgid "Outline:"
 msgstr "Ümreet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_bg)
-#. i18n: ectx: property (text), widget (QLabel, lblBackground)
-#: src/ui/qtextclip_ui.ui:164 src/ui/vectorscope_ui.ui:50
+#: src/ui/qtextclip_ui.ui:164
 #, fuzzy, kde-format
 #| msgid "Show background"
 msgid "Background:"
@@ -37662,15 +37655,6 @@ msgstr ""
 #, kde-format
 msgid "Service:"
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, lblPaintMode)
-#. i18n: ectx: property (text), widget (QLabel, lblPaintmode)
-#: src/ui/rgbparade_ui.ui:37 src/ui/vectorscope_ui.ui:33
-#: src/ui/waveform_ui.ui:34
-#, fuzzy, kde-format
-#| msgid "Insert mode"
-msgid "Paint mode:"
-msgstr "Inföögbedrief"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -38425,6 +38409,27 @@ msgstr "Unikode-Teken infögen"
 msgid "Additional Information"
 msgstr ""
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Group"
+msgid "Reset Zoom"
+msgstr "Koppel"
+
+#. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
+#. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
+#, fuzzy, kde-format
+#| msgid "Color 1"
+msgid "Zoom level"
+msgstr "1. Klöör"
+
+#. i18n: ectx: property (text), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:106
+#, kde-format
+msgid "1.0×"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -38500,61 +38505,61 @@ msgctxt "y axis position"
 msgid "Y"
 msgstr ""
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:57
 #, fuzzy, kde-format
 #| msgid "Size X"
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "X-Grött"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:63
 #, fuzzy, kde-format
 #| msgid "Keep aspect ratio"
 msgid "Lock aspect ratio"
 msgstr "Bildproportschoon wohren"
 
-#: src/widgets/geometrywidget.cpp:71
+#: src/widgets/geometrywidget.cpp:73
 #, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr ""
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:90
 #, kde-format
 msgid "Adjust to original size"
 msgstr ""
 
-#: src/widgets/geometrywidget.cpp:91
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr ""
 
-#: src/widgets/geometrywidget.cpp:93
+#: src/widgets/geometrywidget.cpp:95
 #, kde-format
 msgid "Fit to width"
 msgstr "Op Breed topassen"
 
-#: src/widgets/geometrywidget.cpp:95
+#: src/widgets/geometrywidget.cpp:97
 #, kde-format
 msgid "Fit to height"
 msgstr "Op Hööchd topassen"
 
-#: src/widgets/geometrywidget.cpp:100
+#: src/widgets/geometrywidget.cpp:102
 #, kde-format
 msgid "Center horizontally"
 msgstr "Kimmrecht inmiddeln"
 
-#: src/widgets/geometrywidget.cpp:104
+#: src/widgets/geometrywidget.cpp:106
 #, kde-format
 msgid "Align top"
 msgstr "Baven utrichten"
 
-#: src/widgets/geometrywidget.cpp:106
+#: src/widgets/geometrywidget.cpp:108
 #, kde-format
 msgid "Center vertically"
 msgstr "Pielrecht inmiddeln"
 
-#: src/widgets/geometrywidget.cpp:108
+#: src/widgets/geometrywidget.cpp:110
 #, kde-format
 msgid "Align bottom"
 msgstr "Nerrn utrichten"
@@ -38590,6 +38595,16 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Position"
+#~ msgid "Components:"
+#~ msgstr "Positschoon"
+
+#, fuzzy
+#~| msgid "Scaling"
+#~ msgid "Scale:"
+#~ msgstr "Grött topassen"
 
 #, fuzzy
 #~| msgid "Threshold"

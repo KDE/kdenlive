@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:42+0000\n"
+"POT-Creation-Date: 2025-08-23 00:41+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -1184,6 +1184,7 @@ msgstr ""
 #: data/effects/normalise.xml:8 data/effects/sox/sox_bass.xml:8
 #: data/effects/sox/sox_gain.xml:8 data/effects/volume.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:32
+#: src/scopes/colorscopes/vectorscope.cpp:772
 #, kde-format
 msgid "Gain"
 msgstr "ゲイン"
@@ -2136,7 +2137,7 @@ msgstr "宛先フォルダ"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
-#: src/scopes/colorscopes/vectorscope.cpp:99
+#: src/scopes/colorscopes/vectorscope.cpp:169
 #, kde-format
 msgid "Color Space"
 msgstr "色空間"
@@ -2573,6 +2574,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_datascope.xml:19
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
+#: src/scopes/colorscopes/histogram.cpp:36
 #, fuzzy, kde-format
 #| msgid "Components:"
 msgid "Components"
@@ -2597,7 +2599,7 @@ msgstr "アルファ表示"
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
 #: src/assets/view/widgets/keyframecontainer.cpp:627
-#: src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
 msgstr "不透明さ"
@@ -4352,7 +4354,7 @@ msgid "Antibanding Level"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
-#: src/scopes/scopemanager.cpp:296
+#: src/scopes/scopemanager.cpp:278
 #, kde-format
 msgid "Histogram"
 msgstr "ヒストグラム(H)"
@@ -4811,7 +4813,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
-#: src/widgets/geometrywidget.cpp:137
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Scale"
 msgstr "スケール"
@@ -7236,9 +7238,8 @@ msgstr "ズーム"
 msgid "X"
 msgstr "X"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbY)
 #: data/effects/avfilter/avfilter_zoompan.xml:14
-#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:425
 #, kde-format
 msgid "Y"
 msgstr "Y"
@@ -9684,8 +9685,8 @@ msgstr "赤"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:68
+#: src/scopes/colorscopes/waveform.cpp:55
 #, kde-format
 msgid "Green"
 msgstr "緑"
@@ -11993,7 +11994,7 @@ msgid "Amount of noise added."
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, RGBParade_UI)
-#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:295
+#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:277
 #: src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
@@ -15752,7 +15753,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:87 src/mainwindow.cpp:1399
-#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:144
 #, kde-format
 msgid "Tools"
 msgstr "ツール"
@@ -15894,7 +15895,7 @@ msgid "Crop to fill"
 msgstr "上をクリップ"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:183
+#: src/widgets/geometrywidget.cpp:185
 #, kde-format
 msgid "Align"
 msgstr "アライン"
@@ -17040,8 +17041,8 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr ""
@@ -17151,7 +17152,7 @@ msgid "Move keyframe"
 msgstr "キーフレームの移動"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:527
-#: src/assets/keyframes/model/keyframemodellist.cpp:590
+#: src/assets/keyframes/model/keyframemodellist.cpp:591
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframe"
@@ -17185,14 +17186,14 @@ msgstr "効果をリセット"
 msgid "Delete keyframes"
 msgstr "キーフレームの削除"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:698
+#: src/assets/keyframes/model/keyframemodellist.cpp:699
 #: src/assets/model/assetparametermodel.cpp:1574
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
 msgstr "効果の貼り付け"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:919
+#: src/assets/keyframes/model/keyframemodellist.cpp:920
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
@@ -17729,35 +17730,35 @@ msgstr "カスタム"
 msgid "Invalid LUT file %1"
 msgstr "無効なプロファイル"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:175
 #, fuzzy, kde-format
 #| msgid "Clip Color"
 msgid "Solid Fill"
 msgstr "クリップ色"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:180
 #, fuzzy, kde-format
 #| msgid "Alpha gradient"
 msgid "Gradient Fill"
 msgstr "アルファ傾斜"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:185
 #, fuzzy, kde-format
 #| msgid "Swap channels"
 msgid "Show Block Lines"
 msgstr "チャンネルの入れ替え"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:191
 #, kde-format
 msgid "Colorful Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:196
 #, kde-format
 msgid "Monochrome Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, fuzzy, kde-format
 #| msgctxt "L as in Left"
 #| msgid "L:"
@@ -17765,34 +17766,34 @@ msgctxt "L as in Left"
 msgid "L: "
 msgstr "左:"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, fuzzy, kde-format
 #| msgid "R: "
 msgctxt "R as in Right"
 msgid "R: "
 msgstr "R:"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:414
 #, fuzzy, kde-format
 #| msgid "C"
 msgctxt "CH as in Channel"
 msgid "CH"
 msgstr "C"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
 msgstr "オーディオを録音"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
-#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:656
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:423
+#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:659
 #: src/mltcontroller/clippropertiescontroller.cpp:1038
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1014
+#: src/audiomixer/mixermanager.cpp:240 src/timeline2/view/qml/Timeline.qml:1014
 #, kde-format
 msgid "Master"
 msgstr "マスター"
@@ -23704,7 +23705,7 @@ msgstr ""
 "そのクリップ用のプロファイルが見つかりませんでした。\n"
 "新しいプロファイル (%1x%2, %3fps) を作成して切り替えますか？%4"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "黄"
@@ -25455,8 +25456,8 @@ msgstr "タイムリマッピング"
 msgid "Guides"
 msgstr "ガイド"
 
-#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioLevels.qml:28
-#: src/timeline2/view/qml/AudioLevels.qml:44
+#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Record"
 msgstr "録画"
@@ -27819,7 +27820,7 @@ msgstr "解析データを開く"
 msgid "Audio volume"
 msgstr "オーディオの音量"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
 msgstr ""
@@ -27918,16 +27919,16 @@ msgid "Free Resize"
 msgstr "フレームサイズ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:54
-#: src/scopes/colorscopes/vectorscope.cpp:59
+#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:72
+#: src/scopes/colorscopes/vectorscope.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "黒"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
+#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:51 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "白"
@@ -28040,13 +28041,13 @@ msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "オーディオトラック"
 
-#: src/monitor/monitor.cpp:2491
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit の GLSL マネージャーを初期化できません、Movit を無効にしてください"
 
-#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
+#: src/monitor/monitor.cpp:2539 src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28055,19 +28056,19 @@ msgstr ""
 "その機能には alphagrad フィルタが必要です、frei0r をインストールして "
 "Kdenlive を再起動してください"
 
-#: src/monitor/monitor.cpp:2553
+#: src/monitor/monitor.cpp:2559
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "クリップにはマーカーがありません"
 
-#: src/monitor/monitor.cpp:2555
+#: src/monitor/monitor.cpp:2561
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "効果を適用したい場合は、クリップを選択してください"
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2603
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28076,18 +28077,18 @@ msgstr ""
 "その機能には cairoblend transition が必要です、frei0r をインストールして "
 "Kdenlive を再起動してください"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2679
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3173
+#: src/monitor/monitor.cpp:3179
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in Clip Monitor"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/monitor/monitor.cpp:3194
+#: src/monitor/monitor.cpp:3200
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
@@ -31202,11 +31203,6 @@ msgstr ""
 
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
-msgid "Auto Refresh"
-msgstr "自動更新"
-
-#: src/scopes/abstractscopewidget.cpp:68
-#, kde-format
 msgid "Realtime (with precision loss)"
 msgstr "リアルタイム (精度が失われます)"
 
@@ -31326,8 +31322,8 @@ msgid "YUV Y plane"
 msgstr "YUV Y プレーン"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
-#: src/scopes/colorscopes/vectorscope.cpp:55
-#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:115
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr "修正済み YUV (彩度)"
@@ -31354,7 +31350,7 @@ msgid "HSV Saturation"
 msgstr "HSV 彩度"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:268
+#: src/scopes/colorscopes/vectorscope.cpp:435
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -31407,25 +31403,57 @@ msgstr "輝度"
 msgid "HSV Value"
 msgstr "HSV 値"
 
-#: src/scopes/colorscopes/histogram.cpp:28
+#: src/scopes/colorscopes/histogram.cpp:39
+#, fuzzy, kde-format
+#| msgid "Luma"
+msgid "Y (Luma)"
+msgstr "輝度"
+
+#: src/scopes/colorscopes/histogram.cpp:43
+#, kde-format
+msgid "Sum"
+msgstr "合計"
+
+#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
+#: src/scopes/colorscopes/histogram.cpp:47 src/ui/titlewidget_ui.ui:373
+#, kde-format
+msgid "R"
+msgstr "R"
+
+#: src/scopes/colorscopes/histogram.cpp:51
+#, kde-format
+msgid "G"
+msgstr "G"
+
+#: src/scopes/colorscopes/histogram.cpp:55
+#, kde-format
+msgid "B"
+msgstr "B"
+
+#: src/scopes/colorscopes/histogram.cpp:73
+#, kde-format
+msgid "Logarithmic"
+msgstr "対数"
+
+#: src/scopes/colorscopes/histogram.cpp:84
 #, kde-format
 msgid "Unscaled"
 msgstr "未スケール"
 
-#: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/histogram.cpp:88
+#: src/scopes/colorscopes/waveform.cpp:68
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:42
+#: src/scopes/colorscopes/histogram.cpp:92
+#: src/scopes/colorscopes/waveform.cpp:72
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:103
+#: src/scopes/colorscopes/waveform.cpp:80
 #, kde-format
 msgid "Luma mode"
 msgstr "輝度モード"
@@ -31440,18 +31468,26 @@ msgstr "最小"
 msgid "max"
 msgstr "最大"
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/waveform.cpp:44
+#, fuzzy, kde-format
+#| msgid "Paint mode:"
+msgid "Paint Mode"
+msgstr "ペイントモード:"
+
+#: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
 msgid "RGB"
 msgstr "RGB"
 
-#: src/scopes/colorscopes/rgbparade.cpp:33
-#: src/scopes/colorscopes/vectorscope.cpp:89
+#: src/scopes/colorscopes/rgbparade.cpp:58
+#: src/scopes/colorscopes/vectorscope.cpp:158
 #, kde-format
 msgid "Draw axis"
 msgstr "軸の描画"
 
-#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/rgbparade.cpp:63
 #, kde-format
 msgid "Gradient reference line"
 msgstr "勾配参照線"
@@ -31470,55 +31506,72 @@ msgstr "最小: "
 msgid "max: "
 msgstr "最大: "
 
-#: src/scopes/colorscopes/vectorscope.cpp:52
+#: src/scopes/colorscopes/vectorscope.cpp:64
 #, kde-format
 msgid "Green 2"
 msgstr "緑 2"
 
-#: src/scopes/colorscopes/vectorscope.cpp:56
-#: src/scopes/colorscopes/vectorscope.cpp:60
-#: src/scopes/colorscopes/vectorscope.cpp:102
+#: src/scopes/colorscopes/vectorscope.cpp:80
+#: src/scopes/colorscopes/vectorscope.cpp:111
+#: src/scopes/colorscopes/vectorscope.cpp:173
 #, kde-format
 msgid "YUV"
 msgstr "YUV"
 
-#: src/scopes/colorscopes/vectorscope.cpp:57
+#: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Original Color"
 msgstr "オリジナルの色"
 
-#: src/scopes/colorscopes/vectorscope.cpp:62
-#: src/scopes/colorscopes/vectorscope.cpp:100
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
+#: src/scopes/colorscopes/vectorscope.cpp:104
+#: src/transitions/view/transitionstackview.cpp:49
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
+#: src/ui/titlewidget_ui.ui:1515
+#, kde-format
+msgid "Background"
+msgstr "背景"
+
+#: src/scopes/colorscopes/vectorscope.cpp:119
+#: src/scopes/colorscopes/vectorscope.cpp:170
 #, kde-format
 msgid "YPbPr"
 msgstr "YPbPr"
 
-#: src/scopes/colorscopes/vectorscope.cpp:78
+#: src/scopes/colorscopes/vectorscope.cpp:146
 #, kde-format
 msgid "Export background"
 msgstr "背景のエクスポート"
 
-#: src/scopes/colorscopes/vectorscope.cpp:82
+#: src/scopes/colorscopes/vectorscope.cpp:151
 #, kde-format
 msgid "Drawing options"
 msgstr "描画オプション"
 
-#: src/scopes/colorscopes/vectorscope.cpp:84
+#: src/scopes/colorscopes/vectorscope.cpp:153
 #, kde-format
 msgid "75% box"
 msgstr "75% ボックス"
 
-#: src/scopes/colorscopes/vectorscope.cpp:94
+#: src/scopes/colorscopes/vectorscope.cpp:163
 #, kde-format
 msgid "Draw I/Q lines"
 msgstr "I/Q ラインの描画"
 
-#: src/scopes/scopemanager.cpp:293
+#: src/scopes/colorscopes/vectorscope.cpp:772
+#, fuzzy, kde-format
+#| msgid "Y value"
+msgid "Gain value:"
+msgstr "Y 値"
+
+#: src/scopes/scopemanager.cpp:275
 #, kde-format
 msgid "Vectorscope"
 msgstr "ベクタースコープ(V)"
 
-#: src/scopes/scopemanager.cpp:294
+#: src/scopes/scopemanager.cpp:276
 #, kde-format
 msgid "Waveform"
 msgstr "ウェーブフォーム(W)"
@@ -32476,19 +32529,25 @@ msgstr "キャプチャ処理がクラッシュしました。パラメータを
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
 #, kde-format
+msgid "Mic level"
+msgstr "マイクレベル"
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
+#, kde-format
+msgid "Track is locked. Cannot start Recording."
+msgstr ""
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:253
+#, kde-format
 msgid "Stop"
 msgstr "停止"
 
-#: src/timeline2/view/qml/AudioLevels.qml:25
+#: src/timeline2/view/qml/AudioRecordButton.qml:257
 #: src/timeline2/view/qml/Timeline.qml:2004
 #, kde-format
 msgid "Paused"
 msgstr "一時停止"
-
-#: src/timeline2/view/qml/AudioLevels.qml:77
-#, kde-format
-msgid "Mic level"
-msgstr "マイクレベル"
 
 #: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:949
 #, kde-format
@@ -33238,7 +33297,7 @@ msgstr "境界の幅"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:137 src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:139 src/widgets/geometrywidget.cpp:148
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -33897,12 +33956,12 @@ msgstr "<small>この文字には、追加情報が提供されていません�
 msgid "Some of your favorite compositions are invalid and were removed: %1"
 msgstr "お気に入りの遷移が無効であるか削除されています: %1"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:98
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:100
 #, kde-format
 msgid "Align left"
 msgstr "左寄せ"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:102
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:104
 #, kde-format
 msgid "Align right"
 msgstr "右寄せ"
@@ -33914,16 +33973,6 @@ msgstr "右寄せ"
 #, kde-format
 msgid "Position:"
 msgstr "位置:"
-
-#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
-#: src/ui/titlewidget_ui.ui:1515
-#, kde-format
-msgid "Background"
-msgstr "背景"
 
 #: src/transitions/view/transitionstackview.cpp:61
 #, fuzzy, kde-format
@@ -36589,62 +36638,14 @@ msgstr "テキストラベル"
 msgid "Search Markers"
 msgstr "検索が失敗しました。%1"
 
-#. i18n: ectx: property (text), widget (QLabel, lblComponents)
-#: src/ui/histogram_ui.ui:31
+#. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: src/ui/histogram_ui.ui:69 src/ui/projectsettings_ui.ui:41
+#: src/ui/rgbparade_ui.ui:72 src/ui/vectorscope_ui.ui:119
+#: src/ui/waveform_ui.ui:69
 #, kde-format
-msgid "Components:"
-msgstr "コンポーネント:"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "RGB summed up"
-msgid "RGB summed up."
-msgstr "RGB のまとめ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:41
-#, kde-format
-msgid "Sum"
-msgstr "合計"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbY)
-#: src/ui/histogram_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Luma value"
-msgid "Luma value."
-msgstr "輝度値"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbR)
-#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
-#: src/ui/histogram_ui.ui:61 src/ui/titlewidget_ui.ui:373
-#, kde-format
-msgid "R"
-msgstr "R"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbG)
-#: src/ui/histogram_ui.ui:68
-#, kde-format
-msgid "G"
-msgstr "G"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbB)
-#: src/ui/histogram_ui.ui:75
-#, kde-format
-msgid "B"
-msgstr "B"
-
-#. i18n: ectx: property (text), widget (QLabel, lblScale)
-#: src/ui/histogram_ui.ui:105
-#, kde-format
-msgid "Scale:"
-msgstr "スケール:"
-
-#. i18n: ectx: property (text), widget (QRadioButton, rbLogarithmic)
-#: src/ui/histogram_ui.ui:122
-#, kde-format
-msgid "Logarithmic"
-msgstr "対数"
+msgid "Settings"
+msgstr "設定 (S)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
@@ -37328,12 +37329,6 @@ msgstr "既定値として使用"
 msgid "Project Settings"
 msgstr "プロジェクトの設定"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/projectsettings_ui.ui:41
-#, kde-format
-msgid "Settings"
-msgstr "設定 (S)"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:47
 #, kde-format
@@ -37507,8 +37502,7 @@ msgid "Outline:"
 msgstr "輪郭:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_bg)
-#. i18n: ectx: property (text), widget (QLabel, lblBackground)
-#: src/ui/qtextclip_ui.ui:164 src/ui/vectorscope_ui.ui:50
+#: src/ui/qtextclip_ui.ui:164
 #, kde-format
 msgid "Background:"
 msgstr "背景:"
@@ -37910,14 +37904,6 @@ msgstr ""
 #, kde-format
 msgid "Service:"
 msgstr "サービス:"
-
-#. i18n: ectx: property (text), widget (QLabel, lblPaintMode)
-#. i18n: ectx: property (text), widget (QLabel, lblPaintmode)
-#: src/ui/rgbparade_ui.ui:37 src/ui/vectorscope_ui.ui:33
-#: src/ui/waveform_ui.ui:34
-#, kde-format
-msgid "Paint mode:"
-msgstr "ペイントモード:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -38643,6 +38629,27 @@ msgstr "Unicode 値を入力してください"
 msgid "Additional Information"
 msgstr "追加情報"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Zoom"
+msgstr "%1 をリセット"
+
+#. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
+#. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
+#, fuzzy, kde-format
+#| msgid "Color Model"
+msgid "Zoom level"
+msgstr "カラーモデル"
+
+#. i18n: ectx: property (text), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:106
+#, kde-format
+msgid "1.0×"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -38719,20 +38726,20 @@ msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:57
 #, fuzzy, kde-format
 #| msgid "Size X"
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "X サイズ"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:63
 #, fuzzy, kde-format
 #| msgid "Force aspect ratio"
 msgid "Lock aspect ratio"
 msgstr "アスペクト比の強制"
 
-#: src/widgets/geometrywidget.cpp:71
+#: src/widgets/geometrywidget.cpp:73
 #, fuzzy, kde-format
 #| msgctxt "Frame height"
 #| msgid "H"
@@ -38740,43 +38747,43 @@ msgctxt "Image Height"
 msgid "H"
 msgstr "H"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:90
 #, kde-format
 msgid "Adjust to original size"
 msgstr "オリジナルのサイズに調整"
 
-#: src/widgets/geometrywidget.cpp:91
+#: src/widgets/geometrywidget.cpp:93
 #, fuzzy, kde-format
 #| msgid "Adjust audio volume with keyframes"
 msgid "Adjust and center in frame"
 msgstr "キーフレームでオーディオの音量を調整する"
 
-#: src/widgets/geometrywidget.cpp:93
+#: src/widgets/geometrywidget.cpp:95
 #, kde-format
 msgid "Fit to width"
 msgstr "幅に合わせる"
 
-#: src/widgets/geometrywidget.cpp:95
+#: src/widgets/geometrywidget.cpp:97
 #, kde-format
 msgid "Fit to height"
 msgstr "高さに合わせる"
 
-#: src/widgets/geometrywidget.cpp:100
+#: src/widgets/geometrywidget.cpp:102
 #, kde-format
 msgid "Center horizontally"
 msgstr "水平方向に中央"
 
-#: src/widgets/geometrywidget.cpp:104
+#: src/widgets/geometrywidget.cpp:106
 #, kde-format
 msgid "Align top"
 msgstr "上寄せ"
 
-#: src/widgets/geometrywidget.cpp:106
+#: src/widgets/geometrywidget.cpp:108
 #, kde-format
 msgid "Center vertically"
 msgstr "垂直方向に中央"
 
-#: src/widgets/geometrywidget.cpp:108
+#: src/widgets/geometrywidget.cpp:110
 #, kde-format
 msgid "Align bottom"
 msgstr "下寄せ"
@@ -38810,6 +38817,25 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Auto Refresh"
+#~ msgstr "自動更新"
+
+#~ msgid "Components:"
+#~ msgstr "コンポーネント:"
+
+#, fuzzy
+#~| msgid "RGB summed up"
+#~ msgid "RGB summed up."
+#~ msgstr "RGB のまとめ"
+
+#, fuzzy
+#~| msgid "Luma value"
+#~ msgid "Luma value."
+#~ msgstr "輝度値"
+
+#~ msgid "Scale:"
+#~ msgstr "スケール:"
 
 #, fuzzy
 #~| msgid "Threshold"

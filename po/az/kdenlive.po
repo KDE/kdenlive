@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:42+0000\n"
+"POT-Creation-Date: 2025-08-23 00:41+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -1205,6 +1205,7 @@ msgstr ""
 #: data/effects/normalise.xml:8 data/effects/sox/sox_bass.xml:8
 #: data/effects/sox/sox_gain.xml:8 data/effects/volume.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:32
+#: src/scopes/colorscopes/vectorscope.cpp:772
 #, kde-format
 msgid "Gain"
 msgstr "Gücləndirmə"
@@ -2172,7 +2173,7 @@ msgstr "Təyinat qovluğu"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
-#: src/scopes/colorscopes/vectorscope.cpp:99
+#: src/scopes/colorscopes/vectorscope.cpp:169
 #, kde-format
 msgid "Color Space"
 msgstr "Rəng sahəsi"
@@ -2613,6 +2614,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_datascope.xml:19
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
+#: src/scopes/colorscopes/histogram.cpp:36
 #, fuzzy, kde-format
 #| msgid "Components:"
 msgid "Components"
@@ -2637,7 +2639,7 @@ msgstr "Hamısı göstərilsin"
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
 #: src/assets/view/widgets/keyframecontainer.cpp:627
-#: src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
 msgstr "Qeyri-şəffaflıq"
@@ -4414,7 +4416,7 @@ msgid "Antibanding Level"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
-#: src/scopes/scopemanager.cpp:296
+#: src/scopes/scopemanager.cpp:278
 #, kde-format
 msgid "Histogram"
 msgstr "Histoqram"
@@ -4874,7 +4876,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
-#: src/widgets/geometrywidget.cpp:137
+#: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Scale"
 msgstr "Miqyas"
@@ -7343,9 +7345,8 @@ msgstr "Miqyas"
 msgid "X"
 msgstr "X"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbY)
 #: data/effects/avfilter/avfilter_zoompan.xml:14
-#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:425
 #, kde-format
 msgid "Y"
 msgstr "Y"
@@ -9800,8 +9801,8 @@ msgstr "Qırmızı"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2515
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:68
+#: src/scopes/colorscopes/waveform.cpp:55
 #, kde-format
 msgid "Green"
 msgstr "Yaşıl"
@@ -12174,7 +12175,7 @@ msgid "Amount of noise added."
 msgstr "Əlavə edilmiş küyün miqdarı"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, RGBParade_UI)
-#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:295
+#: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:277
 #: src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
@@ -15945,7 +15946,7 @@ msgstr "Küyün azaldılması və səsin bərpası"
 
 #: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:87 src/mainwindow.cpp:1399
-#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:144
 #, kde-format
 msgid "Tools"
 msgstr "Alətlər"
@@ -16085,7 +16086,7 @@ msgid "Crop to fill"
 msgstr "Doldurmaq üçün kəsin"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/widgets/geometrywidget.cpp:183
+#: src/widgets/geometrywidget.cpp:185
 #, kde-format
 msgid "Align"
 msgstr "Düzləndirmək"
@@ -17217,8 +17218,8 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Xətti"
@@ -17327,7 +17328,7 @@ msgid "Move keyframe"
 msgstr "Əsas kadrı köçürün"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:527
-#: src/assets/keyframes/model/keyframemodellist.cpp:590
+#: src/assets/keyframes/model/keyframemodellist.cpp:591
 #, kde-format
 msgid "Update keyframe"
 msgstr "Əsas kadrı yeniləmək"
@@ -17358,13 +17359,13 @@ msgstr "Effektləri sıfırlamaq"
 msgid "Delete keyframes"
 msgstr "Əsas kadrları silmək"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:698
+#: src/assets/keyframes/model/keyframemodellist.cpp:699
 #: src/assets/model/assetparametermodel.cpp:1574
 #, kde-format
 msgid "Update effect"
 msgstr "Effekti yeniləyin"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:919
+#: src/assets/keyframes/model/keyframemodellist.cpp:920
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
@@ -17873,35 +17874,35 @@ msgstr "Xüsusi..."
 msgid "Invalid LUT file %1"
 msgstr "Səhv %1 LUT faylı"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:175
 #, fuzzy, kde-format
 #| msgid "So&lid color:"
 msgid "Solid Fill"
 msgstr "Bü&töv rəng:"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:180
 #, fuzzy, kde-format
 #| msgid "Gradient"
 msgid "Gradient Fill"
 msgstr "Qradient"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:185
 #, fuzzy, kde-format
 #| msgid "Show channels"
 msgid "Show Block Lines"
 msgstr "Kanallrı göstərmək"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:191
 #, kde-format
 msgid "Colorful Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:196
 #, kde-format
 msgid "Monochrome Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, fuzzy, kde-format
 #| msgctxt "L as in Left"
 #| msgid "L:"
@@ -17909,34 +17910,34 @@ msgctxt "L as in Left"
 msgid "L: "
 msgstr "Sol:"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
 #, fuzzy, kde-format
 #| msgid "R: "
 msgctxt "R as in Right"
 msgid "R: "
 msgstr "R: "
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:414
 #, fuzzy, kde-format
 #| msgid "C"
 msgctxt "CH as in Channel"
 msgid "CH"
 msgstr "C"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
 msgstr "Səsin yazılışı"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
-#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:656
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:423
+#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:659
 #: src/mltcontroller/clippropertiescontroller.cpp:1038
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixermanager.cpp:241 src/timeline2/view/qml/Timeline.qml:1014
+#: src/audiomixer/mixermanager.cpp:240 src/timeline2/view/qml/Timeline.qml:1014
 #, kde-format
 msgid "Master"
 msgstr "Ustad"
@@ -23755,7 +23756,7 @@ msgstr ""
 "%1 klipiniz üçün profil tapılmadı.\n"
 "Yeni profil yaradılsın və açılsın (%2x%3, %4 kadr/san)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:36
+#: src/doc/kdenlivedoc.cpp:2517 src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
@@ -25455,8 +25456,8 @@ msgstr "Yenidən təyinetmə vaxtı"
 msgid "Guides"
 msgstr "İstiqamətləndirici"
 
-#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioLevels.qml:28
-#: src/timeline2/view/qml/AudioLevels.qml:44
+#: src/mainwindow.cpp:265 src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Record"
 msgstr "Səsyazma"
@@ -27771,7 +27772,7 @@ msgstr "Analiz məlumatını açın"
 msgid "Audio volume"
 msgstr "Səs səviyyəsi"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -27877,16 +27878,16 @@ msgid "Free Resize"
 msgstr "Sərbəst ölçü"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:54
-#: src/scopes/colorscopes/vectorscope.cpp:59
+#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/vectorscope.cpp:72
+#: src/scopes/colorscopes/vectorscope.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "Qara"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:37 src/ui/titlewidget_ui.ui:145
+#: src/monitor/monitor.cpp:459 src/scopes/colorscopes/rgbparade.cpp:45
+#: src/scopes/colorscopes/waveform.cpp:51 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Ağ"
@@ -27995,12 +27996,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 səs axını"
 msgstr[1] "%1 səs axını"
 
-#: src/monitor/monitor.cpp:2491
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit's GLSL meneceri başladıla bilmir, lütfən Movit'i söndürün"
 
-#: src/monitor/monitor.cpp:2533 src/monitor/monitor.cpp:2590
+#: src/monitor/monitor.cpp:2539 src/monitor/monitor.cpp:2596
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28009,17 +28010,17 @@ msgstr ""
 "Bu funksiya üçün alphagrad süzgəci tələb olunur, frei0r quraşdırın və "
 "Kdenlive'ı yenidən başladın"
 
-#: src/monitor/monitor.cpp:2553
+#: src/monitor/monitor.cpp:2559
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipdə heç bir effekt yoxdur"
 
-#: src/monitor/monitor.cpp:2555
+#: src/monitor/monitor.cpp:2561
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Effektləri müqayisə etmək üçün layihə qutusuna bir klip seçin"
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2603
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28028,18 +28029,18 @@ msgstr ""
 "Bu funksiya üçün cairoblend keçidi tələb olunur. frei0r quraşdırın və "
 "Kdenlive'ı yenidən başladın"
 
-#: src/monitor/monitor.cpp:2673
+#: src/monitor/monitor.cpp:2679
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Effektlərə düzəliş etmək üçün monitorda düzəliş rejimini aktiv edin"
 
-#: src/monitor/monitor.cpp:3173
+#: src/monitor/monitor.cpp:3179
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "Layihə qutusunda klip seçilməyib"
 
-#: src/monitor/monitor.cpp:3194
+#: src/monitor/monitor.cpp:3200
 #, fuzzy, kde-format
 #| msgid "Cannot get duration for file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -31108,11 +31109,6 @@ msgstr ""
 
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
-msgid "Auto Refresh"
-msgstr "Avtomatik təzələmə"
-
-#: src/scopes/abstractscopewidget.cpp:68
-#, kde-format
 msgid "Realtime (with precision loss)"
 msgstr "Real zamanda (sıxılması itirilməklə)"
 
@@ -31235,8 +31231,8 @@ msgid "YUV Y plane"
 msgstr "YUV Y müstəvisi"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
-#: src/scopes/colorscopes/vectorscope.cpp:55
-#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/vectorscope.cpp:76
+#: src/scopes/colorscopes/vectorscope.cpp:115
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr "Dəyişdirilmiş YUV (Chroma kanalları)"
@@ -31263,7 +31259,7 @@ msgid "HSV Saturation"
 msgstr "HSV doyumluluq"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:268
+#: src/scopes/colorscopes/vectorscope.cpp:435
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -31315,25 +31311,57 @@ msgstr "Parlaqlıq"
 msgid "HSV Value"
 msgstr "HSV dəyəri"
 
-#: src/scopes/colorscopes/histogram.cpp:28
+#: src/scopes/colorscopes/histogram.cpp:39
+#, fuzzy, kde-format
+#| msgid "Luma"
+msgid "Y (Luma)"
+msgstr "Parlaqlıq"
+
+#: src/scopes/colorscopes/histogram.cpp:43
+#, kde-format
+msgid "Sum"
+msgstr "Cəm"
+
+#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
+#: src/scopes/colorscopes/histogram.cpp:47 src/ui/titlewidget_ui.ui:373
+#, kde-format
+msgid "R"
+msgstr "R"
+
+#: src/scopes/colorscopes/histogram.cpp:51
+#, kde-format
+msgid "G"
+msgstr "G"
+
+#: src/scopes/colorscopes/histogram.cpp:55
+#, kde-format
+msgid "B"
+msgstr "B"
+
+#: src/scopes/colorscopes/histogram.cpp:73
+#, kde-format
+msgid "Logarithmic"
+msgstr "Loqaritmik"
+
+#: src/scopes/colorscopes/histogram.cpp:84
 #, kde-format
 msgid "Unscaled"
 msgstr "Seçilməmiş"
 
-#: src/scopes/colorscopes/histogram.cpp:31
-#: src/scopes/colorscopes/waveform.cpp:40
+#: src/scopes/colorscopes/histogram.cpp:88
+#: src/scopes/colorscopes/waveform.cpp:68
 #, kde-format
 msgid "Rec. 601"
 msgstr "Tövsiyyə 601"
 
-#: src/scopes/colorscopes/histogram.cpp:33
-#: src/scopes/colorscopes/waveform.cpp:42
+#: src/scopes/colorscopes/histogram.cpp:92
+#: src/scopes/colorscopes/waveform.cpp:72
 #, kde-format
 msgid "Rec. 709"
 msgstr "Tövsiyyə 709"
 
-#: src/scopes/colorscopes/histogram.cpp:41
-#: src/scopes/colorscopes/waveform.cpp:47
+#: src/scopes/colorscopes/histogram.cpp:103
+#: src/scopes/colorscopes/waveform.cpp:80
 #, kde-format
 msgid "Luma mode"
 msgstr "Parlaqlıq rejimi"
@@ -31348,18 +31376,26 @@ msgstr "min"
 msgid "max"
 msgstr "maks"
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/vectorscope.cpp:61
+#: src/scopes/colorscopes/waveform.cpp:44
+#, fuzzy, kde-format
+#| msgid "Paint mode:"
+msgid "Paint Mode"
+msgstr "Rəsm rejimi:"
+
+#: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
 msgid "RGB"
 msgstr "RGB"
 
-#: src/scopes/colorscopes/rgbparade.cpp:33
-#: src/scopes/colorscopes/vectorscope.cpp:89
+#: src/scopes/colorscopes/rgbparade.cpp:58
+#: src/scopes/colorscopes/vectorscope.cpp:158
 #, kde-format
 msgid "Draw axis"
 msgstr "Oxları çəkin"
 
-#: src/scopes/colorscopes/rgbparade.cpp:38
+#: src/scopes/colorscopes/rgbparade.cpp:63
 #, kde-format
 msgid "Gradient reference line"
 msgstr "Qradiyent istinad xətti"
@@ -31378,55 +31414,72 @@ msgstr "min: "
 msgid "max: "
 msgstr "maks: "
 
-#: src/scopes/colorscopes/vectorscope.cpp:52
+#: src/scopes/colorscopes/vectorscope.cpp:64
 #, kde-format
 msgid "Green 2"
 msgstr "Yaşıl 2"
 
-#: src/scopes/colorscopes/vectorscope.cpp:56
-#: src/scopes/colorscopes/vectorscope.cpp:60
-#: src/scopes/colorscopes/vectorscope.cpp:102
+#: src/scopes/colorscopes/vectorscope.cpp:80
+#: src/scopes/colorscopes/vectorscope.cpp:111
+#: src/scopes/colorscopes/vectorscope.cpp:173
 #, kde-format
 msgid "YUV"
 msgstr "YUV"
 
-#: src/scopes/colorscopes/vectorscope.cpp:57
+#: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Original Color"
 msgstr "Orijinal rəng"
 
-#: src/scopes/colorscopes/vectorscope.cpp:62
-#: src/scopes/colorscopes/vectorscope.cpp:100
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
+#: src/scopes/colorscopes/vectorscope.cpp:104
+#: src/transitions/view/transitionstackview.cpp:49
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
+#: src/ui/titlewidget_ui.ui:1515
+#, kde-format
+msgid "Background"
+msgstr "Arxa fon"
+
+#: src/scopes/colorscopes/vectorscope.cpp:119
+#: src/scopes/colorscopes/vectorscope.cpp:170
 #, kde-format
 msgid "YPbPr"
 msgstr "YPbPr"
 
-#: src/scopes/colorscopes/vectorscope.cpp:78
+#: src/scopes/colorscopes/vectorscope.cpp:146
 #, kde-format
 msgid "Export background"
 msgstr "Fonun ixrac edilməsi"
 
-#: src/scopes/colorscopes/vectorscope.cpp:82
+#: src/scopes/colorscopes/vectorscope.cpp:151
 #, kde-format
 msgid "Drawing options"
 msgstr "Rəam seçimləri"
 
-#: src/scopes/colorscopes/vectorscope.cpp:84
+#: src/scopes/colorscopes/vectorscope.cpp:153
 #, kde-format
 msgid "75% box"
 msgstr "75% intensivlik şkalası"
 
-#: src/scopes/colorscopes/vectorscope.cpp:94
+#: src/scopes/colorscopes/vectorscope.cpp:163
 #, kde-format
 msgid "Draw I/Q lines"
 msgstr "İ/O kanalları oxlarını göstərmək"
 
-#: src/scopes/scopemanager.cpp:293
+#: src/scopes/colorscopes/vectorscope.cpp:772
+#, fuzzy, kde-format
+#| msgid "Gain: Blue"
+msgid "Gain value:"
+msgstr "İşıq: Mavi"
+
+#: src/scopes/scopemanager.cpp:275
 #, kde-format
 msgid "Vectorscope"
 msgstr "Vektorskop"
 
-#: src/scopes/scopemanager.cpp:294
+#: src/scopes/scopemanager.cpp:276
 #, kde-format
 msgid "Waveform"
 msgstr "Səs spektri"
@@ -32350,19 +32403,25 @@ msgstr ""
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
 #, kde-format
+msgid "Mic level"
+msgstr "Mikrofonun səs səviyyəsi"
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:148
+#: src/timeline2/view/qml/AudioRecordButton.qml:261
+#, kde-format
+msgid "Track is locked. Cannot start Recording."
+msgstr ""
+
+#: src/timeline2/view/qml/AudioRecordButton.qml:253
+#, kde-format
 msgid "Stop"
 msgstr "Dayandırın"
 
-#: src/timeline2/view/qml/AudioLevels.qml:25
+#: src/timeline2/view/qml/AudioRecordButton.qml:257
 #: src/timeline2/view/qml/Timeline.qml:2004
 #, kde-format
 msgid "Paused"
 msgstr "Fasilədə"
-
-#: src/timeline2/view/qml/AudioLevels.qml:77
-#, kde-format
-msgid "Mic level"
-msgstr "Mikrofonun səs səviyyəsi"
 
 #: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:949
 #, kde-format
@@ -33085,7 +33144,7 @@ msgstr "Çərçivənin eni"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
-#: src/widgets/geometrywidget.cpp:137 src/widgets/geometrywidget.cpp:146
+#: src/widgets/geometrywidget.cpp:139 src/widgets/geometrywidget.cpp:148
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -33676,12 +33735,12 @@ msgstr "<small>Bu işarə üçün əlavə məlumat yoxdur.</small>"
 msgid "Some of your favorite compositions are invalid and were removed: %1"
 msgstr "Bəzi sevimli kompozisiyalarınız zədəlidir və silinə bilmədi: %1"
 
-#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:98
+#: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:100
 #, kde-format
 msgid "Align left"
 msgstr "Sol kənara görə düzləndirmək"
 
-#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:102
+#: src/transitions/view/mixstackview.cpp:41 src/widgets/geometrywidget.cpp:104
 #, kde-format
 msgid "Align right"
 msgstr "Sağ kənara görə düzənləmək"
@@ -33693,16 +33752,6 @@ msgstr "Sağ kənara görə düzənləmək"
 #, kde-format
 msgid "Position:"
 msgstr "Mövqeyi:"
-
-#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
-#: src/ui/titlewidget_ui.ui:1515
-#, kde-format
-msgid "Background"
-msgstr "Arxa fon"
 
 #: src/transitions/view/transitionstackview.cpp:61
 #, kde-format
@@ -36347,60 +36396,14 @@ msgstr "KSqueezedTextLabel"
 msgid "Search Markers"
 msgstr "Axtarış dayandırıldı"
 
-#. i18n: ectx: property (text), widget (QLabel, lblComponents)
-#: src/ui/histogram_ui.ui:31
+#. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: src/ui/histogram_ui.ui:69 src/ui/projectsettings_ui.ui:41
+#: src/ui/rgbparade_ui.ui:72 src/ui/vectorscope_ui.ui:119
+#: src/ui/waveform_ui.ui:69
 #, kde-format
-msgid "Components:"
-msgstr "Tərkib hissələri:"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:38
-#, kde-format
-msgid "RGB summed up."
-msgstr "RGB kanalları cəmi."
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbS)
-#: src/ui/histogram_ui.ui:41
-#, kde-format
-msgid "Sum"
-msgstr "Cəm"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, cbY)
-#: src/ui/histogram_ui.ui:48
-#, kde-format
-msgid "Luma value."
-msgstr "Luma dəyəri."
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbR)
-#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
-#: src/ui/histogram_ui.ui:61 src/ui/titlewidget_ui.ui:373
-#, kde-format
-msgid "R"
-msgstr "R"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbG)
-#: src/ui/histogram_ui.ui:68
-#, kde-format
-msgid "G"
-msgstr "G"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cbB)
-#: src/ui/histogram_ui.ui:75
-#, kde-format
-msgid "B"
-msgstr "B"
-
-#. i18n: ectx: property (text), widget (QLabel, lblScale)
-#: src/ui/histogram_ui.ui:105
-#, kde-format
-msgid "Scale:"
-msgstr "Miqyas:"
-
-#. i18n: ectx: property (text), widget (QRadioButton, rbLogarithmic)
-#: src/ui/histogram_ui.ui:122
-#, kde-format
-msgid "Logarithmic"
-msgstr "Loqaritmik"
+msgid "Settings"
+msgstr "Ayarlar"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
@@ -37055,12 +37058,6 @@ msgstr "Standart olaraq istifadə edin"
 msgid "Project Settings"
 msgstr "Layihə ayarları"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/projectsettings_ui.ui:41
-#, kde-format
-msgid "Settings"
-msgstr "Ayarlar"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:47
 #, kde-format
@@ -37233,8 +37230,7 @@ msgid "Outline:"
 msgstr "Kənar xətləri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_bg)
-#. i18n: ectx: property (text), widget (QLabel, lblBackground)
-#: src/ui/qtextclip_ui.ui:164 src/ui/vectorscope_ui.ui:50
+#: src/ui/qtextclip_ui.ui:164
 #, kde-format
 msgid "Background:"
 msgstr "Arxa fon:"
@@ -37619,14 +37615,6 @@ msgstr "Fotolar Nümunə Təminatşısı tərəfindən təqdim edildi"
 #, kde-format
 msgid "Service:"
 msgstr "Xidmət:"
-
-#. i18n: ectx: property (text), widget (QLabel, lblPaintMode)
-#. i18n: ectx: property (text), widget (QLabel, lblPaintmode)
-#: src/ui/rgbparade_ui.ui:37 src/ui/vectorscope_ui.ui:33
-#: src/ui/waveform_ui.ui:34
-#, kde-format
-msgid "Paint mode:"
-msgstr "Rəsm rejimi:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -38329,6 +38317,27 @@ msgstr "Unicode işarəsi daxil edin"
 msgid "Additional Information"
 msgstr "Əlavə məlumatlar"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Zoom"
+msgstr "Sifirlamaq %1"
+
+#. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
+#. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
+#, fuzzy, kde-format
+#| msgid "Color Model"
+msgid "Zoom level"
+msgstr "Rəng modeli"
+
+#. i18n: ectx: property (text), widget (QLabel, gainLabel)
+#: src/ui/vectorscope_ui.ui:106
+#, kde-format
+msgid "1.0×"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -38405,61 +38414,61 @@ msgctxt "y axis position"
 msgid "Y"
 msgstr "Y"
 
-#: src/widgets/geometrywidget.cpp:56
+#: src/widgets/geometrywidget.cpp:57
 #, fuzzy, kde-format
 #| msgid "Size X"
 msgctxt "Image Size (Width)"
 msgid "Size W"
 msgstr "X ölçüsü"
 
-#: src/widgets/geometrywidget.cpp:62
+#: src/widgets/geometrywidget.cpp:63
 #, kde-format
 msgid "Lock aspect ratio"
 msgstr "Tərəflərin nisbətini kilidləmək"
 
-#: src/widgets/geometrywidget.cpp:71
+#: src/widgets/geometrywidget.cpp:73
 #, fuzzy, kde-format
 #| msgid "H"
 msgctxt "Image Height"
 msgid "H"
 msgstr "H"
 
-#: src/widgets/geometrywidget.cpp:88
+#: src/widgets/geometrywidget.cpp:90
 #, kde-format
 msgid "Adjust to original size"
 msgstr "Odijinal ölçüsünə görə"
 
-#: src/widgets/geometrywidget.cpp:91
+#: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Adjust and center in frame"
 msgstr "Kadrda tənzimləmə və mərkəzləmə"
 
-#: src/widgets/geometrywidget.cpp:93
+#: src/widgets/geometrywidget.cpp:95
 #, kde-format
 msgid "Fit to width"
 msgstr "Eninə sığışdırmaq"
 
-#: src/widgets/geometrywidget.cpp:95
+#: src/widgets/geometrywidget.cpp:97
 #, kde-format
 msgid "Fit to height"
 msgstr "Hündürlüyə sığışdırmaq"
 
-#: src/widgets/geometrywidget.cpp:100
+#: src/widgets/geometrywidget.cpp:102
 #, kde-format
 msgid "Center horizontally"
 msgstr "Üfüqi mərkəzləşdirmə"
 
-#: src/widgets/geometrywidget.cpp:104
+#: src/widgets/geometrywidget.cpp:106
 #, kde-format
 msgid "Align top"
 msgstr "Yuxarıya düzənləmək"
 
-#: src/widgets/geometrywidget.cpp:106
+#: src/widgets/geometrywidget.cpp:108
 #, kde-format
 msgid "Center vertically"
 msgstr "Şaquli mərkəzləşdirmə"
 
-#: src/widgets/geometrywidget.cpp:108
+#: src/widgets/geometrywidget.cpp:110
 #, kde-format
 msgid "Align bottom"
 msgstr "Aşağıya düzləndirmək"
@@ -38493,6 +38502,21 @@ msgstr "%1d"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1s"
+
+#~ msgid "Auto Refresh"
+#~ msgstr "Avtomatik təzələmə"
+
+#~ msgid "Components:"
+#~ msgstr "Tərkib hissələri:"
+
+#~ msgid "RGB summed up."
+#~ msgstr "RGB kanalları cəmi."
+
+#~ msgid "Luma value."
+#~ msgstr "Luma dəyəri."
+
+#~ msgid "Scale:"
+#~ msgstr "Miqyas:"
 
 #, fuzzy
 #~| msgid "Threshold"
