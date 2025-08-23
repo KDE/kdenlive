@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-15 02:58+0000\n"
+"POT-Creation-Date: 2025-08-23 02:38+0000\n"
 "PO-Revision-Date: 2025-02-22 02:39+0100\n"
 "Last-Translator: Flori G <Renner03@protonmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -2648,7 +2648,7 @@ msgstr "Alle anzeigen"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:277
 #: src/assets/view/widgets/keyframecontainer.cpp:324
-#: src/assets/view/widgets/keyframecontainer.cpp:632
+#: src/assets/view/widgets/keyframecontainer.cpp:627
 #: src/widgets/geometrywidget.cpp:146
 #, kde-format
 msgid "Opacity"
@@ -3466,7 +3466,7 @@ msgstr ""
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:280
 #: src/assets/view/widgets/keyframecontainer.cpp:336
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3482,7 +3482,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:279
 #: src/assets/view/widgets/keyframecontainer.cpp:330
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -16219,7 +16219,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:282
 #: src/assets/view/widgets/keyframecontainer.cpp:342
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #, kde-format
 msgid "X position"
 msgstr "X-Position"
@@ -16227,7 +16227,7 @@ msgstr "X-Position"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:348
-#: src/assets/view/widgets/keyframecontainer.cpp:630
+#: src/assets/view/widgets/keyframecontainer.cpp:625
 #, kde-format
 msgid "Y position"
 msgstr "Y-Position"
@@ -17360,45 +17360,45 @@ msgstr ""
 msgid "Duplicate keyframe"
 msgstr "Keyframe duplizieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:495
+#: src/assets/keyframes/view/keyframeview.cpp:499
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Keyframe verschieben"
 msgstr[1] "Keyframes verschieben"
 
-#: src/assets/keyframes/view/keyframeview.cpp:747
+#: src/assets/keyframes/view/keyframeview.cpp:751
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "X-Position-Keyframes aktualisieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:755
+#: src/assets/keyframes/view/keyframeview.cpp:759
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Y-Position-Keyframes aktualisieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:763
+#: src/assets/keyframes/view/keyframeview.cpp:767
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Breiten-Keyframes aktualisieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:771
+#: src/assets/keyframes/view/keyframeview.cpp:775
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Höhen-Keyframes aktualisieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:779
+#: src/assets/keyframes/view/keyframeview.cpp:783
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Deckkraft-Keyframes aktualisieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:784
-#: src/assets/keyframes/view/keyframeview.cpp:786
+#: src/assets/keyframes/view/keyframeview.cpp:788
+#: src/assets/keyframes/view/keyframeview.cpp:790
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Wert-Keyframes aktualisieren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:790
+#: src/assets/keyframes/view/keyframeview.cpp:794
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Keyframe-Wert kopiert"
@@ -17543,7 +17543,7 @@ msgstr ""
 "ausgewählt - die aktuellen Parameterwerte kopieren."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:998
+#: src/assets/view/widgets/keyframecontainer.cpp:993
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Keyframe einfügen"
@@ -17634,43 +17634,43 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Parameter"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:903
+#: src/assets/view/widgets/keyframecontainer.cpp:898
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Keyframes kopiert"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:914
-#: src/assets/view/widgets/keyframecontainer.cpp:955
-#: src/assets/view/widgets/keyframecontainer.cpp:962
+#: src/assets/view/widgets/keyframecontainer.cpp:909
+#: src/assets/view/widgets/keyframecontainer.cpp:950
+#: src/assets/view/widgets/keyframecontainer.cpp:957
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Keine gültigen Keyframe-Daten in der Zwischenablage"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1006
+#: src/assets/view/widgets/keyframecontainer.cpp:1001
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary files"
 msgid "Cannot copy current parameter values"
 msgstr "Temporäre Dateien können nicht erstellt werden"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1011
-#: src/assets/view/widgets/keyframecontainer.cpp:1022
+#: src/assets/view/widgets/keyframecontainer.cpp:1006
+#: src/assets/view/widgets/keyframecontainer.cpp:1017
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
 msgstr "Interpolation"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1029
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Keine gültigen Keyframe-Daten in der Zwischenablage"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1115
+#: src/assets/view/widgets/keyframecontainer.cpp:1110
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Der letzte Keyframe kann nicht entfernt werden"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1127
+#: src/assets/view/widgets/keyframecontainer.cpp:1122
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -17876,63 +17876,63 @@ msgstr "Benutzerdefiniert"
 msgid "Invalid LUT file %1"
 msgstr "Ungültiges Profil"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:167
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:168
 #, fuzzy, kde-format
 #| msgid "So&lid color:"
 msgid "Solid Fill"
 msgstr "&Einfache Farbe:"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:172
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:173
 #, fuzzy, kde-format
 #| msgid "Gradient"
 msgid "Gradient Fill"
 msgstr "Verlauf"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:177
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:178
 #, fuzzy, kde-format
 #| msgid "Show channels"
 msgid "Show Block Lines"
 msgstr "Kanäle anzeigen"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:183
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:184
 #, kde-format
 msgid "Colorful Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:188
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:189
 #, kde-format
 msgid "Monochrome Peak Indicator"
 msgstr ""
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:351
 #, fuzzy, kde-format
 #| msgid ":"
 msgctxt "L as in Left"
 msgid "L: "
 msgstr ":"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:319
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:351
 #, fuzzy, kde-format
 #| msgid "R: "
 msgctxt "R as in Right"
 msgid "R: "
 msgstr "R: "
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:322
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:354
 #, fuzzy, kde-format
 #| msgid "C"
 msgctxt "CH as in Channel"
 msgid "CH"
 msgstr "C"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:328
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:360
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
 msgstr "Audio aufnehmen"
 
-#: src/audiomixer/audiolevels/audiolevelwidget.cpp:331
-#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:656
+#: src/audiomixer/audiolevels/audiolevelwidget.cpp:363
+#: src/audiomixer/mixerwidget.cpp:188 src/audiomixer/mixerwidget.cpp:659
 #: src/mltcontroller/clippropertiescontroller.cpp:1038
 #, kde-format
 msgid "dB"
@@ -28451,7 +28451,7 @@ msgstr "Zum Anfang des Clips gehen"
 msgid "Go to mask end"
 msgstr "Zum Ende des Clips gehen"
 
-#: src/monitor/view/MonitorGeometryScene.qml:327
+#: src/monitor/view/MonitorGeometryScene.qml:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
