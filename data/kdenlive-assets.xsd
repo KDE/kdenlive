@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<!--
+SPDX-FileCopyrightText: none
+SPDX-License-Identifier: CC0-1.0
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://www.kdenlive.org"
+           xmlns="https://www.kdenlive.org"
+           elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>
+            SPDX-FileCopyrightText: 2025 Julius Künzel &lt;julius.kuenzel@kde.org&gt;
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:simpleType name="sizePlaceholder">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="%width"/>
+            <xs:enumeration value="-%width"/>
+            <xs:enumeration value="%height"/>
+            <xs:enumeration value="-%height"/>
+            <xs:enumeration value="%maxHeight"/>
+            <xs:enumeration value="-%maxHeight"/>
+            <xs:enumeration value="%maxWidth"/>
+            <xs:enumeration value="-%maxWidth"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="filterName">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="frei0r.select0r"/>
+            <xs:enumeration value="qtblend"/>
+            <xs:enumeration value="rotoscoping"/>
+            <xs:enumeration value="shape"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="keyframedType">
+        <xs:restriction base="xs:string">
+            <!--TODO: [\s\S]* at start and beginning seems wrong, but keep until verified-->
+            <xs:pattern value="[\s\S]*[0-9]=[0-9\-]+;-1=[0-9\-]+[\s\S]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="valueType">
+        <xs:union memberTypes="xs:decimal sizePlaceholder filterName"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="keyframedValueType">
+        <xs:union memberTypes="valueType keyframedType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="curvePoints">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(\d+\s){4}\d+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType mixed="true" name="i18nString">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <!--Translation context like in i18nc-->
+                <xs:attribute name="context" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="parameterType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="fixed"/>
+            <xs:enumeration value="constant"/>
+            <xs:enumeration value="double"/>
+            <xs:enumeration value="float"/>
+            <xs:enumeration value="integer"/>
+            <xs:enumeration value="bool"/>
+            <xs:enumeration value="switch"/>
+            <xs:enumeration value="multiswitch"/>
+            <xs:enumeration value="list"/>
+            <xs:enumeration value="position"/>
+            <xs:enumeration value="color"/>
+            <xs:enumeration value="animated"/>
+            <xs:enumeration value="keyframe"/>
+            <xs:enumeration value="simplekeyframe"/>
+            <xs:enumeration value="geometry"/>
+            <xs:enumeration value="rect"/>
+            <xs:enumeration value="animatedrect"/>
+            <xs:enumeration value="url"/>
+            <xs:enumeration value="urllist"/>
+            <xs:enumeration value="wipe"/>
+            <xs:enumeration value="curve"/>
+            <xs:enumeration value="bezier_spline"/>
+            <xs:enumeration value="roto-spline"/>
+            <xs:enumeration value="keywords"/>
+            <xs:enumeration value="fontfamily"/>
+            <xs:enumeration value="readonly"/>
+            <xs:enumeration value="colorwheel"/>
+            <xs:enumeration value="fixedcolor"/>
+            <xs:enumeration value="filterjob"/>
+            <xs:enumeration value="hidden"/>
+            <xs:enumeration value="listdependency"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="parameter">
+        <xs:sequence>
+            <xs:element name="name" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="i18nString">
+                            <xs:attribute name="conditional" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="paramlistdisplay" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="jobparam" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="name" type="xs:string" use="required"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="paramdependencies" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="files" type="xs:string" use="required"/>
+                            <xs:attribute name="folder" type="xs:string" use="required"/>
+                            <xs:attribute name="value" type="xs:string" use="required"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="type" type="parameterType" use="required"/>
+        <xs:attribute name="format" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="default" type="xs:string"/>
+        <xs:attribute name="paramlist" type="xs:string"/>
+        <xs:attribute name="alpha" type="xs:boolean"/>
+        <xs:attribute name="value" type="valueType"/>
+        <xs:attribute name="min" type="keyframedValueType"/>
+        <xs:attribute name="max" type="keyframedValueType"/>
+        <xs:attribute name="visualmin" type="xs:decimal"/>
+        <xs:attribute name="visualmax" type="xs:decimal"/>
+        <xs:attribute name="factor" type="valueType"/>
+        <xs:attribute name="scale" type="xs:decimal"/>
+        <xs:attribute name="suffix" type="xs:string"/>
+        <xs:attribute name="decimals" type="xs:integer"/>
+        <xs:attribute name="fixed" type="xs:boolean"/>
+        <xs:attribute name="compact" type="xs:boolean"/>
+        <xs:attribute name="opacity" type="xs:boolean"/>
+        <xs:attribute name="notintimeline" type="xs:boolean" default="0"/>
+        <xs:attribute name="intimeline" type="xs:boolean" default="0"/>
+        <xs:attribute name="relative" type="xs:boolean" default="0"/>
+        <xs:attribute name="totime" type="xs:boolean" default="0"/>
+        <xs:attribute name="odd" type="xs:boolean" default="0"/>
+        <xs:attribute name="filter" type="xs:string"/>
+        <xs:attribute name="newstuff" type="xs:string"/>
+        <xs:attribute name="depends" type="xs:string"/>
+        <xs:attribute name="number" type="xs:integer"/>
+        <xs:attribute name="inpoints" type="curvePoints"/>
+        <xs:attribute name="outpoints" type="curvePoints"/>
+        <xs:attribute name="list1" type="curvePoints"/>
+        <xs:attribute name="list2" type="curvePoints"/>
+        <xs:attribute name="conditional" type="xs:string"/>
+        <xs:attribute name="widget">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="corners"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="mode">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="save"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="filtertag" type="xs:string"/>
+        <xs:attribute name="filterparams" type="xs:string"/>
+        <xs:attribute name="consumer" type="xs:string"/>
+        <xs:attribute name="consumerparams" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:element name="effect">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="i18nString"/>
+                <xs:element name="description" type="xs:string" minOccurs="0"/>
+                <xs:element name="author" type="xs:string"/>
+                <xs:element name="parameter" type="parameter" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="tag" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="dependency" type="xs:string"/>
+            <xs:attribute name="type" type="xs:string" default="video" use="optional"/>
+            <xs:attribute name="unique" type="xs:boolean" default="0"/>
+            <xs:attribute name="requires_in_out" type="xs:boolean" default="0"/>
+            <xs:attribute name="condition" type="xs:string" use="optional"/>
+            <!--This "context" seems unused, drop it?-->
+            <xs:attribute name="context" type="xs:string" use="optional"/>
+            <xs:attribute name="version" type="xs:string" use="optional"/>
+            <xs:attribute name="library" type="xs:string" use="optional"/>
+            <xs:attribute name="ladspaid" type="xs:integer" use="optional"/>
+            <xs:attribute name="LC_NUMERIC" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="group">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="effect" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="parentIn" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="effectgroup" substitutionGroup="group"/>
+</xs:schema>
