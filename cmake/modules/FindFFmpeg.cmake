@@ -22,7 +22,21 @@ will be choosen as default::
 
   AVFORMAT AVUTIL AVCODEC
 
-Once done this will define
+Imported Targets
+^^^^^^^^^^^^^^^^
+
+This module provides the following imported targets, if found:
+
+``FFmpeg::FFmpeg``
+    For each <component> that was found
+
+``FFmpeg::<component>``
+    For each <component> that was found
+
+Result Variables
+^^^^^^^^^^^^^^^^
+
+This will define the following variables:
 
 ``FFMPEG_FOUND``
     System has the all required components.
@@ -36,8 +50,7 @@ Once done this will define
 ``FFMPEG_DEFINITIONS``
     Compiler switches required for using the required ffmpeg components.
 
-
-Additonally for each of the components, the following variables will be defined:
+Additonally for each of the components, the following variables will be defined
 
 ``<component>_FOUND``
     True if (the requestion version of) <component> is available
@@ -64,7 +77,7 @@ following to specify required versions for multiple components:
   find_package(FFmpeg 57.40 COMPONENTS AVFORMAT)
   find_package(FFmpeg 55.27 COMPONENTS AVUTIL)
 
-Since 6.19.0.
+Since 6.18.0.
 #]=======================================================================]
 
 
@@ -95,6 +108,17 @@ macro(set_component_found _component )
     set(${_component}_FOUND TRUE)
     set(FFmpeg_${_component}_FOUND TRUE)
   endif ()
+endmacro()
+
+macro(create_target _component )
+  if(${_component}_FOUND AND NOT TARGET FFmpeg::${_component})
+    add_library(FFmpeg::${_component} UNKNOWN IMPORTED)
+    set_target_properties(FFmpeg::${_component} PROPERTIES
+      IMPORTED_LOCATION "${${_component}_LIBRARIES}"
+      INTERFACE_COMPILE_OPTIONS "${${_component}_DEFINITIONS}"
+      INTERFACE_INCLUDE_DIRECTORIES "${${_component}_INCLUDE_DIRS}"
+    )
+  endif()
 endmacro()
 
 ### Macro: find_component
@@ -131,6 +155,7 @@ macro(find_component _component _pkgconfig _library _header)
   set(${_component}_VERSION      ${PC_${_component}_VERSION}      CACHE STRING "The ${_component} version number.")
 
   set_component_found(${_component})
+  create_target(${_component})
 
   mark_as_advanced(
     ${_component}_INCLUDE_DIRS
@@ -180,6 +205,7 @@ else ()
   # Set the noncached _FOUND vars for the components.
   foreach (_component ${_FFmpeg_ALL_COMPONENTS})
     set_component_found(${_component})
+    create_target(${_component})
   endforeach ()
 endif ()
 
@@ -202,3 +228,13 @@ list(INSERT _FFmpeg_REQUIRED_VARS 0 _FFmpeg_FOUND_LIBRARIES)
 find_package_handle_standard_args(FFmpeg
     REQUIRED_VARS ${_FFmpeg_REQUIRED_VARS}
     HANDLE_COMPONENTS)
+
+# Create the general target
+if(FFmpeg_FOUND AND NOT TARGET FFmpeg::FFmpeg)
+  add_library(FFmpeg::FFmpeg INTERFACE IMPORTED)
+  foreach(_component ${FFmpeg_FIND_COMPONENTS})
+    if(${_component}_FOUND AND TARGET FFmpeg::${_component})
+        target_link_libraries(FFmpeg::FFmpeg INTERFACE FFmpeg::${_component})
+    endif()
+  endforeach()
+endif()
