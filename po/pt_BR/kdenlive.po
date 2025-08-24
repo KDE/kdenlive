@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-23 00:41+0000\n"
-"PO-Revision-Date: 2025-08-22 12:25-0300\n"
+"PO-Revision-Date: 2025-08-23 08:14-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -31006,10 +31006,9 @@ msgid "HSV Value"
 msgstr "Valor HSV"
 
 #: src/scopes/colorscopes/histogram.cpp:39
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Y (Luma)"
-msgstr "Arquivo luma"
+msgstr "Y (Luma)"
 
 #: src/scopes/colorscopes/histogram.cpp:43
 #, kde-format
@@ -31073,10 +31072,9 @@ msgstr "máx"
 #: src/scopes/colorscopes/rgbparade.cpp:38
 #: src/scopes/colorscopes/vectorscope.cpp:61
 #: src/scopes/colorscopes/waveform.cpp:44
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Paint Mode"
-msgstr "Modo de pintura:"
+msgstr "Modo de pintura"
 
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
@@ -31163,10 +31161,9 @@ msgid "Draw I/Q lines"
 msgstr "Desenhar linhas I/Q"
 
 #: src/scopes/colorscopes/vectorscope.cpp:772
-#, fuzzy, kde-format
-#| msgid "Gain: Blue"
+#, kde-format
 msgid "Gain value:"
-msgstr "Ganho: Azul"
+msgstr "Valor de ganho:"
 
 #: src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -32105,7 +32102,7 @@ msgstr "Nível do microfone"
 #: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Track is locked. Cannot start Recording."
-msgstr ""
+msgstr "A trilha está bloqueada. Não é possível iniciar a gravação."
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:253
 #, kde-format
@@ -37929,24 +37926,22 @@ msgstr "Informações adicionais"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
+#, kde-format
 msgid "Reset Zoom"
-msgstr "Restaurar %1"
+msgstr "Redefinir zoom"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
-#, fuzzy, kde-format
-#| msgid "Color levels"
+#, kde-format
 msgid "Zoom level"
-msgstr "Níveis de cor"
+msgstr "Nível de zoom"
 
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:106
 #, kde-format
 msgid "1.0×"
-msgstr ""
+msgstr "1.0×"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
