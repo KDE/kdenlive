@@ -431,7 +431,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_toolbar->addSeparator();
 
-    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open  Title…"));
+    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Title…"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
