@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-23 00:41+0000\n"
-"PO-Revision-Date: 2025-08-21 06:45+0200\n"
+"PO-Revision-Date: 2025-08-24 04:04+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9830,6 +9830,8 @@ msgid ""
 "The search window scale factor. For example, 120 = 1.20 = increases by 20% "
 "on each pass."
 msgstr ""
+"ძებნის ფანჯრის მასშტაბის კოეფიციენტი. მაგალითად, 120 = 1.2 = გადიდება 20%-ით "
+"თითოეულ გავლაზე."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
@@ -9866,6 +9868,8 @@ msgid ""
 "The largest size face in pixels - both horizontally and vertically (square "
 "window)."
 msgstr ""
+"უდიდესი სახე პიქსელებში - ორივე, ჰორიზონტალურად და ვერტიკალურად (კვადრატული "
+"ფანჯარა)."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
 #: data/effects/frei0r/frei0r_facedetect.xml:20
@@ -9880,6 +9884,8 @@ msgid ""
 "How often to detect a face. In between checks, it does object motion "
 "tracking."
 msgstr ""
+"რამდენად ხშირად მოხდება სახის დადგენა. შემოწმებებს შორის ის ახდენს მოძრაობის "
+"დევნებას."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:28
 #, kde-format
@@ -9916,6 +9922,7 @@ msgstr "კონტურის სისქე"
 msgid ""
 "0 means fill; otherwise, draw unfilled with a stroke width of this size."
 msgstr ""
+"0 ნიშნავს შევსებას. წინააღმდეგ შემთხვევაში დაიხატება ამ ზომის შეუვსებლით."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
 #, kde-format
@@ -9926,7 +9933,7 @@ msgstr "ალფა"
 #, kde-format
 msgid ""
 "Set the alpha channel of the shape area to a percentage of fully opaque."
-msgstr ""
+msgstr "ფორმის არეს ალფა არხის დაყენება სრულად გაუმჭვირვალე პროცენტულობაზე."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
 #, kde-format
@@ -10000,7 +10007,7 @@ msgstr "ფილმის მარცვალი"
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "ამატებს ფილმის მსგავს მარცვლებს და არბილებს სურათს"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
@@ -10070,7 +10077,7 @@ msgstr "ციალის რაოდენობა"
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[კადრებს შორის სიკაშკაშის ცვალებადობის რაოდენობა]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -11207,7 +11214,7 @@ msgstr "Normaliz0r"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "ნორმალიზაცია (იგივე, რაც ჰისტოგრამის გაწელვა, კონტრასტის გაწელვა)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
 #, kde-format
@@ -30115,10 +30122,9 @@ msgid "HSV Value"
 msgstr "HSL მნიშვნელობა"
 
 #: src/scopes/colorscopes/histogram.cpp:39
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Y (Luma)"
-msgstr "ლუმა"
+msgstr "Y (ლუმა)"
 
 #: src/scopes/colorscopes/histogram.cpp:43
 #, kde-format
@@ -30182,10 +30188,9 @@ msgstr "მაქსიმუმი"
 #: src/scopes/colorscopes/rgbparade.cpp:38
 #: src/scopes/colorscopes/vectorscope.cpp:61
 #: src/scopes/colorscopes/waveform.cpp:44
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Paint Mode"
-msgstr "ხატვის რეჟიმი:"
+msgstr "ხატვის რეჟიმი"
 
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
@@ -30272,10 +30277,9 @@ msgid "Draw I/Q lines"
 msgstr "I/Q ხაზების დახატვა"
 
 #: src/scopes/colorscopes/vectorscope.cpp:772
-#, fuzzy, kde-format
-#| msgid "Gain: Blue"
+#, kde-format
 msgid "Gain value:"
-msgstr "გაძლიერება: ლურჯი"
+msgstr "გაძლიერების მნიშვნელობა:"
 
 #: src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -31208,7 +31212,7 @@ msgstr "მიკროფონის დონე"
 #: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Track is locked. Cannot start Recording."
-msgstr ""
+msgstr "ტრეკი ჩაკეტილია. ჩაწერის დაწყება შეუძლებელია."
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:253
 #, kde-format
@@ -37028,18 +37032,16 @@ msgstr "დამატებითი ინფორმაცია"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
+#, kde-format
 msgid "Reset Zoom"
-msgstr "%1-ის ჩამოყრა"
+msgstr "გადიდების ჩამოყრა"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
-#, fuzzy, kde-format
-#| msgid "Color levels"
+#, kde-format
 msgid "Zoom level"
-msgstr "ფერის დონეები"
+msgstr "გადიდების დონე"
 
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:106

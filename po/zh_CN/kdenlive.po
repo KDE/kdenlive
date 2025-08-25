@@ -30086,10 +30086,9 @@ msgid "HSV Value"
 msgstr "HSV 明度"
 
 #: src/scopes/colorscopes/histogram.cpp:39
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Y (Luma)"
-msgstr "亮度"
+msgstr ""
 
 #: src/scopes/colorscopes/histogram.cpp:43
 #, kde-format
@@ -30153,10 +30152,9 @@ msgstr "最大值"
 #: src/scopes/colorscopes/rgbparade.cpp:38
 #: src/scopes/colorscopes/vectorscope.cpp:61
 #: src/scopes/colorscopes/waveform.cpp:44
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Paint Mode"
-msgstr "绘制模式："
+msgstr ""
 
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
@@ -30243,10 +30241,9 @@ msgid "Draw I/Q lines"
 msgstr "绘制 I/Q 线"
 
 #: src/scopes/colorscopes/vectorscope.cpp:772
-#, fuzzy, kde-format
-#| msgid "Gain: Blue"
+#, kde-format
 msgid "Gain value:"
-msgstr "增益：蓝"
+msgstr ""
 
 #: src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -36906,18 +36903,16 @@ msgstr "额外信息"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
+#, kde-format
 msgid "Reset Zoom"
-msgstr "重置 %1"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
-#, fuzzy, kde-format
-#| msgid "Color levels"
+#, kde-format
 msgid "Zoom level"
-msgstr "颜色级别"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:106
@@ -37084,18 +37079,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Auto Refresh"
-#~ msgstr "自动刷新"
-
-#~ msgid "Components:"
-#~ msgstr "颜色分量："
-
-#~ msgid "RGB summed up."
-#~ msgstr "RGB 总计。"
-
-#~ msgid "Luma value."
-#~ msgstr "亮度值。"
-
-#~ msgid "Scale:"
-#~ msgstr "缩放："
