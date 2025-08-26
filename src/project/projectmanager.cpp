@@ -2356,6 +2356,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
     local_redo1();
     bool result = TimelineFunctions::pasteClipsWithUndo(m_activeTimelineModel, copiedData.second, trackId, 0, undo, redo);
     if (!result) {
+        pCore->window()->raiseTimeline(sourceSequence);
         undo();
         return;
     }
