@@ -352,6 +352,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.tc_type->addItem(i18n("Timecode Non Drop Frame"), QStringLiteral("#smtpe_ndf#"));
     m_view.tc_type->addItem(i18n("Frame Number"), QStringLiteral("#frame#"));
     m_view.checkTwoPass->setEnabled(false);
+    m_view.checkTwoPass->setToolTip(i18nc("Explanation for the 2 pass rendering feature",
+                                          "Two pass rendering allows a better control over the final rendered file size.\nNot compatible "
+                                          "with variable bitrate, and only relevant for some video codecs."));
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this,
             [&](bool enabled) { errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString()); });
