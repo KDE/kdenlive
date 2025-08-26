@@ -17,8 +17,13 @@ public:
 
     struct RenderJob
     {
+        /** @brief The path to the playlist that will be passed to the melt executable */
         QString playlistPath;
+        /** @brief The path to the rendered file (can be modified when using 2 pass rendering) */
         QString outputPath;
+        /** @brief The path to the final rendered file, never modified */
+        QString outputFile;
+        /** @brief The path to the subtitle file used on rendering */
         QString subtitlePath;
     };
 

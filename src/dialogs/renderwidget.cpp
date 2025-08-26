@@ -475,10 +475,17 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (KdenliveSettings::kdenliverendererpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::kdenliverendererpath())) {
         KdenliveSettings::setKdenliverendererpath(QString());
         Wizard::fixKdenliveRenderPath();
-        if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
-            KMessageBox::error(this,
-                               i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
+    } else {
+        // Ensure the Kdenlive renderer is in the same folder as the running app
+        qDebug() << ":::::::::: COMPARING RENDERER PATH: " << QCoreApplication::applicationDirPath()
+                 << " != " << QFileInfo(KdenliveSettings::kdenliverendererpath()).absolutePath();
+        if (QCoreApplication::applicationDirPath() != QFileInfo(KdenliveSettings::kdenliverendererpath()).absolutePath()) {
+            KdenliveSettings::setKdenliverendererpath(QString());
+            Wizard::fixKdenliveRenderPath();
         }
+    }
+    if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
+        KMessageBox::error(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
     }
 
 #ifndef NODBUS
@@ -906,25 +913,30 @@ RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job
     RenderJobItem *renderItem = nullptr;
     if (!existing.isEmpty()) {
         renderItem = static_cast<RenderJobItem *>(existing.at(0));
-        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
-            // There is an existing job that is still pending
-            KMessageBox::information(
-                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", job.outputPath),
-                i18n("Already running"));
-            // focus the running job
-            m_view.running_jobs->setCurrentItem(renderItem);
-            return nullptr;
+        if (renderItem->data(1, TwoPassRole).isNull()) {
+            if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
+                // There is an existing job that is still pending
+                KMessageBox::information(
+                    this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", job.outputPath),
+                    i18n("Already running"));
+                // focus the running job
+                m_view.running_jobs->setCurrentItem(renderItem);
+                return nullptr;
+            }
+            // There is an existing job that already finished
+            delete renderItem;
+            renderItem = nullptr;
         }
-        // There is an existing job that already finished
-        delete renderItem;
-        renderItem = nullptr;
     }
-    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << job.outputPath);
+    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << job.outputFile);
 
     QDateTime t = QDateTime::currentDateTime();
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
+    if (job.outputFile != job.outputPath) {
+        renderItem->setData(1, TwoPassRole, 1);
+    }
     QStringList argsJob = RenderRequest::argsByJob(job);
 
     renderItem->setData(1, ParametersRole, argsJob);
@@ -966,15 +978,15 @@ void RenderWidget::checkRenderStatus()
             waitingJob = true;
             startRendering(item);
             // Check for 2 pass encoding
-            QStringList jobData = item->data(1, ParametersRole).toStringList();
-            if (jobData.size() > 2 && jobData.at(1).endsWith(QStringLiteral("-pass2.mlt"))) {
+            const QStringList jobData = item->data(1, ParametersRole).toStringList();
+            if (jobData.size() > 2 && jobData.at(2).endsWith(QStringLiteral("-pass2.mlt"))) {
                 // Find and remove 1st pass job
+                QString firstPassName = jobData.at(2);
+                firstPassName.replace(QStringLiteral("-pass2.mlt"), QStringLiteral("-pass1.mlt"));
                 QTreeWidgetItem *above = m_view.running_jobs->itemAbove(item);
-                QString firstPassName = jobData.at(1).section(QLatin1Char('-'), 0, -2) + QStringLiteral(".mlt");
                 while (above) {
                     QStringList aboveData = above->data(1, ParametersRole).toStringList();
-                    qDebug() << "// GOT  JOB: " << aboveData.at(1);
-                    if (aboveData.size() > 2 && aboveData.at(1) == firstPassName) {
+                    if (aboveData.size() > 2 && aboveData.at(2) == firstPassName) {
                         delete above;
                         break;
                     }
@@ -1156,7 +1168,12 @@ void RenderWidget::loadProfile()
     }
     adjustSpeed(m_view.speed->value());
     bool passes = profile->hasParam(QStringLiteral("passes"));
-    m_view.checkTwoPass->setEnabled(passes);
+    bool hasCrf = profile->hasParam(QStringLiteral("crf"));
+    QString vcodec = profile->getParam(QStringLiteral("vcodec"));
+    if (vcodec.isEmpty()) {
+        vcodec = profile->getParam(QStringLiteral("c:v"));
+    }
+    m_view.checkTwoPass->setEnabled(!hasCrf && (passes || vcodec.contains(QLatin1String("x26")) || vcodec.contains(QLatin1String("vpx"))));
     m_view.checkTwoPass->setChecked(passes && profile->getParam(QStringLiteral("passes")) == QStringLiteral("2"));
 
     m_view.encoder_threads->setEnabled(!profile->hasParam(QStringLiteral("threads")));
@@ -1382,8 +1399,13 @@ void RenderWidget::refreshParams()
 
     m_params.replacePlaceholder(QLatin1String("%dar"), QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num()),
                                                                                     QString::number(projectProfile->display_aspect_den())));
-    m_params.replacePlaceholder(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
-
+    if (m_view.checkTwoPass->isEnabled()) {
+        if (m_view.checkTwoPass->isChecked()) {
+            m_params.insert(QStringLiteral("pass"), QStringLiteral("2"));
+        } else {
+            m_params.remove(QStringLiteral("pass"));
+        }
+    }
     m_view.advanced_params->setPlainText(m_params.toString());
 }
 
@@ -1416,7 +1438,19 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
     } else {
-        item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        if (dest == QLatin1String("/dev/null") || dest == QLatin1String("NUL")) {
+            // 2 pass rendering, look for first matching job
+            for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
+                item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(i));
+                if (item && item->data(1, TwoPassRole).toInt() == 1) {
+                    break;
+                }
+                item = nullptr;
+            }
+        }
+        if (!item) {
+            item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        }
     }
     item->setData(1, ProgressRole, progress);
     if (progress == 0) {
@@ -1520,15 +1554,29 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
 {
     RenderJobItem *item = nullptr;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
+    bool firstPassRendering = false;
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
     } else {
-        if (dest.isEmpty() && status == -2) {
-            // start failure returs an empty url
-            item = startingJob();
+        if (dest == QLatin1String("/dev/null") || dest == QLatin1String("NUL")) {
+            // 2 pass rendering, look for first matching job
+            for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
+                item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(i));
+                if (item && item->data(1, TwoPassRole).toInt() == 1) {
+                    firstPassRendering = true;
+                    break;
+                }
+                item = nullptr;
+            }
         }
-        if (item == nullptr) {
-            item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+        if (!item) {
+            if (dest.isEmpty() && status == -2) {
+                // start failure returs an empty url
+                item = startingJob();
+            }
+            if (item == nullptr) {
+                item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+            }
         }
     }
     if (!item) {
@@ -1556,7 +1604,9 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
         notify->setText(notif);
-        notify->setUrls({QUrl::fromLocalFile(dest)});
+        if (!firstPassRendering) {
+            notify->setUrls({QUrl::fromLocalFile(dest)});
+        }
         notify->sendEvent();
         const QUrl url = QUrl::fromLocalFile(item->text(1));
         bool exists = QFile(url.toLocalFile()).exists();

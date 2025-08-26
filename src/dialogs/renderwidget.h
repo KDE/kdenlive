@@ -73,7 +73,8 @@ public:
         LastFrameRole,
         OpenBrowserRole,
         PlayAfterRole,
-        LogFileRole
+        LogFileRole,
+        TwoPassRole
     };
 
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
