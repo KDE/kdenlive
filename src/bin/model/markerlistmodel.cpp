@@ -228,10 +228,12 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(pCore->markerTypes.contains(type));
     if (hasMarker(pos)) {
+        // In this case we simply change the comment and type
         CommentedTime current = marker(pos);
         local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), &current);
         local_redo = addOrUpdateRangeMarker_lambda(pos, GenTime(0), comment, type, &current);
     } else {
+        // In this case we create one
         local_redo = addMarker_lambda(pos, comment, type);
         local_undo = deleteMarker_lambda(pos);
     }
