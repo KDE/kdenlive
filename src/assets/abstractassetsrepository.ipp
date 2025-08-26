@@ -29,9 +29,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         parseAssetList(assetIncludedPath(), m_includedList);
     }
 
-    // List effects with 10 bit support
-    parseAssetList(assetTenBitPath(), m_tenBitList);
-
     // Parse preferred list
     parseAssetList({assetPreferredListPath()}, m_preferred_list);
 
@@ -57,21 +54,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
                 if (info.xml.isNull()) {
                     // Metadata was invalid
                     emptyMetaAssets << name;
-                }
-                switch (info.type) {
-                    case AssetType::Video:
-                    case AssetType::Custom:
-                    case AssetType::Template:
-                    case AssetType::TemplateCustom:
-                    case AssetType::VideoShortComposition:
-                    case AssetType::VideoComposition:
-                    case AssetType::VideoTransition:
-                        info.tenBit = name.startsWith(avPrefix) || m_tenBitList.contains(name);
-                        break;
-                    default:
-                        // Audio assets should be set to true
-                        info.tenBit = true;
-                        break;
                 }
                 m_assets[name] = info;
             } else {
@@ -379,7 +361,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::getAttri
     *isPreferred = m_preferred_list.contains(assetId);
     const Info asset = m_assets.at(assetId);
     *isIncluded = asset.included;
-    *supportsTenBit = asset.tenBit;
+    *supportsTenBit = asset.features.contains(QLatin1String("tenbit")) && asset.features.value(QLatin1String("tenbit")).toBool();
 }
 
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isUnique(const QString &assetId) const
@@ -408,10 +390,11 @@ template <typename AssetType> int AbstractAssetsRepository<AssetType>::getVersio
     return m_assets.at(assetId).version;
 }
 
-template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement &currentAsset, Info &res) const
+template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement &assetXml, Info &res) const
 {
-    QString tag = currentAsset.attribute(QStringLiteral("tag"), QString());
-    QString id = currentAsset.attribute(QStringLiteral("id"), QString());
+    QString tag = assetXml.attribute(QStringLiteral("tag"), QString());
+    QString id = assetXml.attribute(QStringLiteral("id"), QString());
+    qDebug()<<"::: FOUND EFFECT TAG: "<<tag<<" == "<<id;
     if (id.isEmpty()) {
         id = tag;
     }
@@ -422,9 +405,9 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     }
 
     // Check if there is a maximal version set
-    if (currentAsset.hasAttribute(QStringLiteral("version")) && !m_assets.at(tag).xml.isNull()) {
+    if (assetXml.hasAttribute(QStringLiteral("version")) && !m_assets.at(tag).xml.isNull()) {
         // a specific version of the filter is required
-        if (m_assets.at(tag).version < int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
+        if (m_assets.at(tag).version < int(100 * assetXml.attribute(QStringLiteral("version")).toDouble())) {
             qDebug() << "plugin version too low:" << tag;
             return false;
         }
@@ -433,10 +416,10 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     res = m_assets.at(tag);
     res.id = id;
     res.mltId = tag;
-    res.version = int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble());
+    res.version = int(100 * assetXml.attribute(QStringLiteral("version")).toDouble());
 
     // Update name if the xml provide one
-    std::pair<QString, QString> nameAndCtx = Xml::getSubTagContentAndContext(currentAsset, QStringLiteral("name"));
+    std::pair<QString, QString> nameAndCtx = Xml::getSubTagContentAndContext(assetXml, QStringLiteral("name"));
     if (!nameAndCtx.first.isEmpty()) {
         if (!nameAndCtx.second.isEmpty()) {
             res.name = i18nc(nameAndCtx.second.toUtf8().constData(), nameAndCtx.first.toUtf8().constData());
@@ -445,11 +428,46 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
         }
     }
     // Update description if the xml provide one
-    const QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
+    const QString description = Xml::getSubTagContent(assetXml, QStringLiteral("description"));
     if (!description.isEmpty()) {
         res.description = i18n(description.toUtf8().constData());
     }
+    // Check supported features
+    setDefaultFeatures(res);
+    QDomNode features = assetXml.firstChildElement(QLatin1String("features"));
+    if (!features.isNull()) {
+        qDebug()<<"=============\n\nFOUND FEATURES FOR ASSET: "<<res.name;
+        QDomNodeList featuresList = features.childNodes();
+        for (int i = 0; i < featuresList.count(); i++) {
+            const QDomElement &e = featuresList.at(i).toElement();
+            qDebug()<<"=============\n\nFOUND EFFECT FEATURE: "<<e.attribute(QLatin1String("name"))<<"\n\n=================";
+            res.features.insert(e.attribute(QLatin1String("name")), e.attribute(QLatin1String("supported")).toLower() == QLatin1String("true"));
+        }
+    }
+    if (m_includedList.contains(res.mltId)) {
+        res.included = true;
+    }
     return true;
+}
+
+template <typename AssetType> void AbstractAssetsRepository<AssetType>::setDefaultFeatures(Info &res) const
+{
+    //Ten bit support
+    switch (res.type) {
+        case AssetListType::AssetType::Video:
+        case AssetListType::AssetType::Custom:
+        case AssetListType::AssetType::Template:
+        case AssetListType::AssetType::TemplateCustom:
+        case AssetListType::AssetType::VideoShortComposition:
+        case AssetListType::AssetType::VideoComposition:
+        case AssetListType::VideoTransition:
+            res.features.insert(QStringLiteral("tenbit"), res.mltId.startsWith(QLatin1String("avfilter.")));
+            break;
+        default:
+            // Audio effects should be set to true
+            res.features.insert(QStringLiteral("tenbit"), true);
+            break;
+    }
 }
 
 template <typename AssetType> QDomElement AbstractAssetsRepository<AssetType>::getXml(const QString &assetId) const

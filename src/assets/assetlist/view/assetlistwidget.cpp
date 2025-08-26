@@ -158,6 +158,11 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
 
     // 10 bit filter
     more->addAction(tenBit);
+    if (m_isEffect) {
+        m_filterButton->setChecked(KdenliveSettings::effectsFilter());
+    } else {
+        m_filterButton->setChecked(KdenliveSettings::transitionsFilter());
+    }
 
     connect(includeList, &QAction::triggered, this, [this, tenBit](bool enable) {
         KdenliveSettings::setEnableAssetsIncludeList(enable);

@@ -58,7 +58,7 @@ protected:
         QString name, description, author, version_str;
         int version{};
         bool included{false};
-        bool tenBit{false};
+        QMap<QString, QVariant> features;
         QDomElement xml;
         AssetType type;
     };
@@ -82,7 +82,12 @@ protected:
        @param res data structure to fill
        @return true of success
      */
-    bool parseInfoFromXml(const QDomElement &currentAsset, Info &res) const;
+    bool parseInfoFromXml(const QDomElement &assetXml, Info &res) const;
+
+    /** @brief Define default features for assets
+       @param res data structure to fill
+     */
+    void setDefaultFeatures(Info &res) const;
 
     /** @brief Figure what is the type of the asset based on its metadata and store it in res*/
     virtual void parseType(Mlt::Properties *metadata, Info &res) = 0;
@@ -101,9 +106,6 @@ protected:
     /** @brief Returns the path to the asset list that will be hidden*/
     virtual QStringList assetExcludedPath() const = 0;
 
-    /** @brief Returns the path to the asset list that support 10 bit depth*/
-    virtual QStringList assetTenBitPath() const = 0;
-
     /** @brief Returns the path to the assets' preferred list*/
     virtual QString assetPreferredListPath() const = 0;
 
@@ -111,7 +113,6 @@ protected:
 
     QSet<QString> m_excludedList;
     QSet<QString> m_includedList;
-    QSet<QString> m_tenBitList;
 
     QSet<QString> m_preferred_list;
 };
