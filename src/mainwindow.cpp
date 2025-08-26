@@ -1421,7 +1421,7 @@ void MainWindow::setupActions()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
 
-    m_buttonHideClipOverlays = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show Clip Names"), this);
+    m_buttonHideClipOverlays = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Show Clip Names"), this);
     m_buttonHideClipOverlays->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of clip names and info in timeline."));
     m_buttonHideClipOverlays->setCheckable(true);
     m_buttonHideClipOverlays->setChecked(KdenliveSettings::showClipOverlays());
