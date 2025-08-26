@@ -2105,8 +2105,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
     int masterOffset = targetMasterIx - sourceMasterTrack;
     for (int tk : std::as_const(sourceTracks.videoIds)) {
-        int newPos = masterOffset + tk;
-        if (newPos < 0 || newPos >= timelineTracks.videoIds.size()) {
+        int newPos = qMax(0, masterOffset + tk);
+        if (newPos >= timelineTracks.videoIds.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;
@@ -2142,8 +2142,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         if (tracksMap.contains(oldPos)) {
             continue;
         }
-        int offsetId = oldPos + audioOffset;
-        if (offsetId < 0 || offsetId >= timelineTracks.audioIds.size()) {
+        int offsetId = qMax(0, oldPos + audioOffset);
+        if (offsetId >= timelineTracks.audioIds.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;

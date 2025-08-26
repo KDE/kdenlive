@@ -595,6 +595,7 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
             fileName.append(QStringLiteral(".wav"));
             job.outputPath = render.absoluteDir().absoluteFilePath(fileName);
         }
+        job.outputFile = job.outputPath;
         jobs.push_back(job);
 
         consumer.setAttribute(QStringLiteral("target"), job.outputPath);
