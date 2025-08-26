@@ -563,7 +563,6 @@ Rectangle {
                     onCanceled: {
                         if (isResizing) {
                             isResizing = false
-                            // Re-establish bindings to model
                             rangeSpan.x = Qt.binding(function() { return (model.frame * root.timeScale) - ruler.rulerZoomOffset })
                             rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
                             markerBase.x = Qt.binding(function() { return (model.frame) * root.timeScale - ruler.rulerZoomOffset; })

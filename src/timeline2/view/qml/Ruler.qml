@@ -554,7 +554,6 @@ Item {
     }
     }
     
-    // Ruler dragging MouseArea
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent

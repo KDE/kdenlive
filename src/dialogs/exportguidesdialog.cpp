@@ -250,10 +250,8 @@ const QString ExportGuidesDialog::getFFmpegChaptersData() const
         GenTime endTime;
 
         if (currentMarker.hasRange()) {
-            // Use actual marker duration for range markers
             endTime = currentMarker.endTime() + offset;
         } else {
-            // Fall back to next marker position for point markers
             const GenTime &nextGenTime = markerCount - 1 == i ? m_projectDuration : markers.at(i + 1).time();
             endTime = nextGenTime + offset;
         }

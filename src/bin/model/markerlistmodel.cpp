@@ -228,13 +228,10 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(pCore->markerTypes.contains(type));
     if (hasMarker(pos)) {
-        // In this case we simply change the comment and type
         CommentedTime current = marker(pos);
-        // For a simple point marker update, duration should be 0 (point marker)
         local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), &current);
-        local_redo = addOrUpdateRangeMarker_lambda(pos, GenTime(0), comment, type, &current); // Force duration to 0 for point markers
+        local_redo = addOrUpdateRangeMarker_lambda(pos, GenTime(0), comment, type, &current);
     } else {
-        // In this case we create one
         local_redo = addMarker_lambda(pos, comment, type);
         local_undo = deleteMarker_lambda(pos);
     }
@@ -329,7 +326,6 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     if (type == -1) {
         type = current.markerType();
     }
-    // Preserve existing duration when not explicitly specified
     return editMarker(oldPos, pos, comment, type, current.duration());
 }
 
@@ -537,7 +533,7 @@ Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration
     QWriteLocker locker(&m_lock);
     return [pos, duration, comment, type, existingMarker, this]() {
         int mid;
-        if (existingMarker) { // Update existing marker
+        if (existingMarker) {
             mid = getIdFromPos(pos);
             Q_ASSERT(mid != -1);
             int row = getRowfromId(mid);
@@ -545,7 +541,7 @@ Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration
             m_markerList[mid].setMarkerType(type);
             m_markerList[mid].setDuration(duration);
             Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole});
-        } else { // Add new marker
+        } else {
             Q_ASSERT(hasMarker(pos) == false);
             mid = TimelineModel::getNextId();
             int insertionRow = static_cast<int>(m_markerList.size());
@@ -917,11 +913,9 @@ bool MarkerListModel::importFromTxt(const QString &fileData, Fun &undo, Fun &red
             continue;
         }
 
-        // Parse comment and optional duration
         QString comment = line.section(QLatin1Char(' '), 1);
         GenTime duration(0);
 
-        // Check if there's a duration specified at the end in brackets [duration]
         if (comment.endsWith(']')) {
             int bracketStart = comment.lastIndexOf('[');
             if (bracketStart != -1 && bracketStart > 0) {
@@ -1119,9 +1113,9 @@ bool MarkerListModel::addRangeMarker(GenTime pos, GenTime duration, const QStrin
     Fun redo = []() { return true; };
     bool res = addRangeMarker(pos, duration, comment, type, undo, redo);
     if (res) {
-        if (hasMarker(pos) && marker(pos).duration().seconds() > 0) { // If it was an update to an existing range marker
+        if (hasMarker(pos) && marker(pos).duration().seconds() > 0) {
             PUSH_UNDO(undo, redo, i18n("Update range marker"));
-        } else if (hasMarker(pos)) { // If it was an update from a point marker to a range marker
+        } else if (hasMarker(pos)) {
             PUSH_UNDO(undo, redo, i18n("Convert to range marker"));
         } else {
             PUSH_UNDO(undo, redo, i18n("Add range marker"));
@@ -1143,7 +1137,6 @@ bool MarkerListModel::addRangeMarker(GenTime pos, GenTime duration, const QStrin
         local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), &current);
         local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type, &current);
     } else {
-        // Create new range marker
         local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type, nullptr);
         local_undo = deleteMarker_lambda(pos);
     }

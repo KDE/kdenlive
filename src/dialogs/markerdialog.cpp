@@ -98,7 +98,6 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
 
     buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(marker_category->count() > 0);
 
-    // Initialize range marker functionality
     if (t.duration() > GenTime()) {
         m_end->setValue(t.endTime());
         range_marker_checkbox->setChecked(true);
@@ -123,11 +122,10 @@ void MarkerDialog::setupRangeMarkerConnections()
 void MarkerDialog::slotRangeMarkerToggled(bool enabled)
 {
     if (enabled) {
-        // When enabling range marker, set end time to be at least 1 second after start time
         GenTime startTime = m_in->gentime();
         GenTime endTime = m_end->gentime();
         if (endTime <= startTime) {
-            GenTime minDuration = GenTime(1, 1); // 1 second
+            GenTime minDuration = GenTime(1, 1);
             m_end->setValue(startTime + minDuration);
         }
     } else {
@@ -142,9 +140,8 @@ void MarkerDialog::slotUpdateDuration()
         GenTime startTime = m_in->gentime();
         GenTime endTime = m_end->gentime();
 
-        // Ensure end time is always after start time for range markers
         if (endTime <= startTime) {
-            GenTime minDuration = GenTime(1, 1); // 1 second minimum
+            GenTime minDuration = GenTime(1, 1);
             m_end->setValue(startTime + minDuration);
         }
     }
