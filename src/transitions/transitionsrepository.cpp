@@ -69,23 +69,13 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             continue;
         }
         Info result;
-        bool ok = parseInfoFromXml(currentNode.toElement(), result);
-        if (!ok) {
-            continue;
-        }
-        if (customAssets.count(result.id) > 0) {
-            // qDebug() << "duplicate transition" << result.id;
-        }
-        result.xml = currentNode.toElement();
-        QString type = result.xml.attribute(QStringLiteral("type"), QString());
+        QString type = currentNode.toElement().attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("hidden")) {
             result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
         }
-        if (m_includedList.contains(result.id)) {
-            result.included = true;
-        }
+
         if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
                 result.type = AssetListType::AssetType::AudioTransition;
@@ -93,16 +83,12 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
                 result.type = AssetListType::AssetType::VideoTransition;
             }
         }
-        switch (result.type) {
-        case AssetListType::AssetType::VideoShortComposition:
-        case AssetListType::AssetType::VideoComposition:
-        case AssetListType::VideoTransition:
-            result.tenBit = result.id.startsWith(QLatin1String("avfilter.")) || m_tenBitList.contains(result.id);
-            break;
-        default:
-            // Audio effects should be set to true
-            result.tenBit = true;
-            break;
+        bool ok = parseInfoFromXml(currentNode.toElement(), result);
+        if (!ok) {
+            continue;
+        }
+        if (customAssets.count(result.id) > 0) {
+            // qDebug() << "duplicate transition" << result.id;
         }
         customAssets[result.id] = result;
     }
@@ -165,11 +151,6 @@ QString TransitionsRepository::assetPreferredListPath() const
     // Transitions do not have "Main" filter implemented, so we return an empty
     // string instead of path to a file with that list
     return QLatin1String("");
-}
-
-QStringList TransitionsRepository::assetTenBitPath() const
-{
-    return {QStringLiteral(":data/tenbit_transitions.txt")};
 }
 
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const

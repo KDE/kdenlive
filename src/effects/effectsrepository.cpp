@@ -71,21 +71,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             Info result;
             result.xml = base;
             result.description = Xml::getSubTagContent(base, QStringLiteral("description"));
-            for (int i = 0; i < effects.count(); ++i) {
-                QDomNode currentNode = effects.item(i);
-                if (currentNode.isNull()) {
-                    continue;
-                }
-                QDomElement currentEffect = currentNode.toElement();
-                QString currentId = currentEffect.attribute(QStringLiteral("id"), QString());
-                if (currentId.isEmpty()) {
-                    currentId = currentEffect.attribute(QStringLiteral("tag"), QString());
-                }
-                if (!exists(currentId) && customAssets.count(currentId) == 0) {
-                    qWarning() << "unsupported effect in group" << currentId << ":" << file_name;
-                    return;
-                }
-            }
+            // Get group type
             QString type = base.attribute(QStringLiteral("type"), QString());
             if (file_name.contains(QStringLiteral("effect-templates"))) {
                 const QString localFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
@@ -109,6 +95,24 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                     result.type = AssetListType::AssetType::Custom;
                 }
             }
+            setDefaultFeatures(result);
+            // TODO: handle effect group features
+
+            for (int i = 0; i < effects.count(); ++i) {
+                QDomNode currentNode = effects.item(i);
+                if (currentNode.isNull()) {
+                    continue;
+                }
+                QDomElement currentEffect = currentNode.toElement();
+                QString currentId = currentEffect.attribute(QStringLiteral("id"), QString());
+                if (currentId.isEmpty()) {
+                    currentId = currentEffect.attribute(QStringLiteral("tag"), QString());
+                }
+                if (!exists(currentId) && customAssets.count(currentId) == 0) {
+                    qWarning() << "unsupported effect in group" << currentId << ":" << file_name;
+                    return;
+                }
+            }
             result.id = base.attribute(QStringLiteral("id"), QString());
             if (result.id.isEmpty()) {
                 result.id = QFileInfo(file_name).baseName();
@@ -121,20 +125,13 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 if (m_includedList.contains(result.mltId)) {
                     result.included = true;
                 }
-                switch (result.type) {
-                case AssetListType::AssetType::Video:
-                case AssetListType::AssetType::Custom:
-                case AssetListType::AssetType::Template:
-                case AssetListType::AssetType::TemplateCustom:
-                case AssetListType::AssetType::VideoShortComposition:
-                case AssetListType::AssetType::VideoComposition:
-                case AssetListType::VideoTransition:
-                    result.tenBit = result.mltId.startsWith(QLatin1String("avfilter.")) || m_tenBitList.contains(result.mltId);
-                    break;
-                default:
-                    // Audio effects should be set to true
-                    result.tenBit = true;
-                    break;
+                QDomNode features = base.firstChildElement(QLatin1String("features"));
+                if (!features.isNull()) {
+                    QDomNodeList featuresList = features.childNodes();
+                    for (int i = 0; i < featuresList.count(); i++) {
+                        const QDomElement &e = featuresList.at(i).toElement();
+                        result.features.insert(e.attribute(QLatin1String("name")), e.attribute(QLatin1String("supported")) == QLatin1String("true"));
+                    }
                 }
                 customAssets[result.id] = result;
             }
@@ -153,22 +150,9 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         if (currentNode.isNull()) {
             continue;
         }
-        QDomElement currentEffect = currentNode.toElement();
         Info result;
-        bool ok = parseInfoFromXml(currentEffect, result);
-        if (!ok) {
-            continue;
-        }
-
-        if (customAssets.count(result.id) > 0) {
-            if (result.version < customAssets.at(result.id).version) {
-                continue;
-            }
-        }
-
-        result.xml = currentEffect;
-
-        // Parse type information.
+        QDomElement currentEffect = currentNode.toElement();
+        // First get asset type
         // Video effect by default
         result.type = AssetListType::AssetType::Video;
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
@@ -198,23 +182,15 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         } else if (type == QLatin1String("text")) {
             result.type = AssetListType::AssetType::Text;
         }
-        if (m_includedList.contains(result.mltId)) {
-            result.included = true;
+        bool ok = parseInfoFromXml(currentEffect, result);
+        if (!ok) {
+            continue;
         }
-        switch (result.type) {
-        case AssetListType::AssetType::Video:
-        case AssetListType::AssetType::Custom:
-        case AssetListType::AssetType::Template:
-        case AssetListType::AssetType::TemplateCustom:
-        case AssetListType::AssetType::VideoShortComposition:
-        case AssetListType::AssetType::VideoComposition:
-        case AssetListType::VideoTransition:
-            result.tenBit = result.mltId.startsWith(QLatin1String("avfilter.")) || m_tenBitList.contains(result.mltId);
-            break;
-        default:
-            // Audio effects should be set to true
-            result.tenBit = true;
-            break;
+
+        if (customAssets.count(result.id) > 0) {
+            if (result.version < customAssets.at(result.id).version) {
+                continue;
+            }
         }
         customAssets[result.id] = result;
     }
@@ -265,12 +241,6 @@ QString EffectsRepository::assetPreferredListPath() const
 {
     return QStringLiteral(":data/preferred_effects.txt");
 }
-
-QStringList EffectsRepository::assetTenBitPath() const
-{
-    return {QStringLiteral(":data/tenbit_effects.txt")};
-}
-
 std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectId) const
 {
     Q_ASSERT(exists(effectId));
@@ -433,7 +403,6 @@ QPair<QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pat
                 }
             }
         }
-        result.xml = currentEffect;
     }
     if (effectAdjusted) {
         QDir dir(QFileInfo(path).absoluteDir());
