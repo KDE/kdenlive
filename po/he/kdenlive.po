@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-23 02:38+0000\n"
+"POT-Creation-Date: 2025-08-26 02:36+0000\n"
 "PO-Revision-Date: 2025-08-13 15:35+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -20242,7 +20242,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Audio without video track"
 msgstr "שמע ללא רצועת וידאו"
 
-#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:457
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "התיצוג של %1 התחיל"
@@ -24413,37 +24413,37 @@ msgid ""
 "video."
 msgstr "פתרון חוצה פלטפורמות מלא להקלטה, המרה והזרמה של וידאו ושמע."
 
-#: src/main.cpp:340
+#: src/main.cpp:342
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "הגדרת שם משלך לקובץ ההגדרות."
 
-#: src/main.cpp:341
+#: src/main.cpp:343
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "הגדרת הנתיב לסביבת MLT."
 
-#: src/main.cpp:343
+#: src/main.cpp:345
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "הגדרת רמת פירוט היומן של ה־MLT. אם לא יוגדר זה יעבור למצב „אזהרה”."
 
-#: src/main.cpp:346
+#: src/main.cpp:348
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "רשימה מופרדת בפסיקים של קבצים להוספה כסרטונים לסל."
 
-#: src/main.cpp:350
+#: src/main.cpp:352
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "להכין תיצוג של המיזם ישירות ולצאת."
 
-#: src/main.cpp:353
+#: src/main.cpp:355
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "שם ערכת תיצוג של Kdenlive‏ (MP4-H264/AAC תיבחר אם לא סופקה שום ערכה)."
 
-#: src/main.cpp:358
+#: src/main.cpp:360
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -24451,17 +24451,17 @@ msgid ""
 msgstr ""
 "יציאה לאחר שתהליך העיבוד יתחיל (במנותק), אם דגלון זה לא קיים רק לאחר הסיום."
 
-#: src/main.cpp:361
+#: src/main.cpp:363
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "מסמך Kdenlive לפתיחה."
 
-#: src/main.cpp:362
+#: src/main.cpp:364
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "קובץ פלט לווידאו שעבר תיצוג."
 
-#: src/main.cpp:474
+#: src/main.cpp:476
 #, kde-format
 msgid "Version %1"
 msgstr "גרסה %1"

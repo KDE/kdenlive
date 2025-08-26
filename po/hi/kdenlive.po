@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-23 02:38+0000\n"
+"POT-Creation-Date: 2025-08-26 02:36+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -20953,7 +20953,7 @@ msgstr "ऑडियो ट्रैक के बिना वीडियो"
 msgid "Audio without video track"
 msgstr "वीडियो ट्रैक के बिना ऑडियो"
 
-#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:457
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25151,39 +25151,39 @@ msgstr ""
 "ऑडियो और वीडियो को रिकॉर्ड करने, परिवर्तित करने और स्ट्रीम करने के लिए एक पूर्ण, क्रॉस-"
 "प्लेटफ़ॉर्म समाधान।"
 
-#: src/main.cpp:340
+#: src/main.cpp:342
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "कस्टम कॉन्फ़िगरेशन फ़ाइल नाम सेट करें."
 
-#: src/main.cpp:341
+#: src/main.cpp:343
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT वातावरण के लिए पथ निर्धारित करें."
 
-#: src/main.cpp:343
+#: src/main.cpp:345
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT लॉग स्तर सेट करें। स्तर \"चेतावनी\" के लिए इसे अनसेट छोड़ दें।"
 
-#: src/main.cpp:346
+#: src/main.cpp:348
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "बिन में क्लिप के रूप में जोड़ने के लिए फ़ाइलों की अल्पविराम से अलग की गई सूची।"
 
-#: src/main.cpp:350
+#: src/main.cpp:352
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "प्रोजेक्ट को सीधे रेंडर करें और बाहर निकलें."
 
-#: src/main.cpp:353
+#: src/main.cpp:355
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive रेंडर प्रीसेट नाम (यदि कोई नहीं दिया गया है तो MP4-H264/AAC का उपयोग किया "
 "जाएगा)।"
 
-#: src/main.cpp:358
+#: src/main.cpp:360
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25192,17 +25192,17 @@ msgstr ""
 "(अलग) रेंडर प्रक्रिया शुरू होने के बाद बाहर निकलें, इस ध्वज के बिना यह समाप्त होने के बाद "
 "ही मौजूद रहता है।"
 
-#: src/main.cpp:361
+#: src/main.cpp:363
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Kdenlive दस्तावेज़ खोलें."
 
-#: src/main.cpp:362
+#: src/main.cpp:364
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "प्रस्तुत वीडियो के लिए आउटपुट फ़ाइल."
 
-#: src/main.cpp:474
+#: src/main.cpp:476
 #, kde-format
 msgid "Version %1"
 msgstr "संस्करण %1"

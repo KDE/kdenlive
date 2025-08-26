@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-23 02:38+0000\n"
+"POT-Creation-Date: 2025-08-26 02:36+0000\n"
 "PO-Revision-Date: 2025-06-21 12:22+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -21164,7 +21164,7 @@ msgstr "Vídeo sen pista de son"
 msgid "Audio without video track"
 msgstr "Son sen pista de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:455
+#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:457
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25425,42 +25425,42 @@ msgstr ""
 "Unha solución completa e multiplataforma para gravar, converter e emitir son "
 "e vídeo."
 
-#: src/main.cpp:340
+#: src/main.cpp:342
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Definir un nome de ficheiro de configuración personalizado."
 
-#: src/main.cpp:341
+#: src/main.cpp:343
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Definir a ruta para o ambiente MLT."
 
-#: src/main.cpp:343
+#: src/main.cpp:345
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Definir o nivel de rexistro de MLT. Deixar sen definir para usar o nivel de "
 "«advertencia»."
 
-#: src/main.cpp:346
+#: src/main.cpp:348
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Lista de ficheiros separados por coma para engadir como fragmentos á caixa."
 
-#: src/main.cpp:350
+#: src/main.cpp:352
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Renderizar directamente o proxecto e saír."
 
-#: src/main.cpp:353
+#: src/main.cpp:355
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Nome da predefinición de renderización de Kdenlive (usaranse MP4-H264/AAC se "
 "non se indica nada)."
 
-#: src/main.cpp:358
+#: src/main.cpp:360
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25469,17 +25469,17 @@ msgstr ""
 "Saír despois de iniciarse o proceso de renderización (desconectado). Sen "
 "esta opción sáese só cando remata."
 
-#: src/main.cpp:361
+#: src/main.cpp:363
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Documento de Kdenlive para abrir."
 
-#: src/main.cpp:362
+#: src/main.cpp:364
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Ficheiro de saída para o vídeo renderizado."
 
-#: src/main.cpp:474
+#: src/main.cpp:476
 #, kde-format
 msgid "Version %1"
 msgstr "Versión %1"
