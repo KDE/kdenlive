@@ -294,10 +294,24 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
         RenderJob job;
         job.playlistPath = playlistPath;
         job.outputPath = outputPath;
+        // outputFile will stay unmodified in case of 2 pass rendering
+        job.outputFile = outputPath;
         job.subtitlePath = subtitlePath;
+        // Set two pass parameters. In case pass is 0 the function does nothing.
+        setDocTwoPassParams(pass, final, job.outputPath);
         if (pass == 2) {
-            job.playlistPath = QStringUtils::appendToFilename(job.playlistPath, QStringLiteral("-pass%1").arg(2));
+            job.playlistPath = QStringUtils::appendToFilename(job.playlistPath, QStringLiteral("-pass2"));
         }
+
+        if (pass == 1) {
+            job.playlistPath = QStringUtils::appendToFilename(job.playlistPath, QStringLiteral("-pass1"));
+#ifdef Q_OS_WIN
+            job.outputPath = QStringLiteral("NUL");
+#else
+            job.outputPath = QStringLiteral("/dev/null");
+#endif
+        }
+
         jobs.push_back(job);
 
         // get the consumer element
@@ -305,9 +319,6 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
         QDomElement consumer = consumers.at(0).toElement();
 
         consumer.setAttribute(QStringLiteral("target"), job.outputPath);
-
-        // Set two pass parameters. In case pass is 0 the function does nothing.
-        setDocTwoPassParams(pass, final, job.outputPath);
 
         if (!Xml::docContentToFile(final, job.playlistPath)) {
             addErrorMessage(i18n("Cannot write to file %1", job.playlistPath));

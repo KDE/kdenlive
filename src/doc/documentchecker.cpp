@@ -259,7 +259,7 @@ bool DocumentChecker::hasErrorInProject()
     QMap<int, QUuid> binClipsMap;
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
-        if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:playlistid"))) {
+        if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:playlistid")) || e.attribute(QStringLiteral("id")) == QLatin1String("black_track")) {
             // Black track producer, ignore
             continue;
         }
