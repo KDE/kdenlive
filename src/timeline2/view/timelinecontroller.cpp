@@ -5740,3 +5740,30 @@ int TimelineController::suggestSnapPoint(int position, int snapDistance)
     }
     return m_model->suggestSnapPoint(position, snapDistance);
 }
+
+bool TimelineController::createRangeMarkerFromZone(const QString &comment, int type)
+{
+    if (m_zone.isNull() || m_zone.x() >= m_zone.y()) {
+        pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
+        return false;
+    }
+
+    auto guideModel = m_model->getGuideModel();
+    GenTime startPos(m_zone.x(), pCore->getCurrentFps());
+    GenTime duration(m_zone.y() - m_zone.x(), pCore->getCurrentFps());
+    QString markerComment = comment.isEmpty() ? i18n("Zone marker") : comment;
+
+    if (type == -1) {
+        type = KdenliveSettings::default_marker_type();
+    }
+
+    bool success = guideModel->addRangeMarker(startPos, duration, markerComment, type);
+    if (success) {
+        pCore->displayMessage(i18n("Range marker created from zone"), InformationMessage);
+        setZone(QPoint(-1, -1), false);
+    } else {
+        pCore->displayMessage(i18n("Failed to create range marker from zone"), ErrorMessage);
+    }
+
+    return success;
+}

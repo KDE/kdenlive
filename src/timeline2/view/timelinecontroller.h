@@ -349,6 +349,13 @@ public:
      * @return The suggested snap position
      */
     Q_INVOKABLE int suggestSnapPoint(int position, int snapDistance);
+    /** @brief Create a range marker from the current timeline zone
+     * @param comment Optional comment for the marker
+     * @param type Marker type
+     * @return true if successful
+     */
+    Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
+
     /** @brief Move all guides in the given range
      * @param start the start point of the range in frames
      * @param end the end point of the range in frames

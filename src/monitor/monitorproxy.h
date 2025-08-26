@@ -117,6 +117,12 @@ public:
      * @param newPosition The new start position when resizing from start (optional)
      */
     Q_INVOKABLE void resizeMarker(int position, int duration, bool isStart = false, int newPosition = -1);
+    /** @brief Create a range marker from the current monitor zone
+     * @param comment Optional comment for the marker
+     * @param type Marker type
+     * @return true if successful
+     */
+    Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);

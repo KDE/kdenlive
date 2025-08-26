@@ -327,6 +327,8 @@ private Q_SLOTS:
     void updatePowerManagement();
 
 public Q_SLOTS:
+    void slotCreateRangeMarkerFromZone();
+    void slotCreateRangeMarkerFromZoneQuick();
     void updateTimelineProducer();
     void setProducer(const QUuid, std::shared_ptr<Mlt::Producer> producer, int pos = -1);
     void slotSetScreen(int screenIndex);

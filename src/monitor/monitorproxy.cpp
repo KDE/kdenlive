@@ -6,6 +6,7 @@
 */
 
 #include "monitorproxy.h"
+#include "KLocalizedString"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "core.h"
@@ -687,6 +688,48 @@ void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int ne
             markerModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
         }
     }
+}
+
+bool MonitorProxy::createRangeMarkerFromZone(const QString &comment, int type)
+{
+    if (m_zoneIn <= 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
+        return false;
+    }
+
+    std::shared_ptr<MarkerListModel> markerModel;
+
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (!activeClip.isEmpty()) {
+            auto clip = pCore->bin()->getBinClip(activeClip);
+            if (clip) {
+                markerModel = clip->getMarkerModel();
+            }
+        }
+    } else {
+        if (pCore->currentDoc()) {
+            markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+        }
+    }
+
+    if (!markerModel) {
+        return false;
+    }
+
+    GenTime startPos(m_zoneIn, pCore->getCurrentFps());
+    GenTime duration(m_zoneOut - m_zoneIn, pCore->getCurrentFps());
+    QString markerComment = comment.isEmpty() ? i18n("Zone marker") : comment;
+
+    if (type == -1) {
+        type = KdenliveSettings::default_marker_type();
+    }
+
+    bool success = markerModel->addRangeMarker(startPos, duration, markerComment, type);
+    if (success) {
+        resetZone();
+    }
+
+    return success;
 }
 
 bool MonitorProxy::monitorIsActive() const

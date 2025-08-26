@@ -43,6 +43,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDBusInterface>
 #endif
 
+#include "dialogs/markerdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "filefilter.h"
@@ -51,6 +52,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
+#include "monitor/monitorproxy.h"
 #include "monitor/scopes/audiographspectrum.h"
 #include "onlineresources/resourcewidget.hpp"
 #include "profiles/profilemodel.hpp"
@@ -615,6 +617,15 @@ void MainWindow::init()
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_in")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("select_timeline_zone")));
+
+    auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker..."), this);
+    connect(createZoneMarker, &QAction::triggered, this, &MainWindow::slotCreateRangeMarkerFromZone);
+    timelineRulerMenu->addAction(createZoneMarker);
+
+    auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker Quickly"), this);
+    connect(createZoneMarkerQuick, &QAction::triggered, this, &MainWindow::slotCreateRangeMarkerFromZoneQuick);
+    timelineRulerMenu->addAction(createZoneMarkerQuick);
+
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
@@ -5675,3 +5686,29 @@ KIO::filesize_t MainWindow::fetchFolderSize(const QString path)
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif
+
+void MainWindow::slotCreateRangeMarkerFromZone()
+{
+    if (!getCurrentTimeline() || !pCore->currentDoc()) {
+        return;
+    }
+
+    if (pCore->monitorManager()->clipMonitor()->isActive()) {
+        pCore->monitorManager()->clipMonitor()->slotCreateRangeMarkerFromZone();
+    } else {
+        pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZone();
+    }
+}
+
+void MainWindow::slotCreateRangeMarkerFromZoneQuick()
+{
+    if (!getCurrentTimeline() || !pCore->currentDoc()) {
+        return;
+    }
+
+    if (pCore->monitorManager()->clipMonitor()->isActive()) {
+        pCore->monitorManager()->clipMonitor()->slotCreateRangeMarkerFromZoneQuick();
+    } else {
+        pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZoneQuick();
+    }
+}

@@ -489,6 +489,8 @@ private Q_SLOTS:
     void slotInsertClipInsert();
     void slotExtractZone();
     void slotLiftZone();
+    void slotCreateRangeMarkerFromZone();
+    void slotCreateRangeMarkerFromZoneQuick();
     void slotPreviewRender();
     void slotStopPreviewRender();
     void slotDefinePreviewRender();
