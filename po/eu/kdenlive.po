@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-26 02:36+0000\n"
+"POT-Creation-Date: 2025-08-27 02:44+0000\n"
 "PO-Revision-Date: 2025-08-13 23:50+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -8508,7 +8508,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:655 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:662 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -19392,7 +19392,7 @@ msgstr "Mugitu azpidatzia"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:683
 #: src/effects/effectstack/view/effectstackview.cpp:793
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -20363,8 +20363,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Esportatu Gidalerroen datuak"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1960
-#: src/dialogs/renderwidget.cpp:1984 src/doc/kdenlivedoc.cpp:766
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2010
+#: src/dialogs/renderwidget.cpp:2034 src/doc/kdenlivedoc.cpp:766
 #: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -20378,7 +20378,7 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
-#: src/render/renderrequest.cpp:313
+#: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
 #: src/timeline2/view/timelinecontroller.cpp:5193
@@ -20790,7 +20790,7 @@ msgstr ""
 msgid "Show Log"
 msgstr "Erakutsi egunkaria"
 
-#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1785
+#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1835
 #, kde-format
 msgid "Waiting…"
 msgstr "Zain…"
@@ -20912,7 +20912,7 @@ msgstr "Fitxategia"
 msgid "Stored Playlists"
 msgstr "Biltegiratutako erreprodukzio-zerrendak"
 
-#: src/dialogs/renderwidget.cpp:480 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:488 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -20921,49 +20921,49 @@ msgstr ""
 "Ezin izan da kdenlive-render aplikazioa, akats bat egon da instalazioan. "
 "Errendatzeak ez du funtzionatuko"
 
-#: src/dialogs/renderwidget.cpp:509
+#: src/dialogs/renderwidget.cpp:516
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Bakarrik matroska (mkv) formatuentzako erabilgarria"
 
-#: src/dialogs/renderwidget.cpp:519
+#: src/dialogs/renderwidget.cpp:526
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Arazoa bat egon da dokumentua partekatzean: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:519 src/dialogs/renderwidget.cpp:527
+#: src/dialogs/renderwidget.cpp:526 src/dialogs/renderwidget.cpp:534
 #: src/ui/renderwidget_ui.ui:914
 #, kde-format
 msgid "Share"
 msgstr "Partekatu"
 
-#: src/dialogs/renderwidget.cpp:524
+#: src/dialogs/renderwidget.cpp:531
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Dokumentu partekatze arrakastatsua"
 
-#: src/dialogs/renderwidget.cpp:527
+#: src/dialogs/renderwidget.cpp:534
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Partekatutako dokumentua hemen aurkituko duzu: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:648
+#: src/dialogs/renderwidget.cpp:655
 #, kde-format
 msgid "Beginning"
 msgstr "Hasiera"
 
-#: src/dialogs/renderwidget.cpp:771
+#: src/dialogs/renderwidget.cpp:778
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Gehitu klip bat denbora-lerron errendatu aurretik"
 
-#: src/dialogs/renderwidget.cpp:777
+#: src/dialogs/renderwidget.cpp:784
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Ezin da aurkitu errendatzeko behar den «melt» programa (MLTren zatia)"
 
-#: src/dialogs/renderwidget.cpp:786
+#: src/dialogs/renderwidget.cpp:793
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -20975,25 +20975,25 @@ msgstr ""
 "bideo desinkronizazioa ekar dezake.\n"
 "Editatzeko lagunkoia den formatu batera transkodetzea gomendatzen dugu."
 
-#: src/dialogs/renderwidget.cpp:795
+#: src/dialogs/renderwidget.cpp:802
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Errendatu nolanahi ere"
 
-#: src/dialogs/renderwidget.cpp:801
+#: src/dialogs/renderwidget.cpp:808
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Transkodetu"
 
-#: src/dialogs/renderwidget.cpp:823 src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:830 src/dialogs/renderwidget.cpp:1809
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Irteerako fitxategia dagoeneko existitzen da. Gainidatzi nahi duzu?"
 
-#: src/dialogs/renderwidget.cpp:831 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:838 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -21002,12 +21002,12 @@ msgstr ""
 "%1 direktorioa ezin izan da sortu.\n"
 "Ziurtatu behar diren baimenak dituzula."
 
-#: src/dialogs/renderwidget.cpp:873
+#: src/dialogs/renderwidget.cpp:880
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Ondoko erroreak gertatu dira errendatzen saiatzean"
 
-#: src/dialogs/renderwidget.cpp:912 src/dialogs/renderwidget.cpp:1772
+#: src/dialogs/renderwidget.cpp:920 src/dialogs/renderwidget.cpp:1822
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -21016,47 +21016,47 @@ msgstr ""
 "Jada, lan bat fitxategi idazten ari da: <br /><b>%1</b><br />Hura gainidatzi "
 "nahi baduzu, lana bertan behera utzi…"
 
-#: src/dialogs/renderwidget.cpp:913 src/dialogs/renderwidget.cpp:1773
+#: src/dialogs/renderwidget.cpp:921 src/dialogs/renderwidget.cpp:1823
 #, kde-format
 msgid "Already running"
 msgstr " Dagoeneko martxan"
 
-#: src/dialogs/renderwidget.cpp:935
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "Bideoa audio-pistarik gabe"
 
-#: src/dialogs/renderwidget.cpp:937
+#: src/dialogs/renderwidget.cpp:949
 #, kde-format
 msgid "Audio without video track"
 msgstr "Bideoa-pistarik gabeko audioa"
 
-#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:457
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "%1 errendatzen hasi da"
 
-#: src/dialogs/renderwidget.cpp:1084 src/monitor/monitor.cpp:1377
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1377
 #, kde-format
 msgid "untitled"
 msgstr "izengabea"
 
-#: src/dialogs/renderwidget.cpp:1122
+#: src/dialogs/renderwidget.cpp:1134
 #, kde-format
 msgid "No preset selected"
 msgstr "Ez da aurrezarpenik hautatu"
 
-#: src/dialogs/renderwidget.cpp:1124
+#: src/dialogs/renderwidget.cpp:1136
 #, kde-format
 msgid "No matching preset"
 msgstr "Ez dago bat datorren aurrezarpenik"
 
-#: src/dialogs/renderwidget.cpp:1136
+#: src/dialogs/renderwidget.cpp:1148
 #, kde-format
 msgid "Invalid preset"
 msgstr "Aurrezarpen baliogabea"
 
-#: src/dialogs/renderwidget.cpp:1272
+#: src/dialogs/renderwidget.cpp:1289
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -21065,96 +21065,96 @@ msgstr ""
 "Bideorik eta audiorik gabe errendatzeak ez du funtzionatzen. Mesedez, gaitu "
 "behintzat bietako bat."
 
-#: src/dialogs/renderwidget.cpp:1456
+#: src/dialogs/renderwidget.cpp:1490
 #, kde-format
 msgid "Remaining time "
 msgstr "Geratzen den denbora"
 
-#: src/dialogs/renderwidget.cpp:1458 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:1492 src/dialogs/renderwidget.cpp:1594
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "egun %1"
 msgstr[1] "%1 egun"
 
-#: src/dialogs/renderwidget.cpp:1470
+#: src/dialogs/renderwidget.cpp:1504
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr "(%1 fotograma, %2 fps-tan)"
 
-#: src/dialogs/renderwidget.cpp:1492
+#: src/dialogs/renderwidget.cpp:1526
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Memoria erabilgarriaren %1 MB baino gutxiago geratzen da."
 
-#: src/dialogs/renderwidget.cpp:1548
+#: src/dialogs/renderwidget.cpp:1596
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "%1 -n errendatzea amaituta"
 
-#: src/dialogs/renderwidget.cpp:1556
+#: src/dialogs/renderwidget.cpp:1604
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 errendatzea %2-tan amaitu da"
 
-#: src/dialogs/renderwidget.cpp:1577
+#: src/dialogs/renderwidget.cpp:1627
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Errendatzea kraskatu egin da</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:1629
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 errendatzea kraskatu egin da</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1641 src/ui/renderwidget_ui.ui:907
+#: src/dialogs/renderwidget.cpp:1691 src/ui/renderwidget_ui.ui:907
 #, kde-format
 msgid "Abort Job"
 msgstr "Lana bertan behera utzi"
 
-#: src/dialogs/renderwidget.cpp:1644
+#: src/dialogs/renderwidget.cpp:1694
 #, kde-format
 msgid "Remove Job"
 msgstr "Kendu lana"
 
-#: src/dialogs/renderwidget.cpp:2057
+#: src/dialogs/renderwidget.cpp:2107
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Gehitu klipak denbora-lerroan errendatu aurretik"
 
-#: src/dialogs/renderwidget.cpp:2062
+#: src/dialogs/renderwidget.cpp:2112
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Fitxategi errendatuaren luzera: %1"
 
-#: src/dialogs/renderwidget.cpp:2065
+#: src/dialogs/renderwidget.cpp:2115
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, fuzzy, kde-format
 #| msgid "Time offset:"
 msgid "Timecode Offset:"
 msgstr "Denboraren desplazamendua:"
 
-#: src/dialogs/renderwidget.cpp:2070
+#: src/dialogs/renderwidget.cpp:2120
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Zure proiektuan erabiltzen den klip bat falta da.</b>"
 msgstr[1] "<b>Zure proiektuan erabiltzen diren %1 klip falta dira.</b>"
 
-#: src/dialogs/renderwidget.cpp:2072
+#: src/dialogs/renderwidget.cpp:2122
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Klip bat falta da (erabiltzen ez dena)."
 msgstr[1] "%1 klip falta dira (erabiltzen ez direnak)."
 
-#: src/dialogs/renderwidget.cpp:2074
+#: src/dialogs/renderwidget.cpp:2124
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 klip falta dira (<b>%2 proiektuan erabilitakoak</b>)."
 
-#: src/dialogs/renderwidget.cpp:2156
+#: src/dialogs/renderwidget.cpp:2206
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -21163,12 +21163,12 @@ msgstr ""
 "Kodek-abiaduraren parametroak:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2176
+#: src/dialogs/renderwidget.cpp:2226
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Gehitu uneko proiektura"
 
-#: src/dialogs/renderwidget.cpp:2185
+#: src/dialogs/renderwidget.cpp:2235
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
@@ -30117,7 +30117,7 @@ msgstr "Sekuentzia-klip bat inportatzen, une honetan egoera esperimentalean"
 msgid "Select a clip to create sequence"
 msgstr "Hautatu klip bat sortzeko sekuentzia"
 
-#: src/project/projectmanager.cpp:2376
+#: src/project/projectmanager.cpp:2377
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sortu sekuentzia-klipa"
@@ -30779,23 +30779,23 @@ msgstr ""
 "Script bidezko errendatzea eta pista anitzeko audio esportatzea ezin dira "
 "batera erabili. Scripta pista anitzeko audio esportatzerik gabe gordeko da."
 
-#: src/render/renderrequest.cpp:346
+#: src/render/renderrequest.cpp:357
 #, kde-format
 msgid "export"
 msgstr "esportatu"
 
-#: src/render/renderrequest.cpp:361
+#: src/render/renderrequest.cpp:372
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Errendatze Atzeratua"
 
-#: src/render/renderrequest.cpp:361
+#: src/render/renderrequest.cpp:372
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Hautatu izena uneko errendatzerako."
 
-#: src/render/renderrequest.cpp:462
+#: src/render/renderrequest.cpp:473
 #, kde-format
 msgid "begin"
 msgstr "hasi"

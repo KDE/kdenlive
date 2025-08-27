@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-26 02:36+0000\n"
+"POT-Creation-Date: 2025-08-27 02:44+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -8445,7 +8445,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:655 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:662 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -19279,7 +19279,7 @@ msgstr "Gairės perkėlimas"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:683
 #: src/effects/effectstack/view/effectstackview.cpp:793
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -20281,8 +20281,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Importuoti"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1960
-#: src/dialogs/renderwidget.cpp:1984 src/doc/kdenlivedoc.cpp:766
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2010
+#: src/dialogs/renderwidget.cpp:2034 src/doc/kdenlivedoc.cpp:766
 #: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -20296,7 +20296,7 @@ msgstr "Importuoti"
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
-#: src/render/renderrequest.cpp:313
+#: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
 #: src/timeline2/view/timelinecontroller.cpp:5193
@@ -20726,7 +20726,7 @@ msgstr ""
 msgid "Show Log"
 msgstr "Rodyti viską"
 
-#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1785
+#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -20855,57 +20855,57 @@ msgstr "Failas"
 msgid "Stored Playlists"
 msgstr "Grojaraštis"
 
-#: src/dialogs/renderwidget.cpp:480 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:488 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:509
+#: src/dialogs/renderwidget.cpp:516
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:519
+#: src/dialogs/renderwidget.cpp:526
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:519 src/dialogs/renderwidget.cpp:527
+#: src/dialogs/renderwidget.cpp:526 src/dialogs/renderwidget.cpp:534
 #: src/ui/renderwidget_ui.ui:914
 #, fuzzy, kde-format
 #| msgid "Sharpen"
 msgid "Share"
 msgstr "Paaštrinti"
 
-#: src/dialogs/renderwidget.cpp:524
+#: src/dialogs/renderwidget.cpp:531
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:527
+#: src/dialogs/renderwidget.cpp:534
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:648
+#: src/dialogs/renderwidget.cpp:655
 #, kde-format
 msgid "Beginning"
 msgstr "Pradžia"
 
-#: src/dialogs/renderwidget.cpp:771
+#: src/dialogs/renderwidget.cpp:778
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:777
+#: src/dialogs/renderwidget.cpp:784
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:786
+#: src/dialogs/renderwidget.cpp:793
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -20914,104 +20914,104 @@ msgid ""
 "We recommend to transcode to an edit friendly format."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:795
+#: src/dialogs/renderwidget.cpp:802
 #, fuzzy, kde-format
 #| msgid "Reverse"
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Atvirkščiai"
 
-#: src/dialogs/renderwidget.cpp:801
+#: src/dialogs/renderwidget.cpp:808
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "&Perkoduoti"
 
-#: src/dialogs/renderwidget.cpp:823 src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:830 src/dialogs/renderwidget.cpp:1809
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:831 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:838 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
 "Please make sure you have the required permissions."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:873
+#: src/dialogs/renderwidget.cpp:880
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:912 src/dialogs/renderwidget.cpp:1772
+#: src/dialogs/renderwidget.cpp:920 src/dialogs/renderwidget.cpp:1822
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:913 src/dialogs/renderwidget.cpp:1773
+#: src/dialogs/renderwidget.cpp:921 src/dialogs/renderwidget.cpp:1823
 #, kde-format
 msgid "Already running"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:935
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video be garso takelio"
 
-#: src/dialogs/renderwidget.cpp:937
+#: src/dialogs/renderwidget.cpp:949
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video be garso takelio"
 
-#: src/dialogs/renderwidget.cpp:1019 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1031 src/main.cpp:457
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
 msgstr "Vertimas <i>%1</i> pradėtas"
 
-#: src/dialogs/renderwidget.cpp:1084 src/monitor/monitor.cpp:1377
+#: src/dialogs/renderwidget.cpp:1096 src/monitor/monitor.cpp:1377
 #, kde-format
 msgid "untitled"
 msgstr "nepavadintas"
 
-#: src/dialogs/renderwidget.cpp:1122
+#: src/dialogs/renderwidget.cpp:1134
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "No preset selected"
 msgstr "Pridėti į projektą"
 
-#: src/dialogs/renderwidget.cpp:1124
+#: src/dialogs/renderwidget.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "No matching preset"
 msgstr "Įkeliamas projektas"
 
-#: src/dialogs/renderwidget.cpp:1136
+#: src/dialogs/renderwidget.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid preset"
 msgstr "Išsaugoti profilį"
 
-#: src/dialogs/renderwidget.cpp:1272
+#: src/dialogs/renderwidget.cpp:1289
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1456
+#: src/dialogs/renderwidget.cpp:1490
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Remaining time "
 msgstr "Atveriamas failas %1"
 
-#: src/dialogs/renderwidget.cpp:1458 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:1492 src/dialogs/renderwidget.cpp:1594
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -21021,68 +21021,68 @@ msgstr[1] "%1 dB"
 msgstr[2] "%1 dB"
 msgstr[3] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1470
+#: src/dialogs/renderwidget.cpp:1504
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1492
+#: src/dialogs/renderwidget.cpp:1526
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1548
+#: src/dialogs/renderwidget.cpp:1596
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1556
+#: src/dialogs/renderwidget.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Rendering finished"
 msgid "Rendering of %1 finished in %2"
 msgstr "Atvaizdavimas baigtas"
 
-#: src/dialogs/renderwidget.cpp:1577
+#: src/dialogs/renderwidget.cpp:1627
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:1629
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1641 src/ui/renderwidget_ui.ui:907
+#: src/dialogs/renderwidget.cpp:1691 src/ui/renderwidget_ui.ui:907
 #, kde-format
 msgid "Abort Job"
 msgstr "Nutraukti darbą"
 
-#: src/dialogs/renderwidget.cpp:1644
+#: src/dialogs/renderwidget.cpp:1694
 #, kde-format
 msgid "Remove Job"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2057
+#: src/dialogs/renderwidget.cpp:2107
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Add clips in timeline before rendering"
 msgstr "Žymėjimo įrankis"
 
-#: src/dialogs/renderwidget.cpp:2062
+#: src/dialogs/renderwidget.cpp:2112
 #, fuzzy, kde-format
 #| msgid "Rendering"
 msgid "Rendered File Length: %1"
 msgstr "Vertimas"
 
-#: src/dialogs/renderwidget.cpp:2065
+#: src/dialogs/renderwidget.cpp:2115
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Timecode Offset:"
 msgstr "Laikas"
 
-#: src/dialogs/renderwidget.cpp:2070
+#: src/dialogs/renderwidget.cpp:2120
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -21091,7 +21091,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/dialogs/renderwidget.cpp:2072
+#: src/dialogs/renderwidget.cpp:2122
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgid "One missing clip (unused)."
@@ -21101,25 +21101,25 @@ msgstr[1] "Analizuoti"
 msgstr[2] "Analizuoti"
 msgstr[3] "Analizuoti"
 
-#: src/dialogs/renderwidget.cpp:2074
+#: src/dialogs/renderwidget.cpp:2124
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2156
+#: src/dialogs/renderwidget.cpp:2206
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
 "%1"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2176
+#: src/dialogs/renderwidget.cpp:2226
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to Current Project"
 msgstr "Pridėti į projektą"
 
-#: src/dialogs/renderwidget.cpp:2185
+#: src/dialogs/renderwidget.cpp:2235
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, fuzzy, kde-format
@@ -30284,7 +30284,7 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Žymėjimo įrankis"
 
-#: src/project/projectmanager.cpp:2376
+#: src/project/projectmanager.cpp:2377
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -30948,25 +30948,25 @@ msgid ""
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/render/renderrequest.cpp:346
+#: src/render/renderrequest.cpp:357
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "importuoti"
 
-#: src/render/renderrequest.cpp:361
+#: src/render/renderrequest.cpp:372
 #, fuzzy, kde-format
 #| msgid "Rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Vertimas"
 
-#: src/render/renderrequest.cpp:361
+#: src/render/renderrequest.cpp:372
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr ""
 
-#: src/render/renderrequest.cpp:462
+#: src/render/renderrequest.cpp:473
 #, kde-format
 msgid "begin"
 msgstr ""
