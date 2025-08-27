@@ -36,9 +36,11 @@ public:
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
+    bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override;
 
 private:
     mutable QRect m_logRect;
+    mutable QRect m_playlistRect;
 Q_SIGNALS:
     bool hoverLink(bool hover);
 };
@@ -75,6 +77,8 @@ public:
         OpenBrowserRole,
         PlayAfterRole,
         LogFileRole,
+        PlaylistFileRole,
+        PlaylistDisplayRole,
         TwoPassRole
     };
 

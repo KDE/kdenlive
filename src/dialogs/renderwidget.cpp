@@ -47,6 +47,7 @@
 #include <QDomDocument>
 #include <QFileIconProvider>
 #include <QHeaderView>
+#include <QHelpEvent>
 #include <QInputDialog>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -60,6 +61,7 @@
 #include <QString>
 #include <QTemporaryFile>
 #include <QThread>
+#include <QToolTip>
 #include <QTreeWidgetItem>
 #include <QtGlobal>
 
@@ -79,19 +81,51 @@ RenderViewDelegate::RenderViewDelegate(QWidget *parent)
 {
 }
 
+bool RenderViewDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (index.column() != 1 || !index.isValid()) {
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+    // ... for non-tooltip events
+    if (event->type() != QEvent::ToolTip) {
+        return QStyledItemDelegate::helpEvent(event, view, option, index);
+    }
+    // Show custom tooltips when over audio/video drag areas
+    const QPoint pos = event->pos() - QPoint(0, option.rect.top());
+    if (m_playlistRect.contains(pos)) {
+        const QString playlistFile = index.data(RenderWidget::PlaylistDisplayRole).toString();
+        QToolTip::showText(event->globalPos(), i18n("Show xml playlist used for rendering:\n%1", playlistFile), view);
+        return true;
+    }
+    if (m_logRect.contains(pos)) {
+        const QString logFile = index.data(RenderWidget::LogFileRole).toString();
+        QToolTip::showText(event->globalPos(), i18n("Show render log file:\n %1", logFile), view);
+        return true;
+    }
+
+    // Otherwise, show default tooltip
+    return QStyledItemDelegate::helpEvent(event, view, option, index);
+}
+
 bool RenderViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     if (index.isValid()) {
+        const QString playlistFile = index.data(RenderWidget::PlaylistDisplayRole).toString();
         const QString logFile = index.data(RenderWidget::LogFileRole).toString();
-        if (logFile.isEmpty()) {
+        if (logFile.isEmpty() && playlistFile.isEmpty()) {
             return QStyledItemDelegate::editorEvent(event, model, option, index);
         }
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (index.column() == 1) {
-                QPoint pos = me->pos() - QPoint(0, option.rect.top());
+                const QPoint pos = me->pos() - QPoint(0, option.rect.top());
                 if (m_logRect.contains(pos)) {
                     QDesktopServices::openUrl(QUrl::fromLocalFile(logFile));
+                    event->accept();
+                    return true;
+                }
+                if (m_playlistRect.contains(pos)) {
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(playlistFile));
                     event->accept();
                     return true;
                 }
@@ -100,7 +134,7 @@ bool RenderViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
             auto *me = static_cast<QMouseEvent *>(event);
             if (index.column() == 1) {
                 const QPoint pos = me->pos() - QPoint(0, option.rect.top());
-                if (m_logRect.contains(pos)) {
+                if (m_logRect.contains(pos) || m_playlistRect.contains(pos)) {
                     Q_EMIT hoverLink(true);
                 } else {
                     Q_EMIT hoverLink(false);
@@ -150,26 +184,44 @@ void RenderViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             painter->setPen(Qt::NoPen);
             bgrect.setWidth((width - 2) * progress / 100);
             painter->drawRect(bgrect);
-        } else {
-            r1.setBottom(opt.rect.bottom());
-            r1.setTop(r1.bottom() - mid);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data(RenderWidget::ExtraInfoRole).toString());
-            if (!index.data(RenderWidget::LogFileRole).toString().isEmpty()) {
-                QFont ft = painter->font();
-                ft.setUnderline(true);
-                painter->setFont(ft);
-                QPalette pal = QApplication::palette();
-                if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
-                    painter->setPen(option.palette.highlightedText().color());
-                } else {
-                    painter->setPen(pal.link().color());
-                }
-                r1.adjust(0, 0, -textMargin, -textMargin);
-                if (m_logRect.isNull()) {
-                    painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"), &m_logRect);
-                } else {
-                    painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"));
-                }
+        }
+        r1.setBottom(opt.rect.bottom());
+        r1.setTop(r1.bottom() - mid);
+        painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data(RenderWidget::ExtraInfoRole).toString());
+        if (!index.data(RenderWidget::LogFileRole).toString().isEmpty()) {
+            QFont ft = painter->font();
+            ft.setUnderline(true);
+            painter->setFont(ft);
+            QPalette pal = QApplication::palette();
+            if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
+                painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(pal.link().color());
+            }
+            r1.adjust(0, 0, -textMargin, -textMargin);
+            if (m_logRect.isNull()) {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"), &m_logRect);
+                // On first show, invalidate xml rect as it will change
+                m_playlistRect = QRect();
+            } else {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Log"));
+            }
+        }
+        if (!index.data(RenderWidget::PlaylistDisplayRole).toString().isEmpty()) {
+            QFont ft = painter->font();
+            ft.setUnderline(true);
+            painter->setFont(ft);
+            QPalette pal = QApplication::palette();
+            if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
+                painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(pal.link().color());
+            }
+            r1.adjust(0, 0, -m_logRect.width() - textMargin, 0);
+            if (m_playlistRect.isNull()) {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Xml"), &m_playlistRect);
+            } else {
+                painter->drawText(r1, Qt::AlignRight | Qt::AlignBottom, i18n("Show Xml"));
             }
         }
         painter->restore();
@@ -943,12 +995,14 @@ RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job
             renderItem = nullptr;
         }
     }
-    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << job.outputFile);
+    const QStringList itemData = {QString(), job.outputFile};
+    renderItem = new RenderJobItem(m_view.running_jobs, itemData);
 
     QDateTime t = QDateTime::currentDateTime();
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
+    renderItem->setData(1, PlaylistFileRole, job.playlistPath);
     if (job.outputFile != job.outputPath) {
         renderItem->setData(1, TwoPassRole, 1);
     }
@@ -1468,7 +1522,8 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
             }
         }
         if (!item) {
-            item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+            const QStringList itemData = {QString(), dest};
+            item = new RenderJobItem(m_view.running_jobs, itemData);
         }
     }
     item->setData(1, ProgressRole, progress);
@@ -1594,7 +1649,8 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
                 item = startingJob();
             }
             if (item == nullptr) {
-                item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
+                const QStringList itemData = {QString(), dest};
+                item = new RenderJobItem(m_view.running_jobs, itemData);
             }
         }
     }
@@ -1657,9 +1713,14 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         delete item;
         item = nullptr;
     }
-    if (item && QFile::exists(dest + ".log")) {
-        const QString logFile = dest + QStringLiteral(".log");
-        item->setData(1, RenderWidget::LogFileRole, logFile);
+    if (item) {
+        if (QFile::exists(dest + ".log")) {
+            const QString logFile = dest + QStringLiteral(".log");
+            item->setData(1, RenderWidget::LogFileRole, logFile);
+        }
+        if (QFile::exists(item->data(1, RenderWidget::PlaylistFileRole).toString())) {
+            item->setData(1, RenderWidget::PlaylistDisplayRole, item->data(1, RenderWidget::PlaylistFileRole));
+        }
     }
     m_view.clean_up->setEnabled(true);
     slotCheckJob();
@@ -1830,7 +1891,7 @@ void RenderWidget::slotStartScript()
                 return;
             }
         }
-        QString path = item->data(1, ParametersRole).toString();
+        const QString path = item->data(1, ParametersRole).toString();
         // Insert new job in queue
         RenderJobItem *renderItem = nullptr;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
@@ -1846,7 +1907,8 @@ void RenderWidget::slotStartScript()
             renderItem = nullptr;
         }
         if (!renderItem) {
-            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination);
+            const QStringList itemData = {QString(), destination};
+            renderItem = new RenderJobItem(m_view.running_jobs, itemData);
         }
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
@@ -1858,6 +1920,7 @@ void RenderWidget::slotStartScript()
         QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), path, QStringLiteral("--pid"),
                                QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
+        renderItem->setData(1, PlaylistFileRole, path);
         checkRenderStatus();
         m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     }
