@@ -1676,16 +1676,19 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
         m_shareMenu->reload();
 
-        QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
-        notify->setText(notif);
+        QString notif;
         if (!firstPassRendering) {
+            notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
             notify->setUrls({QUrl::fromLocalFile(dest)});
+        } else {
+            notif = i18n("First pass rendering of %1 finished", item->text(1));
         }
+        notify->setText(notif);
         notify->sendEvent();
         const QUrl url = QUrl::fromLocalFile(item->text(1));
         bool exists = QFile(url.toLocalFile()).exists();
-        if (exists) {
+        if (exists && !firstPassRendering) {
             if (item->data(1, OpenBrowserRole).toBool()) {
                 pCore->highlightFileInExplorer({url});
             }
