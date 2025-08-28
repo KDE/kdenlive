@@ -157,6 +157,7 @@ private Q_SLOTS:
     void slotUpdateRescaleWidth(int);
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
+    void updateGuideEndOptionsForStartSelection();
     /** @brief Enable / disable the rescale options. */
     void setRescaleEnabled(bool enable);
     /** @brief Show updated command parameter in tooltip. */
@@ -192,6 +193,7 @@ private:
     bool m_blockProcessing;
     QMap<int, QString> m_errorMessages;
     std::weak_ptr<MarkerListModel> m_guidesModel;
+    QList<CommentedTime> m_currentMarkers;
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;
     RenderPresetParams m_params;

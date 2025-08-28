@@ -713,12 +713,12 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_configMenuAction->addAction(extractZone);
         m_contextMenu->addAction(extractZone);
 
-        auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker..."), this);
+        auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone"), this);
         connect(createZoneMarker, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZone);
         m_configMenuAction->addAction(createZoneMarker);
         m_contextMenu->addAction(createZoneMarker);
 
-        auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker Quickly"), this);
+        auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone Quickly"), this);
         connect(createZoneMarkerQuick, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZoneQuick);
         m_configMenuAction->addAction(createZoneMarkerQuick);
         m_contextMenu->addAction(createZoneMarkerQuick);
@@ -738,12 +738,12 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     if (m_id == Kdenlive::ProjectMonitor) {
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("monitor_multitrack")));
 
-        auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker..."), this);
+        auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone..."), this);
         connect(createZoneMarker, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZone);
         m_configMenuAction->addAction(createZoneMarker);
         m_contextMenu->addAction(createZoneMarker);
 
-        auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker Quickly"), this);
+        auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone Quickly"), this);
         connect(createZoneMarkerQuick, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZoneQuick);
         m_configMenuAction->addAction(createZoneMarkerQuick);
         m_contextMenu->addAction(createZoneMarkerQuick);

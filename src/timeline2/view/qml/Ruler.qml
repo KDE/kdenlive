@@ -153,7 +153,7 @@ Item {
                         left: parent.left
                     }
                     ToolTip.visible: rangeArea.containsMouse
-                    ToolTip.text: model.comment + " (" + timeline.timecode(guideRoot.markerDuration) + ")"
+                    ToolTip.text: model.comment
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     Rectangle {

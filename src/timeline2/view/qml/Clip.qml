@@ -712,7 +712,7 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
                             ToolTip.visible: containsMouse
-                            ToolTip.text: markerBase.hasRange ? (markerBase.markerText + " (" + timeline.simplifiedTC(markerBase.duration) + ")") : markerBase.markerText
+                            ToolTip.text: markerBase.markerText
                             ToolTip.delay: 1000
                             ToolTip.timeout: 5000
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, markerBase.position)

@@ -618,11 +618,11 @@ void MainWindow::init()
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("select_timeline_zone")));
 
-    auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker..."), this);
+    auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone"), this);
     connect(createZoneMarker, &QAction::triggered, this, &MainWindow::slotCreateRangeMarkerFromZone);
     timelineRulerMenu->addAction(createZoneMarker);
 
-    auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Convert to Marker Quickly"), this);
+    auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone Quickly"), this);
     connect(createZoneMarkerQuick, &QAction::triggered, this, &MainWindow::slotCreateRangeMarkerFromZoneQuick);
     timelineRulerMenu->addAction(createZoneMarkerQuick);
 
