@@ -308,6 +308,8 @@ private:
     QList<QAction *> m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
+    QPushButton *m_statusZoomLevelButton;
+    QMenu *m_audioThumbsMenu;
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonTimelineTags;
@@ -570,6 +572,8 @@ private Q_SLOTS:
     void slotUpdateTimecodeFormat(int ix);
     /** @brief Apply tool message styling based on current edit mode */
     void applyToolMessageStyling();
+    /** @brief Apply zoom level button styling based on current zoom level */
+    void applyZoomLevelButtonStyling();
 
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();

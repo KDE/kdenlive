@@ -903,6 +903,7 @@ void MainWindow::slotThemeChanged(const QString &name)
         getCurrentTimeline()->controller()->resetView();
     }
     applyToolMessageStyling();
+    applyZoomLevelButtonStyling();
 
     Q_EMIT pCore->updatePalette();
 }
@@ -1329,20 +1330,19 @@ void MainWindow::setupActions()
     updateAudioWaveformActionIcon();
 
     // Create menu for zoom controls
-    auto *audioThumbsMenu = new QMenu(this);
+    m_audioThumbsMenu = new QMenu(this);
     QWidget *statusAudioZoomWidget = new QWidget();
     QVBoxLayout *statusAudioZoomLayout = new QVBoxLayout(statusAudioZoomWidget);
     statusAudioZoomLayout->setContentsMargins(2, 2, 2, 2);
     statusAudioZoomLayout->setSpacing(2);
 
     // Current zoom level (top)
-    QLabel *statusZoomLevelLabel = new QLabel(i18n("%1×", KdenliveSettings::waveformScaler()));
-    QFont statusBoldFont = statusZoomLevelLabel->font();
+    m_statusZoomLevelButton = new QPushButton(i18n("%1×", KdenliveSettings::waveformScaler()));
+    QFont statusBoldFont = m_statusZoomLevelButton->font();
     statusBoldFont.setBold(true);
-    statusZoomLevelLabel->setFont(statusBoldFont);
-    statusZoomLevelLabel->setAlignment(Qt::AlignCenter);
-    statusZoomLevelLabel->setToolTip(i18n("Current Audio Waveform Zoom Level"));
-    statusAudioZoomLayout->addWidget(statusZoomLevelLabel);
+    m_statusZoomLevelButton->setFont(statusBoldFont);
+    applyZoomLevelButtonStyling();
+    statusAudioZoomLayout->addWidget(m_statusZoomLevelButton);
 
     // Separator between label and buttons
     QFrame *statusZoomSeparator = new QFrame();
@@ -1359,7 +1359,7 @@ void MainWindow::setupActions()
     connect(statusZoomInButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomIn);
     statusAudioZoomLayout->addWidget(statusZoomInButton);
 
-    // Zoom out button
+    // Zoom out button (bottom)
     QToolButton *statusZoomOutButton = new QToolButton();
     statusZoomOutButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     statusZoomOutButton->setToolTip(i18n("Zoom Out Audio Waveforms"));
@@ -1367,35 +1367,41 @@ void MainWindow::setupActions()
     connect(statusZoomOutButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomOut);
     statusAudioZoomLayout->addWidget(statusZoomOutButton);
 
-    // Reset zoom button (bottom)
-    QToolButton *statusZoomResetButton = new QToolButton();
-    statusZoomResetButton->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
-    statusZoomResetButton->setToolTip(i18n("Reset Audio Waveform Zoom"));
-    statusZoomResetButton->setAutoRaise(true);
-    connect(statusZoomResetButton, &QToolButton::clicked, this, &MainWindow::slotAudioZoomReset);
-    statusAudioZoomLayout->addWidget(statusZoomResetButton);
-
     // Set initial button states
     statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
     statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
-    statusZoomResetButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+    // Helper function to update button state based on zoom level (click to reset zoom)
+    auto updateZoomButtonState = [this]() {
+        if (KdenliveSettings::waveformScaler() > 1) {
+            m_statusZoomLevelButton->setToolTip(i18n("Click to reset Audio Waveform Zoom"));
+            m_statusZoomLevelButton->setEnabled(true);
+            // Ensure the connection exists
+            disconnect(m_statusZoomLevelButton, &QPushButton::clicked, this, &MainWindow::slotAudioZoomReset);
+            connect(m_statusZoomLevelButton, &QPushButton::clicked, this, &MainWindow::slotAudioZoomReset);
+        } else {
+            m_statusZoomLevelButton->setToolTip(i18n("Current Audio Waveform Zoom Level"));
+            m_statusZoomLevelButton->setEnabled(false);
+            disconnect(m_statusZoomLevelButton, &QPushButton::clicked, this, &MainWindow::slotAudioZoomReset);
+        }
+    };
+    updateZoomButtonState();
 
     auto *statusAudioZoomAction = new QWidgetAction(this);
     statusAudioZoomAction->setDefaultWidget(statusAudioZoomWidget);
-    audioThumbsMenu->addAction(statusAudioZoomAction);
+    m_audioThumbsMenu->addAction(statusAudioZoomAction);
 
     // Connect to update zoom level display when it changes
-    connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this,
-            [this, statusZoomLevelLabel, statusZoomInButton, statusZoomOutButton, statusZoomResetButton, waveformIconName]() {
-                statusZoomLevelLabel->setText(i18n("%1×", KdenliveSettings::waveformScaler()));
-                // Update button states based on zoom level
-                statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
-                statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
-                statusZoomResetButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
-                updateAudioWaveformActionIcon();
-            });
+    connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this, [this, statusZoomInButton, statusZoomOutButton, updateZoomButtonState]() {
+        m_statusZoomLevelButton->setText(i18n("%1×", KdenliveSettings::waveformScaler()));
+        // Update button states based on zoom level
+        statusZoomInButton->setEnabled(KdenliveSettings::waveformScaler() < 8);
+        statusZoomOutButton->setEnabled(KdenliveSettings::waveformScaler() > 1);
+        // Enable or disable the reset zoom button
+        updateZoomButtonState();
+        updateAudioWaveformActionIcon();
+    });
 
-    audioThumbsButton->setMenu(audioThumbsMenu);
+    audioThumbsButton->setMenu(m_audioThumbsMenu);
 
     // Create widget action for the split button
     auto *audioThumbsButtonAction = new QWidgetAction(this);
@@ -4303,6 +4309,18 @@ void MainWindow::applyToolMessageStyling()
     }
 }
 
+void MainWindow::applyZoomLevelButtonStyling()
+{
+    if (!m_statusZoomLevelButton) {
+        return;
+    }
+
+    m_statusZoomLevelButton->setStyleSheet(
+        QStringLiteral("QPushButton { padding: 2px; background-color: rgba(255, 0, 0, 0.25); border: none; border-radius: 4px; } "
+                       "QPushButton:hover { border: 1px solid palette(highlight); } "
+                       "QPushButton:disabled { color: palette(text); background-color: transparent; }"));
+}
+
 void MainWindow::slotRemoveFocus()
 {
     getCurrentTimeline()->setFocus();
@@ -4774,6 +4792,11 @@ void MainWindow::slotAudioZoomReset()
     }
     KdenliveSettings::setWaveformScaler(1);
     slotNormalizeAudioChannel(true);
+
+    // Close the audio thumbs menu when reset is clicked
+    if (m_audioThumbsMenu && m_audioThumbsMenu->isVisible()) {
+        m_audioThumbsMenu->close();
+    }
 }
 
 void MainWindow::slotAudioZoomCycle()
