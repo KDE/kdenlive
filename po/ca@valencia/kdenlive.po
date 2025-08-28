@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:42+0000\n"
-"PO-Revision-Date: 2025-07-26 12:22+0200\n"
+"POT-Creation-Date: 2025-08-28 00:42+0000\n"
+"PO-Revision-Date: 2025-08-27 12:35+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -1482,7 +1482,7 @@ msgstr "Color YUV"
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
-msgstr "<![CDATA[Seleccioneu açò si el clip té dades YUV en lloc de RGB.]]>"
+msgstr "<![CDATA[Trieu açò si el clip té dades YUV en lloc de RGB.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1612,7 +1612,7 @@ msgstr "Sistema de color"
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #, kde-format
 msgid "<![CDATA[Select the color system]]>"
-msgstr "<![CDATA[Selecciona el sistema de color]]>"
+msgstr "<![CDATA[Tria el sistema de color]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:13
 #, kde-format
@@ -1627,7 +1627,7 @@ msgstr "Sistema CIE"
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
 msgid "<![CDATA[Select the CIE color space]]>"
-msgstr "<![CDATA[Selecciona l'espai de color CIE]]>"
+msgstr "<![CDATA[Tria l'espai de color CIE]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, kde-format
@@ -3386,7 +3386,7 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
-"<![CDATA[Selecciona un color per a la línia.<br>\n"
+"<![CDATA[Tria un color per a la línia.<br>\n"
 "    \tUtilitzeu el valor de l'<em>Alfa</em> per a fer semitransparent la "
 "línia.]]>"
 
@@ -3493,7 +3493,7 @@ msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
-"<![CDATA[Selecciona un color per a les línies de la quadrícula.<br>\n"
+"<![CDATA[Tria un color per a les línies de la quadrícula.<br>\n"
 "    \tUtilitzeu el valor de l'<em>Alfa</em> per a fer semitransparent la "
 "quadrícula.]]>"
 
@@ -4095,7 +4095,7 @@ msgstr "Pas de fotogrames"
 #: data/effects/avfilter/avfilter_framestep.xml:5
 #, kde-format
 msgid "Select one frame every N frames"
-msgstr "Selecciona un fotograma de cada N fotogrames"
+msgstr "Tria un fotograma de cada N fotogrames"
 
 #: data/effects/avfilter/avfilter_framestep.xml:8
 #, kde-format
@@ -5236,7 +5236,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr "<![CDATA[Selecciona quins plans es processaran]]>"
+msgstr "<![CDATA[Tria quins plans es processaran]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -5556,7 +5556,7 @@ msgstr "<![CDATA[Alçària de la visualització de l'electroscopi]]>"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[Seleccioneu els components a traçar]]>"
+msgstr "<![CDATA[Trieu els components a traçar]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, kde-format
@@ -7168,7 +7168,7 @@ msgstr "Y,U,YU,V,YV,UV,Tots"
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[Selecciona els compornents a visualitzar]]>"
+msgstr "<![CDATA[Tria els compornents a visualitzar]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, kde-format
@@ -8129,8 +8129,8 @@ msgid ""
 "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
 "Selection on white,Selection on checkers"
 msgstr ""
-"Imatge,Alfa com a gris,Gris + roig,Selecció del negre,Selecció del gris,"
-"Selecció del blanc,Selecció dels escacs"
+"Imatge,Alfa com a gris,Gris + roig,Trieu el negre,Trieu el gris,Trieu el "
+"blanc,Trieu els escacs"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:14
 #: data/effects/frei0r/frei0r_alpha0ps.xml:40
@@ -8550,7 +8550,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:676 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:728 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -9341,8 +9341,7 @@ msgstr "Fitxer d'anàlisi de moviments"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
 #, kde-format
 msgid "<![CDATA[Select the file to store stabilization data in]]>"
-msgstr ""
-"<![CDATA[Selecciona el fitxer on emmagatzemar les dades d'estabilització]]>"
+msgstr "<![CDATA[Tria el fitxer on emmagatzemar les dades d'estabilització]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
@@ -10842,7 +10841,7 @@ msgstr "Exponencial,Passabaix,Gaussià"
 #: data/effects/frei0r/frei0r_iirblur.xml:14
 #, kde-format
 msgid "Select blurring algorithm"
-msgstr "Seleccioneu l'algorisme de difuminat"
+msgstr "Trieu l'algorisme de difuminat"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
 #, kde-format
@@ -11919,7 +11918,7 @@ msgstr "Codificació del color"
 #: data/effects/frei0r/frei0r_pr0file.xml:88
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr "<![CDATA[Seleccioneu entre entrellaçat (601) o progressiu (709)]]>"
+msgstr "<![CDATA[Trieu entre entrellaçat (601) o progressiu (709)]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
 #: data/effects/frei0r/frei0r_pr0file.xml:91
@@ -11931,7 +11930,7 @@ msgstr "Color del reticle"
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr "<![CDATA[Seleccioneu un color per a la línia del reticle/perfil]]>"
+msgstr "<![CDATA[Trieu un color per a la línia del reticle/perfil]]>"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
@@ -13431,8 +13430,8 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
-"<![CDATA[Si se selecciona un fitxer d'imatge vàlid, s'utilitzarà com a fons "
-"per a l'àrea del rectangle.<br>\n"
+"<![CDATA[Si es tria un fitxer d'imatge vàlid, s'utilitzarà com a fons per a "
+"l'àrea del rectangle.<br>\n"
 "      \tS'ignoren els camins que comencen amb el caràcter «!». CONSELL: "
 "utilitzeu una imatge de mapa per a afegir context al trajecte GPS.]]>"
 
@@ -14267,7 +14266,7 @@ msgstr "Formes d'alfa (màscara)"
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
-msgstr "Seleccioneu l'àrea de correcció del color secundari (màscara)"
+msgstr "Trieu l'àrea de correcció del color secundari (màscara)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
@@ -15480,7 +15479,7 @@ msgstr "Seguidor de moviment"
 #: data/effects/tracker.xml:5
 #, kde-format
 msgid "Select a zone to follow its movements"
-msgstr "Selecciona una zona per a seguir els seus moviments"
+msgstr "Tria una zona per a seguir els seus moviments"
 
 #: data/effects/tracker.xml:11
 #, kde-format
@@ -17043,7 +17042,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Mostra o oculta la descripció de les composicions"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1236
-#: src/dialogs/renderwidget.cpp:511 src/project/dialogs/profilewidget.cpp:35
+#: src/dialogs/renderwidget.cpp:563 src/project/dialogs/profilewidget.cpp:35
 #: src/project/notesplugin.cpp:177
 #, kde-format
 msgid "Search…"
@@ -17652,7 +17651,7 @@ msgstr ""
 #: src/assets/view/widgets/keyframecontainer.cpp:301
 #, kde-format
 msgid "Select parameters to copy"
-msgstr "Selecciona els paràmetres per a copiar"
+msgstr "Tria els paràmetres per a copiar"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:898
 #, kde-format
@@ -18068,12 +18067,12 @@ msgstr ""
 #: src/bin/bin.cpp:186 src/bin/bin.cpp:544 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
 msgid "Drag to add only audio to timeline"
-msgstr ""
+msgstr "Arrossegueu per a afegir només àudio en la línia de temps"
 
 #: src/bin/bin.cpp:190 src/bin/bin.cpp:548 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
-msgstr ""
+msgstr "Arrossegueu per a afegir només vídeo en la línia de temps"
 
 #: src/bin/bin.cpp:785 src/bin/bin.cpp:944
 #, kde-format
@@ -18593,10 +18592,9 @@ msgid "Title Template"
 msgstr "Plantilla de títols"
 
 #: src/bin/bin.cpp:2618
-#, fuzzy, kde-format
-#| msgid "Select an object in the image first"
+#, kde-format
 msgid "Select an option in the menu to enable filtering"
-msgstr "Seleccioneu primer un objecte de la imatge"
+msgstr "Trieu una opció al menú per a activar el filtratge"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:2673 src/ui/managecache_ui.ui:359
@@ -18798,7 +18796,7 @@ msgstr "No s'ha trobat cap clip vàlid que s'haja d'inserir"
 #: src/timeline2/view/timelinecontroller.cpp:3441
 #, kde-format
 msgid "Select a clip to apply an effect"
-msgstr "Seleccioneu un clip per a aplicar-hi un efecte"
+msgstr "Trieu un clip per a aplicar-hi un efecte"
 
 #: src/bin/bin.cpp:4121
 #, kde-format
@@ -18819,7 +18817,7 @@ msgstr "Apega l'efecte"
 #: src/bin/bin.cpp:4224 src/bin/bin.cpp:4231
 #, kde-format
 msgid "Select a clip to add a tag"
-msgstr "Seleccioneu un clip per a afegir-hi una etiqueta"
+msgstr "Trieu un clip per a afegir-hi una etiqueta"
 
 #: src/bin/bin.cpp:4370
 #, kde-format
@@ -19637,7 +19635,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
-msgstr "Seleccioneu el perfil predeterminat"
+msgstr "Trieu el perfil predeterminat"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/core.cpp:230 src/ui/profiledialog_ui.ui:37
@@ -20058,8 +20056,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
-"Si se selecciona, el fotograma actual del clip seleccionat s'extraurà a un "
-"fitxer temporal i el valor del paràmetre serà el camí de la imatge"
+"Si es tria, el fotograma actual del clip seleccionat s'extraurà a un fitxer "
+"temporal i el valor del paràmetre serà el camí de la imatge"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -20337,8 +20335,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exporteu les dades de les guies"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2029
-#: src/dialogs/renderwidget.cpp:2053 src/doc/kdenlivedoc.cpp:766
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2095
+#: src/dialogs/renderwidget.cpp:2119 src/doc/kdenlivedoc.cpp:766
 #: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
@@ -20461,7 +20459,7 @@ msgstr "Mou la capa"
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr "Seleccioneu el fitxer de subtítols al qual moure la capa:"
+msgstr "Trieu el fitxer de subtítols al qual moure la capa:"
 
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
@@ -20471,7 +20469,7 @@ msgstr "Copia una capa"
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr "Seleccioneu el fitxer de subtítols al qual copiar la capa:"
+msgstr "Trieu el fitxer de subtítols al qual copiar la capa:"
 
 #: src/dialogs/managesubtitles.cpp:132 src/dialogs/managesubtitles.cpp:213
 #, kde-format
@@ -20496,7 +20494,7 @@ msgstr "Mou l'estil"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr "Seleccioneu el fitxer de subtítols al qual moure l'estil:"
+msgstr "Trieu el fitxer de subtítols al qual moure l'estil:"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
@@ -20506,7 +20504,7 @@ msgstr "Copia l'estil"
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr "Seleccioneu el fitxer de subtítols al qual copiar l'estil:"
+msgstr "Trieu el fitxer de subtítols al qual copiar l'estil:"
 
 #: src/dialogs/managesubtitles.cpp:384
 #, kde-format
@@ -20561,7 +20559,7 @@ msgid "Top Right"
 msgstr "A dalt a la dreta"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:331
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:383
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:709
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -20759,119 +20757,139 @@ msgstr ""
 "Els paràmetres següents no tindran cap efecte perquè se sobreescriuran per "
 "les opcions equivalents de la interfície d'usuari: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:169 src/dialogs/renderwidget.cpp:171
+#: src/dialogs/renderwidget.cpp:97
+#, kde-format
+msgid ""
+"Show xml playlist used for rendering:\n"
+"%1"
+msgstr ""
+
+#: src/dialogs/renderwidget.cpp:102
+#, kde-format
+msgid ""
+"Show render log file:\n"
+" %1"
+msgstr ""
+
+#: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
 msgid "Show Log"
 msgstr "Mostra el registre"
 
-#: src/dialogs/renderwidget.cpp:198 src/dialogs/renderwidget.cpp:1854
+#: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
+#, fuzzy, kde-format
+#| msgid "Show log"
+msgid "Show Xml"
+msgstr "Mostra el registre"
+
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
 msgid "Waiting…"
 msgstr "S'està esperant…"
 
-#: src/dialogs/renderwidget.cpp:202
+#: src/dialogs/renderwidget.cpp:254
 #, kde-format
 msgid "Starting…"
 msgstr "S'està iniciant…"
 
-#: src/dialogs/renderwidget.cpp:205
+#: src/dialogs/renderwidget.cpp:257
 #, kde-format
 msgid "Rendering finished"
 msgstr "Ha acabat la renderització"
 
-#: src/dialogs/renderwidget.cpp:210
+#: src/dialogs/renderwidget.cpp:262
 #, kde-format
 msgid "Rendering crashed"
 msgstr "La renderització ha fallat"
 
-#: src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:267
 #, kde-format
 msgid "Rendering aborted"
 msgstr "S'ha interromput la renderització"
 
-#: src/dialogs/renderwidget.cpp:319
+#: src/dialogs/renderwidget.cpp:371
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Més pròxim (ràpid)"
 
-#: src/dialogs/renderwidget.cpp:320 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:372 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilineal (bé)"
 
-#: src/dialogs/renderwidget.cpp:321 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bicúbic (millor)"
 
-#: src/dialogs/renderwidget.cpp:322
+#: src/dialogs/renderwidget.cpp:374
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (millor)"
 
-#: src/dialogs/renderwidget.cpp:332
+#: src/dialogs/renderwidget.cpp:384
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Horitzontal (16:9)"
 
-#: src/dialogs/renderwidget.cpp:333
+#: src/dialogs/renderwidget.cpp:385
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Vertical (9:16)"
 
-#: src/dialogs/renderwidget.cpp:334
+#: src/dialogs/renderwidget.cpp:386
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Quadrat (1:1)"
 
-#: src/dialogs/renderwidget.cpp:338 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:390 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Un camp (ràpid)"
 
-#: src/dialogs/renderwidget.cpp:339 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Fusió lineal (ràpida)"
 
-#: src/dialogs/renderwidget.cpp:340 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF -només temporal (bé)-"
 
-#: src/dialogs/renderwidget.cpp:341
+#: src/dialogs/renderwidget.cpp:393
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (millor)"
 
-#: src/dialogs/renderwidget.cpp:342
+#: src/dialogs/renderwidget.cpp:394
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (millor)"
 
-#: src/dialogs/renderwidget.cpp:350 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:402 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #, kde-format
 msgid "None"
 msgstr "Cap"
 
-#: src/dialogs/renderwidget.cpp:351
+#: src/dialogs/renderwidget.cpp:403
 #, kde-format
 msgid "Timecode"
 msgstr "Codi de temps"
 
-#: src/dialogs/renderwidget.cpp:352
+#: src/dialogs/renderwidget.cpp:404
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Codi de temps de fotograma sense descartar"
 
-#: src/dialogs/renderwidget.cpp:353
+#: src/dialogs/renderwidget.cpp:405
 #, kde-format
 msgid "Frame Number"
 msgstr "Número de fotograma"
 
-#: src/dialogs/renderwidget.cpp:356
+#: src/dialogs/renderwidget.cpp:408
 #, kde-format
 msgctxt "Explanation for the 2 pass rendering feature"
 msgid ""
@@ -20880,24 +20898,28 @@ msgid ""
 "Not compatible with variable bitrate, and only relevant for some video "
 "codecs."
 msgstr ""
+"La renderització de dues passades permet un millor control sobre la mida "
+"final del fitxer renderitzat.\n"
+"No és compatible amb la taxa de bits variable, i només és rellevant per a "
+"alguns còdecs de vídeo."
 
-#: src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:412
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Renderització utilitzant un intermediari de baixa qualitat"
 
-#: src/dialogs/renderwidget.cpp:453
+#: src/dialogs/renderwidget.cpp:505
 #, kde-format
 msgid "File"
 msgstr "Fitxer"
 
-#: src/dialogs/renderwidget.cpp:470
+#: src/dialogs/renderwidget.cpp:522
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Llistes de reproducció emmagatzemades"
 
 # skip-rule: punctuation-period-no
-#: src/dialogs/renderwidget.cpp:491 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:543 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -20906,51 +20928,51 @@ msgstr ""
 "No s'ha pogut trobar l'aplicació «kdenlive_render». Hi ha alguna cosa "
 "incorrecte en esta instal·lació. La renderització no funcionarà."
 
-#: src/dialogs/renderwidget.cpp:530
+#: src/dialogs/renderwidget.cpp:582
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Només funciona amb el format Matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:540
+#: src/dialogs/renderwidget.cpp:592
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "S'ha produït un problema en compartir el document: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:540 src/dialogs/renderwidget.cpp:548
+#: src/dialogs/renderwidget.cpp:592 src/dialogs/renderwidget.cpp:600
 #: src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Share"
 msgstr "Compartix"
 
-#: src/dialogs/renderwidget.cpp:545
+#: src/dialogs/renderwidget.cpp:597
 #, kde-format
 msgid "Document shared successfully"
 msgstr "El document s'ha compartit correctament"
 
-#: src/dialogs/renderwidget.cpp:548
+#: src/dialogs/renderwidget.cpp:600
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Es pot trobar el document compartit a: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:669
+#: src/dialogs/renderwidget.cpp:721
 #, kde-format
 msgid "Beginning"
 msgstr "Inici"
 
-#: src/dialogs/renderwidget.cpp:793
+#: src/dialogs/renderwidget.cpp:845
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Afig un clip en la línia de temps abans de renderitzar"
 
-#: src/dialogs/renderwidget.cpp:799
+#: src/dialogs/renderwidget.cpp:851
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "No s'ha pogut trobar el programa «melt» necessari per a renderitzar (part de "
 "MLT)"
 
-#: src/dialogs/renderwidget.cpp:808
+#: src/dialogs/renderwidget.cpp:860
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -20962,25 +20984,25 @@ msgstr ""
 "pot conduir a una dessincronització de l'àudio i el vídeo.\n"
 "Recomanem transcodificar a un format d'edició fàcil d'utilitzar."
 
-#: src/dialogs/renderwidget.cpp:817
+#: src/dialogs/renderwidget.cpp:869
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Renderitza igualment"
 
-#: src/dialogs/renderwidget.cpp:823
+#: src/dialogs/renderwidget.cpp:875
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Transcodifica"
 
-#: src/dialogs/renderwidget.cpp:845 src/dialogs/renderwidget.cpp:1828
+#: src/dialogs/renderwidget.cpp:897 src/dialogs/renderwidget.cpp:1892
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "El fitxer d'eixida ja existix. Voleu sobreescriure'l?"
 
-#: src/dialogs/renderwidget.cpp:853 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:905 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -20989,12 +21011,12 @@ msgstr ""
 "No s'ha pogut crear el directori %1.\n"
 "Assegureu-vos que teniu els permisos requerits."
 
-#: src/dialogs/renderwidget.cpp:895
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "S'han detectat els errors següents en intentar la renderització"
 
-#: src/dialogs/renderwidget.cpp:935 src/dialogs/renderwidget.cpp:1841
+#: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:1905
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -21003,47 +21025,47 @@ msgstr ""
 "Ja existix un treball escrivint a un fitxer:<br /><b>%1.</b><br /"
 ">Interrompeu el treball si el voleu sobreescriure…"
 
-#: src/dialogs/renderwidget.cpp:936 src/dialogs/renderwidget.cpp:1842
+#: src/dialogs/renderwidget.cpp:988 src/dialogs/renderwidget.cpp:1906
 #, kde-format
 msgid "Already running"
 msgstr "Encara s'està executant"
 
-#: src/dialogs/renderwidget.cpp:962
+#: src/dialogs/renderwidget.cpp:1016
 #, kde-format
 msgid "Video without audio track"
 msgstr "Vídeo sense pista d'àudio"
 
-#: src/dialogs/renderwidget.cpp:964
+#: src/dialogs/renderwidget.cpp:1018
 #, kde-format
 msgid "Audio without video track"
 msgstr "Àudio sense pista de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1046 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1100 src/main.cpp:457
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Ha començat la renderització de %1"
 
-#: src/dialogs/renderwidget.cpp:1111 src/monitor/monitor.cpp:1384
+#: src/dialogs/renderwidget.cpp:1165 src/monitor/monitor.cpp:1384
 #, kde-format
 msgid "untitled"
 msgstr "sense títol"
 
-#: src/dialogs/renderwidget.cpp:1150
+#: src/dialogs/renderwidget.cpp:1204
 #, kde-format
 msgid "No preset selected"
 msgstr "No s'ha seleccionat cap valor predefinit"
 
-#: src/dialogs/renderwidget.cpp:1152
+#: src/dialogs/renderwidget.cpp:1206
 #, kde-format
 msgid "No matching preset"
 msgstr "No coincidix amb cap valor predefinit"
 
-#: src/dialogs/renderwidget.cpp:1164
+#: src/dialogs/renderwidget.cpp:1218
 #, kde-format
 msgid "Invalid preset"
 msgstr "El valor predefinit no és vàlid"
 
-#: src/dialogs/renderwidget.cpp:1305
+#: src/dialogs/renderwidget.cpp:1359
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -21051,95 +21073,101 @@ msgid ""
 msgstr ""
 "La renderització sense àudio ni vídeo no funciona. Activeu-ne un dels dos."
 
-#: src/dialogs/renderwidget.cpp:1509
+#: src/dialogs/renderwidget.cpp:1564
 #, kde-format
 msgid "Remaining time "
 msgstr "Temps restant "
 
-#: src/dialogs/renderwidget.cpp:1511 src/dialogs/renderwidget.cpp:1613
+#: src/dialogs/renderwidget.cpp:1566 src/dialogs/renderwidget.cpp:1669
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dia "
 msgstr[1] "%1 dies "
 
-#: src/dialogs/renderwidget.cpp:1523
+#: src/dialogs/renderwidget.cpp:1578
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (fotograma %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:1600
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Resta menys de %1 MB de memòria disponible."
 
-#: src/dialogs/renderwidget.cpp:1615
+#: src/dialogs/renderwidget.cpp:1671
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Ha acabat la renderització a %1"
 
-#: src/dialogs/renderwidget.cpp:1623
+#: src/dialogs/renderwidget.cpp:1682
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderització de %1 finalitzada a %2"
 
-#: src/dialogs/renderwidget.cpp:1646
+#: src/dialogs/renderwidget.cpp:1685
+#, fuzzy, kde-format
+#| msgid "Rendering of %1 finished in %2"
+msgid "First pass rendering of %1 finished"
+msgstr "Renderització de %1 finalitzada a %2"
+
+#: src/dialogs/renderwidget.cpp:1705
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>La renderització ha fallat</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1707
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Ha fallat la renderització de %1</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1710 src/ui/renderwidget_ui.ui:910
+#: src/dialogs/renderwidget.cpp:1774 src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Abort Job"
 msgstr "Interromp el treball"
 
-#: src/dialogs/renderwidget.cpp:1713
+#: src/dialogs/renderwidget.cpp:1777
 #, kde-format
 msgid "Remove Job"
 msgstr "Elimina el treball"
 
-#: src/dialogs/renderwidget.cpp:2126
+#: src/dialogs/renderwidget.cpp:2192
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Afig clips en la línia de temps abans de renderitzar"
 
-#: src/dialogs/renderwidget.cpp:2131
+#: src/dialogs/renderwidget.cpp:2197
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Duració del fitxer renderitzat: %1"
 
-#: src/dialogs/renderwidget.cpp:2134
+#: src/dialogs/renderwidget.cpp:2200
 #: src/mltcontroller/clippropertiescontroller.cpp:615
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Decalatge del codi de temps:"
 
-#: src/dialogs/renderwidget.cpp:2139
+#: src/dialogs/renderwidget.cpp:2205
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Falta un clip utilitzat en el projecte.</b>"
 msgstr[1] "<b>Falten %1 clips utilitzats en el projecte.</b>"
 
-#: src/dialogs/renderwidget.cpp:2141
+#: src/dialogs/renderwidget.cpp:2207
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Falta un clip (sense ús)."
 msgstr[1] "Falten %1 clips (sense ús)."
 
-#: src/dialogs/renderwidget.cpp:2143
+#: src/dialogs/renderwidget.cpp:2209
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Falten %1 clips (<b>%2 utilitzats en el projecte</b>)."
 
-#: src/dialogs/renderwidget.cpp:2225
+#: src/dialogs/renderwidget.cpp:2291
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -21148,12 +21176,12 @@ msgstr ""
 "Paràmetres de velocitat del còdec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2245
+#: src/dialogs/renderwidget.cpp:2311
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Afig al projecte actual"
 
-#: src/dialogs/renderwidget.cpp:2254
+#: src/dialogs/renderwidget.cpp:2320
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
@@ -21214,7 +21242,7 @@ msgstr ""
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "Selecciona el perfil predeterminat (predefinit)"
+msgstr "Tria el perfil predeterminat (predefinit)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
 #, kde-format
@@ -21377,7 +21405,7 @@ msgstr "Introduïu el camí cap a l'aplicació Glaxnimate"
 #: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
-msgstr "Seleccioneu un perfil de vídeo"
+msgstr "Trieu un perfil de vídeo"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1320
 #, kde-format
@@ -21519,7 +21547,7 @@ msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 #: src/dialogs/settings/pluginssettings.cpp:587
 #, kde-format
 msgid "Select model to download"
-msgstr "Seleccioneu el model a baixar"
+msgstr "Trieu el model que es baixarà"
 
 #: src/dialogs/settings/pluginssettings.cpp:603
 #, kde-format
@@ -21613,7 +21641,7 @@ msgid ""
 "Select the CUDA version to install."
 msgstr ""
 "Suport de GPU de Nvidia per a %1\n"
-"Seleccioneu la versió de CUDA que s'instal·larà."
+"Trieu la versió de CUDA que s'instal·larà."
 
 #: src/dialogs/settings/pluginssettings.cpp:1000
 #, kde-format
@@ -21666,7 +21694,7 @@ msgstr "No hi ha cap pista d'àudio disponible del clip seleccionat"
 #: src/dialogs/speechdialog.cpp:120
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
-msgstr "Seleccioneu un clip en la línia de temps per a realitzar una anàlisi"
+msgstr "Trieu un clip en la línia de temps per a realitzar una anàlisi"
 
 #: src/dialogs/speechdialog.cpp:134
 #, kde-format
@@ -22567,7 +22595,7 @@ msgstr "Y:"
 #: src/dialogs/subtitlestyleedit.cpp:48
 #, kde-format
 msgid "Select font"
-msgstr "Seleccioneu la lletra"
+msgstr "Trieu la lletra"
 
 #: src/dialogs/subtitlestyleedit.cpp:49
 #, kde-kuit-format
@@ -22716,12 +22744,12 @@ msgstr "Instal·leu un model d'idioma."
 #: src/dialogs/textbasededit.cpp:1093
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
-msgstr "Seleccioneu un clip amb àudio en la safata del projecte."
+msgstr "Trieu un clip amb àudio en la safata del projecte."
 
 #: src/dialogs/textbasededit.cpp:1139
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
-msgstr "Seleccioneu un clip amb àudio per al reconeixement de la veu."
+msgstr "Trieu un clip amb àudio per al reconeixement de la veu."
 
 #: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1197
 #: src/dialogs/textbasededit.cpp:1257
@@ -25423,7 +25451,7 @@ msgstr "Navegador multimèdia"
 #: src/mainwindow.cpp:331
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "Pila d'efectes/composició"
+msgstr "Pila d'efectes/composicions"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:409
@@ -25631,7 +25659,7 @@ msgstr "Suprimix-los"
 #: src/mainwindow.cpp:1059 src/timeline2/view/timelinecontroller.cpp:2170
 #, kde-format
 msgid "Select a clip to compare effect"
-msgstr "Seleccioneu un clip per a comparar l'efecte"
+msgstr "Trieu un clip per a comparar l'efecte"
 
 #: src/mainwindow.cpp:1109
 #, kde-format
@@ -25703,28 +25731,24 @@ msgid "Mixed Audio tracks"
 msgstr "Pistes d'àudio mesclades"
 
 #: src/mainwindow.cpp:1177 src/mainwindow.cpp:1357
-#, fuzzy, kde-format
-#| msgid "Zoom Audio Waveforms"
+#, kde-format
 msgid "Zoom In Audio Waveforms"
-msgstr "Zoom de les formes d'ona d'àudio"
+msgstr "Amplia les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1178 src/mainwindow.cpp:1365
-#, fuzzy, kde-format
-#| msgid "Zoom Audio Waveforms"
+#, kde-format
 msgid "Zoom Out Audio Waveforms"
-msgstr "Zoom de les formes d'ona d'àudio"
+msgstr "Reduïx les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1179 src/mainwindow.cpp:1373
-#, fuzzy, kde-format
-#| msgid "Zoom Audio Waveforms"
+#, kde-format
 msgid "Reset Audio Waveform Zoom"
-msgstr "Zoom de les formes d'ona d'àudio"
+msgstr "Reinicialitza el zoom de les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1180
-#, fuzzy, kde-format
-#| msgid "Click to cycle audio waveforms zoom"
+#, kde-format
 msgid "Cycle Audio Waveform Zoom Levels"
-msgstr "Cliqueu per a circular pel zoom de les formes d'ona d'àudio"
+msgstr "Circula pels nivells de zoom de les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1205
 #, kde-format
@@ -25873,22 +25897,19 @@ msgstr ""
 "de temps (actiu de manera predeterminada)."
 
 #: src/mainwindow.cpp:1339 src/mainwindow.cpp:1390
-#, fuzzy, kde-format
-#| msgctxt "Gain in dB, positive"
-#| msgid "%1"
+#, kde-format
 msgid "%1×"
-msgstr "%1"
+msgstr "%1×"
 
 #: src/mainwindow.cpp:1344
 #, kde-format
 msgid "Current Audio Waveform Zoom Level"
-msgstr ""
+msgstr "Nivell actual del zoom de les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1403
-#, fuzzy, kde-format
-#| msgid "Audio thumbnails:"
+#, kde-format
 msgid "Audio Thumbnails"
-msgstr "Miniatures d'àudio:"
+msgstr "Miniatures d'àudio"
 
 #: src/mainwindow.cpp:1406
 #, kde-format
@@ -26327,7 +26348,7 @@ msgstr "Ajusta la zona de la línia de temps a la selecció"
 #: src/mainwindow.cpp:1760
 #, kde-format
 msgid "Select Clip"
-msgstr "Selecciona un clip"
+msgstr "Tria un clip"
 
 #: src/mainwindow.cpp:1762
 #, kde-format
@@ -26342,7 +26363,7 @@ msgstr "Afig un clip a la selecció"
 #: src/mainwindow.cpp:1766
 #, kde-format
 msgid "Select Transition"
-msgstr "Selecciona una transició"
+msgstr "Tria una transició"
 
 #: src/mainwindow.cpp:1768
 #, kde-format
@@ -26629,7 +26650,7 @@ msgstr "Mostra els controls de gravació"
 #: src/mainwindow.cpp:2011
 #, kde-format
 msgid "Select All in Current Track"
-msgstr "Selecciona-ho tot en la pista actual"
+msgstr "Tria-ho tot en la pista actual"
 
 #: src/mainwindow.cpp:2028
 #, kde-format
@@ -26804,17 +26825,17 @@ msgstr "Afig una nota del projecte"
 #: src/mainwindow.cpp:2128
 #, kde-format
 msgid "Select Audio Track %1"
-msgstr "Selecciona la pista d'àudio %1"
+msgstr "Tria la pista d'àudio %1"
 
 #: src/mainwindow.cpp:2132
 #, kde-format
 msgid "Select Video Track %1"
-msgstr "Selecciona la pista de vídeo %1"
+msgstr "Tria la pista de vídeo %1"
 
 #: src/mainwindow.cpp:2136
 #, kde-format
 msgid "Select Target %1"
-msgstr "Seleccioneu la destinació %1"
+msgstr "Trieu la destinació %1"
 
 #: src/mainwindow.cpp:2153
 #, kde-format
@@ -27014,7 +27035,7 @@ msgstr ""
 #: src/mainwindow.cpp:3602
 #, kde-format
 msgid "Select"
-msgstr "Selecciona"
+msgstr "Tria"
 
 #: src/mainwindow.cpp:3604
 #, kde-kuit-format
@@ -27932,7 +27953,7 @@ msgstr "El clip no té cap efecte"
 #: src/monitor/monitor.cpp:2561
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
-msgstr "Seleccioneu un clip en la safata del projecte per a comparar l'efecte"
+msgstr "Trieu un clip en la safata del projecte per a comparar l'efecte"
 
 #: src/monitor/monitor.cpp:2603
 #, kde-format
@@ -28158,12 +28179,12 @@ msgstr "Activa l'espectre d'àudio"
 #: src/monitor/videowidget.cpp:1122
 #, kde-format
 msgid "Select a zone to play"
-msgstr "Seleccioneu una zona per a reproduir"
+msgstr "Trieu una zona per a reproduir"
 
 #: src/monitor/videowidget.cpp:1131
 #, kde-format
 msgid "Select a clip to play"
-msgstr "Seleccioneu un clip que s'ha de reproduir"
+msgstr "Trieu un clip que s'ha de reproduir"
 
 #: src/monitor/videowidget.cpp:1236
 #, kde-format
@@ -28311,7 +28332,7 @@ msgstr ""
 #: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Select an object in the image first"
-msgstr "Seleccioneu primer un objecte de la imatge"
+msgstr "Trieu primer un objecte de la imatge"
 
 #: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
@@ -28709,12 +28730,12 @@ msgstr "Vista prèvia dels recursos en línia"
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
-msgstr "Seleccioneu la versió del fitxer"
+msgstr "Trieu la versió del fitxer"
 
 #: src/onlineresources/resourcewidget.cpp:641
 #, kde-format
 msgid "Please choose the version you want to download"
-msgstr "Seleccioneu la versió que voleu baixar"
+msgstr "Trieu la versió que voleu baixar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
 #: src/onlineresources/resourcewidget.cpp:688 src/ui/clipjobmanager_ui.ui:395
@@ -29389,7 +29410,7 @@ msgstr "No s'ha pogut trobar el clip del projecte"
 #: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
-msgstr "Selecciona diversos codis de temps que s'han de tornar a assignar"
+msgstr "Tria diversos codis de temps que s'han de tornar a assignar"
 
 #: src/project/dialogs/noteswidget.cpp:260
 #, kde-format
@@ -29399,7 +29420,7 @@ msgstr "No hi ha cap clip seleccionat en la línia de temps"
 #: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
-msgstr "Selecciona diversos codis de temps per a crear marcadors"
+msgstr "Tria diversos codis de temps per a crear marcadors"
 
 #: src/project/dialogs/profilewidget.cpp:39
 #, kde-format
@@ -29496,7 +29517,7 @@ msgstr "Ordre dels camps: %1"
 #: src/project/dialogs/projectsettings.cpp:69
 #, kde-format
 msgid "Select the profile (preset) of the project"
-msgstr "Seleccioneu el perfil (predefinit) del projecte"
+msgstr "Trieu el perfil (predefinit) del projecte"
 
 #: src/project/dialogs/projectsettings.cpp:72
 #, kde-format
@@ -29526,12 +29547,12 @@ msgstr "Compara l'eficiència dels perfils dels intermediaris"
 #: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Select default proxy profile"
-msgstr "Selecciona el perfil de l'intermediari predeterminat"
+msgstr "Tria el perfil de l'intermediari predeterminat"
 
 #: src/project/dialogs/projectsettings.cpp:203
 #, kde-format
 msgid "Select camcorder profile"
-msgstr "Seleccioneu el perfil de la càmera de vídeo"
+msgstr "Trieu el perfil de la càmera de vídeo"
 
 #: src/project/dialogs/projectsettings.cpp:228
 #, kde-format
@@ -30020,10 +30041,10 @@ msgid ""
 "of the project file to save temporary files. This will move all temporary "
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
-"La ubicació del fitxer del projecte ha canviat. Seleccioneu utilitzar la "
-"ubicació del fitxer del projecte per a guardar els fitxers temporals. Açò "
-"mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà "
-"a carregar el fitxer del projecte"
+"La ubicació del fitxer del projecte ha canviat. Trieu utilitzar la ubicació "
+"del fitxer del projecte per a guardar els fitxers temporals. Açò mourà tots "
+"els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà a carregar "
+"el fitxer del projecte"
 
 #: src/project/projectmanager.cpp:649
 #, kde-format
@@ -30204,7 +30225,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:2338
 #, kde-format
 msgid "Select a clip to create sequence"
-msgstr "Seleccioneu un clip per a crear una seqüència"
+msgstr "Trieu un clip per a crear una seqüència"
 
 #: src/project/projectmanager.cpp:2377
 #, kde-format
@@ -30452,7 +30473,7 @@ msgstr ""
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
 #, kde-format
 msgid "Select new models to download"
-msgstr "Seleccioneu models nous a baixar"
+msgstr "Trieu models nous a baixar"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
@@ -30887,7 +30908,7 @@ msgstr "Renderització endarrerida"
 #: src/render/renderrequest.cpp:372
 #, kde-format
 msgid "Select a name for this rendering."
-msgstr "Seleccioneu un nom per a esta renderització."
+msgstr "Trieu un nom per a esta renderització."
 
 #: src/render/renderrequest.cpp:473
 #, kde-format
@@ -31203,10 +31224,9 @@ msgid "HSV Value"
 msgstr "Valor HSV"
 
 #: src/scopes/colorscopes/histogram.cpp:39
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Y (Luma)"
-msgstr "Luma"
+msgstr "Y (Luma)"
 
 #: src/scopes/colorscopes/histogram.cpp:43
 #, kde-format
@@ -31270,10 +31290,9 @@ msgstr "màx"
 #: src/scopes/colorscopes/rgbparade.cpp:38
 #: src/scopes/colorscopes/vectorscope.cpp:61
 #: src/scopes/colorscopes/waveform.cpp:44
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Paint Mode"
-msgstr "Mode de pintat:"
+msgstr "Mode de pintat"
 
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
@@ -31360,10 +31379,9 @@ msgid "Draw I/Q lines"
 msgstr "Dibuixa les línies I/Q"
 
 #: src/scopes/colorscopes/vectorscope.cpp:772
-#, fuzzy, kde-format
-#| msgid "Gain: Blue"
+#, kde-format
 msgid "Gain value:"
-msgstr "Guany: Blau"
+msgstr "Valor del guany:"
 
 #: src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -31923,7 +31941,7 @@ msgstr "Substituïx el clip"
 #: src/timeline2/model/timelinemodel.cpp:1229
 #, kde-format
 msgid "Select a clip to apply the mix"
-msgstr "Seleccioneu un clip per a aplicar la mescla"
+msgstr "Trieu un clip per a aplicar la mescla"
 
 #: src/timeline2/model/timelinemodel.cpp:1224
 #, kde-format
@@ -32262,7 +32280,7 @@ msgstr "Afig una pista"
 #: src/timeline2/view/dialogs/trackdialog.cpp:39
 #, kde-format
 msgid "Select tracks to be deleted :"
-msgstr "Seleccioneu les pistes que s'han de suprimir:"
+msgstr "Trieu les pistes que s'han de suprimir:"
 
 #: src/timeline2/view/dialogs/trackdialog.cpp:48
 #, kde-format
@@ -32314,7 +32332,7 @@ msgstr "Nivell del micròfon"
 #: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Track is locked. Cannot start Recording."
-msgstr ""
+msgstr "La pista està bloquejada. No s'ha pogut iniciar la gravació."
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:253
 #, kde-format
@@ -32517,10 +32535,9 @@ msgid "%1%2, Duration = %3"
 msgstr "%1%2, Duració = %3"
 
 #: src/timeline2/view/qml/Track.qml:506
-#, fuzzy, kde-format
-#| msgid "Adjusting speed"
+#, kde-format
 msgid "%1% | Adjusting speed"
-msgstr "Ajust de la velocitat"
+msgstr "%1% | Ajust de la velocitat"
 
 #: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
@@ -32645,12 +32662,12 @@ msgstr "Suprimix les pistes"
 #: src/timeline2/view/timelinecontroller.cpp:970
 #, kde-format
 msgid "Select an audio track to display record controls"
-msgstr "Seleccioneu una pista d'àudio per a mostrar els controls de gravació"
+msgstr "Trieu una pista d'àudio per a mostrar els controls de gravació"
 
 #: src/timeline2/view/timelinecontroller.cpp:1107
 #, kde-format
 msgid "Select at least 2 items to group"
-msgstr "Seleccioneu 2 elements com a mínim per a agrupar"
+msgstr "Trieu 2 elements com a mínim per a agrupar"
 
 #: src/timeline2/view/timelinecontroller.cpp:1515
 #, kde-format
@@ -32717,13 +32734,13 @@ msgstr ""
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
-"Seleccioneu una pista de destinació clicant damunt de la zona de la pista de "
+"Trieu una pista de destinació clicant damunt de la zona de la pista de "
 "destinació"
 
 #: src/timeline2/view/timelinecontroller.cpp:3267
 #, kde-format
 msgid "Select a favorite composition"
-msgstr "Seleccioneu una composició preferida"
+msgstr "Trieu una composició preferida"
 
 #: src/timeline2/view/timelinecontroller.cpp:3332
 #, kde-format
@@ -33122,7 +33139,7 @@ msgstr "Enfonsa un objecte a la part inferior"
 #: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select All"
-msgstr "Selecciona-ho tot"
+msgstr "Tria-ho tot"
 
 #: src/titler/titlewidget.cpp:351
 #, kde-format
@@ -33157,12 +33174,12 @@ msgstr "Invertix l'eix Y i canvia el punt 0"
 #: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select fill color"
-msgstr "Selecciona el color d'emplenament"
+msgstr "Tria el color d'emplenament"
 
 #: src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Select border color"
-msgstr "Selecciona el color de la vora"
+msgstr "Tria el color de la vora"
 
 #: src/titler/titlewidget.cpp:382
 #, kde-format
@@ -33177,27 +33194,27 @@ msgstr "Ajusta el zoom"
 #: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Select background color"
-msgstr "Selecciona el color de fons"
+msgstr "Tria el color de fons"
 
 #: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select all"
-msgstr "Selecciona-ho tot"
+msgstr "Tria-ho tot"
 
 #: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select text items in current selection"
-msgstr "Selecciona els elements de text de la selecció actual"
+msgstr "Tria els elements de text de la selecció actual"
 
 #: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select rect items in current selection"
-msgstr "Selecciona els elements rectangulars de la selecció actual"
+msgstr "Tria els elements rectangulars de la selecció actual"
 
 #: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Select image items in current selection"
-msgstr "Selecciona els elements d'imatge de la selecció actual"
+msgstr "Tria els elements d'imatge de la selecció actual"
 
 #: src/titler/titlewidget.cpp:390
 #, kde-format
@@ -33233,8 +33250,7 @@ msgid "Add Image…"
 msgstr "Afig una imatge…"
 
 #: src/titler/titlewidget.cpp:434
-#, fuzzy, kde-format
-#| msgid "Open  Title…"
+#, kde-format
 msgid "Open Title…"
 msgstr "Obri un títol…"
 
@@ -37107,7 +37123,7 @@ msgstr "Fitxer d'eixida"
 #: src/ui/renderwidget_ui.ui:129
 #, kde-format
 msgid "Select output destination"
-msgstr "Seleccioneu la destinació de l'eixida"
+msgstr "Trieu la destinació de l'eixida"
 
 #. i18n: ectx: property (text), widget (QCheckBox, options)
 #: src/ui/renderwidget_ui.ui:152
@@ -37837,7 +37853,7 @@ msgstr "Mostra les guies:"
 #: src/ui/titlewidget_ui.ui:469
 #, kde-format
 msgid "Selects all items on the canvas."
-msgstr "Selecciona tots els elements en el llenç."
+msgstr "Tria tots els elements en el llenç."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectAll)
 #: src/ui/titlewidget_ui.ui:472
@@ -38147,24 +38163,22 @@ msgstr "Informació addicional"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
+#, kde-format
 msgid "Reset Zoom"
-msgstr "Reinicialitza %1"
+msgstr "Reinicialitza el zoom"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
-#, fuzzy, kde-format
-#| msgid "Color levels"
+#, kde-format
 msgid "Zoom level"
-msgstr "Nivells de color"
+msgstr "Nivell de zoom"
 
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:106
 #, kde-format
 msgid "1.0×"
-msgstr ""
+msgstr "1.0×"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -38186,9 +38200,9 @@ msgid ""
 "your mouse you can select a section of the screen from which to get an "
 "average color."
 msgstr ""
-"Seleccioneu un color en la pantalla. Premeu el botó del ratolí i després "
-"moveu el ratolí, podreu seleccionar una secció de la pantalla per a "
-"obtindre'n un color mitjà."
+"Trieu un color en la pantalla. Premeu el botó del ratolí i després moveu el "
+"ratolí, podreu seleccionar una secció de la pantalla per a obtindre'n un "
+"color mitjà."
 
 #: src/widgets/doublewidget.cpp:28
 #, kde-format
@@ -38328,18 +38342,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Auto Refresh"
-#~ msgstr "Actualització automàtica"
-
-#~ msgid "Components:"
-#~ msgstr "Components:"
-
-#~ msgid "RGB summed up."
-#~ msgstr "Suma de RGB."
-
-#~ msgid "Luma value."
-#~ msgstr "Valor de luma."
-
-#~ msgid "Scale:"
-#~ msgstr "Escala:"
