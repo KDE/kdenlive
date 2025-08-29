@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:42+0000\n"
-"PO-Revision-Date: 2025-08-27 06:19+0200\n"
+"PO-Revision-Date: 2025-08-28 06:05+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -19872,10 +19872,9 @@ msgid "Show Log"
 msgstr "ჟურნალის ჩვენება"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "ჟურნალის ჩვენება"
+msgstr "XML-ის ჩვენება"
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -20194,10 +20193,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "%1-ის რენდერის დასრულების დროა %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "%1-ის რენდერის დასრულების დროა %2"
+msgstr "%1-ის პირველი გავლის რენდერი დასრულდა"
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format
@@ -37118,7 +37116,7 @@ msgstr "გადიდების დონე"
 #: src/ui/vectorscope_ui.ui:106
 #, kde-format
 msgid "1.0×"
-msgstr ""
+msgstr "1.0×"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)

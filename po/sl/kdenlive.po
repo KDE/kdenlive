@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:42+0000\n"
-"PO-Revision-Date: 2025-08-27 19:21+0200\n"
+"PO-Revision-Date: 2025-08-28 16:42+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -20587,6 +20587,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"Pokaži seznam predvajanja xml, ki se uporablja za izrisovanje:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -20594,6 +20596,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"Pokaži datoteko zapisnika izrisovanja:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -20601,10 +20605,9 @@ msgid "Show Log"
 msgstr "Pokaži zapisnik"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "Pokaži dnevnik"
+msgstr "Pokaži XML"
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -20930,10 +20933,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Izrisovanje %1 končano v %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Izrisovanje %1 končano v %2"
+msgstr "Končan prvi prehod izrisovanja od %1"
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format

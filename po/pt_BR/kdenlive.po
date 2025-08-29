@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:42+0000\n"
-"PO-Revision-Date: 2025-08-27 10:59-0300\n"
+"PO-Revision-Date: 2025-08-28 09:04-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -20664,6 +20664,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"Mostrar lista de reprodução XML usada para renderização:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -20671,6 +20673,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"Mostrar arquivo de log de renderização:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -20678,10 +20682,9 @@ msgid "Show Log"
 msgstr "Mostrar registro"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "Mostrar registro"
+msgstr "Mostrar Xml"
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -21007,10 +21010,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Renderização de %1 foi concluída em %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Renderização de %1 foi concluída em %2"
+msgstr "Primeiro passo da renderização de %1 foi concluído"
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format

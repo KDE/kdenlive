@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:42+0000\n"
-"PO-Revision-Date: 2025-08-27 11:06+0200\n"
+"PO-Revision-Date: 2025-08-28 18:50+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -20722,6 +20722,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"XML-afspeellijst gebruikt voor renderen tonen:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -20729,6 +20731,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"Logbestand van renderen tonen:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -20736,10 +20740,9 @@ msgid "Show Log"
 msgstr "Log tonen"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "Log tonen"
+msgstr "XML tonen"
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -21065,10 +21068,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Renderen van %1 is klaar in %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Renderen van %1 is klaar in %2"
+msgstr "Eerste passage van renderen van %1 is voltooid"
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format

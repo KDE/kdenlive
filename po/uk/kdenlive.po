@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:42+0000\n"
-"PO-Revision-Date: 2025-08-27 14:16+0300\n"
+"PO-Revision-Date: 2025-08-28 13:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -20711,6 +20711,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"Показ списку відтворення xml, який використано для обробки:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -20718,6 +20720,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"Показ файла журналу обробки:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -20725,10 +20729,9 @@ msgid "Show Log"
 msgstr "Показати журнал"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "Показати журнал"
+msgstr "Показати XML"
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -21056,10 +21059,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Обробку %1 завершено за %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Обробку %1 завершено за %2"
+msgstr "Перший прохід обробки %1 завершено"
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format

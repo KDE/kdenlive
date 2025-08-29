@@ -20034,10 +20034,9 @@ msgid "Show Log"
 msgstr "显示日志"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "显示日志"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -20353,10 +20352,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "导出 %1 已完成，耗时 %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "导出 %1 已完成，耗时 %2"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format
