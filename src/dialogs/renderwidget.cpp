@@ -747,20 +747,25 @@ void RenderWidget::reloadGuides()
             m_view.guide_multi_box->setChecked(false);
         }
         if (!markers.isEmpty()) {
-            m_view.guide_start->addItem(i18n("Beginning"), 0);
+            QIcon zoneIn = QIcon::fromTheme(QStringLiteral("zone-in"));
+            QIcon zoneOut = QIcon::fromTheme(QStringLiteral("zone-out"));
+            QIcon zoneRange = QIcon::fromTheme(QStringLiteral("timeline-use-zone-on"));
+
+            m_view.guide_start->addItem(zoneIn, i18n("Beginning"), 0);
             for (const auto &marker : std::as_const(markers)) {
                 GenTime pos = marker.time();
                 const QString guidePos = Timecode::getStringTimecode(pos.frames(fps) + sequenceOffset, fps);
                 QString displayText = marker.comment() + QLatin1Char('/') + guidePos;
 
                 if (marker.hasRange()) {
-                    displayText += QStringLiteral(" (RANGE)");
+                    m_view.guide_start->addItem(zoneRange, displayText, pos.seconds());
+                    m_view.guide_end->addItem(zoneRange, displayText, pos.seconds());
+                } else {
+                    m_view.guide_start->addItem(zoneIn, displayText, pos.seconds());
+                    m_view.guide_end->addItem(zoneOut, displayText, pos.seconds());
                 }
-
-                m_view.guide_start->addItem(displayText, pos.seconds());
-                m_view.guide_end->addItem(displayText, pos.seconds());
             }
-            m_view.guide_end->addItem(i18n("End"), projectDuration);
+            m_view.guide_end->addItem(zoneOut, i18n("End"), projectDuration);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);

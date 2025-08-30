@@ -725,10 +725,6 @@ bool MonitorProxy::createRangeMarkerFromZone(const QString &comment, int type)
     }
 
     bool success = markerModel->addRangeMarker(startPos, duration, markerComment, type);
-    if (success) {
-        resetZone();
-    }
-
     return success;
 }
 

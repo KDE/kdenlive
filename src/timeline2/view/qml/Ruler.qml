@@ -575,6 +575,11 @@ Item {
                 proxy.position = frame
             }
         }
+        onDoubleClicked: mouse => {
+            if (mouse.y < guideLabelHeight) {
+                timeline.switchGuide(Math.round(mouseX / timeline.scaleFactor), false)
+            }
+        }
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
                 if (wheel.angleDelta.y < 0) {
@@ -592,6 +597,7 @@ Item {
     
     RulerZone {
         id: zone
+        z: 2
         Binding {
             target: zone
             property: "frameIn"
