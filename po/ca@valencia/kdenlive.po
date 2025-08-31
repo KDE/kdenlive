@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-30 00:41+0000\n"
-"PO-Revision-Date: 2025-08-28 09:33+0200\n"
+"PO-Revision-Date: 2025-08-30 11:32+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -25904,10 +25904,9 @@ msgid "%1×"
 msgstr "%1×"
 
 #: src/mainwindow.cpp:1376
-#, fuzzy, kde-format
-#| msgid "Reset Audio Waveform Zoom"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "Reinicialitza el zoom de les formes d'ona d'àudio"
+msgstr "Cliqueu per a reinicialitzar el zoom de les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1382
 #, kde-format
@@ -25940,20 +25939,15 @@ msgstr ""
 "reproducció, vores, marcadors, guies i altres)."
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Clip Name"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "Nom del clip"
+msgstr "Mostra els noms dels clips"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
-msgstr ""
-"Canvia la visualització de les etiquetes dels clips en la línia de temps "
-"(actiu de manera predeterminada)."
+msgstr "Canvia la visualització dels noms dels clips en la línia de temps."
 
 #: src/mainwindow.cpp:1430
 #, kde-format
@@ -36134,7 +36128,7 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
-"El color secundari es pot utilitzar en cas de col·lisió de subtítols per a "
+"El color secundari es pot utilitzar en cas de col·lisió de subtítols per "
 "ajudar a distingir ambdós subtítols"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-30 00:41+0000\n"
-"PO-Revision-Date: 2025-08-28 09:04-0300\n"
+"PO-Revision-Date: 2025-08-30 08:38-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -25790,10 +25790,9 @@ msgid "%1×"
 msgstr "%1×"
 
 #: src/mainwindow.cpp:1376
-#, fuzzy, kde-format
-#| msgid "Reset Audio Waveform Zoom"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "Redefinir zoom das formas de ondas de áudio"
+msgstr "Clique para redefinir zoom das formas de ondas de áudio"
 
 #: src/mainwindow.cpp:1382
 #, kde-format
@@ -25826,19 +25825,15 @@ msgstr ""
 "reprodução, bordas, marcadores, guias e outros elementos)."
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Clip Name"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "Nome do Clipe"
+msgstr "Mostrar nomes do clipe"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
-msgstr ""
-"Alterna a exibição de marcadores na linha do tempo (o padrão é Ligado)."
+msgstr "Alterna a exibição de nomes de clipes e informações na linha do tempo."
 
 #: src/mainwindow.cpp:1430
 #, kde-format

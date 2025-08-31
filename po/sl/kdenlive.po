@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-30 00:41+0000\n"
-"PO-Revision-Date: 2025-08-28 16:42+0200\n"
+"PO-Revision-Date: 2025-08-30 10:09+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -25712,10 +25712,9 @@ msgid "%1×"
 msgstr "%1×"
 
 #: src/mainwindow.cpp:1376
-#, fuzzy, kde-format
-#| msgid "Reset Audio Waveform Zoom"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "Ponastavi povečavo valovne oblike zvoka"
+msgstr "Kliknite za ponastavitev povečave valovne oblike zvoka"
 
 #: src/mainwindow.cpp:1382
 #, kde-format
@@ -25748,18 +25747,15 @@ msgstr ""
 "robove, označevalnike, vodila in drugo)."
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Clip Name"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "Ime posnetka"
+msgstr "Pokaži imena posnetkov"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
-msgstr "Preklopi prikaz značk posnetkov na časovnici (privzeto vklopljeno)."
+msgstr "Preklopi prikaz imen in podatkov posnetkov na časovnici."
 
 #: src/mainwindow.cpp:1430
 #, kde-format
