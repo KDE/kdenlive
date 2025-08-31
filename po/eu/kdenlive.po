@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-27 02:44+0000\n"
-"PO-Revision-Date: 2025-08-13 23:50+0200\n"
+"PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1110,10 +1110,9 @@ msgid "Planes"
 msgstr "Planoak"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Pan, low-pass"
+#, kde-format
 msgid "Band-pass"
-msgstr "Panorama mugimendua, pasaera-baxua"
+msgstr "Banda-pasea"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
 #, kde-format
@@ -1123,6 +1122,11 @@ msgid ""
 "(peak gain = Q) instead of the default: constant 0dB peak gain. The filter "
 "roll off at 6dB per octave (20dB per decade). "
 msgstr ""
+"Aplikatu bi poloko Butterworth banda-paseko iragazki bat maiztasun "
+"zentralarekin, eta (3dB puntuko) banda-zabalera zabalerarekin. csg aukerak "
+"irabazi konstante bat hautatzen du (puntako irabazia = Q), lehenetsitakoaren "
+"ordez: 0dB puntuko irabazi konstantea. Iragazki beherakada zortziduneko 6dB-"
+"koa da (20dB dekadako)."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
@@ -2358,6 +2362,8 @@ msgid ""
 "Set the additional gain in dB to be applied at all points on the transfer "
 "function. This allows for easy adjustment of the overall gain."
 msgstr ""
+"Ezarri transferentzia-funtzioaren puntu guztietan aplikatu beharreko irabazi "
+"gehigarria dB-tan. Horri esker, irabazi orokorra erraz doitu daiteke."
 
 #: data/effects/avfilter/avfilter_compand.xml:24
 #, fuzzy, kde-format
@@ -2374,6 +2380,11 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"Ezarri hasierako bolumen bat, dB-tan, iragazten hasterakoan kanal "
+"bakoitzerako hartu beharrekoa. Horri esker, erabiltzaileak hasieran maila "
+"nominal bat eman dezake, adibidez, konpresio-dilatazioa (companding) martxan "
+"jarri aurretik hasierako seinale-mailei irabazi oso handi bat ez "
+"aplikatzeko. Hasieran isila den audioaren balio tipikoa -90 dB-koa da."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, fuzzy, kde-format
@@ -2490,6 +2501,12 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
+"Ezarri kanal-gurutzaketaren indarra.\n"
+"Lehenetsia 0,2 da. Onartutako balioen tartea 0tik 1era bitartekoa da. Honek "
+"estereo irudiaren alboko osagairako apal baxuko iragazkiaren irabazia "
+"ezartzen du.\n"
+"Lehenetsitako balioa -6dB da. Onartutako gehienezko balioa, -30dB da indarra "
+"1ean ezarrita dagoenean."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:19
 #, kde-format
@@ -3785,20 +3802,19 @@ msgid "Apply arbitrary expressions to samples in frequency domain"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
-#, fuzzy, kde-format
-#| msgid "YUV Y plane"
+#, kde-format
 msgid "Gain in Y plane"
-msgstr "YUV Y planoa"
+msgstr "Irabazia Y planoan"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:11
 #, kde-format
 msgid "Gain in U plane"
-msgstr ""
+msgstr "Irabazia U planoan"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:14
 #, kde-format
 msgid "Gain in V plane"
-msgstr ""
+msgstr "Irabazia V planoan"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
 #, fuzzy, kde-format
