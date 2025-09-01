@@ -369,6 +369,7 @@ int main(int argc, char *argv[])
 
     QUrl renderUrl;
     QString presetName;
+    QStringList clipsToLoad;
     if (parser.positionalArguments().count() != 0) {
         const QString inputFilename = parser.positionalArguments().at(0);
         const QFileInfo fileInfo(inputFilename);
@@ -377,11 +378,35 @@ int main(int argc, char *argv[])
             app.url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
         }
         if (parser.positionalArguments().count() > 1) {
-            // Output render
-            const QString outputFilename = parser.positionalArguments().at(1);
-            const QFileInfo outFileInfo(outputFilename);
-            if (!outFileInfo.exists()) { // easiest way to detect "invalid"/unintended URLs is no scheme
-                renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
+            if (parser.isSet(renderOption)) {
+                // Output render
+                const QString outputFilename = parser.positionalArguments().at(1);
+                const QFileInfo outFileInfo(outputFilename);
+                if (!outFileInfo.exists()) {
+                    // easiest way to detect "invalid"/unintended URLs is no scheme
+                    renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
+                }
+            } else {
+                // We may want to open several clips in a project
+                if (!app.url.isEmpty()) {
+                    // Check if first url is not a .kdenlive project file
+                    if (!app.url.toLocalFile().endsWith(QLatin1String(".kdenlive"))) {
+                        QMimeDatabase db;
+                        QMimeType type = db.mimeTypeForUrl(app.url);
+                        if (!type.name().contains(QLatin1String("kdenlive"))) {
+                            // We are trying to open clips
+                            clipsToLoad << app.url.toLocalFile();
+                            app.url.clear();
+                        }
+                    }
+                    for (int i = 1; i < parser.positionalArguments().count(); i++) {
+                        const QString outputFilename = parser.positionalArguments().at(i);
+                        const QFileInfo outFileInfo(outputFilename);
+                        if (outFileInfo.exists()) {
+                            clipsToLoad << outFileInfo.absoluteFilePath();
+                        }
+                    }
+                }
             }
         }
     }
@@ -506,7 +531,9 @@ int main(int argc, char *argv[])
     } else if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
-    const QString clipsToLoad = parser.value(clipsOption);
+    if (parser.isSet(clipsOption)) {
+        clipsToLoad = parser.value(clipsOption).split(QLatin1Char(','));
+    }
     qApp->processEvents(QEventLoop::AllEvents);
     if (!Core::build(packageType)) {
         // App is crashing, delete config files and restart
