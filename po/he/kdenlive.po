@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-30 00:41+0000\n"
-"PO-Revision-Date: 2025-08-28 20:15+0300\n"
+"PO-Revision-Date: 2025-08-31 15:17+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1592,6 +1592,8 @@ msgid ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
 "709,UHD TV,Rec. 2020,DCI-P3"
 msgstr ""
+"NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
+"709,UHD TV,Rec. 2020,DCI-P3"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
 #, kde-format
@@ -1678,10 +1680,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
+#, kde-format
 msgid "Display Correct Gamma"
-msgstr "‫יחס ממדי תצוגה:"
+msgstr "הצגת הגאמה הנכונה"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:38
 #, kde-format
@@ -1689,10 +1690,9 @@ msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
-#, fuzzy, kde-format
-#| msgid "White point"
+#, kde-format
 msgid "Show White Point"
-msgstr "נקודה לבנה"
+msgstr "הצגת נקודה לבנה"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:42
 #, kde-format
@@ -1700,10 +1700,9 @@ msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input Gamma"
-msgstr "‫שבח כניסה (dB)"
+msgstr "גאמה קלט"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:46
 #, kde-format
@@ -1729,7 +1728,7 @@ msgstr "איזון צבעים"
 #, kde-format
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
-msgstr ""
+msgstr "שינוי חוזק הצבעים העיקריים (אדום, כחול וירוק) של תמוניות הקלט."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
@@ -2067,14 +2066,12 @@ msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
-#, fuzzy, kde-format
-#| msgid "Source color Matrix"
+#, kde-format
 msgid "Source color matrix"
 msgstr "רשת צבעי מקור"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
-#, fuzzy, kde-format
-#| msgid "Destination color Matrix"
+#, kde-format
 msgid "Destination color matrix"
 msgstr "רשת צבעי יעד"
 
@@ -2113,8 +2110,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
-#, fuzzy, kde-format
-#| msgid "Output Color Space"
+#, kde-format
 msgid "Output color space"
 msgstr "מרחב צבעי פלט"
 
@@ -3651,10 +3647,9 @@ msgid "Apply arbitrary expressions to samples in frequency domain"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
-#, fuzzy, kde-format
-#| msgid "YUV Y plane"
+#, kde-format
 msgid "Gain in Y plane"
-msgstr "מישור Y של YUB"
+msgstr "שבח במישור Y"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:11
 #, kde-format
@@ -3667,19 +3662,19 @@ msgid "Gain in V plane"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Luminance Y plane"
-msgstr "Chrominance U"
+msgstr "הארה במישור Y"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Luminance U plane"
-msgstr "Chrominance U"
+msgstr "הארה במישור U"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Luminance V plane"
-msgstr "Chrominance U"
+msgstr "הארה במישור V"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, kde-format
@@ -4477,22 +4472,19 @@ msgid "<![CDATA[Set the intensity shift]]>"
 msgstr "<![CDATA[חוזק הטשטוש]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "<![CDATA[Set strength of filtering]]>"
-msgstr "<![CDATA[הגדרת מצב המסנן]]>"
+msgstr "<![CDATA[הגדרת עוצמת הסינון]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
-#, fuzzy, kde-format
-#| msgid "Preserve lightness"
+#, kde-format
 msgid "Preserve Lightness"
 msgstr "שימור בהירות"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:31
-#, fuzzy, kde-format
-#| msgid "Preserve lightness"
+#, kde-format
 msgid "<![CDATA[Preserve lightness]]>"
-msgstr "שימור בהירות"
+msgstr "<![CDATA[שימור בהירות]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
 #, kde-format
@@ -5047,10 +5039,9 @@ msgid "Negate alpha"
 msgstr "הסט אלפא"
 
 #: data/effects/avfilter/avfilter_noise.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Noise generator"
+#, kde-format
 msgid "Video Noise Generator"
-msgstr "מחולל רעש בווידאו"
+msgstr "מחולל רעש וידאו"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
@@ -5063,54 +5054,49 @@ msgid "All components noise seed"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Component #0 noise seed"
-msgstr "סכום"
+msgstr "גרעין רעש רכיב מס׳ 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Component #1 noise seed"
-msgstr "סכום"
+msgstr "גרעין רעש רכיב מס׳ 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Component #2 noise seed"
-msgstr "סכום"
+msgstr "גרעין רעש רכיב מס׳ 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Component #3 noise seed"
-msgstr "סכום"
+msgstr "גרעין רעש רכיב מס׳ 3"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "All components strength"
-msgstr "רכיבים:"
+msgstr "עוצמת כל הרכיבים"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #0 strength"
-msgstr "רכיבים:"
+msgstr "עוצמת רכיב מס׳ 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #1 strength"
-msgstr "רכיבים:"
+msgstr "עוצמת רכיב מס׳ 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #2 strength"
-msgstr "רכיבים:"
+msgstr "עוצמת רכיב מס׳ 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #3 strength"
-msgstr "רכיבים:"
+msgstr "עוצמת רכיב מס׳ 3"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
 #: data/effects/avfilter/avfilter_noise.xml:42
@@ -10858,7 +10844,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:108
 #, kde-format
 msgid "Dimming"
-msgstr ""
+msgstr "עמעום"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:37
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:109
@@ -11493,7 +11479,7 @@ msgstr "מספר ערכי (צבע) לערוץ"
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
 msgid "Video Values (SUPERCEDED)"
-msgstr ""
+msgstr "ערכי וידאו (לא בשימוש עוד)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
@@ -11519,12 +11505,12 @@ msgstr ""
 #, kde-format
 msgctxt "Primaries Effect Name"
 msgid "Primaries"
-msgstr ""
+msgstr "עיקריים"
 
 #: data/effects/frei0r/frei0r_primaries.xml:5
 #, kde-format
 msgid "Reduce image to primary colors"
-msgstr ""
+msgstr "צמצום צבעי התמונה לצבעים העיקריים"
 
 #: data/effects/frei0r/frei0r_primaries.xml:8
 #: data/effects/sox/sox_stretch.xml:8
@@ -11546,7 +11532,7 @@ msgstr "ערוץ לציור"
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
 msgid "Extracts Red from Image"
-msgstr ""
+msgstr "חילוץ אדום מהתמונה"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:5
 #, kde-format
@@ -11556,7 +11542,7 @@ msgstr "רעש RGB"
 #: data/effects/frei0r/frei0r_rgbnoise.xml:6
 #, kde-format
 msgid "Adds RGB noise to image"
-msgstr ""
+msgstr "הוספת רעש RGB לתמונה"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:9 data/effects/grain.xml:8
 #: plugins/sampleplugin/sampleplugin.cpp:23
@@ -11583,16 +11569,17 @@ msgstr "מסדר RGB"
 #, kde-format
 msgid "Display a histogram of R, G and B components of the video data"
 msgstr ""
+"הצגת היסטוגרמה של רכיבי R,‏ G ו־B (אדום, ירוק וכחול בהתאמה) של נתוני הווידאו"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
 msgid "RGB Splitter"
-msgstr ""
+msgstr "מפצל RGP"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
 msgid "RGB splitting and shifting"
-msgstr ""
+msgstr "פיצול והזחת RGB"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
 #, fuzzy, kde-format
@@ -11699,7 +11686,7 @@ msgstr "פסים שחורים שלובים"
 #: data/effects/frei0r/frei0r_select0r.xml:41
 #, kde-format
 msgid "Chroma Key: Advanced (Color Selection)"
-msgstr ""
+msgstr "מפתח כרומה: מתקדם (בחירת צבע)"
 
 #: data/effects/frei0r/frei0r_select0r.xml:6
 #: data/effects/frei0r/frei0r_select0r.xml:42
@@ -11708,6 +11695,8 @@ msgid ""
 "Chroma Key with more advanced options (e.g. different color models). Use if "
 "basic chroma key is not working effectively."
 msgstr ""
+"מפתח כרומה עם אפשרויות מתקדמות יותר (למשל: דגמי צבע שונים). יש להשתמש אם "
+"מפתח הכרומה הבסיסי לא עובד בצורה יעילה."
 
 #: data/effects/frei0r/frei0r_select0r.xml:9
 #: data/effects/frei0r/frei0r_select0r.xml:45
@@ -11791,7 +11780,7 @@ msgstr "חידוד"
 #: data/effects/frei0r/frei0r_sharpness.xml:5
 #, kde-format
 msgid "Unsharp masking (port from Mplayer)"
-msgstr ""
+msgstr "מיסוך אי־חידוד"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:5
 #, kde-format
@@ -11860,7 +11849,7 @@ msgstr "טשטוש הזוהר"
 #: data/effects/frei0r/frei0r_softglow.xml:15
 #, kde-format
 msgid "Blur of the glow"
-msgstr ""
+msgstr "טשטוש הזוהר"
 
 #: data/effects/frei0r/frei0r_softglow.xml:19
 #, kde-format
@@ -15890,7 +15879,7 @@ msgstr ""
 msgid ""
 "Perform a conversion to value only of the source input1 using the value of "
 "input2."
-msgstr ""
+msgstr "ביצוע המרה לערך רק של מקור קלט1 באמצעות הערך של קלט2."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, kde-format
@@ -17314,7 +17303,7 @@ msgstr "יש לגרור כדי להוסיף רק את השמע לציר הזמן
 #: src/bin/bin.cpp:190 src/bin/bin.cpp:548 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
-msgstr ""
+msgstr "יש לגרור כדי להוסיף רק את הווידאו לציר הזמן"
 
 #: src/bin/bin.cpp:785 src/bin/bin.cpp:944
 #, kde-format
@@ -19976,6 +19965,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"הצגת רשימת נגינה ב־xml שמשמשת לתיצוג:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -19983,6 +19974,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"הצגת קובץ יומן תיצוג:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
