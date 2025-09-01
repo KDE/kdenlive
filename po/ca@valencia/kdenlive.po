@@ -5554,7 +5554,7 @@ msgstr "<![CDATA[Alçària de la visualització de l'electroscopi]]>"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[Trieu els components a traçar]]>"
+msgstr "<![CDATA[Trieu els components que s'han de traçar]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, kde-format
@@ -7166,7 +7166,7 @@ msgstr "Y,U,YU,V,YV,UV,Tots"
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[Tria els compornents a visualitzar]]>"
+msgstr "<![CDATA[Tria els compornents que s'han de visualitzar]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, kde-format
@@ -25391,7 +25391,7 @@ msgstr "Navegador multimèdia"
 #: src/mainwindow.cpp:330
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "Pila d'efectes/composicions"
+msgstr "Pila d'efectes i composicions"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:408
@@ -30373,7 +30373,7 @@ msgstr ""
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
 #, kde-format
 msgid "Select new models to download"
-msgstr "Trieu models nous a baixar"
+msgstr "Trieu models nous que s'han de baixar"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
@@ -32989,7 +32989,7 @@ msgstr "Enfonsa un objecte a la part inferior"
 #: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select All"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 #: src/titler/titlewidget.cpp:351
 #, kde-format
@@ -33049,7 +33049,7 @@ msgstr "Tria el color de fons"
 #: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select all"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 #: src/titler/titlewidget.cpp:387
 #, kde-format
@@ -35958,7 +35958,7 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
-"El color secundari es pot utilitzar en cas de col·lisió de subtítols per a "
+"El color secundari es pot utilitzar en cas de col·lisió de subtítols per "
 "ajudar a distingir ambdós subtítols"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
