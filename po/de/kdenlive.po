@@ -26075,10 +26075,9 @@ msgid "Current Audio Waveform Zoom Level"
 msgstr ""
 
 #: src/mainwindow.cpp:1409
-#, fuzzy, kde-format
-#| msgid "Audio thumbnails:"
+#, kde-format
 msgid "Audio Thumbnails"
-msgstr "Audio-Vorschauen:"
+msgstr "Audio-Vorschauen"
 
 #: src/mainwindow.cpp:1412
 #, kde-format

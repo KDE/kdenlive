@@ -19465,10 +19465,9 @@ msgid "Show Log"
 msgstr "Zobrazit záznamy"
 
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show Xml"
-msgstr "Zobrazit záznamy"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1919
 #, kde-format
@@ -19783,10 +19782,9 @@ msgid "Rendering of %1 finished in %2"
 msgstr "Renderování %1 bylo dokončeno za %2"
 
 #: src/dialogs/renderwidget.cpp:1685
-#, fuzzy, kde-format
-#| msgid "Rendering of %1 finished in %2"
+#, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "Renderování %1 bylo dokončeno za %2"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:1705
 #, kde-format
@@ -24406,10 +24404,9 @@ msgid "%1×"
 msgstr ""
 
 #: src/mainwindow.cpp:1376
-#, fuzzy, kde-format
-#| msgid "Monitor Overlay Audio Waveform"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "Vrstva monitoru Zvukových křivek"
+msgstr ""
 
 #: src/mainwindow.cpp:1382
 #, kde-format
@@ -24440,10 +24437,9 @@ msgid ""
 msgstr ""
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Slideshow Clips"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "Klipy prezentací"
+msgstr ""
 
 #: src/mainwindow.cpp:1425
 #, kde-kuit-format

@@ -33157,7 +33157,7 @@ msgstr "Enfonsa un objecte a la part inferior"
 #: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select All"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 #: src/titler/titlewidget.cpp:351
 #, kde-format
@@ -33217,7 +33217,7 @@ msgstr "Tria el color de fons"
 #: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select all"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 #: src/titler/titlewidget.cpp:387
 #, kde-format

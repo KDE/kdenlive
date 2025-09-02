@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-30 00:41+0000\n"
-"PO-Revision-Date: 2025-08-29 07:53+0200\n"
+"PO-Revision-Date: 2025-09-01 18:57+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -25674,10 +25674,9 @@ msgid "%1×"
 msgstr "%1 ×"
 
 #: src/mainwindow.cpp:1376
-#, fuzzy, kde-format
-#| msgid "Reset Audio Waveform Zoom"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "Återställ zoom för ljudvågformer"
+msgstr "Klicka för att återställa zoom för ljudvågformer"
 
 #: src/mainwindow.cpp:1382
 #, kde-format
@@ -25710,18 +25709,15 @@ msgstr ""
 "uppspelningspositionen, markörer, flaggor, och annat)."
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Clip Name"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "Klippnamn"
+msgstr "Visa klippnamn"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
-msgstr "Visar eller döljer klippetiketter i tidslinjen (förval är på)."
+msgstr "Visar eller döljer klippnamn och information i tidslinjen."
 
 #: src/mainwindow.cpp:1430
 #, kde-format
