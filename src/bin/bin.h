@@ -236,7 +236,7 @@ public:
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
      */
-    std::vector<QString> selectedClipsIds(bool allowSubClips = false);
+    std::vector<QString> selectedClipsIds(bool allowSubClips = false, bool allowFolders = false);
 
     // Returns the selected clips
     QList<std::shared_ptr<ProjectClip>> selectedClips();
