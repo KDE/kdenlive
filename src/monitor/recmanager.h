@@ -68,13 +68,11 @@ private:
     QSlider *m_audioCaptureSlider;
     bool m_checkAudio{false};
     bool m_checkVideo{false};
-    Mlt::Producer *createV4lProducer();
     int m_screenIndex{0};
 
 private Q_SLOTS:
     void slotSetScreen(int ScreenIndex);
     void slotRecord(bool record);
-    void slotPreview(bool record);
     void slotProcessStatus(int exitCode, QProcess::ExitStatus exitStatus);
     void slotReadProcessInfo();
     void showRecConfig();

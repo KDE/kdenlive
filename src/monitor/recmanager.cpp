@@ -33,7 +33,6 @@ RecManager::RecManager(Monitor *parent)
 {
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
-    connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);
 
     m_recAction = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Screen Grab"));
     m_recAction->setCheckable(true);
@@ -46,8 +45,6 @@ RecManager::RecManager(Monitor *parent)
     m_recAudio = new QCheckBox(i18n("Audio"));
     m_recToolbar->addWidget(m_recVideo);
     m_recToolbar->addWidget(m_recAudio);
-    m_recAudio->setChecked(KdenliveSettings::v4l_captureaudio());
-    m_recVideo->setChecked(KdenliveSettings::v4l_capturevideo());
 
     QWidget *spacer = new QWidget(parent);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -152,16 +149,6 @@ void RecManager::stop()
 
 void RecManager::slotRecord(bool record)
 {
-    /*if (m_device_selector->currentData().toInt() == Video4Linux) {
-        if (record) {
-            m_checkAudio = m_recAudio->isChecked();
-            m_checkVideo = m_recVideo->isChecked();
-            pCore->startMediaCapture(m_checkAudio, m_checkVideo);
-        } else {
-            stopCapture();
-        }
-        return;
-    }*/
     if (!record) {
         if (!m_captureProcess) {
             return;
@@ -384,88 +371,9 @@ void RecManager::slotVideoDeviceChanged(int)
     */
 }
 
-Mlt::Producer *RecManager::createV4lProducer()
-{
-    QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
-    Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
-    bool profileUsed = false;
-    Mlt::Producer *prod = nullptr;
-    if (m_recVideo->isChecked()) {
-        prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
-        if ((prod == nullptr) || !prod->is_valid()) {
-            return nullptr;
-        }
-        prod->set("width", vidProfile->width());
-        prod->set("height", vidProfile->height());
-        prod->set("framerate", vidProfile->fps());
-        /*p->set("standard", ui->v4lStandardCombo->currentText().toLatin1().constData());
-        p->set("channel", ui->v4lChannelSpinBox->value());
-        p->set("audio_ix", ui->v4lAudioComboBox->currentIndex());*/
-        prod->set("force_seekable", 0);
-        profileUsed = true;
-    }
-    if (m_recAudio->isChecked() && (prod != nullptr) && prod->is_valid()) {
-        // Add audio track
-        Mlt::Producer *audio = new Mlt::Producer(
-            *vidProfile,
-            QStringLiteral("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
-        audio->set("mlt_service", "avformat-novalidate");
-        audio->set("audio_index", 0);
-        audio->set("video_index", -1);
-        auto *tractor = new Mlt::Tractor(*vidProfile);
-        tractor->set_track(*prod, 0);
-        delete prod;
-        tractor->set_track(*audio, 1);
-        delete audio;
-        prod = new Mlt::Producer(tractor->get_producer());
-        delete tractor;
-        profileUsed = true;
-    }
-    if (!profileUsed) {
-        delete vidProfile;
-    }
-    return prod;
-}
-
 void RecManager::slotSetScreen(int screenIndex)
 {
     m_screenIndex = screenIndex;
-}
-
-void RecManager::slotPreview(bool preview)
-{
-    if (m_device_selector->currentData().toInt() == Video4Linux) {
-        if (preview) {
-            std::shared_ptr<Mlt::Producer> prod(createV4lProducer());
-            if (prod && prod->is_valid()) {
-                m_monitor->updateClipProducer(prod);
-            } else {
-                Q_EMIT warningMessage(i18n("Capture crashed, please check your parameters"));
-            }
-        } else {
-            m_monitor->slotOpenClip(nullptr);
-        }
-    }
-
-    /*
-       buildMltDevice(path);
-
-       bool isXml;
-       producer = getV4lXmlPlaylist(profile, &isXml);
-
-       //producer =
-    QStringLiteral("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double)
-    profile.frame_rate_num / profile.frame_rate_den);
-       if (!m_captureDevice->slotStartPreview(producer, isXml)) {
-           // v4l capture failed to start
-           video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters…"));
-
-       } else {
-           m_playAction->setEnabled(false);
-           m_stopAction->setEnabled(true);
-           m_isPlaying = true;
-       }
-    }*/
 }
 
 void RecManager::slotShowLog()
