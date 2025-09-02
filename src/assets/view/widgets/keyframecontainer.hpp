@@ -24,6 +24,7 @@ class QToolBar;
 class TimecodeDisplay;
 class KSelectAction;
 class KeyframeMonitorHelper;
+class RotatedRectHelper;
 class KDualAction;
 class GeometryWidget;
 class QStackedWidget;
