@@ -2937,7 +2937,7 @@ void Bin::clearMonitor()
     Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
 }
 
-std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
+std::vector<QString> Bin::selectedClipsIds(bool allowSubClips, bool allowFolders)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
@@ -2954,6 +2954,8 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
                 ids.push_back(item->clipId());
             }
         } else if (item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
+            ids.push_back(item->clipId());
+        } else if (allowFolders && item->itemType() == AbstractProjectItem::FolderItem) {
             ids.push_back(item->clipId());
         }
     }
@@ -4104,7 +4106,7 @@ void Bin::slotAddEffect(std::vector<QString> ids, const QStringList &effectData)
 {
     if (ids.size() == 0) {
         // Apply effect to all selected clips
-        ids = selectedClipsIds();
+        ids = selectedClipsIds(false, true);
     }
     if (ids.size() == 0) {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
@@ -4116,16 +4118,11 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
 {
     if (parent.isValid()) {
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
-        if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
-            // effect not supported on folder items
-            Q_EMIT displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
-            return;
-        }
         if (parentItem->itemType() == AbstractProjectItem::SubClipItem || parentItem->itemType() == AbstractProjectItem::SubSequenceItem) {
             // effect only supported on clip items
             parentItem = std::static_pointer_cast<ProjectSubClip>(parentItem)->getMasterClip();
         }
-        std::vector<QString> ids = selectedClipsIds();
+        std::vector<QString> ids = selectedClipsIds(false, true);
         const QString droppedId = parentItem->clipId();
         if (ids.size() > 1 && std::find(ids.begin(), ids.end(), droppedId) != ids.end()) {
             if (effectData.count() == 6) {
@@ -4172,15 +4169,51 @@ bool Bin::doPasteEffect(std::vector<QString> ids, const QStringList &effectData)
     bool res = true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    QList<std::shared_ptr<ProjectClip>> clipList;
+    for (auto &id : ids) {
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+        if (!item) {
+            continue;
+        }
+        std::shared_ptr<ProjectClip> clip = nullptr;
+        switch (item->itemType()) {
+        case AbstractProjectItem::ClipItem: {
+            clip = std::static_pointer_cast<ProjectClip>(item);
+            break;
+        }
+        case AbstractProjectItem::SubClipItem: {
+            std::shared_ptr<ProjectSubClip> subClip = std::static_pointer_cast<ProjectSubClip>(item);
+            if (subClip) {
+                clip = subClip->getMasterClip();
+            }
+        } break;
+        case AbstractProjectItem::FolderItem: {
+            std::shared_ptr<ProjectFolder> folder = std::static_pointer_cast<ProjectFolder>(item);
+            if (folder) {
+                QList<std::shared_ptr<ProjectClip>> children = folder->childClips();
+                for (auto &c : children) {
+                    if (!clipList.contains(c)) {
+                        clipList << c;
+                    }
+                }
+            }
+        } break;
+        default:
+            break;
+        }
+        if (clip && !clipList.contains(clip)) {
+            clipList << clip;
+        }
+    }
     if (effectData.count() == 6) {
         // Paste effect from another stack
         std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
-        for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
+        for (auto &c : clipList) {
+            res = res && c->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
         }
     } else {
-        for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
+        for (auto &c : clipList) {
+            res = res && c->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
         }
     }
     if (res) {

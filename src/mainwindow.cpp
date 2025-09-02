@@ -3394,7 +3394,7 @@ void MainWindow::slotAddEffect(QAction *result)
 
 void MainWindow::addEffect(const QString &effectId)
 {
-    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip) {
+    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip || m_clipMonitor->isActive()) {
         // Pass the command to bin
         pCore->activeBin()->slotAddEffect({}, {effectId});
     } else if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineTrack ||
