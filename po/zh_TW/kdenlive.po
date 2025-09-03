@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 02:44+0000\n"
+"POT-Creation-Date: 2025-09-03 02:43+0000\n"
 "PO-Revision-Date: 2025-07-03 23:26+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -16526,7 +16526,7 @@ msgid "Generator Failed"
 msgstr "產生器已失敗"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:56
-#: src/assets/assetlist/view/assetlistwidget.cpp:404
+#: src/assets/assetlist/view/assetlistwidget.cpp:403
 #, kde-format
 msgid "Add to favorites"
 msgstr "新增到最愛"
@@ -16617,13 +16617,13 @@ msgstr "顯示/隱藏合成方案的描述"
 msgid "Search…"
 msgstr "搜尋…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:404
+#: src/assets/assetlist/view/assetlistwidget.cpp:403
 #, kde-format
 msgid "Remove from favorites"
 msgstr "從最愛中移除"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:426
-#: src/assets/assetlist/view/assetlistwidget.cpp:428
+#: src/assets/assetlist/view/assetlistwidget.cpp:425
+#: src/assets/assetlist/view/assetlistwidget.cpp:427
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -16760,7 +16760,7 @@ msgstr "軌道 %1 的效果"
 msgid "Bin %1 effects"
 msgstr "素材庫 %1 的效果"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3855
+#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3857
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
@@ -16768,7 +16768,7 @@ msgstr "素材庫 %1 的效果"
 msgid "Show log"
 msgstr "顯示紀錄"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3858
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3860
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -17977,7 +17977,7 @@ msgstr "您不能將素材取代為另一種類的素材（音訊/視訊不相�
 msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
-#: src/bin/bin.cpp:2147 src/bin/bin.cpp:5794 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2147 src/bin/bin.cpp:5827 src/bin/clipcreator.cpp:330
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -18127,7 +18127,7 @@ msgstr "資料夾"
 msgid "Create bin folder"
 msgstr "建立素材庫資料夾"
 
-#: src/bin/bin.cpp:2738 src/bin/bin.cpp:2751 src/bin/bin.cpp:3762
+#: src/bin/bin.cpp:2738 src/bin/bin.cpp:2751 src/bin/bin.cpp:3764
 #: src/timeline2/model/timelinemodel.cpp:2202
 #, kde-format
 msgid "Delete Clip"
@@ -18141,7 +18141,7 @@ msgid ""
 "timeline."
 msgstr "從專案素材庫與時間軸刪除目前選取的素材。"
 
-#: src/bin/bin.cpp:2741 src/bin/bin.cpp:2754 src/bin/bin.cpp:3738
+#: src/bin/bin.cpp:2741 src/bin/bin.cpp:2754 src/bin/bin.cpp:3740
 #, kde-format
 msgid "Proxy Clip"
 msgstr "代理素材"
@@ -18156,22 +18156,22 @@ msgstr "刪除資料夾"
 msgid "Proxy Folder"
 msgstr "代理資料夾"
 
-#: src/bin/bin.cpp:3016
+#: src/bin/bin.cpp:3018
 #, kde-format
 msgid "Edit rating"
 msgstr "編輯評分"
 
-#: src/bin/bin.cpp:3018
+#: src/bin/bin.cpp:3020
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "無法為此項目設定評分"
 
-#: src/bin/bin.cpp:3682
+#: src/bin/bin.cpp:3684
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "新增素材或資料夾…"
 
-#: src/bin/bin.cpp:3683
+#: src/bin/bin.cpp:3685
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18184,97 +18184,97 @@ msgstr ""
 "點擊向下箭頭圖示來選擇原始素材類別。<nl/>點擊媒體圖示來開啟選擇原始檔案的視"
 "窗。"
 
-#: src/bin/bin.cpp:3689
+#: src/bin/bin.cpp:3691
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "新增色彩素材…"
 
-#: src/bin/bin.cpp:3691
+#: src/bin/bin.cpp:3693
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "新增圖片序列…"
 
-#: src/bin/bin.cpp:3693
+#: src/bin/bin.cpp:3695
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "新增標題素材"
 
-#: src/bin/bin.cpp:3695
+#: src/bin/bin.cpp:3697
 #, kde-format
 msgid "Add Template Title…"
 msgstr "新增樣板標題…"
 
-#: src/bin/bin.cpp:3697
+#: src/bin/bin.cpp:3699
 #, kde-format
 msgid "Create Animation…"
 msgstr "建立動畫…"
 
-#: src/bin/bin.cpp:3699
+#: src/bin/bin.cpp:3701
 #, kde-format
 msgid "Add Sequence…"
 msgstr "新增序列…"
 
-#: src/bin/bin.cpp:3702 src/mainwindow.cpp:309
+#: src/bin/bin.cpp:3704 src/mainwindow.cpp:309
 #, kde-format
 msgid "Online Resources"
 msgstr "線上資源"
 
-#: src/bin/bin.cpp:3706
+#: src/bin/bin.cpp:3708
 #, kde-format
 msgid "Locate Clip…"
 msgstr "找出素材…"
 
-#: src/bin/bin.cpp:3711
+#: src/bin/bin.cpp:3713
 #, kde-format
 msgid "Reload Clip"
 msgstr "重新載入素材"
 
-#: src/bin/bin.cpp:3717
+#: src/bin/bin.cpp:3719
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "轉碼成適合編輯的格式…"
 
-#: src/bin/bin.cpp:3722
+#: src/bin/bin.cpp:3724
 #, kde-format
 msgid "Replace Clip…"
 msgstr "取代素材…"
 
-#: src/bin/bin.cpp:3728
+#: src/bin/bin.cpp:3730
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "取代時間軸中的素材…"
 
-#: src/bin/bin.cpp:3733
+#: src/bin/bin.cpp:3735
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "複製素材"
 
-#: src/bin/bin.cpp:3745 src/bin/bin.cpp:3800
+#: src/bin/bin.cpp:3747 src/bin/bin.cpp:3802
 #, kde-format
 msgid "Clip Properties"
 msgstr "素材屬性"
 
-#: src/bin/bin.cpp:3750 src/mltcontroller/clippropertiescontroller.cpp:609
+#: src/bin/bin.cpp:3752 src/mltcontroller/clippropertiescontroller.cpp:609
 #, kde-format
 msgid "Edit Clip"
 msgstr "編輯素材"
 
-#: src/bin/bin.cpp:3768
+#: src/bin/bin.cpp:3770
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "序列的預設目標資料夾"
 
-#: src/bin/bin.cpp:3773
+#: src/bin/bin.cpp:3775
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "音訊擷取的預設目標資料夾"
 
-#: src/bin/bin.cpp:3777
+#: src/bin/bin.cpp:3779
 #, kde-format
 msgid "Create Folder"
 msgstr "建立資料夾"
 
-#: src/bin/bin.cpp:3780
+#: src/bin/bin.cpp:3782
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18284,61 +18284,56 @@ msgstr ""
 "在專案素材庫中的目前位置建立資料夾。用來更好地整理原始檔案。資料夾中可以包含"
 "子資料夾。"
 
-#: src/bin/bin.cpp:3918 src/bin/bin.cpp:3951
+#: src/bin/bin.cpp:3920 src/bin/bin.cpp:3953
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "建立新的序列"
 
-#: src/bin/bin.cpp:3921 src/bin/bin.cpp:3924 src/bin/bin.cpp:3954
+#: src/bin/bin.cpp:3923 src/bin/bin.cpp:3926 src/bin/bin.cpp:3956
 #, kde-format
 msgid "Sequence %1"
 msgstr "序列 %1"
 
-#: src/bin/bin.cpp:3985
+#: src/bin/bin.cpp:3987
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "移動素材"
 
-#: src/bin/bin.cpp:4027
+#: src/bin/bin.cpp:4029
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "沒有可插入的有效素材"
 
-#: src/bin/bin.cpp:4040 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:4042 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3441
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "選取素材來套用效果"
 
-#: src/bin/bin.cpp:4051
-#, kde-format
-msgid "Cannot apply effects on folders"
-msgstr "無法將效果套用在資料夾上"
-
-#: src/bin/bin.cpp:4079 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/bin/bin.cpp:4076 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "無法新增效果到素材上"
 
-#: src/bin/bin.cpp:4117 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4150 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "貼上效果"
 
-#: src/bin/bin.cpp:4154 src/bin/bin.cpp:4161
+#: src/bin/bin.cpp:4187 src/bin/bin.cpp:4194
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "選擇要加標籤的素材"
 
-#: src/bin/bin.cpp:4300
+#: src/bin/bin.cpp:4333
 #, kde-format
 msgid "Edit Tags"
 msgstr "編輯標籤"
 
-#: src/bin/bin.cpp:4636 src/bin/projectclip.cpp:189
+#: src/bin/bin.cpp:4669 src/bin/projectclip.cpp:189
 #: src/bin/projectclip.cpp:1985 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -18346,27 +18341,27 @@ msgstr "編輯標籤"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/bin/bin.cpp:4700
+#: src/bin/bin.cpp:4733
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "輸入您的圖片編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4712
+#: src/bin/bin.cpp:4745
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "請設定開啟圖片用的預設應用程式"
 
-#: src/bin/bin.cpp:4717
+#: src/bin/bin.cpp:4750
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "輸入您的音訊編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4729
+#: src/bin/bin.cpp:4762
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "請設定用於開啟音訊檔案的應用程式"
 
-#: src/bin/bin.cpp:4739 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4772 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:484 src/jobs/cliploadtask.cpp:496
 #: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
 #: src/layouts/layoutmanagerdialog.cpp:159
@@ -18377,12 +18372,12 @@ msgstr "請設定用於開啟音訊檔案的應用程式"
 msgid "Cannot open file %1"
 msgstr "無法開啟檔案 %1"
 
-#: src/bin/bin.cpp:4776 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:4809 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "（複本）"
 
-#: src/bin/bin.cpp:4786
+#: src/bin/bin.cpp:4819
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -18391,82 +18386,82 @@ msgstr ""
 "您正在編輯外部標題素材（%1）。您希望將變更儲存到該標題檔案，還是要只為此專案"
 "儲存變更？"
 
-#: src/bin/bin.cpp:4789 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:4822 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "儲存標題"
 
-#: src/bin/bin.cpp:4789
+#: src/bin/bin.cpp:4822
 #, kde-format
 msgid "Save to title file"
 msgstr "儲存到標題檔"
 
-#: src/bin/bin.cpp:4790
+#: src/bin/bin.cpp:4823
 #, kde-format
 msgid "Save in project only"
 msgstr "只儲存於專案中"
 
-#: src/bin/bin.cpp:4813 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4846 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "標題素材"
 
-#: src/bin/bin.cpp:4863
+#: src/bin/bin.cpp:4896
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "素材無效，將從專案中移除。"
 
-#: src/bin/bin.cpp:4867
+#: src/bin/bin.cpp:4900
 #, kde-format
 msgid "Invalid clip"
 msgstr "無效的素材"
 
-#: src/bin/bin.cpp:4981
+#: src/bin/bin.cpp:5014
 #, kde-format
 msgid "Enable proxies"
 msgstr "啟用代理"
 
-#: src/bin/bin.cpp:4981
+#: src/bin/bin.cpp:5014
 #, kde-format
 msgid "Disable proxies"
 msgstr "停用代理"
 
-#: src/bin/bin.cpp:5162
+#: src/bin/bin.cpp:5195
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "重新產生代理"
 
-#: src/bin/bin.cpp:5396
+#: src/bin/bin.cpp:5429
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:5412
+#: src/bin/bin.cpp:5445
 #, kde-format
 msgid "Add Tracks"
 msgstr "新增軌道"
 
-#: src/bin/bin.cpp:5414
+#: src/bin/bin.cpp:5447
 #, kde-format
 msgid "Edit Streams"
 msgstr "編輯串流"
 
-#: src/bin/bin.cpp:5430
+#: src/bin/bin.cpp:5463
 #, kde-format
 msgid "Don't ask again"
 msgstr "不要再詢問"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5434
+#: src/bin/bin.cpp:5467
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr "您的專案需要更多音訊軌才能處理所有串流。要新增 %1 個音訊軌嗎？"
 
-#: src/bin/bin.cpp:5446 src/mainwindow.cpp:2791
+#: src/bin/bin.cpp:5479 src/mainwindow.cpp:2791
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要新增標記的素材"
@@ -18474,7 +18469,7 @@ msgstr "無法找到要新增標記的素材"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5460 src/bin/model/markerlistmodel.cpp:738
+#: src/bin/bin.cpp:5493 src/bin/model/markerlistmodel.cpp:738
 #: src/definitions.cpp:75 src/definitions.cpp:100
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
@@ -18483,33 +18478,33 @@ msgstr "無法找到要新增標記的素材"
 msgid "Marker"
 msgstr "標記"
 
-#: src/bin/bin.cpp:5550
+#: src/bin/bin.cpp:5583
 #, kde-format
 msgid "Could not find master clip"
 msgstr "找不到 master 素材"
 
-#: src/bin/bin.cpp:5816
+#: src/bin/bin.cpp:5849
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 個素材 | "
 
-#: src/bin/bin.cpp:5818
+#: src/bin/bin.cpp:5851
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 個素材（已選 %2 個）| "
 
-#: src/bin/bin.cpp:5887 src/bin/bin.cpp:5964
+#: src/bin/bin.cpp:5920 src/bin/bin.cpp:5997
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "為素材新增額外串流"
 
-#: src/bin/bin.cpp:5908
+#: src/bin/bin.cpp:5941
 #, kde-format
 msgid "Import selected clips"
 msgstr "匯入所選素材"
 
-#: src/bin/bin.cpp:5910
+#: src/bin/bin.cpp:5943
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -18518,51 +18513,51 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5923 src/mltcontroller/clippropertiescontroller.cpp:725
+#: src/bin/bin.cpp:5956 src/mltcontroller/clippropertiescontroller.cpp:725
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
 
-#: src/bin/bin.cpp:5938
+#: src/bin/bin.cpp:5971
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音訊串流 %1"
 
-#: src/bin/bin.cpp:5991
+#: src/bin/bin.cpp:6024
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除素材標記"
 
-#: src/bin/bin.cpp:6151
+#: src/bin/bin.cpp:6184
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我們建議您在進行轉碼前先儲存專案"
 
-#: src/bin/bin.cpp:6152
+#: src/bin/bin.cpp:6185
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "儲存專案"
 
-#: src/bin/bin.cpp:6153
+#: src/bin/bin.cpp:6186
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
-#: src/bin/bin.cpp:6311 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6344 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "刪除效果 %1"
 
-#: src/bin/bin.cpp:6377 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6410 src/mainwindow.cpp:302
 #, kde-format
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6380 src/bin/bin.cpp:6383 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6413 src/bin/bin.cpp:6416 src/mainwindow.cpp:4976
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -37349,6 +37344,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "Cannot apply effects on folders"
+#~ msgstr "無法將效果套用在資料夾上"
 
 #, fuzzy
 #~| msgid "Threshold"
