@@ -51,7 +51,7 @@
           <string>KDENLIVE</string>
         </array>
         <key>CFBundleTypeIconFile</key>
-        <string>kdenlive.icns</string>
+        <string>sc-apps-kdenlive.icns</string>
         <key>CFBundleTypeMIMETypes</key>
         <array>
           <string>application/vnd.kdenlive+xml</string>
