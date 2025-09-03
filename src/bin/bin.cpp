@@ -2933,6 +2933,7 @@ void Bin::clearMonitor()
 {
     Q_EMIT requestShowClipProperties(nullptr);
     Q_EMIT requestClipShow(nullptr);
+    Q_EMIT openClip(nullptr);
     // clear effect stack
     Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
 }

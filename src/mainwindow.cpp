@@ -5187,7 +5187,12 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
 void MainWindow::cleanBins()
 {
     // Clean secondary bins first
+    QWidget *wid = QApplication::focusWidget();
+    bool binHasFocus = false;
     for (auto &bin : m_binWidgets) {
+        if (bin == wid || bin->isAncestorOf(wid)) {
+            binHasFocus = true;
+        }
         if (bin->isMainBin()) {
             continue;
         }
@@ -5199,6 +5204,10 @@ void MainWindow::cleanBins()
             continue;
         }
         bin->cleanDocument();
+    }
+    // Ensure monitor is cleared
+    if (!binHasFocus) {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
     }
 }
 
