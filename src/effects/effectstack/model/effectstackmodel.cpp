@@ -1329,9 +1329,9 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
             if (m_ownerId.type == KdenliveObjectType::Master || m_ownerId.type == KdenliveObjectType::TimelineTrack) {
                 // check for subtitle effect
                 auto ms = m_masterService.lock();
-                int ct = ms->filter_count();
                 QVector<int> ixToMove;
-                for (int i = 0; i < ct; i++) {
+                int ct = ms->filter_count();
+                for (int i = 0; i < ms->filter_count(); i++) {
                     std::shared_ptr<Mlt::Filter> ft(ms->filter(i));
                     if (ft->get_int("internal_added") > 0) {
                         ixToMove << i;
@@ -1459,8 +1459,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     int imported = 0;
     int builtin = 0;
     if (auto ptr = service.lock()) {
-        int max = ptr->filter_count();
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < ptr->filter_count(); i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
             if (filter->get_int("internal_added") > 0 && m_ownerId.type != KdenliveObjectType::TimelineTrack) {
                 // Required to load master audio effects
@@ -2013,8 +2012,7 @@ void EffectStackModel::updateEffectZones()
 void EffectStackModel::passEffects(Mlt::Producer *producer, const QString &exception)
 {
     auto ms = m_masterService.lock();
-    int ct = ms->filter_count();
-    for (int i = 0; i < ct; i++) {
+    for (int i = 0; i < ms->filter_count(); i++) {
         if (ms->filter(i)->get_int("internal_added") > 0 || !ms->filter(i)->property_exists("kdenlive_id")) {
             continue;
         }
