@@ -181,7 +181,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
 
         RenderPresetParams params = model->params();
 
-        // we did not calulate the x265 params yet, so we expect to not have them
+        // we did not calculate the x265 params yet, so we expect to not have them
         CHECK_FALSE(params.contains(QStringLiteral("x265-params")));
 
         params.refreshX265Params();
@@ -259,7 +259,7 @@ TEST_CASE("Tests of the render functions to use guides for sections", "[RenderRe
         CHECK(sections.at(3).first == 70);
         CHECK(sections.at(3).second == out);
 
-        // check no section name appears twice, eventhough we have guides with the same name
+        // check no section name appears twice, even though we have guides with the same name
         QStringList names = r->getSectionsNames();
         CHECK(names.removeDuplicates() == 0);
 

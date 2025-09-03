@@ -64,15 +64,15 @@ public:
                                                   std::shared_ptr<ProjectItemModel> model);
 
     /**
-     * @brief Retreive original clip from proxy path when using external proxies
+     * @brief Retrieve original clip from proxy path when using external proxies
      */
     static const QString getOriginalFromProxy(QString proxyPath);
     /**
-     * @brief Retreive original clip from proxy path when using external proxies
+     * @brief Retrieve original clip from proxy path when using external proxies
      */
     static const QString getProxyFromOriginal(QString originalPath);
     /**
-     * @brief Retreive the list of external files used for sequence clip timewarp
+     * @brief Retrieve the list of external files used for sequence clip timewarp
      */
     QStringList timelineSequenceExtraResources() const;
 
@@ -224,8 +224,8 @@ public:
                                                        bool secondPlaylist = false, const TimeWarpInfo timeremapInfo = {});
 
     /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
-       use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
-       bool returned has the following sementic:
+        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline.
+        The bool returned has the following semantic:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
            - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
@@ -282,7 +282,7 @@ public:
     void copyTimeWarpProducers(const QDir sequenceFolder, bool copy);
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
-    /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
+    /** @brief Returns a list of important enforced parameters in MLT format, for example to disable autorotate. */
     const QStringList enforcedParams() const;
     /** @brief Remove clip references in a timeline. */
     void purgeReferences(const QUuid &activeUuid, bool deleteClip = true);

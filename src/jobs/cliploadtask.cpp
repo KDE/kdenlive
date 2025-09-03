@@ -285,7 +285,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     }
                 }
             } else {
-                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOT CLIP\n\nYYYYYYYYYYYY";
+                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOR CLIP\n\nYYYYYYYYYYYY";
             }
         }
     }

@@ -60,7 +60,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         }
         // Ensure the texts are read correctly
         REQUIRE(subtitlesText == control);
-        // Ensure timeing is correct
+        // Ensure timing is correct
         REQUIRE(sTime == controleTime);
         subtitleModel->removeAllSubtitles();
         REQUIRE(subtitleModel->rowCount() == 0);
@@ -130,7 +130,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         }
         // Ensure the texts are read correctly
         REQUIRE(subtitlesText == control);
-        // Ensure timeing is correct
+        // Ensure timing is correct
         REQUIRE(sTime == controleTime);
         subtitleModel->removeAllSubtitles();
         REQUIRE(subtitleModel->rowCount() == 0);

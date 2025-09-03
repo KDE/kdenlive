@@ -12,7 +12,7 @@ Currently supported distributions are:
 
 The minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.22.0.
 
-Kdenlive droped Qt5 support with version 24.12
+Kdenlive dropped Qt5 support with version 24.12
 
 ## Build on Linux
 

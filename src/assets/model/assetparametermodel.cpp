@@ -1041,7 +1041,7 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
         if (!param.first.isEmpty()) {
             QModelIndex ix = index(m_rows.indexOf(param.first), 0);
             if (m_params.at(param.first).type == ParamType::MultiSwitch) {
-                // Multiswitch param value is not updated on change, fo fetch real value now
+                // Multiswitch param value is not updated on change, go fetch real value now
                 QVariant multiVal = data(ix, AssetParameterModel::ValueRole).toString();
                 res.push_back(QPair<QString, QVariant>(param.first, multiVal));
                 continue;

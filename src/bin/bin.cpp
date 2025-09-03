@@ -2129,7 +2129,7 @@ void Bin::slotReplaceClip()
             if (ix == activeSelection) {
                 qDebug() << "==== FOUND ACTIVE CLIP: " << currentItem->clipUrl();
             } else {
-                qDebug() << "==== FOUND SELECED CLIP: " << currentItem->clipUrl();
+                qDebug() << "==== FOUND SELECTED CLIP: " << currentItem->clipUrl();
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();

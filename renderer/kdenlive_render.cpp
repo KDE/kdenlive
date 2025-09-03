@@ -41,11 +41,11 @@ int main(int argc, char **argv)
     if (mode == "preview-chunks") {
 
         parser.clearPositionalArguments();
-        parser.addPositionalArgument("preview-chunks", "Mode: Render splited in to multiple files for timeline preview.");
+        parser.addPositionalArgument("preview-chunks", "Mode: Render split into multiple files for timeline preview.");
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
         parser.addPositionalArgument("destination", "Destination directory.");
         parser.addPositionalArgument("chunks", "Chunks to render.");
-        parser.addPositionalArgument("chunk_size", "Chunks to render.");
+        parser.addPositionalArgument("chunk_size", "Size of chunks to render.");
         parser.addPositionalArgument("profile_path", "Path to profile.");
         parser.addPositionalArgument("file_extension", "Rendered file extension.");
         parser.addPositionalArgument("args", "Space separated libavformat arguments.", "[arg1 arg2 ...]");
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 
         QCommandLineOption outputOption({"o", "output"},
                                         "The destination file, optional. If no set the destination will be retrieved from the \"target\" property of the "
-                                        "consumer in the source file. If set it overrides the consumers \"taget\" property.",
+                                        "consumer in the source file. If set it overrides the consumers \"target\" property.",
                                         "file");
         parser.addOption(outputOption);
 

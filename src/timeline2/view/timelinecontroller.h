@@ -203,7 +203,7 @@ public:
     Q_INVOKABLE QVariantList subtitlesList() const;
     int getMaxSubLayer() const;
     void setMaxSubLayer(int value);
-    /** @brief Returns true if the avfilter.subtiles filter is not found */
+    /** @brief Returns true if the avfilter.subtitles filter is not found */
     bool subtitlesWarning() const;
     Q_INVOKABLE void subtitlesWarningDetails();
     void switchSubtitleDisable();

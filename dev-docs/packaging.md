@@ -21,7 +21,7 @@ dmg              | macOS   | [Craft Blueprints Repository][craft]
 
 ### PPA
 
-⚠️ With the switch to Qt6 it has become almost impossible for us to maintain the PPA with the latest version of Kdenlive, hence we do not offically support it anymore.
+⚠️ With the switch to Qt6 it has become almost impossible for us to maintain the PPA with the latest version of Kdenlive, hence we do not officially support it anymore.
 
 #### Permissions
 
@@ -29,7 +29,7 @@ You need to be in the kdenlive team on launchpad so you can push into git clones
 
 #### Repositories
 
-The source code reposities of Kdenlive and MLT are mirrors of the original repositories and get updated automatically. You can not push to these repositories manually.
+The source code repositories of Kdenlive and MLT are mirrors of the original repositories and get updated automatically. You can not push to these repositories manually.
 
 For translations and packaging data there are `*-packaging` repositories:
 

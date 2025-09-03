@@ -571,7 +571,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     // Memory check timer
     connect(&m_memCheckTimer, &QTimer::timeout, this, &RenderWidget::slotCheckFreeMemory);
-    // Devault interval check is 10 seconds
+    // Default interval check is 10 seconds
     m_memCheckTimer.setInterval(10000);
     m_memCheckTimer.setSingleShot(false);
 
@@ -1645,7 +1645,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         }
         if (!item) {
             if (dest.isEmpty() && status == -2) {
-                // start failure returs an empty url
+                // start failure returns an empty url
                 item = startingJob();
             }
             if (item == nullptr) {

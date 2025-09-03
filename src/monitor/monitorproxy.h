@@ -120,7 +120,7 @@ public:
     void setTimeCode(TimecodeDisplay *td);
     /** @brief Set position in frames to be displayed in the monitor overlay for preview tile one
      *  @param frames Position in frames
-     *  @param isRelative Whether @p frames is the absoulute position (overwrite current) or an offset position (subtract from current)
+     *  @param isRelative Whether @p frames is the absolute position (overwrite current) or an offset position (subtract from current)
      */
     void setTrimmingTC1(int frames, bool isRelativ = false);
     /** @brief Set position in frames to be displayed in the monitor overlay for preview tile two

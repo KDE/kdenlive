@@ -2812,7 +2812,7 @@ void TimelineController::remapItemTime(int clipId)
     if (clipId == -1) {
         clipId = getMainSelectedClip();
     }
-    // Don't allow remaping a clip with speed effect
+    // Don't allow remapping a clip with speed effect
     if (clipId == -1 || !m_model->isClip(clipId) || !qFuzzyCompare(1., m_model->m_allClips[clipId]->getSpeed())) {
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
@@ -5557,7 +5557,7 @@ void TimelineController::switchFocusClip()
                             clip2->setActiveEffect(row);
                             m_model->requestSetSelection({nextClip});
                             if (m_model->m_groups->isInGroup(nextClip)) {
-                                // When the clip is grouped, we need to explicitely show the stack
+                                // When the clip is grouped, we need to explicitly show the stack
                                 showAsset(nextClip);
                             }
                             Q_EMIT pCore->monitorManager()->projectMonitor()->blockSceneChange(false);

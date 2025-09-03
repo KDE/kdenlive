@@ -539,7 +539,7 @@ void AbstractPythonInterface::checkVersionsConcurrently()
 bool AbstractPythonInterface::checkDependencies(bool force, bool async)
 {
     if (m_installStatus == InProgress || (!force && m_dependenciesChecked)) {
-        // Don't check twice if dependecies are satisfied
+        // Don't check twice if dependencies are satisfied
         return true;
     }
     // Force check, reset flag

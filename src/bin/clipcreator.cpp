@@ -32,7 +32,7 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
     xml.appendChild(prod);
     prod.setAttribute(QStringLiteral("type"), int(type));
     if (type == ClipType::Timeline) {
-        // Uuid can be passed through the servce property
+        // Uuid can be passed through the service property
         if (!service.isEmpty()) {
             prod.setAttribute(QStringLiteral("kdenlive:uuid"), service);
         } else {

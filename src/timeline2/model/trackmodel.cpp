@@ -2643,7 +2643,7 @@ bool TrackModel::loadMix(Mlt::Transition *t)
         if (in == firstClipIn && in != m_allClips[cid2]->getPosition()) {
             qDebug() << "/// SWAPPING CLIPS";
             if (m_allClips[cid1]->getPosition() > m_allClips[cid2]->getPosition()) {
-                // Incorrecty detected revert mix
+                // Incorrectly detected revert mix
                 std::swap(cid1, cid2);
             }
         }

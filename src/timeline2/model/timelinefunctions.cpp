@@ -167,17 +167,17 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     res = timeline->m_allClips[clipId]->requestResize(updatedDuration, true, undo, redo, true, hasEndMix || hasStartMix);
 
     if (hasEndMix) {
-        // Assing end mix to new clone clip
+        // Assign end mix to new clone clip
         Fun local_redo = [timeline, trackId, clipId, newId]() { return timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId); };
         local_redo();
         PUSH_LAMBDA(local_redo, redo);
-        // Reassing end mix to original clip on undo
+        // Reassign end mix to original clip on undo
         Fun local_undo = [timeline, trackId, clipId, newId]() {
             timeline->getTrackById_const(trackId)->reAssignEndMix(newId, clipId);
             return true;
         };
         PUSH_LAMBDA(local_undo, undo);
-        // Assing end mix to new clone clip
+        // Assign end mix to new clone clip
         if (!hasStartMix && subplaylist != 1) {
             Fun local_redo2 = [timeline, trackId, clipId, start]() {
                 // If the clip has no start mix, move to playlist 1
@@ -453,7 +453,7 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                             leavesToKeep.insert(l);
                         }
                     } else if (outOfRange) {
-                        // This is a grouped clip positionned before the spacer operation position, check maximum space before / after
+                        // This is a grouped clip positioned before the spacer operation position, check maximum space before / after
                         std::unordered_set<int> beforeOnTrack = timeline->getItemsInRange(tid, 0, pos - 1);
                         std::unordered_set<int> afterOnTrack = timeline->getItemsInRange(tid, itemEnd, position);
                         for (auto &c : allClips) {

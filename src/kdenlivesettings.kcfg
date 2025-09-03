@@ -1503,11 +1503,11 @@
          <default></default>
        </entry>
        <entry name="whisperAvailableModels" type="StringList">
-         <label>The list of available models, whith modelname=filename</label>
+         <label>The list of available models, with modelname=filename</label>
          <default>tiny.en=tiny.en.pt,tiny=tiny.pt,base.en=base.en.pt,base=base.pt,small.en=small.en.pt,small=small.pt,medium.en=medium.en.pt,medium=medium.pt,large-v1=large-v1.pt,large-v2=large-v2.pt,large-v3=large-v3.pt,large=large-v3.pt,large-v3-turbo=large-v3-turbo.pt,turbo=large-v3-turbo.pt</default>
        </entry>
        <entry name="whisperAvailableModelsHash" type="StringList">
-         <label>The list of available models, whith filaneme=hash</label>
+         <label>The list of available models, with filename=hash</label>
          <default></default>
        </entry>
        <entry name="whisperModelFolder" type="String">

@@ -1914,7 +1914,7 @@ QString DocumentChecker::readableNameForMissingStatus(MissingStatus type)
     case MissingStatus::Fixed:
         return i18nc("status of a missing clip; fixed as in repaired", "Fixed");
     case MissingStatus::Reload:
-        return i18nc("action that will be perfomed on a missing clip", "Reload");
+        return i18nc("action that will be performed on a missing clip", "Reload");
     case MissingStatus::Missing:
         return i18nc("status of a missing clip", "Missing");
     case MissingStatus::MissingButProxy:
@@ -1922,7 +1922,7 @@ QString DocumentChecker::readableNameForMissingStatus(MissingStatus type)
     case MissingStatus::Placeholder:
         return i18nc("status of a missing clip", "Placeholder");
     case MissingStatus::Remove:
-        return i18nc("action that will be perfomed on a missing clip", "Remove");
+        return i18nc("action that will be performed on a missing clip", "Remove");
     default:
         return i18n("Unknown");
     }

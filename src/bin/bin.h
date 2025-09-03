@@ -525,7 +525,7 @@ public Q_SLOTS:
     /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix = QString(),
                             const QString &message = QString());
-    /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
+    /** @brief Display the transcode to edit friendly format for currently selected bin clips */
     void requestSelectionTranscoding(bool forceReplace = false);
     /** @brief Build the project bin audio/video icons according to color theme */
     void slotUpdatePalette();

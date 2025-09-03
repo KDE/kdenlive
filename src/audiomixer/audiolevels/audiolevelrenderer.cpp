@@ -249,7 +249,7 @@ void AudioLevelRenderer::drawDbScale(QPainter &painter, const RenderData &data) 
     const QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
     int effectiveBorderOffset = data.layoutState.getEffectiveBorderOffset();
 
-    // Fill background with Window color in hovering/hidding mode. We're potentially drawing over previous levels, so we need to fill the background.
+    // Fill background with Window color in hovering/hiding mode. We're potentially drawing over previous levels, so we need to fill the background.
     if (data.layoutState.isInHoverLabelMode()) {
         QColor bgColor = data.palette.color(QPalette::Window);
         if (data.orientation == Qt::Horizontal) {

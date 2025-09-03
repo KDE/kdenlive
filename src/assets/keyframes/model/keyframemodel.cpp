@@ -84,7 +84,7 @@ void KeyframeModel::setup()
             // Selection role changed, no need to update the keyframe parameters
             return;
         }
-        // First modifiy the param value
+        // First modify the param value
         sendModification();
         // Then trigger a refresh of the keyframe view
         Q_EMIT refreshModel();
@@ -1296,7 +1296,7 @@ QString KeyframeModel::realValueFromInternal(double internalValue) const
             // if (m_paramType == ParamType::AnimatedRect) {
             //     value = qRound(value * 100.);
             // }
-            // Fix rounding erros in double > int conversion
+            // Fix rounding errors in double > int conversion
             if (value > 0.) {
                 value += 0.001;
             } else {

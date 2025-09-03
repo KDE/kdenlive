@@ -703,7 +703,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
                 continue;
             }
             if (paramType == QLatin1String("multiswitch")) {
-                // Multiswitch param value is not updated on change, fo fetch real value now
+                // Multiswitch param value is not updated on change, go fetch real value now
                 QString val = m_model->getParamFromName(paramName).toString();
                 params.item(i).toElement().setAttribute(QStringLiteral("value"), val);
                 continue;

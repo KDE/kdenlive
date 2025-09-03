@@ -62,7 +62,7 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
         REQUIRE(timeline->getItemTrackId(cid1) == tid2);
         Mlt::Producer prod1 = *(KdenliveTests::getClipPtr(timeline, cid1));
         Mlt::Producer prod2 = *(KdenliveTests::getClipPtr(timeline, cid2));
-        // Clips on different tracks shoud not use the same producer
+        // Clips on different tracks should not use the same producer
         REQUIRE(!prod1.same_clip(prod2));
 
         // Split clip
@@ -74,9 +74,9 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
 
         Mlt::Producer prod3 = *(KdenliveTests::getClipPtr(timeline, cid3));
         Mlt::Producer prod4 = *(KdenliveTests::getClipPtr(timeline, cid4));
-        // Clips on different tracks shoud not use the same producer
+        // Clips on different tracks should not use the same producer
         REQUIRE(!prod3.same_clip(prod4));
-        // Clips on same track shoud use the same producer
+        // Clips on same track should use the same producer
         REQUIRE(prod1.same_clip(prod3));
         REQUIRE(prod2.same_clip(prod4));
 
@@ -86,9 +86,9 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
 
         prod3 = *(KdenliveTests::getClipPtr(timeline, cid3));
         prod4 = *(KdenliveTests::getClipPtr(timeline, cid4));
-        // Clips on different tracks shoud not use the same producer
+        // Clips on different tracks should not use the same producer
         REQUIRE(!prod3.same_clip(prod4));
-        // Clips on same track shoud use the same producer
+        // Clips on same track should use the same producer
         REQUIRE(prod1.same_clip(prod3));
         REQUIRE(prod2.same_clip(prod4));
         // Undo cut

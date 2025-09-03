@@ -231,7 +231,7 @@ void MediaBrowser::connectView()
     m_op->setInlinePreviewShown(true);
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    // Unconditionnaly enable video thumbnails on Windows/Mac as user can't edit the global KDE settings
+    // Unconditionally enable video thumbnails on Windows/Mac as user can't edit the global KDE settings
     if (m_op->previewGenerator()) {
         QStringList enabledPlugs = m_op->previewGenerator()->enabledPlugins();
         if (!enabledPlugs.contains(QStringLiteral("ffmpegthumbs"))) {

@@ -21,10 +21,10 @@
     </parameter>
     <parameter type="animated" name="av.k1" default="0" min="-100" max="100" factor="100" decimals="1">
         <name><![CDATA[Quadratic<br>
-        Correction Coefficent]]></name>
+        Correction Coefficient]]></name>
     </parameter>
     <parameter type="animated" name="av.k2" default="0" min="-100" max="100" factor="100" decimals="1">
         <name><![CDATA[Double Quadratic<br>
-        Correction Coefficent]]></name>
+        Correction Coefficient]]></name>
     </parameter>
 </effect>

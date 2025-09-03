@@ -49,7 +49,7 @@ void RenderServer::jobSent()
             const QJsonObject json = QJsonDocument::fromJson(block.toUtf8(), &error).object();
             if (error.error != QJsonParseError::NoError) {
                 pCore->displayMessage(i18n("Communication error with render job"), ErrorMessage);
-                qWarning() << "RenderServer recieve error: " << error.errorString() << block;
+                qWarning() << "RenderServer received error: " << error.errorString() << block;
             }
             handleJson(json, socket);
             block.clear();

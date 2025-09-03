@@ -907,7 +907,7 @@ void KeyframeImport::importSelectedData()
     int targetAlign = m_alignTargetCombo->currentData().toInt();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    // wether we are mapping to a fake rectangle
+    // whether we are mapping to a fake rectangle
     bool fakeRect = !m_targetCombo->currentData().toModelIndex().isValid() && m_targetCombo->currentText() == i18n("Rectangle");
     bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
     for (const auto &ix : std::as_const(m_indexes)) {
@@ -1103,7 +1103,7 @@ void KeyframeImport::importSelectedData()
                     kfrData[3] = locale.toString(int(rect.h));
                     break;
                 }
-                // map the fake rectangle internaly to the right params
+                // map the fake rectangle internally to the right params
                 QString name = ix.data(AssetParameterModel::NameRole).toString();
                 QSize frameSize = pCore->getCurrentFrameSize();
                 if (name.contains("Position X") &&
@@ -1186,7 +1186,7 @@ void KeyframeImport::updateView()
     animData->set("original", m_originalParams.value(ix).toUtf8().constData());
     std::shared_ptr<Mlt::Animation> animo(new Mlt::Animation(animData->get_animation("original")));
     animo->interpolate();
-    // wether we are mapping to a fake rectangle
+    // whether we are mapping to a fake rectangle
     bool fakeRect = !m_targetCombo->currentData().toModelIndex().isValid() && m_targetCombo->currentText() == i18n("Rectangle");
     // Import our keyframes
     int frame = 0;
@@ -1359,7 +1359,7 @@ void KeyframeImport::updateView()
             kfrData[3] = locale.toString(int(rect.h));
             break;
         }
-        // map the fake rectangle internaly to the right params
+        // map the fake rectangle internally to the right params
         QString name = ix.data(AssetParameterModel::NameRole).toString();
         QSize frameSize = pCore->getCurrentFrameSize();
         bool doubleParameter = false;

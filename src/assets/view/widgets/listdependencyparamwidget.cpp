@@ -43,7 +43,7 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
 
     QString dependencies = m_model->data(m_index, AssetParameterModel::ListDependenciesRole).toString();
     if (!dependencies.isEmpty()) {
-        // We have conditionnal dependencies, some values in the list might not be available.
+        // We have conditional dependencies, some values in the list might not be available.
         QDomDocument doc;
         doc.setContent(dependencies);
         QDomNodeList deps = doc.elementsByTagName(QLatin1String("paramdependencies"));

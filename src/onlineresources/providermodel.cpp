@@ -326,10 +326,10 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key)
  * @brief ProviderModel::objectGetString
  * @param item Object containing the value
  * @param key General key of value to get
- * @param id The id is used for to replace the palceholder "%id%" (optional)
- * @param parentKey Key of the parent (json) object. Used for to replace the palceholder "&" (optional)
+ * @param id The id is used for to replace the placeholder "%id%" (optional)
+ * @param parentKey Key of the parent (json) object. Used for to replace the placeholder "&" (optional)
  * @return result string
- * Same as objectGetValue but more specific only for strings. In addition this function parses template strings and palceholders.
+ * Same as objectGetValue but more specific only for strings. In addition this function parses template strings and placeholders.
  */
 
 QString ProviderModel::objectGetString(QJsonObject item, const QString &key, const QString &id, const QString &parentKey)

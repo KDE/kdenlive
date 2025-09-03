@@ -54,7 +54,7 @@ if (BUILD_DESIGNERPLUGIN)
 
     ecm_qtdesignerplugin_widget(PrecisionSpinBox
         INCLUDE_FILE widgets/precisionspinbox.h
-        TOOLTIP "A double spinbox allowing an arbitrary nubmer of decimals (Kdenlive)"
+        TOOLTIP "A double spinbox allowing an arbitrary number of decimals (Kdenlive)"
         GROUP "Kdenlive Widgets"
     )
 

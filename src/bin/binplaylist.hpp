@@ -33,7 +33,7 @@ public:
     virtual ~BinPlaylist();
 
     /** @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
-       @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
+       @param binElem is the bin item deleted. Note that exceptionally, this function takes a raw pointer instead of a smart one.
        This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.
     */
     void manageBinItemDeletion(AbstractProjectItem *binElem);
@@ -43,7 +43,7 @@ public:
     */
     void manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
 
-    /** @brief This function stores a renamed folder in bin playlise
+    /** @brief This function stores a renamed folder in bin playlist
      */
     void manageBinFolderRename(const std::shared_ptr<AbstractProjectItem> &binElem);
 

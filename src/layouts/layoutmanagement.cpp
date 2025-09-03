@@ -94,7 +94,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     switcherLayout->setContentsMargins(0, 0, 0, 0);
     switcherLayout->setSpacing(0);
 
-    // TOOD: This autosave label & timer is not about autosaving layouts but the current project. Need to find a better location for this.
+    // TODO: This autosave label & timer is not about autosaving layouts but the current project. Need to find a better location for this.
     m_autosaveLabel = new QLabel(QString(), m_autosaveContainer);
     m_autosaveLabel->setToolTip(i18n("Auto Save"));
     int iconSize = main->style()->pixelMetric(QStyle::PM_SmallIconSize);

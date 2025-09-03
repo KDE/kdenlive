@@ -11,7 +11,7 @@
     <parameter type="url" name="gps.file" filter="GPS files (*.gpx *.tcx)">
         <name>GPS File</name>
     </parameter>
-    <parameter type="constant" name="time_offset" max="86400" min="-86400" defalut="0">
+    <parameter type="constant" name="time_offset" max="86400" min="-86400" default="0">
         <name>Time offset in seconds</name>
     </parameter>
     <parameter type="constant" name="smoothing_value" max="10" min="0" default="5">

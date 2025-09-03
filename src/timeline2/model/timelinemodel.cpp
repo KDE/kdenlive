@@ -7203,7 +7203,7 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
         if (clipToResize > -1) {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            // The mix cut position shoud never change through a resize operation
+            // The mix cut position should never change through a resize operation
             int cutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - m_allClips.at(cid)->getMixCutPosition();
             int maxLengthLeft = m_allClips.at(clipToResize)->getMaxDuration();
             // Maximum space for expanding the right clip part
@@ -7660,7 +7660,7 @@ void TimelineModel::updateVisibleSequenceName(const QString displayName)
 
 void TimelineModel::registerTimeline()
 {
-    qDebug() << "::: CLIPS IN THIS MODDEL: " << m_allClips.size();
+    qDebug() << "::: CLIPS IN THIS MODEL: " << m_allClips.size();
     for (auto clip : m_allClips) {
         clip.second->registerClipToBin(clip.second->getProducer(), false);
     }

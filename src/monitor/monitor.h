@@ -356,7 +356,7 @@ public Q_SLOTS:
     void slotStart();
     /** @brief Set position and information for the trimming preview
     * @param pos Absolute position in frames
-    * @param offset Difference in frames beetween @p pos and the current position (to be displayed in the monitor toolbar)
+    * @param offset Difference in frames between @p pos and the current position (to be displayed in the monitor toolbar)
     * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
     * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
     */
