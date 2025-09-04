@@ -2907,7 +2907,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
     } else {
         // No item selected in bin
         clearMonitor();
-        Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
     m_editAction->setEnabled(false);
     if (m_clipsActionsMenu) {
@@ -2933,9 +2932,10 @@ void Bin::clearMonitor()
 {
     Q_EMIT requestShowClipProperties(nullptr);
     Q_EMIT requestClipShow(nullptr);
-    Q_EMIT openClip(nullptr);
-    // clear effect stack
+    // clear effect stack first
     Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
+    // clear monitor
+    Q_EMIT openClip(nullptr);
 }
 
 std::vector<QString> Bin::selectedClipsIds(bool allowSubClips, bool allowFolders)
