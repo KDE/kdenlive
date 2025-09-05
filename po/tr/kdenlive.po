@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 00:42+0000\n"
-"PO-Revision-Date: 2025-08-30 18:32+0300\n"
+"PO-Revision-Date: 2025-09-04 14:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7710,7 +7710,7 @@ msgstr "Yazıtipi Ailesi"
 #: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
-msgstr "Yazıtipi Boyutu"
+msgstr "Yazıtipi Puntosu"
 
 #: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
@@ -22410,12 +22410,12 @@ msgstr "Aşağıdan Yukarıya"
 #: src/dialogs/subtitleedit.cpp:396
 #, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Düzenleyici Yazıtipi Boyutunu Artır"
+msgstr "Düzenleyici Yazıtipi Puntosunu Artır"
 
 #: src/dialogs/subtitleedit.cpp:398
 #, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Düzenleyici Yazıtipi Boyutunu Azalt"
+msgstr "Düzenleyici Yazıtipi Puntosunu Azalt"
 
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
@@ -22585,12 +22585,12 @@ msgstr "Geçerli seçim için imleyici ekle"
 #: src/dialogs/textbasededit.cpp:782
 #, kde-format
 msgid "Increase Font Size"
-msgstr "Yazıtipi Boyutunu Artır"
+msgstr "Yazıtipi Puntosunu Artır"
 
 #: src/dialogs/textbasededit.cpp:785
 #, kde-format
 msgid "Decrease Font Size"
-msgstr "Yazıtipi Boyutunu Azalt"
+msgstr "Yazıtipi Puntosunu Azalt"
 
 #: src/dialogs/textbasededit.cpp:789
 #, kde-format

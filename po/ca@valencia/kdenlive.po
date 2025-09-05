@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 00:42+0000\n"
-"PO-Revision-Date: 2025-08-30 11:32+0200\n"
+"PO-Revision-Date: 2025-09-04 09:59+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4969,10 +4969,7 @@ msgstr ""
 "        al punt focal]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -4982,10 +4979,7 @@ msgstr ""
 
 # skip-rule: punctuation-period
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -23305,9 +23299,7 @@ msgid "Fixed"
 msgstr "Corregit"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Torna a carregar"
@@ -23331,8 +23323,7 @@ msgid "Placeholder"
 msgstr "Marcador de posició"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Elimina"
@@ -38364,10 +38355,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "action that will be perfomed on a missing clip"
-#~ msgid "Remove"
-#~ msgstr "Elimina"
-
-#~ msgid "Cannot apply effects on folders"
-#~ msgstr "No es poden aplicar efectes en les carpetes"

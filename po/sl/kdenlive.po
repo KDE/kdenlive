@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 00:42+0000\n"
-"PO-Revision-Date: 2025-08-30 10:09+0200\n"
+"PO-Revision-Date: 2025-09-04 08:43+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4911,10 +4911,7 @@ msgstr ""
 "        koordinata Y]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -4923,10 +4920,7 @@ msgstr ""
 "        korekcijski koeficient]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -23121,9 +23115,7 @@ msgid "Fixed"
 msgstr "Popravljeno"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Znova naloži"
@@ -23147,8 +23139,7 @@ msgid "Placeholder"
 msgstr "Ograda"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Odstrani"
@@ -38112,10 +38103,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgctxt "action that will be perfomed on a missing clip"
-#~ msgid "Remove"
-#~ msgstr "Odstrani"
-
-#~ msgid "Cannot apply effects on folders"
-#~ msgstr "Ni možno dodati slikovnega učinka na mape"

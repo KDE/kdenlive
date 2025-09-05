@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 00:42+0000\n"
-"PO-Revision-Date: 2025-08-30 11:41+0200\n"
+"PO-Revision-Date: 2025-09-04 16:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4939,10 +4939,7 @@ msgstr ""
 "        Y-coördinaat]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -4951,10 +4948,7 @@ msgstr ""
 "        correctiecoëfficiënt]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -23257,9 +23251,7 @@ msgid "Fixed"
 msgstr "Vastgezet"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Herladen"
@@ -23283,8 +23275,7 @@ msgid "Placeholder"
 msgstr "Plaatshouder"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Verwijderen"

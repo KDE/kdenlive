@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 00:42+0000\n"
-"PO-Revision-Date: 2025-08-30 03:36+0200\n"
+"PO-Revision-Date: 2025-09-04 06:46+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4685,10 +4685,7 @@ msgstr ""
 "        Y-კოორდინატთან შედარებით]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -4697,10 +4694,7 @@ msgstr ""
 "        კორექციის კოეფიციენტი]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -22368,9 +22362,7 @@ msgid "Fixed"
 msgstr "ფიქსირებული"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
@@ -22394,8 +22386,7 @@ msgid "Placeholder"
 msgstr "შემავსებელი"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "წაშლა"
