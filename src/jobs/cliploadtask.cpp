@@ -316,7 +316,6 @@ void ClipLoadTask::run()
     }
     Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.itemId));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    qDebug() << "============STARTING LOAD TASK FOR: " << m_owner.itemId << " = " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
@@ -403,6 +402,10 @@ void ClipLoadTask::run()
         break;
     }
     case ClipType::Playlist: {
+        if (!QFile::exists(resource)) {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
+            resource = binClip->url();
+        }
         producer = loadPlaylist(resource);
         if (producer) {
             QFile f(resource);
