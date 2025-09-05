@@ -80,6 +80,7 @@ protected:
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 Q_SIGNALS:
     void focusView();
@@ -114,6 +115,7 @@ protected:
     void enterEvent(QEnterEvent *) override;
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
