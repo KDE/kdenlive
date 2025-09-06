@@ -597,6 +597,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Only prevent sleep if we play for more than 20 seconds to avoid always turning it on/off
     m_preventSleepTimer.setInterval(20000);
     connect(&m_preventSleepTimer, &QTimer::timeout, this, &Monitor::updatePowerManagement);
+    // TODO KDDOCKWIDGET: dragging on top of a monitor doesn't work - drop indicators disapperas.
+    //  We need to hide the monitor to be able to drop another dockWidget on it
+    //  m_glMonitor->hide();
 }
 
 Monitor::~Monitor()

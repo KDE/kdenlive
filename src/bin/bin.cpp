@@ -1784,7 +1784,7 @@ void Bin::slotUpdatePalette()
     }
 }
 
-QDockWidget *Bin::clipPropertiesDock()
+KDDockWidgets::QtWidgets::DockWidget *Bin::clipPropertiesDock()
 {
     return m_propertiesDock;
 }
@@ -6610,7 +6610,7 @@ const QString Bin::rootFolderId() const
 
 const QString Bin::binInfoToString() const
 {
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     QString binInfo;
     if (dock) {
         binInfo = QStringLiteral("%1:%2:%3").arg(dock->objectName(), rootFolderId(), m_listType == BinIconView ? QLatin1String("1") : QLatin1String("0"));
@@ -6651,7 +6651,7 @@ const QString Bin::loadInfo(const QStringList binInfo, const QStringList existin
             folderName = binName;
         }
     }
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     if (dock) {
         dock->setWindowTitle(folderName);
     }

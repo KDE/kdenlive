@@ -261,6 +261,7 @@ target_link_libraries(kdenliveLib PUBLIC
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
+
     )
 
 if(KF6_VERSION VERSION_GREATER_EQUAL "6.8.0")
@@ -278,6 +279,8 @@ target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::SvgWidgets
     # Qt${QT_MAJOR_VERSION}::Test
 )
+
+target_link_libraries(kdenliveLib PUBLIC KDAB::kddockwidgets)
 
 target_link_libraries(kdenliveLib PUBLIC FFmpeg::FFmpeg)
 

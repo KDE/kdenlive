@@ -6,11 +6,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QObject>
+#include <kddockwidgets/DockWidget.h>
 
 class NotesWidget;
 class KdenliveDoc;
 class ProjectManager;
-class QDockWidget;
 class QToolBar;
 class QFrame;
 class QLineEdit;
@@ -51,7 +51,7 @@ private Q_SLOTS:
 
 private:
     NotesWidget *m_widget;
-    QDockWidget *m_notesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_notesDock;
     QToolBar *m_tb;
     QFrame *m_searchFrame;
     QLineEdit *m_searchLine;

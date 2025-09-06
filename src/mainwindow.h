@@ -28,6 +28,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <kconfigwidgets_version.h>
+#include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/MainWindow.h>
+#include <kddockwidgets/qtwidgets/ViewFactory.h>
 #include <kiconthemes_version.h>
 
 #include <mlt++/Mlt.h>
@@ -62,6 +65,16 @@ class Transition;
 class TimelineItemModel;
 class MonitorProxy;
 class KDualAction;
+
+class CustomWidgetFactory : public KDDockWidgets::QtWidgets::ViewFactory
+{
+    Q_OBJECT
+public:
+    KDDockWidgets::Core::View *createTitleBar(KDDockWidgets::Core::TitleBar *, KDDockWidgets::Core::View *parent) const override;
+    KDDockWidgets::Core::View *createSeparator(KDDockWidgets::Core::Separator *, KDDockWidgets::Core::View *parent) const override;
+    KDDockWidgets::Core::View *createDockWidget(const QString &uniqueName, KDDockWidgets::DockWidgetOptions = {}, KDDockWidgets::LayoutSaverOptions = {},
+                                                Qt::WindowFlags = {}) const override;
+};
 
 class MltErrorEvent : public QEvent
 {
@@ -125,7 +138,8 @@ public:
      * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+    KDDockWidgets::QtWidgets::DockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget,
+                                                  Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     QUndoGroup *m_commandStack{nullptr};
     QUndoView *m_undoView;
@@ -253,27 +267,28 @@ private:
     OtioImport *m_otioImport{nullptr};
     KColorSchemeManager *m_colorschemes;
     ScopeManager *m_scopesManager{nullptr};
+    KDDockWidgets::QtWidgets::MainWindow *mainDockWindow;
 
-    QDockWidget *m_projectBinDock;
-    QDockWidget *m_effectListDock;
-    QDockWidget *m_compositionListDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_projectBinDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_effectListDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_compositionListDock;
     TransitionListWidget *m_compositionList;
     EffectListWidget *m_effectList2;
 
     AssetPanel *m_assetPanel{nullptr};
-    QDockWidget *m_effectStackDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_effectStackDock;
 
-    QDockWidget *m_clipMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_clipMonitorDock;
     Monitor *m_clipMonitor{nullptr};
 
-    QDockWidget *m_projectMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_projectMonitorDock;
     Monitor *m_projectMonitor{nullptr};
 
     AudioGraphSpectrum *m_audioSpectrum;
 
-    QDockWidget *m_undoViewDock;
-    QDockWidget *m_mixerDock;
-    QDockWidget *m_onlineResourcesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_undoViewDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_mixerDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_onlineResourcesDock;
 
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;

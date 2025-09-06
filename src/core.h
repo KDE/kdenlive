@@ -524,4 +524,5 @@ Q_SIGNALS:
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
     /** Some properties related to rendering changed, update */
     void updateRenderOffset();
+    void hideBars(bool);
 };
