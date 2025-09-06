@@ -299,6 +299,30 @@ exit
 
 ## Translating Kdenlive
 
-TODO
+Kdenlive uses KDE's internationalization (i18n) system for translations. For submitting or updating translations, please use the official KDE translation platform at [l10n.kde.org](https://l10n.kde.org/).
+
+The local translation workflow described below is for debugging purposes only. It can be useful when debugging translation issues or verifying translations work correctly in your local build in case you added or updated strings in the codebase.
+
+**Note**: All text that should be translatable must use one of KDE's i18n functions like `i18nc()`, `i18np()`, etc. For more information about these functions, see the [KI18n documentation](https://api.kde.org/frameworks/ki18n/html/prg_guide.html).
+
+#### Prerequisites
+
+Make sure you have the required tools installed (extractrc, gettext):
+
+```bash
+# Arch Linux
+sudo pacman -S gettext kde-dev-scripts
+
+# Debian/Ubuntu
+sudo apt install gettext kde-dev-utils
+```
+
+#### Translation Workflow
+
+1. **Extract strings (creates `.pot` file with all translatable strings from the source code)**: `bash extract_i18n_strings.sh`
+2. **Update existing translation (updates `.po` file)**: `msgmerge --update po/fi/kdenlive.po po/kdenlive.pot`
+3. **Edit translations**: Modify the `msgstr` entries in the `.po` file
+4. **Compile translations (creates .mo file)**: `msgfmt -o po/fi/kdenlive.mo po/fi/kdenlive.po`
+5. **Test**: Run Kdenlive (Switch to the target language via Settings | Configure Language)
 
 [fuzzer-blog]: https://kdenlive.org/en/2019/03/inside-kdenlive-how-to-fuzz-a-complex-gui-application/
