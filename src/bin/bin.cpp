@@ -134,10 +134,11 @@ static void drawDropFilesPlaceholder(QPainter &painter, const QRect &rect, const
     }
     painter.setPen(textColor);
 
-    // Setup text content template with icon placeholder
-    const QString baseTemplate =
+    // Setup text content templates with icon placeholder
+    const QString singlelineTemplate =
         i18nc("Text shown when no media is imported yet. %1 is replaced by an icon", "Double click, drop files or click %1 to import media", iconPlaceholder);
-    const QString multilineTemplate = QString(baseTemplate).replace(" or click ", "\nor click ");
+    const QString multilineTemplate = i18nc("Multiline version: Text shown when no media is imported yet. %1 is replaced by an icon",
+                                            "Double click, drop files\nor click %1 to import media", iconPlaceholder);
 
     QIcon addIcon = QIcon::fromTheme(QStringLiteral("kdenlive-add-clip"));
 
@@ -153,15 +154,20 @@ static void drawDropFilesPlaceholder(QPainter &painter, const QRect &rect, const
     iconPixmap.setDevicePixelRatio(devicePixelRatio);
 
     // Determine if we need a multiline layout
-    const QString singlelineText = baseTemplate;
     // Width of the text + icon + margin on both sides of the text
-    const int singleLineTotalWidth = fontMetrics.horizontalAdvance(QString(baseTemplate).replace(iconPlaceholder, "")) + iconSize + 2 * minMarginSingleline;
+    const int singleLineTotalWidth =
+        fontMetrics.horizontalAdvance(QString(singlelineTemplate).replace(iconPlaceholder, "")) + iconSize + 2 * minMarginSingleline;
 
     const bool needsMultilineLayout = singleLineTotalWidth > rect.width();
 
     if (needsMultilineLayout) {
         // Split multiline text into lines for layout calculation
-        const QStringList lines = multilineTemplate.split('\n');
+        const QStringList lines = multilineTemplate.split('\n', Qt::SkipEmptyParts);
+        // Ensure we have exactly 2 non-empty lines from translation. If not, bail out.
+        if (lines.size() != 2) {
+            return;
+        }
+
         const QString firstLine = lines.at(0);
         const QString secondLine = lines.at(1);
 
@@ -213,8 +219,8 @@ static void drawDropFilesPlaceholder(QPainter &painter, const QRect &rect, const
     } else {
         // single-line layout
         const int textBaselineY = rect.center().y() + fontMetrics.ascent() / 2;
-        const QString textBeforeIcon = singlelineText.left(singlelineText.indexOf(iconPlaceholder));
-        const QString textAfterIcon = singlelineText.mid(singlelineText.indexOf(iconPlaceholder) + iconPlaceholder.length());
+        const QString textBeforeIcon = singlelineTemplate.left(singlelineTemplate.indexOf(iconPlaceholder));
+        const QString textAfterIcon = singlelineTemplate.mid(singlelineTemplate.indexOf(iconPlaceholder) + iconPlaceholder.length());
 
         const int beforeIconWidth = fontMetrics.horizontalAdvance(textBeforeIcon);
         const int totalWidth = beforeIconWidth + iconSize + fontMetrics.horizontalAdvance(textAfterIcon);
