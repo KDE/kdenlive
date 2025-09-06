@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-04 00:42+0000\n"
+"POT-Creation-Date: 2025-09-06 00:41+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -2620,9 +2620,9 @@ msgstr "Εμφάνιση όλων"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:277
-#: src/assets/view/widgets/keyframecontainer.cpp:324
-#: src/assets/view/widgets/keyframecontainer.cpp:627
+#: src/assets/view/widgets/keyframecontainer.cpp:278
+#: src/assets/view/widgets/keyframecontainer.cpp:325
+#: src/assets/view/widgets/keyframecontainer.cpp:628
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3349,7 +3349,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
-#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2581
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2743
 #: src/layouts/layoutcollection.cpp:24
 #: src/mltcontroller/clippropertiescontroller.cpp:650
 #, kde-format
@@ -3429,9 +3429,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
-#: src/assets/view/widgets/keyframecontainer.cpp:280
-#: src/assets/view/widgets/keyframecontainer.cpp:336
-#: src/assets/view/widgets/keyframecontainer.cpp:625
+#: src/assets/view/widgets/keyframecontainer.cpp:281
+#: src/assets/view/widgets/keyframecontainer.cpp:337
+#: src/assets/view/widgets/keyframecontainer.cpp:626
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3445,9 +3445,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:279
-#: src/assets/view/widgets/keyframecontainer.cpp:330
-#: src/assets/view/widgets/keyframecontainer.cpp:625
+#: src/assets/view/widgets/keyframecontainer.cpp:280
+#: src/assets/view/widgets/keyframecontainer.cpp:331
+#: src/assets/view/widgets/keyframecontainer.cpp:626
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -4339,7 +4339,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_colortap.xml:9
 #: data/effects/frei0r/frei0r_defish0r.xml:15
 #: data/effects/frei0r/frei0r_iirblur.xml:13
-#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1337
+#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1499
 #: src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
@@ -7087,8 +7087,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1438
-#: src/bin/bin.cpp:1443 src/bin/bin.cpp:2439
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1600
+#: src/bin/bin.cpp:1605 src/bin/bin.cpp:2601
 #, fuzzy, kde-format
 msgid "Filter"
 msgstr "Κεφάλαιο %1"
@@ -7289,7 +7289,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
-#: src/bin/bin.cpp:1341 src/bin/projectitemmodel.cpp:340
+#: src/bin/bin.cpp:1503 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
@@ -16015,18 +16015,18 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:282
-#: src/assets/view/widgets/keyframecontainer.cpp:342
-#: src/assets/view/widgets/keyframecontainer.cpp:625
+#: src/assets/view/widgets/keyframecontainer.cpp:283
+#: src/assets/view/widgets/keyframecontainer.cpp:343
+#: src/assets/view/widgets/keyframecontainer.cpp:626
 #, fuzzy, kde-format
 #| msgid "Graph position"
 msgid "X position"
 msgstr "Θέση γραφήματος"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:281
-#: src/assets/view/widgets/keyframecontainer.cpp:348
-#: src/assets/view/widgets/keyframecontainer.cpp:625
+#: src/assets/view/widgets/keyframecontainer.cpp:282
+#: src/assets/view/widgets/keyframecontainer.cpp:349
+#: src/assets/view/widgets/keyframecontainer.cpp:626
 #, fuzzy, kde-format
 #| msgid "Graph position"
 msgid "Y position"
@@ -16822,7 +16822,7 @@ msgstr "Περιγραφή"
 msgid "Show/hide description of the compositions"
 msgstr "Περιγραφή"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1236
+#: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1398
 #: src/dialogs/renderwidget.cpp:563 src/project/dialogs/profilewidget.cpp:35
 #: src/project/notesplugin.cpp:177
 #, kde-format
@@ -16982,7 +16982,7 @@ msgstr "Εφέ επικάλυψης"
 msgid "Bin %1 effects"
 msgstr "Εφέ για %1"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:3928
+#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4090
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
@@ -16990,7 +16990,7 @@ msgstr "Εφέ για %1"
 msgid "Show log"
 msgstr "Προβολή καταγραφής"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:3931
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4093
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, fuzzy, kde-format
@@ -17088,7 +17088,7 @@ msgstr ""
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframecontainer.cpp:93
+#: src/assets/view/widgets/keyframecontainer.cpp:94
 #: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
 #, kde-format
 msgid "Add keyframe"
@@ -17104,7 +17104,7 @@ msgstr "Τροποποίηση τύπου κλιπ"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframecontainer.cpp:95
+#: src/assets/view/widgets/keyframecontainer.cpp:96
 #: src/dialogs/timeremap.cpp:1633
 #, kde-format
 msgid "Delete keyframe"
@@ -17328,43 +17328,43 @@ msgstr ""
 msgid "Move Keyframe"
 msgstr "Διαγραφή του keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:77
+#: src/assets/view/widgets/keyframecontainer.cpp:78
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Switch to timeline view"
 msgstr "Προεπισκόπηση εικόνας"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:79
+#: src/assets/view/widgets/keyframecontainer.cpp:80
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr ""
 
-#: src/assets/view/widgets/keyframecontainer.cpp:100
+#: src/assets/view/widgets/keyframecontainer.cpp:101
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1979
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Μετάβαση στο προηγούμενο keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:104
+#: src/assets/view/widgets/keyframecontainer.cpp:105
 #: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:1977
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Μετάβαση στο επόμενο keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:109
+#: src/assets/view/widgets/keyframecontainer.cpp:110
 #: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
 #, fuzzy, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Διαγραφή του keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:112
-#: src/assets/view/widgets/keyframecontainer.cpp:114
+#: src/assets/view/widgets/keyframecontainer.cpp:113
+#: src/assets/view/widgets/keyframecontainer.cpp:115
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Copy keyframes"
 msgstr "Διαγραφή του keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:116
+#: src/assets/view/widgets/keyframecontainer.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17372,39 +17372,39 @@ msgid ""
 "no keyframe is selected."
 msgstr ""
 
-#: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:993
+#: src/assets/view/widgets/keyframecontainer.cpp:119
+#: src/assets/view/widgets/keyframecontainer.cpp:994
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Paste keyframe"
 msgstr "Προσθήκη keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:120
+#: src/assets/view/widgets/keyframecontainer.cpp:121
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Paste keyframes"
 msgstr "Προσθήκη keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:121
+#: src/assets/view/widgets/keyframecontainer.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
 
-#: src/assets/view/widgets/keyframecontainer.cpp:123
+#: src/assets/view/widgets/keyframecontainer.cpp:124
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Apply current position value to selected keyframes"
 msgstr "Διαγραφή του keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:126
-#: src/assets/view/widgets/keyframecontainer.cpp:139
+#: src/assets/view/widgets/keyframecontainer.cpp:127
+#: src/assets/view/widgets/keyframecontainer.cpp:140
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframe interpolation"
 msgstr "Παρεμβολή"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:140
+#: src/assets/view/widgets/keyframecontainer.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17412,49 +17412,49 @@ msgid ""
 "the current keyframe."
 msgstr ""
 
-#: src/assets/view/widgets/keyframecontainer.cpp:161
+#: src/assets/view/widgets/keyframecontainer.cpp:162
 #, fuzzy, kde-format
 #| msgid "Seek to active keyframe"
 msgid "Seek to Keyframe on Select"
 msgstr "Μετάβαση στο τρέχον keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:166
+#: src/assets/view/widgets/keyframecontainer.cpp:167
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:168
+#: src/assets/view/widgets/keyframecontainer.cpp:169
 #, fuzzy, kde-format
 #| msgid "Import Keyframes"
 msgid "Import Keyframes from Clipboard…"
 msgstr "Εισαγωγή keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:177
+#: src/assets/view/widgets/keyframecontainer.cpp:178
 #, fuzzy, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Διαγραφή του keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:181
+#: src/assets/view/widgets/keyframecontainer.cpp:182
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Default Keyframe Type"
 msgstr "Διαγραφή του keyframe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:220
+#: src/assets/view/widgets/keyframecontainer.cpp:221
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Limit automatic keyframes"
 msgstr "Αυτόματο"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:232 src/bin/bin.cpp:1390
+#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1552
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Επιλογές"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:234
+#: src/assets/view/widgets/keyframecontainer.cpp:235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17462,52 +17462,52 @@ msgid ""
 "and pasting keyframes from clipboard)."
 msgstr ""
 
-#: src/assets/view/widgets/keyframecontainer.cpp:301
+#: src/assets/view/widgets/keyframecontainer.cpp:302
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Select parameters to copy"
 msgstr "Παράμετροι"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:898
+#: src/assets/view/widgets/keyframecontainer.cpp:899
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframes copied"
 msgstr "Παρεμβολή"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:909
-#: src/assets/view/widgets/keyframecontainer.cpp:950
-#: src/assets/view/widgets/keyframecontainer.cpp:957
+#: src/assets/view/widgets/keyframecontainer.cpp:910
+#: src/assets/view/widgets/keyframecontainer.cpp:951
+#: src/assets/view/widgets/keyframecontainer.cpp:958
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "No valid keyframe data in clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1001
+#: src/assets/view/widgets/keyframecontainer.cpp:1002
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1006
-#: src/assets/view/widgets/keyframecontainer.cpp:1017
+#: src/assets/view/widgets/keyframecontainer.cpp:1007
+#: src/assets/view/widgets/keyframecontainer.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
 msgstr "Παρεμβολή"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1029
+#: src/assets/view/widgets/keyframecontainer.cpp:1030
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "No keyframe data in clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1110
+#: src/assets/view/widgets/keyframecontainer.cpp:1111
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Αδυναμία μετακίνησης του κλιπ στη θέση %1"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1122
+#: src/assets/view/widgets/keyframecontainer.cpp:1123
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Remove keyframe"
@@ -17915,132 +17915,138 @@ msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/bin/bin.cpp:186 src/bin/bin.cpp:544 src/monitor/view/ClipMonitor.qml:757
+#: src/bin/bin.cpp:139
+#, kde-format
+msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
+msgid "Double click, drop files or click %1 to import media"
+msgstr ""
+
+#: src/bin/bin.cpp:316 src/bin/bin.cpp:674 src/monitor/view/ClipMonitor.qml:757
 #, fuzzy, kde-format
 #| msgid "Cannot add an audio effect to this clip"
 msgid "Drag to add only audio to timeline"
 msgstr "Αδυναμία προσθήκης εφέ ήχου σε αυτό το κλιπ"
 
-#: src/bin/bin.cpp:190 src/bin/bin.cpp:548 src/monitor/view/ClipMonitor.qml:719
+#: src/bin/bin.cpp:320 src/bin/bin.cpp:678 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:785 src/bin/bin.cpp:944
+#: src/bin/bin.cpp:915 src/bin/bin.cpp:1090
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr ""
 
-#: src/bin/bin.cpp:870 src/bin/bin.cpp:996
+#: src/bin/bin.cpp:1000 src/bin/bin.cpp:1142
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
 
-#: src/bin/bin.cpp:872 src/bin/bin.cpp:998
+#: src/bin/bin.cpp:1002 src/bin/bin.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "<b>F2</b> to rename selected item"
 msgstr "Διαγραφή του επιλεγμένου αντικειμένου"
 
-#: src/bin/bin.cpp:1107
+#: src/bin/bin.cpp:1269
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bin/bin.cpp:1108
+#: src/bin/bin.cpp:1270
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bin/bin.cpp:1238
+#: src/bin/bin.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Bin Search"
 msgstr "Αναζήτηση"
 
-#: src/bin/bin.cpp:1284
+#: src/bin/bin.cpp:1446
 #, fuzzy, kde-format
 msgid "View Mode"
 msgstr "Λειτουργία"
 
-#: src/bin/bin.cpp:1287
+#: src/bin/bin.cpp:1449
 #, fuzzy, kde-format
 msgid "Tree View"
 msgstr "Προβολή"
 
-#: src/bin/bin.cpp:1294
+#: src/bin/bin.cpp:1456
 #, fuzzy, kde-format
 #| msgid "Cannot find profile from current clip"
 msgid "Adjust Profile to Current Clip"
 msgstr "Αδυναμία εύρεσης προφίλ από το τρέχον κλιπ"
 
-#: src/bin/bin.cpp:1298
+#: src/bin/bin.cpp:1460
 #, fuzzy, kde-format
 msgid "Icon View"
 msgstr "Προβολή"
 
-#: src/bin/bin.cpp:1306 src/project/dialogs/guideslist.cpp:159
+#: src/bin/bin.cpp:1468 src/project/dialogs/guideslist.cpp:159
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Descending"
 msgstr "Εγγραφή"
 
-#: src/bin/bin.cpp:1322
+#: src/bin/bin.cpp:1484
 #, kde-format
 msgid "Sort By"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1325 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1487 src/bin/projectitemmodel.cpp:325
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Όνομα"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1329 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1491 src/bin/projectitemmodel.cpp:328
 #: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: src/bin/bin.cpp:1333 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1495 src/bin/projectitemmodel.cpp:331
 #, kde-format
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: src/bin/bin.cpp:1345
+#: src/bin/bin.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert Order"
 msgstr "Λειτουργία εισαγωγής"
 
-#: src/bin/bin.cpp:1349 src/bin/projectitemmodel.cpp:346
+#: src/bin/bin.cpp:1511 src/bin/projectitemmodel.cpp:346
 #, kde-format
 msgid "Rating"
 msgstr "Βαθμολόγηση"
 
-#: src/bin/bin.cpp:1373
+#: src/bin/bin.cpp:1535
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Bin Effects"
 msgstr "Απενεργοποίηση εφέ"
 
-#: src/bin/bin.cpp:1381
+#: src/bin/bin.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Show video thumbnails"
 msgid "Show Video Preview in Thumbnails"
 msgstr "Εμφάνιση μικρογραφιών βίντεο"
 
-#: src/bin/bin.cpp:1391
+#: src/bin/bin.cpp:1553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18048,35 +18054,35 @@ msgid ""
 "rating)."
 msgstr ""
 
-#: src/bin/bin.cpp:1398
+#: src/bin/bin.cpp:1560
 #, fuzzy, kde-format
 #| msgid "Show path"
 msgid "Show Date"
 msgstr "Εμφάνιση διαδρομής"
 
-#: src/bin/bin.cpp:1402
+#: src/bin/bin.cpp:1564
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show Description"
 msgstr "Περιγραφή"
 
-#: src/bin/bin.cpp:1406
+#: src/bin/bin.cpp:1568
 #, fuzzy, kde-format
 #| msgid "Show path"
 msgid "Show Rating"
 msgstr "Εμφάνιση διαδρομής"
 
-#: src/bin/bin.cpp:1417
+#: src/bin/bin.cpp:1579
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr ""
 
-#: src/bin/bin.cpp:1422
+#: src/bin/bin.cpp:1584
 #, kde-format
 msgid "Tags Panel"
 msgstr ""
 
-#: src/bin/bin.cpp:1444
+#: src/bin/bin.cpp:1606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18085,74 +18091,74 @@ msgid ""
 "settings."
 msgstr ""
 
-#: src/bin/bin.cpp:1479
+#: src/bin/bin.cpp:1641
 #, fuzzy, kde-format
 #| msgid "Delete current button"
 msgid "Close Current Bin"
 msgstr "Διαγραφή τρέχοντος κουμπιού"
 
-#: src/bin/bin.cpp:1491
+#: src/bin/bin.cpp:1653
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr ""
 
-#: src/bin/bin.cpp:1493
+#: src/bin/bin.cpp:1655
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Ακύρωση τρεχουσών εργασιών κλιπ"
 
-#: src/bin/bin.cpp:1495
+#: src/bin/bin.cpp:1657
 #, fuzzy, kde-format
 #| msgid "Cancel Current Clip Jobs"
 msgid "Cancel Pending Jobs"
 msgstr "Ακύρωση τρεχουσών εργασιών κλιπ"
 
-#: src/bin/bin.cpp:1536
+#: src/bin/bin.cpp:1698
 #, fuzzy, kde-format
 #| msgid "Clip Properties"
 msgid "Bin Clip Properties"
 msgstr "Ιδιότητες κλιπ"
 
-#: src/bin/bin.cpp:1868
+#: src/bin/bin.cpp:2030
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr ""
 
-#: src/bin/bin.cpp:1871
+#: src/bin/bin.cpp:2033
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr ""
 
-#: src/bin/bin.cpp:1878
+#: src/bin/bin.cpp:2040
 #, fuzzy, kde-format
 #| msgid "This will remove the selected clip from this project"
 #| msgid_plural "This will remove the selected clips from this project"
 msgid "This will delete all selected clips from the timeline"
 msgstr "Αυτή η ενέργεια θα απομακρύνει το επιλεγμένο κλιπ από το παρόν έργο"
 
-#: src/bin/bin.cpp:1881
+#: src/bin/bin.cpp:2043
 #, kde-format
 msgid "This will delete all folder content"
 msgstr ""
 
-#: src/bin/bin.cpp:1904
+#: src/bin/bin.cpp:2066
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
 
-#: src/bin/bin.cpp:1906
+#: src/bin/bin.cpp:2068
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Delete bin Clips"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/bin.cpp:1931 src/effects/effectstack/view/maskmanager.cpp:267
+#: src/bin/bin.cpp:2093 src/effects/effectstack/view/maskmanager.cpp:267
 #, fuzzy, kde-format
 msgid "Missing source clip"
 msgstr "Κλιπ που δεν έχει βρεθεί"
 
-#: src/bin/bin.cpp:1951 src/bin/bin.cpp:2646
+#: src/bin/bin.cpp:2113 src/bin/bin.cpp:2808
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:441
@@ -18160,7 +18166,7 @@ msgstr "Κλιπ που δεν έχει βρεθεί"
 msgid "Unable to write to file %1"
 msgstr "Αδυναμία εγγραφής στο αρχείο %1"
 
-#: src/bin/bin.cpp:1958 src/bin/bin.cpp:2652 src/doc/kdenlivedoc.cpp:749
+#: src/bin/bin.cpp:2120 src/bin/bin.cpp:2814 src/doc/kdenlivedoc.cpp:749
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your project file was modified by Kdenlive.\n"
@@ -18173,13 +18179,13 @@ msgstr ""
 " Προς αποφυγή απώλειας δεδομένων, δημιουργήθηκε ένα εφεδρικό αντίγραφο με το "
 "όνομα: %1 ."
 
-#: src/bin/bin.cpp:1964
+#: src/bin/bin.cpp:2126
 #, fuzzy, kde-format
 #| msgid "Unable to write to file %1"
 msgid "Unable to parse file %1"
 msgstr "Αδυναμία εγγραφής στο αρχείο %1"
 
-#: src/bin/bin.cpp:1975
+#: src/bin/bin.cpp:2137
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open archive file:\n"
@@ -18189,7 +18195,7 @@ msgstr ""
 "Αδυναμία ανοίγματος αρχειοθετημένου αρχείου:\n"
 " %1"
 
-#: src/bin/bin.cpp:2001 src/bin/bin.cpp:2224
+#: src/bin/bin.cpp:2163 src/bin/bin.cpp:2386
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -18197,27 +18203,27 @@ msgid ""
 "Replacement is %1 frames shorter."
 msgstr ""
 
-#: src/bin/bin.cpp:2010 src/bin/bin.cpp:2232
+#: src/bin/bin.cpp:2172 src/bin/bin.cpp:2394
 #: src/bin/model/subtitlemodel.cpp:410
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "The selected file %1 is invalid."
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/bin/bin.cpp:2016
+#: src/bin/bin.cpp:2178
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to edit"
 msgid "Cannot find original clip to be replaced"
 msgstr "Αδυναμία εύρεσης κλιπ προς επεξεργασία"
 
-#: src/bin/bin.cpp:2040
+#: src/bin/bin.cpp:2202
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
 
-#: src/bin/bin.cpp:2046
+#: src/bin/bin.cpp:2208
 #, fuzzy, kde-format
 #| msgid ""
 #| "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
@@ -18228,144 +18234,144 @@ msgstr ""
 "Διαγραφή κλιπ <b>%2</b>;<br />Αυτή η ενέργεια θα αφαιρέσει επίσης το κλιπ "
 "από το χρονοδιάγραμμα"
 
-#: src/bin/bin.cpp:2051
+#: src/bin/bin.cpp:2213
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr ""
 
-#: src/bin/bin.cpp:2070
+#: src/bin/bin.cpp:2232
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 
-#: src/bin/bin.cpp:2081
+#: src/bin/bin.cpp:2243
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
 
-#: src/bin/bin.cpp:2086
+#: src/bin/bin.cpp:2248
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2088 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2250 src/timeline2/model/timelineitemmodel.cpp:979
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Replace audio"
 msgstr "Εξαγωγή σε"
 
-#: src/bin/bin.cpp:2091 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2253 src/timeline2/model/timelineitemmodel.cpp:979
 #, fuzzy, kde-format
 #| msgid "Restore Backup File"
 msgid "Replace video"
 msgstr "Επαναφορά εφεδρικού αρχείου"
 
-#: src/bin/bin.cpp:2101
+#: src/bin/bin.cpp:2263
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2104
+#: src/bin/bin.cpp:2266
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2140
+#: src/bin/bin.cpp:2302
 #, fuzzy, kde-format
 #| msgid "Open Backup File"
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "Άνοιγμα εφεδρικού αρχείου"
 
-#: src/bin/bin.cpp:2181
+#: src/bin/bin.cpp:2343
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
 
-#: src/bin/bin.cpp:2186
+#: src/bin/bin.cpp:2348
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
 
-#: src/bin/bin.cpp:2190 src/bin/bin.cpp:2216
+#: src/bin/bin.cpp:2352 src/bin/bin.cpp:2378
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
 
-#: src/bin/bin.cpp:2193
+#: src/bin/bin.cpp:2355
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Replace in timeline"
 msgstr "Προστίθενται κλιπ"
 
-#: src/bin/bin.cpp:2214 src/bin/bin.cpp:5898 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2376 src/bin/bin.cpp:6060 src/bin/clipcreator.cpp:330
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Προσθήκη κλιπ"
 
-#: src/bin/bin.cpp:2264
+#: src/bin/bin.cpp:2426
 #, fuzzy, kde-format
 #| msgid "Cannot load image %1."
 msgid "Could not locate %1"
 msgstr "Αδυναμία φόρτωσης εικόνας %1."
 
-#: src/bin/bin.cpp:2318
+#: src/bin/bin.cpp:2480
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary file in %1"
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
-#: src/bin/bin.cpp:2326
+#: src/bin/bin.cpp:2488
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Duplicating sequence failed"
 msgstr "Διαγραφή του keyframe"
 
-#: src/bin/bin.cpp:2339
+#: src/bin/bin.cpp:2501
 #, kde-format
 msgid "%1 (copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:2344 src/bin/bin.cpp:2365
+#: src/bin/bin.cpp:2506 src/bin/bin.cpp:2527
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Duplicate clip"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/bin.cpp:2357
+#: src/bin/bin.cpp:2519
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:2491
+#: src/bin/bin.cpp:2653
 #, fuzzy, kde-format
 #| msgid "Clear center size"
 msgid "Clear Filters"
 msgstr "Καθαρισμός μεγέθους κέντρου"
 
-#: src/bin/bin.cpp:2497
+#: src/bin/bin.cpp:2659
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "No Tags"
 msgstr "Τροποποίηση διάρκειας"
 
-#: src/bin/bin.cpp:2516
+#: src/bin/bin.cpp:2678
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
@@ -18373,41 +18379,41 @@ msgid_plural "%1 Stars"
 msgstr[0] "Έναρξη"
 msgstr[1] "Έναρξη"
 
-#: src/bin/bin.cpp:2523
+#: src/bin/bin.cpp:2685
 #, fuzzy, kde-format
 msgid "Filter by Usage"
 msgstr "Κεφάλαιο %1"
 
-#: src/bin/bin.cpp:2526
+#: src/bin/bin.cpp:2688
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "All Clips"
 msgstr "Προσθήκη κλιπ"
 
-#: src/bin/bin.cpp:2531
+#: src/bin/bin.cpp:2693
 #, kde-format
 msgid "Unused Clips"
 msgstr "Μη χρησιμοποιημένα κλιπ"
 
-#: src/bin/bin.cpp:2535
+#: src/bin/bin.cpp:2697
 #, fuzzy, kde-format
 #| msgid "Unused clips:"
 msgid "Used Clips"
 msgstr "Μη χρησιμοποιημένα κλιπ:"
 
-#: src/bin/bin.cpp:2542
+#: src/bin/bin.cpp:2704
 #, fuzzy, kde-format
 msgid "Filter by Type"
 msgstr "Κεφάλαιο %1"
 
-#: src/bin/bin.cpp:2545
+#: src/bin/bin.cpp:2707
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "AV Clip"
 msgstr "Προσθήκη κλιπ"
 
-#: src/bin/bin.cpp:2549
+#: src/bin/bin.cpp:2711
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Mute Video"
@@ -18418,7 +18424,7 @@ msgstr "Σίγαση βιντεοκλίπ"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2553 src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/bin/bin.cpp:2715 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
 #: src/onlineresources/resourcewidget.cpp:684 src/ui/clipjobmanager_ui.ui:388
@@ -18429,17 +18435,17 @@ msgstr "Σίγαση βιντεοκλίπ"
 msgid "Audio"
 msgstr "Ήχος"
 
-#: src/bin/bin.cpp:2557 src/mltcontroller/clippropertiescontroller.cpp:367
+#: src/bin/bin.cpp:2719 src/mltcontroller/clippropertiescontroller.cpp:367
 #, kde-format
 msgid "Image"
 msgstr "Εικόνα"
 
-#: src/bin/bin.cpp:2561
+#: src/bin/bin.cpp:2723
 #, kde-format
 msgid "Slideshow"
 msgstr "Προβολή διαφανειών"
 
-#: src/bin/bin.cpp:2565
+#: src/bin/bin.cpp:2727
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Playlist"
@@ -18447,7 +18453,7 @@ msgstr "Κλιπ λίστας αναπαραγωγής"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2569 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2731 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1616
 #: src/project/projectmanager.cpp:1618 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
@@ -18455,42 +18461,42 @@ msgstr "Κλιπ λίστας αναπαραγωγής"
 msgid "Sequences"
 msgstr "Όνομα ακολουθίας"
 
-#: src/bin/bin.cpp:2573 src/project/dialogs/projectsettings.cpp:215
+#: src/bin/bin.cpp:2735 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Τίτλος"
 
-#: src/bin/bin.cpp:2577
+#: src/bin/bin.cpp:2739
 #, fuzzy, kde-format
 #| msgid "Template"
 msgid "Title Template"
 msgstr "Πρότυπο"
 
-#: src/bin/bin.cpp:2618
+#: src/bin/bin.cpp:2780
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select an option in the menu to enable filtering"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2673 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2835 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Κατάλογος"
 
-#: src/bin/bin.cpp:2674
+#: src/bin/bin.cpp:2836
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Δημιουργία φακέλου"
 
-#: src/bin/bin.cpp:2808 src/bin/bin.cpp:2821 src/bin/bin.cpp:3835
+#: src/bin/bin.cpp:2970 src/bin/bin.cpp:2983 src/bin/bin.cpp:3997
 #: src/timeline2/model/timelinemodel.cpp:2209
 #, kde-format
 msgid "Delete Clip"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/bin.cpp:2810 src/bin/bin.cpp:2823
+#: src/bin/bin.cpp:2972 src/bin/bin.cpp:2985
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18498,39 +18504,39 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2811 src/bin/bin.cpp:2824 src/bin/bin.cpp:3811
+#: src/bin/bin.cpp:2973 src/bin/bin.cpp:2986 src/bin/bin.cpp:3973
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Κλιπ διαμεσολάβησης"
 
-#: src/bin/bin.cpp:2815
+#: src/bin/bin.cpp:2977
 #, kde-format
 msgid "Delete Folder"
 msgstr "Διαγραφή φακέλου"
 
-#: src/bin/bin.cpp:2816
+#: src/bin/bin.cpp:2978
 #, fuzzy, kde-format
 msgid "Proxy Folder"
 msgstr "Φάκελος έργου"
 
-#: src/bin/bin.cpp:3089
+#: src/bin/bin.cpp:3251
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit rating"
 msgstr "Τροποποίηση διάρκειας"
 
-#: src/bin/bin.cpp:3091
+#: src/bin/bin.cpp:3253
 #, fuzzy, kde-format
 #| msgid "Cannot edit the duration of multiple items"
 msgid "Cannot set rating on this item"
 msgstr "Αδυναμία επεξεργασίας της διάρκειας πολλαπλών αντικειμένων"
 
-#: src/bin/bin.cpp:3755
+#: src/bin/bin.cpp:3917
 #, fuzzy, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Προσθήκη φακέλου"
 
-#: src/bin/bin.cpp:3756
+#: src/bin/bin.cpp:3918
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18540,106 +18546,106 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3762
+#: src/bin/bin.cpp:3924
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Προσθήκη κλιπ χρώματος…"
 
-#: src/bin/bin.cpp:3764
+#: src/bin/bin.cpp:3926
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Image Sequence…"
 msgstr "Ακολουθία εικόνων"
 
-#: src/bin/bin.cpp:3766
+#: src/bin/bin.cpp:3928
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Προσθήκη κλιπ τίτλου…"
 
-#: src/bin/bin.cpp:3768
+#: src/bin/bin.cpp:3930
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Προσθήκη προτύπου τίτλου…"
 
-#: src/bin/bin.cpp:3770
+#: src/bin/bin.cpp:3932
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Animation…"
 msgstr "Δημιουργία ομάδας"
 
-#: src/bin/bin.cpp:3772
+#: src/bin/bin.cpp:3934
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Sequence…"
 msgstr "Ακολουθία εικόνων"
 
-#: src/bin/bin.cpp:3775 src/mainwindow.cpp:310
+#: src/bin/bin.cpp:3937 src/mainwindow.cpp:310
 #, kde-format
 msgid "Online Resources"
 msgstr ""
 
-#: src/bin/bin.cpp:3779
+#: src/bin/bin.cpp:3941
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Locate Clip…"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/bin.cpp:3784
+#: src/bin/bin.cpp:3946
 #, kde-format
 msgid "Reload Clip"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/bin/bin.cpp:3790
+#: src/bin/bin.cpp:3952
 #, fuzzy, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Η μετατροπή απέτυχε!"
 
-#: src/bin/bin.cpp:3795
+#: src/bin/bin.cpp:3957
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Replace Clip…"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/bin/bin.cpp:3801
+#: src/bin/bin.cpp:3963
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Replace Clip In Timeline…"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/bin/bin.cpp:3806
+#: src/bin/bin.cpp:3968
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Duplicate Clip"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/bin.cpp:3818 src/bin/bin.cpp:3873
+#: src/bin/bin.cpp:3980 src/bin/bin.cpp:4035
 #, kde-format
 msgid "Clip Properties"
 msgstr "Ιδιότητες κλιπ"
 
-#: src/bin/bin.cpp:3823 src/mltcontroller/clippropertiescontroller.cpp:609
+#: src/bin/bin.cpp:3985 src/mltcontroller/clippropertiescontroller.cpp:609
 #, kde-format
 msgid "Edit Clip"
 msgstr "Επεξεργασία κλιπ"
 
-#: src/bin/bin.cpp:3841
+#: src/bin/bin.cpp:4003
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Sequences"
 msgstr "Προκαθορισμένος κατάλογος για τα αρχεία του έργου"
 
-#: src/bin/bin.cpp:3846
+#: src/bin/bin.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Audio Captures"
 msgstr "Προκαθορισμένος κατάλογος για τα αρχεία του έργου"
 
-#: src/bin/bin.cpp:3850
+#: src/bin/bin.cpp:4012
 #, kde-format
 msgid "Create Folder"
 msgstr "Δημιουργία φακέλου"
 
-#: src/bin/bin.cpp:3853
+#: src/bin/bin.cpp:4015
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18647,63 +18653,63 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3991 src/bin/bin.cpp:4024
+#: src/bin/bin.cpp:4153 src/bin/bin.cpp:4186
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/bin/bin.cpp:3994 src/bin/bin.cpp:3997 src/bin/bin.cpp:4027
+#: src/bin/bin.cpp:4156 src/bin/bin.cpp:4159 src/bin/bin.cpp:4189
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence %1"
 msgstr "Όνομα ακολουθίας"
 
-#: src/bin/bin.cpp:4058
+#: src/bin/bin.cpp:4220
 #, fuzzy, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Μετακίνηση κλιπ"
 msgstr[1] "Μετακίνηση κλιπ"
 
-#: src/bin/bin.cpp:4100
+#: src/bin/bin.cpp:4262
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to edit"
 msgid "No valid clip to insert"
 msgstr "Αδυναμία εύρεσης κλιπ προς επεξεργασία"
 
-#: src/bin/bin.cpp:4113 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:4275 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3441
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/bin/bin.cpp:4147 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/bin/bin.cpp:4309 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Αδυναμία προσθήκης εφέ βίντεο σε αυτό το κλιπ"
 
-#: src/bin/bin.cpp:4221 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4383 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "Επικόλληση εφέ"
 
-#: src/bin/bin.cpp:4258 src/bin/bin.cpp:4265
+#: src/bin/bin.cpp:4420 src/bin/bin.cpp:4427
 #, fuzzy, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Επιλογή κλιπ προς διαγραφή"
 
-#: src/bin/bin.cpp:4404
+#: src/bin/bin.cpp:4566
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Τροποποίηση διάρκειας"
 
-#: src/bin/bin.cpp:4740 src/bin/projectclip.cpp:195
+#: src/bin/bin.cpp:4902 src/bin/projectclip.cpp:195
 #: src/bin/projectclip.cpp:1991 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -18712,12 +18718,12 @@ msgstr "Τροποποίηση διάρκειας"
 msgid "Unnamed"
 msgstr "Όνομα αρχείου"
 
-#: src/bin/bin.cpp:4804
+#: src/bin/bin.cpp:4966
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4816
+#: src/bin/bin.cpp:4978
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -18725,12 +18731,12 @@ msgid "Please set a default application to open image files"
 msgstr ""
 "Παρακαλώ ορίσετε στον διάλογο ρυθμίσεων μία εφαρμογή για το άνοιγμα εικόνων"
 
-#: src/bin/bin.cpp:4821
+#: src/bin/bin.cpp:4983
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4995
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -18740,8 +18746,8 @@ msgstr ""
 "Παρακαλώ ορίσετε στον διάλογο ρυθμίσεων μία εφαρμογή για το άνοιγμα αρχείων "
 "ήχου"
 
-#: src/bin/bin.cpp:4843 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:484 src/jobs/cliploadtask.cpp:496
+#: src/bin/bin.cpp:5005 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
@@ -18751,12 +18757,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Αδυναμία ανοίγματος αρχείου"
 
-#: src/bin/bin.cpp:4880 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5042 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4890
+#: src/bin/bin.cpp:5052
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -18765,87 +18771,87 @@ msgstr ""
 "Επεξεργάζεστε έναν εξωτερικό τίτλο κλιπ (%1). Θέλετε να αποθηκεύσετε τις "
 "αλλαγές σας στον τίτλο αρχείου ή να τις αποθηκεύσετε για το έργο αυτό μόνο;"
 
-#: src/bin/bin.cpp:4893 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:5055 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "Αποθήκευση τίτλου"
 
-#: src/bin/bin.cpp:4893
+#: src/bin/bin.cpp:5055
 #, kde-format
 msgid "Save to title file"
 msgstr "Αποθήκευση σε τίτλο αρχείου"
 
-#: src/bin/bin.cpp:4894
+#: src/bin/bin.cpp:5056
 #, kde-format
 msgid "Save in project only"
 msgstr "Αποθήκευση στο έργο μόνο"
 
-#: src/bin/bin.cpp:4917 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:5079 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Κλιπ τίτλου"
 
-#: src/bin/bin.cpp:4967
+#: src/bin/bin.cpp:5129
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Το κλιπ δεν είναι έγκυρο, θα αφαιρεθεί από το έργο."
 
-#: src/bin/bin.cpp:4971
+#: src/bin/bin.cpp:5133
 #, kde-format
 msgid "Invalid clip"
 msgstr "Μη έγκυρο κλιπ"
 
-#: src/bin/bin.cpp:5085
+#: src/bin/bin.cpp:5247
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Enable proxies"
 msgstr "Διαγραφή διαμεσολαβητών"
 
-#: src/bin/bin.cpp:5085
+#: src/bin/bin.cpp:5247
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Disable proxies"
 msgstr "Διαγραφή διαμεσολαβητών"
 
-#: src/bin/bin.cpp:5266
+#: src/bin/bin.cpp:5428
 #, fuzzy, kde-format
 #| msgid "Rebuild Group"
 msgid "Rebuild proxies"
 msgstr "Ανασυγκρότηση ομάδας"
 
-#: src/bin/bin.cpp:5500
+#: src/bin/bin.cpp:5662
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Έργο"
 
-#: src/bin/bin.cpp:5516
+#: src/bin/bin.cpp:5678
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "Προσθήκη κομματιού"
 
-#: src/bin/bin.cpp:5518
+#: src/bin/bin.cpp:5680
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "Επεξεργασία οδηγού"
 
-#: src/bin/bin.cpp:5534
+#: src/bin/bin.cpp:5696
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5538
+#: src/bin/bin.cpp:5700
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5550 src/mainwindow.cpp:2915
+#: src/bin/bin.cpp:5712 src/mainwindow.cpp:2915
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Αδύνατη η εύρεση κλιπ για την προσθήκη δείκτη"
@@ -18853,7 +18859,7 @@ msgstr "Αδύνατη η εύρεση κλιπ για την προσθήκη �
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5564 src/bin/model/markerlistmodel.cpp:738
+#: src/bin/bin.cpp:5726 src/bin/model/markerlistmodel.cpp:738
 #: src/definitions.cpp:81 src/definitions.cpp:106
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
@@ -18862,90 +18868,90 @@ msgstr "Αδύνατη η εύρεση κλιπ για την προσθήκη �
 msgid "Marker"
 msgstr "Δείκτης"
 
-#: src/bin/bin.cpp:5654
+#: src/bin/bin.cpp:5816
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:6082
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5922
+#: src/bin/bin.cpp:6084
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5991 src/bin/bin.cpp:6068
+#: src/bin/bin.cpp:6153 src/bin/bin.cpp:6230
 #, fuzzy, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Προσθήκη μετάβασης στο κλιπ"
 msgstr[1] "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:6012
+#: src/bin/bin.cpp:6174
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/bin/bin.cpp:6014
+#: src/bin/bin.cpp:6176
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:6027 src/mltcontroller/clippropertiescontroller.cpp:725
+#: src/bin/bin.cpp:6189 src/mltcontroller/clippropertiescontroller.cpp:725
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "Κομμάτι βίντεο"
 
-#: src/bin/bin.cpp:6042
+#: src/bin/bin.cpp:6204
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/bin/bin.cpp:6095
+#: src/bin/bin.cpp:6257
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Remove clip markers"
 msgstr "Διαγραφή δείκτη"
 
-#: src/bin/bin.cpp:6255
+#: src/bin/bin.cpp:6417
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6256
+#: src/bin/bin.cpp:6418
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Αποθήκευση έργου DVD"
 
-#: src/bin/bin.cpp:6257
+#: src/bin/bin.cpp:6419
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Μετατροπή"
 
-#: src/bin/bin.cpp:6415 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6577 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1114
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Διαγραφή εφέ"
 
-#: src/bin/bin.cpp:6481 src/mainwindow.cpp:303
+#: src/bin/bin.cpp:6643 src/mainwindow.cpp:303
 #, fuzzy, kde-format
 msgid "Project Bin"
 msgstr "Έργο"
 
-#: src/bin/bin.cpp:6484 src/bin/bin.cpp:6487 src/mainwindow.cpp:5170
+#: src/bin/bin.cpp:6646 src/bin/bin.cpp:6649 src/mainwindow.cpp:5170
 #, fuzzy, kde-format
 msgid "Project Bin %1"
 msgstr "Έργο"
@@ -24333,17 +24339,17 @@ msgstr "Μικρογραφίες"
 msgid "Loading clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/jobs/cliploadtask.cpp:528
+#: src/jobs/cliploadtask.cpp:531
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:723
+#: src/jobs/cliploadtask.cpp:726
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:754
+#: src/jobs/cliploadtask.cpp:757
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
