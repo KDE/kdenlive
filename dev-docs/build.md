@@ -256,7 +256,6 @@ cd build
 cmake .. -GNinja -DWITHOUT_OPENCV=true -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 ```
 
-Note: as of 20.04, frei0r doesn't support recent OpenCV (and effects using it seemed not very stable)
 
 
 [fuzzer-blog]: https://kdenlive.org/en/2019/03/inside-kdenlive-how-to-fuzz-a-complex-gui-application/
