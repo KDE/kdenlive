@@ -2318,6 +2318,7 @@ void MainWindow::setupActions()
 
 void MainWindow::saveOptions()
 {
+    KdenliveSettings::setKdockLayout(QString(KDDockWidgets::LayoutSaver().serializeLayout()));
     KdenliveSettings::self()->save();
     pCore->projectManager()->saveRecentFiles();
 }
@@ -2326,6 +2327,7 @@ bool MainWindow::readOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
+    KDDockWidgets::LayoutSaver().restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
 
     if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
