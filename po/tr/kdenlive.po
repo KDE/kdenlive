@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-06 00:41+0000\n"
-"PO-Revision-Date: 2025-09-05 09:51+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"POT-Creation-Date: 2025-09-07 00:41+0000\n"
+"PO-Revision-Date: 2025-09-06 13:07+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3329,7 +3329,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
-#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2743
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2749
 #: src/layouts/layoutcollection.cpp:24
 #: src/mltcontroller/clippropertiescontroller.cpp:650
 #, kde-format
@@ -4342,7 +4342,7 @@ msgstr "3 dB’lik bir nokta frekansıyla bir yüksek geçiş süzgeci uygulayı
 #: data/effects/frei0r/frei0r_colortap.xml:9
 #: data/effects/frei0r/frei0r_defish0r.xml:15
 #: data/effects/frei0r/frei0r_iirblur.xml:13
-#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1499
+#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1505
 #: src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
@@ -7091,8 +7091,8 @@ msgstr "Düşük geçiş,Düz,Düz A,Düz X,Düz Y,Kroma,Renk,Acolor"
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1600
-#: src/bin/bin.cpp:1605 src/bin/bin.cpp:2601
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1606
+#: src/bin/bin.cpp:1611 src/bin/bin.cpp:2607
 #, kde-format
 msgid "Filter"
 msgstr "Süzgeç"
@@ -7293,7 +7293,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
-#: src/bin/bin.cpp:1503 src/bin/projectitemmodel.cpp:340
+#: src/bin/bin.cpp:1509 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
@@ -9699,18 +9699,17 @@ msgstr "Çizgi Film"
 #: data/effects/frei0r/frei0r_cartoon.xml:5
 #, kde-format
 msgid "Cartoonify video, do a form of edge detect"
-msgstr ""
+msgstr "Bir tür kenar algılama yapıp videoyu çizgi film gibi yapın."
 
 #: data/effects/frei0r/frei0r_cartoon.xml:8
 #, kde-format
 msgid "Level of trip"
-msgstr ""
+msgstr "Geçiş düzeyi"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:11
-#, fuzzy, kde-format
-#| msgid "Reference frame"
+#, kde-format
 msgid "Difference space"
-msgstr "Başvuru çerçevesi"
+msgstr "Farklı alan"
 
 #: data/effects/frei0r/frei0r_cluster.xml:4
 #, kde-format
@@ -9723,16 +9722,19 @@ msgid ""
 "<![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>\n"
 "    Clusters of a source image by color and spatial distance]]>"
 msgstr ""
+"<![CDATA[<b>Yüksek CPU iş yükü nedeniyle artık geliştirilmemektedir.</"
+"b><br>\n"
+"    Kaynak görsellerin renge ve uzamsal uzaklığa göre kümeleri.]]>"
 
 #: data/effects/frei0r/frei0r_cluster.xml:9
 #, kde-format
 msgid "Amount of clusters"
-msgstr ""
+msgstr "Kümeler sayısı"
 
 #: data/effects/frei0r/frei0r_cluster.xml:12
 #, kde-format
 msgid "Weight on distance"
-msgstr ""
+msgstr "Uzaklıktaki ağırlık"
 
 #: data/effects/frei0r/frei0r_colgate.xml:4
 #, kde-format
@@ -9742,7 +9744,7 @@ msgstr "Beyaz Dengesi (LMS Uzayı)"
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
 msgid "Do simple color correction, in a physically meaningful way"
-msgstr ""
+msgstr "Fiziksel olarak anlamlı bir biçimde basit bir renk düzeltmesi yapın."
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
 #, kde-format
@@ -9750,10 +9752,9 @@ msgid "RGB Adjustment"
 msgstr "RGB İnce Ayarı"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
-#, fuzzy, kde-format
-#| msgid "Image adjustment"
+#, kde-format
 msgid "Simple color adjustment"
-msgstr "Görsel İnce Ayarı"
+msgstr "Temel renk ince ayarı yapar."
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2514
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
@@ -9781,13 +9782,12 @@ msgstr "Mavi"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
 msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgstr "Sabit ekle,Gamayı değiştir,Çarp"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Action"
-msgstr "Yön"
+msgstr "Eylem"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
@@ -9795,10 +9795,9 @@ msgid "Keep luma"
 msgstr "Lumayı tut"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
-#, fuzzy, kde-format
-#| msgid "Alpha strobing"
+#, kde-format
 msgid "Alpha controlled"
-msgstr "Alfa yanıp söndürmesi"
+msgstr "Alfa denetimli"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:4
 #, kde-format
@@ -9811,12 +9810,13 @@ msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
 msgstr ""
+"Seçili renk ile geçerli piksel arasındaki uzaklığı hesaplar ve bu değeri "
+"yeni piksel değeri olarak kullanır."
 
 #: data/effects/frei0r/frei0r_colordistance.xml:8
-#, fuzzy, kde-format
-#| msgid "Source clip"
+#, kde-format
 msgid "Source Color"
-msgstr "Kaynak klip"
+msgstr "Kaynak Renk"
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -9827,23 +9827,22 @@ msgstr "Renklendir"
 #: data/effects/frei0r/frei0r_colorize.xml:5
 #, kde-format
 msgid "Colorizes image to selected hue, saturation and lightness"
-msgstr ""
+msgstr "Görseli seçilen renk tonuna, doygunluğa ve açıklığa göre renklendirir."
 
 #: data/effects/frei0r/frei0r_colorize.xml:9
 #, kde-format
 msgid "Color shade of the colorized image."
-msgstr ""
+msgstr "Renklendirilmiş görselin renk tonu."
 
 #: data/effects/frei0r/frei0r_colorize.xml:13
 #, kde-format
 msgid "Amount of color in the colorized image."
-msgstr ""
+msgstr "Renklendirilmiş görseldeki renk miktarı."
 
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, fuzzy, kde-format
-#| msgid "Direction of the color gradient."
+#, kde-format
 msgid "Lightness of the colorized image."
-msgstr "Renk gradyanının yönü."
+msgstr "Renklendirilmiş görselin açıklığı."
 
 #: data/effects/frei0r/frei0r_colortap.xml:4
 #, kde-format
@@ -9853,12 +9852,12 @@ msgstr "Renk Efekti"
 #: data/effects/frei0r/frei0r_colortap.xml:5
 #, kde-format
 msgid "Applies a pre-made color effect to image"
-msgstr ""
+msgstr "Görsele önceden hazırlanmış bir renk efekti uygular."
 
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #, kde-format
 msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
-msgstr ""
+msgstr "X-Pro,Sepya,Isı,Kırmızı–Yeşil,Eski Fotoğraf,X-Ray,Esler (Ss),Sarı–Mavi"
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
 #, kde-format
@@ -9869,7 +9868,7 @@ msgstr "Karşıtlık"
 #: data/effects/frei0r/frei0r_contrast0r.xml:5
 #, kde-format
 msgid "Adjusts the contrast of a source image"
-msgstr ""
+msgstr "Kaynak görselin karşıtlığını ayarlar."
 
 #: data/effects/frei0r/frei0r_curves.xml:5
 #, kde-format
@@ -9889,73 +9888,73 @@ msgstr "Kırmızı,Yeşil,Mavi,Luma"
 #: data/effects/frei0r/frei0r_curves.xml:74
 #, kde-format
 msgid "Number of curve points"
-msgstr ""
+msgstr "Eğri noktalarının sayısı"
 
 #: data/effects/frei0r/frei0r_curves.xml:22
 #: data/effects/frei0r/frei0r_curves.xml:77
 #, kde-format
 msgid "Point 1 input value"
-msgstr ""
+msgstr "1. nokta girdi değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:25
 #: data/effects/frei0r/frei0r_curves.xml:80
 #, kde-format
 msgid "Point 1 output value"
-msgstr ""
+msgstr "1. nokta çıktı değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:83
 #, kde-format
 msgid "Point 2 input value"
-msgstr ""
+msgstr "2. nokta girdi değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:31
 #: data/effects/frei0r/frei0r_curves.xml:86
 #, kde-format
 msgid "Point 2 output value"
-msgstr ""
+msgstr "2. nokta çıktı değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:34
 #: data/effects/frei0r/frei0r_curves.xml:89
 #, kde-format
 msgid "Point 3 input value"
-msgstr ""
+msgstr "3. nokta girdi değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:37
 #: data/effects/frei0r/frei0r_curves.xml:92
 #, kde-format
 msgid "Point 3 output value"
-msgstr ""
+msgstr "3. nokta çıktı değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:40
 #: data/effects/frei0r/frei0r_curves.xml:95
 #, kde-format
 msgid "Point 4 input value"
-msgstr ""
+msgstr "4. nokta girdi değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:43
 #: data/effects/frei0r/frei0r_curves.xml:98
 #, kde-format
 msgid "Point 4 output value"
-msgstr ""
+msgstr "4. nokta çıktı değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:46
 #: data/effects/frei0r/frei0r_curves.xml:101
 #, kde-format
 msgid "Point 5 input value"
-msgstr ""
+msgstr "5. nokta girdi değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:49
 #: data/effects/frei0r/frei0r_curves.xml:104
 #, kde-format
 msgid "Point 5 output value"
-msgstr ""
+msgstr "5. nokta çıktı değeri"
 
 #: data/effects/frei0r/frei0r_curves.xml:52
 #: data/effects/frei0r/frei0r_curves.xml:107
 #, kde-format
 msgid "Show graph in picture"
-msgstr ""
+msgstr "Resimde grafiği göster"
 
 #: data/effects/frei0r/frei0r_curves.xml:55
 #: data/effects/frei0r/frei0r_curves.xml:110
@@ -9964,7 +9963,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-msgstr ""
+msgstr "Sol üst,Sağ üst,Sol alt,Sağ alt"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
@@ -9992,6 +9991,12 @@ msgid ""
 "if they become too annoying.\n"
 "        "
 msgstr ""
+"Nikon D90’ın 720p videolarındaki basamaklı görüntü bozukluklarını giderir.\n"
+"        Nikon D90 videolarındaki keskin çizgiler, büyük olasılıkla\n"
+"        zayıf örneklemeden kaynaklanan 8. veya 9. satırda basamaklar "
+"gösterir.\n"
+"        Bunlar çok rahatsız edici hale gelirse bu süzgeçle düzeltilebilir.\n"
+"        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
 #, kde-format
@@ -10002,7 +10007,7 @@ msgstr "Balıkgözü Düzeltme"
 #: data/effects/frei0r/frei0r_defish0r.xml:5
 #, kde-format
 msgid "Non rectilinear lens mappings"
-msgstr ""
+msgstr "Doğrusal olmayan mercek eşlemeleri"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:11
 #, kde-format
@@ -10012,12 +10017,12 @@ msgstr "Balıkgözü Düzeltme"
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #, kde-format
 msgid "Equidistant,Orthographic,Equiarea,Stereographic"
-msgstr ""
+msgstr "Eşit uzaklıklı,Ortografik,Eşit alanlı,Stereografik"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #, kde-format
 msgid "Fill,Center,Fit,Manual"
-msgstr ""
+msgstr "Doldur,Ortala,Sığdır,Elle"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
@@ -10033,6 +10038,8 @@ msgid ""
 "<![CDATA[Straighten all Edges<br>\n"
 "        of Video Frame]]>"
 msgstr ""
+"<![CDATA[Video karesinin tüm<br>\n"
+"        kenarlarını düzleştirin.]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
 #, kde-format
@@ -10040,67 +10047,67 @@ msgid ""
 "<![CDATA[Fix Camera Scaling<br>\n"
 "        Between 4:3 and 16:9]]>"
 msgstr ""
+"<![CDATA[4:3 ve 16:9 arasında kamera<br>\n"
+"        ölçeklendirmesini düzeltin.]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid ""
 "<![CDATA[Scale Y to Affect<br>\n"
 "        Aspect Ratio]]>"
-msgstr "En–boy oranını koru"
+msgstr ""
+"<![CDATA[En–boy oranını etkilemesi<br>\n"
+"        için Y’yi ölçeklendirin.]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
 msgid "Manual Scale"
-msgstr ""
+msgstr "Elle Ölçeklendirme"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:38
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolator"
-msgstr "Aradeğerleme"
+msgstr "Aradeğerleyici"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:41
 #, kde-format
 msgid "Square,PAL DV,NTSC DV,HDV,Manual"
-msgstr ""
+msgstr "Kare,PAL DV,NTSC DV,HDV,Elle"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:42
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect Type"
-msgstr "En–boy oranı:"
+msgstr "En–boy Oranı Türü"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
 msgid "Manual Aspect"
-msgstr ""
+msgstr "Elle Oran"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:4
 #, kde-format
 msgid "delay0r"
-msgstr ""
+msgstr "delay0r"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video delay"
-msgstr "Video akışı"
+msgstr "Video gecikmesi"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:8
 #, kde-format
 msgid "Delay time"
-msgstr ""
+msgstr "Gecikme süresi"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:4
 #, kde-format
 msgid "Delay grab"
-msgstr ""
+msgstr "Gecikme yakalama"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:5
 #, kde-format
 msgid "Delayed frame blitting mapped on a time bitmap"
-msgstr ""
+msgstr "Zaman biteşlemine eşlenen gecikmeli kare blitlemesi"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:4
 #, kde-format
@@ -10108,36 +10115,33 @@ msgid "HQ 3D Denoiser (frei0r)"
 msgstr "Yüksek Kaliteli 3B Gürültü Kaldırıcısı (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High precision/quality 3d denoiser"
+#, kde-format
 msgid "<![CDATA[High quality 3D denoiser]]>"
-msgstr "Yüksek doğruluklu/kaliteli 3B gürültü kaldırıcı"
+msgstr "<![CDATA[Yüksek kaliteli 3B gürültü kaldırıcısı.]]>"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
 #, kde-format
 msgid "Spatial"
-msgstr ""
+msgstr "Uzamsal"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:9
 #: data/effects/frei0r/frei0r_hqdn3d.xml:10
 #, kde-format
 msgid "Amount of spatial filtering"
-msgstr ""
+msgstr "Uzamsal süzmenin miktarı"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:12
 #: data/effects/frei0r/frei0r_hqdn3d.xml:13
-#, fuzzy, kde-format
-#| msgid "Temporary files:"
+#, kde-format
 msgid "Temporal"
-msgstr "Geçici dosyalar:"
+msgstr "Zamansal"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:13
 #: data/effects/frei0r/frei0r_hqdn3d.xml:14
-#, fuzzy, kde-format
-#| msgid "Cannot open temporary file"
+#, kde-format
 msgid "Amount of temporal filtering"
-msgstr "Geçici dosya açılamıyor"
+msgstr "Zamansal süzmenin miktarı"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:4
 #, kde-format
@@ -10146,10 +10150,9 @@ msgid "Distort"
 msgstr "Bozdur"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Correct radial lens distortion "
+#, kde-format
 msgid "Creates a plasma like distortion"
-msgstr "Radyal lens bozulmasını düzeltin."
+msgstr "Plazma benzeri bir bozulma oluşturur"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:11
 #, kde-format
@@ -10159,12 +10162,12 @@ msgstr "Genlik"
 #: data/effects/frei0r/frei0r_distort0r.xml:14
 #, kde-format
 msgid "Use Velocity"
-msgstr ""
+msgstr "Sürati Kullan"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:17
 #, kde-format
 msgid "Velocity"
-msgstr ""
+msgstr "Sürat"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, kde-format
@@ -10175,7 +10178,7 @@ msgstr "Titret"
 #: data/effects/frei0r/frei0r_dither.xml:6
 #, kde-format
 msgid "Dithers the image and reduces the number of available colors"
-msgstr ""
+msgstr "Görseli titretir ve kullanılabilir renklerin sayısını azaltır."
 
 #: data/effects/frei0r/frei0r_dither.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:36
@@ -10186,20 +10189,19 @@ msgid "Levels"
 msgstr "Düzeyler"
 
 #: data/effects/frei0r/frei0r_dither.xml:10
-#, fuzzy, kde-format
-#| msgid "number of output channels"
+#, kde-format
 msgid "Number of values per channel."
-msgstr "çıkış kanallarının sayısı"
+msgstr "Kanal başına değerlerin sayısı."
 
 #: data/effects/frei0r/frei0r_dither.xml:13
 #, kde-format
 msgid "Matrix ID"
-msgstr ""
+msgstr "Matris Kimliği"
 
 #: data/effects/frei0r/frei0r_dither.xml:14
 #, kde-format
 msgid "ID of matrix used for dithering."
-msgstr ""
+msgstr "Titretme için kullanılan matrisin kimliği."
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
 #, kde-format
@@ -10207,16 +10209,14 @@ msgid "Edge Glow"
 msgstr "Kenar Parlaması"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
-#, fuzzy, kde-format
-#| msgid "EQ and filters"
+#, kde-format
 msgid "Edge glow filter"
-msgstr "Ekolayzer ve Süzgeçler"
+msgstr "Kenar parlaması süzgeci"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:8
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Edge lightening threshold"
-msgstr "Değişiklik eşiği"
+msgstr "Kenar aydınlatması eşiği"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:12
 #, kde-format
@@ -10224,6 +10224,8 @@ msgid ""
 "<![CDATA[Edge brightness<br>\n"
 "        upscaling multiplier]]>"
 msgstr ""
+"<![CDATA[Kenar parlaklığı<br>\n"
+"        yükseltme çarpanı.]]>"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:16
 #, kde-format
@@ -10231,6 +10233,8 @@ msgid ""
 "<![CDATA[Non-edge brightness<br>\n"
 "        downscaling multiplier]]>"
 msgstr ""
+"<![CDATA[Kenar olmayan yer<br>\n"
+"        parlaklığı azaltma çarpanı.]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
 #, kde-format
@@ -10240,7 +10244,7 @@ msgstr "Elastik Ölçek"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:5
 #, kde-format
 msgid "Scale non-linearly"
-msgstr ""
+msgstr "Doğrusal olmayan biçimde ölçeklendir"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
@@ -10249,7 +10253,7 @@ msgstr ""
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
-msgstr "Orta"
+msgstr "Merkez"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:10
 #, no-c-format, kde-format
@@ -10257,6 +10261,8 @@ msgid ""
 "<![CDATA[Horizontal center position<br>\n"
 "        of the linear area (% of total width)]]>"
 msgstr ""
+"<![CDATA[Doğrusal alanın yatay merkez konumu<br>\n"
+"        (toplam genişliğin yüzdesi).]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
 #, kde-format
@@ -10264,28 +10270,24 @@ msgid "Linear Width"
 msgstr "Doğrusal Genişlik"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the scope display]]>"
+#, kde-format
 msgid "<![CDATA[Width of the linear area]]>"
-msgstr "<![CDATA[Kapsam görüntüsünün genişliği]]>"
+msgstr "<![CDATA[Doğrusal alanın genişliği.]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
-#, fuzzy, kde-format
-#| msgid "Scale factor"
+#, kde-format
 msgid "Linear Scale Factor"
-msgstr "Ölçek çarpanı"
+msgstr "Doğrusal Ölçek Çarpanı"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Amount how much the linear area is scaled]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Doğrusal alanın ne kadar ölçeklendirileceği miktar.]]>"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
-#, fuzzy, kde-format
-#| msgid "Nonlinear scale"
+#, kde-format
 msgid "Non-Linear Scale Factor"
-msgstr "Doğrusal olmayan ölçek"
+msgstr "Doğrusal Olmayan Ölçek Çarpanı"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:23
 #, kde-format
@@ -10293,6 +10295,8 @@ msgid ""
 "<![CDATA[Amount how much the<br>\n"
 "        outer left and outer right areas are scaled non linearly]]>"
 msgstr ""
+"<![CDATA[Dış sol ve dış sağ alanların doğrusal<br>\n"
+"         olmayan biçimde ne kadar ölçekleneceği.]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
 #, kde-format
@@ -10303,13 +10307,12 @@ msgstr "Kabart"
 #: data/effects/frei0r/frei0r_emboss.xml:6
 #, kde-format
 msgid "Creates embossed relief image of source image"
-msgstr ""
+msgstr "Kaynak görselin kabartmalı görüntüsünü oluşturur."
 
 #: data/effects/frei0r/frei0r_emboss.xml:9
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Light direction"
-msgstr "Yansılama yönü"
+msgstr "Işık yönü"
 
 #: data/effects/frei0r/frei0r_emboss.xml:11
 #, kde-format
@@ -10317,12 +10320,13 @@ msgid ""
 "<![CDATA[The direction of the<br>\n"
 "            embossing (practically simulating a light source)]]>"
 msgstr ""
+"<![CDATA[Kabartmanın yönü<br>\n"
+"            (yapılan şey, bir ışık kaynağını benzetmektir).]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
-#, fuzzy, kde-format
-#| msgid "Background image"
+#, kde-format
 msgid "Background lightness"
-msgstr "Arka plan görseli"
+msgstr "Arka plan aydınlığı"
 
 #: data/effects/frei0r/frei0r_emboss.xml:16
 #, kde-format
@@ -10331,12 +10335,13 @@ msgid ""
 "<br>\n"
 "            Range is 0 to 90.]]>"
 msgstr ""
+"<![CDATA[Kabartılmamış alanların açıklığını/parlaklığını tanımlar.<br>\n"
+"            Erim, 0 ila 90 arasındadır.]]>"
 
 #: data/effects/frei0r/frei0r_emboss.xml:19
-#, fuzzy, kde-format
-#| msgid "Bottom right"
+#, kde-format
 msgid "Bump height"
-msgstr "Sağ alt"
+msgstr "Yüksekliği artır"
 
 #: data/effects/frei0r/frei0r_emboss.xml:21
 #, kde-format
@@ -10345,33 +10350,35 @@ msgid ""
 "perceived depth of the embossed areas.<br>\n"
 "            Range is 0 to 40.]]>"
 msgstr ""
+"<![CDATA[Kabartmalı alanların algılanan derinliğini artırarak/azaltarak "
+"kenarların kalınlığını tanımlar.<br>\n"
+"            Erim, 0 ila 40 arasındadır.]]>"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
 msgid "Equaliz0r"
-msgstr ""
+msgstr "Equaliz0r"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:5
 #, kde-format
 msgid "Equalizes the intensity histograms"
-msgstr ""
+msgstr "Yoğunluk histogramlarını eşitler."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:4
 #, kde-format
 msgid "Face blur"
-msgstr "Yüz Bulanıklaştırma"
+msgstr "Yüz bulanıklaştırma"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:5
 #, kde-format
 msgid "Automatically detect and blur a face using OpenCV"
-msgstr ""
+msgstr "OpenCV kullanarak bir yüzü kendiliğinden algılayın ve bulanıklaştırın."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:8
 #: data/effects/frei0r/frei0r_facedetect.xml:8
-#, fuzzy, kde-format
-#| msgid "Search failed! %1"
+#, kde-format
 msgid "Search scale"
-msgstr "Arama başarısız oldu! %1"
+msgstr "Arama ölçeği"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:9
 #: data/effects/frei0r/frei0r_facedetect.xml:9
@@ -10380,35 +10387,36 @@ msgid ""
 "The search window scale factor. For example, 120 = 1.20 = increases by 20% "
 "on each pass."
 msgstr ""
+"Arama penceresi ölçek faktörü. Örneğin, 120 = 1,20 = her geçişte %​20 artar."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
 #, kde-format
 msgid "Neighbors"
-msgstr ""
+msgstr "Komşular"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:13
 #: data/effects/frei0r/frei0r_facedetect.xml:13
 #, kde-format
 msgid "Minimum number of rectangles that determines an object."
-msgstr ""
+msgstr "Bir nesneyi tanımlayan en az dörtgen sayısı."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:16
 #: data/effects/frei0r/frei0r_facedetect.xml:16
 #, kde-format
 msgid "Smallest"
-msgstr ""
+msgstr "En küçük"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:17
 #: data/effects/frei0r/frei0r_facedetect.xml:17
 #, kde-format
 msgid "The minimum window size in pixels."
-msgstr ""
+msgstr "Piksel türünden en küçük pencere boyutu."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
 #, kde-format
 msgid "Largest"
-msgstr ""
+msgstr "En büyük"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:21
 #, kde-format
@@ -10416,13 +10424,14 @@ msgid ""
 "The largest size face in pixels - both horizontally and vertically (square "
 "window)."
 msgstr ""
+"Hem dikey hem yatay olarak piksel türünden en büyük yüz boyutu (kare "
+"pencere)."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
 #: data/effects/frei0r/frei0r_facedetect.xml:20
-#, fuzzy, kde-format
-#| msgid "More checks"
+#, kde-format
 msgid "Recheck"
-msgstr "Daha çok denetim"
+msgstr "Yeniden denetim"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:25
 #: data/effects/frei0r/frei0r_facedetect.xml:21
@@ -10431,68 +10440,67 @@ msgid ""
 "How often to detect a face. In between checks, it does object motion "
 "tracking."
 msgstr ""
+"Bir yüzün ne sıklıkla tespit edileceği. Denetimler arasında nesne hareket "
+"takibi de yapılır."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show ellipse"
-msgstr "Alanları göster"
+msgstr "Elipsi göster"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:29
 #, kde-format
 msgid "Draw a blue ellipse around the face area?"
-msgstr ""
+msgstr "Yüz alanının çevresinde bir mavi elipsin çizilip çizilmeyeceği."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:4
 #, kde-format
 msgid "Face detect"
-msgstr "Yüz Algılama"
+msgstr "Yüz algılama"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:5
 #, kde-format
 msgid "Detect faces and draw shapes on them using OpenCV"
-msgstr ""
+msgstr "OpenCV kullanarak yüzleri algılayın ve üzerilerinde şekiller çizin."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:24
-#, fuzzy, kde-format
-#| msgid "Rectangle,Ellipse,Triangle,Diamond"
+#, kde-format
 msgid "circle,ellipse,rectangle,random"
-msgstr "Dikdörtgen,Elips,Üçgen,Eşkenar Dörtgen"
+msgstr "Çember,Elips,Dörtgen,Rastgele"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:28
-#, fuzzy, kde-format
-#| msgid "Shape width"
+#, kde-format
 msgid "Stroke width"
-msgstr "Şekil genişliği"
+msgstr "Vuruş genişliği"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:29
 #, kde-format
 msgid ""
 "0 means fill; otherwise, draw unfilled with a stroke width of this size."
 msgstr ""
+"0 dolgu demektir; aksi takdirde bu ölçü genişliğinde doldurulmamış bir "
+"vuruşlu şekil çizilir."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Alpha"
-msgstr "Şekil Alfası"
+msgstr "Alfa"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:33
 #, kde-format
 msgid ""
 "Set the alpha channel of the shape area to a percentage of fully opaque."
-msgstr ""
+msgstr "Şekil alanının alfa kanalını tümüyle mat bir yüzdeye ayarlayın."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Antialias"
-msgstr "İtalyanca"
+msgstr "Kenar Yumuşatma"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:37
 #, kde-format
 msgid "Draw with anti-aliasing?"
-msgstr ""
+msgstr "Kenar yumuşatma ile çizilip çizilmeyeceği."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
@@ -10504,7 +10512,7 @@ msgstr "Renk 1"
 #: data/effects/frei0r/frei0r_facedetect.xml:44
 #, kde-format
 msgid "Set the shape color of the first detected face."
-msgstr ""
+msgstr "İlk algılanan yüzün şekil rengini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
@@ -10514,10 +10522,9 @@ msgid "Color 2"
 msgstr "Renk 2"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:49
-#, fuzzy, kde-format
-#| msgid "Sets the color for the Now dot"
+#, kde-format
 msgid "Set the shape color of the second detected face."
-msgstr "Şimdi noktası için olan rengi ayarlar."
+msgstr "İkinci algılanan yüzün şekil rengini ayarlayın."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:53 data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -10527,7 +10534,7 @@ msgstr "Renk 3"
 #: data/effects/frei0r/frei0r_facedetect.xml:54
 #, kde-format
 msgid "Set the shape color of the third detected face."
-msgstr ""
+msgstr "Üçüncü algılanan yüzün şekil rengini ayarlayın."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:58 data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -10535,10 +10542,9 @@ msgid "Color 4"
 msgstr "Renk 4"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:59
-#, fuzzy, kde-format
-#| msgid "Sets the color for the Now dot"
+#, kde-format
 msgid "Set the shape color of the fourth detected face."
-msgstr "Şimdi noktası için olan rengi ayarlar."
+msgstr "Dördüncü algılanan yüzün şekil rengini ayarlayın."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:63 data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -10548,7 +10554,7 @@ msgstr "Renk 5"
 #: data/effects/frei0r/frei0r_facedetect.xml:64
 #, kde-format
 msgid "Set the shape color of the fifth detected face."
-msgstr ""
+msgstr "Beşinci algılanan yüzün şekil rengini ayarlayın."
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
 #, kde-format
@@ -10558,55 +10564,47 @@ msgstr "Film Tanecikleri"
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "Negatif benzeri film taneciği ekleyin ve resmi yumuşatın."
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
-#| msgid "Dry amount"
+#, kde-format
 msgid "Grain Amount"
-msgstr "Kuru miktar"
+msgstr "Tanecik Miktarı"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Taneciklerin yoğunluğu.]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Red Grain"
-msgstr "Merkez dengesi"
+msgstr "Kırmızı Tanecik"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[X eksenine uygulanan ölçek çarpanı]]>"
+msgstr "<![CDATA[Kırmızı kanala uygulanan taneciklerin yüzdesi.]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green Grain"
-msgstr "Yeşil 2"
+msgstr "Yeşil Tanecik"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr "<![CDATA[X eksenine uygulanan ölçek çarpanı]]>"
+msgstr "<![CDATA[Yeşil kanala uygulanan taneciklerin yüzdesi.]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Blue Grain"
-msgstr "Denge"
+msgstr "Mavi Tanecik"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr "<![CDATA[X eksenine uygulanan ölçek çarpanı]]>"
+msgstr "<![CDATA[Mavi kanala uygulanan taneciklerin yüzdesi.]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
@@ -10614,33 +10612,29 @@ msgid "Blur Amount"
 msgstr "Bulanıklaştırma Miktarı"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Bulanıklaştırmanın yoğunluğu.]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Wet amount"
+#, kde-format
 msgid "Dust Amount"
-msgstr "Islak miktar"
+msgstr "Toz Miktarı"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Görseldeki toz taneciklerinin miktarı.]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
-#, fuzzy, kde-format
-#| msgid "Dry amount"
+#, kde-format
 msgid "Flicker Amount"
-msgstr "Kuru miktar"
+msgstr "Titreşim Miktarı"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[Kareler arasındaki parlaklıktaki değişim miktarı.]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -10650,19 +10644,17 @@ msgstr "Ters Çevir"
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
 msgid "Flipping in X and Y axis"
-msgstr ""
+msgstr "X ve Y eksenleri arasında ters çevirme."
 
 #: data/effects/frei0r/frei0r_flippo.xml:8
-#, fuzzy, kde-format
-#| msgid "Draw axis"
+#, kde-format
 msgid "X axis"
-msgstr "Eksen Çiz"
+msgstr "X ekseni"
 
 #: data/effects/frei0r/frei0r_flippo.xml:11
-#, fuzzy, kde-format
-#| msgid "Draw axis"
+#, kde-format
 msgid "Y axis"
-msgstr "Eksen Çiz"
+msgstr "Y ekseni"
 
 #: data/effects/frei0r/frei0r_G.xml:4
 #, kde-format
@@ -10672,7 +10664,7 @@ msgstr "Kanal Çıkarıcısı YEŞİL"
 #: data/effects/frei0r/frei0r_G.xml:5
 #, kde-format
 msgid "Extracts Green from Image"
-msgstr ""
+msgstr "Görselden yeşili çıkarır."
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -10682,13 +10674,12 @@ msgstr "Dijital Hata (Sütunlar ve Renk)"
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
 #, kde-format
 msgid "Adds color glitches and block shifting"
-msgstr ""
+msgstr "Renk bozulmaları ve blok kaydırması ekler."
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:8
-#, fuzzy, kde-format
-#| msgid "High frequency"
+#, kde-format
 msgid "Glitch Frequency"
-msgstr "Yüksek frekans"
+msgstr "Bozulma Sıklığı"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:14
 #: data/effects/frei0r/frei0r_pixs0r.xml:8
@@ -10699,7 +10690,7 @@ msgstr "Kayma Yoğunluğu"
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
 #, kde-format
 msgid "Color Glitching Intensity"
-msgstr ""
+msgstr "Renk Bozulması Yoğunluğu"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
 #, kde-format
@@ -10708,10 +10699,9 @@ msgid "Glow"
 msgstr "Parlat"
 
 #: data/effects/frei0r/frei0r_glow.xml:5
-#, fuzzy, kde-format
-#| msgid "Create Group"
+#, kde-format
 msgid "Creates a Glamorous Glow"
-msgstr "Grup Oluştur"
+msgstr "Göz alıcı bir ışıltı yaratır."
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
@@ -10724,6 +10714,8 @@ msgid ""
 "<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
 "    High quality 3D denoiser]]>"
 msgstr ""
+"<![CDATA[<b>frei0r.denoise_hqdn3d</b> ile değiştirilmiştir.<br>\n"
+"    Yüksek kaliteli 3B gürültü kaldırıcısı.]]>"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
 #, kde-format
@@ -10733,7 +10725,7 @@ msgstr "Ton Kayması"
 #: data/effects/frei0r/frei0r_hueshift0r.xml:5
 #, kde-format
 msgid "Shifts the hue of a source image"
-msgstr ""
+msgstr "Kaynak görselin tonunu kaydırır."
 
 #: data/effects/frei0r/frei0r_iirblur.xml:4
 #, kde-format
@@ -10745,22 +10737,23 @@ msgstr "Bulanıklaştır"
 #, kde-format
 msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
 msgstr ""
+"2B IIR süzgeçlerini kullanarak bulanıklaştırma yapar (Üstel, Düşük geçişli, "
+"Gauss)"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:9
 #, kde-format
 msgid "Amount of blur"
-msgstr ""
+msgstr "Bulanıklık miktarı"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #, kde-format
 msgid "Exponential,Lowpass,Gaussian"
-msgstr ""
+msgstr "Üstel,Düşük geçişli,Gauss"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:14
-#, fuzzy, kde-format
-#| msgid "Select border color"
+#, kde-format
 msgid "Select blurring algorithm"
-msgstr "Kenarlık rengi seçin"
+msgstr "Bulanıklaştırma algoritmasını seçin"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
 #, kde-format
@@ -10768,11 +10761,9 @@ msgid "Edge"
 msgstr "Kenar"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Enable edge compensation"
-msgstr "Çevrimiçi belgelendirme"
+msgstr "Kenar tazminini etkinleştir"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
@@ -10780,38 +10771,34 @@ msgid "Kaleidoscope"
 msgstr "Çiçek Dürbünü"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
+#, kde-format
 msgid "Applies a kaleidoscope effect"
-msgstr "Efekti karşılaştırmak için bir klip seçin"
+msgstr "Bir çiçek dürbünü efekti uygular."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "Origin X"
-msgstr "Asıl Renk"
+msgstr "X orijini"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:9
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the X axis"
-msgstr ""
+msgstr "Çiçek dürbününün orijinini X eksenine taşır."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "Origin Y"
-msgstr "Asıl Renk"
+msgstr "Y orijini"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:13
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the Y axis"
-msgstr ""
+msgstr "Çiçek dürbününün orijinini Y eksenine taşır."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
-#, fuzzy, kde-format
-#| msgid "Segment,Bar"
+#, kde-format
 msgid "Segmentation"
-msgstr "Bölüt,Çubuk"
+msgstr "Bölütlendirme"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
 #, kde-format
@@ -10819,12 +10806,14 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[Çiçek dürbünü bölütlendirmesi / 128;<br>\n"
+"        1, 2 veya 4’ün çarpanları en iyi sonucu verir. Öntanımlı değer "
+"16’dır.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
-#, fuzzy, kde-format
-#| msgid "Source time"
+#, kde-format
 msgid "Specify Source Segment"
-msgstr "Kaynak zamanı"
+msgstr "Kaynak bölütü belirt"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
@@ -10833,12 +10822,13 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[İşaretlenmişse kaynak açı, <em>kaynak bölütten</em> okunur, aksi "
+"takdirde kendiliğinden hesaplanır.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
-#, fuzzy, kde-format
-#| msgid "Source time"
+#, kde-format
 msgid "Source Segment"
-msgstr "Kaynak zamanı"
+msgstr "Kaynak Bölüt"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
@@ -10847,30 +10837,29 @@ msgid ""
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Kaynak bölütün merkezi. Yalnızca <em>Kaynak bölütü belirt</em> "
+"işaretliyse kullanılır.<br>\n"
+"        0, +x içindedir ve saat yönünün tersine döner.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
-#, fuzzy, kde-format
-#| msgid "Counter Clockwise"
+#, kde-format
 msgid "None,Counter Clockwise,Clockwise"
-msgstr "Saat Yönünün Tersinde"
+msgstr "Yok,Saat yönünün tersine,Saat yönünde"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
-#, fuzzy, kde-format
-#| msgid "Animation duration"
+#, kde-format
 msgid "Segmentation Direction"
-msgstr "Canlandırma süresi"
+msgstr "Bölütlendirme Yönü"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction of the color gradient."
+#, kde-format
 msgid "Direction of the segmentation."
-msgstr "Renk gradyanının yönü."
+msgstr "Bölütlendirmenin yönü."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
-#, fuzzy, kde-format
-#| msgid "Selected Items:"
+#, kde-format
 msgid "Reflect Edges"
-msgstr "Seçili ögeler:"
+msgstr "Kenarları yansıt"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
 #, kde-format
@@ -16948,7 +16937,7 @@ msgstr "Efektlerin açıklamalarını göster/gizle"
 msgid "Show/hide description of the compositions"
 msgstr "Bileşikleştirmelerin açıklamalarını göster/gizle"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1398
+#: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1404
 #: src/dialogs/renderwidget.cpp:563 src/project/dialogs/profilewidget.cpp:35
 #: src/project/notesplugin.cpp:177
 #, kde-format
@@ -17105,7 +17094,7 @@ msgstr "%1 efekti izle"
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4090
+#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4096
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
@@ -17113,7 +17102,7 @@ msgstr "%1 efekti kovaya at"
 msgid "Show log"
 msgstr "Günlüğü göster"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4093
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4099
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -17537,7 +17526,7 @@ msgid "Limit automatic keyframes"
 msgstr "Kendiliğinden anahtar kareleri sınırla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1552
+#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1558
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -17973,22 +17962,32 @@ msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:316 src/bin/bin.cpp:674 src/monitor/view/ClipMonitor.qml:757
+#: src/bin/bin.cpp:141
+#, kde-format
+msgctxt ""
+"Multiline version: Text shown when no media is imported yet. %1 is replaced "
+"by an icon"
+msgid ""
+"Double click, drop files\n"
+"or click %1 to import media"
+msgstr ""
+
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Zaman akışına yalnızca ses eklemek için sürükleyin"
 
-#: src/bin/bin.cpp:320 src/bin/bin.cpp:678 src/monitor/view/ClipMonitor.qml:719
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Zaman akışına yalnızca video eklemek için sürükleyin"
 
-#: src/bin/bin.cpp:915 src/bin/bin.cpp:1090
+#: src/bin/bin.cpp:921 src/bin/bin.cpp:1096
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr "Projeye dosya eklemek için <b>çift tıklayın</b>"
 
-#: src/bin/bin.cpp:1000 src/bin/bin.cpp:1142
+#: src/bin/bin.cpp:1006 src/bin/bin.cpp:1148
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
@@ -17997,101 +17996,101 @@ msgstr ""
 "Öntanımlı küçük görseli ayarlamak için <b>Üst Karakter+Arama</b>yapın, "
 "seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın"
 
-#: src/bin/bin.cpp:1002 src/bin/bin.cpp:1144
+#: src/bin/bin.cpp:1008 src/bin/bin.cpp:1150
 #, kde-format
 msgid "<b>F2</b> to rename selected item"
 msgstr "Seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın"
 
-#: src/bin/bin.cpp:1269
+#: src/bin/bin.cpp:1275
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] "%1 iş"
 msgstr[1] "%1 iş"
 
-#: src/bin/bin.cpp:1270
+#: src/bin/bin.cpp:1276
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] "%1 bekleyen iş"
 msgstr[1] "%1 bekleyen iş"
 
-#: src/bin/bin.cpp:1400
+#: src/bin/bin.cpp:1406
 #, kde-format
 msgid "Bin Search"
 msgstr "Kovada Ara"
 
-#: src/bin/bin.cpp:1446
+#: src/bin/bin.cpp:1452
 #, kde-format
 msgid "View Mode"
 msgstr "Görünüm Kipi"
 
-#: src/bin/bin.cpp:1449
+#: src/bin/bin.cpp:1455
 #, kde-format
 msgid "Tree View"
 msgstr "Ağaç Görünümü"
 
-#: src/bin/bin.cpp:1456
+#: src/bin/bin.cpp:1462
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "Profili Geçerli Klip için Ayarla"
 
-#: src/bin/bin.cpp:1460
+#: src/bin/bin.cpp:1466
 #, kde-format
 msgid "Icon View"
 msgstr "Simge Görünümü"
 
-#: src/bin/bin.cpp:1468 src/project/dialogs/guideslist.cpp:159
+#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:159
 #, kde-format
 msgid "Descending"
 msgstr "Azalan"
 
-#: src/bin/bin.cpp:1484
+#: src/bin/bin.cpp:1490
 #, kde-format
 msgid "Sort By"
 msgstr "Sırala"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1487 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1493 src/bin/projectitemmodel.cpp:325
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Ad"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1491 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1497 src/bin/projectitemmodel.cpp:328
 #: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Tarih"
 
-#: src/bin/bin.cpp:1495 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1501 src/bin/projectitemmodel.cpp:331
 #, kde-format
 msgid "Description"
 msgstr "Açıklama"
 
-#: src/bin/bin.cpp:1507
+#: src/bin/bin.cpp:1513
 #, kde-format
 msgid "Insert Order"
 msgstr "Yerleştirme Sıralaması"
 
-#: src/bin/bin.cpp:1511 src/bin/projectitemmodel.cpp:346
+#: src/bin/bin.cpp:1517 src/bin/projectitemmodel.cpp:346
 #, kde-format
 msgid "Rating"
 msgstr "Derecelendirme"
 
-#: src/bin/bin.cpp:1535
+#: src/bin/bin.cpp:1541
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Kova Efektlerini Devre Dışı Bırak"
 
-#: src/bin/bin.cpp:1543
+#: src/bin/bin.cpp:1549
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr "Küçük Görsellerde Video Önizlemelerini Göster"
 
-#: src/bin/bin.cpp:1553
+#: src/bin/bin.cpp:1559
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18101,32 +18100,32 @@ msgstr ""
 "Proje kovasını yapılandırmak için bir menü açar (örn. görünüm kipi, sırala, "
 "derecelendirmeyi göster)."
 
-#: src/bin/bin.cpp:1560
+#: src/bin/bin.cpp:1566
 #, kde-format
 msgid "Show Date"
 msgstr "Tarihi Göster"
 
-#: src/bin/bin.cpp:1564
+#: src/bin/bin.cpp:1570
 #, kde-format
 msgid "Show Description"
 msgstr "Açıklamayı Göster"
 
-#: src/bin/bin.cpp:1568
+#: src/bin/bin.cpp:1574
 #, kde-format
 msgid "Show Rating"
 msgstr "Derecelendirmeyi Göster"
 
-#: src/bin/bin.cpp:1579
+#: src/bin/bin.cpp:1585
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr "Geçerli Klasörü Yeni Kovada Aç"
 
-#: src/bin/bin.cpp:1584
+#: src/bin/bin.cpp:1590
 #, kde-format
 msgid "Tags Panel"
 msgstr "Künyeler Paneli"
 
-#: src/bin/bin.cpp:1606
+#: src/bin/bin.cpp:1612
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18138,68 +18137,68 @@ msgstr ""
 "kapatır. Olası süzgeç ayarlarının bir listesini açmak için ok simgesine "
 "tıklayın."
 
-#: src/bin/bin.cpp:1641
+#: src/bin/bin.cpp:1647
 #, kde-format
 msgid "Close Current Bin"
 msgstr "Geçerli Kovayı Kapat"
 
-#: src/bin/bin.cpp:1653
+#: src/bin/bin.cpp:1659
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Tüm İşleri İptal Et"
 
-#: src/bin/bin.cpp:1655
+#: src/bin/bin.cpp:1661
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Geçerli Klip İşlerini İptal Et"
 
-#: src/bin/bin.cpp:1657
+#: src/bin/bin.cpp:1663
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Bekleyen İşleri İptal Et"
 
-#: src/bin/bin.cpp:1698
+#: src/bin/bin.cpp:1704
 #, kde-format
 msgid "Bin Clip Properties"
 msgstr "Kova Klibi Özellikleri"
 
-#: src/bin/bin.cpp:2030
+#: src/bin/bin.cpp:2036
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "Bir projenin tüm sekanslarını silemezsiniz"
 
-#: src/bin/bin.cpp:2033
+#: src/bin/bin.cpp:2039
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "Sekansları silmek geri alınamaz"
 
-#: src/bin/bin.cpp:2040
+#: src/bin/bin.cpp:2046
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "Bu, tüm seçili klipleri zaman akışından siler"
 
-#: src/bin/bin.cpp:2043
+#: src/bin/bin.cpp:2049
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Bu, tüm klasör içeriğini siler"
 
-#: src/bin/bin.cpp:2066
+#: src/bin/bin.cpp:2072
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr "Bazı ögeler silinemedi. Kilitli izlerde örnekler olabilir mi?"
 
-#: src/bin/bin.cpp:2068
+#: src/bin/bin.cpp:2074
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "Kova Kliplerini Sil"
 
-#: src/bin/bin.cpp:2093 src/effects/effectstack/view/maskmanager.cpp:267
+#: src/bin/bin.cpp:2099 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
 msgid "Missing source clip"
 msgstr "Eksik kaynak klip"
 
-#: src/bin/bin.cpp:2113 src/bin/bin.cpp:2808
+#: src/bin/bin.cpp:2119 src/bin/bin.cpp:2814
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:441
@@ -18207,7 +18206,7 @@ msgstr "Eksik kaynak klip"
 msgid "Unable to write to file %1"
 msgstr "%1 dosyasına yazılamadı"
 
-#: src/bin/bin.cpp:2120 src/bin/bin.cpp:2814 src/doc/kdenlivedoc.cpp:749
+#: src/bin/bin.cpp:2126 src/bin/bin.cpp:2820 src/doc/kdenlivedoc.cpp:749
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -18216,17 +18215,17 @@ msgstr ""
 "Proje dosyanız Kdenlive tarafından değiştirildi.\n"
 "Veri kaybını tamamen önlemek için %1 adında bir yedek kopyası oluşturuldu."
 
-#: src/bin/bin.cpp:2126
+#: src/bin/bin.cpp:2132
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "%1 dosyası ayrıştırılamadı"
 
-#: src/bin/bin.cpp:2137
+#: src/bin/bin.cpp:2143
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Klip, geçersiz %1 dosyası ile değiştirilemiyor"
 
-#: src/bin/bin.cpp:2163 src/bin/bin.cpp:2386
+#: src/bin/bin.cpp:2169 src/bin/bin.cpp:2392
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -18237,18 +18236,18 @@ msgstr ""
 "sorunlara neden olabilir.\n"
 "Değiştirme %1 kare daha kısa."
 
-#: src/bin/bin.cpp:2172 src/bin/bin.cpp:2394
+#: src/bin/bin.cpp:2178 src/bin/bin.cpp:2400
 #: src/bin/model/subtitlemodel.cpp:410
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Seçili %1 dosyası geçersiz."
 
-#: src/bin/bin.cpp:2178
+#: src/bin/bin.cpp:2184
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "Değiştirilecek özgün klip bulunamadı"
 
-#: src/bin/bin.cpp:2202
+#: src/bin/bin.cpp:2208
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
@@ -18257,24 +18256,24 @@ msgstr ""
 "Zaman akışında değiştirme yapmak için iki adet klip seçmelisiniz (özgün klip "
 "ve yerine konulacak klip)."
 
-#: src/bin/bin.cpp:2208
+#: src/bin/bin.cpp:2214
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr "Geçerli klip <b>%1</b>, etkin zaman akışına yerleştirilmedi."
 
-#: src/bin/bin.cpp:2213
+#: src/bin/bin.cpp:2219
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "<b>%1</b> sekansını kendisine yerleştiremezsiniz."
 
-#: src/bin/bin.cpp:2232
+#: src/bin/bin.cpp:2238
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 "Seçili klipler %1 ve %2 eşleşmiyor; ne ses ne de video değiştirilebilir"
 
-#: src/bin/bin.cpp:2243
+#: src/bin/bin.cpp:2249
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -18283,7 +18282,7 @@ msgstr ""
 "Etkin zaman akışındaki <b>%1</b> (%2)<br/>klibinin örnekleri\n"
 "<b>%3</b> (%4) klibiyle değiştiriliyor"
 
-#: src/bin/bin.cpp:2248
+#: src/bin/bin.cpp:2254
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -18292,17 +18291,17 @@ msgstr ""
 "Etkin zaman akışındaki <b>%1</b><br/>klibinin örnekleri\n"
 "<b>%2</b> klibiyle değiştiriliyor"
 
-#: src/bin/bin.cpp:2250 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:979
 #, kde-format
 msgid "Replace audio"
 msgstr "Sesi değiştir"
 
-#: src/bin/bin.cpp:2253 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:979
 #, kde-format
 msgid "Replace video"
 msgstr "Videoyu değiştir"
 
-#: src/bin/bin.cpp:2263
+#: src/bin/bin.cpp:2269
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
@@ -18311,18 +18310,18 @@ msgstr ""
 "Değiştirme klibi kaynak klipten daha kısa.<br><b>Zaman akışındaki bazı "
 "klipler değiştirilemeyebilir</b>"
 
-#: src/bin/bin.cpp:2266
+#: src/bin/bin.cpp:2272
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr "Değiştirme klibinin süresi, kaynak klipten daha uzun"
 
-#: src/bin/bin.cpp:2302
+#: src/bin/bin.cpp:2308
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "%1 Değişimini Aç"
 
-#: src/bin/bin.cpp:2343
+#: src/bin/bin.cpp:2349
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -18331,7 +18330,7 @@ msgstr ""
 "Değiştirme klibi bir video akışı içermiyor. Etkin zaman akışındaki klibin "
 "yalnızca ses bileşenini mi değiştirmek istiyorsunuz?"
 
-#: src/bin/bin.cpp:2348
+#: src/bin/bin.cpp:2354
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -18340,7 +18339,7 @@ msgstr ""
 "Değiştirme klibi bir ses akışı içermiyor. Etkin zaman akışındaki klibin "
 "yalnızca video bileşenini mi değiştirmek istiyorsunuz?"
 
-#: src/bin/bin.cpp:2352 src/bin/bin.cpp:2378
+#: src/bin/bin.cpp:2358 src/bin/bin.cpp:2384
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
@@ -18348,97 +18347,97 @@ msgid ""
 msgstr ""
 "Bir klibi, başka bir tür kliple değiştiremezsiniz (ses/video eşleşmiyor)."
 
-#: src/bin/bin.cpp:2355
+#: src/bin/bin.cpp:2361
 #, kde-format
 msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
-#: src/bin/bin.cpp:2376 src/bin/bin.cpp:6060 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:330
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Klip Ekle"
 
-#: src/bin/bin.cpp:2426
+#: src/bin/bin.cpp:2432
 #, kde-format
 msgid "Could not locate %1"
 msgstr "%1 yeri belirlenemedi"
 
-#: src/bin/bin.cpp:2480
+#: src/bin/bin.cpp:2486
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "%1 konumunda geçici dosya oluşturulamadı"
 
-#: src/bin/bin.cpp:2488
+#: src/bin/bin.cpp:2494
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Sekansı çoğaltma başarısız"
 
-#: src/bin/bin.cpp:2501
+#: src/bin/bin.cpp:2507
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (kopya)"
 
-#: src/bin/bin.cpp:2506 src/bin/bin.cpp:2527
+#: src/bin/bin.cpp:2512 src/bin/bin.cpp:2533
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Klibi çoğalt"
 
-#: src/bin/bin.cpp:2519
+#: src/bin/bin.cpp:2525
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (kopya)"
 
-#: src/bin/bin.cpp:2653
+#: src/bin/bin.cpp:2659
 #, kde-format
 msgid "Clear Filters"
 msgstr "Süzgeçleri Temizle"
 
-#: src/bin/bin.cpp:2659
+#: src/bin/bin.cpp:2665
 #, kde-format
 msgid "No Tags"
 msgstr "Künye Yok"
 
-#: src/bin/bin.cpp:2678
+#: src/bin/bin.cpp:2684
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 Yıldız"
 msgstr[1] "%1 Yıldız"
 
-#: src/bin/bin.cpp:2685
+#: src/bin/bin.cpp:2691
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Kullanıma Göre Süz"
 
-#: src/bin/bin.cpp:2688
+#: src/bin/bin.cpp:2694
 #, kde-format
 msgid "All Clips"
 msgstr "Tüm Klipler"
 
-#: src/bin/bin.cpp:2693
+#: src/bin/bin.cpp:2699
 #, kde-format
 msgid "Unused Clips"
 msgstr "Kullanılmayan Klipler"
 
-#: src/bin/bin.cpp:2697
+#: src/bin/bin.cpp:2703
 #, kde-format
 msgid "Used Clips"
 msgstr "Kullanılan Klipler"
 
-#: src/bin/bin.cpp:2704
+#: src/bin/bin.cpp:2710
 #, kde-format
 msgid "Filter by Type"
 msgstr "Türe Göre Süz"
 
-#: src/bin/bin.cpp:2707
+#: src/bin/bin.cpp:2713
 #, kde-format
 msgid "AV Clip"
 msgstr "AV Klibi"
 
-#: src/bin/bin.cpp:2711
+#: src/bin/bin.cpp:2717
 #, kde-format
 msgid "Mute Video"
 msgstr "Video Sesini Kapat"
@@ -18448,7 +18447,7 @@ msgstr "Video Sesini Kapat"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2715 src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/bin/bin.cpp:2721 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
 #: src/onlineresources/resourcewidget.cpp:684 src/ui/clipjobmanager_ui.ui:388
@@ -18459,63 +18458,63 @@ msgstr "Video Sesini Kapat"
 msgid "Audio"
 msgstr "Ses"
 
-#: src/bin/bin.cpp:2719 src/mltcontroller/clippropertiescontroller.cpp:367
+#: src/bin/bin.cpp:2725 src/mltcontroller/clippropertiescontroller.cpp:367
 #, kde-format
 msgid "Image"
 msgstr "Görsel"
 
-#: src/bin/bin.cpp:2723
+#: src/bin/bin.cpp:2729
 #, kde-format
 msgid "Slideshow"
 msgstr "Slayt Gösterisi"
 
-#: src/bin/bin.cpp:2727
+#: src/bin/bin.cpp:2733
 #, kde-format
 msgid "Playlist"
 msgstr "Oynatma Listesi"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2731 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2737 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1616
 #: src/project/projectmanager.cpp:1618 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekanslar"
 
-#: src/bin/bin.cpp:2735 src/project/dialogs/projectsettings.cpp:215
+#: src/bin/bin.cpp:2741 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Başlık"
 
-#: src/bin/bin.cpp:2739
+#: src/bin/bin.cpp:2745
 #, kde-format
 msgid "Title Template"
 msgstr "Başlık Şablonu"
 
-#: src/bin/bin.cpp:2780
+#: src/bin/bin.cpp:2786
 #, kde-format
 msgid "Select an option in the menu to enable filtering"
 msgstr "Süzmeyi etkinleştirmek için menüden bir seçenek seçin"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2835 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2841 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Klasör"
 
-#: src/bin/bin.cpp:2836
+#: src/bin/bin.cpp:2842
 #, kde-format
 msgid "Create bin folder"
 msgstr "Kova klasörü oluştur"
 
-#: src/bin/bin.cpp:2970 src/bin/bin.cpp:2983 src/bin/bin.cpp:3997
+#: src/bin/bin.cpp:2976 src/bin/bin.cpp:2989 src/bin/bin.cpp:4003
 #: src/timeline2/model/timelinemodel.cpp:2209
 #, kde-format
 msgid "Delete Clip"
 msgstr "Klibi Sil"
 
-#: src/bin/bin.cpp:2972 src/bin/bin.cpp:2985
+#: src/bin/bin.cpp:2978 src/bin/bin.cpp:2991
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18523,37 +18522,37 @@ msgid ""
 "timeline."
 msgstr "Şu anda seçili klipleri proje kovasından ve zaman akışından siler."
 
-#: src/bin/bin.cpp:2973 src/bin/bin.cpp:2986 src/bin/bin.cpp:3973
+#: src/bin/bin.cpp:2979 src/bin/bin.cpp:2992 src/bin/bin.cpp:3979
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Vekil Klip"
 
-#: src/bin/bin.cpp:2977
+#: src/bin/bin.cpp:2983
 #, kde-format
 msgid "Delete Folder"
 msgstr "Klasörü Sil"
 
-#: src/bin/bin.cpp:2978
+#: src/bin/bin.cpp:2984
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Vekil Sunucu Klasörü"
 
-#: src/bin/bin.cpp:3251
+#: src/bin/bin.cpp:3257
 #, kde-format
 msgid "Edit rating"
 msgstr "Derecelendirmeyi düzenle"
 
-#: src/bin/bin.cpp:3253
+#: src/bin/bin.cpp:3259
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Bu öge için derecelendirme ayarlanamıyor"
 
-#: src/bin/bin.cpp:3917
+#: src/bin/bin.cpp:3923
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Klip veya Klasör Ekle…"
 
-#: src/bin/bin.cpp:3918
+#: src/bin/bin.cpp:3924
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18568,97 +18567,97 @@ msgstr ""
 ">Kaynak dosyaları seçmek üzere bir pencere açmak için ortam simgesine "
 "tıklayın."
 
-#: src/bin/bin.cpp:3924
+#: src/bin/bin.cpp:3930
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Renk Klibi Ekle…"
 
-#: src/bin/bin.cpp:3926
+#: src/bin/bin.cpp:3932
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Görsel Sekansı Ekle…"
 
-#: src/bin/bin.cpp:3928
+#: src/bin/bin.cpp:3934
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Başlık Klibi Ekle…"
 
-#: src/bin/bin.cpp:3930
+#: src/bin/bin.cpp:3936
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Şablon Başlığı Ekle…"
 
-#: src/bin/bin.cpp:3932
+#: src/bin/bin.cpp:3938
 #, kde-format
 msgid "Create Animation…"
 msgstr "Canlandırma Oluştur…"
 
-#: src/bin/bin.cpp:3934
+#: src/bin/bin.cpp:3940
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Sekans Ekle…"
 
-#: src/bin/bin.cpp:3937 src/mainwindow.cpp:310
+#: src/bin/bin.cpp:3943 src/mainwindow.cpp:310
 #, kde-format
 msgid "Online Resources"
 msgstr "Çevrimiçi Özkaynaklar"
 
-#: src/bin/bin.cpp:3941
+#: src/bin/bin.cpp:3947
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Klibi Bul…"
 
-#: src/bin/bin.cpp:3946
+#: src/bin/bin.cpp:3952
 #, kde-format
 msgid "Reload Clip"
 msgstr "Klibi Yeniden Yükle"
 
-#: src/bin/bin.cpp:3952
+#: src/bin/bin.cpp:3958
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Düzenleme Dostu Biçime Arakodla…"
 
-#: src/bin/bin.cpp:3957
+#: src/bin/bin.cpp:3963
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Klibi Değiştir…"
 
-#: src/bin/bin.cpp:3963
+#: src/bin/bin.cpp:3969
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Zaman Akışındaki Klibi Değiştir…"
 
-#: src/bin/bin.cpp:3968
+#: src/bin/bin.cpp:3974
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Klibi Çoğalt"
 
-#: src/bin/bin.cpp:3980 src/bin/bin.cpp:4035
+#: src/bin/bin.cpp:3986 src/bin/bin.cpp:4041
 #, kde-format
 msgid "Clip Properties"
 msgstr "Klip Özellikleri"
 
-#: src/bin/bin.cpp:3985 src/mltcontroller/clippropertiescontroller.cpp:609
+#: src/bin/bin.cpp:3991 src/mltcontroller/clippropertiescontroller.cpp:609
 #, kde-format
 msgid "Edit Clip"
 msgstr "Klibi Düzenle"
 
-#: src/bin/bin.cpp:4003
+#: src/bin/bin.cpp:4009
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Sekanslar için Öntanımlı Hedef Klasör"
 
-#: src/bin/bin.cpp:4008
+#: src/bin/bin.cpp:4014
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Ses Yakalamaları için Öntanımlı Hedef Klasör"
 
-#: src/bin/bin.cpp:4012
+#: src/bin/bin.cpp:4018
 #, kde-format
 msgid "Create Folder"
 msgstr "Klasör Oluştur"
 
-#: src/bin/bin.cpp:4015
+#: src/bin/bin.cpp:4021
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18669,57 +18668,57 @@ msgstr ""
 "daha düzgün organize edilebilmesine izin verir. Klasörler iç içe "
 "geçirilebilir."
 
-#: src/bin/bin.cpp:4153 src/bin/bin.cpp:4186
+#: src/bin/bin.cpp:4159 src/bin/bin.cpp:4192
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Yeni Sekans Oluştur"
 
-#: src/bin/bin.cpp:4156 src/bin/bin.cpp:4159 src/bin/bin.cpp:4189
+#: src/bin/bin.cpp:4162 src/bin/bin.cpp:4165 src/bin/bin.cpp:4195
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekans %1"
 
-#: src/bin/bin.cpp:4220
+#: src/bin/bin.cpp:4226
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Klibi Taşı"
 msgstr[1] "Klipleri Taşı"
 
-#: src/bin/bin.cpp:4262
+#: src/bin/bin.cpp:4268
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Eklenecek/yerleştirilecek geçerli klip yok"
 
-#: src/bin/bin.cpp:4275 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:4281 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3441
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Bir efekt uygulamak için bir klip seçin"
 
-#: src/bin/bin.cpp:4309 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/bin/bin.cpp:4315 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Klibe efekt eklenemez"
 
-#: src/bin/bin.cpp:4383 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4389 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "Efekti Yapıştır"
 
-#: src/bin/bin.cpp:4420 src/bin/bin.cpp:4427
+#: src/bin/bin.cpp:4426 src/bin/bin.cpp:4433
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Künye eklemek için bir klip seçin"
 
-#: src/bin/bin.cpp:4566
+#: src/bin/bin.cpp:4572
 #, kde-format
 msgid "Edit Tags"
 msgstr "Künyeleri Düzenle"
 
-#: src/bin/bin.cpp:4902 src/bin/projectclip.cpp:195
+#: src/bin/bin.cpp:4908 src/bin/projectclip.cpp:195
 #: src/bin/projectclip.cpp:1991 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -18727,27 +18726,27 @@ msgstr "Künyeleri Düzenle"
 msgid "Unnamed"
 msgstr "Adsız"
 
-#: src/bin/bin.cpp:4966
+#: src/bin/bin.cpp:4972
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Görsel düzenleme uygulaması yolunu girin"
 
-#: src/bin/bin.cpp:4978
+#: src/bin/bin.cpp:4984
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Görsel dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:4983
+#: src/bin/bin.cpp:4989
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ses düzenleme uygulaması yolunu girin"
 
-#: src/bin/bin.cpp:4995
+#: src/bin/bin.cpp:5001
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:5005 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:5011 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
 #: src/layouts/layoutmanagerdialog.cpp:159
@@ -18758,12 +18757,12 @@ msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 msgid "Cannot open file %1"
 msgstr "%1 dosyası açılamıyor"
 
-#: src/bin/bin.cpp:5042 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5048 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(kopya)"
 
-#: src/bin/bin.cpp:5052
+#: src/bin/bin.cpp:5058
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -18772,75 +18771,75 @@ msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
 "dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
-#: src/bin/bin.cpp:5055 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:5061 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "Başlığı Kaydet"
 
-#: src/bin/bin.cpp:5055
+#: src/bin/bin.cpp:5061
 #, kde-format
 msgid "Save to title file"
 msgstr "Başlık dosyasına kaydet"
 
-#: src/bin/bin.cpp:5056
+#: src/bin/bin.cpp:5062
 #, kde-format
 msgid "Save in project only"
 msgstr "Yalnızca proje içinde kaydet"
 
-#: src/bin/bin.cpp:5079 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Başlık klibi"
 
-#: src/bin/bin.cpp:5129
+#: src/bin/bin.cpp:5135
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip geçersiz, projeden kaldırılacak."
 
-#: src/bin/bin.cpp:5133
+#: src/bin/bin.cpp:5139
 #, kde-format
 msgid "Invalid clip"
 msgstr "Geçersiz klip"
 
-#: src/bin/bin.cpp:5247
+#: src/bin/bin.cpp:5253
 #, kde-format
 msgid "Enable proxies"
 msgstr "Vekilleri etkinleştir"
 
-#: src/bin/bin.cpp:5247
+#: src/bin/bin.cpp:5253
 #, kde-format
 msgid "Disable proxies"
 msgstr "Vekilleri kapat"
 
-#: src/bin/bin.cpp:5428
+#: src/bin/bin.cpp:5434
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Vekilleri yeniden oluştur"
 
-#: src/bin/bin.cpp:5662
+#: src/bin/bin.cpp:5668
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:5678
+#: src/bin/bin.cpp:5684
 #, kde-format
 msgid "Add Tracks"
 msgstr "İzler Ekle"
 
-#: src/bin/bin.cpp:5680
+#: src/bin/bin.cpp:5686
 #, kde-format
 msgid "Edit Streams"
 msgstr "Akışları Düzenle"
 
-#: src/bin/bin.cpp:5696
+#: src/bin/bin.cpp:5702
 #, kde-format
 msgid "Don't ask again"
 msgstr "Bir daha sorma"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5700
+#: src/bin/bin.cpp:5706
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -18849,7 +18848,7 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:5712 src/mainwindow.cpp:2915
+#: src/bin/bin.cpp:5718 src/mainwindow.cpp:2915
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
@@ -18857,7 +18856,7 @@ msgstr "İmleyici eklenecek klip bulunamadı"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5726 src/bin/model/markerlistmodel.cpp:738
+#: src/bin/bin.cpp:5732 src/bin/model/markerlistmodel.cpp:738
 #: src/definitions.cpp:81 src/definitions.cpp:106
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
@@ -18866,34 +18865,34 @@ msgstr "İmleyici eklenecek klip bulunamadı"
 msgid "Marker"
 msgstr "İmleyici"
 
-#: src/bin/bin.cpp:5816
+#: src/bin/bin.cpp:5822
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ana klip bulunamadı"
 
-#: src/bin/bin.cpp:6082
+#: src/bin/bin.cpp:6088
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:6084
+#: src/bin/bin.cpp:6090
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 seçili) | "
 
-#: src/bin/bin.cpp:6153 src/bin/bin.cpp:6230
+#: src/bin/bin.cpp:6159 src/bin/bin.cpp:6236
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Klip için ek akış ekle"
 msgstr[1] "Klip için ek akışlar ekle"
 
-#: src/bin/bin.cpp:6174
+#: src/bin/bin.cpp:6180
 #, kde-format
 msgid "Import selected clips"
 msgstr "Seçili klipleri içe aktar"
 
-#: src/bin/bin.cpp:6176
+#: src/bin/bin.cpp:6182
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -18902,51 +18901,51 @@ msgstr ""
 "Klip için ek akışlar\n"
 "%1"
 
-#: src/bin/bin.cpp:6189 src/mltcontroller/clippropertiescontroller.cpp:725
+#: src/bin/bin.cpp:6195 src/mltcontroller/clippropertiescontroller.cpp:725
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video akışı %1"
 
-#: src/bin/bin.cpp:6204
+#: src/bin/bin.cpp:6210
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ses akışı %1"
 
-#: src/bin/bin.cpp:6257
+#: src/bin/bin.cpp:6263
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Klip imleyicilerini kaldır"
 
-#: src/bin/bin.cpp:6417
+#: src/bin/bin.cpp:6423
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Arakodlama işlemi öncesi projenizi kaydetmenizi öneririz"
 
-#: src/bin/bin.cpp:6418
+#: src/bin/bin.cpp:6424
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projeyi Kaydet"
 
-#: src/bin/bin.cpp:6419
+#: src/bin/bin.cpp:6425
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6577 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1114
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 Efektini Sil"
 
-#: src/bin/bin.cpp:6643 src/mainwindow.cpp:303
+#: src/bin/bin.cpp:6649 src/mainwindow.cpp:303
 #, kde-format
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:6646 src/bin/bin.cpp:6649 src/mainwindow.cpp:5170
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5170
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
