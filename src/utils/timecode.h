@@ -51,6 +51,8 @@ public:
 
     /** @brief Returns the timecode in an hh:mm:ss or hh:mm:ss.fff format */
     static QString getStringTimecode(int frames, const double &fps, bool showFrames = false);
+    /** @brief Returns duration in "MMm:SSs:FFf" or "SSs:FFf" format for markers/guides display */
+    static QString formatMarkerDuration(int frames, double fps);
     // TODO: The scaleTimecode seems error prone, we should reconsider it and maybe add tests
     static QString scaleTimecode(QString timecode, double sourceFps, double targetFps);
 

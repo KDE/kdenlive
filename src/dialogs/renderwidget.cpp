@@ -754,10 +754,14 @@ void RenderWidget::reloadGuides()
             m_view.guide_start->addItem(zoneIn, i18n("Beginning"), 0);
             for (const auto &marker : std::as_const(markers)) {
                 GenTime pos = marker.time();
-                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps) + sequenceOffset, fps);
+                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps) + sequenceOffset, fps, true);
                 QString displayText = marker.comment() + QLatin1Char('/') + guidePos;
 
                 if (marker.hasRange()) {
+                    GenTime duration = marker.duration();
+                    const QString durationString = Timecode::formatMarkerDuration(duration.frames(fps), fps);
+                    displayText.append(QStringLiteral(" (%1)").arg(durationString));
+
                     m_view.guide_start->addItem(zoneRange, displayText, pos.seconds());
                     m_view.guide_end->addItem(zoneRange, displayText, pos.seconds());
                 } else {

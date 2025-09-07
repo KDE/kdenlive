@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
 #include "utils/thumbnailcache.hpp"
+#include "utils/timecode.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -102,16 +103,7 @@ QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
         bool hasRange = QIdentityProxyModel::data(index, MarkerListModel::HasRangeRole).toBool();
         if (hasRange) {
             int durationFrames = QIdentityProxyModel::data(index, MarkerListModel::DurationRole).toInt();
-            double fps = pCore->getCurrentFps();
-            int totalSeconds = static_cast<int>(std::round(durationFrames / fps));
-            int minutes = totalSeconds / 60;
-            int seconds = totalSeconds % 60;
-            QString durationString;
-            if (minutes > 0) {
-                durationString = QStringLiteral("%1m %2s").arg(minutes).arg(seconds);
-            } else {
-                durationString = QStringLiteral("%1s").arg(seconds);
-            }
+            QString durationString = Timecode::formatMarkerDuration(durationFrames, pCore->getCurrentFps());
             comment.append(QStringLiteral(" (%1)").arg(durationString));
         }
 
