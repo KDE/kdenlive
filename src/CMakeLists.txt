@@ -137,6 +137,7 @@ ecm_add_qml_module(kdenliveLib
 ecm_target_qml_sources(kdenliveLib
     SOURCES
     qml/ZoomBar.qml
+    monitor/view/AudioZoomBar.qml
     monitor/view/ProjectMonitor.qml
     monitor/view/Countdown.qml
     monitor/view/ClipMonitor.qml

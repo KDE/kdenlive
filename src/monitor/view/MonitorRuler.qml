@@ -102,7 +102,7 @@ Rectangle {
     // Zoom bar container
     Kdenlive.ZoomBar {
         id: horZoomBar
-        visible: root.showZoomBar
+        visible: root.showZoomBar && !audioThumb.isAudioClip
         onVisibleChanged: {
             root.zoomOffset = visible ? height : 0
         }

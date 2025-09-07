@@ -59,7 +59,7 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
+    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioZoom.visible) ? audioZoom.height : 0
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
@@ -304,13 +304,14 @@ Item {
                     onCountChanged: {
                         thumbTimer.start()
                     }
-                    property double streamHeight: audioThumb.height / streamThumb.count
+                    property double streamHeight: audioThumb.height - audioZoom.height / streamThumb.count
                     Item {
                         anchors.fill: parent
                         K.TimelineWaveform {
                             id: waveform
                             anchors.right: parent.right
                             anchors.left: parent.left
+                            isOpaque: true
                             height: streamThumb.streamHeight
                             property int aChannels: controller.audioChannels[model.index]
                             y: model.index * waveform.height
@@ -328,19 +329,28 @@ Item {
                             bgColorEven: "#00000000"
                             bgColorOdd: "#00000000"
                         }
+                        // Center line
+                        Rectangle {
+                            width: parent.width
+                            y: waveform.y + streamThumb.streamHeight / 2
+                            height: 1
+                            color: activePalette.text
+                        }
+                        // Separator line
                         Rectangle {
                             width: parent.width
                             y: (model.index + 1) * streamThumb.streamHeight
                             height: 1
                             visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
-                            color: 'yellow'
+                            color: activePalette.text
                         }
                     }
                 }
+                // Playhead position
                 Rectangle {
                     color: "red"
-                    width: 1
-                    height: parent.height
+                    width: 2
+                    height: audioThumb.height - audioZoom.height
                     x: controller.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
                 }
                 MouseArea {
@@ -359,8 +369,8 @@ Item {
                             }
                         }
                     }
-                    onPressed: {
-                        if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                    onPressed: mouse => {
+                        if (audioThumb.isAudioClip && mouseY > audioZoom.y) {
                             mouse.accepted = false
                             return
                         }
@@ -369,7 +379,7 @@ Item {
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
                     onPositionChanged: mouse => {
-                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY > audioZoom.y) {
                             mouse.accepted = false
                             return
                         }
@@ -397,34 +407,9 @@ Item {
                         }
 
                     }
-                    Rectangle {
-                        id: audioSeekZone
-                        width: parent.width
-                        height: parent.height / 6
-                        anchors.centerIn: parent
-                        anchors.verticalCenterOffset: audioThumb.isAudioClip ? parent.height * 5 / 12 : 0
-                        visible: audioThumb.isAudioClip && thumbMouseArea.containsMouse && thumbMouseArea.mouseY > y
-                        color: 'yellow'
-                        opacity: 0.5
-                        Rectangle {
-                            width: parent.width
-                            height: 1
-                            color: '#000'
-                            anchors.top: parent.top
-                        }
-                        // frame ticks
-                        Repeater {
-                            id: rulerAudioTicks
-                            model: parent.width / root.frameSize + 2
-                            Rectangle {
-                                x: index * root.frameSize - (clipMonitorRuler.rulerZoomOffset % root.frameSize)
-                                anchors.top: audioSeekZone.top
-                                height: (index % 5) ? audioSeekZone.height / 6 : audioSeekZone.height / 3
-                                width: 1
-                                color: '#000'
-                                opacity: 0.8
-                            }
-                        }
+                    K.AudioZoomBar {
+                        id: audioZoom
+                        visible: audioThumb.isAudioClip
                     }
                 }
             }
