@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.mirr0r" id="frei0r.mirr0r" type="video">
+  <name>Mirr0r</name>
+  <description>Repeats and flips the input image when it goes out of bounds, allowing for adjustable offset, zoom and rotation.</description>
+  <author>Johann JEG</author>
+  <parameter type="animated" name="0" max="%width" min="0" default="0" suffix="px">
+    <name>X Offset</name>
+  </parameter>
+  <parameter type="animated" name="1" max="%height" min="0" default="0" suffix="px">
+    <name>Y Offset</name>
+  </parameter>
+  <parameter type="animated" name="2" max="1.0" min="0" default="0" decimals="3">
+    <name>Zoom</name>
+  </parameter>
+  <parameter type="animated" name="3" max="360" min="0" default="0" decimals="1">
+    <name>Rotation</name>
+  </parameter>
+</effect>

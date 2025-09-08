@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.ntsc" id="frei0r.ntsc">
+    <name>NTSC</name>
+    <description>Simulates NTSC analog video</description>
+    <author>EMMIR, esmane</author>
+    <parameter type="animated" name="0" min="0" max="100" default="0.05" decimals="1" factor="100" suffix="%">
+        <name>Signal Noise</name>
+    </parameter>
+    <parameter type="bool" name="1" default="0">
+        <name>Progressive Scan</name>
+    </parameter>
+    <parameter type="bool" name="2" default="0">
+        <name>Scanlines</name>
+    </parameter>
+</effect>
