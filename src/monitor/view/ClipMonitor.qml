@@ -85,6 +85,10 @@ Item {
 
     signal editCurrentMarker()
 
+    function mixColors(color1, color2, factor) {
+        return Qt.rgba(color1.r*(1-factor) + color2.r*factor, color1.g*(1-factor) + color2.g*factor, color1.b*(1-factor) + color2.b*factor, 1)
+    }
+
 
     function updateScrolling() {
         if (thumbMouseArea.pressed) {
@@ -286,13 +290,16 @@ Item {
                     }
                 }]
                 Rectangle {
-                    color: "black"
+                    // Audio monitor background
+                    id: audioBg
+                    color: mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.4)
                     opacity: audioThumb.isAudioClip || K.KdenliveSettings.alwaysShowMonitorAudio ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {
-                    color: "yellow"
-                    opacity: 0.3
+                    // Background color for the selected zone
+                    color: mixColors(activePalette.base, activePalette.highlight, 0.6)
+                    //opacity: 0.3
                     height: parent.height
                     x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
                     width: (controller.zoneOut - controller.zoneIn) * timeScale
@@ -306,16 +313,18 @@ Item {
                     }
                     property double streamHeight: audioThumb.height - audioZoom.height / streamThumb.count
                     Item {
+                        id: streamContainer
                         anchors.fill: parent
+                        property int channelsInStream: controller.audioChannels[model.index]
+                        property double channelHeight: streamThumb.streamHeight / streamContainer.channelsInStream
                         K.TimelineWaveform {
                             id: waveform
                             anchors.right: parent.right
                             anchors.left: parent.left
                             isOpaque: true
                             height: streamThumb.streamHeight
-                            property int aChannels: controller.audioChannels[model.index]
                             y: model.index * waveform.height
-                            channels: aChannels
+                            channels: streamContainer.channelsInStream
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
                             format: K.KdenliveSettings.displayallchannels
@@ -328,21 +337,37 @@ Item {
                             fgColorOdd: K.KdenliveSettings.thumbColor2
                             bgColorEven: "#00000000"
                             bgColorOdd: "#00000000"
+                            Repeater {
+                                id: centerLinesContainer
+                                model: streamContainer.channelsInStream
+                                // Channel center line
+                                Item {
+                                    anchors.fill: parent
+                                    Rectangle {
+                                        width: parent.width
+                                        y: model.index * streamContainer.channelHeight + streamContainer.channelHeight / 2
+                                        height: 1
+                                        opacity: 0.4
+                                        color: audioBg.color
+                                    }
+                                    // Channel separator
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        y: model.index * streamContainer.channelHeight - 0.5
+                                        visible: model.index > 0
+                                        color: activePalette.base
+                                    }
+                                }
+                            }
                         }
-                        // Center line
+                        // Separator line between streams
                         Rectangle {
                             width: parent.width
-                            y: waveform.y + streamThumb.streamHeight / 2
-                            height: 1
-                            color: activePalette.text
-                        }
-                        // Separator line
-                        Rectangle {
-                            width: parent.width
-                            y: (model.index + 1) * streamThumb.streamHeight
-                            height: 1
-                            visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
-                            color: activePalette.text
+                            y: waveform.y
+                            height: 2
+                            visible: model.index > 0
+                            color: activePalette.base
                         }
                     }
                 }
@@ -827,6 +852,7 @@ Item {
         Repeater {
             model: controller.clipBounds
             anchors.fill: parent
+            // Usage bar
             Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: 1
