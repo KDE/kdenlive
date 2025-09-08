@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-07 00:41+0000\n"
-"PO-Revision-Date: 2025-09-04 08:43+0200\n"
+"PO-Revision-Date: 2025-09-07 16:18+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -17896,7 +17896,7 @@ msgstr ""
 #, kde-format
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
-msgstr ""
+msgstr "Dvokliknite, spustite datoteke ali kliknite %1 za uvoz predstavnosti"
 
 #: src/bin/bin.cpp:141
 #, kde-format
@@ -17907,6 +17907,8 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
+"Dvokliknite, spustite datoteke\n"
+"ali kliknite %1 za uvoz predstavnosti"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format

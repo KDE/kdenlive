@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-07 00:41+0000\n"
-"PO-Revision-Date: 2025-09-06 10:27-0300\n"
-"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
+"PO-Revision-Date: 2025-09-07 01:05-0300\n"
+"Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -17977,10 +17977,7 @@ msgstr ""
 "Clique duas vezes, solte os arquivos ou clique em %1 para importar a mídia"
 
 #: src/bin/bin.cpp:141
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Text shown when no media is imported yet. %1 is replaced by an icon"
-#| msgid "Double click, drop files or click %1 to import media"
+#, kde-format
 msgctxt ""
 "Multiline version: Text shown when no media is imported yet. %1 is replaced "
 "by an icon"
@@ -17988,7 +17985,8 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
-"Clique duas vezes, solte os arquivos ou clique em %1 para importar a mídia"
+"Clique duas vezes, solte os arquivos\n"
+"ou clique em %1 para importar a mídia"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format

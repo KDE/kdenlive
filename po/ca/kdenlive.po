@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-07 00:41+0000\n"
-"PO-Revision-Date: 2025-09-06 10:19+0200\n"
+"PO-Revision-Date: 2025-09-07 10:04+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18086,10 +18086,7 @@ msgstr ""
 "multimèdia"
 
 #: src/bin/bin.cpp:141
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Text shown when no media is imported yet. %1 is replaced by an icon"
-#| msgid "Double click, drop files or click %1 to import media"
+#, kde-format
 msgctxt ""
 "Multiline version: Text shown when no media is imported yet. %1 is replaced "
 "by an icon"
@@ -18097,8 +18094,8 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
-"Doble clic, deixant anar fitxers o clic a %1 per a importar elements "
-"multimèdia"
+"Doble clic, deixant anar fitxers\n"
+"o clic a %1 per a importar elements multimèdia"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
