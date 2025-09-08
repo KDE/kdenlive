@@ -131,12 +131,12 @@ public:
         : KDDockWidgets::QtWidgets::TitleBar(controller, parent)
         , m_controller(controller)
     {
-        connect(pCore.get(), &Core::hideBars, this, [this](bool visible) {
-            qDebug() << ":::: HIDING BAR CONTROLLER.....\n\nHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
-            if (visible && m_controller->dockWidgets().size() > 1) {
+        connect(pCore.get(), &Core::hideBars, this, [this](bool hide) {
+            if (!hide && m_controller->dockWidgets().size() > 1) {
+                // Don't show title bar when there are tabbed widgets
                 return;
             }
-            setVisible(visible);
+            setVisible(!hide);
         });
     }
 
@@ -300,9 +300,10 @@ void MainWindow::init()
     connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);
 
     /// Add Widgets
+    // TODO KDDockWidgets remove
     /*setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);*/
-    setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
+    // setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
@@ -341,13 +342,8 @@ void MainWindow::init()
 
     auto dockGuides = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("guides"));
     dockGuides->setWidget(pCore->guidesList());
-    mainDockWindow->addDockWidget(dockGuides, KDDockWidgets::Location_OnTop);
+    mainDockWindow->addDockWidget(dockGuides, KDDockWidgets::Location_OnRight);
 
-    /*QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
-    QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
-    QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
-    QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
-    QDockWidget *guidesDock = addDock(i18n("Guides"), QStringLiteral("guides"), pCore->guidesList());*/
     connect(pCore.get(), &Core::remapClip, this, [&, dockRemap](int id) {
         if (id > -1) {
             dockRemap->show();
@@ -966,6 +962,11 @@ void MainWindow::init()
         m_loadingDialog->setMaximum(0);
         m_loadingDialog->close();
     });
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(true);
+    }
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
 }
 
 void MainWindow::loadContainerActions()
@@ -1120,6 +1121,8 @@ bool MainWindow::queryClose()
         }
     }
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    KdenliveSettings::setKdockLayout(QString(dockLayout.serializeLayout()));
     if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
         return false;
     }
@@ -2318,7 +2321,6 @@ void MainWindow::setupActions()
 
 void MainWindow::saveOptions()
 {
-    KdenliveSettings::setKdockLayout(QString(KDDockWidgets::LayoutSaver().serializeLayout()));
     KdenliveSettings::self()->save();
     pCore->projectManager()->saveRecentFiles();
 }
@@ -2327,7 +2329,6 @@ bool MainWindow::readOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
-    KDDockWidgets::LayoutSaver().restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
 
     if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
@@ -2977,7 +2978,6 @@ void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
-    Q_EMIT pCore->hideBars(KdenliveSettings::videothumbnails());
 }
 
 void MainWindow::slotSwitchAudioThumbs()
@@ -4302,54 +4302,61 @@ void MainWindow::buildDynamicActions()
 
 void MainWindow::updateDockMenu()
 {
+    // TODO KDDOCKWIDGETS: remove this method
+    return;
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
     const QString raise("_raise");
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
         // Remove timeline and raise_ actions
-        QList<QAction *> actions = guiActions->actions();
+        /*QList<QAction *> actions = guiActions->actions();
         QList<QAction *> toDelete;
         for (auto &a : actions) {
             if (a->data().toString().contains(raise)) {
                 toDelete << guiActions->collection()->takeAction(a);
             }
         }
-        qDeleteAll(toDelete);
+        qDeleteAll(toDelete);*/
         delete guiActions;
     }
     guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    /*
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
     showTimeline->setData(QVariant(showTimeline->text() + QLatin1Char('#') + raise));
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
     guiActions->addAction(QStringLiteral("show_timeline"), showTimeline);
-    actionCollection()->addAction(showTimeline->text(), showTimeline);
+    actionCollection()->addAction(showTimeline->text(), showTimeline);*/
 
     // TODO KDDOCKWIDGETS
-    /*QList<QDockWidget *> docks = findChildren<QDockWidget *>();
+    QList<KDDockWidgets::QtWidgets::DockWidget *> docks = findChildren<KDDockWidgets::QtWidgets::DockWidget *>();
+    // = mainDockWindow->dockWidgets();
     for (auto dock : std::as_const(docks)) {
-        QAction *dockInformations = dock->toggleViewAction();
-        if (!dockInformations) {
+        QAction *dockInfo = dock->toggleAction();
+        if (!dockInfo) {
             continue;
         }
-        dockInformations->setChecked(!dock->isHidden());
-        const QString actionText = KLocalizedString::removeAcceleratorMarker(dockInformations->text());
-        QAction *a = guiActions->addAction(dock->objectName(), dockInformations);
+        qDebug() << ":::: FOUIND DOCL ACTION: " << dockInfo->text();
+        guiActions->addAction(dock->objectName(), dockInfo);
+        /*QAction *dockAction = new QAction(dockInfo->toolTip());
+        dockAction->setChecked(dockInfo->isChecked());
+
+        const QString actionText = KLocalizedString::removeAcceleratorMarker(dockAction->text());
+        QAction *a = guiActions->addAction(dock->objectName(), dockAction);
         // As action data, we set the dock title (1) and the dock object name (2)
         // // This ensures that the list can be sorted alphabetically (1) and that each data is unique (2)
         QString actionData = actionText + QLatin1Char('#') + dock->objectName();
         a->setData(actionData);
         QAction *action = new QAction(i18n("Raise %1", actionText), this);
         action->setData(raise);
-        connect(action, &QAction::triggered, this, [dock]() {
-            dock->raise();
-            dock->setFocus();
+        connect(action, &QAction::triggered, this, [dockInfo]() {
+            dockInfo->toggle();
+            //dock->setFocus();
         });
-        addAction("raise_" + dock->objectName(), action, {}, guiActions);
+        addAction("raise_" + dock->objectName(), action, {}, guiActions);*/
     }
-    */
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
 }
 
@@ -4647,12 +4654,21 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QWidget::keyPressEvent(ev);
 }
 
-KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area)
+KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, KDDockWidgets::Location area)
 {
     auto dock = new KDDockWidgets::QtWidgets::DockWidget(title);
     dock->setWidget(widget);
     dock->setObjectName(objectName);
-    mainDockWindow->addDockWidget(dock, KDDockWidgets::Location_OnRight);
+    dock->toggleAction()->setData(QStringLiteral("%1#%2").arg(title, objectName));
+    mainDockWindow->addDockWidget(dock, area);
+    KActionCategory *guiActions = nullptr;
+    if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
+        guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
+    } else {
+        guiActions = new KActionCategory(i18n("Interface"), actionCollection());
+    }
+    guiActions->addAction(objectName, dock->toggleAction());
+    kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
     return dock;
 }
 

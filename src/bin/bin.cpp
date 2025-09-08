@@ -4032,7 +4032,8 @@ void Bin::setupMenu()
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
     if (m_isMainBin) {
-        m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
+        m_propertiesDock =
+            pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnRight);
         m_propertiesDock->close();
     }
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);

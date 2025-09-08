@@ -67,10 +67,12 @@ void DockTitleBarManager::slotUpdateDockLocation(Qt::DockWidgetArea dockLocation
     slotUpdateTitleBars(dockLocationArea != Qt::NoDockWidgetArea);
 }
 
-void DockTitleBarManager::slotShowTitleBars(bool show)
+void DockTitleBarManager::slotShowTitleBars(bool checked)
 {
-    KdenliveSettings::setShowtitlebars(show);
-    slotUpdateTitleBars();
+    KdenliveSettings::setShowtitlebars(checked);
+    Q_EMIT pCore->hideBars(!checked);
+    // TODO KDDockWidgets remove
+    // slotUpdateTitleBars();
 }
 
 void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)

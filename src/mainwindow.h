@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kconfigwidgets_version.h>
 #include <kddockwidgets/DockWidget.h>
 #include <kddockwidgets/MainWindow.h>
+#include <kddockwidgets/core/Layout.h>
 #include <kddockwidgets/qtwidgets/ViewFactory.h>
 #include <kiconthemes_version.h>
 
@@ -139,7 +140,7 @@ public:
      * @returns the created dock widget
      */
     KDDockWidgets::QtWidgets::DockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget,
-                                                  Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+                                                  KDDockWidgets::Location area = KDDockWidgets::Location_OnRight);
 
     QUndoGroup *m_commandStack{nullptr};
     QUndoView *m_undoView;
