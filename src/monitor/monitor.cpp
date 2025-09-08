@@ -2522,7 +2522,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 m_splitEffect->set("1", 0);      // 1 is gradient width
                 m_splitEffect->set("2", -0.747); // 2 is tilt
             } else {
-                // frei0r.scal0tilt is not available
+                // frei0r.alphagrad is not available
                 warningMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"));
                 return;
             }
@@ -2579,7 +2579,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         m_splitEffect->set("1", 0);      // 1 is gradient width
         m_splitEffect->set("2", -0.747); // 2 is tilt
     } else {
-        // frei0r.scal0tilt is not available
+        // frei0r.alphagrad is not available
         pCore->displayMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
