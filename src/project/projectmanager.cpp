@@ -46,6 +46,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KNotification>
 #include <KRecentDirs>
+#include <kddockwidgets/LayoutSaver.h>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -1347,6 +1348,7 @@ void ProjectManager::prepareSave()
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotesversion"), QStringLiteral("2"));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->window()->openedSequences().join(QLatin1Char(';')));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.activetimeline"), m_activeTimelineModel->uuid().toString());
+    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.layout"), QString(KDDockWidgets::LayoutSaver().serializeLayout()));
 }
 
 void ProjectManager::slotResetProfiles(bool reloadThumbs)

@@ -39,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <kddockwidgets/LayoutSaver.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
@@ -1833,7 +1834,13 @@ void KdenliveDoc::loadDocumentProperties()
         name = e.attribute(QStringLiteral("name"));
         if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
             name = name.section(QLatin1Char('.'), 1);
-            if (name == QStringLiteral("storagefolder")) {
+            // Restore Layout
+            if (name == QLatin1String("layout")) {
+                const QString layoutData = e.firstChild().nodeValue();
+                KDDockWidgets::LayoutSaver().restoreLayout(layoutData.toLatin1());
+                continue;
+            }
+            if (name == QLatin1String("storagefolder")) {
                 // Make sure we have an absolute path
                 QString value = e.firstChild().nodeValue();
                 if (QFileInfo(value).isRelative()) {
