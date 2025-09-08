@@ -720,17 +720,6 @@ void MainWindow::init()
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
-        KConfigGroup group(&conf, "video4linux");
-        QMap<QString, QString> values = group.entryMap();
-        QMapIterator<QString, QString> i(values);
-        if (i.hasNext()) {
-            i.next();
-            QString v4lstring = i.value();
-            KdenliveSettings::setV4l_parameters(v4lstring.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setV4l_extension(v4lstring.section(QLatin1Char(';'), 1, 1));
-        }
-    }
     if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
         KConfigGroup group(&conf, "screengrab");
         QMap<QString, QString> values = group.entryMap();

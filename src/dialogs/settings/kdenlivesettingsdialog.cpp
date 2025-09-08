@@ -24,10 +24,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 
-#ifdef USE_V4L
-#include "capture/v4lcapture.h"
-#endif
-
 #include "KLocalizedString"
 #include "kdenlive_debug.h"
 #include <KIO/DesktopExecParser>
@@ -71,7 +67,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     , m_voskUpdated(false)
     , m_mappable_actions(std::move(mappable_actions))
 {
-    KdenliveSettings::setV4l_format(0);
     setWindowModality(Qt::ApplicationModal);
 
     initMiscPage();
@@ -107,8 +102,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configCapture.setupUi(p5);
     m_decklinkProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::DecklinkCapture, false, QStringLiteral("decklink_profile"));
     m_configCapture.decklink_profile_box->addWidget(m_decklinkProfiles);
-    m_v4lProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::V4LCapture, false, QStringLiteral("v4l_profile"));
-    m_configCapture.v4l_profile_box->addWidget(m_v4lProfiles);
     m_grabProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::ScreenCapture, false, QStringLiteral("grab_profile"));
     m_configCapture.screen_grab_profile_box->addWidget(m_grabProfiles);
     m_pageCapture = addPage(p5, i18n("Capture"), QStringLiteral("media-record"));
@@ -363,33 +356,8 @@ void KdenliveSettingsDialog::initEnviromentPage()
 
 void KdenliveSettingsDialog::initCapturePage()
 {
-    // Remove ffmpeg tab, unused
-    m_configCapture.tabWidget->removeTab(0);
     m_configCapture.label->setVisible(false);
     m_configCapture.kcfg_defaultcapture->setVisible(false);
-    // m_configCapture.tabWidget->removeTab(2);
-#ifdef USE_V4L
-
-    // Video 4 Linux device detection
-    for (int i = 0; i < 10; ++i) {
-        QString path = QStringLiteral("/dev/video") + QString::number(i);
-        if (QFile::exists(path)) {
-            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);
-            if (!deviceInfo.isEmpty()) {
-                m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
-                m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
-            }
-        }
-    }
-    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdatev4lDevice);
-    connect(m_configCapture.kcfg_v4l_format, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
-    connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
-
-    slotUpdatev4lDevice();
-#endif
-
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 #ifdef Q_WS_MAC
     m_configCapture.tabWidget->setEnabled(false);
@@ -707,7 +675,6 @@ void KdenliveSettingsDialog::initDevices()
 
     // Fill the list of audio playback / recording devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
-    m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("Default"), "default");
     if (!QStandardPaths::findExecutable(QStringLiteral("aplay")).isEmpty()) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram(QStringLiteral("aplay"), QStringList() << QStringLiteral("-l"));
@@ -727,12 +694,6 @@ void KdenliveSettingsDialog::initDevices()
                                                                                                      .arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt())
                                                                                                      .arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
-                if (line.contains(QStringLiteral("capture"))) {
-                    deviceId = line.section(QLatin1Char(':'), 0, 0);
-                    m_configCapture.kcfg_v4l_alsadevice->addItem(
-                        line.section(QLatin1Char(':'), 1, 1).simplified(),
-                        QStringLiteral("hw:%1,%2").arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt()).arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
-                }
                 line = stream.readLine();
             }
             file.close();
@@ -741,21 +702,11 @@ void KdenliveSettingsDialog::initDevices()
         }
     }
 
-    // Add pulseaudio capture option
-    m_configCapture.kcfg_v4l_alsadevice->addItem(i18n("PulseAudio"), "pulse");
-
     if (!KdenliveSettings::audiodevicename().isEmpty()) {
         // Select correct alsa device
         int ix = m_configSdl.kcfg_audio_device->findData(KdenliveSettings::audiodevicename());
         m_configSdl.kcfg_audio_device->setCurrentIndex(ix);
         KdenliveSettings::setAudio_device(ix);
-    }
-
-    if (!KdenliveSettings::v4l_alsadevicename().isEmpty()) {
-        // Select correct alsa device
-        int ix = m_configCapture.kcfg_v4l_alsadevice->findData(KdenliveSettings::v4l_alsadevicename());
-        m_configCapture.kcfg_v4l_alsadevice->setCurrentIndex(ix);
-        KdenliveSettings::setV4l_alsadevice(ix);
     }
 
     m_configSdl.kcfg_audio_backend->addItem(i18n("SDL"), KdenliveSettings::sdlAudioBackend());
@@ -784,7 +735,6 @@ void KdenliveSettingsDialog::initDevices()
     fillMonitorData();
     connect(qApp, &QApplication::screenAdded, this, &KdenliveSettingsDialog::fillMonitorData);
     connect(qApp, &QApplication::screenRemoved, this, &KdenliveSettingsDialog::fillMonitorData);
-    loadCurrentV4lProfileInfo();
 }
 
 void KdenliveSettingsDialog::fillMonitorData()
@@ -826,7 +776,6 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
             QString card = devicestr.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = devicestr.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
             m_configSdl.kcfg_audio_device->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("plughw:%1,%2").arg(card, device));
-            m_configCapture.kcfg_v4l_alsadevice->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("hw:%1,%2").arg(card, device));
         }
     }
 }
@@ -1119,11 +1068,6 @@ void KdenliveSettingsDialog::updateSettings()
         }
     }
 
-    if (m_configCapture.kcfg_v4l_format->currentIndex() != int(KdenliveSettings::v4l_format())) {
-        saveCurrentV4lProfile();
-        KdenliveSettings::setV4l_format(0);
-    }
-
     // Check if screengrab is fullscreen
     if (m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
         KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
@@ -1147,19 +1091,8 @@ void KdenliveSettingsDialog::updateSettings()
         pCore->resetAudioMonitoring();
     }
 
-    // Check encoding profiles
-    // FFmpeg
-    QString string = m_v4lProfiles->currentParams();
-    if (string != KdenliveSettings::v4l_parameters()) {
-        KdenliveSettings::setV4l_parameters(string);
-    }
-    string = m_v4lProfiles->currentExtension();
-    if (string != KdenliveSettings::v4l_extension()) {
-        KdenliveSettings::setV4l_extension(string);
-    }
-
     // screengrab
-    string = m_grabProfiles->currentParams();
+    QString string = m_grabProfiles->currentParams();
     if (string != KdenliveSettings::grab_parameters()) {
         KdenliveSettings::setGrab_parameters(string);
     }
@@ -1224,11 +1157,6 @@ void KdenliveSettingsDialog::updateSettings()
         Q_EMIT updateLibraryFolder();
     }
 
-    QString value = m_configCapture.kcfg_v4l_alsadevice->currentData().toString();
-    if (value != KdenliveSettings::v4l_alsadevicename()) {
-        KdenliveSettings::setV4l_alsadevicename(value);
-    }
-
     if (m_configSdl.kcfg_external_display->isChecked() != KdenliveSettings::external_display()) {
         KdenliveSettings::setExternal_display(m_configSdl.kcfg_external_display->isChecked());
         resetConsumer = true;
@@ -1239,7 +1167,7 @@ void KdenliveSettingsDialog::updateSettings()
         fullReset = true;
     }
 
-    value = m_configSdl.kcfg_audio_driver->currentData().toString();
+    QString value = m_configSdl.kcfg_audio_driver->currentData().toString();
     if (value != KdenliveSettings::audiodrivername()) {
         KdenliveSettings::setAudiodrivername(value);
         resetConsumer = true;
@@ -1561,118 +1489,6 @@ bool KdenliveSettingsDialog::hasChanged()
     return KConfigDialog::hasChanged();
 }
 
-void KdenliveSettingsDialog::slotUpdatev4lDevice()
-{
-    QString device = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex()).toString();
-    if (!device.isEmpty()) {
-        m_configCapture.kcfg_video4vdevice->setText(device);
-    }
-    QString info = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex(), Qt::UserRole + 1).toString();
-
-    m_configCapture.kcfg_v4l_format->blockSignals(true);
-    m_configCapture.kcfg_v4l_format->clear();
-
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
-    if (QFile::exists(vl4ProfilePath)) {
-        m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
-    }
-
-    QStringList pixelformats = info.split('>', Qt::SkipEmptyParts);
-    QString itemSize;
-    QStringList itemRates;
-    for (int i = 0; i < pixelformats.count(); ++i) {
-        QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
-        QStringList sizes = pixelformats.at(i).split(':', Qt::SkipEmptyParts);
-        sizes.takeFirst();
-        for (int j = 0; j < sizes.count(); ++j) {
-            itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
-            for (int k = 0; k < itemRates.count(); ++k) {
-                m_configCapture.kcfg_v4l_format->addItem(
-                    QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'),
-                    QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0)
-                                  << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
-            }
-        }
-    }
-    m_configCapture.kcfg_v4l_format->blockSignals(false);
-    slotUpdatev4lCaptureProfile();
-}
-
-void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
-{
-    QStringList info = m_configCapture.kcfg_v4l_format->itemData(m_configCapture.kcfg_v4l_format->currentIndex(), Qt::UserRole).toStringList();
-    if (info.isEmpty()) {
-        // No auto info, display the current ones
-        loadCurrentV4lProfileInfo();
-        return;
-    }
-    m_configCapture.p_size->setText(info.at(1) + QLatin1Char('x') + info.at(2));
-    m_configCapture.p_fps->setText(info.at(3) + QLatin1Char('/') + info.at(4));
-    m_configCapture.p_aspect->setText(QStringLiteral("1/1"));
-    m_configCapture.p_display->setText(info.at(1) + QLatin1Char('/') + info.at(2));
-    m_configCapture.p_colorspace->setText(ProfileRepository::getColorspaceDescription(601));
-    m_configCapture.p_progressive->setText(i18n("Progressive"));
-
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
-    if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) {
-        saveCurrentV4lProfile();
-    }
-}
-
-void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
-{
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-    }
-    if (!ProfileRepository::get()->profileExists(dir.absoluteFilePath(QStringLiteral("video4linux")))) {
-        // No default formats found, build one
-        std::unique_ptr<ProfileParam> prof(new ProfileParam(pCore->getCurrentProfile().get()));
-        prof->m_width = 320;
-        prof->m_height = 200;
-        prof->m_frame_rate_num = 15;
-        prof->m_frame_rate_den = 1;
-        prof->m_display_aspect_num = 4;
-        prof->m_display_aspect_den = 3;
-        prof->m_sample_aspect_num = 1;
-        prof->m_sample_aspect_den = 1;
-        prof->m_progressive = true;
-        prof->m_colorspace = 601;
-        ProfileRepository::get()->saveProfile(prof.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
-    }
-    auto &prof = ProfileRepository::get()->getProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
-    m_configCapture.p_size->setText(QString::number(prof->width()) + QLatin1Char('x') + QString::number(prof->height()));
-    m_configCapture.p_fps->setText(QString::number(prof->frame_rate_num()) + QLatin1Char('/') + QString::number(prof->frame_rate_den()));
-    m_configCapture.p_aspect->setText(QString::number(prof->sample_aspect_num()) + QLatin1Char('/') + QString::number(prof->sample_aspect_den()));
-    m_configCapture.p_display->setText(QString::number(prof->display_aspect_num()) + QLatin1Char('/') + QString::number(prof->display_aspect_den()));
-    m_configCapture.p_colorspace->setText(ProfileRepository::getColorspaceDescription(prof->colorspace()));
-    if (prof->progressive()) {
-        m_configCapture.p_progressive->setText(i18n("Progressive"));
-    }
-}
-
-void KdenliveSettingsDialog::saveCurrentV4lProfile()
-{
-    std::unique_ptr<ProfileParam> profile(new ProfileParam(pCore->getCurrentProfile().get()));
-    profile->m_description = QStringLiteral("Video4Linux capture");
-    profile->m_colorspace = ProfileRepository::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
-    profile->m_width = m_configCapture.p_size->text().section('x', 0, 0).toInt();
-    profile->m_height = m_configCapture.p_size->text().section('x', 1, 1).toInt();
-    profile->m_sample_aspect_num = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 0, 0).toInt();
-    profile->m_sample_aspect_den = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 1, 1).toInt();
-    profile->m_display_aspect_num = m_configCapture.p_display->text().section(QLatin1Char('/'), 0, 0).toInt();
-    profile->m_display_aspect_den = m_configCapture.p_display->text().section(QLatin1Char('/'), 1, 1).toInt();
-    profile->m_frame_rate_num = m_configCapture.p_fps->text().section(QLatin1Char('/'), 0, 0).toInt();
-    profile->m_frame_rate_den = m_configCapture.p_fps->text().section(QLatin1Char('/'), 1, 1).toInt();
-    profile->m_progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-    }
-    ProfileRepository::get()->saveProfile(profile.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
-}
-
 void KdenliveSettingsDialog::loadExternalProxyProfiles()
 {
     // load proxy profiles
@@ -1694,17 +1510,6 @@ void KdenliveSettingsDialog::loadExternalProxyProfiles()
         m_configProxy.kcfg_external_proxy_profile->setCurrentIndex(m_configProxy.kcfg_external_proxy_profile->findData(currentItem));
     }
     m_configProxy.kcfg_external_proxy_profile->blockSignals(false);
-}
-
-void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
-{
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
-    QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath, true);
-    if (w->exec() == QDialog::Accepted) {
-        // save and update profile
-        loadCurrentV4lProfileInfo();
-    }
-    delete w;
 }
 
 void KdenliveSettingsDialog::slotReloadBlackMagic()

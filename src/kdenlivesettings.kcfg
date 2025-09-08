@@ -809,59 +809,9 @@
       <default>0</default>
     </entry>
 
-    <entry name="detectedv4ldevices" type="UInt">
-      <label>Detected v4l devices.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="video4vdevice" type="String">
-      <label>Default video4linux capture format.</label>
-      <default>/dev/video0</default>
-    </entry>
-
-    <entry name="v4l_alsadevice" type="Int">
-      <label>Audio device for v4l capture.</label>
-      <default></default>
-    </entry>
-
     <entry name="alsachannels" type="UInt">
       <label>Number of audio channels.</label>
       <default>2</default>
-    </entry>
-
-    <entry name="v4l_alsadevicename" type="String">
-      <label>Audio device for v4l capture.</label>
-      <default>default</default>
-    </entry>
-
-    <entry name="v4l_parameters" type="String">
-      <label>Default video4linux format.</label>
-      <default></default>
-    </entry>
-
-    <entry name="v4l_extension" type="String">
-      <label>Default video4linux file extension.</label>
-      <default></default>
-    </entry>
-
-    <entry name="v4l_format" type="UInt">
-      <label>Selected capture format.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="v4l_capturevideo" type="Bool">
-      <label>Should we capture video.</label>
-      <default>true</default>
-    </entry>
-
-    <entry name="v4l_captureaudio" type="Bool">
-      <label>Should we also capture audio.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="v4l_profile" type="Int">
-      <label>default v4l encoding profile.</label>
-      <default>0</default>
     </entry>
 
     <entry name="grab_profile" type="Int">

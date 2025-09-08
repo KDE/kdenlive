@@ -3,13 +3,6 @@
 
 
 ### Find packages files
-find_package(LibV4L2)
-set_package_properties(LibV4L2 PROPERTIES
-    DESCRIPTION "video4linux support libraries"
-    URL "https://linuxtv.org/downloads/v4l-utils/"
-    TYPE RUNTIME
-    PURPOSE "Required for better webcam support")
-
 if(WIN32)
     set(MLT_MELTBIN "melt.exe")
     set(MLT_DATADIR "../share/mlt")
@@ -322,12 +315,6 @@ if(SDL2_FOUND)
     target_link_libraries(kdenliveLib PUBLIC ${SDL2_LIBRARY})
 elseif(SDL_FOUND)
     target_link_libraries(kdenliveLib PUBLIC ${SDL_LIBRARY})
-endif()
-
-if(LIBV4L2_FOUND)
-    target_include_directories(kdenliveLib SYSTEM PRIVATE ${LIBV4L2_INCLUDE_DIR})
-    target_link_libraries(kdenliveLib PUBLIC ${LIBV4L2_LIBRARY})
-    target_compile_definitions(kdenliveLib PRIVATE -DUSE_V4L)
 endif()
 
 if(HAVE_LINUX_INPUT_H)
