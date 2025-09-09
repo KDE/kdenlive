@@ -47,7 +47,6 @@
   <name xml:lang="sv">Kdenlive</name>
   <name xml:lang="tr">Kdenlive</name>
   <name xml:lang="uk">Kdenlive</name>
-  <name xml:lang="x-test">xxKdenlivexx</name>
   <name xml:lang="zh-CN">Kdenlive</name>
   <name xml:lang="zh-TW">Kdenlive</name>
   <summary>Video editor</summary>
@@ -78,7 +77,6 @@
   <summary xml:lang="sv">Videoeditor</summary>
   <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
-  <summary xml:lang="x-test">xxVideo editorxx</summary>
   <summary xml:lang="zh-CN">视频编辑器</summary>
   <summary xml:lang="zh-TW">影片編輯軟體</summary>
   <description>
@@ -108,7 +106,6 @@
     <p xml:lang="sv">Kdenlive är ett videoredigeringsprogram med stöd för många ljud- och videoformat. Det erbjuder avancerade redigeringsfunktioner, en mängd olika effekter och övergångar, färgkorrigering, efterproduktion av ljud och textningsverktyg. Dessutom ger det flexibiliteten att återge till praktiskt taget vilket format som helst.</p>
     <p xml:lang="tr">Kdenlive, birçok ses ve video biçimini destekleyen bir video düzenleme uygulamasıdır. Gelişmiş düzenleme özellikleri, çeşitli efektler ve geçişler, renk düzeltme, ses post prodüksiyon ve altyazı araçları sunar. Ek olarak, neredeyse seçtiğiniz herhangi bir biçime dönüştürme esnekliği de sağlar.</p>
     <p xml:lang="uk">Kdenlive — програма для редагування відео із підтримкою багатьох форматів даних відео та звуку. У ній реалізовано широкі можливості з редагування, спектр ефектів та переходів, виправлення кольорів, остаточну обробку звуку та засоби субтитрування. Крім того, програма здатна гнучко обробляти дані практично до будь-якого вибраного вами формату.</p>
-    <p xml:lang="x-test">xxKdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.xx</p>
     <p xml:lang="zh-CN">Kdenlive 是一款视频编辑应用程序，支持多种音视频格式。它提供了各种高级编辑功能、种类丰富的效果和转场、色彩校正、音频后处理和字幕工具。它还能灵活地将视频输出为您需要的任意格式。</p>
     <p xml:lang="zh-TW">Kdenlive 是支援許多音訊與影片格式的影片編輯軟體。它提供進階的剪輯功能、許多的效果、轉場特效、顏色校正、音效後製與字幕工具等等。它也支援輸出到基本上任何您所想要使用的格式。</p>
     <p>Features:</p>
@@ -149,7 +146,6 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
-    <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">程序功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
@@ -179,7 +175,6 @@
       <li xml:lang="sv">Nästlade sekvenser</li>
       <li xml:lang="tr">İç içe geçmiş sekanslar</li>
       <li xml:lang="uk">Вкладені послідовності</li>
-      <li xml:lang="x-test">xxNested Sequencesxx</li>
       <li xml:lang="zh-CN">嵌套序列</li>
       <li xml:lang="zh-TW">巢狀序列</li>
       <li>Configurable interface and shortcuts</li>
@@ -208,7 +203,6 @@
       <li xml:lang="sv">Anpassningsbart gränssnitt och genvägar</li>
       <li xml:lang="tr">Yapılandırılabilir arayüz ve kısayollar</li>
       <li xml:lang="uk">Можливість налаштовування інтерфейсу та клавіатурних скорочень</li>
-      <li xml:lang="x-test">xxConfigurable interface and shortcutsxx</li>
       <li xml:lang="zh-CN">可定制的界面和快捷键</li>
       <li xml:lang="zh-TW">可調整的介面與快捷鍵</li>
       <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meter</li>
@@ -236,7 +230,6 @@
       <li xml:lang="sv">Oscilloskop: Histogram, vektoroscilloskop, RGB-parad, vågform och ljudmätare</li>
       <li xml:lang="tr">Kapsamlar: Histogram, Vektörskop, RGB Geçidi, Dalga Biçimi ve Ses Ölçeri</li>
       <li xml:lang="uk">Області: гістограма, векторскоп, розкладка RGB, форма хвилі та рівень звуку</li>
-      <li xml:lang="x-test">xxScopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meterxx</li>
       <li xml:lang="zh-CN">示波器：直方图、矢量示波器、RGB Parade 直方图、波形图、音量计</li>
       <li xml:lang="zh-TW">示波器：直方圖、向量示波器、RGB 檢視、波形以及音訊音量測量</li>
       <li>Proxy editing</li>
@@ -265,7 +258,6 @@
       <li xml:lang="sv">Ersättningsredigering</li>
       <li xml:lang="tr">Vekilli düzenleme</li>
       <li xml:lang="uk">Редагування із проміжними кліпами</li>
-      <li xml:lang="x-test">xxProxy editingxx</li>
       <li xml:lang="zh-CN">代理剪辑编辑</li>
       <li xml:lang="zh-TW">代理編輯</li>
       <li>Free online assets and templates</li>
@@ -293,7 +285,6 @@
       <li xml:lang="sv">Fria tillgångar och mallar på nätet</li>
       <li xml:lang="tr">Ücretsiz çevrimiçi kaynaklar ve şablonlar</li>
       <li xml:lang="uk">Безкоштовні ресурси та шаблони в інтернеті</li>
-      <li xml:lang="x-test">xxFree online assets and templatesxx</li>
       <li xml:lang="zh-CN">自由免费的在线资源和模板</li>
       <li xml:lang="zh-TW">免費線上資源與範本</li>
       <li>Motion tracking</li>
@@ -322,7 +313,6 @@
       <li xml:lang="sv">Rörelseföljning</li>
       <li xml:lang="tr">Hareket izlemesi</li>
       <li xml:lang="uk">Стеження за рухом</li>
-      <li xml:lang="x-test">xxMotion trackingxx</li>
       <li xml:lang="zh-CN">运动跟踪功能</li>
       <li xml:lang="zh-TW">動態追蹤</li>
       <li>AI powered tools</li>
@@ -351,7 +341,6 @@
       <li xml:lang="sv">AI-drivna verktyg</li>
       <li xml:lang="tr">Yapay Zeka destekli araçlar</li>
       <li xml:lang="uk">Інструменти на основі ШІ</li>
-      <li xml:lang="x-test">xxAI powered toolsxx</li>
       <li xml:lang="zh-CN">基于 AI 的工具</li>
       <li xml:lang="zh-TW">利用 AI 的工具</li>
     </ul>
@@ -429,7 +418,6 @@
       <caption xml:lang="sv">Mörkt tema</caption>
       <caption xml:lang="tr">Koyu tema</caption>
       <caption xml:lang="uk">Темна тема</caption>
-      <caption xml:lang="x-test">xxDark themexx</caption>
       <caption xml:lang="zh-CN">深色主题</caption>
       <caption xml:lang="zh-TW">暗色主題</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
@@ -461,7 +449,6 @@
       <caption xml:lang="sv">Standardgränssnitt</caption>
       <caption xml:lang="tr">Öntanımlı arayüz</caption>
       <caption xml:lang="uk">Типовий інтерфейс</caption>
-      <caption xml:lang="x-test">xxDefault interfacexx</caption>
       <caption xml:lang="zh-CN">默认界面</caption>
       <caption xml:lang="zh-TW">預設介面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k6.png</image>
@@ -494,7 +481,6 @@
       <caption xml:lang="sv">Färgkorrektion</caption>
       <caption xml:lang="tr">Renk düzeltmesi</caption>
       <caption xml:lang="uk">Виправлення кольорів</caption>
-      <caption xml:lang="x-test">xxColor correctionxx</caption>
       <caption xml:lang="zh-CN">色彩校正</caption>
       <caption xml:lang="zh-TW">顏色校正</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
@@ -526,7 +512,6 @@
       <caption xml:lang="sv">Anpassningsbart gränssnitt</caption>
       <caption xml:lang="tr">Yapılandırılabilir arayüz</caption>
       <caption xml:lang="uk">Придатний до налаштовування інтерфейс</caption>
-      <caption xml:lang="x-test">xxConfigurable interfacexx</caption>
       <caption xml:lang="zh-CN">可定制的界面</caption>
       <caption xml:lang="zh-TW">可自訂的介面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k4.png</image>
@@ -558,7 +543,6 @@
       <caption xml:lang="sv">Textning</caption>
       <caption xml:lang="tr">Başlıklandırma</caption>
       <caption xml:lang="uk">Титрування</caption>
-      <caption xml:lang="x-test">xxTitlingxx</caption>
       <caption xml:lang="zh-CN">字幕功能</caption>
       <caption xml:lang="zh-TW">傾斜</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
@@ -589,7 +573,6 @@
       <caption xml:lang="sv">Tidsomvandling och övergångar i samma spår</caption>
       <caption xml:lang="tr">Zaman eşlemlemesi ve aynı izde geçişler</caption>
       <caption xml:lang="uk">Переприв'язка за часом та переходи на одній доріжці</caption>
-      <caption xml:lang="x-test">xxTime remapping and same-track transitionsxx</caption>
       <caption xml:lang="zh-CN">时间重新映射和同轨转场功能</caption>
       <caption xml:lang="zh-TW">時間重映射與單軌道轉場特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
