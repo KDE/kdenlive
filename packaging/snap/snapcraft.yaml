@@ -73,7 +73,6 @@ parts:
       - ffmpeg-2404-sdk
     build-packages:
       - librttr-dev
-      - libv4l-dev
       - libmlt++-dev
       - libmlt-dev
       - libxkbcommon-dev
