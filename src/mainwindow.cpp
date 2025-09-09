@@ -1717,13 +1717,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()), QIcon::fromTheme(QStringLiteral("transform-move")),
               Qt::SHIFT | Qt::Key_G);
 
-    QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
-    stickTransition->setData(QStringLiteral("auto"));
-    stickTransition->setCheckable(true);
-    stickTransition->setEnabled(false);
-    addAction(QStringLiteral("auto_transition"), stickTransition);
-    connect(stickTransition, &QAction::triggered, this, &MainWindow::slotAutoTransition);
-
     QAction *overwriteZone = addAction(QStringLiteral("overwrite_to_in_point"), i18n("Overwrite Clip Zone in Timeline"), this, SLOT(slotInsertClipOverwrite()),
                                        QIcon::fromTheme(QStringLiteral("timeline-overwrite")), Qt::Key_B);
     overwriteZone->setWhatsThis(xi18nc("@info:whatsthis", "When clicked the zone of the clip currently selected in the project bin is inserted at the playhead "
@@ -3849,16 +3842,6 @@ void MainWindow::slotResizeItemStart()
 void MainWindow::slotResizeItemEnd()
 {
     getCurrentTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
-}
-
-void MainWindow::slotAutoTransition()
-{
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->autoTransition();
-    }
-    */
 }
 
 void MainWindow::slotSplitAV()

@@ -550,7 +550,6 @@ private Q_SLOTS:
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
     void slotUnselectAllTracks();
-    void slotAutoTransition();
     void slotRunWizard();
     void slotGroupClips();
     void slotUnGroupClips();
