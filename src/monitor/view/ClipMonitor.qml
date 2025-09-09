@@ -289,94 +289,100 @@ Item {
                         duration: audioThumb.isAudioClip ? 0 : 500
                     }
                 }]
-                Rectangle {
-                    // Audio monitor background
-                    id: audioBg
-                    color: mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.4)
-                    opacity: audioThumb.isAudioClip || K.KdenliveSettings.alwaysShowMonitorAudio ? 1 : 0.6
+                Item {
+                    id: mainThumbsContainer
+                    property int audioZoomHeight: audioThumb.isAudioClip ? audioThumb.height / 6 : 0
                     anchors.fill: parent
-                }
-                Rectangle {
-                    // Background color for the selected zone
-                    color: mixColors(activePalette.base, activePalette.highlight, 0.6)
-                    //opacity: 0.3
-                    height: parent.height
-                    x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
-                    width: (controller.zoneOut - controller.zoneIn) * timeScale
-                    visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
-                }
-                Repeater {
-                    id: streamThumb
-                    model: controller.audioStreams.length
-                    onCountChanged: {
-                        thumbTimer.start()
-                    }
-                    property double streamHeight: audioThumb.height - audioZoom.height / streamThumb.count
-                    Item {
-                        id: streamContainer
+                    anchors.bottomMargin: audioZoomHeight
+                    Rectangle {
+                        // Audio monitor background
+                        id: audioBg
+                        color: mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.4)
+                        opacity: audioThumb.isAudioClip || K.KdenliveSettings.alwaysShowMonitorAudio ? 1 : 0.6
                         anchors.fill: parent
-                        property int channelsInStream: controller.audioChannels[model.index]
-                        property double channelHeight: streamThumb.streamHeight / streamContainer.channelsInStream
-                        K.TimelineWaveform {
-                            id: waveform
-                            anchors.right: parent.right
-                            anchors.left: parent.left
-                            isOpaque: true
-                            height: streamThumb.streamHeight
-                            y: model.index * waveform.height
-                            channels: streamContainer.channelsInStream
-                            binId: controller.clipId
-                            audioStream: controller.audioStreams[model.index]
-                            format: K.KdenliveSettings.displayallchannels
-                            normalize: K.KdenliveSettings.normalizechannels
-                            property int aClipDuration: root.duration + 1
-                            scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
-                            waveInPoint: waveform.aClipDuration * root.zoomStart
-                            waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
-                            fgColorEven: K.KdenliveSettings.thumbColor1
-                            fgColorOdd: K.KdenliveSettings.thumbColor2
-                            bgColorEven: "#00000000"
-                            bgColorOdd: "#00000000"
-                            Repeater {
-                                id: centerLinesContainer
-                                model: streamContainer.channelsInStream
-                                // Channel center line
-                                Item {
-                                    anchors.fill: parent
-                                    Rectangle {
-                                        width: parent.width
-                                        y: model.index * streamContainer.channelHeight + streamContainer.channelHeight / 2
-                                        height: 1
-                                        opacity: 0.4
-                                        color: audioBg.color
-                                    }
-                                    // Channel separator
-                                    Rectangle {
-                                        width: parent.width
-                                        height: 1
-                                        y: model.index * streamContainer.channelHeight - 0.5
-                                        visible: model.index > 0
-                                        color: activePalette.base
+                    }
+                    Rectangle {
+                        // Background color for the selected zone
+                        color: mixColors(activePalette.base, activePalette.highlight, 0.6)
+                        //opacity: 0.3
+                        height: parent.height
+                        x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+                        width: (controller.zoneOut - controller.zoneIn) * timeScale
+                        visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
+                    }
+                    Repeater {
+                        id: streamThumb
+                        model: controller.audioStreams.length
+                        onCountChanged: {
+                            thumbTimer.start()
+                        }
+                        property double streamHeight: mainThumbsContainer.height / streamThumb.count
+                        Item {
+                            id: streamContainer
+                            anchors.fill: parent
+                            property int channelsInStream: controller.audioChannels[model.index]
+                            property double channelHeight: streamThumb.streamHeight / channelsInStream
+                            K.TimelineWaveform {
+                                id: waveform
+                                anchors.right: parent.right
+                                anchors.left: parent.left
+                                isOpaque: true
+                                height: streamThumb.streamHeight
+                                y: model.index * waveform.height
+                                channels: streamContainer.channelsInStream
+                                binId: controller.clipId
+                                audioStream: controller.audioStreams[model.index]
+                                format: K.KdenliveSettings.displayallchannels
+                                normalize: K.KdenliveSettings.normalizechannels
+                                property int aClipDuration: root.duration + 1
+                                scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
+                                waveInPoint: waveform.aClipDuration * root.zoomStart
+                                waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
+                                fgColorEven: K.KdenliveSettings.thumbColor1
+                                fgColorOdd: K.KdenliveSettings.thumbColor2
+                                bgColorEven: "#00000000"
+                                bgColorOdd: "#00000000"
+                                Repeater {
+                                    id: centerLinesContainer
+                                    model: streamContainer.channelsInStream
+                                    // Channel center line
+                                    Item {
+                                        anchors.fill: parent
+                                        Rectangle {
+                                            width: parent.width
+                                            y: model.index * streamContainer.channelHeight + streamContainer.channelHeight / 2
+                                            height: 1
+                                            opacity: 0.4
+                                            color: audioBg.color
+                                        }
+                                        // Channel separator
+                                        Rectangle {
+                                            width: parent.width
+                                            height: 1
+                                            y: model.index * streamContainer.channelHeight - 0.5
+                                            visible: model.index > 0
+                                            color: activePalette.base
+                                        }
                                     }
                                 }
                             }
-                        }
-                        // Separator line between streams
-                        Rectangle {
-                            width: parent.width
-                            y: waveform.y
-                            height: 2
-                            visible: model.index > 0
-                            color: activePalette.base
+                            // Separator line between streams
+                            Rectangle {
+                                width: parent.width
+                                y: waveform.y
+                                height: 2
+                                visible: model.index > 0
+                                color: activePalette.base
+                            }
                         }
                     }
-                }
-                // Playhead position
-                Rectangle {
-                    color: "red"
-                    width: 2
-                    height: audioThumb.height - audioZoom.height
-                    x: controller.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+                    // Playhead position
+                    Rectangle {
+                        color: "red"
+                        width: 2
+                        height: streamThumb.streamHeight * streamThumb.count
+                        x: controller.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+                    }
                 }
                 MouseArea {
                     id: thumbMouseArea
@@ -435,6 +441,9 @@ Item {
                     K.AudioZoomBar {
                         id: audioZoom
                         visible: audioThumb.isAudioClip
+                        width: mainThumbsContainer.width
+                        height: mainThumbsContainer.audioZoomHeight
+                        anchors.bottom: parent.bottom
                     }
                 }
             }

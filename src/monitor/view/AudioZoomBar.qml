@@ -4,19 +4,14 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
-import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick
 
 import org.kde.kdenlive as K
 
 Rectangle {
     id: audioSeekZone
-    width: parent.width
-    height: parent.height / 6
-    property int seekViewMargin: root.baseUnit * 0.8
     property int zoomZoneBorder: root.baseUnit * 0.24
-    anchors.centerIn: parent
-    anchors.verticalCenterOffset: audioThumb.isAudioClip ? parent.height * 5 / 12 : 0
     color: activePalette.midlight
     MouseArea {
         id: containerArea
@@ -39,60 +34,68 @@ Rectangle {
             }
         }
     }
-    Repeater {
-        id: streamThumbMini
-        model: controller.audioStreams.length
+    Item {
+        id: thumbsContainer
         anchors.fill: parent
-        property double streamHeight: audioSeekZone.height / streamThumbMini.count - (4 * audioSeekZone.zoomZoneBorder)
-        onCountChanged: {
-            thumbTimer.start()
-        }
-        Item {
-            // Color for the waveform (behind the wave, will be seen by transparency)
-            y: model.index * streamThumbMini.streamHeight + 2 * audioSeekZone.zoomZoneBorder
-            height: streamThumbMini.streamHeight
-            width: streamThumbMini.width
-            Rectangle {
-                height: streamThumbMini.streamHeight - 1
-                anchors.right: parent.right
-                anchors.left: parent.left
-                color: Qt.darker(activePalette.text)
+        anchors.topMargin: 2 * audioSeekZone.zoomZoneBorder
+        anchors.bottomMargin: 2 * audioSeekZone.zoomZoneBorder
+
+        Repeater {
+            id: streamThumbMini
+            anchors.fill: parent
+            model: controller.audioStreams.length
+            property double streamHeight: (height - controller.audioStreams.length - 1) / controller.audioStreams.length
+            onCountChanged: {
+                thumbTimer.start()
             }
-            // Selected zone highlight
-            Rectangle {
-                x: controller.zoneIn * audioThumb.width / root.duration
-                width: (controller.zoneOut - controller.zoneIn) * audioThumb.width / root.duration
-                height: waveform2.height
-                color: activePalette.highlight
-                visible: controller.zoneOut > controller.zoneIn && (controller.zoneIn > 0 || controller.zoneOut < root.duration)
-            }
-            K.TimelineWaveform {
-                id: waveform2
-                isOpaque: false
-                anchors.right: parent.right
-                anchors.left: parent.left
+            Item {
+                // Color for the waveform (behind the wave, will be seen by transparency)
+                id: streamContainer
+                y: model.index * streamThumbMini.streamHeight + model.index
                 height: streamThumbMini.streamHeight
-                property int aChannels: controller.audioChannels[model.index]
-                channels: aChannels
-                binId: controller.clipId
-                audioStream: controller.audioStreams[model.index]
-                format: K.KdenliveSettings.displayallchannels
-                normalize: K.KdenliveSettings.normalizechannels
-                property int aClipDuration: root.duration + 1
-                scaleFactor: audioThumb.width / aClipDuration
-                waveInPoint: 0
-                waveOutPoint: waveform2.aClipDuration
-                fgColorEven: "#00000000"//K.KdenliveSettings.thumbColor1
-                fgColorOdd: "#00000000" //K.KdenliveSettings.thumbColor2
-                bgColorEven: audioSeekZone.color
-                bgColorOdd: audioSeekZone.color
-            }
-            Rectangle {
-                width: parent.width
-                y: (model.index + 1) * (streamThumbMini.streamHeight + audioSeekZone.seekViewMargin * 0.5)
-                height: 1
-                visible: streamThumbMini.count > 1 && model.index < streamThumbMini.count - 1
-                color: 'red'
+                width: streamThumbMini.width
+                Rectangle {
+                    height: streamThumbMini.streamHeight - 1
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    color: Qt.darker(activePalette.text)
+                }
+                // Selected zone highlight
+                Rectangle {
+                    x: controller.zoneIn * audioThumb.width / root.duration
+                    width: (controller.zoneOut - controller.zoneIn) * audioThumb.width / root.duration
+                    height: waveform2.height
+                    color: activePalette.highlight
+                    visible: controller.zoneOut > controller.zoneIn && (controller.zoneIn > 0 || controller.zoneOut < root.duration)
+                }
+                K.TimelineWaveform {
+                    id: waveform2
+                    isOpaque: false
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    height: streamThumbMini.streamHeight
+                    property int aChannels: controller.audioChannels[model.index]
+                    channels: aChannels
+                    binId: controller.clipId
+                    audioStream: controller.audioStreams[model.index]
+                    format: K.KdenliveSettings.displayallchannels
+                    normalize: K.KdenliveSettings.normalizechannels
+                    property int aClipDuration: root.duration + 1
+                    scaleFactor: audioThumb.width / aClipDuration
+                    waveInPoint: 0
+                    waveOutPoint: waveform2.aClipDuration
+                    fgColorEven: "#00000000"//K.KdenliveSettings.thumbColor1
+                    fgColorOdd: "#00000000" //K.KdenliveSettings.thumbColor2
+                    bgColorEven: audioSeekZone.color
+                    bgColorOdd: audioSeekZone.color
+                    Rectangle {
+                        width: streamContainer.width
+                        height: 1
+                        y: -1
+                        visible: model.index > 0
+                        color: activePalette.base
+                    }
+                }
             }
         }
     }
@@ -158,7 +161,7 @@ Rectangle {
     MouseArea {
         // Top handle
         id: topHandleArea
-        height: audioSeekZone.seekViewMargin
+        height: root.baseUnit
         //width: audioSeekZone.width * root.zoomFactor
         width: zoomRef.width
         property int clickPos
@@ -188,9 +191,9 @@ Rectangle {
     }
     // Current view top corner
     MouseArea {
-        // Top handle
+        // Bottom handle
         id: bottomHandleArea
-        height: audioSeekZone.seekViewMargin
+        height: root.baseUnit
         //width: audioSeekZone.width * root.zoomFactor
         width: zoomRef.width
         property int clickPos
