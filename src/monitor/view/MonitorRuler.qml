@@ -299,7 +299,6 @@ Rectangle {
         z: 2
         fillColor: activePalette.windowText
         x: controller.position * root.timeScale - ruler.rulerZoomOffset - (width / 2)
-        z: 2
     }
     MouseArea {
         id: trimInMouseArea
