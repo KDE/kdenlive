@@ -1979,6 +1979,17 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
+    // Check if the view had a monitor zoom that is not relevant (e.g. for audio clips)
+    if (m_glMonitor->zoom() > 1.0f) {
+        if (!m_controller || m_controller->clipType() == ClipType::Audio) {
+            // Hide scroll bar when no clip or an audio clip is selected
+            m_horizontalScroll->hide();
+            m_verticalScroll->hide();
+        } else {
+            m_horizontalScroll->show();
+            m_verticalScroll->show();
+        }
+    }
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
