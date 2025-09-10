@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 00:52+0000\n"
-"PO-Revision-Date: 2025-09-08 22:33+0200\n"
+"PO-Revision-Date: 2025-09-09 09:43+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11928,10 +11928,9 @@ msgstr ""
 "VarSize"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirr0r"
-msgstr "Spiegelen"
+msgstr "Mirr0r"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:5
 #, kde-format
@@ -11939,6 +11938,8 @@ msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
 msgstr ""
+"Herhaalt en draait de invoerafbeelding om wanneer het buiten de randen gaat, "
+"waarmee toestaan van aanpasbare offset, zoomen en draaien."
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
@@ -12008,28 +12009,24 @@ msgid "NTSC"
 msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "Een analoge video-echo maken"
+msgstr "Simuleert NTSC analoge video"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
-#, fuzzy, kde-format
-#| msgid "Grain and Noise"
+#, kde-format
 msgid "Signal Noise"
-msgstr "Korreligheid en ruis"
+msgstr "Signaalruis"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:11
-#, fuzzy, kde-format
-#| msgid "Progressive"
+#, kde-format
 msgid "Progressive Scan"
-msgstr "Progressief"
+msgstr "Progressieve scan"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "scanline0r"
+#, kde-format
 msgid "Scanlines"
-msgstr "scanline0r"
+msgstr "Scanlijnen"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format

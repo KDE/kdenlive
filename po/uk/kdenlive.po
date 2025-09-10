@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 00:52+0000\n"
-"PO-Revision-Date: 2025-09-07 14:59+0300\n"
+"PO-Revision-Date: 2025-09-09 17:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -11902,10 +11902,9 @@ msgstr ""
 "ML3dEX,ЗмінРозм"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirr0r"
-msgstr "Віддзеркалити"
+msgstr "Mirr0r"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:5
 #, kde-format
@@ -11913,6 +11912,8 @@ msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
 msgstr ""
+"Повторює і віддзеркалює вхідне зображення, коли воно виходить за межі кадру "
+"з можливістю коригування відступу, масштабу та обертання."
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
@@ -11977,34 +11978,29 @@ msgid "HSync"
 msgstr "Гор. синхронізація"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
-#, fuzzy, kde-format
-#| msgid "NTSC 4:3"
+#, kde-format
 msgid "NTSC"
-msgstr "NTSC 4:3"
+msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "Створити аналогове відлуння відео"
+msgstr "Імітує аналогове відео NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
-#, fuzzy, kde-format
-#| msgid "Grain and Noise"
+#, kde-format
 msgid "Signal Noise"
-msgstr "Зернистість і шум"
+msgstr "Шум у сигналі"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:11
-#, fuzzy, kde-format
-#| msgid "Progressive"
+#, kde-format
 msgid "Progressive Scan"
-msgstr "Прогресивне"
+msgstr "Прогресивне сканування"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "scanline0r"
+#, kde-format
 msgid "Scanlines"
-msgstr "scanline0r"
+msgstr "Лінії розгортки"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format

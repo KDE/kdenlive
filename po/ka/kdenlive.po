@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 00:52+0000\n"
-"PO-Revision-Date: 2025-09-04 06:46+0200\n"
+"PO-Revision-Date: 2025-09-09 04:40+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -11197,10 +11197,9 @@ msgstr ""
 "ცვლადიზომა"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirr0r"
-msgstr "სარკე"
+msgstr "Mirr0r"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:5
 #, kde-format
@@ -11270,29 +11269,25 @@ msgstr "HSync"
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
-msgstr ""
+msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "ანალოგური ვიდეოს ექოს შექმნა"
+msgstr "ახდენს NTSC ანალოგური ვიდეოს სიმულაციას"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
-#, fuzzy, kde-format
-#| msgid "Grain and Noise"
+#, kde-format
 msgid "Signal Noise"
-msgstr "მარცვლები და ხმაური"
+msgstr "სიგნალის ხმაური"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:11
-#, fuzzy, kde-format
-#| msgid "Progressive"
+#, kde-format
 msgid "Progressive Scan"
-msgstr "პროგრესული"
+msgstr "პროგრესული სკანირება"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "scanline0r"
+#, kde-format
 msgid "Scanlines"
 msgstr "სკანირების ხაზები"
 
@@ -17229,6 +17224,7 @@ msgstr "გადართავს აუდიობილიკის კო�
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
 msgstr ""
+"ორი წკაპი, დაყარეთ ფაილები, ან უბრალოდ დააწკაპუნეთ %1-ზე მედიის შემოსატანად"
 
 #: src/bin/bin.cpp:141
 #, kde-format
@@ -17239,16 +17235,18 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
+"ორი წკაპი, დაყარეთ ფაილები, ან \n"
+"უბრალოდ დააწკაპუნეთ %1-ზე მედიის შემოსატანად"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
 msgid "Drag to add only audio to timeline"
-msgstr ""
+msgstr "გადაათრიეთ დროის ხაზზე, მხოლოდ, აუდიოს დასამატებლად"
 
 #: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
-msgstr ""
+msgstr "გადაათრიეთ დროის ხაზზე, მხოლოდ, ვიდეოს დასამატებლად"
 
 #: src/bin/bin.cpp:921 src/bin/bin.cpp:1096
 #, kde-format
@@ -19911,6 +19909,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"რენდერისთვის გამოყენებული XML დასაკრავი სიის ფაილის ჩვენება:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -19918,6 +19918,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"რენდერის ჟურნალის ფაილის ჩვენება:\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -21976,6 +21978,8 @@ msgid ""
 "Template %1 does not contain the <b>%s</b> keyword required to replace the "
 "text."
 msgstr ""
+"შაბლონი %1 არ შეიცავს საკვანძო სიტყვას <b>%s</b> რომელიც აუცილებელია ტექსტის "
+"ჩასანაცვლებლად."
 
 #: src/dialogs/titletemplatedialog.cpp:98
 #, kde-format
@@ -24973,7 +24977,7 @@ msgstr "დააწკაპუნეთ აუდიოს ტალღის 
 #: src/mainwindow.cpp:1371
 #, kde-format
 msgid "Current Audio Waveform Zoom Level"
-msgstr ""
+msgstr "მიმდინარე აუდიოს ტალღის ფორმის გადიდების დონე"
 
 #: src/mainwindow.cpp:1398
 #, kde-format

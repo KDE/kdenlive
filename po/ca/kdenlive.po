@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 00:52+0000\n"
-"PO-Revision-Date: 2025-09-07 10:04+0200\n"
+"PO-Revision-Date: 2025-09-09 09:25+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11964,10 +11964,9 @@ msgstr ""
 "ML3dEX,VarSize"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirr0r"
-msgstr "Mirall"
+msgstr "Mirr0r"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:5
 #, kde-format
@@ -11975,6 +11974,8 @@ msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
 msgstr ""
+"Repeteix i inverteix la imatge d'entrada quan cau fora del límits, i permet "
+"un decalatge, zoom i gir ajustables."
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
@@ -12042,31 +12043,27 @@ msgstr "HSync"
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
-msgstr ""
+msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "Crea un eco de vídeo analògic"
+msgstr "Simula un vídeo analògic NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
-#, fuzzy, kde-format
-#| msgid "Grain and Noise"
+#, kde-format
 msgid "Signal Noise"
-msgstr "Gra i soroll"
+msgstr "Senyal de soroll"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:11
-#, fuzzy, kde-format
-#| msgid "Progressive"
+#, kde-format
 msgid "Progressive Scan"
-msgstr "Progressiu"
+msgstr "Escaneig progressiu"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "scanline0r"
+#, kde-format
 msgid "Scanlines"
-msgstr "scanline0r"
+msgstr "Línies d'escaneig"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
