@@ -17,10 +17,21 @@ Rectangle {
         id: containerArea
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.MiddleButton
+        acceptedButtons: Qt.MiddleButton | Qt.LeftButton
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
-                wheel.accepted = false
+                // Zoom in audio wave
+                if (wheel.angleDelta.y == 0) {
+                 // Don't trigger zoom if delta is null
+                    return
+                }
+                if (wheel.angleDelta.y < 0) {
+                    // zoom out
+                    clipMonitorRuler.zoomOutRuler(wheel.x)
+                } else {
+                    // zoom in
+                    clipMonitorRuler.zoomInRuler(wheel.x)
+                }
             } else {
                 var newPos = zoomRef.x
                 if (wheel.angleDelta.y < 0) {
@@ -33,6 +44,18 @@ Rectangle {
                 root.zoomStart = zs
             }
         }
+        onPressed: mouse => {
+            root.captureRightClick = true
+            if (mouse.buttons === Qt.LeftButton) {
+                var updatedPos = Math.max(0, mouseX - zoomRef.width / 2)
+                updatedPos = Math.min(audioSeekZone.width - zoomRef.width, updatedPos)
+                var zs = updatedPos / audioSeekZone.width
+                root.zoomStart = zs
+            }
+        }
+        onReleased: mouse => {
+            root.captureRightClick = false
+        }
     }
     Item {
         id: thumbsContainer
@@ -44,29 +67,30 @@ Rectangle {
             id: streamThumbMini
             anchors.fill: parent
             model: controller.audioStreams.length
-            property double streamHeight: (height - controller.audioStreams.length - 1) / controller.audioStreams.length
+            property double streamHeight: (height - 2 * (controller.audioStreams.length - 1)) / controller.audioStreams.length
             onCountChanged: {
                 thumbTimer.start()
             }
             Item {
                 // Color for the waveform (behind the wave, will be seen by transparency)
                 id: streamContainer
-                y: model.index * streamThumbMini.streamHeight + model.index
+                y: model.index * (streamThumbMini.streamHeight + 2)
                 height: streamThumbMini.streamHeight
                 width: streamThumbMini.width
+                // Normal color for the audio wave
                 Rectangle {
-                    height: streamThumbMini.streamHeight - 1
+                    height: streamThumbMini.streamHeight - 2
                     anchors.right: parent.right
                     anchors.left: parent.left
-                    color: Qt.darker(activePalette.text)
+                    color: mixColors(activePalette.midlight, activePalette.text, 0.4)
                 }
-                // Selected zone highlight
+                // Highlight color for the selected wave part
                 Rectangle {
                     x: controller.zoneIn * audioThumb.width / root.duration
                     width: (controller.zoneOut - controller.zoneIn) * audioThumb.width / root.duration
-                    height: waveform2.height
-                    color: activePalette.highlight
-                    visible: controller.zoneOut > controller.zoneIn && (controller.zoneIn > 0 || controller.zoneOut < root.duration)
+                    height: streamThumbMini.streamHeight - 2
+                    color:  desaturateColor(activePalette.highlight, 0.6, 1)
+                    visible: controller.zoneOut > controller.zoneIn
                 }
                 K.TimelineWaveform {
                     id: waveform2
@@ -90,10 +114,10 @@ Rectangle {
                     bgColorOdd: audioSeekZone.color
                     Rectangle {
                         width: streamContainer.width
-                        height: 1
-                        y: -1
+                        height: 2
+                        y: -2
                         visible: model.index > 0
-                        color: activePalette.base
+                        color: Qt.darker(audioSeekZone.color) //activePalette.base
                     }
                 }
             }
@@ -112,12 +136,12 @@ Rectangle {
         x: audioSeekZone.width * root.zoomStart
         width: audioSeekZone.width * root.zoomFactor
         height: parent.height
-        border.width: audioSeekZone.zoomZoneBorder
-        border.color: activePalette.text
-        color: 'transparent'
+        border.width: 2//audioSeekZone.zoomZoneBorder
+        border.color: mainHandleArea.containsMouse ? activePalette.highlight : activePalette.text
+        color: colorWithApha(activePalette.highlight, 0.2)
     }
 
-    // Top handle rect
+    /*// Top handle rect
     Rectangle {
         id: dragRect
         height: audioSeekZone.zoomZoneBorder
@@ -135,7 +159,7 @@ Rectangle {
         anchors.left: zoomRef.left
         anchors.right: zoomRef.right
         anchors.bottom: zoomRef.bottom
-    }
+    }*/
     // Current view left corner
     Rectangle {
         id: zoomViewLeft
@@ -158,7 +182,7 @@ Rectangle {
         radius: 2
     }
     // Current view top corner
-    MouseArea {
+    /*MouseArea {
         // Top handle
         id: topHandleArea
         height: root.baseUnit
@@ -221,13 +245,46 @@ Rectangle {
                 root.zoomStart = zs
             }
         }
+    }*/
+    MouseArea {
+        // Inside rect handle
+        id: mainHandleArea
+        anchors.fill: zoomRef
+        property int clickPos
+        anchors {
+            left: pressed ? undefined : zoomRef.left
+            //bottom: zoomRef.bottom
+        }
+        hoverEnabled: true
+        cursorShape: Qt.OpenHandCursor
+        onPressed: mouse => {
+            root.captureRightClick = true
+            clickPos = mouseX
+            cursorShape = Qt.ClosedHandCursor
+        }
+        onReleased: {
+            root.captureRightClick = false
+            cursorShape = Qt.OpenHandCursor
+        }
+        onPositionChanged: mouse => {
+            if (mouse.buttons === Qt.LeftButton) {
+                var updatedPos = Math.max(0, x + mouseX - clickPos)
+                updatedPos = Math.max(0, updatedPos)
+                updatedPos = Math.min(audioSeekZone.width - mainHandleArea.width, updatedPos)
+                var zs = updatedPos / audioSeekZone.width
+                root.zoomStart = zs
+            }
+        }
     }
     MouseArea {
         // Left handle
         id: leftHandle
-        width: root.baseUnit
+        width: root.baseUnit * 2
         height: zoomRef.height
-        anchors.left: pressed ? undefined : zoomRef.left
+        anchors {
+            left: pressed ? undefined : zoomRef.left
+            leftMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
+        }
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed: {
@@ -239,10 +296,9 @@ Rectangle {
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var updatedPos = Math.max(0, x + mouseX)
-                console.log('setting zoom start pos: ', updatedPos, ', ZOOM RIGHT: ', (zoomRef.x + topHandleArea.width))
-                updatedPos = Math.min(updatedPos, zoomRef.x + topHandleArea.width)
+                updatedPos = Math.min(updatedPos, zoomRef.x + zoomRef.width)
                 var zs = updatedPos / audioSeekZone.width
-                var zf = (zoomRef.x + topHandleArea.width - updatedPos) / audioSeekZone.width
+                var zf = (zoomRef.x + zoomRef.width - updatedPos) / audioSeekZone.width
                 root.zoomStart = zs
                 root.zoomFactor = zf
             }
@@ -251,10 +307,11 @@ Rectangle {
     MouseArea {
         // Right handle
         id: rightHandle
-        width: root.baseUnit
+        width: root.baseUnit * 2
         height: zoomRef.height
         anchors {
             right: pressed ? undefined : zoomRef.right
+            rightMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
         }
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor

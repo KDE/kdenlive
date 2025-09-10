@@ -85,6 +85,24 @@ Item {
 
     signal editCurrentMarker()
 
+    function colorWithApha(color1, alpha) {
+        return Qt.rgba(color1.r, color1.g, color1.b, alpha)
+    }
+
+    function desaturateColor(color1, factor, alpha) {
+        return Qt.hsva(color1.hsvHue, color1.hsvSaturation * factor, color1.hsvValue, alpha)
+    }
+
+    function softenColor(color1) {
+        if (activePalette.base.hslLightness > activePalette.text.hslLightness) {
+            // Light theme, brighten color
+            return Qt.lighter(color1)
+        } else {
+            // Dark theme, brighten color
+            return Qt.darker(color1)
+        }
+    }
+
     function mixColors(color1, color2, factor) {
         return Qt.rgba(color1.r*(1-factor) + color2.r*factor, color1.g*(1-factor) + color2.g*factor, color1.b*(1-factor) + color2.b*factor, 1)
     }
@@ -95,7 +113,6 @@ Item {
             var pos = Math.max(thumbMouseArea.mouseX, 0)
             pos += audioThumb.width / root.zoomFactor * root.zoomStart
             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-
         }
     }
 
@@ -289,19 +306,26 @@ Item {
                         duration: audioThumb.isAudioClip ? 0 : 500
                     }
                 }]
+                K.AudioZoomBar {
+                    id: audioZoom
+                    visible: audioThumb.isAudioClip
+                    width: mainThumbsContainer.width
+                    height: mainThumbsContainer.audioZoomHeight
+                    anchors.top: parent.top
+                }
                 Item {
                     id: mainThumbsContainer
                     property int audioZoomHeight: audioThumb.isAudioClip ? audioThumb.height / 6 : 0
                     anchors.fill: parent
-                    anchors.bottomMargin: audioZoomHeight
+                    anchors.topMargin: audioZoomHeight
                     Rectangle {
                         // Audio monitor background
                         id: audioBg
-                        color: mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.4)
+                        color: mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.3)
                         opacity: audioThumb.isAudioClip || K.KdenliveSettings.alwaysShowMonitorAudio ? 1 : 0.6
                         anchors.fill: parent
                     }
-                    Rectangle {
+                    /*Rectangle {
                         // Background color for the selected zone
                         color: mixColors(activePalette.base, activePalette.highlight, 0.6)
                         //opacity: 0.3
@@ -309,7 +333,7 @@ Item {
                         x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
                         width: (controller.zoneOut - controller.zoneIn) * timeScale
                         visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
-                    }
+                    }*/
                     Repeater {
                         id: streamThumb
                         model: controller.audioStreams.length
@@ -322,11 +346,30 @@ Item {
                             anchors.fill: parent
                             property int channelsInStream: controller.audioChannels[model.index]
                             property double channelHeight: streamThumb.streamHeight / channelsInStream
+                            // Normal color for the audio wave // top channel
+                            Repeater {
+                                model: channelsInStream
+                                Rectangle {
+                                    y: channelHeight * model.index
+                                    height: channelHeight
+                                    anchors.right: parent.right
+                                    anchors.left: parent.left
+                                    color: model.index %2 == 0 ? K.KdenliveSettings.thumbColor1 : K.KdenliveSettings.thumbColor2
+                                    // Highlight color for the selected wave part
+                                    Rectangle {
+                                        x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
+                                        width: (controller.zoneOut - controller.zoneIn) * timeScale
+                                        height: channelHeight
+                                        color:  mixColors(parent.color, activePalette.highlight, 0.6)
+                                        visible: controller.zoneOut > controller.zoneIn
+                                    }
+                                }
+                            }
                             K.TimelineWaveform {
                                 id: waveform
                                 anchors.right: parent.right
                                 anchors.left: parent.left
-                                isOpaque: true
+                                isOpaque: false
                                 height: streamThumb.streamHeight
                                 y: model.index * waveform.height
                                 channels: streamContainer.channelsInStream
@@ -338,10 +381,10 @@ Item {
                                 scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
                                 waveInPoint: waveform.aClipDuration * root.zoomStart
                                 waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
-                                fgColorEven: K.KdenliveSettings.thumbColor1
-                                fgColorOdd: K.KdenliveSettings.thumbColor2
-                                bgColorEven: "#00000000"
-                                bgColorOdd: "#00000000"
+                                fgColorEven: "#00000000" //K.KdenliveSettings.thumbColor1
+                                fgColorOdd: "#00000000" //K.KdenliveSettings.thumbColor2
+                                bgColorEven: audioBg.color //"#00000000"
+                                bgColorOdd: audioBg.color //"#00000000"
                                 Repeater {
                                     id: centerLinesContainer
                                     model: streamContainer.channelsInStream
@@ -387,6 +430,7 @@ Item {
                 MouseArea {
                     id: thumbMouseArea
                     anchors.fill: parent
+                    anchors.topMargin: audioZoom.height
                     acceptedButtons: Qt.LeftButton
                     hoverEnabled: true
                     propagateComposedEvents: true
@@ -401,7 +445,7 @@ Item {
                         }
                     }
                     onPressed: mouse => {
-                        if (audioThumb.isAudioClip && mouseY > audioZoom.y) {
+                        if (audioThumb.isAudioClip && mouseY < audioZoom.height) {
                             mouse.accepted = false
                             return
                         }
@@ -410,7 +454,7 @@ Item {
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
                     onPositionChanged: mouse => {
-                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY > audioZoom.y) {
+                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioZoom.height) {
                             mouse.accepted = false
                             return
                         }
@@ -437,13 +481,6 @@ Item {
                             wheel.accepted = false
                         }
 
-                    }
-                    K.AudioZoomBar {
-                        id: audioZoom
-                        visible: audioThumb.isAudioClip
-                        width: mainThumbsContainer.width
-                        height: mainThumbsContainer.audioZoomHeight
-                        anchors.bottom: parent.bottom
                     }
                 }
             }
