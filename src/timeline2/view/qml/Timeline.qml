@@ -13,7 +13,7 @@ import QtQuick.Controls 2.15
 
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
-
+import 'Utils.js' as Utils
 
 Rectangle {
     id: root
@@ -280,14 +280,6 @@ Rectangle {
     function getMouseX() {
         var posInWidget = timeline.getMousePosInTimeline()
         return Math.max(0, posInWidget.x - trackHeaders.width)
-        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
-            return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) - scrollView.contentX
-        }
-        if (tracksArea.containsMouse) {
-            return tracksArea.mouseX
-        } else {
-            return -1;
-        }
     }
 
     function getScrollPos() {
@@ -481,7 +473,7 @@ function getTrackColor(audio, header) {
     property bool autoScrolling: timeline.autoScroll
     property bool blockAutoScroll: false
     property int duration: timeline.duration
-    property color audioColor: timeline.audioColor
+    property color audioColor: Utils.mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.3)
     property color videoColor: timeline.videoColor
     property color titleColor: timeline.titleColor
     property color imageColor: timeline.imageColor
@@ -1956,7 +1948,7 @@ function getTrackColor(audio, header) {
                         Item {
                             id: recordPlaceHolder
                             // Used to determine if drag start should trigger an event
-                            property var startTime: 0
+                            property int startTime: 0
                             property double currentLevel
                             property var recModel: []
                             property int channels: 1

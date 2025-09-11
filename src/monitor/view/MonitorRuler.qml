@@ -34,9 +34,6 @@ Rectangle {
                 var pos = Math.max(rulerMouseArea.mouseX, 0)
                 root.mouseRulerPos = pos
                 controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
-            } else if (root.showAudiothumb) {
-                // Check if seeking audio thumbnail zone
-                root.updateScrolling()
             }
         }
     }
@@ -102,7 +99,7 @@ Rectangle {
     // Zoom bar container
     Kdenlive.ZoomBar {
         id: horZoomBar
-        visible: root.showZoomBar && !audioThumb.isAudioClip
+        visible: root.showZoomBar && !audioView.isAudioClip
         onVisibleChanged: {
             root.zoomOffset = visible ? height : 0
         }

@@ -82,14 +82,14 @@ Rectangle {
                     height: streamThumbMini.streamHeight - 2
                     anchors.right: parent.right
                     anchors.left: parent.left
-                    color: mixColors(activePalette.midlight, activePalette.text, 0.4)
+                    color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.4)
                 }
                 // Highlight color for the selected wave part
                 Rectangle {
                     x: controller.zoneIn * audioThumb.width / root.duration
                     width: (controller.zoneOut - controller.zoneIn) * audioThumb.width / root.duration
                     height: streamThumbMini.streamHeight - 2
-                    color:  desaturateColor(activePalette.highlight, 0.6, 1)
+                    color:  Utils.desaturateColor(activePalette.highlight, 0.6, 1)
                     visible: controller.zoneOut > controller.zoneIn
                 }
                 K.TimelineWaveform {
@@ -138,7 +138,7 @@ Rectangle {
         height: parent.height
         border.width: 2//audioSeekZone.zoomZoneBorder
         border.color: mainHandleArea.containsMouse ? activePalette.highlight : activePalette.text
-        color: colorWithApha(activePalette.highlight, 0.2)
+        color: Utils.colorWithApha(activePalette.highlight, 0.2)
     }
 
     /*// Top handle rect
