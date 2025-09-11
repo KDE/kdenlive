@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 03:27+0000\n"
-"PO-Revision-Date: 2025-08-07 09:49+0200\n"
+"PO-Revision-Date: 2025-09-11 03:57+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9829,6 +9829,8 @@ msgid ""
 "The search window scale factor. For example, 120 = 1.20 = increases by 20% "
 "on each pass."
 msgstr ""
+"ძებნის ფანჯრის მასშტაბის კოეფიციენტი. მაგალითად, 120 = 1.2 = გადიდება 20%-ით "
+"თითოეულ გავლაზე."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
@@ -9865,6 +9867,8 @@ msgid ""
 "The largest size face in pixels - both horizontally and vertically (square "
 "window)."
 msgstr ""
+"უდიდესი სახე პიქსელებში - ორივე, ჰორიზონტალურად და ვერტიკალურად (კვადრატული "
+"ფანჯარა)."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
 #: data/effects/frei0r/frei0r_facedetect.xml:20
@@ -9879,6 +9883,8 @@ msgid ""
 "How often to detect a face. In between checks, it does object motion "
 "tracking."
 msgstr ""
+"რამდენად ხშირად მოხდება სახის დადგენა. შემოწმებებს შორის ის ახდენს მოძრაობის "
+"დევნებას."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:28
 #, kde-format
@@ -9915,6 +9921,7 @@ msgstr "კონტურის სისქე"
 msgid ""
 "0 means fill; otherwise, draw unfilled with a stroke width of this size."
 msgstr ""
+"0 ნიშნავს შევსებას. წინააღმდეგ შემთხვევაში დაიხატება ამ ზომის შეუვსებლით."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
 #, kde-format
@@ -9925,7 +9932,7 @@ msgstr "ალფა"
 #, kde-format
 msgid ""
 "Set the alpha channel of the shape area to a percentage of fully opaque."
-msgstr ""
+msgstr "ფორმის არეს ალფა არხის დაყენება სრულად გაუმჭვირვალე პროცენტულობაზე."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
 #, kde-format
@@ -9999,7 +10006,7 @@ msgstr "ფილმის მარცვალი"
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "ამატებს ფილმის მსგავს მარცვლებს და არბილებს სურათს"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
@@ -10069,7 +10076,7 @@ msgstr "ციალის რაოდენობა"
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[კადრებს შორის სიკაშკაშის ცვალებადობის რაოდენობა]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -11206,7 +11213,7 @@ msgstr "Normaliz0r"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "ნორმალიზაცია (იგივე, რაც ჰისტოგრამის გაწელვა, კონტრასტის გაწელვა)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
 #, kde-format
@@ -21879,6 +21886,8 @@ msgid ""
 "Template %1 does not contain the <b>%s</b> keyword required to replace the "
 "text."
 msgstr ""
+"შაბლონი %1 არ შეიცავს საკვანძო სიტყვას <b>%s</b> რომელიც აუცილებელია ტექსტის "
+"ჩასანაცვლებლად."
 
 #: src/dialogs/titletemplatedialog.cpp:98
 #, kde-format

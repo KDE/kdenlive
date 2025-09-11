@@ -14935,12 +14935,12 @@ msgstr "模糊类型"
 #: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "打字机 (用于字幕剪辑)"
+msgstr "打字机 (用于标题剪辑)"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
-msgstr "打字机效果 v0.3.3 仅应用于字幕剪辑"
+msgstr "打字机效果 v0.3.3 (仅应用于标题剪辑)"
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -17871,12 +17871,12 @@ msgstr "序列"
 #: src/bin/bin.cpp:2506 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
-msgstr "字幕"
+msgstr "标题"
 
 #: src/bin/bin.cpp:2510
 #, kde-format
 msgid "Title Template"
-msgstr "字幕模板"
+msgstr "标题模板"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:2603 src/ui/managecache_ui.ui:359
@@ -17942,7 +17942,7 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
-"用于添加来源素材到项目素材箱的主对话框 (视频、图像、音频、字幕、动画等)。<nl/"
+"用于添加来源素材到项目素材箱的主对话框 (视频、图像、音频、标题、动画等)。<nl/"
 ">点击下箭头图标可以打开用于选择来源类型的列表。<nl/>点击媒体图标可以打开用于"
 "选择来源文件的窗口。"
 
@@ -17959,12 +17959,12 @@ msgstr "添加图像序列…"
 #: src/bin/bin.cpp:3696
 #, kde-format
 msgid "Add Title Clip…"
-msgstr "添加字幕剪辑…"
+msgstr "添加标题剪辑…"
 
 #: src/bin/bin.cpp:3698
 #, kde-format
 msgid "Add Template Title…"
-msgstr "添加模板字幕…"
+msgstr "添加模板标题…"
 
 #: src/bin/bin.cpp:3700
 #, kde-format
@@ -18145,18 +18145,18 @@ msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
-"您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
+"您正在编辑外部标题剪辑 (%1)。您想要保存更改到该标题文件，还是仅保存更改到此项"
 "目？"
 
 #: src/bin/bin.cpp:4823 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
-msgstr "保存字幕"
+msgstr "保存标题"
 
 #: src/bin/bin.cpp:4823
 #, kde-format
 msgid "Save to title file"
-msgstr "保存到字幕文件"
+msgstr "保存到标题文件"
 
 #: src/bin/bin.cpp:4824
 #, kde-format
@@ -18166,7 +18166,7 @@ msgstr "仅保存到项目"
 #: src/bin/bin.cpp:4847 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
-msgstr "字幕剪辑"
+msgstr "标题剪辑"
 
 #: src/bin/bin.cpp:4897
 #, kde-format
@@ -18345,7 +18345,7 @@ msgstr "编辑剪辑"
 #: src/bin/clipcreator.cpp:70
 #, kde-format
 msgid "Create title clip"
-msgstr "创建字幕剪辑"
+msgstr "创建标题剪辑"
 
 #: src/bin/clipcreator.cpp:83
 #, kde-format
@@ -18375,7 +18375,7 @@ msgstr "创建幻灯片剪辑"
 #: src/bin/clipcreator.cpp:377
 #, kde-format
 msgid "Create title template"
-msgstr "创建字幕模板"
+msgstr "创建标题模板"
 
 #: src/bin/clipcreator.cpp:401
 #, kde-format
@@ -22197,7 +22197,7 @@ msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
-"<li>缺少 MLT 模块：<b>qimage</b> 或 <b>pixbuf</b><br/>图像和字幕需要此模块</"
+"<li>缺少 MLT 模块：<b>qimage</b> 或 <b>pixbuf</b><br/>图像和标题需要此模块</"
 "li>"
 
 #: src/dialogs/wizard.cpp:424
@@ -22205,7 +22205,7 @@ msgstr ""
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
-msgstr "<li>缺少 MLT 模块：<b>kdenlivetitle</b><br/>创建字幕需要此模块</li>"
+msgstr "<li>缺少 MLT 模块：<b>kdenlivetitle</b><br/>创建标题需要此模块</li>"
 
 #: src/dialogs/wizard.cpp:430
 #, kde-format
@@ -22366,7 +22366,7 @@ msgstr "播放列表剪辑"
 #: src/doc/documentchecker.cpp:1875 src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Title Image"
-msgstr "字幕图像"
+msgstr "标题图像"
 
 #: src/doc/documentchecker.cpp:1887
 #, kde-format
@@ -22376,7 +22376,7 @@ msgstr "剪辑"
 #: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Title Font"
-msgstr "字幕字体"
+msgstr "标题字体"
 
 #: src/doc/documentchecker.cpp:1893
 #, kde-format
@@ -22830,7 +22830,7 @@ msgstr "类别"
 #: src/docktitlebarmanager.cpp:20
 #, kde-format
 msgid "Show Title Bars"
-msgstr "显示工具栏"
+msgstr "显示标题工具栏"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:47
 #, kde-format
@@ -31529,7 +31529,7 @@ msgstr "打开序列"
 #: src/timeline2/view/timelinecontroller.cpp:3916
 #, kde-format
 msgid "Item is not a title clip"
-msgstr "该项目并非字幕剪辑"
+msgstr "该项目不是标题剪辑"
 
 #: src/timeline2/view/timelinecontroller.cpp:4014
 #, kde-format
@@ -31729,12 +31729,12 @@ msgstr "渐变 %1"
 #: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
-msgstr "此字幕剪辑具有不同的帧尺寸。"
+msgstr "此标题剪辑具有不同的帧尺寸。"
 
 #: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
-msgstr "字幕编码方案"
+msgstr "标题编码方案"
 
 #: src/titler/titledocument.cpp:462
 #, kde-format
@@ -31964,17 +31964,17 @@ msgstr "添加图像…"
 #: src/titler/titlewidget.cpp:434
 #, kde-format
 msgid "Open  Title…"
-msgstr "打开字幕…"
+msgstr "打开标题…"
 
 #: src/titler/titlewidget.cpp:439
 #, kde-format
 msgid "Save Title As…"
-msgstr "字幕另存为…"
+msgstr "另存标题为…"
 
 #: src/titler/titlewidget.cpp:444
 #, kde-format
 msgid "Download New Title Templates…"
-msgstr "下载新的字幕模板…"
+msgstr "下载新的标题模板…"
 
 #: src/titler/titlewidget.cpp:561
 #, kde-format
@@ -31984,14 +31984,14 @@ msgstr "保存并添加到项目"
 #: src/titler/titlewidget.cpp:562
 #, kde-format
 msgid "Create Title"
-msgstr "创建字幕"
+msgstr "创建标题"
 
 #: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
-msgstr "您确定要加载新的模板吗？此字幕的更改将会丢失。"
+msgstr "您确定要加载新的模板吗？此标题的更改将会丢失。"
 
 #: src/titler/titlewidget.cpp:929
 #, kde-format
@@ -32033,12 +32033,12 @@ msgstr "+Y"
 #: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgid "Load Title"
-msgstr "加载字幕"
+msgstr "加载标题"
 
 #: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive 字幕"
+msgstr "Kdenlive 标题"
 
 #: src/titler/titlewidget.cpp:2325
 #, kde-format
@@ -32046,7 +32046,7 @@ msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
-"您想要嵌入图像到此字幕文件吗？\n"
+"您想要嵌入图像到此标题文件吗？\n"
 "此操作是分享字幕所必需的。"
 
 #: src/titler/titlewidget.cpp:2326
@@ -32059,7 +32059,7 @@ msgstr "嵌入的图像"
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
-msgstr[0] "此字幕有 %1 个缺失元素"
+msgstr[0] "此标题有 %1 个缺失元素"
 
 #: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
@@ -32074,12 +32074,12 @@ msgstr "删除缺失的元素"
 #: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Update Title"
-msgstr "更新字幕"
+msgstr "更新标题"
 
 #: src/titler/titlewidget.cpp:2451
 #, kde-format
 msgid "Add as new Title"
-msgstr "添加为新字幕"
+msgstr "添加为新标题"
 
 #: src/titler/titlewidget.cpp:2505
 #, kde-format
@@ -33364,7 +33364,7 @@ msgstr "素材库文件夹："
 #: src/ui/configenv_ui.ui:277
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "用于导出、字幕、脚本的文件夹："
+msgstr "用于导出、标题、脚本的文件夹："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:333
@@ -33687,7 +33687,7 @@ msgstr "颜色剪辑："
 #: src/ui/configmisc_ui.ui:255
 #, kde-format
 msgid "Title clips:"
-msgstr "字幕剪辑："
+msgstr "标题剪辑："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:262
@@ -36476,7 +36476,7 @@ msgstr "保持下一关键帧的速度"
 #: src/ui/titlewidget_ui.ui:18
 #, kde-format
 msgid "Title Clip"
-msgstr "字幕剪辑"
+msgstr "标题剪辑"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonFitZoom)
 #. i18n: ectx: property (text), widget (QToolButton, buttonRealSize)
