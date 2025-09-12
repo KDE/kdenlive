@@ -876,7 +876,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
     m_moveStarted = false;
     m_clickPoint = e->scenePos();
-    m_dragPoint  = m_clickPoint;
+    m_dragPoint = m_clickPoint;
     m_resizeMode = m_possibleAction;
     QList<QGraphicsItem *> list = items(e->scenePos());
     bool initiallySelected = m_selectedItem && (list.contains(m_selectedItem) || m_resizeMode != NoResize);
@@ -955,7 +955,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 case BottomRight:
                 case Right:
                 case Down:
-                    m_dragPoint  = r1.bottomRight();
+                    m_dragPoint = r1.bottomRight();
                     m_clickPoint = r1.topLeft();
                     e->accept();
                     break;

@@ -39,7 +39,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         }
         // Edit an existing tag
         QDialog d2(this);
-        d2.setWindowTitle(i18n("Edit Guide Category"));
+        d2.setWindowTitle(i18n("Edit Marker Category"));
         QDialogButtonBox buttonBox2(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, &d2);
         auto *l2 = new QVBoxLayout;
         d2.setLayout(l2);
@@ -100,8 +100,8 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     std::shared_ptr<MarkerListModel> markerModel = doc ? doc->getGuideModel(doc->activeUuid) : nullptr;
     for (auto &g : guidesCategories) {
         if (g.count(QLatin1Char(':')) < 2) {
-            // Invalid guide data found
-            qDebug() << "Invalid guide data found: " << g;
+            // Invalid marker data found
+            qDebug() << "Invalid marker data found: " << g;
             continue;
         }
         const QColor color(g.section(QLatin1Char(':'), -1));
@@ -149,7 +149,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
             // There are existing guides in this category, warn
             int category = item->data(Qt::UserRole + 1).toInt();
             QDialog d(this);
-            d.setWindowTitle(i18n("Delete Guide Category"));
+            d.setWindowTitle(i18n("Delete Marker Category"));
             QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, &d);
             auto *l2 = new QVBoxLayout;
             d.setLayout(l2);

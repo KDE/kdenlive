@@ -357,11 +357,11 @@ public Q_SLOTS:
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotStart();
     /** @brief Set position and information for the trimming preview
-    * @param pos Absolute position in frames
-    * @param offset Difference in frames between @p pos and the current position (to be displayed in the monitor toolbar)
-    * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
-    * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
-    */
+     * @param pos Absolute position in frames
+     * @param offset Difference in frames between @p pos and the current position (to be displayed in the monitor toolbar)
+     * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
+     * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
+     */
     void slotTrimmingPos(int pos, int offset, int frames1, int frames2);
     /** @brief Move the position for the trimming preview by the given offset
     * @param offset How many frames the position should be moved

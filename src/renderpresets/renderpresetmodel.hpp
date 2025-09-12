@@ -41,9 +41,8 @@ public:
                       const QString &renderer = QStringLiteral("avformat"));
     RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName);
     RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension, const QString &defaultVBitrate,
-                      const QString &defaultVQuality, const QString & vQualities,
-                      const QString &defaultABitrate, const QString &defaultAQuality, const QString &speedsString,
-                      bool manualPreset);
+                      const QString &defaultVQuality, const QString &vQualities, const QString &defaultABitrate, const QString &defaultAQuality,
+                      const QString &speedsString, bool manualPreset);
 
     enum InstallType { BuildIn, Custom, Download };
 

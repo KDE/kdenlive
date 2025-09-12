@@ -143,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent)
     kdenliveCategoryMap.insert(QStringLiteral("monitor"), category);
     category = new KActionCategory(i18n("Add Clip"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("addclip"), category);
-    category = new KActionCategory(i18n("Add Marker/Guide by Category Number"), actionCollection());
+    category = new KActionCategory(i18n("Add Marker by Category Number"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("guidecategorynumber"), category);
     category = new KActionCategory(i18n("Navigation and Playback"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("navandplayback"), category);
@@ -211,7 +211,7 @@ void MainWindow::init()
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
     QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
-    QDockWidget *guidesDock = addDock(i18n("Guides"), QStringLiteral("guides"), pCore->guidesList());
+    QDockWidget *guidesDock = addDock(i18n("Markers"), QStringLiteral("markers"), pCore->guidesList());
     connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock](int id) {
         if (id > -1) {
             timeRemapDock->show();
@@ -604,7 +604,7 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
-    QMenu *guideMenu = new QMenu(i18n("Go to Guide…"), this);
+    QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
     // Timeline ruler menu
@@ -1718,9 +1718,9 @@ void MainWindow::setupActions()
               Qt::Key_Home, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
               Qt::Key_End, QStringLiteral("navandplayback"));
-    addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Guide"), this, SLOT(slotGuideRewind()),
+    addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Marker"), this, SLOT(slotGuideRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::CTRL | Qt::Key_Left, QStringLiteral("navandplayback"));
-    addAction(QStringLiteral("monitor_seek_guide_forward"), i18n("Go to Next Guide"), this, SLOT(slotGuideForward()),
+    addAction(QStringLiteral("monitor_seek_guide_forward"), i18n("Go to Next Marker"), this, SLOT(slotGuideForward()),
               QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::CTRL | Qt::Key_Right, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P,
               QStringLiteral("navandplayback"));
@@ -1778,47 +1778,47 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide Quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
+    addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker Quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_Asterisk));
 
     QAction *addMarkerWithCategory1 =
-        addAction(QStringLiteral("add_marker_guide_1"), i18n("Add Marker/Guide 1"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_1"), i18n("Add Marker Category 1"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_1), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory1->setData(1);
     QAction *addMarkerWithCategory2 =
-        addAction(QStringLiteral("add_marker_guide_2"), i18n("Add Marker/Guide 2"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_2"), i18n("Add Marker Category 2"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_2), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory2->setData(2);
     QAction *addMarkerWithCategory3 =
-        addAction(QStringLiteral("add_marker_guide_3"), i18n("Add Marker/Guide 3"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_3"), i18n("Add Marker Category 3"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_3), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory3->setData(3);
     QAction *addMarkerWithCategory4 =
-        addAction(QStringLiteral("add_marker_guide_4"), i18n("Add Marker/Guide 4"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_4"), i18n("Add Marker Category 4"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_4), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory4->setData(4);
     QAction *addMarkerWithCategory5 =
-        addAction(QStringLiteral("add_marker_guide_5"), i18n("Add Marker/Guide 5"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_5"), i18n("Add Marker Category 5"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_5), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory5->setData(5);
     QAction *addMarkerWithCategory6 =
-        addAction(QStringLiteral("add_marker_guide_6"), i18n("Add Marker/Guide 6"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_6"), i18n("Add Marker Category 6"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_6), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory6->setData(6);
     QAction *addMarkerWithCategory7 =
-        addAction(QStringLiteral("add_marker_guide_7"), i18n("Add Marker/Guide 7"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_7"), i18n("Add Marker Category 7"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_7), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory7->setData(7);
     QAction *addMarkerWithCategory8 =
-        addAction(QStringLiteral("add_marker_guide_8"), i18n("Add Marker/Guide 8"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_8"), i18n("Add Marker Category 8"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_8), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory8->setData(8);
     QAction *addMarkerWithCategory9 =
-        addAction(QStringLiteral("add_marker_guide_9"), i18n("Add Marker/Guide 9"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_9"), i18n("Add Marker Category 9"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_9), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory9->setData(9);
     QAction *addMarkerWithCategory10 =
-        addAction(QStringLiteral("add_marker_guide_10"), i18n("Add Marker/Guide 10"), this, SLOT(slotAddMarkerWithCategory()),
+        addAction(QStringLiteral("add_marker_guide_10"), i18n("Add Marker Category 10"), this, SLOT(slotAddMarkerWithCategory()),
                   QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_0), QStringLiteral("guidecategorynumber"));
     addMarkerWithCategory10->setData(10);
 
@@ -2038,21 +2038,21 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_G);
-    addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("bookmark-remove")));
-    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("bookmark-edit")));
-    addAction(QStringLiteral("search_guide"), i18n("Search Guide…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
-    addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
+    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Marker"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_G);
+    addAction(QStringLiteral("delete_guide"), i18n("Delete Marker"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("bookmark-remove")));
+    addAction(QStringLiteral("edit_guide"), i18n("Edit Marker…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("bookmark-edit")));
+    addAction(QStringLiteral("search_guide"), i18n("Search Marker…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
+    addAction(QStringLiteral("export_guides"), i18n("Export Markers…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
 
     QAction *lockGuides =
-        addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("lock")));
+        addAction(QStringLiteral("lock_guides"), i18n("Timeline Markers Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("lock")));
     lockGuides->setCheckable(true);
     lockGuides->setChecked(KdenliveSettings::lockedGuides());
-    lockGuides->setToolTip(i18n("Lock guides"));
-    lockGuides->setWhatsThis(
-        xi18nc("@info:whatsthis", "Lock guides. When locked, the guides won't move when using the spacer tool or inserting/removing blank in tracks."));
+    lockGuides->setToolTip(i18n("Lock Timeline Markers"));
+    lockGuides->setWhatsThis(xi18nc(
+        "@info:whatsthis", "Lock Timeline Markers. When locked, the markers won't move when using the spacer tool or inserting/removing blank in tracks."));
 
-    addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
+    addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")),
               Qt::SHIFT | Qt::Key_S);

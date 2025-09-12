@@ -439,7 +439,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(volumeAction, &VolumeAction::volumeChanged, this, &Monitor::slotSetVolume);
     m_configMenuAction->addAction(volumeAction);
 
-    m_markerMenu = new KActionMenu(id == Kdenlive::ClipMonitor ? i18n("Go to Marker…") : i18n("Go to Guide…"), this);
+    m_markerMenu = new KActionMenu(id == Kdenlive::ClipMonitor ? i18n("Go to Clip Marker…") : i18n("Go to Timeline Marker…"), this);
     m_markerMenu->setEnabled(false);
     m_configMenuAction->addAction(m_markerMenu);
     connect(m_markerMenu->menu(), &QMenu::triggered, this, &Monitor::slotGoToMarker);

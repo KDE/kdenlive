@@ -203,17 +203,17 @@ GuidesList::GuidesList(QWidget *parent)
     thumbs_refresh->setToolTip(i18n("Refresh All Thumbnails"));
     connect(thumbs_refresh, &QToolButton::clicked, this, &GuidesList::rebuildThumbs);
 
-    guide_add->setToolTip(i18n("Add new guide."));
-    guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
-    guide_delete->setToolTip(i18n("Delete guide."));
-    guide_delete->setWhatsThis(xi18nc("@info:whatsthis", "Delete guide. This will erase all selected guides."));
-    guide_edit->setToolTip(i18n("Edit selected guide."));
-    guide_edit->setWhatsThis(xi18nc("@info:whatsthis", "Edit selected guide. Selecting multiple guides allows changing their category."));
-    show_categories->setToolTip(i18n("Filter guide categories."));
+    guide_add->setToolTip(i18n("Add new marker."));
+    guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new marker. This will add a marker at the current frame position."));
+    guide_delete->setToolTip(i18n("Delete marker."));
+    guide_delete->setWhatsThis(xi18nc("@info:whatsthis", "Delete marker. This will erase all selected markers."));
+    guide_edit->setToolTip(i18n("Edit selected marker."));
+    guide_edit->setWhatsThis(xi18nc("@info:whatsthis", "Edit selected marker. Selecting multiple markers allows changing their category."));
+    show_categories->setToolTip(i18n("Filter marker categories."));
     show_categories->setWhatsThis(
-        xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
-    default_category->setToolTip(i18n("Default guide category."));
-    default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created guides."));
+        xi18nc("@info:whatsthis", "Filter marker categories. This allows you to show or hide selected marker categories in this dialog and in the timeline."));
+    default_category->setToolTip(i18n("Default marker category."));
+    default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default marker category. The category used for newly created markers."));
     connect(pCore.get(), &Core::profileChanged, m_proxy, &GuidesProxyModel::refreshDar);
     connect(m_proxy, &QIdentityProxyModel::rowsInserted, this, [this](const QModelIndex parent, int first, int) {
         QSignalBlocker bk(guides_list->selectionModel());
@@ -238,6 +238,7 @@ void GuidesList::showAllMarkers(bool enable)
                 disconnect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
             }
         }
+        filter_line->setPlaceholderText(i18n("Search All Markers"));
         m_displayMode = AllMarkers;
         connect(pCore->projectItemModel().get(), &ProjectItemModel::projectClipsModified, this, &GuidesList::rebuildAllMarkers, Qt::UniqueConnection);
         m_model.reset();
@@ -446,7 +447,7 @@ void GuidesList::removeGuide()
                     }
                 }
             }
-            pCore->pushUndo(undo, redo, i18n("Remove guides"));
+            pCore->pushUndo(undo, redo, i18n("Remove markers"));
         }
     } else if (auto markerModel = m_model.lock()) {
         QList<int> frames;
@@ -457,7 +458,7 @@ void GuidesList::removeGuide()
             GenTime pos(frame, pCore->getCurrentFps());
             markerModel->removeMarker(pos, undo, redo);
         }
-        pCore->pushUndo(undo, redo, i18n("Remove guides"));
+        pCore->pushUndo(undo, redo, i18n("Remove markers"));
     }
 }
 
@@ -540,6 +541,7 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
             disconnect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
         }
     }
+    filter_line->setPlaceholderText(i18n("Search Clip Markers"));
     if (clip == nullptr) {
         m_sortModel = nullptr;
         m_proxy->setSourceModel(m_sortModel);
@@ -579,6 +581,7 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
         }
     }
     m_displayMode = TimelineMarkers;
+    filter_line->setPlaceholderText(i18n("Search Timeline Markers"));
     if (viewModel.get() == m_sortModel) {
         // already displayed
         return;

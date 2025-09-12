@@ -79,7 +79,7 @@ void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, cons
     };
     PUSH_FRONT_LAMBDA(local_redo, redo);
     PUSH_LAMBDA(local_undo, undo);
-    pCore->pushUndo(undo, redo, i18n("Update guides categories"));
+    pCore->pushUndo(undo, redo, i18n("Update timeline markers categories"));
 }
 
 QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool notify)
@@ -1013,7 +1013,7 @@ bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWi
     bool exists;
     auto marker = getMarker(positions.first(), &exists);
     if (!exists) {
-        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+        pCore->displayMessage(i18n("No marker found at current position"), InformationMessage);
     }
     QDialog d(parent);
     d.setWindowTitle(i18n("Edit Markers Category"));
@@ -1055,7 +1055,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     bool exists;
     auto marker = getMarker(pos, &exists);
     if (!exists && !createIfNotFound) {
-        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+        pCore->displayMessage(i18n("No marker found at current position"), InformationMessage);
     }
 
     if (!exists && createIfNotFound) {
@@ -1085,7 +1085,7 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
     bool exists;
     auto marker = getMarker(pos, &exists);
     if (!exists && !createIfNotFound) {
-        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+        pCore->displayMessage(i18n("No marker found at current position"), InformationMessage);
     }
 
     if (!exists && createIfNotFound) {

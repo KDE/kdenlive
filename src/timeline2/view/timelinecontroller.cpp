@@ -1558,7 +1558,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
     CommentedTime marker = m_model->getGuideModel()->getMarker(frame, &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
-            pCore->displayMessage(i18n("No guide found at current position"), ErrorMessage, 500);
+            pCore->displayMessage(i18n("No marker found at current position"), ErrorMessage, 500);
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
@@ -1568,7 +1568,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
             auto clip = pCore->projectItemModel()->getClipByBinID(binId);
             m_model->getGuideModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
         } else {
-            m_model->getGuideModel()->addMarker(pos, i18n("guide"));
+            m_model->getGuideModel()->addMarker(pos, i18n("Marker"));
             if (KdenliveSettings::guidesShowThumbs()) {
                 const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
                 std::set<int> frames;
@@ -4881,7 +4881,6 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         }
         if (highlightClip) {
             pCore->activeBin()->selectClipById(binId);
-
         }
         qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
         int endPos = recPosition.second;

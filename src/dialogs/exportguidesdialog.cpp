@@ -35,7 +35,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 {
     //    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    setWindowTitle(i18n("Export guides"));
+    setWindowTitle(i18n("Export markers"));
 
     // We should setup TimecodeDisplay since it requires a proper Timecode
     offsetTimeSpinbox->setTimecode(Timecode(Timecode::HH_MM_SS_FF, pCore->getCurrentFps()));
@@ -75,7 +75,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     connect(btn2, &QAbstractButton::clicked, this, [this]() {
         QString filter = format_text->isChecked() ? QStringLiteral("%1 (*.txt)").arg(i18n("Text File")) : QStringLiteral("%1 (*.json)").arg(i18n("JSON File"));
         const QString startFolder = pCore->projectManager()->current()->projectDataFolder();
-        QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Guides Data"), startFolder, filter);
+        QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Markers Data"), startFolder, filter);
         QFile file(filename);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             messageWidget->setText(i18n("Cannot write to file %1", QUrl::fromLocalFile(filename).fileName()));
@@ -85,7 +85,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         }
         file.write(generatedContent->toPlainText().toUtf8());
         file.close();
-        messageWidget->setText(i18n("Guides saved to %1", QUrl::fromLocalFile(filename).fileName()));
+        messageWidget->setText(i18n("Markers saved to %1", QUrl::fromLocalFile(filename).fileName()));
         messageWidget->setMessageType(KMessageWidget::Positive);
         messageWidget->animatedShow();
     });
@@ -109,13 +109,13 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     // fill info button menu
     QMap<QString, QString> infoMenu;
     infoMenu.insert(QStringLiteral("{{category}}"), i18n("Category name"));
-    infoMenu.insert(QStringLiteral("{{index}}"), i18n("Guide number"));
-    infoMenu.insert(QStringLiteral("{{realtimecode}}"), i18n("Guide position in HH:MM:SS:FF"));
-    infoMenu.insert(QStringLiteral("{{timecode}}"), i18n("Guide position in (HH:)MM.SS"));
-    infoMenu.insert(QStringLiteral("{{nexttimecode}}"), i18n("Next guide position in (HH:)MM.SS"));
-    infoMenu.insert(QStringLiteral("{{frame}}"), i18n("Guide position in frames"));
-    infoMenu.insert(QStringLiteral("{{nextframe}}"), i18n("Next guide position in frames"));
-    infoMenu.insert(QStringLiteral("{{comment}}"), i18n("Guide comment"));
+    infoMenu.insert(QStringLiteral("{{index}}"), i18n("Marker number"));
+    infoMenu.insert(QStringLiteral("{{realtimecode}}"), i18n("Marker position in HH:MM:SS:FF"));
+    infoMenu.insert(QStringLiteral("{{timecode}}"), i18n("Marker position in (HH:)MM.SS"));
+    infoMenu.insert(QStringLiteral("{{nexttimecode}}"), i18n("Next marker position in (HH:)MM.SS"));
+    infoMenu.insert(QStringLiteral("{{frame}}"), i18n("Marker position in frames"));
+    infoMenu.insert(QStringLiteral("{{nextframe}}"), i18n("Next marker position in frames"));
+    infoMenu.insert(QStringLiteral("{{comment}}"), i18n("Marker comment"));
     infoMenu.insert(QStringLiteral("{{duration}}"), i18n("Marker duration in frames"));
     infoMenu.insert(QStringLiteral("{{durationtimecode}}"), i18n("Marker duration in timecode"));
     infoMenu.insert(QStringLiteral("{{endtimecode}}"), i18n("Marker end position in timecode"));

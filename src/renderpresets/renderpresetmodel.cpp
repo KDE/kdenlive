@@ -257,8 +257,7 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
 }
 
 RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension,
-                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString & vQualities,
-                                     const QString &defaultABitrate,
+                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString &vQualities, const QString &defaultABitrate,
                                      const QString &defaultAQuality, const QString &speedsString, bool manualPreset)
     : m_presetFile()
     , m_editable()

@@ -24,8 +24,8 @@ constexpr int MAXIMUM_SECONDARY_AXIS_LENGTH = 7;   // maximum height/width for a
 constexpr int MARGIN_BETWEEN_LABEL_AND_LEVELS = 4; // px between decibels scale labels and audio levels
 constexpr int TICK_MARK_LENGTH = 2;                // px for tick mark
 constexpr int SPACE_FOR_CLIPPING_INDICATOR = 9; // Size of the clipping indicator + space between it and the levels (6px + 4px = 10px, see AudioLevelRenderer)
-constexpr double MIN_DISPLAY_DB = -100.0;          // Minimum displayable audio level, used to hide decayed peaks and no audio audio levels
-constexpr double CLIPPING_THRESHOLD_DB = 0.0;      // Maximum displayable audio level
+constexpr double MIN_DISPLAY_DB = -100.0;       // Minimum displayable audio level, used to hide decayed peaks and no audio audio levels
+constexpr double CLIPPING_THRESHOLD_DB = 0.0;   // Maximum displayable audio level
 constexpr int NO_AUDIO_PRIMARY_AXIS_POSITION = -1;
 
 /**

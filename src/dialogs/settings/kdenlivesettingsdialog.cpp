@@ -85,7 +85,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p11 = new QWidget;
     m_configColors.setupUi(p11);
-    m_pageColors = addPage(p11, i18n("Colors and Guides"), QStringLiteral("color-management"));
+    m_pageColors = addPage(p11, i18n("Colors and Markers"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
     guidesLayout->addWidget(m_guidesCategories);
