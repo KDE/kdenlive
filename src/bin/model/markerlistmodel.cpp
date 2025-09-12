@@ -346,46 +346,62 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = true;
-
     CommentedTime oldState = current;
     int mid = getIdFromPos(oldPos);
     Q_ASSERT(mid != -1);
-
-    Fun local_undo = [this, oldPos, oldState, mid]() {
-        int oldFrame = m_markerList[mid].time().frames(pCore->getCurrentFps());
-        m_markerPositions.remove(oldFrame);
-        removeSnapPoint(m_markerList[mid].time());
-
-        m_markerPositions.insert(oldPos.frames(pCore->getCurrentFps()), mid);
-        m_markerList[mid] = oldState;
-        addSnapPoint(oldPos);
-
-        int row = getRowfromId(mid);
-        Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
-        return true;
-    };
-
-    Fun local_redo = [this, oldPos, pos, comment, type, duration, mid]() {
-        int row = getRowfromId(mid);
-
+    Fun local_redo = [this, oldPos, pos, comment, type, duration]() {
+        CommentedTime newMarker(pos, comment, type, duration);
+        int mid = getIdFromPos(oldPos);
         if (oldPos != pos) {
+            Q_ASSERT(m_markerPositions.contains(oldPos.frames(pCore->getCurrentFps())));
+            int row = getRowfromId(mid);
+            beginRemoveRows(QModelIndex(), row, row);
+            m_markerList.erase(mid);
             m_markerPositions.remove(oldPos.frames(pCore->getCurrentFps()));
-            m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
+            endRemoveRows();
             removeSnapPoint(oldPos);
+            mid = TimelineModel::getNextId();
+            int insertionRow = static_cast<int>(m_markerList.size());
+            beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+            m_markerList.insert({mid, newMarker});
+            m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
+            endInsertRows();
             addSnapPoint(pos);
+        } else {
+            m_markerList[mid] = newMarker;
         }
-
-        m_markerList[mid].setTime(pos);
-        m_markerList[mid].setComment(comment);
-        m_markerList[mid].setMarkerType(type);
-        m_markerList[mid].setDuration(duration);
-
+        int row = getRowfromId(mid);
         Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
         return true;
     };
 
     res = local_redo();
     if (res) {
+        Fun local_undo = [this, oldPos, pos, oldState]() {
+            int mid = getIdFromPos(pos);
+            if (oldPos != pos) {
+                Q_ASSERT(m_markerPositions.contains(pos.frames(pCore->getCurrentFps())));
+                int row = getRowfromId(mid);
+                beginRemoveRows(QModelIndex(), row, row);
+                m_markerList.erase(mid);
+                m_markerPositions.remove(pos.frames(pCore->getCurrentFps()));
+                endRemoveRows();
+                removeSnapPoint(pos);
+                mid = TimelineModel::getNextId();
+                int insertionRow = static_cast<int>(m_markerList.size());
+                beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+                m_markerList.insert({mid, oldState});
+                m_markerPositions.insert(oldPos.frames(pCore->getCurrentFps()), mid);
+                endInsertRows();
+                addSnapPoint(oldPos);
+
+            } else {
+                m_markerList[mid] = oldState;
+            }
+            int row = getRowfromId(mid);
+            Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole, PosRole, FrameRole});
+            return true;
+        };
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         QString undoText;
         if (oldPos != pos) {
@@ -396,6 +412,9 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
             undoText = i18n("Edit marker");
         }
         PUSH_UNDO(undo, redo, undoText);
+    } else {
+        bool undone = undo();
+        Q_ASSERT(undone);
     }
     return res;
 }
