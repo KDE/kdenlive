@@ -12068,7 +12068,8 @@ msgid "HSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "NTSC"
 msgid "NTSC"
 msgstr "NTSC"
 
