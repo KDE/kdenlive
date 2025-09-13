@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 03:27+0000\n"
-"PO-Revision-Date: 2025-08-30 18:32+0300\n"
+"PO-Revision-Date: 2025-09-12 10:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3661,12 +3661,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_exposure.xml:8
 #, kde-format
 msgid "Exposure"
-msgstr "Açıklık"
+msgstr "Pozlama"
 
 #: data/effects/avfilter/avfilter_exposure.xml:5
 #, kde-format
 msgid "Adjust exposure of the video stream."
-msgstr "Video akışının açıklığını ayarlayın."
+msgstr "Video akışının pozlamasını ayarlayın."
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
 #, kde-format
