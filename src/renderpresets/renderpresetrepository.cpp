@@ -261,7 +261,6 @@ void RenderPresetRepository::parseMltPresets()
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
         // Add GIF as image sequence
-        root.cdUp();
         std::unique_ptr<RenderPresetModel> model(
             new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
         if (m_profiles.count(model->name()) == 0) {
