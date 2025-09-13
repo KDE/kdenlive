@@ -2,7 +2,7 @@
 
 * Create a merge request on GitLab
 * Get it reviewed
-* Join the Telegram group
+* Join the Matrix group #kdenlive-dev:kde.org
 
 
 ## Coding Guidelines
