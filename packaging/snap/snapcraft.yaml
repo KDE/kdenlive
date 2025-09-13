@@ -39,6 +39,15 @@ apps:
       QT_PLUGIN_PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/plugins:/snap/kf6-core24/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/plugins"
       QML_IMPORT_PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qml:$SNAP//snap/kdenlive/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/qml:/snap/kf6-core24/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qml"
 
+package-repositories:
+  - type: apt
+    components:
+      - main
+    suites:
+      - noble
+    key-id: 444DABCF3667D0283F894EDDE6D4736255751E5D
+    url: http://origin.archive.neon.kde.org/user
+    key-server: keyserver.ubuntu.com
 plugs:
   ffmpeg-2404:
     interface: content
@@ -121,9 +130,6 @@ parts:
       - LD_LIBRARY_PATH: "${LD_LIBRARY_PATH}:/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
     override-build: |
       craftctl default
-      sed -i "${CRAFT_PART_INSTALL}/usr/share/applications/org.kde.kdenlive.desktop" -e 's|Icon=kdenlive$|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/kdenlive.svg|'
-      cd "${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/scalable/apps"
-      gzip -d -c kdenlive.svgz > kdenlive.svg
       if [ "$CRAFT_TARGET_ARCH" = amd64 ]; then
         ln -sf ../libpsm1/libpsm_infinipath.so.1.16  $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET/libpsm_infinipath.so.1
       fi
