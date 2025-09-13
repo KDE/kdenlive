@@ -5,7 +5,7 @@
     <description>Weave input video fields into double number of frames</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.first_field" default="top" paramlist="top;bottom">
-        <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
         <name>First Field</name>
+        <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
     </parameter>
 </effect>

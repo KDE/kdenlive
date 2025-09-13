@@ -20,7 +20,7 @@
         <name>Amount</name>
     </parameter>
     <parameter type="list" name="5" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
+        <paramlistdisplay>Nearest-neighbor,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

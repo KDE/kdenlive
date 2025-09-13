@@ -5,7 +5,7 @@
     <description>The weave takes a field-based video input and join each two sequential fields into single frame, producing a new double height clip with half the frame rate and half the frame count.</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.first_field" default="t" paramlist="t;b">
-        <paramlistdisplay>Top,Bottom</paramlistdisplay>
         <name>First Field</name>
+        <paramlistdisplay>Top,Bottom</paramlistdisplay>
     </parameter>
 </effect>

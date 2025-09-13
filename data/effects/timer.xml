@@ -35,12 +35,12 @@
         <name>Padding</name>
     </parameter>
     <parameter type="list" name="halign" default="left" paramlist="left;center;right">
-        <paramlistdisplay>Left,Center,Right</paramlistdisplay>
         <name>Horizontal Alignment</name>
+        <paramlistdisplay>Left,Center,Right</paramlistdisplay>
     </parameter>
     <parameter type="list" name="valign" default="top" paramlist="top;middle;bottom">
-        <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
         <name>Vertical Alignment</name>
+        <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
     </parameter>
     <parameter type="list" name="format" default="SS.SS" paramlist="HH:MM:SS;HH:MM:SS.S;MM:SS;MM:SS.SS;MM:SS.SSS;SS;SS.S;SS.SS;SS.SSS">
         <name>Format</name>

@@ -20,7 +20,7 @@
         <name>Saturation</name>
     </parameter>
     <parameter type="list" name="av.analyze" default="manual" paramlist="manual;average;minimax;median">
-        <paramlistdisplay>Manual,Average,Minimax,Median</paramlistdisplay>
         <name>Analyze mode</name>
+        <paramlistdisplay>Manual,Average,Minimax,Median</paramlistdisplay>
     </parameter>
 </effect>

@@ -5,8 +5,8 @@
     <description>Implements several median-type filters</description>
     <author>Marko Cebokli</author>
     <parameter type="list" name="Type" default="Square3x3" paramlist="Cross5;Square3x3;Bilevel;Diamond3x3;Square5x5;Temp3;Temp5;ArceBI;ML3D;ML3dEX;VarSize">
-        <paramlistdisplay>Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,VarSize</paramlistdisplay>
         <name>Type</name>
+        <paramlistdisplay>Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,VarSize</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Size" default="0.1" min="0" max="50" factor="50">
         <name>Size</name>

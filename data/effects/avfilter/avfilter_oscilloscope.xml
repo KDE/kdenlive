@@ -41,9 +41,9 @@
        	<comment><![CDATA[Height of the scope display]]></comment>
     </parameter>
     <parameter type="list" name="av.c" default="7" paramlist="0;1;2;3;4;5;6;7">
-        <paramlistdisplay>None,Y,U,YU,V,YV,UV,All</paramlistdisplay>
         <name>Components</name>
        	<comment><![CDATA[Select the components to be traced]]></comment>
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,All</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="av.g" default="1" min="0" max="1">
         <name>Draw Scope Grid</name>

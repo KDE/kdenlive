@@ -26,7 +26,7 @@
         <name>V threshold</name>
     </parameter>
     <parameter type="list" name="av.distance" default="0" paramlist="manhattan;euclidean">
-        <paramlistdisplay>Manhattan,Euclidean</paramlistdisplay>
         <name>Distance</name>
+        <paramlistdisplay>Manhattan,Euclidean</paramlistdisplay>
     </parameter>
 </effect>

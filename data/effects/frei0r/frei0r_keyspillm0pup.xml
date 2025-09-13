@@ -11,8 +11,8 @@
         <name>Target Color</name>
     </parameter>
     <parameter type="list" name="Mask type" default="0" paramlist="0;1;2;3">
-        <paramlistdisplay>Color distance,Transparency,Edge inwards,Edge outwards</paramlistdisplay>
         <name>Mask Type</name>
+        <paramlistdisplay>Color distance,Transparency,Edge inwards,Edge outwards</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Tolerance" default="0.24" min="0" max="1000" factor="1000">
         <name>Tolerance</name>
@@ -27,15 +27,15 @@
         <name>Saturation Threshold</name>
     </parameter>
     <parameter type="list" name="Operation 1" default="1" paramlist="0;1;2;3;4">
-        <paramlistdisplay>None,De-Key,Target,Desaturate,Luma adjust</paramlistdisplay>
         <name>Operation 1</name>
+        <paramlistdisplay>None,De-Key,Target,Desaturate,Luma adjust</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Amount 1" default="0.5" min="0" max="1000" factor="1000">
         <name>Amount 1</name>
     </parameter>
     <parameter type="list" name="Operation 2" default="0" paramlist="0;1;2;3;4">
-        <paramlistdisplay>None,De-Key,Target,Desaturate,Luma adjust</paramlistdisplay>
         <name>Operation 2</name>
+        <paramlistdisplay>None,De-Key,Target,Desaturate,Luma adjust</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Amount 2" default="0" min="0" max="1000" factor="1000">
         <name>Amount 2</name>

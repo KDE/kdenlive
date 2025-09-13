@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-    <effect tag="frei0r.balanc0r" id="frei0r.balanc0r">
 <group xmlns="https://www.kdenlive.org">
+    <effect tag="frei0r.balanc0r" id="frei0r.balanc0r">
         <name context="White Balance Effect Name">White Balance</name>
         <description>Adjust the white balance / color temperature</description>
         <author>Dan Dennedy</author>

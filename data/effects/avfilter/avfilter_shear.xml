@@ -14,7 +14,7 @@
         <name>Background Fill Color</name>
     </parameter>
     <parameter type="list" name="av.interp" default="nearest" paramlist="nearest;bilinear">
-        <paramlistdisplay>Nearest,Bilinear</paramlistdisplay>
         <name>Interpolation Mode</name>
+        <paramlistdisplay>Nearest,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

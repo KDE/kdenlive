@@ -7,7 +7,7 @@
     <parameter type="double" name="gain" max="50" min="-50" default="5.00" decimals="2">
         <name>Gain</name>
     </parameter>
-    <parameter type="filterjob" filtertag="sox:analysis" filterparams="" consumer="null" consumerparams="video_off=1 all=1 terminate_on_pause=1">
+    <parameter type="filterjob" name="filterjob" filtertag="sox:analysis" filterparams="" consumer="null" consumerparams="video_off=1 all=1 terminate_on_pause=1">
         <name>Normalize</name>
         <jobparam name="key">gain</jobparam>
         <jobparam name="finalfilter">sox_gain</jobparam>

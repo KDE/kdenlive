@@ -28,9 +28,9 @@
         0 is in +x and rotates counter clockwise.]]></comment>
     </parameter>
     <parameter type="list" name="segmentation_direction" default="1" paramlist="0;0.5;1">
-    	<paramlistdisplay>None,Counter Clockwise,Clockwise</paramlistdisplay>
         <name>Segmentation Direction</name>
         <comment>Direction of the segmentation.</comment>
+        <paramlistdisplay>None,Counter Clockwise,Clockwise</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="reflect_edges" default="1" min="0" max="1">
         <name>Reflect Edges</name>
@@ -43,10 +43,10 @@
         outside the image but within this distance clamp to the edge.]]></comment>
     </parameter>
     <parameter type="list" name="preferred_corner" default="0" paramlist="0;0.25;0.5;0.75">
-    	<paramlistdisplay>Top right,Top left,Bottom left,Bottom right</paramlistdisplay>
         <name>Preferred Corner</name>
         <comment><![CDATA[If <em>Reflect Edges</em> is not checked, <br>
         this parameter defines the preferred corner.]]></comment>
+        <paramlistdisplay>Top right,Top left,Bottom left,Bottom right</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="corner_search" default="1" min="0" max="1">
         <name>Corner Search</name>

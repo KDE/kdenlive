@@ -14,16 +14,16 @@
         <name>Invert selection</name>
     </parameter>
     <parameter type="list" name="filter.Selection subspace" default="0" paramlist="0;0.5;1">
-        <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
         <name>Color Model</name>
+        <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
     </parameter>
     <parameter type="list" name="filter.Subspace shape" default="0.5" paramlist="0;0.5;1">
-        <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
         <name>Shape</name>
+        <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
     </parameter>
     <parameter type="list" name="filter.Edge mode" default="0.9" paramlist="0;0.35;0.6;0.7;0.9">
-        <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
         <name>Edge mode</name>
+        <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="filter.Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
         <name>Red / Hue Delta</name>
@@ -38,7 +38,7 @@
         <name>Soften</name>
     </parameter>
     <parameter type="list" name="filter.Operation" default="0.0" paramlist="0;0.3;0.5;0.7;1">
-        <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
         <name>Operation</name>
+        <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
     </parameter>
 </effect>

@@ -5,7 +5,7 @@
     <description>Apply a high-quality magnification filter designed for pixel art. Scaling is done by 2, 3 or 4 using the hq*x magnification algorithm.</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.n" default="3" paramlist="2;3;4">
-        <paramlistdisplay>2x,3x,4x</paramlistdisplay>
         <name>Scale factor</name>
+        <paramlistdisplay>2x,3x,4x</paramlistdisplay>
     </parameter>
 </effect>

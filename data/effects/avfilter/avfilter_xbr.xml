@@ -5,7 +5,7 @@
     <description>Apply the xBR high-quality magnification filter which is designed for pixel art. It follows a set of edge-detection rules.</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.n" default="3" paramlist="2;3;4">
-        <paramlistdisplay>2x BR,3x BR,4x BR</paramlistdisplay>
         <name>Scaling dimension</name>
+        <paramlistdisplay>2x BR,3x BR,4x BR</paramlistdisplay>
     </parameter>
 </effect>

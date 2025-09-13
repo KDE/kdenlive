@@ -20,7 +20,7 @@
         <name>Release</name>
     </parameter>
     <parameter type="list" name="av.type" default="t" paramlist="t;s">
-        <paramlistdisplay>Triangular,Sinusoidal</paramlistdisplay>
         <name>Modulation type</name>
+        <paramlistdisplay>Triangular,Sinusoidal</paramlistdisplay>
     </parameter>
 </effect>

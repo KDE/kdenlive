@@ -11,12 +11,12 @@
         <name>De-Fish</name>
     </parameter>
     <parameter type="list" name="Type" default="0.666" paramlist="0;0.333;0.666;1">
-        <paramlistdisplay>Equidistant,Orthographic,Equiarea,Stereographic</paramlistdisplay>
         <name>Type</name>
+        <paramlistdisplay>Equidistant,Orthographic,Equiarea,Stereographic</paramlistdisplay>
     </parameter>
     <parameter type="list" name="Scaling" default="0" paramlist="0;0.333;0.666;1">
-        <paramlistdisplay>Fill,Center,Fit,Manual</paramlistdisplay>
         <name>Scaling</name>
+        <paramlistdisplay>Fill,Center,Fit,Manual</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="Crop" default="0">
         <name><![CDATA[Straighten all Edges<br>
@@ -34,12 +34,12 @@
         <name>Manual Scale</name>
     </parameter>
     <parameter type="list" name="Interpolator" default="0.166" paramlist="0;0.166;0.333;0.5;0.666;0.833;1">
-        <paramlistdisplay>Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos</paramlistdisplay>
         <name>Interpolator</name>
+        <paramlistdisplay>Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos</paramlistdisplay>
     </parameter>
     <parameter type="list" name="Aspect type" default="0" paramlist="0;0.25;0.5;0.75;1">
-        <paramlistdisplay>Square,PAL DV,NTSC DV,HDV,Manual</paramlistdisplay>
         <name>Aspect Type</name>
+        <paramlistdisplay>Square,PAL DV,NTSC DV,HDV,Manual</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Manual Aspect" default="0.5" min="0" max="1000" factor="1000">
         <name>Manual Aspect</name>

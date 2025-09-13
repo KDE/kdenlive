@@ -5,8 +5,8 @@
     <description>Apply sobel operator to input video stream.</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7;8">
-        <paramlistdisplay>None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,Alpha</paramlistdisplay>
         <name>Planes</name>
+        <paramlistdisplay>None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,Alpha</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="av.scale" default="25" min="0" max="250" factor="1">
         <name>Scale</name>

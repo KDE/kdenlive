@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="mask_start" id="mask_start" type="hidden">
+    <name>Mask Start</name>
+    <description>This filter works in conjunction with the mask_apply filter to make filter masking easier. This filter makes a snapshop of the frame before applying a filter, typically one to affect the alpha channel defining the mask. Then, the mask_apply filter uses a transition to composite the current frame's image over the snapshot. The typical use case is to add filters in the following sequence: mask_start, zero or more filters, mask_apply.</description>
+    <author>Dan Dennedy</author>
 </effect>

@@ -11,8 +11,8 @@
         <name>Constant skirt gain</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
-        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
         <name>Method</name>
+        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.w" default="0.5" min="1" max="9999" decimals="1">
         <name>Filter-width</name>
@@ -24,11 +24,11 @@
         <name>Normalize</name>
     </parameter>
     <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
-        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
         <name>Transform type</name>
+        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
-        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
         <name>Filter precision</name>
+        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
     </parameter>
 </effect>

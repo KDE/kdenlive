@@ -6,9 +6,9 @@
         <description>An audio visualization filter that draws an audio spectrum on the image.</description>
         <author>Brian Matherly</author>
         <parameter type="list" name="type" default="line" paramlist="line;bar">
-            <paramlistdisplay>Line,Bar</paramlistdisplay>
             <name>Graph type</name>
             <comment>The type of graph to display the spectrum.</comment>
+            <paramlistdisplay>Line,Bar</paramlistdisplay>
         </parameter>
         <parameter type="color" name="bgcolor" default="0x00000000" alpha="1">
             <name>Background Color</name>

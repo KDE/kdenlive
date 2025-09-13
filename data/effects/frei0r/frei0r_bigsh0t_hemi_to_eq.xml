@@ -20,9 +20,9 @@
     	These parameters adds a rotation to both lenses to correct for this.]]></comment>
     </parameter>
     <parameter type="list" name="projection" default="0" paramlist="0">
-        <paramlistdisplay>Equidistant Fisheye</paramlistdisplay>
         <name>Projection</name>
     	<comment><![CDATA[The fisheye projection type. Currently only equidistant fisheyes, like the Ricoh Theta and Garmin Virb360 are supported.]]></comment>
+        <paramlistdisplay>Equidistant Fisheye</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="fov" default="180" min="0" max="360" factor="1" decimals="1" suffix="°">
         <name>Lens FOV</name>
@@ -147,7 +147,7 @@
     	The EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens parameters. If you use Hugin-derived values for vignetting correction, you should also use these parameters, as Hugin's vignetting correction assumes that the sensor response has been corrected.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

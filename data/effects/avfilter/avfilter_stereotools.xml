@@ -41,8 +41,8 @@ Allowed range is from 0.015625 to 64.</comment>
         <comment>Change the phase of the right channel.</comment>
     </parameter>
     <parameter type="list" name="av.mode" default="lr>lr" paramlist="lr>lr;lr>ms;ms>lr;lr>ll;lr>rr;lr>l+r;lr>rl;ms>ll;ms>rr;ms>rl;lr>l-r">
-        <paramlistdisplay>Left/Right to Left/Right,Left/Right to Mid/Side,Mid/Side to Left/Right,Left/Right to Left/Left,Left/Right to Right/Right,Left/Right to Left + Right,Left/Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side to Right/Left,Left/Right to Left - Right</paramlistdisplay>
         <name>Stereo Mode</name>
+        <paramlistdisplay>Left/Right to Left/Right,Left/Right to Mid/Side,Mid/Side to Left/Right,Left/Right to Left/Left,Left/Right to Right/Right,Left/Right to Left + Right,Left/Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side to Right/Left,Left/Right to Left - Right</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.slevel" default="1" min="0.015" max="64" decimals="3">
         <name>Side Level</name>
@@ -76,23 +76,23 @@ Allowed range is from 0.015625 to 64.</comment>
         <comment>Set the stereo phase in degrees.</comment>
     </parameter>
     <parameter type="list" name="av.bmode_in" default="balance" paramlist="balance;amplitude;power">
-        <paramlistdisplay>balance,amplitude,power</paramlistdisplay>
+        <name>Balance IN</name>
         <comment>‘balance’
 Classic balance mode. Attenuate one channel at a time. Gain is raised up to 1.
 ‘amplitude’
 Similar to classic mode above but gain is raised up to 2.
 ‘power’
 Equal power distribution, from -6dB to +6dB range.</comment>
-        <name>Balance IN</name>
+        <paramlistdisplay>balance,amplitude,power</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.bmode_out" default="balance" paramlist="balance;amplitude;power">
-        <paramlistdisplay>balance,amplitude,power</paramlistdisplay>
+        <name>Balance OUT</name>
         <comment>‘balance’
 Classic balance mode. Attenuate one channel at a time. Gain is raised up to 1.
 ‘amplitude’
 Similar to classic mode above but gain is raised up to 2.
 ‘power’
 Equal power distribution, from -6dB to +6dB range.</comment>
-        <name>Balance OUT</name>
+        <paramlistdisplay>balance,amplitude,power</paramlistdisplay>
     </parameter>
 </effect>

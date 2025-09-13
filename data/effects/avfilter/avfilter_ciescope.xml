@@ -5,19 +5,19 @@
     <description>Display CIE color diagram with pixels overlaid onto it</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.system" default="rec709" paramlist="ntsc;470m;ebu;470bg;smpte;240m;apple;widergb;cie1931;hdtv;rec709;uhdtv;rec2020;dcip3">
-        <paramlistdisplay>NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. 709,UHD TV,Rec. 2020,DCI-P3</paramlistdisplay>
         <name>Color System</name>
        	<comment><![CDATA[Select the color system]]></comment>
+        <paramlistdisplay>NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. 709,UHD TV,Rec. 2020,DCI-P3</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.cie" default="xyy" paramlist="xyy;ucs;luv">
-        <paramlistdisplay>xyY,UCS,LUV</paramlistdisplay>
         <name>CIE System</name>
        	<comment><![CDATA[Select the CIE color space]]></comment>
+        <paramlistdisplay>xyY,UCS,LUV</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.gamuts" default="rec709" paramlist="ntsc;470m;ebu;470bg;smpte;240m;apple;widergb;cie1931;hdtv;rec709;uhdtv;rec2020;dcip3">
-        <paramlistdisplay>NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. 709,UHD TV,Rec. 2020,DCI-P3</paramlistdisplay>
         <name>Gamuts to Draw</name>
        	<comment><![CDATA[Set what gamuts to draw]]></comment>
+        <paramlistdisplay>NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. 709,UHD TV,Rec. 2020,DCI-P3</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.size" min="256" max="8192" default="512">
         <name>Size</name>

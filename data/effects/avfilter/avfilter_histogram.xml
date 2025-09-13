@@ -11,16 +11,16 @@
         <name>Scale Height</name>
     </parameter>
     <parameter type="list" name="av.display_mode" default="stack" paramlist="overlay;stack;parade">
-        <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
         <name>Display</name>
+        <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.m" default="linear" paramlist="linear;logarithmic">
-        <paramlistdisplay>Linear,Logarithmic</paramlistdisplay>
         <name>Mode</name>
+        <paramlistdisplay>Linear,Logarithmic</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.c" default="1" paramlist="0;1;2;3;4;5;6;7;8">
-        <paramlistdisplay>None,Y,U,YU,V,YV,UV,All,Alpha</paramlistdisplay>
         <name>Components to Display</name>
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,All,Alpha</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.f" default="0.7" min="0" max="1" decimals="1">
         <name>Foreground Opacity</name>
@@ -29,7 +29,7 @@
         <name>Background Opacity</name>
     </parameter>
     <parameter type="list" name="av.colors_mode" default="0" paramlist="whiteonblack;blackonwhite;whiteongray;blackongray;coloronblack;coloronwhite;colorongray;blackoncolor;whiteoncolor;grayoncolor">
-        <paramlistdisplay>White on Black,Black on White,White on Gray,Black on Gray,Color on Black,Color on White,Color on Gray,Black on Color,White on Color,Gray on Color</paramlistdisplay>
         <name>Colors Mode</name>
+        <paramlistdisplay>White on Black,Black on White,White on Gray,Black on Gray,Color on Black,Color on White,Color on Gray,Black on Color,White on Color,Gray on Color</paramlistdisplay>
     </parameter>
 </effect>

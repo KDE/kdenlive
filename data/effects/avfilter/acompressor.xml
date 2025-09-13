@@ -26,12 +26,12 @@
         <name>Knee</name>
     </parameter>
     <parameter type="list" name="av.link" default="0" paramlist="0;1">
-        <paramlistdisplay>Average,Maximum</paramlistdisplay>
         <name>Link Type</name>
+        <paramlistdisplay>Average,Maximum</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.detection" default="0" paramlist="0;1">
-        <paramlistdisplay>Peak,Rms</paramlistdisplay>
         <name>Detection</name>
+        <paramlistdisplay>Peak,Rms</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.level_sc" max="64" min="0.016" default="1" decimals="3">
         <name>Sidechain Gain</name>

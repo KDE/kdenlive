@@ -32,16 +32,16 @@
         <name>Padding</name>
     </parameter>
     <parameter type="list" name="halign" default="left" paramlist="left;centre;right">
-        <paramlistdisplay>Left,Center,Right</paramlistdisplay>
         <name>Horizontal Alignment</name>
+        <paramlistdisplay>Left,Center,Right</paramlistdisplay>
     </parameter>
     <parameter type="list" name="valign" default="top" paramlist="top;middle;bottom">
-        <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
         <name>Vertical Alignment</name>
+        <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
     </parameter>
     <parameter type="keywords" name="argument" default="#timecode#" paramlist="#timecode#;#frame#;#createdate#;#filedate#;#localfiledate#;#meta.media.0.stream.frame_rate#;#meta.media.0.codec.name#;#meta.media.0.codec.bit_rate#;#meta.media.width#;#meta.media.height#;#meta.attr.comment.markup#">
         <name>Text</name>
-        <paramlistdisplay>timecode,frame,creation date,file date (GMT),file date (local),source frame rate,source codec,source bit rate,source width,source height,source comment</paramlistdisplay>
         <comment>You can also enter strftime parameters to customize the output, like: #createdate %H:%M %D#</comment>
+        <paramlistdisplay>timecode,frame,creation date,file date (GMT),file date (local),source frame rate,source codec,source bit rate,source width,source height,source comment</paramlistdisplay>
     </parameter>
 </effect>

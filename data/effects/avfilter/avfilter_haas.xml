@@ -15,8 +15,8 @@ Note that this makes most sense to apply on mono signals. With this filter appli
         <name>Side gain</name>
     </parameter>
     <parameter type="list" name="av.middle_source" default="left" paramlist="left;right;mid;side">
-        <paramlistdisplay>left,right,mid,side</paramlistdisplay>
         <name>Middle source</name>
+        <paramlistdisplay>left,right,mid,side</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="av.middle_phase" default="0">
         <name>Middle phase</name>

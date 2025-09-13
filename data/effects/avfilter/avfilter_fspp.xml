@@ -5,8 +5,8 @@
     <description>Fast and simple postprocessing</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.quality" default="4" paramlist="4;5">
-        <paramlistdisplay>4,5</paramlistdisplay>
         <name>Quality</name>
+        <paramlistdisplay>4,5</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.qp" default="0" max="64" min="0">
         <name>Constant quantizer</name>

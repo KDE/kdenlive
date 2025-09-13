@@ -22,9 +22,9 @@
        	<comment><![CDATA[Length of the profile in pixel]]></comment>
     </parameter>
     <parameter type="list" name="Channel" default="0.5" paramlist="0;0.2;0.4;0.5;0.6;0.8;1">
-        <paramlistdisplay>R,G,B,Y',Pr,Pb,Alpha</paramlistdisplay>
         <name>Channel</name>
        	<comment><![CDATA[Channel to numerically display]]></comment>
+        <paramlistdisplay>R,G,B,Y',Pr,Pb,Alpha</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Marker 1" default="0" min="0" max="%width" factor="%width">
         <name>Marker 1</name>
@@ -83,9 +83,9 @@
        	<comment><![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]></comment>
     </parameter>
     <parameter type="list" name="Color" default="0" paramlist="0;1">
-        <paramlistdisplay>CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)</paramlistdisplay>
         <name>Color Encoding</name>
        	<comment><![CDATA[Select between interlaced (601) or progressive (709)]]></comment>
+        <paramlistdisplay>CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="Crosshair color" default="0" min="0" max="1000" factor="1000">
         <name>Crosshair Color</name>

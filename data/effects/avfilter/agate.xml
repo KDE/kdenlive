@@ -16,10 +16,10 @@
     <parameter type="constant" name="av.ratio" max="9000" min="1" default="1">
         <name>Ratio</name>
     </parameter>
-    <parameter type="constant" name="av.attack" max="9000" min="0.01" default="20" decimals="3" suffif="ms">
+    <parameter type="constant" name="av.attack" max="9000" min="0.01" default="20" decimals="3" suffix="ms">
         <name>Attack</name>
     </parameter>
-    <parameter type="constant" name="av.release" max="9000" min="0.01" default="250" decimals="3" suffif="ms">
+    <parameter type="constant" name="av.release" max="9000" min="0.01" default="250" decimals="3" suffix="ms">
         <name>Release</name>
     </parameter>
     <parameter type="constant" name="av.makeup" max="64" min="1" default="1">
@@ -29,11 +29,11 @@
         <name>Knee</name>
     </parameter>
     <parameter type="list" name="av.detection" default="0" paramlist="0;1">
-        <paramlistdisplay>Peak,Rms</paramlistdisplay>
         <name>Detection</name>
+        <paramlistdisplay>Peak,Rms</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.link" default="0" paramlist="0;1">
-        <paramlistdisplay>Average,Maximum</paramlistdisplay>
         <name>Link Type</name>
+        <paramlistdisplay>Average,Maximum</paramlistdisplay>
     </parameter>
 </effect>

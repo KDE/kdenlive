@@ -5,8 +5,8 @@
     <description>Draws a gradient on top of image. Filter is given gradient start and end points, colors and opacities.</description>
     <author>Janne Liljeblad</author>
     <parameter type="list" name="0" default="gradient_linear" paramlist="gradient_linear;gradient_radial">
-        <paramlistdisplay>Linear,Radial</paramlistdisplay>
         <name>Pattern</name>
+        <paramlistdisplay>Linear,Radial</paramlistdisplay>
     </parameter>
     <parameter type="color" name="1" default="#000000">
         <name>Start Color</name>
@@ -36,7 +36,7 @@
         <name>Offset</name>
     </parameter>
     <parameter type="list" name="10" default="1" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity">
-        <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
         <name>Blend Mode</name>
+        <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
     </parameter>
 </effect>

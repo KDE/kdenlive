@@ -23,9 +23,9 @@
        	<comment><![CDATA[Set block overlap]]></comment>
     </parameter>
     <parameter type="list" name="av.method" default="0" paramlist="0;1">
-        <paramlistdisplay>Wiener,Hard</paramlistdisplay>
         <name>Method</name>
        	<comment><![CDATA[Set denoising method]]></comment>
+        <paramlistdisplay>Wiener,Hard</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="av.prev" default="0">
         <name><![CDATA[Add <em>previous</em> frame<br>
@@ -36,7 +36,7 @@
         for temporal denoising]]></name>
     </parameter>
     <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
-        <paramlistdisplay>None,Y,U,YU,V,YV,UV,All</paramlistdisplay>
         <name>Planes</name>
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,All</paramlistdisplay>
     </parameter>
 </effect>

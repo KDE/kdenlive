@@ -5,9 +5,9 @@
     <description>Attempts to fill in zenith and nadir by stretching and blurring the image data. It samples a band of latitude near the start of the effect and stretches and blurs it over the pole.</description>
     <author>Leo Sutic</author>
     <parameter type="list" name="20" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
     	<comment><![CDATA[Determines the sampling method.]]></comment>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="0" default="0" min="0" max="1">
         <name>Top Enabled</name>

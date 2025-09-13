@@ -5,11 +5,11 @@
     <description>Deinterlace the input video "w3fdif" stands for Weston 3 Field Deinterlacing Filter</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.filter" default="complex" paramlist="simple;complex">
-        <paramlistdisplay>Simple,Complex</paramlistdisplay>
         <name>Filter coefficients</name>
+        <paramlistdisplay>Simple,Complex</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.deint" default="all" paramlist="all;interlaced">
-        <paramlistdisplay>Deinterlace all frames,Marked as interlaced only</paramlistdisplay>
         <name>Frames to deinterlace</name>
+        <paramlistdisplay>Deinterlace all frames,Marked as interlaced only</paramlistdisplay>
     </parameter>
 </effect>

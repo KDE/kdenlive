@@ -5,11 +5,11 @@
     <description>The waveform monitor plots color component intensity. By default luminance only. Each column of the waveform corresponds to a column of pixels in the source video. </description>
     <author>libavfilter</author>
     <parameter type="list" name="av.m" default="column" paramlist="row;column">
-        <paramlistdisplay>Row,Column</paramlistdisplay>
         <name>Mode</name>
        	<comment><![CDATA[In row mode, the graph on the left side represents<br>
        	color component value 0 and the right side represents value = 255.<br>
        	In column mode, the top side represents color component value = 0 and bottom side represents value = 255.]]></comment>
+        <paramlistdisplay>Row,Column</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.i" default="0.04" min="0" max="1" decimals="2">
         <name>Intensity</name>
@@ -22,43 +22,43 @@
        	on the left side for <em>row</em> mode and at the top for <em>column</em> mode.]]></comment>
     </parameter>
     <parameter type="list" name="av.d" default="stack" paramlist="overlay;stack;parade">
-        <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
         <name>Display</name>
        	<comment><![CDATA[Set the display mode]]></comment>
+        <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.c" default="7" paramlist="1;2;3;4;5;6;7">
-        <paramlistdisplay>Y,U,YU,V,YV,UV,All</paramlistdisplay>
         <name>Components</name>
        	<comment><![CDATA[Select the components to be displayed]]></comment>
+        <paramlistdisplay>Y,U,YU,V,YV,UV,All</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.e" default="none" paramlist="none;instant;peak;peak+instant">
-        <paramlistdisplay>None,Instant,Peak,Peak+Instant</paramlistdisplay>
         <name>Envelope</name>
        	<comment><![CDATA[Set the envelope mode]]></comment>
+        <paramlistdisplay>None,Instant,Peak,Peak+Instant</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.f" default="lowpass" paramlist="lowpass;flat;aflat;xflat;yflat;chroma;color;acolor">
-        <paramlistdisplay>Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor</paramlistdisplay>
         <name>Filter</name>
        	<comment><![CDATA[Set the filter mode]]></comment>
+        <paramlistdisplay>Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.g" default="green" paramlist="none;green;orange;invert">
-        <paramlistdisplay>None,Green,Orange,Invert</paramlistdisplay>
         <name>Graticule</name>
        	<comment><![CDATA[Set which graticule to display]]></comment>
+        <paramlistdisplay>None,Green,Orange,Invert</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.o" default="0.75" min="0" max="100" factor="100" suffix="%">
         <name>Graticule Opacity</name>
        	<comment><![CDATA[Set the opacity of the graticule]]></comment>
     </parameter>
     <parameter type="list" name="av.fl" default="numbers" paramlist="numbers;dots">
-        <paramlistdisplay>Show numbers,Draw dots</paramlistdisplay>
-       	<comment><![CDATA[Set graticule flags]]></comment>
         <name>Graticule Flags</name>
+       	<comment><![CDATA[Set graticule flags]]></comment>
+        <paramlistdisplay>Show numbers,Draw dots</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.s" default="digital" paramlist="digital;millivolts;ire">
-        <paramlistdisplay>Digital,Millivolts,IRE</paramlistdisplay>
         <name>Scale</name>
        	<comment><![CDATA[Set scale used for displaying graticule]]></comment>
+        <paramlistdisplay>Digital,Millivolts,IRE</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.b" default="0.75" min="0" max="100" factor="100" suffix="%">
         <name>Background Opacity</name>
@@ -75,13 +75,13 @@
        	is not overlay and input pixel formats are not RGB]]></comment>
     </parameter>
     <parameter type="list" name="av.fm" default="none" paramlist="none;size">
-        <paramlistdisplay>None,Size</paramlistdisplay>
         <name>Fit Mode</name>
        	<comment><![CDATA[Set the fit mode]]></comment>
+        <paramlistdisplay>None,Size</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.input" default="first" paramlist="first;all">
-        <paramlistdisplay>First available, All</paramlistdisplay>
         <name>Input Format</name>
        	<comment><![CDATA[Set input formats for filter to pick from]]></comment>
+        <paramlistdisplay>First available, All</paramlistdisplay>
     </parameter>
 </effect>

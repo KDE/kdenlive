@@ -6,9 +6,9 @@
     <author>libavfilter</author>
     <parameter type="list" name="av.colors" paramlist="r;y;g;c;b;m;a" default="r">
         <name>Colors to Adjust</name>
-        <paramlistdisplay>Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors</paramlistdisplay>
         <comment><![CDATA[Set which primary and<br>
         complementary colors are going to be adjusted]]></comment>
+        <paramlistdisplay>Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="av.hue" min="-180" max="180" default="0" decimals="1" suffix="°">
         <name>Hue Shift</name>

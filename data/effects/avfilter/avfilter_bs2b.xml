@@ -5,8 +5,8 @@
     <description>Bauer stereo to binaural transformation.</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.profile" default="default" paramlist="default;cmoy;jmeier">
-        <paramlistdisplay>Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan Meier circuit (fcut=650 feed=95)</paramlistdisplay>
         <name>Pre-defined crossfeed level</name>
+        <paramlistdisplay>Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan Meier circuit (fcut=650 feed=95)</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.fcut" default="700" min="0" max="2000" suffix="Hz">
         <name>Lowpass Cut frequency</name>

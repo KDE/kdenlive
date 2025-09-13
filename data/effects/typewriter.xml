@@ -14,7 +14,7 @@
         <name>Random Seed</name>
     </parameter>
     <parameter type="list" name="macro_type" default="1" paramlist="1;2;3;0">
-        <paramlistdisplay>Char by char,Word by word,Line by line,Custom macro</paramlistdisplay>
         <name>Macro type</name>
+        <paramlistdisplay>Char by char,Word by word,Line by line,Custom macro</paramlistdisplay>
     </parameter>
 </effect>

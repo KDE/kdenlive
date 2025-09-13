@@ -21,8 +21,8 @@
     	<comment><![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The <b>End</b> is the width in degrees where the matte is at 100%.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
     	<comment><![CDATA[Determines the sampling method.]]></comment>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

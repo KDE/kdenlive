@@ -5,16 +5,16 @@
     <description>Deinterleave or interleave fields</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.l" default="none" paramlist="none;d;i">
-        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
         <name>Luma Mode</name>
+        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.c" default="none" paramlist="none;d;i">
-        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
         <name>Chroma Mode</name>
+        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.a" default="none" paramlist="none;d;i">
-        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
         <name>Alpha Mode</name>
+        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="av.ls" default="0">
         <name>Swap Luma Fields</name>

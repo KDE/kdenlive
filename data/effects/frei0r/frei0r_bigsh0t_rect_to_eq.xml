@@ -11,7 +11,7 @@
         <name>Height</name>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

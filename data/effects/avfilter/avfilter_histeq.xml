@@ -11,7 +11,7 @@
         <name>Intensity</name>
     </parameter>
     <parameter type="list" name="av.antibanding" default="none" paramlist="none;weak;strong">
-        <paramlistdisplay>None,Weak,Strong</paramlistdisplay>
         <name>Antibanding Level</name>
+        <paramlistdisplay>None,Weak,Strong</paramlistdisplay>
     </parameter>
 </effect>

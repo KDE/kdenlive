@@ -29,7 +29,7 @@
         <name>Alpha Vertical Shift</name>
     </parameter>
     <parameter type="list" name="av.edge" default="smear" paramlist="smear;wrap">
-        <paramlistdisplay>Smear,Wrap</paramlistdisplay>
         <name>Edge Operation</name>
+        <paramlistdisplay>Smear,Wrap</paramlistdisplay>
     </parameter>
 </effect>

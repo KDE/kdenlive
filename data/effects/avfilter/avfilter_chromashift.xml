@@ -17,7 +17,7 @@
         <name>Red vertical shift</name>
     </parameter>
     <parameter type="list" name="av.edge" default="0" paramlist="0;1">
-        <paramlistdisplay>Smear,Wrap</paramlistdisplay>
         <name>Edge mode</name>
+        <paramlistdisplay>Smear,Wrap</paramlistdisplay>
     </parameter>
 </effect>

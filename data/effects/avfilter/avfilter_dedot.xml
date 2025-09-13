@@ -5,8 +5,8 @@
     <description>Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.m" paramlist="dotcrawl;rainbows" default="rainbows">
-        <paramlistdisplay>DotCrawl,Rainbows</paramlistdisplay>
         <name>color-reduction Mode</name>
+        <paramlistdisplay>DotCrawl,Rainbows</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.lt" default="0.079" max="1" min="0" decimals="3">
         <name>Spatial Luma threshold</name>

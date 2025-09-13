@@ -20,8 +20,8 @@
     	(clockwise or anticlockwise rotation along the axis of movement).]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
     	<comment><![CDATA[Determines the sampling method.]]></comment>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

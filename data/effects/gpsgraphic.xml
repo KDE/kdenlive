@@ -24,12 +24,11 @@
         Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage.]]></comment>
     </parameter>
     <parameter type="list" name="graph_data_source" paramlist="0;1;2;3" default="0">
-    	<paramlistdisplay>GPS location/track,Altitude,Heart rate,Speed</paramlistdisplay>
     	<name>Graph data source</name>
     	<comment>What data from the GPS file is used for drawing</comment>
+        <paramlistdisplay>GPS location/track,Altitude,Heart rate,Speed</paramlistdisplay>
     </parameter>
     <parameter type="list" name="graph_type" paramlist="0;1;2" default="0">
-    	<paramlistdisplay>Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto the map/graph centered on current location,Draw speedometer</paramlistdisplay>
     	<name>Graph type</name>
     	<comment><![CDATA[<b>Speedometer</b> is available for all data sources but recommended only for speed; for the map type it represents the "percentage done" from trimmed start - end).<br>
 Note: for type 1 (zoom and center, aka "follow the dot"):<br>
@@ -39,6 +38,7 @@ keep the dot centered)<br>
 * if data source is not GPS location, the centering will only be done for horizontal axis
 (time), vertical axis crop will behave just like for the basic 2D map line (it will statically keep
 the same min/max limit allowing the Now dot to move up and down).]]></comment>
+        <paramlistdisplay>Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto the map/graph centered on current location,Draw speedometer</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="trim_start_p" min="0" max="100" default="0">
     	<name>Trim start (%)</name>
@@ -51,11 +51,11 @@ the same min/max limit allowing the Now dot to move up and down).]]></comment>
     	Note: both <em>Trim start</em> and <em>Trim end</em> are computed from the total file, so trimming 50% start and 50% end will result in trimming the entire file.]]></comment>
     </parameter>
     <parameter type="list" name="crop_mode_h" default="0" paramlist="0;1">
-    	<paramlistdisplay>Percentage from min..max,Absolute value</paramlistdisplay>
     	<name>Crop mode horizontal</name>
     	<comment><![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</em> values.<br>
     	Note: for the horizontal type, absolute values are the longitude (for the location
 source type) and time (in milliseconds since epoch) for the rest of the data source types)]]></comment>
+        <paramlistdisplay>Percentage from min..max,Absolute value</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="crop_left_p" min="-200" max="200" default="0">
     	<name>Crop left</name>
@@ -67,7 +67,6 @@ source type) and time (in milliseconds since epoch) for the rest of the data sou
     	<comment><![CDATA[Same as <em>Crop left</em> but for the right side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything). Values under 0 will effectively not display anything.]]></comment>
     </parameter>
     <parameter type="list" name="crop_mode_v" default="0" paramlist="0;1">
-    	<paramlistdisplay>Percentage from min..max,Absolute value</paramlistdisplay>
     	<name>Crop mode vertical</name>
     	<comment><![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</em> values.<br/>
     	With an absolute value, it can zoom in to between 100 and 150m of altitude to show
@@ -76,6 +75,7 @@ Note: for the vertical type, absolute values are latitude degrees (for the locat
 source type) and altitude, heart rate, speed for the others interpreted as the <em>Legend unit</em>
 type where applicable (ie: a value of 10 for altitude will be considered meters by default
 but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
+        <paramlistdisplay>Percentage from min..max,Absolute value</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="crop_bot_p" min="-200" max="200" default="0">
     	<name>Crop bottom</name>
@@ -88,9 +88,9 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     	Values under 0 will effectively not display anything.]]></comment>
     </parameter>
     <parameter type="list" name="color_style" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12">
-    	<paramlistdisplay>One color,Two colors,Solid past - thin future,Solid future - thin past,Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by grade (max 90 degrees),Color by grade (max 20 degrees)</paramlistdisplay>
     	<name>Graph color style</name>
     	<comment>See the documentation about the various styles available</comment>
+        <paramlistdisplay>One color,Two colors,Solid past - thin future,Solid future - thin past,Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by grade (max 90 degrees),Color by grade (max 20 degrees)</paramlistdisplay>
     </parameter>
     <parameter type="fixedcolor" name="color.1" default="#ff00aaff">
     	<name>Color 1</name>
@@ -141,9 +141,9 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     </parameter>
     <parameter type="keywords" name="legend_unit" default="m" paramlist="m;meter;km;kilometer;mi;mile;ft;feet;nm;nautical;ms;m/ss;meter;km/h;mi/h;ft/s;kn;nm/h;knots;mmin;m/min;ftmin;ft/min">
         <name>Legend unit</name>
-        <paramlistdisplay>m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,mmin,m/min,ftmin,ft/min</paramlistdisplay>
         <comment><![CDATA[Sets the unit to be used for displaying values of type altitude and speed.<br>
         Default is meters and km/h respectively. The unit is matched anywhere in the string so extra spaces can be used to tweak displaying.]]></comment>
+        <paramlistdisplay>m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,mmin,m/min,ftmin,ft/min</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="draw_individual_dots" min="0" max="1" default="0">
     	<name>Show dots only</name>

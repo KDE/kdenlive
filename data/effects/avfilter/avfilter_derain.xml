@@ -5,8 +5,8 @@
     <description>Remove the rain in the input image/video by applying the derain methods based on convolutional neural networks</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.dnn_backend" default="native" paramlist="native;tensorflow">
-        <paramlistdisplay>Native,Tensorflow</paramlistdisplay>
         <name>DNN Backend</name>
+        <paramlistdisplay>Native,Tensorflow</paramlistdisplay>
     </parameter>
     <parameter type="url" name="av.model">
         <name>Load model</name>

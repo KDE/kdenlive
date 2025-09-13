@@ -25,8 +25,8 @@
     	<comment><![CDATA[Define the transparency at the bottom of the gradient.]]></comment>
     </parameter>
     <parameter type="list" name="Operation" default="0" paramlist="0;0.3;0.5;0.7;1">
-        <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
         <name>Operation</name>
     	<comment><![CDATA[Define the alpha operation for compositing.]]></comment>
+        <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
     </parameter>
 </effect>

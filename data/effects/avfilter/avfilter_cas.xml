@@ -9,7 +9,7 @@
         <comment>Set the sharpening strength.</comment>
     </parameter>
     <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
-        <paramlistdisplay>Alpha,Y,U,V,Red,Green,Blue,All</paramlistdisplay>
         <name>Planes</name>
+        <paramlistdisplay>Alpha,Y,U,V,Red,Green,Blue,All</paramlistdisplay>
     </parameter>
 </effect>

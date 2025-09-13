@@ -5,9 +5,9 @@
     <description>Stretches a section of the equirectangular panorama to cover the entire VR sphere</description>
     <author>Leo Sutic</author>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
-    	<comment><![CDATA[Determines the sampling method]]></comment>
+        <comment><![CDATA[Determines the sampling method]]></comment>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="0" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
         <name>Top</name>

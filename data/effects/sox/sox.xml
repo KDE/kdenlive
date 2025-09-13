@@ -5,8 +5,8 @@
     <description>Process audio using a SoX effect</description>
     <author>Dan Dennedy</author>
     <parameter type="list" name="effect" default="analysis" paramlist="analysis;apply">
-        <paramlistdisplay>Analysis,Apply</paramlistdisplay>
         <name>Effect</name>
+        <paramlistdisplay>Analysis,Apply</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="analysis_level" max="1" min="-60" default="-12" decimals="1" suffix="dB">
         <name>Normalization level </name>

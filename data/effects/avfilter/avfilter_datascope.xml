@@ -5,8 +5,8 @@
     <description>Video data analysis</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.s" default="hd720" paramlist="sqcif;film;pal;ntsc;hd480;hd720;hd1080;2k;4k">
-        <paramlistdisplay>128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K</paramlistdisplay>
         <name>Size</name>
+        <paramlistdisplay>128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.x" max="%width" min="0" default="0" factor="1">
         <name>X offset</name>
@@ -15,12 +15,12 @@
         <name>Y offset</name>
     </parameter>
     <parameter type="list" name="av.components" default="7" paramlist="0;1;2;3;4;5;6;7;8">
-        <paramlistdisplay>None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,Alpha</paramlistdisplay>
         <name>Components</name>
+        <paramlistdisplay>None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,Alpha</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.m" default="mono" paramlist="mono;color;color2">
-        <paramlistdisplay>Mono,Color,Color2</paramlistdisplay>
         <name>Mode</name>
+        <paramlistdisplay>Mono,Color,Color2</paramlistdisplay>
     </parameter>
     <parameter type="bool" name="av.axis" default="0" min="0" max="1">
         <name>Show Axis</name>
@@ -29,7 +29,7 @@
         <name>Opacity</name>
     </parameter>
     <parameter type="list" name="av.f" default="hex" paramlist="hex;dec">
-        <paramlistdisplay>Hex,Dec</paramlistdisplay>
         <name>Format</name>
+        <paramlistdisplay>Hex,Dec</paramlistdisplay>
     </parameter>
 </effect>

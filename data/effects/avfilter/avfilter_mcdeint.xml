@@ -5,12 +5,12 @@
     <description>Apply motion-compensation deinterlacing</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.mode" default="medium" paramlist="fast;medium;slow;extra_slow">
-        <paramlistdisplay>Fast,Medium,Slow,Extra slow</paramlistdisplay>
         <name>Mode</name>
+        <paramlistdisplay>Fast,Medium,Slow,Extra slow</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.parity" default="bff" paramlist="tff;bff">
-        <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
         <name>Picture field parity</name>
+        <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.qp" default="1" min="0" max="10" factor="1">
         <name>QP</name>

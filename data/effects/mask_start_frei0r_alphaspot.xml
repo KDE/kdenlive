@@ -5,8 +5,8 @@
     <description>This filter makes a snapshot of the frame before it draws simple shapes into the alpha channel. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
     <author>Marko Cebokli, Dan Dennedy</author>
     <parameter type="list" name="filter.Shape" default="0" paramlist="0;0.38;0.62;1">
-        <paramlistdisplay>Rectangle,Ellipse,Triangle,Diamond</paramlistdisplay>
         <name>Shape</name>
+        <paramlistdisplay>Rectangle,Ellipse,Triangle,Diamond</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="filter.Position X" default="0.5" min="-500" max="1500" factor="1000">
         <name>Position X</name>
@@ -33,7 +33,7 @@
         <name>Max</name>
     </parameter>
     <parameter type="list" name="filter.Operation" default="0" paramlist="0;0.3;0.5;0.7;1">
-        <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
         <name>Operation</name>
+        <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
     </parameter>
 </effect>
