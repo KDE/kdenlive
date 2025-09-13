@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
         <name>Chroma Key: Advanced (Color Selection)</name>
         <description>Chroma Key with more advanced options (e.g. different color models). Use if basic chroma key is not working effectively.</description>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="dropshadow" id="dropshadow">
+<effect xmlns="https://www.kdenlive.org" tag="dropshadow" id="dropshadow">
     <name>Drop Shadow</name>
     <description>Create a shadow effect from the alpha channel</description>
     <author>Meltytech, LLC</author>

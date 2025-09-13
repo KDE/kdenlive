@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.levels" id="frei0r.levels">
         <name context="Levels Effect Name">Levels</name>
         <description>Adjust levels</description>

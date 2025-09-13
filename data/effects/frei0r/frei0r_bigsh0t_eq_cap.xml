@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_eq_cap" id="frei0r.bigsh0t_eq_cap">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_eq_cap" id="frei0r.bigsh0t_eq_cap">
     <name>VR360 Cap Top and Bottom</name>
     <description>Attempts to fill in zenith and nadir by stretching and blurring the image data. It samples a band of latitude near the start of the effect and stretches and blurs it over the pole.</description>
     <author>Leo Sutic</author>

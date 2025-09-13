@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.epx" id="avfilter.epx">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.epx" id="avfilter.epx">
     <name>EPX Scaler</name>
     <description>Scale the input using EPX algorithm.</description>
     <author>libavfilter</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="audiospectrum" id="audiospectrum">
         <name>Audio Spectrum Filter</name>
         <description>An audio visualization filter that draws an audio spectrum on the image.</description>

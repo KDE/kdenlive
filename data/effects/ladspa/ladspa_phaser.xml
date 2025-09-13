@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="phasers_1217.so" id="phaser" ladspaid="1217" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="phasers_1217.so" id="phaser" ladspaid="1217" type="audio">
     <name>Phaser</name>
     <description>LADSPA phaser audio effect</description>
     <author>http://www.ladspa.org</author>

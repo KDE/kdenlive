@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.sab" id="avfilter.sab">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.sab" id="avfilter.sab">
     <name>Shape Adaptive Blur</name>
     <description>Shape Adaptive Blur</description>
     <author>libavfilter</author>

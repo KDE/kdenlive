@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.colorize" id="frei0r.colorize">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.colorize" id="frei0r.colorize">
     <name context="Colorize Effect Name">Colorize</name>
     <description>Colorizes image to selected hue, saturation and lightness</description>
     <author>Janne Liljeblad</author>

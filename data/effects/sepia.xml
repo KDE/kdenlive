@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sepia" id="sepia">
+<effect xmlns="https://www.kdenlive.org" tag="sepia" id="sepia">
     <name context="Sepia Effect Name">Sepia</name>
     <description>Turn clip colors to sepia</description>
     <author>Charles Yates</author>

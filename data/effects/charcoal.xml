@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="charcoal" id="charcoal">
+<effect xmlns="https://www.kdenlive.org" tag="charcoal" id="charcoal">
     <name>Charcoal</name>
     <description>Charcoal drawing effect</description>
     <author>Charles Yates</author>

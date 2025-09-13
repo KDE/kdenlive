@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.apulsator" id="avfilter.apulsator" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.apulsator" id="avfilter.apulsator" type="audio">
     <name>Pulsator</name>
     <description> Audio pulsator.</description>
     <author>libavfilter</author>

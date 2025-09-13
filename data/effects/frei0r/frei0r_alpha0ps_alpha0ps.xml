@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.alpha0ps_alpha0ps" id="frei0r.alpha0ps_alpha0ps" version="0.4">
+<effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.alpha0ps_alpha0ps" id="frei0r.alpha0ps_alpha0ps" version="0.4">
     <name>Alpha Operations</name>
     <description>Display and manipulation of the alpha channel</description>
     <author>Marko Cebokli</author>

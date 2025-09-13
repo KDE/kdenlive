@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_eq_to_stereo" id="frei0r.bigsh0t_eq_to_stereo">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_eq_to_stereo" id="frei0r.bigsh0t_eq_to_stereo">
     <name>VR360 Equirectangular to Stereo</name>
     <description>Projects a stereographic image from an equirectangular. Use this to create the little planet effect from a VR360 footage.</description>
     <author>Leo Sutic</author>

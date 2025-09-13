@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.mirr0r" id="frei0r.mirr0r" type="video">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.mirr0r" id="frei0r.mirr0r" type="video">
   <name>Mirr0r</name>
   <description>Repeats and flips the input image when it goes out of bounds, allowing for adjustable offset, zoom and rotation.</description>
   <author>Johann JEG</author>

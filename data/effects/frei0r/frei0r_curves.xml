@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.curves" id="frei0r.curves">
         <name context="Curves Effect Name">Curves</name>
         <description>Color curves adjustment</description>

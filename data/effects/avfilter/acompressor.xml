@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.acompressor" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.acompressor" type="audio">
     <name>Compressor (avfilter)</name>
     <description>Audio Compressor</description>
     <author>libavfilter</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="qtcrop" id="qtcrop" type="video">
+<effect xmlns="https://www.kdenlive.org" tag="qtcrop" id="qtcrop" type="video">
     <name>Crop by Padding</name>
     <description>This filter crops the image to a rounded rectangle or circle by padding it with a color.</description>
     <author>Dan Dennedy</author>

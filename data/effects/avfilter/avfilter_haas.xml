@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.haas" id="avfilter.haas" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.haas" id="avfilter.haas" type="audio">
     <name>Haas Stereo Enhancer</name>
     <description>Apply Haas effect to audio.
 Note that this makes most sense to apply on mono signals. With this filter applied to mono signals it give some directionality and stretches its stereo image.</description>

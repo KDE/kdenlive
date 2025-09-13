@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.agate" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.agate" type="audio">
     <name>Gate (avfilter)</name>
     <description>Audio Gate</description>
     <author>libavfilter</author>

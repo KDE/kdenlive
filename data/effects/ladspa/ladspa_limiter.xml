@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="fast_lookahead_limiter_1913.so" id="limiter" ladspaid="1913" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="fast_lookahead_limiter_1913.so" id="limiter" ladspaid="1913" type="audio">
     <name context="Limiter Effect Name">Limiter</name>
     <description>LADSPA limiter audio effect</description>
     <author>http://www.ladspa.org</author>

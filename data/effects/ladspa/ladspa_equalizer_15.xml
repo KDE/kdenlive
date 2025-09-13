@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="mbeq_1197.so" id="equalizer_15" ladspaid="1197" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="mbeq_1197.so" id="equalizer_15" ladspaid="1197" type="audio">
     <name>15 Band Equalizer</name>
     <description>LADSPA equalizer audio effect (15 band)</description>
     <author>http://www.ladspa.org</author>

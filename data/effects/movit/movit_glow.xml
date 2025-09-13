@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="movit.glow" id="movit.glow">
+<effect xmlns="https://www.kdenlive.org" tag="movit.glow" id="movit.glow">
     <name>Glow (GPU)</name>
     <author>Steinar H. Gunderson</author>
     <parameter type="animated" name="radius" default="20" min="0" max="1000" factor="10">

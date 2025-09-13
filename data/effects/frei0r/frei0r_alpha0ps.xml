@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect LC_NUMERIC="C" tag="frei0r.alpha0ps" id="frei0r.alpha0ps">
         <name>Alpha Operations (SUPERCEDED)</name>
         <description><![CDATA[Display and manipulation of the alpha channel.<br>

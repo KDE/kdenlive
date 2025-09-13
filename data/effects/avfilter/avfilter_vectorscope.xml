@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.vectorscope" id="avfilter.vectorscope">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.vectorscope" id="avfilter.vectorscope">
     <name>Vectorscope (advanced)</name>
     <description>Display 2 color component values in a two dimensional graph</description>
     <author>libavfilter</author>

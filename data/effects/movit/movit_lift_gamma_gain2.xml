@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="movit.lift_gamma_gain" id="movit.lift_gamma_gain2">
+<effect xmlns="https://www.kdenlive.org" tag="movit.lift_gamma_gain" id="movit.lift_gamma_gain2">
     <name>Movit: Lift/gamma/gain (colors)</name>
     <author>Steinar H. Gunderson</author>
     <parameter type="colorwheel" name="lift_r" default="0" min="0" max="500" factor="100">

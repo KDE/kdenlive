@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colormatrix" id="avfilter.colormatrix">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colormatrix" id="avfilter.colormatrix">
     <name>Color Matrix</name>
     <description>Convert color matrix.</description>
     <author>libavfilter</author>

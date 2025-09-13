@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="channelcopy" id="channelcopy" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="channelcopy" id="channelcopy" type="audio">
     <name>Stereo to mono</name>
     <description>Copy one channel to another</description>
     <author>Dan Dennedy</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.gblur" id="avfilter.gblur">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.gblur" id="avfilter.gblur">
     <name>Gaussian Blur</name>
     <description>Apply Gaussian Blur filter</description>
     <author>libavfilter</author>

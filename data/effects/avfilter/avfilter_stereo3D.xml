@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.stereo3d" id="avfilter.stereo3d">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.stereo3d" id="avfilter.stereo3d">
     <name>Stereoscopic 3D</name>
     <description>Convert between different stereoscopic image formats. </description>
     <author>libavfilter</author>

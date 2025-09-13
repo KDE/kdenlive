@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="dynamic_loudness" id="dynamic_loudness" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="dynamic_loudness" id="dynamic_loudness" type="audio">
     <name context="Normalize Effect Name">Normalize</name>
     <description>Dynamically correct audio loudness as recommended by EBU R128</description>
     <author>Brian Matherly</author>

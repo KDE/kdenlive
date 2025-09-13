@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="chroma" id="chroma">
+<effect xmlns="https://www.kdenlive.org" tag="chroma" id="chroma">
     <name>Chroma Key: Basic</name>
     <description>Make selected color transparent</description>
     <author>Charles Yates</author>

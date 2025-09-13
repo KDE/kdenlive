@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.scharr" id="avfilter.scharr">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.scharr" id="avfilter.scharr">
     <name>Scharr</name>
     <description>Apply Scharr operators for edge detection</description>
     <author>avfilter</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="mono" id="mono" type="audio" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="mono" id="mono" type="audio" unique="1">
     <name>Mixdown</name>
     <description>Mix all channels of audio into a mono signal and output it as N channels</description>
     <author>Dan Dennedy</author>

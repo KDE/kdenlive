@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox_gain" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="sox" id="sox_gain" type="audio">
     <name>Sox Gain</name>
     <description>Sox gain audio effect</description>
     <author>http://sox.sourceforge.net</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.hqx" id="avfilter.hqx">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.hqx" id="avfilter.hqx">
     <name>Hq*x Interpolator</name>
     <description>Apply a high-quality magnification filter designed for pixel art. Scaling is done by 2, 3 or 4 using the hq*x magnification algorithm.</description>
     <author>libavfilter</author>

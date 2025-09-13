@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_hemi_to_eq" id="frei0r.bigsh0t_hemi_to_eq">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_hemi_to_eq" id="frei0r.bigsh0t_hemi_to_eq">
     <name>VR360 Hemispherical to Equirectangular</name>
     <description>Converts a video frame with two hemispherical images to a single equirectangular frame. The plugin assumes that both hemispheres are in the frame</description>
     <author>Leo Sutic</author>

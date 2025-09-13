@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="dynamictext" id="dynamictext">
+<effect xmlns="https://www.kdenlive.org" tag="dynamictext" id="dynamictext">
     <name>Dynamic Text</name>
     <description>Overlay text with keywords replaced</description>
     <author>Brian Matherly</author>

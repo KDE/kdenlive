@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="hslprimaries" id="hslprimaries">
+<effect xmlns="https://www.kdenlive.org" tag="hslprimaries" id="hslprimaries">
     <name>HSL Primaries</name>
     <description>Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary colors.</description>
     <author>Meltytech, LLC</author>

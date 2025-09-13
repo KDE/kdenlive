@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.compensationdelay" id="avfilter.compensationdelay" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.compensationdelay" id="avfilter.compensationdelay" type="audio">
     <name>Compensation Delay</name>
     <description>Compensation Delay Line is a metric based delay to compensate differing positions of microphones or speakers.
 For example, you have recorded guitar with two microphones placed in different locations. Because the front of sound wave has fixed speed in normal conditions, the phasing of microphones can vary and depends on their location and interposition. The best sound mix can be achieved when these microphones are in phase (synchronized). Note that a distance of ~30 cm between microphones makes one microphone capture the signal in antiphase to the other microphone. That makes the final mix sound moody. This filter helps to solve phasing problems by adding different delays to each microphone track and make them synchronized.

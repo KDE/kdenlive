@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="typewriter" id="typewriter" type="text" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="typewriter" id="typewriter" type="text" unique="1">
     <name>TypeWriter (for title clips)</name>
     <description>Typewriter effect v0.3.3 To be applied on title clips only.</description>
     <author>Rafal Lalik</author>

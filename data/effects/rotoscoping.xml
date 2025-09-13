@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="rotoscoping" id="rotoscoping">
+<effect xmlns="https://www.kdenlive.org" tag="rotoscoping" id="rotoscoping">
     <name>Rotoscoping</name>
     <description>Keyframable vector based rotoscoping</description>
     <author>Till Theato</author>

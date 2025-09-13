@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.fftdnoiz" id="avfilter.fftdnoiz">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.fftdnoiz" id="avfilter.fftdnoiz">
     <name>3D FFT Denoiser</name>
     <description>Denoise frames using 3D FFT (frequency domain filtering)</description>
     <author>libavfilter</author>

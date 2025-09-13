@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox" type="hidden">
+<effect xmlns="https://www.kdenlive.org" tag="sox" id="sox" type="hidden">
     <name>SoX</name>
     <description>Process audio using a SoX effect</description>
     <author>Dan Dennedy</author>

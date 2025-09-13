@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_eq_mask" id="frei0r.bigsh0t_eq_mask">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_eq_mask" id="frei0r.bigsh0t_eq_mask">
     <name>VR360 Equirectangular Mask</name>
     <description>Adds a black matte to the frame. Use this if you filmed using a 360 camera but only want to use part of the 360 image - for example if you and the film crew occupy the 90 degrees behind the camera.</description>
     <author>Leo Sutic</author>

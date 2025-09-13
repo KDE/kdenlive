@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.deesser" id="avfilter.deesser" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.deesser" id="avfilter.deesser" type="audio">
     <name>Deesser</name>
     <description>Apply de-essing to the audio samples.</description>
     <author>libavfilter</author>

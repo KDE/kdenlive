@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="qtblend" id="qtblend">
         <name context="Qtblend Transform Effect Name">Transform</name>
         <description>Position, scale and opacity.</description>

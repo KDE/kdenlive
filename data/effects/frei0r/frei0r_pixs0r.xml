@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.pixs0r" id="frei0r.pixs0r">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.pixs0r" id="frei0r.pixs0r">
     <name>Glitching (rows only)</name>
     <description>Glitch image by shifting rows to and fro.</description>
     <author>Gephex crew</author>

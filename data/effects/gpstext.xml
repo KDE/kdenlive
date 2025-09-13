@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="gpstext" id="gpstext">
+<effect xmlns="https://www.kdenlive.org" tag="gpstext" id="gpstext">
     <name>GPS Text</name>
     <description>Overlay GPS-related text onto the video.</description>
     <author>Daniel F</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.vibrato" id="avfilter.vibrato" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.vibrato" id="avfilter.vibrato" type="audio">
     <name>Vibrato</name>
     <description>Vibrato effect.</description>
     <author>libavfilter</author>

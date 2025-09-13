@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.vertigo" id="frei0r.vertigo">
         <name>Vertigo</name>
         <description>Alpha blending with zoomed and rotated images</description>

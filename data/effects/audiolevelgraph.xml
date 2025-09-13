@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="audiolevelgraph" id="audiolevelgraph" type="video">
+<effect xmlns="https://www.kdenlive.org" tag="audiolevelgraph" id="audiolevelgraph" type="video">
     <name>Audio Level Visualization Filter</name>
     <author>Meltytech, LLC</author>
     <description>An audio visualization filter that draws an audio level meter on the image.</description>

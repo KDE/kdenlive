@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.squareblur" id="frei0r.squareblur">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.squareblur" id="frei0r.squareblur">
     <name>Square Blur</name>
     <description>Square blur</description>
     <author>Drone</author>

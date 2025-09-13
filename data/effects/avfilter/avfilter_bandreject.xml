@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.bandreject" id="avfilter.bandreject" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.bandreject" id="avfilter.bandreject" type="audio">
     <name>Band-Reject</name>
     <description>Apply a two-pole Butterworth band-reject filter with central frequency frequency, and (3dB-point) band-width width. The filter roll off at 6dB per octave (20dB per decade).</description>
     <author>libavfilter</author>

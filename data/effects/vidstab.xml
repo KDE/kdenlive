@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="vidstab" id="vidstab" type="hidden" version="0.2">
+<effect xmlns="https://www.kdenlive.org" tag="vidstab" id="vidstab" type="hidden" version="0.2">
     <name context="Stabilize Effect Name">Stabilize</name>
     <description>Stabilize Video (for wiggly/rolling video)</description>
     <author>Marco Gittler</author>

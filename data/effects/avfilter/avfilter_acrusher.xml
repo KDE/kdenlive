@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.acrusher" id="avfilter.acrusher" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.acrusher" id="avfilter.acrusher" type="audio">
     <name>Crusher</name>
     <description>Reduce audio bit resolution.</description>
     <author>libavfilter</author>

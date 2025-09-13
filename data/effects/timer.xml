@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="timer" id="timer">
+<effect xmlns="https://www.kdenlive.org" tag="timer" id="timer">
     <name>Timer</name>
     <description>Overlay a timer onto the video</description>
     <author>Guillaume Papin</author>

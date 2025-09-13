@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <!--    
-    <effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+    <effect xmlns="https://www.kdenlive.org" tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
     <name>Video grid</name>
     <description>Create a video Grid</description>
     <author>Janne Liljeblad</author>
@@ -13,7 +13,7 @@
     </parameter>
 </effect>
 -->
-<effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
     <name>Video grid</name>
     <description>Create a video grid</description>
     <author>Janne Liljeblad</author>
@@ -25,7 +25,7 @@
     </parameter>
 </effect>
 <!--
-<effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
     <name>Video grid</name>
     <description>Create a video grid</description>
     <author>Janne Liljeblad</author>

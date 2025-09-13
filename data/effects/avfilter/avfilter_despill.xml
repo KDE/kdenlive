@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.despill" id="avfilter.despill">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.despill" id="avfilter.despill">
     <name>Despill</name>
     <description>Remove unwanted contamination of foreground colors, caused by reflected color of greenscreen or bluescreen</description>
     <author>libavfilter</author>

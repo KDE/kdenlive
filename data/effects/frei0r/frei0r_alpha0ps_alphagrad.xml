@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.alpha0ps_alphagrad" id="frei0r.alpha0ps_alphagrad">
+<effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.alpha0ps_alphagrad" id="frei0r.alpha0ps_alphagrad">
     <name>Alpha Gradient</name>
     <description>Fill the alpha channel with a specified gradient</description>
     <author>Marko Cebokli</author>

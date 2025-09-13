@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="shape" id="shape">
+<effect xmlns="https://www.kdenlive.org" tag="shape" id="shape">
     <name>Shape Alpha</name>
     <description>Create an alpha channel (transparency) based on another resource</description>
     <author>Charles Yates</author>

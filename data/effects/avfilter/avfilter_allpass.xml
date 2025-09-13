@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.allpass" id="avfilter.allpass" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.allpass" id="avfilter.allpass" type="audio">
     <name>Allpass</name>
     <description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. An all-pass filter changes the audio’s frequency to phase relationship without changing its frequency to amplitude relationship.</description>
     <author>libavfilter</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.datascope" id="avfilter.datascope">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.datascope" id="avfilter.datascope">
     <name>Data Scope</name>
     <description>Video data analysis</description>
     <author>libavfilter</author>

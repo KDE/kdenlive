@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.ciescope" id="avfilter.ciescope">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.ciescope" id="avfilter.ciescope">
     <name>CIE Scope</name>
     <description>Display CIE color diagram with pixels overlaid onto it</description>
     <author>libavfilter</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.highpass" id="avfilter.highpass" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.highpass" id="avfilter.highpass" type="audio">
     <name>High-pass</name>
     <description>Apply a high-pass filter with 3dB point frequency.</description>
     <author>libavfilter</author>

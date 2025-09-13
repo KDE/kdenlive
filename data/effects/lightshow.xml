@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="lightshow" id="lightshow">
+<effect xmlns="https://www.kdenlive.org" tag="lightshow" id="lightshow">
     <name>Light Show</name>
     <description>An audio visualization filter that colors the image proportional to the magnitude of the audio spectrum.</description>
     <author>Brian Matherly</author>

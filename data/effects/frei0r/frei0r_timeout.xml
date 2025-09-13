@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.timeout" id="frei0r.timeout">
         <name>Timeout Indicator</name>
         <author>Simon A. Eugster (Granjow)</author>

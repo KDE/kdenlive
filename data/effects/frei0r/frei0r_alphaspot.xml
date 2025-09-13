@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.alphaspot" id="frei0r.alphaspot">
+<effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.alphaspot" id="frei0r.alphaspot">
     <name>Alpha Shapes (SUPERCEDED)</name>
     <description><![CDATA[Draws simple shapes into the alpha channel.<br>
     This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]></description>

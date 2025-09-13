@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox_pitch" type="hidden">
+<effect xmlns="https://www.kdenlive.org" tag="sox" id="sox_pitch" type="hidden">
     <name>Sox Pitch Shift</name>
     <description>Sox change pitch audio effect</description>
     <author>http://sox.sourceforge.net</author>

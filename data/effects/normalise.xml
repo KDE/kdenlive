@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="volume" id="normalise" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="volume" id="normalise" type="audio">
     <name>Normalise (deprecated)</name>
     <description>Dynamically normalise the audio volume</description>
     <author>Dan Dennedy</author>

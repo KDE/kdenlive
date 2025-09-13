@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.tint0r" id="frei0r.tint0r">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.tint0r" id="frei0r.tint0r">
     <name context="Tint Effect Name">Tint</name>
     <description>Maps source image luminance between two colors specified</description>
     <author>Maksim Golovkin</author>

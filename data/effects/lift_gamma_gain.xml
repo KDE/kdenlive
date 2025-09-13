@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="lift_gamma_gain" id="lift_gamma_gain">
+<effect xmlns="https://www.kdenlive.org" tag="lift_gamma_gain" id="lift_gamma_gain">
     <name>Lift/gamma/gain</name>
     <author>Brian Matherly</author>
     <parameter type="colorwheel" name="lift_r" default="0" min="0" max="500" factor="100">

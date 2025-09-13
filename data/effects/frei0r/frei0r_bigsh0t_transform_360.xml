@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_transform_360" id="frei0r.bigsh0t_transform_360">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_transform_360" id="frei0r.bigsh0t_transform_360">
     <name>VR360 Transform</name>
     <description>Rotates a panoramic image</description>
     <author>Leo Sutic</author>

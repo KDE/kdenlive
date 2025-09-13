@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.sobel" id="avfilter.sobel">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.sobel" id="avfilter.sobel">
     <name>Sobel with planes</name>
     <description>Apply sobel operator to input video stream.</description>
     <author>libavfilter</author>

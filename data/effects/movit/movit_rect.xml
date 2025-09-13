@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="movit.rect" id="movit.rect">
+<effect xmlns="https://www.kdenlive.org" tag="movit.rect" id="movit.rect">
     <name>Pan and Zoom (GPU)</name>
     <author>Steinar H. Gunderson</author>
     <parameter type="animatedrect" name="rect" default="0 0 %width %height" opacity="false">

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.sr" id="avfilter.sr">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.sr" id="avfilter.sr">
     <name>AI Super resolution</name>
     <description>Scale the input by applying one of the super-resolution methods based on convolutional neural networks. </description>
     <author>libavfilter</author>

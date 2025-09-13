@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colorize" id="avfilter.colorize">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colorize" id="avfilter.colorize">
     <name>Color Overlay</name>
     <description>Overlay a solid color on the video stream with mixing feature.</description>
     <author>libavfilter</author>

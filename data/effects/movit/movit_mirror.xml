@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="movit.mirror" id="movit.mirror">
+<effect xmlns="https://www.kdenlive.org" tag="movit.mirror" id="movit.mirror">
     <name>Mirror (GPU)</name>
     <author>Steinar H. Gunderson</author>
 </effect>

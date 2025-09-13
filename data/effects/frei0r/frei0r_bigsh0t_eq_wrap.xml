@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_eq_wrap" id="frei0r.bigsh0t_eq_wrap">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_eq_wrap" id="frei0r.bigsh0t_eq_wrap">
     <name>VR360 Wrap</name>
     <description>Stretches a section of the equirectangular panorama to cover the entire VR sphere</description>
     <author>Leo Sutic</author>

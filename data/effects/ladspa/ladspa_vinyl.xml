@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="vynil_1905.so" id="vinyl" ladspaid="1905" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="vynil_1905.so" id="vinyl" ladspaid="1905" type="audio">
     <name context="Vinyl Effect Name">Vinyl</name>
     <description>Simulates a vinyl audio player - LADSPA audio effect</description>
     <author>http://www.ladspa.org</author>

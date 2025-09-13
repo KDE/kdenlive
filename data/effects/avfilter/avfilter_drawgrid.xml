@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.drawgrid" id="avfilter.drawgrid">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.drawgrid" id="avfilter.drawgrid">
     <name>Draw Grid</name>
     <description>Draw a colored grid on the input video</description>
     <author>libavfilter</author>

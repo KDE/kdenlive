@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="volume" id="mute" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="volume" id="mute" type="audio">
     <name context="Mute Effect Name">Mute</name>
     <description>Mute clip</description>
     <author>Dan Dennedy</author>

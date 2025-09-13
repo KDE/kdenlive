@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.bilateral" id="avfilter.bilateral">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.bilateral" id="avfilter.bilateral">
     <name>Bilateral</name>
     <description>Apply bilateral filter, spatial smoothing while preserving edges.</description>
     <author>libavfilter</author>

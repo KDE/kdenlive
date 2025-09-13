@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colorspace" id="avfilter.colorspace">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colorspace" id="avfilter.colorspace">
     <name>Color Space</name>
     <description>Convert color space, transfer characteristics or color primaries. Input video needs to have an even size.</description>
     <author>libavfilter</author>

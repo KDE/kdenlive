@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.unsharp">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.unsharp">
 <!-- ffmpeg documentation says range for matrix settings is 3-23 but the max value can only be 13 -->
     <name>Sharp/Unsharp</name>
     <description>Sharpen or unsharpen/blur your video</description>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.stereowiden" id="avfilter.stereowiden" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.stereowiden" id="avfilter.stereowiden" type="audio">
     <name>Stereo widener</name>
     <description>This filter enhance the stereo effect by suppressing signal common to both channels and by delaying the signal of left into right and vice versa, thereby widening the stereo effect.</description>
     <author>libavfilter</author>

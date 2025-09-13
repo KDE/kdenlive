@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.yadif" id="avfilter.yadif">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.yadif" id="avfilter.yadif">
     <name>Yadif Deinterlacer</name>
     <description>Deinterlace the input video ("yadif" means "yet another deinterlacing filter")</description>
     <author>libavfilter</author>

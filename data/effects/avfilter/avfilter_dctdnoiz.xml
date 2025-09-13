@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.dctdnoiz" id="avfilter.dctdnoiz">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.dctdnoiz" id="avfilter.dctdnoiz">
     <name>DCT Denoiser</name>
     <description>Denoise frames using 2D DCT frequency domain filtering</description>
     <author>libavfilter</author>

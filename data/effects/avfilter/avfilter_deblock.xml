@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.deblock" id="avfilter.deblock">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.deblock" id="avfilter.deblock">
     <name>DeBlock</name>
     <description>Remove blocking artifacts from input video.</description>
     <author>libavfilter</author>

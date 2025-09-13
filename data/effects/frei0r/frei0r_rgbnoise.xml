@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.rgbnoise" id="frei0r.rgbnoise">
         <name>RGB Noise</name>
         <description>Adds RGB noise to image</description>

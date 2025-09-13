@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.field" id="avfilter.field">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.field" id="avfilter.field">
     <name>Field Extractor</name>
     <description>Extract a field from the input video</description>
     <author>libavfilter</author>

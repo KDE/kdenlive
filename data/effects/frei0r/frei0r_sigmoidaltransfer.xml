@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.sigmoidaltransfer" id="frei0r.sigmoidaltransfer">
         <name>Sigmoidal Transfer</name>
         <description>Desaturates image and creates a particular look that could be called Stamp, Newspaper or Photocopy</description>

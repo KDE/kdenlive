@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.histogram" id="avfilter.histogram">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.histogram" id="avfilter.histogram">
     <name>Histogram</name>
     <description>Compute and draw a color distribution histogram for the input video</description>
     <author>libavfilter</author>

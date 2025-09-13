@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.chromanr" id="avfilter.chromanr">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.chromanr" id="avfilter.chromanr">
     <name>Chroma Noise Reduction</name>
     <description>Reduce chrominance noise.</description>
     <author>libavfilter</author>

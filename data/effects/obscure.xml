@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="obscure" id="obscure">
+<effect xmlns="https://www.kdenlive.org" tag="obscure" id="obscure">
     <name context="Obscure Effect Name">Obscure</name>
     <description>Hide a region of the clip</description>
     <author>Charles Yates</author>

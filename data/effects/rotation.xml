@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="affine" id="affine">
+<effect xmlns="https://www.kdenlive.org" tag="affine" id="affine">
     <name>Rotate and Shear (deprecated)</name>
     <description>Rotate clip in any 3 directions</description>
     <author>Charles Yates</author>

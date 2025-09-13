@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.selectivecolor" id="avfilter.selectivecolor">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.selectivecolor" id="avfilter.selectivecolor">
     <name>CMYK adjust</name>
     <description>Apply CMYK correction to specific color ranges</description>
     <author>libavfilter</author>

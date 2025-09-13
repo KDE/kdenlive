@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.derain" id="avfilter.derain">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.derain" id="avfilter.derain">
     <name>AI Rain removal</name>
     <description>Remove the rain in the input image/video by applying the derain methods based on convolutional neural networks</description>
     <author>libavfilter</author>

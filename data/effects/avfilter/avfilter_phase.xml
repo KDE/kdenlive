@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.phase" id="avfilter.phase">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.phase" id="avfilter.phase">
     <name>Phase</name>
     <description>Delay interlaced video by one field time so that the field order changes</description>
     <author>libavfilter</author>

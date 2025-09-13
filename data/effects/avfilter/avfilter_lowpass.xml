@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.lowpass" id="avfilter.lowpass" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.lowpass" id="avfilter.lowpass" type="audio">
     <name>Low-pass</name>
     <description>Apply a low-pass filter with 3dB point frequency.</description>
     <author>libavfilter</author>

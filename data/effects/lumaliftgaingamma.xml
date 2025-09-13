@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="lumaliftgaingamma" id="lumaliftgaingamma">
+<effect xmlns="https://www.kdenlive.org" tag="lumaliftgaingamma" id="lumaliftgaingamma">
     <name>Luma LiftGainGamma</name>
     <description>Filter can be used to apply lift, gain, and gamma correction to luma values of image.</description>
     <author>Janne Liljeblad</author>

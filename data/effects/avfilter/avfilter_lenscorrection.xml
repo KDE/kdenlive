@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.lenscorrection" id="avfilter.lenscorrection">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.lenscorrection" id="avfilter.lenscorrection">
     <name>Lens Correction (avfilter)</name>
     <description>Correct radial lens distortion. This effect allows to specify a color for the unmapped pixels.</description>
     <author>libavfilter</author>

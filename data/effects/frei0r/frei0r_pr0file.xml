@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.pr0file" id="frei0r.pr0file">
+<effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.pr0file" id="frei0r.pr0file">
     <name>Oscilloscope (advanced) (SUPERCEDED)</name>
     <description><![CDATA[2D video oscilloscope.<br>
     This effect has been superceded by <em>frei0r.measure_pr0file</em>]]></description>

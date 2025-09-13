@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.3dflippo" id="frei0r.3dflippo" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.3dflippo" id="frei0r.3dflippo" type="video" unique="1">
     <name>3dflippo</name>
     <description>Frame rotation in 3D space</description>
     <author>c.e. prelz AS FLUIDO</author>

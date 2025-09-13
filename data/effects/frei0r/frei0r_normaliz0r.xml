@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.normaliz0r" id="frei0r.normaliz0r">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.normaliz0r" id="frei0r.normaliz0r">
     <name context="Levels Effect Name">Normaliz0r</name>
     <description>Normalize (aka histogram stretch, contrast stretch)</description>
     <author>Chungzuwalla (chungzuwalla@rling.com)n</author>

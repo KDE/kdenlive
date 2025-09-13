@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.dedot" id="avfilter.dedot">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.dedot" id="avfilter.dedot">
     <name>DeDot</name>
     <description>Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video</description>
     <author>libavfilter</author>

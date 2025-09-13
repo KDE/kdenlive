@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="affine" id="affineshear">
+<effect xmlns="https://www.kdenlive.org" tag="affine" id="affineshear">
     <name context="Affine Transform Effect Name">Shear</name>
     <description>Shear a clip along the 3 axes</description>
     <author>Charles Yates</author>

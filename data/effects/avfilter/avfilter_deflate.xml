@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.deflate" id="avfilter.deflate">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.deflate" id="avfilter.deflate">
     <name>Deflate</name>
     <description>Apply deflate effect to the video</description>
     <author>libavfilter</author>

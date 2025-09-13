@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_rect_to_eq" id="frei0r.bigsh0t_rect_to_eq">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_rect_to_eq" id="frei0r.bigsh0t_rect_to_eq">
     <name>VR360 Rectilinear to Equirectangular</name>
     <description>Converts a rectilinear (a normal-looking) image to an equirectangular image. Use this together with Transform 360 to place "normal" footage in a 360 movie.</description>
     <author>Leo Sutic</author>

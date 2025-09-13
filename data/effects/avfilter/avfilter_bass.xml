@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.bass" id="avfilter.bass" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.bass" id="avfilter.bass" type="audio">
     <name>Bass</name>
     <description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. Boost or cut lower frequencies.</description>
     <author>libavfilter</author>

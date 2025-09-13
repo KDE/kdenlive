@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.median" id="avfilter.median">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.median" id="avfilter.median">
     <name>Median</name>
     <description>Pick median pixel from certain rectangle defined by radius.</description>
     <author>libavfilter</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="panner" id="audiopan" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="panner" id="audiopan" type="audio">
     <name context="Pan Effect Name">Pan</name>
     <description>Adjust the left/right spread of a channel</description>
     <author>Dan Dennedy</author>

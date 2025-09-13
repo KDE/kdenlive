@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.vaguedenoiser" id="avfilter.vaguedenoiser">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.vaguedenoiser" id="avfilter.vaguedenoiser">
     <name>Wavelet Denoiser</name>
     <description><![CDATA[Wavelet based denoiser.<br>
     It transforms each frame from the video input into the wavelet domain, using Cohen-Daubechies-Feauveau 9/7.]]></description>

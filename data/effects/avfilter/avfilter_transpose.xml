@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.transpose" id="avfilter.transpose">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.transpose" id="avfilter.transpose">
     <name>Transpose</name>
     <description>Transpose rows with columns in the input video and optionally flip it</description>
     <author>libavfilter</author>

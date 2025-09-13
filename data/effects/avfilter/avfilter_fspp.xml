@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.fspp" id="avfilter.fspp">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.fspp" id="avfilter.fspp">
     <name>fspp</name>
     <description>Fast and simple postprocessing</description>
     <author>libavfilter</author>

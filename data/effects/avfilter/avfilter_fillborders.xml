@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.fillborders" id="avfilter.fillborders">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.fillborders" id="avfilter.fillborders">
     <name>Fill Borders</name>
     <description>Fill borders of the input video without changing video stream dimensions. Sometimes video can have garbage at the four edges and you may not want to crop video input to keep the size multiple of some number</description>
     <author>libavfilter</author>

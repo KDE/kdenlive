@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.edgedetect" id="avfilter.edgedetect">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.edgedetect" id="avfilter.edgedetect">
     <name>Edge detection</name>
     <description>Detect and draw edges. The filter uses the Canny Edge Detection algorithm. </description>
     <author>libavfilter</author>

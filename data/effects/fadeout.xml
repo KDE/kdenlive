@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="volume" id="fadeout" type="audio" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="volume" id="fadeout" type="audio" unique="1">
     <name context="Audio Fade Out Effect Name">Fade out</name>
     <description>Fade out audio track</description>
     <author/>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.shear" id="avfilter.shear">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.shear" id="avfilter.shear">
     <name>Shear</name>
     <description>Apply shear transform to input video.</description>
     <author>libavfilter</author>

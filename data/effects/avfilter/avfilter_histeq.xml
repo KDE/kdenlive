@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.histeq" id="avfilter.histeq">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.histeq" id="avfilter.histeq">
     <name>Histogram Equalizer</name>
     <description>This filter applies a global color histogram equalization on a per-frame basis</description>
     <author>libavfilter</author>

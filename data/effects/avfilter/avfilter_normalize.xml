@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.normalize" id="avfilter.normalize">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.normalize" id="avfilter.normalize">
     <name>Normalize RGB video</name>
     <description>Normalize RGB video (aka histogram stretching, contrast stretching)</description>
     <author>libavfilter</author>

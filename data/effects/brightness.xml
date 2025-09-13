@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="brightness" id="brightness">
+<effect xmlns="https://www.kdenlive.org" tag="brightness" id="brightness">
     <name>Intensity (Brightness)</name>
     <description>Change image intensity</description>
     <author>Charles Yates</author>

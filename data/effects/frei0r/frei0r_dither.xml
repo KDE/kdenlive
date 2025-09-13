@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
     <effect tag="frei0r.dither" id="frei0r.dither">
+<group xmlns="https://www.kdenlive.org">
         <name context="Dither Effect Name">Dither</name>
         <description>Dithers the image and reduces the number of available colors</description>
         <author>Janne Liljeblad</author>

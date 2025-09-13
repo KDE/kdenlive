@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.alphagrad" id="frei0r.alphagrad">
+<effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.alphagrad" id="frei0r.alphagrad">
     <name>Alpha Gradient (SUPERCEDED)</name>
     <description><![CDATA[Fill the alpha channel with a specified gradient.<br>
     This effect has been replaced by frei0r.alphaops_alphagrad.]]></description>

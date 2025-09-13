@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.waveform" id="avfilter.waveform">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.waveform" id="avfilter.waveform">
     <name>Video Waveform Monitor</name>
     <description>The waveform monitor plots color component intensity. By default luminance only. Each column of the waveform corresponds to a column of pixels in the source video. </description>
     <author>libavfilter</author>

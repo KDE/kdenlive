@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="dj_eq_1901.so" id="equalizer" ladspaid="1901" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="dj_eq_1901.so" id="equalizer" ladspaid="1901" type="audio">
     <name>Equalizer</name>
     <description>LADSPA equalizer audio effect</description>
     <author>http://www.ladspa.org</author>

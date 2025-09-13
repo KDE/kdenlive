@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.doubleweave" id="avfilter.doubleweave">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.doubleweave" id="avfilter.doubleweave">
     <name>Doubleweave</name>
     <description>Weave input video fields into double number of frames</description>
     <author>libavfilter</author>

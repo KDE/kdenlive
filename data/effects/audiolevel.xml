@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="audiolevel" id="audiolevel" type="hidden">
+<effect xmlns="https://www.kdenlive.org" tag="audiolevel" id="audiolevel" type="hidden">
     <name>Audio levels</name>
     <description>Compute the audio amplitude.</description>
     <author>Dan Dennedy, Marco Gittler, and Steve Harris</author>

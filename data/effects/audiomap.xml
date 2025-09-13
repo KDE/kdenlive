@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="audiomap" id="audiomap" type="audio" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="audiomap" id="audiomap" type="audio" unique="1">
     <name>audiomap</name>
     <description>audiomap</description>
     <author> Maksym Veremeyenko</author>

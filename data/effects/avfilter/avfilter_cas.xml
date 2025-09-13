@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.cas" id="avfilter.cas">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.cas" id="avfilter.cas">
     <name>Contrast Adaptive Sharpen</name>
     <description>Apply Contrast Adaptive Sharpen filter to video stream.</description>
     <author>libavfilter</author>

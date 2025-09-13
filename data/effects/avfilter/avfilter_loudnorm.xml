@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.loudnorm" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.loudnorm" type="audio">
     <name>Loudness normalization</name>
     <description>EBU R128 loudness normalization</description>
     <author>libavfilter</author>

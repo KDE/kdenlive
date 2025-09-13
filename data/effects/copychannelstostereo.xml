@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="channelswap" id="channelswap" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="channelswap" id="channelswap" type="audio">
     <name>Copy Channels to Stereo</name>
     <description>Copy one audio channel to another.</description>
     <author>Dan Dennedy</author>

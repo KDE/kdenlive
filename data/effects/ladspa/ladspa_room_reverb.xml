@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="gverb_1216.so" id="room_reverb" ladspaid="1216" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="gverb_1216.so" id="room_reverb" ladspaid="1216" type="audio">
     <name>Room Reverb</name>
     <description>LADSPA room reverb audio effect</description>
     <author>http://www.ladspa.org</author>

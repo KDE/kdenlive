@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.limiter" id="avfilter.limiter">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.limiter" id="avfilter.limiter">
     <name>Limiter</name>
     <description>Limits the pixel components values to the specified range [min, max]</description>
     <author>libavfilter</author>

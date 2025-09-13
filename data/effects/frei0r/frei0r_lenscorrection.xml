@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.lenscorrection" id="frei0r.lenscorrection">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.lenscorrection" id="frei0r.lenscorrection">
     <name>Lens Correction (frei0r)</name>
     <description>Allows compensation of lens distortion</description>
     <author>Richard Spindler</author>

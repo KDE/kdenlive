@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="gpsgraphic" id="gpsgraphic">
+<effect xmlns="https://www.kdenlive.org" tag="gpsgraphic" id="gpsgraphic">
     <name>GPS Graphic</name>
     <description>Overlay GPS-related graphics onto the video.</description>
     <author>Daniel F</author>

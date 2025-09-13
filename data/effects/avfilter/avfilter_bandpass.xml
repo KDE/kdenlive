@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.bandpass" id="avfilter.bandpass" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.bandpass" id="avfilter.bandpass" type="audio">
     <name>Band-pass</name>
     <description>Apply a two-pole Butterworth band-pass filter with central frequency, and (3dB-point) band-width width. The csg option selects a constant skirt gain (peak gain = Q) instead of the default: constant 0dB peak gain. The filter roll off at 6dB per octave (20dB per decade). </description>
     <author>libavfilter</author>

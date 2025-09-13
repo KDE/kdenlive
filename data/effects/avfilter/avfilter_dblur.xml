@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.dblur" id="avfilter.dblur">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.dblur" id="avfilter.dblur">
     <name>Directional Blur</name>
     <description>Apply directional blur filter</description>
     <author>libavfilter</author>

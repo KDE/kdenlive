@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colortemperature" id="avfilter.colortemperature">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colortemperature" id="avfilter.colortemperature">
     <name>Color Temperature</name>
     <description>Adjust color temperature in video to simulate variations in ambient color temperature. </description>
     <author>libavfilter</author>
