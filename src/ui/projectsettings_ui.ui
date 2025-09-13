@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>614</width>
-    <height>736</height>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -403,41 +403,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </item>
            </layout>
           </item>
-          <item row="9" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>External proxy clips:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QComboBox" name="external_proxy_profile"/>
-            </item>
-            <item>
-             <widget class="QToolButton" name="manage_external">
-              <property name="text">
-               <string>...</string>
-              </property>
-              <property name="icon">
-               <iconset theme="configure"/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item row="2" column="1">
            <widget class="QLabel" name="label_3">
             <property name="text">
              <string>Proxy video resize (width)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="2">
-           <widget class="QCheckBox" name="external_proxy">
-            <property name="text">
-             <string>Enable</string>
             </property>
            </widget>
           </item>
@@ -523,6 +492,30 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </item>
           <item row="0" column="1" colspan="2">
            <widget class="KSeparator" name="kseparator_5"/>
+          </item>
+          <item row="9" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QComboBox" name="external_proxy_profile"/>
+            </item>
+            <item>
+             <widget class="QToolButton" name="manage_external">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="configure"/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="9" column="0" colspan="2">
+           <widget class="QCheckBox" name="external_proxy">
+            <property name="text">
+             <string>Camcorder proxy clips</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
