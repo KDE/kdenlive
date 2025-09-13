@@ -67,7 +67,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *up = m_op->action(KDirOperator::Up);
     QAction *back = m_op->action(KDirOperator::Back);
     QAction *forward = m_op->action(KDirOperator::Forward);
-    QAction *inlinePreview = m_op->action(KDirOperator::ShowPreviewPanel);
     QAction *preview = m_op->action(KDirOperator::ShowPreviewPanel);
     QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu);
 
@@ -80,7 +79,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     tb->addAction(zoomOut);
     tb->addAction(zoomIn);
-    tb->addAction(inlinePreview);
     tb->addSeparator();
     tb->addAction(importAction);
     preview->setIcon(QIcon::fromTheme(QStringLiteral("fileview-preview")));
@@ -228,10 +226,8 @@ void MediaBrowser::connectView()
 {
     connect(m_op->view(), &QAbstractItemView::doubleClicked, this, &MediaBrowser::slotViewDoubleClicked);
     m_op->view()->installEventFilter(this);
-    m_op->setInlinePreviewShown(true);
 
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    // Unconditionally enable video thumbnails on Windows/Mac as user can't edit the global KDE settings
+    // always enable thumbnails
     if (m_op->previewGenerator()) {
         QStringList enabledPlugs = m_op->previewGenerator()->enabledPlugins();
         if (!enabledPlugs.contains(QStringLiteral("ffmpegthumbs"))) {
@@ -239,7 +235,7 @@ void MediaBrowser::connectView()
             m_op->previewGenerator()->setEnabledPlugins(enabledPlugs);
         }
     }
-#endif
+    m_op->setInlinePreviewShown(true);
     setFocusProxy(m_op->view());
     setFocusPolicy(Qt::ClickFocus);
 }
