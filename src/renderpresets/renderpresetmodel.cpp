@@ -233,8 +233,8 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
 {
     KConfig config(path, KConfig::SimpleConfig);
     KConfigGroup group = config.group(QByteArray());
-    QString vcodec = group.readEntry("vcodec");
-    QString acodec = group.readEntry("acodec");
+    const QString vcodec = group.readEntry("vcodec");
+    const QString acodec = group.readEntry("acodec");
     m_extension = group.readEntry("meta.preset.extension");
     // setParams after we know the extension to make setting the format automatically work
     setParams(params);
