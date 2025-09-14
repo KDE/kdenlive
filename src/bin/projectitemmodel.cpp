@@ -985,7 +985,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = requestAddBinClip(id, description, parentId, undo, redo, readyCallBack);
+    bool res = requestAddBinClip(id, description, parentId.toInt() == m_sequenceFolderId ? QStringLiteral("-1") : parentId, undo, redo, readyCallBack);
     if (res) {
         pCore->pushUndo(undo, redo, undoText.isEmpty() ? i18n("Add bin clip") : undoText);
     }
