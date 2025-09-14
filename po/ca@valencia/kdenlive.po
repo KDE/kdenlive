@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 03:27+0000\n"
-"PO-Revision-Date: 2025-08-18 14:16+0200\n"
+"PO-Revision-Date: 2025-09-13 09:58+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -12910,7 +12910,7 @@ msgstr ""
 "<![CDATA[Un decalatge que s'afegirà al fitxer de vídeo perquè coincidisca "
 "amb el trajecte GPS.<br>\n"
 "    \tLa major part del temps, almenys, s'haurà d'establir a la diferència "
-"de zona horària entre els dos fitxers més alguns segons si el dispositiu de "
+"de fus horari entre els dos fitxers més alguns segons si el dispositiu de "
 "gravació de vídeo no està establit exactament a l'hora correcta. El temps "
 "del GPS sempre és exacte i en UTC. Utilitzeu valors positius si el GPS està "
 "per davant del vídeo i negatius en cas contrari.]]>"
@@ -28367,9 +28367,9 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Arrossegar</shortcut> per a establir el punt de la zona d'entrada, "
-"<shortcut>Majús+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
-"d'entrada"
+"<shortcut>Arrossegar</shortcut> per a establir el punt d'entrada de la zona, "
+"<shortcut>Majús+arrossega</shortcut> per a buscar mentre s'ajusta l'entrada "
+"de la zona"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -28378,9 +28378,9 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Arrossegar</shortcut> per a establir el punt de la zona d'eixida, "
-"<shortcut>Majús+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
-"d'eixida"
+"<shortcut>Arrossegar</shortcut> per a establir el punt d'eixida de la zona, "
+"<shortcut>Majús+arrossega</shortcut> per a buscar mentre s'ajusta l'eixida "
+"de la zona"
 
 #: src/monitor/view/ProjectMonitor.qml:101
 #, kde-format
@@ -33102,7 +33102,7 @@ msgstr "Obri un títol…"
 #: src/titler/titlewidget.cpp:439
 #, kde-format
 msgid "Save Title As…"
-msgstr "Guarda el títol com a…"
+msgstr "Anomena i guarda el títol…"
 
 #: src/titler/titlewidget.cpp:444
 #, kde-format
@@ -38221,6 +38221,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Cannot apply effects on folders"
-#~ msgstr "No es poden aplicar efectes en les carpetes"
