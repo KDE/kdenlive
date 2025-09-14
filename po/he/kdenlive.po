@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:49+0000\n"
+"POT-Creation-Date: 2025-09-14 00:41+0000\n"
 "PO-Revision-Date: 2025-09-03 11:37+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -64,27 +64,27 @@ msgstr "להשתמש בסולם IEC 60268-18 "
 msgid "Audio Level Visualization Filter"
 msgstr "מסנן המחשת רמת שמע"
 
-#: data/effects/audiolevelgraph.xml:6
+#: data/effects/audiolevelgraph.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
 msgstr "מסנן המחשת שמע שמצייר מד עוצמת שמע על התמונה."
 
-#: data/effects/audiolevelgraph.xml:8
-#, kde-format
-msgid "Segment,Bar"
-msgstr "מקטע,עמודה"
-
-#: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
-#: data/effects/gpsgraphic.xml:33
+#: data/effects/audiolevelgraph.xml:8 data/effects/audiospectrum.xml:9
+#: data/effects/gpsgraphic.xml:32
 #, kde-format
 msgid "Graph type"
 msgstr "סוג תרשים"
 
-#: data/effects/audiolevelgraph.xml:10
+#: data/effects/audiolevelgraph.xml:9
 #, kde-format
 msgid "The type of graph to display the levels."
 msgstr "סוג התרשים להצגת הרמות."
+
+#: data/effects/audiolevelgraph.xml:10
+#, kde-format
+msgid "Segment,Bar"
+msgstr "מקטע,עמודה"
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -194,18 +194,18 @@ msgstr "לצייר את הנקודות החל מהערוץ הימני ביותר
 
 #: data/effects/audiolevelgraph.xml:49
 #, kde-format
-msgid "Vertical,Horizontal"
-msgstr "אנכית,אופקית"
-
-#: data/effects/audiolevelgraph.xml:50
-#, kde-format
 msgid "Gradient Orientation"
 msgstr "כיוון מדרג"
 
-#: data/effects/audiolevelgraph.xml:51
+#: data/effects/audiolevelgraph.xml:50
 #, kde-format
 msgid "Direction of the color gradient."
 msgstr "כיוון מדרג הצבע."
+
+#: data/effects/audiolevelgraph.xml:51
+#, kde-format
+msgid "Vertical,Horizontal"
+msgstr "אנכית,אופקית"
 
 #: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:90
 #, kde-format
@@ -232,9 +232,14 @@ msgstr "הרווח בפיקסלים בין המקטעים."
 msgid "audiomap"
 msgstr "מפת_שמע"
 
-#: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
-#: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
-#: data/effects/audiomap.xml:24 data/effects/audiomap.xml:28
+#: data/effects/audiomap.xml:8
+#, kde-format
+msgid "CH1 source"
+msgstr "מקור CH1"
+
+#: data/effects/audiomap.xml:9 data/effects/audiomap.xml:13
+#: data/effects/audiomap.xml:17 data/effects/audiomap.xml:21
+#: data/effects/audiomap.xml:25 data/effects/audiomap.xml:29
 #, kde-format
 msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
@@ -243,32 +248,27 @@ msgstr ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
-#: data/effects/audiomap.xml:9
-#, kde-format
-msgid "CH1 source"
-msgstr "מקור CH1"
-
-#: data/effects/audiomap.xml:13
+#: data/effects/audiomap.xml:12
 #, kde-format
 msgid "CH2 source"
 msgstr "מקור CH2"
 
-#: data/effects/audiomap.xml:17
+#: data/effects/audiomap.xml:16
 #, kde-format
 msgid "CH3 source"
 msgstr "מקור CH3"
 
-#: data/effects/audiomap.xml:21
+#: data/effects/audiomap.xml:20
 #, kde-format
 msgid "CH4 source"
 msgstr "מקור CH4"
 
-#: data/effects/audiomap.xml:25
+#: data/effects/audiomap.xml:24
 #, kde-format
 msgid "CH5 source"
 msgstr "מקור CH5"
 
-#: data/effects/audiomap.xml:29
+#: data/effects/audiomap.xml:28
 #, kde-format
 msgid "CH6 source"
 msgstr "מקור CH6"
@@ -284,23 +284,23 @@ msgstr "הסטה"
 msgid "Adjust the left/right spread of a channel"
 msgstr "התאמת פריסת שמאל/ימין של ערוץ"
 
-#: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
-#: data/effects/channelcopy.xml:12
-#, kde-format
-msgid "Left,Right"
-msgstr "שמאל,ימין"
-
-#: data/effects/audiopan.xml:9 data/effects/frei0r/frei0r_bezier_curves.xml:9
-#: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_curves.xml:65
-#: data/effects/frei0r/frei0r_levels.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:41
-#: data/effects/frei0r/frei0r_levels.xml:72
-#: data/effects/frei0r/frei0r_measure_pr0file.xml:25
-#: data/effects/frei0r/frei0r_pr0file.xml:26
+#: data/effects/audiopan.xml:8 data/effects/frei0r/frei0r_bezier_curves.xml:8
+#: data/effects/frei0r/frei0r_curves.xml:9
+#: data/effects/frei0r/frei0r_curves.xml:64
+#: data/effects/frei0r/frei0r_levels.xml:9
+#: data/effects/frei0r/frei0r_levels.xml:40
+#: data/effects/frei0r/frei0r_levels.xml:71
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:24
+#: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
 msgid "Channel"
 msgstr "ערוץ"
+
+#: data/effects/audiopan.xml:9 data/effects/channelcopy.xml:9
+#: data/effects/channelcopy.xml:13
+#, kde-format
+msgid "Left,Right"
+msgstr "שמאל,ימין"
 
 #: data/effects/audiopan.xml:12
 #, kde-format
@@ -319,15 +319,15 @@ msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
 msgstr "מסנן המחשת שמע שמצייר ספקטרום שמע על התמונה."
 
-#: data/effects/audiospectrum.xml:9
-#, kde-format
-msgid "Line,Bar"
-msgstr "קו,עמודה"
-
-#: data/effects/audiospectrum.xml:11
+#: data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "The type of graph to display the spectrum."
 msgstr "סוג התרשים להצגת המנעד."
+
+#: data/effects/audiospectrum.xml:11
+#, kde-format
+msgid "Line,Bar"
+msgstr "קו,עמודה"
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -477,13 +477,13 @@ msgstr "צבע חזית"
 
 #: data/effects/audiowaveform.xml:26
 #, kde-format
-msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr "מיזוג,הכול,1,2,3,4,5,6,7,8,9,10"
+msgid "Channel to draw"
+msgstr "ערוץ לציור"
 
 #: data/effects/audiowaveform.xml:27
 #, kde-format
-msgid "Channel to draw"
-msgstr "ערוץ לציור"
+msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
+msgstr "מיזוג,הכול,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/avfilter/acompressor.xml:4
 #, kde-format
@@ -546,23 +546,23 @@ msgstr "ברך"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
-msgid "Average,Maximum"
-msgstr "ממוצע,מרבי"
-
-#: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, kde-format
 msgid "Link Type"
 msgstr "סוג קישור"
 
-#: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
+#: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, kde-format
-msgid "Peak,Rms"
-msgstr ""
+msgid "Average,Maximum"
+msgstr "ממוצע,מרבי"
 
-#: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
+#: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Detection"
 msgstr "זיהוי"
+
+#: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
+#, kde-format
+msgid "Peak,Rms"
+msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
@@ -631,7 +631,7 @@ msgstr "שער שמע"
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
 #: data/effects/avfilter/avfilter_deband.xml:28
-#: data/effects/avfilter/avfilter_setrange.xml:9
+#: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "Range"
 msgstr "טווח"
@@ -694,27 +694,27 @@ msgid "Bit reduction"
 msgstr "הפחתת סיביות"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
+#: data/effects/avfilter/avfilter_apulsator.xml:14
+#: data/effects/avfilter/avfilter_bwdif.xml:8
+#: data/effects/avfilter/avfilter_datascope.xml:22
+#: data/effects/avfilter/avfilter_fillborders.xml:8
+#: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #: data/effects/avfilter/avfilter_histogram.xml:18
-#, kde-format
-msgid "Linear,Logarithmic"
-msgstr "קווי,לוגריתמי"
-
-#: data/effects/avfilter/avfilter_acrusher.xml:24
-#: data/effects/avfilter/avfilter_apulsator.xml:15
-#: data/effects/avfilter/avfilter_bwdif.xml:9
-#: data/effects/avfilter/avfilter_datascope.xml:23
-#: data/effects/avfilter/avfilter_fillborders.xml:9
-#: data/effects/avfilter/avfilter_graphmonitor.xml:16
-#: data/effects/avfilter/avfilter_histogram.xml:19
-#: data/effects/avfilter/avfilter_mcdeint.xml:9
-#: data/effects/avfilter/avfilter_phase.xml:9
-#: data/effects/avfilter/avfilter_vectorscope.xml:9
-#: data/effects/avfilter/avfilter_waveform.xml:9
-#: data/effects/avfilter/avfilter_yadif.xml:9
-#: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
+#: data/effects/avfilter/avfilter_mcdeint.xml:8
+#: data/effects/avfilter/avfilter_phase.xml:8
+#: data/effects/avfilter/avfilter_vectorscope.xml:8
+#: data/effects/avfilter/avfilter_waveform.xml:8
+#: data/effects/avfilter/avfilter_yadif.xml:8
+#: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
 msgid "Mode"
 msgstr "מצב"
+
+#: data/effects/avfilter/avfilter_acrusher.xml:24
+#: data/effects/avfilter/avfilter_histogram.xml:19
+#, kde-format
+msgid "Linear,Logarithmic"
+msgstr "קווי,לוגריתמי"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:27
 #, fuzzy, kde-format
@@ -809,22 +809,22 @@ msgstr "תדר מרכזי"
 #: data/effects/avfilter/avfilter_bandpass.xml:14
 #: data/effects/avfilter/avfilter_bandreject.xml:11
 #: data/effects/avfilter/avfilter_bass.xml:14
-#: data/effects/avfilter/avfilter_highpass.xml:11
-#: data/effects/avfilter/avfilter_highshelf.xml:11
-#: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:26
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
-msgid "Hz,Q-Factor,Octave,Slope,KHz"
-msgstr ""
+msgid "Method"
+msgstr "שיטה"
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
 #: data/effects/avfilter/avfilter_bandpass.xml:15
 #: data/effects/avfilter/avfilter_bandreject.xml:12
 #: data/effects/avfilter/avfilter_bass.xml:15
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:27
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
+#: data/effects/avfilter/avfilter_highpass.xml:12
+#: data/effects/avfilter/avfilter_highshelf.xml:12
+#: data/effects/avfilter/avfilter_lowshelf.xml:12
 #, kde-format
-msgid "Method"
-msgstr "שיטה"
+msgid "Hz,Q-Factor,Octave,Slope,KHz"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -855,20 +855,20 @@ msgid "Normalize"
 msgstr "נרמול"
 
 #: data/effects/avfilter/avfilter_allpass.xml:24
-#: data/effects/avfilter/avfilter_bass.xml:21
-#: data/effects/avfilter/avfilter_highpass.xml:18
-#: data/effects/avfilter/avfilter_highshelf.xml:21
-#: data/effects/avfilter/avfilter_lowpass.xml:18
-#: data/effects/avfilter/avfilter_lowshelf.xml:21
-#, kde-format
-msgid "1,2"
-msgstr "1,2"
-
-#: data/effects/avfilter/avfilter_allpass.xml:25
 #, fuzzy, kde-format
 #| msgid "Border"
 msgid "Order"
 msgstr "מסגרת"
+
+#: data/effects/avfilter/avfilter_allpass.xml:25
+#: data/effects/avfilter/avfilter_bass.xml:22
+#: data/effects/avfilter/avfilter_highpass.xml:19
+#: data/effects/avfilter/avfilter_highshelf.xml:22
+#: data/effects/avfilter/avfilter_lowpass.xml:19
+#: data/effects/avfilter/avfilter_lowshelf.xml:22
+#, kde-format
+msgid "1,2"
+msgstr "1,2"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -878,9 +878,10 @@ msgstr "מסגרת"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, kde-format
-msgid "di,dii,tdii,latt"
-msgstr "di,dii,tdii,latt"
+#, fuzzy, kde-format
+#| msgid "Transform"
+msgid "Transform type"
+msgstr "התמרה"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -890,10 +891,9 @@ msgstr "di,dii,tdii,latt"
 #: data/effects/avfilter/avfilter_highshelf.xml:32
 #: data/effects/avfilter/avfilter_lowpass.xml:29
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
-#, fuzzy, kde-format
-#| msgid "Transform"
-msgid "Transform type"
-msgstr "התמרה"
+#, kde-format
+msgid "di,dii,tdii,latt"
+msgstr "di,dii,tdii,latt"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -903,9 +903,10 @@ msgstr "התמרה"
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, kde-format
-msgid "Auto,s16,s32,f32,f64"
-msgstr "אוטו׳,s16,s32,f32,f64"
+#, fuzzy, kde-format
+#| msgid "File Extension"
+msgid "Filter precision"
+msgstr "סיומת קובץ"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -915,10 +916,9 @@ msgstr "אוטו׳,s16,s32,f32,f64"
 #: data/effects/avfilter/avfilter_highshelf.xml:36
 #: data/effects/avfilter/avfilter_lowpass.xml:33
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
-#, fuzzy, kde-format
-#| msgid "File Extension"
-msgid "Filter precision"
-msgstr "סיומת קובץ"
+#, kde-format
+msgid "Auto,s16,s32,f32,f64"
+msgstr "אוטו׳,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -933,17 +933,17 @@ msgid "Delay in milliseconds"
 msgstr "משך (שניות)"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
-#: data/effects/avfilter/avfilter_flanger.xml:28
-#, fuzzy, kde-format
-#| msgid "Triangular window"
-msgid "Triangular,Sinusoidal"
-msgstr "חלון משולש"
-
-#: data/effects/avfilter/avfilter_aphaser.xml:24
 #, fuzzy, kde-format
 #| msgid "Modulators"
 msgid "Modulation type"
 msgstr "מאפננים"
+
+#: data/effects/avfilter/avfilter_aphaser.xml:24
+#: data/effects/avfilter/avfilter_flanger.xml:30
+#, fuzzy, kde-format
+#| msgid "Triangular window"
+msgid "Triangular,Sinusoidal"
+msgstr "חלון משולש"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
 #, fuzzy, kde-format
@@ -956,7 +956,7 @@ msgstr "מאפננים"
 msgid " Audio pulsator."
 msgstr "רצועת שמע"
 
-#: data/effects/avfilter/avfilter_apulsator.xml:14
+#: data/effects/avfilter/avfilter_apulsator.xml:15
 #, kde-format
 msgid "sine,triangle,square,sawup,sawdown"
 msgstr "סינוס,משולש,ריבוע,שינון מעלה,שינון מטה"
@@ -987,13 +987,13 @@ msgstr "רוחב מתאר"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
-msgid "bpm,ms,Hz"
-msgstr "פעימות בדקה,מ״ש,הרץ"
+msgid "Timing"
+msgstr "תזמון"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
-msgid "Timing"
-msgstr "תזמון"
+msgid "bpm,ms,Hz"
+msgstr "פעימות בדקה,מ״ש,הרץ"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
 #, fuzzy, kde-format
@@ -1083,30 +1083,30 @@ msgid "Y size"
 msgstr "גודל Y"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
+#: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
-#, kde-format
-msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_avgblur.xml:15
-#: data/effects/avfilter/avfilter_bilateral.xml:17
-#: data/effects/avfilter/avfilter_cas.xml:13
-#: data/effects/avfilter/avfilter_deblock.xml:28
-#: data/effects/avfilter/avfilter_edgedetect.xml:19
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:40
-#: data/effects/avfilter/avfilter_gblur.xml:14
-#: data/effects/avfilter/avfilter_kirsch.xml:17
+#: data/effects/avfilter/avfilter_deblock.xml:27
+#: data/effects/avfilter/avfilter_edgedetect.xml:18
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:39
+#: data/effects/avfilter/avfilter_gblur.xml:13
+#: data/effects/avfilter/avfilter_kirsch.xml:16
 #: data/effects/avfilter/avfilter_lagfun.xml:8
-#: data/effects/avfilter/avfilter_limiter.xml:17
-#: data/effects/avfilter/avfilter_median.xml:23
-#: data/effects/avfilter/avfilter_pixelize.xml:19
-#: data/effects/avfilter/avfilter_prewitt.xml:9
-#: data/effects/avfilter/avfilter_roberts.xml:9
-#: data/effects/avfilter/avfilter_sobel.xml:9
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:27
+#: data/effects/avfilter/avfilter_limiter.xml:16
+#: data/effects/avfilter/avfilter_median.xml:22
+#: data/effects/avfilter/avfilter_pixelize.xml:18
+#: data/effects/avfilter/avfilter_prewitt.xml:8
+#: data/effects/avfilter/avfilter_roberts.xml:8
+#: data/effects/avfilter/avfilter_sobel.xml:8
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
 #, kde-format
 msgid "Planes"
 msgstr "מישורים"
+
+#: data/effects/avfilter/avfilter_avgblur.xml:15
+#: data/effects/avfilter/avfilter_cas.xml:13
+#, kde-format
+msgid "Alpha,Y,U,V,Red,Green,Blue,All"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, fuzzy, kde-format
@@ -1175,11 +1175,11 @@ msgstr ""
 msgid "Gain"
 msgstr "שבח"
 
-#: data/effects/avfilter/avfilter_bass.xml:22
-#: data/effects/avfilter/avfilter_highpass.xml:19
-#: data/effects/avfilter/avfilter_highshelf.xml:22
-#: data/effects/avfilter/avfilter_lowpass.xml:19
-#: data/effects/avfilter/avfilter_lowshelf.xml:22
+#: data/effects/avfilter/avfilter_bass.xml:21
+#: data/effects/avfilter/avfilter_highpass.xml:18
+#: data/effects/avfilter/avfilter_highshelf.xml:21
+#: data/effects/avfilter/avfilter_lowpass.xml:18
+#: data/effects/avfilter/avfilter_lowshelf.xml:21
 #, kde-format
 msgid "Poles"
 msgstr "קטבים"
@@ -1214,7 +1214,7 @@ msgstr ""
 msgid "Set sigma of gaussian function to calculate range weight."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_bilateral.xml:16
+#: data/effects/avfilter/avfilter_bilateral.xml:17
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr ""
@@ -1312,14 +1312,14 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
-msgid ""
-"Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
-"Meier circuit (fcut=650 feed=95)"
+msgid "Pre-defined crossfeed level"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
-msgid "Pre-defined crossfeed level"
+msgid ""
+"Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
+"Meier circuit (fcut=650 feed=95)"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
@@ -1347,34 +1347,34 @@ msgid ""
 "cubic interpolation algorithms. "
 msgstr ""
 
-#: data/effects/avfilter/avfilter_bwdif.xml:8
+#: data/effects/avfilter/avfilter_bwdif.xml:9
 #, kde-format
 msgid "Send frame,Send field"
 msgstr "שליחת תמונית,שליחת שדה"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
+#: data/effects/avfilter/avfilter_yadif.xml:12
+#, kde-format
+msgid "Parity"
+msgstr "זוגיות"
+
+#: data/effects/avfilter/avfilter_bwdif.xml:13
 #, fuzzy, kde-format
 #| msgid "Bottom field first"
 msgid "Top field first,Bottomfield first,Auto"
 msgstr "השדה התחתון ראשון"
 
-#: data/effects/avfilter/avfilter_bwdif.xml:13
-#: data/effects/avfilter/avfilter_yadif.xml:13
-#, kde-format
-msgid "Parity"
-msgstr "זוגיות"
-
 #: data/effects/avfilter/avfilter_bwdif.xml:16
 #: data/effects/avfilter/avfilter_yadif.xml:16
 #, kde-format
-msgid "Deint all frames,Deint interlaced frames only"
-msgstr ""
+msgid "Deinterlace"
+msgstr "ביטול שזירה"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
 #, kde-format
-msgid "Deinterlace"
-msgstr "ביטול שזירה"
+msgid "Deint all frames,Deint interlaced frames only"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
@@ -1515,13 +1515,13 @@ msgstr "סף V"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
-msgid "Manhattan,Euclidean"
-msgstr ""
+msgid "Distance"
+msgstr "מרחק"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
-msgid "Distance"
-msgstr "מרחק"
+msgid "Manhattan,Euclidean"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, fuzzy, kde-format
@@ -1562,18 +1562,18 @@ msgid "Red vertical shift"
 msgstr "פיזור אנכי"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
-#: data/effects/avfilter/avfilter_rgbashift.xml:32
-#, kde-format
-msgid "Smear,Wrap"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_chromashift.xml:21
-#: data/effects/frei0r/frei0r_select0r.xml:33
-#: data/effects/frei0r/frei0r_select0r.xml:60
-#: data/effects/mask_start_frei0r_select0r.xml:26
+#: data/effects/frei0r/frei0r_select0r.xml:32
+#: data/effects/frei0r/frei0r_select0r.xml:59
+#: data/effects/mask_start_frei0r_select0r.xml:25
 #, kde-format
 msgid "Edge mode"
 msgstr "מצב קצוות"
+
+#: data/effects/avfilter/avfilter_chromashift.xml:21
+#: data/effects/avfilter/avfilter_rgbashift.xml:33
+#, kde-format
+msgid "Smear,Wrap"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:4
 #, kde-format
@@ -1586,7 +1586,17 @@ msgid "Display CIE color diagram with pixels overlaid onto it"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:8
-#: data/effects/avfilter/avfilter_ciescope.xml:18
+#, kde-format
+msgid "Color System"
+msgstr "מערכת צבע"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:9
+#, kde-format
+msgid "<![CDATA[Select the color system]]>"
+msgstr "<![CDATA[נא לבחור את מערכת הצבע]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:10
+#: data/effects/avfilter/avfilter_ciescope.xml:20
 #, kde-format
 msgid ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
@@ -1595,38 +1605,28 @@ msgstr ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
 "709,UHD TV,Rec. 2020,DCI-P3"
 
-#: data/effects/avfilter/avfilter_ciescope.xml:9
-#, kde-format
-msgid "Color System"
-msgstr "מערכת צבע"
-
-#: data/effects/avfilter/avfilter_ciescope.xml:10
-#, kde-format
-msgid "<![CDATA[Select the color system]]>"
-msgstr "<![CDATA[נא לבחור את מערכת הצבע]]>"
-
 #: data/effects/avfilter/avfilter_ciescope.xml:13
-#, kde-format
-msgid "xyY,UCS,LUV"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_ciescope.xml:14
 #, kde-format
 msgid "CIE System"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_ciescope.xml:15
+#: data/effects/avfilter/avfilter_ciescope.xml:14
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Select the components to be traced]]>"
 msgid "<![CDATA[Select the CIE color space]]>"
 msgstr "<![CDATA[נא לבחור את הרכיבים למעקב]]>"
 
-#: data/effects/avfilter/avfilter_ciescope.xml:19
+#: data/effects/avfilter/avfilter_ciescope.xml:15
+#, kde-format
+msgid "xyY,UCS,LUV"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:18
 #, kde-format
 msgid "Gamuts to Draw"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_ciescope.xml:20
+#: data/effects/avfilter/avfilter_ciescope.xml:19
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set what gamuts to draw]]>"
@@ -1637,8 +1637,8 @@ msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: data/effects/avfilter/avfilter_ciescope.xml:23
-#: data/effects/avfilter/avfilter_datascope.xml:9
-#: data/effects/avfilter/avfilter_graphmonitor.xml:9
+#: data/effects/avfilter/avfilter_datascope.xml:8
+#: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #: data/effects/avfilter/avfilter_oscilloscope.xml:16
 #: data/effects/frei0r/frei0r_medians.xml:12
 #: data/effects/frei0r/frei0r_sharpness.xml:11 src/ui/configcapture_ui.ui:167
@@ -1934,13 +1934,13 @@ msgstr "רוויה"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
-msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgid "Analyze mode"
+msgstr "מצב אבחון"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, kde-format
-msgid "Analyze mode"
-msgstr "מצב אבחון"
+msgid "Manual,Average,Minimax,Median"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, kde-format
@@ -2060,23 +2060,23 @@ msgid "Convert color matrix."
 msgstr "המרת רשת צבע."
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
-#: data/effects/avfilter/avfilter_colormatrix.xml:12
-#, kde-format
-msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, kde-format
 msgid "Source color matrix"
 msgstr "רשת צבעי מקור"
 
+#: data/effects/avfilter/avfilter_colormatrix.xml:9
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
+#, kde-format
+msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "Destination color matrix"
 msgstr "רשת צבעי יעד"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
-#: data/effects/avfilter/avfilter_vectorscope.xml:52
+#: data/effects/avfilter/avfilter_vectorscope.xml:51
 #: src/scopes/colorscopes/vectorscope.cpp:169
 #, kde-format
 msgid "Color Space"
@@ -2090,32 +2090,37 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
-#: data/effects/avfilter/avfilter_colorspace.xml:43
+#, kde-format
+msgid "Color properties"
+msgstr "מאפייני צבע"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:9
+#: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE 170M,SMPTE 240M,"
 "BT.2020"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:9
-#, kde-format
-msgid "Color properties"
-msgstr "מאפייני צבע"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:12
-#: data/effects/avfilter/avfilter_colorspace.xml:47
+#, kde-format
+msgid "Output color space"
+msgstr "מרחב צבעי פלט"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:13
+#: data/effects/avfilter/avfilter_colorspace.xml:48
 #, kde-format
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:13
-#, kde-format
-msgid "Output color space"
-msgstr "מרחב צבעי פלט"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:16
-#: data/effects/avfilter/avfilter_colorspace.xml:55
+#, kde-format
+msgid "Output transfer characteristics"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_colorspace.xml:17
+#: data/effects/avfilter/avfilter_colorspace.xml:56
 #, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,SMPTE "
@@ -2123,52 +2128,47 @@ msgid ""
 "content, BT.2020 for 12-bits content"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:17
-#, kde-format
-msgid "Output transfer characteristics"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_colorspace.xml:20
-#: data/effects/avfilter/avfilter_colorspace.xml:51
+#, fuzzy, kde-format
+#| msgid "Output time"
+msgid "Output color primaries"
+msgstr "זמן פלט"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:21
+#: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
 "BT.2020,JEDEC P22"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
-msgid "Output color primaries"
-msgstr "זמן פלט"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:24
-#: data/effects/avfilter/avfilter_colorspace.xml:59
+#, fuzzy, kde-format
+#| msgid "Output Color Range"
+msgid "Output color range"
+msgstr "טווח צבע פלט"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:25
+#: data/effects/avfilter/avfilter_colorspace.xml:60
 #, kde-format
 msgid ""
 "TV (restricted range),MPEG (restricted range),PC (full range),JPEG (full "
 "range)"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:25
-#, fuzzy, kde-format
-#| msgid "Output Color Range"
-msgid "Output color range"
-msgstr "טווח צבע פלט"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:28
+#, fuzzy, kde-format
+#| msgid "Output format"
+msgid "Output color format"
+msgstr "תסדיר פלט"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
 msgid ""
 "YUV 4:2:0 planar 8-bits,YUV 4:2:0 planar 10-bits,YUV 4:2:0 planar 12-bits,"
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:29
-#, fuzzy, kde-format
-#| msgid "Output format"
-msgid "Output color format"
-msgstr "תסדיר פלט"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, fuzzy, kde-format
@@ -2177,50 +2177,50 @@ msgid "Fast conversion"
 msgstr "המרה מהירה"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
-#, kde-format
-msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:36
 #, fuzzy, kde-format
 #| msgid "Dithering Mode"
 msgid "Dithering mode"
 msgstr "מצב גוונון"
 
+#: data/effects/avfilter/avfilter_colorspace.xml:36
+#, kde-format
+msgid "No dithering,Floyd-Steinberg dithering"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_colorspace.xml:39
+#, kde-format
+msgid "Whitepoint adaptation mode"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:40
-#, kde-format
-msgid "Whitepoint adaptation mode"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:44
+#: data/effects/avfilter/avfilter_colorspace.xml:43
 #, kde-format
 msgid "Override all input properties at once"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:48
+#: data/effects/avfilter/avfilter_colorspace.xml:47
 #, fuzzy, kde-format
 #| msgid "Override input colorspace"
 msgid "Override input color space"
 msgstr "דריסת מרחב צבעי קלט"
 
-#: data/effects/avfilter/avfilter_colorspace.xml:52
+#: data/effects/avfilter/avfilter_colorspace.xml:51
 #, kde-format
 msgid "Override input color primaries"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:56
+#: data/effects/avfilter/avfilter_colorspace.xml:55
 #, kde-format
 msgid "Override input transfer characteristics"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:60
+#: data/effects/avfilter/avfilter_colorspace.xml:59
 #, kde-format
 msgid "Override input color range"
 msgstr "דריסת טווח צבעי קלט"
@@ -2472,7 +2472,7 @@ msgstr "טווחים"
 msgid "Video data analysis"
 msgstr "אבחון נתוני וידאו"
 
-#: data/effects/avfilter/avfilter_datascope.xml:8
+#: data/effects/avfilter/avfilter_datascope.xml:9
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
 msgstr ""
@@ -2488,25 +2488,25 @@ msgid "Y offset"
 msgstr "היסט ב־Y"
 
 #: data/effects/avfilter/avfilter_datascope.xml:18
-#: data/effects/avfilter/avfilter_pixelize.xml:18
-#: data/effects/avfilter/avfilter_prewitt.xml:8
-#: data/effects/avfilter/avfilter_roberts.xml:8
-#: data/effects/avfilter/avfilter_sobel.xml:8
+#: data/effects/avfilter/avfilter_oscilloscope.xml:44
+#: data/effects/avfilter/avfilter_waveform.xml:30
+#: src/scopes/colorscopes/histogram.cpp:36
+#, kde-format
+msgid "Components"
+msgstr "רכיבים"
+
+#: data/effects/avfilter/avfilter_datascope.xml:19
+#: data/effects/avfilter/avfilter_pixelize.xml:19
+#: data/effects/avfilter/avfilter_prewitt.xml:9
+#: data/effects/avfilter/avfilter_roberts.xml:9
+#: data/effects/avfilter/avfilter_sobel.xml:9
 #, kde-format
 msgid ""
 "None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
 "Alpha"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_datascope.xml:19
-#: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#: data/effects/avfilter/avfilter_waveform.xml:31
-#: src/scopes/colorscopes/histogram.cpp:36
-#, kde-format
-msgid "Components"
-msgstr "רכיבים"
-
-#: data/effects/avfilter/avfilter_datascope.xml:22
+#: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
 msgid "Mono,Color,Color2"
 msgstr ""
@@ -2529,15 +2529,15 @@ msgstr "הצגת ציר"
 msgid "Opacity"
 msgstr "אטימות"
 
-#: data/effects/avfilter/avfilter_datascope.xml:32
-#, kde-format
-msgid "Hex,Dec"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_datascope.xml:33 data/effects/timer.xml:46
+#: data/effects/avfilter/avfilter_datascope.xml:32 data/effects/timer.xml:46
 #, kde-format
 msgid "Format"
 msgstr "עיצוב"
+
+#: data/effects/avfilter/avfilter_datascope.xml:33
+#, kde-format
+msgid "Hex,Dec"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, kde-format
@@ -2571,23 +2571,23 @@ msgstr "<![CDATA[הגדרת הרדיוס לכיוון]]>"
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
 #, kde-format
-msgid ""
-"Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
-"All"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_dblur.xml:17
-#: data/effects/avfilter/avfilter_scharr.xml:9
-#, kde-format
 msgid "Planes to filter"
 msgstr "מישורים לסינון"
 
-#: data/effects/avfilter/avfilter_dblur.xml:18
-#: data/effects/avfilter/avfilter_scharr.xml:10
+#: data/effects/avfilter/avfilter_dblur.xml:17
+#: data/effects/avfilter/avfilter_scharr.xml:9
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
 msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+
+#: data/effects/avfilter/avfilter_dblur.xml:18
+#: data/effects/avfilter/avfilter_scharr.xml:10
+#, kde-format
+msgid ""
+"Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
+"All"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_dcshift.xml:4
 #: data/effects/avfilter/avfilter_dcshift.xml:10
@@ -2710,7 +2710,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:33
-#: data/effects/avfilter/avfilter_transpose.xml:9
+#: data/effects/avfilter/avfilter_transpose.xml:8
 #: data/effects/frei0r/frei0r_aech0r.xml:12 data/effects/timer.xml:66
 #: data/transitions/slide.xml:8
 #, kde-format
@@ -2774,13 +2774,13 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
-msgid "Weak,Strong"
-msgstr ""
+msgid "Filter strength"
+msgstr "עוצמת מסנן"
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, kde-format
-msgid "Filter strength"
-msgstr "עוצמת מסנן"
+msgid "Weak,Strong"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:15
 #: data/effects/avfilter/avfilter_smartblur.xml:48
@@ -2803,7 +2803,7 @@ msgstr "סף גאמה"
 msgid "Delta threshold"
 msgstr "סף דלתא"
 
-#: data/effects/avfilter/avfilter_deblock.xml:27
+#: data/effects/avfilter/avfilter_deblock.xml:28
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
 msgstr ""
@@ -2821,12 +2821,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:8
 #, kde-format
-msgid "DotCrawl,Rainbows"
+msgid "color-reduction Mode"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:9
 #, kde-format
-msgid "color-reduction Mode"
+msgid "DotCrawl,Rainbows"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:12
@@ -2893,17 +2893,17 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
-msgid "Input,Output,Ess only"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_deesser.xml:21
-#, kde-format
 msgid "Output mode"
 msgstr "מצב פלט"
 
-#: data/effects/avfilter/avfilter_deesser.xml:22
+#: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
 msgid "Set the output mode."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_deesser.xml:22
+#, kde-format
+msgid "Input,Output,Ess only"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
@@ -2970,13 +2970,13 @@ msgstr "גובה לוגו"
 
 #: data/effects/avfilter/avfilter_delogo.xml:20
 #, kde-format
-msgid "Off,On"
-msgstr ""
+msgid "Show borders"
+msgstr "הצגת מסגרות"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, kde-format
-msgid "Show borders"
-msgstr "הצגת מסגרות"
+msgid "Off,On"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:4
 #, kde-format
@@ -2993,14 +2993,14 @@ msgstr ""
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
 #, kde-format
-msgid "Native,Tensorflow"
-msgstr ""
+msgid "DNN Backend"
+msgstr "מנגנון DNN"
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
 #, kde-format
-msgid "DNN Backend"
-msgstr "מנגנון DNN"
+msgid "Native,Tensorflow"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
@@ -3020,10 +3020,16 @@ msgid ""
 "color of greenscreen or bluescreen"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_despill.xml:9
+#: data/effects/avfilter/avfilter_despill.xml:8
 #, kde-format
 msgid "Screen type"
 msgstr "סוג מסך"
+
+#: data/effects/avfilter/avfilter_despill.xml:9
+#, fuzzy, kde-format
+#| msgid "Green-Blue"
+msgid "Green,Blue"
+msgstr "ירוק-כחול"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -3141,18 +3147,18 @@ msgid "Weave input video fields into double number of frames"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
-#: data/effects/avfilter/avfilter_field.xml:8
-#: data/effects/avfilter/avfilter_fieldorder.xml:8
-#: data/effects/avfilter/avfilter_mcdeint.xml:12
-#, kde-format
-msgid "Top field first,Bottom field first"
-msgstr "השדה העליון קודם,השדה התחתון קודם"
-
-#: data/effects/avfilter/avfilter_doubleweave.xml:9
-#: data/effects/avfilter/avfilter_weave.xml:9
+#: data/effects/avfilter/avfilter_weave.xml:8
 #, kde-format
 msgid "First Field"
 msgstr "שדה ראשון"
+
+#: data/effects/avfilter/avfilter_doubleweave.xml:9
+#: data/effects/avfilter/avfilter_field.xml:9
+#: data/effects/avfilter/avfilter_fieldorder.xml:9
+#: data/effects/avfilter/avfilter_mcdeint.xml:13
+#, kde-format
+msgid "Top field first,Bottom field first"
+msgstr "השדה העליון קודם,השדה התחתון קודם"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, kde-format
@@ -3371,17 +3377,17 @@ msgstr "סף גבוה"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
 #, kde-format
-msgid "Wires,Colormix,Canny"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_edgedetect.xml:15
-#, kde-format
 msgid "Modes"
 msgstr "מצבים"
 
-#: data/effects/avfilter/avfilter_edgedetect.xml:18
-#: data/effects/avfilter/avfilter_gblur.xml:13
-#: data/effects/avfilter/avfilter_limiter.xml:16
+#: data/effects/avfilter/avfilter_edgedetect.xml:15
+#, kde-format
+msgid "Wires,Colormix,Canny"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_edgedetect.xml:19
+#: data/effects/avfilter/avfilter_gblur.xml:16
+#: data/effects/avfilter/avfilter_limiter.xml:17
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
 msgstr ""
@@ -3402,7 +3408,7 @@ msgid "Codebook Length"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
-#: data/effects/avfilter/avfilter_gblur.xml:9
+#: data/effects/avfilter/avfilter_gblur.xml:8
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:20
 #, kde-format
 msgid "Steps"
@@ -3430,16 +3436,16 @@ msgid "Scale the input using EPX algorithm."
 msgstr "בחר צבע גבול"
 
 #: data/effects/avfilter/avfilter_epx.xml:8
-#, kde-format
-msgid "2x,3x"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_epx.xml:9
-#: data/effects/avfilter/avfilter_hqx.xml:9
+#: data/effects/avfilter/avfilter_hqx.xml:8
 #, fuzzy, kde-format
 #| msgid "Blur factor"
 msgid "Scale factor"
 msgstr "מקדם טשטוש"
+
+#: data/effects/avfilter/avfilter_epx.xml:9
+#, kde-format
+msgid "2x,3x"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_eq.xml:4
 #, fuzzy, kde-format
@@ -3605,16 +3611,16 @@ msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
 msgid "<![CDATA[Set block overlap]]>"
 msgstr "<![CDATA[היסט לאורך ציר Y]]>"
 
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:26
-#, kde-format
-msgid "Wiener,Hard"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:28
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Set denoising method]]>"
 msgstr "<![CDATA[היסט לאורך ציר X]]>"
+
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:28
+#, kde-format
+msgid "Wiener,Hard"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -3630,9 +3636,9 @@ msgid ""
 "        for temporal denoising]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:39
-#: data/effects/avfilter/avfilter_median.xml:22
-#: data/effects/avfilter/avfilter_oscilloscope.xml:44
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:40
+#: data/effects/avfilter/avfilter_median.xml:24
+#: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,All"
 msgstr ""
@@ -3679,13 +3685,13 @@ msgstr "הארה במישור V"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, kde-format
-msgid "init,frame"
-msgstr "ראשוני,תמונית"
+msgid "Evaluate"
+msgstr "שערוך"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
 #, kde-format
-msgid "Evaluate"
-msgstr "שערוך"
+msgid "init,frame"
+msgstr "ראשוני,תמונית"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, kde-format
@@ -3697,8 +3703,8 @@ msgstr "מחלץ שדות"
 msgid "Extract a field from the input video"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_field.xml:9
-#: data/effects/avfilter/avfilter_fieldorder.xml:9
+#: data/effects/avfilter/avfilter_field.xml:8
+#: data/effects/avfilter/avfilter_fieldorder.xml:8
 #, kde-format
 msgid "Field priority"
 msgstr "עדיפות שדה"
@@ -3726,7 +3732,7 @@ msgid ""
 "crop video input to keep the size multiple of some number"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_fillborders.xml:8
+#: data/effects/avfilter/avfilter_fillborders.xml:9
 #, kde-format
 msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
 msgstr ""
@@ -3833,21 +3839,21 @@ msgstr "מהירות"
 msgid "Set sweeps per second (Hz). Range from 0.1 to 10."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_flanger.xml:29
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
-#: data/effects/frei0r/frei0r_alphaspot.xml:10
-#: data/effects/frei0r/frei0r_facedetect.xml:25
-#: data/effects/frei0r/frei0r_select0r.xml:29
-#: data/effects/frei0r/frei0r_select0r.xml:56
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:9
-#: data/effects/mask_start_frei0r_alphaspot.xml:9
-#: data/effects/mask_start_frei0r_select0r.xml:22
+#: data/effects/avfilter/avfilter_flanger.xml:28
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
+#: data/effects/frei0r/frei0r_alphaspot.xml:9
+#: data/effects/frei0r/frei0r_facedetect.xml:24
+#: data/effects/frei0r/frei0r_select0r.xml:28
+#: data/effects/frei0r/frei0r_select0r.xml:55
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:8
+#: data/effects/mask_start_frei0r_alphaspot.xml:8
+#: data/effects/mask_start_frei0r_select0r.xml:21
 #: data/effects/sox/sox_flanger.xml:23
 #, kde-format
 msgid "Shape"
 msgstr "צורה"
 
-#: data/effects/avfilter/avfilter_flanger.xml:30
+#: data/effects/avfilter/avfilter_flanger.xml:29
 #, kde-format
 msgid "Set swept wave shape, can be triangular or sinusoidal. "
 msgstr ""
@@ -3865,33 +3871,33 @@ msgid ""
 "Set swept wave percentage-shift for multi channel. Range from 0 to 100. "
 msgstr ""
 
-#: data/effects/avfilter/avfilter_flanger.xml:37
-#, kde-format
-msgid "Linear,Quadratic"
-msgstr "קווי,ריבועי"
-
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: data/effects/avfilter/avfilter_flanger.xml:38
-#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:34
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
-#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:151
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
-#: data/effects/frei0r/frei0r_c0rners.xml:45
+#: data/effects/avfilter/avfilter_flanger.xml:37
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:33
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:150
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
+#: data/effects/frei0r/frei0r_c0rners.xml:44
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
 msgstr "ביון"
 
-#: data/effects/avfilter/avfilter_flanger.xml:39
+#: data/effects/avfilter/avfilter_flanger.xml:38
 #, kde-format
 msgid "Set delay-line interpolation, linear or quadratic."
 msgstr ""
+
+#: data/effects/avfilter/avfilter_flanger.xml:39
+#, kde-format
+msgid "Linear,Quadratic"
+msgstr "קווי,ריבועי"
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
 #, fuzzy, kde-format
@@ -3921,13 +3927,13 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:8
 #, kde-format
-msgid "4,5"
-msgstr ""
+msgid "Quality"
+msgstr "איכות"
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
 #, kde-format
-msgid "Quality"
-msgstr "איכות"
+msgid "4,5"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
@@ -3950,17 +3956,17 @@ msgstr "טשטוש גאוסי"
 msgid "Apply Gaussian Blur filter"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:8
-#, kde-format
-msgid "1,2,3,4,5,6"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_gblur.xml:10
+#: data/effects/avfilter/avfilter_gblur.xml:9
 #, kde-format
 msgid "Set number of steps for Gaussian approximation"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:16
+#: data/effects/avfilter/avfilter_gblur.xml:10
+#, kde-format
+msgid "1,2,3,4,5,6"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_gblur.xml:15
 #, kde-format
 msgid ""
 "<![CDATA[Set which planes to filter.<br>\n"
@@ -4033,24 +4039,24 @@ msgstr "מיקום גרף"
 msgid "Show various filtergraph stats"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_graphmonitor.xml:8
+#: data/effects/avfilter/avfilter_graphmonitor.xml:9
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_graphmonitor.xml:15
+#: data/effects/avfilter/avfilter_graphmonitor.xml:16
 #, kde-format
 msgid "Compact,Full"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
-msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
+msgid "Flags"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #, kde-format
-msgid "Flags"
+msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
@@ -4091,15 +4097,15 @@ msgid "Side gain"
 msgstr "שבח אמצעי"
 
 #: data/effects/avfilter/avfilter_haas.xml:18
-#, kde-format
-msgid "left,right,mid,side"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_haas.xml:19
 #, fuzzy, kde-format
 #| msgid "Online Resources"
 msgid "Middle source"
 msgstr "משאבים מקוונים"
+
+#: data/effects/avfilter/avfilter_haas.xml:19
+#, kde-format
+msgid "left,right,mid,side"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:22
 #, kde-format
@@ -4172,15 +4178,15 @@ msgstr "גבוה"
 msgid "Apply a high-pass filter with 3dB point frequency."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_highpass.xml:12
-#: data/effects/avfilter/avfilter_highshelf.xml:12
-#: data/effects/avfilter/avfilter_lowpass.xml:12
-#: data/effects/avfilter/avfilter_lowshelf.xml:12
-#: data/effects/avfilter/avfilter_sofalizer.xml:24
-#: data/effects/frei0r/frei0r_colortap.xml:9
-#: data/effects/frei0r/frei0r_defish0r.xml:15
-#: data/effects/frei0r/frei0r_iirblur.xml:13
-#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1505
+#: data/effects/avfilter/avfilter_highpass.xml:11
+#: data/effects/avfilter/avfilter_highshelf.xml:11
+#: data/effects/avfilter/avfilter_lowpass.xml:11
+#: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_sofalizer.xml:23
+#: data/effects/frei0r/frei0r_colortap.xml:8
+#: data/effects/frei0r/frei0r_defish0r.xml:14
+#: data/effects/frei0r/frei0r_iirblur.xml:12
+#: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1505
 #: src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
@@ -4211,13 +4217,13 @@ msgstr "המסנן הזה מחיל השוואת היסטוגרמת צבע מקי
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
-msgid "None,Weak,Strong"
-msgstr "ללא,חלש,חזק"
+msgid "Antibanding Level"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
 #, kde-format
-msgid "Antibanding Level"
-msgstr ""
+msgid "None,Weak,Strong"
+msgstr "ללא,חלש,חזק"
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
 #: src/scopes/scopemanager.cpp:278
@@ -4242,29 +4248,29 @@ msgstr "גובה ערוץ"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
 #: data/effects/avfilter/avfilter_waveform.xml:25
-#, kde-format
-msgid "Overlay,Stack,Parade"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_histogram.xml:15
-#: data/effects/avfilter/avfilter_waveform.xml:26
-#: data/effects/frei0r/frei0r_alpha0ps.xml:11
-#: data/effects/frei0r/frei0r_alpha0ps.xml:37
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
+#: data/effects/frei0r/frei0r_alpha0ps.xml:10
+#: data/effects/frei0r/frei0r_alpha0ps.xml:36
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
 #, kde-format
 msgid "Display"
 msgstr "תצוגה"
 
-#: data/effects/avfilter/avfilter_histogram.xml:22
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
+#: data/effects/avfilter/avfilter_histogram.xml:15
+#: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
-msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
+msgid "Overlay,Stack,Parade"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_histogram.xml:23
+#: data/effects/avfilter/avfilter_histogram.xml:22
 #, kde-format
 msgid "Components to Display"
 msgstr "רכיבים להצגה"
+
+#: data/effects/avfilter/avfilter_histogram.xml:23
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:27
+#, kde-format
+msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
 #, kde-format
@@ -4280,15 +4286,15 @@ msgstr "אטימות רקע"
 
 #: data/effects/avfilter/avfilter_histogram.xml:32
 #, kde-format
+msgid "Colors Mode"
+msgstr "מצב צבעים"
+
+#: data/effects/avfilter/avfilter_histogram.xml:33
+#, kde-format
 msgid ""
 "White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
 "Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_histogram.xml:33
-#, kde-format
-msgid "Colors Mode"
-msgstr "מצב צבעים"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, fuzzy, kde-format
@@ -4334,7 +4340,7 @@ msgid ""
 "done by 2, 3 or 4 using the hq*x magnification algorithm."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_hqx.xml:8
+#: data/effects/avfilter/avfilter_hqx.xml:9
 #, kde-format
 msgid "2x,3x,4x"
 msgstr ""
@@ -4424,17 +4430,17 @@ msgstr ""
 msgid "Colors to Adjust"
 msgstr "צבעים לכוונון"
 
-#: data/effects/avfilter/avfilter_huesaturation.xml:9
-#, kde-format
-msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
-msgstr "אדומים,צהובים,ירוקים,ציאנים,כחולים,אדומים לילכיים,כל הצבעים"
-
-#: data/effects/avfilter/avfilter_huesaturation.xml:11
+#: data/effects/avfilter/avfilter_huesaturation.xml:10
 #, kde-format
 msgid ""
 "<![CDATA[Set which primary and<br>\n"
 "        complementary colors are going to be adjusted]]>"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:11
+#, kde-format
+msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
+msgstr "אדומים,צהובים,ירוקים,ציאנים,כחולים,אדומים לילכיים,כל הצבעים"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:14
 #: data/effects/hsl_range.xml:20
@@ -4534,24 +4540,24 @@ msgid "Deinterleave or interleave fields"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:8
-#: data/effects/avfilter/avfilter_il.xml:12
-#: data/effects/avfilter/avfilter_il.xml:16
+#, kde-format
+msgid "Luma Mode"
+msgstr "מצב לומה"
+
+#: data/effects/avfilter/avfilter_il.xml:9
+#: data/effects/avfilter/avfilter_il.xml:13
+#: data/effects/avfilter/avfilter_il.xml:17
 #, fuzzy, kde-format
 #| msgid "Force Deinterlace Overlay"
 msgid "None,Deinterleave,Interleave"
 msgstr "אילוץ שכבת על לביטול שזירה"
 
-#: data/effects/avfilter/avfilter_il.xml:9
-#, kde-format
-msgid "Luma Mode"
-msgstr "מצב לומה"
-
-#: data/effects/avfilter/avfilter_il.xml:13
+#: data/effects/avfilter/avfilter_il.xml:12
 #, kde-format
 msgid "Chroma Mode"
 msgstr "מצב כרומה"
 
-#: data/effects/avfilter/avfilter_il.xml:17
+#: data/effects/avfilter/avfilter_il.xml:16
 #, kde-format
 msgid "Alpha Mode"
 msgstr "מצב אלפא"
@@ -4652,7 +4658,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_roberts.xml:12
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
-#: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
+#: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
 #: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Scale"
@@ -4678,7 +4684,7 @@ msgstr "שינוי ב־Y"
 msgid "Set value which will be added to filtered result."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_kirsch.xml:16
+#: data/effects/avfilter/avfilter_kirsch.xml:17
 #, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
 msgstr ""
@@ -4708,15 +4714,15 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
-msgid "Nearest,Bi-linear"
-msgstr "שכן קרוב (מהיר)"
-
-#: data/effects/avfilter/avfilter_lenscorrection.xml:9
-#, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Interpolation Type"
 msgstr "ביון"
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:9
+#, fuzzy, kde-format
+#| msgid "Nearest Neighbor (fast)"
+msgid "Nearest,Bi-linear"
+msgstr "שכן קרוב (מהיר)"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
@@ -4759,7 +4765,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:8
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:30
-#: data/effects/frei0r/frei0r_alphaspot.xml:31
+#: data/effects/frei0r/frei0r_alphaspot.xml:32
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:30
 #: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
@@ -4773,7 +4779,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:33
-#: data/effects/frei0r/frei0r_alphaspot.xml:34
+#: data/effects/frei0r/frei0r_alphaspot.xml:35
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:33
 #: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, kde-format
@@ -4856,7 +4862,7 @@ msgstr "מעבר נמוך"
 msgid "Apply a low-pass filter with 3dB point frequency."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_lowpass.xml:11
+#: data/effects/avfilter/avfilter_lowpass.xml:12
 #, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,KHz"
 msgstr ""
@@ -4891,7 +4897,7 @@ msgid "LUT file to apply"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
-#: data/effects/avfilter/avfilter_shear.xml:18
+#: data/effects/avfilter/avfilter_shear.xml:17
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Interpolation Mode"
@@ -4912,12 +4918,12 @@ msgstr ""
 msgid "Apply motion-compensation deinterlacing"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_mcdeint.xml:8
+#: data/effects/avfilter/avfilter_mcdeint.xml:9
 #, kde-format
 msgid "Fast,Medium,Slow,Extra slow"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_mcdeint.xml:13
+#: data/effects/avfilter/avfilter_mcdeint.xml:12
 #, kde-format
 msgid "Picture field parity"
 msgstr ""
@@ -4986,7 +4992,7 @@ msgid ""
 "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_median.xml:24
+#: data/effects/avfilter/avfilter_median.xml:23
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
 msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
@@ -5101,35 +5107,35 @@ msgid "Component #3 strength"
 msgstr "עוצמת רכיב מס׳ 3"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
-#: data/effects/avfilter/avfilter_noise.xml:42
-#: data/effects/avfilter/avfilter_noise.xml:46
-#: data/effects/avfilter/avfilter_noise.xml:50
-#: data/effects/avfilter/avfilter_noise.xml:54
-#, kde-format
-msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
 msgid "Flag all"
 msgstr ""
 
+#: data/effects/avfilter/avfilter_noise.xml:39
 #: data/effects/avfilter/avfilter_noise.xml:43
+#: data/effects/avfilter/avfilter_noise.xml:47
+#: data/effects/avfilter/avfilter_noise.xml:51
+#: data/effects/avfilter/avfilter_noise.xml:55
+#, kde-format
+msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_noise.xml:42
 #, kde-format
 msgid "Flag component 0"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:47
+#: data/effects/avfilter/avfilter_noise.xml:46
 #, kde-format
 msgid "Flag component 1"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:51
+#: data/effects/avfilter/avfilter_noise.xml:50
 #, kde-format
 msgid "Flag component 2"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:55
+#: data/effects/avfilter/avfilter_noise.xml:54
 #, kde-format
 msgid "Flag component 3"
 msgstr ""
@@ -5244,7 +5250,7 @@ msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
-#: data/effects/frei0r/frei0r_alphaspot.xml:25
+#: data/effects/frei0r/frei0r_alphaspot.xml:26
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:24
 #: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, kde-format
@@ -5310,7 +5316,7 @@ msgstr "גובה ערוץ"
 msgid "<![CDATA[Height of the scope display]]>"
 msgstr "<![CDATA[היסט לאורך ציר X]]>"
 
-#: data/effects/avfilter/avfilter_oscilloscope.xml:46
+#: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
 msgstr "<![CDATA[נא לבחור את הרכיבים למעקב]]>"
@@ -5353,7 +5359,7 @@ msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_phase.xml:8
+#: data/effects/avfilter/avfilter_phase.xml:9
 #, kde-format
 msgid ""
 "Delay the bottom field,Delay the top field,Keep the field order,Capture "
@@ -5575,7 +5581,7 @@ msgstr "עמודה אופקית"
 msgid "Alpha Vertical Shift"
 msgstr "עמודה אנכית"
 
-#: data/effects/avfilter/avfilter_rgbashift.xml:33
+#: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Edge Operation"
 msgstr "פעולת קצוות"
@@ -5680,14 +5686,14 @@ msgid "Apply CMYK correction to specific color ranges"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
-#, fuzzy, kde-format
-msgid "Absolute,Relative"
-msgstr "הפוך מעבר"
-
-#: data/effects/avfilter/avfilter_selectivecolor.xml:9
 #, kde-format
 msgid "Correction Method"
 msgstr "שיטת תיקון"
+
+#: data/effects/avfilter/avfilter_selectivecolor.xml:9
+#, fuzzy, kde-format
+msgid "Absolute,Relative"
+msgstr "הפוך מעבר"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
@@ -5757,7 +5763,7 @@ msgstr "הגדרת טווח"
 msgid "Force color range for the output video frame"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_setrange.xml:8
+#: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
 msgstr ""
@@ -5789,7 +5795,7 @@ msgstr "מקדם טשטוש"
 msgid "Background Fill Color"
 msgstr "צבע מילוי רקע"
 
-#: data/effects/avfilter/avfilter_shear.xml:17
+#: data/effects/avfilter/avfilter_shear.xml:18
 #, kde-format
 msgid "Nearest,Bilinear"
 msgstr ""
@@ -6006,7 +6012,7 @@ msgstr "הטיה"
 msgid "Elevation"
 msgstr "פעולה"
 
-#: data/effects/avfilter/avfilter_sofalizer.xml:23
+#: data/effects/avfilter/avfilter_sofalizer.xml:24
 #, kde-format
 msgid "Frequency,Time"
 msgstr "תדירות,זמן"
@@ -6084,18 +6090,23 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
 #, kde-format
+msgid "Input format"
+msgstr "תסדיר קלט"
+
+#: data/effects/avfilter/avfilter_stereo3D.xml:9
+#, kde-format
 msgid ""
 "side by side parallel,side by side crosseye,above-below (left above),above-"
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_stereo3D.xml:9
-#, kde-format
-msgid "Input format"
-msgstr "תסדיר קלט"
-
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
+#, kde-format
+msgid "Output format"
+msgstr "תסדיר פלט"
+
+#: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
 msgid ""
 "side by side parallel,side by side crosseye,above-below left top,above-below "
@@ -6109,11 +6120,6 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_stereo3D.xml:13
-#, kde-format
-msgid "Output format"
-msgstr "תסדיר פלט"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, kde-format
@@ -6147,7 +6153,7 @@ msgid "Level OUT"
 msgstr "רמה יוצאת"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
-#: data/effects/avfilter/avfilter_stereotools.xml:86
+#: data/effects/avfilter/avfilter_stereotools.xml:79
 #, kde-format
 msgid "Balance IN"
 msgstr "איזון נכנס"
@@ -6161,7 +6167,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
-#: data/effects/avfilter/avfilter_stereotools.xml:96
+#: data/effects/avfilter/avfilter_stereotools.xml:89
 #, kde-format
 msgid "Balance OUT"
 msgstr "איזון יוצא"
@@ -6214,17 +6220,17 @@ msgstr "להשתמש בהיפוך של ערוץ השקיפות."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:44
 #, kde-format
+msgid "Stereo Mode"
+msgstr "מצב סטריאו"
+
+#: data/effects/avfilter/avfilter_stereotools.xml:45
+#, kde-format
 msgid ""
 "Left/Right to Left/Right,Left/Right to Mid/Side,Mid/Side to Left/Right,Left/"
 "Right to Left/Left,Left/Right to Right/Right,Left/Right to Left + Right,Left/"
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_stereotools.xml:45
-#, kde-format
-msgid "Stereo Mode"
-msgstr "מצב סטריאו"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, fuzzy, kde-format
@@ -6311,12 +6317,6 @@ msgstr "סטריאו "
 msgid "Set the stereo phase in degrees."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_stereotools.xml:79
-#: data/effects/avfilter/avfilter_stereotools.xml:89
-#, kde-format
-msgid "balance,amplitude,power"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_stereotools.xml:85
 #: data/effects/avfilter/avfilter_stereotools.xml:95
 #, kde-format
@@ -6328,6 +6328,12 @@ msgid ""
 "Similar to classic mode above but gain is raised up to 2.\n"
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_stereotools.xml:86
+#: data/effects/avfilter/avfilter_stereotools.xml:96
+#, kde-format
+msgid "balance,amplitude,power"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
@@ -6413,20 +6419,20 @@ msgstr "שחלוף"
 msgid "Transpose rows with columns in the input video and optionally flip it"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_transpose.xml:8
+#: data/effects/avfilter/avfilter_transpose.xml:9
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
-msgid "None,Portrait,Landscape"
-msgstr ""
+msgid "Override if"
+msgstr "דריסה אם"
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
 #, kde-format
-msgid "Override if"
-msgstr "דריסה אם"
+msgid "None,Portrait,Landscape"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:5
 #, kde-format
@@ -6550,20 +6556,20 @@ msgid ""
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
 msgid "Hard,Soft,Garrote"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
 #, kde-format
-msgid "Universal,Bayes"
-msgstr ""
+msgid "Threshold Type"
+msgstr "סוג סף"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
 #, kde-format
-msgid "Threshold Type"
-msgstr "סוג סף"
+msgid "Universal,Bayes"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:23
 #: src/jobs/speedtask.cpp:72
@@ -6582,7 +6588,7 @@ msgstr "מבזק מחזורי"
 msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:8
+#: data/effects/avfilter/avfilter_vectorscope.xml:9
 #, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
 msgstr ""
@@ -6611,25 +6617,25 @@ msgstr "רכיב ב־Y"
 #: data/effects/avfilter/avfilter_vectorscope.xml:27
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
-msgid "None,Instant,Peak,Peak+Instant"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:28
-#: data/effects/avfilter/avfilter_waveform.xml:36
-#, kde-format
 msgid "Envelope"
 msgstr "מעטפה"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:31
+#: data/effects/avfilter/avfilter_vectorscope.xml:28
+#: data/effects/avfilter/avfilter_waveform.xml:37
 #, kde-format
-msgid "None,Green,Color"
-msgstr "ללא,ירוק,צבע"
+msgid "None,Instant,Peak,Peak+Instant"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:32
-#: data/effects/avfilter/avfilter_waveform.xml:46
+#: data/effects/avfilter/avfilter_vectorscope.xml:31
+#: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
 msgid "Graticule"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:32
+#, kde-format
+msgid "None,Green,Color"
+msgstr "ללא,ירוק,צבע"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:35
 #: data/effects/avfilter/avfilter_waveform.xml:50
@@ -6639,16 +6645,16 @@ msgid "Graticule Opacity"
 msgstr "התחל ב"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:38
-#, kde-format
-msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:39
-#: data/effects/avfilter/avfilter_waveform.xml:56
+#: data/effects/avfilter/avfilter_waveform.xml:54
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgid "Graticule Flags"
 msgstr "התחל ב"
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:39
+#, kde-format
+msgid "Draw White Point,Draw Black Point,Draw Point Name"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
@@ -6660,7 +6666,7 @@ msgstr "סף נמוך"
 msgid "High Threshold"
 msgstr "סף גבוה"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:51
+#: data/effects/avfilter/avfilter_vectorscope.xml:52
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
 msgstr ""
@@ -6746,25 +6752,25 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
-#, kde-format
-msgid "Simple,Complex"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, fuzzy, kde-format
 #| msgid "Co-efficient"
 msgid "Filter coefficients"
 msgstr "גם יעיל"
 
-#: data/effects/avfilter/avfilter_w3fdif.xml:12
+#: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, kde-format
-msgid "Deinterlace all frames,Marked as interlaced only"
+msgid "Simple,Complex"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_w3fdif.xml:13
+#: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
 msgid "Frames to deinterlace"
 msgstr "תמוניות לביטול שזירה"
+
+#: data/effects/avfilter/avfilter_w3fdif.xml:13
+#, kde-format
+msgid "Deinterlace all frames,Marked as interlaced only"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, kde-format
@@ -6779,12 +6785,7 @@ msgid ""
 "source video. "
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:8
-#, kde-format
-msgid "Row,Column"
-msgstr "שורה,עמודה"
-
-#: data/effects/avfilter/avfilter_waveform.xml:12
+#: data/effects/avfilter/avfilter_waveform.xml:11
 #, kde-format
 msgid ""
 "<![CDATA[In row mode, the graph on the left side represents<br>\n"
@@ -6793,6 +6794,11 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:12
+#, kde-format
+msgid "Row,Column"
+msgstr "שורה,עמודה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
@@ -6809,32 +6815,27 @@ msgid ""
 "<em>column</em> mode.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:27
+#: data/effects/avfilter/avfilter_waveform.xml:26
 #, kde-format
 msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[הגדרת מצב התצוגה]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:30
-#, kde-format
-msgid "Y,U,YU,V,YV,UV,All"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_waveform.xml:32
+#: data/effects/avfilter/avfilter_waveform.xml:31
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
 msgstr "<![CDATA[בחירת הרכיבים לתצוגה]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:37
+#: data/effects/avfilter/avfilter_waveform.xml:32
+#, kde-format
+msgid "Y,U,YU,V,YV,UV,All"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<![CDATA[הגדרת מצב המעטפה]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, kde-format
-msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1606
@@ -6843,20 +6844,25 @@ msgstr ""
 msgid "Filter"
 msgstr "מסנן"
 
-#: data/effects/avfilter/avfilter_waveform.xml:42
+#: data/effects/avfilter/avfilter_waveform.xml:41
 #, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
 msgstr "<![CDATA[הגדרת מצב המסנן]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:45
+#: data/effects/avfilter/avfilter_waveform.xml:42
 #, kde-format
-msgid "None,Green,Orange,Invert"
-msgstr "ללא,ירוק,כתום,היפוך"
+msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:47
+#: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:47
+#, kde-format
+msgid "None,Green,Orange,Invert"
+msgstr "ללא,ירוק,כתום,היפוך"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, fuzzy, kde-format
@@ -6864,25 +6870,25 @@ msgstr ""
 msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:54
-#, kde-format
-msgid "Show numbers,Draw dots"
-msgstr "הצגת מספרים,ציור נקודות"
-
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Set graticule flags]]>"
 msgstr "<![CDATA[היסט לאורך ציר Y]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:59
+#: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
-msgid "Digital,Millivolts,IRE"
+msgid "Show numbers,Draw dots"
+msgstr "הצגת מספרים,ציור נקודות"
+
+#: data/effects/avfilter/avfilter_waveform.xml:60
+#, kde-format
+msgid "<![CDATA[Set scale used for displaying graticule]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
-msgid "<![CDATA[Set scale used for displaying graticule]]>"
+msgid "Digital,Millivolts,IRE"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
@@ -6905,34 +6911,34 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
-msgid "None,Size"
-msgstr "ללא,גודל"
-
-#: data/effects/avfilter/avfilter_waveform.xml:79
-#, kde-format
 msgid "Fit Mode"
 msgstr "מצב התאמה"
 
-#: data/effects/avfilter/avfilter_waveform.xml:80
+#: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
 msgstr "<![CDATA[הגדרת מצב ההתאמה]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:83
+#: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
-msgid "First available, All"
-msgstr "הראשון הזמין, הכול"
+msgid "None,Size"
+msgstr "ללא,גודל"
 
-#: data/effects/avfilter/avfilter_waveform.xml:84
+#: data/effects/avfilter/avfilter_waveform.xml:83
 #, kde-format
 msgid "Input Format"
 msgstr "תסדיר קלט"
 
-#: data/effects/avfilter/avfilter_waveform.xml:85
+#: data/effects/avfilter/avfilter_waveform.xml:84
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the radius for the direction]]>"
 msgid "<![CDATA[Set input formats for filter to pick from]]>"
 msgstr "<![CDATA[הגדרת הרדיוס לכיוון]]>"
+
+#: data/effects/avfilter/avfilter_waveform.xml:85
+#, kde-format
+msgid "First available, All"
+msgstr "הראשון הזמין, הכול"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, fuzzy, kde-format
@@ -6948,7 +6954,7 @@ msgid ""
 "frame rate and half the frame count."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_weave.xml:8
+#: data/effects/avfilter/avfilter_weave.xml:9
 #, kde-format
 msgid "Top,Bottom"
 msgstr "למעלה,למטה"
@@ -6966,15 +6972,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
-#, kde-format
-msgid "2x BR,3x BR,4x BR"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_xbr.xml:9
 #, fuzzy, kde-format
 #| msgid "Line Tension"
 msgid "Scaling dimension"
 msgstr "מתח קו"
+
+#: data/effects/avfilter/avfilter_xbr.xml:9
+#, kde-format
+msgid "2x BR,3x BR,4x BR"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, fuzzy, kde-format
@@ -6989,12 +6995,12 @@ msgid ""
 "filter\")"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_yadif.xml:8
+#: data/effects/avfilter/avfilter_yadif.xml:9
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_yadif.xml:12
+#: data/effects/avfilter/avfilter_yadif.xml:13
 #, fuzzy, kde-format
 #| msgid "Bottom field first"
 msgid "Top field first,Bottom field first,Auto"
@@ -7146,13 +7152,13 @@ msgstr "העתקת ערוץ אחד לשני"
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
-#: data/effects/channelcopy.xml:9 src/ui/import_subtitle_ui.ui:192
+#: data/effects/channelcopy.xml:8 src/ui/import_subtitle_ui.ui:192
 #: src/ui/renderwidget_ui.ui:97
 #, kde-format
 msgid "From"
 msgstr "‮מ־"
 
-#: data/effects/channelcopy.xml:13
+#: data/effects/channelcopy.xml:12
 #, kde-format
 msgid "To"
 msgstr "אל"
@@ -7250,17 +7256,17 @@ msgid "Copy one audio channel to another."
 msgstr "העתקת ערוץ השמע לערוץ אחר."
 
 #: data/effects/copychannelstostereo.xml:8
-#: data/effects/copychannelstostereo.xml:12
-#, kde-format
-msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-
-#: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
 msgstr "התחלה"
 
+#: data/effects/copychannelstostereo.xml:9
 #: data/effects/copychannelstostereo.xml:13
+#, kde-format
+msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+
+#: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "TO"
 msgstr "עד"
@@ -7470,26 +7476,26 @@ msgid "Padding"
 msgstr "ריפוד"
 
 #: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#, kde-format
+msgid "Horizontal Alignment"
+msgstr "יישור אופקי"
+
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "שמאל,מרכז,ימין"
 
-#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
-#, kde-format
-msgid "Horizontal Alignment"
-msgstr "יישור אופקי"
-
 #: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#, kde-format
+msgid "Vertical Alignment"
+msgstr "יישור אנכי"
+
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "למעלה,מרכז,למטה"
-
-#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
-#, kde-format
-msgid "Vertical Alignment"
-msgstr "יישור אנכי"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
@@ -7499,6 +7505,14 @@ msgid "Text"
 msgstr "טקסט"
 
 #: data/effects/dynamictext.xml:44
+#, no-c-format, kde-format
+msgid ""
+"You can also enter strftime parameters to customize the output, like: "
+"#createdate %H:%M %D#"
+msgstr ""
+"אפשר גם למלא משתני strftime כדי לכוון את הפלט, למשל: #תאריך_יצירה %H:%M %D#"
+
+#: data/effects/dynamictext.xml:45
 #, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
@@ -7506,14 +7520,6 @@ msgid ""
 msgstr ""
 "קוד זמן,תמונית,תאריך יצירה,תאריך קובץ (GMT),תאריך קובץ (מקומי),קצב תמוניות "
 "במקור,מפענח במקור,קצב תמוניות במקור,רוחב במקור,גובה במקור,הערה במקור"
-
-#: data/effects/dynamictext.xml:45
-#, no-c-format, kde-format
-msgid ""
-"You can also enter strftime parameters to customize the output, like: "
-"#createdate %H:%M %D#"
-msgstr ""
-"אפשר גם למלא משתני strftime כדי לכוון את הפלט, למשל: #תאריך_יצירה %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -7764,9 +7770,9 @@ msgid ""
 "em>.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:10
-#: data/effects/frei0r/frei0r_alpha0ps.xml:36
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
+#: data/effects/frei0r/frei0r_alpha0ps.xml:11
+#: data/effects/frei0r/frei0r_alpha0ps.xml:37
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid ""
 "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
@@ -7780,25 +7786,25 @@ msgid "Display input alpha"
 msgstr "הצגת קלט אלפא"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:17
-#, kde-format
-msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_alpha0ps.xml:18
-#: data/effects/frei0r/frei0r_alpha0ps.xml:44
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
-#: data/effects/frei0r/frei0r_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alpha0ps.xml:43
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
+#: data/effects/frei0r/frei0r_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alphaspot.xml:38
-#: data/effects/frei0r/frei0r_select0r.xml:37
-#: data/effects/frei0r/frei0r_select0r.xml:76
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:37
-#: data/effects/mask_start_frei0r_alphaspot.xml:37
-#: data/effects/mask_start_frei0r_select0r.xml:42
+#: data/effects/frei0r/frei0r_select0r.xml:36
+#: data/effects/frei0r/frei0r_select0r.xml:75
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Operation"
 msgstr "פעולה"
+
+#: data/effects/frei0r/frei0r_alpha0ps.xml:18
+#, kde-format
+msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:24
 #, kde-format
@@ -7813,8 +7819,8 @@ msgid ""
 "em>.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:43
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
+#: data/effects/frei0r/frei0r_alpha0ps.xml:44
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
@@ -7912,24 +7918,24 @@ msgstr "תחתית שקיפות"
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
-#: data/effects/frei0r/frei0r_alphagrad.xml:29
-#: data/effects/frei0r/frei0r_alphaspot.xml:37
-#: data/effects/frei0r/frei0r_select0r.xml:36
-#: data/effects/frei0r/frei0r_select0r.xml:75
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:36
-#: data/effects/mask_start_frei0r_alphaspot.xml:36
-#: data/effects/mask_start_frei0r_select0r.xml:41
-#, kde-format
-msgid "Write on clear,Max,Min,Add,Subtract"
-msgstr "כתיבה על הרקע,מרבי,מזערי,הוספה,חיסור"
-
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
-#: data/effects/frei0r/frei0r_alphagrad.xml:31
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
+#: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
+#: data/effects/frei0r/frei0r_alphagrad.xml:31
+#: data/effects/frei0r/frei0r_alphaspot.xml:39
+#: data/effects/frei0r/frei0r_select0r.xml:37
+#: data/effects/frei0r/frei0r_select0r.xml:76
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:37
+#: data/effects/mask_start_frei0r_alphaspot.xml:37
+#: data/effects/mask_start_frei0r_select0r.xml:42
+#, kde-format
+msgid "Write on clear,Max,Min,Add,Subtract"
+msgstr "כתיבה על הרקע,מרבי,מזערי,הוספה,חיסור"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #, kde-format
@@ -7941,16 +7947,16 @@ msgstr "צורות אלפא"
 msgid "Draws simple shapes into the alpha channel"
 msgstr "ציור צורות פשוטות לערוץ האלפא"
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
-#: data/effects/frei0r/frei0r_alphaspot.xml:9
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:8
-#: data/effects/mask_start_frei0r_alphaspot.xml:8
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
+#: data/effects/frei0r/frei0r_alphaspot.xml:10
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:9
+#: data/effects/mask_start_frei0r_alphaspot.xml:9
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
 msgstr "ריבוע,אליפסה,משולש,יהלום"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:12
-#: data/effects/frei0r/frei0r_alphaspot.xml:13
+#: data/effects/frei0r/frei0r_alphaspot.xml:14
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:12
 #: data/effects/mask_start_frei0r_alphaspot.xml:12
 #, kde-format
@@ -7958,7 +7964,7 @@ msgid "Position X"
 msgstr "מקום ב־X"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:15
-#: data/effects/frei0r/frei0r_alphaspot.xml:16
+#: data/effects/frei0r/frei0r_alphaspot.xml:17
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:15
 #: data/effects/mask_start_frei0r_alphaspot.xml:15
 #, kde-format
@@ -7966,7 +7972,7 @@ msgid "Position Y"
 msgstr "מקום ב־Y"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:18
-#: data/effects/frei0r/frei0r_alphaspot.xml:19
+#: data/effects/frei0r/frei0r_alphaspot.xml:20
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:18
 #: data/effects/mask_start_frei0r_alphaspot.xml:18
 #, kde-format
@@ -7974,7 +7980,7 @@ msgid "Size X"
 msgstr "גודל X"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:21
-#: data/effects/frei0r/frei0r_alphaspot.xml:22
+#: data/effects/frei0r/frei0r_alphaspot.xml:23
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:21
 #: data/effects/mask_start_frei0r_alphaspot.xml:21
 #, kde-format
@@ -7982,7 +7988,7 @@ msgid "Size Y"
 msgstr "גודל Y"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
-#: data/effects/frei0r/frei0r_alphaspot.xml:28
+#: data/effects/frei0r/frei0r_alphaspot.xml:29
 #: data/effects/mask_start_frei0r_alphaspot.xml:27
 #, kde-format
 msgid "Transition width"
@@ -8074,8 +8080,8 @@ msgstr "עקומות בזייה"
 msgid "Color curves adjustment"
 msgstr "כיוון עקומות צבע"
 
-#: data/effects/frei0r/frei0r_bezier_curves.xml:8
-#: data/effects/frei0r/frei0r_curves.xml:64
+#: data/effects/frei0r/frei0r_bezier_curves.xml:9
+#: data/effects/frei0r/frei0r_curves.xml:65
 #, kde-format
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
 msgstr ""
@@ -8085,16 +8091,16 @@ msgstr ""
 #: data/effects/frei0r/frei0r_curves.xml:13
 #: data/effects/frei0r/frei0r_curves.xml:68
 #, kde-format
-msgid "Rec. 601,Rec. 709"
-msgstr "Rec. 601,Rec. 709"
+msgid "Luma formula"
+msgstr "נוסחת לומא"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
 #, kde-format
-msgid "Luma formula"
-msgstr "נוסחת לומא"
+msgid "Rec. 601,Rec. 709"
+msgstr "Rec. 601,Rec. 709"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
 #, kde-format
@@ -8131,25 +8137,25 @@ msgid ""
 "stretches and blurs it over the pole."
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:24
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:33
-#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:150
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
-#, kde-format
-msgid "Nearest-Neighbor,Bilinear"
-msgstr "שכן קרוב,ביליניארי"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Determines the sampling method.]]>"
 msgstr "<![CDATA[היסט לאורך ציר X]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:34
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:151
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:25
+#, kde-format
+msgid "Nearest-Neighbor,Bilinear"
+msgstr "שכן קרוב,ביליניארי"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
 #, kde-format
@@ -8455,7 +8461,7 @@ msgid ""
 "the little planet effect from a VR360 footage."
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
 #, kde-format
 msgid "Nearest-neighbor,Bilinear"
 msgstr "שכן קרוב,ביליניארי"
@@ -8472,7 +8478,7 @@ msgid ""
 "sphere"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
 #, kde-format
 msgid "<![CDATA[Determines the sampling method]]>"
 msgstr "<![CDATA[קביעת שיטת הדגימה]]>"
@@ -8552,19 +8558,19 @@ msgstr "יישר פריט למעלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:23
 #, kde-format
-msgid "Equidistant Fisheye"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
-#, kde-format
 msgid "Projection"
 msgstr "היטל"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, kde-format
 msgid ""
 "<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
 "like the Ricoh Theta and Garmin Virb360 are supported.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
+#, kde-format
+msgid "Equidistant Fisheye"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:28
@@ -9135,8 +9141,8 @@ msgstr "אלפא בתצורת נוצה"
 msgid "Enable Stretch"
 msgstr "אפשר מתיחה"
 
-#: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/frei0r/frei0r_defish0r.xml:37
+#: data/effects/frei0r/frei0r_c0rners.xml:45
+#: data/effects/frei0r/frei0r_defish0r.xml:38
 #, kde-format
 msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
@@ -9153,14 +9159,14 @@ msgstr "רקע שקוף"
 #: data/effects/frei0r/frei0r_c0rners.xml:51
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
-msgid "Write on clear,Maximum,Minimum,Add,Subtract"
-msgstr "כתיבה עם פינוי,מרבי,מזערי,הוספה,חיסור"
+msgid "Alpha Operation"
+msgstr "פעולת אלפא"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:52
 #: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
-msgid "Alpha Operation"
-msgstr "פעולת אלפא"
+msgid "Write on clear,Maximum,Minimum,Add,Subtract"
+msgstr "כתיבה עם פינוי,מרבי,מזערי,הוספה,חיסור"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:4
 #, fuzzy, kde-format
@@ -9177,13 +9183,13 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:8
 #, kde-format
-msgid "Linear,Radial"
-msgstr "קווי,מעגלי"
+msgid "Pattern"
+msgstr "תבנית"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:9
 #, kde-format
-msgid "Pattern"
-msgstr "תבנית"
+msgid "Linear,Radial"
+msgstr "קווי,מעגלי"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
 #, kde-format
@@ -9234,6 +9240,12 @@ msgid "Offset"
 msgstr "היסט"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:39
+#: data/effects/frei0r/frei0r_softglow.xml:9
+#, kde-format
+msgid "Blend Mode"
+msgstr "מצב ערבול"
+
+#: data/effects/frei0r/frei0r_cairogradient.xml:40
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:26
 #: data/transitions/frei0r/frei0r_cairoblend.xml:11
 #, fuzzy, kde-format
@@ -9250,12 +9262,6 @@ msgstr ""
 "ערבוב שקיפות,רק,חיבור,כפל,וילון,שכבת על,החשכה,הבהרה,דילוג צבע,צריבת צבע,"
 "הבהרה חזקה,הבהרה רכה,הפרש, החרגה,או (סיביות), וגם (סיביות), רק (סיביות),רק-"
 "לא (סיביות),לא-וגם (סיביות),לא-רק (סיביות),יעד פנימה,יעד החוצה"
-
-#: data/effects/frei0r/frei0r_cairogradient.xml:40
-#: data/effects/frei0r/frei0r_softglow.xml:10
-#, kde-format
-msgid "Blend Mode"
-msgstr "מצב ערבול"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:17
@@ -9382,13 +9388,13 @@ msgstr "כחול"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
-msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgid "Action"
+msgstr "פעולה"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
 #, kde-format
-msgid "Action"
-msgstr "פעולה"
+msgid "Add constant,Change gamma,Multiply"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
@@ -9453,7 +9459,7 @@ msgstr "אפקט צבע"
 msgid "Applies a pre-made color effect to image"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_colortap.xml:8
+#: data/effects/frei0r/frei0r_colortap.xml:9
 #, kde-format
 msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
 msgstr ""
@@ -9475,10 +9481,10 @@ msgctxt "Curves Effect Name"
 msgid "Curves"
 msgstr "עקומות"
 
-#: data/effects/frei0r/frei0r_curves.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:40
-#: data/effects/frei0r/frei0r_levels.xml:71
+#: data/effects/frei0r/frei0r_curves.xml:10
+#: data/effects/frei0r/frei0r_levels.xml:10
+#: data/effects/frei0r/frei0r_levels.xml:41
+#: data/effects/frei0r/frei0r_levels.xml:72
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr ""
@@ -9557,18 +9563,18 @@ msgstr "הצג גרף בתמונה"
 
 #: data/effects/frei0r/frei0r_curves.xml:55
 #: data/effects/frei0r/frei0r_curves.xml:110
-#: data/effects/frei0r/frei0r_levels.xml:31
-#: data/effects/frei0r/frei0r_levels.xml:62
-#: data/effects/frei0r/frei0r_levels.xml:78
-#, kde-format
-msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_curves.xml:56
-#: data/effects/frei0r/frei0r_curves.xml:111
 #, kde-format
 msgid "Graph position"
 msgstr "מיקום גרף"
+
+#: data/effects/frei0r/frei0r_curves.xml:56
+#: data/effects/frei0r/frei0r_curves.xml:111
+#: data/effects/frei0r/frei0r_levels.xml:32
+#: data/effects/frei0r/frei0r_levels.xml:63
+#: data/effects/frei0r/frei0r_levels.xml:79
+#, kde-format
+msgid "Top Left,Top Right,Bottom Left,Bottom Right"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_curves.xml:60
 #, kde-format
@@ -9607,23 +9613,23 @@ msgstr "נקה מטמון"
 msgid "De-Fish"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_defish0r.xml:14
+#: data/effects/frei0r/frei0r_defish0r.xml:15
 #, kde-format
 msgid "Equidistant,Orthographic,Equiarea,Stereographic"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_defish0r.xml:18
-#, kde-format
-msgid "Fill,Center,Fit,Manual"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: data/effects/frei0r/frei0r_defish0r.xml:19
+#: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Scaling"
 msgstr "שינוי קנה־מידה"
+
+#: data/effects/frei0r/frei0r_defish0r.xml:19
+#, kde-format
+msgid "Fill,Center,Fit,Manual"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:23
 #, kde-format
@@ -9652,20 +9658,20 @@ msgstr "שימור יחס ממדים"
 msgid "Manual Scale"
 msgstr "קנה-מידה ידני"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:38
+#: data/effects/frei0r/frei0r_defish0r.xml:37
 #, kde-format
 msgid "Interpolator"
 msgstr "מביין"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:41
 #, kde-format
-msgid "Square,PAL DV,NTSC DV,HDV,Manual"
-msgstr ""
+msgid "Aspect Type"
+msgstr "סוג יחס תצוגה"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:42
 #, kde-format
-msgid "Aspect Type"
-msgstr "סוג יחס תצוגה"
+msgid "Square,PAL DV,NTSC DV,HDV,Manual"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
@@ -10034,7 +10040,7 @@ msgstr "זיהוי פנים"
 msgid "Detect faces and draw shapes on them using OpenCV"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_facedetect.xml:24
+#: data/effects/frei0r/frei0r_facedetect.xml:25
 #, kde-format
 msgid "circle,ellipse,rectangle,random"
 msgstr "עיגול,אליפסה,משולש,אקראי"
@@ -10312,15 +10318,15 @@ msgstr ""
 msgid "Amount of blur"
 msgstr "כמות הטשטוש"
 
-#: data/effects/frei0r/frei0r_iirblur.xml:12
-#, kde-format
-msgid "Exponential,Lowpass,Gaussian"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_iirblur.xml:14
+#: data/effects/frei0r/frei0r_iirblur.xml:13
 #, kde-format
 msgid "Select blurring algorithm"
 msgstr "בחירת אלגוריתם טשטוש"
+
+#: data/effects/frei0r/frei0r_iirblur.xml:14
+#, kde-format
+msgid "Exponential,Lowpass,Gaussian"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
 #, kde-format
@@ -10403,20 +10409,20 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
-#, kde-format
-msgid "None,Counter Clockwise,Clockwise"
-msgstr "ללא,נגד כיוון השעון,עם כיוון השעון"
-
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, fuzzy, kde-format
 #| msgid "Segmentation direction"
 msgid "Segmentation Direction"
 msgstr "כיוון חלוקה"
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, kde-format
 msgid "Direction of the segmentation."
 msgstr "כיוון החלוקה."
+
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
+#, kde-format
+msgid "None,Counter Clockwise,Clockwise"
+msgstr "ללא,נגד כיוון השעון,עם כיוון השעון"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, fuzzy, kde-format
@@ -10446,19 +10452,19 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
-msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
-#, kde-format
 msgid "Preferred Corner"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:48
 #, kde-format
 msgid ""
 "<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
 "        this parameter defines the preferred corner.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
+#, kde-format
+msgid "Top right,Top left,Bottom left,Bottom right"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
@@ -10515,13 +10521,13 @@ msgstr "צבע יעד"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
 #, kde-format
-msgid "Color distance,Transparency,Edge inwards,Edge outwards"
-msgstr ""
+msgid "Mask Type"
+msgstr "סוג מסכה"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, kde-format
-msgid "Mask Type"
-msgstr "סוג מסכה"
+msgid "Color distance,Transparency,Edge inwards,Edge outwards"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
@@ -10544,22 +10550,22 @@ msgid "Saturation Threshold"
 msgstr "סף רוויה"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
-#, kde-format
-msgid "None,De-Key,Target,Desaturate,Luma adjust"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
 #, kde-format
 msgid "Operation 1"
 msgstr "פעולה 1"
+
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
+#, kde-format
+msgid "None,De-Key,Target,Desaturate,Luma adjust"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
 #, kde-format
 msgid "Amount 1"
 msgstr "כמות 1"
 
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
 msgid "Operation 2"
 msgstr "פעולה 2"
@@ -10688,9 +10694,9 @@ msgstr "יציאת לבן"
 msgid "Show histogram"
 msgstr "הראה היסטוגרמה"
 
-#: data/effects/frei0r/frei0r_levels.xml:32
-#: data/effects/frei0r/frei0r_levels.xml:63
-#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:31
+#: data/effects/frei0r/frei0r_levels.xml:62
+#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Histogram position"
 msgstr "מיקום היסטורגרמה"
@@ -10999,14 +11005,14 @@ msgstr "מדוד ערכי וידאו"
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:9
 #, kde-format
-msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
-msgstr ""
+msgid "Measurement"
+msgstr "מדידה"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:9
 #: data/effects/frei0r/frei0r_pr0be.xml:10
 #, kde-format
-msgid "Measurement"
-msgstr "מדידה"
+msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:12
 #: data/effects/frei0r/frei0r_pr0be.xml:13
@@ -11107,16 +11113,16 @@ msgstr "אורך פרופיל"
 msgid "<![CDATA[Length of the profile in pixel]]>"
 msgstr "<![CDATA[אורך הפרופיל בפיקסלים]]>"
 
-#: data/effects/frei0r/frei0r_measure_pr0file.xml:24
-#: data/effects/frei0r/frei0r_pr0file.xml:25
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:25
+#: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
-msgid "R,G,B,Y',Pr,Pb,Alpha"
+msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
 #: data/effects/frei0r/frei0r_pr0file.xml:27
 #, kde-format
-msgid "<![CDATA[Channel to numerically display]]>"
+msgid "R,G,B,Y',Pr,Pb,Alpha"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
@@ -11291,19 +11297,19 @@ msgstr ""
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, kde-format
-msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
+msgid "Color Encoding"
+msgstr "קידוד צבע"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
-msgid "Color Encoding"
-msgstr "קידוד צבע"
+msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
 #, kde-format
-msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
@@ -11329,7 +11335,7 @@ msgstr "פרטי מדיה:"
 msgid "Implements several median-type filters"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_medians.xml:8
+#: data/effects/frei0r/frei0r_medians.xml:9
 #, kde-format
 msgid ""
 "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
@@ -11771,30 +11777,30 @@ msgstr "הפרש כחול / חוזק"
 #: data/effects/frei0r/frei0r_select0r.xml:51
 #: data/effects/mask_start_frei0r_select0r.xml:17
 #, kde-format
-msgid "RGB,ABI,HCI"
-msgstr "RGB,ABI,HCI"
+msgid "Color Model"
+msgstr "דגם צבע"
 
 #: data/effects/frei0r/frei0r_select0r.xml:25
 #: data/effects/frei0r/frei0r_select0r.xml:52
 #: data/effects/mask_start_frei0r_select0r.xml:18
 #, kde-format
-msgid "Color Model"
-msgstr "דגם צבע"
+msgid "RGB,ABI,HCI"
+msgstr "RGB,ABI,HCI"
 
-#: data/effects/frei0r/frei0r_select0r.xml:28
-#: data/effects/frei0r/frei0r_select0r.xml:55
-#: data/effects/mask_start_frei0r_select0r.xml:21
+#: data/effects/frei0r/frei0r_select0r.xml:29
+#: data/effects/frei0r/frei0r_select0r.xml:56
+#: data/effects/mask_start_frei0r_select0r.xml:22
 #, kde-format
 msgid "Box,Ellipsoid,Diamond"
 msgstr "תיבה,אליפסה,יהלום"
 
-#: data/effects/frei0r/frei0r_select0r.xml:32
+#: data/effects/frei0r/frei0r_select0r.xml:33
 #, kde-format
 msgid "Hard,Fat,Normal,Skinny"
 msgstr "קשיח,עבה,רגיל,דק"
 
-#: data/effects/frei0r/frei0r_select0r.xml:59
-#: data/effects/mask_start_frei0r_select0r.xml:25
+#: data/effects/frei0r/frei0r_select0r.xml:60
+#: data/effects/mask_start_frei0r_select0r.xml:26
 #, kde-format
 msgid "Hard,Fat,Normal,Skinny,Slope"
 msgstr "קשיח,עבה,רגיל,דק,שיפוע"
@@ -11865,14 +11871,14 @@ msgstr "זוהר רך"
 msgid "Does softglow effect on highlights"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_softglow.xml:9
+#: data/effects/frei0r/frei0r_softglow.xml:10
 #, kde-format
-msgid "Screen,Overlay,Add"
+msgid "Blend mode used to blend highlight blur with input image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:11
 #, kde-format
-msgid "Blend mode used to blend highlight blur with input image"
+msgid "Screen,Overlay,Add"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:14
@@ -12354,29 +12360,20 @@ msgstr ""
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
-msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr "מקום/מסלול GPS,גובה,דופק,מהירות"
-
-#: data/effects/gpsgraphic.xml:28
-#, kde-format
 msgid "Graph data source"
 msgstr "מקור נתוני תרשים"
 
-#: data/effects/gpsgraphic.xml:29
+#: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
 msgstr "באילו נתונים מקובץ ה־GPS להשתמש לציור"
 
-#: data/effects/gpsgraphic.xml:32
+#: data/effects/gpsgraphic.xml:29
 #, kde-format
-msgid ""
-"Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
-"the map/graph centered on current location,Draw speedometer"
-msgstr ""
-"קו מפה דו־ממדי בסיסי (למיקום) או תרשים חד־ממדי לפי זמן (אחרים), התקרבות "
-"למפה/תרשים עם המיקום הנוכחי ממורכז,ציור מד־אוץ"
+msgid "GPS location/track,Altitude,Heart rate,Speed"
+msgstr "מקום/מסלול GPS,גובה,דופק,מהירות"
 
-#: data/effects/gpsgraphic.xml:41
+#: data/effects/gpsgraphic.xml:40
 #, kde-format
 msgid ""
 "<![CDATA[<b>Speedometer</b> is available for all data sources but "
@@ -12403,6 +12400,15 @@ msgstr ""
 "* אם מקור הנתונים הוא לא מקום GPS/נווטן המירכוז יבוצע רק לציר האופקי\n"
 "(זמן), קיצוץ בציר האנכי יתנהג כמו קו במפה דו־ממדית (ישמור באופן יציב\n"
 "על אותה מגבלת מזערי/מרבי שמאפשר לנקודת העכשיו לעלות ולרדת).]]>"
+
+#: data/effects/gpsgraphic.xml:41
+#, kde-format
+msgid ""
+"Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
+"the map/graph centered on current location,Draw speedometer"
+msgstr ""
+"קו מפה דו־ממדי בסיסי (למיקום) או תרשים חד־ממדי לפי זמן (אחרים), התקרבות "
+"למפה/תרשים עם המיקום הנוכחי ממורכז,ציור מד־אוץ"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
@@ -12440,17 +12446,12 @@ msgstr ""
 "    \tלתשומת ליבך: גם <em>חיתוך התחלה</em> וגם <em>חיתוך סוף</em> מחושבים "
 "מכלל הקובץ, לכן חיתוך של 50% מההתחלה ו־50% מהסוף יחתוך את כל הקובץ.]]>"
 
-#: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
-#, kde-format
-msgid "Percentage from min..max,Absolute value"
-msgstr "אחוז מתוך מזערי..מרבי,ערך מוחלט"
-
-#: data/effects/gpsgraphic.xml:55
+#: data/effects/gpsgraphic.xml:54
 #, kde-format
 msgid "Crop mode horizontal"
 msgstr "מצב חיתוך אופקי"
 
-#: data/effects/gpsgraphic.xml:58
+#: data/effects/gpsgraphic.xml:57
 #, kde-format
 msgid ""
 "<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</"
@@ -12464,6 +12465,11 @@ msgstr ""
 "em>.<br>\n"
 "    \tנא לשים לב: לסוג האופקי, ערכים מוחלטים הם האורך (לסוג מקור מקום)\n"
 "והזמן (במילישניות מאז Epoch) לשאר סוגי מקורות הנתונים)]]>"
+
+#: data/effects/gpsgraphic.xml:58 data/effects/gpsgraphic.xml:78
+#, kde-format
+msgid "Percentage from min..max,Absolute value"
+msgstr "אחוז מתוך מזערי..מרבי,ערך מוחלט"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -12505,12 +12511,12 @@ msgstr ""
 "<![CDATA[כמו <em>חיתוך משמאל</em> אבל לצד הימני, וסוג האחוזים מפוענח כאחוזים "
 "הפוכים (כלומר: 100 = לא לחתוך כלום). ערכים מתחת ל־100 לא יציגו כלום בפועל.]]>"
 
-#: data/effects/gpsgraphic.xml:71
+#: data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Crop mode vertical"
 msgstr "מצב חיתוך אנכי"
 
-#: data/effects/gpsgraphic.xml:78
+#: data/effects/gpsgraphic.xml:77
 #, kde-format
 msgid ""
 "<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</"
@@ -12579,6 +12585,16 @@ msgstr ""
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
+msgid "Graph color style"
+msgstr "סגנון צבע תרשים"
+
+#: data/effects/gpsgraphic.xml:92
+#, kde-format
+msgid "See the documentation about the various styles available"
+msgstr "הצגת התיעוד על מגוון הסגנונות הזמינים"
+
+#: data/effects/gpsgraphic.xml:93
+#, kde-format
 msgid ""
 "One color,Two colors,Solid past - thin future,Solid future - thin past,"
 "Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,"
@@ -12588,16 +12604,6 @@ msgstr ""
 "צבע,שני צבעים,עבר אחיד - עתיד צר,עתיד אחיד - עבר צר,מדרג אנכי,מדרג אופקי,צבע "
 "לפי משך,צבע לפי גובה,צבע לפי דופק,צבע לפי מהירות (עד 100 קמ״ש),צבע לפי שיפוע "
 "(עד 80 מעלות),צבע לפי שיפוע (עד 20 מעלות)"
-
-#: data/effects/gpsgraphic.xml:92
-#, kde-format
-msgid "Graph color style"
-msgstr "סגנון צבע תרשים"
-
-#: data/effects/gpsgraphic.xml:93
-#, kde-format
-msgid "See the documentation about the various styles available"
-msgstr "הצגת התיעוד על מגוון הסגנונות הזמינים"
 
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
@@ -12713,18 +12719,7 @@ msgstr ""
 msgid "Legend unit"
 msgstr "יחידת מקרא"
 
-#: data/effects/gpsgraphic.xml:144
-#, kde-format
-msgid ""
-"m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
-"h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
-"mmin,m/min,ftmin,ft/min"
-msgstr ""
-"מ׳,מטר,ק״מ,קילומטר,מייל,מייל,רגל,רגל,מייל ימי,מייל ימי,מ״ש,מטר לשנייה,מטר "
-"לשנייה,ק״מ,קמ״ש,קילומטר לשעה,מייל,מייל לשעה,מייל לשעה,רגל,רגל לשנייה,רגל "
-"לשנייה,קשר,מייל ימי לשעה,קשרים,מיילים בדקה,מיילים לדקה,רגל לדקה,רגל בדקה"
-
-#: data/effects/gpsgraphic.xml:146
+#: data/effects/gpsgraphic.xml:145
 #, kde-format
 msgid ""
 "<![CDATA[Sets the unit to be used for displaying values of type altitude and "
@@ -12735,6 +12730,17 @@ msgstr ""
 "<![CDATA[הגדרת היחידה לשימוש להצגת ערכים של גובה ומהירות.<br>\n"
 "        ברירת המחדל היא מטרים וקמ״ש בהתאמה. היחידה נתפסת בכל מקוםבמחרוזת כך "
 "שניתן להשתמש ברווחים נוספים כדי לשפר את ההצגה.]]>"
+
+#: data/effects/gpsgraphic.xml:146
+#, kde-format
+msgid ""
+"m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
+"h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
+"mmin,m/min,ftmin,ft/min"
+msgstr ""
+"מ׳,מטר,ק״מ,קילומטר,מייל,מייל,רגל,רגל,מייל ימי,מייל ימי,מ״ש,מטר לשנייה,מטר "
+"לשנייה,ק״מ,קמ״ש,קילומטר לשעה,מייל,מייל לשעה,מייל לשעה,רגל,רגל לשנייה,רגל "
+"לשנייה,קשר,מייל ימי לשעה,קשרים,מיילים בדקה,מיילים לדקה,רגל לדקה,רגל בדקה"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -13584,6 +13590,12 @@ msgstr "תיקון עוצמת השמע לפי המלצות EBU R128"
 msgid "Analyse to Apply Effect"
 msgstr "אבחון להחלת אפקט"
 
+#: data/effects/luma.xml:4 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/scopes/colorscopes/colorplaneexport.cpp:262
+#, kde-format
+msgid "Luma"
+msgstr "לומה"
+
 #: data/effects/lumaliftgaingamma.xml:4
 #, fuzzy, kde-format
 #| msgid "LumaLiftGainGamma"
@@ -13614,6 +13626,33 @@ msgstr "החלת מסכה"
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "החלת האפקטים הקודמים בקטע שוגדר על ידי האפקט התחלת מסכה."
+
+#: data/effects/mask_start.xml:4
+#, fuzzy, kde-format
+#| msgid "Start"
+msgid "Mask Start"
+msgstr "התחלה"
+
+#: data/effects/mask_start.xml:5
+#, fuzzy, kde-format
+#| msgid ""
+#| "This filter makes a snapshot of the frame before it draws simple shapes "
+#| "into the alpha channel. Use it together with the mask_apply effect, that "
+#| "uses a transition to composite the current frame's image over the "
+#| "snapshot. The typical use case is to add effects in the following "
+#| "sequence: this effect, zero or more effects, mask_apply."
+msgid ""
+"This filter works in conjunction with the mask_apply filter to make filter "
+"masking easier. This filter makes a snapshop of the frame before applying a "
+"filter, typically one to affect the alpha channel defining the mask. Then, "
+"the mask_apply filter uses a transition to composite the current frame's "
+"image over the snapshot. The typical use case is to add filters in the "
+"following sequence: mask_start, zero or more filters, mask_apply."
+msgstr ""
+"המסנן הזה יוצר צילום של התמונית לפני ציור צורות פשוטות לערוץ האלפא. אפשר "
+"להשתמש בו עם האפקט mask_apply (החלת מסכה), שמשתמש במעברון כדי להרכיב את "
+"התמונה של התמונית על הצילום. המקרה הטיפוסי לשימוש באפקט הזה הוא הוספת אפקטים "
+"ברצף הבא: האפקט הזה, אפס אפקטים או יותר, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -13660,7 +13699,7 @@ msgstr ""
 "כדי להרכיב את התמונה של התמונית על הצילום. המקרה הטיפוסי לשימוש באפקט הזה "
 "הוא הוספת אפקטים ברצף הבא: האפקט הזה, אפס אפקטים או יותר, mask_apply."
 
-#: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
+#: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
 #, kde-format
 msgid "Alpha,Luma,RGB"
 msgstr "אלפא,לומה,RGB"
@@ -13774,13 +13813,13 @@ msgstr "היפוך התמונה שלך בכל כיוון"
 
 #: data/effects/mirror.xml:8
 #, kde-format
-msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
-msgstr "אופקי,אנכי,אלכסוני,אלכסוני צולב,היפוך,פליפ-פלופ,דו־יציבי,דלגלגים"
+msgid "Mirroring direction"
+msgstr "כיוון שיקוף"
 
 #: data/effects/mirror.xml:9
 #, kde-format
-msgid "Mirroring direction"
-msgstr "כיוון שיקוף"
+msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
+msgstr "אופקי,אנכי,אלכסוני,אלכסוני צולב,היפוך,פליפ-פלופ,דו־יציבי,דלגלגים"
 
 #: data/effects/mono.xml:4
 #, kde-format
@@ -13795,13 +13834,13 @@ msgstr "ערבוב כל ערוצי השמע לאות אחיד ולהוציא א�
 
 #: data/effects/mono.xml:8
 #, kde-format
-msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
-msgstr "מונו,סטריאו,2.1,‏4 ערוצים,5.1‏,7.1"
+msgid "number of output channels"
+msgstr "מספר ערוצי הפלט"
 
 #: data/effects/mono.xml:9
 #, kde-format
-msgid "number of output channels"
-msgstr "מספר ערוצי הפלט"
+msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
+msgstr "מונו,סטריאו,2.1,‏4 ערוצים,5.1‏,7.1"
 
 #: data/effects/mute.xml:4
 #, kde-format
@@ -13999,6 +14038,12 @@ msgid "Position, scale and opacity."
 msgstr "מקום, קנה מידה ואטימות."
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:27
+#: data/transitions/qtblend.xml:15
+#, kde-format
+msgid "Compositing"
+msgstr "הרכבה"
+
+#: data/effects/qtblend.xml:16 data/effects/qtblend.xml:28
 #: data/transitions/qtblend.xml:14
 #, kde-format
 msgid ""
@@ -14010,12 +14055,6 @@ msgstr ""
 "ערבוב שקיפות,רק,חיבור,כפל,וילון,שכבת על,החשכה,הבהרה,דילוג צבע,צריבת צבע,"
 "הבהרה חזקה,הבהרה רכה,הפרש, החרגה,או (סיביות), וגם (סיביות), רק (סיביות),רק-"
 "לא (סיביות),לא-וגם (סיביות),לא-רק (סיביות),יעד פנימה,יעד החוצה,ערבוב אלפא"
-
-#: data/effects/qtblend.xml:16 data/effects/qtblend.xml:28
-#: data/transitions/qtblend.xml:15
-#, kde-format
-msgid "Compositing"
-msgstr "הרכבה"
 
 #: data/effects/qtblend.xml:23
 #, kde-format
@@ -14446,16 +14485,16 @@ msgstr ""
 msgid "Process audio using a SoX effect"
 msgstr "עיבוד שמע בעזרת אפקט SoX"
 
-#: data/effects/sox/sox.xml:8
-#, kde-format
-msgid "Analysis,Apply"
-msgstr "אבחון,החלה"
-
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1899
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1899
 #: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "אפקט"
+
+#: data/effects/sox/sox.xml:9
+#, kde-format
+msgid "Analysis,Apply"
+msgstr "אבחון,החלה"
 
 #: data/effects/sox/sox.xml:12
 #, kde-format
@@ -14808,13 +14847,13 @@ msgstr "נא לבחור קטע כדי לעקוב אחר התנועה שלו"
 
 #: data/effects/tracker.xml:11
 #, kde-format
-msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
+msgid "Tracker algorithm"
+msgstr "אלגוריתם מעקב"
 
 #: data/effects/tracker.xml:12
 #, kde-format
-msgid "Tracker algorithm"
-msgstr "אלגוריתם מעקב"
+msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:17
 #, kde-format
@@ -14832,13 +14871,13 @@ msgstr ""
 
 #: data/effects/tracker.xml:21
 #, kde-format
-msgid "Rectangle,Ellipse,Arrow"
-msgstr "ריבוע,אליפסה,חץ"
+msgid "Frame shape"
+msgstr "צורת תמונית"
 
 #: data/effects/tracker.xml:22
 #, kde-format
-msgid "Frame shape"
-msgstr "צורת תמונית"
+msgid "Rectangle,Ellipse,Arrow"
+msgstr "ריבוע,אליפסה,חץ"
 
 #: data/effects/tracker.xml:25
 #, kde-format
@@ -14852,13 +14891,13 @@ msgstr "צבע צורה"
 
 #: data/effects/tracker.xml:34
 #, kde-format
-msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
-msgstr "טשטוש חציוני,טשטוש גאוסי,פיקסול,מילוי אטום,ללא"
+msgid "Blur type"
+msgstr "סוג טשטוש"
 
 #: data/effects/tracker.xml:35
 #, kde-format
-msgid "Blur type"
-msgstr "סוג טשטוש"
+msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
+msgstr "טשטוש חציוני,טשטוש גאוסי,פיקסול,מילוי אטום,ללא"
 
 #: data/effects/typewriter.xml:4
 #, kde-format
@@ -14882,13 +14921,13 @@ msgstr "גורם אקראיות"
 
 #: data/effects/typewriter.xml:17
 #, kde-format
-msgid "Char by char,Word by word,Line by line,Custom macro"
-msgstr "תו אחר תו,מילה אחר מילה,שורה אחר שורה,מאקרו אחר"
+msgid "Macro type"
+msgstr "סוג מאקרו"
 
 #: data/effects/typewriter.xml:18
 #, kde-format
-msgid "Macro type"
-msgstr "סוג מאקרו"
+msgid "Char by char,Word by word,Line by line,Custom macro"
+msgstr "תו אחר תו,מילה אחר מילה,שורה אחר שורה,מאקרו אחר"
 
 #: data/effects/vidstab.xml:4
 #, kde-format
@@ -17575,7 +17614,7 @@ msgstr "סרטון מקור חסר"
 #: src/bin/bin.cpp:2119 src/bin/bin.cpp:2814
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:441
+#: src/renderpresets/renderpresetrepository.cpp:440
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "אי אפשר לכתוב לקובץ %1"
@@ -18123,7 +18162,7 @@ msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
-#: src/renderpresets/renderpresetrepository.cpp:385
+#: src/renderpresets/renderpresetrepository.cpp:384
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "לא ניתן לפתוח את הקובץ %1"
@@ -18463,7 +18502,7 @@ msgstr "ייבוא קובץ בלחיצה כפולה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:183
+#: src/bin/mediabrowser.cpp:181
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -18471,22 +18510,22 @@ msgstr "ייבוא קובץ בלחיצה כפולה"
 msgid "Name:"
 msgstr "שם:"
 
-#: src/bin/mediabrowser.cpp:187
+#: src/bin/mediabrowser.cpp:185
 #, kde-format
 msgid "Filter:"
 msgstr "מסנן:"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "התעלמות ממבנה תת־תיקיות"
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "לט ליצוא תת־תיקיות בסל המיזם"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18496,17 +18535,17 @@ msgstr ""
 "כשהאפשרות מסומנת, Kdenlive ייבא את כל הסרטונים בתיקייה על תת־תיקיותיה מבלי "
 "ליצור את תת־התיקיות בסל המיזם."
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "ייבוא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "לנסות לייבא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19638,8 +19677,8 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:324
-#: src/renderpresets/renderpresetrepository.cpp:391
-#: src/renderpresets/renderpresetrepository.cpp:447
+#: src/renderpresets/renderpresetrepository.cpp:390
+#: src/renderpresets/renderpresetrepository.cpp:446
 #: src/timeline2/view/timelinecontroller.cpp:5235
 #: src/timeline2/view/timelinecontroller.cpp:5240
 #: src/titler/titlewidget.cpp:2344
@@ -19742,7 +19781,7 @@ msgstr "במקרה של ספק, עדיף לנסות :<br/><b>יוניקוד (UTF
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:353 src/project/projectmanager.cpp:1816
-#: src/renderpresets/renderpresetrepository.cpp:324
+#: src/renderpresets/renderpresetrepository.cpp:323
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "לא ניתן לקרוא את הקובץ %1"
@@ -26526,7 +26565,7 @@ msgstr "הצגת מידע מפורט על התזרימים/נתונים/מפענ
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "נתוני־על"
@@ -26726,14 +26765,14 @@ msgstr "העתקת ערוץ:"
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1005
-#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
+#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
-#: src/ui/projectsettings_ui.ui:579
+#: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
@@ -30244,12 +30283,12 @@ msgstr "10 סיביות"
 msgid "Images sequence"
 msgstr "רצף תמונות"
 
-#: src/renderpresets/renderpresetrepository.cpp:360
+#: src/renderpresets/renderpresetrepository.cpp:359
 #, kde-format
 msgid "Preset already exists"
 msgstr "הערכה כבר קיימת"
 
-#: src/renderpresets/renderpresetrepository.cpp:361
+#: src/renderpresets/renderpresetrepository.cpp:360
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
@@ -30444,12 +30483,6 @@ msgstr "זווית UV"
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "זווית במישור UV, עם כל ערכי ה־Y האפשריים."
-
-#: src/scopes/colorscopes/colorplaneexport.cpp:234
-#: src/scopes/colorscopes/colorplaneexport.cpp:262
-#, kde-format
-msgid "Luma"
-msgstr "לומה"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:246
 #: src/scopes/colorscopes/colorplaneexport.cpp:253
@@ -33022,10 +33055,10 @@ msgstr "מחיקת הנקודה הנוכחית."
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
 #. i18n: ectx: property (text), widget (QToolButton, config_button)
-#. i18n: ectx: property (text), widget (QToolButton, manage_external)
 #. i18n: ectx: property (text), widget (QToolButton, checkProxy)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_showprofileinfo)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_manageprofile)
+#. i18n: ectx: property (text), widget (QToolButton, manage_external)
 #. i18n: ectx: property (text), widget (QToolButton, add_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, delete_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, remove_gradient)
@@ -33109,7 +33142,7 @@ msgstr "מחיקת הנקודה הנוכחית."
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:184
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -33134,10 +33167,10 @@ msgstr "מחיקת הנקודה הנוכחית."
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
 #: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
 #: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
-#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
-#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
-#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
-#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:470
+#: src/ui/projectsettings_ui.ui:477 src/ui/projectsettings_ui.ui:487
+#: src/ui/projectsettings_ui.ui:504 src/ui/projectsettings_ui.ui:582
+#: src/ui/projectsettings_ui.ui:589 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:1013 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
@@ -34237,34 +34270,32 @@ msgstr "יצירה לתמונות שגדולות מ־:"
 msgid "Proxy image size:"
 msgstr "גודל תמונת תיווך:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
-#, kde-format
-msgid "External proxy clips:"
-msgstr "סרטוני תיווך חיצוניים:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
-#. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
-#: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
-#, kde-format
-msgid "Enable"
-msgstr "הפעלה"
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:210
+#: src/ui/configproxy_ui.ui:196
 #, kde-format
 msgid "Profile for clips with alpha channel:"
 msgstr "פרופיל לסרטונים עם ערוץ אלפא:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
+#: src/ui/configproxy_ui.ui:206
+#, fuzzy, kde-format
+#| msgid "Remove proxy clip"
+#| msgid_plural "Remove proxy clips"
+msgid "Camcorder proxy clips:"
+msgstr "הסרת סרטון תיווך"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
 msgstr "נגינת/השהיית צג בלחיצת עכבר"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
+#: src/ui/configsdl_ui.ui:28 src/ui/configsdl_ui.ui:142
+#, kde-format
+msgid "Enable"
+msgstr "הפעלה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -36113,7 +36144,7 @@ msgstr "יצירה לסרטונים שגדולים מ־"
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_resize)
 #: src/ui/projectsettings_ui.ui:232 src/ui/projectsettings_ui.ui:255
-#: src/ui/projectsettings_ui.ui:447 src/ui/projectsettings_ui.ui:463
+#: src/ui/projectsettings_ui.ui:416 src/ui/projectsettings_ui.ui:432
 #, kde-format
 msgid "pixels"
 msgstr "פיקסלים"
@@ -36125,61 +36156,69 @@ msgid "Generate for images larger than"
 msgstr "יצירה לתמונות שגדולות מ־"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/projectsettings_ui.ui:433
+#: src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "Proxy video resize (width)"
 msgstr "שינוי גודל וידאו תיווך (רוחב)"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/projectsettings_ui.ui:479
+#: src/ui/projectsettings_ui.ui:448
 #, kde-format
 msgid "Proxy image size"
 msgstr "גודל תמונת תיווך"
 
+#. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
+#: src/ui/projectsettings_ui.ui:516
+#, fuzzy, kde-format
+#| msgid "Remove proxy clip"
+#| msgid_plural "Remove proxy clips"
+msgid "Camcorder proxy clips"
+msgstr "הסרת סרטון תיווך"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/projectsettings_ui.ui:547
+#: src/ui/projectsettings_ui.ui:540
 #, kde-format
 msgid "Guides"
 msgstr "קווים מנחים"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/projectsettings_ui.ui:619
+#: src/ui/projectsettings_ui.ui:612
 #, kde-format
 msgid "Project Files"
 msgstr "קובצי מיזם"
 
 #. i18n: ectx: property (text), widget (QLabel, label_fonts)
-#: src/ui/projectsettings_ui.ui:625
+#: src/ui/projectsettings_ui.ui:618
 #, kde-format
 msgid "Fonts"
 msgstr "גופנים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/projectsettings_ui.ui:680
+#: src/ui/projectsettings_ui.ui:673
 #, kde-format
 msgid "Project files:"
 msgstr "קובצי מיזם:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
-#: src/ui/projectsettings_ui.ui:687
+#: src/ui/projectsettings_ui.ui:680
 #, kde-format
 msgid "Plain Text Export..."
 msgstr "ייצוא טקסט פשוט…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/projectsettings_ui.ui:708
+#: src/ui/projectsettings_ui.ui:701
 #, kde-format
 msgid "Unused clips:"
 msgstr "סרטונים שאינם בשימוש:"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_unused)
-#: src/ui/projectsettings_ui.ui:715
+#: src/ui/projectsettings_ui.ui:708
 #, kde-format
 msgid "Delete files"
 msgstr "מחיקת קבצים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/projectsettings_ui.ui:722
+#: src/ui/projectsettings_ui.ui:715
 #, kde-format
 msgid "Clips used in project:"
 msgstr "סרטונים בשימוש במיזם:"
@@ -37465,6 +37504,9 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "External proxy clips:"
+#~ msgstr "סרטוני תיווך חיצוניים:"
 
 #~ msgid "Export guides"
 #~ msgstr "ייצוא קווים מנחים"

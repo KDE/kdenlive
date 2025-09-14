@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:49+0000\n"
+"POT-Creation-Date: 2025-09-14 00:41+0000\n"
 "PO-Revision-Date: 2025-07-03 23:26+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -58,27 +58,27 @@ msgstr "使用 IEC 60268-18 尺度"
 msgid "Audio Level Visualization Filter"
 msgstr "音訊音量視覺化過濾器"
 
-#: data/effects/audiolevelgraph.xml:6
+#: data/effects/audiolevelgraph.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
 msgstr "在畫面上繪製音訊音量測量的音訊視覺化過濾器。"
 
-#: data/effects/audiolevelgraph.xml:8
-#, kde-format
-msgid "Segment,Bar"
-msgstr "片段,長條圖"
-
-#: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
-#: data/effects/gpsgraphic.xml:33
+#: data/effects/audiolevelgraph.xml:8 data/effects/audiospectrum.xml:9
+#: data/effects/gpsgraphic.xml:32
 #, kde-format
 msgid "Graph type"
 msgstr "圖表類型"
 
-#: data/effects/audiolevelgraph.xml:10
+#: data/effects/audiolevelgraph.xml:9
 #, kde-format
 msgid "The type of graph to display the levels."
 msgstr "要用哪種圖表顯示音量。"
+
+#: data/effects/audiolevelgraph.xml:10
+#, kde-format
+msgid "Segment,Bar"
+msgstr "片段,長條圖"
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -188,18 +188,18 @@ msgstr "先繪製右側頻道的點。"
 
 #: data/effects/audiolevelgraph.xml:49
 #, kde-format
-msgid "Vertical,Horizontal"
-msgstr "垂直,水平"
-
-#: data/effects/audiolevelgraph.xml:50
-#, kde-format
 msgid "Gradient Orientation"
 msgstr "漸層方向"
 
-#: data/effects/audiolevelgraph.xml:51
+#: data/effects/audiolevelgraph.xml:50
 #, kde-format
 msgid "Direction of the color gradient."
 msgstr "色彩漸層的方向。"
+
+#: data/effects/audiolevelgraph.xml:51
+#, kde-format
+msgid "Vertical,Horizontal"
+msgstr "垂直,水平"
 
 #: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:90
 #, kde-format
@@ -226,9 +226,14 @@ msgstr "片段之間的距離像素數量。"
 msgid "audiomap"
 msgstr "音訊映射"
 
-#: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
-#: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
-#: data/effects/audiomap.xml:24 data/effects/audiomap.xml:28
+#: data/effects/audiomap.xml:8
+#, kde-format
+msgid "CH1 source"
+msgstr "CH1 來源"
+
+#: data/effects/audiomap.xml:9 data/effects/audiomap.xml:13
+#: data/effects/audiomap.xml:17 data/effects/audiomap.xml:21
+#: data/effects/audiomap.xml:25 data/effects/audiomap.xml:29
 #, kde-format
 msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
@@ -237,32 +242,27 @@ msgstr ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
-#: data/effects/audiomap.xml:9
-#, kde-format
-msgid "CH1 source"
-msgstr "CH1 來源"
-
-#: data/effects/audiomap.xml:13
+#: data/effects/audiomap.xml:12
 #, kde-format
 msgid "CH2 source"
 msgstr "CH2 來源"
 
-#: data/effects/audiomap.xml:17
+#: data/effects/audiomap.xml:16
 #, kde-format
 msgid "CH3 source"
 msgstr "CH3 來源"
 
-#: data/effects/audiomap.xml:21
+#: data/effects/audiomap.xml:20
 #, kde-format
 msgid "CH4 source"
 msgstr "CH4 來源"
 
-#: data/effects/audiomap.xml:25
+#: data/effects/audiomap.xml:24
 #, kde-format
 msgid "CH5 source"
 msgstr "CH4 來源"
 
-#: data/effects/audiomap.xml:29
+#: data/effects/audiomap.xml:28
 #, kde-format
 msgid "CH6 source"
 msgstr "CH6 來源"
@@ -278,23 +278,23 @@ msgstr "左右聲道平衡"
 msgid "Adjust the left/right spread of a channel"
 msgstr "調整聲道的左 / 右分散"
 
-#: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
-#: data/effects/channelcopy.xml:12
-#, kde-format
-msgid "Left,Right"
-msgstr "左側、右側"
-
-#: data/effects/audiopan.xml:9 data/effects/frei0r/frei0r_bezier_curves.xml:9
-#: data/effects/frei0r/frei0r_curves.xml:10
-#: data/effects/frei0r/frei0r_curves.xml:65
-#: data/effects/frei0r/frei0r_levels.xml:10
-#: data/effects/frei0r/frei0r_levels.xml:41
-#: data/effects/frei0r/frei0r_levels.xml:72
-#: data/effects/frei0r/frei0r_measure_pr0file.xml:25
-#: data/effects/frei0r/frei0r_pr0file.xml:26
+#: data/effects/audiopan.xml:8 data/effects/frei0r/frei0r_bezier_curves.xml:8
+#: data/effects/frei0r/frei0r_curves.xml:9
+#: data/effects/frei0r/frei0r_curves.xml:64
+#: data/effects/frei0r/frei0r_levels.xml:9
+#: data/effects/frei0r/frei0r_levels.xml:40
+#: data/effects/frei0r/frei0r_levels.xml:71
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:24
+#: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
 msgid "Channel"
 msgstr "通道"
+
+#: data/effects/audiopan.xml:9 data/effects/channelcopy.xml:9
+#: data/effects/channelcopy.xml:13
+#, kde-format
+msgid "Left,Right"
+msgstr "左側、右側"
 
 #: data/effects/audiopan.xml:12
 #, kde-format
@@ -313,15 +313,15 @@ msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
 msgstr "在畫面上繪製音訊頻譜的音訊視覺化過濾器。"
 
-#: data/effects/audiospectrum.xml:9
-#, kde-format
-msgid "Line,Bar"
-msgstr "線條,長條"
-
-#: data/effects/audiospectrum.xml:11
+#: data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "The type of graph to display the spectrum."
 msgstr "要用哪種圖表顯示頻譜。"
+
+#: data/effects/audiospectrum.xml:11
+#, kde-format
+msgid "Line,Bar"
+msgstr "線條,長條"
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -467,13 +467,13 @@ msgstr "波形線條色"
 
 #: data/effects/audiowaveform.xml:26
 #, kde-format
-msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr "合併,全部,1,2,3,4,5,6,7,8,9,10"
+msgid "Channel to draw"
+msgstr "要繪製的聲道"
 
 #: data/effects/audiowaveform.xml:27
 #, kde-format
-msgid "Channel to draw"
-msgstr "要繪製的聲道"
+msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
+msgstr "合併,全部,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/avfilter/acompressor.xml:4
 #, kde-format
@@ -536,23 +536,23 @@ msgstr "Knee"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
-msgid "Average,Maximum"
-msgstr "平均,最大"
-
-#: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, kde-format
 msgid "Link Type"
 msgstr "連結類型"
 
-#: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
+#: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, kde-format
-msgid "Peak,Rms"
-msgstr "峰值,Rms"
+msgid "Average,Maximum"
+msgstr "平均,最大"
 
-#: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
+#: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Detection"
 msgstr "偵測"
+
+#: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
+#, kde-format
+msgid "Peak,Rms"
+msgstr "峰值,Rms"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
@@ -623,7 +623,7 @@ msgstr "音波圖形"
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
 #: data/effects/avfilter/avfilter_deband.xml:28
-#: data/effects/avfilter/avfilter_setrange.xml:9
+#: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "Range"
 msgstr ""
@@ -686,27 +686,27 @@ msgid "Bit reduction"
 msgstr "位元降低"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
+#: data/effects/avfilter/avfilter_apulsator.xml:14
+#: data/effects/avfilter/avfilter_bwdif.xml:8
+#: data/effects/avfilter/avfilter_datascope.xml:22
+#: data/effects/avfilter/avfilter_fillborders.xml:8
+#: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #: data/effects/avfilter/avfilter_histogram.xml:18
-#, kde-format
-msgid "Linear,Logarithmic"
-msgstr "線性,對數"
-
-#: data/effects/avfilter/avfilter_acrusher.xml:24
-#: data/effects/avfilter/avfilter_apulsator.xml:15
-#: data/effects/avfilter/avfilter_bwdif.xml:9
-#: data/effects/avfilter/avfilter_datascope.xml:23
-#: data/effects/avfilter/avfilter_fillborders.xml:9
-#: data/effects/avfilter/avfilter_graphmonitor.xml:16
-#: data/effects/avfilter/avfilter_histogram.xml:19
-#: data/effects/avfilter/avfilter_mcdeint.xml:9
-#: data/effects/avfilter/avfilter_phase.xml:9
-#: data/effects/avfilter/avfilter_vectorscope.xml:9
-#: data/effects/avfilter/avfilter_waveform.xml:9
-#: data/effects/avfilter/avfilter_yadif.xml:9
-#: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
+#: data/effects/avfilter/avfilter_mcdeint.xml:8
+#: data/effects/avfilter/avfilter_phase.xml:8
+#: data/effects/avfilter/avfilter_vectorscope.xml:8
+#: data/effects/avfilter/avfilter_waveform.xml:8
+#: data/effects/avfilter/avfilter_yadif.xml:8
+#: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
 msgid "Mode"
 msgstr "型態"
+
+#: data/effects/avfilter/avfilter_acrusher.xml:24
+#: data/effects/avfilter/avfilter_histogram.xml:19
+#, kde-format
+msgid "Linear,Logarithmic"
+msgstr "線性,對數"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:27
 #, kde-format
@@ -793,22 +793,22 @@ msgstr "中心頻率"
 #: data/effects/avfilter/avfilter_bandpass.xml:14
 #: data/effects/avfilter/avfilter_bandreject.xml:11
 #: data/effects/avfilter/avfilter_bass.xml:14
-#: data/effects/avfilter/avfilter_highpass.xml:11
-#: data/effects/avfilter/avfilter_highshelf.xml:11
-#: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:26
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
-msgid "Hz,Q-Factor,Octave,Slope,KHz"
-msgstr ""
+msgid "Method"
+msgstr "方法"
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
 #: data/effects/avfilter/avfilter_bandpass.xml:15
 #: data/effects/avfilter/avfilter_bandreject.xml:12
 #: data/effects/avfilter/avfilter_bass.xml:15
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:27
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
+#: data/effects/avfilter/avfilter_highpass.xml:12
+#: data/effects/avfilter/avfilter_highshelf.xml:12
+#: data/effects/avfilter/avfilter_lowshelf.xml:12
 #, kde-format
-msgid "Method"
-msgstr "方法"
+msgid "Hz,Q-Factor,Octave,Slope,KHz"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -839,19 +839,19 @@ msgid "Normalize"
 msgstr "正規化"
 
 #: data/effects/avfilter/avfilter_allpass.xml:24
-#: data/effects/avfilter/avfilter_bass.xml:21
-#: data/effects/avfilter/avfilter_highpass.xml:18
-#: data/effects/avfilter/avfilter_highshelf.xml:21
-#: data/effects/avfilter/avfilter_lowpass.xml:18
-#: data/effects/avfilter/avfilter_lowshelf.xml:21
-#, kde-format
-msgid "1,2"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_allpass.xml:25
 #, kde-format
 msgid "Order"
 msgstr "順序"
+
+#: data/effects/avfilter/avfilter_allpass.xml:25
+#: data/effects/avfilter/avfilter_bass.xml:22
+#: data/effects/avfilter/avfilter_highpass.xml:19
+#: data/effects/avfilter/avfilter_highshelf.xml:22
+#: data/effects/avfilter/avfilter_lowpass.xml:19
+#: data/effects/avfilter/avfilter_lowshelf.xml:22
+#, kde-format
+msgid "1,2"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -861,9 +861,10 @@ msgstr "順序"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, kde-format
-msgid "di,dii,tdii,latt"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Transform"
+msgid "Transform type"
+msgstr "簡易變形"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -873,10 +874,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:32
 #: data/effects/avfilter/avfilter_lowpass.xml:29
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
-#, fuzzy, kde-format
-#| msgid "Transform"
-msgid "Transform type"
-msgstr "簡易變形"
+#, kde-format
+msgid "di,dii,tdii,latt"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -886,9 +886,10 @@ msgstr "簡易變形"
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, kde-format
-msgid "Auto,s16,s32,f32,f64"
-msgstr "自動,s16,s32,f32,f64"
+#, fuzzy, kde-format
+#| msgid "File Extension"
+msgid "Filter precision"
+msgstr "檔案副檔名"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -898,10 +899,9 @@ msgstr "自動,s16,s32,f32,f64"
 #: data/effects/avfilter/avfilter_highshelf.xml:36
 #: data/effects/avfilter/avfilter_lowpass.xml:33
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
-#, fuzzy, kde-format
-#| msgid "File Extension"
-msgid "Filter precision"
-msgstr "檔案副檔名"
+#, kde-format
+msgid "Auto,s16,s32,f32,f64"
+msgstr "自動,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -916,17 +916,17 @@ msgid "Delay in milliseconds"
 msgstr "持續時間（秒）"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
-#: data/effects/avfilter/avfilter_flanger.xml:28
-#, fuzzy, kde-format
-#| msgid "Triangular window"
-msgid "Triangular,Sinusoidal"
-msgstr "三角窗"
-
-#: data/effects/avfilter/avfilter_aphaser.xml:24
 #, fuzzy, kde-format
 #| msgid "Modulators"
 msgid "Modulation type"
 msgstr "調變器"
+
+#: data/effects/avfilter/avfilter_aphaser.xml:24
+#: data/effects/avfilter/avfilter_flanger.xml:30
+#, fuzzy, kde-format
+#| msgid "Triangular window"
+msgid "Triangular,Sinusoidal"
+msgstr "三角窗"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
 #, fuzzy, kde-format
@@ -939,7 +939,7 @@ msgstr "調變器"
 msgid " Audio pulsator."
 msgstr "聲訊軌"
 
-#: data/effects/avfilter/avfilter_apulsator.xml:14
+#: data/effects/avfilter/avfilter_apulsator.xml:15
 #, kde-format
 msgid "sine,triangle,square,sawup,sawdown"
 msgstr ""
@@ -968,13 +968,13 @@ msgstr "輪廓寬度"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
-msgid "bpm,ms,Hz"
-msgstr "bpm,ms,Hz"
+msgid "Timing"
+msgstr "計時法"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
-msgid "Timing"
-msgstr "計時法"
+msgid "bpm,ms,Hz"
+msgstr "bpm,ms,Hz"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
 #, kde-format
@@ -1064,30 +1064,30 @@ msgid "Y size"
 msgstr "Y 大小"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
+#: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
-#, kde-format
-msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_avgblur.xml:15
-#: data/effects/avfilter/avfilter_bilateral.xml:17
-#: data/effects/avfilter/avfilter_cas.xml:13
-#: data/effects/avfilter/avfilter_deblock.xml:28
-#: data/effects/avfilter/avfilter_edgedetect.xml:19
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:40
-#: data/effects/avfilter/avfilter_gblur.xml:14
-#: data/effects/avfilter/avfilter_kirsch.xml:17
+#: data/effects/avfilter/avfilter_deblock.xml:27
+#: data/effects/avfilter/avfilter_edgedetect.xml:18
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:39
+#: data/effects/avfilter/avfilter_gblur.xml:13
+#: data/effects/avfilter/avfilter_kirsch.xml:16
 #: data/effects/avfilter/avfilter_lagfun.xml:8
-#: data/effects/avfilter/avfilter_limiter.xml:17
-#: data/effects/avfilter/avfilter_median.xml:23
-#: data/effects/avfilter/avfilter_pixelize.xml:19
-#: data/effects/avfilter/avfilter_prewitt.xml:9
-#: data/effects/avfilter/avfilter_roberts.xml:9
-#: data/effects/avfilter/avfilter_sobel.xml:9
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:27
+#: data/effects/avfilter/avfilter_limiter.xml:16
+#: data/effects/avfilter/avfilter_median.xml:22
+#: data/effects/avfilter/avfilter_pixelize.xml:18
+#: data/effects/avfilter/avfilter_prewitt.xml:8
+#: data/effects/avfilter/avfilter_roberts.xml:8
+#: data/effects/avfilter/avfilter_sobel.xml:8
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
 #, kde-format
 msgid "Planes"
 msgstr "平面"
+
+#: data/effects/avfilter/avfilter_avgblur.xml:15
+#: data/effects/avfilter/avfilter_cas.xml:13
+#, kde-format
+msgid "Alpha,Y,U,V,Red,Green,Blue,All"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
@@ -1155,11 +1155,11 @@ msgstr ""
 msgid "Gain"
 msgstr "增益"
 
-#: data/effects/avfilter/avfilter_bass.xml:22
-#: data/effects/avfilter/avfilter_highpass.xml:19
-#: data/effects/avfilter/avfilter_highshelf.xml:22
-#: data/effects/avfilter/avfilter_lowpass.xml:19
-#: data/effects/avfilter/avfilter_lowshelf.xml:22
+#: data/effects/avfilter/avfilter_bass.xml:21
+#: data/effects/avfilter/avfilter_highpass.xml:18
+#: data/effects/avfilter/avfilter_highshelf.xml:21
+#: data/effects/avfilter/avfilter_lowpass.xml:18
+#: data/effects/avfilter/avfilter_lowshelf.xml:21
 #, kde-format
 msgid "Poles"
 msgstr ""
@@ -1194,7 +1194,7 @@ msgstr ""
 msgid "Set sigma of gaussian function to calculate range weight."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_bilateral.xml:16
+#: data/effects/avfilter/avfilter_bilateral.xml:17
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr ""
@@ -1291,14 +1291,14 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
-msgid ""
-"Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
-"Meier circuit (fcut=650 feed=95)"
+msgid "Pre-defined crossfeed level"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
-msgid "Pre-defined crossfeed level"
+msgid ""
+"Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
+"Meier circuit (fcut=650 feed=95)"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
@@ -1326,35 +1326,35 @@ msgid ""
 "cubic interpolation algorithms. "
 msgstr ""
 
-#: data/effects/avfilter/avfilter_bwdif.xml:8
+#: data/effects/avfilter/avfilter_bwdif.xml:9
 #, kde-format
 msgid "Send frame,Send field"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
+#: data/effects/avfilter/avfilter_yadif.xml:12
+#, kde-format
+msgid "Parity"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_bwdif.xml:13
 #, fuzzy, kde-format
 #| msgid "Bottom field first"
 msgid "Top field first,Bottomfield first,Auto"
 msgstr "下場優先"
 
-#: data/effects/avfilter/avfilter_bwdif.xml:13
-#: data/effects/avfilter/avfilter_yadif.xml:13
-#, kde-format
-msgid "Parity"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_bwdif.xml:16
 #: data/effects/avfilter/avfilter_yadif.xml:16
-#, kde-format
-msgid "Deint all frames,Deint interlaced frames only"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_bwdif.xml:17
-#: data/effects/avfilter/avfilter_yadif.xml:17
 #, fuzzy, kde-format
 #| msgid "Deinterlacer"
 msgid "Deinterlace"
 msgstr "去交錯"
+
+#: data/effects/avfilter/avfilter_bwdif.xml:17
+#: data/effects/avfilter/avfilter_yadif.xml:17
+#, kde-format
+msgid "Deint all frames,Deint interlaced frames only"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
@@ -1504,13 +1504,13 @@ msgstr "黑白索引色"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
-msgid "Manhattan,Euclidean"
-msgstr ""
+msgid "Distance"
+msgstr "距離"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
-msgid "Distance"
-msgstr "距離"
+msgid "Manhattan,Euclidean"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, fuzzy, kde-format
@@ -1551,18 +1551,18 @@ msgid "Red vertical shift"
 msgstr "垂直散佈"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
-#: data/effects/avfilter/avfilter_rgbashift.xml:32
-#, kde-format
-msgid "Smear,Wrap"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_chromashift.xml:21
-#: data/effects/frei0r/frei0r_select0r.xml:33
-#: data/effects/frei0r/frei0r_select0r.xml:60
-#: data/effects/mask_start_frei0r_select0r.xml:26
+#: data/effects/frei0r/frei0r_select0r.xml:32
+#: data/effects/frei0r/frei0r_select0r.xml:59
+#: data/effects/mask_start_frei0r_select0r.xml:25
 #, kde-format
 msgid "Edge mode"
 msgstr "邊緣型態"
+
+#: data/effects/avfilter/avfilter_chromashift.xml:21
+#: data/effects/avfilter/avfilter_rgbashift.xml:33
+#, kde-format
+msgid "Smear,Wrap"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:4
 #, fuzzy, kde-format
@@ -1576,47 +1576,47 @@ msgid "Display CIE color diagram with pixels overlaid onto it"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:8
-#: data/effects/avfilter/avfilter_ciescope.xml:18
+#, fuzzy, kde-format
+#| msgid "Color Space"
+msgid "Color System"
+msgstr "色彩空間"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the display mode]]>"
+msgid "<![CDATA[Select the color system]]>"
+msgstr "<![CDATA[設定顯示模式]]>"
+
+#: data/effects/avfilter/avfilter_ciescope.xml:10
+#: data/effects/avfilter/avfilter_ciescope.xml:20
 #, kde-format
 msgid ""
 "NTSC,BT.470M,EBU,BT.470BG,SMPTE,BT.240M,Apple,Wide RGB,CIE 1931,HD TV,Rec. "
 "709,UHD TV,Rec. 2020,DCI-P3"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_ciescope.xml:9
-#, fuzzy, kde-format
-#| msgid "Color Space"
-msgid "Color System"
-msgstr "色彩空間"
-
-#: data/effects/avfilter/avfilter_ciescope.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the display mode]]>"
-msgid "<![CDATA[Select the color system]]>"
-msgstr "<![CDATA[設定顯示模式]]>"
-
 #: data/effects/avfilter/avfilter_ciescope.xml:13
-#, kde-format
-msgid "xyY,UCS,LUV"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_ciescope.xml:14
 #, kde-format
 msgid "CIE System"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_ciescope.xml:15
+#: data/effects/avfilter/avfilter_ciescope.xml:14
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Set the display mode]]>"
 msgid "<![CDATA[Select the CIE color space]]>"
 msgstr "<![CDATA[設定顯示模式]]>"
 
-#: data/effects/avfilter/avfilter_ciescope.xml:19
+#: data/effects/avfilter/avfilter_ciescope.xml:15
+#, kde-format
+msgid "xyY,UCS,LUV"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_ciescope.xml:18
 #, kde-format
 msgid "Gamuts to Draw"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_ciescope.xml:20
+#: data/effects/avfilter/avfilter_ciescope.xml:19
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Set the display mode]]>"
 msgid "<![CDATA[Set what gamuts to draw]]>"
@@ -1627,8 +1627,8 @@ msgstr "<![CDATA[設定顯示模式]]>"
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: data/effects/avfilter/avfilter_ciescope.xml:23
-#: data/effects/avfilter/avfilter_datascope.xml:9
-#: data/effects/avfilter/avfilter_graphmonitor.xml:9
+#: data/effects/avfilter/avfilter_datascope.xml:8
+#: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #: data/effects/avfilter/avfilter_oscilloscope.xml:16
 #: data/effects/frei0r/frei0r_medians.xml:12
 #: data/effects/frei0r/frei0r_sharpness.xml:11 src/ui/configcapture_ui.ui:167
@@ -1935,15 +1935,15 @@ msgid "Saturation"
 msgstr "飽和度"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
-#, kde-format
-msgid "Manual,Average,Minimax,Median"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgid "Analyze mode"
 msgstr "分析"
+
+#: data/effects/avfilter/avfilter_colorcorrect.xml:24
+#, kde-format
+msgid "Manual,Average,Minimax,Median"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, fuzzy, kde-format
@@ -2078,25 +2078,25 @@ msgid "Convert color matrix."
 msgstr "反轉色彩"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
-#: data/effects/avfilter/avfilter_colormatrix.xml:12
-#, kde-format
-msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Source color matrix"
 msgstr "源色彩"
 
+#: data/effects/avfilter/avfilter_colormatrix.xml:9
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
+#, kde-format
+msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, fuzzy, kde-format
 #| msgid "Destination Folder"
 msgid "Destination color matrix"
 msgstr "目標資料夾"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
-#: data/effects/avfilter/avfilter_vectorscope.xml:52
+#: data/effects/avfilter/avfilter_vectorscope.xml:51
 #: src/scopes/colorscopes/vectorscope.cpp:169
 #, kde-format
 msgid "Color Space"
@@ -2110,34 +2110,39 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
-#: data/effects/avfilter/avfilter_colorspace.xml:43
+#, fuzzy, kde-format
+#| msgid "Clip Properties"
+msgid "Color properties"
+msgstr "素材屬性"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:9
+#: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE 170M,SMPTE 240M,"
 "BT.2020"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:9
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
-msgid "Color properties"
-msgstr "素材屬性"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:12
-#: data/effects/avfilter/avfilter_colorspace.xml:47
-#, kde-format
-msgid ""
-"BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:13
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Output color space"
 msgstr "色彩空間"
 
+#: data/effects/avfilter/avfilter_colorspace.xml:13
+#: data/effects/avfilter/avfilter_colorspace.xml:48
+#, kde-format
+msgid ""
+"BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_colorspace.xml:16
-#: data/effects/avfilter/avfilter_colorspace.xml:55
+#, kde-format
+msgid "Output transfer characteristics"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_colorspace.xml:17
+#: data/effects/avfilter/avfilter_colorspace.xml:56
 #, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,SMPTE "
@@ -2145,52 +2150,47 @@ msgid ""
 "content, BT.2020 for 12-bits content"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:17
-#, kde-format
-msgid "Output transfer characteristics"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_colorspace.xml:20
-#: data/effects/avfilter/avfilter_colorspace.xml:51
+#, fuzzy, kde-format
+#| msgid "Output time"
+msgid "Output color primaries"
+msgstr "輸出時間"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:21
+#: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
 "BT.2020,JEDEC P22"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
-msgid "Output color primaries"
-msgstr "輸出時間"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:24
-#: data/effects/avfilter/avfilter_colorspace.xml:59
+#, fuzzy, kde-format
+#| msgid "Color Space"
+msgid "Output color range"
+msgstr "色彩空間"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:25
+#: data/effects/avfilter/avfilter_colorspace.xml:60
 #, kde-format
 msgid ""
 "TV (restricted range),MPEG (restricted range),PC (full range),JPEG (full "
 "range)"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:25
-#, fuzzy, kde-format
-#| msgid "Color Space"
-msgid "Output color range"
-msgstr "色彩空間"
-
 #: data/effects/avfilter/avfilter_colorspace.xml:28
+#, fuzzy, kde-format
+#| msgid "Output file"
+msgid "Output color format"
+msgstr "匯出檔案"
+
+#: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
 msgid ""
 "YUV 4:2:0 planar 8-bits,YUV 4:2:0 planar 10-bits,YUV 4:2:0 planar 12-bits,"
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:29
-#, fuzzy, kde-format
-#| msgid "Output file"
-msgid "Output color format"
-msgstr "匯出檔案"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, fuzzy, kde-format
@@ -2199,49 +2199,49 @@ msgid "Fast conversion"
 msgstr "版本"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
-#, kde-format
-msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:36
 #, fuzzy, kde-format
 #| msgid "View Mode"
 msgid "Dithering mode"
 msgstr "瀏覽模式"
 
+#: data/effects/avfilter/avfilter_colorspace.xml:36
+#, kde-format
+msgid "No dithering,Floyd-Steinberg dithering"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_colorspace.xml:39
+#, kde-format
+msgid "Whitepoint adaptation mode"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:40
-#, kde-format
-msgid "Whitepoint adaptation mode"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_colorspace.xml:44
+#: data/effects/avfilter/avfilter_colorspace.xml:43
 #, kde-format
 msgid "Override all input properties at once"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:48
+#: data/effects/avfilter/avfilter_colorspace.xml:47
 #, fuzzy, kde-format
 msgid "Override input color space"
 msgstr "色彩空間"
 
-#: data/effects/avfilter/avfilter_colorspace.xml:52
+#: data/effects/avfilter/avfilter_colorspace.xml:51
 #, kde-format
 msgid "Override input color primaries"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:56
+#: data/effects/avfilter/avfilter_colorspace.xml:55
 #, kde-format
 msgid "Override input transfer characteristics"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_colorspace.xml:60
+#: data/effects/avfilter/avfilter_colorspace.xml:59
 #, fuzzy, kde-format
 #| msgid "Render full color range"
 msgid "Override input color range"
@@ -2504,7 +2504,7 @@ msgstr "示波器"
 msgid "Video data analysis"
 msgstr "正在處理資料分析"
 
-#: data/effects/avfilter/avfilter_datascope.xml:8
+#: data/effects/avfilter/avfilter_datascope.xml:9
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
 msgstr ""
@@ -2520,26 +2520,26 @@ msgid "Y offset"
 msgstr "Y 位移"
 
 #: data/effects/avfilter/avfilter_datascope.xml:18
-#: data/effects/avfilter/avfilter_pixelize.xml:18
-#: data/effects/avfilter/avfilter_prewitt.xml:8
-#: data/effects/avfilter/avfilter_roberts.xml:8
-#: data/effects/avfilter/avfilter_sobel.xml:8
-#, kde-format
-msgid ""
-"None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
-"Alpha"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_datascope.xml:19
-#: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#: data/effects/avfilter/avfilter_waveform.xml:31
+#: data/effects/avfilter/avfilter_oscilloscope.xml:44
+#: data/effects/avfilter/avfilter_waveform.xml:30
 #: src/scopes/colorscopes/histogram.cpp:36
 #, fuzzy, kde-format
 #| msgid "Components:"
 msgid "Components"
 msgstr "色彩分量："
 
-#: data/effects/avfilter/avfilter_datascope.xml:22
+#: data/effects/avfilter/avfilter_datascope.xml:19
+#: data/effects/avfilter/avfilter_pixelize.xml:19
+#: data/effects/avfilter/avfilter_prewitt.xml:9
+#: data/effects/avfilter/avfilter_roberts.xml:9
+#: data/effects/avfilter/avfilter_sobel.xml:9
+#, kde-format
+msgid ""
+"None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
+"Alpha"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
 msgid "Mono,Color,Color2"
 msgstr ""
@@ -2563,15 +2563,15 @@ msgstr "全部察看"
 msgid "Opacity"
 msgstr "不透明度"
 
-#: data/effects/avfilter/avfilter_datascope.xml:32
-#, kde-format
-msgid "Hex,Dec"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_datascope.xml:33 data/effects/timer.xml:46
+#: data/effects/avfilter/avfilter_datascope.xml:32 data/effects/timer.xml:46
 #, kde-format
 msgid "Format"
 msgstr "格式"
+
+#: data/effects/avfilter/avfilter_datascope.xml:33
+#, kde-format
+msgid "Hex,Dec"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, fuzzy, kde-format
@@ -2607,21 +2607,21 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
 #, kde-format
-msgid ""
-"Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
-"All"
-msgstr ""
+msgid "Planes to filter"
+msgstr "要過濾的平面"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #: data/effects/avfilter/avfilter_scharr.xml:9
 #, kde-format
-msgid "Planes to filter"
-msgstr "要過濾的平面"
+msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
 #, kde-format
-msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
+msgid ""
+"Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
+"All"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dcshift.xml:4
@@ -2748,7 +2748,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:33
-#: data/effects/avfilter/avfilter_transpose.xml:9
+#: data/effects/avfilter/avfilter_transpose.xml:8
 #: data/effects/frei0r/frei0r_aech0r.xml:12 data/effects/timer.xml:66
 #: data/transitions/slide.xml:8
 #, kde-format
@@ -2811,15 +2811,15 @@ msgid "Remove blocking artifacts from input video."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:8
-#, kde-format
-msgid "Weak,Strong"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_deblock.xml:9
 #, fuzzy, kde-format
 #| msgid "Filter by Usage"
 msgid "Filter strength"
 msgstr "依使用量過濾"
+
+#: data/effects/avfilter/avfilter_deblock.xml:9
+#, kde-format
+msgid "Weak,Strong"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:15
 #: data/effects/avfilter/avfilter_smartblur.xml:48
@@ -2846,7 +2846,7 @@ msgstr "變更閥值"
 msgid "Delta threshold"
 msgstr "音量閾值"
 
-#: data/effects/avfilter/avfilter_deblock.xml:27
+#: data/effects/avfilter/avfilter_deblock.xml:28
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
 msgstr ""
@@ -2864,12 +2864,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:8
 #, kde-format
-msgid "DotCrawl,Rainbows"
+msgid "color-reduction Mode"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:9
 #, kde-format
-msgid "color-reduction Mode"
+msgid "DotCrawl,Rainbows"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:12
@@ -2937,19 +2937,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
-#, kde-format
-msgid "Input,Output,Ess only"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_deesser.xml:21
 #, fuzzy, kde-format
 #| msgid "Output time"
 msgid "Output mode"
 msgstr "輸出時間"
 
-#: data/effects/avfilter/avfilter_deesser.xml:22
+#: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
 msgid "Set the output mode."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_deesser.xml:22
+#, kde-format
+msgid "Input,Output,Ess only"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
@@ -3021,15 +3021,15 @@ msgid "Logo Height"
 msgstr "高度"
 
 #: data/effects/avfilter/avfilter_delogo.xml:20
-#, kde-format
-msgid "Off,On"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_delogo.xml:21
 #, fuzzy, kde-format
 #| msgid "Show Grid"
 msgid "Show borders"
 msgstr "顯示格線"
+
+#: data/effects/avfilter/avfilter_delogo.xml:21
+#, kde-format
+msgid "Off,On"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:4
 #, fuzzy, kde-format
@@ -3046,16 +3046,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
-#, kde-format
-msgid "Native,Tensorflow"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_derain.xml:9
-#: data/effects/avfilter/avfilter_sr.xml:9
 #, fuzzy, kde-format
 #| msgid "Audio Backend:"
 msgid "DNN Backend"
 msgstr "音訊後端："
+
+#: data/effects/avfilter/avfilter_derain.xml:9
+#: data/effects/avfilter/avfilter_sr.xml:9
+#, kde-format
+msgid "Native,Tensorflow"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
@@ -3076,11 +3076,17 @@ msgid ""
 "color of greenscreen or bluescreen"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_despill.xml:9
+#: data/effects/avfilter/avfilter_despill.xml:8
 #, fuzzy, kde-format
 #| msgid "Screen Capture"
 msgid "Screen type"
 msgstr "螢幕擷取"
+
+#: data/effects/avfilter/avfilter_despill.xml:9
+#, fuzzy, kde-format
+#| msgid "Green-Blue"
+msgid "Green,Blue"
+msgstr "綠藍"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -3198,20 +3204,20 @@ msgid "Weave input video fields into double number of frames"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
-#: data/effects/avfilter/avfilter_field.xml:8
-#: data/effects/avfilter/avfilter_fieldorder.xml:8
-#: data/effects/avfilter/avfilter_mcdeint.xml:12
-#, fuzzy, kde-format
-#| msgid "Bottom field first"
-msgid "Top field first,Bottom field first"
-msgstr "下場優先"
-
-#: data/effects/avfilter/avfilter_doubleweave.xml:9
-#: data/effects/avfilter/avfilter_weave.xml:9
+#: data/effects/avfilter/avfilter_weave.xml:8
 #, fuzzy, kde-format
 #| msgid "First frame"
 msgid "First Field"
 msgstr "第一個影格"
+
+#: data/effects/avfilter/avfilter_doubleweave.xml:9
+#: data/effects/avfilter/avfilter_field.xml:9
+#: data/effects/avfilter/avfilter_fieldorder.xml:9
+#: data/effects/avfilter/avfilter_mcdeint.xml:13
+#, fuzzy, kde-format
+#| msgid "Bottom field first"
+msgid "Top field first,Bottom field first"
+msgstr "下場優先"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, fuzzy, kde-format
@@ -3437,19 +3443,19 @@ msgid "High threshold"
 msgstr "變更閥值"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
-#, kde-format
-msgid "Wires,Colormix,Canny"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_edgedetect.xml:15
 #, fuzzy, kde-format
 #| msgid "Mode"
 msgid "Modes"
 msgstr "型態"
 
-#: data/effects/avfilter/avfilter_edgedetect.xml:18
-#: data/effects/avfilter/avfilter_gblur.xml:13
-#: data/effects/avfilter/avfilter_limiter.xml:16
+#: data/effects/avfilter/avfilter_edgedetect.xml:15
+#, kde-format
+msgid "Wires,Colormix,Canny"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_edgedetect.xml:19
+#: data/effects/avfilter/avfilter_gblur.xml:16
+#: data/effects/avfilter/avfilter_limiter.xml:17
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
 msgstr ""
@@ -3470,7 +3476,7 @@ msgid "Codebook Length"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
-#: data/effects/avfilter/avfilter_gblur.xml:9
+#: data/effects/avfilter/avfilter_gblur.xml:8
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:20
 #, fuzzy, kde-format
 #| msgid "Stepsize"
@@ -3500,16 +3506,16 @@ msgid "Scale the input using EPX algorithm."
 msgstr "選取邊線方塊色彩"
 
 #: data/effects/avfilter/avfilter_epx.xml:8
-#, kde-format
-msgid "2x,3x"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_epx.xml:9
-#: data/effects/avfilter/avfilter_hqx.xml:9
+#: data/effects/avfilter/avfilter_hqx.xml:8
 #, fuzzy, kde-format
 #| msgid "Blur factor"
 msgid "Scale factor"
 msgstr "模糊系數"
+
+#: data/effects/avfilter/avfilter_epx.xml:9
+#, kde-format
+msgid "2x,3x"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_eq.xml:4
 #, kde-format
@@ -3680,14 +3686,14 @@ msgstr ""
 msgid "<![CDATA[Set block overlap]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:26
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #, kde-format
-msgid "Wiener,Hard"
+msgid "<![CDATA[Set denoising method]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
-msgid "<![CDATA[Set denoising method]]>"
+msgid "Wiener,Hard"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
@@ -3704,9 +3710,9 @@ msgid ""
 "        for temporal denoising]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_fftdnoiz.xml:39
-#: data/effects/avfilter/avfilter_median.xml:22
-#: data/effects/avfilter/avfilter_oscilloscope.xml:44
+#: data/effects/avfilter/avfilter_fftdnoiz.xml:40
+#: data/effects/avfilter/avfilter_median.xml:24
+#: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,All"
 msgstr ""
@@ -3753,15 +3759,15 @@ msgstr "光亮度 V 平面"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, fuzzy, kde-format
-#| msgid "First frame"
-msgid "init,frame"
-msgstr "第一個影格"
-
-#: data/effects/avfilter/avfilter_fftfilt.xml:27
-#, fuzzy, kde-format
 #| msgid "Y value"
 msgid "Evaluate"
 msgstr "Y 亮度"
+
+#: data/effects/avfilter/avfilter_fftfilt.xml:27
+#, fuzzy, kde-format
+#| msgid "First frame"
+msgid "init,frame"
+msgstr "第一個影格"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, fuzzy, kde-format
@@ -3774,8 +3780,8 @@ msgstr "提取到"
 msgid "Extract a field from the input video"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_field.xml:9
-#: data/effects/avfilter/avfilter_fieldorder.xml:9
+#: data/effects/avfilter/avfilter_field.xml:8
+#: data/effects/avfilter/avfilter_fieldorder.xml:8
 #, fuzzy, kde-format
 #| msgid "Top Field First"
 msgid "Field priority"
@@ -3805,7 +3811,7 @@ msgid ""
 "crop video input to keep the size multiple of some number"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_fillborders.xml:8
+#: data/effects/avfilter/avfilter_fillborders.xml:9
 #, kde-format
 msgid "Smear,Mirror,Color,Reflect,Wrap,Fade,Margins"
 msgstr ""
@@ -3912,21 +3918,21 @@ msgstr "速度"
 msgid "Set sweeps per second (Hz). Range from 0.1 to 10."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_flanger.xml:29
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
-#: data/effects/frei0r/frei0r_alphaspot.xml:10
-#: data/effects/frei0r/frei0r_facedetect.xml:25
-#: data/effects/frei0r/frei0r_select0r.xml:29
-#: data/effects/frei0r/frei0r_select0r.xml:56
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:9
-#: data/effects/mask_start_frei0r_alphaspot.xml:9
-#: data/effects/mask_start_frei0r_select0r.xml:22
+#: data/effects/avfilter/avfilter_flanger.xml:28
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
+#: data/effects/frei0r/frei0r_alphaspot.xml:9
+#: data/effects/frei0r/frei0r_facedetect.xml:24
+#: data/effects/frei0r/frei0r_select0r.xml:28
+#: data/effects/frei0r/frei0r_select0r.xml:55
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:8
+#: data/effects/mask_start_frei0r_alphaspot.xml:8
+#: data/effects/mask_start_frei0r_select0r.xml:21
 #: data/effects/sox/sox_flanger.xml:23
 #, kde-format
 msgid "Shape"
 msgstr "形狀"
 
-#: data/effects/avfilter/avfilter_flanger.xml:30
+#: data/effects/avfilter/avfilter_flanger.xml:29
 #, kde-format
 msgid "Set swept wave shape, can be triangular or sinusoidal. "
 msgstr ""
@@ -3944,34 +3950,34 @@ msgid ""
 "Set swept wave percentage-shift for multi channel. Range from 0 to 100. "
 msgstr ""
 
-#: data/effects/avfilter/avfilter_flanger.xml:37
-#, fuzzy, kde-format
-#| msgid "Linear"
-msgid "Linear,Quadratic"
-msgstr "線性"
-
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: data/effects/avfilter/avfilter_flanger.xml:38
-#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:34
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
-#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:151
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
-#: data/effects/frei0r/frei0r_c0rners.xml:45
+#: data/effects/avfilter/avfilter_flanger.xml:37
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:33
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:150
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
+#: data/effects/frei0r/frei0r_c0rners.xml:44
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
 msgstr "內插補點法"
 
-#: data/effects/avfilter/avfilter_flanger.xml:39
+#: data/effects/avfilter/avfilter_flanger.xml:38
 #, kde-format
 msgid "Set delay-line interpolation, linear or quadratic."
 msgstr ""
+
+#: data/effects/avfilter/avfilter_flanger.xml:39
+#, fuzzy, kde-format
+#| msgid "Linear"
+msgid "Linear,Quadratic"
+msgstr "線性"
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
 #, fuzzy, kde-format
@@ -4001,15 +4007,15 @@ msgid "Fast and simple postprocessing"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:8
-#, kde-format
-msgid "4,5"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_fspp.xml:9
 #, fuzzy, kde-format
 #| msgid "Quality:"
 msgid "Quality"
 msgstr "品質："
+
+#: data/effects/avfilter/avfilter_fspp.xml:9
+#, kde-format
+msgid "4,5"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
@@ -4033,17 +4039,17 @@ msgstr "增益：藍"
 msgid "Apply Gaussian Blur filter"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:8
-#, kde-format
-msgid "1,2,3,4,5,6"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_gblur.xml:10
+#: data/effects/avfilter/avfilter_gblur.xml:9
 #, kde-format
 msgid "Set number of steps for Gaussian approximation"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_gblur.xml:16
+#: data/effects/avfilter/avfilter_gblur.xml:10
+#, kde-format
+msgid "1,2,3,4,5,6"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_gblur.xml:15
 #, kde-format
 msgid ""
 "<![CDATA[Set which planes to filter.<br>\n"
@@ -4116,24 +4122,24 @@ msgstr "圖形位置"
 msgid "Show various filtergraph stats"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_graphmonitor.xml:8
+#: data/effects/avfilter/avfilter_graphmonitor.xml:9
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_graphmonitor.xml:15
+#: data/effects/avfilter/avfilter_graphmonitor.xml:16
 #, kde-format
 msgid "Compact,Full"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
-msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
+msgid "Flags"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #, kde-format
-msgid "Flags"
+msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
@@ -4174,15 +4180,15 @@ msgid "Side gain"
 msgstr "側邊增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:18
-#, kde-format
-msgid "left,right,mid,side"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_haas.xml:19
 #, fuzzy, kde-format
 #| msgid "Online Resources"
 msgid "Middle source"
 msgstr "線上資源"
+
+#: data/effects/avfilter/avfilter_haas.xml:19
+#, kde-format
+msgid "left,right,mid,side"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:22
 #, kde-format
@@ -4253,15 +4259,15 @@ msgstr "高通"
 msgid "Apply a high-pass filter with 3dB point frequency."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_highpass.xml:12
-#: data/effects/avfilter/avfilter_highshelf.xml:12
-#: data/effects/avfilter/avfilter_lowpass.xml:12
-#: data/effects/avfilter/avfilter_lowshelf.xml:12
-#: data/effects/avfilter/avfilter_sofalizer.xml:24
-#: data/effects/frei0r/frei0r_colortap.xml:9
-#: data/effects/frei0r/frei0r_defish0r.xml:15
-#: data/effects/frei0r/frei0r_iirblur.xml:13
-#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1505
+#: data/effects/avfilter/avfilter_highpass.xml:11
+#: data/effects/avfilter/avfilter_highshelf.xml:11
+#: data/effects/avfilter/avfilter_lowpass.xml:11
+#: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_sofalizer.xml:23
+#: data/effects/frei0r/frei0r_colortap.xml:8
+#: data/effects/frei0r/frei0r_defish0r.xml:14
+#: data/effects/frei0r/frei0r_iirblur.xml:12
+#: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1505
 #: src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
@@ -4291,12 +4297,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
-msgid "None,Weak,Strong"
+msgid "Antibanding Level"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
 #, kde-format
-msgid "Antibanding Level"
+msgid "None,Weak,Strong"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
@@ -4324,30 +4330,30 @@ msgstr "宏塊高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
 #: data/effects/avfilter/avfilter_waveform.xml:25
-#, kde-format
-msgid "Overlay,Stack,Parade"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_histogram.xml:15
-#: data/effects/avfilter/avfilter_waveform.xml:26
-#: data/effects/frei0r/frei0r_alpha0ps.xml:11
-#: data/effects/frei0r/frei0r_alpha0ps.xml:37
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
+#: data/effects/frei0r/frei0r_alpha0ps.xml:10
+#: data/effects/frei0r/frei0r_alpha0ps.xml:36
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
 #, kde-format
 msgid "Display"
 msgstr "察看"
 
-#: data/effects/avfilter/avfilter_histogram.xml:22
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:26
+#: data/effects/avfilter/avfilter_histogram.xml:15
+#: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
-msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
+msgid "Overlay,Stack,Parade"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_histogram.xml:23
+#: data/effects/avfilter/avfilter_histogram.xml:22
 #, fuzzy, kde-format
 #| msgid "Components:"
 msgid "Components to Display"
 msgstr "色彩分量："
+
+#: data/effects/avfilter/avfilter_histogram.xml:23
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:27
+#, kde-format
+msgid "None,Y,U,YU,V,YV,UV,All,Alpha"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
 #, fuzzy, kde-format
@@ -4364,17 +4370,17 @@ msgid "Background Opacity"
 msgstr "背景不透明度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:32
+#, fuzzy, kde-format
+#| msgid "Color Model"
+msgid "Colors Mode"
+msgstr "色彩模型"
+
+#: data/effects/avfilter/avfilter_histogram.xml:33
 #, kde-format
 msgid ""
 "White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
 "Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_histogram.xml:33
-#, fuzzy, kde-format
-#| msgid "Color Model"
-msgid "Colors Mode"
-msgstr "色彩模型"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, fuzzy, kde-format
@@ -4420,7 +4426,7 @@ msgid ""
 "done by 2, 3 or 4 using the hq*x magnification algorithm."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_hqx.xml:8
+#: data/effects/avfilter/avfilter_hqx.xml:9
 #, kde-format
 msgid "2x,3x,4x"
 msgstr ""
@@ -4509,16 +4515,16 @@ msgstr ""
 msgid "Colors to Adjust"
 msgstr "要選取的色彩"
 
-#: data/effects/avfilter/avfilter_huesaturation.xml:9
-#, kde-format
-msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_huesaturation.xml:11
+#: data/effects/avfilter/avfilter_huesaturation.xml:10
 #, kde-format
 msgid ""
 "<![CDATA[Set which primary and<br>\n"
 "        complementary colors are going to be adjusted]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_huesaturation.xml:11
+#, kde-format
+msgid "Reds,Yellows,Greens,Cyans,Blues,Magentas,All colors"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:14
@@ -4626,26 +4632,26 @@ msgid "Deinterleave or interleave fields"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:8
-#: data/effects/avfilter/avfilter_il.xml:12
-#: data/effects/avfilter/avfilter_il.xml:16
-#, fuzzy, kde-format
-#| msgid "Force Deinterlace Overlay"
-msgid "None,Deinterleave,Interleave"
-msgstr "強制解交錯覆蓋"
-
-#: data/effects/avfilter/avfilter_il.xml:9
 #, fuzzy, kde-format
 #| msgid "Luma mode"
 msgid "Luma Mode"
 msgstr "Luma 型態"
 
+#: data/effects/avfilter/avfilter_il.xml:9
 #: data/effects/avfilter/avfilter_il.xml:13
+#: data/effects/avfilter/avfilter_il.xml:17
+#, fuzzy, kde-format
+#| msgid "Force Deinterlace Overlay"
+msgid "None,Deinterleave,Interleave"
+msgstr "強制解交錯覆蓋"
+
+#: data/effects/avfilter/avfilter_il.xml:12
 #, fuzzy, kde-format
 #| msgid "Chroma Hold"
 msgid "Chroma Mode"
 msgstr "保持色度"
 
-#: data/effects/avfilter/avfilter_il.xml:17
+#: data/effects/avfilter/avfilter_il.xml:16
 #, fuzzy, kde-format
 #| msgid "Alpha trace"
 msgid "Alpha Mode"
@@ -4757,7 +4763,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_roberts.xml:12
 #: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
-#: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
+#: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
 #: src/scopes/colorscopes/histogram.cpp:66 src/widgets/geometrywidget.cpp:139
 #, kde-format
 msgid "Scale"
@@ -4783,7 +4789,7 @@ msgstr "Y - 增量"
 msgid "Set value which will be added to filtered result."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_kirsch.xml:16
+#: data/effects/avfilter/avfilter_kirsch.xml:17
 #, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
 msgstr ""
@@ -4813,15 +4819,15 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
-msgid "Nearest,Bi-linear"
-msgstr "最近鄰(快)"
-
-#: data/effects/avfilter/avfilter_lenscorrection.xml:9
-#, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Interpolation Type"
 msgstr "內插補點法"
+
+#: data/effects/avfilter/avfilter_lenscorrection.xml:9
+#, fuzzy, kde-format
+#| msgid "Nearest Neighbor (fast)"
+msgid "Nearest,Bi-linear"
+msgstr "最近鄰(快)"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:12
 #, kde-format
@@ -4864,7 +4870,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:8
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:30
-#: data/effects/frei0r/frei0r_alphaspot.xml:31
+#: data/effects/frei0r/frei0r_alphaspot.xml:32
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:30
 #: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
@@ -4878,7 +4884,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:33
-#: data/effects/frei0r/frei0r_alphaspot.xml:34
+#: data/effects/frei0r/frei0r_alphaspot.xml:35
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:33
 #: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, kde-format
@@ -4961,7 +4967,7 @@ msgstr "低通"
 msgid "Apply a low-pass filter with 3dB point frequency."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_lowpass.xml:11
+#: data/effects/avfilter/avfilter_lowpass.xml:12
 #, fuzzy, kde-format
 #| msgid "Hertz,Q-Factor,Octave,Slope,None"
 msgid "Hz,Q-FActor,Octave,Slope,KHz"
@@ -4997,7 +5003,7 @@ msgid "LUT file to apply"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
-#: data/effects/avfilter/avfilter_shear.xml:18
+#: data/effects/avfilter/avfilter_shear.xml:17
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Interpolation Mode"
@@ -5018,12 +5024,12 @@ msgstr ""
 msgid "Apply motion-compensation deinterlacing"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_mcdeint.xml:8
+#: data/effects/avfilter/avfilter_mcdeint.xml:9
 #, kde-format
 msgid "Fast,Medium,Slow,Extra slow"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_mcdeint.xml:13
+#: data/effects/avfilter/avfilter_mcdeint.xml:12
 #, kde-format
 msgid "Picture field parity"
 msgstr ""
@@ -5093,7 +5099,7 @@ msgid ""
 "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_median.xml:24
+#: data/effects/avfilter/avfilter_median.xml:23
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
 msgstr ""
@@ -5217,35 +5223,35 @@ msgid "Component #3 strength"
 msgstr "色彩分量："
 
 #: data/effects/avfilter/avfilter_noise.xml:38
-#: data/effects/avfilter/avfilter_noise.xml:42
-#: data/effects/avfilter/avfilter_noise.xml:46
-#: data/effects/avfilter/avfilter_noise.xml:50
-#: data/effects/avfilter/avfilter_noise.xml:54
-#, kde-format
-msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
 msgid "Flag all"
 msgstr ""
 
+#: data/effects/avfilter/avfilter_noise.xml:39
 #: data/effects/avfilter/avfilter_noise.xml:43
+#: data/effects/avfilter/avfilter_noise.xml:47
+#: data/effects/avfilter/avfilter_noise.xml:51
+#: data/effects/avfilter/avfilter_noise.xml:55
+#, kde-format
+msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_noise.xml:42
 #, kde-format
 msgid "Flag component 0"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:47
+#: data/effects/avfilter/avfilter_noise.xml:46
 #, kde-format
 msgid "Flag component 1"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:51
+#: data/effects/avfilter/avfilter_noise.xml:50
 #, kde-format
 msgid "Flag component 2"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:55
+#: data/effects/avfilter/avfilter_noise.xml:54
 #, kde-format
 msgid "Flag component 3"
 msgstr ""
@@ -5359,7 +5365,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
-#: data/effects/frei0r/frei0r_alphaspot.xml:25
+#: data/effects/frei0r/frei0r_alphaspot.xml:26
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:24
 #: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, kde-format
@@ -5422,7 +5428,7 @@ msgstr "軌道高度"
 msgid "<![CDATA[Height of the scope display]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_oscilloscope.xml:46
+#: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
 msgstr ""
@@ -5465,7 +5471,7 @@ msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_phase.xml:8
+#: data/effects/avfilter/avfilter_phase.xml:9
 #, kde-format
 msgid ""
 "Delay the bottom field,Delay the top field,Keep the field order,Capture "
@@ -5692,7 +5698,7 @@ msgstr "長條水平"
 msgid "Alpha Vertical Shift"
 msgstr "長條垂直"
 
-#: data/effects/avfilter/avfilter_rgbashift.xml:33
+#: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, fuzzy, kde-format
 #| msgid "Edges correction"
 msgid "Edge Operation"
@@ -5799,15 +5805,15 @@ msgid "Apply CMYK correction to specific color ranges"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
-#, kde-format
-msgid "Absolute,Relative"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_selectivecolor.xml:9
 #, fuzzy, kde-format
 #| msgid "Image Selection Method"
 msgid "Correction Method"
 msgstr "圖片選取方式"
+
+#: data/effects/avfilter/avfilter_selectivecolor.xml:9
+#, kde-format
+msgid "Absolute,Relative"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
@@ -5879,7 +5885,7 @@ msgstr "設定區段"
 msgid "Force color range for the output video frame"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_setrange.xml:8
+#: data/effects/avfilter/avfilter_setrange.xml:9
 #, fuzzy, kde-format
 #| msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
 msgid "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
@@ -5915,7 +5921,7 @@ msgstr "模糊系數"
 msgid "Background Fill Color"
 msgstr "背景色"
 
-#: data/effects/avfilter/avfilter_shear.xml:17
+#: data/effects/avfilter/avfilter_shear.xml:18
 #, fuzzy, kde-format
 #| msgid "Nearest Neighbor (fast)"
 msgid "Nearest,Bilinear"
@@ -6141,7 +6147,7 @@ msgstr "旋轉"
 msgid "Elevation"
 msgstr "操作"
 
-#: data/effects/avfilter/avfilter_sofalizer.xml:23
+#: data/effects/avfilter/avfilter_sofalizer.xml:24
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "Frequency,Time"
@@ -6221,6 +6227,12 @@ msgid "Convert between different stereoscopic image formats. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
+#, fuzzy, kde-format
+#| msgid "Capture format"
+msgid "Input format"
+msgstr "擷取格式"
+
+#: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
 msgid ""
 "side by side parallel,side by side crosseye,above-below (left above),above-"
@@ -6228,13 +6240,13 @@ msgid ""
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_stereo3D.xml:9
-#, fuzzy, kde-format
-#| msgid "Capture format"
-msgid "Input format"
-msgstr "擷取格式"
-
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
+#, fuzzy, kde-format
+#| msgid "Output file"
+msgid "Output format"
+msgstr "匯出檔案"
+
+#: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
 msgid ""
 "side by side parallel,side by side crosseye,above-below left top,above-below "
@@ -6248,12 +6260,6 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_stereo3D.xml:13
-#, fuzzy, kde-format
-#| msgid "Output file"
-msgid "Output format"
-msgstr "匯出檔案"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, fuzzy, kde-format
@@ -6290,7 +6296,7 @@ msgid "Level OUT"
 msgstr "色階"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
-#: data/effects/avfilter/avfilter_stereotools.xml:86
+#: data/effects/avfilter/avfilter_stereotools.xml:79
 #, fuzzy, kde-format
 #| msgid "Balance"
 msgid "Balance IN"
@@ -6305,7 +6311,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
-#: data/effects/avfilter/avfilter_stereotools.xml:96
+#: data/effects/avfilter/avfilter_stereotools.xml:89
 #, fuzzy, kde-format
 #| msgid "Balance"
 msgid "Balance OUT"
@@ -6360,6 +6366,12 @@ msgid "Change the phase of the right channel."
 msgstr "使用 alpha 或 luma 值的反向。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:44
+#, fuzzy, kde-format
+#| msgid "Stereo "
+msgid "Stereo Mode"
+msgstr "雙聲道 "
+
+#: data/effects/avfilter/avfilter_stereotools.xml:45
 #, kde-format
 msgid ""
 "Left/Right to Left/Right,Left/Right to Mid/Side,Mid/Side to Left/Right,Left/"
@@ -6367,12 +6379,6 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
-
-#: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
-#| msgid "Stereo "
-msgid "Stereo Mode"
-msgstr "雙聲道 "
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, fuzzy, kde-format
@@ -6459,12 +6465,6 @@ msgstr "雙聲道 "
 msgid "Set the stereo phase in degrees."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_stereotools.xml:79
-#: data/effects/avfilter/avfilter_stereotools.xml:89
-#, kde-format
-msgid "balance,amplitude,power"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_stereotools.xml:85
 #: data/effects/avfilter/avfilter_stereotools.xml:95
 #, kde-format
@@ -6476,6 +6476,12 @@ msgid ""
 "Similar to classic mode above but gain is raised up to 2.\n"
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_stereotools.xml:86
+#: data/effects/avfilter/avfilter_stereotools.xml:96
+#, kde-format
+msgid "balance,amplitude,power"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
@@ -6562,21 +6568,21 @@ msgstr "轉換編碼"
 msgid "Transpose rows with columns in the input video and optionally flip it"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_transpose.xml:8
+#: data/effects/avfilter/avfilter_transpose.xml:9
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
-#, kde-format
-msgid "None,Portrait,Landscape"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_transpose.xml:13
 #, fuzzy, kde-format
 #| msgid "Overwrite"
 msgid "Override if"
 msgstr "覆寫"
+
+#: data/effects/avfilter/avfilter_transpose.xml:13
+#, kde-format
+msgid "None,Portrait,Landscape"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:5
 #, fuzzy, kde-format
@@ -6696,21 +6702,21 @@ msgid ""
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
 msgid "Hard,Soft,Garrote"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:13
-#, kde-format
-msgid "Universal,Bayes"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Threshold Type"
 msgstr "閾值"
+
+#: data/effects/avfilter/avfilter_vaguedenoiser.xml:14
+#, kde-format
+msgid "Universal,Bayes"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:23
 #: src/jobs/speedtask.cpp:72
@@ -6729,7 +6735,7 @@ msgstr "向量示波器"
 msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:8
+#: data/effects/avfilter/avfilter_vectorscope.xml:9
 #, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
 msgstr ""
@@ -6760,28 +6766,28 @@ msgstr "色彩分量："
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:27
 #: data/effects/avfilter/avfilter_waveform.xml:35
-#, kde-format
-msgid "None,Instant,Peak,Peak+Instant"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:28
-#: data/effects/avfilter/avfilter_waveform.xml:36
 #, fuzzy, kde-format
 #| msgid "Slope"
 msgid "Envelope"
 msgstr "衰退"
 
+#: data/effects/avfilter/avfilter_vectorscope.xml:28
+#: data/effects/avfilter/avfilter_waveform.xml:37
+#, kde-format
+msgid "None,Instant,Peak,Peak+Instant"
+msgstr ""
+
 #: data/effects/avfilter/avfilter_vectorscope.xml:31
+#: data/effects/avfilter/avfilter_waveform.xml:45
+#, kde-format
+msgid "Graticule"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:32
 #, fuzzy, kde-format
 #| msgid "Foreground color"
 msgid "None,Green,Color"
 msgstr "前景色"
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:32
-#: data/effects/avfilter/avfilter_waveform.xml:46
-#, kde-format
-msgid "Graticule"
-msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:35
 #: data/effects/avfilter/avfilter_waveform.xml:50
@@ -6791,16 +6797,16 @@ msgid "Graticule Opacity"
 msgstr "開始於"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:38
-#, kde-format
-msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:39
-#: data/effects/avfilter/avfilter_waveform.xml:56
+#: data/effects/avfilter/avfilter_waveform.xml:54
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgid "Graticule Flags"
 msgstr "開始於"
+
+#: data/effects/avfilter/avfilter_vectorscope.xml:39
+#, kde-format
+msgid "Draw White Point,Draw Black Point,Draw Point Name"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, fuzzy, kde-format
@@ -6814,7 +6820,7 @@ msgstr "黑白索引色"
 msgid "High Threshold"
 msgstr "黑白索引色"
 
-#: data/effects/avfilter/avfilter_vectorscope.xml:51
+#: data/effects/avfilter/avfilter_vectorscope.xml:52
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
 msgstr ""
@@ -6905,26 +6911,26 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
-#, kde-format
-msgid "Simple,Complex"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, fuzzy, kde-format
 #| msgid "Co-efficient"
 msgid "Filter coefficients"
 msgstr "Co-efficient"
 
-#: data/effects/avfilter/avfilter_w3fdif.xml:12
+#: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, kde-format
-msgid "Deinterlace all frames,Marked as interlaced only"
+msgid "Simple,Complex"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_w3fdif.xml:13
+#: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, fuzzy, kde-format
 #| msgid "Force Interlaced"
 msgid "Frames to deinterlace"
 msgstr "強制交錯式"
+
+#: data/effects/avfilter/avfilter_w3fdif.xml:13
+#, kde-format
+msgid "Deinterlace all frames,Marked as interlaced only"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, fuzzy, kde-format
@@ -6940,13 +6946,7 @@ msgid ""
 "source video. "
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:8
-#, fuzzy, kde-format
-#| msgid "Volume"
-msgid "Row,Column"
-msgstr "音量"
-
-#: data/effects/avfilter/avfilter_waveform.xml:12
+#: data/effects/avfilter/avfilter_waveform.xml:11
 #, kde-format
 msgid ""
 "<![CDATA[In row mode, the graph on the left side represents<br>\n"
@@ -6955,6 +6955,12 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:12
+#, fuzzy, kde-format
+#| msgid "Volume"
+msgid "Row,Column"
+msgstr "音量"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
@@ -6971,32 +6977,27 @@ msgid ""
 "<em>column</em> mode.]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:27
+#: data/effects/avfilter/avfilter_waveform.xml:26
 #, kde-format
 msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[設定顯示模式]]>"
 
-#: data/effects/avfilter/avfilter_waveform.xml:30
-#, kde-format
-msgid "Y,U,YU,V,YV,UV,All"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_waveform.xml:32
+#: data/effects/avfilter/avfilter_waveform.xml:31
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:37
+#: data/effects/avfilter/avfilter_waveform.xml:32
+#, kde-format
+msgid "Y,U,YU,V,YV,UV,All"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, kde-format
-msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1606
@@ -7005,19 +7006,24 @@ msgstr ""
 msgid "Filter"
 msgstr "過濾器"
 
-#: data/effects/avfilter/avfilter_waveform.xml:42
+#: data/effects/avfilter/avfilter_waveform.xml:41
 #, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:45
+#: data/effects/avfilter/avfilter_waveform.xml:42
 #, kde-format
-msgid "None,Green,Orange,Invert"
+msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:46
+#, kde-format
+msgid "<![CDATA[Set which graticule to display]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
-msgid "<![CDATA[Set which graticule to display]]>"
+msgid "None,Green,Orange,Invert"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
@@ -7026,24 +7032,24 @@ msgstr ""
 msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "繞 X 軸旋轉"
 
-#: data/effects/avfilter/avfilter_waveform.xml:54
-#, kde-format
-msgid "Show numbers,Draw dots"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
 msgid "<![CDATA[Set graticule flags]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:59
+#: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
-msgid "Digital,Millivolts,IRE"
+msgid "Show numbers,Draw dots"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_waveform.xml:60
+#, kde-format
+msgid "<![CDATA[Set scale used for displaying graticule]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
-msgid "<![CDATA[Set scale used for displaying graticule]]>"
+msgid "Digital,Millivolts,IRE"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
@@ -7066,37 +7072,37 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, kde-format
-msgid "None,Size"
-msgstr "無,大小"
-
-#: data/effects/avfilter/avfilter_waveform.xml:79
 #, fuzzy, kde-format
 #| msgid "Paint mode:"
 msgid "Fit Mode"
 msgstr "繪圖模式："
 
-#: data/effects/avfilter/avfilter_waveform.xml:80
+#: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_waveform.xml:83
+#: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
-msgid "First available, All"
-msgstr ""
+msgid "None,Size"
+msgstr "無,大小"
 
-#: data/effects/avfilter/avfilter_waveform.xml:84
+#: data/effects/avfilter/avfilter_waveform.xml:83
 #, fuzzy, kde-format
 #| msgid "Capture format"
 msgid "Input Format"
 msgstr "擷取格式"
 
-#: data/effects/avfilter/avfilter_waveform.xml:85
+#: data/effects/avfilter/avfilter_waveform.xml:84
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
 msgid "<![CDATA[Set input formats for filter to pick from]]>"
 msgstr "繞 X 軸旋轉"
+
+#: data/effects/avfilter/avfilter_waveform.xml:85
+#, kde-format
+msgid "First available, All"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, fuzzy, kde-format
@@ -7112,7 +7118,7 @@ msgid ""
 "frame rate and half the frame count."
 msgstr ""
 
-#: data/effects/avfilter/avfilter_weave.xml:8
+#: data/effects/avfilter/avfilter_weave.xml:9
 #, fuzzy, kde-format
 #| msgid "Top To Bottom"
 msgid "Top,Bottom"
@@ -7132,15 +7138,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
-#, kde-format
-msgid "2x BR,3x BR,4x BR"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_xbr.xml:9
 #, fuzzy, kde-format
 #| msgid "Line Tension"
 msgid "Scaling dimension"
 msgstr "線條張力"
+
+#: data/effects/avfilter/avfilter_xbr.xml:9
+#, kde-format
+msgid "2x BR,3x BR,4x BR"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, fuzzy, kde-format
@@ -7155,12 +7161,12 @@ msgid ""
 "filter\")"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_yadif.xml:8
+#: data/effects/avfilter/avfilter_yadif.xml:9
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
 
-#: data/effects/avfilter/avfilter_yadif.xml:12
+#: data/effects/avfilter/avfilter_yadif.xml:13
 #, fuzzy, kde-format
 #| msgid "Bottom field first"
 msgid "Top field first,Bottom field first,Auto"
@@ -7317,13 +7323,13 @@ msgstr "將一個聲道複製到另一個聲道"
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
-#: data/effects/channelcopy.xml:9 src/ui/import_subtitle_ui.ui:192
+#: data/effects/channelcopy.xml:8 src/ui/import_subtitle_ui.ui:192
 #: src/ui/renderwidget_ui.ui:97
 #, kde-format
 msgid "From"
 msgstr "從"
 
-#: data/effects/channelcopy.xml:13
+#: data/effects/channelcopy.xml:12
 #, kde-format
 msgid "To"
 msgstr "到"
@@ -7420,17 +7426,17 @@ msgid "Copy one audio channel to another."
 msgstr "將一個聲道複製到另一個聲道。"
 
 #: data/effects/copychannelstostereo.xml:8
-#: data/effects/copychannelstostereo.xml:12
-#, kde-format
-msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-
-#: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
 msgstr "從"
 
+#: data/effects/copychannelstostereo.xml:9
 #: data/effects/copychannelstostereo.xml:13
+#, kde-format
+msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+
+#: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "TO"
 msgstr "到"
@@ -7648,26 +7654,26 @@ msgid "Padding"
 msgstr "填補範圍"
 
 #: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#, kde-format
+msgid "Horizontal Alignment"
+msgstr "水平對齊"
+
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "左,中,右"
 
-#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
-#, kde-format
-msgid "Horizontal Alignment"
-msgstr "水平對齊"
-
 #: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#, kde-format
+msgid "Vertical Alignment"
+msgstr "垂直對齊"
+
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "上,中,下"
-
-#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
-#, kde-format
-msgid "Vertical Alignment"
-msgstr "垂直對齊"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
@@ -7677,6 +7683,13 @@ msgid "Text"
 msgstr "文字"
 
 #: data/effects/dynamictext.xml:44
+#, no-c-format, kde-format
+msgid ""
+"You can also enter strftime parameters to customize the output, like: "
+"#createdate %H:%M %D#"
+msgstr "您也可以輸入 strftime 參數來自訂輸出，例如：#createdate %H:%M %D#"
+
+#: data/effects/dynamictext.xml:45
 #, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
@@ -7684,13 +7697,6 @@ msgid ""
 msgstr ""
 "時間碼,影格,建立日期,檔案日期（GMT）,檔案日期（本地時間）,來源影格率,來源編"
 "碼,來源位元率,來源寬度,來源高度,來源註解"
-
-#: data/effects/dynamictext.xml:45
-#, no-c-format, kde-format
-msgid ""
-"You can also enter strftime parameters to customize the output, like: "
-"#createdate %H:%M %D#"
-msgstr "您也可以輸入 strftime 參數來自訂輸出，例如：#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -7944,9 +7950,9 @@ msgid ""
 "em>.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:10
-#: data/effects/frei0r/frei0r_alpha0ps.xml:36
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
+#: data/effects/frei0r/frei0r_alpha0ps.xml:11
+#: data/effects/frei0r/frei0r_alpha0ps.xml:37
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid ""
 "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
@@ -7960,25 +7966,25 @@ msgid "Display input alpha"
 msgstr "察看匯入透通"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:17
-#, kde-format
-msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_alpha0ps.xml:18
-#: data/effects/frei0r/frei0r_alpha0ps.xml:44
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
-#: data/effects/frei0r/frei0r_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alpha0ps.xml:43
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
+#: data/effects/frei0r/frei0r_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alphaspot.xml:38
-#: data/effects/frei0r/frei0r_select0r.xml:37
-#: data/effects/frei0r/frei0r_select0r.xml:76
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:37
-#: data/effects/mask_start_frei0r_alphaspot.xml:37
-#: data/effects/mask_start_frei0r_select0r.xml:42
+#: data/effects/frei0r/frei0r_select0r.xml:36
+#: data/effects/frei0r/frei0r_select0r.xml:75
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Operation"
 msgstr "操作"
+
+#: data/effects/frei0r/frei0r_alpha0ps.xml:18
+#, kde-format
+msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:24
 #, kde-format
@@ -7993,8 +7999,8 @@ msgid ""
 "em>.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps.xml:43
-#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
+#: data/effects/frei0r/frei0r_alpha0ps.xml:44
+#: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:16
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
@@ -8100,24 +8106,24 @@ msgstr "透明度："
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
-#: data/effects/frei0r/frei0r_alphagrad.xml:29
-#: data/effects/frei0r/frei0r_alphaspot.xml:37
-#: data/effects/frei0r/frei0r_select0r.xml:36
-#: data/effects/frei0r/frei0r_select0r.xml:75
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:36
-#: data/effects/mask_start_frei0r_alphaspot.xml:36
-#: data/effects/mask_start_frei0r_select0r.xml:41
-#, kde-format
-msgid "Write on clear,Max,Min,Add,Subtract"
-msgstr "清除時寫入,最大,最小,加算,減算"
-
-#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
-#: data/effects/frei0r/frei0r_alphagrad.xml:31
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
+#: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
+#: data/effects/frei0r/frei0r_alphagrad.xml:31
+#: data/effects/frei0r/frei0r_alphaspot.xml:39
+#: data/effects/frei0r/frei0r_select0r.xml:37
+#: data/effects/frei0r/frei0r_select0r.xml:76
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:37
+#: data/effects/mask_start_frei0r_alphaspot.xml:37
+#: data/effects/mask_start_frei0r_select0r.xml:42
+#, kde-format
+msgid "Write on clear,Max,Min,Add,Subtract"
+msgstr "清除時寫入,最大,最小,加算,減算"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #, fuzzy, kde-format
@@ -8131,16 +8137,16 @@ msgstr "透通形狀"
 msgid "Draws simple shapes into the alpha channel"
 msgstr "使用 alpha 或 luma 值的反向。"
 
-#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
-#: data/effects/frei0r/frei0r_alphaspot.xml:9
-#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:8
-#: data/effects/mask_start_frei0r_alphaspot.xml:8
+#: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
+#: data/effects/frei0r/frei0r_alphaspot.xml:10
+#: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:9
+#: data/effects/mask_start_frei0r_alphaspot.xml:9
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
 msgstr "矩形,橢圓,三角形,菱形"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:12
-#: data/effects/frei0r/frei0r_alphaspot.xml:13
+#: data/effects/frei0r/frei0r_alphaspot.xml:14
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:12
 #: data/effects/mask_start_frei0r_alphaspot.xml:12
 #, kde-format
@@ -8148,7 +8154,7 @@ msgid "Position X"
 msgstr "位置 X"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:15
-#: data/effects/frei0r/frei0r_alphaspot.xml:16
+#: data/effects/frei0r/frei0r_alphaspot.xml:17
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:15
 #: data/effects/mask_start_frei0r_alphaspot.xml:15
 #, kde-format
@@ -8156,7 +8162,7 @@ msgid "Position Y"
 msgstr "位置 Y"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:18
-#: data/effects/frei0r/frei0r_alphaspot.xml:19
+#: data/effects/frei0r/frei0r_alphaspot.xml:20
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:18
 #: data/effects/mask_start_frei0r_alphaspot.xml:18
 #, kde-format
@@ -8164,7 +8170,7 @@ msgid "Size X"
 msgstr "大小 X"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:21
-#: data/effects/frei0r/frei0r_alphaspot.xml:22
+#: data/effects/frei0r/frei0r_alphaspot.xml:23
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:21
 #: data/effects/mask_start_frei0r_alphaspot.xml:21
 #, kde-format
@@ -8172,7 +8178,7 @@ msgid "Size Y"
 msgstr "大小 Y"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
-#: data/effects/frei0r/frei0r_alphaspot.xml:28
+#: data/effects/frei0r/frei0r_alphaspot.xml:29
 #: data/effects/mask_start_frei0r_alphaspot.xml:27
 #, kde-format
 msgid "Transition width"
@@ -8267,8 +8273,8 @@ msgstr "曲線"
 msgid "Color curves adjustment"
 msgstr "色彩曲線調整"
 
-#: data/effects/frei0r/frei0r_bezier_curves.xml:8
-#: data/effects/frei0r/frei0r_curves.xml:64
+#: data/effects/frei0r/frei0r_bezier_curves.xml:9
+#: data/effects/frei0r/frei0r_curves.xml:65
 #, kde-format
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
 msgstr ""
@@ -8277,17 +8283,17 @@ msgstr ""
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
 #: data/effects/frei0r/frei0r_curves.xml:13
 #: data/effects/frei0r/frei0r_curves.xml:68
-#, fuzzy, kde-format
-msgid "Rec. 601,Rec. 709"
-msgstr "Rec. 601"
+#, kde-format
+msgid "Luma formula"
+msgstr "亮度標準"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
-#, kde-format
-msgid "Luma formula"
-msgstr "亮度標準"
+#, fuzzy, kde-format
+msgid "Rec. 601,Rec. 709"
+msgstr "Rec. 601"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
 #, fuzzy, kde-format
@@ -8324,26 +8330,26 @@ msgid ""
 "stretches and blurs it over the pole."
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:24
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:33
-#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:150
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
-msgid "Nearest-Neighbor,Bilinear"
-msgstr "最近鄰(快)"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Set the display mode]]>"
 msgid "<![CDATA[Determines the sampling method.]]>"
 msgstr "<![CDATA[設定顯示模式]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:34
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:151
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:25
+#, fuzzy, kde-format
+#| msgid "Nearest Neighbor (fast)"
+msgid "Nearest-Neighbor,Bilinear"
+msgstr "最近鄰(快)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
 #, fuzzy, kde-format
@@ -8664,7 +8670,7 @@ msgid ""
 "the little planet effect from a VR360 footage."
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
 #, fuzzy, kde-format
 #| msgid "Nearest Neighbor (fast)"
 msgid "Nearest-neighbor,Bilinear"
@@ -8683,7 +8689,7 @@ msgid ""
 "sphere"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Set the display mode]]>"
 msgid "<![CDATA[Determines the sampling method]]>"
@@ -8765,21 +8771,21 @@ msgid "Alignment roll"
 msgstr "頂端對齊"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:23
-#, kde-format
-msgid "Equidistant Fisheye"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Projection"
 msgstr "專案素材庫"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, kde-format
 msgid ""
 "<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
 "like the Ricoh Theta and Garmin Virb360 are supported.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
+#, kde-format
+msgid "Equidistant Fisheye"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:28
@@ -9374,8 +9380,8 @@ msgstr "羽化"
 msgid "Enable Stretch"
 msgstr "允許伸縮"
 
-#: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/frei0r/frei0r_defish0r.xml:37
+#: data/effects/frei0r/frei0r_c0rners.xml:45
+#: data/effects/frei0r/frei0r_defish0r.xml:38
 #, kde-format
 msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
@@ -9392,14 +9398,14 @@ msgstr "透通背景"
 #: data/effects/frei0r/frei0r_c0rners.xml:51
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
-msgid "Write on clear,Maximum,Minimum,Add,Subtract"
-msgstr "清除時寫入,最大值,最小值,加算,減算"
+msgid "Alpha Operation"
+msgstr "Alpha 操作"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:52
 #: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
-msgid "Alpha Operation"
-msgstr "Alpha 操作"
+msgid "Write on clear,Maximum,Minimum,Add,Subtract"
+msgstr "清除時寫入,最大值,最小值,加算,減算"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:4
 #, fuzzy, kde-format
@@ -9416,15 +9422,15 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:8
 #, fuzzy, kde-format
-#| msgid "Linear"
-msgid "Linear,Radial"
-msgstr "線性"
-
-#: data/effects/frei0r/frei0r_cairogradient.xml:9
-#, fuzzy, kde-format
 #| msgid "Patterns"
 msgid "Pattern"
 msgstr "樣式"
+
+#: data/effects/frei0r/frei0r_cairogradient.xml:9
+#, fuzzy, kde-format
+#| msgid "Linear"
+msgid "Linear,Radial"
+msgstr "線性"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
 #, fuzzy, kde-format
@@ -9483,6 +9489,13 @@ msgid "Offset"
 msgstr "偏移"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:39
+#: data/effects/frei0r/frei0r_softglow.xml:9
+#, fuzzy, kde-format
+#| msgid "Edge mode"
+msgid "Blend Mode"
+msgstr "邊緣型態"
+
+#: data/effects/frei0r/frei0r_cairogradient.xml:40
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:26
 #: data/transitions/frei0r/frei0r_cairoblend.xml:11
 #, fuzzy, kde-format
@@ -9499,13 +9512,6 @@ msgstr ""
 "Alpha 混合,互斥或 (XOR),相加,色彩增值,濾色,覆蓋,變暗,變亮,加亮顏色,加深顏色,"
 "實光,柔光,差異化,排除,位元 OR,位元 AND,位元 XOR,位元 NOR,位元 NAND,位元 NOT "
 "XOR,目標輸入,目標輸出"
-
-#: data/effects/frei0r/frei0r_cairogradient.xml:40
-#: data/effects/frei0r/frei0r_softglow.xml:10
-#, fuzzy, kde-format
-#| msgid "Edge mode"
-msgid "Blend Mode"
-msgstr "邊緣型態"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:17
@@ -9640,13 +9646,13 @@ msgstr "藍色"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
-msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgid "Action"
+msgstr "作業"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
 #, kde-format
-msgid "Action"
-msgstr "作業"
+msgid "Add constant,Change gamma,Multiply"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
@@ -9713,7 +9719,7 @@ msgstr "色彩效果"
 msgid "Applies a pre-made color effect to image"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_colortap.xml:8
+#: data/effects/frei0r/frei0r_colortap.xml:9
 #, kde-format
 msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
 msgstr ""
@@ -9737,10 +9743,10 @@ msgctxt "Curves Effect Name"
 msgid "Curves"
 msgstr "曲線"
 
-#: data/effects/frei0r/frei0r_curves.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:9
-#: data/effects/frei0r/frei0r_levels.xml:40
-#: data/effects/frei0r/frei0r_levels.xml:71
+#: data/effects/frei0r/frei0r_curves.xml:10
+#: data/effects/frei0r/frei0r_levels.xml:10
+#: data/effects/frei0r/frei0r_levels.xml:41
+#: data/effects/frei0r/frei0r_levels.xml:72
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr ""
@@ -9819,18 +9825,18 @@ msgstr "在畫面中察看圖表"
 
 #: data/effects/frei0r/frei0r_curves.xml:55
 #: data/effects/frei0r/frei0r_curves.xml:110
-#: data/effects/frei0r/frei0r_levels.xml:31
-#: data/effects/frei0r/frei0r_levels.xml:62
-#: data/effects/frei0r/frei0r_levels.xml:78
-#, kde-format
-msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_curves.xml:56
-#: data/effects/frei0r/frei0r_curves.xml:111
 #, kde-format
 msgid "Graph position"
 msgstr "圖形位置"
+
+#: data/effects/frei0r/frei0r_curves.xml:56
+#: data/effects/frei0r/frei0r_curves.xml:111
+#: data/effects/frei0r/frei0r_levels.xml:32
+#: data/effects/frei0r/frei0r_levels.xml:63
+#: data/effects/frei0r/frei0r_levels.xml:79
+#, kde-format
+msgid "Top Left,Top Right,Bottom Left,Bottom Right"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_curves.xml:60
 #, kde-format
@@ -9870,23 +9876,23 @@ msgstr "非直線鏡頭對映"
 msgid "De-Fish"
 msgstr "球面形變"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:14
+#: data/effects/frei0r/frei0r_defish0r.xml:15
 #, kde-format
 msgid "Equidistant,Orthographic,Equiarea,Stereographic"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_defish0r.xml:18
-#, kde-format
-msgid "Fill,Center,Fit,Manual"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: data/effects/frei0r/frei0r_defish0r.xml:19
+#: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Scaling"
 msgstr "縮放"
+
+#: data/effects/frei0r/frei0r_defish0r.xml:19
+#, kde-format
+msgid "Fill,Center,Fit,Manual"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:23
 #, kde-format
@@ -9915,21 +9921,21 @@ msgstr "保持縱橫比"
 msgid "Manual Scale"
 msgstr "手動處理程度"
 
-#: data/effects/frei0r/frei0r_defish0r.xml:38
+#: data/effects/frei0r/frei0r_defish0r.xml:37
 #, kde-format
 msgid "Interpolator"
 msgstr "插補"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:41
-#, kde-format
-msgid "Square,PAL DV,NTSC DV,HDV,Manual"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_defish0r.xml:42
 #, fuzzy, kde-format
 #| msgid "Aspect type"
 msgid "Aspect Type"
 msgstr "縱橫比類別:"
+
+#: data/effects/frei0r/frei0r_defish0r.xml:42
+#, kde-format
+msgid "Square,PAL DV,NTSC DV,HDV,Manual"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:45
 #, kde-format
@@ -10312,7 +10318,7 @@ msgstr "臉孔偵測"
 msgid "Detect faces and draw shapes on them using OpenCV"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_facedetect.xml:24
+#: data/effects/frei0r/frei0r_facedetect.xml:25
 #, kde-format
 msgid "circle,ellipse,rectangle,random"
 msgstr "圓形,橢圓,矩形,隨機"
@@ -10600,15 +10606,15 @@ msgstr ""
 msgid "Amount of blur"
 msgstr "模糊量"
 
-#: data/effects/frei0r/frei0r_iirblur.xml:12
-#, kde-format
-msgid "Exponential,Lowpass,Gaussian"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_iirblur.xml:14
+#: data/effects/frei0r/frei0r_iirblur.xml:13
 #, kde-format
 msgid "Select blurring algorithm"
 msgstr "選取模糊演算法"
+
+#: data/effects/frei0r/frei0r_iirblur.xml:14
+#, kde-format
+msgid "Exponential,Lowpass,Gaussian"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
 #, kde-format
@@ -10692,21 +10698,21 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, fuzzy, kde-format
-#| msgid "Counter Clockwise"
-msgid "None,Counter Clockwise,Clockwise"
-msgstr "逆時針"
-
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
-#, fuzzy, kde-format
 #| msgid "Animation duration"
 msgid "Segmentation Direction"
 msgstr "動畫持續時間"
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, fuzzy, kde-format
 #| msgid "Direction of the color gradient."
 msgid "Direction of the segmentation."
 msgstr "色彩漸層的方向。"
+
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
+#, fuzzy, kde-format
+#| msgid "Counter Clockwise"
+msgid "None,Counter Clockwise,Clockwise"
+msgstr "逆時針"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, fuzzy, kde-format
@@ -10737,19 +10743,19 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
-msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
-#, kde-format
 msgid "Preferred Corner"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:48
 #, kde-format
 msgid ""
 "<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
 "        this parameter defines the preferred corner.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
+#, kde-format
+msgid "Top right,Top left,Bottom left,Bottom right"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
@@ -10809,15 +10815,15 @@ msgid "Target Color"
 msgstr "文字色彩"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
-#, kde-format
-msgid "Color distance,Transparency,Edge inwards,Edge outwards"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, fuzzy, kde-format
 #| msgid "Mask type"
 msgid "Mask Type"
 msgstr "遮罩類型"
+
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
+#, kde-format
+msgid "Color distance,Transparency,Edge inwards,Edge outwards"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
@@ -10842,22 +10848,22 @@ msgid "Saturation Threshold"
 msgstr "飽和"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
-#, kde-format
-msgid "None,De-Key,Target,Desaturate,Luma adjust"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
 #, fuzzy, kde-format
 msgid "Operation 1"
 msgstr "作業"
+
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
+#, kde-format
+msgid "None,De-Key,Target,Desaturate,Luma adjust"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
 #, fuzzy, kde-format
 msgid "Amount 1"
 msgstr "強度值"
 
-#: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
+#: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, fuzzy, kde-format
 msgid "Operation 2"
 msgstr "作業"
@@ -10995,9 +11001,9 @@ msgstr "白色匯出"
 msgid "Show histogram"
 msgstr "察看分散圖"
 
-#: data/effects/frei0r/frei0r_levels.xml:32
-#: data/effects/frei0r/frei0r_levels.xml:63
-#: data/effects/frei0r/frei0r_levels.xml:79
+#: data/effects/frei0r/frei0r_levels.xml:31
+#: data/effects/frei0r/frei0r_levels.xml:62
+#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Histogram position"
 msgstr "直方圖位置"
@@ -11311,16 +11317,16 @@ msgstr "測量視訊亮度"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:9
-#, kde-format
-msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_measure_pr0be.xml:9
-#: data/effects/frei0r/frei0r_pr0be.xml:10
 #, fuzzy, kde-format
 #| msgid "Measurement Window"
 msgid "Measurement"
 msgstr "測量視窗"
+
+#: data/effects/frei0r/frei0r_measure_pr0be.xml:9
+#: data/effects/frei0r/frei0r_pr0be.xml:10
+#, kde-format
+msgid "RGB,Y'PbPr - Rec.601,Y'PbPr - Rec.709,HSV,HSL"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:12
 #: data/effects/frei0r/frei0r_pr0be.xml:13
@@ -11431,16 +11437,16 @@ msgstr "項目名稱"
 msgid "<![CDATA[Length of the profile in pixel]]>"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_measure_pr0file.xml:24
-#: data/effects/frei0r/frei0r_pr0file.xml:25
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:25
+#: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
-msgid "R,G,B,Y',Pr,Pb,Alpha"
+msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
 #: data/effects/frei0r/frei0r_pr0file.xml:27
 #, kde-format
-msgid "<![CDATA[Channel to numerically display]]>"
+msgid "R,G,B,Y',Pr,Pb,Alpha"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
@@ -11616,21 +11622,21 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
-#, kde-format
-msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
-
-#: data/effects/frei0r/frei0r_measure_pr0file.xml:86
-#: data/effects/frei0r/frei0r_pr0file.xml:87
 #, fuzzy, kde-format
 #| msgid "PCM encoding"
 msgid "Color Encoding"
 msgstr "PCM 編碼"
 
+#: data/effects/frei0r/frei0r_measure_pr0file.xml:86
+#: data/effects/frei0r/frei0r_pr0file.xml:87
+#, kde-format
+msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
 #, kde-format
-msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
@@ -11657,7 +11663,7 @@ msgstr "媒體資訊 (MediaInfo)："
 msgid "Implements several median-type filters"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_medians.xml:8
+#: data/effects/frei0r/frei0r_medians.xml:9
 #, kde-format
 msgid ""
 "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
@@ -12107,31 +12113,31 @@ msgstr "藍色 / 強度 增量"
 #: data/effects/frei0r/frei0r_select0r.xml:51
 #: data/effects/mask_start_frei0r_select0r.xml:17
 #, kde-format
-msgid "RGB,ABI,HCI"
-msgstr "RGB,ABI,HCI"
+msgid "Color Model"
+msgstr "色彩模型"
 
 #: data/effects/frei0r/frei0r_select0r.xml:25
 #: data/effects/frei0r/frei0r_select0r.xml:52
 #: data/effects/mask_start_frei0r_select0r.xml:18
 #, kde-format
-msgid "Color Model"
-msgstr "色彩模型"
+msgid "RGB,ABI,HCI"
+msgstr "RGB,ABI,HCI"
 
-#: data/effects/frei0r/frei0r_select0r.xml:28
-#: data/effects/frei0r/frei0r_select0r.xml:55
-#: data/effects/mask_start_frei0r_select0r.xml:21
+#: data/effects/frei0r/frei0r_select0r.xml:29
+#: data/effects/frei0r/frei0r_select0r.xml:56
+#: data/effects/mask_start_frei0r_select0r.xml:22
 #, kde-format
 msgid "Box,Ellipsoid,Diamond"
 msgstr "方塊,橢圓,菱形"
 
-#: data/effects/frei0r/frei0r_select0r.xml:32
+#: data/effects/frei0r/frei0r_select0r.xml:33
 #, fuzzy, kde-format
 #| msgid "Hard,Fat,Normal,Skinny,Slope"
 msgid "Hard,Fat,Normal,Skinny"
 msgstr "硬式,寬,普通,窄,斜線"
 
-#: data/effects/frei0r/frei0r_select0r.xml:59
-#: data/effects/mask_start_frei0r_select0r.xml:25
+#: data/effects/frei0r/frei0r_select0r.xml:60
+#: data/effects/mask_start_frei0r_select0r.xml:26
 #, kde-format
 msgid "Hard,Fat,Normal,Skinny,Slope"
 msgstr "硬式,寬,普通,窄,斜線"
@@ -12203,14 +12209,14 @@ msgstr "發光"
 msgid "Does softglow effect on highlights"
 msgstr ""
 
-#: data/effects/frei0r/frei0r_softglow.xml:9
+#: data/effects/frei0r/frei0r_softglow.xml:10
 #, kde-format
-msgid "Screen,Overlay,Add"
+msgid "Blend mode used to blend highlight blur with input image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:11
 #, kde-format
-msgid "Blend mode used to blend highlight blur with input image"
+msgid "Screen,Overlay,Add"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_softglow.xml:14
@@ -12686,27 +12692,20 @@ msgstr ""
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
-msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr "GPS 位置/軌跡,高度,心率,速度"
-
-#: data/effects/gpsgraphic.xml:28
-#, kde-format
 msgid "Graph data source"
 msgstr "圖表資料來源"
 
-#: data/effects/gpsgraphic.xml:29
+#: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
 msgstr "要用 GPS 檔案中的什麼資料來進行繪製"
 
-#: data/effects/gpsgraphic.xml:32
+#: data/effects/gpsgraphic.xml:29
 #, kde-format
-msgid ""
-"Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
-"the map/graph centered on current location,Draw speedometer"
-msgstr ""
+msgid "GPS location/track,Altitude,Heart rate,Speed"
+msgstr "GPS 位置/軌跡,高度,心率,速度"
 
-#: data/effects/gpsgraphic.xml:41
+#: data/effects/gpsgraphic.xml:40
 #, kde-format
 msgid ""
 "<![CDATA[<b>Speedometer</b> is available for all data sources but "
@@ -12723,6 +12722,13 @@ msgid ""
 "(time), vertical axis crop will behave just like for the basic 2D map line "
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:41
+#, kde-format
+msgid ""
+"Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
+"the map/graph centered on current location,Draw speedometer"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:44
@@ -12755,17 +12761,12 @@ msgid ""
 "the entire file.]]>"
 msgstr ""
 
-#: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
-#, kde-format
-msgid "Percentage from min..max,Absolute value"
-msgstr "最低到最高的百分比,絕對數值"
-
-#: data/effects/gpsgraphic.xml:55
+#: data/effects/gpsgraphic.xml:54
 #, kde-format
 msgid "Crop mode horizontal"
 msgstr "裁剪模式水平"
 
-#: data/effects/gpsgraphic.xml:58
+#: data/effects/gpsgraphic.xml:57
 #, kde-format
 msgid ""
 "<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</"
@@ -12775,6 +12776,11 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+
+#: data/effects/gpsgraphic.xml:58 data/effects/gpsgraphic.xml:78
+#, kde-format
+msgid "Percentage from min..max,Absolute value"
+msgstr "最低到最高的百分比,絕對數值"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -12808,12 +12814,12 @@ msgid ""
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
 
-#: data/effects/gpsgraphic.xml:71
+#: data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Crop mode vertical"
 msgstr "裁剪模式垂直"
 
-#: data/effects/gpsgraphic.xml:78
+#: data/effects/gpsgraphic.xml:77
 #, kde-format
 msgid ""
 "<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</"
@@ -12865,6 +12871,16 @@ msgstr ""
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
+msgid "Graph color style"
+msgstr "圖表色彩風格"
+
+#: data/effects/gpsgraphic.xml:92
+#, kde-format
+msgid "See the documentation about the various styles available"
+msgstr "可用的各種風格的資訊請見說明文件"
+
+#: data/effects/gpsgraphic.xml:93
+#, kde-format
 msgid ""
 "One color,Two colors,Solid past - thin future,Solid future - thin past,"
 "Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,"
@@ -12874,16 +12890,6 @@ msgstr ""
 "單色,雙色,過去實線、未來細線,未來實線、過去細線,垂直漸層,水平漸層,依時長上色,"
 "依高度上色,依心率上色,依速度上色,依速度上色（最高 100km/h）,依斜率上色（最高 "
 "90 度）,依斜率上色（最高 20 度）"
-
-#: data/effects/gpsgraphic.xml:92
-#, kde-format
-msgid "Graph color style"
-msgstr "圖表色彩風格"
-
-#: data/effects/gpsgraphic.xml:93
-#, kde-format
-msgid "See the documentation about the various styles available"
-msgstr "可用的各種風格的資訊請見說明文件"
 
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
@@ -12987,7 +12993,16 @@ msgstr ""
 msgid "Legend unit"
 msgstr "圖例單位"
 
-#: data/effects/gpsgraphic.xml:144
+#: data/effects/gpsgraphic.xml:145
+#, kde-format
+msgid ""
+"<![CDATA[Sets the unit to be used for displaying values of type altitude and "
+"speed.<br>\n"
+"        Default is meters and km/h respectively. The unit is matched "
+"anywhere in the string so extra spaces can be used to tweak displaying.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:146
 #, kde-format
 msgid ""
 "m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
@@ -12996,15 +13011,6 @@ msgid ""
 msgstr ""
 "m,公尺,km,公里,mi,英里,ft,英尺,nm,海里,ms,m/s,公尺每秒,km,km/h,公里每小時,mi,"
 "mi/h,英里每小時,ft,ft/s,英尺每秒,kn,nm/h,節,mmin,公尺每分,ftmin,英尺每分"
-
-#: data/effects/gpsgraphic.xml:146
-#, kde-format
-msgid ""
-"<![CDATA[Sets the unit to be used for displaying values of type altitude and "
-"speed.<br>\n"
-"        Default is meters and km/h respectively. The unit is matched "
-"anywhere in the string so extra spaces can be used to tweak displaying.]]>"
-msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -13852,6 +13858,12 @@ msgstr "依 EBU R128 建議修正音訊音量"
 msgid "Analyse to Apply Effect"
 msgstr "分析來套用效果"
 
+#: data/effects/luma.xml:4 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/scopes/colorscopes/colorplaneexport.cpp:262
+#, kde-format
+msgid "Luma"
+msgstr "Luma"
+
 #: data/effects/lumaliftgaingamma.xml:4
 #, fuzzy, kde-format
 #| msgid "LumaLiftGainGamma"
@@ -13884,6 +13896,32 @@ msgstr "遮罩套用"
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "套用區段內先前由遮罩開始效果所定義的效果。"
+
+#: data/effects/mask_start.xml:4
+#, fuzzy, kde-format
+#| msgid "Start"
+msgid "Mask Start"
+msgstr "開始"
+
+#: data/effects/mask_start.xml:5
+#, fuzzy, kde-format
+#| msgid ""
+#| "This filter makes a snapshot of the frame before it draws simple shapes "
+#| "into the alpha channel. Use it together with the mask_apply effect, that "
+#| "uses a transition to composite the current frame's image over the "
+#| "snapshot. The typical use case is to add effects in the following "
+#| "sequence: this effect, zero or more effects, mask_apply."
+msgid ""
+"This filter works in conjunction with the mask_apply filter to make filter "
+"masking easier. This filter makes a snapshop of the frame before applying a "
+"filter, typically one to affect the alpha channel defining the mask. Then, "
+"the mask_apply filter uses a transition to composite the current frame's "
+"image over the snapshot. The typical use case is to add filters in the "
+"following sequence: mask_start, zero or more filters, mask_apply."
+msgstr ""
+"這個過濾器會建立影格的快照，然後將簡單的形狀繪製到 alpha 頻道中。與「遮罩套"
+"用」(mask_apply) 效果一同使用來使用轉場來將目前影格的影像與快照進行合成。通常"
+"的使用方法會是以這個序列新增效果：這個效果、0 個或更多個別的效果、遮罩套用。"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -13928,7 +13966,7 @@ msgstr ""
 "用」(mask_apply) 效果一同使用來使用轉場來將目前影格的影像與快照進行合成。通常"
 "的使用方法會是以這個序列新增效果：這個效果、0 個或更多個別的效果、遮罩套用。"
 
-#: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
+#: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
 #, kde-format
 msgid "Alpha,Luma,RGB"
 msgstr "Alpha,Luma,RGB"
@@ -14042,13 +14080,13 @@ msgstr "朝任何方向翻轉您的圖片"
 
 #: data/effects/mirror.xml:8
 #, kde-format
-msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
-msgstr "水平,垂直,對角,X 對角,翻轉,對向翻轉"
+msgid "Mirroring direction"
+msgstr "鏡像反射方向"
 
 #: data/effects/mirror.xml:9
 #, kde-format
-msgid "Mirroring direction"
-msgstr "鏡像反射方向"
+msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
+msgstr "水平,垂直,對角,X 對角,翻轉,對向翻轉"
 
 #: data/effects/mono.xml:4
 #, kde-format
@@ -14063,13 +14101,13 @@ msgstr "將所有頻道混入單聲道訊號並將其匯出為 N 個聲道"
 
 #: data/effects/mono.xml:8
 #, kde-format
-msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
-msgstr "單聲道,雙聲道,2.1,4 聲道,5.1,7.1"
+msgid "number of output channels"
+msgstr "輸出頻道數量"
 
 #: data/effects/mono.xml:9
 #, kde-format
-msgid "number of output channels"
-msgstr "輸出頻道數量"
+msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
+msgstr "單聲道,雙聲道,2.1,4 聲道,5.1,7.1"
 
 #: data/effects/mute.xml:4
 #, kde-format
@@ -14282,6 +14320,12 @@ msgid "Position, scale and opacity."
 msgstr "位置、縮放與不透明度。"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:27
+#: data/transitions/qtblend.xml:15
+#, kde-format
+msgid "Compositing"
+msgstr "混合方式"
+
+#: data/effects/qtblend.xml:16 data/effects/qtblend.xml:28
 #: data/transitions/qtblend.xml:14
 #, kde-format
 msgid ""
@@ -14293,12 +14337,6 @@ msgstr ""
 "Alpha 混合,互斥或 (XOR),相加,色彩增值,濾色,覆蓋,變暗,變亮,加亮顏色,加深顏色,"
 "實光,柔光,差異化,排除,位元 OR,位元 AND,位元 XOR,位元 NOR,位元 NAND,位元 NOT "
 "XOR,目標輸入,目標輸出"
-
-#: data/effects/qtblend.xml:16 data/effects/qtblend.xml:28
-#: data/transitions/qtblend.xml:15
-#, kde-format
-msgid "Compositing"
-msgstr "混合方式"
 
 #: data/effects/qtblend.xml:23
 #, kde-format
@@ -14736,17 +14774,17 @@ msgstr ""
 msgid "Process audio using a SoX effect"
 msgstr "Sox 低音聲訊特效"
 
-#: data/effects/sox/sox.xml:8
-#, fuzzy, kde-format
-#| msgid "Analysis"
-msgid "Analysis,Apply"
-msgstr "分析"
-
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1899
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1899
 #: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "效果"
+
+#: data/effects/sox/sox.xml:9
+#, fuzzy, kde-format
+#| msgid "Analysis"
+msgid "Analysis,Apply"
+msgstr "分析"
 
 #: data/effects/sox/sox.xml:12
 #, fuzzy, kde-format
@@ -15100,13 +15138,13 @@ msgstr "選取所選區段來跟著移動"
 
 #: data/effects/tracker.xml:11
 #, kde-format
-msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
+msgid "Tracker algorithm"
+msgstr "追蹤器演算法"
 
 #: data/effects/tracker.xml:12
 #, kde-format
-msgid "Tracker algorithm"
-msgstr "追蹤器演算法"
+msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:17
 #, kde-format
@@ -15122,13 +15160,13 @@ msgstr "定義儲存關鍵幀的頻率。每隔一個間隔會建立一個關鍵
 
 #: data/effects/tracker.xml:21
 #, kde-format
-msgid "Rectangle,Ellipse,Arrow"
-msgstr "矩形,橢圓,箭頭"
+msgid "Frame shape"
+msgstr "框架形狀"
 
 #: data/effects/tracker.xml:22
 #, kde-format
-msgid "Frame shape"
-msgstr "框架形狀"
+msgid "Rectangle,Ellipse,Arrow"
+msgstr "矩形,橢圓,箭頭"
 
 #: data/effects/tracker.xml:25
 #, kde-format
@@ -15142,13 +15180,13 @@ msgstr "形狀顏色"
 
 #: data/effects/tracker.xml:34
 #, kde-format
-msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
-msgstr "中值模糊,高斯模糊,馬賽克,不透明填滿,無"
+msgid "Blur type"
+msgstr "模糊類型"
 
 #: data/effects/tracker.xml:35
 #, kde-format
-msgid "Blur type"
-msgstr "模糊類型"
+msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
+msgstr "中值模糊,高斯模糊,馬賽克,不透明填滿,無"
 
 #: data/effects/typewriter.xml:4
 #, kde-format
@@ -15172,13 +15210,13 @@ msgstr "隨機種子"
 
 #: data/effects/typewriter.xml:17
 #, kde-format
-msgid "Char by char,Word by word,Line by line,Custom macro"
-msgstr "依字元,依單字,依行數,自訂巨集"
+msgid "Macro type"
+msgstr "巨集類型"
 
 #: data/effects/typewriter.xml:18
 #, kde-format
-msgid "Macro type"
-msgstr "巨集類型"
+msgid "Char by char,Word by word,Line by line,Custom macro"
+msgstr "依字元,依單字,依行數,自訂巨集"
 
 #: data/effects/vidstab.xml:4
 #, kde-format
@@ -17910,7 +17948,7 @@ msgstr "缺乏來源素材"
 #: src/bin/bin.cpp:2119 src/bin/bin.cpp:2814
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:441
+#: src/renderpresets/renderpresetrepository.cpp:440
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "無法寫入到檔案 %1"
@@ -18448,7 +18486,7 @@ msgstr "請設定用於開啟音訊檔案的應用程式"
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
-#: src/renderpresets/renderpresetrepository.cpp:385
+#: src/renderpresets/renderpresetrepository.cpp:384
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "無法開啟檔案 %1"
@@ -18781,7 +18819,7 @@ msgstr "雙擊匯入檔案"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:183
+#: src/bin/mediabrowser.cpp:181
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -18789,22 +18827,22 @@ msgstr "雙擊匯入檔案"
 msgid "Name:"
 msgstr "名稱："
 
-#: src/bin/mediabrowser.cpp:187
+#: src/bin/mediabrowser.cpp:185
 #, kde-format
 msgid "Filter:"
 msgstr "過濾器："
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "忽略子資料夾結構"
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "不要在專案素材庫中建立子資料夾"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18814,17 +18852,17 @@ msgstr ""
 "啟用時，Kdenlive 會在匯入資料夾及其子資料夾內素材時不在專案素材庫建立子資料"
 "夾。"
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "匯入圖片序列"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "試著匯入圖片序列"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19950,8 +19988,8 @@ msgstr "匯出參照線資料"
 #: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1927 src/project/projectmanager.cpp:1933
 #: src/render/renderrequest.cpp:324
-#: src/renderpresets/renderpresetrepository.cpp:391
-#: src/renderpresets/renderpresetrepository.cpp:447
+#: src/renderpresets/renderpresetrepository.cpp:390
+#: src/renderpresets/renderpresetrepository.cpp:446
 #: src/timeline2/view/timelinecontroller.cpp:5235
 #: src/timeline2/view/timelinecontroller.cpp:5240
 #: src/titler/titlewidget.cpp:2344
@@ -20054,7 +20092,7 @@ msgstr "若不確定，請試試看：<br/><b>Unicode (UTF-8)</b>。"
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:353 src/project/projectmanager.cpp:1816
-#: src/renderpresets/renderpresetrepository.cpp:324
+#: src/renderpresets/renderpresetrepository.cpp:323
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "無法讀取檔案 %1"
@@ -26786,7 +26824,7 @@ msgstr "顯示關於音訊串流/資料/編碼器的詳細資訊。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:215
-#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:873 src/ui/projectsettings_ui.ui:545
 #, kde-format
 msgid "Metadata"
 msgstr "描述資訊"
@@ -26986,14 +27024,14 @@ msgstr "複製頻道："
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1005
-#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
+#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:567
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
-#: src/ui/projectsettings_ui.ui:579
+#: src/ui/projectsettings_ui.ui:572
 #, kde-format
 msgid "2"
 msgstr "2"
@@ -30494,12 +30532,12 @@ msgstr ""
 msgid "Images sequence"
 msgstr "圖片序列"
 
-#: src/renderpresets/renderpresetrepository.cpp:360
+#: src/renderpresets/renderpresetrepository.cpp:359
 #, kde-format
 msgid "Preset already exists"
 msgstr "預設檔已經存在"
 
-#: src/renderpresets/renderpresetrepository.cpp:361
+#: src/renderpresets/renderpresetrepository.cpp:360
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
@@ -30693,12 +30731,6 @@ msgstr "UV 角度"
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "通過 UV 平面的角度，取所有可能的 Y 值。"
-
-#: src/scopes/colorscopes/colorplaneexport.cpp:234
-#: src/scopes/colorscopes/colorplaneexport.cpp:262
-#, kde-format
-msgid "Luma"
-msgstr "Luma"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:246
 #: src/scopes/colorscopes/colorplaneexport.cpp:253
@@ -33254,10 +33286,10 @@ msgstr "刪除目前的點。"
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
 #. i18n: ectx: property (text), widget (QToolButton, config_button)
-#. i18n: ectx: property (text), widget (QToolButton, manage_external)
 #. i18n: ectx: property (text), widget (QToolButton, checkProxy)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_showprofileinfo)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_manageprofile)
+#. i18n: ectx: property (text), widget (QToolButton, manage_external)
 #. i18n: ectx: property (text), widget (QToolButton, add_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, delete_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, remove_gradient)
@@ -33341,7 +33373,7 @@ msgstr "刪除目前的點。"
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:198
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:184
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -33366,10 +33398,10 @@ msgstr "刪除目前的點。"
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
 #: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
 #: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
-#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
-#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
-#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
-#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:470
+#: src/ui/projectsettings_ui.ui:477 src/ui/projectsettings_ui.ui:487
+#: src/ui/projectsettings_ui.ui:504 src/ui/projectsettings_ui.ui:582
+#: src/ui/projectsettings_ui.ui:589 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:1013 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
@@ -34467,36 +34499,34 @@ msgstr "為大於以下值的圖片產生"
 msgid "Proxy image size:"
 msgstr "代理圖片大小"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:179 src/ui/projectsettings_ui.ui:409
-#, kde-format
-msgid "External proxy clips:"
-msgstr "外部代理素材："
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
-#. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:186 src/ui/configsdl_ui.ui:28
-#: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
-#, kde-format
-msgid "Enable"
-msgstr "啟用"
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:210
+#: src/ui/configproxy_ui.ui:196
 #, fuzzy, kde-format
 #| msgid "You have a clip with an alpha channel. "
 #| msgid_plural "You have %1 clips with an alpha channel. "
 msgid "Profile for clips with alpha channel:"
 msgstr "您有 %1 個有透明度頻道的素材。"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
+#: src/ui/configproxy_ui.ui:206
+#, fuzzy, kde-format
+#| msgid "Remove proxy clip"
+#| msgid_plural "Remove proxy clips"
+msgid "Camcorder proxy clips:"
+msgstr "移除代理素材"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
 msgstr "用滑鼠點擊來播放/暫停預覽視窗"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
+#: src/ui/configsdl_ui.ui:28 src/ui/configsdl_ui.ui:142
+#, kde-format
+msgid "Enable"
+msgstr "啟用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -36339,7 +36369,7 @@ msgstr "為大於以下值的影片產生"
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_resize)
 #: src/ui/projectsettings_ui.ui:232 src/ui/projectsettings_ui.ui:255
-#: src/ui/projectsettings_ui.ui:447 src/ui/projectsettings_ui.ui:463
+#: src/ui/projectsettings_ui.ui:416 src/ui/projectsettings_ui.ui:432
 #, kde-format
 msgid "pixels"
 msgstr "像素"
@@ -36351,61 +36381,69 @@ msgid "Generate for images larger than"
 msgstr "為大於以下值的圖片產生"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/projectsettings_ui.ui:433
+#: src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "Proxy video resize (width)"
 msgstr "代理影片調整大小（寬度）"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/projectsettings_ui.ui:479
+#: src/ui/projectsettings_ui.ui:448
 #, kde-format
 msgid "Proxy image size"
 msgstr "代理圖片大小"
 
+#. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
+#: src/ui/projectsettings_ui.ui:516
+#, fuzzy, kde-format
+#| msgid "Remove proxy clip"
+#| msgid_plural "Remove proxy clips"
+msgid "Camcorder proxy clips"
+msgstr "移除代理素材"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/projectsettings_ui.ui:547
+#: src/ui/projectsettings_ui.ui:540
 #, kde-format
 msgid "Guides"
 msgstr "參照線"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/projectsettings_ui.ui:619
+#: src/ui/projectsettings_ui.ui:612
 #, kde-format
 msgid "Project Files"
 msgstr "專案檔案"
 
 #. i18n: ectx: property (text), widget (QLabel, label_fonts)
-#: src/ui/projectsettings_ui.ui:625
+#: src/ui/projectsettings_ui.ui:618
 #, kde-format
 msgid "Fonts"
 msgstr "字型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/projectsettings_ui.ui:680
+#: src/ui/projectsettings_ui.ui:673
 #, kde-format
 msgid "Project files:"
 msgstr "專案檔案："
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
-#: src/ui/projectsettings_ui.ui:687
+#: src/ui/projectsettings_ui.ui:680
 #, kde-format
 msgid "Plain Text Export..."
 msgstr "純文字匯出…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/projectsettings_ui.ui:708
+#: src/ui/projectsettings_ui.ui:701
 #, kde-format
 msgid "Unused clips:"
 msgstr "未使用的素材:"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_unused)
-#: src/ui/projectsettings_ui.ui:715
+#: src/ui/projectsettings_ui.ui:708
 #, kde-format
 msgid "Delete files"
 msgstr "刪除檔案"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/projectsettings_ui.ui:722
+#: src/ui/projectsettings_ui.ui:715
 #, kde-format
 msgid "Clips used in project:"
 msgstr "使用到的素材:"
@@ -37692,6 +37730,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "External proxy clips:"
+#~ msgstr "外部代理素材："
 
 #~ msgid "Export guides"
 #~ msgstr "匯出參照線"
