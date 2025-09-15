@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-09 15:57+0200\n"
+"PO-Revision-Date: 2025-09-14 09:05+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -3130,10 +3130,9 @@ msgid "Screen type"
 msgstr "Skärmtyp"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Grön-blå"
+msgstr "Grön,Blå"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -14180,19 +14179,12 @@ msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "Verkställ tidigare effekter i zonen definierade av en maskstarteffekt."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Början"
+msgstr "Starta mask"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14201,12 +14193,13 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Filtret tar en ögonblicksbild av bildrutan innan det ritar enkla former i "
-"alfakanalen. Använd det tillsammans med effekten Verkställ mask, som "
-"använder en övertoning för att överlagra den aktuella bildrutans bild på "
-"ögonblicksbilden. Det typiska användarfallet är att lägga till effekter i "
-"följande sekvens: den här effekten, noll eller flera effekter, verkställ "
-"mask."
+"Det här filtret fungerar tillsammans med filtret Verkställ mask för att göra "
+"filtermaskering enklare. Filtret tar en ögonblicksbild av bildrutan innan "
+"det verkställer filtret, typiskt för att påverka alfakanalen som definierar "
+"masken. Därefter, använder filtret Verkställ mask en övertoning för att "
+"överlagra den aktuella bildrutans bild på ögonblicksbilden. Det typiska "
+"användarfallet är att lägga till filter i följande sekvens: starta mask, "
+"noll eller flera effekter, verkställ mask."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -19171,10 +19164,9 @@ msgstr ""
 "importerar dem som en bildsekvens."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "Uppdatera flaggkategorier"
+msgstr "Uppdatera kategorier för tidslinjemarkörer"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -19193,16 +19185,14 @@ msgid "Delete marker"
 msgstr "Ta bort markör"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "Förflyttningslager"
+msgstr "Flytta markör"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "Byt namn på markör"
+msgstr "Ändra storlek på markör"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -19228,10 +19218,9 @@ msgstr "Ta bort alla markörer"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "Ingen flagga hittades på aktuell position"
+msgstr "Ingen markör hittades på aktuell position"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -19264,22 +19253,19 @@ msgid "Add markers"
 msgstr "Lägg till markörer"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "Uppdatera nyckelbild"
+msgstr "Uppdatera intervallmarkör"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "Konvertera färgmatris."
+msgstr "Konvertera till intervallmarkör"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "Lägg till markör"
+msgstr "Lägg till intervallmarkör"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -20234,10 +20220,9 @@ msgstr ""
 "Återgår till automatisk."
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export markers"
-msgstr "Exportera markörer…"
+msgstr "Exportera markörer"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -20275,12 +20260,10 @@ msgid "JSON File"
 msgstr "JSON-fil"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "Exportera flaggdata"
+msgstr "Exportera markördata"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -20308,10 +20291,9 @@ msgid "Cannot write to file %1"
 msgstr "Kan inte skriva till filen %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "Flaggor sparad i %1"
+msgstr "Markörer sparade i %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -20319,75 +20301,64 @@ msgid "Category name"
 msgstr "Kategorinamn"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "Marker number"
-msgstr "Markör 1"
+msgstr "Markörnummer"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "Flaggposition i TT:MM:SS:BB"
+msgstr "Markörposition i TT:MM:SS:BB"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "Flaggposition i (TT):MM:SS"
+msgstr "Markörposition i (TT):MM:SS"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "Nästa flaggposition i (TT):MM:SS"
+msgstr "Nästa markörposition i (TT):MM:SS"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "Flaggposition i bildrutor"
+msgstr "Markörposition i bildrutor"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "Nästa flaggposition i bildrutor"
+msgstr "Nästa markörposition i bildrutor"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "Visa kommentarer för markörer"
+msgstr "Markörkommentarer"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "Flaggposition i bildrutor"
+msgstr "Markörlängd i bildrutor"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "Infoga nuvarande tidskod"
+msgstr "Markörlängd i tidskod"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "Nästa flaggposition i bildrutor"
+msgstr "Markörens slutposition i tidskod"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "Nästa flaggposition i bildrutor"
+msgstr "Markörens slutposition i bildrutor"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "Om markören har ett intervall (sant/falskt)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -21173,10 +21144,9 @@ msgid "Timeline"
 msgstr "Tidslinje"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "Färger och flaggor"
+msgstr "Färger och markörer"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -25291,10 +25261,9 @@ msgid "Add Clip"
 msgstr "Lägg till klipp"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Lägg till markör eller flagga enligt kategorinummer"
+msgstr "Lägg till markör enligt kategorinummer"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -25477,18 +25446,15 @@ msgid "Go to Marker…"
 msgstr "Gå till markör…"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "Skapa markör"
+msgstr "Skapa markör från zon"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Skapa markörer från markerade tidskoder"
+msgstr "Skapa snabbt markör från zon"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -26130,16 +26096,14 @@ msgid "Go to Clip End"
 msgstr "Gå till klippets slut"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "Gå till föregående flagga"
+msgstr "Gå till föregående markör"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "Gå till markör…"
+msgstr "Gå till nästa markör"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -26320,70 +26284,59 @@ msgid "Delete All Markers"
 msgstr "Ta bort alla markörer"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Lägg snabbt till markör eller flagga"
+msgstr "Lägg snabbt till markör"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 1"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 2"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 3"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 4"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 5"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 6"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 7"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 8"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 9"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Lägg till markörer enligt kategori"
+msgstr "Lägg till markör kategori 10"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -26614,49 +26567,39 @@ msgid "Disable Timeline Preview"
 msgstr "Inaktivera förhandsgranskning av tidslinje"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Ta bort markör"
+msgstr "Lägg till eller ta bort markör"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "Sökmarkörer"
+msgstr "Sök efter markör…"
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export Markers…"
 msgstr "Exportera markörer…"
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline error"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Tidslinjefel"
+msgstr "Tidslinjemarkörer låsta"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Läs in klippmarkörer"
+msgstr "Lås tidslinjemarkörer"
 
 #: src/mainwindow.cpp:2053
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Lås flaggor. När de är låsta flyttas inte flaggorna när mellanrumsverktyget "
-"används eller när tomrum infogas/tas bort i spår."
+"Lås tidslinjemarkörer. När de är låsta flyttas inte markörerna när "
+"mellanrumsverktyget används eller när tomrum infogas/tas bort i spår."
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -26895,7 +26838,7 @@ msgstr "Kan inte hitta klipp för att ta bort markör"
 #: src/mainwindow.cpp:2936 src/mainwindow.cpp:2982
 #, kde-format
 msgid "No marker found at cursor time"
-msgstr "Ingen markör hittades vid tidslinjens markör"
+msgstr "Ingen markör hittades vid markeringens tid"
 
 #: src/mainwindow.cpp:2958
 #, kde-format
@@ -27737,16 +27680,14 @@ msgstr ""
 "skärmstorlek)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "Gå till markör…"
+msgstr "Gå till klippmarkör…"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "Gå till markör…"
+msgstr "Gå till tidslinjemarkör…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -27825,10 +27766,9 @@ msgid "Set current image as thumbnail"
 msgstr "Använd aktuell bild som miniatyrbild"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "Skapa markörer från markerade tidskoder"
+msgstr "Skapa markör från zon..."
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -27942,25 +27882,24 @@ msgstr "Kan inte hämta producent för klippskärm"
 #: src/timeline2/view/timelinecontroller.cpp:5746
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
-msgstr ""
+msgstr "Ingen giltig zon definierad. Ange först in- och utpunkter."
 
 #: src/monitor/monitor.cpp:3315
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "Skapa intervallmarkör från zon"
 
 #: src/monitor/monitor.cpp:3321 src/monitor/monitor.cpp:3342
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "Intervallmarkör skapad från zon"
 
 #: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "Misslyckades skapa fil."
+msgstr "Misslyckades skapa intervallmarkör från zon"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -28098,10 +28037,9 @@ msgstr "Gå till zonens slut"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "Byt namn på markör"
+msgstr "Zonmarkör"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -29196,8 +29134,7 @@ msgid "Showing backup files for %1"
 msgstr "Visar säkerhetskopior för %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "Redigera markörkategori"
 
@@ -29212,10 +29149,9 @@ msgid "Category %1"
 msgstr "Kategori %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "Redigera markörkategori"
+msgstr "Ta bort markörkategori"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -29273,94 +29209,73 @@ msgid "Refresh All Thumbnails"
 msgstr "Uppdatera alla miniatyrbilder"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "Lägg till markör"
+msgstr "Lägg till ny markör"
 
 #: src/project/dialogs/guideslist.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
-"Lägg till ny flagga. Det lägger till en flagga på nuvarande "
-"bildskärmsposition."
+"Lägg till ny markör. Lägger till en markör på nuvarande bildrutas position."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "Ta bort markör"
+msgstr "Ta bort markör."
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "Ta bort flagga. Det tar bort alla markerade flaggor."
+msgstr "Ta bort markör. Tar bort alla valda markörer."
 
 #: src/project/dialogs/guideslist.cpp:210
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "Redigera markerad flagga."
+msgstr "Redigera vald markör."
 
 #: src/project/dialogs/guideslist.cpp:211
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
 msgstr ""
-"Redigera markerad flagga. Genom att markera flera flaggor går det att ändra "
-"deras kategori."
+"Redigera vald markör. Genom att välja flera markörer går det att ändra deras "
+"kategori."
 
 #: src/project/dialogs/guideslist.cpp:212
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Filtrera flaggkategorier."
+msgstr "Filtrera markörkategorier."
 
 #: src/project/dialogs/guideslist.cpp:214
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Filtrera flaggkategorier. Det låter dig visa eller dölja markerade "
-"flaggkategorier i dialogrutan och tidslinjen."
+"Filtrera markörkategorier. Det låter dig visa eller dölja valda "
+"markörkategorier i dialogrutan och tidslinjen."
 
 #: src/project/dialogs/guideslist.cpp:215
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Förvald flaggkategori."
+msgstr "Förvald markörkategori."
 
 #: src/project/dialogs/guideslist.cpp:216
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
-msgstr "Förvald flaggkategori. Kategorin som används för nyskapade flaggor."
+msgstr "Förvald markörkategori. Kategorin som används för nyskapade markörer."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "Sökmarkörer"
+msgstr "Sök efter alla markörer"
 
 #: src/project/dialogs/guideslist.cpp:256
 #, kde-format
@@ -29381,22 +29296,19 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "Ta bort markör"
+msgstr "Ta bort markörer"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "Sökmarkörer"
+msgstr "Sök efter klippmarkörer"
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "Sökmarkörer"
+msgstr "Sök efter tidslinjemarkörer"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -32623,10 +32535,9 @@ msgid "Select at least 2 items to group"
 msgstr "Markera åtminstone två objekt att gruppera"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "Ingen markör hittades vid tidslinjens markör"
+msgstr "Ingen intervallmarkör hittades på positionen"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -32883,10 +32794,9 @@ msgid "Manage Subtitles"
 msgstr "Hantera textning"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "Ingen flagga hittades på aktuell position"
+msgstr "Ingen intervallflagga hittades på positionen"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -35016,11 +34926,9 @@ msgstr "Profil för klipp med alfakanal:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Ta bort ersättningsklipp"
+msgstr "Ersättningsklipp från videokamera:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -36146,7 +36054,7 @@ msgstr "Hopdragen textetikett"
 #: src/ui/guideslist_ui.ui:175
 #, kde-format
 msgid "Search Markers"
-msgstr "Sökmarkörer"
+msgstr "Sök efter markörer"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
@@ -36569,17 +36477,15 @@ msgstr "Nyckel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "Ta bort markör"
+msgstr "Intervallmarkör"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Återgivningstid"
+msgstr "Sluttid"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:139
@@ -36921,11 +36827,9 @@ msgstr "Ersättningsbildstorlek"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Ta bort ersättningsklipp"
+msgstr "Ersättningsklipp från videokamera"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -37127,24 +37031,21 @@ msgstr "Markerad &zon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "&Marker zone"
-msgstr "Markör 1"
+msgstr "&Markörzon"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "Multiexport med flaggor"
+msgstr "Multiexport av markörer"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "Flaggor att använda som avskiljare:"
+msgstr "Markörer att använda som avskiljare:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495

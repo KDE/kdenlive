@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-13 15:34+0200\n"
+"PO-Revision-Date: 2025-09-14 10:33+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3139,10 +3139,9 @@ msgid "Screen type"
 msgstr "Vrsta ozadja"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Zelena-modra"
+msgstr "Zelena,Modra"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -14166,7 +14165,7 @@ msgstr "Dvigni"
 #, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
-msgstr "Uporabi masko"
+msgstr "Uveljavi masko"
 
 #: data/effects/mask_apply.xml:5
 #, kde-format
@@ -14174,19 +14173,12 @@ msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "Uporabi prejšnje učinke v območju, ki ga določa učinek začetka maske."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Začetek"
+msgstr "Začetna maska"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14195,11 +14187,12 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Ta filter naredi posnetek sličice, preden nariše preproste like v alfa-"
-"kanal. Uporabite ga skupaj z učinkom mask_apply, ki uporablja prehod za "
-"sestavo slike trenutne sličice preko posnetka. Tipičen primer uporabe je "
-"dodajanje učinkov v naslednjem zaporedju: ta učinek, nič ali več učinkov, "
-"mask_apply."
+"Ta filter deluje skupaj s filtrom mask_apply, da poenostavi maskiranje s "
+"filtrom. Ta filter naredi posnetek sličice, preden uveljavi filter, običajno "
+"takšnega, ki vpliva na kanal alfa, ki določa masko. Nato filter mask_apply "
+"uporabi prehod za sestavo slike trenutne sličice preko posnetka. Tipičen "
+"primer uporabe je dodajanje učinkov v naslednjem zaporedju: mask_start, nič "
+"ali več fitrov, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -35021,11 +35014,9 @@ msgstr "Profil posnetkov s kanalom alfa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Odstrani posredne posnetke"
+msgstr "Posredni posnetki kamere:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -36920,11 +36911,9 @@ msgstr "Velikost slike posrednega posnetka"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Odstrani posredne posnetke"
+msgstr "Posredni posnetki kamere"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -38252,6 +38241,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "External proxy clips:"
-#~ msgstr "Zunanji posredni posnetki:"

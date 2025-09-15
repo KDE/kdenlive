@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-13 18:19+0200\n"
+"PO-Revision-Date: 2025-09-14 13:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3159,10 +3159,9 @@ msgid "Screen type"
 msgstr "Type scherm"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Groen-blauw"
+msgstr "Groen,blauw"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -14288,19 +14287,12 @@ msgstr ""
 "toepassen."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Start"
+msgstr "Begin van masker"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14309,12 +14301,13 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Dit filter maakt een momentopname van het frame alvorens het eenvoudige "
-"vormen in het alfa-kanaal tekent. Gebruik het samen met het effect "
-"mask_apply, dat een transitie gebruikt naar een samenstelling van de "
-"afbeelding van het huidige frame met de momentopname. Het typische "
-"gebruiksgeval is om effecten in de volgende sequentie toe te voegen: dit "
-"effect, nul of meer effecten, mask_apply."
+"Dit filter werkt samen met het filter maskertoepassen om het maken hiervan "
+"gemakkelijker te maken. Dit filter maakt een momentopname van het frame voor "
+"het toepassen van een filter, typisch een om het alfa-kanaal die het masker "
+"definieert te beïnvloeden. Daarna, gebruikt het filter maskertoepassen een "
+"transitie om de afbeelding van het huidige frame te componeren over de "
+"momentopname. Het typische gebruiksgeval is het toevoegen van filters in de "
+"volgen reeks: begin-masker, nul of meer filters, maskertoepassen."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -21302,10 +21295,9 @@ msgid "Timeline"
 msgstr "Tijdlijn"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "Kleuren en hulplijnen"
+msgstr "Kleuren en markeringen"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -25430,10 +25422,9 @@ msgid "Add Clip"
 msgstr "Clip toevoegen"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Markering/hulplijn toevoegen op categorienummer"
+msgstr "Markering toevoegen op categorienummer"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -25617,18 +25608,15 @@ msgid "Go to Marker…"
 msgstr "Ga naar markering…"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "Markering aanmaken"
+msgstr "Markering aanmaken uit zone"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Markeringen uit geselecteerde tijdcodes aanmaken"
+msgstr "Snel markering uit zone aanmaken"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -26273,16 +26261,14 @@ msgid "Go to Clip End"
 msgstr "Ga naar het einde van de clip"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "Ga naar de vorige hulplijn"
+msgstr "Ga naar de vorige markering"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "Ga naar markering…"
+msgstr "Ga naar volgende markering"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -26463,70 +26449,59 @@ msgid "Delete All Markers"
 msgstr "Alle markeringen verwijderen"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Markering/hulplijn snel toevoegen"
+msgstr "Snel markering toevoegen"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 1 toevoegen"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 2 toevoegen"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 3 toevoegen"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 4 toevoegen"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 5 toevoegen"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 6 toevoegen"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 7 toevoegen"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 8 toevoegen"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 9 toevoegen"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Markeringen per categorie toevoegen"
+msgstr "Markering categorie 10 toevoegen"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -26756,50 +26731,40 @@ msgid "Disable Timeline Preview"
 msgstr "Tijdlijnvoorbeeldweergave uitschakelen"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Markering verwijderen"
+msgstr "Markering toevoegen/verwijderen"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "Markeringen zoeken"
+msgstr "Markering zoeken…"
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export Markers…"
 msgstr "Markeringen exporteren…"
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline error"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Tijdlijnfout"
+msgstr "Tijdlijnmarkeringen vergrendeld"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Markeringen van clip laden"
+msgstr "Tijdlijnmarkeringen vergrendelen"
 
 #: src/mainwindow.cpp:2053
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Hulplijnen vergrendelen. Indien vergrendeld zullen de hulplijnen niet zich "
-"verplaatsen wanneer het hulpmiddel Ruimte maken wordt gebruikt of lege "
-"ruimte in tracks wordt ingevoegd of verwijderd."
+"Tijdlijnmarkeringen vergrendelen. Indien vergrendeld zullen de markeringen "
+"zich niet verplaatsen wanneer het hulpmiddel Ruimte maken wordt gebruikt of "
+"lege ruimte in tracks wordt ingevoegd of verwijderd."
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -27884,16 +27849,14 @@ msgstr ""
 "monitorgrootte)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "Ga naar markering…"
+msgstr "Ga naar clipmarkering…"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "Ga naar markering…"
+msgstr "Ga naar tijdlijnmarkering…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -27972,10 +27935,9 @@ msgid "Set current image as thumbnail"
 msgstr "Maak van huidige afbeelding miniatuur"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "Markeringen uit geselecteerde tijdcodes aanmaken"
+msgstr "Markering uit zone aanmaken"
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -28104,10 +28066,9 @@ msgstr "Reeksmarkering aangemaakt uit zone"
 
 #: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "Bestand maken is mislukt."
+msgstr "Reeksmarkering uit zone aanmaken is mislukt"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -28246,10 +28207,9 @@ msgstr "Ga naar het einde van de zone"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "Markering hernoemen"
+msgstr "Zonemarkering"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -29346,8 +29306,7 @@ msgid "Showing backup files for %1"
 msgstr "Back-up-bestanden voor %1 tonen"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "Categorie van markering bewerken"
 
@@ -29362,10 +29321,9 @@ msgid "Category %1"
 msgstr "Categorie %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "Categorie van markering bewerken"
+msgstr "Categorie van markering verwijderen"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -29423,97 +29381,77 @@ msgid "Refresh All Thumbnails"
 msgstr "Alle miniaturen vernieuwen"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "Markering toevoegen"
+msgstr "Nieuwe markering toevoegen."
 
 #: src/project/dialogs/guideslist.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
-"Een nieuwe hulplijn toevoegen. Dit zal een hulplijn toevoegen op de huidige "
+"Nieuwe markering toevoegen. Dit zal een markering toevoegen op de huidige "
 "framepositie."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "Markering verwijderen"
+msgstr "Markering verwijderen."
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
 msgstr ""
-"Hulplijn verwijderen. Dit zal alle geselecteerde hulplijnen verwijderen."
+"Markering verwijderen. Dit zal alle geselecteerde markeringen verwijderen."
 
 #: src/project/dialogs/guideslist.cpp:210
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "Geselecteerde hulplijn bewerken."
+msgstr "Geselecteerde markering bewerken."
 
 #: src/project/dialogs/guideslist.cpp:211
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
 msgstr ""
-"Geselecteerde hulplijn bewerken. Meerdere hulplijnen selecteren biedt het "
+"Geselecteerde markering bewerken. Meerdere markeringen selecteren biedt het "
 "wijzigen van hun categorie."
 
 #: src/project/dialogs/guideslist.cpp:212
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Categorieën van hulplijn filteren."
+msgstr "Categorieën van markeringen filteren."
 
 #: src/project/dialogs/guideslist.cpp:214
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Categorieën van hulplijn filteren. Dit biedt u het tonen of verbergen van "
-"geselecteerde categorieën van hulplijnen in deze dialoog in de tijdlijn."
+"Categorieën van markeringen filteren. Dit biedt u het tonen of verbergen van "
+"geselecteerde categorieën van markeringen in deze dialoog in de tijdlijn."
 
 #: src/project/dialogs/guideslist.cpp:215
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Standaard categorie van hulplijn."
+msgstr "Standaard categorie van markering."
 
 #: src/project/dialogs/guideslist.cpp:216
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
-"Standaard categorie van hulplijn. De categorie gebruikt voor nieuw "
-"aangemaakte hulplijnen."
+"Standaard categorie van markering. De categorie gebruikt voor nieuw "
+"aangemaakte markeringen."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "Markeringen zoeken"
+msgstr "Alle markeringen doorzoeken"
 
 #: src/project/dialogs/guideslist.cpp:256
 #, kde-format
@@ -29533,22 +29471,19 @@ msgstr "Bestand met markeringen is groter dan 1 MB, wilt u deze importeren?"
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "Markering verwijderen"
+msgstr "Markeringen verwijderen"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "Markeringen zoeken"
+msgstr "Clipmarkeringen zoeken"
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "Markeringen zoeken"
+msgstr "Tijdlijnmarkeringen zoeken"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -32796,10 +32731,9 @@ msgid "Select at least 2 items to group"
 msgstr "Minstens 2 items selecteren om te groeperen"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "Geen markering gevonden op cursor tijdstip"
+msgstr "Geen reeksmarkering gevonden op positie"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -33061,10 +32995,9 @@ msgid "Manage Subtitles"
 msgstr "Ondertiteling beheren"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "Geen hulplijn op huidige positie gevonden"
+msgstr "Geen reekshulplijn op positie gevonden"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -35198,11 +35131,9 @@ msgstr "Profiel voor clips met alfa-kanaal:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Verwijder proxy clip"
+msgstr "Proxyclips van camcorder:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -36749,10 +36680,9 @@ msgstr "Sleutel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "Markering verwijderen"
+msgstr "Reeksmarkering"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
@@ -37099,11 +37029,9 @@ msgstr "Grootte van proxy-afbeelding"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Verwijder proxy clip"
+msgstr "Proxyclips van camcorder"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -37305,24 +37233,21 @@ msgstr "Geselecteerde &zone"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "&Marker zone"
-msgstr "Markering 1"
+msgstr "&Markeringszone"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "Hulplijn voor multi-exporteren"
+msgstr "Multi-exporteren van markeringen"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "Hulplijnen te gebruiken als scheiding"
+msgstr "Markeringen te gebruiken als scheidingsteken:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495

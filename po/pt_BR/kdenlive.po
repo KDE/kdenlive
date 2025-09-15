@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-13 08:18-0300\n"
+"PO-Revision-Date: 2025-09-14 15:49-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3154,10 +3154,9 @@ msgid "Screen type"
 msgstr "Tipo de tela"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Verde-Azul"
+msgstr "Verde,Azul"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -8338,13 +8337,13 @@ msgstr "Extrai azul da imagem"
 #, kde-format
 msgctxt "White Balance Effect Name"
 msgid "White Balance"
-msgstr "Balanceamento de branco"
+msgstr "Balanço de branco"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:6
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
 #, kde-format
 msgid "Adjust the white balance / color temperature"
-msgstr "Ajusta o balanceamento de branco / temperatura da cor"
+msgstr "Ajusta o balanço de branco / temperatura da cor"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:9
 #: data/effects/frei0r/frei0r_balanc0r.xml:20
@@ -8362,7 +8361,7 @@ msgstr "Pintura verde"
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
 #, kde-format
 msgid "White Balance"
-msgstr "Balanceamento de branco"
+msgstr "Balanço de branco"
 
 #: data/effects/frei0r/frei0r_baltan.xml:4
 #, kde-format
@@ -9762,7 +9761,7 @@ msgstr "Peso baseado na distância"
 #: data/effects/frei0r/frei0r_colgate.xml:4
 #, kde-format
 msgid "White Balance (LMS space)"
-msgstr "Balanceamento de branco (espaço LMS)"
+msgstr "Balanço de branco (espaço LMS)"
 
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
@@ -12628,12 +12627,12 @@ msgstr "Intervalo"
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
 #, kde-format
 msgid "3 point balance"
-msgstr "Balanceamento de 3 pontos"
+msgstr "Balanço de 3 pontos"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
 #, kde-format
 msgid "Balances colors along with 3 points"
-msgstr "Balanceamento das cores em conjunto com 3 pontos"
+msgstr "Balanço das cores em conjunto com 3 pontos"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
 #, kde-format
@@ -14225,7 +14224,7 @@ msgstr "Elevação"
 #, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
-msgstr "Aplicar máscara"
+msgstr "Aplicador de máscara"
 
 #: data/effects/mask_apply.xml:5
 #, kde-format
@@ -14235,19 +14234,12 @@ msgstr ""
 "Máscara."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Iniciar"
+msgstr "Iniciar máscara"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14256,11 +14248,13 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Esse filtro cria uma cópia do quadro antes de desenhar formas simples no "
-"canal alfa. Use-o junto do efeito aplicar_máscara, que usa uma transição "
-"para compor a imagem do quadro atual sobre a cópia. O caso de uso usual é "
-"adicionar efeitos na seguinte sequência: esse efeito, zero ou mais efeitos, "
-"aplicar_máscara."
+"Este filtro funciona junto com o filtro Aplicador de máscara para tornar o "
+"mascaramento de filtro mais fácil. Este filtro faz uma captura do quadro "
+"antes de aplicar um filtro, geralmente um de modo a afetar o canal alfa que "
+"define a máscara. Então, o filtro Aplicador de máscara usa uma transição "
+"para compor a imagem do quadro atual sobre a captura. O caso de uso típico é "
+"para adicionar filtros na seguinte sequência: Iniciar maścara, zero ou mais "
+"filtros, Aplicador de máscara."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -34353,7 +34347,7 @@ msgstr "Região para capturar:"
 #: src/ui/configcapture_ui.ui:75
 #, kde-format
 msgid "Full Screen"
-msgstr "Tela inteira"
+msgstr "Tela cheia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:80
@@ -35107,11 +35101,9 @@ msgstr "Perfil para clipes com canal alfa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Remover Clipe do Proxy"
+msgstr "Clipes proxy de filmadora:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -37009,11 +37001,9 @@ msgstr "Tamanho da imagem proxy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Remover Clipe do Proxy"
+msgstr "Clipes proxy de filmadora"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540

@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-13 23:45+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2025-09-14 12:46+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -3175,10 +3175,9 @@ msgid "Screen type"
 msgstr "Tipus de pantalla"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Verd-Blau"
+msgstr "Verd,Blau"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -14313,19 +14312,12 @@ msgstr ""
 "màscara."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Inici"
+msgstr "Inici de la màscara"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14334,11 +14326,13 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Este filtre fa una instantània del fotograma abans de dibuixar formes "
-"senzilles a dins del canal alfa. Utilitzeu-lo juntament amb l'efecte "
-"mask_apply, el qual utilitza una transició per a compondre la imatge del "
-"fotograma actual sobre la instantània. El cas d'ús típic és afegir efectes "
-"en la seqüència següent: este efecte, zero o més efectes, mask_apply."
+"Este filtre funciona conjuntament amb el filtre mask_apply per a facilitar "
+"l'emmascarament del filtre. Este filtre fa una instantània del fotograma "
+"abans d'aplicar un filtre, normalment un per a afectar el canal alfa que "
+"definix la màscara. Després, el filtre mask_apply utilitza una transició per "
+"a compondre la imatge del fotograma actual sobre la instantània. El cas d'ús "
+"típic és afegir filtres en la seqüència següent: mask_start, zero o més "
+"filtres, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -35261,11 +35255,9 @@ msgstr "Perfil per a clips amb canal alfa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Elimina el clip intermediari"
+msgstr "Clips intermediaris de la càmera de vídeo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -37166,11 +37158,9 @@ msgstr "Mida de la imatge de l'intermediari"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Elimina el clip intermediari"
+msgstr "Clips intermediaris de la càmera de vídeo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -38503,6 +38493,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "External proxy clips:"
-#~ msgstr "Clips intermediaris externs:"

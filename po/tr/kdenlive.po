@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-12 10:19+0300\n"
+"PO-Revision-Date: 2025-09-14 18:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -19231,10 +19231,9 @@ msgstr ""
 "arayacak ve onları bir görsel sekansı olarak içe aktaracaktır."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "Kılavuzlar kategorilerini güncelle"
+msgstr "Zaman akışı imleyicileri kategorilerini güncelle"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -19253,16 +19252,14 @@ msgid "Delete marker"
 msgstr "İmleyiciyi sil"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "Katmanı Taşı"
+msgstr "İmleyiciyi taşı"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "İmleyiciyi yeniden adlandır"
+msgstr "İmleyiciyi yeniden boyutlandır"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -19288,10 +19285,9 @@ msgstr "Tüm imleyicileri sil"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "Geçerli konumda bir kılavuz bulunamadı"
+msgstr "Geçerli konumda bulunan imleyici yok"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -19324,22 +19320,19 @@ msgid "Add markers"
 msgstr "İmleyiciler ekle"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "Anahtar kareyi güncelle"
+msgstr "Erim imleyicisini güncelle"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "Renk matrisini dönüştürün."
+msgstr "Erim imleyicisine dönüştür"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "İmleyici ekle"
+msgstr "Erim imleyicisi ekle"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -20294,10 +20287,9 @@ msgstr ""
 "Kendiliğinden’e geri dönülüyor."
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Import markers"
+#, kde-format
 msgid "Export markers"
-msgstr "İmleyicileri içe aktar"
+msgstr "İmleyicileri dışa aktar"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -20335,12 +20327,10 @@ msgid "JSON File"
 msgstr "JSON Dosyası"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "Kılavuzlar Verisini Dışa Aktar"
+msgstr "İmleyiciler Verisini Dışa Aktar"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -20368,10 +20358,9 @@ msgid "Cannot write to file %1"
 msgstr "Dosyaya yazılamadı: %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "Kılavuzlar, %1 konumuna kaydedildi"
+msgstr "İmleyiciler, %1 konumuna kaydedildi"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -20379,70 +20368,59 @@ msgid "Category name"
 msgstr "Kategori adı"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker number"
-msgstr "İmleyici"
+msgstr "İmleyici numarası"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "SS:DD:SS:FF içindeki kılavuz konumu"
+msgstr "SS:DD:SS:FF olarak imleyici konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "(SS:)DD.SS içindeki kılavuz konumu"
+msgstr "(SS:)DD.SS olarak imleyici konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "(SS:)DD.SS içindeki sonraki kılavuz konumu"
+msgstr "(SS:)DD.SS olarak sonraki imleyici konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "Karelerdeki kılavuz konumu"
+msgstr "Kare olarak imleyici konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "Karelerdeki sonraki kılavuz konumu"
+msgstr "Kare olarak sonraki imleyici konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "İmleyiciler Açıklamalarını Göster"
+msgstr "İmleyici açıklaması"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "Karelerdeki kılavuz konumu"
+msgstr "Kare olarak imleyici süresi"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "Geçerli zaman kodunu yerleştir"
+msgstr "Zaman kodu olarak imleyici süresi"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "Karelerdeki sonraki kılavuz konumu"
+msgstr "Zaman kodu olarak imleyici bitiş konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "Karelerdeki sonraki kılavuz konumu"
+msgstr "Kare olarak imleyici bitiş konumu"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
@@ -21232,10 +21210,9 @@ msgid "Timeline"
 msgstr "Zaman Akışı"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "Renkler ve Kılavuzlar"
+msgstr "Renkler ve İmleyiciler"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -25338,10 +25315,9 @@ msgid "Add Clip"
 msgstr "Klip Ekle"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Kategori Numarasına Göre İmleyici/Kılavuz Ekle"
+msgstr "Kategori Numarasına Göre İmleyici Ekle"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -25525,18 +25501,15 @@ msgid "Go to Marker…"
 msgstr "İmleyiciye Git…"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "İmleyici oluştur"
+msgstr "Bölgeden İmleyici Oluştur"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Seçili zaman kodlarından imleyiciler oluştur"
+msgstr "Bölgeden Tez İmleyici Oluştur"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -26184,16 +26157,14 @@ msgid "Go to Clip End"
 msgstr "Klip Sonuna Git"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "Önceki Kılavuza Git"
+msgstr "Önceki İmleyiciye Git"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "İmleyiciye Git…"
+msgstr "Sonraki İmleyiciye Git"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -26374,70 +26345,59 @@ msgid "Delete All Markers"
 msgstr "Tüm İmleyicileri Sil"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "Tez İmleyici Ekle"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 1 Ekle"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 2 Ekle"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 3 Ekle"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 4 Ekle"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 5 Ekle"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 6 Ekle"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 7 Ekle"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 8 Ekle"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 9 Ekle"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Kategoriye Göre İmleyiciler Ekle"
+msgstr "İmleyici Kategorisi 10 Ekle"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -26667,50 +26627,40 @@ msgid "Disable Timeline Preview"
 msgstr "Zaman Akışı Önizlemesini Kapat"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "İmleyiciyi Kaldır"
+msgstr "İmleyici Ekle/Kaldır"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "Arama imleyicileri"
+msgstr "İmleyici ara…"
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Edit Marker…"
+#, kde-format
 msgid "Export Markers…"
-msgstr "İmleyiciyi Düzenle…"
+msgstr "İmleyicileri Dışa Aktar…"
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Zaman Akışı Önizlemesi"
+msgstr "Zaman Akışı İmleyicileri Kilitli"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Klip İmleyicileri Yükle"
+msgstr "Zaman Akışı İmleyicilerini Kilitle"
 
 #: src/mainwindow.cpp:2053
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Kılavuzları kilitle. Kilitlendiğinde, kılavuzlar, boşluk aracı "
-"kullanıldığında veya izlere boş alan yerleştirirken/kaldırırken hareket "
-"etmezler."
+"Zaman akışı imleyicilerini kilitleyin. Kilitlendiklerinde imleyiciler, "
+"boşluklandırma aracı kullanıldığında veya izlere boş alan yerleştirirken/"
+"kaldırırken hareket etmezler."
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -27792,16 +27742,14 @@ msgstr ""
 "monitör boyutu)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "İmleyiciye Git…"
+msgstr "Klip İmleyicisine Git…"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "İmleyiciye Git…"
+msgstr "Zaman Akışı İmleyicisine Git…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -27880,10 +27828,9 @@ msgid "Set current image as thumbnail"
 msgstr "Geçerli Görseli Küçük Görsel Yap"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "Seçili zaman kodlarından imleyiciler oluştur"
+msgstr "Bölgeden İmleyici Oluştur…"
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -28013,10 +27960,9 @@ msgstr ""
 
 #: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "Bir dosya oluşturulamadı."
+msgstr "Bölgeden erim imleyicisi oluşturulamadı"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -28156,10 +28102,9 @@ msgstr "Bölge Sonuna Git"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "İmleyiciyi yeniden adlandır"
+msgstr "Bölge imleyicisi"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -29258,10 +29203,9 @@ msgid "Showing backup files for %1"
 msgstr "%1 için yedek dosyalar gösteriliyor"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
-msgstr "İmleyici Kategorilerini Düzenle"
+msgstr "İmleyici Kategorisini Düzenle"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -29274,10 +29218,9 @@ msgid "Category %1"
 msgstr "Kategori %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "İmleyici Kategorilerini Düzenle"
+msgstr "İmleyici Kategorisini Sil"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -29335,94 +29278,74 @@ msgid "Refresh All Thumbnails"
 msgstr "Tüm Küçük Görselleri Yenile"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "İmleyici ekle"
+msgstr "Yeni imleyici ekle"
 
 #: src/project/dialogs/guideslist.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
-"Yeni kılavuz ekle. Bu, geçerli kare konumunda yeni bir kılavuz ekleyecektir."
+"Yeni imleyici ekleyin. Bu, geçerli kare konumunda yeni bir imleyici ekler."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
 msgstr "İmleyiciyi sil"
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "Kılavuzu sil. Bu, seçili tüm kılavuzları siler."
+msgstr "İmleyiciyi silin. Bu, seçili tüm imleyicileri siler."
 
 #: src/project/dialogs/guideslist.cpp:210
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "Seçili kılavuzu düzenleyin."
+msgstr "Seçili imleyiciyi düzenle"
 
 #: src/project/dialogs/guideslist.cpp:211
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
 msgstr ""
-"Seçili kılavuzu düzenle. Birden çok kılavuzu seçmek, onların kategorisini "
-"düzenlemeye izin verir."
+"Seçili imleyiciyi düzenleyin. Birden çok imleyiciyi seçmek, onların "
+"kategorisini düzenlemeye olanak tanır."
 
 #: src/project/dialogs/guideslist.cpp:212
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Kılavuz kategorilerini sil."
+msgstr "İmleyici kategorilerini süz"
 
 #: src/project/dialogs/guideslist.cpp:214
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Kılavuz kategorilerini süz. Bu, bu iletişim kutusunda ve zaman akışında, "
-"seçili kılavuz kategorilerini göstermenize veya gizlemenize izin verir."
+"İmleyici kategorilerini süzün. Bu, bu iletişim kutusunda ve zaman akışında, "
+"seçili imleyici kategorilerini göstermenize veya gizlemenize olanak tanır."
 
 #: src/project/dialogs/guideslist.cpp:215
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Öntanımlı kılavuz kategorisi."
+msgstr "Öntanımlı imleyici kategorisi"
 
 #: src/project/dialogs/guideslist.cpp:216
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
-"Öntanımlı kılavuz kategorisi. Yeni oluşturulan kılavuzlar için kullanılır."
+"Öntanımlı imleyici kategorisi. Yeni oluşturulan imleyiciler için kullanılır."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "Arama imleyicileri"
+msgstr "Tüm imleyicilerde ara…"
 
 #: src/project/dialogs/guideslist.cpp:256
 #, kde-format
@@ -29443,22 +29366,19 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "İmleyiciyi Kaldır"
+msgstr "İmleyicileri kaldır"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "Arama imleyicileri"
+msgstr "Klip imleyicilerinde ara…"
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "Arama imleyicileri"
+msgstr "Zaman akışı imleyicilerinde ara…"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -32681,10 +32601,9 @@ msgid "Select at least 2 items to group"
 msgstr "Gruplamak için en az 2 öge seçin"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "İmleç konumunda hiçbir imleyici bulunamadı"
+msgstr "Konumda hiçbir erim imleyicisi bulunamadı"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -32946,10 +32865,9 @@ msgid "Manage Subtitles"
 msgstr "Altyazıları Yönet"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "Geçerli konumda bir kılavuz bulunamadı"
+msgstr "Konumda hiçbir erim kılavuzu bulunamadı"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -35084,11 +35002,9 @@ msgstr "Alfa kanallı klipler için profil:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Vekil klibi kaldır"
+msgstr "Video kamera vekil klipleri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -36637,17 +36553,15 @@ msgstr "Anahtar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "İmleyiciyi Kaldır"
+msgstr "Erim imleyicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Sunum Süresi"
+msgstr "Bitiş zamanı"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:139
@@ -36989,11 +36903,9 @@ msgstr "Vekil görsel boyutu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Vekil klibi kaldır"
+msgstr "Video kamera vekil klipleri"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -37195,24 +37107,21 @@ msgstr "Seçili &bölge"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "&Marker zone"
-msgstr "İmleyici"
+msgstr "İ&mleyici bölgesi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "Kılavuz Çoklu Dışa Aktarma"
+msgstr "İmleyicileri çoklu dışa aktar"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "Ayırıcı olarak kullanılacak kılavuzlar:"
+msgstr "Ayırıcı olarak kullanılacak imleyiciler:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495
