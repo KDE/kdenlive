@@ -3751,11 +3751,11 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     }
 }
 
-void MainWindow::raiseBin(bool unconditionnaly)
+void MainWindow::raiseBin(bool unconditionally)
 {
     Bin *bin = activeBin();
     if (bin) {
-        if (!unconditionnaly) {
+        if (!unconditionally) {
             QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
             if (dock) {
                 if (isDockTabbedWith(dock, m_clipMonitorDock)) {

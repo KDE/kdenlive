@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 /** @class FFTCorrelation
     @brief This class provides methods to calculate convolution
     and correlation of two vectors by means of FFT, which
-    is O(n log n) (convolution in spacial domain would be
+    is O(n log n) (convolution in spatial domain would be
     O(n²)).
   */
 class FFTCorrelation

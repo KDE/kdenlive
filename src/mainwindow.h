@@ -160,8 +160,8 @@ public:
     void raiseMonitor(bool clipMonitor);
 
     /** @brief Raise (show) the project bin
-     * @param unconditionnaly if false, we won't raise the bin if docked with the project monitor */
-    void raiseBin(bool unconditionnaly = true);
+     * @param unconditionally if false, we won't raise the bin if docked with the project monitor */
+    void raiseBin(bool unconditionally = true);
     /** @brief Give focus to the active timeline widget */
     void focusTimeline();
     /** @brief Add a bin widget*/

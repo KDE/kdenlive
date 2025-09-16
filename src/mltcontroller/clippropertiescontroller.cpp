@@ -268,7 +268,7 @@ QHBoxLayout *ClipPropertiesController::comboboxProperty(const QString &label, co
         combo->addItem(i.key(), i.value());
     }
 
-    // connect signals and initalize state
+    // connect signals and initialize state
     connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this, propertyName, combo]() {
         QMap<QString, QString> properties;
         properties.insert(propertyName, QString::number(combo->currentData().toInt()));

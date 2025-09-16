@@ -66,4 +66,4 @@ def _load_checkpoint(model, ckpt_path):
         if unexpected_keys:
             logging.error(unexpected_keys)
             raise RuntimeError()
-        logging.info("Loaded checkpoint sucessfully")
+        logging.info("Loaded checkpoint successfully")

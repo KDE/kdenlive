@@ -422,7 +422,7 @@ bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)
     PythonExec exes = venvPythonExecs(true);
     qDebug() << "::::: FOUND PYTHON EXECS: " << exes.python << exes.pip;
     if (!exes.python.isEmpty() && !exes.pip.isEmpty() && std::find(m_scripts.cbegin(), m_scripts.cend(), QString()) == m_scripts.cend()) {
-        qDebug() << "//// SCRIP VALUES: " << m_scripts.values();
+        qDebug() << "//// SCRIPT VALUES: " << m_scripts.values();
         if (m_installStatus == Unknown) {
             setStatus(Installed);
         }

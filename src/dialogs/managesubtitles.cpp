@@ -684,7 +684,7 @@ void ManageSubtitles::deleteFile()
             this, i18n("This will delete all subtitle entries in <b>%1</b>,<br/>as well as the subtitle file: %2", name, path)) != KMessageBox::Continue) {
         return;
     }
-    qDebug() << ":::: DELETING SUBTITLE WIT TREE INDEX: " << fileList->indexOfTopLevelItem(fileList->currentItem());
+    qDebug() << ":::: DELETING SUBTITLE WITH TREE INDEX: " << fileList->indexOfTopLevelItem(fileList->currentItem());
     QTreeWidgetItem *currentItem = fileList->currentItem();
     int ix = fileList->indexOfTopLevelItem(currentItem);
     int id = currentItem->data(0, Qt::UserRole).toInt();

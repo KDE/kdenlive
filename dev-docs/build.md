@@ -12,7 +12,7 @@ Currently supported GNU/Linux distributions are:
 But it should work on any platforms fulfilling the requirements described below
 
 The minimum required dependencies are:
-- [Qt](https://doc.qt.io/) >= 6.6.0 (Kdenlive droped Qt5 support with version 24.12)
+- [Qt](https://doc.qt.io/) >= 6.6.0 (Kdenlive dropped Qt5 support with version 24.12)
 - [KDE frameworks 6 (KF6)](https://develop.kde.org/products/frameworks/) >= 6.3,
 - [MLT](https://www.mltframework.org/) >= 7.28.0.
 
@@ -83,7 +83,7 @@ sudo apt install frei0r-plugins ffmpeg mediainfo
 
 sudo apt install  ladspa-sdk libfftw3-dev libsdl1.2-dev libxine2-dev debhelper libarchive-dev libgdk-pixbuf-2.0-dev libsdl2-dev libxml2-dev   libavdevice-dev librtaudio-dev libsox-dev frei0r-plugins-dev libdv4-dev libmovit-dev librubberband-dev libswscale-dev imagemagick libebur128-dev libopencv-dev libsamplerate0-dev libvidstab-dev  imagemagick-6.q16 libexif-dev libpango1.0-dev libsdl1.2-compat-dev libvorbis-dev libavformat-dev libavcodec-dev libswresample-dev libavutil-dev
 
-# Additionnal libraries
+# Additional libraries
 
 sudo apt install chrpath debhelper dh-python libxml2-dev python3-dev swig
 
@@ -172,7 +172,7 @@ To uninstall Kdenlive:
 sudo ninja uninstall
 ```
 
-### Runnig Kdenlive
+### Running Kdenlive
 
 If you didn't build in a system path in which all libs and data are automatically found, you will need to set environment variables to point to them.
 This is done by the auto-generated script in `kdenlive/build` that must be sourced (to keep variables set in current shell, unlike just executing the script):
