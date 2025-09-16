@@ -20432,8 +20432,7 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Export markers"
+#, kde-format
 msgid "Export markers"
 msgstr "Markierung exportieren"
 
