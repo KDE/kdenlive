@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-14 18:28+0300\n"
+"PO-Revision-Date: 2025-09-16 17:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3133,10 +3133,9 @@ msgid "Screen type"
 msgstr "Ekran türü"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Yeşil–Mavi"
+msgstr "Yeşil,Mavi"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -18046,6 +18045,8 @@ msgstr ""
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
 msgstr ""
+"Ortam içe aktarmak için çift tıklayın, dosyalar bırakın veya %1 simgesine "
+"tıklayın"
 
 #: src/bin/bin.cpp:141
 #, kde-format
@@ -18056,6 +18057,8 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
+"Ortam içe aktarmak için fareyle çift\n"
+"tıklayın veya %1 simgesine tıklayın"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
@@ -20425,7 +20428,7 @@ msgstr "Kare olarak imleyici bitiş konumu"
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "İmleyicinin eriminin olup olmadığı (doğru/yanlış)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -27946,17 +27949,18 @@ msgstr "Klip monitörü için olan üreteç alınamıyor"
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
+"Tanımlanmış geçerli bölge yok. Lütfen önce giriş/çıkış noktalarını ayarlayın."
 
 #: src/monitor/monitor.cpp:3315
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "Bölgeden Erim İmleyicisi Oluştur"
 
 #: src/monitor/monitor.cpp:3321 src/monitor/monitor.cpp:3342
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "Bölgeden oluşturulmuş erim imleyicisi"
 
 #: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
 #: src/timeline2/view/timelinecontroller.cpp:5764
