@@ -1,0 +1,328 @@
+/*
+SPDX-FileCopyrightText: 2025 Jean-Baptiste Mardelle <jb@kdenlive.org>
+This file is part of Kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
+#include "previewpanel.h"
+#include "core.h"
+#include "kdenlivesettings.h"
+
+#include <KConfigGroup>
+#include <KDualAction>
+#include <KIO/PreviewJob>
+#include <KIconLoader>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KSharedConfig>
+#include <KSqueezedTextLabel>
+#include <QAction>
+#include <QAudioOutput>
+#include <QCheckBox>
+#include <QFormLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMediaMetaData>
+#include <QMediaPlayer>
+#include <QMenu>
+#include <QPushButton>
+#include <QSlider>
+#include <QToolButton>
+#include <QVBoxLayout>
+#include <QVideoWidget>
+
+PreviewPanel::PreviewPanel(QWidget *parent)
+    : QWidget(parent)
+{
+    QVBoxLayout *panelLayout = new QVBoxLayout(this);
+    // lay->setSpacing(0);
+
+    // Video preview
+    m_player = new QMediaPlayer(this);
+    m_videoWidget = new QVideoWidget(this);
+    m_videoWidget->setMinimumHeight(KIconLoader::SizeEnormous);
+    m_videoWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    panelLayout->addWidget(m_videoWidget);
+    m_player->setVideoOutput(m_videoWidget);
+
+    // Image preview
+    m_imageWidget = new QLabel(this);
+    m_imageWidget->setMinimumHeight(KIconLoader::SizeEnormous);
+    m_imageWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    m_imageWidget->setScaledContents(false);
+    m_imageWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    panelLayout->addWidget(m_imageWidget);
+
+    // Controls panel
+    QHBoxLayout *controlsLayout = new QHBoxLayout(this);
+    m_playButton = new QToolButton(this);
+    m_playButton->setToolTip(i18nc("@info:tooltip play a video or audio file", "Play media"));
+    m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    m_playButton->setAutoRaise(true);
+    controlsLayout->addWidget(m_playButton);
+    controlsLayout->setContentsMargins(0, 0, 0, 0);
+    m_slider = new QSlider(Qt::Horizontal, this);
+    m_slider->setRange(0, 100);
+    controlsLayout->addWidget(m_slider);
+    QToolButton *playAudio = new QToolButton(this);
+    KDualAction *playAudioAction = new KDualAction(i18n("Mute"), i18n("Unmute"), this);
+    playAudioAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-muted")));
+    playAudioAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-high")));
+    playAudioAction->setCheckable(true);
+    playAudioAction->setInactiveToolTip(i18nc("@info:tooltip", "Mute audio"));
+    playAudioAction->setActiveToolTip(i18nc("@info:tooltip", "Unmute audio"));
+    playAudio->setDefaultAction(playAudioAction);
+    playAudio->setAutoRaise(true);
+    playAudioAction->setActive(KdenliveSettings::mediaBrowserWithAudio());
+    controlsLayout->addWidget(playAudio);
+    connect(playAudioAction, &KDualAction::activeChangedByUser, this, [this](bool muteAudio) {
+        KdenliveSettings::setMediaBrowserWithAudio(muteAudio);
+        bool wasPlaying = m_player->isPlaying();
+        pausePlaying();
+        m_player->setAudioOutput(nullptr);
+        if (wasPlaying) {
+            startPlaying();
+        }
+    });
+    panelLayout->addLayout(controlsLayout);
+
+    // Info panel
+    m_metadataLayout = new QFormLayout(this);
+    m_resolutionLabel = new KSqueezedTextLabel(this);
+    m_durationLabel = new KSqueezedTextLabel(this);
+    m_dateLabel = new KSqueezedTextLabel(this);
+    // Resolution and fps
+    m_metadataLayout->addRow(m_resolutionLabel);
+    // Duration
+    m_metadataLayout->addRow(m_durationLabel);
+    // Date
+    m_metadataLayout->addRow(m_dateLabel);
+    QCheckBox *autoPlay = new QCheckBox(i18nc("@action:checkbox enable automatic playback", "Autoplay"), this);
+    autoPlay->setChecked(KdenliveSettings::mediaBrowserAutoPlay());
+    connect(autoPlay, &QCheckBox::toggled, this, [](bool enable) { KdenliveSettings::setMediaBrowserAutoPlay(enable); });
+
+    m_metadataLayout->addRow(autoPlay);
+    panelLayout->addLayout(m_metadataLayout);
+
+    connect(m_player, &QMediaPlayer::playingChanged, this, [this](bool playing) {
+        if (playing) {
+            m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+        } else {
+            m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+        }
+    });
+    connect(m_player, &QMediaPlayer::metaDataChanged, this, [this]() {
+        const QMediaMetaData mData = m_player->metaData();
+        if (!mData.value(QMediaMetaData::Resolution).isNull() || !mData.value(QMediaMetaData::VideoFrameRate).isNull()) {
+            const QString fps = QString("%1").arg(mData.value(QMediaMetaData::VideoFrameRate).toReal(), 0, 'f', 2);
+            m_resolutionLabel->setText(
+                QStringLiteral("%1, %2%3")
+                    .arg(mData.stringValue(QMediaMetaData::Resolution), fps, i18nc("@info:label fps as frames per second shortcut", "fps")));
+        } else {
+            m_resolutionLabel->clear();
+        }
+        int audioTracks = m_player->audioTracks().size();
+        QString audioTracksLabel;
+        switch (audioTracks) {
+        case 0:
+            audioTracksLabel = i18n("No audio");
+            break;
+        default:
+            audioTracksLabel = i18ncp("@info:label indicate the number of audio tracks (streams) in a file", "1 audio track", "%1 audio tracks", audioTracks);
+            break;
+        }
+
+        if (!mData.value(QMediaMetaData::Duration).isNull()) {
+            m_durationLabel->setText(QStringLiteral("%1, %2").arg(mData.stringValue(QMediaMetaData::Duration)).arg(audioTracksLabel));
+        } else {
+            if (!m_player->source().isEmpty()) {
+                m_durationLabel->setText(audioTracksLabel);
+            } else {
+                m_durationLabel->clear();
+            }
+        }
+        if (!mData.value(QMediaMetaData::Date).isNull()) {
+            m_dateLabel->setText(mData.stringValue(QMediaMetaData::Date));
+        } else {
+            m_dateLabel->clear();
+        }
+    });
+
+    connect(m_player, &QMediaPlayer::sourceChanged, this, [this]() {
+        stopPlaying();
+        m_slider->setValue(0);
+        if (KdenliveSettings::mediaBrowserAutoPlay() && !m_player->source().isEmpty()) {
+            startPlaying();
+        }
+    });
+    connect(m_player, &QMediaPlayer::positionChanged, this, [this](qint64 position) { m_slider->setValue(100 * position / m_player->duration()); });
+    connect(m_slider, &QAbstractSlider::sliderMoved, this, [this](int position) {
+        if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
+            m_imageWidget->hide();
+            m_videoWidget->show();
+        }
+        m_player->setPosition(m_player->duration() * position / 100);
+    });
+
+    connect(m_playButton, &QToolButton::clicked, this, [this]() {
+        if (m_player->isPlaying()) {
+            pausePlaying();
+        } else {
+            if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
+                m_videoWidget->show();
+                m_imageWidget->hide();
+            }
+            startPlaying();
+        }
+    });
+
+    m_importButton = new QPushButton(i18nc("@action:button", "Import File"), this);
+    panelLayout->addWidget(m_importButton);
+    m_importButton->setEnabled(false);
+    connect(m_importButton, &QPushButton::clicked, this, &PreviewPanel::importSelection);
+
+    m_playButton->setEnabled(false);
+    m_slider->setEnabled(false);
+    m_videoWidget->hide();
+    m_imageWidget->show();
+}
+
+void PreviewPanel::startPlaying()
+{
+    if (KdenliveSettings::mediaBrowserWithAudio() && m_player->hasAudio()) {
+        if (m_player->audioOutput() == nullptr) {
+            m_player->setAudioOutput(new QAudioOutput);
+        }
+    }
+    m_player->play();
+}
+
+void PreviewPanel::pausePlaying()
+{
+    m_player->pause();
+}
+
+void PreviewPanel::stopPlaying()
+{
+    m_player->setAudioOutput(nullptr);
+    m_player->stop();
+}
+
+void PreviewPanel::disableImport()
+{
+    m_importButton->setEnabled(false);
+}
+
+void PreviewPanel::fileSelected(KFileItemList files)
+{
+    const KFileItem item = files.constFirst();
+    if (files.size() > 1) {
+        m_importButton->setText(i18nc("@action:button", "Import %1 Files", files.size()));
+    } else {
+        if (item.isDir()) {
+            m_importButton->setText(i18nc("@action:button", "Import Folder"));
+        } else {
+            m_importButton->setText(i18nc("@action:button", "Import File"));
+        }
+    }
+    if (m_item.entry() == item.entry()) {
+        return;
+    }
+
+    m_item = item;
+    m_importButton->setEnabled(true);
+    const QString mimeType = m_item.mimetype();
+    m_isVideo = mimeType.startsWith(QLatin1String("video/"));
+    bool useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
+    if (useMedia) {
+        m_player->setSource(m_item.url());
+        m_playButton->setEnabled(true);
+        m_slider->setEnabled(true);
+        if (KdenliveSettings::mediaBrowserAutoPlay()) {
+            if (m_player->hasVideo()) {
+                m_imageWidget->hide();
+                m_videoWidget->show();
+            } else {
+                m_imageWidget->show();
+                m_videoWidget->hide();
+            }
+            return;
+        }
+    } else {
+        m_player->setSource(QUrl());
+        m_playButton->setEnabled(false);
+        m_slider->setEnabled(false);
+    }
+    m_videoWidget->hide();
+    m_imageWidget->show();
+    refreshPixmapView();
+}
+
+void PreviewPanel::refreshPixmapView()
+{
+    // If there is a preview job, kill it to prevent that we have jobs for
+    // multiple items running, and thus a race condition (bug 250787).
+    if (m_previewJob) {
+        m_previewJob->kill();
+    }
+    qDebug() << "::: LAUNCHING PREVIEW FOR: " << m_item.url();
+
+    // try to get a preview pixmap from the item...
+
+    // Mark the currently shown preview as outdated. This is done
+    // with a small delay to prevent a flickering when the next preview
+    // can be shown within a short timeframe.
+    // m_outdatedPreviewTimer->start();
+
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
+    const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
+    m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item, QSize(300, 300), &plugins);
+    m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
+    m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
+    m_previewJob->setDevicePixelRatio(m_imageWidget->devicePixelRatioF());
+    if (m_previewJob->uiDelegate()) {
+        KJobWidgets::setWindow(m_previewJob, this);
+    }
+
+    connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview, this, &PreviewPanel::showPreview);
+    connect(m_previewJob.data(), &KIO::PreviewJob::failed, this, &PreviewPanel::showIcon);
+}
+
+void PreviewPanel::showIcon(const KFileItem &item)
+{
+    // m_outdatedPreviewTimer->stop();
+    QIcon icon = QIcon::fromTheme(item.iconName());
+    // QPixmap pixmap = KIconUtils::addOverlays(icon, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
+    QPixmap pixmap = (icon).pixmap(m_imageWidget->size(), m_imageWidget->devicePixelRatioF());
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    m_imageWidget->setPixmap(pixmap);
+}
+
+void PreviewPanel::showPreview(const KFileItem &item, const QPixmap &pixmap)
+{
+    // m_outdatedPreviewTimer->stop();
+
+    QPixmap p = pixmap;
+    qDebug() << "::: SETTING IMAGE PIXMAP....for:" << item.url();
+    m_imageWidget->setPixmap(p.scaled(m_imageWidget->size(), Qt::KeepAspectRatio));
+
+    //(m_imageWidget->size(), m_imageWidget->devicePixelRatioF());
+
+    /*if (!item.overlays().isEmpty()) {
+        // Avoid scaling the images that are smaller than the preview size, to be consistent when there is no overlays
+        if (pixmap.height() < m_preview->height() && pixmap.width() < m_preview->width()) {
+            p = QPixmap(m_preview->size() * devicePixelRatioF());
+            p.fill(Qt::transparent);
+            p.setDevicePixelRatio(devicePixelRatioF());
+
+            QPainter painter(&p);
+            painter.drawPixmap(QPointF{m_preview->width() / 2.0 - pixmap.width() / pixmap.devicePixelRatioF() / 2,
+                                       m_preview->height() / 2.0 - pixmap.height() / pixmap.devicePixelRatioF() / 2}
+                                   .toPoint(),
+                               pixmap);
+        }
+        p = KIconUtils::addOverlays(p, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
+        p.setDevicePixelRatio(devicePixelRatioF());
+    }*/
+}

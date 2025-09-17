@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "previewpanel.h"
 #include "project/dialogs/slideshowclip.h"
 
 #include <KActionCollection>
@@ -36,6 +37,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMimeDatabase>
 #include <QProcessEnvironment>
+#include <QSplitter>
 #include <QToolBar>
 #include <QVBoxLayout>
 
@@ -67,7 +69,12 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *up = m_op->action(KDirOperator::Up);
     QAction *back = m_op->action(KDirOperator::Back);
     QAction *forward = m_op->action(KDirOperator::Forward);
-    QAction *preview = m_op->action(KDirOperator::ShowPreviewPanel);
+    QAction *inlinePreview = m_op->action(KDirOperator::ShowPreview);
+    QAction *previewPanel = m_op->action(KDirOperator::ShowPreviewPanel);
+    previewPanel->setEnabled(false);
+    previewPanel->setShortcut({});
+    QAction *preview = new QAction(QIcon::fromTheme(QStringLiteral("sidebar-expand-right")), i18n("Show Preview Panel"), this);
+    preview->setCheckable(true);
     QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu);
 
     // Disable "Del" shortcut to move item to trash - too dangerous ??
@@ -76,18 +83,17 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     tb->addAction(up);
     tb->addAction(back);
     tb->addAction(forward);
-
     tb->addAction(zoomOut);
     tb->addAction(zoomIn);
+    tb->addAction(inlinePreview);
+    tb->addAction(preview);
     tb->addSeparator();
     tb->addAction(importAction);
-    preview->setIcon(QIcon::fromTheme(QStringLiteral("fileview-preview")));
 
     // Menu button with extra actions
     QToolButton *but = new QToolButton(this);
     QMenu *configMenu = new QMenu(this);
     configMenu->addAction(importOnDoubleClick);
-    configMenu->addAction(preview);
     configMenu->addAction(viewMenu);
     but->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     but->setMenu(configMenu);
@@ -122,16 +128,26 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     connect(m_op, &KDirOperator::urlEntered, this, &MediaBrowser::slotUrlEntered);
     connect(m_op, &KDirOperator::viewChanged, this, &MediaBrowser::connectView);
     connect(m_op, &KDirOperator::currentIconSizeChanged, this, [](int size) { KdenliveSettings::setMediaIconSize(size); });
-    connect(m_op, &KDirOperator::fileHighlighted, this, [this](const KFileItem &item) {
+    connect(m_op, &KDirOperator::fileHighlighted, this, [this](const KFileItem &) {
         KFileItemList files = m_op->selectedItems();
-        if (item.isDir() || files.size() == 0) {
+        if (files.isEmpty()) {
+            m_filenameEdit->clear();
+            m_previewPanel->disableImport();
+            return;
+        }
+        const KFileItem item = files.constFirst();
+        if (item.isDir()) {
             m_filenameEdit->clear();
         } else {
-            const QString fileName = files.first().url().fileName();
+            const QString fileName = item.url().fileName();
+            qDebug() << ":::::: HIGHLIGHTD FILE: " << item.url();
             if (!fileName.isEmpty()) {
+                QUrl url = QUrl::fromLocalFile(fileName);
                 m_filenameEdit->setUrl(QUrl(fileName));
+                // m_fileLabel->setText(fileName);
             }
         }
+        m_previewPanel->fileSelected(files);
     });
     connect(m_op, &KDirOperator::contextMenuAboutToShow, this, [importAction](const KFileItem &, QMenu *menu) {
         QList<QAction *> act = menu->actions();
@@ -204,7 +220,46 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     hlay3->addWidget(b);
     lay->addWidget(tb);
     lay->addWidget(m_locationEdit);
-    lay->addWidget(m_op);
+
+    // preview panel
+    m_splitter = new QSplitter(this);
+    m_splitter->addWidget(m_op);
+    m_previewPanel = new PreviewPanel(this);
+    connect(m_previewPanel, &PreviewPanel::importSelection, this, &MediaBrowser::importSelection);
+
+    connect(preview, &QAction::triggered, this, [this](bool) {
+        QList<int> sizes = m_splitter->sizes();
+        if (sizes.count() > 1) {
+            int totalWidth = sizes.at(0) + sizes.at(1);
+            if (sizes.at(1) == 0 && KdenliveSettings::mediaManagerPanelWidth() > 0) {
+                m_splitter->setSizes({KdenliveSettings::mediaManagerPanelWidth(), totalWidth - KdenliveSettings::mediaManagerPanelWidth()});
+            } else {
+                m_splitter->setSizes({totalWidth, 0});
+            }
+        }
+        const QString splitterState = QString::fromUtf8(m_splitter->saveState().toBase64());
+        KdenliveSettings::setMediaManagerPanelLayout(splitterState);
+    });
+
+    connect(m_splitter, &QSplitter::splitterMoved, this, [this, preview](int pos, int index) {
+        if (index == 1 && pos != KdenliveSettings::mediaManagerPanelWidth()) {
+            int min = 0;
+            int max = 0;
+            m_splitter->getRange(1, &min, &max);
+            if (pos < max) {
+                preview->setChecked(false);
+                KdenliveSettings::setMediaManagerPanelWidth(pos);
+            } else {
+                preview->setChecked(true);
+            }
+            const QString splitterState = QString::fromUtf8(m_splitter->saveState().toBase64());
+            KdenliveSettings::setMediaManagerPanelLayout(splitterState);
+        }
+    });
+
+    m_splitter->addWidget(m_previewPanel);
+    lay->addWidget(m_splitter);
+
     lay->addLayout(hlay1);
     lay->addLayout(hlay2);
     lay->addLayout(hlay3);
@@ -212,6 +267,12 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         if (child->isWidgetType()) {
             child->installEventFilter(this);
         }
+    }
+    const QByteArray state = QByteArray::fromBase64(KdenliveSettings::mediaManagerPanelLayout().toUtf8());
+    m_splitter->restoreState(state);
+    QList<int> sizes = m_splitter->sizes();
+    if (sizes.count() > 1 && sizes.at(1) > 0) {
+        preview->setChecked(true);
     }
     connectView();
 }
@@ -235,22 +296,21 @@ void MediaBrowser::connectView()
             m_op->previewGenerator()->setEnabledPlugins(enabledPlugs);
         }
     }
-    m_op->setInlinePreviewShown(true);
     setFocusProxy(m_op->view());
     setFocusPolicy(Qt::ClickFocus);
 }
 
 void MediaBrowser::slotViewDoubleClicked()
 {
-    if (KdenliveSettings::mediaDoubleClickImport()) {
-        importSelection();
-        return;
-    }
     KFileItemList files = m_op->selectedItems();
     if (files.isEmpty()) {
         return;
     }
     if (files.first().isDir()) {
+        return;
+    }
+    if (KdenliveSettings::mediaDoubleClickImport()) {
+        importSelection();
         return;
     }
     openExternalFile(files.first().url());
@@ -263,6 +323,11 @@ void MediaBrowser::detectShortcutConflicts()
     m_browserActions.clear();
     m_conflictingAppActions.clear();
     for (auto &a : actions) {
+        /*if (a == m_op->action(KDirOperator::ShowPreviewPanel)) {
+            // We unconditionnaly disable this
+            a->setEnabled(false);
+            continue;
+        }*/
         QKeySequence sh = a->shortcut();
         if (!sh.isEmpty()) {
             shortcutsList << sh;

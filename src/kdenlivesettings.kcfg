@@ -1526,6 +1526,22 @@
       <label>Default size for media browser icons.</label>
       <default>16</default>
     </entry>
+    <entry name="mediaManagerPanelLayout" type="String">
+      <label>Show preview panel in browser.</label>
+      <default></default>
+    </entry>
+    <entry name="mediaManagerPanelWidth" type="Int">
+      <label>Default width for the preview panel.</label>
+      <default>0</default>
+    </entry>
+    <entry name="mediaBrowserAutoPlay" type="Bool">
+      <label>Autoplay preview in panel.</label>
+      <default>false</default>
+    </entry>
+    <entry name="mediaBrowserWithAudio" type="Bool">
+      <label>Play audio in browser.</label>
+      <default>true</default>
+    </entry>
     <entry name="mediaDoubleClickImport" type="Bool">
       <label>Show inline preview in media browser.</label>
       <default>true</default>
