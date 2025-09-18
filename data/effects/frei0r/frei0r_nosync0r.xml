@@ -7,4 +7,7 @@
     <parameter type="animated" name="HSync" max="1000" min="0" default="0" factor="1000">
         <name>HSync</name>
     </parameter>
+    <parameter type="animated" name="VSync" max="1000" min="0" default="0" factor="1000">
+        <name>VSync</name>
+    </parameter>
 </effect>
