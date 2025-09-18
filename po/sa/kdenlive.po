@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:40+0000\n"
+"POT-Creation-Date: 2025-09-18 02:36+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -24137,17 +24137,17 @@ msgstr "विडियो अङ्गुष्ठा"
 msgid "Loading clip"
 msgstr "क्लिप् लोड् भवति"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "<b>%1</b> सञ्चिकायाः अवधिः निर्धारयितुं न शक्यते ।"
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "<b>%1</b> सञ्चिका न अन्वेष्टव्या ।"
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> सञ्चिकायाः चरः फ्रेम रेट् अस्ति ।"

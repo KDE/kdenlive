@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:40+0000\n"
+"POT-Creation-Date: 2025-09-18 02:36+0000\n"
 "PO-Revision-Date: 2025-08-10 23:18+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -24059,17 +24059,17 @@ msgstr "Video sličice"
 msgid "Loading clip"
 msgstr "Nalaganje posnetka"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Trajanja datoteke <b>%1</b> ni možno določiti."
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Po datoteki <b>%1</b> ni možno iskati."
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Datoteka <b>%1</b> ima spremenljivo hitrost v sličicah na sekundo."

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:40+0000\n"
-"PO-Revision-Date: 2025-09-03 11:37+0300\n"
+"POT-Creation-Date: 2025-09-18 02:36+0000\n"
+"PO-Revision-Date: 2025-09-17 10:40+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19197,7 +19197,7 @@ msgstr "ניהול משימות סרטונים בסל"
 #: src/dialogs/clipjobmanager.cpp:44
 #, kde-format
 msgid "Arguments for the command line script"
-msgstr "ארגומנטים לסקריפט בשורת הפקודה"
+msgstr "ארגומנטים לסקריפט בשורת הפקודות"
 
 #: src/dialogs/clipjobmanager.cpp:46
 #, kde-kuit-format
@@ -23381,17 +23381,17 @@ msgstr "תמונות ממוזערות של הווידאו"
 msgid "Loading clip"
 msgstr "סרטון נטען"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "אי אפשר לקבוע את משך הקובץ <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "אי אפשר לחתור בקובץ <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "לקובץ <b>%1</b> יש קצב תמוניות משתנה."
