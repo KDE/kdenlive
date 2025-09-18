@@ -41,9 +41,10 @@ public:
     void forward();
     void fileSelected(KFileItemList files);
     void disableImport();
+    void resetPlayer();
 
 private:
-    QMediaPlayer *m_player;
+    QMediaPlayer *m_player{nullptr};
     QPointer<KIO::PreviewJob> m_previewJob{nullptr};
     KFileItem m_item;
     QVideoWidget *m_videoWidget;
@@ -56,10 +57,12 @@ private:
     KSqueezedTextLabel *m_durationLabel;
     KSqueezedTextLabel *m_dateLabel;
     bool m_isVideo{false};
+    bool m_useMedia{false};
     void openExternalFile(const QUrl &url);
     void startPlaying();
     void pausePlaying();
     void stopPlaying();
+    void buildPlayer();
 
 private Q_SLOTS:
     void refreshPixmapView();

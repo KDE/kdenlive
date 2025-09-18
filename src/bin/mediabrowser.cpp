@@ -234,6 +234,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
             if (sizes.at(1) == 0 && KdenliveSettings::mediaManagerPanelWidth() > 0) {
                 m_splitter->setSizes({KdenliveSettings::mediaManagerPanelWidth(), totalWidth - KdenliveSettings::mediaManagerPanelWidth()});
             } else {
+                m_previewPanel->resetPlayer();
                 m_splitter->setSizes({totalWidth, 0});
             }
         }
@@ -246,11 +247,13 @@ MediaBrowser::MediaBrowser(QWidget *parent)
             int min = 0;
             int max = 0;
             m_splitter->getRange(1, &min, &max);
+            qDebug() << "::::::: SPLITTER MOVED: " << pos << " < " << max;
             if (pos < max) {
-                preview->setChecked(false);
+                preview->setChecked(true);
                 KdenliveSettings::setMediaManagerPanelWidth(pos);
             } else {
-                preview->setChecked(true);
+                m_previewPanel->resetPlayer();
+                preview->setChecked(false);
             }
             const QString splitterState = QString::fromUtf8(m_splitter->saveState().toBase64());
             KdenliveSettings::setMediaManagerPanelLayout(splitterState);

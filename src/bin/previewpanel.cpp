@@ -39,12 +39,10 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     // lay->setSpacing(0);
 
     // Video preview
-    m_player = new QMediaPlayer(this);
     m_videoWidget = new QVideoWidget(this);
     m_videoWidget->setMinimumHeight(KIconLoader::SizeEnormous);
     m_videoWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     panelLayout->addWidget(m_videoWidget);
-    m_player->setVideoOutput(m_videoWidget);
 
     // Image preview
     m_imageWidget = new QLabel(this);
@@ -80,7 +78,9 @@ PreviewPanel::PreviewPanel(QWidget *parent)
         KdenliveSettings::setMediaBrowserWithAudio(muteAudio);
         bool wasPlaying = m_player->isPlaying();
         pausePlaying();
-        m_player->setAudioOutput(nullptr);
+        if (m_player) {
+            m_player->setAudioOutput(nullptr);
+        }
         if (wasPlaying) {
             startPlaying();
         }
@@ -105,67 +105,8 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_metadataLayout->addRow(autoPlay);
     panelLayout->addLayout(m_metadataLayout);
 
-    connect(m_player, &QMediaPlayer::playingChanged, this, [this](bool playing) {
-        if (playing) {
-            m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-        } else {
-            m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-        }
-    });
-    connect(m_player, &QMediaPlayer::metaDataChanged, this, [this]() {
-        const QMediaMetaData mData = m_player->metaData();
-        if (!mData.value(QMediaMetaData::Resolution).isNull() || !mData.value(QMediaMetaData::VideoFrameRate).isNull()) {
-            const QString fps = QString("%1").arg(mData.value(QMediaMetaData::VideoFrameRate).toReal(), 0, 'f', 2);
-            m_resolutionLabel->setText(
-                QStringLiteral("%1, %2%3")
-                    .arg(mData.stringValue(QMediaMetaData::Resolution), fps, i18nc("@info:label fps as frames per second shortcut", "fps")));
-        } else {
-            m_resolutionLabel->clear();
-        }
-        int audioTracks = m_player->audioTracks().size();
-        QString audioTracksLabel;
-        switch (audioTracks) {
-        case 0:
-            audioTracksLabel = i18n("No audio");
-            break;
-        default:
-            audioTracksLabel = i18ncp("@info:label indicate the number of audio tracks (streams) in a file", "1 audio track", "%1 audio tracks", audioTracks);
-            break;
-        }
-
-        if (!mData.value(QMediaMetaData::Duration).isNull()) {
-            m_durationLabel->setText(QStringLiteral("%1, %2").arg(mData.stringValue(QMediaMetaData::Duration)).arg(audioTracksLabel));
-        } else {
-            if (!m_player->source().isEmpty()) {
-                m_durationLabel->setText(audioTracksLabel);
-            } else {
-                m_durationLabel->clear();
-            }
-        }
-        if (!mData.value(QMediaMetaData::Date).isNull()) {
-            m_dateLabel->setText(mData.stringValue(QMediaMetaData::Date));
-        } else {
-            m_dateLabel->clear();
-        }
-    });
-
-    connect(m_player, &QMediaPlayer::sourceChanged, this, [this]() {
-        stopPlaying();
-        m_slider->setValue(0);
-        if (KdenliveSettings::mediaBrowserAutoPlay() && !m_player->source().isEmpty()) {
-            startPlaying();
-        }
-    });
-    connect(m_player, &QMediaPlayer::positionChanged, this, [this](qint64 position) { m_slider->setValue(100 * position / m_player->duration()); });
-    connect(m_slider, &QAbstractSlider::sliderMoved, this, [this](int position) {
-        if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
-            m_imageWidget->hide();
-            m_videoWidget->show();
-        }
-        m_player->setPosition(m_player->duration() * position / 100);
-    });
-
     connect(m_playButton, &QToolButton::clicked, this, [this]() {
+        buildPlayer();
         if (m_player->isPlaying()) {
             pausePlaying();
         } else {
@@ -190,6 +131,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
 
 void PreviewPanel::startPlaying()
 {
+    buildPlayer();
     if (KdenliveSettings::mediaBrowserWithAudio() && m_player->hasAudio()) {
         if (m_player->audioOutput() == nullptr) {
             m_player->setAudioOutput(new QAudioOutput);
@@ -200,13 +142,17 @@ void PreviewPanel::startPlaying()
 
 void PreviewPanel::pausePlaying()
 {
-    m_player->pause();
+    if (m_player) {
+        m_player->pause();
+    }
 }
 
 void PreviewPanel::stopPlaying()
 {
-    m_player->setAudioOutput(nullptr);
-    m_player->stop();
+    if (m_player) {
+        m_player->setAudioOutput(nullptr);
+        m_player->stop();
+    }
 }
 
 void PreviewPanel::disableImport()
@@ -234,23 +180,29 @@ void PreviewPanel::fileSelected(KFileItemList files)
     m_importButton->setEnabled(true);
     const QString mimeType = m_item.mimetype();
     m_isVideo = mimeType.startsWith(QLatin1String("video/"));
-    bool useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
-    if (useMedia) {
+    m_useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
+    if (m_useMedia) {
+        buildPlayer();
         m_player->setSource(m_item.url());
         m_playButton->setEnabled(true);
         m_slider->setEnabled(true);
         if (KdenliveSettings::mediaBrowserAutoPlay()) {
-            if (m_player->hasVideo()) {
+            if (m_isVideo) {
                 m_imageWidget->hide();
                 m_videoWidget->show();
             } else {
                 m_imageWidget->show();
                 m_videoWidget->hide();
+                refreshPixmapView();
             }
+            startPlaying();
             return;
         }
     } else {
-        m_player->setSource(QUrl());
+        if (m_player) {
+            stopPlaying();
+            m_player->setSource(QUrl());
+        }
         m_playButton->setEnabled(false);
         m_slider->setEnabled(false);
     }
@@ -304,7 +256,6 @@ void PreviewPanel::showPreview(const KFileItem &item, const QPixmap &pixmap)
     // m_outdatedPreviewTimer->stop();
 
     QPixmap p = pixmap;
-    qDebug() << "::: SETTING IMAGE PIXMAP....for:" << item.url();
     m_imageWidget->setPixmap(p.scaled(m_imageWidget->size(), Qt::KeepAspectRatio));
 
     //(m_imageWidget->size(), m_imageWidget->devicePixelRatioF());
@@ -325,4 +276,80 @@ void PreviewPanel::showPreview(const KFileItem &item, const QPixmap &pixmap)
         p = KIconUtils::addOverlays(p, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
         p.setDevicePixelRatio(devicePixelRatioF());
     }*/
+}
+
+void PreviewPanel::buildPlayer()
+{
+    if (m_player) {
+        return;
+    }
+    m_player = new QMediaPlayer(this);
+    m_player->setVideoOutput(m_videoWidget);
+    connect(m_player, &QMediaPlayer::playingChanged, this, [this](bool playing) {
+        if (playing) {
+            m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+        } else {
+            m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+        }
+    });
+    connect(m_player, &QMediaPlayer::metaDataChanged, this, [this]() {
+        const QMediaMetaData mData = m_player->metaData();
+        if (!mData.value(QMediaMetaData::Resolution).isNull() || !mData.value(QMediaMetaData::VideoFrameRate).isNull()) {
+            const QString fps = QString("%1").arg(mData.value(QMediaMetaData::VideoFrameRate).toReal(), 0, 'f', 2);
+            m_resolutionLabel->setText(
+                QStringLiteral("%1, %2%3")
+                    .arg(mData.stringValue(QMediaMetaData::Resolution), fps, i18nc("@info:label fps as frames per second shortcut", "fps")));
+        } else {
+            m_resolutionLabel->clear();
+        }
+        int audioTracks = m_player->audioTracks().size();
+        QString audioTracksLabel;
+        switch (audioTracks) {
+        case 0:
+            audioTracksLabel = i18n("No audio");
+            break;
+        default:
+            audioTracksLabel = i18ncp("@info:label indicate the number of audio tracks (streams) in a file", "1 audio track", "%1 audio tracks", audioTracks);
+            break;
+        }
+
+        if (!mData.value(QMediaMetaData::Duration).isNull()) {
+            m_durationLabel->setText(QStringLiteral("%1, %2").arg(mData.stringValue(QMediaMetaData::Duration)).arg(audioTracksLabel));
+        } else {
+            if (!m_player->source().isEmpty()) {
+                m_durationLabel->setText(audioTracksLabel);
+            } else {
+                m_durationLabel->clear();
+            }
+        }
+        if (!mData.value(QMediaMetaData::Date).isNull()) {
+            m_dateLabel->setText(mData.stringValue(QMediaMetaData::Date));
+        } else {
+            m_dateLabel->clear();
+        }
+    });
+
+    connect(m_player, &QMediaPlayer::positionChanged, this, [this](qint64 position) { m_slider->setValue(100 * position / m_player->duration()); });
+    connect(m_slider, &QAbstractSlider::sliderMoved, this, [this](int position) {
+        if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
+            m_imageWidget->hide();
+            m_videoWidget->show();
+        }
+        m_player->setPosition(m_player->duration() * position / 100);
+    });
+    if (m_useMedia) {
+        m_player->setSource(m_item.url());
+    }
+}
+
+void PreviewPanel::resetPlayer()
+{
+    if (m_player == nullptr) {
+        return;
+    }
+    stopPlaying();
+    delete m_player;
+    m_player = nullptr;
+    m_videoWidget->hide();
+    m_imageWidget->show();
 }
