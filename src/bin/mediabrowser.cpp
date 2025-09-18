@@ -247,7 +247,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
             int min = 0;
             int max = 0;
             m_splitter->getRange(1, &min, &max);
-            qDebug() << "::::::: SPLITTER MOVED: " << pos << " < " << max;
             if (pos < max) {
                 preview->setChecked(true);
                 KdenliveSettings::setMediaManagerPanelWidth(pos);
