@@ -385,8 +385,8 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?product=kdenlive</url>
   <url type="help">https://docs.kdenlive.org/?mtm_campaign=appstream_data&amp;mtm_kwd=help</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
-  <url type="contact">https://kdenlive.org/contact/?mtm_campaign=appstream_data&amp;mtm_kwd=contact</url>
-  <url type="contribute">https://kdenlive.org/developers-welcome/?mtm_campaign=appstream_data&amp;mtm_kwd=contribute</url>
+  <url type="contact">https://kdenlive.org/support/?mtm_campaign=appstream_data&amp;mtm_kwd=contact</url>
+  <url type="contribute">https://kdenlive.org/get-involved/?mtm_campaign=appstream_data&amp;mtm_kwd=contribute</url>
   <url type="translate">https://l10n.kde.org/</url>
   <url type="vcs-browser">https://invent.kde.org/multimedia/kdenlive</url>
   <screenshots>
