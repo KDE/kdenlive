@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-14 00:41+0000\n"
+"POT-Creation-Date: 2025-09-19 00:41+0000\n"
 "PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -18069,6 +18069,7 @@ msgid "CH"
 msgstr "KA"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
+#: src/bin/previewpanel.cpp:309
 #, kde-format
 msgid "No audio"
 msgstr "Audiorik ez"
@@ -18618,7 +18619,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Ordeztu denbora-lerroan"
 
-#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:329
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -19262,17 +19263,17 @@ msgstr "Ezin duzu proiektu bat bere barruan gehitu."
 msgid "Cannot create clip"
 msgstr "Ezin da klipa sortu"
 
-#: src/bin/clipcreator.cpp:345
+#: src/bin/clipcreator.cpp:344
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Sortu Irudi-segida klipa"
 
-#: src/bin/clipcreator.cpp:377
+#: src/bin/clipcreator.cpp:376
 #, kde-format
 msgid "Create title template"
 msgstr "Sortu izenburu txantiloia"
 
-#: src/bin/clipcreator.cpp:401
+#: src/bin/clipcreator.cpp:400
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -19282,13 +19283,13 @@ msgstr "Honako klipak jadanik proiektuan txertatu dira. Bikoiztu nahi dituzu?"
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:402 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:401 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Bikoiztu"
 
-#: src/bin/clipcreator.cpp:546
+#: src/bin/clipcreator.cpp:545
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -19301,17 +19302,17 @@ msgstr ""
 " Agian zure disko gogorrean kopiatu nahi duzu erabili aurretik.  Hala ere "
 "gehitu nahi duzu?"
 
-#: src/bin/clipcreator.cpp:550
+#: src/bin/clipcreator.cpp:549
 #, kde-format
 msgid "Removable device"
 msgstr "Gailu aldagarria"
 
-#: src/bin/clipcreator.cpp:579
+#: src/bin/clipcreator.cpp:578
 #, kde-format
 msgid "Loading done"
 msgstr "Kargatzea osatua"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19336,29 +19337,35 @@ msgstr "Iraupena:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT erreprodukzio-zerrenda (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:55
 #, kde-format
 msgid "Zoom In"
 msgstr "Zooma gerturatu"
 
-#: src/bin/mediabrowser.cpp:54
+#: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Zoom Out"
 msgstr "Txikiagotu zooma"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:57
 #, kde-format
 msgid "Import Selection"
 msgstr "Inportatu hautapena"
 
-#: src/bin/mediabrowser.cpp:57
+#: src/bin/mediabrowser.cpp:59
 #, kde-format
 msgid "Import File on Double Click"
 msgstr "Inportatu fitxategia klik bikoitza egitean"
 
+#: src/bin/mediabrowser.cpp:76
+#, fuzzy, kde-format
+#| msgid "Show Preview >>>"
+msgid "Show Preview Panel"
+msgstr "Erakutsi aurreikuspegia >>>"
+
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:181
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -19366,22 +19373,22 @@ msgstr "Inportatu fitxategia klik bikoitza egitean"
 msgid "Name:"
 msgstr "Izena:"
 
-#: src/bin/mediabrowser.cpp:185
+#: src/bin/mediabrowser.cpp:201
 #, kde-format
 msgid "Filter:"
 msgstr "Iragazkia:"
 
-#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ez ikusi azpikarpeten egitura"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Ez sortu azpikarpetarik proiektu-ontzian"
 
-#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19391,17 +19398,17 @@ msgstr ""
 "Gaituta dagoenan, Kdenlivek, karpetan eta bere azpikarpetetan dauden klip "
 "guztiak inportatuko ditu, Proiektu-ontzian azpikarpetak sortu gabe."
 
-#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "Inportatu irudi-sekuentzia"
 
-#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Saiatu irudi-sekuentzia bat inportatzen"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19612,6 +19619,82 @@ msgstr "bertsioa"
 #, kde-format
 msgid "Sequence count"
 msgstr "Sekuentzia kopurua"
+
+#: src/bin/previewpanel.cpp:58
+#, fuzzy, kde-format
+#| msgid "Play Zone"
+msgctxt "@info:tooltip play a video or audio file"
+msgid "Play media"
+msgstr "Erreproduzitu eskualdea"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Unmute"
+msgstr "Ozenduta"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Mute"
+msgstr "Isilarazi"
+
+#: src/bin/previewpanel.cpp:71
+#, fuzzy, kde-format
+#| msgid "Mute Video"
+msgctxt "@info:tooltip"
+msgid "Mute audio"
+msgstr "Bideoa mututu"
+
+#: src/bin/previewpanel.cpp:72
+#, fuzzy, kde-format
+#| msgid "Unmute Monitor"
+msgctxt "@info:tooltip"
+msgid "Unmute audio"
+msgstr "Gaitu Monitorearen Audioa"
+
+#: src/bin/previewpanel.cpp:101
+#, fuzzy, kde-format
+#| msgid "Auto"
+msgctxt "@action:checkbox enable automatic playback"
+msgid "Autoplay"
+msgstr "Automatikoa"
+
+#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#, fuzzy, kde-format
+#| msgid "Import Subtitle"
+msgctxt "@action:button"
+msgid "Import File"
+msgstr "Inportatu Azpidatzia"
+
+#: src/bin/previewpanel.cpp:167
+#, fuzzy, kde-format
+#| msgid "Import guides"
+msgctxt "@action:button"
+msgid "Import %1 Files"
+msgstr "Inportatu gidalerroak"
+
+#: src/bin/previewpanel.cpp:170
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgctxt "@action:button"
+msgid "Import Folder"
+msgstr "Sortu karpeta"
+
+#: src/bin/previewpanel.cpp:301
+#, fuzzy, kde-format
+#| msgctxt "frames per second"
+#| msgid "fps"
+msgctxt "@info:label fps as frames per second shortcut"
+msgid "fps"
+msgstr "fps"
+
+#: src/bin/previewpanel.cpp:312
+#, fuzzy, kde-format
+#| msgid "A&udio track"
+msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
+msgid "1 audio track"
+msgid_plural "%1 audio tracks"
+msgstr[0] "A&udio pista"
+msgstr[1] "A&udio pista"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -24507,17 +24590,17 @@ msgstr "Bideoen koadro-txikiak"
 msgid "Loading clip"
 msgstr "Klipa kargatzen"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "<b>%1</b> fitxategiaren iraupena ezin da zehaztu."
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "<b>%1</b> fitxategian ezin da bilaketarik egin."
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> fitxategiak fotograma-emari aldakorra darabil."
@@ -32855,16 +32938,6 @@ msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Maius</b> mota bereko pista guztiak erakusteko/ezkutatzeko (audioa/bideoa)"
 
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Unmute"
-msgstr "Ozenduta"
-
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Mute"
-msgstr "Isilarazi"
-
 #: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
@@ -39356,9 +39429,6 @@ msgstr "%1h"
 
 #~ msgid "Edit guide"
 #~ msgstr "Editatu gidalerroa"
-
-#~ msgid "Import guides"
-#~ msgstr "Inportatu gidalerroak"
 
 #~ msgid "Edit Guides Category"
 #~ msgstr "Editatu gidalerroen kategoria"

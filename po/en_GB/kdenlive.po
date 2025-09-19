@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-14 00:41+0000\n"
+"POT-Creation-Date: 2025-09-19 00:41+0000\n"
 "PO-Revision-Date: 2024-11-16 12:52+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -18109,6 +18109,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
+#: src/bin/previewpanel.cpp:309
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -18663,7 +18664,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Replace in timeline"
 
-#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:329
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -19306,17 +19307,17 @@ msgstr "You cannot add a project inside itself."
 msgid "Cannot create clip"
 msgstr "Cannot create clip"
 
-#: src/bin/clipcreator.cpp:345
+#: src/bin/clipcreator.cpp:344
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Create slideshow clip"
 
-#: src/bin/clipcreator.cpp:377
+#: src/bin/clipcreator.cpp:376
 #, kde-format
 msgid "Create title template"
 msgstr "Create title template"
 
-#: src/bin/clipcreator.cpp:401
+#: src/bin/clipcreator.cpp:400
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -19328,13 +19329,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:402 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:401 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: src/bin/clipcreator.cpp:546
+#: src/bin/clipcreator.cpp:545
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -19347,17 +19348,17 @@ msgstr ""
 "You may want to copy it first to your hard-drive. Would you like to add it "
 "anyway?"
 
-#: src/bin/clipcreator.cpp:550
+#: src/bin/clipcreator.cpp:549
 #, kde-format
 msgid "Removable device"
 msgstr "Removable device"
 
-#: src/bin/clipcreator.cpp:579
+#: src/bin/clipcreator.cpp:578
 #, kde-format
 msgid "Loading done"
 msgstr "Loading done"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19382,29 +19383,35 @@ msgstr "Duration:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT Playlist (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:55
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom In"
 
-#: src/bin/mediabrowser.cpp:54
+#: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zoom Out"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:57
 #, kde-format
 msgid "Import Selection"
 msgstr "Import Selection"
 
-#: src/bin/mediabrowser.cpp:57
+#: src/bin/mediabrowser.cpp:59
 #, kde-format
 msgid "Import File on Double Click"
 msgstr "Import File on Double Click"
 
+#: src/bin/mediabrowser.cpp:76
+#, fuzzy, kde-format
+#| msgid "Show Preview >>>"
+msgid "Show Preview Panel"
+msgstr "Show Preview >>>"
+
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:181
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -19412,22 +19419,22 @@ msgstr "Import File on Double Click"
 msgid "Name:"
 msgstr "Name:"
 
-#: src/bin/mediabrowser.cpp:185
+#: src/bin/mediabrowser.cpp:201
 #, kde-format
 msgid "Filter:"
 msgstr "Filter:"
 
-#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ignore subfolder structure"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Do not create subfolders in Project Bin"
 
-#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19437,17 +19444,17 @@ msgstr ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 
-#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "Import image sequence"
 
-#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Try to import an image sequence"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19658,6 +19665,82 @@ msgstr "version"
 #, kde-format
 msgid "Sequence count"
 msgstr "Sequence count"
+
+#: src/bin/previewpanel.cpp:58
+#, fuzzy, kde-format
+#| msgid "Play Zone"
+msgctxt "@info:tooltip play a video or audio file"
+msgid "Play media"
+msgstr "Play Zone"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Unmute"
+msgstr "Unmute"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Mute"
+msgstr "Mute"
+
+#: src/bin/previewpanel.cpp:71
+#, fuzzy, kde-format
+#| msgid "Mute Video"
+msgctxt "@info:tooltip"
+msgid "Mute audio"
+msgstr "Mute Video"
+
+#: src/bin/previewpanel.cpp:72
+#, fuzzy, kde-format
+#| msgid "Unmute Monitor"
+msgctxt "@info:tooltip"
+msgid "Unmute audio"
+msgstr "Unmute Monitor"
+
+#: src/bin/previewpanel.cpp:101
+#, fuzzy, kde-format
+#| msgid "Auto"
+msgctxt "@action:checkbox enable automatic playback"
+msgid "Autoplay"
+msgstr "Auto"
+
+#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#, fuzzy, kde-format
+#| msgid "Import Subtitle"
+msgctxt "@action:button"
+msgid "Import File"
+msgstr "Import Subtitle"
+
+#: src/bin/previewpanel.cpp:167
+#, fuzzy, kde-format
+#| msgid "Import guides"
+msgctxt "@action:button"
+msgid "Import %1 Files"
+msgstr "Import guides"
+
+#: src/bin/previewpanel.cpp:170
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgctxt "@action:button"
+msgid "Import Folder"
+msgstr "Create Folder"
+
+#: src/bin/previewpanel.cpp:301
+#, fuzzy, kde-format
+#| msgctxt "frames per second"
+#| msgid "fps"
+msgctxt "@info:label fps as frames per second shortcut"
+msgid "fps"
+msgstr "fps"
+
+#: src/bin/previewpanel.cpp:312
+#, fuzzy, kde-format
+#| msgid "A&udio track"
+msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
+msgid "1 audio track"
+msgid_plural "%1 audio tracks"
+msgstr[0] "A&udio track"
+msgstr[1] "A&udio track"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -24539,17 +24622,17 @@ msgstr "Video thumbs"
 msgid "Loading clip"
 msgstr "Loading clip"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Duration of file <b>%1</b> cannot be determined."
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "File <b>%1</b> is not seekable."
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> has a variable frame rate."
@@ -32899,16 +32982,6 @@ msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Unmute"
-msgstr "Unmute"
-
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Mute"
-msgstr "Mute"
-
 #: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
@@ -39392,9 +39465,6 @@ msgstr "%1h"
 
 #~ msgid "Edit guide"
 #~ msgstr "Edit guide"
-
-#~ msgid "Import guides"
-#~ msgstr "Import guides"
 
 #~ msgid "Edit Guides Category"
 #~ msgstr "Edit Guides Category"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-14 00:41+0000\n"
+"POT-Creation-Date: 2025-09-19 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -17982,6 +17982,7 @@ msgid "CH"
 msgstr "ग"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
+#: src/bin/previewpanel.cpp:309
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -18525,7 +18526,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "समयरेखायां प्रतिस्थापनं कुर्वन्तु"
 
-#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:329
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -19165,17 +19166,17 @@ msgstr "भवन्तः स्वस्य अन्तः परियोज
 msgid "Cannot create clip"
 msgstr "क्लिप् निर्मातुं न शक्यते"
 
-#: src/bin/clipcreator.cpp:345
+#: src/bin/clipcreator.cpp:344
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "स्लाइड्शो क्लिप् रचयन्तु"
 
-#: src/bin/clipcreator.cpp:377
+#: src/bin/clipcreator.cpp:376
 #, kde-format
 msgid "Create title template"
 msgstr "शीर्षक टेम्पलेट रचयन्तु"
 
-#: src/bin/clipcreator.cpp:401
+#: src/bin/clipcreator.cpp:400
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -19187,13 +19188,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:402 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:401 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "डुप्लिकेट्"
 
-#: src/bin/clipcreator.cpp:546
+#: src/bin/clipcreator.cpp:545
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -19205,17 +19206,17 @@ msgstr ""
 "स्थापितं भवति तदा उपलब्धं न भविष्यति । भवान् प्रथमं स्वस्य हार्ड-ड्राइव् मध्ये तस्य प्रतिलिपिं "
 "कर्तुम् इच्छति । तथापि भवन्तः तत् योजयितुम् इच्छन्ति वा ?"
 
-#: src/bin/clipcreator.cpp:550
+#: src/bin/clipcreator.cpp:549
 #, kde-format
 msgid "Removable device"
 msgstr "हटनीयं यन्त्रम्"
 
-#: src/bin/clipcreator.cpp:579
+#: src/bin/clipcreator.cpp:578
 #, kde-format
 msgid "Loading done"
 msgstr "लोडिंग् कृतम्"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19240,29 +19241,35 @@ msgstr "अवधि:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT प्लेलिस्ट (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:55
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom In इति"
 
-#: src/bin/mediabrowser.cpp:54
+#: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zoom Out इति"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:57
 #, kde-format
 msgid "Import Selection"
 msgstr "आयात चयन"
 
-#: src/bin/mediabrowser.cpp:57
+#: src/bin/mediabrowser.cpp:59
 #, kde-format
 msgid "Import File on Double Click"
 msgstr "Double Click इत्यत्र File आयातयन्तु"
 
+#: src/bin/mediabrowser.cpp:76
+#, fuzzy, kde-format
+#| msgid "Show Preview >>>"
+msgid "Show Preview Panel"
+msgstr "पूर्वावलोकनं दर्शयतु >>>"
+
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:181
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -19270,22 +19277,22 @@ msgstr "Double Click इत्यत्र File आयातयन्तु"
 msgid "Name:"
 msgstr "नामः:"
 
-#: src/bin/mediabrowser.cpp:185
+#: src/bin/mediabrowser.cpp:201
 #, kde-format
 msgid "Filter:"
 msgstr "फ़िल्टर :"
 
-#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "उपपुटसंरचनायाः अवहेलना कुर्वन्तु"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Project Bin मध्ये उपपुटं न रचयन्तु"
 
-#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19295,17 +19302,17 @@ msgstr ""
 "यदा सक्षमं भवति तदा Kdenlive Project Bin मध्ये उपपुटं न निर्माय पुटे निहिताः सर्वाणि "
 "क्लिप्स् तस्य उपपुटं च आयातयिष्यति ।"
 
-#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "इमेज अनुक्रम आयात करें"
 
-#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "एकं चित्रक्रमं आयातयितुं प्रयतध्वम्"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19516,6 +19523,82 @@ msgstr "संस्करण"
 #, kde-format
 msgid "Sequence count"
 msgstr "अनुक्रमगणना"
+
+#: src/bin/previewpanel.cpp:58
+#, fuzzy, kde-format
+#| msgid "Play Zone"
+msgctxt "@info:tooltip play a video or audio file"
+msgid "Play media"
+msgstr "Play Zone इति"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Unmute"
+msgstr "अप्रसन्नता"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Mute"
+msgstr "मूक"
+
+#: src/bin/previewpanel.cpp:71
+#, fuzzy, kde-format
+#| msgid "Mute Video"
+msgctxt "@info:tooltip"
+msgid "Mute audio"
+msgstr "म्यूट विडियो"
+
+#: src/bin/previewpanel.cpp:72
+#, fuzzy, kde-format
+#| msgid "Unmute Monitor"
+msgctxt "@info:tooltip"
+msgid "Unmute audio"
+msgstr "अनम्यूट मॉनिटर"
+
+#: src/bin/previewpanel.cpp:101
+#, fuzzy, kde-format
+#| msgid "Auto"
+msgctxt "@action:checkbox enable automatic playback"
+msgid "Autoplay"
+msgstr "ऑटो"
+
+#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#, fuzzy, kde-format
+#| msgid "Import Subtitle"
+msgctxt "@action:button"
+msgid "Import File"
+msgstr "उपशीर्षक आयात करें"
+
+#: src/bin/previewpanel.cpp:167
+#, fuzzy, kde-format
+#| msgid "Import Subtitle"
+msgctxt "@action:button"
+msgid "Import %1 Files"
+msgstr "उपशीर्षक आयात करें"
+
+#: src/bin/previewpanel.cpp:170
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgctxt "@action:button"
+msgid "Import Folder"
+msgstr "Folder रचयन्तु"
+
+#: src/bin/previewpanel.cpp:301
+#, fuzzy, kde-format
+#| msgctxt "frames per second"
+#| msgid "fps"
+msgctxt "@info:label fps as frames per second shortcut"
+msgid "fps"
+msgstr "fps"
+
+#: src/bin/previewpanel.cpp:312
+#, fuzzy, kde-format
+#| msgid "A&udio track"
+msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
+msgid "1 audio track"
+msgid_plural "%1 audio tracks"
+msgstr[0] "श्रव्यपट्टिका"
+msgstr[1] "श्रव्यपट्टिका"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -24355,17 +24438,17 @@ msgstr "विडियो अङ्गुष्ठा"
 msgid "Loading clip"
 msgstr "क्लिप् लोड् भवति"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "<b>%1</b> सञ्चिकायाः अवधिः निर्धारयितुं न शक्यते ।"
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "<b>%1</b> सञ्चिका न अन्वेष्टव्या ।"
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> सञ्चिकायाः चरः फ्रेम रेट् अस्ति ।"
@@ -32669,16 +32752,6 @@ msgstr "ट्रैक प्रभावं टॉगल कुर्वन्
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "समानप्रकारस्य सर्वाणि पटलानि (श्रव्य/वीडियो) संकुचनं/विस्तारं कर्तुं <b>शिफ्टं कुर्वन्तु</b>"
-
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Unmute"
-msgstr "अप्रसन्नता"
-
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Mute"
-msgstr "मूक"
 
 #: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format

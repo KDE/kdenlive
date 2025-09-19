@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-14 00:41+0000\n"
+"POT-Creation-Date: 2025-09-19 00:41+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -18106,6 +18106,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
+#: src/bin/previewpanel.cpp:309
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "No audio"
@@ -18677,7 +18678,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Klipek betöltése"
 
-#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:329
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, fuzzy, kde-format
 #| msgid "Add clip"
@@ -19395,19 +19396,19 @@ msgstr "Nem lehet beszúrni az aktuális Kdenlive dokumentumot saját magába."
 msgid "Cannot create clip"
 msgstr "Nem fordítható meg a klip"
 
-#: src/bin/clipcreator.cpp:345
+#: src/bin/clipcreator.cpp:344
 #, fuzzy, kde-format
 #| msgid "Create Slideshow Clip"
 msgid "Create slideshow clip"
 msgstr "Diavetítés létrehozása"
 
-#: src/bin/clipcreator.cpp:377
+#: src/bin/clipcreator.cpp:376
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create title template"
 msgstr "Új profil létrehozása"
 
-#: src/bin/clipcreator.cpp:401
+#: src/bin/clipcreator.cpp:400
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -19422,14 +19423,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:402 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:401 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Duplicate"
 msgstr "Klip törlése"
 
-#: src/bin/clipcreator.cpp:546
+#: src/bin/clipcreator.cpp:545
 #, fuzzy, kde-format
 #| msgid ""
 #| "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -19443,19 +19444,19 @@ msgstr ""
 "A(z) <b>%1</b> klip<br />egy hordozható eszközön van, nem lesz elérhető, ha "
 "az eszközt kihúzzák"
 
-#: src/bin/clipcreator.cpp:550
+#: src/bin/clipcreator.cpp:549
 #, fuzzy, kde-format
 #| msgid "Mobile devices"
 msgid "Removable device"
 msgstr "Mobil eszközök"
 
-#: src/bin/clipcreator.cpp:579
+#: src/bin/clipcreator.cpp:578
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading done"
 msgstr "Projekt betöltése"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19481,30 +19482,36 @@ msgstr "Időtartam:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "Lejátszólista klip"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:55
 #, kde-format
 msgid "Zoom In"
 msgstr "Nagyítás"
 
-#: src/bin/mediabrowser.cpp:54
+#: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Zoom Out"
 msgstr "Kicsinyítés"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:57
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Import Selection"
 msgstr "Szín kiválasztása"
 
-#: src/bin/mediabrowser.cpp:57
+#: src/bin/mediabrowser.cpp:59
 #, kde-format
 msgid "Import File on Double Click"
 msgstr ""
 
+#: src/bin/mediabrowser.cpp:76
+#, fuzzy, kde-format
+#| msgid "untitled"
+msgid "Show Preview Panel"
+msgstr "névtelen"
+
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:181
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -19513,24 +19520,24 @@ msgstr ""
 msgid "Name:"
 msgstr "Név"
 
-#: src/bin/mediabrowser.cpp:185
+#: src/bin/mediabrowser.cpp:201
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter:"
 msgstr "%1 szűrése"
 
-#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
 #, fuzzy, kde-format
 #| msgid "Insert zone in project tree"
 msgid "Do not create subfolders in Project Bin"
 msgstr "Zóna beszúrása a projektfába"
 
-#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19538,18 +19545,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "Képsorozat importálása"
 
-#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "Képsorozat importálása"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19781,6 +19788,82 @@ msgstr "Verzió 0.5 svn"
 #| msgid "Sequence name"
 msgid "Sequence count"
 msgstr "Sorozatnév"
+
+#: src/bin/previewpanel.cpp:58
+#, fuzzy, kde-format
+#| msgid "Play Zone"
+msgctxt "@info:tooltip play a video or audio file"
+msgid "Play media"
+msgstr "Lejátszási zóna"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, fuzzy, kde-format
+#| msgid "Unmute Track"
+msgid "Unmute"
+msgstr "Sáv visszahangosítása"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Mute"
+msgstr "Némítás"
+
+#: src/bin/previewpanel.cpp:71
+#, fuzzy, kde-format
+#| msgid "mute video"
+msgctxt "@info:tooltip"
+msgid "Mute audio"
+msgstr "videó elnémítása"
+
+#: src/bin/previewpanel.cpp:72
+#, fuzzy, kde-format
+#| msgid "Switch monitor"
+msgctxt "@info:tooltip"
+msgid "Unmute audio"
+msgstr "Monitor váltása"
+
+#: src/bin/previewpanel.cpp:101
+#, fuzzy, kde-format
+#| msgid "Auto"
+msgctxt "@action:checkbox enable automatic playback"
+msgid "Autoplay"
+msgstr "Automatikus"
+
+#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#, fuzzy, kde-format
+#| msgid "Load markers"
+msgctxt "@action:button"
+msgid "Import File"
+msgstr "Jelölők betöltése"
+
+#: src/bin/previewpanel.cpp:167
+#, fuzzy, kde-format
+#| msgid "Load markers"
+msgctxt "@action:button"
+msgid "Import %1 Files"
+msgstr "Jelölők betöltése"
+
+#: src/bin/previewpanel.cpp:170
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgctxt "@action:button"
+msgid "Import Folder"
+msgstr "Mappa létrehozása"
+
+#: src/bin/previewpanel.cpp:301
+#, fuzzy, kde-format
+#| msgid "fps"
+msgctxt "@info:label fps as frames per second shortcut"
+msgid "fps"
+msgstr "FPS"
+
+#: src/bin/previewpanel.cpp:312
+#, fuzzy, kde-format
+#| msgid "Audio track"
+msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
+msgid "1 audio track"
+msgid_plural "%1 audio tracks"
+msgstr[0] "Hang sáv"
+msgstr[1] "Hang sáv"
 
 #: src/bin/projectclip.cpp:257
 #, fuzzy, kde-format
@@ -24883,17 +24966,17 @@ msgstr "Bélyegképek"
 msgid "Loading clip"
 msgstr "Klipek betöltése"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -33629,17 +33712,6 @@ msgstr "Takaró effekt"
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, fuzzy, kde-format
-#| msgid "Unmute Track"
-msgid "Unmute"
-msgstr "Sáv visszahangosítása"
-
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Mute"
-msgstr "Némítás"
-
 #: src/timeline2/view/qml/TrackHead.qml:491
 #, fuzzy, kde-format
 #| msgid "Track mouse"
@@ -40522,11 +40594,6 @@ msgstr "%1 ó"
 
 #~ msgid "Edit guide"
 #~ msgstr "Segédpont szerkesztése"
-
-#, fuzzy
-#~| msgid "Load markers"
-#~ msgid "Import guides"
-#~ msgstr "Jelölők betöltése"
 
 #, fuzzy
 #~| msgid "Edit Guide"

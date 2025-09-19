@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-14 00:41+0000\n"
-"PO-Revision-Date: 2025-09-17 10:40+0300\n"
+"POT-Creation-Date: 2025-09-19 00:41+0000\n"
+"PO-Revision-Date: 2025-09-18 09:49+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -855,10 +855,9 @@ msgid "Normalize"
 msgstr "נרמול"
 
 #: data/effects/avfilter/avfilter_allpass.xml:24
-#, fuzzy, kde-format
-#| msgid "Border"
+#, kde-format
 msgid "Order"
-msgstr "מסגרת"
+msgstr "סידור"
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
 #: data/effects/avfilter/avfilter_bass.xml:22
@@ -878,10 +877,9 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgid "Transform type"
-msgstr "התמרה"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -927,16 +925,14 @@ msgid "Phaser"
 msgstr "משלב"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
-#, fuzzy, kde-format
-#| msgid "Duration (seconds)"
+#, kde-format
 msgid "Delay in milliseconds"
-msgstr "משך (שניות)"
+msgstr "השהיה במילישניות"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation type"
-msgstr "מאפננים"
+msgstr "סוג מאפנן"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
 #: data/effects/avfilter/avfilter_flanger.xml:30
@@ -962,10 +958,9 @@ msgid "sine,triangle,square,sawup,sawdown"
 msgstr "סינוס,משולש,ריבוע,שינון מעלה,שינון מטה"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation"
-msgstr "מאפננים"
+msgstr "אפנון"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
 #, fuzzy, kde-format
@@ -3026,10 +3021,9 @@ msgid "Screen type"
 msgstr "סוג מסך"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "ירוק-כחול"
+msgstr "ירוק,כחול"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -8026,7 +8020,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_B.xml:5
 #, kde-format
 msgid "Extracts Blue from Image"
-msgstr ""
+msgstr "חילוץ כחול מתמונה"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
 #, kde-format
@@ -8170,7 +8164,7 @@ msgstr "<![CDATA[הפעלת משתנים לחלק העליון]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
 #, kde-format
 msgid "<![CDATA[<b>--Top--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--למעלה--</b> התחלה]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
 #, kde-format
@@ -9487,13 +9481,13 @@ msgstr "עקומות"
 #: data/effects/frei0r/frei0r_levels.xml:72
 #, kde-format
 msgid "Red,Green,Blue,Luma"
-msgstr ""
+msgstr "אדום,ירוק,כחול,לומה"
 
 #: data/effects/frei0r/frei0r_curves.xml:19
 #: data/effects/frei0r/frei0r_curves.xml:74
 #, kde-format
 msgid "Number of curve points"
-msgstr ""
+msgstr "מספר נקודות עיקול"
 
 #: data/effects/frei0r/frei0r_curves.xml:22
 #: data/effects/frei0r/frei0r_curves.xml:77
@@ -13628,10 +13622,9 @@ msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "החלת האפקטים הקודמים בקטע שוגדר על ידי האפקט התחלת מסכה."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "התחלה"
+msgstr "התחלת מסכה"
 
 #: data/effects/mask_start.xml:5
 #, fuzzy, kde-format
@@ -17224,6 +17217,7 @@ msgid "CH"
 msgstr "ער׳"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
+#: src/bin/previewpanel.cpp:309
 #, kde-format
 msgid "No audio"
 msgstr "אין שמע"
@@ -17761,7 +17755,7 @@ msgstr "אי אפשר להחליף סרטון בסוג אחר של סרטון (�
 msgid "Replace in timeline"
 msgstr "החלפה בציר הזמן"
 
-#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:330
+#: src/bin/bin.cpp:2382 src/bin/bin.cpp:6066 src/bin/clipcreator.cpp:329
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -18405,17 +18399,17 @@ msgstr "אי אפשר להוסיף מיזם לתוך עצמו."
 msgid "Cannot create clip"
 msgstr "לא ניתן ליצור סרטון"
 
-#: src/bin/clipcreator.cpp:345
+#: src/bin/clipcreator.cpp:344
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "יצירת סרטון מצגת"
 
-#: src/bin/clipcreator.cpp:377
+#: src/bin/clipcreator.cpp:376
 #, kde-format
 msgid "Create title template"
 msgstr "יצירת תבנית כותר"
 
-#: src/bin/clipcreator.cpp:401
+#: src/bin/clipcreator.cpp:400
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -18425,13 +18419,13 @@ msgstr "הסרטונים הבאים כבר נוספו למיזם. לשכפל א�
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:402 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:401 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "שכפול"
 
-#: src/bin/clipcreator.cpp:546
+#: src/bin/clipcreator.cpp:545
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -18443,17 +18437,17 @@ msgstr ""
 "יעוגן למקום אחר.\n"
 "כנראה שעדיף להעתיק אותו לכונן הקשיח שלך תחילה. להוסיף אותו בכל זאת?"
 
-#: src/bin/clipcreator.cpp:550
+#: src/bin/clipcreator.cpp:549
 #, kde-format
 msgid "Removable device"
 msgstr "התקן נתיק"
 
-#: src/bin/clipcreator.cpp:579
+#: src/bin/clipcreator.cpp:578
 #, kde-format
 msgid "Loading done"
 msgstr "הטעינה הושלמה"
 
-#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -18480,29 +18474,35 @@ msgstr "משך:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "רשימת נגינה מסוג MLT‏ (‎*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:55
 #, kde-format
 msgid "Zoom In"
 msgstr "התקרבות"
 
-#: src/bin/mediabrowser.cpp:54
+#: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Zoom Out"
 msgstr "התרחקות"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:57
 #, kde-format
 msgid "Import Selection"
 msgstr "ייבוא בחירה"
 
-#: src/bin/mediabrowser.cpp:57
+#: src/bin/mediabrowser.cpp:59
 #, kde-format
 msgid "Import File on Double Click"
 msgstr "ייבוא קובץ בלחיצה כפולה"
 
+#: src/bin/mediabrowser.cpp:76
+#, fuzzy, kde-format
+#| msgid "Show Preview >>>"
+msgid "Show Preview Panel"
+msgstr "הצגת תצוגה מקדימה >>>"
+
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:181
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:656
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -18510,22 +18510,22 @@ msgstr "ייבוא קובץ בלחיצה כפולה"
 msgid "Name:"
 msgstr "שם:"
 
-#: src/bin/mediabrowser.cpp:185
+#: src/bin/mediabrowser.cpp:201
 #, kde-format
 msgid "Filter:"
 msgstr "מסנן:"
 
-#: src/bin/mediabrowser.cpp:189 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "התעלמות ממבנה תת־תיקיות"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "לט ליצוא תת־תיקיות בסל המיזם"
 
-#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18535,17 +18535,17 @@ msgstr ""
 "כשהאפשרות מסומנת, Kdenlive ייבא את כל הסרטונים בתיקייה על תת־תיקיותיה מבלי "
 "ליצור את תת־התיקיות בסל המיזם."
 
-#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "ייבוא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "לנסות לייבא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18556,10 +18556,9 @@ msgstr ""
 "כרצף תמונות."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "עדכון קטגוריות קווים מנחים"
+msgstr "עדכון קטגוריות סמני ציר זמן"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -18578,16 +18577,14 @@ msgid "Delete marker"
 msgstr "מחיקת סמן"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "העברת שכבה"
+msgstr "העברת סמן"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "שינוי שם סמן"
+msgstr "שינוי גודל סמן"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -18613,10 +18610,9 @@ msgstr "מחיקת כל הסמנים"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "לא נמצא קו מנחה במקום הנוכחי"
+msgstr "לא נמצא סמן במקום הנוכחי"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -18649,22 +18645,19 @@ msgid "Add markers"
 msgstr "הוספת סמנים"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "עדכון תמונית מפתח"
+msgstr "עדכון סמן טווח"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "המרת רשת צבע."
+msgstr "המרה לסמן טווח"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "הוספת סמן"
+msgstr "הוספת סמן טווח"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -18756,6 +18749,82 @@ msgstr "גרסה"
 #, kde-format
 msgid "Sequence count"
 msgstr "כמות רצפים"
+
+#: src/bin/previewpanel.cpp:58
+#, fuzzy, kde-format
+#| msgid "Play Zone"
+msgctxt "@info:tooltip play a video or audio file"
+msgid "Play media"
+msgstr "ניגון קטע"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Unmute"
+msgstr "ביטול השתקה"
+
+#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#, kde-format
+msgid "Mute"
+msgstr "השתקה"
+
+#: src/bin/previewpanel.cpp:71
+#, fuzzy, kde-format
+#| msgid "Mute Video"
+msgctxt "@info:tooltip"
+msgid "Mute audio"
+msgstr "השתקת וידאו"
+
+#: src/bin/previewpanel.cpp:72
+#, fuzzy, kde-format
+#| msgid "Unmute Monitor"
+msgctxt "@info:tooltip"
+msgid "Unmute audio"
+msgstr "ביטול השתקת צג"
+
+#: src/bin/previewpanel.cpp:101
+#, fuzzy, kde-format
+msgctxt "@action:checkbox enable automatic playback"
+msgid "Autoplay"
+msgstr "הוספה אוטומטית"
+
+#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#, fuzzy, kde-format
+#| msgid "Import Subtitle"
+msgctxt "@action:button"
+msgid "Import File"
+msgstr "ייבוא כתוביות"
+
+#: src/bin/previewpanel.cpp:167
+#, fuzzy, kde-format
+msgctxt "@action:button"
+msgid "Import %1 Files"
+msgstr "הוסף סמן"
+
+#: src/bin/previewpanel.cpp:170
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgctxt "@action:button"
+msgid "Import Folder"
+msgstr "יצירת תיקייה"
+
+#: src/bin/previewpanel.cpp:301
+#, fuzzy, kde-format
+#| msgctxt "frames per second"
+#| msgid "fps"
+msgctxt "@info:label fps as frames per second shortcut"
+msgid "fps"
+msgstr "תמוניות לשנייה"
+
+#: src/bin/previewpanel.cpp:312
+#, fuzzy, kde-format
+#| msgid "A&udio track"
+msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
+msgid "1 audio track"
+msgid_plural "%1 audio tracks"
+msgstr[0] "רצועת &שמע"
+msgstr[1] "רצועת &שמע"
+msgstr[2] "רצועת &שמע"
+msgstr[3] "רצועת &שמע"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -19615,9 +19684,9 @@ msgstr ""
 "מוגדר לאוטומטי בחזרה."
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Export markers"
-msgstr "ערוך סמן"
+msgstr "ייצוא סמנים"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -19654,12 +19723,10 @@ msgid "JSON File"
 msgstr "קובץ JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "ייצוא נתוני קווים מנחים"
+msgstr "ייצוא נתוני סמנים"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -19687,10 +19754,9 @@ msgid "Cannot write to file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "הקווים המנחים נשמרו אל %1"
+msgstr "הסמנים נשמרו אל %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -19698,70 +19764,59 @@ msgid "Category name"
 msgstr "שם קטגוריה"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "Marker number"
-msgstr "סמן 1"
+msgstr "מס׳ סמן"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "מקום הקו המנחה ב־‎HH:MM:SS:FF‎"
+msgstr "מקום הסמן ב־‎HH:MM:SS:FF‎"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "מקום הקו המנחה ב־‎(HH:)MM.SS‎"
+msgstr "מקום הסמן ב־‎(HH:)MM.SS‎"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "מקום הקו המנחה הבא ב־‎(HH:)MM.SS‎"
+msgstr "מקום הסמן הבא ב־‎(HH:)MM.SS‎"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "מקום הקו המנחה בתמוניות"
+msgstr "מקום הסמן בתמוניות"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "מקום הקו המנחה הבא בתמוניות"
+msgstr "מקום הסמן הבא בתמוניות"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "הצגת הערות סמנים"
+msgstr "הערת סמן"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "מקום הקו המנחה בתמוניות"
+msgstr "משך הסמן בתמוניות"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "הוספת קוד הזמן הנוכחי"
+msgstr "משך הסמן בקוד זמן"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "מקום הקו המנחה הבא בתמוניות"
+msgstr "מקום סוף הסמן בקוד זמן"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "מקום הקו המנחה הבא בתמוניות"
+msgstr "מקום סוף הסמן בתמוניות"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
@@ -20554,10 +20609,9 @@ msgid "Timeline"
 msgstr "ציר זמן"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "צבעים וקווים מנחים"
+msgstr "צבעים וסמנים"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -22595,9 +22649,7 @@ msgid "Fixed"
 msgstr "קבוע"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "ריענון"
@@ -22621,8 +22673,7 @@ msgid "Placeholder"
 msgstr "ממלא מקום"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "הסרה"
@@ -23588,17 +23639,17 @@ msgstr "תמונות ממוזערות של הווידאו"
 msgid "Loading clip"
 msgstr "סרטון נטען"
 
-#: src/jobs/cliploadtask.cpp:531
+#: src/jobs/cliploadtask.cpp:533
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "אי אפשר לקבוע את משך הקובץ <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:726
+#: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "אי אפשר לחתור בקובץ <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:757
+#: src/jobs/cliploadtask.cpp:759
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "לקובץ <b>%1</b> יש קצב תמוניות משתנה."
@@ -24616,10 +24667,9 @@ msgid "Add Clip"
 msgstr "הוספת סרטון"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "הוספת סמן/קו מנחה לפי מספר קטגוריה"
+msgstr "הוספת סמן לפי מספר קטגוריה"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -24800,18 +24850,15 @@ msgid "Go to Marker…"
 msgstr "מעבר לסמן…"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "יצירת סמנים"
+msgstr "יצירת סמן מאזור"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "יצירת סמנים מקודי הזמן הנבחרים"
+msgstr "יצירת סמן מאזור במהירות"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -25200,18 +25247,15 @@ msgstr ""
 "קווים מנחים ועוד)."
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Clip Name"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "שם סרטון"
+msgstr "הצגת שמות סרטונים"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
-msgstr "מחליף מצב הצגת תגיות סרטונים בציר הזמן (ברירת המחדל היא פעיל)."
+msgstr "הצגת/הסתרת שמות ופרטי סרטונים בציר הזמן."
 
 #: src/mainwindow.cpp:1430
 #, kde-format
@@ -25462,16 +25506,14 @@ msgid "Go to Clip End"
 msgstr "מעבר לסוף הסרטון"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "מעבר לקו המנחה הקודם"
+msgstr "מעבר לסמן הקודם"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "מעבר לסמן…"
+msgstr "מעבר לסמן הבא"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -25642,70 +25684,59 @@ msgid "Delete All Markers"
 msgstr "מחיקת כל הסמנים"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן במהירות"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 1"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 2"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 3"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 4"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 5"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 6"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 7"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 8"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 9"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "הוספת סמנים לפי קטגוריה"
+msgstr "הוספת קטגוריית סמנים 10"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -25935,21 +25966,19 @@ msgid "Disable Timeline Preview"
 msgstr "השבתת תצוגה מקדימה של ציר זמן"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "הסרת סמן"
+msgstr "הוספת/הסרת סמן"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "חיפוש סמנים"
+msgstr "חיפוש סמן…"
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
+#, kde-format
 msgid "Export Markers…"
-msgstr "ערוך סמן"
+msgstr "ייצוא סמנים…"
 
 #: src/mainwindow.cpp:2048
 #, fuzzy, kde-format
@@ -25958,11 +25987,9 @@ msgid "Timeline Markers Locked"
 msgstr "תצוגת ציר זמן"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "טעינת סמני סרטון"
+msgstr "נעילת סמני ציר זמן"
 
 #: src/mainwindow.cpp:2053
 #, fuzzy, kde-kuit-format
@@ -27044,16 +27071,14 @@ msgstr ""
 "פותח את רשימת אפשרויות הצג של המיזם/סרטון (למשל: עוצמת השמע, גודל הצג)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "מעבר לסמן…"
+msgstr "מעבר לסמן סרטון…"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "מעבר לסמן…"
+msgstr "מעבר לסמן ציר זמן…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -27132,10 +27157,9 @@ msgid "Set current image as thumbnail"
 msgstr "הגדרת התמונה הנוכחית כייצוגית"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "יצירת סמנים מקודי הזמן הנבחרים"
+msgstr "יצירת סמן מאזור…"
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -27403,10 +27427,9 @@ msgstr "מעבר לסוף הקטע"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "שינוי שם סמן"
+msgstr "סמן אזור"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -28504,8 +28527,7 @@ msgid "Showing backup files for %1"
 msgstr "קובצי גיבוי של %1 מופיעים"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "עריכת קטגוריית סמנים"
 
@@ -28520,10 +28542,9 @@ msgid "Category %1"
 msgstr "קטגוריה %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "עריכת קטגוריית סמנים"
+msgstr "מחיקת קטגוריית סמנים"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -28581,24 +28602,20 @@ msgid "Refresh All Thumbnails"
 msgstr "ריענון כל התמונות הממוזערות"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "הוספת סמן"
+msgstr "הוספת סמן חדש."
 
 #: src/project/dialogs/guideslist.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
-msgstr "הוספת קו מנחה חדש. הפעולה תוסיף את מקום התמונית הנוכחי."
+msgstr "הוספת סמן חדש. הפעולה תוסיף סמן במקום הנוכחי של התמונית."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "מחיקת סמן"
+msgstr "מחיקת סמן."
 
 #: src/project/dialogs/guideslist.cpp:209
 #, fuzzy, kde-kuit-format
@@ -28663,10 +28680,9 @@ msgstr ""
 "קטגוריית ברירת המחדל לקווים מנחים. הקטגוריה משמשת לקווים מנחים חדשים שנוצרים."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "חיפוש סמנים"
+msgstr "חיפוש כל הסמנים"
 
 #: src/project/dialogs/guideslist.cpp:256
 #, kde-format
@@ -28686,22 +28702,19 @@ msgstr "קובץ הסמנים גדול ממגה בית, לייבא אותו?"
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "הסרת סמן"
+msgstr "הסרת סמנים"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "חיפוש סמנים"
+msgstr "חיפוש סמני סרטונים"
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "חיפוש סמנים"
+msgstr "חיפוש סמני ציר זמן"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -31830,16 +31843,6 @@ msgstr "החלפת מצב אפקטים על רצועות"
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> להצגה/הסתרה של כל הרצועות מאותו הסוג (שמע/וידאו)"
 
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Unmute"
-msgstr "ביטול השתקה"
-
-#: src/timeline2/view/qml/TrackHead.qml:406
-#, kde-format
-msgid "Mute"
-msgstr "השתקה"
-
 #: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
@@ -31901,10 +31904,9 @@ msgid "Select at least 2 items to group"
 msgstr "נא לבחור לפחות 2 פריטים לקיבוץ"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "לא נמצא סימון בנקודת זמן הסמן"
+msgstr "לא נמצא סמן טווח במקום הזה"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -32161,10 +32163,9 @@ msgid "Manage Subtitles"
 msgstr "ניהול כתוביות"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "לא נמצא קו מנחה במקום הנוכחי"
+msgstr "לא נמצאה הנחיית טווח במקום הזה"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -35819,17 +35820,15 @@ msgstr "מפתח"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "הסרת סמן"
+msgstr "סמן טווח"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "זמן תיצוג"
+msgstr "זמן סיום"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:139
@@ -38227,10 +38226,6 @@ msgstr "%1 שע׳"
 #~ msgstr "ערוך מוביל"
 
 #, fuzzy
-#~ msgid "Import guides"
-#~ msgstr "הוסף סמן"
-
-#, fuzzy
 #~| msgid "Edit Guide"
 #~ msgid "Edit Guides Category"
 #~ msgstr "ערוך מנחה"
@@ -39275,10 +39270,6 @@ msgstr "%1 שע׳"
 #, fuzzy
 #~ msgid "Duration (s)"
 #~ msgstr "משך:"
-
-#, fuzzy
-#~ msgid "Auto Play"
-#~ msgstr "הוספה אוטומטית"
 
 #, fuzzy
 #~ msgid "File Exists"
