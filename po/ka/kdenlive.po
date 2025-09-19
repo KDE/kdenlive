@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-18 02:36+0000\n"
-"PO-Revision-Date: 2025-09-11 03:57+0200\n"
+"PO-Revision-Date: 2025-09-18 07:08+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1653,7 +1653,7 @@ msgstr "ეკრანის ასპექტის ფარდობა"
 #: data/effects/avfilter/avfilter_ciescope.xml:38
 #, kde-format
 msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
-msgstr ""
+msgstr "<![CDATA[ფარგლებზე ნაჩვენები გამას კორექცია, ნაგულისხმევად ჩართულია]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
 #, kde-format
@@ -1664,6 +1664,7 @@ msgstr "თეთრი წერტილის ჩვენება"
 #, kde-format
 msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
 msgstr ""
+"<![CDATA[თეთრი წერტილის ჩვენება CIE დიაგრამაზე, ნაგულისხმევად გამორთულია]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
@@ -1674,6 +1675,8 @@ msgstr "შეყვანის გამა"
 #, kde-format
 msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
 msgstr ""
+"<![CDATA[შეყვანის გამის დაყენება. გამოიყენება, მხოლოდ, XYZ შეყვანის ფერის "
+"სივრცესთან ერთად.]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
@@ -5047,6 +5050,8 @@ msgstr "#3 კომპონენტის სიძლიერე"
 #, kde-format
 msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
+"საშუალო დროებითი ხმაური, შემთხვევითი ხმაურის შერევა, დროებითი ხმაური, "
+"ერთგვაროვანი ხმაური"
 
 #: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
