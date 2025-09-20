@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-19 00:41+0000\n"
-"PO-Revision-Date: 2025-09-14 13:57+0200\n"
+"PO-Revision-Date: 2025-09-19 11:23+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19245,10 +19245,9 @@ msgid "Import File on Double Click"
 msgstr "Bestand importeren bij dubbelklikken"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Voorbeeld tonen >>>"
+msgstr "Voorbeeldpaneel tonen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19501,11 +19500,10 @@ msgid "Sequence count"
 msgstr "Aantal in sequentie"
 
 #: src/bin/previewpanel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Zone afspelen"
+msgstr "Medium afspelen"
 
 #: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19518,63 +19516,54 @@ msgid "Mute"
 msgstr "Dempen (geen geluid)"
 
 #: src/bin/previewpanel.cpp:71
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "Videoclip dempen"
+msgstr "Geluid dempen"
 
 #: src/bin/previewpanel.cpp:72
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "Demping van monitor opheffen"
+msgstr "Dempen van geluid opheffen"
 
 #: src/bin/previewpanel.cpp:101
-#, fuzzy, kde-format
-#| msgid "Auto Play"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Automatisch afspelen"
 
 #: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Ondertitel importeren"
+msgstr "Bestand importeren"
 
 #: src/bin/previewpanel.cpp:167
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Hulplijnen importeren"
+msgstr "%1 bestanden importeren"
 
 #: src/bin/previewpanel.cpp:170
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Map aanmaken"
+msgstr "Map importeren"
 
 #: src/bin/previewpanel.cpp:301
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
 #: src/bin/previewpanel.cpp:312
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Gel&uidspoor"
-msgstr[1] "Gel&uidspoor"
+msgstr[0] "1 geluidsspoor"
+msgstr[1] "%1 geluidsporen"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format

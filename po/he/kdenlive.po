@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-19 00:41+0000\n"
-"PO-Revision-Date: 2025-09-18 09:49+0300\n"
+"PO-Revision-Date: 2025-09-18 21:27+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7852,7 +7852,7 @@ msgstr "מדרג אלפא"
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #, kde-format
 msgid "Fill the alpha channel with a specified gradient"
-msgstr ""
+msgstr "למלא את ערוץ השקיפות במדרג שנבחר"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
@@ -7867,7 +7867,7 @@ msgstr "מקום"
 #: data/effects/frei0r/frei0r_alphagrad.xml:10
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
-msgstr ""
+msgstr "<![CDATA[הגדרה איפה מתחיל המדרג.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
@@ -7898,7 +7898,7 @@ msgstr "ראש שקיפות"
 #: data/effects/frei0r/frei0r_alphagrad.xml:22
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[הגדרת השקיפות בראש המדרג.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
@@ -7910,7 +7910,7 @@ msgstr "תחתית שקיפות"
 #: data/effects/frei0r/frei0r_alphagrad.xml:26
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[הגדרת השקיפות בתחתית המדרג.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alphagrad.xml:30

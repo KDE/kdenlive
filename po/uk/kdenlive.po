@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-19 00:41+0000\n"
-"PO-Revision-Date: 2025-09-14 15:17+0300\n"
+"PO-Revision-Date: 2025-09-19 20:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19232,10 +19232,9 @@ msgid "Import File on Double Click"
 msgstr "Імпортувати файл за подвійним клацанням"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Показати перегляд >>>"
+msgstr "Показати перегляд"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19488,11 +19487,10 @@ msgid "Sequence count"
 msgstr "Лічильник у послідовності"
 
 #: src/bin/previewpanel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Відтворити ділянку"
+msgstr "Відтворити мультимедіа"
 
 #: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19505,65 +19503,56 @@ msgid "Mute"
 msgstr "Вимкнути звук"
 
 #: src/bin/previewpanel.cpp:71
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "Вимкнути звук"
 
 #: src/bin/previewpanel.cpp:72
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "Увімкнути звук з монітора"
+msgstr "Увімкнути звук"
 
 #: src/bin/previewpanel.cpp:101
-#, fuzzy, kde-format
-#| msgid "Auto Play"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Автовідтворення"
 
 #: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Імпортувати з файла субтитрів"
+msgstr "Імпортувати файл"
 
 #: src/bin/previewpanel.cpp:167
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Імпортувати напрямні"
+msgstr "Імпортувати %1 файли"
 
 #: src/bin/previewpanel.cpp:170
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Створити теку"
+msgstr "Імпортувати теку"
 
 #: src/bin/previewpanel.cpp:301
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "кд/с"
 
 #: src/bin/previewpanel.cpp:312
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Зв&укова доріжка"
-msgstr[1] "Зв&укова доріжка"
-msgstr[2] "Зв&укова доріжка"
-msgstr[3] "Зв&укова доріжка"
+msgstr[0] "%1 звукова доріжка"
+msgstr[1] "%1 звукові доріжки"
+msgstr[2] "%1 звукових доріжок"
+msgstr[3] "%1 звукова доріжка"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format

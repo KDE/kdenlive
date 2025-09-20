@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-19 00:41+0000\n"
-"PO-Revision-Date: 2025-09-14 12:46+0200\n"
+"PO-Revision-Date: 2025-09-19 12:19+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -19302,10 +19302,9 @@ msgid "Import File on Double Click"
 msgstr "Importa el fitxer en fer doble clic"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Mostra la vista prèvia >>>"
+msgstr "Mostra el plafó de vista prèvia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19559,11 +19558,10 @@ msgid "Sequence count"
 msgstr "Comptador de seqüències"
 
 #: src/bin/previewpanel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Reprodueix la zona"
+msgstr "Reprodueix els elements multimèdia"
 
 #: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19576,65 +19574,55 @@ msgid "Mute"
 msgstr "Silenci"
 
 #: src/bin/previewpanel.cpp:71
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "Vídeo en silenci"
+msgstr "Silencia l'àudio"
 
 #: src/bin/previewpanel.cpp:72
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "So al monitor"
+msgstr "Activa el so de l'àudio"
 
 #: src/bin/previewpanel.cpp:101
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
-msgstr "Auto"
+msgstr "Reproducció automàtica"
 
 # skip-rule: barb-uns
 #: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Importa subtítols"
+msgstr "Importa un fitxer"
 
-# skip-rule: barb-uns
 #: src/bin/previewpanel.cpp:167
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Importa subtítols"
+msgstr "Importa %1 fitxers"
 
 #: src/bin/previewpanel.cpp:170
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Crea una carpeta"
+msgstr "Importa una carpeta"
 
 #: src/bin/previewpanel.cpp:301
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
 #: src/bin/previewpanel.cpp:312
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Pista d'à&udio"
-msgstr[1] "Pista d'à&udio"
+msgstr[0] "1 pista d'àudio"
+msgstr[1] "%1 pistes d'àudio"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -28807,7 +28795,7 @@ msgstr ""
 #: src/onlineresources/resourcewidget.cpp:193
 #, kde-format
 msgid "Media provided by %1"
-msgstr "Suport proporcionat per %1"
+msgstr "Element multimèdia proporcionat per %1"
 
 #: src/onlineresources/resourcewidget.cpp:236
 #, kde-format
