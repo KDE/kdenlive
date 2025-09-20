@@ -120,7 +120,7 @@ static void drawDropFilesPlaceholder(QPainter &painter, const QRect &rect, const
     // Icon vertical alignment compensation for breeze-icons having top/bottom paddings so we can align it to the text baseline
     static constexpr qreal ICON_ALIGNMENT_RATIO = 0.8;
 
-    // Icon placeholder text. Used in in the text template but will be replaced by drawing an actual icon.
+    // Icon placeholder text. Used in the text template but will be replaced by drawing an actual icon.
     static const QString iconPlaceholder = QStringLiteral("{icon}");
 
     QFont font = painter.font();

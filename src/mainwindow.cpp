@@ -5035,7 +5035,7 @@ void MainWindow::slotSpeechRecognition()
 
 void MainWindow::slotCopyDebugInfo()
 {
-    // General note for this function: since the information targets developers, we don't want it it be translated
+    // General note for this function: since the information targets developers, we don't want it to be translated
 
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
     QString packageType;

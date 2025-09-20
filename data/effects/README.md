@@ -213,7 +213,7 @@ You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame s
 | attribute name | description    |
 | :------------- | :------------- |
 | `filter`       | Filter for file extensions. Example : `"Source Files (*.cpp *.cc *.C);;Header files (*.h *.H)"` (warning: this format is different to `url`!) |
-| `newstuff` | _(optional)_ KNewStuff config file (usually placed in `kdenlive/data` and added to to `kdenlive/src/uiresources.qrc` so the value looks like `":data/kdenlive_wipes.knsrc"`). If this is empty no download button is shown|
+| `newstuff` | _(optional)_ KNewStuff config file (usually placed in `kdenlive/data` and added to `kdenlive/src/uiresources.qrc` so the value looks like `":data/kdenlive_wipes.knsrc"`). If this is empty no download button is shown|
 | `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keywords `%lumaPaths` and `%lutPaths` are available to show files in the applications luma/lut directories |
 * ###### additional tags:
 | tag name         | description    |

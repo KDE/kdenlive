@@ -262,7 +262,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         ix++;
     }
     if (count == 4) {
-        // add an option to map to a a fake rectangle (pretend position params are a mlt rect)
+        // add an option to map to a fake rectangle (pretend position params are a mlt rect)
         m_targetCombo->insertItem(ix, i18n("Rectangle"));
     }
     ix = 0;

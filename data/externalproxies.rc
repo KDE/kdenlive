@@ -6,7 +6,7 @@
 # * prefix
 # * suffix
 
-# * This sequence of 6 parameters can be be repeated to offer several naming schemes
+# * This sequence of 6 parameters can be repeated to offer several naming schemes
 
 [proxy]
 Sony PXW=../Sub;;S03.MP4;../Clip;;.MXF
