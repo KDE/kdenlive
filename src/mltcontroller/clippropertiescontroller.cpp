@@ -311,7 +311,7 @@ QHBoxLayout *ClipPropertiesController::doubleSpinboxProperty(const QString &labe
     spin->setObjectName(QStringLiteral("%1_value").arg(propertyName));
     spin->setMaximum(maxValue);
 
-    // connect signals and initalize state
+    // connect signals and initialize state
     connect(spin, &QDoubleSpinBox::valueChanged, this, [this, propertyName](double value) {
         QMap<QString, QString> properties;
         properties.insert(propertyName, QString::number(value, 'f'));
@@ -1676,7 +1676,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     QMap<QString, QString> exifMetadata;
     int exifUsed = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:exiftool"));
     if (exifUsed == 1) {
-        // we have chached metadata
+        // we have cached metadata
         Mlt::Properties subProperties;
         subProperties.pass_values(*m_properties, "kdenlive:meta.exiftool.");
         if (subProperties.count() > 0) {
@@ -1705,7 +1705,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     QMap<QString, QString> magicLanternMetadata;
     int magic = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:magiclantern"));
     if (magic == 1) {
-        // We have chached metadata
+        // We have cached metadata
         Mlt::Properties subProperties;
         subProperties.pass_values(*m_properties, "kdenlive:meta.magiclantern.");
         for (int i = 0; i < subProperties.count(); i++) {

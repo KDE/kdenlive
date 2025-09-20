@@ -1028,7 +1028,7 @@ TextBasedEdit::~TextBasedEdit()
 bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
-        qDebug() << "==== FOT TXTEDIT EVENT FILTER: " << static_cast<QKeyEvent *>(event)->key();
+        qDebug() << "==== FOR TXTEDIT EVENT FILTER: " << static_cast<QKeyEvent *>(event)->key();
     }
     /*if(obj == m_visualEditor && event->type() == QEvent::KeyPress)
     {

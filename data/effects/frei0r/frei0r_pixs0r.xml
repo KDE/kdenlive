@@ -6,7 +6,7 @@
     <author>Gephex crew</author>
     <parameter type="animated" name="shift_intensity" default="0.010" min="0" max="100" factor="100" decimals="1" suffix="%">
         <name>Shift Intensity</name>
-        <comment>Agressiveness of row/column shifting</comment>
+        <comment>Aggressiveness of row/column shifting</comment>
     </parameter>
     <parameter type="animated" name="block_height" default="0" min="0" max="%height" factor="%height" decimals="0" suffix="px">
         <name>Block Height</name>

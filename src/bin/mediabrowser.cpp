@@ -327,7 +327,7 @@ void MediaBrowser::detectShortcutConflicts()
     m_conflictingAppActions.clear();
     for (auto &a : actions) {
         /*if (a == m_op->action(KDirOperator::ShowPreviewPanel)) {
-            // We unconditionnaly disable this
+            // We unconditionally disable this
             a->setEnabled(false);
             continue;
         }*/

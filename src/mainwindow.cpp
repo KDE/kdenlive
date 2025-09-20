@@ -791,8 +791,8 @@ void MainWindow::init()
         if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
             // hack to be able to insert the hamburger menu at the first position
             QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
-            QAction *const seperator = toolBar()->insertSeparator(firstChild);
-            toolBar()->insertAction(seperator, m_hamburgerMenu);
+            QAction *const separator = toolBar()->insertSeparator(firstChild);
+            toolBar()->insertAction(separator, m_hamburgerMenu);
             m_hamburgerMenu->hideActionsOf(toolBar());
         }
     });
@@ -1020,8 +1020,8 @@ void MainWindow::saveNewToolbarConfig()
 
     // hack to be able to insert the hamburger menu at the first position
     QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
-    QAction *const seperator = toolBar()->insertSeparator(firstChild);
-    toolBar()->insertAction(seperator, m_hamburgerMenu);
+    QAction *const separator = toolBar()->insertSeparator(firstChild);
+    toolBar()->insertAction(separator, m_hamburgerMenu);
     m_hamburgerMenu->hideActionsOf(toolBar());
 }
 

@@ -379,8 +379,8 @@ void UrlListParamWidget::addItemsInSameFolder(const QString currentValue, QMap<Q
 {
     QDir dir = QFileInfo(currentValue).absoluteDir();
     if (dir.exists()) {
-        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-        for (const auto &filename : std::as_const(entrys)) {
+        QStringList entries = dir.entryList(m_fileExt, QDir::Files);
+        for (const auto &filename : std::as_const(entries)) {
             const QString path = dir.absoluteFilePath(filename);
             if (std::find((*listValues).cbegin(), (*listValues).cend(), path) == (*listValues).cend()) {
                 (*listValues).insert(QFileInfo(filename).baseName(), path);
