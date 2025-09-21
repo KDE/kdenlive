@@ -43,6 +43,10 @@ public:
     void disableImport();
     void resetPlayer();
 
+protected:
+    void hideEvent(QHideEvent *event) override;
+    bool event(QEvent *event) override;
+
 private:
     QMediaPlayer *m_player{nullptr};
     QPointer<KIO::PreviewJob> m_previewJob{nullptr};

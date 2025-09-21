@@ -129,6 +129,20 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_imageWidget->show();
 }
 
+void PreviewPanel::hideEvent(QHideEvent *event)
+{
+    resetPlayer();
+    QWidget::hideEvent(event);
+}
+
+bool PreviewPanel::event(QEvent *event)
+{
+    if (event->type() == QEvent::WindowDeactivate) {
+        resetPlayer();
+    }
+    return QWidget::event(event);
+}
+
 void PreviewPanel::startPlaying()
 {
     buildPlayer();
@@ -183,7 +197,6 @@ void PreviewPanel::fileSelected(KFileItemList files)
     m_useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
     if (m_useMedia) {
         buildPlayer();
-        m_player->setSource(m_item.url());
         m_playButton->setEnabled(true);
         m_slider->setEnabled(true);
         if (KdenliveSettings::mediaBrowserAutoPlay()) {
@@ -285,6 +298,9 @@ void PreviewPanel::buildPlayer()
     }
     m_player = new QMediaPlayer(this);
     m_player->setVideoOutput(m_videoWidget);
+    if (m_useMedia) {
+        m_player->setSource(m_item.url());
+    }
     connect(m_player, &QMediaPlayer::playingChanged, this, [this](bool playing) {
         if (playing) {
             m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
@@ -292,6 +308,30 @@ void PreviewPanel::buildPlayer()
             m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
         }
     });
+    connect(m_player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+        if (status == QMediaPlayer::LoadedMedia || status == QMediaPlayer::BufferedMedia) {
+            m_playButton->setEnabled(true);
+            if (m_player->hasVideo()) {
+                if (m_player->isPlaying()) {
+                    m_videoWidget->show();
+                    m_imageWidget->hide();
+                }
+            } else {
+                m_imageWidget->show();
+                m_videoWidget->hide();
+            }
+            if (m_player->hasAudio()) {
+                if (KdenliveSettings::mediaBrowserWithAudio() && m_player->audioOutput() == nullptr) {
+                    m_player->setAudioOutput(new QAudioOutput);
+                }
+            } else {
+                m_player->setAudioOutput(nullptr);
+            }
+        } else {
+            m_playButton->setEnabled(false);
+        }
+    });
+
     connect(m_player, &QMediaPlayer::metaDataChanged, this, [this]() {
         const QMediaMetaData mData = m_player->metaData();
         if (!mData.value(QMediaMetaData::Resolution).isNull() || !mData.value(QMediaMetaData::VideoFrameRate).isNull()) {
@@ -337,9 +377,6 @@ void PreviewPanel::buildPlayer()
         }
         m_player->setPosition(m_player->duration() * position / 100);
     });
-    if (m_useMedia) {
-        m_player->setSource(m_item.url());
-    }
 }
 
 void PreviewPanel::resetPlayer()
