@@ -1683,7 +1683,7 @@ void RenderWidget::slotCheckFreeMemory()
             KNotification *notify = new KNotification(QStringLiteral("ErrorMessage"));
             notify->setText(errorMessage);
             notify->sendEvent();
-            // Increase the memory check frequence
+            // Increase the memory check frequency
             m_memCheckTimer.setInterval(5000);
         } else if (m_lowMemStatus != NoWarning) {
             m_lowMemStatus = NoWarning;
@@ -2395,10 +2395,10 @@ void RenderWidget::adjustSpeed(int speedIndex)
 
 void RenderWidget::prepareJobContextMenu(const QPoint &pos)
 {
-    QTreeWidgetItem *nd = m_view.running_jobs->itemAt(pos);
+    QTreeWidgetItem *node = m_view.running_jobs->itemAt(pos);
     RenderJobItem *renderItem = nullptr;
-    if (nd) {
-        renderItem = static_cast<RenderJobItem *>(nd);
+    if (node) {
+        renderItem = static_cast<RenderJobItem *>(node);
     }
     if (!renderItem) {
         return;

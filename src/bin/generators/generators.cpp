@@ -130,8 +130,8 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
     QStringList parsedGenerators;
     for (const QString &folder : generatorFolders) {
         QDir directory(folder);
-        const QStringList filesnames = directory.entryList(filters, QDir::Files);
-        for (const QString &fname : filesnames) {
+        const QStringList filenames = directory.entryList(filters, QDir::Files);
+        for (const QString &fname : filenames) {
             if (parsedGenerators.contains(fname)) {
                 continue;
             }

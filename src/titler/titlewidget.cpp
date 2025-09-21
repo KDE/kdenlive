@@ -801,8 +801,8 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     currentTitleTemplates.removeDuplicates();
     for (const QString &folderpath : std::as_const(currentTitleTemplates)) {
         QDir folder(folderpath);
-        QStringList filesnames = folder.entryList(filters, QDir::Files);
-        for (const QString &fname : std::as_const(filesnames)) {
+        QStringList filenames = folder.entryList(filters, QDir::Files);
+        for (const QString &fname : std::as_const(filenames)) {
             TitleTemplate t;
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);

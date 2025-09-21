@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.pr0file" id="frei0r.pr0file">
-    <name>Oscilloscope (advanced) (SUPERCEDED)</name>
+    <name>Oscilloscope (advanced) (SUPERSEDED)</name>
     <description><![CDATA[2D video oscilloscope.<br>
-    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]></description>
+    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]></description>
     <author>Marko Cebokli</author>
     <parameter type="animated" name="X" default="0.5" min="0" max="%width" factor="%width">
         <name>Profile X Position</name>

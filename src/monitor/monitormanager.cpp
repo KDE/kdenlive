@@ -621,7 +621,7 @@ void MonitorManager::setupActions()
     interlace->addAction(i18n("One Field (fast)"));
     interlace->addAction(i18n("Linear Blend (fast)"));
     interlace->addAction(i18n("YADIF - temporal only (good)"));
-    interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
+    interlace->addAction(i18n("YADIF - temporal + spatial (best)"));
     if (KdenliveSettings::mltdeinterlacer() == QLatin1String("linearblend")) {
         interlace->setCurrentItem(1);
     } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif-nospatial")) {

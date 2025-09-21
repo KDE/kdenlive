@@ -492,7 +492,7 @@ void PluginsSettings::doDeleteSamVenv()
     if (pluginDir.cd(m_samInterface->getVenvPath())) {
         if (KMessageBox::warningContinueCancel(this,
                                                i18n("This will delete the plugin python environment from:<br/><b>%1</b><br/>The environment will be recreated "
-                                                    "and modules downloaded whenever you reenable the plugin.",
+                                                    "and modules downloaded whenever you enable the plugin again.",
                                                     pluginDir.absolutePath())) != KMessageBox::Continue) {
             return;
         }
@@ -506,7 +506,7 @@ void PluginsSettings::doDeleteWrVenv()
     if (pluginDir.cd(m_sttWhisper->getVenvPath())) {
         if (KMessageBox::warningContinueCancel(this,
                                                i18n("This will delete the plugin python environment from:<br/><b>%1</b><br/>The environment will be recreated "
-                                                    "and modules downloaded whenever you reenable the plugin.",
+                                                    "and modules downloaded whenever you enable the plugin again.",
                                                     pluginDir.absolutePath())) != KMessageBox::Continue) {
             return;
         }

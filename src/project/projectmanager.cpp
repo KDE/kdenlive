@@ -383,7 +383,7 @@ void ProjectManager::testSetActiveTimeline(std::shared_ptr<TimelineItemModel> ti
                     std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(i.value());
                     prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
                     prod->set("kdenlive:description", clip->description().toUtf8().constData());
-                    // Store sequence properties for later re-use
+                    // Store sequence properties for later reuse
                     if (timelineModel->getGuideModel() == nullptr) {
                         timelineModel->setMarkerModel(clip->markerModel());
                     }
@@ -2257,7 +2257,7 @@ void ProjectManager::doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bo
         }
         const QUuid &uuid = model->uuid();
         if (refresh) {
-            // Store sequence properties for later re-use
+            // Store sequence properties for later reuse
             Mlt::Properties sequenceProps;
             sequenceProps.pass_values(*model->tractor(), "kdenlive:sequenceproperties.");
             pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);

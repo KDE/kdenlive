@@ -1727,7 +1727,7 @@ bool AssetParameterModel::isDefault() const
             }
         }
         if (currentRow.value != value) {
-            qDebug() << "======= ERROR COMPARING PARMA VALUES:\n" << currentRow.value << " = " << value;
+            qDebug() << "======= ERROR COMPARING PARAM VALUES:\n" << currentRow.value << " = " << value;
             return false;
         }
     }

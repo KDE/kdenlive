@@ -364,7 +364,7 @@ void PreviewPanel::buildPlayer()
 
     connect(m_player, &QMediaPlayer::errorOccurred, this, [this](QMediaPlayer::Error error, const QString &errorString) {
         qDebug() << "---- RECEIVED MEDIA PLAYER ERROR: " << errorString;
-        qDebug() << "HO BACKEDNS: " << qgetenv("QT_FFMPEG_ENCODING_HW_DEVICE_TYPES");
+        qDebug() << "HW BACKENDS: " << qgetenv("QT_FFMPEG_ENCODING_HW_DEVICE_TYPES");
         if (error == QMediaPlayer::FormatError) {
         }
     });

@@ -126,7 +126,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     kiss_fftr_cfg myCfg;
     if (m_fftCfgs.contains(cfgSig)) {
 #ifdef DEBUG_FFTTOOLS
-        qCDebug(KDENLIVE_LOG) << "Re-using FFT configuration with size " << windowSize;
+        qCDebug(KDENLIVE_LOG) << "Reusing FFT configuration with size " << windowSize;
 #endif
         myCfg = m_fftCfgs.value(cfgSig);
     } else {
@@ -145,7 +145,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 
         if (m_windowFunctions.contains(winSig)) {
 #ifdef DEBUG_FFTTOOLS
-            qCDebug(KDENLIVE_LOG) << "Re-using window function with signature " << winSig;
+            qCDebug(KDENLIVE_LOG) << "Reusing window function with signature " << winSig;
 #endif
             window = m_windowFunctions.value(winSig);
         } else {

@@ -208,7 +208,7 @@ TEST_CASE("Effect filter text-matching logic")
         item->setData(AssetTreeModel::IdCol, "Hello World");
         item->setData(AssetTreeModel::NameCol, "This is K-denlive");
 
-        filter.setFilterName(true, "wORL");
+        filter.setFilterName(true, "wORL"); // codespell:ignore worl
         CHECK(KdenliveTests::effectFilterName(filter, item) == true);
 
         // should not search across spaces

@@ -2217,7 +2217,7 @@ Fun EffectStackModel::checkLambdaOrder(const std::shared_ptr<EffectItemModel> &e
 {
     Fun sub = []() { return true; };
     if (effect->isBuiltIn()) {
-        // Ensure build-in effects are always onm top of the tree
+        // Ensure built-in effects are always onm top of the tree
         int row = rowCount() - 1;
         if (row >= 0) {
             if (effect->getAssetId().contains(QLatin1String("flip"))) {

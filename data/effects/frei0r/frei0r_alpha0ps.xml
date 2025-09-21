@@ -2,7 +2,7 @@
 <!DOCTYPE kpartgui>
 <group xmlns="https://www.kdenlive.org">
     <effect LC_NUMERIC="C" tag="frei0r.alpha0ps" id="frei0r.alpha0ps">
-        <name>Alpha Operations (SUPERCEDED)</name>
+        <name>Alpha Operations (SUPERSEDED)</name>
         <description><![CDATA[Display and manipulation of the alpha channel.<br>
         This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</em>.]]></description>
         <author>Marko Cebokli</author>
@@ -28,7 +28,7 @@
         </parameter>
     </effect>
     <effect LC_NUMERIC="C" tag="frei0r.alpha0ps" id="frei0r.alpha0ps" version="0.3">
-        <name>Alpha Operations (SUPERCEDED)</name>
+        <name>Alpha Operations (SUPERSEDED)</name>
         <description><![CDATA[Display and manipulation of the alpha channel.<br>
         This effect has been replaced by <em>frei0r.alphaops_alphaops</em>.]]></description>
         <author>Marko Cebokli</author>
