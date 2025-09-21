@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-19 00:41+0000\n"
+"POT-Creation-Date: 2025-09-21 00:41+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -12123,8 +12123,9 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Attēla kļūdas, mainot vietām rindas."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, kde-format
-msgid "Agressiveness of row/column shifting"
+#, fuzzy, kde-format
+#| msgid "Agressiveness of row/column shifting"
+msgid "Aggressiveness of row/column shifting"
 msgstr "Rindu/kolonnu maiņas agresivitāte"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13

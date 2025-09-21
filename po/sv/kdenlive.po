@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-19 00:41+0000\n"
-"PO-Revision-Date: 2025-09-14 09:05+0200\n"
+"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"PO-Revision-Date: 2025-09-20 09:58+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -11965,8 +11965,9 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Stör bilden med skiftning av rader fram och tillbaka."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, kde-format
-msgid "Agressiveness of row/column shifting"
+#, fuzzy, kde-format
+#| msgid "Agressiveness of row/column shifting"
+msgid "Aggressiveness of row/column shifting"
 msgstr "Hur aggressiv skiftning av rader och kolumner är"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
@@ -19110,10 +19111,9 @@ msgid "Import File on Double Click"
 msgstr "Importera fil vid dubbelklick"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Visa förhandsgranskning >>>"
+msgstr "Visa förhandsgranskningspanel"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19366,11 +19366,10 @@ msgid "Sequence count"
 msgstr "Sekvensräkning"
 
 #: src/bin/previewpanel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Spela zon"
+msgstr "Spela media"
 
 #: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19383,63 +19382,54 @@ msgid "Mute"
 msgstr "Tyst"
 
 #: src/bin/previewpanel.cpp:71
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "Tysta video"
+msgstr "Ljud av"
 
 #: src/bin/previewpanel.cpp:72
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "Visa på bildskärm"
+msgstr "Ljud på"
 
 #: src/bin/previewpanel.cpp:101
-#, fuzzy, kde-format
-#| msgid "Auto Play"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Spela automatiskt"
 
 #: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Importera textning"
+msgstr "Importera fil"
 
 #: src/bin/previewpanel.cpp:167
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Importera flaggor"
+msgstr "Importera %1 filer"
 
 #: src/bin/previewpanel.cpp:170
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Skapa katalog"
+msgstr "Importera katalog"
 
 #: src/bin/previewpanel.cpp:301
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "bilder/s"
 
 #: src/bin/previewpanel.cpp:312
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Lj&udspår"
-msgstr[1] "Lj&udspår"
+msgstr[0] "1 ljudspår"
+msgstr[1] "%1 ljudspår"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format

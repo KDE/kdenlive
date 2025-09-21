@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-19 00:41+0000\n"
-"PO-Revision-Date: 2025-09-12 12:09+0100\n"
+"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"PO-Revision-Date: 2025-09-20 18:18+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -371,7 +371,7 @@ msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
 msgstr ""
-"Determina si el área debajo de la forma de onda deberá ser rellenada. Sólo "
+"Determina si el área debajo de la forma de onda deberá ser rellenada. Solo "
 "se aplica a la gráfica de líneas."
 
 #: data/effects/audiospectrum.xml:43
@@ -394,7 +394,7 @@ msgid ""
 msgstr ""
 "Define el grado de curvatura de las líneas que interpolan entre puntos. 0,0 "
 "= línea recta entre puntos. 100 = curvas suaves entre puntos. Valores < 0 y "
-"> 100 provocarán bucles en las líneas. Sólo se aplica a la gráfica de líneas."
+"> 100 provocarán bucles en las líneas. Solo se aplica a la gráfica de líneas."
 
 #: data/effects/audiospectrum.xml:50
 #, kde-format
@@ -1012,7 +1012,7 @@ msgstr "Frecuencia en Hz"
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
 msgid "Only used if timing is set to hz."
-msgstr "Sólo usado cuando Tiempo esté en Hz."
+msgstr "Solo usado cuando Tiempo esté en Hz."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
@@ -1382,7 +1382,7 @@ msgstr "Desentrelazar"
 #: data/effects/avfilter/avfilter_yadif.xml:17
 #, kde-format
 msgid "Deint all frames,Deint interlaced frames only"
-msgstr "Todos los fotogramas,Sólo los entrelazados"
+msgstr "Todos los fotogramas,Solo los entrelazados"
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
@@ -1453,7 +1453,7 @@ msgid ""
 "everything.]]>"
 msgstr ""
 "<![CDATA[Porcentaje de similitud con el color seleccionado<br>\n"
-"        0,01 coincidirá sólo con el color seleccionado exacto, mientras que "
+"        0,01 coincidirá solo con el color seleccionado exacto, mientras que "
 "1,0 coincidirá con todos.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
@@ -1728,7 +1728,7 @@ msgstr "Gama de entrada"
 #, kde-format
 msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
 msgstr ""
-"<![CDATA[Permite definir el gama de entrada. Usado sólo en el espacio de "
+"<![CDATA[Permite definir el gama de entrada. Usado solo en el espacio de "
 "color de entrada XYZ.]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
@@ -2413,7 +2413,7 @@ msgstr ""
 "retardos a la pista de cada micrófono para sincronizarlos.\n"
 "\n"
 "Se alcanzará el mejor resultado posible al tomar una pista como base y "
-"sincronizar las demás con ésta, una por una. Deberá recordarse que la "
+"sincronizar las demás con esta, una por una. Deberá recordarse que la "
 "tolerancia a la desincronización/retardo dependerá también de la frecuencia "
 "de muestreo de la señal. Cuanto mayor sea la frecuencia de muestreo se "
 "tendrá una mayor tolerancia. "
@@ -2862,7 +2862,7 @@ msgstr ""
 "        En caso de ser positivo, se escogerá una dirección aleatoria entre 0 "
 "y el ángulo introducido. Cuando sea negativo, se usará el valor absoluto "
 "exacto. Por ejemplo, usando direcciones de 0°, -180° o -360° se terminarán "
-"escogiendo sólo píxeles de la misma fila y con -90° se escogerán sólo "
+"escogiendo solo píxeles de la misma fila y con -90° se escogerán solo "
 "píxeles de la misma columna]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:38
@@ -2887,7 +2887,7 @@ msgstr ""
 "valor promedio de los píxeles de alrededor.<br>\n"
 "        Activa de forma predeterminada. En caso de estar inactiva, el píxel "
 "actual será comparado con los cuatro píxeles cercanos. El píxel será "
-"considerado como perteneciente a una banda sólo cuando las cuatro "
+"considerado como perteneciente a una banda solo cuando las cuatro "
 "diferencias con los píxeles de alrededor sea menor que el umbral.]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:43
@@ -2902,7 +2902,7 @@ msgid ""
 "        all pixel components are banded, e.g. banding detection threshold is "
 "triggered for all color components. The default is disabled.]]>"
 msgstr ""
-"<![CDATA[Cuando esté activa, el píxel actual será modificado si y sólo si "
+"<![CDATA[Cuando esté activa, el píxel actual será modificado si y solo si "
 "<br>\n"
 "        todos los componentes del píxel se encuentran perteneciendo a una "
 "banda, es decir, cuando el umbral de detección de bandas se hubiera "
@@ -3059,7 +3059,7 @@ msgstr "Establece el modo de salida."
 #: data/effects/avfilter/avfilter_deesser.xml:22
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr "Original,Final,Sólo reducción"
+msgstr "Original,Final,Solo reducción"
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
 #, kde-format
@@ -3183,10 +3183,9 @@ msgid "Screen type"
 msgstr "Tipo de pantalla"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Verde-Azul"
+msgstr "Verde,Azul"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -3776,7 +3775,7 @@ msgid ""
 "overlap may give blocking artifacts.]]>"
 msgstr ""
 "<![CDATA[Permite establecer la constante sigma del ruido.<br>\n"
-"       \tÉsta determinará la intensidad de reducción de ruido. En caso de "
+"       \tEsta determinará la intensidad de reducción de ruido. En caso de "
 "usarse un valor de sigma muy alto, junto con un valor bajo de solapamiento, "
 "es posible que se produzcan defectos de imagen de tipo bloque.]]>"
 
@@ -4250,7 +4249,7 @@ msgstr ""
 "las regiones de color mayormente pleno al truncar el color a 8 bits.<br>\n"
 "    Permite interpolar los gradientes que deberían verse en lugar de las "
 "bandas, difuminándolas.<br>\n"
-"    <b>Está diseñado sólo para la reproducción. No usarlo antes de una "
+"    <b>Está diseñado solo para la reproducción. No usarlo antes de una "
 "compresión con pérdida, porque tiende a perder la difuminación y volver a "
 "traer las bandas</b>.]]>"
 
@@ -4848,7 +4847,7 @@ msgid ""
 "values higher than the pixel. "
 msgstr ""
 "Permite reemplazar el píxel por el promedio local (de 3×3), tomando en "
-"cuenta sólo los valores mayores que los del píxel. "
+"cuenta solo los valores mayores que los del píxel. "
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -6370,7 +6369,7 @@ msgstr "IntÁngulo"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr "Sólo usado cuando la opción 'interpolar' se encuentre activa."
+msgstr "Solo usado cuando la opción 'interpolar' se encuentre activa."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
@@ -7140,7 +7139,7 @@ msgstr "Fotogramas a desentrelazar"
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
-msgstr "Todos,Sólo marcados como entrelazados"
+msgstr "Todos,Solo marcados como entrelazados"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, kde-format
@@ -7292,7 +7291,7 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
-"<![CDATA[Sólo usado con el filtro Paso bajo y en caso de que el tipo de "
+"<![CDATA[Solo usado con el filtro Paso bajo y en caso de que el tipo de "
 "visualización<br>\n"
 "       \tno fuera Superponer y el formato de los píxeles de entrada no fuera "
 "RVA]]>"
@@ -7526,7 +7525,7 @@ msgstr ""
 #: data/effects/burningtv.xml:8
 #, kde-format
 msgid "Foreground Only"
-msgstr "Sólo en el frente"
+msgstr "Solo en el frente"
 
 #: data/effects/burningtv.xml:11
 #, kde-format
@@ -8753,8 +8752,8 @@ msgid ""
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
 "Permite agregar un mate negro a la imagen de un clip. Usar en caso de haber "
-"filmado usando una cámara 360, cuando sólo se desee usar una parte de la "
-"imagen 360 - por ejemplo, en caso de que el quipo de filmación salga "
+"filmado usando una cámara 360, cuando solo se desee usar una parte de la "
+"imagen 360 - por ejemplo, en caso de que el equipo de filmación salga "
 "ocupando los 90 grados detrás de la cámara."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
@@ -8784,7 +8783,7 @@ msgid ""
 "End is the half the height in degrees where the matte is at 100%.]]>"
 msgstr ""
 "<![CDATA[El <b>Final</b> es la mitad de la altura, en grados, en donde la "
-"máscara estará al 100%.]]>"
+"máscara estará al 100 %.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
 #, kde-format
@@ -8799,8 +8798,8 @@ msgid ""
 "<b>End</b> is the width in degrees where the matte is at 100%.]]>"
 msgstr ""
 "<![CDATA[El <b>Inicio</b> es el ancho, en grados, del área no enmascarada. "
-"El <b>Final</b> es el ancho, en grados, en donde la máscara estará al "
-"100%.]]>"
+"El <b>Final</b> es el ancho, en grados, en donde la máscara estará al 100 "
+"%.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #, kde-format
@@ -8905,7 +8904,7 @@ msgid ""
 "    \t100 means that you get a 100% fisheye lens.]]>"
 msgstr ""
 "<![CDATA[La cantidad de ojo de pez a fundir.<br>\n"
-"    \tcon 100 se obtendrá un ojo de pez al 100%.]]>"
+"    \tcon 100 se obtendrá un ojo de pez al 100 %.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -9040,7 +9039,7 @@ msgid ""
 "<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
 "like the Ricoh Theta and Garmin Virb360 are supported.]]>"
 msgstr ""
-"<![CDATA[El tipo de proyección de ojo de pez. Actualmente, sólo se soportan "
+"<![CDATA[El tipo de proyección de ojo de pez. Actualmente, solo se soportan "
 "tipos de ojo de pez equidistantes, como el Ricoh Theta y el Garmin "
 "Virb360.]]>"
 
@@ -9498,7 +9497,7 @@ msgid ""
 "can. Smaller values reduce the amount of stabilization.]]>"
 msgstr ""
 "<![CDATA[La cantidad de estabilización a ser aplicada.<br>\n"
-"    \t100% significará que el estabilizador hará que la cámara quede tan "
+"    \t100 % significará que el estabilizador hará que la cámara quede tan "
 "estática como sea posible. Valores menores reducirán la cantidad de "
 "estabilización.]]>"
 
@@ -9556,7 +9555,7 @@ msgid ""
 "stabilizer will make the camera as steady as it can. Smaller values reduce "
 "the amount of stabilization.]]>"
 msgstr ""
-"<![CDATA[La cantidad de estabilización a ser aplicada. 100% significará que "
+"<![CDATA[La cantidad de estabilización a ser aplicada. 100 % significará que "
 "el estabilizador hará que la cámara sea tan estable como sea posible. "
 "Valores menores reducirán la cantidad de estabilización.]]>"
 
@@ -10561,7 +10560,7 @@ msgid ""
 "on each pass."
 msgstr ""
 "El factor de escala de la ventana de búsqueda. Por ejemplo, 120 = 1,20 = se "
-"incrementa en un 20% con cada pasada."
+"incrementa en un 20 % con cada pasada."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
@@ -11019,7 +11018,7 @@ msgid ""
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
-"<![CDATA[Centro del segmento de origen. Sólo usado cuando <em>Especificar "
+"<![CDATA[Centro del segmento de origen. Solo usado cuando <em>Especificar "
 "segmento de origen</em> esté activa.<br>\n"
 "        0 representará +X y rotará en sentido antihorario.]]>"
 
@@ -11277,7 +11276,7 @@ msgid ""
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 "<![CDATA[Especifica el ancho de las bandas<br>\n"
-"        como porcentaje de la mitad de la resolución vertical (100% "
+"        como porcentaje de la mitad de la resolución vertical (100 % "
 "significará que cada banda ocupará respectivamente la mitad superior e "
 "inferior completa de la imagen, es decir, no quedará ningún espacio para la "
 "imagen)]]>"
@@ -11382,8 +11381,8 @@ msgid ""
 "the right) make it brighter.]]>"
 msgstr ""
 "<![CDATA[Cambia el brillo general de la imagen.<br>\n"
-"                Afectará sólo a los medios tonos, los extremos blancos y "
-"negros no serán afectados. Predeterminado: 25%, equivalente a un Gama de "
+"                Afectará solo a los medios tonos, los extremos blancos y "
+"negros no serán afectados. Predeterminado: 25 %, equivalente a un Gama de "
 "1.0). Valores menores (deslizador hacia la izquierda) oscurecerán la imagen, "
 "valores mayores (deslizador hacia la derecha) la aclararán.]]>"
 
@@ -12182,8 +12181,9 @@ msgstr ""
 "filas."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, kde-format
-msgid "Agressiveness of row/column shifting"
+#, fuzzy, kde-format
+#| msgid "Agressiveness of row/column shifting"
+msgid "Aggressiveness of row/column shifting"
 msgstr "Agresividad del desplazamiento de filas/columnas"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
@@ -13095,7 +13095,7 @@ msgid ""
 msgstr ""
 "<![CDATA[Cuántos puntos del GPS a suavizar para eliminar errores del GPS."
 "<br>\n"
-"    \tUn valor de 1 no suavizará las ubicaciones, sólo calculará los campos "
+"    \tUn valor de 1 no suavizará las ubicaciones, solo calculará los campos "
 "adicionales (velocidad, distancia, etc.) e interpolará los valores faltantes "
 "para el pulso y la altitud.]]>"
 
@@ -13152,18 +13152,18 @@ msgid ""
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
 "<![CDATA[El <b>Velocímetro</b> se encuentra disponible para todas las "
-"fuentes de datos, pero se recomienda sólo para velocidad; para el tipo mapa "
+"fuentes de datos, pero se recomienda solo para velocidad; para el tipo mapa "
 "representará el \"porcentaje completado\" desde el inicio - final).<br>\n"
 "Nota: para el tipo 1 (ampliar centrado o \"seguir al punto\"):<br>\n"
-"* los valores de recorte sólo serán válidos como porcentajes y sólo los "
+"* los valores de recorte solo serán válidos como porcentajes y solo los "
 "valores inferiores (resp izq)\n"
 "serán tomados en consideración, dado que ambos valores (inferior/superior) "
 "necesitarán ser iguales para\n"
 "mantener centrado al punto)<br>\n"
-"* si la fuente no fuera una ubicación de GPS, el centrado sólo será "
+"* si la fuente no fuera una ubicación de GPS, el centrado solo será "
 "realizado para el eje horizontal\n"
-"(tiempo), el recorte vertical se commportará igual que para el mapa de "
-"líneas 2D (mantendrá estáticamente\n"
+"(tiempo), el recorte vertical se comportará igual que para el mapa de líneas "
+"2D (mantendrá estáticamente\n"
 "el mismo límite mín/máx permitiendo que el punto Ahora se mueva hacia arriba "
 "y abajo).]]>"
 
@@ -13193,8 +13193,8 @@ msgstr ""
 "<![CDATA[Recortar datos del inicio del archivo de GPS (indicado como "
 "porcentaje del total). <br>\n"
 "    \tNota: tanto <em>Inicio recorte</em> como <em>Final recorte</em> serán "
-"calculados a partir del archivo total, por lo que recortar de inicio 50% a "
-"final 50% provocará el recorte del archivo completo.]]>"
+"calculados a partir del archivo total, por lo que recortar de inicio 50 % a "
+"final 50 % provocará el recorte del archivo completo.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -13213,8 +13213,8 @@ msgstr ""
 "<![CDATA[Recortar datos del final del archivo de GPS (indicado como "
 "porcentaje del total). <br>\n"
 "    \tNota: tanto <em>Inicio recorte</em> como <em>Final recorte</em> serán "
-"calculados a partir del archivo total, por lo que recortar de inicio 50% a "
-"final 50% provocará el recorte del archivo completo.]]>"
+"calculados a partir del archivo total, por lo que recortar de inicio 50 % a "
+"final 50 % provocará el recorte del archivo completo.]]>"
 
 #: data/effects/gpsgraphic.xml:54
 #, kde-format
@@ -13506,11 +13506,11 @@ msgstr ""
 "<![CDATA[En caso de estar activa, dibujará 5 líneas horizontales (y "
 "verticales para el tipo mapa) <br>\n"
 "    \tcon pequeños valores en cada una, correspondiendo al valor de la "
-"fuente de valor actual en 0%, 25%, 50%, 75% y 100% de la gráfica actualmente "
-"mostrada, afectado por el tipo de <em>Unidades visibles</em>, si fuera "
-"aplicable, y con la correspondiente unidad agregada a la cadena. En el caso "
-"del tipo velocímetro, esto mostrará valores de división (pero sin el sufijo "
-"de las unidades).]]>"
+"fuente de valor actual en 0 %, 25 %, 50 %, 75 % y 100 % de la gráfica "
+"actualmente mostrada, afectado por el tipo de <em>Unidades visibles</em>, si "
+"fuera aplicable, y con la correspondiente unidad agregada a la cadena. En el "
+"caso del tipo velocímetro, esto mostrará valores de división (pero sin el "
+"sufijo de las unidades).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -13545,7 +13545,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
 msgid "Show dots only"
-msgstr "Sólo mostrar puntos"
+msgstr "Solo mostrar puntos"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -14434,19 +14434,12 @@ msgstr ""
 "'Máscara:' anterior."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Inicio"
+msgstr "Máscara: Inicio"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14455,13 +14448,15 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Permite realizar una captura del fotograma del clip, antes de dibujar formas "
-"simples en su canal alfa. Usarlo en conjunto con el efecto 'Máscara: "
-"Aplicar', que usa una transición para componer la imagen del fotograma "
-"actual del clip sobre dicha captura. El caso típico de uso será el de "
-"agregar efectos mediante la siguiente secuencia: Agregar el efecto 'Máscara: "
-"Forma alfa' (este efecto), luego agregar algunos efectos más, finalmente "
-"agregar el efecto 'Máscara: Aplicar'."
+"Este efecto funciona en conjunto con el efecto 'Máscara: Aplicar' para "
+"facilitar la aplicación de efectos a zonas de la imagen. El efecto realiza "
+"una captura del fotograma del clip, antes de aplicar un efecto, normalmente "
+"uno que afecte al canal alfa para definir una máscara. Luego, el efecto "
+"'Máscara: Aplicar' usará una transición para componer la imagen del "
+"fotograma actual sobre sobre la imagen previamente capturada. El caso típico "
+"de uso será el de agregar efectos mediante la siguiente secuencia: Agregar "
+"el efecto 'Máscara: Inicio' (este efecto), luego agregar algunos efectos "
+"más, finalmente agregar el efecto 'Máscara: Aplicar'."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -15550,7 +15545,7 @@ msgid ""
 "channel, in that case this needs to be last."
 msgstr ""
 "Permite hacer parpadear el canal alfa de un clip hasta 0. Varios otros "
-"filtros sobrescribirán el canal alfa, en ese caso éste debería encontrarse "
+"filtros sobrescribirán el canal alfa, en ese caso este debería encontrarse "
 "en último lugar."
 
 #: data/effects/strobe.xml:9
@@ -15769,7 +15764,7 @@ msgstr "Máquina de escribir (para clips de título)"
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
 msgstr ""
-"Efecto de máquina de escribir v0.3.3 Para ser aplicado sólo a clips de "
+"Efecto de máquina de escribir v0.3.3 Para ser aplicado solo a clips de "
 "título."
 
 #: data/effects/typewriter.xml:8
@@ -16074,8 +16069,8 @@ msgid ""
 "PAL color bars,PAL color bars with red,95% BBC color bars,75% EBU color bars,"
 "SMPTE color bars,Philips PM5544,FuBK,Simplified FuBK"
 msgstr ""
-"Barras de color PAL,Barras de color PAL con rojo,Barras de color BBC 95%,"
-"Barras de color EBU 75%,Barras de color SMPTE,Philips PM5544,FuBK,FuBK "
+"Barras de color PAL,Barras de color PAL con rojo,Barras de color BBC 95 %,"
+"Barras de color EBU 75 %,Barras de color SMPTE,Philips PM5544,FuBK,FuBK "
 "simplificada"
 
 #: data/generators/frei0r_test_pat_b.xml:8
@@ -17280,7 +17275,7 @@ msgstr "Descargar nuevas transiciones…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:163
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr "Sólo mostrar recursos revisados"
+msgstr "Solo mostrar recursos revisados"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:168
 #, kde-format
@@ -17319,7 +17314,7 @@ msgstr "Cambiar tipo de composición"
 #: src/assets/assetpanel.cpp:84
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr "Aplicar sólo a efectos con el mismo valor"
+msgstr "Aplicar solo a efectos con el mismo valor"
 
 #: src/assets/assetpanel.cpp:90
 #, kde-format
@@ -18054,7 +18049,7 @@ msgstr "Rango de destino:"
 #: src/assets/view/widgets/keyframeimport.cpp:346
 #, kde-format
 msgid "Actual range only"
-msgstr "Sólo rango actual"
+msgstr "Solo rango actual"
 
 #: src/assets/view/widgets/keyframeimport.cpp:353
 #, kde-format
@@ -18334,12 +18329,12 @@ msgstr ""
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
 msgid "Drag to add only audio to timeline"
-msgstr "Arrastrar a la línea de tiempo sólo el audio"
+msgstr "Arrastrar a la línea de tiempo solo el audio"
 
 #: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
-msgstr "Arrastrar a la línea de tiempo sólo el video"
+msgstr "Arrastrar a la línea de tiempo solo el video"
 
 #: src/bin/bin.cpp:921 src/bin/bin.cpp:1096
 #, kde-format
@@ -18691,7 +18686,7 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
-"El clip sustituto no contiene una fuente de video. ¿Sustituir sólo el "
+"El clip sustituto no contiene una fuente de video. ¿Sustituir solo el "
 "componente de audio de este clip en la secuencia activa?"
 
 #: src/bin/bin.cpp:2354
@@ -18700,7 +18695,7 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
-"El clip sustituto no contiene una fuente de audio. ¿Sustituir sólo el "
+"El clip sustituto no contiene una fuente de audio. ¿Sustituir solo el "
 "componente de video de este clip en la secuencia activa?"
 
 #: src/bin/bin.cpp:2358 src/bin/bin.cpp:2384
@@ -19139,7 +19134,7 @@ msgid ""
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 "Se está editando un clip de título externo (%1). ¿Guardar los cambios en el "
-"archivo de título o sólo en este proyecto?"
+"archivo de título o solo en este proyecto?"
 
 #: src/bin/bin.cpp:5061 src/titler/titlewidget.cpp:2331
 #, kde-format
@@ -19154,7 +19149,7 @@ msgstr "Guardar en archivo de título"
 #: src/bin/bin.cpp:5062
 #, kde-format
 msgid "Save in project only"
-msgstr "Guardar sólo en el proyecto"
+msgstr "Guardar solo en el proyecto"
 
 #: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
@@ -19462,10 +19457,9 @@ msgid "Import File on Double Click"
 msgstr "Importar archivo con doble clic"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Mostrar previsualización >>>"
+msgstr "Mostrar panel de previsualización"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19523,10 +19517,9 @@ msgstr ""
 "nomenclatura para importarlas como una secuencia de imágenes."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "Actualizar categorías de guías"
+msgstr "Actualizar categorías de marcadores de la línea de tiempo"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -19545,16 +19538,14 @@ msgid "Delete marker"
 msgstr "Borrar marcador"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "Mover capa"
+msgstr "Mover marcador"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "Cambiar nombre de marcador"
+msgstr "Redimensionar marcador"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -19580,10 +19571,9 @@ msgstr "Borrar todos los marcadores"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "No se encontró una guía en la posición actual"
+msgstr "No se encontró un marcador en la posición actual"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -19616,22 +19606,19 @@ msgid "Add markers"
 msgstr "Agregar marcador"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "Actualizar clave"
+msgstr "Actualizar marcador de rango"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "Convierte una matriz de color."
+msgstr "Convertir a marcador de rango"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "Agregar marcador"
+msgstr "Agregar marcador de rango"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -19725,11 +19712,10 @@ msgid "Sequence count"
 msgstr "Cantidad de secuencias"
 
 #: src/bin/previewpanel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Reproducir zona"
+msgstr "Reproducir medio"
 
 #: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19742,63 +19728,54 @@ msgid "Mute"
 msgstr "Silenciar"
 
 #: src/bin/previewpanel.cpp:71
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "Video (sin audio)"
+msgstr "Silenciar audio"
 
 #: src/bin/previewpanel.cpp:72
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "Escuchar monitor"
+msgstr "Volver a escuchar audio"
 
 #: src/bin/previewpanel.cpp:101
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
-msgstr "Auto"
+msgstr "Reproducción automática"
 
 #: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Importar subtítulo"
+msgstr "Importar archivo"
 
 #: src/bin/previewpanel.cpp:167
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Importar subtítulo"
+msgstr "Importar %1 archivos"
 
 #: src/bin/previewpanel.cpp:170
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Crear carpeta"
+msgstr "Importar carpeta"
 
 #: src/bin/previewpanel.cpp:301
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
 #: src/bin/previewpanel.cpp:312
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Pista de a&udio"
-msgstr[1] "Pista de a&udio"
+msgstr[0] "1 pista de audio"
+msgstr[1] "%1 pistas de audio"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -20676,10 +20653,9 @@ msgstr ""
 "volviendo a Automático."
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Import markers"
+#, kde-format
 msgid "Export markers"
-msgstr "Importar marcadores"
+msgstr "Exportar marcadores"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -20717,12 +20693,10 @@ msgid "JSON File"
 msgstr "Archivo JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "Exportar datos de guías"
+msgstr "Exportar datos de marcadores"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -20750,10 +20724,9 @@ msgid "Cannot write to file %1"
 msgstr "No es posible escribir en el archivo %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "Guías guardadas en %1"
+msgstr "Marcadores guardados en %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -20761,75 +20734,64 @@ msgid "Category name"
 msgstr "Nombre de categoría"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "Marker number"
-msgstr "Marcador 1"
+msgstr "Número del marcador"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "Posición de la guía en HH:MM:SS:FF"
+msgstr "Posición del marcador, en HH:MM:SS:FF"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "Posición de la guía en (HH:)MM.SS"
+msgstr "Posición del marcador, en (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "Posición de la guía siguiente en (HH:)MM.SS"
+msgstr "Posición del marcador siguiente, en (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "Posición de la guía en fotogramas"
+msgstr "Posición del marcador, en fotogramas"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "Posición de la guía siguiente en fotogramas"
+msgstr "Posición del marcador siguiente, en fotogramas"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "Mostrar comentarios de marcadores"
+msgstr "Comentario del marcador"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "Posición de la guía en fotogramas"
+msgstr "Duración del marcador, en fotogramas"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "Insertar código de tiempo actual"
+msgstr "Duración del marcador, en código de tiempo"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "Posición de la guía siguiente en fotogramas"
+msgstr "Final del marcador, en código de tiempo"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "Posición de la guía siguiente en fotogramas"
+msgstr "Final del marcador, en fotogramas"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "Determina si el marcador demarca un rango o no (verdadero/falso)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -21274,7 +21236,7 @@ msgstr "Cuadrado (1:1)"
 #: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
-msgstr "Sólo un campo (rápido)"
+msgstr "Solo un campo (rápido)"
 
 #: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:622
 #, kde-format
@@ -21284,7 +21246,7 @@ msgstr "Fundido lineal (rápido)"
 #: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
-msgstr "YADIF - sólo temporal (bueno)"
+msgstr "YADIF - solo temporal (bueno)"
 
 #: src/dialogs/renderwidget.cpp:394
 #, kde-format
@@ -21359,7 +21321,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:583
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
-msgstr "Sólo funciona al usar el formato Matroska (mkv)"
+msgstr "Solo funciona al usar el formato Matroska (mkv)"
 
 #: src/dialogs/renderwidget.cpp:593
 #, kde-format
@@ -21622,10 +21584,9 @@ msgid "Timeline"
 msgstr "Línea de tiempo"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "Colores y guías"
+msgstr "Colores y marcadores"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -21666,7 +21627,7 @@ msgid ""
 msgstr ""
 "Cuando esta opción se encuentre activa, agregará efectos básicos (Invertir, "
 "Transformar, Volumen) a todos los clips, para una mayor practicidad. Estos "
-"efectos se encontrarán desactivados y sólo serán aplicados en caso de que se "
+"efectos se encontrarán desactivados y solo serán aplicados en caso de que se "
 "modifique alguno de sus parámetros."
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:241
@@ -21908,7 +21869,7 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
-"<b>Sólo usar paquetes del sistema. Usarlo si se conoce su significado </b>. "
+"<b>Solo usar paquetes del sistema. Usarlo si se conoce su significado </b>. "
 "Se necesitará instalar manualmente en el sistema todos los paquetes "
 "requeridos:<br>%1"
 
@@ -21919,7 +21880,7 @@ msgid ""
 "the plugin fails. If this does not work, try deleting and reinstalling the "
 "plugin."
 msgstr ""
-"Esto intentará reconstruir el entorno virtual del complemento. Sólo usar en "
+"Esto intentará reconstruir el entorno virtual del complemento. Solo usar en "
 "caso de que el complemento fallara. En caso de que esto no funcionara, "
 "intentar borrar y reinstalar el complemento."
 
@@ -22079,7 +22040,7 @@ msgid ""
 "Only use this install option if your GPU\n"
 "is not correctly detected or not working with this plugin."
 msgstr ""
-"Sólo usar esta opción de instalación en caso de que la GPU\n"
+"Solo usar esta opción de instalación en caso de que la GPU\n"
 "no hubiera sido correctamente detectada o no funcionara con este complemento."
 
 #: src/dialogs/speechdialog.cpp:45
@@ -24025,7 +23986,7 @@ msgstr "Reemplazar todos los clips"
 #: src/doc/kdenlivedoc.cpp:1627
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr "Reemplazar sólo clips sin canal alfa"
+msgstr "Reemplazar solo clips sin canal alfa"
 
 #: src/doc/kdenlivedoc.cpp:1643
 #, kde-format
@@ -24258,7 +24219,7 @@ msgstr "Agregar efecto %1"
 #: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "El efecto %1 sólo puede ser agregado a la pista maestra"
+msgstr "El efecto %1 solo puede ser agregado a la pista maestra"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1284
 #, kde-format
@@ -25083,7 +25044,7 @@ msgstr "Pista selecc&ionada"
 #: src/kdenliveui.rc:165
 #, kde-format
 msgid "&Guides"
-msgstr "&Guías"
+msgstr "&Marcadores"
 
 #. i18n: ectx: Menu (space_menu)
 #: src/kdenliveui.rc:174
@@ -25766,10 +25727,9 @@ msgid "Add Clip"
 msgstr "Agregar clip"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Agregar marcador/guía por número de categoría"
+msgstr "Agregar marcador por número de categoría"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -25954,18 +25914,15 @@ msgid "Go to Marker…"
 msgstr "Ir a marcador"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "Crear marcador"
+msgstr "Crear marcador desde zona"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Crear guías/marcadores a partir de códigos de tiempo seleccionados"
+msgstr "Crear marcador desde zona (rápido)"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -26345,7 +26302,7 @@ msgid ""
 "and others)."
 msgstr ""
 "Habilita o deshabilita la función de adherencia (al cursor de tiempo, bordes "
-"de clips, marcadores, guías y otros)."
+"de clips, marcadores y otros)."
 
 #: src/mainwindow.cpp:1424
 #, kde-format
@@ -26613,16 +26570,14 @@ msgid "Go to Clip End"
 msgstr "Ir al fin del clip"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "Ir a la guía anterior"
+msgstr "Ir al marcador anterior"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "Ir a marcador"
+msgstr "Ir al marcador siguiente"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -26752,7 +26707,7 @@ msgid ""
 msgstr ""
 "Hacer clic para iniciar el procesamiento de todas las zonas de "
 "previsualización (recomendable en áreas con efectos complejos o gran "
-"cantidad de éstos).<nl/>Clic sobre la flecha hacia abajo para obtener una "
+"cantidad de estos).<nl/>Clic sobre la flecha hacia abajo para obtener una "
 "lista de opciones (por ejemplo: agregar zona de previsualización, eliminar "
 "todas las zonas)."
 
@@ -26802,70 +26757,59 @@ msgid "Delete All Markers"
 msgstr "Borrar todos los marcadores"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Agregar marcador/guía rápido"
+msgstr "Agregar marcador (rápido)"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 1"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 2"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 3"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 4"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 5"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 6"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 7"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 8"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 9"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Agregar marcadores por categoría"
+msgstr "Agregar marcador de categoría 10"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -27095,50 +27039,40 @@ msgid "Disable Timeline Preview"
 msgstr "Deshabilitar previsualización de línea de tiempo"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Eliminar marcador"
+msgstr "Agregar/Eliminar marcador"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "Buscar marcadores"
+msgstr "Buscar marcador…"
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Edit Marker…"
+#, kde-format
 msgid "Export Markers…"
-msgstr "Editar marcador…"
+msgstr "Exportar marcadores…"
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Previsualización"
+msgstr "Bloquear marcadores de línea de tiempo"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Cargar marcadores de clip"
+msgstr "Bloquear marcadores de línea de tiempo"
 
 #: src/mainwindow.cpp:2053
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Bloquear guías. Al estar bloqueadas, las guías no se moverán al usar la "
-"herramienta de espaciado o al insertar/eliminar espacios en blanco en las "
-"pistas."
+"Bloquear marcadores de línea de tiempo. Al estar bloqueados, los marcadores "
+"no se moverán al usar la herramienta de espaciado o al insertar/eliminar "
+"espacios en blanco en las pistas."
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -27487,8 +27421,8 @@ msgid ""
 "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</"
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
-"<shortcut>Ctrl</shortcut> aplicar sólo en pista actual, <shortcut>Mayús</"
-"shortcut> mover también guías. (es posible combinar ambos)"
+"<shortcut>Ctrl</shortcut> aplicar solo en pista actual, <shortcut>Mayús</"
+"shortcut> mover también marcadores (es posible combinar ambos)."
 
 #: src/mainwindow.cpp:3622
 #, kde-format
@@ -28151,7 +28085,7 @@ msgstr "Volumen del audio"
 #: src/monitor/monitor.cpp:96 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: src/monitor/monitor.cpp:238
 #, kde-format
@@ -28223,16 +28157,14 @@ msgstr ""
 "audio, tamaño del monitor)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "Ir a marcador"
+msgstr "Ir a marcador del clip…"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "Ir a marcador"
+msgstr "Ir a marcador de la línea de tiempo…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -28242,12 +28174,12 @@ msgstr "Tamaño del monitor"
 #: src/monitor/monitor.cpp:447
 #, kde-format
 msgid "Force 100%"
-msgstr "Forzar al 100%"
+msgstr "Forzar al 100 %"
 
 #: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Force 50%"
-msgstr "Forzar al 50%"
+msgstr "Forzar al 50 %"
 
 #: src/monitor/monitor.cpp:451
 #, kde-format
@@ -28311,10 +28243,9 @@ msgid "Set current image as thumbnail"
 msgstr "Definir imagen actual como miniatura"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "Crear guías/marcadores a partir de códigos de tiempo seleccionados"
+msgstr "Crear marcador desde zona…"
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -28431,24 +28362,24 @@ msgstr "No es posible obtener productor para el Monitor de clips"
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
+"No hay una zona válida definida. Establecer puntos de entrada y salida antes."
 
 #: src/monitor/monitor.cpp:3315
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "Crear marcador de rango desde zona"
 
 #: src/monitor/monitor.cpp:3321 src/monitor/monitor.cpp:3342
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "Se creó un marcador de rango a partir de la zona"
 
 #: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "No fue posible crear archivo."
+msgstr "No fue posible crear un marcador de rango a partir de la zona"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -28589,10 +28520,9 @@ msgstr "Ir al fin de la zona"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "Cambiar nombre de marcador"
+msgstr "Marcador de zona"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -28778,7 +28708,7 @@ msgstr "Generar máscara"
 #: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr "Cambiar opacidad (0% - 25% - 50% - 100%)"
+msgstr "Cambiar opacidad (0 % - 25 % - 50 % - 100 %)"
 
 #: src/monitor/view/MaskToolBar.qml:95
 #, kde-format
@@ -28967,7 +28897,7 @@ msgstr "Habilitar efecto incorporado Transformar"
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Guide"
-msgstr "Agregar guía"
+msgstr "Agregar marcador"
 
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
@@ -28977,7 +28907,7 @@ msgstr "Eliminar marcador"
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
 msgid "Remove Guide"
-msgstr "Eliminar guía"
+msgstr "Eliminar marcador"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -29687,8 +29617,7 @@ msgid "Showing backup files for %1"
 msgstr "Se muestran los archivos de respaldo de %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "Editar categoría de marcadores"
 
@@ -29703,10 +29632,9 @@ msgid "Category %1"
 msgstr "Categoría %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "Editar categoría de marcadores"
+msgstr "Borrar categoría del marcador"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -29741,7 +29669,7 @@ msgstr "Configurar categorías"
 #: src/project/dialogs/guideslist.cpp:156
 #, kde-format
 msgid "Show markers for all clips in the project"
-msgstr "Mostrar los marcadores de todos los clips del proyecto"
+msgstr "Mostrar los marcadores de todo el proyecto"
 
 #: src/project/dialogs/guideslist.cpp:165
 #, kde-format
@@ -29764,95 +29692,76 @@ msgid "Refresh All Thumbnails"
 msgstr "Refrescar todas las miniaturas"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "Agregar marcador"
+msgstr "Agregar marcador."
 
 #: src/project/dialogs/guideslist.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
-"Agregar nueva guía. Permite agregar una guía en la posición del fotograma "
-"actual."
+"Agregar nuevo marcador. Permite agregar un nuevo marcador en la posición del "
+"fotograma actual."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "Borrar marcador"
+msgstr "Borrar marcador."
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "Borrar guía. Permite borrar todas las guías seleccionadas."
+msgstr "Borrar marcador. Permite borrar todos los marcadores seleccionados."
 
 #: src/project/dialogs/guideslist.cpp:210
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "Editar guía seleccionada."
+msgstr "Editar marcador seleccionado."
 
 #: src/project/dialogs/guideslist.cpp:211
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
 msgstr ""
-"Editar guía seleccionada. Seleccionar varias guías para cambiar su categoría."
+"Editar marcador seleccionado. Seleccionar varios marcadores para cambiar su "
+"categoría."
 
 #: src/project/dialogs/guideslist.cpp:212
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Filtrar categorías de guías."
+msgstr "Filtrar categorías de marcadores."
 
 #: src/project/dialogs/guideslist.cpp:214
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Filtrar categorías de guías. Permite mostrar u ocultar las categorías de "
-"guías seleccionadas en este diálogo y en la línea de tiempo."
+"Filtrar categorías de marcadores. Permite mostrar u ocultar las categorías "
+"de marcadores seleccionadas en este panel y en la línea de tiempo."
 
 #: src/project/dialogs/guideslist.cpp:215
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Categoría predeterminada para guías."
+msgstr "Categoría predeterminada para marcadores."
 
 #: src/project/dialogs/guideslist.cpp:216
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
-"Categoría predeterminada para guías. La categoría usada para las nuevas "
-"guías a ser creadas."
+"Categoría predeterminada para marcadores. La categoría usada para los nuevos "
+"marcadores a ser creados."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "Buscar marcadores"
+msgstr "Buscar todos los marcadores"
 
 #: src/project/dialogs/guideslist.cpp:256
 #, kde-format
@@ -29872,22 +29781,19 @@ msgstr "El tamaño del marcador es mayor a 1MB, ¿seguro importarlo?"
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "Eliminar marcador"
+msgstr "Eliminar marcadores"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "Buscar marcadores"
+msgstr "Buscar marcadores (clip)"
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "Buscar marcadores"
+msgstr "Buscar marcadores (línea de tiempo)"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -30087,7 +29993,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 "Se eliminarán los siguientes archivos del disco.\n"
-"Esta acción no puede ser deshecha, usarla sólo si se está seguro.\n"
+"Esta acción no puede ser deshecha, usarla solo si se está seguro.\n"
 "¿Continuar?"
 
 #: src/project/dialogs/projectsettings.cpp:391
@@ -30467,7 +30373,7 @@ msgstr ""
 #: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr "Crear guías/marcadores a partir de códigos de tiempo seleccionados"
+msgstr "Crear marcadores a partir de códigos de tiempo seleccionados"
 
 #: src/project/notesplugin.cpp:167
 #, kde-kuit-format
@@ -31864,7 +31770,7 @@ msgstr "Opciones de dibujo"
 #: src/scopes/colorscopes/vectorscope.cpp:153
 #, kde-format
 msgid "75% box"
-msgstr "Marco en 75%"
+msgstr "Marco en 75 %"
 
 #: src/scopes/colorscopes/vectorscope.cpp:163
 #, kde-format
@@ -33030,7 +32936,7 @@ msgstr "%1%2, Duración = %3"
 #: src/timeline2/view/qml/Track.qml:506
 #, kde-format
 msgid "%1% | Adjusting speed"
-msgstr "%1% | Ajustando velocidad"
+msgstr "%1 % | Ajustando velocidad"
 
 #: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
@@ -33155,10 +33061,9 @@ msgid "Select at least 2 items to group"
 msgstr "Seleccionar al menos 2 elementos para agrupar"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "No hay un marcador bajo el cursor"
+msgstr "No se encontró un marcador de rango en la posición actual"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -33179,7 +33084,7 @@ msgstr "Entrada:%1, Salida:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
-"Desplazar sólo podrá ser realizado en clips de video, audio o animación"
+"Desplazar solo podrá ser realizado en clips de video, audio o animación"
 
 #: src/timeline2/view/timelinecontroller.cpp:2792
 #, kde-format
@@ -33376,7 +33281,7 @@ msgid ""
 msgstr ""
 "La pista actual de subtítulos contiene varias capas, lo cual significa que "
 "en caso de que varios subtítulos en distintas capas compartieran una misma "
-"posición inicial, sólo se preservará el de la capa de más abajo. Es posible "
+"posición inicial, solo se preservará el de la capa de más abajo. Es posible "
 "que esto resulte en la pérdida de algunos subtítulos en el archivo "
 "exportado. ¿Continuar?"
 
@@ -33428,10 +33333,9 @@ msgid "Manage Subtitles"
 msgstr "Administrar subtítulos"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "No se encontró una guía en la posición actual"
+msgstr "No se encontró un marcador de rango en la posición actual"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -33639,17 +33543,17 @@ msgstr "Seleccionar todo"
 #: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Keep only text items selected"
-msgstr "Sólo mantener seleccionados los elementos de texto"
+msgstr "Solo mantener seleccionados los elementos de texto"
 
 #: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Keep only rect items selected"
-msgstr "Sólo mantener seleccionados los elementos rectangulares"
+msgstr "Solo mantener seleccionados los elementos rectangulares"
 
 #: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Keep only image items selected"
-msgstr "Sólo mantener seleccionados los elementos de imagen"
+msgstr "Solo mantener seleccionados los elementos de imagen"
 
 #: src/titler/titlewidget.cpp:372
 #, kde-format
@@ -34257,13 +34161,13 @@ msgstr "zip"
 #: src/ui/archivewidget_ui.ui:75
 #, kde-format
 msgid "Archive only proxy clips when available"
-msgstr "Archivar clips de reemplazo sólo cuando estén disponibles"
+msgstr "Archivar clips de reemplazo solo cuando estén disponibles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, timeline_archive)
 #: src/ui/archivewidget_ui.ui:82
 #, kde-format
 msgid "Archive only timeline clips"
-msgstr "Archivar sólo clips en secuencias"
+msgstr "Archivar solo clips en secuencias"
 
 #. i18n: ectx: property (format), widget (QProgressBar, speech_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
@@ -34272,7 +34176,7 @@ msgstr "Archivar sólo clips en secuencias"
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:58
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p%"
+msgstr "%p %"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -34509,7 +34413,7 @@ msgstr ""
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
 msgid "Show handles for all points or only for the selected one."
-msgstr "Mostrar tangentes en todos los puntos o sólo en el seleccionado."
+msgstr "Mostrar tangentes en todos los puntos o solo en el seleccionado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
 #: src/ui/clipdurationdialog_ui.ui:34
@@ -35569,11 +35473,9 @@ msgstr "Perfil para clips con canal alfa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Eliminar clip de reemplazo"
+msgstr "Clips de reemplazo de cámara"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -35602,7 +35504,7 @@ msgid ""
 "Change only if you know what you do."
 msgstr ""
 "Atención: los cambios en los controladores o dispositivos pueden hacer "
-"inestable a Kdenlive. Cambiarlos sólo si se sabe lo que se hace."
+"inestable a Kdenlive. Cambiarlos solo si se sabe lo que se hace."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:65
@@ -35774,7 +35676,7 @@ msgstr "Traducir texto al inglés"
 #: src/ui/configspeech_ui.ui:652 src/ui/configspeech_ui.ui:1067
 #, kde-format
 msgid "Use system packages only"
-msgstr "Sólo usar paquetes del sistema"
+msgstr "Solo usar paquetes del sistema"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
 #: src/ui/configspeech_ui.ui:659
@@ -35785,7 +35687,7 @@ msgid ""
 "everything by yourself."
 msgstr ""
 "Cuando esté activa, Kdenlive usará los paquetes de voz a texto instalados en "
-"el sistema. Sólo para usuarios avanzados, dado que se deberá configurar todo "
+"el sistema. Solo para usuarios avanzados, dado que se deberá configurar todo "
 "apropiadamente de forma manual."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
@@ -35847,7 +35749,7 @@ msgid ""
 "yourself."
 msgstr ""
 "Cuando esté activa, Kdenlive usará la versión de SAM2 instalada en el "
-"sistema. Sólo para usuarios avanzados, dado que se deberá configurar todo "
+"sistema. Solo para usuarios avanzados, dado que se deberá configurar todo "
 "apropiadamente de forma manual."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -36057,7 +35959,7 @@ msgstr "Extensión:"
 #: src/ui/configtranscode_ui.ui:76
 #, kde-format
 msgid "Audio only"
-msgstr "Sólo audio"
+msgstr "Solo audio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtranscode_ui.ui:83
@@ -36428,7 +36330,7 @@ msgid ""
 "Enabling manual editing is for advanced users, you will only be able to edit "
 "the settings for this preset in a text box."
 msgstr ""
-"Habilitar la edición manual es una tarea para usuarios avanzados, sólo será "
+"Habilitar la edición manual es una tarea para usuarios avanzados, solo será "
 "posible editar las opciones de este preajuste en un cuadro de texto."
 
 #. i18n: ectx: property (text), widget (QPushButton, button_manual)
@@ -36685,7 +36587,7 @@ msgstr "Editar categoría"
 #: src/ui/guidecategories_ui.ui:70
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr "Categorías de guías y marcadores"
+msgstr "Categorías de marcadores"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:39
@@ -37121,17 +37023,15 @@ msgstr "Clave"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "Eliminar marcador"
+msgstr "Marcador de rango"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Tiempo de procesamiento"
+msgstr "Final"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:139
@@ -37473,17 +37373,15 @@ msgstr "Tamaño de imagen de reemplazo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Eliminar clip de reemplazo"
+msgstr "Clips de reemplazo de cámara"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
 #, kde-format
 msgid "Guides"
-msgstr "Guías"
+msgstr "Marcadores"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:612
@@ -37675,28 +37573,25 @@ msgstr "Secuencia comp&leta"
 #: src/ui/renderwidget_ui.ui:383
 #, kde-format
 msgid "Selected &zone"
-msgstr "&Zona de línea de tiempo"
+msgstr "&Zona activa"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "&Marker zone"
-msgstr "Marcador 1"
+msgstr "Zona entre &marcadores"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "Exportación múltiple entre guías"
+msgstr "Exportación múltiple entre marcadores"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "Guías separadoras:"
+msgstr "Marcadores de separación:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495
@@ -37768,7 +37663,7 @@ msgstr "Relación entre tamaño del archivo y calidad."
 #: src/ui/renderwidget_ui.ui:692
 #, no-c-format, kde-format
 msgid "75%"
-msgstr "75%"
+msgstr "75 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/renderwidget_ui.ui:699
@@ -38166,7 +38061,7 @@ msgstr "Tamaño del archivo"
 #: src/ui/textbasededit_ui.ui:86
 #, kde-format
 msgid "Selected zone only"
-msgstr "Sólo zona seleccionada"
+msgstr "Solo zona seleccionada"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:106
@@ -38552,19 +38447,19 @@ msgstr "Redimensionar"
 #: src/ui/titlewidget_ui.ui:1647
 #, no-c-format, kde-format
 msgid "50%"
-msgstr "50%"
+msgstr "50 %"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
 #: src/ui/titlewidget_ui.ui:1654
 #, no-c-format, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
 #: src/ui/titlewidget_ui.ui:1661
 #, no-c-format, kde-format
 msgid "200%"
-msgstr "200%"
+msgstr "200 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #: src/ui/titlewidget_ui.ui:1701
@@ -38812,96 +38707,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "External proxy clips:"
-#~ msgstr "Clips externos de reemplazo:"
-
-#~ msgid "Export guides"
-#~ msgstr "Exportar guías"
-
-#~ msgid "Guide number"
-#~ msgstr "Número de la guía"
-
-#~ msgid "Guide comment"
-#~ msgstr "Comentario de la guía"
-
-#~ msgid "Go to Guide…"
-#~ msgstr "Ir a guía"
-
-#~ msgid "Go to Next Guide"
-#~ msgstr "Ir a la guía siguiente"
-
-#~ msgid "Add Marker/Guide 1"
-#~ msgstr "Agregar marcador/guía 1"
-
-#~ msgid "Add Marker/Guide 2"
-#~ msgstr "Agregar marcador/guía 2"
-
-#~ msgid "Add Marker/Guide 3"
-#~ msgstr "Agregar marcador/guía 3"
-
-#~ msgid "Add Marker/Guide 4"
-#~ msgstr "Agregar marcador/guía 4"
-
-#~ msgid "Add Marker/Guide 5"
-#~ msgstr "Agregar marcador/guía 5"
-
-#~ msgid "Add Marker/Guide 6"
-#~ msgstr "Agregar marcador/guía 6"
-
-#~ msgid "Add Marker/Guide 7"
-#~ msgstr "Agregar marcador/guía 7"
-
-#~ msgid "Add Marker/Guide 8"
-#~ msgstr "Agregar marcador/guía 8"
-
-#~ msgid "Add Marker/Guide 9"
-#~ msgstr "Agregar marcador/guía 9"
-
-#~ msgid "Add Marker/Guide 10"
-#~ msgstr "Agregar marcador/guía 10"
-
-#~ msgid "Add/Remove Guide"
-#~ msgstr "Agregar/Eliminar guía"
-
-#~ msgid "Delete Guide"
-#~ msgstr "Borrar guía"
-
-#~ msgid "Edit Guide…"
-#~ msgstr "Editar guía…"
-
-#~ msgid "Search Guide…"
-#~ msgstr "Buscar guía…"
-
-#~ msgid "Export Guides…"
-#~ msgstr "Exportar guías…"
-
-#~ msgid "Guides Locked"
-#~ msgstr "Bloquear guías"
-
-#~ msgid "Lock guides"
-#~ msgstr "Bloquear guías"
-
-#~ msgid "Delete All Guides"
-#~ msgstr "Borrar todas las guías"
-
-#~ msgid "Edit Guide Category"
-#~ msgstr "Editar categoría de guía"
-
-#~ msgid "Delete Guide Category"
-#~ msgstr "Borrar categoría de guía"
-
-#~ msgid "Add new guide."
-#~ msgstr "Agregar nueva guía."
-
-#~ msgid "Delete guide."
-#~ msgstr "Borrar guía."
-
-#~ msgid "Remove guides"
-#~ msgstr "Eliminar guías"
-
-#~ msgid "guide"
-#~ msgstr "guía"
-
-#~ msgid "&Guide zone"
-#~ msgstr "Zona entre &guías"

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-19 00:41+0000\n"
+"POT-Creation-Date: 2025-09-21 00:41+0000\n"
 "PO-Revision-Date: 2025-09-13 16:14+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -11984,8 +11984,9 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Bloquer l'image par décalage des lignes vers l'avant et l'arrière."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, kde-format
-msgid "Agressiveness of row/column shifting"
+#, fuzzy, kde-format
+#| msgid "Agressiveness of row/column shifting"
+msgid "Aggressiveness of row/column shifting"
 msgstr "Agressivité du déplacement de la ligne / colonne"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
