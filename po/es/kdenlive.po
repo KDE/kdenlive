@@ -4,13 +4,12 @@
 # Automatically generated, 2015.
 #
 # SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Gabriel Gazzán <gabcorreo@gmail.com>
-# SPDX-FileCopyrightText: 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-18 02:36+0000\n"
-"PO-Revision-Date: 2025-08-17 11:40+0100\n"
+"PO-Revision-Date: 2025-09-20 18:18+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -372,7 +371,7 @@ msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
 msgstr ""
-"Determina si el área debajo de la forma de onda deberá ser rellenada. Sólo "
+"Determina si el área debajo de la forma de onda deberá ser rellenada. Solo "
 "se aplica a la gráfica de líneas."
 
 #: data/effects/audiospectrum.xml:43
@@ -395,7 +394,7 @@ msgid ""
 msgstr ""
 "Define el grado de curvatura de las líneas que interpolan entre puntos. 0,0 "
 "= línea recta entre puntos. 100 = curvas suaves entre puntos. Valores < 0 y "
-"> 100 provocarán bucles en las líneas. Sólo se aplica a la gráfica de líneas."
+"> 100 provocarán bucles en las líneas. Solo se aplica a la gráfica de líneas."
 
 #: data/effects/audiospectrum.xml:50
 #, kde-format
@@ -1013,7 +1012,7 @@ msgstr "Frecuencia en Hz"
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
 msgid "Only used if timing is set to hz."
-msgstr "Sólo usado cuando Tiempo esté en Hz."
+msgstr "Solo usado cuando Tiempo esté en Hz."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
@@ -1376,7 +1375,7 @@ msgstr "Paridad"
 #: data/effects/avfilter/avfilter_yadif.xml:16
 #, kde-format
 msgid "Deint all frames,Deint interlaced frames only"
-msgstr "Todos los fotogramas,Sólo los entrelazados"
+msgstr "Todos los fotogramas,Solo los entrelazados"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
@@ -1453,7 +1452,7 @@ msgid ""
 "everything.]]>"
 msgstr ""
 "<![CDATA[Porcentaje de similitud con el color seleccionado<br>\n"
-"        0,01 coincidirá sólo con el color seleccionado exacto, mientras que "
+"        0,01 coincidirá solo con el color seleccionado exacto, mientras que "
 "1,0 coincidirá con todos.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
@@ -1727,7 +1726,7 @@ msgstr "Gama de entrada"
 #, kde-format
 msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
 msgstr ""
-"<![CDATA[Permite definir el gama de entrada. Usado sólo en el espacio de "
+"<![CDATA[Permite definir el gama de entrada. Usado solo en el espacio de "
 "color de entrada XYZ.]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
@@ -2412,7 +2411,7 @@ msgstr ""
 "retardos a la pista de cada micrófono para sincronizarlos.\n"
 "\n"
 "Se alcanzará el mejor resultado posible al tomar una pista como base y "
-"sincronizar las demás con ésta, una por una. Deberá recordarse que la "
+"sincronizar las demás con esta, una por una. Deberá recordarse que la "
 "tolerancia a la desincronización/retardo dependerá también de la frecuencia "
 "de muestreo de la señal. Cuanto mayor sea la frecuencia de muestreo se "
 "tendrá una mayor tolerancia. "
@@ -2860,7 +2859,7 @@ msgstr ""
 "        En caso de ser positivo, se escogerá una dirección aleatoria entre 0 "
 "y el ángulo introducido. Cuando sea negativo, se usará el valor absoluto "
 "exacto. Por ejemplo, usando direcciones de 0°, -180° o -360° se terminarán "
-"escogiendo sólo píxeles de la misma fila y con -90° se escogerán sólo "
+"escogiendo solo píxeles de la misma fila y con -90° se escogerán solo "
 "píxeles de la misma columna]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:38
@@ -2885,7 +2884,7 @@ msgstr ""
 "valor promedio de los píxeles de alrededor.<br>\n"
 "        Activa de forma predeterminada. En caso de estar inactiva, el píxel "
 "actual será comparado con los cuatro píxeles cercanos. El píxel será "
-"considerado como perteneciente a una banda sólo cuando las cuatro "
+"considerado como perteneciente a una banda solo cuando las cuatro "
 "diferencias con los píxeles de alrededor sea menor que el umbral.]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:43
@@ -2900,7 +2899,7 @@ msgid ""
 "        all pixel components are banded, e.g. banding detection threshold is "
 "triggered for all color components. The default is disabled.]]>"
 msgstr ""
-"<![CDATA[Cuando esté activa, el píxel actual será modificado si y sólo si "
+"<![CDATA[Cuando esté activa, el píxel actual será modificado si y solo si "
 "<br>\n"
 "        todos los componentes del píxel se encuentran perteneciendo a una "
 "banda, es decir, cuando el umbral de detección de bandas se hubiera "
@@ -3047,7 +3046,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr "Original,Final,Sólo reducción"
+msgstr "Original,Final,Solo reducción"
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
@@ -3767,7 +3766,7 @@ msgid ""
 "overlap may give blocking artifacts.]]>"
 msgstr ""
 "<![CDATA[Permite establecer la constante sigma del ruido.<br>\n"
-"       \tÉsta determinará la intensidad de reducción de ruido. En caso de "
+"       \tEsta determinará la intensidad de reducción de ruido. En caso de "
 "usarse un valor de sigma muy alto, junto con un valor bajo de solapamiento, "
 "es posible que se produzcan defectos de imagen de tipo bloque.]]>"
 
@@ -4241,7 +4240,7 @@ msgstr ""
 "las regiones de color mayormente pleno al truncar el color a 8 bits.<br>\n"
 "    Permite interpolar los gradientes que deberían verse en lugar de las "
 "bandas, difuminándolas.<br>\n"
-"    <b>Está diseñado sólo para la reproducción. No usarlo antes de una "
+"    <b>Está diseñado solo para la reproducción. No usarlo antes de una "
 "compresión con pérdida, porque tiende a perder la difuminación y volver a "
 "traer las bandas</b>.]]>"
 
@@ -4839,7 +4838,7 @@ msgid ""
 "values higher than the pixel. "
 msgstr ""
 "Permite reemplazar el píxel por el promedio local (de 3×3), tomando en "
-"cuenta sólo los valores mayores que los del píxel. "
+"cuenta solo los valores mayores que los del píxel. "
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -6359,7 +6358,7 @@ msgstr "IntÁngulo"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr "Sólo usado cuando la opción 'interpolar' se encuentre activa."
+msgstr "Solo usado cuando la opción 'interpolar' se encuentre activa."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
@@ -7124,7 +7123,7 @@ msgstr "Coeficientes del filtro"
 #: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
-msgstr "Todos,Sólo marcados como entrelazados"
+msgstr "Todos,Solo marcados como entrelazados"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
 #, kde-format
@@ -7281,7 +7280,7 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
-"<![CDATA[Sólo usado con el filtro Paso bajo y en caso de que el tipo de "
+"<![CDATA[Solo usado con el filtro Paso bajo y en caso de que el tipo de "
 "visualización<br>\n"
 "       \tno fuera Superponer y el formato de los píxeles de entrada no fuera "
 "RVA]]>"
@@ -7514,7 +7513,7 @@ msgstr ""
 #: data/effects/burningtv.xml:8
 #, kde-format
 msgid "Foreground Only"
-msgstr "Sólo en el frente"
+msgstr "Solo en el frente"
 
 #: data/effects/burningtv.xml:11
 #, kde-format
@@ -8741,8 +8740,8 @@ msgid ""
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
 "Permite agregar un mate negro a la imagen de un clip. Usar en caso de haber "
-"filmado usando una cámara 360, cuando sólo se desee usar una parte de la "
-"imagen 360 - por ejemplo, en caso de que el quipo de filmación salga "
+"filmado usando una cámara 360, cuando solo se desee usar una parte de la "
+"imagen 360 - por ejemplo, en caso de que el equipo de filmación salga "
 "ocupando los 90 grados detrás de la cámara."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
@@ -8772,7 +8771,7 @@ msgid ""
 "End is the half the height in degrees where the matte is at 100%.]]>"
 msgstr ""
 "<![CDATA[El <b>Final</b> es la mitad de la altura, en grados, en donde la "
-"máscara estará al 100%.]]>"
+"máscara estará al 100 %.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
 #, kde-format
@@ -8787,8 +8786,8 @@ msgid ""
 "<b>End</b> is the width in degrees where the matte is at 100%.]]>"
 msgstr ""
 "<![CDATA[El <b>Inicio</b> es el ancho, en grados, del área no enmascarada. "
-"El <b>Final</b> es el ancho, en grados, en donde la máscara estará al "
-"100%.]]>"
+"El <b>Final</b> es el ancho, en grados, en donde la máscara estará al 100 "
+"%.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #, kde-format
@@ -8893,7 +8892,7 @@ msgid ""
 "    \t100 means that you get a 100% fisheye lens.]]>"
 msgstr ""
 "<![CDATA[La cantidad de ojo de pez a fundir.<br>\n"
-"    \tcon 100 se obtendrá un ojo de pez al 100%.]]>"
+"    \tcon 100 se obtendrá un ojo de pez al 100 %.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -9033,7 +9032,7 @@ msgid ""
 "<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
 "like the Ricoh Theta and Garmin Virb360 are supported.]]>"
 msgstr ""
-"<![CDATA[El tipo de proyección de ojo de pez. Actualmente, sólo se soportan "
+"<![CDATA[El tipo de proyección de ojo de pez. Actualmente, solo se soportan "
 "tipos de ojo de pez equidistantes, como el Ricoh Theta y el Garmin "
 "Virb360.]]>"
 
@@ -9485,8 +9484,8 @@ msgid ""
 "    \t100% means that the stabilizer will make the camera as steady as it "
 "can. Smaller values reduce the amount of stabilization.]]>"
 msgstr ""
-"<![CDATA[La cantdad de estabilización a ser aplicada.<br>\n"
-"    \t100% significará que el estabilizador hará que la cámara quede tan "
+"<![CDATA[La cantidad de estabilización a ser aplicada.<br>\n"
+"    \t100 % significará que el estabilizador hará que la cámara quede tan "
 "estática como sea posible. Valores menores reducirán la cantidad de "
 "estabilización.]]>"
 
@@ -9544,7 +9543,7 @@ msgid ""
 "stabilizer will make the camera as steady as it can. Smaller values reduce "
 "the amount of stabilization.]]>"
 msgstr ""
-"<![CDATA[La cantidad de estabilización a ser aplicada. 100% significará que "
+"<![CDATA[La cantidad de estabilización a ser aplicada. 100 % significará que "
 "el estabilizador hará que la cámara sea tan estable como sea posible. "
 "Valores menores reducirán la cantidad de estabilización.]]>"
 
@@ -10549,7 +10548,7 @@ msgid ""
 "on each pass."
 msgstr ""
 "El factor de escala de la ventana de búsqueda. Por ejemplo, 120 = 1,20 = se "
-"incrementa en un 20% con cada pasada."
+"incrementa en un 20 % con cada pasada."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
@@ -11007,7 +11006,7 @@ msgid ""
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
-"<![CDATA[Centro del segmento de origen. Sólo usado cuando <em>Especificar "
+"<![CDATA[Centro del segmento de origen. Solo usado cuando <em>Especificar "
 "segmento de origen</em> esté activa.<br>\n"
 "        0 representará +X y rotará en sentido antihorario.]]>"
 
@@ -11265,7 +11264,7 @@ msgid ""
 "bottom half of the frame are black, i.e. there is no room for the picture)]]>"
 msgstr ""
 "<![CDATA[Especifica el ancho de las bandas<br>\n"
-"        como porcentaje de la mitad de la resolución vertical (100% "
+"        como porcentaje de la mitad de la resolución vertical (100 % "
 "significará que cada banda ocupará respectivamente la mitad superior e "
 "inferior completa de la imagen, es decir, no quedará ningún espacio para la "
 "imagen)]]>"
@@ -11370,8 +11369,8 @@ msgid ""
 "the right) make it brighter.]]>"
 msgstr ""
 "<![CDATA[Cambia el brillo general de la imagen.<br>\n"
-"                Afectará sólo a los medios tonos, los extremos blancos y "
-"negros no serán afectados. Predeterminado: 25%, equivalente a un Gama de "
+"                Afectará solo a los medios tonos, los extremos blancos y "
+"negros no serán afectados. Predeterminado: 25 %, equivalente a un Gama de "
 "1.0). Valores menores (deslizador hacia la izquierda) oscurecerán la imagen, "
 "valores mayores (deslizador hacia la derecha) la aclararán.]]>"
 
@@ -13044,7 +13043,7 @@ msgid ""
 msgstr ""
 "<![CDATA[Cuántos puntos del GPS a suavizar para eliminar errores del GPS."
 "<br>\n"
-"    \tUn valor de 1 no suavizará las ubicaciones, sólo calculará los campos "
+"    \tUn valor de 1 no suavizará las ubicaciones, solo calculará los campos "
 "adicionales (velocidad, distancia, etc.) e interpolará los valores faltantes "
 "para el pulso y la altitud.]]>"
 
@@ -13110,18 +13109,18 @@ msgid ""
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
 "<![CDATA[El <b>Velocímetro</b> se encuentra disponible para todas las "
-"fuentes de datos, pero se recomienda sólo para velocidad; para el tipo mapa "
+"fuentes de datos, pero se recomienda solo para velocidad; para el tipo mapa "
 "representará el \"porcentaje completado\" desde el inicio - final).<br>\n"
 "Nota: para el tipo 1 (ampliar centrado o \"seguir al punto\"):<br>\n"
-"* los valores de recorte sólo serán válidos como porcentajes y sólo los "
+"* los valores de recorte solo serán válidos como porcentajes y solo los "
 "valores inferiores (resp izq)\n"
 "serán tomados en consideración, dado que ambos valores (inferior/superior) "
 "necesitarán ser iguales para\n"
 "mantener centrado al punto)<br>\n"
-"* si la fuente no fuera una ubicación de GPS, el centrado sólo será "
+"* si la fuente no fuera una ubicación de GPS, el centrado solo será "
 "realizado para el eje horizontal\n"
-"(tiempo), el recorte vertical se commportará igual que para el mapa de "
-"líneas 2D (mantendrá estáticamente\n"
+"(tiempo), el recorte vertical se comportará igual que para el mapa de líneas "
+"2D (mantendrá estáticamente\n"
 "el mismo límite mín/máx permitiendo que el punto Ahora se mueva hacia arriba "
 "y abajo).]]>"
 
@@ -13142,8 +13141,8 @@ msgstr ""
 "<![CDATA[Recortar datos del inicio del archivo de GPS (indicado como "
 "porcentaje del total). <br>\n"
 "    \tNota: tanto <em>Inicio recorte</em> como <em>Final recorte</em> serán "
-"calculados a partir del archivo total, por lo que recortar de inicio 50% a "
-"final 50% provocará el recorte del archivo completo.]]>"
+"calculados a partir del archivo total, por lo que recortar de inicio 50 % a "
+"final 50 % provocará el recorte del archivo completo.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -13162,8 +13161,8 @@ msgstr ""
 "<![CDATA[Recortar datos del final del archivo de GPS (indicado como "
 "porcentaje del total). <br>\n"
 "    \tNota: tanto <em>Inicio recorte</em> como <em>Final recorte</em> serán "
-"calculados a partir del archivo total, por lo que recortar de inicio 50% a "
-"final 50% provocará el recorte del archivo completo.]]>"
+"calculados a partir del archivo total, por lo que recortar de inicio 50 % a "
+"final 50 % provocará el recorte del archivo completo.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
@@ -13455,11 +13454,11 @@ msgstr ""
 "<![CDATA[En caso de estar activa, dibujará 5 líneas horizontales (y "
 "verticales para el tipo mapa) <br>\n"
 "    \tcon pequeños valores en cada una, correspondiendo al valor de la "
-"fuente de valor actual en 0%, 25%, 50%, 75% y 100% de la gráfica actualmente "
-"mostrada, afectado por el tipo de <em>Unidades visibles</em>, si fuera "
-"aplicable, y con la correspondiente unidad agregada a la cadena. En el caso "
-"del tipo velocímetro, esto mostrará valores de división (pero sin el sufijo "
-"de las unidades).]]>"
+"fuente de valor actual en 0 %, 25 %, 50 %, 75 % y 100 % de la gráfica "
+"actualmente mostrada, afectado por el tipo de <em>Unidades visibles</em>, si "
+"fuera aplicable, y con la correspondiente unidad agregada a la cadena. En el "
+"caso del tipo velocímetro, esto mostrará valores de división (pero sin el "
+"sufijo de las unidades).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -13494,7 +13493,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
 msgid "Show dots only"
-msgstr "Sólo mostrar puntos"
+msgstr "Solo mostrar puntos"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -15463,7 +15462,7 @@ msgid ""
 "channel, in that case this needs to be last."
 msgstr ""
 "Permite hacer parpadear el canal alfa de un clip hasta 0. Varios otros "
-"filtros sobrescribirán el canal alfa, en ese caso éste debería encontrarse "
+"filtros sobrescribirán el canal alfa, en ese caso este debería encontrarse "
 "en último lugar."
 
 #: data/effects/strobe.xml:9
@@ -15682,7 +15681,7 @@ msgstr "Máquina de escribir (para clips de título)"
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
 msgstr ""
-"Efecto de máquina de escribir v0.3.3 Para ser aplicado sólo a clips de "
+"Efecto de máquina de escribir v0.3.3 Para ser aplicado solo a clips de "
 "título."
 
 #: data/effects/typewriter.xml:8
@@ -15987,8 +15986,8 @@ msgid ""
 "PAL color bars,PAL color bars with red,95% BBC color bars,75% EBU color bars,"
 "SMPTE color bars,Philips PM5544,FuBK,Simplified FuBK"
 msgstr ""
-"Barras de color PAL,Barras de color PAL con rojo,Barras de color BBC 95%,"
-"Barras de color EBU 75%,Barras de color SMPTE,Philips PM5544,FuBK,FuBK "
+"Barras de color PAL,Barras de color PAL con rojo,Barras de color BBC 95 %,"
+"Barras de color EBU 75 %,Barras de color SMPTE,Philips PM5544,FuBK,FuBK "
 "simplificada"
 
 #: data/generators/frei0r_test_pat_b.xml:8
@@ -17193,7 +17192,7 @@ msgstr "Descargar nuevas transiciones…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:163
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr "Sólo mostrar recursos revisados"
+msgstr "Solo mostrar recursos revisados"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:168
 #, kde-format
@@ -17231,7 +17230,7 @@ msgstr "Cambiar tipo de composición"
 #: src/assets/assetpanel.cpp:84
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr "Aplicar sólo a efectos con el mismo valor"
+msgstr "Aplicar solo a efectos con el mismo valor"
 
 #: src/assets/assetpanel.cpp:90
 #, kde-format
@@ -17966,7 +17965,7 @@ msgstr "Rango de destino:"
 #: src/assets/view/widgets/keyframeimport.cpp:346
 #, kde-format
 msgid "Actual range only"
-msgstr "Sólo rango actual"
+msgstr "Solo rango actual"
 
 #: src/assets/view/widgets/keyframeimport.cpp:353
 #, kde-format
@@ -18576,7 +18575,7 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
-"El clip sustituto no contiene una fuente de video. ¿Sustituir sólo el "
+"El clip sustituto no contiene una fuente de video. ¿Sustituir solo el "
 "componente de audio de este clip en la secuencia activa?"
 
 #: src/bin/bin.cpp:2119
@@ -18585,7 +18584,7 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
-"El clip sustituto no contiene una fuente de audio. ¿Sustituir sólo el "
+"El clip sustituto no contiene una fuente de audio. ¿Sustituir solo el "
 "componente de video de este clip en la secuencia activa?"
 
 #: src/bin/bin.cpp:2123 src/bin/bin.cpp:2149
@@ -19019,7 +19018,7 @@ msgid ""
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 "Se está editando un clip de título externo (%1). ¿Guardar los cambios en el "
-"archivo de título o sólo en este proyecto?"
+"archivo de título o solo en este proyecto?"
 
 #: src/bin/bin.cpp:4823 src/titler/titlewidget.cpp:2331
 #, kde-format
@@ -19034,7 +19033,7 @@ msgstr "Guardar en archivo de título"
 #: src/bin/bin.cpp:4824
 #, kde-format
 msgid "Save in project only"
-msgstr "Guardar sólo en el proyecto"
+msgstr "Guardar solo en el proyecto"
 
 #: src/bin/bin.cpp:4847 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
@@ -20975,7 +20974,7 @@ msgstr "Cuadrado (1:1)"
 #: src/dialogs/renderwidget.cpp:338 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
-msgstr "Sólo un campo (rápido)"
+msgstr "Solo un campo (rápido)"
 
 #: src/dialogs/renderwidget.cpp:339 src/monitor/monitormanager.cpp:622
 #, kde-format
@@ -20985,7 +20984,7 @@ msgstr "Fundido lineal (rápido)"
 #: src/dialogs/renderwidget.cpp:340 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
-msgstr "YADIF - sólo temporal (bueno)"
+msgstr "YADIF - solo temporal (bueno)"
 
 #: src/dialogs/renderwidget.cpp:341
 #, kde-format
@@ -21046,7 +21045,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:516
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
-msgstr "Sólo funciona al usar el formato Matroska (mkv)"
+msgstr "Solo funciona al usar el formato Matroska (mkv)"
 
 #: src/dialogs/renderwidget.cpp:526
 #, kde-format
@@ -21347,7 +21346,7 @@ msgid ""
 msgstr ""
 "Cuando esta opción se encuentre activa, agregará efectos básicos (Invertir, "
 "Transformar, Volumen) a todos los clips, para una mayor practicidad. Estos "
-"efectos se encontrarán desactivados y sólo serán aplicados en caso de que se "
+"efectos se encontrarán desactivados y solo serán aplicados en caso de que se "
 "modifique alguno de sus parámetros."
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
@@ -21608,7 +21607,7 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
-"<b>Sólo usar paquetes del sistema. Usarlo si se conoce su significado </b>. "
+"<b>Solo usar paquetes del sistema. Usarlo si se conoce su significado </b>. "
 "Se necesitará instalar manualmente en el sistema todos los paquetes "
 "requeridos:<br>%1"
 
@@ -21619,7 +21618,7 @@ msgid ""
 "the plugin fails. If this does not work, try deleting and reinstalling the "
 "plugin."
 msgstr ""
-"Esto intentará reconstruir el entorno virtual del complemento. Sólo usar en "
+"Esto intentará reconstruir el entorno virtual del complemento. Solo usar en "
 "caso de que el complemento fallara. En caso de que esto no funcionara, "
 "intentar borrar y reinstalar el complemento."
 
@@ -21779,7 +21778,7 @@ msgid ""
 "Only use this install option if your GPU\n"
 "is not correctly detected or not working with this plugin."
 msgstr ""
-"Sólo usar esta opción de instalación en caso de que la GPU\n"
+"Solo usar esta opción de instalación en caso de que la GPU\n"
 "no hubiera sido correctamente detectada o no funcionara con este complemento."
 
 #: src/dialogs/speechdialog.cpp:45
@@ -23722,7 +23721,7 @@ msgstr "Reemplazar todos los clips"
 #: src/doc/kdenlivedoc.cpp:1627
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr "Reemplazar sólo clips sin canal alfa"
+msgstr "Reemplazar solo clips sin canal alfa"
 
 #: src/doc/kdenlivedoc.cpp:1643
 #, kde-format
@@ -23955,7 +23954,7 @@ msgstr "Agregar efecto %1"
 #: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "El efecto %1 sólo puede ser agregado a la pista maestra"
+msgstr "El efecto %1 solo puede ser agregado a la pista maestra"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1284
 #, kde-format
@@ -26392,7 +26391,7 @@ msgid ""
 msgstr ""
 "Hacer clic para iniciar el procesamiento de todas las zonas de "
 "previsualización (recomendable en áreas con efectos complejos o gran "
-"cantidad de éstos).<nl/>Clic sobre la flecha hacia abajo para obtener una "
+"cantidad de estos).<nl/>Clic sobre la flecha hacia abajo para obtener una "
 "lista de opciones (por ejemplo: agregar zona de previsualización, eliminar "
 "todas las zonas)."
 
@@ -27120,7 +27119,7 @@ msgid ""
 "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</"
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
-"<shortcut>Ctrl</shortcut> aplicar sólo en pista actual, <shortcut>Mayús</"
+"<shortcut>Ctrl</shortcut> aplicar solo en pista actual, <shortcut>Mayús</"
 "shortcut> mover también guías. (es posible combinar ambos)"
 
 #: src/mainwindow.cpp:3505
@@ -27780,7 +27779,7 @@ msgstr "Volumen del audio"
 #: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:265
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: src/monitor/monitor.cpp:236
 #, kde-format
@@ -27864,12 +27863,12 @@ msgstr "Tamaño del monitor"
 #: src/monitor/monitor.cpp:438
 #, kde-format
 msgid "Force 100%"
-msgstr "Forzar al 100%"
+msgstr "Forzar al 100 %"
 
 #: src/monitor/monitor.cpp:440
 #, kde-format
 msgid "Force 50%"
-msgstr "Forzar al 50%"
+msgstr "Forzar al 50 %"
 
 #: src/monitor/monitor.cpp:442
 #, kde-format
@@ -28364,7 +28363,7 @@ msgstr "Generar máscara"
 #: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr "Cambiar opacidad (0% - 25% - 50% - 100%)"
+msgstr "Cambiar opacidad (0 % - 25 % - 50 % - 100 %)"
 
 #: src/monitor/view/MaskToolBar.qml:95
 #, kde-format
@@ -29627,7 +29626,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 "Se eliminarán los siguientes archivos del disco.\n"
-"Esta acción no puede ser deshecha, usarla sólo si se está seguro.\n"
+"Esta acción no puede ser deshecha, usarla solo si se está seguro.\n"
 "¿Continuar?"
 
 #: src/project/dialogs/projectsettings.cpp:391
@@ -31366,7 +31365,7 @@ msgstr "Opciones de dibujo"
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "75% box"
-msgstr "Marco en 75%"
+msgstr "Marco en 75 %"
 
 #: src/scopes/colorscopes/vectorscope.cpp:94
 #, kde-format
@@ -32683,7 +32682,7 @@ msgstr "Entrada:%1, Salida:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
-"Desplazar sólo podrá ser realizado en clips de video, audio o animación"
+"Desplazar solo podrá ser realizado en clips de video, audio o animación"
 
 #: src/timeline2/view/timelinecontroller.cpp:2736
 #, kde-format
@@ -32880,7 +32879,7 @@ msgid ""
 msgstr ""
 "La pista actual de subtítulos contiene varias capas, lo cual significa que "
 "en caso de que los subtítulos en distintas capas compartieran la misma "
-"posición inicial, sólo el de la capa más baja será mantenido. Es posible que "
+"posición inicial, solo el de la capa más baja será mantenido. Es posible que "
 "esto resulte en la pérdida de algunos subtítulos en el archivo exportado. "
 "¿Continuar?"
 
@@ -33137,17 +33136,17 @@ msgstr "Seleccionar todo"
 #: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Keep only text items selected"
-msgstr "Sólo mantener seleccionados los elementos de texto"
+msgstr "Solo mantener seleccionados los elementos de texto"
 
 #: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Keep only rect items selected"
-msgstr "Sólo mantener seleccionados los elementos rectangulares"
+msgstr "Solo mantener seleccionados los elementos rectangulares"
 
 #: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Keep only image items selected"
-msgstr "Sólo mantener seleccionados los elementos de imagen"
+msgstr "Solo mantener seleccionados los elementos de imagen"
 
 #: src/titler/titlewidget.cpp:372
 #, kde-format
@@ -33765,13 +33764,13 @@ msgstr "zip"
 #: src/ui/archivewidget_ui.ui:75
 #, kde-format
 msgid "Archive only proxy clips when available"
-msgstr "Archivar clips de reemplazo sólo cuando estén disponibles"
+msgstr "Archivar clips de reemplazo solo cuando estén disponibles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, timeline_archive)
 #: src/ui/archivewidget_ui.ui:82
 #, kde-format
 msgid "Archive only timeline clips"
-msgstr "Archivar sólo clips en secuencias"
+msgstr "Archivar solo clips en secuencias"
 
 #. i18n: ectx: property (format), widget (QProgressBar, speech_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
@@ -33780,7 +33779,7 @@ msgstr "Archivar sólo clips en secuencias"
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:58
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p%"
+msgstr "%p %"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -34017,7 +34016,7 @@ msgstr ""
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
 msgid "Show handles for all points or only for the selected one."
-msgstr "Mostrar tangentes en todos los puntos o sólo en el seleccionado."
+msgstr "Mostrar tangentes en todos los puntos o solo en el seleccionado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
 #: src/ui/clipdurationdialog_ui.ui:34
@@ -35183,7 +35182,7 @@ msgid ""
 "Change only if you know what you do."
 msgstr ""
 "Atención: los cambios en los controladores o dispositivos pueden hacer "
-"inestable a Kdenlive. Cambiarlos sólo si se sabe lo que se hace."
+"inestable a Kdenlive. Cambiarlos solo si se sabe lo que se hace."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:65
@@ -35355,7 +35354,7 @@ msgstr "Traducir texto al inglés"
 #: src/ui/configspeech_ui.ui:652 src/ui/configspeech_ui.ui:1067
 #, kde-format
 msgid "Use system packages only"
-msgstr "Sólo usar paquetes del sistema"
+msgstr "Solo usar paquetes del sistema"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
 #: src/ui/configspeech_ui.ui:659
@@ -35366,7 +35365,7 @@ msgid ""
 "everything by yourself."
 msgstr ""
 "Cuando esté activa, Kdenlive usará los paquetes de voz a texto instalados en "
-"el sistema. Sólo para usuarios avanzados, dado que se deberá configurar todo "
+"el sistema. Solo para usuarios avanzados, dado que se deberá configurar todo "
 "apropiadamente de forma manual."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
@@ -35428,7 +35427,7 @@ msgid ""
 "yourself."
 msgstr ""
 "Cuando esté activa, Kdenlive usará la versión de SAM2 instalada en el "
-"sistema. Sólo para usuarios avanzados, dado que se deberá configurar todo "
+"sistema. Solo para usuarios avanzados, dado que se deberá configurar todo "
 "apropiadamente de forma manual."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -35638,7 +35637,7 @@ msgstr "Extensión:"
 #: src/ui/configtranscode_ui.ui:76
 #, kde-format
 msgid "Audio only"
-msgstr "Sólo audio"
+msgstr "Solo audio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtranscode_ui.ui:83
@@ -35997,7 +35996,7 @@ msgid ""
 "Enabling manual editing is for advanced users, you will only be able to edit "
 "the settings for this preset in a text box."
 msgstr ""
-"Habilitar la edición manual es una tarea para usuarios avanzados, sólo será "
+"Habilitar la edición manual es una tarea para usuarios avanzados, solo será "
 "posible editar las opciones de este preajuste en un cuadro de texto."
 
 #. i18n: ectx: property (text), widget (QPushButton, button_manual)
@@ -37335,7 +37334,7 @@ msgstr "Relación entre tamaño del archivo y calidad."
 #: src/ui/renderwidget_ui.ui:689
 #, no-c-format, kde-format
 msgid "75%"
-msgstr "75%"
+msgstr "75 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/renderwidget_ui.ui:696
@@ -37741,7 +37740,7 @@ msgstr "Tamaño del archivo"
 #: src/ui/textbasededit_ui.ui:86
 #, kde-format
 msgid "Selected zone only"
-msgstr "Sólo zona seleccionada"
+msgstr "Solo zona seleccionada"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:106
@@ -38127,19 +38126,19 @@ msgstr "Redimensionar"
 #: src/ui/titlewidget_ui.ui:1647
 #, no-c-format, kde-format
 msgid "50%"
-msgstr "50%"
+msgstr "50 %"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
 #: src/ui/titlewidget_ui.ui:1654
 #, no-c-format, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
 #: src/ui/titlewidget_ui.ui:1661
 #, no-c-format, kde-format
 msgid "200%"
-msgstr "200%"
+msgstr "200 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #: src/ui/titlewidget_ui.ui:1701
@@ -38368,6 +38367,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Cannot apply effects on folders"
-#~ msgstr "No es posible agregar efectos a carpetas"
