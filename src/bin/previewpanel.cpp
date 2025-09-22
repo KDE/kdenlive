@@ -352,6 +352,9 @@ void PreviewPanel::buildPlayer()
             } else {
                 m_player->setAudioOutput(nullptr);
             }
+        } else if (status == QMediaPlayer::EndOfMedia) {
+            m_slider->setValue(0);
+            m_playButton->setEnabled(true);
         } else {
             m_playButton->setEnabled(false);
         }
