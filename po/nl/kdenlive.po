@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-21 00:41+0000\n"
-"PO-Revision-Date: 2025-09-19 11:23+0200\n"
+"PO-Revision-Date: 2025-09-21 15:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -12056,8 +12056,7 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Hapering van afbeelding door rijen links en rechts te verschuiven."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
 msgstr "Agressiviteit van rij/kolom-verschuiving"
 

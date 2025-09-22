@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-21 00:41+0000\n"
-"PO-Revision-Date: 2025-09-19 12:19+0200\n"
+"PO-Revision-Date: 2025-09-21 10:06+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -12093,8 +12093,7 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Pixela una imatge desplaçant les files d'una banda a l'altra."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
 msgstr "Intensitat del desplaçament de fila/columna"
 

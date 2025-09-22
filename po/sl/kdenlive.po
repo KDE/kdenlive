@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-21 00:41+0000\n"
-"PO-Revision-Date: 2025-09-19 23:33+0200\n"
+"PO-Revision-Date: 2025-09-21 21:13+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11959,10 +11959,9 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Okvari sliko z premikanjem vrstice sem in tja."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
-msgstr "Agresivnost zamikanja  vrstic/stolpcev."
+msgstr "Agresivnost zamikanja vrstic/stolpcev"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
 #, kde-format

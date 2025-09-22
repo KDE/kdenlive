@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-21 00:41+0000\n"
-"PO-Revision-Date: 2025-09-19 10:37+0200\n"
+"PO-Revision-Date: 2025-09-21 03:49+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -11324,8 +11324,7 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "გამოსახულების გლიჩი მწკრივების მანამდე ან იქიდან წანაცვლებით."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
 msgstr "მწკრივების/სვეტების წანაცვლების აგრესიულობა"
 

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-21 00:41+0000\n"
-"PO-Revision-Date: 2025-09-19 20:13+0300\n"
+"PO-Revision-Date: 2025-09-21 18:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12030,8 +12030,7 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "Пересування рядків зображення випадковим чином туди-сюди."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
 msgstr "Агресивність зсування рядків або стовпчиків"
 
