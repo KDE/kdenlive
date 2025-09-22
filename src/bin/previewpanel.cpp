@@ -43,6 +43,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_videoWidget->setMinimumHeight(KIconLoader::SizeEnormous);
     m_videoWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     panelLayout->addWidget(m_videoWidget);
+    m_videoWidget->installEventFilter(this);
 
     // Image preview
     m_imageWidget = new QLabel(this);
@@ -50,6 +51,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_imageWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     m_imageWidget->setScaledContents(false);
     m_imageWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_imageWidget->installEventFilter(this);
     panelLayout->addWidget(m_imageWidget);
 
     // Controls panel
@@ -105,18 +107,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_metadataLayout->addRow(autoPlay);
     panelLayout->addLayout(m_metadataLayout);
 
-    connect(m_playButton, &QToolButton::clicked, this, [this]() {
-        buildPlayer();
-        if (m_player->isPlaying()) {
-            pausePlaying();
-        } else {
-            if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
-                m_videoWidget->show();
-                m_imageWidget->hide();
-            }
-            startPlaying();
-        }
-    });
+    connect(m_playButton, &QToolButton::clicked, this, &PreviewPanel::switchPlay);
 
     m_importButton = new QPushButton(i18nc("@action:button", "Import File"), this);
     panelLayout->addWidget(m_importButton);
@@ -127,6 +118,32 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_slider->setEnabled(false);
     m_videoWidget->hide();
     m_imageWidget->show();
+}
+
+void PreviewPanel::switchPlay()
+{
+    buildPlayer();
+    if (m_player->isPlaying()) {
+        pausePlaying();
+    } else {
+        if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
+            m_videoWidget->show();
+            m_imageWidget->hide();
+        }
+        startPlaying();
+    }
+}
+
+bool PreviewPanel::eventFilter(QObject *watched, QEvent *event)
+{
+    // To avoid shortcut conflicts between the media browser and main app, we dis/enable actions when we gain/lose focus
+    if (event->type() == QEvent::MouseButtonPress && (watched == m_videoWidget || watched == m_imageWidget)) {
+        if (m_playButton->isEnabled()) {
+            switchPlay();
+            return true;
+        }
+    }
+    return QWidget::eventFilter(watched, event);
 }
 
 void PreviewPanel::hideEvent(QHideEvent *event)
@@ -196,7 +213,13 @@ void PreviewPanel::fileSelected(KFileItemList files)
     m_isVideo = mimeType.startsWith(QLatin1String("video/"));
     m_useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
     if (m_useMedia) {
-        buildPlayer();
+        if (m_player) {
+            m_player->stop();
+            m_slider->setValue(0);
+            m_player->setSource(m_item.url());
+        } else {
+            buildPlayer();
+        }
         m_playButton->setEnabled(true);
         m_slider->setEnabled(true);
         if (KdenliveSettings::mediaBrowserAutoPlay()) {
@@ -294,10 +317,12 @@ void PreviewPanel::showPreview(const KFileItem &item, const QPixmap &pixmap)
 void PreviewPanel::buildPlayer()
 {
     if (m_player) {
+        // Player already initialized, just change source
         return;
     }
     m_player = new QMediaPlayer(this);
     m_player->setVideoOutput(m_videoWidget);
+    m_slider->setValue(0);
     if (m_useMedia) {
         m_player->setSource(m_item.url());
     }
@@ -329,6 +354,13 @@ void PreviewPanel::buildPlayer()
             }
         } else {
             m_playButton->setEnabled(false);
+        }
+    });
+
+    connect(m_player, &QMediaPlayer::errorOccurred, this, [this](QMediaPlayer::Error error, const QString &errorString) {
+        qDebug() << "---- RECEIVED MEDIA PLAYER ERROR: " << errorString;
+        qDebug() << "HO BACKEDNS: " << qgetenv("QT_FFMPEG_ENCODING_HW_DEVICE_TYPES");
+        if (error == QMediaPlayer::FormatError) {
         }
     });
 

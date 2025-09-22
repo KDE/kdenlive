@@ -46,6 +46,7 @@ public:
 protected:
     void hideEvent(QHideEvent *event) override;
     bool event(QEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     QMediaPlayer *m_player{nullptr};
@@ -72,6 +73,7 @@ private Q_SLOTS:
     void refreshPixmapView();
     void showPreview(const KFileItem &item, const QPixmap &pixmap);
     void showIcon(const KFileItem &item);
+    void switchPlay();
 
 Q_SIGNALS:
     void importSelection();
