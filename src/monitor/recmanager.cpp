@@ -167,6 +167,9 @@ void RecManager::slotRecord(bool record)
 
     QString extension = KdenliveSettings::grab_extension();
     QDir captureFolder = QDir(pCore->getProjectCaptureFolderName());
+    if (!extension.startsWith(QLatin1Char('.'))) {
+        extension.prepend(QLatin1Char('.'));
+    }
 
     if (!captureFolder.exists()) {
         // This returns false if it fails, but we'll just let the whole recording fail instead
@@ -188,11 +191,12 @@ void RecManager::slotRecord(bool record)
     connect(m_captureProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &RecManager::slotProcessStatus);
     connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecManager::slotReadProcessInfo);
 
-    QString path = captureFolder.absoluteFilePath("capture0000." + extension);
+    const QString baseName = i18nc("capture as a prefix to the filename of a recorded audio/video file", "capture");
+    QString path = captureFolder.absoluteFilePath(baseName + QStringLiteral("-0000") + extension);
     int i = 1;
     while (QFile::exists(path)) {
         QString num = QString::number(i).rightJustified(4, '0', false);
-        path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
+        path = captureFolder.absoluteFilePath(QString("%1-%2%3").arg(baseName).arg(num).arg(extension));
         ++i;
     }
     m_captureFile = QUrl::fromLocalFile(path);

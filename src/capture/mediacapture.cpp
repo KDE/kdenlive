@@ -339,6 +339,7 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
         m_mediaRecorder->setOutputLocation(m_path);
 
         QMediaFormat mediaFormat(QMediaFormat::FileFormat::Wave);
+        mediaFormat.setAudioCodec(QMediaFormat::AudioCodec::Wave);
 
         m_mediaRecorder->setMediaFormat(mediaFormat);
         m_recLevels.clear();
@@ -421,11 +422,12 @@ void MediaCapture::setCaptureOutputLocation()
         // extension = QStringLiteral(".flac");
         extension = QStringLiteral(".wav");
     }
-    QString path = captureFolder.absoluteFilePath("capture0000" + extension);
+    const QString baseName = i18nc("capture as a prefix to the filename of a recorded audio/video file", "capture");
+    QString path = captureFolder.absoluteFilePath(baseName + QStringLiteral("-0000") + extension);
     int fileCount = 1;
     while (QFile::exists(path)) {
         QString num = QString::number(fileCount).rightJustified(4, '0', false);
-        path = captureFolder.absoluteFilePath("capture" + num + extension);
+        path = captureFolder.absoluteFilePath(QString("%1-%2%3").arg(baseName).arg(num).arg(extension));
         ++fileCount;
     }
     m_path = QUrl::fromLocalFile(path);
