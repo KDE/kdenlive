@@ -81,19 +81,23 @@ void GeometryEditWidget::monitorSeek(int pos)
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     if (pos >= start && pos < end) {
         m_geom->connectMonitor(true);
+        qDebug() << ":::: MONITOR SEEK INSIDE EFFECT!!!!!\n__________________";
         pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true, false);
     } else {
-        m_geom->connectMonitor(false);
+        if (m_geom->connectMonitor(false)) {
+            pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(false, true);
+        }
     }
 }
 
-void GeometryEditWidget::slotInitMonitor(bool active, bool)
+void GeometryEditWidget::slotInitMonitor(bool active, bool outside)
 {
     m_geom->connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
         // We have no keyframes, allow editing even if
-        monitor->setEffectKeyframe(true, false);
+        qDebug() << ":::: MONITOR SEEK OUTSIDE EFFECT:" << outside;
+        monitor->setEffectKeyframe(true, outside);
         connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
     } else {
         disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);

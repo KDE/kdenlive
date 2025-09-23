@@ -588,10 +588,10 @@ const QRect GeometryWidget::getRect() const
     return QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
 }
 
-void GeometryWidget::connectMonitor(bool activate, bool singleKeyframe)
+bool GeometryWidget::connectMonitor(bool activate, bool singleKeyframe)
 {
     if (m_active == activate) {
-        return;
+        return false;
     }
     m_active = activate;
     setEnabled(activate || singleKeyframe);
@@ -605,6 +605,7 @@ void GeometryWidget::connectMonitor(bool activate, bool singleKeyframe)
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
         disconnect(m_monitor, &Monitor::effectRotationChanged, this, &GeometryWidget::slotUpdateRotation);
     }
+    return true;
 }
 
 void GeometryWidget::slotSetRange(QPair<int, int> range)

@@ -732,3 +732,25 @@ bool MonitorProxy::monitorIsActive() const
 {
     return pCore->monitorManager()->isActive(Kdenlive::MonitorId(q->m_id));
 }
+
+bool MonitorProxy::isKeyframe() const
+{
+    return m_isKeyframe;
+}
+
+bool MonitorProxy::cursorOutsideEffect() const
+{
+    return m_cursorOutsideEffect;
+}
+
+void MonitorProxy::setIsKeyframe(bool isKeyframe)
+{
+    m_isKeyframe = isKeyframe;
+    Q_EMIT isKeyframeChanged();
+}
+
+void MonitorProxy::setCursorOutsideEffect(bool isOutside)
+{
+    m_cursorOutsideEffect = isOutside;
+    Q_EMIT cursorOutsideEffectChanged();
+}

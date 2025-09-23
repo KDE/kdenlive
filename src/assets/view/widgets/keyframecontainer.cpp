@@ -498,7 +498,10 @@ void KeyframeContainer::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe && getCurrentView() == 0);
-    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, !m_monitorActive);
+
+    int pos = pCore->getMonitorPosition(m_model->monitorId);
+    bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
+    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, outside);
     bool enableWidgets = (m_monitorActive && atKeyframe) || singleKeyframe;
     m_selectType->setEnabled(enableWidgets);
     if (m_geom) {

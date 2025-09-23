@@ -38,8 +38,7 @@ Item {
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
-    property bool iskeyframe
-    property bool cursorOutsideEffect: false
+    property bool cursorOutsideEffect: controller.cursorOutsideEffect
     property int requestedKeyFrame
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
@@ -120,7 +119,7 @@ Item {
             //console.log('paint' + p1);
 
           // Handles
-          if (root.iskeyframe && !root.cursorOutsideEffect) {
+          if (controller.isKeyframe && !root.cursorOutsideEffect) {
             if (root.requestedKeyFrame == 0) {
                 ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
@@ -250,7 +249,7 @@ Item {
         }
 
         onPositionChanged: {
-            if (root.iskeyframe == false) return;
+            if (controller.isKeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {
                 var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
                 var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)

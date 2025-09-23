@@ -2392,20 +2392,14 @@ void Monitor::setEffectKeyframe(bool enable, bool outside)
         // If another keyframe call is pending, discard it to only keep the last one
         QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
         connect(m_glMonitor, &QQuickWidget::statusChanged, this, [this, enable, outside]() {
-            QQuickItem *root = m_glMonitor->rootObject();
-            if (root) {
-                root->setProperty("iskeyframe", enable);
-                root->setProperty("cursorOutsideEffect", outside);
-            }
+            m_glMonitor->getControllerProxy()->setIsKeyframe(enable);
+            m_glMonitor->getControllerProxy()->setCursorOutsideEffect(outside);
             QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
         });
         return;
     }
-    QQuickItem *root = m_glMonitor->rootObject();
-    if (root) {
-        root->setProperty("iskeyframe", enable);
-        root->setProperty("cursorOutsideEffect", outside);
-    }
+    m_glMonitor->getControllerProxy()->setIsKeyframe(enable);
+    m_glMonitor->getControllerProxy()->setCursorOutsideEffect(outside);
 }
 
 bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)

@@ -62,6 +62,8 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList<int> jobsProgress MEMBER m_jobsProgress NOTIFY jobsProgressChanged)
     Q_PROPERTY(QStringList jobsUuids MEMBER m_jobsUuids NOTIFY jobsProgressChanged)
     Q_PROPERTY(bool monitorIsActive READ monitorIsActive NOTIFY activeMonitorChanged)
+    Q_PROPERTY(bool isKeyframe READ isKeyframe WRITE setIsKeyframe NOTIFY isKeyframeChanged)
+    Q_PROPERTY(bool cursorOutsideEffect READ cursorOutsideEffect WRITE setCursorOutsideEffect NOTIFY cursorOutsideEffectChanged)
 
 public:
     MonitorProxy(VideoWidget *parent);
@@ -149,6 +151,10 @@ public:
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
     void clearJobsProgress();
     bool monitorIsActive() const;
+    void setIsKeyframe(bool isKeyframe);
+    bool isKeyframe() const;
+    void setCursorOutsideEffect(bool isOutside);
+    bool cursorOutsideEffect() const;
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -197,6 +203,8 @@ Q_SIGNALS:
     void previewOverlayChanged();
     void refreshMask();
     void activeMonitorChanged();
+    void isKeyframeChanged();
+    void cursorOutsideEffectChanged();
 
 private:
     VideoWidget *q;
@@ -226,6 +234,8 @@ private:
     QVector<std::pair<int, QString>> m_lastClipsIds;
     QStringList m_lastClips;
     bool m_switchFlag{false};
+    bool m_isKeyframe{false};
+    bool m_cursorOutsideEffect{true};
 
 protected:
     QUrl m_previewOverlay;

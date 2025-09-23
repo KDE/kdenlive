@@ -34,7 +34,6 @@ Item {
     property double offsety : 0
     property int activeTrack: 0
     onSourcedarChanged: refreshdar()
-    property bool iskeyframe
     property int requestedKeyFrame
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300

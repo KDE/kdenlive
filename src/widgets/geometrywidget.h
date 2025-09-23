@@ -32,7 +32,7 @@ public:
     explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, bool allowNullRect, double opacity, const QSize frameSize,
                             bool useRatioLock, bool useOpacity, QWidget *parent, QFormLayout *layout);
     void setValue(const QRect r, double opacity = 1, int frame = -1);
-    void connectMonitor(bool activate, bool singleKeyframe = false);
+    bool connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);
     const QRect getRect() const;
     void setRotatable(bool rotatable);
