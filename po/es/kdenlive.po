@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"POT-Creation-Date: 2025-09-23 00:41+0000\n"
 "PO-Revision-Date: 2025-09-20 18:18+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -18160,7 +18160,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:309
+#: src/bin/previewpanel.cpp:384
 #, kde-format
 msgid "No audio"
 msgstr "Sin audio"
@@ -19711,65 +19711,65 @@ msgstr "versión"
 msgid "Sequence count"
 msgstr "Cantidad de secuencias"
 
-#: src/bin/previewpanel.cpp:58
+#: src/bin/previewpanel.cpp:60
 #, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Reproducir medio"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Escuchar"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Silenciar"
 
-#: src/bin/previewpanel.cpp:71
+#: src/bin/previewpanel.cpp:73
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "Silenciar audio"
 
-#: src/bin/previewpanel.cpp:72
+#: src/bin/previewpanel.cpp:74
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
 msgstr "Volver a escuchar audio"
 
-#: src/bin/previewpanel.cpp:101
+#: src/bin/previewpanel.cpp:103
 #, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Reproducción automática"
 
-#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
 #, kde-format
 msgctxt "@action:button"
 msgid "Import File"
 msgstr "Importar archivo"
 
-#: src/bin/previewpanel.cpp:167
+#: src/bin/previewpanel.cpp:198
 #, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
 msgstr "Importar %1 archivos"
 
-#: src/bin/previewpanel.cpp:170
+#: src/bin/previewpanel.cpp:201
 #, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Importar carpeta"
 
-#: src/bin/previewpanel.cpp:301
+#: src/bin/previewpanel.cpp:376
 #, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:312
+#: src/bin/previewpanel.cpp:387
 #, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
@@ -19955,6 +19955,13 @@ msgid ""
 msgstr ""
 "Monitoreando el audio. Presionar <b>Espacio</b> para iniciar o pausar la "
 "grabación, <b>Esc</b> para finalizar."
+
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgctxt "capture as a prefix to the filename of a recorded audio/video file"
+msgid "capture"
+msgstr "Captura"
 
 #: src/core.cpp:116
 #, kde-format
@@ -21392,7 +21399,7 @@ msgstr "Transcodificar"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "El archivo de salida ya existe. ¿Sobrescribirlo?"
 
-#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:178
+#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -28559,7 +28566,7 @@ msgstr "Cámara web"
 msgid "Show Record Control"
 msgstr "Mostrar controles de grabación"
 
-#: src/monitor/recmanager.cpp:284
+#: src/monitor/recmanager.cpp:288
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -28568,7 +28575,7 @@ msgstr ""
 "No fue posible iniciar la aplicación de captura:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:295 src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "Falló la captura. Por favor, comprobar los parámetros"

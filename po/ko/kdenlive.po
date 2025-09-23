@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"POT-Creation-Date: 2025-09-23 00:41+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -17953,7 +17953,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:309
+#: src/bin/previewpanel.cpp:384
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -19545,66 +19545,66 @@ msgstr "버전 %1"
 msgid "Sequence count"
 msgstr "이미지 시퀀스"
 
-#: src/bin/previewpanel.cpp:58
+#: src/bin/previewpanel.cpp:60
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "영역 재생"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "음소거 해제"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "음소거"
 
-#: src/bin/previewpanel.cpp:71
+#: src/bin/previewpanel.cpp:73
 #, fuzzy, kde-format
 #| msgid "Mute Video"
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "동영상 음소거"
 
-#: src/bin/previewpanel.cpp:72
+#: src/bin/previewpanel.cpp:74
 #, fuzzy, kde-format
 #| msgid "Unmute monitor"
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
 msgstr "모니터 음소거 해제"
 
-#: src/bin/previewpanel.cpp:101
+#: src/bin/previewpanel.cpp:103
 #, fuzzy, kde-format
 #| msgid "Auto"
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "자동"
 
-#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
 #, fuzzy, kde-format
 #| msgid "Import Subtitle"
 msgctxt "@action:button"
 msgid "Import File"
 msgstr "자막 가져오기"
 
-#: src/bin/previewpanel.cpp:167
+#: src/bin/previewpanel.cpp:198
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgctxt "@action:button"
 msgid "Import %1 Files"
 msgstr "안내선 가져오기"
 
-#: src/bin/previewpanel.cpp:170
+#: src/bin/previewpanel.cpp:201
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "폴더 만들기"
 
-#: src/bin/previewpanel.cpp:301
+#: src/bin/previewpanel.cpp:376
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19612,7 +19612,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:312
+#: src/bin/previewpanel.cpp:387
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -19806,6 +19806,13 @@ msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
+
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgctxt "capture as a prefix to the filename of a recorded audio/video file"
+msgid "capture"
+msgstr "캡처"
 
 #: src/core.cpp:116
 #, fuzzy, kde-format
@@ -21257,7 +21264,7 @@ msgstr "트랜스코드"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "출력 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
-#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:178
+#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -28612,7 +28619,7 @@ msgstr "웹캠"
 msgid "Show Record Control"
 msgstr "녹화 제어 표시"
 
-#: src/monitor/recmanager.cpp:284
+#: src/monitor/recmanager.cpp:288
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -28621,7 +28628,7 @@ msgstr ""
 "캡처 앱을 시작하지 못했습니다:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:295 src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "캡처가 중단되었습니다. 인자를 확인하십시오"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"POT-Creation-Date: 2025-09-23 00:41+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -18064,7 +18064,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:309
+#: src/bin/previewpanel.cpp:384
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -19620,66 +19620,66 @@ msgstr "versija"
 msgid "Sequence count"
 msgstr "Sekvences skaits"
 
-#: src/bin/previewpanel.cpp:58
+#: src/bin/previewpanel.cpp:60
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Atskaņot apgabalu"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Atjaunot skaņu"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Apklusināt"
 
-#: src/bin/previewpanel.cpp:71
+#: src/bin/previewpanel.cpp:73
 #, fuzzy, kde-format
 #| msgid "Mute Video"
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "Apklusināts video"
 
-#: src/bin/previewpanel.cpp:72
+#: src/bin/previewpanel.cpp:74
 #, fuzzy, kde-format
 #| msgid "Unmute Monitor"
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
 msgstr "Noņemt monitora skaņu"
 
-#: src/bin/previewpanel.cpp:101
+#: src/bin/previewpanel.cpp:103
 #, fuzzy, kde-format
 #| msgid "Auto"
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Auto"
 
-#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
 #, fuzzy, kde-format
 #| msgid "Import Subtitle"
 msgctxt "@action:button"
 msgid "Import File"
 msgstr "Importēt subtitru"
 
-#: src/bin/previewpanel.cpp:167
+#: src/bin/previewpanel.cpp:198
 #, fuzzy, kde-format
 #| msgid "Import Subtitle"
 msgctxt "@action:button"
 msgid "Import %1 Files"
 msgstr "Importēt subtitru"
 
-#: src/bin/previewpanel.cpp:170
+#: src/bin/previewpanel.cpp:201
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Izveidot mapi"
 
-#: src/bin/previewpanel.cpp:301
+#: src/bin/previewpanel.cpp:376
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19687,7 +19687,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:312
+#: src/bin/previewpanel.cpp:387
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -19876,6 +19876,13 @@ msgid ""
 msgstr ""
 "Pārrauga audio. Spiediet <b>Atstarpes taustiņu</b>, lai sāktu/apturētu "
 "ierakstu, <b>Esc</b> taustiņu, lai izbeigtu."
+
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgctxt "capture as a prefix to the filename of a recorded audio/video file"
+msgid "capture"
+msgstr "Ierakstīšana"
 
 #: src/core.cpp:116
 #, kde-format
@@ -21303,7 +21310,7 @@ msgstr "Transkodēt"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Izvades datne jau eksistē. Vai vēlaties to pārrakstīt?"
 
-#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:178
+#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -28494,7 +28501,7 @@ msgstr "Tīmekļa kamera"
 msgid "Show Record Control"
 msgstr "Rādīt ieraksta vadīklas"
 
-#: src/monitor/recmanager.cpp:284
+#: src/monitor/recmanager.cpp:288
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -28503,7 +28510,7 @@ msgstr ""
 "Neizdevās palaist ierakstīšanas programmu:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:295 src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "Ierakstīšana avarēja, pārbaudiet parametrus"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-21 00:41+0000\n"
-"PO-Revision-Date: 2025-08-23 09:26+0400\n"
+"POT-Creation-Date: 2025-09-23 00:41+0000\n"
+"PO-Revision-Date: 2025-09-22 21:25+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1865,10 +1865,9 @@ msgid "Blue-Blue"
 msgstr "أزرق-أزرق"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "التباين"
+msgstr "تباين الألوان"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
@@ -3905,10 +3904,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
 #: data/effects/ladspa/ladspa_phaser.xml:11 data/effects/sox/sox_flanger.xml:11
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Depth"
-msgstr "عمق"
+msgstr "العمق"
 
 #: data/effects/avfilter/avfilter_flanger.xml:13
 #, kde-format
@@ -3971,10 +3969,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:33
 #: data/effects/avfilter/avfilter_phase.xml:4
 #: data/effects/sox/sox_flanger.xml:26
-#, fuzzy, kde-format
-#| msgid "Phase"
+#, kde-format
 msgid "Phase"
-msgstr "طور"
+msgstr "الطور"
 
 #: data/effects/avfilter/avfilter_flanger.xml:34
 #, kde-format
@@ -4165,7 +4162,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
 msgid "Flags"
-msgstr ""
+msgstr "أعلام"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #, kde-format
@@ -4713,7 +4710,7 @@ msgstr "تبديل القنوات"
 #: data/effects/avfilter/avfilter_inflate.xml:4
 #, kde-format
 msgid "Inflate"
-msgstr ""
+msgstr "تضخم"
 
 #: data/effects/avfilter/avfilter_inflate.xml:5
 #, kde-format
@@ -4723,34 +4720,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold0"
-msgstr "العتبة"
+msgstr "العتبة0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold1"
-msgstr "العتبة"
+msgstr "العتبة1"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold2"
-msgstr "العتبة"
+msgstr "العتبة2"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold3"
-msgstr "العتبة"
+msgstr "العتبة3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Kernel Deinterlacer"
-msgstr "التشابك"
+msgstr "تشابك النواة"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
 #, kde-format
@@ -5037,10 +5029,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
 #: data/effects/avfilter/avfilter_shear.xml:17
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Mode"
-msgstr "الاستيفاء"
+msgstr "نمط الاستيفاء"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
@@ -11540,29 +11531,27 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker 1"
-msgstr "واسِم"
+msgstr "علامة 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:30
 #: data/effects/frei0r/frei0r_pr0file.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[الإزاحة على طول المحور ص]]>"
+msgstr "<![CDATA[موضع العلامة 1]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker 2"
-msgstr "واسِم"
+msgstr "علامة 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:34
 #: data/effects/frei0r/frei0r_pr0file.xml:35
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[الإزاحة على طول المحور ص]]>"
+msgstr "<![CDATA[موضع العلامة 2]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -17824,9 +17813,7 @@ msgid "Monochrome Peak Indicator"
 msgstr ""
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:411
-#, fuzzy, kde-format
-#| msgctxt "L as in Left"
-#| msgid "L:"
+#, kde-format
 msgctxt "L as in Left"
 msgid "L: "
 msgstr "يسار:"
@@ -17838,14 +17825,13 @@ msgid "R: "
 msgstr "ح: "
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:414
-#, fuzzy, kde-format
-#| msgid "C"
+#, kde-format
 msgctxt "CH as in Channel"
 msgid "CH"
-msgstr "ن"
+msgstr "قناة"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:309
+#: src/bin/previewpanel.cpp:384
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -17895,9 +17881,7 @@ msgstr ""
 "الموجبة تحركها نحو اليمين. تأثر على كل المقاطع بشكل متساوي."
 
 #: src/audiomixer/mixerwidget.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "Left"
-#| msgid "L"
+#, kde-format
 msgctxt "Balance left"
 msgid "L"
 msgstr "يس"
@@ -19202,10 +19186,9 @@ msgstr ""
 "عند التفعيل، سيبحث كدنلايف عن الصور ذات نمط أسماء مشابه ويستوردها كتسلسل صور."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "حدّث أصناف الأدلة"
+msgstr "تحديث فئات علامات الخط الزمني"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -19224,16 +19207,14 @@ msgid "Delete marker"
 msgstr "احذف علامة"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "حرك الطبقة"
+msgstr "حرك العلامة"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "أعد تسمية علامة"
+msgstr "غير حجم العلامة"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -19259,10 +19240,9 @@ msgstr "احذف كل علامات"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "لم يعثر على دليل في الموضع الحالي"
+msgstr "لم يعثر على علامة في الموضع الحالي"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -19295,22 +19275,19 @@ msgid "Add markers"
 msgstr "أضف علامات"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "حدث الإطار الرئيس"
+msgstr "حدّث علامة النطاق"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Convert to range marker"
-msgstr "اعكس الألوان"
+msgstr "حوِّل إلى علامة النطاق"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "أضف علامة"
+msgstr "أضف علامة النطاق"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -19403,74 +19380,72 @@ msgstr "الإصدارة"
 msgid "Sequence count"
 msgstr "عدد التسلسلات"
 
-#: src/bin/previewpanel.cpp:58
+#: src/bin/previewpanel.cpp:60
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "شغّل المنطقة"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "ألغ الكتم"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "اكتم"
 
-#: src/bin/previewpanel.cpp:71
+#: src/bin/previewpanel.cpp:73
 #, fuzzy, kde-format
 #| msgid "Mute Video"
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "فيديو بلا صوت"
 
-#: src/bin/previewpanel.cpp:72
+#: src/bin/previewpanel.cpp:74
 #, fuzzy, kde-format
 #| msgid "Unmute Monitor"
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
 msgstr "ألغ كتم الشّاشة"
 
-#: src/bin/previewpanel.cpp:101
+#: src/bin/previewpanel.cpp:103
 #, fuzzy, kde-format
 #| msgid "Auto Play"
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "شغّل آليًّا"
 
-#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
 #, fuzzy, kde-format
 #| msgid "Import Subtitle"
 msgctxt "@action:button"
 msgid "Import File"
 msgstr "استورد ترجمة"
 
-#: src/bin/previewpanel.cpp:167
+#: src/bin/previewpanel.cpp:198
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgctxt "@action:button"
 msgid "Import %1 Files"
 msgstr "استورد أدلة"
 
-#: src/bin/previewpanel.cpp:170
+#: src/bin/previewpanel.cpp:201
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "أنشئ مجلّدًا"
 
-#: src/bin/previewpanel.cpp:301
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#: src/bin/previewpanel.cpp:376
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
-msgstr " إطار/ثا"
+msgstr "إطار/ثا"
 
-#: src/bin/previewpanel.cpp:312
+#: src/bin/previewpanel.cpp:387
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -19664,6 +19639,13 @@ msgid ""
 "end."
 msgstr ""
 "مراقبة الصوت. اضغط <b>مسافة</b> لتبدأ أو تلبث التسجيل، <b>هروب</b> للإنهاء."
+
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgctxt "capture as a prefix to the filename of a recorded audio/video file"
+msgid "capture"
+msgstr "الالتقاط"
 
 #: src/core.cpp:116
 #, kde-format
@@ -19974,9 +19956,9 @@ msgid "Loading clips"
 msgstr "يحمّل المقاطع"
 
 #: src/core.cpp:1454
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker %1"
-msgstr "واسِم"
+msgstr "علامة %1"
 
 #: src/core.cpp:1808
 #, kde-format
@@ -20344,10 +20326,9 @@ msgstr ""
 "سيرجع إلى المعدل الآليّ."
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export markers"
-msgstr "صدر المؤشرات…"
+msgstr "صدر العلامات"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -20384,12 +20365,10 @@ msgid "JSON File"
 msgstr "ملف  جوسن JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "صدر بيانات الأدلة"
+msgstr "صدر بيانات العلامات"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -20417,10 +20396,9 @@ msgid "Cannot write to file %1"
 msgstr "تعذرت الكتابة إلى الملف %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "حُفظت الأدلة في %1"
+msgstr "حُفظت العلامات في %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -20428,74 +20406,64 @@ msgid "Category name"
 msgstr "اسم الصنف"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker number"
-msgstr "واسِم"
+msgstr "رقم علامة"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "موضع الدليل في HH:MM:SS:FF"
+msgstr "موضع العلامة في HH:MM:SS:FF"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "موضع الدليل في ‎(HH:)MM.SS"
+msgstr "موضع العلامة في ‎(HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "موضع الدليل التالي في ‎(HH:)MM.SS"
+msgstr "موضع العلامة التالية في ‎(HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "موضع الدليل في ‎الإطارات"
+msgstr "موضع العلامة في ‎الإطارات"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "موضع الدليل التالي في ‎الإطارات"
+msgstr "موضع العلامة التالي في ‎الإطارات"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "اعرض تعليقات العلامات"
+msgstr "تعليقات العلامات"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "موضع الدليل في ‎الإطارات"
+msgstr "موضع العلامة في ‎الإطارات"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "أدرج رمز الوقت الحالي"
+msgstr "مدة العلامة في رمز الوقت"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "موضع الدليل التالي في ‎الإطارات"
+msgstr "موضع نهاية العلامة في رمز الوقت"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "موضع الدليل التالي في ‎الإطارات"
+msgstr "موضع نهاية العلامة في ‎الإطارات"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "ما إذا كان المؤشر له نطاق (صحيح/خطأ)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -21081,7 +21049,7 @@ msgstr "تبديل الترميز"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "الملفّ الخرج موجود فعلًا. أتريد الكتابة فوقه؟"
 
-#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:178
+#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -21286,10 +21254,9 @@ msgid "Timeline"
 msgstr "الخطّ الزّمنيّ"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "الألوان والأدلة"
+msgstr "الألوان والعلامات"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -23348,9 +23315,7 @@ msgid "Fixed"
 msgstr "ثابت"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "أعد التحميل"
@@ -23374,8 +23339,7 @@ msgid "Placeholder"
 msgstr "عنصر نائب"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "أزل"
@@ -25380,10 +25344,9 @@ msgid "Add Clip"
 msgstr "أضف مقطع"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "أضف علامة/دليل سريعاً حسب رقم الفئة"
+msgstr "أضف علامة بسرعة حسب رقم الفئة"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -25566,18 +25529,15 @@ msgid "Go to Marker…"
 msgstr "انتقل إلى علامة…"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "أنشئ علامة"
+msgstr "أنشئ علامة من منطقة"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "أنشئ علامات من رموز الوقت المحددة"
+msgstr "أنشئ علامات من منطقة بسرعة"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -25945,11 +25905,9 @@ msgid ""
 msgstr "تعرض/تخفي مصغرات صوتية للمقاطع في الخطّ الزمني (مفعلة مبدئيا)"
 
 #: src/mainwindow.cpp:1340 src/mainwindow.cpp:1395
-#, fuzzy, kde-format
-#| msgctxt "Gain in dB, positive"
-#| msgid "%1"
+#, kde-format
 msgid "%1×"
-msgstr "%1"
+msgstr "%1×"
 
 #: src/mainwindow.cpp:1376
 #, fuzzy, kde-format
@@ -26251,16 +26209,14 @@ msgid "Go to Clip End"
 msgstr "انتقل إلى نهاية المقطع"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "انتقل إلى الدليل السّابق"
+msgstr "انتقل إلى العلامة السّابقة"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "انتقل إلى علامة…"
+msgstr "انتقل إلى علامة التالية…"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -26438,70 +26394,59 @@ msgid "Delete All Markers"
 msgstr "احذف كل العلامات"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "أضف علامة/دليل سريعاً"
+msgstr "أضف علامة سريعاً"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 1"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 2"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 3"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 4"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 5"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 6"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 7"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 8"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 9"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "أضف علامات حسب الفئة"
+msgstr "أضف علامة الفئة 10"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -26733,49 +26678,39 @@ msgid "Disable Timeline Preview"
 msgstr "عطّل معاينة الخط الزمني"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "أزل علامة"
+msgstr "أضف/أزل علامة"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search aborted"
+#, kde-format
 msgid "Search Marker…"
-msgstr "أُجهض البحث"
+msgstr "ابحث العلامات…"
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export Markers…"
-msgstr "صدر المؤشرات…"
+msgstr "صدر العلامات…"
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "معاينة الخطّ الزّمنيّ"
+msgstr "علامات الجدول الزمني مقفلة"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "حمّل علامات المقطع"
+msgstr "اقفل علامات الخط الزمني"
 
 #: src/mainwindow.cpp:2053
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"اقفل الأدلة. عند قفلها لن تتحرك الأدلة عند استعمال أداة الفضاء أو عند إدراج/"
-"حذف فراغ في المسارات."
+"أقفِل علامات الخط الزمني. عند القفل، لن تتحرك العلامات عند استخدام أداة "
+"المباعد أو إدراج/إزالة فراغ في المسارات."
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -27849,16 +27784,14 @@ msgid ""
 msgstr "يفتح قائمة خيارات شاشة المشروع/المقطع (مثل حجم الصوت وحجم الشاشة)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "انتقل إلى علامة…"
+msgstr "انتقل إلى علامة المقطع…"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "انتقل إلى علامة…"
+msgstr "انتقل إلى علامة الخط الزمني…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -27937,10 +27870,9 @@ msgid "Set current image as thumbnail"
 msgstr "اضبط الصّورة الحاليّة كمصغّرة"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "أنشئ علامات من رموز الوقت المحددة"
+msgstr "أنشئ علامة من منطقة..."
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -28061,20 +27993,19 @@ msgstr ""
 #: src/monitor/monitor.cpp:3315
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "أنشئ علامة نطاق من المنطقة"
 
 #: src/monitor/monitor.cpp:3321 src/monitor/monitor.cpp:3342
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "علامة النطاق التي تُنشئ من المنطقة"
 
 #: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "فشل إنشاء الملفّ."
+msgstr "فشل إنشاء علامة النطاق من المنطقة"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -28212,10 +28143,9 @@ msgstr "انتقل إلى نهاية المنطقة"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "أعد تسمية علامة"
+msgstr "علامة المنطقة"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -28252,7 +28182,7 @@ msgstr "كاميرا الويب"
 msgid "Show Record Control"
 msgstr "اعرض متحكم التسجيل"
 
-#: src/monitor/recmanager.cpp:284
+#: src/monitor/recmanager.cpp:288
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -28261,7 +28191,7 @@ msgstr ""
 "فشل بدء تطبيق الالتقاط:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:295 src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "انهار الالتقاط، رجاء تحقّق من معاملاتك"
@@ -29330,10 +29260,9 @@ msgid "Showing backup files for %1"
 msgstr "تُعرض ملفّات النّسخ الاحتياطيّة ل‍ %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
-msgstr "حرر صنف العلامات"
+msgstr "حرر صنف العلامة"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -29346,10 +29275,9 @@ msgid "Category %1"
 msgstr "الصنف %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "حرر صنف العلامات"
+msgstr "احذف صنف العلامات"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -29382,10 +29310,9 @@ msgid "Configure Categories"
 msgstr "اضبط الأصناف"
 
 #: src/project/dialogs/guideslist.cpp:156
-#, fuzzy, kde-format
-#| msgid "Slideshow clips"
+#, kde-format
 msgid "Show markers for all clips in the project"
-msgstr "مقاطع عرض الشّرائح"
+msgstr "أظهر علامات لجميع المقاطع في المشروع"
 
 #: src/project/dialogs/guideslist.cpp:165
 #, kde-format
@@ -29409,96 +29336,75 @@ msgid "Refresh All Thumbnails"
 msgstr "أظهر مصغّرات الصّوت"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "أضف علامة"
+msgstr "أضف علامة جديدة."
 
 #: src/project/dialogs/guideslist.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
-msgstr "أضف دليلاً جديداً. سيضيف هذا دليل عند الموضع الحالي للإطار."
+msgstr "أضف علامة جديدة. سيضيف هذا علامة عند الموضع الحالي للإطار."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "احذف علامة"
+msgstr "احذف علامة."
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "احذف دليلاً. سيمسح هذا كل الأدلة المحددة."
+msgstr "احذف علامة. سيمسح هذا كل العلامات المحددة."
 
 #: src/project/dialogs/guideslist.cpp:210
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "حرر الدليل المحدد."
+msgstr "حرر العلامة المحددة."
 
 #: src/project/dialogs/guideslist.cpp:211
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
-msgstr "حرر الدليل المحدد. تحديد عدة أدلة سيسمح بتغير صنفها."
+msgstr "حرر العلامة المحددة. تحديد عدة علامات سيسمح بتغير صنفها."
 
 #: src/project/dialogs/guideslist.cpp:212
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "رشّح أصناف الدليل."
+msgstr "رشّح أصناف العلامات."
 
 #: src/project/dialogs/guideslist.cpp:214
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"رشّح أصناف الدليل. يسمح هذا بعرض أو إخفاء أصناف الدليل المحدد في هذا الحواري "
-"وفي الخط الزمني."
+"رشّح أصناف العلامة. يسمح هذا بعرض أو إخفاء أصناف العلامة المحدد في هذا "
+"الحواري وفي الخط الزمني."
 
 #: src/project/dialogs/guideslist.cpp:215
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "صنف الدليل المبدئي."
+msgstr "صنف العلامة المبدئي."
 
 #: src/project/dialogs/guideslist.cpp:216
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
-msgstr "صنف الدليل المبدئي.  يحدد هذا الصنف الذي سيستخدم للأدلة الجديدة."
+msgstr "صنف العلامة المبدئي.  يحدد هذا الصنف الذي سيستخدم للعلامات الجديدة."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search aborted"
+#, kde-format
 msgid "Search All Markers"
-msgstr "أُجهض البحث"
+msgstr "ابحث عن كل علامات"
 
 #: src/project/dialogs/guideslist.cpp:256
-#, fuzzy, kde-format
-#| msgid "All Projects"
+#, kde-format
 msgid "All Project Markers"
-msgstr "كلّ المشاريع"
+msgstr "علامات كلّ المشاريع"
 
 #: src/project/dialogs/guideslist.cpp:332
 #, kde-format
@@ -29513,22 +29419,19 @@ msgstr "ملف العلامة أكبر من 1 ميجابايت، هل ترغب �
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "أزل علامة"
+msgstr "أزل علامات"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search aborted"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "أُجهض البحث"
+msgstr "ابحث عن علامات المقطع"
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search aborted"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "أُجهض البحث"
+msgstr "ابحث علامات الخط الزمني"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -31393,10 +31296,9 @@ msgstr "كب"
 #: src/scopes/colorscopes/rgbparade.cpp:38
 #: src/scopes/colorscopes/vectorscope.cpp:61
 #: src/scopes/colorscopes/waveform.cpp:44
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Paint Mode"
-msgstr "نمط التلوين:"
+msgstr "نمط التلوين"
 
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
@@ -32735,10 +32637,9 @@ msgid "Select at least 2 items to group"
 msgstr "حدد على الأقل عنصرين لجمعهما"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "لم يعثر على علامة في وقت المُؤشِر"
+msgstr "لم يعثر على علامة النطاق في الموضع"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -33048,10 +32949,9 @@ msgid "Close %1"
 msgstr "أغلق %1"
 
 #: src/timeline2/view/timelinetabs.cpp:371
-#, fuzzy, kde-format
-#| msgid "Align Audio to Reference"
+#, kde-format
 msgid "Align to Reference"
-msgstr "حاذِ الصوت إلى المرجع"
+msgstr "حاذِ إلى المرجع"
 
 #: src/timeline2/view/timelinetabs.cpp:445
 #, kde-format
@@ -34857,10 +34757,9 @@ msgstr "أو"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid " operations"
-msgstr "عملية ألفا"
+msgstr " عمليّات"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86
@@ -36234,10 +36133,9 @@ msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:175
-#, fuzzy, kde-format
-#| msgid "Search aborted"
+#, kde-format
 msgid "Search Markers"
-msgstr "أُجهض البحث"
+msgstr "ابحث عن علامات"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
@@ -36660,17 +36558,15 @@ msgstr "المفتاح"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "أزل علامة"
+msgstr "علامة النطاق"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "وقت التصيير"
+msgstr "وقت النهاية"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:139
@@ -37217,23 +37113,21 @@ msgstr "المن&طقة المحدّدة"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Marker zone"
-msgstr "واسِم"
+msgstr "علامة &منطقة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "تصدير الأدلة المتعدد"
+msgstr "تصدير العلامات المتعددة"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "ستستعمل الأدلة كل فواصل:"
+msgstr "ستستعمل العلامات كل فواصل:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495
@@ -37779,10 +37673,9 @@ msgstr "فولت"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
 #: src/ui/titlewidget_ui.ui:117
-#, fuzzy, kde-format
-#| msgid "Show %1 in timeline"
+#, kde-format
 msgid "Show timeline"
-msgstr "أظهر %1 في الخطّ الزّمنيّ"
+msgstr "أظهر الخطّ الزّمنيّ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/ui/titlewidget_ui.ui:135
@@ -38169,10 +38062,9 @@ msgstr "معلومات إضافيّة"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
+#, kde-format
 msgid "Reset Zoom"
-msgstr "صفّر %1"
+msgstr "صفّر التكبير"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)

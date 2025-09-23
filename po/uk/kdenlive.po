@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"POT-Creation-Date: 2025-09-23 00:41+0000\n"
 "PO-Revision-Date: 2025-09-21 18:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -17925,7 +17925,7 @@ msgid "CH"
 msgstr "Кан"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:309
+#: src/bin/previewpanel.cpp:384
 #, kde-format
 msgid "No audio"
 msgstr "Немає звукових даних"
@@ -19486,65 +19486,65 @@ msgstr "версія"
 msgid "Sequence count"
 msgstr "Лічильник у послідовності"
 
-#: src/bin/previewpanel.cpp:58
+#: src/bin/previewpanel.cpp:60
 #, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Відтворити мультимедіа"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Увімкнути звук"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Вимкнути звук"
 
-#: src/bin/previewpanel.cpp:71
+#: src/bin/previewpanel.cpp:73
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "Вимкнути звук"
 
-#: src/bin/previewpanel.cpp:72
+#: src/bin/previewpanel.cpp:74
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
 msgstr "Увімкнути звук"
 
-#: src/bin/previewpanel.cpp:101
+#: src/bin/previewpanel.cpp:103
 #, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Автовідтворення"
 
-#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
 #, kde-format
 msgctxt "@action:button"
 msgid "Import File"
 msgstr "Імпортувати файл"
 
-#: src/bin/previewpanel.cpp:167
+#: src/bin/previewpanel.cpp:198
 #, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
 msgstr "Імпортувати %1 файли"
 
-#: src/bin/previewpanel.cpp:170
+#: src/bin/previewpanel.cpp:201
 #, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Імпортувати теку"
 
-#: src/bin/previewpanel.cpp:301
+#: src/bin/previewpanel.cpp:376
 #, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "кд/с"
 
-#: src/bin/previewpanel.cpp:312
+#: src/bin/previewpanel.cpp:387
 #, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
@@ -19735,6 +19735,13 @@ msgid ""
 msgstr ""
 "Стежимо за звуковим сигналом. Натисніть <b>Пробіл</b>, щоб розпочати або "
 "зупинити записування, натисніть <b>Esc</b>, щоб завершити."
+
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgctxt "capture as a prefix to the filename of a recorded audio/video file"
+msgid "capture"
+msgstr "Захоплення"
 
 #: src/core.cpp:116
 #, kde-format
@@ -21169,7 +21176,7 @@ msgstr "Перекодувати"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Файл виводу даних вже існує. Перезаписати його?"
 
-#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:178
+#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -28381,7 +28388,7 @@ msgstr "Веб-камера"
 msgid "Show Record Control"
 msgstr "Показати керування записом"
 
-#: src/monitor/recmanager.cpp:284
+#: src/monitor/recmanager.cpp:288
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -28390,7 +28397,7 @@ msgstr ""
 "Не вдалося запустити програму для захоплення:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:295 src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "Спроба захоплення завершилася аварійно, перевірте вказані параметри"

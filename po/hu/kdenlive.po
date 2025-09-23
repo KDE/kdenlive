@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-21 00:41+0000\n"
+"POT-Creation-Date: 2025-09-23 00:41+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -18106,7 +18106,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:309
+#: src/bin/previewpanel.cpp:384
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "No audio"
@@ -19789,74 +19789,74 @@ msgstr "Verzió 0.5 svn"
 msgid "Sequence count"
 msgstr "Sorozatnév"
 
-#: src/bin/previewpanel.cpp:58
+#: src/bin/previewpanel.cpp:60
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
 msgstr "Lejátszási zóna"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, fuzzy, kde-format
 #| msgid "Unmute Track"
 msgid "Unmute"
 msgstr "Sáv visszahangosítása"
 
-#: src/bin/previewpanel.cpp:67 src/timeline2/view/qml/TrackHead.qml:406
+#: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Némítás"
 
-#: src/bin/previewpanel.cpp:71
+#: src/bin/previewpanel.cpp:73
 #, fuzzy, kde-format
 #| msgid "mute video"
 msgctxt "@info:tooltip"
 msgid "Mute audio"
 msgstr "videó elnémítása"
 
-#: src/bin/previewpanel.cpp:72
+#: src/bin/previewpanel.cpp:74
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
 msgstr "Monitor váltása"
 
-#: src/bin/previewpanel.cpp:101
+#: src/bin/previewpanel.cpp:103
 #, fuzzy, kde-format
 #| msgid "Auto"
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "Automatikus"
 
-#: src/bin/previewpanel.cpp:121 src/bin/previewpanel.cpp:172
+#: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgctxt "@action:button"
 msgid "Import File"
 msgstr "Jelölők betöltése"
 
-#: src/bin/previewpanel.cpp:167
+#: src/bin/previewpanel.cpp:198
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgctxt "@action:button"
 msgid "Import %1 Files"
 msgstr "Jelölők betöltése"
 
-#: src/bin/previewpanel.cpp:170
+#: src/bin/previewpanel.cpp:201
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Mappa létrehozása"
 
-#: src/bin/previewpanel.cpp:301
+#: src/bin/previewpanel.cpp:376
 #, fuzzy, kde-format
 #| msgid "fps"
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "FPS"
 
-#: src/bin/previewpanel.cpp:312
+#: src/bin/previewpanel.cpp:387
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -20063,6 +20063,13 @@ msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
+
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgctxt "capture as a prefix to the filename of a recorded audio/video file"
+msgid "capture"
+msgstr "Felvétel"
 
 #: src/core.cpp:116
 #, kde-format
@@ -21554,7 +21561,7 @@ msgstr "Átkódolás"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:178
+#: src/dialogs/renderwidget.cpp:949 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -29131,7 +29138,7 @@ msgstr "Webkamera"
 msgid "Show Record Control"
 msgstr "Felvétel Monitor"
 
-#: src/monitor/recmanager.cpp:284
+#: src/monitor/recmanager.cpp:288
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -29140,7 +29147,7 @@ msgstr ""
 "Nem sikerült elindítani a rögzítő alkalmazást:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:295 src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "A felvétel összeomlott, kérem ellenőrizze a paramétereket"
