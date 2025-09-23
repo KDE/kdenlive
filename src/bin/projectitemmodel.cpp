@@ -1447,30 +1447,17 @@ QMap<QUuid, QString> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTra
                         int id(prod->parent().get_int("kdenlive:id"));
                         trac->set("kdenlive:id", id);
                         trac->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
-                        trac->set("length", prod->parent().get("length"));
-                        trac->set("out", prod->parent().get("out"));
-                        trac->set("kdenlive:control_uuid", prod->parent().get("kdenlive:control_uuid"));
-                        trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
-                        trac->set("kdenlive:description", prod->parent().get("kdenlive:description"));
-                        trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
-                        trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         trac->set("kdenlive:producer_type", ClipType::Timeline);
-                        trac->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
                         trac->set("_kdenlive_processed", 1);
-                        std::shared_ptr<Mlt::Producer> prod2(trac->cut());
 
+                        std::shared_ptr<Mlt::Producer> prod2(trac->cut());
                         prod2->set("kdenlive:id", id);
                         prod2->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
-                        prod2->set("length", prod->parent().get("length"));
-                        prod2->set("out", prod->parent().get("out"));
-                        prod2->set("kdenlive:control_uuid", prod->parent().get("kdenlive:control_uuid"));
-                        prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
-                        prod2->set("kdenlive:description", prod->parent().get("kdenlive:description"));
-                        prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
-                        prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);
-                        prod2->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
                         prod2->set("_kdenlive_processed", 1);
+                        prod2->pass_list(prod->parent(), "length,out,kdenlive:control_uuid,kdenlive:clipname,kdenlive:description,kdenlive:folderid,kdenlive:"
+                                                         "duration,kdenlive:maxduration,kdenlive:zone_in,kdenlive:zone_out,kdenlive:clipzones");
+
                         if (foundIds.contains(id)) {
                             qWarning() << "ERROR, several Sequence Clips using the same id: " << id << ", UUID: " << uuid.toString()
                                        << "\n____________________";
