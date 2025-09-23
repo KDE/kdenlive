@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-18 02:36+0000\n"
-"PO-Revision-Date: 2025-08-23 09:26+0400\n"
+"PO-Revision-Date: 2025-09-22 21:25+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1864,10 +1864,9 @@ msgid "Blue-Blue"
 msgstr "أزرق-أزرق"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "التباين"
+msgstr "تباين الألوان"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
@@ -3896,10 +3895,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
 #: data/effects/ladspa/ladspa_phaser.xml:11 data/effects/sox/sox_flanger.xml:11
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Depth"
-msgstr "عمق"
+msgstr "العمق"
 
 #: data/effects/avfilter/avfilter_flanger.xml:13
 #, kde-format
@@ -3962,10 +3960,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:33
 #: data/effects/avfilter/avfilter_phase.xml:4
 #: data/effects/sox/sox_flanger.xml:26
-#, fuzzy, kde-format
-#| msgid "Phase"
+#, kde-format
 msgid "Phase"
-msgstr "طور"
+msgstr "الطور"
 
 #: data/effects/avfilter/avfilter_flanger.xml:34
 #, kde-format
@@ -4161,7 +4158,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #, kde-format
 msgid "Flags"
-msgstr ""
+msgstr "أعلام"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
 #, fuzzy, kde-format
@@ -4704,7 +4701,7 @@ msgstr "تبديل القنوات"
 #: data/effects/avfilter/avfilter_inflate.xml:4
 #, kde-format
 msgid "Inflate"
-msgstr ""
+msgstr "تضخم"
 
 #: data/effects/avfilter/avfilter_inflate.xml:5
 #, kde-format
@@ -4714,34 +4711,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold0"
-msgstr "العتبة"
+msgstr "العتبة0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold1"
-msgstr "العتبة"
+msgstr "العتبة1"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold2"
-msgstr "العتبة"
+msgstr "العتبة2"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold3"
-msgstr "العتبة"
+msgstr "العتبة3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Kernel Deinterlacer"
-msgstr "التشابك"
+msgstr "تشابك النواة"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
 #, kde-format
@@ -5027,10 +5019,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
 #: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Mode"
-msgstr "الاستيفاء"
+msgstr "نمط الاستيفاء"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
@@ -11529,29 +11520,27 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker 1"
-msgstr "واسِم"
+msgstr "علامة 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:30
 #: data/effects/frei0r/frei0r_pr0file.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[الإزاحة على طول المحور ص]]>"
+msgstr "<![CDATA[موضع العلامة 1]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker 2"
-msgstr "واسِم"
+msgstr "علامة 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:34
 #: data/effects/frei0r/frei0r_pr0file.xml:35
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[الإزاحة على طول المحور ص]]>"
+msgstr "<![CDATA[موضع العلامة 2]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -17737,9 +17726,7 @@ msgid "Monochrome Peak Indicator"
 msgstr ""
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:351
-#, fuzzy, kde-format
-#| msgctxt "L as in Left"
-#| msgid "L:"
+#, kde-format
 msgctxt "L as in Left"
 msgid "L: "
 msgstr "يسار:"
@@ -17751,11 +17738,10 @@ msgid "R: "
 msgstr "ح: "
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:354
-#, fuzzy, kde-format
-#| msgid "C"
+#, kde-format
 msgctxt "CH as in Channel"
 msgid "CH"
-msgstr "ن"
+msgstr "قناة"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:360
 #, fuzzy, kde-format
@@ -17807,9 +17793,7 @@ msgstr ""
 "الموجبة تحركها نحو اليمين. تأثر على كل المقاطع بشكل متساوي."
 
 #: src/audiomixer/mixerwidget.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "Left"
-#| msgid "L"
+#, kde-format
 msgctxt "Balance left"
 msgid "L"
 msgstr "يس"
@@ -19733,9 +19717,9 @@ msgid "Loading clips"
 msgstr "يحمّل المقاطع"
 
 #: src/core.cpp:1454
-#, fuzzy, kde-format
+#, kde-format
 msgid "Marker %1"
-msgstr "واسِم"
+msgstr "علامة %1"
 
 #: src/core.cpp:1808
 #, kde-format
@@ -28951,10 +28935,9 @@ msgid "Configure Categories"
 msgstr "اضبط الأصناف"
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Slideshow clips"
+#, kde-format
 msgid "Show markers for all clips in the project"
-msgstr "مقاطع عرض الشّرائح"
+msgstr "أظهر علامات لجميع المقاطع في المشروع"
 
 #: src/project/dialogs/guideslist.cpp:153
 #, kde-format
@@ -29039,10 +29022,9 @@ msgid "Default guide category. The category used for newly created guides."
 msgstr "صنف الدليل المبدئي.  يحدد هذا الصنف الذي سيستخدم للأدلة الجديدة."
 
 #: src/project/dialogs/guideslist.cpp:243
-#, fuzzy, kde-format
-#| msgid "All Projects"
+#, kde-format
 msgid "All Project Markers"
-msgstr "كلّ المشاريع"
+msgstr "علامات كلّ المشاريع"
 
 #: src/project/dialogs/guideslist.cpp:319
 #, kde-format
@@ -32527,10 +32509,9 @@ msgid "Close %1"
 msgstr "أغلق %1"
 
 #: src/timeline2/view/timelinetabs.cpp:371
-#, fuzzy, kde-format
-#| msgid "Align Audio to Reference"
+#, kde-format
 msgid "Align to Reference"
-msgstr "حاذِ الصوت إلى المرجع"
+msgstr "حاذِ إلى المرجع"
 
 #: src/timeline2/view/timelinetabs.cpp:445
 #, kde-format
@@ -34419,10 +34400,9 @@ msgstr "أو"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid " operations"
-msgstr "عملية ألفا"
+msgstr " عمليّات"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86
@@ -35786,10 +35766,9 @@ msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:175
-#, fuzzy, kde-format
-#| msgid "Search aborted"
+#, kde-format
 msgid "Search Markers"
-msgstr "أُجهض البحث"
+msgstr "ابحث عن علامات"
 
 #. i18n: ectx: property (text), widget (QLabel, lblComponents)
 #: src/ui/histogram_ui.ui:31
@@ -37338,10 +37317,9 @@ msgstr "فولت"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
 #: src/ui/titlewidget_ui.ui:117
-#, fuzzy, kde-format
-#| msgid "Show %1 in timeline"
+#, kde-format
 msgid "Show timeline"
-msgstr "أظهر %1 في الخطّ الزّمنيّ"
+msgstr "أظهر الخطّ الزّمنيّ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/ui/titlewidget_ui.ui:135
