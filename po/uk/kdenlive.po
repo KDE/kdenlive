@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-23 00:41+0000\n"
-"PO-Revision-Date: 2025-09-21 18:28+0300\n"
+"POT-Creation-Date: 2025-09-24 00:42+0000\n"
+"PO-Revision-Date: 2025-09-23 09:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2597,7 +2597,7 @@ msgstr "Показ вісі"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:278
 #: src/assets/view/widgets/keyframecontainer.cpp:325
-#: src/assets/view/widgets/keyframecontainer.cpp:628
+#: src/assets/view/widgets/keyframecontainer.cpp:631
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3436,7 +3436,7 @@ msgstr "<![CDATA[Відстань від верхнього краю у пікс
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:337
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3452,7 +3452,7 @@ msgstr "<![CDATA[Відстань між вертикальними лініям
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:280
 #: src/assets/view/widgets/keyframecontainer.cpp:331
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -16285,7 +16285,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:283
 #: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #, kde-format
 msgid "X position"
 msgstr "Позиція за X"
@@ -16293,7 +16293,7 @@ msgstr "Позиція за X"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:282
 #: src/assets/view/widgets/keyframecontainer.cpp:349
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #, kde-format
 msgid "Y position"
 msgstr "Позиція за Y"
@@ -17571,7 +17571,7 @@ msgstr ""
 "значення параметрів, якщо не позначено жодного ключового кадру."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:994
+#: src/assets/view/widgets/keyframecontainer.cpp:997
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Вставити ключовий кадр"
@@ -17662,40 +17662,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Виберіть параметри для копіювання"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:899
+#: src/assets/view/widgets/keyframecontainer.cpp:902
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ключові кадри скопійовано"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:910
-#: src/assets/view/widgets/keyframecontainer.cpp:951
-#: src/assets/view/widgets/keyframecontainer.cpp:958
+#: src/assets/view/widgets/keyframecontainer.cpp:913
+#: src/assets/view/widgets/keyframecontainer.cpp:954
+#: src/assets/view/widgets/keyframecontainer.cpp:961
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "У буфері обміну даними немає коректних ключових кадрів"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1002
+#: src/assets/view/widgets/keyframecontainer.cpp:1005
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Не вдалося скопіювати поточні значення параметрів"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1007
-#: src/assets/view/widgets/keyframecontainer.cpp:1018
+#: src/assets/view/widgets/keyframecontainer.cpp:1010
+#: src/assets/view/widgets/keyframecontainer.cpp:1021
 #, kde-format
 msgid "Current values copied"
 msgstr "Поточні значення скопійовано"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1030
+#: src/assets/view/widgets/keyframecontainer.cpp:1033
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "У буфері обміну даними немає ключових кадрів"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1111
+#: src/assets/view/widgets/keyframecontainer.cpp:1114
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Не можна вилучати останній ключовий кадр"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1123
+#: src/assets/view/widgets/keyframecontainer.cpp:1126
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -19239,7 +19239,7 @@ msgstr "Показати перегляд"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:197
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:656
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -19428,7 +19428,7 @@ msgid "Move subtitle"
 msgstr "Пересунути субтитри"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:683
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
 #: src/effects/effectstack/view/effectstackview.cpp:793
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
@@ -19680,7 +19680,7 @@ msgstr "Очистити проєкт"
 msgid "Reading project clips…"
 msgstr "Читання кліпів проєкту…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Завантаження кліпів проєкту…"
@@ -19737,11 +19737,10 @@ msgstr ""
 "зупинити записування, натисніть <b>Esc</b>, щоб завершити."
 
 #: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
-msgstr "Захоплення"
+msgstr "захоплення"
 
 #: src/core.cpp:116
 #, kde-format
@@ -20489,7 +20488,7 @@ msgstr "Експортування даних позначок"
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:762
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:764
 #: src/effects/effectstack/view/effectstackview.cpp:828
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
@@ -24207,7 +24206,7 @@ msgstr "Вилучає ефект зі стосу ефектів."
 msgid "%1 instances of this effect in the group"
 msgstr "%1 екземплярів цього ефекту у групі"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:592
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:594
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -24218,28 +24217,28 @@ msgstr ""
 "столу, щоб скопіювати його. <b>Alt-перетягування</b> — скопіювати до "
 "окремого елемента у групі."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:618
 #, kde-format
 msgid "Disable %1"
 msgstr "Вимкнути %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:618
 #, kde-format
 msgid "Enable %1"
 msgstr "Увімкнути %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:652
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:654
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Зберегти ефект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgid "Comments:"
 msgstr "Коментарі:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:672
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:674
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Не вказано назви — ефект не збережено."
@@ -28136,14 +28135,14 @@ msgstr[1] "%1 звукових потоки"
 msgstr[2] "%1 звукових потоків"
 msgstr[3] "%1 звуковий потік"
 
-#: src/monitor/monitor.cpp:2520
+#: src/monitor/monitor.cpp:2514
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Не вдалося ініціалізувати засіб керування GLSL Movit. Будь ласка, вимкніть "
 "Movit."
 
-#: src/monitor/monitor.cpp:2562 src/monitor/monitor.cpp:2619
+#: src/monitor/monitor.cpp:2556 src/monitor/monitor.cpp:2613
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28152,17 +28151,17 @@ msgstr ""
 "Для реалізації цієї можливості потрібен фільтр alphagrad. Будь ласка, "
 "встановіть frei0r і перезапустіть Kdenlive."
 
-#: src/monitor/monitor.cpp:2582
+#: src/monitor/monitor.cpp:2576
 #, kde-format
 msgid "Clip has no effects"
 msgstr "У кліпі немає ефектів"
 
-#: src/monitor/monitor.cpp:2584
+#: src/monitor/monitor.cpp:2578
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Виберіть кліп у контейнері проєкту для порівняння ефектів"
 
-#: src/monitor/monitor.cpp:2626
+#: src/monitor/monitor.cpp:2620
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28171,22 +28170,22 @@ msgstr ""
 "Для реалізації цієї можливості потрібен перехід cairoblend. Будь ласка, "
 "встановіть frei0r і перезапустіть Kdenlive."
 
-#: src/monitor/monitor.cpp:2702
+#: src/monitor/monitor.cpp:2696
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Увімкнути режим редагування у монітор для редагування ефекту"
 
-#: src/monitor/monitor.cpp:3202
+#: src/monitor/monitor.cpp:3196
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "На панелі монітора кліпів не вибрано кліпу"
 
-#: src/monitor/monitor.cpp:3223
+#: src/monitor/monitor.cpp:3217
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Не вдалося отримати засіб створення для монітора кліпу"
 
-#: src/monitor/monitor.cpp:3305 src/monitor/monitor.cpp:3336
+#: src/monitor/monitor.cpp:3299 src/monitor/monitor.cpp:3330
 #: src/timeline2/view/timelinecontroller.cpp:5746
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
@@ -28194,18 +28193,18 @@ msgstr ""
 "Не визначено коректної зони. Будь ласка, спочатку встановіть вхідну і "
 "вихідну точки."
 
-#: src/monitor/monitor.cpp:3315
+#: src/monitor/monitor.cpp:3309
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Створити позначку діапазону із зони"
 
-#: src/monitor/monitor.cpp:3321 src/monitor/monitor.cpp:3342
+#: src/monitor/monitor.cpp:3315 src/monitor/monitor.cpp:3336
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Позначку діапазону створено на основі зони"
 
-#: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
+#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3338
 #: src/timeline2/view/timelinecontroller.cpp:5764
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -28621,7 +28620,7 @@ msgstr "Перейти до початку маски"
 msgid "Go to mask end"
 msgstr "Перейти до кінця маски"
 
-#: src/monitor/view/MonitorGeometryScene.qml:338
+#: src/monitor/view/MonitorGeometryScene.qml:336
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28636,7 +28635,7 @@ msgstr ""
 "<shortcut>наведення праворуч</shortcut> — панель інструментів, "
 "<shortcut>клацання</shortcut> на центрі — позиціювання на ключовому кадрі"
 
-#: src/monitor/view/MonitorRotoScene.qml:70
+#: src/monitor/view/MonitorRotoScene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28646,7 +28645,7 @@ msgstr ""
 "<shortcut>Клацніть лівою</shortcut>, щоб додати точки, <shortcut>клацніть "
 "правою</shortcut>, щоб замкнути форму."
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28661,7 +28660,7 @@ msgstr ""
 "<shortcut>подвійне клацання</shortcut> на тлі — створити ключовий кадр, "
 "<shortcut>наведення праворуч</shortcut> — панель інструментів"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -28669,7 +28668,7 @@ msgstr ""
 "<shortcut>Перетягніть з утриманням Shift</shortcut> для зміни розмірів із "
 "збереженням центра"
 
-#: src/monitor/view/MonitorRotoScene.qml:429
+#: src/monitor/view/MonitorRotoScene.qml:428
 #, kde-format
 msgid ""
 "Click to add points,\n"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-23 00:41+0000\n"
-"PO-Revision-Date: 2025-09-21 07:29-0300\n"
+"POT-Creation-Date: 2025-09-24 00:42+0000\n"
+"PO-Revision-Date: 2025-09-23 07:37-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -2609,7 +2609,7 @@ msgstr "Mostrar eixo"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:278
 #: src/assets/view/widgets/keyframecontainer.cpp:325
-#: src/assets/view/widgets/keyframecontainer.cpp:628
+#: src/assets/view/widgets/keyframecontainer.cpp:631
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3442,7 +3442,7 @@ msgstr "<![CDATA[Distância da borda superior em pixels]]>"
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:337
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3458,7 +3458,7 @@ msgstr "<![CDATA[Distância entre as linhas verticais em pixels]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:280
 #: src/assets/view/widgets/keyframecontainer.cpp:331
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -16254,7 +16254,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:283
 #: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #, kde-format
 msgid "X position"
 msgstr "Posição X"
@@ -16262,7 +16262,7 @@ msgstr "Posição X"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:282
 #: src/assets/view/widgets/keyframecontainer.cpp:349
-#: src/assets/view/widgets/keyframecontainer.cpp:626
+#: src/assets/view/widgets/keyframecontainer.cpp:629
 #, kde-format
 msgid "Y position"
 msgstr "Posição Y"
@@ -17544,7 +17544,7 @@ msgstr ""
 "parâmetros atuais se nenhum quadro-chave for selecionado."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:994
+#: src/assets/view/widgets/keyframecontainer.cpp:997
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Colar quadro-chave"
@@ -17635,40 +17635,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Selecione parâmetros para copiar"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:899
+#: src/assets/view/widgets/keyframecontainer.cpp:902
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Quadros-chave copiados"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:910
-#: src/assets/view/widgets/keyframecontainer.cpp:951
-#: src/assets/view/widgets/keyframecontainer.cpp:958
+#: src/assets/view/widgets/keyframecontainer.cpp:913
+#: src/assets/view/widgets/keyframecontainer.cpp:954
+#: src/assets/view/widgets/keyframecontainer.cpp:961
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Nenhum dado de quadro-chave válido na área de transferência"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1002
+#: src/assets/view/widgets/keyframecontainer.cpp:1005
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Não foi possível copiar os valores dos parâmetros"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1007
-#: src/assets/view/widgets/keyframecontainer.cpp:1018
+#: src/assets/view/widgets/keyframecontainer.cpp:1010
+#: src/assets/view/widgets/keyframecontainer.cpp:1021
 #, kde-format
 msgid "Current values copied"
 msgstr "Valores atuais copiados"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1030
+#: src/assets/view/widgets/keyframecontainer.cpp:1033
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Nenhum dado de quadro-chave na área de transferência"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1111
+#: src/assets/view/widgets/keyframecontainer.cpp:1114
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Não é possível remover o último quadro-chave"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1123
+#: src/assets/view/widgets/keyframecontainer.cpp:1126
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -19198,7 +19198,7 @@ msgstr "Mostrar painel de prévia"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:197
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:656
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -19387,7 +19387,7 @@ msgid "Move subtitle"
 msgstr "Mover legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:683
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
 #: src/effects/effectstack/view/effectstackview.cpp:793
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
@@ -19634,7 +19634,7 @@ msgstr "Limpar projeto"
 msgid "Reading project clips…"
 msgstr "Carregando clipes de projeto…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Carregando clipes de projeto…"
@@ -19691,11 +19691,10 @@ msgstr ""
 "gravação, <b>Esc</b> para finalizar."
 
 #: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
-msgstr "Captura"
+msgstr "captura"
 
 #: src/core.cpp:116
 #, kde-format
@@ -20440,7 +20439,7 @@ msgstr "Exportar dados dos marcadores"
 #: src/effects/effectlist/model/effecttreemodel.cpp:305
 #: src/effects/effectlist/model/effecttreemodel.cpp:318
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:762
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:764
 #: src/effects/effectstack/view/effectstackview.cpp:828
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
@@ -24122,7 +24121,7 @@ msgstr "Exclui o efeito da pilha de efeitos."
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instâncias deste efeito no grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:592
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:594
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -24133,28 +24132,28 @@ msgstr ""
 "projeto para copiar. <b>Pressione Alt e arraste</b> para copiar para um "
 "único item no grupo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:618
 #, kde-format
 msgid "Disable %1"
 msgstr "Desativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:618
 #, kde-format
 msgid "Enable %1"
 msgstr "Ativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:652
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:654
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Salvar efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgid "Comments:"
 msgstr "Comentários:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:672
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:674
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nenhum nome fornecido, efeito não foi salvo."
@@ -28036,13 +28035,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 fluxo de áudio"
 msgstr[1] "%1 fluxos de áudio"
 
-#: src/monitor/monitor.cpp:2520
+#: src/monitor/monitor.cpp:2514
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Não é possível iniciar o gerenciador de GLSL do Movit - desative o Movit"
 
-#: src/monitor/monitor.cpp:2562 src/monitor/monitor.cpp:2619
+#: src/monitor/monitor.cpp:2556 src/monitor/monitor.cpp:2613
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -28051,18 +28050,18 @@ msgstr ""
 "O filtro alphagrad é necessário para esse recurso, instale o frei0r e "
 "reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2582
+#: src/monitor/monitor.cpp:2576
 #, kde-format
 msgid "Clip has no effects"
 msgstr "O clipe não tem efeitos"
 
-#: src/monitor/monitor.cpp:2584
+#: src/monitor/monitor.cpp:2578
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 "Selecione um clipe na biblioteca multimídia do projeto para comparar o efeito"
 
-#: src/monitor/monitor.cpp:2626
+#: src/monitor/monitor.cpp:2620
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -28071,40 +28070,40 @@ msgstr ""
 "A transição 'cairoblend' é necessária para este recurso; instale o 'frei0r' "
 "e reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2702
+#: src/monitor/monitor.cpp:2696
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ative o modo de edição no monitor para editar o efeito"
 
-#: src/monitor/monitor.cpp:3202
+#: src/monitor/monitor.cpp:3196
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Nenhum clipe selecionado no monitor de clipe"
 
-#: src/monitor/monitor.cpp:3223
+#: src/monitor/monitor.cpp:3217
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Não foi possível obter o produtor para o monitor de clipe"
 
-#: src/monitor/monitor.cpp:3305 src/monitor/monitor.cpp:3336
+#: src/monitor/monitor.cpp:3299 src/monitor/monitor.cpp:3330
 #: src/timeline2/view/timelinecontroller.cpp:5746
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Nenhuma zona válida definida. Defina primeiro os pontos de entrada/saída."
 
-#: src/monitor/monitor.cpp:3315
+#: src/monitor/monitor.cpp:3309
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Criar marcador de intervalo a partir da zona"
 
-#: src/monitor/monitor.cpp:3321 src/monitor/monitor.cpp:3342
+#: src/monitor/monitor.cpp:3315 src/monitor/monitor.cpp:3336
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Marcador de intervalo criado a partir da zona"
 
-#: src/monitor/monitor.cpp:3323 src/monitor/monitor.cpp:3344
+#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3338
 #: src/timeline2/view/timelinecontroller.cpp:5764
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -28518,7 +28517,7 @@ msgstr "Ir ao início da máscara"
 msgid "Go to mask end"
 msgstr "Ir ao fim da máscara"
 
-#: src/monitor/view/MonitorGeometryScene.qml:338
+#: src/monitor/view/MonitorGeometryScene.qml:336
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28534,7 +28533,7 @@ msgstr ""
 "shortcut> para a barra de ferramentas, <shortcut>clique</shortcut> em um "
 "centro para buscar o seu quadro-chave"
 
-#: src/monitor/view/MonitorRotoScene.qml:70
+#: src/monitor/view/MonitorRotoScene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28544,7 +28543,7 @@ msgstr ""
 "<shortcut>Clique</shortcut> para adicionar pontos, <shortcut>botão direito "
 "do mouse</shortcut> para fechar forma."
 
-#: src/monitor/view/MonitorRotoScene.qml:71
+#: src/monitor/view/MonitorRotoScene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28560,7 +28559,7 @@ msgstr ""
 "quadro-chave, <shortcut>passe o mouse à direita</shortcut> para a barra de "
 "ferramentas"
 
-#: src/monitor/view/MonitorRotoScene.qml:72
+#: src/monitor/view/MonitorRotoScene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -28568,7 +28567,7 @@ msgstr ""
 "<shortcut>Arraste o separador pressionando Shift</shortcut> para "
 "redimensionamento baseado no centro"
 
-#: src/monitor/view/MonitorRotoScene.qml:429
+#: src/monitor/view/MonitorRotoScene.qml:428
 #, kde-format
 msgid ""
 "Click to add points,\n"
