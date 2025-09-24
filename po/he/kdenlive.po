@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-18 02:36+0000\n"
-"PO-Revision-Date: 2025-09-22 15:50+0300\n"
+"PO-Revision-Date: 2025-09-23 15:30+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -962,16 +962,14 @@ msgid "Modulation"
 msgstr "אפנון"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset L"
-msgstr "היסט ב־X"
+msgstr "היסט שמאל"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:24
-#, fuzzy, kde-format
-#| msgid "Offset Red"
+#, kde-format
 msgid "Offset R"
-msgstr "הסט אדום"
+msgstr "היסט ימין"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
 #, fuzzy, kde-format
@@ -990,10 +988,9 @@ msgid "Timing"
 msgstr "תזמון"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
-#, fuzzy, kde-format
-#| msgid "RPM"
+#, kde-format
 msgid "BPM"
-msgstr "סיבובים לדקה"
+msgstr "פעימות בדקה"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
@@ -1051,10 +1048,9 @@ msgid "B threshold for 3rd plane"
 msgstr "סף ב׳ למישור השלישי"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
-#, fuzzy, kde-format
-#| msgid "Number of frames for lowpass filtering"
+#, kde-format
 msgid "Number of frames for averaging"
-msgstr "מספר התמוניות לסינון מעביר תדרים נמוכים"
+msgstr "מספר התמוניות למיצוע"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:4
 #, kde-format
@@ -1119,9 +1115,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Central Frequency"
-msgstr "תדר"
+msgstr "תדר מרכזי"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
 #, fuzzy, kde-format
@@ -3763,10 +3759,9 @@ msgid "Bottom"
 msgstr "תחתון"
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Flanger"
+#, kde-format
 msgid "Flanger"
-msgstr "אפקט פלאנגר"
+msgstr "פלאנג׳ר"
 
 #: data/effects/avfilter/avfilter_flanger.xml:5
 #, kde-format
@@ -4513,10 +4508,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_il.xml:8
 #: data/effects/avfilter/avfilter_il.xml:12
 #: data/effects/avfilter/avfilter_il.xml:16
-#, fuzzy, kde-format
-#| msgid "Force Deinterlace Overlay"
+#, kde-format
 msgid "None,Deinterleave,Interleave"
-msgstr "אילוץ שכבת על לביטול שזירה"
+msgstr "ללא,ביטול סריגה,סריגה"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #, kde-format
@@ -5484,58 +5478,44 @@ msgid "Shift R/G/B/A pixels horizontally and/or vertically"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal Flip"
+#, kde-format
 msgid "Red Horizontal Shift"
-msgstr "היפוך אופקי"
+msgstr "הזחת אדום אופקית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Red Vertical Shift"
-msgstr "פיזור אנכי"
+msgstr "הזחת אדום אנכית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
+#, kde-format
 msgid "Green Horizontal Shift"
-msgstr "עמודה אופקית"
+msgstr "הזחת ירוק אופקית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
+#, kde-format
 msgid "Green Vertical Shift"
-msgstr "עמודה אנכית"
+msgstr "הזחת ירוק אנכית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
+#, kde-format
 msgid "Blue Horizontal Shift"
-msgstr "עמודה אופקית"
+msgstr "הזחת כחול אופקית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
+#, kde-format
 msgid "Blue Vertical Shift"
-msgstr "עמודה אנכית"
+msgstr "הזחת כחול אנכית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
+#, kde-format
 msgid "Alpha Horizontal Shift"
-msgstr "עמודה אופקית"
+msgstr "הזחת שקיפות אופקית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
+#, kde-format
 msgid "Alpha Vertical Shift"
-msgstr "עמודה אנכית"
+msgstr "הזחת שקיפות אנכית"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, kde-format
@@ -5589,17 +5569,15 @@ msgid "Apply Scharr operators for edge detection"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[הגדרת הערך להכפלת התוצאות המסוננות]]>"
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
-msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
+msgstr "<![CDATA[הגדרת הערך שיתווסף לתוצאות שסוננו]]>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
@@ -6589,10 +6567,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:35
 #: data/effects/avfilter/avfilter_waveform.xml:50
-#, fuzzy, kde-format
-#| msgid "Start at"
+#, kde-format
 msgid "Graticule Opacity"
-msgstr "התחל ב"
+msgstr "שקיפות הרשת"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:38
 #, kde-format
@@ -6601,10 +6578,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #: data/effects/avfilter/avfilter_waveform.xml:56
-#, fuzzy, kde-format
-#| msgid "Start at"
+#, kde-format
 msgid "Graticule Flags"
-msgstr "התחל ב"
+msgstr "דגלוני רשת"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
@@ -8068,10 +8044,9 @@ msgid "Analysis Sample Radius"
 msgstr "נתוני אבחון"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Noise"
+#, kde-format
 msgid "Denoise"
-msgstr "רעש"
+msgstr "הפחתת רעשים"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
 #, kde-format
@@ -8478,10 +8453,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
-#, fuzzy, kde-format
-#| msgid "Alignment"
+#, kde-format
 msgid "Alignment yaw"
-msgstr "יישור"
+msgstr "סבסוב יישור"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:15
@@ -8494,16 +8468,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:13
-#, fuzzy, kde-format
-#| msgid "Align item to right"
+#, kde-format
 msgid "Alignment pitch"
-msgstr "יישר פריט לימין"
+msgstr "עלרוד יישור"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
-#, fuzzy, kde-format
-#| msgid "Align item to top"
+#, kde-format
 msgid "Alignment roll"
-msgstr "יישר פריט למעלה"
+msgstr "גלגול איזון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:23
 #, kde-format
@@ -8573,9 +8545,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Front Up"
-msgstr "גודל"
+msgstr "חזית למעלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:48
 #, kde-format
@@ -8613,10 +8585,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:61
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Back Up"
-msgstr "יציאת שחור"
+msgstr "גב למעלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:63
 #, kde-format
@@ -8687,10 +8658,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting A"
-msgstr "אפקט עמעום שוליים טבעי של עדשה"
+msgstr "עמעום שוליים א׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:98
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:103
@@ -8704,28 +8674,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting B"
-msgstr "אפקט עמעום שוליים טבעי של עדשה"
+msgstr "עמעום שוליים ב׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:106
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting C"
-msgstr "אפקט עמעום שוליים טבעי של עדשה"
+msgstr "עמעום שוליים ג׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:111
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting D"
-msgstr "אפקט עמעום שוליים טבעי של עדשה"
+msgstr "עמעום שוליים ד׳"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:116
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Lens vignetting radius"
-msgstr "רדיוס"
+msgstr "רדיוס עמעום שוליים"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:118
 #, kde-format
@@ -8829,16 +8795,14 @@ msgid "Motion analysis file"
 msgstr "קובץ ניתוח תנועה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the file to store stabilization data in]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[נא לבחור את הקובץ לאחסון נתוני הייצוב]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
-#, fuzzy, kde-format
-#| msgid "X offset"
+#, kde-format
 msgid "Start offset"
-msgstr "היסט ב־X"
+msgstr "היסט התחלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:19
 #, kde-format
@@ -8851,10 +8815,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis sample radius"
-msgstr "נתוני אבחון"
+msgstr "רדיוס דגימת אבחון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
@@ -8862,10 +8825,9 @@ msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis search radius"
-msgstr "נתוני אבחון"
+msgstr "רדיוס חיפוש אבחון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:27
 #, kde-format
@@ -8873,10 +8835,9 @@ msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis offset"
-msgstr "נתוני אבחון"
+msgstr "היסט אבחון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
 #, kde-format
@@ -8897,10 +8858,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
-#, fuzzy, kde-format
-#| msgid "Amount"
+#, kde-format
 msgid "Yaw amount"
-msgstr "סכום"
+msgstr "כמות סבסוב"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:41
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:69
@@ -8912,9 +8872,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "Yaw smoothing"
-msgstr "חלק"
+msgstr "החלקת סבסוב"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:45
 #, kde-format
@@ -8924,10 +8884,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
-#, fuzzy, kde-format
-#| msgid "Show Title Bars"
+#, kde-format
 msgid "Yaw time bias"
-msgstr "הצג פסי כותרת"
+msgstr "הטיית זמן סבסוב"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:50
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:64
@@ -8957,9 +8916,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pitch smoothing"
-msgstr "חלק"
+msgstr "החלקת עלרוד"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:59
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:74
@@ -8971,27 +8930,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
-#, fuzzy, kde-format
-#| msgid "Show Title Bars"
+#, kde-format
 msgid "Pitch time bias"
-msgstr "הצג פסי כותרת"
+msgstr "הטיית זמן עלרוד"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:67
-#, fuzzy, kde-format
-#| msgid "Amount"
+#, kde-format
 msgid "Roll amount"
-msgstr "סכום"
+msgstr "כמות גלגול"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:72
-#, fuzzy, kde-format
+#, kde-format
 msgid "Roll smoothing"
-msgstr "חלק"
+msgstr "החלקת גלגול"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:77
-#, fuzzy, kde-format
-#| msgid "Show Title Bars"
+#, kde-format
 msgid "Roll time bias"
-msgstr "הצג פסי כותרת"
+msgstr "הטיית זמן גלגול"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:4
 #, kde-format
@@ -9923,7 +9879,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_facedetect.xml:12
 #, kde-format
 msgid "Neighbors"
-msgstr ""
+msgstr "שכנים"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:13
 #: data/effects/frei0r/frei0r_facedetect.xml:13
@@ -10775,7 +10731,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:103
 #, kde-format
 msgid "Lower Overexposure"
-msgstr ""
+msgstr "חשיפת יתר נמוכה"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:33
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:105
@@ -11072,7 +11028,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:27
 #, kde-format
 msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
+msgstr "<![CDATA[ערוץ להצגה מספרית]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
 #: data/effects/frei0r/frei0r_pr0file.xml:30
@@ -13027,7 +12983,7 @@ msgstr "מרכז הגוון"
 #: data/effects/hsl_range.xml:9
 #, kde-format
 msgid "The center value for the hue range"
-msgstr ""
+msgstr "ערך המרכז לטווח הגוון"
 
 #: data/effects/hsl_range.xml:12
 #, kde-format
@@ -13037,7 +12993,7 @@ msgstr "טווח גוון"
 #: data/effects/hsl_range.xml:13
 #, kde-format
 msgid "The width of the hue range"
-msgstr ""
+msgstr "עובי טווח הגוון"
 
 #: data/effects/hsl_range.xml:17
 #, fuzzy, kde-format
@@ -13048,7 +13004,7 @@ msgstr "הכמות בפיקסלים לטשטוש קצה הצל"
 #: data/effects/hsl_range.xml:21
 #, kde-format
 msgid "The amount to shift the hue in the hue range"
-msgstr ""
+msgstr "הכמות להזחת הגוון בטווח הגוון"
 
 #: data/effects/hsl_range.xml:24
 #, kde-format
@@ -13058,7 +13014,7 @@ msgstr "קנה מידה לרוויה"
 #: data/effects/hsl_range.xml:25
 #, kde-format
 msgid "The amount to scale the saturation in the hue range"
-msgstr ""
+msgstr "הכמות להתאמת הרוויה בטווח הגוון"
 
 #: data/effects/hsl_range.xml:28
 #, kde-format
@@ -14360,7 +14316,7 @@ msgstr "<![CDATA[היסט לאורך ציר Y]]>"
 #: data/effects/sox/sox.xml:4
 #, kde-format
 msgid "SoX"
-msgstr ""
+msgstr "SoX"
 
 #: data/effects/sox/sox.xml:5
 #, kde-format
@@ -15303,7 +15259,7 @@ msgstr "תוספי VCO"
 #: data/kdenliveeffectscategory.rc:166
 #, kde-format
 msgid "MLT LADSPA"
-msgstr ""
+msgstr "MLT LADSPA"
 
 #: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:97
@@ -30387,17 +30343,17 @@ msgstr "%1 מקטע (%2) עם רשימת הפעלה  שגויה נמצא"
 #: src/timeline2/model/builders/meltBuilder.cpp:994
 #, kde-format
 msgid "Removed clip %1 with no audio found in audio track "
-msgstr ""
+msgstr "הוסר הסרטון %1 שלא נמצא בו שמע ברצועת השמע "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:997
 #, kde-format
 msgid "Removed clip %1 with no video found in video track "
-msgstr ""
+msgstr "הוסר הסרטון %1 שלא נמצא בו וידאו ברצועת הווידאו "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1000
 #, kde-format
 msgid "Removed clip %1 with incorrect audio or video type on track "
-msgstr ""
+msgstr "הוסר הסרטון %1 שסוג השמע או הווידאו שלו ברצועה שגוי "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1003
 #, kde-format
