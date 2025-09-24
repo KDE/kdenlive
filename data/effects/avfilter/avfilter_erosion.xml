@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.erosion" id="avfilter.erosion">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.erosion" id="avfilter.erosion">
     <name>Erosion</name>
     <description><![CDATA[Apply erosion effect.<br>
     Simulates image erosion, an effect which will enlarge the darkest pixels in the image by replacing the pixel by the local (3x3) minimum.]]></description>

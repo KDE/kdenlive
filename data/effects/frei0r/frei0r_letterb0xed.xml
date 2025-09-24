@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.letterb0xed" id="frei0r.letterb0xed" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.letterb0xed" id="frei0r.letterb0xed" type="video" unique="1">
     <name>Letter-boxing</name>
     <description>Adds black borders at the top and bottom for that widescreen cinema look</description>
     <author>Richard Spindler</author>

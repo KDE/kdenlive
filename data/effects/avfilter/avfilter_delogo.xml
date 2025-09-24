@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.delogo" id="avfilter.delogo">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.delogo" id="avfilter.delogo">
     <name>DeLogo</name>
     <description>Remove logo from input video</description>
     <author>libavfilter</author>
@@ -17,7 +17,7 @@
         <name>Logo Height</name>
     </parameter>
     <parameter type="list" name="av.show" default="0" paramlist="0;1">
-        <paramlistdisplay>Off,On</paramlistdisplay>
         <name>Show borders</name>
+        <paramlistdisplay>Off,On</paramlistdisplay>
     </parameter>
 </effect>

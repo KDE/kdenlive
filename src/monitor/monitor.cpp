@@ -75,6 +75,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent/QtConcurrentRun>
 #include <utility>
 
+#include "dialogs/markerdialog.h"
+
 #define SEEK_INACTIVE (-1)
 
 VolumeAction::VolumeAction(QObject *parent)
@@ -437,7 +439,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(volumeAction, &VolumeAction::volumeChanged, this, &Monitor::slotSetVolume);
     m_configMenuAction->addAction(volumeAction);
 
-    m_markerMenu = new KActionMenu(id == Kdenlive::ClipMonitor ? i18n("Go to Marker…") : i18n("Go to Guide…"), this);
+    m_markerMenu = new KActionMenu(id == Kdenlive::ClipMonitor ? i18n("Go to Clip Marker…") : i18n("Go to Timeline Marker…"), this);
     m_markerMenu->setEnabled(false);
     m_configMenuAction->addAction(m_markerMenu);
     connect(m_markerMenu->menu(), &QMenu::triggered, this, &Monitor::slotGoToMarker);
@@ -713,6 +715,17 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         connect(extractZone, &QAction::triggered, this, &Monitor::slotExtractCurrentZone);
         m_configMenuAction->addAction(extractZone);
         m_contextMenu->addAction(extractZone);
+
+        auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone"), this);
+        connect(createZoneMarker, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZone);
+        m_configMenuAction->addAction(createZoneMarker);
+        m_contextMenu->addAction(createZoneMarker);
+
+        auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone Quickly"), this);
+        connect(createZoneMarkerQuick, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZoneQuick);
+        m_configMenuAction->addAction(createZoneMarkerQuick);
+        m_contextMenu->addAction(createZoneMarkerQuick);
+
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("insert_project_tree")));
     }
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame")));
@@ -727,6 +740,16 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     m_configMenuAction->addAction(setThumbFrame);
     if (m_id == Kdenlive::ProjectMonitor) {
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("monitor_multitrack")));
+
+        auto *createZoneMarker = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone..."), this);
+        connect(createZoneMarker, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZone);
+        m_configMenuAction->addAction(createZoneMarker);
+        m_contextMenu->addAction(createZoneMarker);
+
+        auto *createZoneMarkerQuick = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create Marker from Zone Quickly"), this);
+        connect(createZoneMarkerQuick, &QAction::triggered, this, &Monitor::slotCreateRangeMarkerFromZoneQuick);
+        m_configMenuAction->addAction(createZoneMarkerQuick);
+        m_contextMenu->addAction(createZoneMarkerQuick);
     } else if (m_id == Kdenlive::ClipMonitor) {
         // TODO: remove icon check ones we require KF > 6.1
         QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
@@ -2372,20 +2395,14 @@ void Monitor::setEffectKeyframe(bool enable, bool outside)
         // If another keyframe call is pending, discard it to only keep the last one
         QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
         connect(m_glMonitor, &QQuickWidget::statusChanged, this, [this, enable, outside]() {
-            QQuickItem *root = m_glMonitor->rootObject();
-            if (root) {
-                root->setProperty("iskeyframe", enable);
-                root->setProperty("cursorOutsideEffect", outside);
-            }
+            m_glMonitor->getControllerProxy()->setIsKeyframe(enable);
+            m_glMonitor->getControllerProxy()->setCursorOutsideEffect(outside);
             QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
         });
         return;
     }
-    QQuickItem *root = m_glMonitor->rootObject();
-    if (root) {
-        root->setProperty("iskeyframe", enable);
-        root->setProperty("cursorOutsideEffect", outside);
-    }
+    m_glMonitor->getControllerProxy()->setIsKeyframe(enable);
+    m_glMonitor->getControllerProxy()->setCursorOutsideEffect(outside);
 }
 
 bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)
@@ -2538,7 +2555,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 m_splitEffect->set("1", 0);      // 1 is gradient width
                 m_splitEffect->set("2", -0.747); // 2 is tilt
             } else {
-                // frei0r.scal0tilt is not available
+                // frei0r.alphagrad is not available
                 warningMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"));
                 return;
             }
@@ -2595,7 +2612,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         m_splitEffect->set("1", 0);      // 1 is gradient width
         m_splitEffect->set("2", -0.747); // 2 is tilt
     } else {
-        // frei0r.scal0tilt is not available
+        // frei0r.alphagrad is not available
         pCore->displayMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
@@ -3271,5 +3288,56 @@ void Monitor::updatePowerManagement()
         pCore->window()->mPowerInterface.setPreventDim(true);
     } else {
         pCore->window()->mPowerInterface.setPreventDim(false);
+    }
+}
+
+void Monitor::slotCreateRangeMarkerFromZone()
+{
+    if (!slotActivateMonitor()) {
+        return;
+    }
+
+    QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
+    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+        pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
+        return;
+    }
+
+    // Create a temporary marker for the dialog
+    GenTime startPos(currentZone.x(), pCore->getCurrentFps());
+    GenTime duration(currentZone.y() - currentZone.x(), pCore->getCurrentFps());
+    CommentedTime tempMarker(startPos, QString(), KdenliveSettings::default_marker_type(), duration);
+
+    // Show marker dialog to get user input
+    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(nullptr, tempMarker, i18n("Create Range Marker from Zone"), false, this));
+
+    if (dialog->exec() == QDialog::Accepted) {
+        CommentedTime newMarker = dialog->newMarker();
+        bool success = m_glMonitor->getControllerProxy()->createRangeMarkerFromZone(newMarker.comment(), newMarker.markerType());
+        if (success) {
+            pCore->displayMessage(i18n("Range marker created from zone"), InformationMessage);
+        } else {
+            pCore->displayMessage(i18n("Failed to create range marker from zone"), ErrorMessage);
+        }
+    }
+}
+
+void Monitor::slotCreateRangeMarkerFromZoneQuick()
+{
+    if (!slotActivateMonitor()) {
+        return;
+    }
+
+    QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
+    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+        pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
+        return;
+    }
+
+    bool success = m_glMonitor->getControllerProxy()->createRangeMarkerFromZone();
+    if (success) {
+        pCore->displayMessage(i18n("Range marker created from zone"), InformationMessage);
+    } else {
+        pCore->displayMessage(i18n("Failed to create range marker from zone"), ErrorMessage);
     }
 }

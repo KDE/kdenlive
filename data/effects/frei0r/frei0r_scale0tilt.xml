@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.scale0tilt" id="frei0r.scale0tilt">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.scale0tilt" id="frei0r.scale0tilt">
     <name>Crop, Scale, and Tilt</name>
     <description>Scales, tilts, and crops an image</description>
     <author>Richard Spindler</author>

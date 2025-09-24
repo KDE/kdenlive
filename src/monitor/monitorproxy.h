@@ -62,6 +62,8 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList<int> jobsProgress MEMBER m_jobsProgress NOTIFY jobsProgressChanged)
     Q_PROPERTY(QStringList jobsUuids MEMBER m_jobsUuids NOTIFY jobsProgressChanged)
     Q_PROPERTY(bool monitorIsActive READ monitorIsActive NOTIFY activeMonitorChanged)
+    Q_PROPERTY(bool isKeyframe READ isKeyframe WRITE setIsKeyframe NOTIFY isKeyframeChanged)
+    Q_PROPERTY(bool cursorOutsideEffect READ cursorOutsideEffect WRITE setCursorOutsideEffect NOTIFY cursorOutsideEffectChanged)
 
 public:
     MonitorProxy(VideoWidget *parent);
@@ -110,6 +112,19 @@ public:
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
+    /** @brief Resize a range marker in monitor view
+     * @param position The marker position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeMarker(int position, int duration, bool isStart = false, int newPosition = -1);
+    /** @brief Create a range marker from the current monitor zone
+     * @param comment Optional comment for the marker
+     * @param type Marker type
+     * @return true if successful
+     */
+    Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
@@ -136,6 +151,10 @@ public:
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
     void clearJobsProgress();
     bool monitorIsActive() const;
+    void setIsKeyframe(bool isKeyframe);
+    bool isKeyframe() const;
+    void setCursorOutsideEffect(bool isOutside);
+    bool cursorOutsideEffect() const;
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -184,6 +203,8 @@ Q_SIGNALS:
     void previewOverlayChanged();
     void refreshMask();
     void activeMonitorChanged();
+    void isKeyframeChanged();
+    void cursorOutsideEffectChanged();
 
 private:
     VideoWidget *q;
@@ -213,6 +234,8 @@ private:
     QVector<std::pair<int, QString>> m_lastClipsIds;
     QStringList m_lastClips;
     bool m_switchFlag{false};
+    bool m_isKeyframe{false};
+    bool m_cursorOutsideEffect{true};
 
 protected:
     QUrl m_previewOverlay;

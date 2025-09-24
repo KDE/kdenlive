@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="plate_1423.so" id="reverb" ladspaid="1423" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="plate_1423.so" id="reverb" ladspaid="1423" type="audio">
     <name context="Reverb Effect Name">Reverb</name>
     <description>LADSPA reverb audio effect</description>
     <author>http://www.ladspa.org</author>

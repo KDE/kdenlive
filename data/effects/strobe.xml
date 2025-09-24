@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="strobe" id="strobe">
+<effect xmlns="https://www.kdenlive.org" tag="strobe" id="strobe">
     <name>Alpha Strobing</name>
     <description>Strobes the alpha channel to 0. Many other filters overwrite the alpha channel, in that case this needs to be last.</description>
     <author> Martin Sandsmark</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.emboss" id="frei0r.emboss">
         <name context="Emboss Effect Name">Emboss</name>
         <description>Creates embossed relief image of source image</description>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.drawbox" id="avfilter.drawbox">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.drawbox" id="avfilter.drawbox">
     <name>Draw Box</name>
     <description>Draw a colored box on the input video</description>
     <author>libavfilter</author>

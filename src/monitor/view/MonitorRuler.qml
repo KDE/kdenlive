@@ -404,7 +404,20 @@ Rectangle {
         model: markersModel
         delegate:
         Item {
+            id: guideRoot
             anchors.fill: parent
+            property bool isRangeMarker: model.hasRange
+            property real markerDuration: model.duration
+
+            Rectangle {
+                id: rangeSpan
+                visible: guideRoot.isRangeMarker
+                x: (model.frame * root.timeScale) - ruler.rulerZoomOffset
+                width: Math.max(1, guideRoot.markerDuration * root.timeScale)
+                height: parent.height
+                color: Qt.rgba(model.color.r, model.color.g, model.color.b, 0.5)
+            }
+
             Rectangle {
                 id: markerBase
                 width: 1
@@ -412,6 +425,16 @@ Rectangle {
                 x: (model.frame) * root.timeScale - ruler.rulerZoomOffset;
                 color: model.color
             }
+
+            Rectangle {
+                id: markerEnd
+                visible: guideRoot.isRangeMarker
+                width: 1
+                height: parent.height
+                x: (model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset;
+                color: model.color
+            }
+
             Rectangle {
                 id: markerTooltip
                 visible: !rulerMouseArea.pressed && (guideArea.containsMouse || (rulerMouseArea.containsMouse && Math.abs(rulerMouseArea.mouseX - markerBase.x) < 4))
@@ -439,7 +462,7 @@ Rectangle {
                 }
                 Text {
                     id: mlabel
-                    text: model.comment
+                    text: model.comment + (guideRoot.isRangeMarker ? " (" + controller.toTimecode(guideRoot.markerDuration) + ")" : "")
                     font: fixedFont
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -460,6 +483,167 @@ Rectangle {
                     //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
                     onClicked: {
                         controller.position = model.frame
+                    }
+                }
+            }
+            
+            Rectangle {
+                id: leftResizeHandle
+                visible: guideRoot.isRangeMarker && rangeSpan.width > 10
+                width: 4
+                height: parent.height
+                x: rangeSpan.x
+                y: 0
+                color: Qt.darker(model.color, 1.3)
+                                    opacity: leftResizeArea.containsMouse || leftResizeArea.isResizing ? 0.8 : 0.5
+                
+                MouseArea {
+                    id: leftResizeArea
+                    anchors.fill: parent
+                    anchors.margins: -2
+                    z: 15
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    acceptedButtons: Qt.LeftButton
+                    preventStealing: true
+                    
+                    property bool isResizing: false
+                    property real startX: 0
+                    property real globalStartX: 0
+                    property real startDuration: 0
+                    property real startPosition: 0
+                    property real originalEndPosition: 0
+                    property real currentNewStartPosition: 0
+                    property real currentNewDuration: 0
+                    
+                    onPressed: {
+                        root.captureRightClick = true
+                        isResizing = true
+                        startX = mouseX
+                        globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                        startDuration = guideRoot.markerDuration
+                        startPosition = model.frame
+                        originalEndPosition = model.frame + guideRoot.markerDuration
+                        lastUpdateTime = new Date().getTime()
+                        cursorShape = Qt.SizeHorCursor
+                    }
+                    
+                    onPositionChanged: {
+                        if (isResizing) {
+                            var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                            var realDeltaX = globalCurrentX - globalStartX
+
+                            var deltaFrames = Math.round(realDeltaX / root.timeScale)
+                            var newStartPosition = Math.max(0, startPosition + deltaFrames)
+                            var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+
+                            currentNewStartPosition = newStartPosition
+                            currentNewDuration = newDuration
+
+                            rangeSpan.x = (newStartPosition * root.timeScale) - ruler.rulerZoomOffset
+                            rangeSpan.width = Math.max(1, newDuration * root.timeScale)
+                            markerBase.x = (newStartPosition) * root.timeScale - ruler.rulerZoomOffset
+
+                            cursorShape = Qt.SizeHorCursor
+                        }
+                    }
+                    
+                    onReleased: {
+                        if (isResizing) {
+                            controller.resizeMarker(startPosition, currentNewDuration, true, currentNewStartPosition)
+                            isResizing = false
+                            rangeSpan.x = Qt.binding(function() { return (model.frame * root.timeScale) - ruler.rulerZoomOffset })
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
+                            markerBase.x = Qt.binding(function() { return (model.frame) * root.timeScale - ruler.rulerZoomOffset; })
+                        }
+                        root.updateClickCapture()
+                    }
+                    
+                    onCanceled: {
+                        if (isResizing) {
+                            isResizing = false
+                            rangeSpan.x = Qt.binding(function() { return (model.frame * root.timeScale) - ruler.rulerZoomOffset })
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
+                            markerBase.x = Qt.binding(function() { return (model.frame) * root.timeScale - ruler.rulerZoomOffset; })
+                        }
+                    }
+                }
+            }
+            
+            // Right resize handle for range markers
+            Rectangle {
+                id: rightResizeHandle
+                visible: guideRoot.isRangeMarker && rangeSpan.width > 10
+                width: 4
+                height: parent.height
+                x: rangeSpan.x + rangeSpan.width - width
+                y: 0
+                color: Qt.darker(model.color, 1.3)
+                                    opacity: rightResizeArea.containsMouse || rightResizeArea.isResizing ? 0.8 : 0.5
+                
+                MouseArea {
+                    id: rightResizeArea
+                    anchors.fill: parent
+                    anchors.margins: -2
+                    z: 15
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    acceptedButtons: Qt.LeftButton
+                    preventStealing: true
+                    
+                    property bool isResizing: false
+                    property real startX: 0
+                    property real globalStartX: 0
+                    property real startDuration: 0
+                    property real startPosition: 0
+                    property real currentNewDuration: 0
+                    property real lastUpdateTime: 0
+                    
+                    onPressed: {
+                        root.captureRightClick = true
+                        isResizing = true
+                        startX = mouseX
+                        globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                        startDuration = guideRoot.markerDuration
+                        startPosition = model.frame
+                        lastUpdateTime = new Date().getTime()
+                        cursorShape = Qt.SizeHorCursor
+                    }
+                    
+                    onPositionChanged: {
+                        if (isResizing) {
+                            var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                            var realDeltaX = globalCurrentX - globalStartX
+                            
+                            var deltaFrames = Math.round(realDeltaX / root.timeScale)
+                            var newDuration = Math.max(1, startDuration + deltaFrames)
+                            
+                            currentNewDuration = newDuration
+                            
+                            rangeSpan.width = Math.max(1, newDuration * root.timeScale)
+                            markerEnd.x = (startPosition + newDuration) * root.timeScale - ruler.rulerZoomOffset
+                            
+                            cursorShape = Qt.SizeHorCursor
+                            
+                        }
+                    }
+                    
+                    onReleased: {
+                        if (isResizing) {
+                            controller.resizeMarker(startPosition, currentNewDuration, false)
+                            isResizing = false
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
+                            markerEnd.x = Qt.binding(function() { return (model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset; })
+                        }
+                        root.updateClickCapture()
+                    }
+                    
+                    onCanceled: {
+                        if (isResizing) {
+                            isResizing = false
+                            rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * root.timeScale) })
+                            markerEnd.x = Qt.binding(function() { return (model.frame + guideRoot.markerDuration) * root.timeScale - ruler.rulerZoomOffset; })
+                        }
                     }
                 }
             }

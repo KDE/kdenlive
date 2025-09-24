@@ -445,11 +445,10 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             qualities_str = preset->videoQualities().join(',');
         }
 
-        std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(newPresetName, newGroupName, parameters->toPlainText().simplified(),
-                                                                           preset_extension->text().simplified(), QString::number(default_vbitrate->value()),
-                                                                           QString::number(default_vquality->value()), qualities_str,
-                                                                           QString::number(aBitrate->value()),
-                                                                           QString::number(aQuality->value()), speeds_list_str, m_manualPreset));
+        std::unique_ptr<RenderPresetModel> newPreset(
+            new RenderPresetModel(newPresetName, newGroupName, parameters->toPlainText().simplified(), preset_extension->text().simplified(),
+                                  QString::number(default_vbitrate->value()), QString::number(default_vquality->value()), qualities_str,
+                                  QString::number(aBitrate->value()), QString::number(aQuality->value()), speeds_list_str, m_manualPreset));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
         if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {

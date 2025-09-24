@@ -387,7 +387,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <item>
              <widget class="QRadioButton" name="render_guide">
               <property name="text">
-               <string>&amp;Guide zone</string>
+               <string>&amp;Marker zone</string>
               </property>
              </widget>
             </item>
@@ -409,7 +409,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <item row="5" column="0">
            <widget class="QGroupBox" name="guide_multi_box">
             <property name="title">
-             <string>Guide Multi-Export</string>
+             <string>Markers Multi-Export</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -421,7 +421,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <item>
               <widget class="QLabel" name="label">
                <property name="text">
-                <string>Guides to use as separator:</string>
+                <string>Markers to use as separator:</string>
                </property>
               </widget>
              </item>
@@ -463,8 +463,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>365</width>
-            <height>1208</height>
+            <width>385</width>
+            <height>1220</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">

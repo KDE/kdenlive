@@ -8,11 +8,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <KDirOperator>
+#include <QPointer>
 #include <QTimer>
 
 class KUrlNavigator;
 class KUrlComboBox;
 class KFileFilterCombo;
+class QMediaPlayer;
+class PreviewPanel;
+class QLabel;
+class QSlider;
+class QSplitter;
+class QToolButton;
+class QVideoWidget;
+
+namespace KIO {
+class PreviewJob;
+}
 
 /**
  * @class MediaBrowser
@@ -39,10 +51,14 @@ private:
     KUrlNavigator *m_locationEdit;
     KFileFilterCombo *m_filterCombo;
     KUrlComboBox *m_filenameEdit;
+    QSplitter *m_splitter;
     QTimer m_filterDelayTimer;
     QList<QAction *> m_browserActions;
     QList<QAction *> m_conflictingAppActions;
-    void importSelection();
+    PreviewPanel *m_previewPanel;
+    KFileItem m_item;
+    QLabel *m_fileLabel;
+    bool m_isVideo{false};
     void openExternalFile(const QUrl &url);
     void enableAppShortcuts();
     void disableAppShortcuts();
@@ -55,4 +71,5 @@ private Q_SLOTS:
     void slotUrlEntered(const QUrl &url);
     void connectView();
     void slotViewDoubleClicked();
+    void importSelection();
 };

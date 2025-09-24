@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.dilation" id="avfilter.dilation">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.dilation" id="avfilter.dilation">
     <name>Dilation</name>
     <description><![CDATA[Apply dilation effect.<br>
     Simulates image dilation, an effect which will enlarge the lightest pixels in the image by replacing the pixel by the local (3x3) maximum.]]></description>

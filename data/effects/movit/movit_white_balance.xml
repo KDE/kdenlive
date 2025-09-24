@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="movit.white_balance" id="movit.white_balance">
+<effect xmlns="https://www.kdenlive.org" tag="movit.white_balance" id="movit.white_balance">
     <name>White Balance (GPU)</name>
     <author>Steinar H. Gunderson</author>
     <parameter type="color" name="neutral_color" default="0x7f7f7fff">

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="audiowave" id="audiowave">
+<effect xmlns="https://www.kdenlive.org" tag="audiowave" id="audiowave">
     <name>Audio Wave</name>
     <description>Display the audio waveform instead of the video</description>
     <author>Dan Dennedy</author>

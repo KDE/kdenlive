@@ -10,7 +10,7 @@
 <text>Blur and Sharpen</text>
 </group>
 
-<group list="3wayrotate,frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo,avfilter.shear,avfilter.scroll,wave">
+<group list="frei0r.mirr0r,3wayrotate,frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo,avfilter.shear,avfilter.scroll,wave">
 <text>Transform, Distort, and Perspective</text>
 </group>
 
@@ -42,7 +42,7 @@
 <text>Image Adjustment</text>
 </group>
 
-<group list="avfilter.pixelize,BurningTV,frei0r.kaleid0sc0pe,frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,avfilter.scharr,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity,typewriter">
+<group list="frei0r.ntsc,avfilter.pixelize,BurningTV,frei0r.kaleid0sc0pe,frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,avfilter.scharr,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity,typewriter">
 <text>Stylize</text>
 </group>
 

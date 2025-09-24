@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.deband" id="avfilter.deband">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.deband" id="avfilter.deband">
     <name>Deband</name>
     <description>Remove banding artifacts from input video. It works by replacing banded pixels with average value of referenced pixels</description>
     <author>libavfilter</author>

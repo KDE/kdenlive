@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox" type="hidden">
+<effect xmlns="https://www.kdenlive.org" tag="sox" id="sox" type="hidden">
     <name>SoX</name>
     <description>Process audio using a SoX effect</description>
     <author>Dan Dennedy</author>
     <parameter type="list" name="effect" default="analysis" paramlist="analysis;apply">
-        <paramlistdisplay>Analysis,Apply</paramlistdisplay>
         <name>Effect</name>
+        <paramlistdisplay>Analysis,Apply</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="analysis_level" max="1" min="-60" default="-12" decimals="1" suffix="dB">
         <name>Normalization level </name>

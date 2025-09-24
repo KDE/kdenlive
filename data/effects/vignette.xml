@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="vignette" id="vignette">
+<effect xmlns="https://www.kdenlive.org" tag="vignette" id="vignette">
     <name>Vignette Effect</name>
     <description>Adjustable Vignette</description>
     <author>Marco Gittler</author>

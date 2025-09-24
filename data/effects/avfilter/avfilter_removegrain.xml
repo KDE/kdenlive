@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.removegrain" id="avfilter.removegrain">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.removegrain" id="avfilter.removegrain">
     <name>Grain Removal</name>
     <description>The removegrain filter is a spatial denoiser for progressive video</description>
     <author>libavfilter</author>

@@ -337,7 +337,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
     QScopedPointer<TitleTemplateDialog> dia(new TitleTemplateDialog(doc->projectDataFolder(), QApplication::activeWindow()));
 
     if (dia->exec() == QDialog::Accepted) {
-        QString templateClipName = dia->selectedText();
+        QString templateClipName = dia->selectedText().simplified();
         while (templateClipName.length() > 28 && templateClipName.contains(QLatin1Char(' '))) {
             templateClipName = templateClipName.section(QLatin1Char(' '), 0, -2);
         }

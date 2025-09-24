@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="tcolor" id="tcolor" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="tcolor" id="tcolor" type="video" unique="1">
     <name>Technicolor</name>
     <description>Oversaturate the color in video, like in old Technicolor movies</description>
     <author>Marco Gittler</author>

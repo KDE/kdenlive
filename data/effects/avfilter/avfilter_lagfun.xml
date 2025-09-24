@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.lagfun" id="avfilter.lagfun">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.lagfun" id="avfilter.lagfun">
     <name>Lag Fun</name>
     <description>Slowly update darker pixels.</description>
     <author>libavfilter</author>
