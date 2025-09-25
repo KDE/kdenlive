@@ -263,6 +263,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Increase the separator size, just for demo
     KDDockWidgets::Config::self().setViewFactory(new CustomWidgetFactory());
     KDDockWidgets::Config::self().setLayoutSpacing(0); // SeparatorThickness(3);
+    if (KdenliveSettings::tabposition() == 1) {
+        KDDockWidgets::Config::self().setTabsAtBottom(true);
+    }
     mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"));
 }
 
@@ -301,8 +304,6 @@ void MainWindow::init()
     connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);
 
     /// Add Widgets
-    // TODO KDDockWidgets remove ? Is tab position customizable?
-    // setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
@@ -2912,9 +2913,9 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
 
 void MainWindow::slotCheckTabPosition()
 {
-    int pos = tabPosition(Qt::LeftDockWidgetArea);
+    int pos = KDDockWidgets::Config::self().tabsAtBottom() ? 1 : 0;
     if (KdenliveSettings::tabposition() != pos) {
-        setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
+        KDDockWidgets::Config::self().setTabsAtBottom(pos == 1);
     }
 }
 
