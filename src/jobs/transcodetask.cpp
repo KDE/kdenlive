@@ -164,7 +164,7 @@ void TranscodeTask::run()
         mltParameters.prepend(m_transcodeInfo.url);
         mltParameters.prepend(QStringLiteral("error"));
         mltParameters.prepend(QStringLiteral("-loglevel"));
-        m_jobProcess = new QProcess(this);
+        m_jobProcess = new QProcess();
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
@@ -172,6 +172,7 @@ void TranscodeTask::run()
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        m_jobProcess->deleteLater();
     } else {
         m_isFfmpegJob = true;
         QStringList parameters;
@@ -222,13 +223,14 @@ void TranscodeTask::run()
             }
         }
         qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
-        m_jobProcess = new QProcess(this);
+        m_jobProcess = new QProcess();
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        m_jobProcess->deleteLater();
     }
     destUrl.append(transcoderExt);
     // remove temporary playlist if it exists
