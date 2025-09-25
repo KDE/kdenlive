@@ -43,6 +43,10 @@
       <label>Add markers on Scene split.</label>
       <default>true</default>
     </entry>
+    <entry name="scenesplitrangemarkers" type="Bool">
+      <label>Add range markers on Scene split.</label>
+      <default>true</default>
+    </entry>
     <entry name="scenesplitsubclips" type="Bool">
       <label>Add subclips on Scene split.</label>
       <default>false</default>

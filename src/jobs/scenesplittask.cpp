@@ -30,11 +30,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <project/projectmanager.h>
 
-SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject *object)
+SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool rangeMarkers, bool addSubclips, int minDuration,
+                               QObject *object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
     , m_threshold(threshold)
     , m_jobDuration(0)
     , m_markersType(markersCategory)
+    , m_rangeMarkers(rangeMarkers)
     , m_subClips(addSubclips)
     , m_minInterval(minDuration)
 {
@@ -50,6 +52,8 @@ void SceneSplitTask::start(QObject *object, bool force)
     view.setupUi(d);
     view.threshold->setValue(KdenliveSettings::scenesplitthreshold());
     view.add_markers->setChecked(KdenliveSettings::scenesplitmarkers());
+    view.range_markers->setChecked(KdenliveSettings::scenesplitrangemarkers());
+    view.range_markers->setEnabled(KdenliveSettings::scenesplitmarkers());
     view.cut_scenes->setChecked(KdenliveSettings::scenesplitsubclips());
     // Set  up categories
     view.marker_category->setMarkerModel(pCore->projectManager()->getGuideModel().get());
@@ -59,12 +63,14 @@ void SceneSplitTask::start(QObject *object, bool force)
     }
     int threshold = view.threshold->value();
     bool addMarkers = view.add_markers->isChecked();
+    bool rangeMarkers = view.range_markers->isChecked();
     bool addSubclips = view.cut_scenes->isChecked();
     int markersCategory = addMarkers ? view.marker_category->currentCategory() : -1;
     int minDuration = view.minDuration->value();
     KdenliveSettings::setScenesplitthreshold(threshold);
-    KdenliveSettings::setScenesplitmarkers(view.add_markers->isChecked());
-    KdenliveSettings::setScenesplitsubclips(view.cut_scenes->isChecked());
+    KdenliveSettings::setScenesplitmarkers(addMarkers);
+    KdenliveSettings::setScenesplitrangemarkers(rangeMarkers);
+    KdenliveSettings::setScenesplitsubclips(addSubclips);
 
     std::vector<QString> binIds = pCore->activeBin()->selectedClipsIds(true);
     for (auto &id : binIds) {
@@ -79,12 +85,12 @@ void SceneSplitTask::start(QObject *object, bool force)
             }
             owner = ObjectId(KdenliveObjectType::BinClip, binData.first().toInt(), QUuid());
             auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
-            task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
+            task = new SceneSplitTask(owner, threshold / 100., markersCategory, rangeMarkers, addSubclips, minDuration, binClip.get());
 
         } else {
             owner = ObjectId(KdenliveObjectType::BinClip, id.toInt(), QUuid());
             auto binClip = pCore->projectItemModel()->getClipByBinID(id);
-            task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
+            task = new SceneSplitTask(owner, threshold / 100., markersCategory, rangeMarkers, addSubclips, minDuration, binClip.get());
         }
         // See if there is already a task for this MLT service and resource.
         if (task && pCore->taskManager.hasPendingJob(owner, AbstractTask::ANALYSECLIPJOB)) {
@@ -179,13 +185,27 @@ void SceneSplitTask::run()
                 if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
                     continue;
                 }
-                lastCut = pos;
+
                 QJsonObject currentMarker;
-                currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
                 currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
                 currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
+                if (m_rangeMarkers) {
+                    currentMarker.insert(QLatin1String("pos"), QJsonValue(lastCut));
+                    currentMarker.insert(QLatin1String("duration"), QJsonValue(pos - lastCut - 1));
+                } else {
+                    currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                }
+                lastCut = pos;
                 list.push_back(currentMarker);
                 ix++;
+            }
+            if (m_rangeMarkers && lastCut < producerDuration) {
+                QJsonObject currentMarker;
+                currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
+                currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
+                currentMarker.insert(QLatin1String("pos"), QJsonValue(lastCut));
+                currentMarker.insert(QLatin1String("duration"), QJsonValue(producerDuration - lastCut - 1));
+                list.push_back(currentMarker);
             }
             QJsonDocument json(list);
             QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(QString, QString(json.toJson())));
