@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-24 00:42+0000\n"
-"PO-Revision-Date: 2025-09-13 16:14+0200\n"
+"PO-Revision-Date: 2025-09-21 10:06+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2595,10 +2595,9 @@ msgid "Video data analysis"
 msgstr "Analyse des données vidéos"
 
 #: data/effects/avfilter/avfilter_datascope.xml:9
-#, fuzzy, kde-format
-#| msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+#, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
-msgstr "128p, 360p, PAL SD, NTSC SD, 480p, 720HD, 1080 FullHD, 2K, 4K"
+msgstr "128p, 360p, PAL SD, NTSC SD, 480p, 720HD, 1080 Full HD, 2K, 4K"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, kde-format
@@ -3181,10 +3180,9 @@ msgid "Screen type"
 msgstr "Type d'écran"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Vert - Bleu"
+msgstr "Vert, Bleu"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -4961,6 +4959,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        X-Coordinate]]>"
 msgstr ""
+"<![CDATA[Coordonnées en X<br>\n"
+"        du point focal relatif]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
 #, kde-format
@@ -4968,14 +4968,17 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        Y-Coordinate]]>"
 msgstr ""
+"<![CDATA[Coordonnées en Y<br>\n"
+"        du point focal relatif]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid "DoubleQuadratic correction coeff."
+#, kde-format
 msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficient]]>"
-msgstr "Coefficient de correction quadratique double"
+msgstr ""
+"<![CDATA[Coefficient<br>\n"
+"        de correction quadratique]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
 #, fuzzy, kde-format
@@ -6876,6 +6879,9 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
+"<![CDATA[Débruiteur reposant sur des ondelettes.<br>\n"
+"    Il transforme chaque trame de l'entrée vidéo dans le domaine des "
+"ondelettes, en utilisant la méthode de Cohen-Daubechies-Feauveau 9 / 7.]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
 #, kde-format
@@ -6904,14 +6910,10 @@ msgid "Vectorscope (advanced)"
 msgstr "Vecteurscope (Avancé)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display 2 color component values in the two dimensional graph (which is "
-#| "called a vectorscope)"
+#, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
-"Afficher 2 valeurs de composants de couleurs dans le graphique "
-"bidimensionnel (Ce qu'on appelle un vectoroscope)"
+"Afficher 2 valeurs de composants de couleurs dans le graphique bidimensionnel"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:9
 #, kde-format
@@ -7870,9 +7872,9 @@ msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"marqueur de temps,trame, date de création, date (GMT), date (Local), "
-"fréquence d'image source,codec source,débit source,largeur de source,hauteur "
-"de source,commentaire de la source"
+"repère de temps,trame, date de création, date (GMT), date (Local), fréquence "
+"d'image source,codec source,débit source,largeur de source,hauteur de source,"
+"commentaire de la source"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -8702,6 +8704,9 @@ msgid ""
 "area. The <b>End</b> is the half the height in degrees where the matte is at "
 "100%.]]>"
 msgstr ""
+"<![CDATA[<b>Début</b> est la moitié de la hauteur en degrés de la zone non "
+"matte. <b>Fin</b> est la moitié de la hauteur en degrés où le mat est à "
+"100 %.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
 #, kde-format
@@ -10030,12 +10035,13 @@ msgid "Fill,Center,Fit,Manual"
 msgstr "Remplir, centrer, ajuster, manuel"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:23
-#, fuzzy, kde-format
-#| msgid "Straighten all edges of video frame"
+#, kde-format
 msgid ""
 "<![CDATA[Straighten all Edges<br>\n"
 "        of Video Frame]]>"
-msgstr "Redresser tous les bords de la trame vidéo"
+msgstr ""
+"<![CDATA[Redresser tous<br> \n"
+"        les bords de la trame vidéo]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
 #, fuzzy, kde-format
@@ -10562,10 +10568,9 @@ msgid "Red Grain"
 msgstr "Grain des rouges"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
+msgstr "<![CDATA[Le pourcentage de grain appliqué au canal rouge]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -10821,20 +10826,15 @@ msgid "Source Segment"
 msgstr "Segment source"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
-#| "Segment</em> is checked. <br>\n"
-#| "        0 is in +x and rotates counter clockwise.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
-"<![CDATA[Centre du segment source. À utiliser uniquement si <em>Spécifier le "
+"<![CDATA[Centre du segment source. À n'utiliser que si <em>Spécifier le "
 "segment source</em> est sélectionné. <br>\n"
-"        0 est dans +x et tourne dans le sens inverse des aiguilles d'une "
-"montre.]]>"
+"        0 est dans + x et pivote dans le sens des aiguilles d'une montre.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -10985,12 +10985,10 @@ msgid "Mask Type"
 msgstr "Type de masque"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
-#, fuzzy, kde-format
-#| msgid "Color distance, Transparency, Edge inwards, Edge outwards"
+#, kde-format
 msgid "Color distance,Transparency,Edge inwards,Edge outwards"
 msgstr ""
-"Distance de couleur, Transparence, Contours vers l'intérieur, Contours vers "
-"l'extérieur"
+"Distance de couleur, Transparence, Contours intérieurs, Contours extérieurs"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
@@ -11663,7 +11661,7 @@ msgstr "Repère 1"
 #: data/effects/frei0r/frei0r_pr0file.xml:31
 #, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[Position du marqueur 1]]>"
+msgstr "<![CDATA[Position du repère 1]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -11675,7 +11673,7 @@ msgstr "Repère 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:35
 #, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[Position du marqueur 2]]>"
+msgstr "<![CDATA[Position du repère 2]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -13724,10 +13722,9 @@ msgid "The width of the hue range"
 msgstr "La largeur de l'intervalle de teintes"
 
 #: data/effects/hsl_range.xml:17
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to blend the edges of the hue range"
-msgstr "La quantité en pixels pour flouter le bord de l'ombre"
+msgstr "La quantité pour le mélange des bords de la gamme de teintes"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
@@ -14224,10 +14221,9 @@ msgstr ""
 "du masque »."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Début"
+msgstr "Début du masque"
 
 #: data/effects/mask_start.xml:5
 #, fuzzy, kde-format
@@ -14514,10 +14510,9 @@ msgid "Maximum Up/Down Move"
 msgstr "Déplacement maximum vers le haut / bas"
 
 #: data/effects/oldfilm.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
-msgstr "<![CDATA[Distance entre les lignes verticales en pixels]]>"
+msgstr "<![CDATA[Détermine le mouvement vertical maximum en pixels]]>"
 
 #: data/effects/oldfilm.xml:12
 #, kde-format
@@ -18089,6 +18084,8 @@ msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
 msgstr ""
+"Veuillez faire un double clic, déposer des fichiers\n"
+"ou cliquer sur %1 pour importer des médias"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
@@ -19232,10 +19229,9 @@ msgid "Import File on Double Click"
 msgstr "Importer un fichier avec un double clic"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Afficher un aperçu >>>"
+msgstr "Afficher le panneau d'aperçus"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19294,10 +19290,9 @@ msgstr ""
 "un nom similaire et les importera sous forme de séquence d'images."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "Mettre à jour les catégories de guide"
+msgstr "Mettre à jour les catégories de repères de frise chronologique"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -19316,16 +19311,14 @@ msgid "Delete marker"
 msgstr "Supprimer le repère"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "Déplacer un calque"
+msgstr "Déplacer le repère"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "Renommer le repère"
+msgstr "Re-dimensionner le repère"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -19351,10 +19344,9 @@ msgstr "Supprimer tous les repères"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "Aucun guide à l'emplacement du curseur"
+msgstr "Aucun repère trouvé à la position courante"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -19387,22 +19379,19 @@ msgid "Add markers"
 msgstr "Ajouter des repères"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "Actualiser l'image clé"
+msgstr "Mettre à jour le repère d'intervalle"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "Convertir la matrice de couleurs."
+msgstr "Convertir en repère d'intervalle"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "Ajouter un repère"
+msgstr "Ajouter un repère d'intervalle"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -19496,11 +19485,10 @@ msgid "Sequence count"
 msgstr "Numéro de séquence"
 
 #: src/bin/previewpanel.cpp:60
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Lire la zone"
+msgstr "Lire le média"
 
 #: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19513,63 +19501,54 @@ msgid "Mute"
 msgstr "Muet"
 
 #: src/bin/previewpanel.cpp:73
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "Rendre la vidéo muette"
+msgstr "Mettre le son en pause"
 
 #: src/bin/previewpanel.cpp:74
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "Rétablir le son de l'écran"
+msgstr "Remettre le son"
 
 #: src/bin/previewpanel.cpp:103
-#, fuzzy, kde-format
-#| msgid "Auto Play"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
-msgstr "Lecture automatique"
+msgstr "Lire automatiquement"
 
 #: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Importer un sous-titre"
+msgstr "Importer un fichier"
 
 #: src/bin/previewpanel.cpp:198
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Importer des guides"
+msgstr "Importer les %1 fichiers"
 
 #: src/bin/previewpanel.cpp:201
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Créer un dossier"
+msgstr "Importer un dossier"
 
 #: src/bin/previewpanel.cpp:376
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "FPS"
 
 #: src/bin/previewpanel.cpp:387
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Piste a&udio"
-msgstr[1] "Piste a&udio"
+msgstr[0] "Une piste audio"
+msgstr[1] "%1 pistes audio"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -20496,12 +20475,10 @@ msgid "JSON File"
 msgstr "Fichier « JSON »"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "Exporter des données de guides"
+msgstr "Exporter les données des repères"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -20529,10 +20506,9 @@ msgid "Cannot write to file %1"
 msgstr "Impossible d'écrire dans le fichier %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "Guides enregistrés dans %1"
+msgstr "Repères enregistrés dans %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -20540,75 +20516,64 @@ msgid "Category name"
 msgstr "Nom de catégorie"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "Marker number"
-msgstr "Repère 1"
+msgstr "Numéro de repère"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "Position du guide au format « HH:MM:SS:FF »"
+msgstr "Position du repère au format « HH:MM:SS:FF »"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "Position du guide au format « (HH):MM:SS »"
+msgstr "Position des repères en (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "Prochaine position du guide au format « (HH):MM:SS »"
+msgstr "Prochaine position du repère au format « (HH):MM:SS »"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "Position du guide en trames"
+msgstr "Position des repères dans les trames"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "Prochaine position du guide dans les trames"
+msgstr "Prochaine position du repère dans les trames"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "Afficher les commentaires des marqueurs"
+msgstr "Commentaires des repères"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "Position du guide en trames"
+msgstr "Durée du repère en trames"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "Insérer le marqueur de temps actif"
+msgstr "Durée du repère en horodatage"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "Prochaine position du guide dans les trames"
+msgstr "Position de fin du repère en horodatage"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "Prochaine position du guide dans les trames"
+msgstr "Position du guide dans les trames"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "Si le repère possède un intervalle (Vrai  / Faux)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -21109,6 +21074,10 @@ msgid ""
 "Not compatible with variable bitrate, and only relevant for some video "
 "codecs."
 msgstr ""
+"Le rendu en deux passes permet un meilleur contrôle de la taille finale du "
+"fichier de rendu.\n"
+"Ceci est incompatible avec un débit binaire variable et uniquement pertinent "
+"pour certains codecs vidéo."
 
 #: src/dialogs/renderwidget.cpp:413
 #, kde-format
@@ -21402,10 +21371,9 @@ msgid "Timeline"
 msgstr "Montage"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "Couleurs et guides"
+msgstr "Couleurs et marqueurs"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -22909,7 +22877,7 @@ msgstr "Supprimer le texte sélectionné"
 #: src/dialogs/textbasededit.cpp:778
 #, kde-format
 msgid "Add marker for current selection"
-msgstr "Ajouter un marqueur pour la sélection courante"
+msgstr "Ajouter un repère pour la sélection courante"
 
 #: src/dialogs/textbasededit.cpp:782
 #, kde-format
@@ -25595,10 +25563,9 @@ msgid "Add Clip"
 msgstr "Ajouter une vidéo"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Ajouter un repère / guide par catégorie / nombre"
+msgstr "Ajouter un repère par numéro de catégorie"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -25780,21 +25747,18 @@ msgstr "Rendu de l'aperçu"
 #: src/mainwindow.cpp:607
 #, kde-format
 msgid "Go to Marker…"
-msgstr "Aller au marqueur..."
+msgstr "Aller au repère..."
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "Créer un signet"
+msgstr "Créer un repère à partir d'une zone"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Créer des signets à partir des marqueurs de temps sélectionnés."
+msgstr "Créer rapidement un repère à partir d'une zone"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -26162,7 +26126,7 @@ msgstr "Vignettes audio"
 #: src/mainwindow.cpp:1412
 #, kde-format
 msgid "Show Markers Comments"
-msgstr "Afficher les commentaires des marqueurs"
+msgstr "Afficher les commentaires des repères"
 
 #: src/mainwindow.cpp:1418
 #, kde-format
@@ -26185,14 +26149,12 @@ msgid "Show Clip Names"
 msgstr "Afficher les noms de séquences"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
 msgstr ""
-"Affiche / masque l'affichage des étiquettes de vidéo sur la frise "
-"chronologique (Activé par défaut)."
+"Affiche / masque l'affichage des noms et des informations de séquences dans "
+"la frise chronologique."
 
 #: src/mainwindow.cpp:1430
 #, kde-format
@@ -26451,16 +26413,14 @@ msgid "Go to Clip End"
 msgstr "Aller à la fin du clip"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "Aller au guide précédent"
+msgstr "Aller au repère précédent"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "Aller au marqueur..."
+msgstr "Aller au prochain repère..."
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -26644,70 +26604,59 @@ msgid "Delete All Markers"
 msgstr "Supprimer tous les repères"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Ajouter un repère / guide rapidement"
+msgstr "Ajouter un repère rapidement"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 1 de repères"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 2 de repères"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 3 de repères"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 4 de repères"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 5 de repères"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 6 de repères"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 7 de repères"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 8 de repères"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 9 de repères"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Ajouter des repères par catégorie"
+msgstr "Ajouter la catégorie 10 de repères"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -26727,7 +26676,7 @@ msgstr "Supprimer le repère"
 #: src/mainwindow.cpp:1836 src/mainwindow.cpp:2043
 #, kde-format
 msgid "Edit Marker…"
-msgstr "Modifier un marqueur..."
+msgstr "Modifier un repère..."
 
 #: src/mainwindow.cpp:1841 src/timeline2/model/timelinefunctions.cpp:1233
 #, kde-format
@@ -26938,35 +26887,29 @@ msgid "Disable Timeline Preview"
 msgstr "Désactiver l'aperçu du montage"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Supprimer le marqueur"
+msgstr "Ajouter / Supprimer un repère"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "Rechercher des guides"
+msgstr "Rechercher un repère..."
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export Markers…"
-msgstr "Exporter des marqueurs..."
+msgstr "Exporter des repères..."
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline error"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Erreur dans le montage"
+msgstr "Repères de frise chronologique verrouillés"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Charger les marqueurs de vidéo"
+msgstr "Verrouiller les repères de séquences"
 
 #: src/mainwindow.cpp:2053
 #, fuzzy, kde-kuit-format
@@ -28013,21 +27956,16 @@ msgstr ""
 "rapide"
 
 #: src/monitor/monitor.cpp:240
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Sets the preview resolution of the project/clip monitor. One can select "
-#| "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster "
-#| "the preview)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Sets the preview resolution of the project/clip monitor. One can select "
 "between 1:1, 1080p, 720p, 540p, 360p, 270p (the lower the resolution the "
 "faster the preview)."
 msgstr ""
-"Définit la résolution de l'aperçu pour un écran du projet / de la vidéo. Il "
-"est possible de choisir entre 1 : 1, 720p, 540p, 360p, 270p (Plus la "
-"résolution est basse, plus l'aperçu est rapide)."
+"Définit la résolution de l'aperçu pour un écran du projet / des séquences "
+"vidéo. Les sélections possibles sont : 1 : 1,1080p, 720p, 540p, 360p, 270p "
+"(Plus la résolution est basse, plus l'aperçu est rapide)."
 
 #: src/monitor/monitor.cpp:243
 #, kde-format
@@ -28082,16 +28020,14 @@ msgstr ""
 "volume audio, taille de l'écran)."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "Aller au marqueur..."
+msgstr "Aller au repère de séquence..."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "Aller au marqueur..."
+msgstr "Aller au repère de la frise chronologique..."
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -28170,10 +28106,9 @@ msgid "Set current image as thumbnail"
 msgstr "Choisir l'image courante comme vignette"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "Créer des signets à partir des marqueurs de temps sélectionnés."
+msgstr "Créer un repère à partir d'une zone..."
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -28188,7 +28123,7 @@ msgstr "Afficher les niveaux audio"
 #: src/monitor/monitor.cpp:774
 #, kde-format
 msgid "Show Source Timecode"
-msgstr "Afficher le marqueur temporel de la source"
+msgstr "Afficher le repère temporel de la source"
 
 #: src/monitor/monitor.cpp:811
 #, kde-format
@@ -28292,24 +28227,25 @@ msgstr ""
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
+"Aucune zone valable définie. Veuillez d'abord définir les points d'entrée / "
+"sortie."
 
 #: src/monitor/monitor.cpp:3309
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "Créer un repère d'intervalle à partir d'une zone"
 
 #: src/monitor/monitor.cpp:3315 src/monitor/monitor.cpp:3336
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "Repère d'intervalle créé à partir d'une zone"
 
 #: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3338
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "Impossible de créer le fichier."
+msgstr "Impossible de créer un repère d'intervalle à partir de la zone."
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -28448,10 +28384,9 @@ msgstr "Aller à la fin de la zone"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "Renommer le repère"
+msgstr "Marqueur de zone"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -28789,7 +28724,7 @@ msgid ""
 msgstr ""
 "<shortcut>Molette</shortcut> ou <shortcut>flèches</shortcut> pour se "
 "positionner sur une trame, <shortcut>Maj</shortcut> pour se positionner sur "
-"une seconde, <shortcut>ALT</shortcut> pour se positionner sur le marqueur, "
+"une seconde, <shortcut>ALT</shortcut> pour se positionner sur le repère, "
 "<shortcut>Accueil</shortcut> / <shortcut>Fin</shortcut> pour se positionner, "
 "respectivement, sur les première et dernière trames."
 
@@ -28839,7 +28774,7 @@ msgstr "Ajouter un guide"
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
 msgid "Remove Marker"
-msgstr "Supprimer le marqueur"
+msgstr "Supprimer le repère"
 
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
@@ -29559,8 +29494,7 @@ msgid "Showing backup files for %1"
 msgstr "Afficher les fichiers de sauvegarde pour %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "Modifier une catégorie de repères"
 
@@ -29575,10 +29509,9 @@ msgid "Category %1"
 msgstr "Catégorie %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "Modifier une catégorie de repères"
+msgstr "Supprimer une catégorie de repères"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -29636,10 +29569,9 @@ msgid "Refresh All Thumbnails"
 msgstr "Rafraîchir toutes les vignettes"
 
 #: src/project/dialogs/guideslist.cpp:206
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "Ajouter un repère"
+msgstr "Ajouter un nouveau repère."
 
 #: src/project/dialogs/guideslist.cpp:207
 #, fuzzy, kde-kuit-format
@@ -29652,24 +29584,20 @@ msgstr ""
 "courante."
 
 #: src/project/dialogs/guideslist.cpp:208
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "Supprimer le repère"
+msgstr "Supprimer un repère."
 
 #: src/project/dialogs/guideslist.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "Supprimer un guide. Ceci effacera tous les guides sélectionnés."
+msgstr "Supprimer le repère. Ceci effacera tous les repères sélectionnés."
 
 #: src/project/dialogs/guideslist.cpp:210
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "Modifier le guide sélectionné."
+msgstr "Modifier le repère sélectionné."
 
 #: src/project/dialogs/guideslist.cpp:211
 #, fuzzy, kde-kuit-format
@@ -29686,10 +29614,9 @@ msgstr ""
 "modification de leur catégorie."
 
 #: src/project/dialogs/guideslist.cpp:212
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Filtrer les catégories de guides."
+msgstr "Filtrer les catégories de repères."
 
 #: src/project/dialogs/guideslist.cpp:214
 #, fuzzy, kde-kuit-format
@@ -29707,10 +29634,9 @@ msgstr ""
 "la frise chronologique."
 
 #: src/project/dialogs/guideslist.cpp:215
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Catégorie de guide par défaut."
+msgstr "Catégorie de repère par défaut."
 
 #: src/project/dialogs/guideslist.cpp:216
 #, fuzzy, kde-kuit-format
@@ -29723,21 +29649,20 @@ msgstr ""
 "nouvellement créés."
 
 #: src/project/dialogs/guideslist.cpp:241
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "Rechercher des guides"
+msgstr "Rechercher tous les repères..."
 
 #: src/project/dialogs/guideslist.cpp:256
 #, kde-format
 msgid "All Project Markers"
-msgstr "Tous les marqueurs de projet"
+msgstr "Tous les repères de projet"
 
 #: src/project/dialogs/guideslist.cpp:332
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
-msgstr "Charger les marqueurs de vidéo"
+msgstr "Charger les repères de vidéo"
 
 #: src/project/dialogs/guideslist.cpp:348
 #, kde-format
@@ -29748,27 +29673,24 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:450
 #: src/project/dialogs/guideslist.cpp:461
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "Supprimer le marqueur"
+msgstr "Supprimer les repères"
 
 #: src/project/dialogs/guideslist.cpp:544
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "Rechercher des guides"
+msgstr "Rechercher les repères de séquences..."
 
 #: src/project/dialogs/guideslist.cpp:584
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "Rechercher des guides"
+msgstr "Rechercher les repères de frise chronologique"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
 msgid "Insert current timecode"
-msgstr "Insérer le marqueur de temps actif"
+msgstr "Insérer le repère de temps actif"
 
 #: src/project/dialogs/noteswidget.cpp:47
 #, kde-format
@@ -29780,7 +29702,7 @@ msgstr[1] "Créer des signets"
 #: src/project/dialogs/noteswidget.cpp:51
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
-msgstr "Assigner des marqueurs de temps à la source du projet courant"
+msgstr "Assigner des repères de temps à la source du projet courant"
 
 #: src/project/dialogs/noteswidget.cpp:163
 #, kde-format
@@ -29791,7 +29713,7 @@ msgstr "Impossible de trouver une séquence du projet"
 #: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
-msgstr "Sélectionner quelques marqueurs de temps à ré-assigner."
+msgstr "Sélectionner quelques repères de temps à ré-assigner."
 
 #: src/project/dialogs/noteswidget.cpp:260
 #, kde-format
@@ -29801,7 +29723,7 @@ msgstr "Aucune séquence sélectionnée dans la frise chronologique"
 #: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
-msgstr "Sélectionner des marqueurs de temps pour créer des signets."
+msgstr "Sélectionner des repères de temps pour créer des signets."
 
 #: src/project/dialogs/profilewidget.cpp:39
 #, kde-format
@@ -30337,7 +30259,7 @@ msgstr "Notes de projet"
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
-"Réassigner les marqueurs de temps sélectionnés vers le clip source courant."
+"Réassigner les repères de temps sélectionnés vers le clip source courant."
 
 #: src/project/notesplugin.cpp:161
 #, kde-format
@@ -30349,7 +30271,7 @@ msgstr ""
 #: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr "Créer des signets à partir des marqueurs de temps sélectionnés."
+msgstr "Créer des signets à partir des repères de temps sélectionnés."
 
 #: src/project/notesplugin.cpp:167
 #, kde-kuit-format
@@ -30358,7 +30280,7 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
-"Crée des marqueurs dans la frise chronologique à partir des étiquettes "
+"Crée des repères dans la frise chronologique à partir des étiquettes "
 "d'horodatage sélectionnées (Peu importe si un autre texte est également "
 "sélectionné)."
 
@@ -33051,10 +32973,9 @@ msgid "Select at least 2 items to group"
 msgstr "Sélectionnez au moins 2 éléments à grouper"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "Aucun repère à l'emplacement du curseur"
+msgstr "Aucun repère d'intervalle trouvé à la position"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -33324,10 +33245,9 @@ msgid "Manage Subtitles"
 msgstr "Gérer les sous-titres"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "Aucun guide à l'emplacement du curseur"
+msgstr "Aucun repère d'intervalle trouvé à la position"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -35479,11 +35399,9 @@ msgstr "Établir un profil pour les séquences possédant un canal Alpha :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Enlever le clip intermédiaire"
+msgstr "Séquences en cache de  caméscope :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -36521,7 +36439,7 @@ msgstr "Alignement"
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Un texte de marqueur pour le chapitre formaté sera généré ici."
+msgstr "Un texte de repère pour le chapitre formaté sera généré ici."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
@@ -36558,7 +36476,7 @@ msgstr "Ajouter"
 #: src/ui/exportguidesdialog_ui.ui:159
 #, kde-format
 msgid "Marker Type:"
-msgstr "Type de marqueur :"
+msgstr "Type de repère :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:189
@@ -37041,17 +36959,15 @@ msgstr "Clé"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "Supprimer le marqueur"
+msgstr "Marqueur d'intervalle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Temps de rendu"
+msgstr "Temps de fin"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:139
@@ -37393,11 +37309,9 @@ msgstr "Taille de l'image intermédiaire"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Enlever le clip intermédiaire"
+msgstr "Séquences en cache de  caméscope"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -37600,24 +37514,21 @@ msgstr "&Zone sélectionnée"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "&Marker zone"
-msgstr "Repère 1"
+msgstr "Zone de &repères"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "Guide pour l'exportation multiple"
+msgstr "Exportation multiple de repères"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "Guides pour utilisation comme séparateur :"
+msgstr "Repères pour utilisation comme séparateur :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495
@@ -37871,7 +37782,7 @@ msgstr "Séparation de plans"
 #: src/ui/scenecutdialog_ui.ui:24
 #, kde-format
 msgid "Add clip markers:"
-msgstr "Ajouter un marqueur de vidéo :"
+msgstr "Ajouter un repère de vidéo :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/scenecutdialog_ui.ui:37
