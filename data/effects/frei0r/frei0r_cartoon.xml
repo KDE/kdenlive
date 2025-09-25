@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.cartoon" id="frei0r.cartoon" type="video">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.cartoon" id="frei0r.cartoon" type="video">
     <name>Cartoon</name>
     <description>Cartoonify video, do a form of edge detect</description>
     <author>Dries Pruimboom, Jaromil</author>

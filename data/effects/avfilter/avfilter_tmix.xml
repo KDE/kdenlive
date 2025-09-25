@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.tmix" id="avfilter.tmix">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.tmix" id="avfilter.tmix">
     <name>Temporal frames Mixer</name>
     <description>Mix successive video frames</description>
     <author>libavfilter</author>

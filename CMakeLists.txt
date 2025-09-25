@@ -128,6 +128,7 @@ find_package(Qt${QT_MAJOR_VERSION}
     Concurrent
     QuickWidgets
     Multimedia
+    MultimediaWidgets
     NetworkAuth
     SvgWidgets
     Xml

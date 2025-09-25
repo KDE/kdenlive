@@ -187,7 +187,7 @@ void ProxyTask::run()
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");
 
-        m_jobProcess = new QProcess(this);
+        m_jobProcess = new QProcess();
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         qDebug() << " :: STARTING PLAYLIST PROXY: " << mltParameters;
         QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
@@ -196,6 +196,7 @@ void ProxyTask::run()
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        m_jobProcess->deleteLater();
         delete playlist;
     } else if (type == ClipType::Image) {
         m_isFfmpegJob = false;
@@ -392,6 +393,7 @@ void ProxyTask::run()
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit && m_jobProcess->exitCode() == 0;
+        m_jobProcess->deleteLater();
     }
     // remove temporary playlist if it exists
     m_progress = 100;

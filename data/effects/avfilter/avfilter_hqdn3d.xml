@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.hqdn3d" id="avfilter.hqdn3d">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.hqdn3d" id="avfilter.hqdn3d">
     <name>HQ 3D Denoiser (avfilter)</name>
     <description>Apply a high quality 3D denoiser</description>
     <author>libavfilter</author>

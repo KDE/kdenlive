@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="am_pitchshift_1433.so" id="pitch_shift" ladspaid="1433" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="am_pitchshift_1433.so" id="pitch_shift" ladspaid="1433" type="audio">
     <name>Pitch Shift</name>
     <description>LADSPA change pitch audio effect</description>
     <author>http://www.ladspa.org</author>

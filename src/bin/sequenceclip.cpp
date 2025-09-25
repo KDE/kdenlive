@@ -128,11 +128,9 @@ SequenceClip::~SequenceClip() {}
 QDomElement SequenceClip::toXml(QDomDocument &document, bool includeMeta, bool includeProfile)
 {
     getProducerXML(document, includeMeta, includeProfile);
-    QDomElement prod;
     QString tag = document.documentElement().tagName();
-    if (tag == QLatin1String("producer") || tag == QLatin1String("chain")) {
-        prod = document.documentElement();
-    } else {
+    QDomElement prod = document.documentElement();
+    if (tag != QLatin1String("producer") && tag != QLatin1String("chain")) {
         // This is a sequence clip
         prod = document.documentElement();
         prod.setAttribute(QStringLiteral("kdenlive:id"), m_binId);
@@ -150,6 +148,10 @@ bool SequenceClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gen
     if (m_sequenceUuid.isNull()) {
         m_sequenceUuid = QUuid::createUuid();
         producer->parent().set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
+    }
+    if (m_masterProducer) {
+        // Pass sequence properties
+        producer->parent().pass_list(m_masterProducer->parent(), "kdenlive:clipzones,kdenlive:zone_in,kdenlive:zone_out");
     }
     if (m_timewarpProducers.size() > 0) {
         bool ok;

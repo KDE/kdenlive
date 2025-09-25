@@ -175,7 +175,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->setContentsMargins(0, 0, 0, 0);
     layZone->setSpacing(0);
     QLabel *in = new QLabel(i18n("In:"), this);
-    //in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(in);
     auto *setIn = new QToolButton(this);
     setIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
@@ -187,7 +187,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->addWidget(m_inPos);
     layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
     QLabel *out = new QLabel(i18n("Out:"), this);
-    //out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(out);
     auto *setOut = new QToolButton(this);
     setOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
@@ -530,14 +530,15 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     m_isActive = active;
     QPalette pal = palette();
+    bool outside = !active;
     if (active) {
         pal.setColor(QPalette::Active, QPalette::Base, m_activeColor);
         decoframe->setPalette(pal);
         pal.setColor(QPalette::Active, QPalette::Base, m_activeColorTitle);
         frame->setPalette(pal);
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-        if (m_view->keyframesAllowed() && m_view->hasMultipleKeyframes()) {
-            active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+        if (m_view->keyframesAllowed()) {
+            outside = !pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
         }
     } else {
         pal.setColor(QPalette::Active, QPalette::Base, m_bgColor);
@@ -545,7 +546,8 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
         pal.setColor(QPalette::Active, QPalette::Base, m_bgColorTitle);
         frame->setPalette(pal);
     }
-    Q_EMIT m_view->initKeyframeView(active, active);
+    qDebug() << ":::: ACTIOVATING VIEW: " << active << ", OUTSIDE: " << outside;
+    Q_EMIT m_view->initKeyframeView(active, outside);
     if (m_inOutButton->isChecked()) {
         Q_EMIT showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
     } else {

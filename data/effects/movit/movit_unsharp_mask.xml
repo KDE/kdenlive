@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="movit.unsharp_mask" id="movit.unsharp_mask">
+<effect xmlns="https://www.kdenlive.org" tag="movit.unsharp_mask" id="movit.unsharp_mask">
     <name>Unsharp mask (GPU)</name>
     <author>Steinar H. Gunderson</author>
     <parameter type="animated" name="radius" default="15" min="0" max="1000" factor="10">

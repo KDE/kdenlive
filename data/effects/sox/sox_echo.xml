@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox_echo" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="sox" id="sox_echo" type="audio">
     <name>Sox Echo</name>
     <description>Sox echo audio effect</description>
     <author>http://sox.sourceforge.net</author>

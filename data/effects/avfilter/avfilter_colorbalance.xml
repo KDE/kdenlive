@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colorbalance" id="avfilter.colorbalance">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colorbalance" id="avfilter.colorbalance">
     <name>Color balance</name>
     <description>Modify intensity of primary colors (red, green and blue) of input frames. </description>
     <author>libavfilter</author>

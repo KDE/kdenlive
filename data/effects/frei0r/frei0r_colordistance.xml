@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.colordistance" id="frei0r.colordistance">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.colordistance" id="frei0r.colordistance">
     <name>Color Distance</name>
     <description>Calculates the distance between the selected color and the current pixel and uses that value as new pixel value</description>
     <author>Richard Spindler</author>

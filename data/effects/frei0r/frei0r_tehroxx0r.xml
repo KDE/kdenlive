@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.tehRoxx0r" id="frei0r.tehRoxx0r" type="video" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.tehRoxx0r" id="frei0r.tehRoxx0r" type="video" unique="1">
     <name>TehRoxx0r</name>
     <description>Something videowall-ish</description>
     <author>Coma</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="pitch_scale_1193.so" id="pitch_scale" ladspaid="1193" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa" library="pitch_scale_1193.so" id="pitch_scale" ladspaid="1193" type="audio">
     <name>Pitch Scaler</name>
     <description>LADSPA pitch scale audio effect</description>
     <author>http://www.ladspa.org</author>

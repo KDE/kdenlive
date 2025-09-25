@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="gamma" id="gamma">
+<effect xmlns="https://www.kdenlive.org" tag="gamma" id="gamma">
     <name context="Gamma Effect Name">Gamma (keyframable)</name>
     <description>Change gamma color value</description>
     <author>Charles Yates</author>

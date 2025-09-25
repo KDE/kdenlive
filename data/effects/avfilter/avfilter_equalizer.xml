@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.equalizer" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.equalizer" type="audio">
     <name>Audio Equalizer (avfilter)</name>
     <description>Apply two-pole peaking equalization (EQ) filter</description>
     <author>libavfilter</author>

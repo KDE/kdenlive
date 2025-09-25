@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="oldfilm" id="oldfilm" type="video" requires_in_out="1" unique="1">
+<effect xmlns="https://www.kdenlive.org" tag="oldfilm" id="oldfilm" type="video" requires_in_out="1" unique="1">
     <name>Old Film Simulator</name>
     <description>Moves the picture up and down and adds random brightness changes</description>
     <author>Marco Gittler</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.fftfilt" id="avfilter.fftfilt">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.fftfilt" id="avfilter.fftfilt">
     <name>FTT-based FIR</name>
     <description>Apply arbitrary expressions to samples in frequency domain</description>
     <author>libavfilter</author>
@@ -23,7 +23,7 @@
         <name>Luminance V plane</name>
     </parameter>
     <parameter type="list" name="av.eval" default="init" paramlist="init;frame">
-        <paramlistdisplay>init,frame</paramlistdisplay>
         <name>Evaluate</name>
+        <paramlistdisplay>init,frame</paramlistdisplay>
     </parameter>
 </effect>

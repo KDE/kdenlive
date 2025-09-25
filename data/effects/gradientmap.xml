@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="gradientmap" id="gradientmap">
+<effect xmlns="https://www.kdenlive.org" tag="gradientmap" id="gradientmap">
     <name>Gradient Map</name>
     <description>Apply a gradient map to the video</description>
     <author>Martin Rodriguez Reboredo</author>

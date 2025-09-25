@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.fspp" id="avfilter.fspp">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.fspp" id="avfilter.fspp">
     <name>fspp</name>
     <description>Fast and simple postprocessing</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.quality" default="4" paramlist="4;5">
-        <paramlistdisplay>4,5</paramlistdisplay>
         <name>Quality</name>
+        <paramlistdisplay>4,5</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.qp" default="0" max="64" min="0">
         <name>Constant quantizer</name>

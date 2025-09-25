@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="frei0r.bluescreen0r" id="frei0r.bluescreen0r">
+<effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.bluescreen0r" id="frei0r.bluescreen0r">
     <name>Blue Screen (Color to Alpha)</name>
     <description><![CDATA[Turns the selected color into alpha making it transparent.]]></description>
     <author>Hedde Bosman</author>

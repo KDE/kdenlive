@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="boxblur" id="boxblur">
+<effect xmlns="https://www.kdenlive.org" tag="boxblur" id="boxblur">
     <name>Box Blur</name>
     <description>Box blur (separate horizontal and vertical blur)</description>
     <author>Leny Grisel</author>

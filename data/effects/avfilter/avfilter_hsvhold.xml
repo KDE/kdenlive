@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.hsvhold" id="avfilter.hsvhold">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.hsvhold" id="avfilter.hsvhold">
     <name>HSV Hold</name>
     <description>Turns a certain HSV range into gray </description>
     <author>libavfilter</author>

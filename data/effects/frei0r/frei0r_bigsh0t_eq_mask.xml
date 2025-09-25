@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.bigsh0t_eq_mask" id="frei0r.bigsh0t_eq_mask">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.bigsh0t_eq_mask" id="frei0r.bigsh0t_eq_mask">
     <name>VR360 Equirectangular Mask</name>
     <description>Adds a black matte to the frame. Use this if you filmed using a 360 camera but only want to use part of the 360 image - for example if you and the film crew occupy the 90 degrees behind the camera.</description>
     <author>Leo Sutic</author>
@@ -21,8 +21,8 @@
     	<comment><![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The <b>End</b> is the width in degrees where the matte is at 100%.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
-        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
     	<comment><![CDATA[Determines the sampling method.]]></comment>
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
     </parameter>
 </effect>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.extrastereo" id="avfilter.extrastereo" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.extrastereo" id="avfilter.extrastereo" type="audio">
     <name>Extrastereo</name>
     <description>Linearly increases the difference between left and right channels which adds some sort of "live" effect to playback. </description>
     <author>libavfilter</author>

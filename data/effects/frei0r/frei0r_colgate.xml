@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.colgate" id="frei0r.colgate" context="nomovit">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.colgate" id="frei0r.colgate" context="nomovit">
     <name>White Balance (LMS space)</name>
     <description>Do simple color correction, in a physically meaningful way</description>
     <author>Steiner H. Gunderson</author>

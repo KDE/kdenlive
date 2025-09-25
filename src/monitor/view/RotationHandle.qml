@@ -16,7 +16,7 @@ Rectangle {
     property int smallRectMargin: 0
     
     // State properties
-    property bool iskeyframe: false
+    property bool isKeyframe: false
     property real rotationAngle: 0
     
     // Signals
@@ -40,7 +40,7 @@ Rectangle {
     color: "#99ffffff"
     border.color: "#ff0000"
     visible: rotatable && showHandle && smallRectMargin == 0
-    opacity: iskeyframe ? 1 : 0.4
+    opacity: isKeyframe ? 1 : 0.4
     
     MouseArea {
         property point center
@@ -99,7 +99,7 @@ Rectangle {
             rotationHandle.rotationAngle = calculateNewAngle(mouse, rotationHandle.rotationAngle)
             rotationHandle.handleRotationChanged(rotationHandle.rotationAngle)
             
-            if (rotationHandle.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+            if (rotationHandle.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
                 rotationHandle.addRemoveKeyframe()
             }
         }
@@ -113,7 +113,7 @@ Rectangle {
             // Reset rotation to 0 on double-click
             rotationHandle.rotationAngle = 0
             rotationHandle.handleRotationChanged(rotationHandle.rotationAngle)
-            if (rotationHandle.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+            if (rotationHandle.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
                 rotationHandle.addRemoveKeyframe()
             }
         }

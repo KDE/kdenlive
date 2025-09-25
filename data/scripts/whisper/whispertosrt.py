@@ -114,7 +114,7 @@ def main(source, model, **kwargs):
                 # srt equalizer not found, disable srt_equalizer
                 subtitle = srt.compose(subs)
             else:
-                # Reduce line lenth in the whisper result to <= maxLength chars
+                # Reduce line length in the whisper result to <= maxLength chars
                 equalized = []
                 for sub in subs:
                     # shorten method was added recently so not always available

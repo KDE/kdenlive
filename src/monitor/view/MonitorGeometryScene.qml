@@ -62,10 +62,8 @@ Item {
     onFramesizeChanged: {
         if (!(transformedFrame.isResizing || transformedFrame.isMoving)) _framesize = framesize
     }
-    property bool iskeyframe
-    property bool cursorOutsideEffect: true
-    property bool disableHandles: root.cursorOutsideEffect && root.centerPoints.length > 1
-    property bool showHandles: (root.iskeyframe || K.KdenliveSettings.autoKeyframe) && !disableHandles
+    property bool disableHandles: controller.cursorOutsideEffect
+    property bool showHandles: (controller.isKeyframe || K.KdenliveSettings.autoKeyframe) && !disableHandles
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
@@ -279,7 +277,7 @@ Item {
         anchors.bottomMargin: clipMonitorRuler.height
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !root.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !controller.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
         readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true
@@ -422,7 +420,7 @@ Item {
         y: frame.y + root._framesize.y * root.scaley
         width: root._framesize.width * root.scalex
         height: root._framesize.height * root.scaley
-        enabled: root.iskeyframe || K.KdenliveSettings.autoKeyframe
+        enabled: controller.isKeyframe || K.KdenliveSettings.autoKeyframe
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
         opacity: (isMoving || isResizing || isRotating) ? 0 : 1
@@ -529,7 +527,7 @@ Item {
                 root.pendingFramesize.x = snappedRect.x;
                 root.pendingFramesize.y = snappedRect.y;
                 
-                if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+                if (controller.isKeyframe == false && K.KdenliveSettings.autoKeyframe) {
                   controller.addRemoveKeyframe();
                 }
                 root.effectChanged(root.pendingFramesize)
@@ -544,7 +542,7 @@ Item {
             rotatable: root.rotatable
             showHandle: root.showHandles
             smallRectMargin: transformedFrame.smallRectMargin
-            iskeyframe: root.iskeyframe
+            isKeyframe: controller.isKeyframe
             rotationAngle: root._rotation
             
             onRotationStart: {
@@ -598,7 +596,7 @@ Item {
                 scalex: root.scalex  
                 scaley: root.scaley
                 lockRatio: root.lockratio
-                isKeyframe: root.iskeyframe
+                isKeyframe: controller.isKeyframe
                 
                 // Margin properties
                 handlesTopMargin: transformedFrame.handlesTopMargin

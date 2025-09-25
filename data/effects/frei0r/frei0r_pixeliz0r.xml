@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.pixeliz0r" id="frei0r.pixeliz0r">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.pixeliz0r" id="frei0r.pixeliz0r">
     <name>Pixelize (basic)</name>
     <description>Pixelize input image</description>
     <author>Gephex crew</author>

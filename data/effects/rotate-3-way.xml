@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="affine" id="3wayrotate">
+<effect xmlns="https://www.kdenlive.org" tag="affine" id="3wayrotate">
     <name context="Affine Transform Effect Name">3-way Rotate</name>
     <description>Rotate clip in any 3 directions</description>
     <author>Charles Yates</author>

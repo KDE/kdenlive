@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="chroma_hold" id="chroma_hold">
+<effect xmlns="https://www.kdenlive.org" tag="chroma_hold" id="chroma_hold">
     <name>Chroma Keep</name>
     <description>Make image greyscale except for chosen color</description>
     <author>Charles Yates</author>
