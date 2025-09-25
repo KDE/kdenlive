@@ -46,6 +46,12 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     void switchThumbs();
 
+protected:
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    Qt::DropActions supportedDragActions() const override;
+    QMimeData *mimeData(const QModelIndexList &indexes) const override;
+    QStringList mimeTypes() const override;
+
 public Q_SLOTS:
     void refreshDar();
 
