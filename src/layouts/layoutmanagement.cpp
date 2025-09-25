@@ -230,50 +230,10 @@ bool LayoutManagement::loadLayout(const QString &layoutId)
     // Set as current layout
     m_currentLayoutId = layoutId;
 
-    // Disconnect docks during layout change
-    Q_EMIT connectDocks(false);
-
     // Parse layout data
-    QByteArray state = QByteArray::fromBase64(layout.data.toLatin1());
-    bool timelineVisible = true;
-    if (state.startsWith("NO-TL")) {
-        timelineVisible = false;
-        state.remove(0, 5);
-    }
-
-    // Apply layout
-    pCore->window()->centralWidget()->setHidden(!timelineVisible);
-
-    // Restore state disables all toolbars, so remember state
-    QList<KToolBar *> barsList = pCore->window()->toolBars();
-    QMap<QString, bool> toolbarVisibility;
-    for (auto &tb : barsList) {
-        toolbarVisibility.insert(tb->objectName(), tb->isVisible());
-    }
-
-    // Apply window state
-    pCore->window()->processRestoreState(state);
-
-    // Restore toolbar status
-    QMapIterator<QString, bool> i(toolbarVisibility);
-    while (i.hasNext()) {
-        i.next();
-        KToolBar *tb = pCore->window()->toolBar(i.key());
-        if (tb) {
-            tb->setVisible(i.value());
-        }
-    }
-
-    pCore->window()->tabifyBins();
-
-    // Reconnect docks
-    Q_EMIT connectDocks(true);
-
-    // Update layout switcher
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    dockLayout.restoreLayout(layout.data.toLatin1());
     m_layoutSwitcher->setCurrentLayout(layoutId);
-
-    // Update title bars
-    Q_EMIT updateTitleBars();
     return true;
 }
 
@@ -321,13 +281,11 @@ void LayoutManagement::slotSaveLayout()
     QString saveName = m_layoutSwitcher->currentLayout();
 
     // Get current window state
-    QByteArray st = pCore->window()->saveState();
-    if (!pCore->window()->timelineVisible()) {
-        st.prepend("NO-TL");
-    }
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    const QString state(dockLayout.serializeLayout());
 
     // Save the layout
-    std::pair<QString, QString> names = saveLayout(st.toBase64(), saveName);
+    std::pair<QString, QString> names = saveLayout(state, saveName);
 
     // Update UI if saved successfully
     if (names.first != nullptr) {

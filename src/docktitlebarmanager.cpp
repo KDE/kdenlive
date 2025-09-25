@@ -14,6 +14,8 @@ QDockWidget
 #include <KLocalizedString>
 #include <QDockWidget>
 
+// TODO KDDOCKWIDGETS
+//  Remove this class
 DockTitleBarManager::DockTitleBarManager(QObject *parent)
     : QObject(parent)
 {

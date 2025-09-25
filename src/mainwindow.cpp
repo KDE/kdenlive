@@ -627,10 +627,6 @@ void MainWindow::init()
 
     m_scopesManager = new ScopeManager(this);
 
-    auto *titleBars = new DockTitleBarManager(this);
-    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, [&]() { titleBars->slotUpdateTitleBars(); });
-    connect(layoutManager, &LayoutManagement::connectDocks, titleBars, &DockTitleBarManager::connectDocks);
-    connect(this, &MainWindow::connectDockAfterInit, titleBars, &DockTitleBarManager::connectDockWidget);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
