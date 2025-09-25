@@ -73,8 +73,6 @@ void DockTitleBarManager::slotShowTitleBars(bool checked)
 {
     KdenliveSettings::setShowtitlebars(checked);
     Q_EMIT pCore->hideBars(!checked);
-    // TODO KDDockWidgets remove
-    // slotUpdateTitleBars();
 }
 
 void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)

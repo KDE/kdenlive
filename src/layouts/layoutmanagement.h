@@ -39,10 +39,6 @@ private Q_SLOTS:
     void slotLoadLayout(QAction *action);
     /** @brief Manage layout. */
     void slotManageLayouts();
-    /** @brief Arrange the Qt::DockWidgetAreas in rows. */
-    void slotDockAreaRows();
-    /** @brief Arrange the Qt::DockWidgetAreas in columns. */
-    void slotDockAreaColumns();
     /** @brief Hide the autosave indicator . */
     void hideAutoSave();
     /** @brief Show the autosave indicator for 2 seconds. */

@@ -57,15 +57,6 @@ LayoutManagement::LayoutManagement(QObject *parent)
         m_layoutActions << m_layoutCategory->addAction("load_layout" + QString::number(i), load);
     }
 
-    // Dock Area Orientation
-    QAction *rowDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
-    m_layoutCategory->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
-    connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
-
-    QAction *colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
-    m_layoutCategory->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
-    connect(colDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaColumns);
-
     // Create layout switcher for the menu bar
     MainWindow *main = pCore->window();
     m_container = new QWidget(main);
@@ -310,24 +301,6 @@ void LayoutManagement::slotManageLayouts()
     m_layoutCollection = dlg.getUpdatedCollection();
     m_layoutCollection.saveToConfig(config);
     initializeLayouts();
-}
-
-void LayoutManagement::slotDockAreaRows()
-{
-    // Use the corners for top and bottom DockWidgetArea
-    pCore->window()->setCorner(Qt::TopRightCorner, Qt::TopDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
-    pCore->window()->setCorner(Qt::TopLeftCorner, Qt::TopDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::BottomDockWidgetArea);
-}
-
-void LayoutManagement::slotDockAreaColumns()
-{
-    // Use the corners for left and right DockWidgetArea
-    pCore->window()->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-    pCore->window()->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 }
 
 void LayoutManagement::slotUpdatePalette()

@@ -100,6 +100,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KToolBar>
 #include <KXMLGUIFactory>
 #include <kddockwidgets/Config.h>
+#include <kddockwidgets/core/Group.h>
 #include <kddockwidgets/core/TitleBar.h>
 #include <kddockwidgets/qtcommon/View.h>
 #include <kddockwidgets/qtwidgets/views/Group.h>
@@ -134,7 +135,7 @@ public:
         , m_controller(controller)
     {
         connect(pCore.get(), &Core::hideBars, this, [this](bool hide) {
-            if (!hide && m_controller->dockWidgets().size() > 1) {
+            if (!hide && (m_controller->dockWidgets().size() > 1 || m_controller->isFloating())) {
                 // Don't show title bar when there are tabbed widgets
                 return;
             }
@@ -370,8 +371,8 @@ void MainWindow::init()
 
     connect(pCore.get(), &Core::remapClip, this, [&, dockRemap](int id) {
         if (id > -1) {
-            dockRemap->show();
-            dockRemap->raise();
+            dockRemap->open();
+            dockRemap->setAsCurrentTab();
         }
         pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
     });
@@ -458,8 +459,8 @@ void MainWindow::init()
     m_onlineResourcesDock->close();
     connect(onlineResources, &ResourceWidget::previewClip, this, [&](const QString &path, const QString &title) {
         m_clipMonitor->slotPreviewResource(path, title);
-        m_clipMonitorDock->show();
-        m_clipMonitorDock->raise();
+        m_clipMonitorDock->open();
+        m_clipMonitorDock->setAsCurrentTab();
     });
 
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
@@ -477,13 +478,13 @@ void MainWindow::init()
     connect(m_timelineTabs, &TimelineTabs::showMixModel, this, [&](int cid, std::shared_ptr<AssetParameterModel> model, bool refreshOnly) {
         m_assetPanel->showMix(cid, model, refreshOnly);
         if (KdenliveSettings::raisepropsmixes()) {
-            m_effectStackDock->raise();
+            m_effectStackDock->setAsCurrentTab();
         }
     });
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
         m_assetPanel->showTransition(tid, model);
         if (KdenliveSettings::raisepropscompositions()) {
-            m_effectStackDock->raise();
+            m_effectStackDock->setAsCurrentTab();
         }
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
@@ -496,7 +497,7 @@ void MainWindow::init()
                 bool isClip = model && model->getOwnerId().type == KdenliveObjectType::TimelineClip;
                 bool isTrack = model && model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
                 if ((isClip && KdenliveSettings::raisepropsclips()) || (isTrack && KdenliveSettings::raisepropstracks())) {
-                    m_effectStackDock->raise();
+                    m_effectStackDock->setAsCurrentTab();
                 }
             });
 
@@ -504,8 +505,8 @@ void MainWindow::init()
 
     connect(m_timelineTabs, &TimelineTabs::showSubtitle, this, [&, dockSubs](int id) {
         if (id > -1) {
-            dockSubs->show();
-            dockSubs->raise();
+            dockSubs->open();
+            dockSubs->setAsCurrentTab();
         }
         pCore->subtitleWidget()->setActiveSubtitle(id);
     });
@@ -575,6 +576,16 @@ void MainWindow::init()
         // QStringLiteral("macintosh")
     };
 
+    // Switch title bars
+    auto switchAction = new QAction(i18n("Show Title Bars"), this);
+    switchAction->setCheckable(true);
+    switchAction->setChecked(KdenliveSettings::showtitlebars());
+    addAction(QStringLiteral("show_titlebars"), switchAction);
+    connect(switchAction, &QAction::triggered, this, [](bool checked) {
+        KdenliveSettings::setShowtitlebars(checked);
+        Q_EMIT pCore->hideBars(!checked);
+    });
+
     QAction *stylesAction = KStyleManager::createConfigureAction(this);
     // stylesAction->menu() is only available on non KDE platform
     if (stylesAction->menu()) {
@@ -601,8 +612,8 @@ void MainWindow::init()
         if (m_mixerDock->isVisible() && !m_mixerDock->visibleRegion().isEmpty()) {
             m_mixerDock->close();
         } else {
-            m_mixerDock->show();
-            m_mixerDock->raise();
+            m_mixerDock->open();
+            m_mixerDock->setAsCurrentTab();
         }
     });
 
@@ -883,8 +894,7 @@ void MainWindow::init()
 
     if (firstRun) {
         // Load editing layout
-        // TODO KDDOCKWIDGETS
-        // layoutManager->loadLayout(QStringLiteral("kdenlive_editing"));
+        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"));
     }
 
 #ifdef USE_JOGSHUTTLE
@@ -3888,18 +3898,17 @@ void MainWindow::raiseBin(bool unconditionally)
 {
     Bin *bin = activeBin();
     if (bin) {
+        KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
         if (!unconditionally) {
-            KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
-            if (dock) {
-                // TODO KDDOCKWIDGET
-                /*if (isDockTabbedWith(dock, m_clipMonitorDock)) {
+            if (dock && dock->asDockWidgetController()->isTabbed()) {
+                if (dock->asGroupController()->containsDockWidget(m_clipMonitorDock->asDockWidgetController())) {
                     return;
-                }*/
+                }
             }
         }
         bin->focusBinView();
-        bin->parentWidget()->setVisible(true);
-        bin->parentWidget()->raise();
+        dock->open();
+        dock->setAsCurrentTab();
     }
 }
 
@@ -4261,51 +4270,27 @@ void MainWindow::buildDynamicActions()
 
 void MainWindow::updateDockMenu()
 {
-    // TODO KDDOCKWIDGETS: remove this method
-    return;
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
+    QList<QAction *> existing;
     const QString raise("_raise");
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
-        guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
-        // Remove timeline and raise_ actions
-        /*QList<QAction *> actions = guiActions->actions();
-        QList<QAction *> toDelete;
-        for (auto &a : actions) {
-            if (a->data().toString().contains(raise)) {
-                toDelete << guiActions->collection()->takeAction(a);
-            }
-        }
-        qDeleteAll(toDelete);*/
-        delete guiActions;
+        guiActions = kdenliveCategoryMap.value(QStringLiteral("interface"));
+        existing = guiActions->actions();
+    } else {
+        guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     }
-    guiActions = new KActionCategory(i18n("Interface"), actionCollection());
 
     QList<KDDockWidgets::QtWidgets::DockWidget *> docks = findChildren<KDDockWidgets::QtWidgets::DockWidget *>();
     for (auto dock : std::as_const(docks)) {
         QAction *dockInfo = dock->toggleAction();
-        if (!dockInfo) {
+        if (!dockInfo || existing.contains(dockInfo)) {
             continue;
         }
         guiActions->addAction(dock->objectName(), dockInfo);
-        /*QAction *dockAction = new QAction(dockInfo->toolTip());
-        dockAction->setChecked(dockInfo->isChecked());
-
-        const QString actionText = KLocalizedString::removeAcceleratorMarker(dockAction->text());
-        QAction *a = guiActions->addAction(dock->objectName(), dockAction);
-        // As action data, we set the dock title (1) and the dock object name (2)
-        // // This ensures that the list can be sorted alphabetically (1) and that each data is unique (2)
-        QString actionData = actionText + QLatin1Char('#') + dock->objectName();
-        a->setData(actionData);
-        QAction *action = new QAction(i18n("Raise %1", actionText), this);
-        action->setData(raise);
-        connect(action, &QAction::triggered, this, [dockInfo]() {
-            dockInfo->toggle();
-            //dock->setFocus();
-        });
-        addAction("raise_" + dock->objectName(), action, {}, guiActions);*/
     }
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
+    loadDockActions();
 }
 
 QList<QAction *> MainWindow::getExtraActions(const QString &name)
@@ -4549,8 +4534,8 @@ void MainWindow::slotArchiveProject()
 
 void MainWindow::slotDownloadResources()
 {
-    m_onlineResourcesDock->show();
-    m_onlineResourcesDock->raise();
+    m_onlineResourcesDock->open();
+    m_onlineResourcesDock->setAsCurrentTab();
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)
@@ -4633,8 +4618,7 @@ KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, 
 
 bool MainWindow::isMixedTabbed() const
 {
-    // TODO KDDOCKWIDGETS
-    //  return !tabifiedDockWidgets(m_mixerDock).isEmpty();
+    return m_mixerDock->asDockWidgetController()->isTabbed();
     return false;
 }
 
@@ -4657,40 +4641,12 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
 void MainWindow::raiseMonitor(bool clipMonitor)
 {
     if (clipMonitor) {
-        m_clipMonitorDock->show();
-        m_clipMonitorDock->raise();
+        m_clipMonitorDock->open();
+        m_clipMonitorDock->setAsCurrentTab();
     } else {
-        m_projectMonitorDock->show();
-        m_projectMonitorDock->raise();
+        m_projectMonitorDock->open();
+        m_projectMonitorDock->setAsCurrentTab();
     }
-}
-
-bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
-{
-    // TODO KDDOCKWIDGET
-    return false;
-    /*
-    QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : std::as_const(tabbed)) {
-        if (tab->objectName() == otherWidget) {
-            return true;
-        }
-    }
-    return false;*/
-}
-
-bool MainWindow::isDockTabbedWith(QDockWidget *widget, QDockWidget *otherWidget)
-{
-    // TODO KDDOCKWIDGET
-    return false;
-    /*
-    QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : std::as_const(tabbed)) {
-        if (tab == otherWidget) {
-            return true;
-        }
-    }
-    return false;*/
 }
 
 void MainWindow::slotToggleAutoPreview(bool enable)
@@ -5264,7 +5220,6 @@ void MainWindow::slotRemoveBinDock(const QString &name)
     if (!m_windowClosing) {
         KdenliveSettings::setBinsCount(m_binWidgets.size());
         updateDockMenu();
-        loadDockActions();
     }
 }
 
@@ -5294,22 +5249,20 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
             newBinName = QStringLiteral("project_bin_%1").arg(ix);
         }
         KDDockWidgets::QtWidgets::DockWidget *binDock =
-            addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin, KDDockWidgets::Location_OnLeft);
+            addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin, KDDockWidgets::Location_None, m_projectBinDock);
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
         }
         connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties, Qt::QueuedConnection);
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
-
-        // TODO KDDOCKWIDGETS
-        // tabifyDockWidget(m_projectBinDock, binDock);
-        //  Disable title bar since it is tabbed
-        // binDock->setTitleBarWidget(new QWidget);
-        binDock->show();
-        binDock->raise();
+        binDock->open();
+        binDock->setAsCurrentTab();
     }
     if (updateCount) {
         KdenliveSettings::setBinsCount(m_binWidgets.size());
+    }
+    if (pCore->guiReady()) {
+        updateDockMenu();
     }
 }
 
@@ -5394,8 +5347,7 @@ void MainWindow::tabifyBins()
     QList<KDDockWidgets::QtWidgets::DockWidget *> docks = findChildren<KDDockWidgets::QtWidgets::DockWidget *>();
     for (auto dock : std::as_const(docks)) {
         if (dock->objectName().startsWith(QLatin1String("project_bin_"))) {
-            // TODO KDDOCKWIDGETS
-            // tabifyDockWidget(m_projectBinDock, dock);
+            m_projectBinDock->addDockWidgetAsTab(dock);
         }
     }
 }

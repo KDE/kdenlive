@@ -3572,8 +3572,6 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
         m_propertiesDock->show();
         m_propertiesDock->raise();
     }
-    // Check if properties panel is not tabbed under Bin
-    // if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
 }
 
 void Bin::doRefreshPanel(const QString &id)
