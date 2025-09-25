@@ -6,7 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QObject>
-#include <kddockwidgets/DockWidget.h>
 
 class NotesWidget;
 class KdenliveDoc;
@@ -16,6 +15,9 @@ class QFrame;
 class QLineEdit;
 class QToolButton;
 class QAction;
+namespace KDDockWidgets::QtWidgets {
+class DockWidget;
+}
 
 /** @class NotesPlugin
     @brief Handles connection of NotesWidget
@@ -27,7 +29,7 @@ class NotesPlugin : public QObject
     Q_OBJECT
 
 public:
-    explicit NotesPlugin(QObject *parent);
+    explicit NotesPlugin(KDDockWidgets::QtWidgets::DockWidget *tabbedDock, QObject *parent);
     NotesWidget *widget();
     void clear();
     void showDock();

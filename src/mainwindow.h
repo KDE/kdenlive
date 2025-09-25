@@ -140,7 +140,8 @@ public:
      * @returns the created dock widget
      */
     KDDockWidgets::QtWidgets::DockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget,
-                                                  KDDockWidgets::Location area = KDDockWidgets::Location_OnRight);
+                                                  KDDockWidgets::Location area = KDDockWidgets::Location_OnRight,
+                                                  KDDockWidgets::QtWidgets::DockWidget *otherDockWidget = nullptr, const QSize preferredSize = QSize());
 
     QUndoGroup *m_commandStack{nullptr};
     QUndoView *m_undoView;
@@ -269,27 +270,27 @@ private:
     KColorSchemeManager *m_colorschemes;
     ScopeManager *m_scopesManager{nullptr};
     KDDockWidgets::QtWidgets::MainWindow *mainDockWindow;
-
-    KDDockWidgets::QtWidgets::DockWidget *m_projectBinDock;
-    KDDockWidgets::QtWidgets::DockWidget *m_effectListDock;
-    KDDockWidgets::QtWidgets::DockWidget *m_compositionListDock;
-    TransitionListWidget *m_compositionList;
-    EffectListWidget *m_effectList2;
+    KDDockWidgets::QtWidgets::DockWidget *m_timelineDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_projectBinDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_effectListDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_compositionListDock{nullptr};
+    TransitionListWidget *m_compositionList{nullptr};
+    EffectListWidget *m_effectList2{nullptr};
 
     AssetPanel *m_assetPanel{nullptr};
-    KDDockWidgets::QtWidgets::DockWidget *m_effectStackDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_effectStackDock{nullptr};
 
-    KDDockWidgets::QtWidgets::DockWidget *m_clipMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_clipMonitorDock{nullptr};
     Monitor *m_clipMonitor{nullptr};
 
-    KDDockWidgets::QtWidgets::DockWidget *m_projectMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_projectMonitorDock{nullptr};
     Monitor *m_projectMonitor{nullptr};
 
     AudioGraphSpectrum *m_audioSpectrum;
 
-    KDDockWidgets::QtWidgets::DockWidget *m_undoViewDock;
-    KDDockWidgets::QtWidgets::DockWidget *m_mixerDock;
-    KDDockWidgets::QtWidgets::DockWidget *m_onlineResourcesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_undoViewDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_mixerDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_onlineResourcesDock{nullptr};
 
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;
@@ -580,7 +581,6 @@ private Q_SLOTS:
     void slotSetTimecodeReference();
     void slotAlignTimecode();
     void slotUpdateTimelineView(QAction *action);
-    void slotShowTimeline(bool show);
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();

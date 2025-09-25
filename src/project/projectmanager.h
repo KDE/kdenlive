@@ -31,6 +31,9 @@ class QProgressDialog;
 class QUrl;
 class DocUndoStack;
 class TimelineWidget;
+namespace KDDockWidgets::QtWidgets {
+class DockWidget;
+}
 
 /** @class ProjectManager
     @brief Takes care of interaction with projects.
@@ -143,7 +146,7 @@ public:
     /** @brief Sync the recent file list to settings file
      */
     void saveRecentFiles();
-    void buildNotesWidget();
+    void buildNotesWidget(KDDockWidgets::QtWidgets::DockWidget *tabbedDock);
     /** @brief Used for testing only
      */
     /** @brief This method is only there for tests, do not use in real app.

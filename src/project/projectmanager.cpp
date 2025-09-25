@@ -46,6 +46,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KNotification>
 #include <KRecentDirs>
+#include <kddockwidgets/DockWidget.h>
 #include <kddockwidgets/LayoutSaver.h>
 
 #include "kdenlive_debug.h"
@@ -160,9 +161,9 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 }
 
-void ProjectManager::buildNotesWidget()
+void ProjectManager::buildNotesWidget(KDDockWidgets::QtWidgets::DockWidget *tabbedDock)
 {
-    m_notesPlugin = new NotesPlugin(this);
+    m_notesPlugin = new NotesPlugin(tabbedDock, this);
 }
 
 void ProjectManager::newFile(bool showProjectSettings)

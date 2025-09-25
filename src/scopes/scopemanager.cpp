@@ -286,7 +286,7 @@ void ScopeManager::createScopes()
 
 template <class T> void ScopeManager::createScopeDock(T *scopeWidget, const QString &title, const QString &name)
 {
-    KDDockWidgets::QtWidgets::DockWidget *dock = pCore->window()->addDock(title, name, scopeWidget);
+    auto dock = pCore->window()->addDock(title, name, scopeWidget);
     addScope(scopeWidget, dock);
     m_scopeNames << name;
 

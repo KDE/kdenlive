@@ -264,7 +264,6 @@ MainWindow::MainWindow(QWidget *parent)
     KDDockWidgets::Config::self().setViewFactory(new CustomWidgetFactory());
     KDDockWidgets::Config::self().setLayoutSpacing(0); // SeparatorThickness(3);
     mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"));
-    mainDockWindow->setWindowTitle("Main Window");
 }
 
 void MainWindow::init()
@@ -302,9 +301,7 @@ void MainWindow::init()
     connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);
 
     /// Add Widgets
-    // TODO KDDockWidgets remove
-    /*setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
-    setDockOptions(dockOptions() | QMainWindow::GroupedDragging);*/
+    // TODO KDDockWidgets remove ? Is tab position customizable?
     // setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new TimelineContainer(this);
@@ -326,38 +323,6 @@ void MainWindow::init()
     auto *layoutManager = new LayoutManagement(this);
     pCore->buildDocks();
 
-    auto dockLib = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("library"));
-    dockLib->setTitle(i18n("Library"));
-    dockLib->setWidget(pCore->library());
-    mainDockWindow->addDockWidget(dockLib, KDDockWidgets::Location_OnRight);
-
-    auto dockSubs = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("subtitles"));
-    dockSubs->setTitle(i18n("Subtitles"));
-    dockSubs->setWidget(pCore->subtitleWidget());
-    mainDockWindow->addDockWidget(dockSubs, KDDockWidgets::Location_OnRight);
-
-    auto dockText = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("textedit"));
-    dockText->setTitle(i18n("Speech Editor"));
-    dockText->setWidget(pCore->textEditWidget());
-    mainDockWindow->addDockWidget(dockText, KDDockWidgets::Location_OnRight);
-
-    auto dockRemap = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("timeremap"));
-    dockRemap->setTitle(i18n("Time Remapping"));
-    dockRemap->setWidget(pCore->timeRemapWidget());
-    mainDockWindow->addDockWidget(dockRemap, KDDockWidgets::Location_OnRight);
-
-    auto dockGuides = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("markers"));
-    dockRemap->setTitle(i18n("Markers"));
-    dockGuides->setWidget(pCore->guidesList());
-    mainDockWindow->addDockWidget(dockGuides, KDDockWidgets::Location_OnRight);
-
-    connect(pCore.get(), &Core::remapClip, this, [&, dockRemap](int id) {
-        if (id > -1) {
-            dockRemap->show();
-            dockRemap->raise();
-        }
-        pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
-    });
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerWithCategory);
@@ -383,11 +348,35 @@ void MainWindow::init()
     m_timelineTabs = new TimelineTabs();
     ctnLay->addWidget(m_timelineTabs);
 
-    // setCentralWidget(m_timelineToolBarContainer);
-    auto dock1 = new KDDockWidgets::QtWidgets::DockWidget(QStringLiteral("timeline"));
-    dockRemap->setTitle(i18n("Timeline"));
-    dock1->setWidget(m_timelineToolBarContainer);
-    mainDockWindow->addDockWidget(dock1, KDDockWidgets::Location_OnBottom);
+    // Timeline dock
+    const QSize firstWindowSize = mainDockWindow->size();
+    m_timelineDock = addDock(i18n("Timeline"), QStringLiteral("timeline"), m_timelineToolBarContainer, KDDockWidgets::Location_OnBottom, nullptr);
+
+    // Project bin
+    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin(), KDDockWidgets::Location_OnTop, m_timelineDock);
+
+    auto dockLib = addDock(i18n("Library"), QStringLiteral("library"), pCore->library(), KDDockWidgets::Location_OnRight);
+    dockLib->close();
+
+    auto dockSubs = addDock(i18n("Subtitles"), QStringLiteral("subtitles"), pCore->subtitleWidget(), KDDockWidgets::Location_OnRight);
+    dockSubs->close();
+
+    auto dockText = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget(), KDDockWidgets::Location_OnRight);
+    dockText->close();
+
+    auto dockRemap = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget(), KDDockWidgets::Location_OnRight);
+    dockRemap->close();
+
+    connect(pCore.get(), &Core::remapClip, this, [&, dockRemap](int id) {
+        if (id > -1) {
+            dockRemap->show();
+            dockRemap->raise();
+        }
+        pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
+    });
+
+    auto dockGuides = addDock(i18n("Markers"), QStringLiteral("markers"), pCore->guidesList(), KDDockWidgets::Location_OnRight);
+    dockGuides->close();
 
     // Screen grab widget
     QWidget *grabWidget = new QWidget(this);
@@ -426,10 +415,8 @@ void MainWindow::init()
     QAction *recConfig = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"), this);
     recToolbar->addAction(recConfig);
     connect(recConfig, &QAction::triggered, [&]() { Q_EMIT pCore->showConfigDialog(Kdenlive::PageCapture, 0); });
-    KDDockWidgets::QtWidgets::DockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
-
-    // Notes widget
-    pCore->projectManager()->buildNotesWidget();
+    auto screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
+    screenGrabDock->close();
 
     // Sequence actions
     QAction *nextSequence = new QAction(QIcon::fromTheme(QStringLiteral("go-next")), i18n("Switch to next Sequence"), this);
@@ -442,18 +429,32 @@ void MainWindow::init()
 
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
-    KDDockWidgets::QtWidgets::DockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
+    auto spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
     connect(spectrumDock, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, [&](bool visible) { m_audioSpectrum->dockVisible(visible); });
+    spectrumDock->close();
 
-    // Project bin
-    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
+    // Add monitors here to keep them at the right of the window
+    const QSize monitorSize(firstWindowSize.width() * 0.2, 0);
+    m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clipmonitor"), m_clipMonitor, KDDockWidgets::Location_OnRight, m_projectBinDock);
+    m_projectMonitorDock =
+        addDock(i18n("Project Monitor"), QStringLiteral("projectmonitor"), m_projectMonitor, KDDockWidgets::Location_OnRight, m_clipMonitorDock);
+
+    m_clipMonitorDock->addDockWidgetAsTab(dockLib);
+    m_projectMonitorDock->addDockWidgetAsTab(dockText);
+    // Notes widget
+    pCore->projectManager()->buildNotesWidget(m_projectMonitorDock);
+    // Raise monitors
+    m_clipMonitorDock->setAsCurrentTab();
+    m_projectMonitorDock->setAsCurrentTab();
 
     // Media browser widget
-    KDDockWidgets::QtWidgets::DockWidget *clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->mediaBrowser());
+    auto clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("media_browser"), pCore->mediaBrowser());
+    clipDockWidget->close();
 
     // Online resources widget
     auto *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
+    m_onlineResourcesDock->close();
     connect(onlineResources, &ResourceWidget::previewClip, this, [&](const QString &path, const QString &title) {
         m_clipMonitor->slotPreviewResource(path, title);
         m_clipMonitorDock->show();
@@ -463,18 +464,9 @@ void MainWindow::init()
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
     connect(onlineResources, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
 
-    // Close library and audiospectrum and others on first run
-    screenGrabDock->close();
-    dockLib->close();
-    dockSubs->close();
-    dockText->close();
-    dockRemap->close();
-    spectrumDock->close();
-    clipDockWidget->close();
-    dockGuides->close();
-    m_onlineResourcesDock->close();
-
-    m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
+    const QSize stackSize(firstWindowSize.width() * 0.3, 0);
+    m_effectStackDock =
+        addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel, KDDockWidgets::Location_OnRight, m_timelineDock, stackSize);
     connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack, Qt::QueuedConnection);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
@@ -549,14 +541,10 @@ void MainWindow::init()
     m_effectList2 = new EffectListWidget(this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
-    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
+    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2, KDDockWidgets::Location_None, m_projectBinDock);
 
     m_compositionList = new TransitionListWidget(this);
-    m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList);
-
-    // Add monitors here to keep them at the right of the window
-    m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
-    m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
+    m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList, KDDockWidgets::Location_None, m_projectBinDock);
 
     m_undoView = new QUndoView();
     m_undoView->setCleanIcon(QIcon::fromTheme(QStringLiteral("edit-clear")));
@@ -575,7 +563,7 @@ void MainWindow::init()
         }
     });
     m_undoView->setContextMenuPolicy(Qt::ActionsContextMenu);
-    m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView);
+    m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
@@ -597,7 +585,7 @@ void MainWindow::init()
     }
     addAction(QStringLiteral("styles_menu"), stylesAction);
 
-    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer(), KDDockWidgets::Location_None, m_effectStackDock);
     m_mixerDock->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the audio mixer panel/widget."));
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
@@ -619,14 +607,9 @@ void MainWindow::init()
 
     // Close non-general docks for the initial layout
     // only show important ones
-    m_undoViewDock->close();
     m_mixerDock->close();
+    m_projectBinDock->setAsCurrentTab();
 
-    // Tabify Widgets
-    // TODO KDDOCKWIDGET
-    /*tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
-    tabifyDockWidget(m_compositionListDock, m_effectListDock);
-    tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());*/
     bool firstRun = readOptions();
     if (KdenliveSettings::lastCacheCheck().isNull()) {
         // Define a date for first check
@@ -903,7 +886,8 @@ void MainWindow::init()
 
     if (firstRun) {
         // Load editing layout
-        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"));
+        // TODO KDDOCKWIDGETS
+        // layoutManager->loadLayout(QStringLiteral("kdenlive_editing"));
     }
 
 #ifdef USE_JOGSHUTTLE
@@ -3907,7 +3891,7 @@ void MainWindow::raiseBin(bool unconditionally)
 {
     Bin *bin = activeBin();
     if (bin) {
-        if (!unconditionaly) {
+        if (!unconditionally) {
             KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
             if (dock) {
                 // TODO KDDOCKWIDGET
@@ -4043,17 +4027,6 @@ void MainWindow::slotUpdateTimelineView(QAction *action)
     int viewMode = action->data().toInt();
     KdenliveSettings::setAudiotracksbelow(viewMode);
     getCurrentTimeline()->model()->_resetView();
-}
-
-void MainWindow::slotShowTimeline(bool show)
-{
-    if (!show) {
-        m_timelineState = saveState();
-        centralWidget()->setHidden(true);
-    } else {
-        centralWidget()->setHidden(false);
-        restoreState(m_timelineState);
-    }
 }
 
 void MainWindow::loadClipActions()
@@ -4310,24 +4283,13 @@ void MainWindow::updateDockMenu()
         delete guiActions;
     }
     guiActions = new KActionCategory(i18n("Interface"), actionCollection());
-    /*
-    QAction *showTimeline = new QAction(i18n("Timeline"), this);
-    showTimeline->setData(QVariant(showTimeline->text() + QLatin1Char('#') + raise));
-    showTimeline->setCheckable(true);
-    showTimeline->setChecked(true);
-    connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
-    guiActions->addAction(QStringLiteral("show_timeline"), showTimeline);
-    actionCollection()->addAction(showTimeline->text(), showTimeline);*/
 
-    // TODO KDDOCKWIDGETS
     QList<KDDockWidgets::QtWidgets::DockWidget *> docks = findChildren<KDDockWidgets::QtWidgets::DockWidget *>();
-    // = mainDockWindow->dockWidgets();
     for (auto dock : std::as_const(docks)) {
         QAction *dockInfo = dock->toggleAction();
         if (!dockInfo) {
             continue;
         }
-        qDebug() << ":::: FOUIND DOCL ACTION: " << dockInfo->text();
         guiActions->addAction(dock->objectName(), dockInfo);
         /*QAction *dockAction = new QAction(dockInfo->toolTip());
         dockAction->setChecked(dockInfo->isChecked());
@@ -4643,14 +4605,24 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QWidget::keyPressEvent(ev);
 }
 
-KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, KDDockWidgets::Location area)
+KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, KDDockWidgets::Location area,
+                                                          KDDockWidgets::QtWidgets::DockWidget *otherDockWidget, const QSize preferredSize)
 {
     auto dock = new KDDockWidgets::QtWidgets::DockWidget(objectName);
+    qDebug() << "Building dock: " << objectName;
+    Q_ASSERT(widget != nullptr);
     dock->setTitle(title);
     dock->setWidget(widget);
     dock->setObjectName(objectName);
     dock->toggleAction()->setData(QStringLiteral("%1#%2").arg(title, objectName));
-    mainDockWindow->addDockWidget(dock, area);
+    if (area == KDDockWidgets::Location_None) {
+        // Add widget as tab
+        qDebug() << "Creating dock: " << objectName;
+        Q_ASSERT(otherDockWidget != nullptr);
+        otherDockWidget->addDockWidgetAsTab(dock, preferredSize);
+    } else {
+        mainDockWindow->addDockWidget(dock, area, otherDockWidget, preferredSize);
+    }
     KActionCategory *guiActions = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
@@ -5324,7 +5296,8 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
             ix++;
             newBinName = QStringLiteral("project_bin_%1").arg(ix);
         }
-        KDDockWidgets::QtWidgets::DockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin);
+        KDDockWidgets::QtWidgets::DockWidget *binDock =
+            addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin, KDDockWidgets::Location_OnLeft);
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
         }
@@ -5475,9 +5448,6 @@ int MainWindow::binCount() const
 
 void MainWindow::processRestoreState(const QByteArray &state)
 {
-    // On Wayland, restoreState crashes when quickly hiding/showing/hiding a monitor in restoreState, so hide before restoring
-    m_projectMonitorDock->close();
-    m_clipMonitorDock->close();
     restoreState(state);
 }
 
