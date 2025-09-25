@@ -60,7 +60,7 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: (audioView.stateVisible && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset + audioView.audioZoomHeight
+    property int overlayMargin: (audioView.stateVisible && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
@@ -451,13 +451,13 @@ Item {
             property string uuid
             x: 2
             y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
-            width: videoDragButton.width * 2
+            width: videoDragButton.visible ? videoDragButton.width * 2 : videoDragButton.width
             height: videoDragButton.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.5)
             radius: 4
             opacity: (audioDragButton.hovered || videoDragButton.hovered || audioView.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.active || dragVideoArea.active
                 || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioView.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
-            visible: controller.clipHasAV
+            visible: controller.clipHasAV || audioView.isAudioClip
             MouseArea {
                 id: buttonArea
                 anchors.fill: parent
@@ -469,11 +469,11 @@ Item {
                 height: dragZone.height
                 radius: 4
                 color: activePalette.highlight
-                visible: videoDragButton.hovered || videoDragButton.isDragging
+                visible: videoDragButton.visible && (videoDragButton.hovered || videoDragButton.isDragging)
             }
             Rectangle {
                 anchors.right: dragZone.right
-                width: dragZone.width / 2
+                width: videoDragButton.visible ? dragZone.width / 2 : dragZone.width
                 height: dragZone.height
                 radius: 4
                 color: activePalette.highlight
@@ -485,6 +485,7 @@ Item {
                     id: videoDragButton
                     property bool isDragging
                     hoverEnabled: true
+                    visible: !audioView.stateVisible && !audioView.isAudioClip
                     icon.name: "kdenlive-show-video"
                     focusPolicy: Qt.NoFocus
                     Drag.active: dragVideoArea.active
