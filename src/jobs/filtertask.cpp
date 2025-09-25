@@ -273,12 +273,13 @@ void FilterTask::run()
 
     // Step 2: process the xml file and save in another .mlt file
     const QStringList args({QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("progress=1"), sourceFile.fileName()});
-    m_jobProcess = new QProcess(this);
+    m_jobProcess = new QProcess;
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &FilterTask::processLogInfo);
     m_jobProcess->start(KdenliveSettings::meltpath(), args);
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     m_progress = 100;
     if (auto ptr = m_model.lock()) {
         QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, 100));
@@ -326,8 +327,9 @@ void FilterTask::run()
     params.append({key, QVariant(resultData)});
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
         // Store a copy of the data in clip analysis
-        QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname"))
-                                                                                                        : QStringLiteral("data");
+        const QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end())
+                                     ? m_filterData.at(QStringLiteral("displaydataname"))
+                                     : QStringLiteral("data");
         auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "updatedAnalysisData", Q_ARG(QString, dataName), Q_ARG(QString, resultData), Q_ARG(int, m_inPoint));

@@ -144,7 +144,7 @@ void SceneSplitTask::run()
                               QStringLiteral("null"),
                               QStringLiteral("-")};
 
-    m_jobProcess = new QProcess(this);
+    m_jobProcess = new QProcess();
     // m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
     m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
     qDebug() << "=== READY TO START JOB:" << parameters;
@@ -161,6 +161,7 @@ void SceneSplitTask::run()
     }*/
     m_jobProcess->waitForFinished(-1);
     result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
 
     // remove temporary playlist if it exists
     m_progress = 100;

@@ -45,7 +45,7 @@ void MeltTask::run()
     m_running = true;
 
     // TODO: check that playlist exists
-    m_jobProcess = new QProcess(this);
+    m_jobProcess = new QProcess();
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &MeltTask::processLogInfo);
     m_jobArgs.prepend(QStringLiteral("error"));
@@ -54,6 +54,7 @@ void MeltTask::run()
     m_jobProcess->start(KdenliveSettings::meltpath(), m_jobArgs);
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress", Q_ARG(ObjectId, m_owner), Q_ARG(int, m_progress));
     if (m_isCanceled || !result) {
