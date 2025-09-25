@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-18 02:36+0000\n"
-"PO-Revision-Date: 2025-09-13 16:14+0200\n"
+"PO-Revision-Date: 2025-09-21 10:06+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2594,10 +2594,9 @@ msgid "Video data analysis"
 msgstr "Analyse des données vidéos"
 
 #: data/effects/avfilter/avfilter_datascope.xml:8
-#, fuzzy, kde-format
-#| msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
+#, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
-msgstr "128p, 360p, PAL SD, NTSC SD, 480p, 720HD, 1080 FullHD, 2K, 4K"
+msgstr "128p, 360p, PAL SD, NTSC SD, 480p, 720HD, 1080 Full HD, 2K, 4K"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, kde-format
@@ -4952,6 +4951,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        X-Coordinate]]>"
 msgstr ""
+"<![CDATA[Coordonnées en X<br>\n"
+"        du point focal relatif]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
 #, kde-format
@@ -4959,6 +4960,8 @@ msgid ""
 "<![CDATA[Focal Point Relative<br>\n"
 "        Y-Coordinate]]>"
 msgstr ""
+"<![CDATA[Coordonnées en Y<br>\n"
+"        du point focal relatif]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
 #, kde-format
@@ -4966,6 +4969,8 @@ msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficent]]>"
 msgstr ""
+"<![CDATA[Coefficient<br>\n"
+"        de correction quadratique]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
 #, fuzzy, kde-format
@@ -6866,6 +6871,9 @@ msgid ""
 "    It transforms each frame from the video input into the wavelet domain, "
 "using Cohen-Daubechies-Feauveau 9/7.]]>"
 msgstr ""
+"<![CDATA[Débruiteur reposant sur des ondelettes.<br>\n"
+"    Il transforme chaque trame de l'entrée vidéo dans le domaine des "
+"ondelettes, en utilisant la méthode de Cohen-Daubechies-Feauveau 9 / 7.]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
@@ -6894,14 +6902,10 @@ msgid "Vectorscope (advanced)"
 msgstr "Vecteurscope (Avancé)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display 2 color component values in the two dimensional graph (which is "
-#| "called a vectorscope)"
+#, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
 msgstr ""
-"Afficher 2 valeurs de composants de couleurs dans le graphique "
-"bidimensionnel (Ce qu'on appelle un vectoroscope)"
+"Afficher 2 valeurs de composants de couleurs dans le graphique bidimensionnel"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
@@ -7850,9 +7854,9 @@ msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"marqueur de temps,trame, date de création, date (GMT), date (Local), "
-"fréquence d'image source,codec source,débit source,largeur de source,hauteur "
-"de source,commentaire de la source"
+"repère de temps,trame, date de création, date (GMT), date (Local), fréquence "
+"d'image source,codec source,débit source,largeur de source,hauteur de source,"
+"commentaire de la source"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -8691,6 +8695,9 @@ msgid ""
 "area. The <b>End</b> is the half the height in degrees where the matte is at "
 "100%.]]>"
 msgstr ""
+"<![CDATA[<b>Début</b> est la moitié de la hauteur en degrés de la zone non "
+"matte. <b>Fin</b> est la moitié de la hauteur en degrés où le mat est à "
+"100 %.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
 #, kde-format
@@ -10019,12 +10026,13 @@ msgid "Scaling"
 msgstr "Redimensionnement"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:23
-#, fuzzy, kde-format
-#| msgid "Straighten all edges of video frame"
+#, kde-format
 msgid ""
 "<![CDATA[Straighten all Edges<br>\n"
 "        of Video Frame]]>"
-msgstr "Redresser tous les bords de la trame vidéo"
+msgstr ""
+"<![CDATA[Redresser tous<br> \n"
+"        les bords de la trame vidéo]]>"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
 #, fuzzy, kde-format
@@ -10551,10 +10559,9 @@ msgid "Red Grain"
 msgstr "Grain des rouges"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
+msgstr "<![CDATA[Le pourcentage de grain appliqué au canal rouge]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -10810,20 +10817,15 @@ msgid "Source Segment"
 msgstr "Segment source"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
-#| "Segment</em> is checked. <br>\n"
-#| "        0 is in +x and rotates counter clockwise.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Center of the source segment. Only used if <em>Specify Source "
 "Segment</em> is checked.<br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
-"<![CDATA[Centre du segment source. À utiliser uniquement si <em>Spécifier le "
+"<![CDATA[Centre du segment source. À n'utiliser que si <em>Spécifier le "
 "segment source</em> est sélectionné. <br>\n"
-"        0 est dans +x et tourne dans le sens inverse des aiguilles d'une "
-"montre.]]>"
+"        0 est dans + x et pivote dans le sens des aiguilles d'une montre.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -10969,12 +10971,10 @@ msgid "Target Color"
 msgstr "Couleur cible"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
-#, fuzzy, kde-format
-#| msgid "Color distance, Transparency, Edge inwards, Edge outwards"
+#, kde-format
 msgid "Color distance,Transparency,Edge inwards,Edge outwards"
 msgstr ""
-"Distance de couleur, Transparence, Contours vers l'intérieur, Contours vers "
-"l'extérieur"
+"Distance de couleur, Transparence, Contours intérieurs, Contours extérieurs"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, kde-format
@@ -11652,7 +11652,7 @@ msgstr "Repère 1"
 #: data/effects/frei0r/frei0r_pr0file.xml:31
 #, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[Position du marqueur 1]]>"
+msgstr "<![CDATA[Position du repère 1]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -11664,7 +11664,7 @@ msgstr "Repère 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:35
 #, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[Position du marqueur 2]]>"
+msgstr "<![CDATA[Position du repère 2]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -13675,10 +13675,9 @@ msgid "The width of the hue range"
 msgstr "La largeur de l'intervalle de teintes"
 
 #: data/effects/hsl_range.xml:17
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to blend the edges of the hue range"
-msgstr "La quantité en pixels pour flouter le bord de l'ombre"
+msgstr "La quantité pour le mélange des bords de la gamme de teintes"
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
@@ -14430,10 +14429,9 @@ msgid "Maximum Up/Down Move"
 msgstr "Déplacement maximum vers le haut / bas"
 
 #: data/effects/oldfilm.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
-msgstr "<![CDATA[Distance entre les lignes verticales en pixels]]>"
+msgstr "<![CDATA[Détermine le mouvement vertical maximum en pixels]]>"
 
 #: data/effects/oldfilm.xml:12
 #, kde-format
@@ -22607,7 +22605,7 @@ msgstr "Supprimer le texte sélectionné"
 #: src/dialogs/textbasededit.cpp:778
 #, kde-format
 msgid "Add marker for current selection"
-msgstr "Ajouter un marqueur pour la sélection courante"
+msgstr "Ajouter un repère pour la sélection courante"
 
 #: src/dialogs/textbasededit.cpp:782
 #, kde-format
@@ -25814,7 +25812,7 @@ msgstr ""
 #: src/mainwindow.cpp:1310
 #, kde-format
 msgid "Show Markers Comments"
-msgstr "Afficher les commentaires des marqueurs"
+msgstr "Afficher les commentaires des repères"
 
 #: src/mainwindow.cpp:1316
 #, kde-format
@@ -26351,7 +26349,7 @@ msgstr "Supprimer le repère"
 #: src/mainwindow.cpp:1727
 #, kde-format
 msgid "Edit Marker…"
-msgstr "Modifier un marqueur..."
+msgstr "Modifier un repère..."
 
 #: src/mainwindow.cpp:1732 src/timeline2/model/timelinefunctions.cpp:1227
 #, kde-format
@@ -27703,7 +27701,7 @@ msgstr ""
 #: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Go to Marker…"
-msgstr "Aller au marqueur..."
+msgstr "Aller au repère..."
 
 #: src/monitor/monitor.cpp:437
 #, kde-format
@@ -27794,7 +27792,7 @@ msgstr "Afficher les niveaux audio"
 #: src/monitor/monitor.cpp:744
 #, kde-format
 msgid "Show Source Timecode"
-msgstr "Afficher le marqueur temporel de la source"
+msgstr "Afficher le repère temporel de la source"
 
 #: src/monitor/monitor.cpp:781
 #, kde-format
@@ -28365,7 +28363,7 @@ msgid ""
 msgstr ""
 "<shortcut>Molette</shortcut> ou <shortcut>flèches</shortcut> pour se "
 "positionner sur une trame, <shortcut>Maj</shortcut> pour se positionner sur "
-"une seconde, <shortcut>ALT</shortcut> pour se positionner sur le marqueur, "
+"une seconde, <shortcut>ALT</shortcut> pour se positionner sur le repère, "
 "<shortcut>Accueil</shortcut> / <shortcut>Fin</shortcut> pour se positionner, "
 "respectivement, sur les première et dernière trames."
 
@@ -28415,7 +28413,7 @@ msgstr "Ajouter un guide"
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
 msgid "Remove Marker"
-msgstr "Supprimer le marqueur"
+msgstr "Supprimer le repère"
 
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
@@ -29280,13 +29278,13 @@ msgstr ""
 #: src/project/dialogs/guideslist.cpp:243
 #, kde-format
 msgid "All Project Markers"
-msgstr "Tous les marqueurs de projet"
+msgstr "Tous les repères de projet"
 
 #: src/project/dialogs/guideslist.cpp:319
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
-msgstr "Charger les marqueurs de vidéo"
+msgstr "Charger les repères de vidéo"
 
 #: src/project/dialogs/guideslist.cpp:335
 #, kde-format
@@ -29304,7 +29302,7 @@ msgstr "Supprimer des guides"
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
 msgid "Insert current timecode"
-msgstr "Insérer le marqueur de temps actif"
+msgstr "Insérer le repère de temps actif"
 
 #: src/project/dialogs/noteswidget.cpp:47
 #, kde-format
@@ -29316,7 +29314,7 @@ msgstr[1] "Créer des signets"
 #: src/project/dialogs/noteswidget.cpp:51
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
-msgstr "Assigner des marqueurs de temps à la source du projet courant"
+msgstr "Assigner des repères de temps à la source du projet courant"
 
 #: src/project/dialogs/noteswidget.cpp:163
 #, kde-format
@@ -29327,7 +29325,7 @@ msgstr "Impossible de trouver une séquence du projet"
 #: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
-msgstr "Sélectionner quelques marqueurs de temps à ré-assigner."
+msgstr "Sélectionner quelques repères de temps à ré-assigner."
 
 #: src/project/dialogs/noteswidget.cpp:260
 #, kde-format
@@ -29337,7 +29335,7 @@ msgstr "Aucune séquence sélectionnée dans la frise chronologique"
 #: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
-msgstr "Sélectionner des marqueurs de temps pour créer des signets."
+msgstr "Sélectionner des repères de temps pour créer des signets."
 
 #: src/project/dialogs/profilewidget.cpp:32
 #, kde-format
@@ -29867,7 +29865,7 @@ msgstr "Notes de projet"
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
-"Réassigner les marqueurs de temps sélectionnés vers le clip source courant."
+"Réassigner les repères de temps sélectionnés vers le clip source courant."
 
 #: src/project/notesplugin.cpp:161
 #, kde-format
@@ -29879,7 +29877,7 @@ msgstr ""
 #: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr "Créer des signets à partir des marqueurs de temps sélectionnés."
+msgstr "Créer des signets à partir des repères de temps sélectionnés."
 
 #: src/project/notesplugin.cpp:167
 #, kde-kuit-format
@@ -29888,7 +29886,7 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
-"Crée des marqueurs dans la frise chronologique à partir des étiquettes "
+"Crée des repères dans la frise chronologique à partir des étiquettes "
 "d'horodatage sélectionnées (Peu importe si un autre texte est également "
 "sélectionné)."
 
@@ -36082,7 +36080,7 @@ msgstr "Alignement"
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Un texte de marqueur pour le chapitre formaté sera généré ici."
+msgstr "Un texte de repère pour le chapitre formaté sera généré ici."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
@@ -36119,7 +36117,7 @@ msgstr "Ajouter"
 #: src/ui/exportguidesdialog_ui.ui:159
 #, kde-format
 msgid "Marker Type:"
-msgstr "Type de marqueur :"
+msgstr "Type de repère :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:189
@@ -37438,7 +37436,7 @@ msgstr "Séparation de plans"
 #: src/ui/scenecutdialog_ui.ui:24
 #, kde-format
 msgid "Add clip markers:"
-msgstr "Ajouter un marqueur de vidéo :"
+msgstr "Ajouter un repère de vidéo :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/scenecutdialog_ui.ui:37
