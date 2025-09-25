@@ -55,7 +55,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     panelLayout->addWidget(m_imageWidget);
 
     // Controls panel
-    QHBoxLayout *controlsLayout = new QHBoxLayout(this);
+    QHBoxLayout *controlsLayout = new QHBoxLayout();
     m_playButton = new QToolButton(this);
     m_playButton->setToolTip(i18nc("@info:tooltip play a video or audio file", "Play media"));
     m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
@@ -78,7 +78,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     controlsLayout->addWidget(playAudio);
     connect(playAudioAction, &KDualAction::activeChangedByUser, this, [this](bool muteAudio) {
         KdenliveSettings::setMediaBrowserWithAudio(muteAudio);
-        bool wasPlaying = m_player->isPlaying();
+        bool wasPlaying = m_player && m_player->isPlaying();
         pausePlaying();
         if (m_player) {
             m_player->setAudioOutput(nullptr);
@@ -90,7 +90,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     panelLayout->addLayout(controlsLayout);
 
     // Info panel
-    m_metadataLayout = new QFormLayout(this);
+    m_metadataLayout = new QFormLayout();
     m_resolutionLabel = new KSqueezedTextLabel(this);
     m_durationLabel = new KSqueezedTextLabel(this);
     m_dateLabel = new KSqueezedTextLabel(this);
@@ -334,7 +334,8 @@ void PreviewPanel::buildPlayer()
         }
     });
     connect(m_player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-        if (status == QMediaPlayer::LoadedMedia || status == QMediaPlayer::BufferedMedia) {
+        qDebug() << ":::: MEDIA STATUS CHANGED: " << status;
+        if (status == QMediaPlayer::LoadedMedia || status == QMediaPlayer::BufferedMedia || status == QMediaPlayer::BufferingMedia) {
             m_playButton->setEnabled(true);
             if (m_player->hasVideo()) {
                 if (m_player->isPlaying()) {
@@ -353,7 +354,7 @@ void PreviewPanel::buildPlayer()
                 m_player->setAudioOutput(nullptr);
             }
         } else if (status == QMediaPlayer::EndOfMedia) {
-            m_slider->setValue(0);
+            m_player->setPosition(0);
             m_playButton->setEnabled(true);
         } else {
             m_playButton->setEnabled(false);
@@ -404,13 +405,28 @@ void PreviewPanel::buildPlayer()
         }
     });
 
-    connect(m_player, &QMediaPlayer::positionChanged, this, [this](qint64 position) { m_slider->setValue(100 * position / m_player->duration()); });
+    connect(m_player, &QMediaPlayer::positionChanged, this, [this](qint64 position) {
+        if (m_player->playbackState() == QMediaPlayer::PlayingState) {
+            m_slider->setValue(100 * position / m_player->duration());
+        }
+    });
+
     connect(m_slider, &QAbstractSlider::sliderMoved, this, [this](int position) {
+        if (!m_player) {
+            return;
+        }
         if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
             m_imageWidget->hide();
             m_videoWidget->show();
         }
+        if (m_player->mediaStatus() == QMediaPlayer::BufferingMedia) {
+            // Don't ask to seek if we are buffering
+            return;
+        }
         m_player->setPosition(m_player->duration() * position / 100);
+        if (m_player->playbackState() == QMediaPlayer::StoppedState) {
+            m_player->play();
+        }
     });
 }
 
