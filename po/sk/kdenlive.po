@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-24 00:42+0000\n"
+"POT-Creation-Date: 2025-09-26 00:41+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -7353,7 +7353,7 @@ msgstr "Y"
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
-#: src/ui/markerdialog_ui.ui:83
+#: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
 msgstr "Trvanie"
@@ -8224,7 +8224,7 @@ msgstr "Vyplniť alfa kanál so stanoveným prechodom"
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
 #: src/assets/view/widgets/keyframeimport.cpp:421
-#: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
+#: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:138
 #, kde-format
 msgid "Position"
 msgstr "Pozícia"
@@ -12716,7 +12716,7 @@ msgstr "Niečo videostenové"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:8 data/effects/strobe.xml:12
-#: src/ui/markerdialog_ui.ui:177 src/ui/multiplemarkerdialog_ui.ui:44
+#: src/ui/markerdialog_ui.ui:78 src/ui/multiplemarkerdialog_ui.ui:44
 #, kde-format
 msgid "Interval"
 msgstr "Interval"
@@ -18033,7 +18033,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:384
+#: src/bin/previewpanel.cpp:385
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -18276,7 +18276,7 @@ msgstr "Nie je možné nájsť profil z aktuálneho klipu"
 msgid "Icon View"
 msgstr "Zobrazenie s ikonami"
 
-#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:171
+#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:216
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Descending"
@@ -19738,7 +19738,7 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Vytvoriť priečinok"
 
-#: src/bin/previewpanel.cpp:376
+#: src/bin/previewpanel.cpp:377
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19746,7 +19746,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:387
+#: src/bin/previewpanel.cpp:388
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -19762,7 +19762,7 @@ msgstr[2] "Zvuková stopa"
 msgid "Timeline sequence"
 msgstr "Náhľadová sekvencia"
 
-#: src/bin/projectclip.cpp:549 src/timeline2/view/qml/Clip.qml:1356
+#: src/bin/projectclip.cpp:549 src/timeline2/view/qml/Clip.qml:1366
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
@@ -20818,7 +20818,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:353 src/project/projectmanager.cpp:1816
+#: src/project/dialogs/guideslist.cpp:398 src/project/projectmanager.cpp:1816
 #: src/renderpresets/renderpresetrepository.cpp:323
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -24262,7 +24262,7 @@ msgid "Cyan"
 msgstr "Azúrová"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:100
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -24887,9 +24887,9 @@ msgstr ""
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "Zlyhalo vytvorenie súboru."
@@ -24962,7 +24962,7 @@ msgstr "Nie je žiadny producent pre tento klip."
 msgid "You cannot overwrite original clip."
 msgstr "Nemôžete prepísať pôvodný klip."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr ""
@@ -24996,13 +24996,13 @@ msgstr "Nie je možné vytvoriť spotrebiteľa %1."
 msgid "Cannot create filter %1"
 msgstr "Nie je možné vytvoriť filter %1"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, fuzzy, kde-format
 #| msgid "Failed to start capture"
 msgid "Failed to filter source."
 msgstr "Zlyhalo spustenie zachytenia"
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, fuzzy, kde-format
 #| msgid "Effects for %1"
 msgid "Effect analysis failed for %1"
@@ -25020,7 +25020,7 @@ msgstr "Rotácia osi X"
 msgid "No source frames to process"
 msgstr "Žiadne kľúčové snímky na import"
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -25030,7 +25030,7 @@ msgstr ""
 "Zlyhalo generovanie klipu:\n"
 "%1"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to process playlist."
@@ -25042,60 +25042,60 @@ msgstr "Zlyhalo vytvorenie zástupného klipu."
 msgid "Creating proxy"
 msgstr "Vytváranie zástupcu %1"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Nie je možné načítať obrázok %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg sa nenašiel, prosím, nastavte cestu v nastaveniach Kdenlive Prostredie"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Zlyhalo vytvorenie zástupného klipu."
 
-#: src/jobs/scenesplittask.cpp:41
+#: src/jobs/scenesplittask.cpp:43
 #, kde-format
 msgid "Detecting scene change"
 msgstr ""
 
-#: src/jobs/scenesplittask.cpp:56
+#: src/jobs/scenesplittask.cpp:60
 #, fuzzy, kde-format
 #| msgid "Scene detection"
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "Detekcia scény"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:123
 #, fuzzy, kde-format
 #| msgid "Cannot process this clip type."
 msgid "Cannot analyse this clip type."
 msgstr "Nie je možné spracovať tento typ klipu."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:131
 #, fuzzy, kde-format
 #| msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "FFmpeg sa nenašiel, prosím, nastavte cestu v nastaveniach Kdenlive Prostredie"
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:190 src/jobs/scenesplittask.cpp:204
+#: src/jobs/scenesplittask.cpp:225 src/jobs/scenesplittask.cpp:234
 #, kde-format
 msgid "Scene %1"
 msgstr "Scéna %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:248
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to analyse clip."
@@ -25138,7 +25138,7 @@ msgstr "Cieľový súbor"
 msgid "Pitch compensation"
 msgstr "Zmeniť veľkosť konca prechodu"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to create speed clip."
@@ -25150,7 +25150,7 @@ msgstr "Zlyhalo vytvorenie zástupného klipu."
 msgid "Stabilizing"
 msgstr "Stabilizovať"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, fuzzy, kde-format
 #| msgid "Failed to start device"
 msgid "Failed to stabilize."
@@ -30051,90 +30051,90 @@ msgstr ""
 msgid "Reassign the markers to :"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:139
+#: src/project/dialogs/guideslist.cpp:184
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Show Thumbnails"
 msgstr "Zobraziť náhľady"
 
-#: src/project/dialogs/guideslist.cpp:145
+#: src/project/dialogs/guideslist.cpp:190
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Import…"
 msgstr "Importovať"
 
-#: src/project/dialogs/guideslist.cpp:148
+#: src/project/dialogs/guideslist.cpp:193
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Export…"
 msgstr "Extrahujem..."
 
-#: src/project/dialogs/guideslist.cpp:151
+#: src/project/dialogs/guideslist.cpp:196
 #, fuzzy, kde-format
 #| msgid "Configure profiles"
 msgid "Configure Categories"
 msgstr "Nastaviť profily"
 
-#: src/project/dialogs/guideslist.cpp:156
+#: src/project/dialogs/guideslist.cpp:201
 #, fuzzy, kde-format
 #| msgid "Slideshow clips"
 msgid "Show markers for all clips in the project"
 msgstr "Klipy prezentácie"
 
-#: src/project/dialogs/guideslist.cpp:165
+#: src/project/dialogs/guideslist.cpp:210
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Sort by Category"
 msgstr "Kategória"
 
-#: src/project/dialogs/guideslist.cpp:167
+#: src/project/dialogs/guideslist.cpp:212
 #, kde-format
 msgid "Sort by Time"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:169
+#: src/project/dialogs/guideslist.cpp:214
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Sort by Comment"
 msgstr "Komentár"
 
-#: src/project/dialogs/guideslist.cpp:203
+#: src/project/dialogs/guideslist.cpp:248
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Refresh All Thumbnails"
 msgstr "Ukazovať zvukové náhľady"
 
-#: src/project/dialogs/guideslist.cpp:206
+#: src/project/dialogs/guideslist.cpp:251
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add new marker."
 msgstr "Pridať značku"
 
-#: src/project/dialogs/guideslist.cpp:207
+#: src/project/dialogs/guideslist.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:208
+#: src/project/dialogs/guideslist.cpp:253
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Delete marker."
 msgstr "Vymazať značku"
 
-#: src/project/dialogs/guideslist.cpp:209
+#: src/project/dialogs/guideslist.cpp:254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:210
+#: src/project/dialogs/guideslist.cpp:255
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Edit selected marker."
 msgstr "Vymazať vodidlo"
 
-#: src/project/dialogs/guideslist.cpp:211
+#: src/project/dialogs/guideslist.cpp:256
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30142,13 +30142,13 @@ msgid ""
 "category."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:212
+#: src/project/dialogs/guideslist.cpp:257
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Filter marker categories."
 msgstr "Upraviť značku"
 
-#: src/project/dialogs/guideslist.cpp:214
+#: src/project/dialogs/guideslist.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30156,56 +30156,56 @@ msgid ""
 "categories in this dialog and in the timeline."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:215
+#: src/project/dialogs/guideslist.cpp:260
 #, fuzzy, kde-format
 #| msgid "Default quality"
 msgid "Default marker category."
 msgstr "Predvolená kvalita"
 
-#: src/project/dialogs/guideslist.cpp:216
+#: src/project/dialogs/guideslist.cpp:261
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:241
+#: src/project/dialogs/guideslist.cpp:286
 #, fuzzy, kde-format
 #| msgid "Search aborted"
 msgid "Search All Markers"
 msgstr "Hľadanie zrušené"
 
-#: src/project/dialogs/guideslist.cpp:256
+#: src/project/dialogs/guideslist.cpp:301
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "Všetky projekty"
 
-#: src/project/dialogs/guideslist.cpp:332
+#: src/project/dialogs/guideslist.cpp:377
 #, fuzzy, kde-format
 #| msgid "Load Clip Markers"
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Načítať značky klipu"
 
-#: src/project/dialogs/guideslist.cpp:348
+#: src/project/dialogs/guideslist.cpp:393
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:450
-#: src/project/dialogs/guideslist.cpp:461
+#: src/project/dialogs/guideslist.cpp:495
+#: src/project/dialogs/guideslist.cpp:506
 #, fuzzy, kde-format
 #| msgid "Remove Marker"
 msgid "Remove markers"
 msgstr "Odstrániť značku"
 
-#: src/project/dialogs/guideslist.cpp:544
+#: src/project/dialogs/guideslist.cpp:589
 #, fuzzy, kde-format
 #| msgid "Search aborted"
 msgid "Search Clip Markers"
 msgstr "Hľadanie zrušené"
 
-#: src/project/dialogs/guideslist.cpp:584
+#: src/project/dialogs/guideslist.cpp:629
 #, fuzzy, kde-format
 #| msgid "Search aborted"
 msgid "Search Timeline Markers"
@@ -33185,7 +33185,7 @@ msgstr "Zastaviť"
 msgid "Paused"
 msgstr "Pozastaviť"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1140
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1150
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
@@ -33202,30 +33202,30 @@ msgstr ""
 "\n"
 "Poloha:%1"
 
-#: src/timeline2/view/qml/Clip.qml:524
+#: src/timeline2/view/qml/Clip.qml:525
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:587
+#: src/timeline2/view/qml/Clip.qml:588
 #, fuzzy, kde-format
 #| msgid "Fade in duration: "
 msgid "+%1, Mix duration: %2"
 msgstr "Zosilniť trvanie: "
 
-#: src/timeline2/view/qml/Clip.qml:589
+#: src/timeline2/view/qml/Clip.qml:590
 #, fuzzy, kde-format
 #| msgid "Fade in duration: "
 msgid "-%1, Mix duration: %2"
 msgstr "Zosilniť trvanie: "
 
-#: src/timeline2/view/qml/Clip.qml:592 src/timeline2/view/qml/Clip.qml:607
+#: src/timeline2/view/qml/Clip.qml:593 src/timeline2/view/qml/Clip.qml:608
 #, fuzzy, kde-format
 #| msgid "Zone duration: %1"
 msgid "Mix duration: %1"
 msgstr "Trvanie zóny: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1029
+#: src/timeline2/view/qml/Clip.qml:1035
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -33235,19 +33235,19 @@ msgstr ""
 "V:%1\n"
 "Pozícia:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1032 src/timeline2/view/qml/Clip.qml:1130
+#: src/timeline2/view/qml/Clip.qml:1038 src/timeline2/view/qml/Clip.qml:1140
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1034
+#: src/timeline2/view/qml/Clip.qml:1040
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1127
+#: src/timeline2/view/qml/Clip.qml:1137
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -33257,46 +33257,46 @@ msgstr ""
 "V:%1\n"
 "Pozícia:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1264
+#: src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Posun: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1264
+#: src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid "Offset: %1"
 msgstr "Posun: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1265
+#: src/timeline2/view/qml/Clip.qml:1275
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid " <b>Click</b> to align clips"
 msgstr "Kliknúť pre pridanie prechodu."
 
-#: src/timeline2/view/qml/Clip.qml:1508 src/timeline2/view/qml/Clip.qml:1545
+#: src/timeline2/view/qml/Clip.qml:1518 src/timeline2/view/qml/Clip.qml:1555
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Click</b> to add composition"
 msgstr "Kliknúť pre pridanie prechodu."
 
-#: src/timeline2/view/qml/Clip.qml:1622 src/timeline2/view/qml/Clip.qml:1629
+#: src/timeline2/view/qml/Clip.qml:1632 src/timeline2/view/qml/Clip.qml:1639
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Zatmieť"
 
-#: src/timeline2/view/qml/Clip.qml:1633 src/timeline2/view/qml/Clip.qml:1740
+#: src/timeline2/view/qml/Clip.qml:1643 src/timeline2/view/qml/Clip.qml:1750
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1729 src/timeline2/view/qml/Clip.qml:1736
+#: src/timeline2/view/qml/Clip.qml:1739 src/timeline2/view/qml/Clip.qml:1746
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Zosilniť"
 
-#: src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1834
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
@@ -37080,7 +37080,7 @@ msgstr "Sila modrá"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:107
+#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:165
 #: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
 msgid "Comment"
@@ -37768,39 +37768,39 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
-#: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
-msgid "Range Marker"
-msgstr "Odstrániť značku"
-
-#. i18n: ectx: property (text), widget (QLabel, label_end_time)
-#: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Reverb time"
-msgid "End Time"
-msgstr "Čas dozvuku"
-
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
-#: src/ui/markerdialog_ui.ui:139
+#: src/ui/markerdialog_ui.ui:40
 #, fuzzy, kde-format
 #| msgid "Add clip markers"
 msgid "Add multiple markers"
 msgstr "Pridať značky klipu"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
-#: src/ui/markerdialog_ui.ui:150 src/ui/multiplemarkerdialog_ui.ui:54
+#: src/ui/markerdialog_ui.ui:51 src/ui/multiplemarkerdialog_ui.ui:54
 #, fuzzy, kde-format
 #| msgid "Counter"
 msgid "Count"
 msgstr "Počítadlo"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
-#: src/ui/markerdialog_ui.ui:201
+#: src/ui/markerdialog_ui.ui:102
 #, kde-format
 msgid "Image preview"
 msgstr "Náhľad obrázka"
+
+#. i18n: ectx: property (text), widget (QLabel, label_end_time)
+#: src/ui/markerdialog_ui.ui:158
+#, fuzzy, kde-format
+#| msgid "Reverb time"
+msgid "End Time"
+msgstr "Čas dozvuku"
+
+#. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
+#: src/ui/markerdialog_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Range Marker"
+msgstr "Odstrániť značku"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -38656,13 +38656,6 @@ msgstr "Služba"
 msgid "Scene Cut"
 msgstr "Strih scény"
 
-#. i18n: ectx: property (text), widget (QCheckBox, add_markers)
-#: src/ui/scenecutdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Add clip markers"
-msgid "Add clip markers:"
-msgstr "Pridať značky klipu"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/scenecutdialog_ui.ui:37
 #, fuzzy, kde-format
@@ -38670,24 +38663,38 @@ msgstr "Pridať značky klipu"
 msgid "Minimum scene length:"
 msgstr "Minimálna dĺžka scény"
 
+#. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
+#: src/ui/scenecutdialog_ui.ui:44
+#, kde-format
+msgid "Cut scenes"
+msgstr "Strihať scény"
+
+#. i18n: ectx: property (text), widget (QCheckBox, add_markers)
+#: src/ui/scenecutdialog_ui.ui:51
+#, fuzzy, kde-format
+#| msgid "Add clip markers"
+msgid "Add clip markers:"
+msgstr "Pridať značky klipu"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, minDuration)
-#: src/ui/scenecutdialog_ui.ui:67
+#: src/ui/scenecutdialog_ui.ui:84
 #, kde-format
 msgid " frames"
 msgstr " snímky"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/scenecutdialog_ui.ui:77
+#: src/ui/scenecutdialog_ui.ui:104
 #, fuzzy, kde-format
 #| msgid "Use Threshold"
 msgid "Change threshold"
 msgstr "Použiť prah"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
-#: src/ui/scenecutdialog_ui.ui:97
-#, kde-format
-msgid "Cut scenes"
-msgstr "Strihať scény"
+#. i18n: ectx: property (text), widget (QCheckBox, range_markers)
+#: src/ui/scenecutdialog_ui.ui:114
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Create range markers"
+msgstr "Aktualizovať kľúčový snímok"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18

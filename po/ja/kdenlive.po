@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-24 00:42+0000\n"
+"POT-Creation-Date: 2025-09-26 00:41+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -7262,7 +7262,7 @@ msgstr "Y"
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
-#: src/ui/markerdialog_ui.ui:83
+#: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
 msgstr "長さ"
@@ -8107,7 +8107,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
 #: src/assets/view/widgets/keyframeimport.cpp:421
-#: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
+#: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:138
 #, kde-format
 msgid "Position"
 msgstr "位置"
@@ -12526,7 +12526,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:8 data/effects/strobe.xml:12
-#: src/ui/markerdialog_ui.ui:177 src/ui/multiplemarkerdialog_ui.ui:44
+#: src/ui/markerdialog_ui.ui:78 src/ui/multiplemarkerdialog_ui.ui:44
 #, kde-format
 msgid "Interval"
 msgstr "間隔"
@@ -17855,7 +17855,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:384
+#: src/bin/previewpanel.cpp:385
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -18092,7 +18092,7 @@ msgstr "現在のクリップに合わせてプロファイルを調整(J)"
 msgid "Icon View"
 msgstr "アイコン表示"
 
-#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:171
+#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:216
 #, kde-format
 msgid "Descending"
 msgstr "降順"
@@ -19485,7 +19485,7 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "フォルダの作成(C)"
 
-#: src/bin/previewpanel.cpp:376
+#: src/bin/previewpanel.cpp:377
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19493,7 +19493,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:387
+#: src/bin/previewpanel.cpp:388
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -19507,7 +19507,7 @@ msgstr[0] "オーディオトラック(&U)"
 msgid "Timeline sequence"
 msgstr "イメージ・シーケンス"
 
-#: src/bin/projectclip.cpp:549 src/timeline2/view/qml/Clip.qml:1356
+#: src/bin/projectclip.cpp:549 src/timeline2/view/qml/Clip.qml:1366
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20579,7 +20579,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:353 src/project/projectmanager.cpp:1816
+#: src/project/dialogs/guideslist.cpp:398 src/project/projectmanager.cpp:1816
 #: src/renderpresets/renderpresetrepository.cpp:323
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -23976,7 +23976,7 @@ msgid "Cyan"
 msgstr "シアン"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:100
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -24599,9 +24599,9 @@ msgstr ""
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "ファイルの作成に失敗しました。"
@@ -24671,7 +24671,7 @@ msgstr "このクリップにはプロデューサがありません。"
 msgid "You cannot overwrite original clip."
 msgstr "オリジナルのクリップを上書きすることはできません。"
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr ""
@@ -24706,13 +24706,13 @@ msgstr "コンシューマ %1 を作成できません。"
 msgid "Cannot create filter %1"
 msgstr "コンシューマ %1 を作成できません。"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to filter source."
 msgstr "ファイルの作成に失敗しました。"
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr ""
@@ -24728,13 +24728,13 @@ msgstr "プレイリスト・クリップ"
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to render mask %1"
 msgstr "ファイルの作成に失敗しました。"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to process playlist."
@@ -24746,59 +24746,59 @@ msgstr "代用クリップの作成に失敗しました。"
 msgid "Creating proxy"
 msgstr "存在しない代用情報"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "画像 %1 を読み込むことができません。"
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg が見つかりません、Kdenlive の環境設定からパスを設定してください。"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "代用クリップの作成に失敗しました。"
 
-#: src/jobs/scenesplittask.cpp:41
+#: src/jobs/scenesplittask.cpp:43
 #, kde-format
 msgid "Detecting scene change"
 msgstr ""
 
-#: src/jobs/scenesplittask.cpp:56
+#: src/jobs/scenesplittask.cpp:60
 #, fuzzy, kde-format
 #| msgid "Face detect"
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "顔検出"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:123
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr ""
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:131
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "FFmpeg が見つかりません、Kdenlive の環境設定からパスを設定してください。"
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:190 src/jobs/scenesplittask.cpp:204
+#: src/jobs/scenesplittask.cpp:225 src/jobs/scenesplittask.cpp:234
 #, fuzzy, kde-format
 #| msgid "Zone end: %1"
 msgid "Scene %1"
 msgstr "ゾーンの終了: %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:248
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to analyse clip."
@@ -24843,7 +24843,7 @@ msgstr "宛先フォルダ"
 msgid "Pitch compensation"
 msgstr "遷移終了点のサイズ変更"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to create speed clip."
@@ -24855,7 +24855,7 @@ msgstr "代用クリップの作成に失敗しました。"
 msgid "Stabilizing"
 msgstr "安定化済み"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to stabilize."
@@ -29777,87 +29777,87 @@ msgstr ""
 msgid "Reassign the markers to :"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:139
+#: src/project/dialogs/guideslist.cpp:184
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Show Thumbnails"
 msgstr "サムネイルの表示"
 
-#: src/project/dialogs/guideslist.cpp:145
+#: src/project/dialogs/guideslist.cpp:190
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Import…"
 msgstr "インポート"
 
-#: src/project/dialogs/guideslist.cpp:148
+#: src/project/dialogs/guideslist.cpp:193
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Export…"
 msgstr "出力しています..."
 
-#: src/project/dialogs/guideslist.cpp:151
+#: src/project/dialogs/guideslist.cpp:196
 #, kde-format
 msgid "Configure Categories"
 msgstr "カテゴリを設定"
 
-#: src/project/dialogs/guideslist.cpp:156
+#: src/project/dialogs/guideslist.cpp:201
 #, fuzzy, kde-format
 #| msgid "Slideshow clips"
 msgid "Show markers for all clips in the project"
 msgstr "スライドショークリップ"
 
-#: src/project/dialogs/guideslist.cpp:165
+#: src/project/dialogs/guideslist.cpp:210
 #, kde-format
 msgid "Sort by Category"
 msgstr "カテゴリでソート"
 
-#: src/project/dialogs/guideslist.cpp:167
+#: src/project/dialogs/guideslist.cpp:212
 #, kde-format
 msgid "Sort by Time"
 msgstr "時間でソート"
 
-#: src/project/dialogs/guideslist.cpp:169
+#: src/project/dialogs/guideslist.cpp:214
 #, kde-format
 msgid "Sort by Comment"
 msgstr "コメントでソート"
 
-#: src/project/dialogs/guideslist.cpp:203
+#: src/project/dialogs/guideslist.cpp:248
 #, fuzzy, kde-format
 #| msgid "Show Audio Thumbnails"
 msgid "Refresh All Thumbnails"
 msgstr "オーディオのサムネイルを表示"
 
-#: src/project/dialogs/guideslist.cpp:206
+#: src/project/dialogs/guideslist.cpp:251
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add new marker."
 msgstr "マーカーの追加"
 
-#: src/project/dialogs/guideslist.cpp:207
+#: src/project/dialogs/guideslist.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:208
+#: src/project/dialogs/guideslist.cpp:253
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Delete marker."
 msgstr "マーカーの削除(D)"
 
-#: src/project/dialogs/guideslist.cpp:209
+#: src/project/dialogs/guideslist.cpp:254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:210
+#: src/project/dialogs/guideslist.cpp:255
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Edit selected marker."
 msgstr "ガイドの削除(D)"
 
-#: src/project/dialogs/guideslist.cpp:211
+#: src/project/dialogs/guideslist.cpp:256
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29865,13 +29865,13 @@ msgid ""
 "category."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:212
+#: src/project/dialogs/guideslist.cpp:257
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Filter marker categories."
 msgstr "マーカーの編集"
 
-#: src/project/dialogs/guideslist.cpp:214
+#: src/project/dialogs/guideslist.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29879,56 +29879,56 @@ msgid ""
 "categories in this dialog and in the timeline."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:215
+#: src/project/dialogs/guideslist.cpp:260
 #, fuzzy, kde-format
 #| msgid "Default Durations"
 msgid "Default marker category."
 msgstr "既定の長さ"
 
-#: src/project/dialogs/guideslist.cpp:216
+#: src/project/dialogs/guideslist.cpp:261
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:241
+#: src/project/dialogs/guideslist.cpp:286
 #, fuzzy, kde-format
 #| msgid "Search failed! %1"
 msgid "Search All Markers"
 msgstr "検索が失敗しました。%1"
 
-#: src/project/dialogs/guideslist.cpp:256
+#: src/project/dialogs/guideslist.cpp:301
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "すべてのプロジェクト"
 
-#: src/project/dialogs/guideslist.cpp:332
+#: src/project/dialogs/guideslist.cpp:377
 #, fuzzy, kde-format
 #| msgid "Add clip markers"
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "クリップマーカーを追加"
 
-#: src/project/dialogs/guideslist.cpp:348
+#: src/project/dialogs/guideslist.cpp:393
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:450
-#: src/project/dialogs/guideslist.cpp:461
+#: src/project/dialogs/guideslist.cpp:495
+#: src/project/dialogs/guideslist.cpp:506
 #, fuzzy, kde-format
 #| msgid "Remove Marker"
 msgid "Remove markers"
 msgstr "マーカーを削除"
 
-#: src/project/dialogs/guideslist.cpp:544
+#: src/project/dialogs/guideslist.cpp:589
 #, fuzzy, kde-format
 #| msgid "Search failed! %1"
 msgid "Search Clip Markers"
 msgstr "検索が失敗しました。%1"
 
-#: src/project/dialogs/guideslist.cpp:584
+#: src/project/dialogs/guideslist.cpp:629
 #, fuzzy, kde-format
 #| msgid "Search failed! %1"
 msgid "Search Timeline Markers"
@@ -32917,7 +32917,7 @@ msgstr "停止"
 msgid "Paused"
 msgstr "一時停止"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1140
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1150
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), 位置: %4, 長さ: %5"
@@ -32929,35 +32929,35 @@ msgstr "%1 (%2-%3), 位置: %4, 長さ: %5"
 msgid "Position: %1"
 msgstr "位置: %1"
 
-#: src/timeline2/view/qml/Clip.qml:524
+#: src/timeline2/view/qml/Clip.qml:525
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:587
+#: src/timeline2/view/qml/Clip.qml:588
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "+%1, Mix duration: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/Clip.qml:589
+#: src/timeline2/view/qml/Clip.qml:590
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "-%1, Mix duration: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/Clip.qml:592 src/timeline2/view/qml/Clip.qml:607
+#: src/timeline2/view/qml/Clip.qml:593 src/timeline2/view/qml/Clip.qml:608
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Mix duration: %1"
 msgstr "長さ:"
 
-#: src/timeline2/view/qml/Clip.qml:1029
+#: src/timeline2/view/qml/Clip.qml:1035
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "入力:%1, 位置:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1032 src/timeline2/view/qml/Clip.qml:1130
+#: src/timeline2/view/qml/Clip.qml:1038 src/timeline2/view/qml/Clip.qml:1140
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -32966,57 +32966,57 @@ msgstr ""
 "<b>Ctrl + ドラッグ</b>で速度を変える、<b>ダブルクリック</b>で隣接するクリップ"
 "とミックスする。"
 
-#: src/timeline2/view/qml/Clip.qml:1034
+#: src/timeline2/view/qml/Clip.qml:1040
 #, fuzzy, kde-format
 #| msgid "<b>Drag</b> to resize"
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>ドラッグ</b>で拡大縮小"
 
-#: src/timeline2/view/qml/Clip.qml:1127
+#: src/timeline2/view/qml/Clip.qml:1137
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Out:%1, Position:%2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/Clip.qml:1264
+#: src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid "Offset: -%1"
 msgstr "オフセット: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1264
+#: src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid "Offset: %1"
 msgstr "オフセット: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1265
+#: src/timeline2/view/qml/Clip.qml:1275
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid " <b>Click</b> to align clips"
 msgstr "オプションの表示/非表示"
 
-#: src/timeline2/view/qml/Clip.qml:1508 src/timeline2/view/qml/Clip.qml:1545
+#: src/timeline2/view/qml/Clip.qml:1518 src/timeline2/view/qml/Clip.qml:1555
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "<b>Click</b> to add composition"
 msgstr "オプションの表示/非表示"
 
-#: src/timeline2/view/qml/Clip.qml:1622 src/timeline2/view/qml/Clip.qml:1629
+#: src/timeline2/view/qml/Clip.qml:1632 src/timeline2/view/qml/Clip.qml:1639
 #, kde-format
 msgid "Fade out: %1"
 msgstr "フェードアウト: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1633 src/timeline2/view/qml/Clip.qml:1740
+#: src/timeline2/view/qml/Clip.qml:1643 src/timeline2/view/qml/Clip.qml:1750
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>ドラッグ</b>でフェードを調節、<b>クリック</b>で既定時間のフェードを追加"
 
-#: src/timeline2/view/qml/Clip.qml:1729 src/timeline2/view/qml/Clip.qml:1736
+#: src/timeline2/view/qml/Clip.qml:1739 src/timeline2/view/qml/Clip.qml:1746
 #, kde-format
 msgid "Fade in: %1"
 msgstr "フェードイン: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1834
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
@@ -36706,7 +36706,7 @@ msgstr "オブジェクトを下げる"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:107
+#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:165
 #: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
 msgid "Comment"
@@ -37381,39 +37381,39 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
-#: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
-msgid "Range Marker"
-msgstr "マーカーを削除"
-
-#. i18n: ectx: property (text), widget (QLabel, label_end_time)
-#: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
-msgid "End Time"
-msgstr "レンダリング時間"
-
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
-#: src/ui/markerdialog_ui.ui:139
+#: src/ui/markerdialog_ui.ui:40
 #, fuzzy, kde-format
 #| msgid "Add clip markers"
 msgid "Add multiple markers"
 msgstr "クリップマーカーを追加"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
-#: src/ui/markerdialog_ui.ui:150 src/ui/multiplemarkerdialog_ui.ui:54
+#: src/ui/markerdialog_ui.ui:51 src/ui/multiplemarkerdialog_ui.ui:54
 #, fuzzy, kde-format
 #| msgid "Countdown"
 msgid "Count"
 msgstr "カウントダウン(C)"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
-#: src/ui/markerdialog_ui.ui:201
+#: src/ui/markerdialog_ui.ui:102
 #, kde-format
 msgid "Image preview"
 msgstr "画像のプレビュー"
+
+#. i18n: ectx: property (text), widget (QLabel, label_end_time)
+#: src/ui/markerdialog_ui.ui:158
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "End Time"
+msgstr "レンダリング時間"
+
+#. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
+#: src/ui/markerdialog_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Range Marker"
+msgstr "マーカーを削除"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -38243,12 +38243,6 @@ msgstr "サービス:"
 msgid "Scene Cut"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, add_markers)
-#: src/ui/scenecutdialog_ui.ui:24
-#, kde-format
-msgid "Add clip markers:"
-msgstr "クリップマーカーを追加:"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/scenecutdialog_ui.ui:37
 #, fuzzy, kde-format
@@ -38256,24 +38250,37 @@ msgstr "クリップマーカーを追加:"
 msgid "Minimum scene length:"
 msgstr "最低シーン長さ"
 
+#. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
+#: src/ui/scenecutdialog_ui.ui:44
+#, kde-format
+msgid "Cut scenes"
+msgstr "カットシーン"
+
+#. i18n: ectx: property (text), widget (QCheckBox, add_markers)
+#: src/ui/scenecutdialog_ui.ui:51
+#, kde-format
+msgid "Add clip markers:"
+msgstr "クリップマーカーを追加:"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, minDuration)
-#: src/ui/scenecutdialog_ui.ui:67
+#: src/ui/scenecutdialog_ui.ui:84
 #, kde-format
 msgid " frames"
 msgstr " フレーム"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/scenecutdialog_ui.ui:77
+#: src/ui/scenecutdialog_ui.ui:104
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Change threshold"
 msgstr "しきい値"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
-#: src/ui/scenecutdialog_ui.ui:97
-#, kde-format
-msgid "Cut scenes"
-msgstr "カットシーン"
+#. i18n: ectx: property (text), widget (QCheckBox, range_markers)
+#: src/ui/scenecutdialog_ui.ui:114
+#, fuzzy, kde-format
+#| msgid "Add keyframe"
+msgid "Create range markers"
+msgstr "キーフレームの追加"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-24 00:42+0000\n"
+"POT-Creation-Date: 2025-09-26 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -7315,7 +7315,7 @@ msgstr "और"
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
-#: src/ui/markerdialog_ui.ui:83
+#: src/ui/markerdialog_ui.ui:148
 #, kde-format
 msgid "Duration"
 msgstr "अवधि"
@@ -8158,7 +8158,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
 #: src/assets/view/widgets/keyframeimport.cpp:421
-#: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
+#: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:138
 #, kde-format
 msgid "Position"
 msgstr "पद"
@@ -12601,7 +12601,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:8 data/effects/strobe.xml:12
-#: src/ui/markerdialog_ui.ui:177 src/ui/multiplemarkerdialog_ui.ui:44
+#: src/ui/markerdialog_ui.ui:78 src/ui/multiplemarkerdialog_ui.ui:44
 #, kde-format
 msgid "Interval"
 msgstr "अंतराल"
@@ -17990,7 +17990,7 @@ msgid "CH"
 msgstr "सी"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:384
+#: src/bin/previewpanel.cpp:385
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -18228,7 +18228,7 @@ msgstr "प्रोफ़ाइल को वर्तमान क्लिप
 msgid "Icon View"
 msgstr "आइकन दृश्य"
 
-#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:171
+#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:216
 #, kde-format
 msgid "Descending"
 msgstr "अवरोही"
@@ -19594,7 +19594,7 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "फ़ोल्डर बनाएँ"
 
-#: src/bin/previewpanel.cpp:376
+#: src/bin/previewpanel.cpp:377
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19602,7 +19602,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "एफपीएस"
 
-#: src/bin/previewpanel.cpp:387
+#: src/bin/previewpanel.cpp:388
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -19616,7 +19616,7 @@ msgstr[1] "ऑडियो ट्रैक"
 msgid "Timeline sequence"
 msgstr "समयरेखा अनुक्रम"
 
-#: src/bin/projectclip.cpp:549 src/timeline2/view/qml/Clip.qml:1356
+#: src/bin/projectclip.cpp:549 src/timeline2/view/qml/Clip.qml:1366
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20648,7 +20648,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चित हों तो प्रयास करें:<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:353 src/project/projectmanager.cpp:1816
+#: src/project/dialogs/guideslist.cpp:398 src/project/projectmanager.cpp:1816
 #: src/renderpresets/renderpresetrepository.cpp:323
 #, kde-format
 msgid "Cannot read file %1"
@@ -23893,7 +23893,7 @@ msgid "Cyan"
 msgstr "सियान"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:100
+#: src/doc/kdenlivedoc.cpp:2872 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -24485,9 +24485,9 @@ msgstr "फ़ाइल <b>%1</b> में परिवर्तनीय फ�
 msgid "Application %1 not found, please update the job settings"
 msgstr "आवेदन %1 नहीं मिला, कृपया जॉब सेटिंग अपडेट करें"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "फ़ाइल बनाने में विफल."
@@ -24554,7 +24554,7 @@ msgstr "इस क्लिप के लिए कोई निर्मात�
 msgid "You cannot overwrite original clip."
 msgstr "आप मूल क्लिप को अधिलेखित नहीं कर सकते."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr "काटने का काम विफल हुआ."
@@ -24584,12 +24584,12 @@ msgstr "उपभोक्ता नहीं बनाया जा सकत�
 msgid "Cannot create filter %1"
 msgstr "फ़िल्टर %1 नहीं बनाया जा सका"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, kde-format
 msgid "Failed to filter source."
 msgstr "स्रोत फ़िल्टर करने में विफल."
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr ""
@@ -24605,7 +24605,7 @@ msgstr "मास्क क्लिप"
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -24615,7 +24615,7 @@ msgstr ""
 "क्लिप बनाने में विफल:\n"
 "%1"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to process playlist."
@@ -24626,55 +24626,55 @@ msgstr "प्रॉक्सी क्लिप बनाने में व�
 msgid "Creating proxy"
 msgstr "प्रॉक्सी बनाना"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "छवि %1 लोड नहीं किया जा सका."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "छवि प्रॉक्सी करने के लिए बहुत छोटी है."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg नहीं मिला, कृपया Kdenlive की सेटिंग में पथ सेट करें वातावरण"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "प्रॉक्सी क्लिप बनाने में विफल."
 
-#: src/jobs/scenesplittask.cpp:41
+#: src/jobs/scenesplittask.cpp:43
 #, kde-format
 msgid "Detecting scene change"
 msgstr "दृश्य परिवर्तन का पता लगाना"
 
-#: src/jobs/scenesplittask.cpp:56
+#: src/jobs/scenesplittask.cpp:60
 #, kde-format
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "दृश्य पहचान"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:123
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr "इस क्लिप प्रकार का विश्लेषण नहीं किया जा सकता."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:131
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr "FFmpeg नहीं मिला, कृपया Kdenlive की सेटिंग्स में पथ सेट करें।"
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:190 src/jobs/scenesplittask.cpp:204
+#: src/jobs/scenesplittask.cpp:225 src/jobs/scenesplittask.cpp:234
 #, kde-format
 msgid "Scene %1"
 msgstr "दृश्य%1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:248
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "क्लिप का विश्लेषण करने में विफल."
@@ -24713,7 +24713,7 @@ msgstr "गंतव्य फ़ाइल"
 msgid "Pitch compensation"
 msgstr "पिच मुआवजा"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "स्पीड क्लिप बनाने में विफल."
@@ -24723,7 +24723,7 @@ msgstr "स्पीड क्लिप बनाने में विफल."
 msgid "Stabilizing"
 msgstr "स्थिर"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "स्थिरीकरण करने में असफल."
@@ -29485,63 +29485,63 @@ msgstr "इस श्रेणी का उपयोग करके %1 मा�
 msgid "Reassign the markers to :"
 msgstr "मार्करों को पुनः असाइन करें:"
 
-#: src/project/dialogs/guideslist.cpp:139
+#: src/project/dialogs/guideslist.cpp:184
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Show Thumbnails"
 msgstr "थंबनेल दिखाओ"
 
-#: src/project/dialogs/guideslist.cpp:145
+#: src/project/dialogs/guideslist.cpp:190
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Import…"
 msgstr "आयात"
 
-#: src/project/dialogs/guideslist.cpp:148
+#: src/project/dialogs/guideslist.cpp:193
 #, fuzzy, kde-format
 #| msgid "Extracting…"
 msgid "Export…"
 msgstr "निकाला जा रहा है…"
 
-#: src/project/dialogs/guideslist.cpp:151
+#: src/project/dialogs/guideslist.cpp:196
 #, kde-format
 msgid "Configure Categories"
 msgstr "श्रेणियाँ कॉन्फ़िगर करें"
 
-#: src/project/dialogs/guideslist.cpp:156
+#: src/project/dialogs/guideslist.cpp:201
 #, fuzzy, kde-format
 #| msgid "Slideshow clips"
 msgid "Show markers for all clips in the project"
 msgstr "स्लाइड शो क्लिप"
 
-#: src/project/dialogs/guideslist.cpp:165
+#: src/project/dialogs/guideslist.cpp:210
 #, kde-format
 msgid "Sort by Category"
 msgstr "श्रेणी के अनुसार क्रमबद्ध करें"
 
-#: src/project/dialogs/guideslist.cpp:167
+#: src/project/dialogs/guideslist.cpp:212
 #, kde-format
 msgid "Sort by Time"
 msgstr "समय के अनुसार क्रमबद्ध करें"
 
-#: src/project/dialogs/guideslist.cpp:169
+#: src/project/dialogs/guideslist.cpp:214
 #, kde-format
 msgid "Sort by Comment"
 msgstr "टिप्पणी के अनुसार क्रमबद्ध करें"
 
-#: src/project/dialogs/guideslist.cpp:203
+#: src/project/dialogs/guideslist.cpp:248
 #, fuzzy, kde-format
 #| msgid "Show Audio Thumbnails"
 msgid "Refresh All Thumbnails"
 msgstr "ऑडियो थंबनेल दिखाएं"
 
-#: src/project/dialogs/guideslist.cpp:206
+#: src/project/dialogs/guideslist.cpp:251
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add new marker."
 msgstr "मार्कर जोड़ें"
 
-#: src/project/dialogs/guideslist.cpp:207
+#: src/project/dialogs/guideslist.cpp:252
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid "Add new guide. This will add a guide at the current frame position."
@@ -29549,13 +29549,13 @@ msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr "नया गाइड जोड़ें: यह वर्तमान फ़्रेम स्थिति पर एक गाइड जोड़ देगा।"
 
-#: src/project/dialogs/guideslist.cpp:208
+#: src/project/dialogs/guideslist.cpp:253
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Delete marker."
 msgstr "मार्कर हटाएं"
 
-#: src/project/dialogs/guideslist.cpp:209
+#: src/project/dialogs/guideslist.cpp:254
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid "Delete guide. This will erase all selected guides."
@@ -29563,13 +29563,13 @@ msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
 msgstr "गाइड मिटाएँ: इससे सभी चयनित गाइड मिट जाएँगे।"
 
-#: src/project/dialogs/guideslist.cpp:210
+#: src/project/dialogs/guideslist.cpp:255
 #, fuzzy, kde-format
 #| msgid "Edit selected guide."
 msgid "Edit selected marker."
 msgstr "चयनित मार्गदर्शिका संपादित करें."
 
-#: src/project/dialogs/guideslist.cpp:211
+#: src/project/dialogs/guideslist.cpp:256
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -29582,13 +29582,13 @@ msgid ""
 msgstr ""
 "चयनित गाइड संपादित करें। एकाधिक गाइड चुनने से उनकी श्रेणी बदलने की सुविधा मिलती है।"
 
-#: src/project/dialogs/guideslist.cpp:212
+#: src/project/dialogs/guideslist.cpp:257
 #, fuzzy, kde-format
 #| msgid "Filter guide categories."
 msgid "Filter marker categories."
 msgstr "गाइड श्रेणियों को फ़िल्टर करें."
 
-#: src/project/dialogs/guideslist.cpp:214
+#: src/project/dialogs/guideslist.cpp:259
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -29602,13 +29602,13 @@ msgstr ""
 "गाइड श्रेणियों को फ़िल्टर करें। यह आपको इस संवाद में और टाइमलाइन में चयनित गाइड श्रेणियों "
 "को दिखाने या छिपाने की अनुमति देता है।"
 
-#: src/project/dialogs/guideslist.cpp:215
+#: src/project/dialogs/guideslist.cpp:260
 #, fuzzy, kde-format
 #| msgid "Default guide category."
 msgid "Default marker category."
 msgstr "डिफ़ॉल्ट गाइड श्रेणी."
 
-#: src/project/dialogs/guideslist.cpp:216
+#: src/project/dialogs/guideslist.cpp:261
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid "Default guide category. The category used for newly created guides."
@@ -29616,43 +29616,43 @@ msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr "डिफ़ॉल्ट गाइड श्रेणी. नई बनाई गई गाइड के लिए उपयोग की जाने वाली श्रेणी."
 
-#: src/project/dialogs/guideslist.cpp:241
+#: src/project/dialogs/guideslist.cpp:286
 #, fuzzy, kde-format
 #| msgid "Search failed! %1"
 msgid "Search All Markers"
 msgstr "खोज विफल! %1"
 
-#: src/project/dialogs/guideslist.cpp:256
+#: src/project/dialogs/guideslist.cpp:301
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "सभी परियोजनाएं"
 
-#: src/project/dialogs/guideslist.cpp:332
+#: src/project/dialogs/guideslist.cpp:377
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "क्लिप मार्कर लोड करें"
 
-#: src/project/dialogs/guideslist.cpp:348
+#: src/project/dialogs/guideslist.cpp:393
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "मार्कर फ़ाइल 1MB से बड़ी है, क्या आप वाकई आयात करना चाहते हैं?"
 
-#: src/project/dialogs/guideslist.cpp:450
-#: src/project/dialogs/guideslist.cpp:461
+#: src/project/dialogs/guideslist.cpp:495
+#: src/project/dialogs/guideslist.cpp:506
 #, fuzzy, kde-format
 #| msgid "Remove Marker"
 msgid "Remove markers"
 msgstr "मार्कर हटाएँ"
 
-#: src/project/dialogs/guideslist.cpp:544
+#: src/project/dialogs/guideslist.cpp:589
 #, fuzzy, kde-format
 #| msgid "Search failed! %1"
 msgid "Search Clip Markers"
 msgstr "खोज विफल! %1"
 
-#: src/project/dialogs/guideslist.cpp:584
+#: src/project/dialogs/guideslist.cpp:629
 #, fuzzy, kde-format
 #| msgid "Search failed! %1"
 msgid "Search Timeline Markers"
@@ -32550,7 +32550,7 @@ msgstr "रुकना"
 msgid "Paused"
 msgstr "रोका गया"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1140
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:1150
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), स्थिति: %4, अवधि: %5"
@@ -32562,32 +32562,32 @@ msgstr "%1 (%2-%3), स्थिति: %4, अवधि: %5"
 msgid "Position: %1"
 msgstr "स्थिति: %1"
 
-#: src/timeline2/view/qml/Clip.qml:524
+#: src/timeline2/view/qml/Clip.qml:525
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "मिक्स अवधि: %1, कट समय: %2"
 
-#: src/timeline2/view/qml/Clip.qml:587
+#: src/timeline2/view/qml/Clip.qml:588
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, मिक्स अवधि: %2"
 
-#: src/timeline2/view/qml/Clip.qml:589
+#: src/timeline2/view/qml/Clip.qml:590
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, मिक्स अवधि: %2"
 
-#: src/timeline2/view/qml/Clip.qml:592 src/timeline2/view/qml/Clip.qml:607
+#: src/timeline2/view/qml/Clip.qml:593 src/timeline2/view/qml/Clip.qml:608
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "मिक्स अवधि: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1029
+#: src/timeline2/view/qml/Clip.qml:1035
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "में:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1032 src/timeline2/view/qml/Clip.qml:1130
+#: src/timeline2/view/qml/Clip.qml:1038 src/timeline2/view/qml/Clip.qml:1140
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -32596,54 +32596,54 @@ msgstr ""
 "गति बदलने के लिए <b>Ctrl खींचें</b> , आसन्न क्लिप के साथ मिश्रण करने के लिए <b>डबल क्लिक "
 "करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1034
+#: src/timeline2/view/qml/Clip.qml:1040
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "मिश्रण अवधि बदलने के लिए <b>खींचें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1127
+#: src/timeline2/view/qml/Clip.qml:1137
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "आउट:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1264
+#: src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid "Offset: -%1"
 msgstr "ऑफसेट: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1264
+#: src/timeline2/view/qml/Clip.qml:1274
 #, kde-format
 msgid "Offset: %1"
 msgstr "ऑफसेट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1265
+#: src/timeline2/view/qml/Clip.qml:1275
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " क्लिप संरेखित करने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1508 src/timeline2/view/qml/Clip.qml:1545
+#: src/timeline2/view/qml/Clip.qml:1518 src/timeline2/view/qml/Clip.qml:1555
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "रचना जोड़ने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1622 src/timeline2/view/qml/Clip.qml:1629
+#: src/timeline2/view/qml/Clip.qml:1632 src/timeline2/view/qml/Clip.qml:1639
 #, kde-format
 msgid "Fade out: %1"
 msgstr "फीका आउट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1633 src/timeline2/view/qml/Clip.qml:1740
+#: src/timeline2/view/qml/Clip.qml:1643 src/timeline2/view/qml/Clip.qml:1750
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "फीका समायोजित करने के लिए <b>खींचें</b> , डिफ़ॉल्ट अवधि फीका जोड़ने के लिए <b>क्लिक करें</"
 "b>"
 
-#: src/timeline2/view/qml/Clip.qml:1729 src/timeline2/view/qml/Clip.qml:1736
+#: src/timeline2/view/qml/Clip.qml:1739 src/timeline2/view/qml/Clip.qml:1746
 #, kde-format
 msgid "Fade in: %1"
 msgstr "फीका इन: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1824
+#: src/timeline2/view/qml/Clip.qml:1834
 #, kde-format
 msgid "Slip Clip"
 msgstr "स्लिप क्लिप"
@@ -36177,7 +36177,7 @@ msgstr "निचली सीमा"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:107
+#: src/ui/editsub_ui.ui:597 src/ui/markerdialog_ui.ui:165
 #: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
 msgid "Comment"
@@ -36801,37 +36801,37 @@ msgstr "जानकारी"
 msgid "Key"
 msgstr "चाबी"
 
-#. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
-#: src/ui/markerdialog_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
-msgid "Range Marker"
-msgstr "मार्कर हटाएँ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_end_time)
-#: src/ui/markerdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Render Time"
-msgid "End Time"
-msgstr "रेंडर समय"
-
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
-#: src/ui/markerdialog_ui.ui:139
+#: src/ui/markerdialog_ui.ui:40
 #, kde-format
 msgid "Add multiple markers"
 msgstr "अनेक मार्कर जोड़ें"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
-#: src/ui/markerdialog_ui.ui:150 src/ui/multiplemarkerdialog_ui.ui:54
+#: src/ui/markerdialog_ui.ui:51 src/ui/multiplemarkerdialog_ui.ui:54
 #, kde-format
 msgid "Count"
 msgstr "गिनती करना"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
-#: src/ui/markerdialog_ui.ui:201
+#: src/ui/markerdialog_ui.ui:102
 #, kde-format
 msgid "Image preview"
 msgstr "छवि पूर्वावलोकन"
+
+#. i18n: ectx: property (text), widget (QLabel, label_end_time)
+#: src/ui/markerdialog_ui.ui:158
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "End Time"
+msgstr "रेंडर समय"
+
+#. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
+#: src/ui/markerdialog_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Range Marker"
+msgstr "मार्कर हटाएँ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -37636,35 +37636,42 @@ msgstr "सेवा:"
 msgid "Scene Cut"
 msgstr "दृश्य कट"
 
-#. i18n: ectx: property (text), widget (QCheckBox, add_markers)
-#: src/ui/scenecutdialog_ui.ui:24
-#, kde-format
-msgid "Add clip markers:"
-msgstr "क्लिप मार्कर जोड़ें:"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/scenecutdialog_ui.ui:37
 #, kde-format
 msgid "Minimum scene length:"
 msgstr "न्यूनतम दृश्य लंबाई:"
 
+#. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
+#: src/ui/scenecutdialog_ui.ui:44
+#, kde-format
+msgid "Cut scenes"
+msgstr "कटे हुए दृश्य"
+
+#. i18n: ectx: property (text), widget (QCheckBox, add_markers)
+#: src/ui/scenecutdialog_ui.ui:51
+#, kde-format
+msgid "Add clip markers:"
+msgstr "क्लिप मार्कर जोड़ें:"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, minDuration)
-#: src/ui/scenecutdialog_ui.ui:67
+#: src/ui/scenecutdialog_ui.ui:84
 #, kde-format
 msgid " frames"
 msgstr "फ्रेम"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/scenecutdialog_ui.ui:77
+#: src/ui/scenecutdialog_ui.ui:104
 #, kde-format
 msgid "Change threshold"
 msgstr "परिवर्तन सीमा"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
-#: src/ui/scenecutdialog_ui.ui:97
-#, kde-format
-msgid "Cut scenes"
-msgstr "कटे हुए दृश्य"
+#. i18n: ectx: property (text), widget (QCheckBox, range_markers)
+#: src/ui/scenecutdialog_ui.ui:114
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Create range markers"
+msgstr "मुख्यफ़्रेम अपडेट करें"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
