@@ -453,9 +453,9 @@ Item {
             y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
             width: videoDragButton.visible ? videoDragButton.width * 2 : videoDragButton.width
             height: videoDragButton.height
-            color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.5)
+            color: Qt.rgba(activePalette.base.r, activePalette.base.g, activePalette.base.b, 0.6)
             radius: 4
-            opacity: (audioDragButton.hovered || videoDragButton.hovered || audioView.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.active || dragVideoArea.active
+            opacity: (audioDragButton.hovered || videoDragButton.hovered || audioView.containsMouse || marker.hovered || inPointArea.containsMouse || cursorArea.containsMouse || outPointArea.containsMouse || dragAudioArea.active || dragVideoArea.active
                 || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioView.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
             visible: controller.clipHasAV || audioView.isAudioClip
             MouseArea {
@@ -469,7 +469,9 @@ Item {
                 height: dragZone.height
                 radius: 4
                 color: activePalette.highlight
-                visible: videoDragButton.visible && (videoDragButton.hovered || videoDragButton.isDragging)
+                border.width: 1
+                border.color: activePalette.base
+                visible: videoDragButton.visible && ((cursorArea.containsMouse && cursorArea.leftSide) || videoDragButton.isDragging)
             }
             Rectangle {
                 anchors.right: dragZone.right
@@ -477,7 +479,9 @@ Item {
                 height: dragZone.height
                 radius: 4
                 color: activePalette.highlight
-                visible: audioDragButton.hovered || audioDragButton.isDragging
+                border.width: 1
+                border.color: activePalette.base
+                visible: (cursorArea.containsMouse && !cursorArea.leftSide) || audioDragButton.isDragging
             }
             Row {
                 id: dragRow
@@ -485,7 +489,7 @@ Item {
                     id: videoDragButton
                     property bool isDragging
                     hoverEnabled: true
-                    visible: !audioView.stateVisible && !audioView.isAudioClip
+                    visible: controller.clipHasAV || !audioView.isAudioClip
                     icon.name: "kdenlive-show-video"
                     focusPolicy: Qt.NoFocus
                     Drag.active: dragVideoArea.active
@@ -558,6 +562,15 @@ Item {
                         text: i18n("Drag to add only audio to timeline")
                     }
                 }
+            }
+            MouseArea {
+                id: cursorArea
+                // ToolButtons don't allow setting a cursor shape, so workaround
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                hoverEnabled: true
+                property bool leftSide: videoDragButton.visible ? mouseX < width / 2 : false
+                cursorShape: Qt.OpenHandCursor
             }
         }
     }
