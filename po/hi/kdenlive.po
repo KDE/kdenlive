@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-18 02:36+0000\n"
+"POT-Creation-Date: 2025-09-26 02:36+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -19501,7 +19501,7 @@ msgstr "स्वच्छ परियोजना"
 msgid "Reading project clips…"
 msgstr "प्रोजेक्ट क्लिप्स पढ़ रहा हूँ…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "प्रोजेक्ट क्लिप लोड हो रहा है…"
@@ -24177,9 +24177,9 @@ msgstr "फ़ाइल <b>%1</b> में परिवर्तनीय फ�
 msgid "Application %1 not found, please update the job settings"
 msgstr "आवेदन %1 नहीं मिला, कृपया जॉब सेटिंग अपडेट करें"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "फ़ाइल बनाने में विफल."
@@ -24246,7 +24246,7 @@ msgstr "इस क्लिप के लिए कोई निर्मात�
 msgid "You cannot overwrite original clip."
 msgstr "आप मूल क्लिप को अधिलेखित नहीं कर सकते."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr "काटने का काम विफल हुआ."
@@ -24276,12 +24276,12 @@ msgstr "उपभोक्ता नहीं बनाया जा सकत�
 msgid "Cannot create filter %1"
 msgstr "फ़िल्टर %1 नहीं बनाया जा सका"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, kde-format
 msgid "Failed to filter source."
 msgstr "स्रोत फ़िल्टर करने में विफल."
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr ""
@@ -24297,7 +24297,7 @@ msgstr "मास्क क्लिप"
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -24307,7 +24307,7 @@ msgstr ""
 "क्लिप बनाने में विफल:\n"
 "%1"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to process playlist."
@@ -24318,23 +24318,23 @@ msgstr "प्रॉक्सी क्लिप बनाने में व�
 msgid "Creating proxy"
 msgstr "प्रॉक्सी बनाना"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "छवि %1 लोड नहीं किया जा सका."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "छवि प्रॉक्सी करने के लिए बहुत छोटी है."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg नहीं मिला, कृपया Kdenlive की सेटिंग में पथ सेट करें वातावरण"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "प्रॉक्सी क्लिप बनाने में विफल."
@@ -24360,13 +24360,13 @@ msgstr "इस क्लिप प्रकार का विश्लेष�
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr "FFmpeg नहीं मिला, कृपया Kdenlive की सेटिंग्स में पथ सेट करें।"
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:185 src/jobs/scenesplittask.cpp:205
+#: src/jobs/scenesplittask.cpp:214
 #, kde-format
 msgid "Scene %1"
 msgstr "दृश्य%1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:228
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "क्लिप का विश्लेषण करने में विफल."
@@ -24405,7 +24405,7 @@ msgstr "गंतव्य फ़ाइल"
 msgid "Pitch compensation"
 msgstr "पिच मुआवजा"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "स्पीड क्लिप बनाने में विफल."
@@ -24415,7 +24415,7 @@ msgstr "स्पीड क्लिप बनाने में विफल."
 msgid "Stabilizing"
 msgstr "स्थिर"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "स्थिरीकरण करने में असफल."

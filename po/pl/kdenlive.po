@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-18 02:36+0000\n"
+"POT-Creation-Date: 2025-09-26 02:36+0000\n"
 "PO-Revision-Date: 2025-09-13 07:20+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -19393,7 +19393,7 @@ msgstr "Wyczyść projekt"
 msgid "Reading project clips…"
 msgstr "Czytanie wycinków projektu…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Wczytywanie wycinków projektu…"
@@ -24114,9 +24114,9 @@ msgstr "Plik <b>%1</b> używa zmiennej szybkości klatkowej."
 msgid "Application %1 not found, please update the job settings"
 msgstr "Nie znaleziono aplikacji %1, uaktualnij ustawienia zadania"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "Nieudane tworzenie pliku."
@@ -24183,7 +24183,7 @@ msgstr "Brak programu produkującego dla tego wycinka."
 msgid "You cannot overwrite original clip."
 msgstr "Nie możesz zastąpić oryginalnego wycinka."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr "Nie udało się zadanie wycięcia."
@@ -24213,12 +24213,12 @@ msgstr "Nie można utworzyć konsumenta."
 msgid "Cannot create filter %1"
 msgstr "Nie można utworzyć filtra %1"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Nie udało się odfiltrować źródła."
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "Nie udało się przeanalizować efektu dla %1"
@@ -24233,12 +24233,12 @@ msgstr "Tworzenie maski"
 msgid "No source frames to process"
 msgstr "Nie ma klatek źródłowych do przetworzenia"
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "Nie udało się wyświetlić maski %1"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, kde-format
 msgid "Failed to process playlist."
 msgstr "Nie udało się przetworzyć listy odtwarzania."
@@ -24248,23 +24248,23 @@ msgstr "Nie udało się przetworzyć listy odtwarzania."
 msgid "Creating proxy"
 msgstr "Tworzenie wycinka pośredniego"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Nie można wczytać obrazu  %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Obraz jest zbyt mały, aby można z niego zrobić pośrednika."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "Nie znaleziono FFmpeg, ustaw ścieżkę w ustawieniach otoczenia Kdenlive"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Nie udało się utworzyć wycinka pośredniego."
@@ -24291,13 +24291,13 @@ msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "Nie znaleziono FFmpeg, ustaw ścieżkę w ustawieniach otoczenia Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:185 src/jobs/scenesplittask.cpp:205
+#: src/jobs/scenesplittask.cpp:214
 #, kde-format
 msgid "Scene %1"
 msgstr "Scena %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:228
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Nie udało się zanalizować wycinka."
@@ -24336,7 +24336,7 @@ msgstr "Plik docelowy"
 msgid "Pitch compensation"
 msgstr "Wyrównanie tonu"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Nie udało się utworzyć szybkiego wycinka."
@@ -24346,7 +24346,7 @@ msgstr "Nie udało się utworzyć szybkiego wycinka."
 msgid "Stabilizing"
 msgstr "Stabilizowanie"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Nie udało się ustabilizować."

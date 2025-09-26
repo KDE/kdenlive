@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-18 02:36+0000\n"
+"POT-Creation-Date: 2025-09-26 02:36+0000\n"
 "PO-Revision-Date: 2025-08-04 08:15+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -19343,7 +19343,7 @@ msgstr "Städa projekt"
 msgid "Reading project clips…"
 msgstr "Läser in projektklipp…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Läser in projektklipp…"
@@ -24055,9 +24055,9 @@ msgstr "Filen <b>%1</b> har en variabel bildhastighet."
 msgid "Application %1 not found, please update the job settings"
 msgstr "Programmet %1 hittades inte. Uppdatera jobbinställningarna."
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "Misslyckades skapa fil."
@@ -24124,7 +24124,7 @@ msgstr "Ingen producent för det här klippet."
 msgid "You cannot overwrite original clip."
 msgstr "Du kan inte skriva över originalklippet."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr "Skärningsjobb misslyckades"
@@ -24154,12 +24154,12 @@ msgstr "Kan inte skapa konsument."
 msgid "Cannot create filter %1"
 msgstr "Kan inte skapa filter %1"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Misslyckades filtrera källa."
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "Effektanalys misslyckades för %1"
@@ -24174,12 +24174,12 @@ msgstr "Skapa mask"
 msgid "No source frames to process"
 msgstr "Inga källbildrutor att behandla"
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "Misslyckades återge mask %1"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, kde-format
 msgid "Failed to process playlist."
 msgstr "Misslyckades behandla spellista."
@@ -24189,24 +24189,24 @@ msgstr "Misslyckades behandla spellista."
 msgid "Creating proxy"
 msgstr "Skapar ersättning"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Kan inte läsa in bild %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Bilden är för liten för att ersättas."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg hittades inte, ställ in sökvägen i Kdenlives omgivningsinställningar"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Misslyckades skapa ersättningsklipp."
@@ -24233,13 +24233,13 @@ msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "FFmpeg hittades inte, ställ in sökvägen i Kdenlives omgivningsinställningar."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:185 src/jobs/scenesplittask.cpp:205
+#: src/jobs/scenesplittask.cpp:214
 #, kde-format
 msgid "Scene %1"
 msgstr "Scen %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:228
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Misslyckades analysera klipp."
@@ -24278,7 +24278,7 @@ msgstr "Målfil"
 msgid "Pitch compensation"
 msgstr "Tonhöjdskompensation"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Misslyckades skapa hastighetsklipp."
@@ -24288,7 +24288,7 @@ msgstr "Misslyckades skapa hastighetsklipp."
 msgid "Stabilizing"
 msgstr "Stabiliserar"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Misslyckades stabilisera."

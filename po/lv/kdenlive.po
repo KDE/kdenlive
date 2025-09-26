@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-18 02:36+0000\n"
+"POT-Creation-Date: 2025-09-26 02:36+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -19582,7 +19582,7 @@ msgstr "Uzkopt projektu"
 msgid "Reading project clips…"
 msgstr "Lasa projekta klipus…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Ielādē projekta klipus…"
@@ -24290,9 +24290,9 @@ msgstr "Datnei <b>%1</b> ir mainīgs kadru nomaiņas ātrums."
 msgid "Application %1 not found, please update the job settings"
 msgstr "Nav atrasta programma „%1“, atjauniniet darba iestatījumus"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "Neizdevās izveidot datni."
@@ -24359,7 +24359,7 @@ msgstr "Šim klipam nav ražotāja."
 msgid "You cannot overwrite original clip."
 msgstr "Nevarat pārrakstīt oriģinālo klipu."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr "Izgriešanas darbs neizdevās."
@@ -24389,12 +24389,12 @@ msgstr "Nevar izveidot klientu."
 msgid "Cannot create filter %1"
 msgstr "Nevar izveidot filtru „%1“"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Neizdevās filtrēt avotu."
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "Efekta analīze neizdevās ar „%1“"
@@ -24409,12 +24409,12 @@ msgstr "Maskas izveide"
 msgid "No source frames to process"
 msgstr "Nav apstrādājamu avota kadru"
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "Neizdevās renderēt masku: %1"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, kde-format
 msgid "Failed to process playlist."
 msgstr "Neizdevās apstrādāt repertuāru."
@@ -24424,23 +24424,23 @@ msgstr "Neizdevās apstrādāt repertuāru."
 msgid "Creating proxy"
 msgstr "Izveido starpniekklipu"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Nevar ielādēt attēlu „%1“."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Attēls ir par mazu starpniekklipam."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "„FFmpeg“ nav atrasts, norādiet ceļu „Kdenlive“ vides iestatījumos "
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Neizdevās izveidot starpniekklipu."
@@ -24466,13 +24466,13 @@ msgstr "Nevar analizēt šo klipa tipu."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr "„FFmpeg“ nav atrasts, norādiet ceļu „Kdenlive“ vides iestatījumos."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:185 src/jobs/scenesplittask.cpp:205
+#: src/jobs/scenesplittask.cpp:214
 #, kde-format
 msgid "Scene %1"
 msgstr "Aina „%1“"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:228
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Neizdevās analizēt klipu"
@@ -24511,7 +24511,7 @@ msgstr "Galamērķa datne"
 msgid "Pitch compensation"
 msgstr "Skaņas augstuma kompensācija"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Neizdevās izveidot ātruma klipu."
@@ -24521,7 +24521,7 @@ msgstr "Neizdevās izveidot ātruma klipu."
 msgid "Stabilizing"
 msgstr "Stabilizācija"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Neizdevās stabilizēt"

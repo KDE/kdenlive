@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-18 02:36+0000\n"
+"POT-Creation-Date: 2025-09-26 02:36+0000\n"
 "PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -19581,7 +19581,7 @@ msgstr "Proiektua garbitu"
 msgid "Reading project clips…"
 msgstr "Proiektuko klipak irakurtzen…"
 
-#: src/bin/projectitemmodel.cpp:1529
+#: src/bin/projectitemmodel.cpp:1516
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Proiektuko klipak kargatzen…"
@@ -24309,9 +24309,9 @@ msgstr "<b>%1</b> fitxategiak fotograma-emari aldakorra darabil."
 msgid "Application %1 not found, please update the job settings"
 msgstr "Ez du aurkitu %1 aplikazioa, mesedez, eguneratu lanaren ezarpenak"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:253 src/jobs/transcodetask.cpp:241
-#: src/jobs/transcodetask.cpp:277
+#: src/jobs/customjobtask.cpp:316 src/jobs/customjobtask.cpp:336
+#: src/jobs/cuttask.cpp:254 src/jobs/transcodetask.cpp:243
+#: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
 msgstr "Fitxategia sortzeak huts egin du."
@@ -24378,7 +24378,7 @@ msgstr "Ez dago klip honetarako ekoizlerik."
 msgid "You cannot overwrite original clip."
 msgstr "Ezin duzu jatorrizko klipa gainidatzi."
 
-#: src/jobs/cuttask.cpp:264
+#: src/jobs/cuttask.cpp:265
 #, kde-format
 msgid "Cut job failed."
 msgstr "Mozteko lanak huts egin du."
@@ -24408,12 +24408,12 @@ msgstr "Ezin du kontsumitzailea sortu."
 msgid "Cannot create filter %1"
 msgstr "Ezin du %1 iragazkia sortu"
 
-#: src/jobs/filtertask.cpp:288
+#: src/jobs/filtertask.cpp:289
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Sorburua iragaztea huts egin du."
 
-#: src/jobs/filtertask.cpp:320
+#: src/jobs/filtertask.cpp:321
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "%1(e)ren efektu-analisiak huts egin du"
@@ -24428,12 +24428,12 @@ msgstr "Maskarak sortzea"
 msgid "No source frames to process"
 msgstr "Ez dago prozesatu beharreko iturburu-fotogramarik"
 
-#: src/jobs/masktask.cpp:68
+#: src/jobs/masktask.cpp:69
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "%1 maskara errendatzea huts egin du"
 
-#: src/jobs/melttask.cpp:61
+#: src/jobs/melttask.cpp:62
 #, kde-format
 msgid "Failed to process playlist."
 msgstr "Erreprodukzio-zerrenda prozesatzea huts egin du."
@@ -24443,24 +24443,24 @@ msgstr "Erreprodukzio-zerrenda prozesatzea huts egin du."
 msgid "Creating proxy"
 msgstr "Ordezkaria sortzen"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:209
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "%1 irudia ezin da kargatu."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:229
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Irudia, ordezkaria sortzeko txikiegia da."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:181
+#: src/jobs/proxytask.cpp:237 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg ez da aurkitu, mesedez ezarri bidea Kdenliveren ingurumen ezarpenetan"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:405 src/jobs/proxytask.cpp:418
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Klip-ordezkaria sortzea huts egin du."
@@ -24487,13 +24487,13 @@ msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "FFmpeg ez da aurkitu, mesedez ezarri bidea Kdenliveren ingurumen ezarpenetan."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:185 src/jobs/scenesplittask.cpp:205
+#: src/jobs/scenesplittask.cpp:214
 #, kde-format
 msgid "Scene %1"
 msgstr "%1 eszena"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:228
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Huts egin du klipa aztertzeak."
@@ -24532,7 +24532,7 @@ msgstr "Helburu fitxategia"
 msgid "Pitch compensation"
 msgstr "Tonu konpentsatzea"
 
-#: src/jobs/speedtask.cpp:242
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Huts egin du abiadura-klipa sortzeak."
@@ -24542,7 +24542,7 @@ msgstr "Huts egin du abiadura-klipa sortzeak."
 msgid "Stabilizing"
 msgstr "Egonkortzen"
 
-#: src/jobs/stabilizetask.cpp:177
+#: src/jobs/stabilizetask.cpp:178
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Egonkortzeak huts egin du."
