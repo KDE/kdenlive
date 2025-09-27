@@ -322,6 +322,7 @@ void PreviewPanel::buildPlayer()
     }
     m_player = new QMediaPlayer(this);
     m_player->setVideoOutput(m_videoWidget);
+    connect(m_slider, &QAbstractSlider::sliderMoved, this, &PreviewPanel::updatePlayerPos);
     m_slider->setValue(0);
     if (m_useMedia) {
         m_player->setSource(m_item.url());
@@ -410,24 +411,25 @@ void PreviewPanel::buildPlayer()
             m_slider->setValue(100 * position / m_player->duration());
         }
     });
+}
 
-    connect(m_slider, &QAbstractSlider::sliderMoved, this, [this](int position) {
-        if (!m_player) {
-            return;
-        }
-        if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
-            m_imageWidget->hide();
-            m_videoWidget->show();
-        }
-        if (m_player->mediaStatus() == QMediaPlayer::BufferingMedia) {
-            // Don't ask to seek if we are buffering
-            return;
-        }
-        m_player->setPosition(m_player->duration() * position / 100);
-        if (m_player->playbackState() == QMediaPlayer::StoppedState) {
-            m_player->play();
-        }
-    });
+void PreviewPanel::updatePlayerPos(int position)
+{
+    if (!m_player) {
+        return;
+    }
+    if (!m_videoWidget->isVisible() && m_player->hasVideo()) {
+        m_imageWidget->hide();
+        m_videoWidget->show();
+    }
+    if (m_player->mediaStatus() == QMediaPlayer::BufferingMedia) {
+        // Don't ask to seek if we are buffering
+        return;
+    }
+    m_player->setPosition(m_player->duration() * position / 100);
+    if (m_player->playbackState() == QMediaPlayer::StoppedState) {
+        m_player->play();
+    }
 }
 
 void PreviewPanel::resetPlayer()
@@ -436,6 +438,7 @@ void PreviewPanel::resetPlayer()
         return;
     }
     stopPlaying();
+    disconnect(m_slider, &QAbstractSlider::sliderMoved, this, &PreviewPanel::updatePlayerPos);
     delete m_player;
     m_player = nullptr;
     m_videoWidget->hide();

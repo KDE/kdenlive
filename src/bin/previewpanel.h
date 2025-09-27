@@ -74,6 +74,7 @@ private Q_SLOTS:
     void showPreview(const KFileItem &item, const QPixmap &pixmap);
     void showIcon(const KFileItem &item);
     void switchPlay();
+    void updatePlayerPos(int position);
 
 Q_SIGNALS:
     void importSelection();
