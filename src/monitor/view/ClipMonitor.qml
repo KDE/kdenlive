@@ -224,9 +224,9 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
-                height: isAudioClip ? parent.height : parent.height / 6
+                height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width
-                visible: (K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (isAudioClip || controller.clipType == K.ClipType.AV || controller.clipHasAV)
+                visible: (K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (isAudioClip || controller.clipType === K.ClipType.AV || controller.clipHasAV)
             }
             Menu {
                 id: contextMenu
@@ -504,11 +504,11 @@ Item {
                     }
                     Drag.onDragFinished: dropAction => {
                         videoDragButton.isDragging = false
-                        dragVideoArea.enabled = false
+                        //dragVideoArea.enabled = false
                         root.captureRightClick = false
                     }
                     onPressed: {
-                        dragVideoArea.enabled = true
+                        //dragVideoArea.enabled = true
                         videoDragButton.grabToImage(function(result) {
                             videoDragButton.Drag.imageSource = result.url
                         })
@@ -517,7 +517,7 @@ Item {
                         id: dragVideoArea
                         acceptedButtons: Qt.LeftButton
                         target: null
-                        enabled: false
+                        enabled: true
                     }
                     ToolTip {
                         visible: videoDragButton.hovered
@@ -543,10 +543,10 @@ Item {
                     Drag.onDragFinished: {
                         audioDragButton.isDragging = false
                         root.captureRightClick = false
-                        dragAudioArea.enabled = false
+                        //dragAudioArea.enabled = false
                     }
                     onPressed: {
-                        dragAudioArea.enabled = true
+                        //dragAudioArea.enabled = true
                         audioDragButton.grabToImage(function(result) {
                             audioDragButton.Drag.imageSource = result.url
                         })
@@ -555,7 +555,7 @@ Item {
                         id: dragAudioArea
                         acceptedButtons: Qt.LeftButton
                         target: null
-                        enabled: false
+                        //enabled: false
                     }
                     ToolTip {
                         visible: audioDragButton.hovered

@@ -11,10 +11,10 @@ import org.kde.kdenlive as K
 
 Item {
     id: audioThumb
-    property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
-    property bool isAudioClip: controller.clipType == K.ClipType.Audio
-    property int audioZoomHeight: isAudioClip ? height / 6 : 0
-    property bool containsMouse: thumbMouseArea.containsMouse
+    property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || audioZoom.containsMouse || dragZone.opacity === 1 || root.showZoomBar)
+    property bool isAudioClip: controller.clipType === K.ClipType.Audio
+    property int audioZoomHeight: isAudioClip ? height / 6 : height / 3
+    property bool containsMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse
 
     Label {
         id: clipStreamLabel
@@ -62,7 +62,7 @@ Item {
     }]
     K.AudioZoomBar {
         id: audioZoom
-        visible: audioThumb.isAudioClip
+        visible: audioThumb.isAudioClip || controller.clipHasAV
         width: mainThumbsContainer.width
         height: audioThumb.audioZoomHeight
         anchors.top: parent.top

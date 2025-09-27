@@ -2130,7 +2130,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     double audioStart = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomStart"));
                     m_glMonitor->rootObject()->setProperty("zoomFactor", audioScale);
                     m_glMonitor->rootObject()->setProperty("zoomStart", audioStart);
-                    m_glMonitor->rootObject()->setProperty("showZoomBar", true);
+                    // m_glMonitor->rootObject()->setProperty("showZoomBar", true);
                 } else {
                     m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
                     m_glMonitor->rootObject()->setProperty("zoomStart", 0);

@@ -12,6 +12,7 @@ import org.kde.kdenlive as K
 Rectangle {
     id: audioSeekZone
     property int zoomZoneBorder: root.baseUnit * 0.24
+    property bool containsMouse: containerArea.containsMouse || mainHandleArea.containsMouse || leftHandle.containsMouse || mainHandleArea.pressed || leftHandle.pressed || rightHandle.pressed || rightHandle.containsMouse
     color: activePalette.midlight
     MouseArea {
         id: containerArea
@@ -82,7 +83,14 @@ Rectangle {
                     height: streamThumbMini.streamHeight - 2
                     anchors.right: parent.right
                     anchors.left: parent.left
-                    color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.4)
+                    color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.3)
+                }
+                // Color for the viewed zone audio wave
+                Rectangle {
+                    height: streamThumbMini.streamHeight - 2
+                    x: audioSeekZone.width * root.zoomStart
+                    width: audioSeekZone.width * root.zoomFactor
+                    color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.5)
                 }
                 // Highlight color for the selected wave part
                 Rectangle {
@@ -102,7 +110,7 @@ Rectangle {
                     channels: aChannels
                     binId: controller.clipId
                     audioStream: controller.audioStreams[model.index]
-                    format: K.KdenliveSettings.displayallchannels
+                    format: controller.clipHasAV ? false : K.KdenliveSettings.displayallchannels
                     normalize: K.KdenliveSettings.normalizechannels
                     property int aClipDuration: root.duration + 1
                     scaleFactor: audioThumb.width / aClipDuration
@@ -135,117 +143,14 @@ Rectangle {
         id: zoomRef
         x: audioSeekZone.width * root.zoomStart
         width: audioSeekZone.width * root.zoomFactor
-        height: parent.height
-        border.width: 2//audioSeekZone.zoomZoneBorder
+        height: parent.height - 1
+        opacity: mainHandleArea.containsMouse ? 1 : root.zoomFactor === 1. ? 0.5 : 0.8
+        radius: 2
+        border.width: controller.clipHasAV ? 1 : 2
         border.color: mainHandleArea.containsMouse ? activePalette.highlight : activePalette.text
-        color: Utils.colorWithApha(activePalette.highlight, 0.2)
+        color: 'transparent'
     }
 
-    /*// Top handle rect
-    Rectangle {
-        id: dragRect
-        height: audioSeekZone.zoomZoneBorder
-        visible: topHandleArea.containsMouse || topHandleArea.pressed
-        color: activePalette.highlight
-        anchors.left: zoomRef.left
-        anchors.right: zoomRef.right
-    }
-    // Bottom handle rect
-    Rectangle {
-        id: dragBottomRect
-        height: audioSeekZone.zoomZoneBorder
-        visible: bottomHandleArea.containsMouse || bottomHandleArea.pressed
-        color: activePalette.highlight
-        anchors.left: zoomRef.left
-        anchors.right: zoomRef.right
-        anchors.bottom: zoomRef.bottom
-    }*/
-    // Current view left corner
-    Rectangle {
-        id: zoomViewLeft
-        visible: leftHandle.containsMouse || leftHandle.pressed
-        anchors.left: zoomRef.left
-        height: audioSeekZone.height
-        width: audioSeekZone.zoomZoneBorder
-        color: activePalette.highlight
-        radius: 2
-    }
-
-    // Current view right corner
-    Rectangle {
-        id: zoomViewRight
-        height: audioSeekZone.height
-        width: audioSeekZone.zoomZoneBorder
-        anchors.right: zoomRef.right
-        visible: rightHandle.containsMouse || rightHandle.pressed
-        color: activePalette.highlight
-        radius: 2
-    }
-    // Current view top corner
-    /*MouseArea {
-        // Top handle
-        id: topHandleArea
-        height: root.baseUnit
-        //width: audioSeekZone.width * root.zoomFactor
-        width: zoomRef.width
-        property int clickPos
-        anchors {
-            left: pressed ? undefined : zoomRef.left
-        }
-        hoverEnabled: true
-        cursorShape: Qt.OpenHandCursor
-        onPressed: mouse => {
-            root.captureRightClick = true
-            clickPos = mouseX
-            cursorShape = Qt.ClosedHandCursor
-        }
-        onReleased: {
-            root.captureRightClick = false
-            cursorShape = Qt.OpenHandCursor
-        }
-        onPositionChanged: mouse => {
-            if (mouse.buttons === Qt.LeftButton) {
-                var updatedPos = Math.max(0, x + mouseX - clickPos)
-                updatedPos = Math.max(0, updatedPos)
-                updatedPos = Math.min(audioSeekZone.width - topHandleArea.width, updatedPos)
-                var zs = updatedPos / audioSeekZone.width
-                root.zoomStart = zs
-            }
-        }
-    }
-    // Current view top corner
-    MouseArea {
-        // Bottom handle
-        id: bottomHandleArea
-        height: root.baseUnit
-        //width: audioSeekZone.width * root.zoomFactor
-        width: zoomRef.width
-        property int clickPos
-        anchors {
-            left: pressed ? undefined : zoomRef.left
-            bottom: zoomRef.bottom
-        }
-        hoverEnabled: true
-        cursorShape: Qt.OpenHandCursor
-        onPressed: mouse => {
-            root.captureRightClick = true
-            clickPos = mouseX
-            cursorShape = Qt.ClosedHandCursor
-        }
-        onReleased: {
-            root.captureRightClick = false
-            cursorShape = Qt.OpenHandCursor
-        }
-        onPositionChanged: mouse => {
-            if (mouse.buttons === Qt.LeftButton) {
-                var updatedPos = Math.max(0, x + mouseX - clickPos)
-                updatedPos = Math.max(0, updatedPos)
-                updatedPos = Math.min(audioSeekZone.width - topHandleArea.width, updatedPos)
-                var zs = updatedPos / audioSeekZone.width
-                root.zoomStart = zs
-            }
-        }
-    }*/
     MouseArea {
         // Inside rect handle
         id: mainHandleArea
@@ -253,7 +158,6 @@ Rectangle {
         property int clickPos
         anchors {
             left: pressed ? undefined : zoomRef.left
-            //bottom: zoomRef.bottom
         }
         hoverEnabled: true
         cursorShape: Qt.OpenHandCursor
@@ -285,7 +189,6 @@ Rectangle {
             left: pressed ? undefined : zoomRef.left
             leftMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
         }
-        hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed: {
             root.captureRightClick = true
@@ -313,7 +216,6 @@ Rectangle {
             right: pressed ? undefined : zoomRef.right
             rightMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
         }
-        hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed: {
             root.captureRightClick = true
@@ -321,6 +223,7 @@ Rectangle {
         onReleased: {
             root.captureRightClick = false
         }
+
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var updatedPos = Math.min(audioSeekZone.width, x + mouseX)
