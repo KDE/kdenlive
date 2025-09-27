@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-26 00:41+0000\n"
-"PO-Revision-Date: 2025-09-23 09:42+0300\n"
+"PO-Revision-Date: 2025-09-26 18:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -37728,10 +37728,9 @@ msgstr "Порі зміни"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update range marker"
+#, kde-format
 msgid "Create range markers"
-msgstr "Оновити позначку діапазону"
+msgstr "Створити позначки діапазонів"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18

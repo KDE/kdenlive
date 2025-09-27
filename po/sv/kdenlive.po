@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-26 00:41+0000\n"
-"PO-Revision-Date: 2025-09-21 13:46+0200\n"
+"PO-Revision-Date: 2025-09-26 13:42+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -19610,11 +19610,10 @@ msgstr ""
 "<b>Esc</b> för att avsluta."
 
 #: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
-msgstr "Lagra"
+msgstr "lagra"
 
 #: src/core.cpp:116
 #, kde-format
@@ -37394,10 +37393,9 @@ msgstr "Ändringströskel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update range marker"
+#, kde-format
 msgid "Create range markers"
-msgstr "Uppdatera intervallmarkör"
+msgstr "Skapa intervallmarkörer"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18

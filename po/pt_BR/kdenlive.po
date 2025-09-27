@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-26 00:41+0000\n"
-"PO-Revision-Date: 2025-09-23 07:37-0300\n"
+"PO-Revision-Date: 2025-09-26 06:53-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -37568,10 +37568,9 @@ msgstr "Mudar limiar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update range marker"
+#, kde-format
 msgid "Create range markers"
-msgstr "Atualizar marcador de intervalo"
+msgstr "Criar marcador de intervalo"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18

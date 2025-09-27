@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-26 00:41+0000\n"
-"PO-Revision-Date: 2025-09-23 11:31+0200\n"
+"PO-Revision-Date: 2025-09-26 12:55+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -37728,10 +37728,9 @@ msgstr "Llindar de canvi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update range marker"
+#, kde-format
 msgid "Create range markers"
-msgstr "Actualitza el marcador d'interval"
+msgstr "Crea marcadors d'interval"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
