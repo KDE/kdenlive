@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-26 02:36+0000\n"
-"PO-Revision-Date: 2025-09-26 05:52+0900\n"
+"PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -62,7 +62,7 @@ msgstr "音訊音量視覺化過濾器"
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
-msgstr "在畫面上繪製音訊音量測量的音訊視覺化過濾器。"
+msgstr "在畫面上繪製音量指示器的音訊視覺化過濾器。"
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
@@ -2017,34 +2017,30 @@ msgid "Blue white output"
 msgstr "藍白輸出"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Bars"
+#, kde-format
 msgid "Color Matrix"
-msgstr "彩條訊號"
+msgstr "顏色矩陣"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Convert color matrix."
-msgstr "反轉色彩"
+msgstr "轉換顏色矩陣。"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
-msgstr ""
+msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
-#, fuzzy, kde-format
-#| msgid "Source Color"
+#, kde-format
 msgid "Source color matrix"
-msgstr "源色彩"
+msgstr "來源顏色矩陣"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Destination color matrix"
-msgstr "目標資料夾"
+msgstr "目標顏色矩陣"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
@@ -2067,12 +2063,13 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE 170M,SMPTE 240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE 170M,SMPTE 240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Color properties"
-msgstr "素材屬性"
+msgstr "色彩屬性"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
 #: data/effects/avfilter/avfilter_colorspace.xml:47
@@ -2082,10 +2079,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Output color space"
-msgstr "色彩空間"
+msgstr "輸出色彩空間"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
@@ -2110,10 +2106,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
+#, kde-format
 msgid "Output color primaries"
-msgstr "輸出時間"
+msgstr "輸出原色"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
 #: data/effects/avfilter/avfilter_colorspace.xml:59
@@ -2142,10 +2137,9 @@ msgid "Output color format"
 msgstr "輸出色彩格式"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, fuzzy, kde-format
-#| msgid "version"
+#, kde-format
 msgid "Fast conversion"
-msgstr "版本"
+msgstr "快速轉換"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
@@ -5174,10 +5168,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Install missing dependencies"
+#, kde-format
 msgid "Independence"
-msgstr "安裝缺乏的依賴軟體"
+msgstr "獨立性"
 
 #: data/effects/avfilter/avfilter_normalize.xml:21
 #, kde-format
@@ -5997,8 +5990,7 @@ msgid "Use if option ‘type’ is set to freq."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "Interpolate"
 msgstr "插補"
 
@@ -8070,9 +8062,9 @@ msgstr "RGB,紅,綠,藍,透明度,Luma,色相,飽和度"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
 #: data/effects/frei0r/frei0r_curves.xml:13
 #: data/effects/frei0r/frei0r_curves.xml:68
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rec. 601,Rec. 709"
-msgstr "Rec. 601"
+msgstr "Rec. 601,Rec. 709"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
@@ -9752,13 +9744,12 @@ msgstr "振幅"
 #: data/effects/frei0r/frei0r_distort0r.xml:14
 #, kde-format
 msgid "Use Velocity"
-msgstr ""
+msgstr "使用速度"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:17
-#, fuzzy, kde-format
-#| msgid "opacity"
+#, kde-format
 msgid "Velocity"
-msgstr "不透明度"
+msgstr "速度"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, kde-format
@@ -9808,7 +9799,7 @@ msgstr "邊緣發光過濾器"
 #: data/effects/frei0r/frei0r_edgeglow.xml:8
 #, kde-format
 msgid "Edge lightening threshold"
-msgstr "邊緣光"
+msgstr "邊緣亮化閥值"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:12
 #, fuzzy, kde-format
@@ -11502,8 +11493,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
-#, fuzzy, kde-format
-#| msgid "Primaries"
+#, kde-format
 msgctxt "Primaries Effect Name"
 msgid "Primaries"
 msgstr "原色化"
@@ -11511,7 +11501,7 @@ msgstr "原色化"
 #: data/effects/frei0r/frei0r_primaries.xml:5
 #, kde-format
 msgid "Reduce image to primary colors"
-msgstr ""
+msgstr "將影像降至原色"
 
 #: data/effects/frei0r/frei0r_primaries.xml:8
 #: data/effects/sox/sox_stretch.xml:8
@@ -11674,7 +11664,7 @@ msgstr "傾斜 Y"
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
 msgid "scanline0r"
-msgstr "掃描線"
+msgstr "掃描線 (frei0r)"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:5
 #, kde-format
@@ -12858,10 +12848,9 @@ msgid "Discard color information"
 msgstr "捨棄色彩資訊"
 
 #: data/effects/hsl_primaries.xml:4
-#, fuzzy, kde-format
-#| msgid "Primaries"
+#, kde-format
 msgid "HSL Primaries"
-msgstr "原色化"
+msgstr "HSL 原色"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -12876,10 +12865,9 @@ msgid "Hue Shift Red"
 msgstr "色相偏移 紅"
 
 #: data/effects/hsl_primaries.xml:11
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Red"
-msgstr "飽和度"
+msgstr "飽和縮放 紅"
 
 #: data/effects/hsl_primaries.xml:14
 #, kde-format
@@ -12892,10 +12880,9 @@ msgid "Hue Shift Yellow"
 msgstr "色相偏移 黃"
 
 #: data/effects/hsl_primaries.xml:20
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Yellow"
-msgstr "飽和度"
+msgstr "飽和縮放 黃"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
@@ -12908,9 +12895,9 @@ msgid "Hue Shift Green"
 msgstr "色相偏移 綠"
 
 #: data/effects/hsl_primaries.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation Scale Green"
-msgstr "飽和度"
+msgstr "飽和縮放 綠"
 
 #: data/effects/hsl_primaries.xml:32
 #, kde-format
@@ -12923,10 +12910,9 @@ msgid "Hue Shift Cyan"
 msgstr "色相偏移 青"
 
 #: data/effects/hsl_primaries.xml:38
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Cyan"
-msgstr "飽和度"
+msgstr "飽和縮放 青"
 
 #: data/effects/hsl_primaries.xml:41
 #, kde-format
@@ -12939,10 +12925,9 @@ msgid "Hue Shift Blue"
 msgstr "色相偏移 藍"
 
 #: data/effects/hsl_primaries.xml:47
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Blue"
-msgstr "飽和度"
+msgstr "飽和縮放 藍"
 
 #: data/effects/hsl_primaries.xml:50
 #, kde-format
@@ -12957,7 +12942,7 @@ msgstr "色相偏移 洋紅"
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
 msgid "Saturation Scale Magenta"
-msgstr ""
+msgstr "飽和縮放 洋紅"
 
 #: data/effects/hsl_primaries.xml:59
 #, kde-format
@@ -13014,10 +12999,9 @@ msgid "The amount to shift the hue in the hue range"
 msgstr "色相範圍中要讓色相偏移的量"
 
 #: data/effects/hsl_range.xml:24
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale"
-msgstr "飽和度"
+msgstr "飽和縮放"
 
 #: data/effects/hsl_range.xml:25
 #, kde-format
@@ -13048,12 +13032,12 @@ msgstr "反轉色彩"
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
 msgid "Declipper"
-msgstr "除去雜音"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
 #, kde-format
 msgid "LADSPA declipper audio effect"
-msgstr "LADSPA 去除雜音器聲訊特效"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer.xml:4
 #, kde-format
@@ -16393,7 +16377,7 @@ msgstr "詳細紀錄"
 #: src/assets/assetpanel.cpp:579
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "目前有一個遮罩工作在執行中。要中止該工作嗎？"
 
 #: src/assets/assetpanel.cpp:580
 #, kde-format
@@ -20532,6 +20516,8 @@ msgid ""
 "the plugin fails. If this does not work, try deleting and reinstalling the "
 "plugin."
 msgstr ""
+"這會嘗試重新建置外掛程式的虛擬環境 (virtualenv)。請只在外掛程式出問題的時候使"
+"用。如果這還是沒用，請試試看將外掛程式刪除再重新安裝它。"
 
 #: src/dialogs/settings/pluginssettings.cpp:477
 #, kde-format
@@ -20665,21 +20651,18 @@ msgid "CUDA %1"
 msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Detected devices:"
+#, kde-format
 msgid "Detected version: %1"
-msgstr "偵測到的裝置："
+msgstr "偵測到的版本：%1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1016
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find python virtualenv, please install it on your system. "
-#| "Defaulting to system python."
+#, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
-"找不到 Python virtualenv，請在您的系統上安裝它。將使用系統提供的 Python。"
+"無法辨別 CUDA 版本，\n"
+"請選取您的系統上可用的版本。"
 
 #: src/dialogs/settings/pluginssettings.cpp:1030
 #, kde-format
@@ -22323,16 +22306,14 @@ msgid "Upgrading project version…"
 msgstr "更新專案版本中…"
 
 #: src/doc/documentvalidator.cpp:194
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
+#, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
-"不支援此專案類型（版本 %1）而無法載入。\n"
+"此專案不受支援，因為它的文件版本 (%1) 比這個 Kdenlive 版本支援的（版本 %2 以"
+"下）還要新。\n"
 "請考慮升級您的 Kdenlive 版本。"
 
 #: src/doc/documentvalidator.cpp:197 src/doc/documentvalidator.cpp:206
@@ -23088,7 +23069,7 @@ msgstr "分割工作已失敗。"
 #: src/effects/effectstack/view/maskmanager.cpp:148
 #, kde-format
 msgid "Mask plugin crashed"
-msgstr ""
+msgstr "遮罩外掛程式已崩潰"
 
 #: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
@@ -24366,17 +24347,16 @@ msgid "Clean"
 msgstr "清除"
 
 #: src/mainwindow.cpp:418
-#, fuzzy, kde-format
-#| msgid "Undo History"
+#, kde-format
 msgid "Clear Undo History"
-msgstr "復原紀錄"
+msgstr "清除復原紀錄"
 
 #: src/mainwindow.cpp:421
 #, kde-format
 msgid ""
 "This will clear all undo history, you will not be able to undo any previous "
 "action."
-msgstr ""
+msgstr "這會清空所有復原紀錄，您將無法復原任何先前的動作。"
 
 #: src/mainwindow.cpp:431
 #, kde-format
@@ -24494,13 +24474,7 @@ msgid "Loading Project"
 msgstr "載入專案中"
 
 #: src/mainwindow.cpp:940
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -24508,7 +24482,7 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"目前有 %1 項算繪工作在佇列中等待執行。\n"
+"目前有 %1 項算繪工作在執行中。\n"
 "對於這些工作您想怎麼做？"
 
 #: src/mainwindow.cpp:942
@@ -27589,23 +27563,20 @@ msgid "Error exporting OpenTimelineIO file"
 msgstr "匯出 OpenTimelineIO 檔案時發生錯誤"
 
 #: src/otio/otioimport.cpp:48
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgctxt "@title:window"
 msgid "Importing OpenTimelineIO"
-msgstr "開啟檔案時發生錯誤"
+msgstr "匯入 OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:76
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "開啟檔案時發生錯誤"
+msgstr "匯入 OpenTimelineIO 檔案時發生錯誤"
 
 #: src/otio/otioimport.cpp:238
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "OpenTimelineIO 匯入(&I)…"
+msgstr "OpenTimelineIO 匯入"
 
 #: src/powermanagementinterface.cpp:273
 #, kde-format
@@ -27614,18 +27585,16 @@ msgid "Playing video"
 msgstr "正在播放影片"
 
 #: src/powermanagementinterface.cpp:309
-#, fuzzy, kde-format
-#| msgid "Rendering preview"
+#, kde-format
 msgctxt "@info:status  explanation for sleep inhibit during rendering"
 msgid "Rendering video"
-msgstr "算繪預覽"
+msgstr "正在算繪影片"
 
 #: src/powermanagementinterface.cpp:354
-#, fuzzy, kde-format
-#| msgid "Play after render"
+#, kde-format
 msgctxt "@info:status explanation for sleep inhibit during rendering"
 msgid "Playing or rendering video"
-msgstr "算繪後播放"
+msgstr "正在播放或算繪影片"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -28968,10 +28937,9 @@ msgid "Abort installation"
 msgstr "中止安裝"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:52
-#, fuzzy, kde-format
-#| msgid "Installing modules… this can take a while"
+#, kde-format
 msgid "Installing… please be patient, this can take several minutes"
-msgstr "正在安裝模組… 這可能會花上一段時間"
+msgstr "正在安裝… 請耐心等待，這可能會花幾分鐘"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:59
 #, kde-format
@@ -29020,16 +28988,15 @@ msgid "Corrupted plugin, trying to reinstall…"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find python virtualenv, please install it on your system. "
-#| "Defaulting to system python."
+#, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
-"找不到 Python virtualenv，請在您的系統上安裝它。將使用系統提供的 Python。"
+"找不到相容的 Python 版本：\n"
+"%1\n"
+"請在您的系統上安裝它。\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:322
 #, kde-format
@@ -29060,10 +29027,9 @@ msgstr ""
 "請嘗試將外掛程式解除安裝後重新安裝。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:455
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "找不到版面配置 %1"
+msgstr "找不到系統 Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:485
 #, kde-format
@@ -29101,10 +29067,9 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:633
 #: src/pythoninterfaces/abstractpythoninterface.cpp:745
-#, fuzzy, kde-format
-#| msgid "Internal Error: Cannot find dependency list"
+#, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
-msgstr "內部錯誤：找不到相依性清單"
+msgstr "安裝錯誤：找不到 %1 的相依性清單"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:649
 #, kde-format
@@ -31532,8 +31497,7 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinetabs.cpp:178
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgctxt "@action:button"
 msgid "Resize"
 msgstr "調整大小"
@@ -33957,10 +33921,9 @@ msgstr "刪除所有模型"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, sam_rebuild)
 #: src/ui/configspeech_ui.ui:977
-#, fuzzy, kde-format
-#| msgid "Disabling virtual environment"
+#, kde-format
 msgid "Rebuild Virtual Environment"
-msgstr "停用 virtualenv"
+msgstr "重新建置 virtualenv"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:1074
@@ -34097,17 +34060,15 @@ msgstr "檢查專案是否有足夠的軌道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Slope"
+#, kde-format
 msgid "Developer:"
-msgstr "衰退"
+msgstr "開發者："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "啟用視訊"
+msgstr "啟用除錯模式"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
