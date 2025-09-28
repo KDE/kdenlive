@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-26 00:41+0000\n"
-"PO-Revision-Date: 2025-09-25 06:09+0300\n"
+"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"PO-Revision-Date: 2025-09-27 14:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
-"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4792,7 +4792,7 @@ msgid ""
 "frames. "
 msgstr ""
 "Donald Graft’ın uyarlanır çekirdek ayrıştırmasını uygulayarak girdi "
-"videosunu ayrıştırır. İlerleyen kareler üretmek için bir videonun iç içe "
+"videosunu ayrıştırır. Aşamalı kareler üretmek için bir videonun iç içe "
 "geçmiş bölümlerinde çalışır."
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:11
@@ -5673,7 +5673,7 @@ msgstr "Tanecik kaldır"
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
 msgstr ""
-"Tanecik temizleme süzgeci, ilerici videolar için uzamsal bir gürültü "
+"Tanecik temizleme süzgeci, aşamalı videolar için uzamsal bir gürültü "
 "gidericisidir."
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
@@ -6913,7 +6913,7 @@ msgstr "Yüksek eşik"
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
-msgstr "Kendiliğinden,Rec.601 (aradizili),Rec.709 (progresif)"
+msgstr "Kendiliğinden,Rec.601 (aradizili),Rec.709 (aşamalı)"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
@@ -11820,26 +11820,25 @@ msgstr "Renk kodlaması"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr "<![CDATA[Geçmeli (601) veya ilerlemeli (709) arasında seçim yapın.]]>"
+msgstr "<![CDATA[Geçmeli (601) veya aşamalı (709) arasında seçim yapın.]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
 #, kde-format
 msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr "CCIR Rec.601 (Geçmeli),CCIR Rec.709 (İlerlemeli)"
+msgstr "CCIR Rec.601 (Geçmeli),CCIR Rec.709 (Aşamalı)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
 #: data/effects/frei0r/frei0r_pr0file.xml:91
-#, fuzzy, kde-format
-#| msgid "Shape color"
+#, kde-format
 msgid "Crosshair Color"
-msgstr "Şekil rengi"
+msgstr "Artı işareti rengi"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:91
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr ""
+msgstr "<![CDATA[Artı işareti/profil çizgisi için bir renk oluşturun.]]>"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
@@ -11849,7 +11848,7 @@ msgstr "Ortancalar"
 #: data/effects/frei0r/frei0r_medians.xml:5
 #, kde-format
 msgid "Implements several median-type filters"
-msgstr ""
+msgstr "Çeşitli ortanca türü süzgeçler oluşturur."
 
 #: data/effects/frei0r/frei0r_medians.xml:9
 #, kde-format
@@ -11857,12 +11856,13 @@ msgid ""
 "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
 "VarSize"
 msgstr ""
+"Artı5,Kare3x3,İki düzeyli,Elmas3x3,Kare5x5,Geçici3,Geçici5,ArceBI,ML3D,"
+"ML3dEX,VarSize"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirr0r"
-msgstr "Yansıla"
+msgstr "Mirr0r"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:5
 #, kde-format
@@ -11870,6 +11870,8 @@ msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
 msgstr ""
+"Girdi görseli sınırların dışına çıktığında onu yineler ve çevirir, "
+"ayarlanabilir ofset, yakınlaştırma ve döndürmeye olanak tanır."
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
@@ -11879,43 +11881,44 @@ msgstr "Kaygılı"
 #: data/effects/frei0r/frei0r_nervous.xml:5
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
-msgstr ""
+msgstr "Sinirli bir şekilde zaman içindeki kareleri temizler."
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgctxt "Levels Effect Name"
 msgid "Normaliz0r"
-msgstr "Normalleştir"
+msgstr "Normaliz0r"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "Normalleştirme (diğer adıyla histogram germe, karşıtlık germe)."
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Track mouse"
+#, kde-format
 msgid "Black point"
-msgstr "Fareyi izle"
+msgstr "Siyah nokta"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
-#, fuzzy, kde-format
-#| msgid "White Noise"
+#, kde-format
 msgid "White point"
-msgstr "Beyaz Gürültü"
+msgstr "Beyaz nokta"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:21
 #, kde-format
 msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
 msgstr ""
+"Bağımsız kanal normalizasyonunun bağlantılı kanal normalizasyonuna oranı "
+"(öntanımlı değer 1000)."
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
+"Süzgeç gücü, hiçbir etki olmamasından (0) tam normalizasyona (öntanımlı "
+"1000) kadar."
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -11925,41 +11928,37 @@ msgstr "nosync0r"
 #: data/effects/frei0r/frei0r_nosync0r.xml:5
 #, kde-format
 msgid "Broken TV"
-msgstr ""
+msgstr "Bozuk TV"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:8
 #, kde-format
 msgid "HSync"
-msgstr ""
+msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
-msgstr ""
+msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "Analog video yankısı oluştur"
+msgstr "NTSC analog videoyu benzeştirir."
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
-#, fuzzy, kde-format
-#| msgid "Grain and Noise"
+#, kde-format
 msgid "Signal Noise"
-msgstr "Tanecik ve Gürültü"
+msgstr "Sinyal gürültüsü"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:11
-#, fuzzy, kde-format
-#| msgid "Progressive"
+#, kde-format
 msgid "Progressive Scan"
-msgstr "Aşamalı"
+msgstr "Aşamalı tarama"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "scanline0r"
+#, kde-format
 msgid "Scanlines"
-msgstr "scanline0r"
+msgstr "Tarama çizgileri"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
@@ -11967,10 +11966,9 @@ msgid "Pixelize (basic)"
 msgstr "Pikselleştir (Temel)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize mode"
+#, kde-format
 msgid "Pixelize input image"
-msgstr "Pikselleştirme kipi"
+msgstr "Girdi görselini pikselleştir"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11980,23 +11978,22 @@ msgstr "Dijital Hata (Yalnızca Sütunlar)"
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
 msgid "Glitch image by shifting rows to and fro."
-msgstr ""
+msgstr "Satırları ileri geri kaydırarak görselde bozulma yaptırın."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
 msgid "Aggressiveness of row/column shifting"
-msgstr ""
+msgstr "Satır/sütun kaydırmanın derecesi"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
 #, kde-format
 msgid "Height of each block whose shift is invariant (0 = random)"
-msgstr ""
+msgstr "Kaydırma işlemi değişmez olan (0 = rastgele) her blokun yüksekliği"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Minimum scene length:"
+#, kde-format
 msgid "Minimum Block Height"
-msgstr "En küçük sahne uzunluğu:"
+msgstr "En küçük blok yüksekliği"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
 #, kde-format
@@ -12004,12 +12001,13 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "minimum block height.]]>"
 msgstr ""
+"<![CDATA[<em>Blok yüksekliği</em> 0 (rastgele) ise<br>bu, en küçük blok "
+"yüksekliğini belirler.]]>"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Fit to height"
+#, kde-format
 msgid "Maximum Block Height"
-msgstr "Yüksekliğe sığdır"
+msgstr "En büyük blok yükseliği"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
 #, kde-format
@@ -12017,6 +12015,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "maximum block height.]]>"
 msgstr ""
+"<![CDATA[<em>Blok yüksekliği</em> 0 (rastgele) ise<br>bu, en büyük blok "
+"yüksekliğini belirler.]]>"
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
 #, kde-format
@@ -12071,19 +12071,18 @@ msgstr "Ana Renkler"
 #: data/effects/frei0r/frei0r_primaries.xml:5
 #, kde-format
 msgid "Reduce image to primary colors"
-msgstr ""
+msgstr "Görseli ana renklere indirgeyin."
 
 #: data/effects/frei0r/frei0r_primaries.xml:8
 #: data/effects/sox/sox_stretch.xml:8
 #, kde-format
 msgid "Factor"
-msgstr ""
+msgstr "Çarpan"
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Influence of mean pixel value]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Ortalama piksel değerinin etkisi.]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -12093,7 +12092,7 @@ msgstr "Kanal Çıkarıcısı KIRMIZI"
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
 msgid "Extracts Red from Image"
-msgstr ""
+msgstr "Görselden kırmızıyı çıkarır."
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:5
 #, kde-format
@@ -12103,7 +12102,7 @@ msgstr "RGB Gürültüsü"
 #: data/effects/frei0r/frei0r_rgbnoise.xml:6
 #, kde-format
 msgid "Adds RGB noise to image"
-msgstr ""
+msgstr "Görsele RGB gürültüsü ekler."
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:9 data/effects/grain.xml:8
 #: plugins/sampleplugin/sampleplugin.cpp:23
@@ -12117,7 +12116,7 @@ msgstr "Gürültü"
 #: data/effects/frei0r/frei0r_rgbnoise.xml:10
 #, kde-format
 msgid "Amount of noise added."
-msgstr ""
+msgstr "Eklenen gürültünün miktarı."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, RGBParade_UI)
 #: data/effects/frei0r/frei0r_rgbparade.xml:4 src/scopes/scopemanager.cpp:277
@@ -12129,7 +12128,7 @@ msgstr "RGB Geçidi"
 #: data/effects/frei0r/frei0r_rgbparade.xml:5
 #, kde-format
 msgid "Display a histogram of R, G and B components of the video data"
-msgstr ""
+msgstr "Video verisinin R, G ve B bileşenlerinin bir histogramını görüntüler."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
@@ -12139,30 +12138,27 @@ msgstr "RGB Bölücüsü"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
 msgid "RGB splitting and shifting"
-msgstr ""
+msgstr "RGB bölümü ve kaydırması."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal Split Distance"
-msgstr "Yatay Panjurlar"
+msgstr "Yatay bölünmüş uzaklık"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
 msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
-msgstr ""
+msgstr "<![CDATA[< 0,500 değerler sağa, > 0,500 değerler sola taşır.]]>"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical Split Distance."
-msgstr "Dikey yayılma"
+msgstr "Dikey bölünmüş uzaklık"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
 msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
-msgstr ""
+msgstr "<![CDATA[< 0,5002 değerler aşağı, > 0,500 değerler yukarı taşır.]]>"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -12173,7 +12169,7 @@ msgstr "Doygunluk"
 #: data/effects/frei0r/frei0r_saturat0r.xml:5
 #, kde-format
 msgid "Adjusts the saturation of a source image"
-msgstr ""
+msgstr "Kaynak görüntünün doygunluğunu ayarlar."
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
 #, kde-format
@@ -12183,31 +12179,27 @@ msgstr "Kırp, Ölçekle ve Eğ"
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
 #, kde-format
 msgid "Scales, tilts, and crops an image"
-msgstr ""
+msgstr "Görüntüyü ölçekler, eğer ve kırpar."
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:8
-#, fuzzy, kde-format
-#| msgid "Crop left"
+#, kde-format
 msgid "Crop Left"
-msgstr "Soldan kırp"
+msgstr "Soldan Kırp"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:11
-#, fuzzy, kde-format
-#| msgid "Crop right"
+#, kde-format
 msgid "Crop Right"
-msgstr "Sağdan kırp"
+msgstr "Sağdan Kırp"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:14
-#, fuzzy, kde-format
-#| msgid "Crop top"
+#, kde-format
 msgid "Crop Top"
-msgstr "Üstten kırp"
+msgstr "Üstten Kırp"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:17
-#, fuzzy, kde-format
-#| msgid "Crop bottom"
+#, kde-format
 msgid "Crop Bottom"
-msgstr "Alttan kırp"
+msgstr "Alttan Kırp"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/frei0r/frei0r_scale0tilt.xml:20
@@ -12215,7 +12207,7 @@ msgstr "Alttan kırp"
 #: src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Scale X"
-msgstr "X ölçeği"
+msgstr "X’i Ölçekle"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/frei0r/frei0r_scale0tilt.xml:23
@@ -12223,19 +12215,17 @@ msgstr "X ölçeği"
 #: src/ui/editsubstyle_ui.ui:465
 #, kde-format
 msgid "Scale Y"
-msgstr "Y ölçeği"
+msgstr "Y’yi Ölçekle"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:26
-#, fuzzy, kde-format
-#| msgid "Tilt"
+#, kde-format
 msgid "Tilt X"
-msgstr "Eğim"
+msgstr "X’i Eğ"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:29
-#, fuzzy, kde-format
-#| msgid "Tilt"
+#, kde-format
 msgid "Tilt Y"
-msgstr "Eğim"
+msgstr "Y’yi Eğ"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
@@ -12260,6 +12250,8 @@ msgid ""
 "Chroma Key with more advanced options (e.g. different color models). Use if "
 "basic chroma key is not working effectively."
 msgstr ""
+"Daha gelişmiş seçeneklere sahip renk anahtarı (örneğin farklı renk "
+"modelleri). Temel renk anahtarı etkili bir şekilde çalışmıyorsa kullanın."
 
 #: data/effects/frei0r/frei0r_select0r.xml:9
 #: data/effects/frei0r/frei0r_select0r.xml:45
@@ -12318,10 +12310,9 @@ msgid "Box,Ellipsoid,Diamond"
 msgstr "Kutu,Elipsoid,Elmas"
 
 #: data/effects/frei0r/frei0r_select0r.xml:33
-#, fuzzy, kde-format
-#| msgid "Hard,Fat,Normal,Skinny,Slope"
+#, kde-format
 msgid "Hard,Fat,Normal,Skinny"
-msgstr "Sert,Şişman,Normal,Zayıf,Yamaç"
+msgstr "Sert,Şişman,Normal,Zayıf"
 
 #: data/effects/frei0r/frei0r_select0r.xml:60
 #: data/effects/mask_start_frei0r_select0r.xml:26
@@ -12344,7 +12335,7 @@ msgstr "Keskinleştir"
 #: data/effects/frei0r/frei0r_sharpness.xml:5
 #, kde-format
 msgid "Unsharp masking (port from Mplayer)"
-msgstr ""
+msgstr "Maskelemeyi yumuşat (Mplayer’dan aktarıldı)"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:5
 #, kde-format
@@ -12357,35 +12348,34 @@ msgid ""
 "Desaturates image and creates a particular look that could be called Stamp, "
 "Newspaper or Photocopy"
 msgstr ""
+"Görsel doygunluğunu azaltır ve damga, gazete veya fotokopi olarak "
+"adlandırılabilecek özel bir görüntü oluşturur."
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness of image."
-msgstr "Parlaklığı azalt"
+msgstr "Görselin parlaklığı."
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
-#, fuzzy, kde-format
-#| msgid "Shakiness"
+#, kde-format
 msgid "Sharpness"
-msgstr "Titreme"
+msgstr "Keskinlik"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:14
 #, kde-format
 msgid "Sharpness of transfer."
-msgstr ""
+msgstr "Aktarımın keskinliği."
 
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
 msgid "Sobel"
-msgstr ""
+msgstr "Sobel"
 
 #: data/effects/frei0r/frei0r_sobel.xml:5
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Sobel filter"
-msgstr "Altyazı dosyası:"
+msgstr "Sobel süzgeci."
 
 #: data/effects/frei0r/frei0r_softglow.xml:5
 #, kde-format
@@ -12396,44 +12386,45 @@ msgstr "Yumuşak Parlama"
 #: data/effects/frei0r/frei0r_softglow.xml:6
 #, kde-format
 msgid "Does softglow effect on highlights"
-msgstr ""
+msgstr "Vurgulara bir yumuşak parlama efekti uygular."
 
 #: data/effects/frei0r/frei0r_softglow.xml:10
 #, kde-format
 msgid "Blend mode used to blend highlight blur with input image"
 msgstr ""
+"Vurgu bulanıklığını girdi görseliyle karıştırmak için kullanılan harmanlama "
+"kipi."
 
 #: data/effects/frei0r/frei0r_softglow.xml:11
 #, kde-format
 msgid "Screen,Overlay,Add"
-msgstr ""
+msgstr "Ekran,Kapla,Ekle"
 
 #: data/effects/frei0r/frei0r_softglow.xml:14
 #, kde-format
 msgid "Blur of the Glow"
-msgstr ""
+msgstr "Parlama Bulanıklığı"
 
 #: data/effects/frei0r/frei0r_softglow.xml:15
 #, kde-format
 msgid "Blur of the glow"
-msgstr ""
+msgstr "Parlamanın bulanıklığı"
 
 #: data/effects/frei0r/frei0r_softglow.xml:19
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness of highlight areas"
-msgstr "Parlaklığı azalt"
+msgstr "Vurgu alanlarının parlaklığı"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
 #, kde-format
 msgid "Sharpness of highlight areas"
-msgstr ""
+msgstr "Vurgu alanlarının keskinliği"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
 #, kde-format
 msgid "SOP/Sat"
-msgstr ""
+msgstr "EOG/Doy"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:6
 #: data/effects/frei0r/frei0r_sopsat.xml:56
@@ -12442,12 +12433,14 @@ msgid ""
 "Changes Slope, Offset, and Power of the color components, and the overall "
 "Saturation, according to the ASC CDL (Color Decision List)."
 msgstr ""
+"ASC CDL’ye (Renk Karar Listesi) göre renk bileşenlerinin eğimini, ofsetini "
+"ve gücünü ve genel doygunluğu değiştirir."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:9
 #: data/effects/frei0r/frei0r_sopsat.xml:59
 #, kde-format
 msgid "Slope Red"
-msgstr ""
+msgstr "Kırmızı eğimi"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:11
 #: data/effects/frei0r/frei0r_sopsat.xml:61
@@ -12459,33 +12452,36 @@ msgid ""
 "                All effects can be observed well when applied on a greyscale "
 "gradient and looking at the RGB Parade monitor.]]>"
 msgstr ""
+"<![CDATA[Eğimi değiştirmek, piksel değerini sabit bir değerle çarpmak "
+"anlamına gelir. Siyah pikseller siyah kalırken, daha parlak olanlar "
+"değişecektir.<br/>\n"
+"                Tüm efektler gri tonlamalı bir gradyan üzerine "
+"uygulandığında ve RGB Parade monitörüne bakıldığında rahatlıkla "
+"gözlemlenebiliyor.]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:14
 #: data/effects/frei0r/frei0r_sopsat.xml:64
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Slope Green"
-msgstr "Yeşil"
+msgstr "Yeşil eğimi"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:17
 #: data/effects/frei0r/frei0r_sopsat.xml:67
 #, kde-format
 msgid "Slope Blue"
-msgstr ""
+msgstr "Mavi eğimi"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:20
 #: data/effects/frei0r/frei0r_sopsat.xml:70
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Slope Alpha"
-msgstr "Şekil Alfası"
+msgstr "Alfa eğimi"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:23
 #: data/effects/frei0r/frei0r_sopsat.xml:73
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Red"
-msgstr "X ofseti"
+msgstr "Kırmızı ofseti"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:24
 #: data/effects/frei0r/frei0r_sopsat.xml:74
@@ -12494,34 +12490,32 @@ msgid ""
 "Changing the offset lifts (or lowers) the brightness of each pixel by the "
 "given value."
 msgstr ""
+"Ofseti değiştirmek, her pikselin parlaklığını verilen değer kadar artırır "
+"(veya azaltır)."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:27
 #: data/effects/frei0r/frei0r_sopsat.xml:77
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Green"
-msgstr "X ofseti"
+msgstr "Yeşil ofseti"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:30
 #: data/effects/frei0r/frei0r_sopsat.xml:80
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Blue"
-msgstr "X ofseti"
+msgstr "Mavi ofseti"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:33
 #: data/effects/frei0r/frei0r_sopsat.xml:83
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Alpha"
-msgstr "X ofseti"
+msgstr "Alfa ofseti"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:36
 #: data/effects/frei0r/frei0r_sopsat.xml:86
-#, fuzzy, kde-format
-#| msgid "Lower Bound"
+#, kde-format
 msgid "Power Red"
-msgstr "Aşağı sınır"
+msgstr "Kırmızı gücü"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:38
 #: data/effects/frei0r/frei0r_sopsat.xml:88
@@ -12532,40 +12526,40 @@ msgid ""
 "                Mathematically, what happens is an exponentiation of the "
 "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgstr ""
+"<![CDATA[Seçili kanal için gama değerini değiştirir. Siyah ve beyaz piksel "
+"değerleri etkilenmez; ancak aradaki her şey etkilenir.<br/>\n"
+"                Matematiksel olarak gerçekleşen şey, piksel parlaklığının "
+"<code>[0,1]</code> üzerindeki gama değerine bölünmesidir.]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Power Green"
-msgstr "Yeşil"
+msgstr "Yeşil gücü"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:44
 #: data/effects/frei0r/frei0r_sopsat.xml:94
-#, fuzzy, kde-format
-#| msgid "Lower Bound"
+#, kde-format
 msgid "Power Blue"
-msgstr "Aşağı sınır"
+msgstr "Mavi gücü"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:47
 #: data/effects/frei0r/frei0r_sopsat.xml:97
-#, fuzzy, kde-format
-#| msgid "Preserve alpha"
+#, kde-format
 msgid "Power Alpha"
-msgstr "Alfayı koru"
+msgstr "Alfa gücü"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:50
 #: data/effects/frei0r/frei0r_sopsat.xml:100
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "Overall Saturation"
-msgstr "HSV Doygunluğu"
+msgstr "Genel doygunluk"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:51
 #: data/effects/frei0r/frei0r_sopsat.xml:101
 #, kde-format
 msgid "The overall saturation will be changed in the last step of this filter."
-msgstr ""
+msgstr "Bu süzgecin son adımında genel doygunluk değiştirilecektir."
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
 #, kde-format
@@ -12578,20 +12572,19 @@ msgid "Square blur"
 msgstr "Kare bulanıklaştırma efektini uygulayın."
 
 #: data/effects/frei0r/frei0r_squareblur.xml:8
-#, fuzzy, kde-format
-#| msgid "Frame size:"
+#, kde-format
 msgid "Kernel size"
-msgstr "Kare boyutu:"
+msgstr "Çekirdek büyüklüğü:"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
 msgid "TehRoxx0r"
-msgstr ""
+msgstr "TehRoxx0r"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:5
 #, kde-format
 msgid "Something videowall-ish"
-msgstr ""
+msgstr "Video duvarına (birbirine tutturulmuş ekranlar) benzer bir şey."
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:8 data/effects/strobe.xml:12
@@ -12608,37 +12601,32 @@ msgstr "Üç Noktalı Denge"
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
 #, kde-format
 msgid "Balances colors along with 3 points"
-msgstr ""
+msgstr "Üç noktayla renkleri dengeler."
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "BackColor"
+#, kde-format
 msgid "Black color"
-msgstr "Arka Plan Rengi"
+msgstr "Siyah renk"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Graph color style"
+#, kde-format
 msgid "Gray color"
-msgstr "Grafik rengi biçemi"
+msgstr "Gri renk"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, fuzzy, kde-format
-#| msgid "Shape color"
+#, kde-format
 msgid "White color"
-msgstr "Şekil rengi"
+msgstr "Beyaz renk"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Split screen preview"
-msgstr "Altyazı Önizleme"
+msgstr "Bölünmüş ekran önizlemesi"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:20
-#, fuzzy, kde-format
-#| msgid "Source range %1 to %2"
+#, kde-format
 msgid "Source image on left side"
-msgstr "Kaynak aralığı %1 konumundan %2 konumuna"
+msgstr "Kaynak görsel sol tarafta"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:4
 #, kde-format
@@ -12646,16 +12634,14 @@ msgid "3-level Threshold"
 msgstr "Üç Düzeyli Eşik"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Dynamic 3-level thresholding"
-msgstr "Düzey Eşiği"
+msgstr "Devingen üç düzeyli eşik uygulaması."
 
 #: data/effects/frei0r/frei0r_threshold0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Thresholds a source image"
-msgstr "Eşik değeri"
+msgstr "Kaynak görsele eşik uygular."
 
 #: data/effects/frei0r/frei0r_timeout.xml:5
 #, kde-format
@@ -12663,16 +12649,14 @@ msgid "Timeout Indicator"
 msgstr "Zaman Aşımı Belirteci"
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Indicator Color"
-msgstr "Renkleri tersine çevir"
+msgstr "Gösterge rengi"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
-#, fuzzy, kde-format
-#| msgid "Timer"
+#, kde-format
 msgid "Time"
-msgstr "Sayaç"
+msgstr "Zaman"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:4
 #, kde-format
@@ -12688,13 +12672,12 @@ msgstr "Belirtilen iki renk arasındaki kaynak görsel aydınlatmasını eşleml
 #: data/effects/frei0r/frei0r_tint0r.xml:8
 #, kde-format
 msgid "Map black to"
-msgstr ""
+msgstr "Siyahı şuna eşlemle:"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Map hint"
+#, kde-format
 msgid "Map white to"
-msgstr "Harita ipucu"
+msgstr "Beyazı şuna eşlemle:"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
@@ -12708,10 +12691,9 @@ msgid "Transparency"
 msgstr "Saydamlık"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Tunes the alpha channel."
-msgstr "Alfa kanalının tersini kullanın."
+msgstr "Alfa kanalının ince ayarını yapar."
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
@@ -12719,10 +12701,9 @@ msgid "Binarize dynamically"
 msgstr "Devingen Biçimde İkilileştir"
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Dynamic thresholding"
-msgstr "Değişiklik eşiği"
+msgstr "Devingen eşik uygulaması"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:4
 #, kde-format
@@ -12731,36 +12712,33 @@ msgid "Vectorscope"
 msgstr "Vektörskop"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid "Display the audio waveform instead of the video"
+#, kde-format
 msgid "Display a vectorscope of the video data"
-msgstr "Video yerine ses dalga biçimini görüntüle"
+msgstr "Video verisinin bir vektörskopunu görüntüler."
 
 #: data/effects/frei0r/frei0r_vertigo.xml:5
 #: data/effects/frei0r/frei0r_vertigo.xml:16
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertigo"
-msgstr "Dikey"
+msgstr "Vertigo"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:6
 #: data/effects/frei0r/frei0r_vertigo.xml:17
 #, kde-format
 msgid "Alpha blending with zoomed and rotated images"
-msgstr ""
+msgstr "Yakınlaştırılmış ve döndürülmüş görüntülerle alfa harmanlaması."
 
 #: data/effects/frei0r/frei0r_vertigo.xml:9
 #: data/effects/frei0r/frei0r_vertigo.xml:20
 #, kde-format
 msgid "Phase Increment"
-msgstr ""
+msgstr "Evre artışı"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:12
 #: data/effects/frei0r/frei0r_vertigo.xml:23
-#, fuzzy, kde-format
-#| msgid "Zoom Out"
+#, kde-format
 msgid "Zoom Rate"
-msgstr "Uzaklaştır"
+msgstr "Yakınlaştırma oranı"
 
 #: data/effects/frei0r/frei0r_vignette.xml:4
 #, kde-format
@@ -12773,16 +12751,14 @@ msgid "Natural lens vignetting effect"
 msgstr "Doğal mercek vinyeti efekti"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect ratio"
-msgstr "En–boy oranı:"
+msgstr "En–boy oranı"
 
 #: data/effects/frei0r/frei0r_vignette.xml:11
-#, fuzzy, kde-format
-#| msgid "Clear current cache"
+#, kde-format
 msgid "Clear center size"
-msgstr "Geçerli önbelleği temizle"
+msgstr "Merkez büyüklüğü temizle"
 
 #: data/effects/frei0r/frei0r_vignette.xml:14
 #: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
@@ -13555,17 +13531,18 @@ msgid ""
 "A color constancy filter that applies color correction based on the "
 "grayworld assumption"
 msgstr ""
+"Gri dünya varsayımına dayalı renk düzeltmesi uygulayan bir renk sabitliği "
+"süzgeci."
 
 #: data/effects/greyedge.xml:8
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Differentiation Order"
-msgstr "Hedef Klasör"
+msgstr "Ayrımlama sırası"
 
 #: data/effects/greyedge.xml:12
 #, kde-format
 msgid "Minkowski Norm"
-msgstr ""
+msgstr "Minkowski Norm"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -13589,6 +13566,8 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
 "colors."
 msgstr ""
+"6 ana/ikincil rengin her biri için ton, doygunluk ve parlaklık ayarlarını "
+"yapın."
 
 #: data/effects/hsl_primaries.xml:8
 #, kde-format
@@ -13601,10 +13580,9 @@ msgid "Saturation Scale Red"
 msgstr "Doygunluk Ölçeği Kırmızı"
 
 #: data/effects/hsl_primaries.xml:14
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Red"
-msgstr "Açıklık"
+msgstr "Açıklık Ölçeği Kırmızı"
 
 #: data/effects/hsl_primaries.xml:17
 #, kde-format
@@ -13619,7 +13597,7 @@ msgstr "Doygunluk Ölçeği Sarı"
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
 msgid "Lightness Scale Yellow"
-msgstr ""
+msgstr "Açıklık Ölçeği Sarı"
 
 #: data/effects/hsl_primaries.xml:26
 #, kde-format
@@ -13632,10 +13610,9 @@ msgid "Saturation Scale Green"
 msgstr "Doygunluk Ölçeği Yeşil"
 
 #: data/effects/hsl_primaries.xml:32
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Green"
-msgstr "Açıklık"
+msgstr "Açıklık Ölçeği Yeşil"
 
 #: data/effects/hsl_primaries.xml:35
 #, kde-format
@@ -13648,10 +13625,9 @@ msgid "Saturation Scale Cyan"
 msgstr "Doygunluk Ölçeği Camgöbeği"
 
 #: data/effects/hsl_primaries.xml:41
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Cyan"
-msgstr "Açıklık"
+msgstr "Açıklık Ölçeği Camgöbeği"
 
 #: data/effects/hsl_primaries.xml:44
 #, kde-format
@@ -13664,10 +13640,9 @@ msgid "Saturation Scale Blue"
 msgstr "Doygunluk Ölçeği Mavi"
 
 #: data/effects/hsl_primaries.xml:50
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Blue"
-msgstr "Açıklık"
+msgstr "Açıklık Ölçeği Mavi"
 
 #: data/effects/hsl_primaries.xml:53
 #, kde-format
@@ -13680,15 +13655,14 @@ msgid "Saturation Scale Magenta"
 msgstr "Doygunluk Ölçeği Eflatun"
 
 #: data/effects/hsl_primaries.xml:59
-#, fuzzy, kde-format
-#| msgid "Direction of the color gradient."
+#, kde-format
 msgid "Lightness Scale Magenta"
-msgstr "Renk gradyanının yönü."
+msgstr "Açıklık Ölçeği Eflatun"
 
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
 msgid "The amount of overlap or blending between primaries"
-msgstr ""
+msgstr "Ana renkler arasındaki örtüşme veya karışma miktarı."
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -13701,6 +13675,9 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
 "specify the range of the hue values to be adjusted."
 msgstr ""
+"Çeşitli renk tonu değerleri için renk tonu, doygunluk ve parlaklık "
+"ayarlarını yapın. Kullanıcı, ayarlanacak renk tonu değerlerinin erimini "
+"belirleyebilir."
 
 #: data/effects/hsl_range.xml:8
 #, kde-format
@@ -13710,7 +13687,7 @@ msgstr "Ton Merkezi"
 #: data/effects/hsl_range.xml:9
 #, kde-format
 msgid "The center value for the hue range"
-msgstr ""
+msgstr "Ton erimi için merkez değer."
 
 #: data/effects/hsl_range.xml:12
 #, kde-format
@@ -13720,18 +13697,17 @@ msgstr "Ton Erimi"
 #: data/effects/hsl_range.xml:13
 #, kde-format
 msgid "The width of the hue range"
-msgstr ""
+msgstr "Ton eriminin genişliği."
 
 #: data/effects/hsl_range.xml:17
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to blend the edges of the hue range"
-msgstr "Gölgenin kenarının bulanıklaştırılacağı piksel miktarı"
+msgstr "Ton eriminin kenarlarını harmanlama miktarı."
 
 #: data/effects/hsl_range.xml:21
 #, kde-format
 msgid "The amount to shift the hue in the hue range"
-msgstr ""
+msgstr "Ton erimindeki tonu değiştirme miktarı."
 
 #: data/effects/hsl_range.xml:24
 #, kde-format
@@ -13741,19 +13717,17 @@ msgstr "Doygunluk Ölçeği"
 #: data/effects/hsl_range.xml:25
 #, kde-format
 msgid "The amount to scale the saturation in the hue range"
-msgstr ""
+msgstr "Ton erimindeki doygunluğu ölçeklendirme miktarı."
 
 #: data/effects/hsl_range.xml:28
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale"
-msgstr "Açıklık"
+msgstr "Açıklık Ölçeği"
 
 #: data/effects/hsl_range.xml:29
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to scale the lightness in the hue range"
-msgstr "Gölgenin kenarının bulanıklaştırılacağı piksel miktarı"
+msgstr "Ton erimindeki açıklığı ölçeklendirme miktarı."
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -13769,51 +13743,47 @@ msgstr "Renkleri tersine çevir"
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
 msgid "Declipper"
-msgstr ""
+msgstr "Sinyal temizleyicisi"
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA declipper audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA sinyal temizleyicisi ses efekti"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:4
 #, kde-format
 msgid "Equalizer"
-msgstr ""
+msgstr "Ekolayzır"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA equalizer audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA ekolayzır ses efekti"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:8
 #, kde-format
 msgid "Lo gain"
-msgstr ""
+msgstr "Düşük kazanç"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Maximum gain"
+#, kde-format
 msgid "Mid gain"
-msgstr "Azami kazanım"
+msgstr "Orta kazanç"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:14
-#, fuzzy, kde-format
-#| msgid "Maximum gain"
+#, kde-format
 msgid "Hi gain"
-msgstr "Azami kazanım"
+msgstr "Yüksek kazanç"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:4
 #, kde-format
 msgid "15 Band Equalizer"
-msgstr ""
+msgstr "15 Bantlı Ekolayzır"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:5
 #, kde-format
 msgid "LADSPA equalizer audio effect (15 band)"
-msgstr ""
+msgstr "LADSPA ekolayzır ses efekti (15 bantlı)"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
 #, kde-format
@@ -13898,183 +13868,169 @@ msgstr "İnsan Sesi için Ses Bastırıcısı"
 #: data/effects/ladspa/ladspa_librnnoise.xml:5
 #, kde-format
 msgid "Microphone background noise removal filter"
-msgstr ""
+msgstr "Mikrofon arka plan gürültüsü giderme süzgeci"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
-#, fuzzy, no-c-format, kde-format
-#| msgid "Threshold"
+#, no-c-format, kde-format
 msgid "VAD Threshold (%)"
-msgstr "Eşik"
+msgstr "VAD eşiği (%)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "VAD muafiyet periyodu (ms)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "Geriye dönük VAD muafiyet periyodu (ms)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
 msgctxt "Limiter Effect Name"
 msgid "Limiter"
-msgstr ""
+msgstr "Sınırlayıcı"
 
 #: data/effects/ladspa/ladspa_limiter.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA limiter audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA sınırlayıcı ses efekti"
 
 #: data/effects/ladspa/ladspa_limiter.xml:8
 #, kde-format
 msgid "Input gain (dB)"
-msgstr ""
+msgstr "Giriş kazancı (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:11
 #, kde-format
 msgid "Limit (dB)"
-msgstr ""
+msgstr "Sınır (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:14
 #, kde-format
 msgid "Release time (s)"
-msgstr ""
+msgstr "Bırakma zamanı (sn)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA phaser audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA evreleyici ses efekti"
 
 #: data/effects/ladspa/ladspa_phaser.xml:8
 #, kde-format
 msgid "Rate (Hz)"
-msgstr ""
+msgstr "Hız (Hz)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:14
 #, kde-format
 msgid "Feedback"
-msgstr ""
+msgstr "Geri bildirim"
 
 #: data/effects/ladspa/ladspa_phaser.xml:17
 #, kde-format
 msgid "Spread"
-msgstr ""
+msgstr "Saçılma"
 
 #: data/effects/ladspa/ladspa_pitch.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scale"
+#, kde-format
 msgid "Pitch Shift"
-msgstr "Rubberband Gam Ölçeği"
+msgstr "Perde Gamı Kayması"
 
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
 msgid "LADSPA change pitch audio effect"
-msgstr ""
+msgstr "LADSPA perde gamını değiştirme ses efekti"
 
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Kaydır"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scale"
+#, kde-format
 msgid "Pitch Scaler"
-msgstr "Rubberband Gam Ölçeği"
+msgstr "Perde gamı ölçekleyicisi"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA pitch scale audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA perde gamı ölçeklendirme ses efekti"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:8
 #, kde-format
 msgid "Co-efficient"
-msgstr ""
+msgstr "Katsayı"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scale"
+#, kde-format
 msgid "Rate Scaler"
-msgstr "Rubberband Gam Ölçeği"
+msgstr "Hız Ölçekleyicisi"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA rate scale audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA hız ölçekleyicisi ses efekti"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:8
 #, kde-format
 msgid "Rate"
-msgstr ""
+msgstr "Hız"
 
 #: data/effects/ladspa/ladspa_reverb.xml:4
-#, fuzzy, kde-format
-#| msgid "Revert"
+#, kde-format
 msgctxt "Reverb Effect Name"
 msgid "Reverb"
-msgstr "Eski Haline Döndür"
+msgstr "Yankı"
 
 #: data/effects/ladspa/ladspa_reverb.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA reverb audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA yankı ses efekti"
 
 #: data/effects/ladspa/ladspa_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Revert"
+#, kde-format
 msgid "Reverb time"
-msgstr "Eski Haline Döndür"
+msgstr "Yankı zamanı"
 
 #: data/effects/ladspa/ladspa_reverb.xml:11
 #: data/effects/ladspa/ladspa_room_reverb.xml:14
 #, kde-format
 msgid "Damping"
-msgstr ""
+msgstr "Sönümleme"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:4
 #, kde-format
 msgid "Room Reverb"
-msgstr ""
+msgstr "Oda Yankısı"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "LADSPA room reverb audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "LADSPA oda yankısı ses efekti"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Resize mix"
+#, kde-format
 msgid "Room size (m)"
-msgstr "Karışımı yeniden boyutlandır"
+msgstr "Oda büyüklüğü (m)"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:11
 #, kde-format
 msgid "Delay (s/10)"
-msgstr ""
+msgstr "Gecikme (sn/10)"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:4
 #, kde-format
 msgctxt "Vinyl Effect Name"
 msgid "Vinyl"
-msgstr ""
+msgstr "Plak"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:5
 #, kde-format
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
+msgstr "Plakçaları benzeştirir — LADSPA ses efekti"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "Vinyl Effect Year"
 msgid "Year"
 msgstr "Yıl"
@@ -14082,23 +14038,22 @@ msgstr "Yıl"
 #: data/effects/ladspa/ladspa_vinyl.xml:11
 #, kde-format
 msgid "RPM"
-msgstr ""
+msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:14
 #, kde-format
 msgid "Surface warping"
-msgstr ""
+msgstr "Yüzey bükümü"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:17
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "Crackle"
-msgstr "İz"
+msgstr "Çıtırtı"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:20
 #, kde-format
 msgid "Wear"
-msgstr ""
+msgstr "Hasar"
 
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
@@ -14211,10 +14166,7 @@ msgid "Luma LiftGainGamma"
 msgstr "Luma Kaldırma Kazanımı Gaması"
 
 #: data/effects/lumaliftgaingamma.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Filter can be used to apply lift, gain and gamma correction to luma "
-#| "values of image."
+#, kde-format
 msgid ""
 "Filter can be used to apply lift, gain, and gamma correction to luma values "
 "of image."
@@ -14241,19 +14193,12 @@ msgstr ""
 "Bir Maske Başlangıç Efekti ile tanımlanan önceki efektleri bölgede uygulayın."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Başlangıç"
+msgstr "Maske başlangıcı"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -14262,11 +14207,13 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"Bu süzgeç, kare alfa kanalına yalın şekiller çizmeden önce anlık bir "
-"görüntüsünü alır. Bunu, geçerli karenin görselini anlık görüntü üzerine "
-"bileşikleştirmek için bir geçiş kullanan mask_apply efekti ile birlikte "
-"kullanın. Olağan bir kullanım senaryosunda efektler aşağıdaki sırada "
-"eklenir: Bu efekt, sıfır veya daha fazla efekt, mask_apply."
+"Bu süzgeç, süzgeç maskelemesini kolaylaştırmak için mask_apply süzgeciyle "
+"birlikte çalışır. Bu süzgeç, genellikle maskeyi tanımlayan alfa kanalını "
+"etkileyen bir süzgeç uygulamadan önce karenin anlık görüntüsünü oluşturur. "
+"Ardından, mask_apply süzgeci, geçerli karenin görüntüsünü anlık görüntü "
+"üzerine birleştirmek için bir geçiş kullanır. Tipik kullanım örneği, "
+"süzgeçleri şu sırayla eklemektir: mask_start, sıfır veya daha fazla süzgeç, "
+"mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -14429,7 +14376,7 @@ msgstr "Yansıla"
 #: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
-msgstr "Görsellerinizi istediğiniz eksende çevirin"
+msgstr "Görsellerinizi istediğiniz eksende çevirin."
 
 #: data/effects/mirror.xml:8
 #, kde-format
@@ -14452,7 +14399,7 @@ msgid ""
 "Mix all channels of audio into a mono signal and output it as N channels"
 msgstr ""
 "Tüm ses kanallarını bir tek sinyale olarak karıştırın ve N kanal olarak "
-"çıkarın"
+"çıkarın."
 
 #: data/effects/mono.xml:8
 #, kde-format
@@ -14483,7 +14430,7 @@ msgstr "Normalleştir (Kullanılmıyor)"
 #: data/effects/normalise.xml:5
 #, kde-format
 msgid "Dynamically normalise the audio volume"
-msgstr "Ses düzeyini devingen biçimde normalleştir"
+msgstr "Ses düzeyini devingen biçimde normalleştirin."
 
 #: data/effects/normalise.xml:11 data/effects/sox/sox.xml:27
 #, kde-format
@@ -14517,104 +14464,90 @@ msgid "Old Film Simulator"
 msgstr "Eski Film Benzeticisi"
 
 #: data/effects/oldfilm.xml:5
-#, fuzzy, kde-format
-#| msgid "Moves the Picture up and down and random brightness change"
+#, kde-format
 msgid "Moves the picture up and down and adds random brightness changes"
-msgstr "Resmi yukarı ve aşağı taşır ve rastgele parlaklık değişimi oluşturur"
+msgstr "Resmi aşağı/yukarı taşır ve rastgele parlaklık değişimleri ekler."
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Maximum Up/Down Move"
-msgstr ""
+msgstr "En Çok Yukarı/Aşağı Hareket"
 
 #: data/effects/oldfilm.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
-msgstr "<![CDATA[Dikey kenarlar arasındaki piksel türünden uzaklık.]]>"
+msgstr "<![CDATA[Piksel türünden en büyük dikey hareketi belirler.]]>"
 
 #: data/effects/oldfilm.xml:12
-#, fuzzy, kde-format
-#| msgid "Frames to use"
+#, kde-format
 msgid "Frames With Movement"
-msgstr "Kullanılacak kareler"
+msgstr "Hareketli Kareler"
 
 #: data/effects/oldfilm.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Dikey hareketli karelerin yüzdesini belirler.]]>"
 
 #: data/effects/oldfilm.xml:16
-#, fuzzy, kde-format
-#| msgid "Brightness up"
+#, kde-format
 msgid "Brightness Up"
-msgstr "Parlaklığı artır"
+msgstr "Parlaklığı Artır"
 
 #: data/effects/oldfilm.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change up]]>"
-msgstr "<![CDATA[Gürültü kaldırma yöntemini ayarlayın.]]>"
+msgstr "<![CDATA[Parlaklık artırma değerini belirler.]]>"
 
 #: data/effects/oldfilm.xml:20
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness Down"
-msgstr "Parlaklığı azalt"
+msgstr "Parlaklığı Azalt"
 
 #: data/effects/oldfilm.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in brightness change down]]>"
-msgstr "<![CDATA[Gürültü kaldırma yöntemini ayarlayın.]]>"
+msgstr "<![CDATA[Parlaklık azaltma değerini belirler.]]>"
 
 #: data/effects/oldfilm.xml:24
-#, fuzzy, kde-format
-#| msgid "Brightness every"
+#, kde-format
 msgid "Brightness Every"
-msgstr "Her karede parlaklık"
+msgstr "Parlaklık Değişiklik Adımı"
 
 #: data/effects/oldfilm.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
-msgstr "<![CDATA[X eksenine uygulanan ölçek çarpanı]]>"
+msgstr "<![CDATA[Parlaklık değişiklik adımını belirler.]]>"
 
 #: data/effects/oldfilm.xml:28
-#, fuzzy, kde-format
-#| msgid "Unevendevelop up"
+#, kde-format
 msgid "Uneven Develop Up"
-msgstr "Eşit olmayan yukarı fırlatma"
+msgstr "Eşit Olmayan Açıklık Artırma"
 
 #: data/effects/oldfilm.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change up]]>"
-msgstr "<![CDATA[Gürültü kaldırma yöntemini ayarlayın.]]>"
+msgstr "<![CDATA[Açıklık artırma değerini belirler.]]>"
 
 #: data/effects/oldfilm.xml:32
-#, fuzzy, kde-format
-#| msgid "Unevendevelop down"
+#, kde-format
 msgid "Uneven Develop Down"
-msgstr "Eşit olmayan aşağı fırlatma"
+msgstr "Eşit Olmayan Açıklık Azaltma"
 
 #: data/effects/oldfilm.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the value in lightness change down]]>"
-msgstr "<![CDATA[Gürültü kaldırma yöntemini ayarlayın.]]>"
+msgstr "<![CDATA[Açıklık azaltma değerini belirler.]]>"
 
 #: data/effects/oldfilm.xml:36
-#, fuzzy, kde-format
-#| msgid "Unevendevelop Duration"
+#, kde-format
 msgid "Uneven Develop Duration"
-msgstr "Fırlatma Süresi"
+msgstr "Eşit Olmayan Açıklık Azaltma Süresi"
 
 #: data/effects/oldfilm.xml:37
 #, kde-format
 msgid "<![CDATA[Time (in frames) of an uneven development up/down cycle]]>"
 msgstr ""
+"<![CDATA[Kare türünden eşit olmayan artırma/azaltma döngüsünün süresi.]]>"
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -14689,10 +14622,9 @@ msgid ""
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
-"Color burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,"
-"Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
-"Destination out"
+"Alfa karıştır,Xor,Artı,Çarp,Ekran,Kapla,Koyulaştır,Açıklaştır,Renk karart,"
+"Renk karart,Sert ışık,Yumuşak ışık,Fark,Dışla,Bitwise veya,Bitwise ve,"
+"Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Hedef giriş,Hedef çıkış"
 
 #: data/effects/qtblend.xml:23
 #, kde-format
@@ -14824,10 +14756,9 @@ msgid "Rotate clip in any 3 directions"
 msgstr "Klibi her üç doğrultuda da döndür"
 
 #: data/effects/rotate-3-way.xml:10
-#, fuzzy, kde-format
-#| msgid "Disable repeat"
+#, kde-format
 msgid "Disable Repeat"
-msgstr "Yinelemeyi devre dışı bırak"
+msgstr "Yinelemeyi Devre Dışı Bırak"
 
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
 #, kde-format
@@ -14840,10 +14771,9 @@ msgstr ""
 "yinelenmeyeceği.]]>"
 
 #: data/effects/rotate-3-way.xml:15
-#, fuzzy, kde-format
-#| msgid "Disable mirror"
+#, kde-format
 msgid "Disable Mirror"
-msgstr "Yansıyı devre dışı bırak"
+msgstr "Yansıtmayı Devre Dışı Bırak"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -14859,10 +14789,9 @@ msgstr ""
 "gelmeyeceği.]]>"
 
 #: data/effects/rotate-3-way.xml:20
-#, fuzzy, kde-format
-#| msgid "Invert scale"
+#, kde-format
 msgid "Invert Scale"
-msgstr "Ölçeği tersine çevir"
+msgstr "Ölçeği Tersine Çevir"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -15129,12 +15058,12 @@ msgstr "<![CDATA[Y eksenindeki ofset]]>"
 #: data/effects/sox/sox.xml:4
 #, kde-format
 msgid "SoX"
-msgstr ""
+msgstr "Ses Değişimi"
 
 #: data/effects/sox/sox.xml:5
 #, kde-format
 msgid "Process audio using a SoX effect"
-msgstr ""
+msgstr "Sesi, bir Ses Değişimi efekti kullanarak işleyin."
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1899
 #: src/monitor/view/MonitorSplit.qml:102
@@ -15143,28 +15072,24 @@ msgid "Effect"
 msgstr "Efekt"
 
 #: data/effects/sox/sox.xml:9
-#, fuzzy, kde-format
-#| msgid "Analysis"
+#, kde-format
 msgid "Analysis,Apply"
-msgstr "Çözümleme"
+msgstr "Çözümle,Uygula"
 
 #: data/effects/sox/sox.xml:12
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalization level "
-msgstr "Normalleştir"
+msgstr "Normalleştirme düzeyi "
 
 #: data/effects/sox/sox.xml:15
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Gain to normalize"
-msgstr "Normalleştir"
+msgstr "Normalleştirilecek kazanç"
 
 #: data/effects/sox/sox.xml:18
-#, fuzzy, kde-format
-#| msgid "Use Luma"
+#, kde-format
 msgid "Use peak"
-msgstr "Görüntü Parlaklaştırma Kullan"
+msgstr "Tavanı kullan"
 
 #: data/effects/sox/sox.xml:21
 #, kde-format
@@ -15172,27 +15097,24 @@ msgid "Dynamic normalization"
 msgstr "Devingen normalleştirme"
 
 #: data/effects/sox/sox.xml:24
-#, fuzzy, kde-format
-#| msgid "Hamming window"
+#, kde-format
 msgid "Smoothing window size "
-msgstr "Hamming penceresi"
+msgstr "Pürüzsüzleştirme penceresi büyütü "
 
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
 msgid "Sox Band"
-msgstr "Bant Ses Değişimi"
+msgstr "Ses değişimi bandı"
 
 #: data/effects/sox/sox_band.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox band audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Ses değişimi efekti"
 
 #: data/effects/sox/sox_band.xml:8
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Center Frequency"
-msgstr "Sekans oluştur"
+msgstr "Merkez Frekans"
 
 #: data/effects/sox/sox_bass.xml:4
 #, kde-format
@@ -15200,10 +15122,9 @@ msgid "Sox Bass"
 msgstr "Bas Ses Değişimi"
 
 #: data/effects/sox/sox_bass.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox bass audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Ses değişimi efekti"
 
 #: data/effects/sox/sox_echo.xml:4
 #, kde-format
@@ -15231,10 +15152,9 @@ msgid "Sox Flanger"
 msgstr "Flanger Ses Değişimi"
 
 #: data/effects/sox/sox_flanger.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox flanger audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Flanger ses değişimi efekti"
 
 #: data/effects/sox/sox_gain.xml:4
 #, kde-format
@@ -15242,10 +15162,9 @@ msgid "Sox Gain"
 msgstr "Kazanç Ses Değişimi"
 
 #: data/effects/sox/sox_gain.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox gain audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Kazanç ses değişimi efekti"
 
 #: data/effects/sox/sox_phaser.xml:4
 #, kde-format
@@ -15253,73 +15172,64 @@ msgid "Sox Phaser"
 msgstr "Evreleyici Ses Değişimi"
 
 #: data/effects/sox/sox_phaser.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox phaser audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Evreleyici ses değişimi efekti"
 
 #: data/effects/sox/sox_pitch.xml:4
 #, kde-format
 msgid "Sox Pitch Shift"
-msgstr ""
+msgstr "Perde gamı kayması efekti"
 
 #: data/effects/sox/sox_pitch.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox change pitch audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Perde gamı ses değişimi efekti"
 
 #: data/effects/sox/sox_pitch.xml:11
 #, kde-format
 msgid "Time window (ms)"
-msgstr ""
+msgstr "Zaman penceresi (ms)"
 
 #: data/effects/sox/sox_reverb.xml:4
-#, fuzzy, kde-format
-#| msgid "Revert"
+#, kde-format
 msgid "Sox Reverb"
-msgstr "Eski Haline Döndür"
+msgstr "Yankı Efekti"
 
 #: data/effects/sox/sox_reverb.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox reverb audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Yankı ses değişimi efekti"
 
 #: data/effects/sox/sox_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reverberance"
-msgstr "Tersine çevir"
+msgstr "Yankılanma"
 
 #: data/effects/sox/sox_reverb.xml:11
-#, fuzzy, kde-format
-#| msgid "High frequency"
+#, kde-format
 msgid "High frequency damping"
-msgstr "Yüksek frekans"
+msgstr "Yüksek frekanslı sönümleme"
 
 #: data/effects/sox/sox_reverb.xml:14
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Room scale"
-msgstr "Normal ölçek"
+msgstr "Oda ölçeği"
 
 #: data/effects/sox/sox_reverb.xml:17
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo depth"
-msgstr "Çift kanallı "
+msgstr "Çift kanallı derinlik"
 
 #: data/effects/sox/sox_reverb.xml:20
 #, kde-format
 msgid "Pre-delay"
-msgstr ""
+msgstr "Gecikme öncesi"
 
 #: data/effects/sox/sox_reverb.xml:23
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Wet gain"
-msgstr "Yeniden Denetle"
+msgstr "Islak kazanç"
 
 #: data/effects/sox/sox_stretch.xml:4
 #, kde-format
@@ -15327,10 +15237,9 @@ msgid "Sox Stretch"
 msgstr "Germe Ses Değişimi"
 
 #: data/effects/sox/sox_stretch.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox stretch audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Germe ses değişimi efekti"
 
 #: data/effects/speed.xml:5
 #, kde-format
@@ -15447,7 +15356,7 @@ msgstr "Yazıtipi Biçemi"
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr "SS:DD:SS,SS:DD:SS.S,DD:SS,DD:SS.SS,DD:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -16171,7 +16080,7 @@ msgstr "Bileşikleştirme Yöntemi"
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
-msgstr "İlerlemeli Sunumu Zorla"
+msgstr "Aşamalı sunumu zorla"
 
 #: data/transitions/dissolve.xml:4
 #, kde-format
@@ -16212,7 +16121,7 @@ msgstr "Alfa Toplaması"
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
-msgstr ""
+msgstr "Piksel kaynaklarının RGB[A] addition_alpha işlemini gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, kde-format
@@ -16276,6 +16185,9 @@ msgid ""
 "generalised algorithm: D = saturation of 255 or depletion of 0, of ((255 - "
 "A) * 256) / (B + 1)"
 msgstr ""
+"Genelleştirilmiş algoritmayı kullanarak piksel kaynakları arasında bir "
+"RGB[A] kaçamak işlemi gerçekleştirin: D = 255 doygunluk veya ((255 - A) * "
+"256) / (B + 1)'in 0 tükenmesi."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
@@ -16283,16 +16195,13 @@ msgid "Cairo Affine Blend"
 msgstr "Cairo Afin Harmanı"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Composites second input on the first input with user-defined blend mode, "
-#| "opacity and scale."
+#, kde-format
 msgid ""
 "Composites second input on first input applying user-defined transformation, "
 "opacity and blend mode."
 msgstr ""
-"Kullanıcı tanımlı karışım modu ile birinci girişteki ikinci girişi "
-"birleştirir,opaklık ve ölçek."
+"Kullanıcı tanımlı dönüşüm, matlık ve harmanlama kipini uygulayarak ikinci "
+"girişi birinci girişe tümleştirir."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:283
@@ -16342,16 +16251,13 @@ msgid "Cairo Blend"
 msgstr "Cairo Harmanı"
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Composites second input on the first input with user-defined blend mode, "
-#| "opacity and scale."
+#, kde-format
 msgid ""
 "Composites second input on the first input with user-defined blend mode and "
 "opacity."
 msgstr ""
-"Kullanıcı tanımlı karışım modu ile birinci girişteki ikinci girişi "
-"birleştirir,opaklık ve ölçek."
+"Kullanıcı tanımlı harmanlama kipi ve matlık ile ikinci girişi birinci girişe "
+"tümleştirir."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
 #, kde-format
@@ -16364,11 +16270,13 @@ msgid ""
 "Perform a conversion to color only of the source input1 using the hue and "
 "saturation values of input2."
 msgstr ""
+"Giriş2’nin renk tonu ve doygunluk değerlerini kullanarak kaynak giriş1’in "
+"yalnızca renge dönüşümünü gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
 #, kde-format
 msgid "Darken"
-msgstr "Koyulaştır"
+msgstr "Karart"
 
 #: data/transitions/frei0r/frei0r_darken.xml:5
 #, kde-format
@@ -16376,6 +16284,8 @@ msgid ""
 "Perform a darken operation between two sources (minimum value of both "
 "sources)."
 msgstr ""
+"İki kaynak arasında (her iki kaynağın minimum değeri) bir karartma işlemi "
+"gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
@@ -16385,7 +16295,7 @@ msgstr "Fark"
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
 msgid "Perform an RGB[A] difference operation between the pixel sources."
-msgstr ""
+msgstr "Piksel kaynakları arasında bir RGB[A] fark işlemi gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, kde-format
@@ -16398,11 +16308,13 @@ msgid ""
 "Perform an RGB[A] divide operation between the pixel sources: input1 is the "
 "numerator, input2 the denominator."
 msgstr ""
+"Piksel kaynakları arasında bir RGB[A] bölme işlemi gerçekleştirin: giriş1 "
+"pay, giriş2 paydadır."
 
 #: data/transitions/frei0r/frei0r_dodge.xml:4
 #, kde-format
 msgid "Dodge"
-msgstr "Parlat"
+msgstr "Koyulaştır"
 
 #: data/transitions/frei0r/frei0r_dodge.xml:5
 #, kde-format
@@ -16410,6 +16322,9 @@ msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
+"Genelleştirilmiş algoritmayı kullanarak piksel kaynakları arasında bir "
+"RGB[A] koyulaştırma işlemi gerçekleştirin: D = 255 doygunluk veya (A * "
+"256) / (256 - B)."
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
@@ -16420,6 +16335,7 @@ msgstr "Tanecik Çıkar"
 #, kde-format
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
 msgstr ""
+"Piksel kaynakları arasında bir RGB[A] tanecik ayıklama işlemi gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, kde-format
@@ -16430,6 +16346,7 @@ msgstr "Tanecik Birleştir"
 #, kde-format
 msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
 msgstr ""
+"Piksel kaynakları arasında bir RGB[A] tane birleştirme işlemi gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, kde-format
@@ -16440,6 +16357,7 @@ msgstr "Sert Işık"
 #, kde-format
 msgid "Perform an RGB[A] hardlight operation between the pixel sources."
 msgstr ""
+"Piksel kaynakları arasında bir RGB[A] tane ayırma işlemini gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_hue.xml:5
 #, kde-format
@@ -16447,6 +16365,7 @@ msgid ""
 "Perform a conversion to hue only of the source input1 using the hue of "
 "input2."
 msgstr ""
+"Piksel kaynakları arasında bir RGB[A] tane ayırma işlemi gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
 #, kde-format
@@ -16459,6 +16378,8 @@ msgid ""
 "Perform a lighten operation between two sources (maximum value of both "
 "sources)."
 msgstr ""
+"İki kaynak arasında (her iki kaynağın en büyük değeri) bir aydınlatma işlemi "
+"gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
 #, kde-format
@@ -16468,7 +16389,7 @@ msgstr "Çarp"
 #: data/transitions/frei0r/frei0r_multiply.xml:5
 #, kde-format
 msgid "Perform an RGB[A] multiply operation between the pixel sources."
-msgstr ""
+msgstr "Piksel kaynakları arasında RGB[A] çarpma işlemini gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
 #, kde-format
@@ -16481,6 +16402,8 @@ msgid ""
 "Perform an RGB[A] overlay operation between the pixel sources, using the "
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
+"Genelleştirilmiş algoritmayı kullanarak piksel kaynakları arasında bir "
+"RGB[A] kaplama işlemi gerçekleştirin: D = A * (B + (2 * B) * (255 - A))."
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, kde-format
@@ -16536,6 +16459,8 @@ msgid ""
 "Perform a conversion to saturation only of the source input1 using the "
 "saturation level of input2."
 msgstr ""
+"Genelleştirilmiş sonuçları kullanarak piksel kaynakları arasında bir RGB[A] "
+"kaplama işlemini gerçekleştirin: D = A * (B + (2 * B) * (255 - A))"
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
 #, kde-format
@@ -16548,6 +16473,8 @@ msgid ""
 "Perform an RGB[A] screen operation between the pixel sources, using the "
 "generalised algorithm: D = 255 - (255 - A) * (255 - B)"
 msgstr ""
+"Genelleştirilmiş algoritmayı kullanarak piksel kaynakları arasında bir "
+"RGB[A] ekran işlemi gerçekleştirin: D = 255 - (255 - A) * (255 - B)."
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
@@ -16605,7 +16532,7 @@ msgstr "Yumuşak Işık"
 #: data/transitions/frei0r/frei0r_softlight.xml:5
 #, kde-format
 msgid "Perform an RGB[A] softlight operation between the pixel sources."
-msgstr ""
+msgstr "Piksel kaynakları arasında RGB[A] yumuşak ışık işlemi gerçekleştirin."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: data/transitions/frei0r/frei0r_subtract.xml:4
@@ -16619,6 +16546,8 @@ msgstr "Çıkar"
 msgid ""
 "Perform an RGB[A] subtract operation of the pixel source input2 from input1."
 msgstr ""
+"Piksel kaynağı girişi2’den giriş1’e kadar RGB[A] çıkarma işlemini "
+"gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
@@ -16628,7 +16557,7 @@ msgstr "UV Haritası"
 #: data/transitions/frei0r/frei0r_uvmap.xml:5
 #, kde-format
 msgid "Uses Input 1 as UV Map to distort Input 2."
-msgstr ""
+msgstr "Giriş 1’i UV Haritası olarak kullanarak Giriş 2’yi bozar."
 
 #: data/transitions/frei0r/frei0r_value.xml:5
 #, kde-format
@@ -16636,6 +16565,8 @@ msgid ""
 "Perform a conversion to value only of the source input1 using the value of "
 "input2."
 msgstr ""
+"Giriş2 değerini kullanarak yalnızca kaynak giriş1 değerine dönüştürme "
+"işlemini gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, kde-format
@@ -16643,17 +16574,15 @@ msgid "Horizontal Barn Door Wipe"
 msgstr "Yatay Ahır Kapısı Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:5
-#, fuzzy, kde-format
-#| msgid "Horizontal guides."
+#, kde-format
 msgid "Horizontal barn door wipe."
-msgstr "Yatay kılavuzlar."
+msgstr "Yatay ahır kapısı silme işlemi."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:8
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edges position"
-msgstr "Y konumu"
+msgstr "Kenarlar konumu"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
 #, kde-format
@@ -16661,10 +16590,9 @@ msgid "Vertical Barn Door Wipe"
 msgstr "Dikey Ahır Kapısı Sil"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:5
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Vertical barn door wipe."
-msgstr "Dikey kenar boşluğu"
+msgstr "Dikey ahır kapısı silme işlemi."
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
 #, kde-format
@@ -17919,7 +17847,7 @@ msgid "CH"
 msgstr "Ka"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:385
+#: src/bin/previewpanel.cpp:386
 #, kde-format
 msgid "No audio"
 msgstr "Ses yok"
@@ -18864,7 +18792,7 @@ msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
 #: src/bin/bin.cpp:5011 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
-#: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
+#: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
@@ -19513,13 +19441,13 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Klasör İçe Aktar"
 
-#: src/bin/previewpanel.cpp:377
+#: src/bin/previewpanel.cpp:378
 #, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:388
+#: src/bin/previewpanel.cpp:389
 #, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
@@ -24483,32 +24411,32 @@ msgstr "Kesme işi başarısız."
 msgid "Processing filter %1"
 msgstr "%1 süzgeci işleniyor"
 
-#: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
+#: src/jobs/filtertask.cpp:101 src/jobs/filtertask.cpp:143
 #, kde-format
 msgid "Cannot process file %1"
 msgstr "%1 dosyası işlenemiyor"
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:159
 #, kde-format
 msgid "Cannot open source."
 msgstr "Kaynak açılamıyor."
 
-#: src/jobs/filtertask.cpp:177
+#: src/jobs/filtertask.cpp:190
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Tüketici oluşturulamıyor."
 
-#: src/jobs/filtertask.cpp:188
+#: src/jobs/filtertask.cpp:201
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "%1 süzgeci oluşturulamıyor"
 
-#: src/jobs/filtertask.cpp:289
+#: src/jobs/filtertask.cpp:304
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Kaynak süzülemedi."
 
-#: src/jobs/filtertask.cpp:321
+#: src/jobs/filtertask.cpp:336
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "%1 için efekt çözümlemesi yapılamadı"
@@ -37501,10 +37429,9 @@ msgstr "Değişiklik eşiği"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update range marker"
+#, kde-format
 msgid "Create range markers"
-msgstr "Erim imleyicisini güncelle"
+msgstr "Erim imleyicileri oluştur"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18

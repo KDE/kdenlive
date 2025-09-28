@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-26 00:41+0000\n"
+"POT-Creation-Date: 2025-09-28 00:43+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -18005,7 +18005,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:385
+#: src/bin/previewpanel.cpp:386
 #, fuzzy, kde-format
 #| msgid "Export audio"
 msgid "No audio"
@@ -18985,7 +18985,7 @@ msgstr "Palun määra seadistustedialoogis helifailide avamise vaikerakendus"
 
 #: src/bin/bin.cpp:5011 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
-#: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
+#: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
@@ -19701,7 +19701,7 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Loo kataloog"
 
-#: src/bin/previewpanel.cpp:377
+#: src/bin/previewpanel.cpp:378
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19709,7 +19709,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:388
+#: src/bin/previewpanel.cpp:389
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -24920,35 +24920,35 @@ msgstr "Väljundfail"
 msgid "Processing filter %1"
 msgstr "Klipi töötlemine"
 
-#: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
+#: src/jobs/filtertask.cpp:101 src/jobs/filtertask.cpp:143
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot process file %1"
 msgstr "Faili %1 avamine nurjus"
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:159
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot open source."
 msgstr "Faili avamine nurjus"
 
-#: src/jobs/filtertask.cpp:177
+#: src/jobs/filtertask.cpp:190
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Tarbija loomine nurjus."
 
-#: src/jobs/filtertask.cpp:188
+#: src/jobs/filtertask.cpp:201
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Filtri %1 loomine nurjus"
 
-#: src/jobs/filtertask.cpp:289
+#: src/jobs/filtertask.cpp:304
 #, fuzzy, kde-format
 #| msgid "Failed to start capture"
 msgid "Failed to filter source."
 msgstr "Salvestamise alustamine nurjus"
 
-#: src/jobs/filtertask.cpp:321
+#: src/jobs/filtertask.cpp:336
 #, fuzzy, kde-format
 #| msgid "Effects for %1"
 msgid "Effect analysis failed for %1"

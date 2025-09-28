@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-26 00:41+0000\n"
+"POT-Creation-Date: 2025-09-28 00:43+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -17965,7 +17965,7 @@ msgid "CH"
 msgstr "C"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:385
+#: src/bin/previewpanel.cpp:386
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "No audio"
@@ -18893,7 +18893,7 @@ msgstr "Silakan atur aplikasi baku untuk membuka file audio"
 
 #: src/bin/bin.cpp:5011 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
-#: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
+#: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
@@ -19563,7 +19563,7 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "Ciptakan Folder"
 
-#: src/bin/previewpanel.cpp:377
+#: src/bin/previewpanel.cpp:378
 #, fuzzy, kde-format
 #| msgctxt "frames per second"
 #| msgid "fps"
@@ -19571,7 +19571,7 @@ msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
-#: src/bin/previewpanel.cpp:388
+#: src/bin/previewpanel.cpp:389
 #, fuzzy, kde-format
 #| msgid "A&udio track"
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
@@ -24600,32 +24600,32 @@ msgstr "Tugas memotong gagal."
 msgid "Processing filter %1"
 msgstr "Memproses filter %1"
 
-#: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
+#: src/jobs/filtertask.cpp:101 src/jobs/filtertask.cpp:143
 #, kde-format
 msgid "Cannot process file %1"
 msgstr "Tidak bisa memproses file %1"
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:159
 #, kde-format
 msgid "Cannot open source."
 msgstr "Tidak bisa membuka sumber."
 
-#: src/jobs/filtertask.cpp:177
+#: src/jobs/filtertask.cpp:190
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Tidak bisa membuat konsumen."
 
-#: src/jobs/filtertask.cpp:188
+#: src/jobs/filtertask.cpp:201
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Tidak bisa membuat filter %1"
 
-#: src/jobs/filtertask.cpp:289
+#: src/jobs/filtertask.cpp:304
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Gagal memfilter sumber."
 
-#: src/jobs/filtertask.cpp:321
+#: src/jobs/filtertask.cpp:336
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr ""

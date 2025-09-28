@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-26 00:41+0000\n"
+"POT-Creation-Date: 2025-09-28 00:43+0000\n"
 "PO-Revision-Date: 2025-09-23 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -17562,7 +17562,7 @@ msgid "CH"
 msgstr "قناة"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:420
-#: src/bin/previewpanel.cpp:385
+#: src/bin/previewpanel.cpp:386
 #, kde-format
 msgid "No audio"
 msgstr "لا يوجد صوت"
@@ -18508,7 +18508,7 @@ msgstr "فضلًا اضبط تطبيقًا مبدئياً ليفتح ملفّا�
 
 #: src/bin/bin.cpp:5011 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
-#: src/jobs/filtertask.cpp:93 src/jobs/filtertask.cpp:130
+#: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:172
@@ -19161,13 +19161,13 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "استورد مجلدًا"
 
-#: src/bin/previewpanel.cpp:377
+#: src/bin/previewpanel.cpp:378
 #, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "إطار/ثا"
 
-#: src/bin/previewpanel.cpp:388
+#: src/bin/previewpanel.cpp:389
 #, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
@@ -24132,32 +24132,32 @@ msgstr "فشلت مهمّة القص."
 msgid "Processing filter %1"
 msgstr "ينفذ مرشح %1"
 
-#: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
+#: src/jobs/filtertask.cpp:101 src/jobs/filtertask.cpp:143
 #, kde-format
 msgid "Cannot process file %1"
 msgstr "تعذّر معالجة الملفّ %1"
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:159
 #, kde-format
 msgid "Cannot open source."
 msgstr "تعذّر فتح المصدر"
 
-#: src/jobs/filtertask.cpp:177
+#: src/jobs/filtertask.cpp:190
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "تعذّر إنشاء مستهلك."
 
-#: src/jobs/filtertask.cpp:188
+#: src/jobs/filtertask.cpp:201
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "تعذّر إنشاء المرشح %1"
 
-#: src/jobs/filtertask.cpp:289
+#: src/jobs/filtertask.cpp:304
 #, kde-format
 msgid "Failed to filter source."
 msgstr "فشل ترشيح المصدر."
 
-#: src/jobs/filtertask.cpp:321
+#: src/jobs/filtertask.cpp:336
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "فشل تحليل التأثير لـ%1"
