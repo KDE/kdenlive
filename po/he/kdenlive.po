@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-28 00:43+0000\n"
-"PO-Revision-Date: 2025-09-25 10:48+0300\n"
+"PO-Revision-Date: 2025-09-27 23:04+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -900,10 +900,9 @@ msgstr "di,dii,tdii,latt"
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "File Extension"
+#, kde-format
 msgid "Filter precision"
-msgstr "סיומת קובץ"
+msgstr "דיוק מסנן"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -2133,8 +2132,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
-#, fuzzy, kde-format
-#| msgid "Output Color Range"
+#, kde-format
 msgid "Output color range"
 msgstr "טווח צבע פלט"
 
@@ -2147,10 +2145,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
-#, fuzzy, kde-format
-#| msgid "Output format"
+#, kde-format
 msgid "Output color format"
-msgstr "תסדיר פלט"
+msgstr "תסדיר פלט צבע"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
@@ -2161,14 +2158,12 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, fuzzy, kde-format
-#| msgid "Fast Conversion"
+#, kde-format
 msgid "Fast conversion"
 msgstr "המרה מהירה"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
-#, fuzzy, kde-format
-#| msgid "Dithering Mode"
+#, kde-format
 msgid "Dithering mode"
 msgstr "מצב גוונון"
 
@@ -2304,10 +2299,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch compensation"
+#, kde-format
 msgid "Compensation Delay"
-msgstr "פיצוי גובה צליל"
+msgstr "השהיית פיצוי"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:8
 #, kde-format
@@ -4687,10 +4681,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Type"
-msgstr "ביון"
+msgstr "סוג ביון"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:9
 #, fuzzy, kde-format
@@ -6938,22 +6931,19 @@ msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:13
-#, fuzzy, kde-format
-#| msgid "Bottom field first"
+#, kde-format
 msgid "Top field first,Bottom field first,Auto"
-msgstr "השדה התחתון ראשון"
+msgstr "שדה עליון קודם,שדה תחתון קודם,אוטומטי"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
-#, fuzzy, kde-format
-#| msgid "Zoom In"
+#, kde-format
 msgid "Zoom Pan"
-msgstr "התקרבות"
+msgstr "תקריבה סריקה"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
-#, fuzzy, kde-format
-#| msgid "Sox band audio effect"
+#, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr "אפקט שמע - פס"
+msgstr "החלת אפקט תקריב וסריקה"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
@@ -7643,10 +7633,9 @@ msgid "Fade factor"
 msgstr "מקדם עמעום"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr "<![CDATA[זווית גזירה סביב ציר X]]>"
+msgstr "<![CDATA[קצב התפוגגות ההד]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
@@ -10004,7 +9993,7 @@ msgstr "צבע 1"
 #: data/effects/frei0r/frei0r_facedetect.xml:44
 #, kde-format
 msgid "Set the shape color of the first detected face."
-msgstr ""
+msgstr "הגדרת צבע צורת הפנים הראשונים שמזוהים."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
@@ -10026,7 +10015,7 @@ msgstr "צבע 3"
 #: data/effects/frei0r/frei0r_facedetect.xml:54
 #, kde-format
 msgid "Set the shape color of the third detected face."
-msgstr ""
+msgstr "הגדרת צבע צורת הפנים השלישיים שמזוהים."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:58 data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -10046,7 +10035,7 @@ msgstr "צבע 5"
 #: data/effects/frei0r/frei0r_facedetect.xml:64
 #, kde-format
 msgid "Set the shape color of the fifth detected face."
-msgstr ""
+msgstr "הגדרת צבע צורת הפנים החמישיים שמזוהים."
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
 #, kde-format
@@ -10056,7 +10045,7 @@ msgstr "גרגרי סרטים"
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "הוספת גרגרים כמו בסרט וריכוך התמונה"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
@@ -10137,7 +10126,7 @@ msgstr "היפוך"
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
 msgid "Flipping in X and Y axis"
-msgstr ""
+msgstr "היפוך בצירי X ו־Y"
 
 #: data/effects/frei0r/frei0r_flippo.xml:8
 #, kde-format
@@ -10152,12 +10141,12 @@ msgstr "ציר Y"
 #: data/effects/frei0r/frei0r_G.xml:4
 #, kde-format
 msgid "Channel Extractor GREEN"
-msgstr ""
+msgstr "מחלץ ערוץ ירוק"
 
 #: data/effects/frei0r/frei0r_G.xml:5
 #, kde-format
 msgid "Extracts Green from Image"
-msgstr ""
+msgstr "חילוץ ירוק מהתמונה"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -10370,7 +10359,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
 msgid "Preferred Corner"
-msgstr ""
+msgstr "פינה מועדפת"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:48
 #, kde-format
@@ -11352,10 +11341,9 @@ msgid "Progressive Scan"
 msgstr "סריקה מדורגת"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "Shakiness"
+#, kde-format
 msgid "Scanlines"
-msgstr "רעד"
+msgstr "שורות"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
@@ -11363,10 +11351,9 @@ msgid "Pixelize (basic)"
 msgstr "פיקסול (בסיסי)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize mode"
+#, kde-format
 msgid "Pixelize input image"
-msgstr "מצב פיקסול"
+msgstr "פיקסול תמונת הקלט"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11389,10 +11376,9 @@ msgid "Height of each block whose shift is invariant (0 = random)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Minimum block height"
+#, kde-format
 msgid "Minimum Block Height"
-msgstr "גובה מקטע מזערי"
+msgstr "גובה ריבוע מזערי"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
 #, kde-format
@@ -11402,10 +11388,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Maximum block height"
+#, kde-format
 msgid "Maximum Block Height"
-msgstr "גובה מקטע מרבי:"
+msgstr "גובה ריבוע מרבי"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
 #, kde-format
@@ -11534,8 +11519,7 @@ msgid "RGB splitting and shifting"
 msgstr "פיצול והזחת RGB"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal split distance"
+#, kde-format
 msgid "Horizontal Split Distance"
 msgstr "מרחק פיצול אופקי"
 
@@ -13220,10 +13204,9 @@ msgid "Microphone background noise removal filter"
 msgstr "מסנן להסרת רעש רקע במיקרופון"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
-#, fuzzy, no-c-format, kde-format
-#| msgid "Threshold"
+#, no-c-format, kde-format
 msgid "VAD Threshold (%)"
-msgstr "סף"
+msgstr "סף מזהה פעילות קול (VAD - %)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
@@ -14539,10 +14522,9 @@ msgid "Reverberance"
 msgstr "החזר"
 
 #: data/effects/sox/sox_reverb.xml:11
-#, fuzzy, kde-format
-#| msgid "High frequency"
+#, kde-format
 msgid "High frequency damping"
-msgstr "תדירות גבוהה"
+msgstr "ריסון תדירות גבוהה"
 
 #: data/effects/sox/sox_reverb.xml:14
 #, fuzzy, kde-format
@@ -36563,10 +36545,9 @@ msgstr "החלפת סף"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update range marker"
+#, kde-format
 msgid "Create range markers"
-msgstr "עדכון סמן טווח"
+msgstr "יצירת סמני טווח"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
