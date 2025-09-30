@@ -85,19 +85,13 @@ Rectangle {
                     anchors.left: parent.left
                     color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.3)
                 }
-                // Color for the viewed zone audio wave
-                Rectangle {
-                    height: streamThumbMini.streamHeight - 2
-                    x: audioSeekZone.width * root.zoomStart
-                    width: audioSeekZone.width * root.zoomFactor
-                    color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.5)
-                }
                 // Highlight color for the selected wave part
                 Rectangle {
                     x: controller.zoneIn * audioThumb.width / root.duration
                     width: (controller.zoneOut - controller.zoneIn) * audioThumb.width / root.duration
                     height: streamThumbMini.streamHeight - 2
-                    color:  Utils.desaturateColor(activePalette.highlight, 0.6, 1)
+                    color:  Utils.mixColors(activePalette.midlight, activePalette.highlight, 0.7)
+                        //Utils.desaturateColor(activePalette.highlight, 0.6, 1)
                     visible: controller.zoneOut > controller.zoneIn
                 }
                 K.TimelineWaveform {
@@ -128,6 +122,23 @@ Rectangle {
                         color: Qt.darker(audioSeekZone.color) //activePalette.base
                     }
                 }
+                // fade a bit the not viewed zone audio wave
+                Rectangle {
+                    visible: root.zoomStart > 0
+                    height: streamThumbMini.streamHeight - 2
+                    anchors.left: parent.left
+                    width: streamThumbMini.width * root.zoomStart
+                    color: audioSeekZone.color
+                    opacity: 0.3
+                }
+                Rectangle {
+                    visible: root.zoomFactor < 1
+                    height: streamThumbMini.streamHeight - 2
+                    width: streamThumbMini.width * (1 - root.zoomStart - root.zoomFactor)
+                    anchors.right: parent.right
+                    color: audioSeekZone.color
+                    opacity: 0.3
+                }
             }
         }
     }
@@ -144,10 +155,10 @@ Rectangle {
         x: audioSeekZone.width * root.zoomStart
         width: audioSeekZone.width * root.zoomFactor
         height: parent.height - 1
-        opacity: mainHandleArea.containsMouse ? 1 : root.zoomFactor === 1. ? 0.5 : 0.8
+        opacity: mainHandleArea.containsMouse || mainHandleArea.pressed ? 1 : root.zoomFactor === 1. ? 0.5 : 0.8
         radius: 2
-        border.width: controller.clipHasAV ? 1 : 2
-        border.color: mainHandleArea.containsMouse ? activePalette.highlight : activePalette.text
+        border.width: controller.clipHasAV ? 2 : 2
+        border.color: mainHandleArea.containsMouse || mainHandleArea.pressed ? activePalette.highlight : activePalette.text
         color: 'transparent'
     }
 

@@ -96,40 +96,6 @@ Rectangle {
         }
     }
 
-    // Zoom bar container
-    Kdenlive.ZoomBar {
-        id: horZoomBar
-        visible: root.showZoomBar && !audioView.isAudioClip
-        onVisibleChanged: {
-            root.zoomOffset = visible ? height : 0
-        }
-        toolTipText: controller.toTimecode((root.duration + 1 )* root.zoomFactor)
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.top
-        }
-        height: root.baseUnit
-        fitsZoom: root.zoomFactor === 1 && root.zoomStart === 0
-        zoomFactor: root.zoomFactor
-        onProposeZoomFactor: (proposedValue) => {root.zoomFactor = proposedValue}
-        contentPos: root.zoomStart
-        onProposeContentPos: (proposedValue) => {root.zoomStart = proposedValue}
-        onZoomByWheel: wheel => {
-            if (wheel.angleDelta.y < 0) {
-                // zoom out
-                zoomOutRuler(wheel.x)
-            } else {
-                // zoom in
-                zoomInRuler(wheel.x)
-            }
-        }
-        onFitZoom: {
-            root.zoomFactor = 1
-            root.zoomStart = 0
-        }
-    }
-
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
     }

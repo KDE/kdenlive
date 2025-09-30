@@ -13,8 +13,25 @@ Item {
     id: audioThumb
     property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || audioZoom.containsMouse || dragZone.opacity === 1 || root.showZoomBar)
     property bool isAudioClip: controller.clipType === K.ClipType.Audio
-    property int audioZoomHeight: isAudioClip ? height / 6 : height / 3
+    property int audioZoomHeight: isAudioClip ? height / 6 : K.KdenliveSettings.alwaysShowMonitorAudio ? 0 : height / 3
     property bool containsMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse
+    property bool displayAudioZoom: K.KdenliveSettings.alwaysShowMonitorAudio && controller.clipHasAV ? (dragZone.opacity === 1 || clipMonitorRuler.containsMouse) : true
+    property bool timedAudioCollapsed: true
+
+    Timer {
+        id: zoomCollapseTimer
+        interval: 800; running: false; repeat: false
+        onTriggered: audioThumb.timedAudioCollapsed = true
+    }
+
+    onDisplayAudioZoomChanged: {
+        if (displayAudioZoom || !K.KdenliveSettings.alwaysShowMonitorAudio) {
+            zoomCollapseTimer.stop()
+            timedAudioCollapsed = false
+        } else {
+            zoomCollapseTimer.start()
+        }
+    }
 
     Label {
         id: clipStreamLabel
@@ -66,11 +83,24 @@ Item {
         width: mainThumbsContainer.width
         height: audioThumb.audioZoomHeight
         anchors.top: parent.top
+        states: [
+            State {
+                name: "invisible"
+                when: !audioThumb.timedAudioCollapsed
+                PropertyChanges { audioZoom.height: audioThumb.height / 3 }
+            }
+        ]
+        transitions: [Transition {
+            NumberAnimation {
+                property: "height";
+                duration: 100
+            }
+        }]
     }
     Item {
         id: mainThumbsContainer
         anchors.fill: parent
-        anchors.topMargin: audioThumb.audioZoomHeight
+        anchors.topMargin: audioZoom.height
         Rectangle {
             // Audio monitor background
             id: audioBg
