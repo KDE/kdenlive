@@ -86,6 +86,11 @@ void FilterTask::run()
             Mlt::Filter converter(profile, "avcolor_space");
             producer->attach(converter);
         } else {
+            if (binClip->clipType() == ClipType::Timeline) {
+                // Create a tmp mlt playlist to process
+                m_onPlaylist = true;
+                url = binClip->getSequenceResource();
+            }
             producer = std::make_unique<Mlt::Producer>(profile, url.toUtf8().constData());
             if (!producer || !producer->is_valid()) {
                 if (!binClip->isReloading) {
@@ -97,7 +102,11 @@ void FilterTask::run()
                 }
             }
             if (m_outPoint == -1) {
-                m_outPoint = producer->get_length() - 1;
+                if (binClip->clipType() == ClipType::Timeline) {
+                    m_outPoint = binClip->frameDuration() - 1;
+                } else {
+                    m_outPoint = producer->get_length() - 1;
+                }
             }
             if (m_inPoint == -1) {
                 m_inPoint = 0;
@@ -151,7 +160,11 @@ void FilterTask::run()
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         return;
     }
-    length = producer->get_playtime();
+    if (binClip->clipType() == ClipType::Timeline) {
+        length = binClip->frameDuration();
+    } else {
+        length = producer->get_playtime();
+    }
     if (length == 0) {
         length = qMax(0, producer->get_length() - 1);
     } else {
@@ -206,8 +219,10 @@ void FilterTask::run()
     if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
         // leave it operate on full clip
         filter.set_in_and_out(0, length);
+        m_length = length;
     } else {
         filter.set_in_and_out(m_inPoint, m_outPoint);
+        m_length = m_outPoint - m_inPoint;
     }
     filter.set("kdenlive:id", "kdenlive-analysis");
     producer->attach(filter);
@@ -346,15 +361,21 @@ void FilterTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
+    int progress = m_progress;
     // Parse MLT output
-    if (buffer.contains(QLatin1String("percentage:"))) {
-        int progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-        if (progress == m_progress) {
-            return;
+    if (m_onPlaylist && m_length > 0) {
+        if (buffer.contains(QLatin1String(", percentage:"))) {
+            progress = buffer.section(QStringLiteral(","), 0, 0).simplified().section(QLatin1Char(' '), -1).toInt();
+            progress = 100 * progress / m_length;
         }
-        if (auto ptr = m_model.lock()) {
-            m_progress = progress;
-            QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, m_progress));
-        }
+    } else if (buffer.contains(QLatin1String("percentage:"))) {
+        progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+    }
+    if (progress == m_progress) {
+        return;
+    }
+    if (auto ptr = m_model.lock()) {
+        m_progress = progress;
+        QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, m_progress));
     }
 }
