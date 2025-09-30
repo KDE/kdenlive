@@ -3041,10 +3041,9 @@ msgid "Screen type"
 msgstr "屏幕类型"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Green-Blue"
+msgstr "绿色,蓝色"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -4781,20 +4780,14 @@ msgid ""
 msgstr "<![CDATA[焦点相对Y坐标]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Quadratic<br>\n"
 "        Correction Coefficient]]>"
 msgstr "<![CDATA[二次校正系数]]>"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficent]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Double Quadratic<br>\n"
 "        Correction Coefficient]]>"
@@ -11505,17 +11498,16 @@ msgstr ""
 "大小"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirr0r"
-msgstr "镜像"
+msgstr "镜像 (frei0r)"
 
 #: data/effects/frei0r/frei0r_mirr0r.xml:5
 #, kde-format
 msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
-msgstr ""
+msgstr "当输入图像超出边界时，重复并翻转图像，同时允许调整偏移、缩放和旋转。"
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
@@ -11578,31 +11570,27 @@ msgstr "水平同步"
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
-msgstr ""
+msgstr "NTSC"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:5
-#, fuzzy, kde-format
-#| msgid "Create an analog video echo"
+#, kde-format
 msgid "Simulates NTSC analog video"
-msgstr "创建模拟信号回波效果"
+msgstr "模拟NTSC模拟信号视频"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:8
-#, fuzzy, kde-format
-#| msgid "Grain and Noise"
+#, kde-format
 msgid "Signal Noise"
-msgstr "Grain, Noise - 颗粒, 噪声"
+msgstr "信号噪声"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:11
-#, fuzzy, kde-format
-#| msgid "Progressive"
+#, kde-format
 msgid "Progressive Scan"
 msgstr "逐行扫描"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:14
-#, fuzzy, kde-format
-#| msgid "scanline0r"
+#, kde-format
 msgid "Scanlines"
-msgstr "scanline0r - 扫描线生成器"
+msgstr "扫描线"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
@@ -11625,10 +11613,9 @@ msgid "Glitch image by shifting rows to and fro."
 msgstr "通过来回移动行制造故障图像"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
-msgstr "行/列移位的激进程度"
+msgstr "行/列位移强度"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
 #, kde-format
@@ -13761,19 +13748,12 @@ msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "在蒙版开始 (设置滤镜蒙版) 效果定义的区域中应用上次用过的效果。"
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "开头"
+msgstr "蒙版开始"
 
 #: data/effects/mask_start.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "This filter makes a snapshot of the frame before it draws simple shapes "
-#| "into the alpha channel. Use it together with the mask_apply effect, that "
-#| "uses a transition to composite the current frame's image over the "
-#| "snapshot. The typical use case is to add effects in the following "
-#| "sequence: this effect, zero or more effects, mask_apply."
+#, kde-format
 msgid ""
 "This filter works in conjunction with the mask_apply filter to make filter "
 "masking easier. This filter makes a snapshop of the frame before applying a "
@@ -13782,9 +13762,10 @@ msgid ""
 "image over the snapshot. The typical use case is to add filters in the "
 "following sequence: mask_start, zero or more filters, mask_apply."
 msgstr ""
-"此滤镜会在绘制简单形状到透明度通道之前制作一个帧快照。配合 Mask Apply (蒙版应"
-"用) 效果使用，它会按照该快照来绘制当前帧的图像的过渡。典型用例是按照以下序列"
-"添加效果：此效果 > 其他效果 (可选) > Mask Apply (蒙版应用)。"
+"此滤镜与 应用蒙版 效果配合使用，以简化处理使用滤镜蒙版。该滤镜在应用效果之前"
+"对帧进行快照，通常会影响定义蒙版的 Alpha 通道。随后，应用蒙版 滤镜使用过渡效"
+"果将当前帧的图像复合到快照上。典型的使用顺序是添加以下效果序列：蒙版开始，零"
+"个或多个滤镜，应用蒙版。"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -15026,12 +15007,12 @@ msgstr "中位数模糊,高斯模糊,像素化,填充不透明区域,无"
 #: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "打字机 (用于字幕剪辑)"
+msgstr "打字机 (用于标题剪辑)"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
-msgstr "打字机效果 v0.3.3 仅应用于字幕剪辑"
+msgstr "打字机效果 v0.3.3 (仅应用于标题剪辑)"
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -17483,7 +17464,7 @@ msgstr "显示/隐藏混音器中的音频轨道控制选项。"
 #, kde-format
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
-msgstr ""
+msgstr "双击、拖放或点击%1以导入媒体"
 
 #: src/bin/bin.cpp:141
 #, kde-format
@@ -17493,17 +17474,17 @@ msgctxt ""
 msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
-msgstr ""
+msgstr "双击、拖放或点击%1以导入媒体"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:757
 #, kde-format
 msgid "Drag to add only audio to timeline"
-msgstr ""
+msgstr "拖动以向时间轴中添加纯音频"
 
 #: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:719
 #, kde-format
 msgid "Drag to add only video to timeline"
-msgstr ""
+msgstr "拖动以向时间轴中添加纯视频"
 
 #: src/bin/bin.cpp:921 src/bin/bin.cpp:1096
 #, kde-format
@@ -17990,17 +17971,17 @@ msgstr "序列"
 #: src/bin/bin.cpp:2741 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
-msgstr "字幕"
+msgstr "标题"
 
 #: src/bin/bin.cpp:2745
 #, kde-format
 msgid "Title Template"
-msgstr "字幕模板"
+msgstr "标题模板"
 
 #: src/bin/bin.cpp:2786
 #, kde-format
 msgid "Select an option in the menu to enable filtering"
-msgstr ""
+msgstr "在菜单中选择以启用过滤"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:2841 src/ui/managecache_ui.ui:359
@@ -18066,7 +18047,7 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
-"用于添加来源素材到项目素材箱的主对话框 (视频、图像、音频、字幕、动画等)。<nl/"
+"用于添加来源素材到项目素材箱的主对话框 (视频、图像、音频、标题、动画等)。<nl/"
 ">点击下箭头图标可以打开用于选择来源类型的列表。<nl/>点击媒体图标可以打开用于"
 "选择来源文件的窗口。"
 
@@ -18083,12 +18064,12 @@ msgstr "添加图像序列…"
 #: src/bin/bin.cpp:3934
 #, kde-format
 msgid "Add Title Clip…"
-msgstr "添加字幕剪辑…"
+msgstr "添加标题剪辑…"
 
 #: src/bin/bin.cpp:3936
 #, kde-format
 msgid "Add Template Title…"
-msgstr "添加模板字幕…"
+msgstr "添加模板标题…"
 
 #: src/bin/bin.cpp:3938
 #, kde-format
@@ -18269,18 +18250,18 @@ msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
-"您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
+"您正在编辑外部标题剪辑 (%1)。您想要保存更改到该标题文件，还是仅保存更改到此项"
 "目？"
 
 #: src/bin/bin.cpp:5061 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
-msgstr "保存字幕"
+msgstr "保存标题"
 
 #: src/bin/bin.cpp:5061
 #, kde-format
 msgid "Save to title file"
-msgstr "保存到字幕文件"
+msgstr "保存到标题文件"
 
 #: src/bin/bin.cpp:5062
 #, kde-format
@@ -18290,7 +18271,7 @@ msgstr "仅保存到项目"
 #: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
-msgstr "字幕剪辑"
+msgstr "标题剪辑"
 
 #: src/bin/bin.cpp:5135
 #, kde-format
@@ -18470,7 +18451,7 @@ msgstr "编辑剪辑"
 #: src/bin/clipcreator.cpp:70
 #, kde-format
 msgid "Create title clip"
-msgstr "创建字幕剪辑"
+msgstr "创建标题剪辑"
 
 #: src/bin/clipcreator.cpp:83
 #, kde-format
@@ -18500,7 +18481,7 @@ msgstr "创建幻灯片剪辑"
 #: src/bin/clipcreator.cpp:376
 #, kde-format
 msgid "Create title template"
-msgstr "创建字幕模板"
+msgstr "创建标题模板"
 
 #: src/bin/clipcreator.cpp:400
 #, kde-format
@@ -18585,10 +18566,9 @@ msgid "Import File on Double Click"
 msgstr "双击时导入文件"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "显示预览 >>>"
+msgstr "显示预览面板"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -18646,10 +18626,9 @@ msgstr ""
 "列。"
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "更新辅助线类别"
+msgstr "更新时间轴标记类别"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
@@ -18668,16 +18647,14 @@ msgid "Delete marker"
 msgstr "删除标记"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "移动图层"
+msgstr "移动标记"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "重命名标记"
+msgstr "调整标记大小"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
@@ -18703,10 +18680,9 @@ msgstr "删除所有标记"
 #: src/bin/model/markerlistmodel.cpp:1058
 #: src/bin/model/markerlistmodel.cpp:1088
 #: src/timeline2/view/timelinecontroller.cpp:1561
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "当前位置未找到辅助线"
+msgstr "当前位置未找到标记"
 
 #: src/bin/model/markerlistmodel.cpp:1019
 #, kde-format
@@ -18739,22 +18715,19 @@ msgid "Add markers"
 msgstr "添加标记"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "更新关键帧"
+msgstr "更新范围标记"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "转换颜色矩阵。"
+msgstr "转换为范围标记"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "添加标记"
+msgstr "添加范围标记"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -18848,11 +18821,10 @@ msgid "Sequence count"
 msgstr "序列计数"
 
 #: src/bin/previewpanel.cpp:60
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "播放区段"
+msgstr "播放媒体"
 
 #: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -18865,62 +18837,53 @@ msgid "Mute"
 msgstr "静音"
 
 #: src/bin/previewpanel.cpp:73
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "无声视频"
+msgstr "静音"
 
 #: src/bin/previewpanel.cpp:74
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "监视器解除静音"
+msgstr "取消静音"
 
 #: src/bin/previewpanel.cpp:103
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
-msgstr "自动"
+msgstr "自动播放"
 
 #: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "导入字幕"
+msgstr "导入文件"
 
 #: src/bin/previewpanel.cpp:198
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "导入字幕"
+msgstr "导入 %1 个文件"
 
 #: src/bin/previewpanel.cpp:201
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "创建文件夹"
+msgstr "导入文件夹"
 
 #: src/bin/previewpanel.cpp:378
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
 #: src/bin/previewpanel.cpp:389
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "音频轨道(&U)"
+msgstr[0] "%1 个音频轨道"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -19100,8 +19063,7 @@ msgstr ""
 "正在监听音频。按<b>空格键</b>以开始/暂停录制，按 <b>Esc</b> 键结束监听。"
 
 #: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "捕获"
@@ -19780,10 +19742,9 @@ msgstr ""
 "将恢复为自动模式。"
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Import markers"
+#, kde-format
 msgid "Export markers"
-msgstr "导入标记"
+msgstr "导出标记"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -19820,12 +19781,10 @@ msgid "JSON File"
 msgstr "JSON 文件"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "导出辅助线数据…"
+msgstr "导出标记数据"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2169
 #: src/dialogs/renderwidget.cpp:2193 src/doc/kdenlivedoc.cpp:766
@@ -19853,10 +19812,9 @@ msgid "Cannot write to file %1"
 msgstr "无法写入文件 %1"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "辅助线已保存到 %1"
+msgstr "标记已保存到 %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -19864,75 +19822,64 @@ msgid "Category name"
 msgstr "类别名称"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "Marker number"
-msgstr "标记 1"
+msgstr "标记号码"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "辅助线位置，格式为 HH:MM:SS:FF"
+msgstr "标记位置，格式为 HH:MM:SS:FF"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "辅助线位置，格式为 (HH:)MM.SS"
+msgstr "标记位置，格式为 (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "下一条辅助线位置，格式为 (HH:)MM.SS"
+msgstr "下一个标记位置，格式为 (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "辅助线位置，以帧计"
+msgstr "标记位置，以帧计"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "下一个辅助线位置，以帧计"
+msgstr "下一个标记位置，以帧计"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "显示标记备注"
+msgstr "标记注释"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "辅助线位置，以帧计"
+msgstr "标记时长，以帧计"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "插入当前时间码"
+msgstr "标记时长，以时间码计"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "下一个辅助线位置，以帧计"
+msgstr "标记结束位置，以时间码计"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "下一个辅助线位置，以帧计"
+msgstr "标记结束位置，以帧计"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "标记是否有范围 (true/false)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -20283,6 +20230,8 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
+"显示 xml 渲染列表：\n"
+"%1"
 
 #: src/dialogs/renderwidget.cpp:102
 #, kde-format
@@ -20290,6 +20239,8 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
+"显示渲染日志文件：\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:203 src/dialogs/renderwidget.cpp:207
 #, kde-format
@@ -20299,7 +20250,7 @@ msgstr "显示日志"
 #: src/dialogs/renderwidget.cpp:222 src/dialogs/renderwidget.cpp:224
 #, kde-format
 msgid "Show Xml"
-msgstr ""
+msgstr "显示 xml"
 
 #: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:1993
 #, kde-format
@@ -20417,6 +20368,8 @@ msgid ""
 "Not compatible with variable bitrate, and only relevant for some video "
 "codecs."
 msgstr ""
+"双通道渲染能更精准的控制最终渲染文件的大小。\n"
+"该选项不兼容于可变比特率，且仅适用于特定视频编码器。"
 
 #: src/dialogs/renderwidget.cpp:413
 #, kde-format
@@ -20617,7 +20570,7 @@ msgstr "导出 %1 已完成，耗时 %2"
 #: src/dialogs/renderwidget.cpp:1759
 #, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr ""
+msgstr "%1 第一通道渲染已完成"
 
 #: src/dialogs/renderwidget.cpp:1779
 #, kde-format
@@ -20700,10 +20653,9 @@ msgid "Timeline"
 msgstr "时间轴"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "颜色和辅助线"
+msgstr "颜色和标记"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
 #, kde-format
@@ -22498,7 +22450,7 @@ msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
-"<li>缺少 MLT 模块：<b>qimage</b> 或 <b>pixbuf</b><br/>图像和字幕需要此模块</"
+"<li>缺少 MLT 模块：<b>qimage</b> 或 <b>pixbuf</b><br/>图像和标题需要此模块</"
 "li>"
 
 #: src/dialogs/wizard.cpp:424
@@ -22506,7 +22458,7 @@ msgstr ""
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
-msgstr "<li>缺少 MLT 模块：<b>kdenlivetitle</b><br/>创建字幕需要此模块</li>"
+msgstr "<li>缺少 MLT 模块：<b>kdenlivetitle</b><br/>创建标题需要此模块</li>"
 
 #: src/dialogs/wizard.cpp:430
 #, kde-format
@@ -22667,7 +22619,7 @@ msgstr "播放列表剪辑"
 #: src/doc/documentchecker.cpp:1875 src/doc/documentchecker.cpp:1891
 #, kde-format
 msgid "Title Image"
-msgstr "字幕图像"
+msgstr "标题图像"
 
 #: src/doc/documentchecker.cpp:1887
 #, kde-format
@@ -22677,7 +22629,7 @@ msgstr "剪辑"
 #: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Title Font"
-msgstr "字幕字体"
+msgstr "标题字体"
 
 #: src/doc/documentchecker.cpp:1893
 #, kde-format
@@ -22717,9 +22669,7 @@ msgid "Fixed"
 msgstr "固定"
 
 #: src/doc/documentchecker.cpp:1917
-#, fuzzy, kde-format
-#| msgctxt "action that will be perfomed on a missing clip"
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "重新加载"
@@ -22743,8 +22693,7 @@ msgid "Placeholder"
 msgstr "占位符"
 
 #: src/doc/documentchecker.cpp:1925
-#, fuzzy, kde-format
-#| msgid "Remove"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "移除"
@@ -23137,7 +23086,7 @@ msgstr "类别"
 #: src/docktitlebarmanager.cpp:20
 #, kde-format
 msgid "Show Title Bars"
-msgstr "显示工具栏"
+msgstr "显示标题工具栏"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:47
 #, kde-format
@@ -24723,10 +24672,9 @@ msgid "Add Clip"
 msgstr "添加剪辑"
 
 #: src/mainwindow.cpp:146
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "添加标记/辅助线 (按类别编号)"
+msgstr "添加标记 (按类别编号)"
 
 #: src/mainwindow.cpp:148
 #, kde-format
@@ -24906,18 +24854,15 @@ msgid "Go to Marker…"
 msgstr "跳转到标记…"
 
 #: src/mainwindow.cpp:621 src/monitor/monitor.cpp:716
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "创建标记"
+msgstr "从区段创建标记"
 
 #: src/mainwindow.cpp:625 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "从所选时间码创建标记"
+msgstr "快速从区段创建标记"
 
 #: src/mainwindow.cpp:644
 #, kde-format
@@ -25089,22 +25034,22 @@ msgstr "混合音频轨道"
 #: src/mainwindow.cpp:1178 src/mainwindow.cpp:1357
 #, kde-format
 msgid "Zoom In Audio Waveforms"
-msgstr ""
+msgstr "放大音频波形"
 
 #: src/mainwindow.cpp:1179 src/mainwindow.cpp:1365
 #, kde-format
 msgid "Zoom Out Audio Waveforms"
-msgstr ""
+msgstr "缩小音频波形"
 
 #: src/mainwindow.cpp:1180
 #, kde-format
 msgid "Reset Audio Waveform Zoom"
-msgstr ""
+msgstr "重置音频波形缩放"
 
 #: src/mainwindow.cpp:1181
 #, kde-format
 msgid "Cycle Audio Waveform Zoom Levels"
-msgstr ""
+msgstr "循环切换音频波形缩放级别"
 
 #: src/mainwindow.cpp:1206
 #, kde-format
@@ -25246,23 +25191,22 @@ msgstr "显示/隐藏时间轴中剪辑的音频缩略图 (默认显示)。"
 #: src/mainwindow.cpp:1340 src/mainwindow.cpp:1395
 #, kde-format
 msgid "%1×"
-msgstr ""
+msgstr "%1×"
 
 #: src/mainwindow.cpp:1376
-#, fuzzy, kde-format
-#| msgid "Monitor Overlay Audio Waveform"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "监视器叠加音频波形图"
+msgstr "点击以重置音频波形缩放"
 
 #: src/mainwindow.cpp:1382
 #, kde-format
 msgid "Current Audio Waveform Zoom Level"
-msgstr ""
+msgstr "当前音频波形缩放级别"
 
 #: src/mainwindow.cpp:1409
 #, kde-format
 msgid "Audio Thumbnails"
-msgstr ""
+msgstr "音频缩略图"
 
 #: src/mainwindow.cpp:1412
 #, kde-format
@@ -25283,18 +25227,15 @@ msgid ""
 msgstr "开/关吸附功能 (将剪辑吸附到播放头、边缘、标记、辅助线和其他对象)。"
 
 #: src/mainwindow.cpp:1424
-#, fuzzy, kde-format
-#| msgid "Clip Name"
+#, kde-format
 msgid "Show Clip Names"
-msgstr "剪辑名称"
+msgstr "显示片段名称"
 
 #: src/mainwindow.cpp:1425
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Toggles the display of clip tags in the timeline (default is On)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip names and info in timeline."
-msgstr "显示/隐藏时间轴中剪辑的标签 (默认显示)。"
+msgstr "在时间线中显示片段名称和信息。"
 
 #: src/mainwindow.cpp:1430
 #, kde-format
@@ -25545,16 +25486,14 @@ msgid "Go to Clip End"
 msgstr "跳转到剪辑结尾"
 
 #: src/mainwindow.cpp:1721
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "跳转到上一条辅助线"
+msgstr "切换到上一个标记"
 
 #: src/mainwindow.cpp:1723
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "跳转到标记…"
+msgstr "切换到下一个标记"
 
 #: src/mainwindow.cpp:1725
 #, kde-format
@@ -25724,70 +25663,59 @@ msgid "Delete All Markers"
 msgstr "删除所有标记"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "添加标记/辅助线 (快速)"
+msgstr "快速添加标记"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 1"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 2"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 3"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 4"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 5"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 6"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 7"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 8"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 9"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "添加标记 (按类别)"
+msgstr "添加标记类别 10"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -26017,49 +25945,39 @@ msgid "Disable Timeline Preview"
 msgstr "禁用时间轴预览"
 
 #: src/mainwindow.cpp:2041
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "移除标记"
+msgstr "添加/删除标记"
 
 #: src/mainwindow.cpp:2044
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "搜索标记"
+msgstr "搜索标记..."
 
 #: src/mainwindow.cpp:2045
-#, fuzzy, kde-format
-#| msgid "Edit Marker…"
+#, kde-format
 msgid "Export Markers…"
-msgstr "编辑标记…"
+msgstr "导出标记..."
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "时间轴预览"
+msgstr "时间线标记已锁定"
 
 #: src/mainwindow.cpp:2051
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "加载剪辑标记"
+msgstr "锁定时间线标记"
 
 #: src/mainwindow.cpp:2053
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"锁定辅助线。辅助线被锁定后，使用间隙工具或者插入/移除轨道中的空白帧时，辅助线"
-"将不会移动。"
+"锁定标记。标记被锁定后，使用间隙工具或者插入/移除轨道中的空白帧时，辅助线将不"
+"会移动。"
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -27120,16 +27038,14 @@ msgid ""
 msgstr "打开项目/剪辑监视器选项列表 (例如：音频音量、监视器大小)。"
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "跳转到标记…"
+msgstr "跳转至片段标记..."
 
 #: src/monitor/monitor.cpp:442
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "跳转到标记…"
+msgstr "跳转到时间线标记..."
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -27208,10 +27124,9 @@ msgid "Set current image as thumbnail"
 msgstr "设置当前图像为缩略图"
 
 #: src/monitor/monitor.cpp:741
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "从所选时间码创建标记"
+msgstr "从区段创建标记..."
 
 #: src/monitor/monitor.cpp:753
 #, kde-format
@@ -27322,25 +27237,24 @@ msgstr "无法获取剪辑监视器的生产来源"
 #: src/timeline2/view/timelinecontroller.cpp:5746
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
-msgstr ""
+msgstr "未定义有效的区段。请先设置输入/输出点。"
 
 #: src/monitor/monitor.cpp:3309
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "从区段创建范围标记"
 
 #: src/monitor/monitor.cpp:3315 src/monitor/monitor.cpp:3336
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "从区段创建的范围标记"
 
 #: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3338
 #: src/timeline2/view/timelinecontroller.cpp:5764
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "无法创建文件。"
+msgstr "从区域创建范围标记失败"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -27475,10 +27389,9 @@ msgstr "跳转到区段结尾"
 
 #: src/monitor/monitorproxy.cpp:721
 #: src/timeline2/view/timelinecontroller.cpp:5753
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "重命名标记"
+msgstr "区域标记"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -28560,8 +28473,7 @@ msgid "Showing backup files for %1"
 msgstr "显示 %1 的备份文件"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
 msgstr "编辑标记类别"
 
@@ -28576,10 +28488,9 @@ msgid "Category %1"
 msgstr "类别 %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "编辑标记类别"
+msgstr "删除标记类别"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -28637,89 +28548,68 @@ msgid "Refresh All Thumbnails"
 msgstr "刷新所有缩略图"
 
 #: src/project/dialogs/guideslist.cpp:251
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "添加标记"
+msgstr "添加新标记"
 
 #: src/project/dialogs/guideslist.cpp:252
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
-msgstr "添加新的辅助线。这将在当前帧位置添加一条辅助线。"
+msgstr "添加新的标记。这将在当前帧位置添加一个新标记。"
 
 #: src/project/dialogs/guideslist.cpp:253
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "删除标记"
+msgstr "删除标记."
 
 #: src/project/dialogs/guideslist.cpp:254
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "删除辅助线。这将删除所有选定的辅助线。"
+msgstr "删除标记。这将删除所有选定的标记。"
 
 #: src/project/dialogs/guideslist.cpp:255
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "编辑选定的辅助线。"
+msgstr "编辑所选标记."
 
 #: src/project/dialogs/guideslist.cpp:256
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
-msgstr "编辑选定的辅助线。选择多条辅助线后可以更改它们的类别。"
+msgstr "编辑选定的标记。选择多个标记后允许更改其类别。"
 
 #: src/project/dialogs/guideslist.cpp:257
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "过滤辅助线类别。"
+msgstr "过滤标记类别"
 
 #: src/project/dialogs/guideslist.cpp:259
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
-msgstr ""
-"过滤辅助线类别。此功能用于在此对话框和时间轴中显示或隐藏所选辅助线类别。"
+msgstr "过滤标记类别。此功能用于在此对话框和时间轴中显示或隐藏所选标记类别。"
 
 #: src/project/dialogs/guideslist.cpp:260
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "默认辅助线类别。"
+msgstr "默认标记类别."
 
 #: src/project/dialogs/guideslist.cpp:261
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
-msgstr "默认辅助线类别。新创建的辅助线将使用此类别。"
+msgstr "默认标记类别。新创建的标记将使用此类别。"
 
 #: src/project/dialogs/guideslist.cpp:286
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "搜索标记"
+msgstr "搜索所有标记"
 
 #: src/project/dialogs/guideslist.cpp:301
 #, kde-format
@@ -28739,22 +28629,19 @@ msgstr "标记文件大于 1MB，您确定要导入吗？"
 
 #: src/project/dialogs/guideslist.cpp:495
 #: src/project/dialogs/guideslist.cpp:506
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
 msgstr "移除标记"
 
 #: src/project/dialogs/guideslist.cpp:589
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "搜索标记"
+msgstr "搜索剪辑标记"
 
 #: src/project/dialogs/guideslist.cpp:629
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "搜索标记"
+msgstr "搜索时间线标记"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -30524,7 +30411,7 @@ msgstr "HSV 明度"
 #: src/scopes/colorscopes/histogram.cpp:39
 #, kde-format
 msgid "Y (Luma)"
-msgstr ""
+msgstr "Y (亮度)"
 
 #: src/scopes/colorscopes/histogram.cpp:43
 #, kde-format
@@ -30590,7 +30477,7 @@ msgstr "最大值"
 #: src/scopes/colorscopes/waveform.cpp:44
 #, kde-format
 msgid "Paint Mode"
-msgstr ""
+msgstr "绘制模式"
 
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
@@ -30679,7 +30566,7 @@ msgstr "绘制 I/Q 线"
 #: src/scopes/colorscopes/vectorscope.cpp:772
 #, kde-format
 msgid "Gain value:"
-msgstr ""
+msgstr "增益："
 
 #: src/scopes/scopemanager.cpp:275
 #, kde-format
@@ -31589,7 +31476,7 @@ msgstr "麦克风音量"
 #: src/timeline2/view/qml/AudioRecordButton.qml:261
 #, kde-format
 msgid "Track is locked. Cannot start Recording."
-msgstr ""
+msgstr "轨道已锁定。无法开始录制。"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:253
 #, kde-format
@@ -31788,7 +31675,7 @@ msgstr "%1%2，持续时间 = %3"
 #: src/timeline2/view/qml/Track.qml:506
 #, kde-format
 msgid "%1% | Adjusting speed"
-msgstr ""
+msgstr "%1% | 调整速度"
 
 #: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
@@ -31901,10 +31788,9 @@ msgid "Select at least 2 items to group"
 msgstr "请选择至少 2 个项目进行组合"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "光标时间上找不到标记"
+msgstr "在位置没有找到范围标记"
 
 #: src/timeline2/view/timelinecontroller.cpp:1848
 #, kde-format
@@ -32032,7 +31918,7 @@ msgstr "打开序列"
 #: src/timeline2/view/timelinecontroller.cpp:3959
 #, kde-format
 msgid "Item is not a title clip"
-msgstr "该项目并非字幕剪辑"
+msgstr "该项目不是标题剪辑"
 
 #: src/timeline2/view/timelinecontroller.cpp:4057
 #, kde-format
@@ -32158,10 +32044,9 @@ msgid "Manage Subtitles"
 msgstr "管理字幕"
 
 #: src/timeline2/view/timelinecontroller.cpp:5702
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No range guide found at position"
-msgstr "当前位置未找到辅助线"
+msgstr "在位置没有找到范围辅助线"
 
 #: src/timeline2/view/timelinetabs.cpp:51
 #, kde-format
@@ -32238,12 +32123,12 @@ msgstr "渐变 %1"
 #: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
-msgstr "此字幕剪辑具有不同的帧尺寸。"
+msgstr "此标题剪辑具有不同的帧尺寸。"
 
 #: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
-msgstr "字幕编码方案"
+msgstr "标题编码方案"
 
 #: src/titler/titledocument.cpp:462
 #, kde-format
@@ -32473,17 +32358,17 @@ msgstr "添加图像…"
 #: src/titler/titlewidget.cpp:434
 #, kde-format
 msgid "Open Title…"
-msgstr ""
+msgstr "打开标题…"
 
 #: src/titler/titlewidget.cpp:439
 #, kde-format
 msgid "Save Title As…"
-msgstr "字幕另存为…"
+msgstr "另存标题为…"
 
 #: src/titler/titlewidget.cpp:444
 #, kde-format
 msgid "Download New Title Templates…"
-msgstr "下载新的字幕模板…"
+msgstr "下载新的标题模板…"
 
 #: src/titler/titlewidget.cpp:561
 #, kde-format
@@ -32493,14 +32378,14 @@ msgstr "保存并添加到项目"
 #: src/titler/titlewidget.cpp:562
 #, kde-format
 msgid "Create Title"
-msgstr "创建字幕"
+msgstr "创建标题"
 
 #: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
-msgstr "您确定要加载新的模板吗？此字幕的更改将会丢失。"
+msgstr "您确定要加载新的模板吗？此标题的更改将会丢失。"
 
 #: src/titler/titlewidget.cpp:929
 #, kde-format
@@ -32542,12 +32427,12 @@ msgstr "+Y"
 #: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgid "Load Title"
-msgstr "加载字幕"
+msgstr "加载标题"
 
 #: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive 字幕"
+msgstr "Kdenlive 标题"
 
 #: src/titler/titlewidget.cpp:2325
 #, kde-format
@@ -32555,7 +32440,7 @@ msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
-"您想要嵌入图像到此字幕文件吗？\n"
+"您想要嵌入图像到此标题文件吗？\n"
 "此操作是分享字幕所必需的。"
 
 #: src/titler/titlewidget.cpp:2326
@@ -32568,7 +32453,7 @@ msgstr "嵌入的图像"
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
-msgstr[0] "此字幕有 %1 个缺失元素"
+msgstr[0] "此标题有 %1 个缺失元素"
 
 #: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
@@ -32583,12 +32468,12 @@ msgstr "删除缺失的元素"
 #: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Update Title"
-msgstr "更新字幕"
+msgstr "更新标题"
 
 #: src/titler/titlewidget.cpp:2451
 #, kde-format
 msgid "Add as new Title"
-msgstr "添加为新字幕"
+msgstr "添加为新标题"
 
 #: src/titler/titlewidget.cpp:2505
 #, kde-format
@@ -33790,7 +33675,7 @@ msgstr "素材库文件夹："
 #: src/ui/configenv_ui.ui:277
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "用于导出、字幕、脚本的文件夹："
+msgstr "用于导出、标题、脚本的文件夹："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:333
@@ -34113,7 +33998,7 @@ msgstr "颜色剪辑："
 #: src/ui/configmisc_ui.ui:255
 #, kde-format
 msgid "Title clips:"
-msgstr "字幕剪辑："
+msgstr "标题剪辑："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:262
@@ -34264,11 +34149,9 @@ msgstr "带有透明度通道的剪辑的编码方案："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "移除代理剪辑"
+msgstr "摄像机代理片段："
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -35819,17 +35702,15 @@ msgstr "图像预览"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "渲染时间"
+msgstr "结束时间"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "移除标记"
+msgstr "范围标记"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -36149,11 +36030,9 @@ msgstr "代理剪辑图像尺寸"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "移除代理剪辑"
+msgstr "摄像机代理片段"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
@@ -36355,24 +36234,21 @@ msgstr "所选区段 (&Z)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker 1"
+#, kde-format
 msgid "&Marker zone"
-msgstr "标记 1"
+msgstr "标记区域 (&M)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "辅助线多重导出"
+msgstr "标记多重导出"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "用作分隔符的辅助线："
+msgstr "用作分隔符的标记："
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495
@@ -36652,10 +36528,9 @@ msgstr "更改阈值"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Create range markers"
-msgstr "更新关键帧"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
@@ -36913,7 +36788,7 @@ msgstr "保持下一关键帧的速度"
 #: src/ui/titlewidget_ui.ui:18
 #, kde-format
 msgid "Title Clip"
-msgstr "字幕剪辑"
+msgstr "标题剪辑"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonFitZoom)
 #. i18n: ectx: property (text), widget (QToolButton, buttonRealSize)
@@ -37315,20 +37190,20 @@ msgstr "额外信息"
 #: src/ui/vectorscope_ui.ui:68
 #, kde-format
 msgid "Reset Zoom"
-msgstr ""
+msgstr "重置缩放"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
 #, kde-format
 msgid "Zoom level"
-msgstr ""
+msgstr "缩放级别"
 
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:106
 #, kde-format
 msgid "1.0×"
-msgstr ""
+msgstr "1.0×"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -37489,133 +37364,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "External proxy clips:"
-#~ msgstr "外部代理剪辑："
-
-#~ msgid "Export guides"
-#~ msgstr "导出辅助线"
-
-#~ msgid "Guide number"
-#~ msgstr "辅助线数值"
-
-#~ msgid "Guide comment"
-#~ msgstr "辅助线备注"
-
-#~ msgid "Go to Guide…"
-#~ msgstr "跳转到辅助线…"
-
-#~ msgid "Go to Next Guide"
-#~ msgstr "跳转到下一条辅助线"
-
-#~ msgid "Add Marker/Guide 1"
-#~ msgstr "添加标记/辅助线 1"
-
-#~ msgid "Add Marker/Guide 2"
-#~ msgstr "添加标记/辅助线 2"
-
-#~ msgid "Add Marker/Guide 3"
-#~ msgstr "添加标记/辅助线 3"
-
-#~ msgid "Add Marker/Guide 4"
-#~ msgstr "添加标记/辅助线 4"
-
-#~ msgid "Add Marker/Guide 5"
-#~ msgstr "添加标记/辅助线 5"
-
-#~ msgid "Add Marker/Guide 6"
-#~ msgstr "添加标记/辅助线 6"
-
-#~ msgid "Add Marker/Guide 7"
-#~ msgstr "添加标记/辅助线 7"
-
-#~ msgid "Add Marker/Guide 8"
-#~ msgstr "添加标记/辅助线 8"
-
-#~ msgid "Add Marker/Guide 9"
-#~ msgstr "添加标记/辅助线 9"
-
-#~ msgid "Add Marker/Guide 10"
-#~ msgstr "添加标记/辅助线 10"
-
-#~ msgid "Add/Remove Guide"
-#~ msgstr "添加/移除辅助线"
-
-#~ msgid "Delete Guide"
-#~ msgstr "删除辅助线"
-
-#~ msgid "Edit Guide…"
-#~ msgstr "编辑辅助线…"
-
-#~ msgid "Search Guide…"
-#~ msgstr "搜索辅助线…"
-
-#~ msgid "Export Guides…"
-#~ msgstr "导出辅助线…"
-
-#~ msgid "Guides Locked"
-#~ msgstr "辅助线已锁定"
-
-#~ msgid "Lock guides"
-#~ msgstr "锁定辅助线"
-
-#~ msgid "Delete All Guides"
-#~ msgstr "删除所有辅助线"
-
-#~ msgid "Edit Guide Category"
-#~ msgstr "编辑辅助线类别"
-
-#~ msgid "Delete Guide Category"
-#~ msgstr "删除辅助线类别"
-
-#~ msgid "Add new guide."
-#~ msgstr "添加新的辅助线。"
-
-#~ msgid "Delete guide."
-#~ msgstr "删除辅助线。"
-
-#~ msgid "Remove guides"
-#~ msgstr "移除辅助线"
-
-#~ msgid "guide"
-#~ msgstr "辅助线"
-
-#~ msgid "&Guide zone"
-#~ msgstr "辅助区段(&G)"
-
-#~ msgid "Automatic Transition"
-#~ msgstr "自动转场"
-
-#~ msgid "Current settings"
-#~ msgstr "当前设置"
-
-#~ msgid "Capture video (Video4Linux2)"
-#~ msgstr "捕获视频 (Video4Linux2)"
-
-#~ msgid "Video device:"
-#~ msgstr "视频设备："
-
-#~ msgid "Capture format:"
-#~ msgstr "捕获格式："
-
-#~ msgid "720x576"
-#~ msgstr "720x576"
-
-#~ msgid "25/1"
-#~ msgstr "25/1"
-
-#~ msgid "59/54"
-#~ msgstr "59/54"
-
-#~ msgid "4/3"
-#~ msgstr "4/3"
-
-#~ msgid "Capture audio (ALSA)"
-#~ msgstr "捕获音频 (ALSA)"
-
-#~ msgctxt "action that will be perfomed on a missing clip"
-#~ msgid "Remove"
-#~ msgstr "移除"
-
-#~ msgid "Cannot apply effects on folders"
-#~ msgstr "无法应用效果到文件夹"
