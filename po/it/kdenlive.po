@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-28 00:43+0000\n"
-"PO-Revision-Date: 2025-09-14 11:41+0200\n"
+"PO-Revision-Date: 2025-09-28 17:05+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -554,7 +554,7 @@ msgstr "Rilascio"
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr ""
+msgstr "Guadagno di compensazione"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
@@ -1162,6 +1162,8 @@ msgid ""
 "Apply a two-pole all-pass filter with central frequency (in Hz) frequency, "
 "and filter-width width. Boost or cut lower frequencies."
 msgstr ""
+"Applica un filtro passa-tutto bipolare con frequenza centrale (in Hz) e "
+"larghezza del filtro. Aumenta o taglia le frequenze più basse."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -1248,13 +1250,12 @@ msgstr "Raggio di luma"
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr ""
+msgstr "Raggio del rettangolo di sfocatura su luma"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Power"
-msgstr "Modalità luma"
+msgstr "Potenza luma"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
@@ -1357,7 +1358,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bwdif.xml:9
 #, kde-format
 msgid "Send frame,Send field"
-msgstr ""
+msgstr "Invia fotogramma,Invia campo"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
 #: data/effects/avfilter/avfilter_yadif.xml:12
@@ -2210,7 +2211,7 @@ msgstr "Modalità Dithering"
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "Nessun dithering,Dithering di Floyd-Steinberg"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:39
 #, kde-format
@@ -2299,6 +2300,17 @@ msgid ""
 "specified number of attacks and decays is lower than number of channels, the "
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
+"Un elenco di tempi in secondi per ciascun canale su cui viene calcolata la "
+"media del livello istantaneo del segnale in ingresso per determinarne il "
+"volume. Gli attacchi si riferiscono all'aumento del volume, mentre i "
+"decadimenti alla diminuzione del volume. Nella maggior parte dei casi, il "
+"tempo di attacco (la risposta all'aumento del volume dell'audio) dovrebbe "
+"essere inferiore al tempo di decadimento, poiché l'orecchio umano è più "
+"sensibile ai suoni improvvisi e forti, piuttosto che a quelli improvvisi e "
+"deboli. Un valore tipico per l'attacco è 0,3 secondi, mentre uno per il "
+"decadimento è 0,8 secondi. Se il numero specificato di attacchi e di "
+"decadimenti è inferiore al numero di canali, l'ultimo attacco/decadimento "
+"impostato verrà utilizzato per tutti i canali rimanenti."
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, kde-format
@@ -2412,26 +2424,24 @@ msgstr ""
 "l'impostazione della distanza rigida."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
-#, fuzzy, kde-format
-#| msgid "Mix amount"
+#, kde-format
 msgid "Dry amount"
-msgstr "Quantità di mescolamento"
+msgstr "Quantità dry"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:24
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
-msgstr ""
+msgstr "Imposta la quantità dry, cioè quella del segnale non elaborato (dry)."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Wet amount"
-msgstr "Quantità di tinta"
+msgstr "Quantità wet"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "Imposta la quantità wet, cioè quella del segnale elaborato (wet)."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
@@ -2811,6 +2821,13 @@ msgid ""
 "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
 "will pick only pixels on same column]]>"
 msgstr ""
+"<![CDATA[Imposta la direzione in gradi da cui verranno confrontati quattro "
+"pixel.<br>\n"
+"        Se positiva, verrà selezionata una direzione casuale compresa tra 0 "
+"e la direzione impostata. Se negativa, verrà selezionato il valore assoluto, "
+"oppure quello esatto. Ad esempio, le direzioni 0°, -180° o -360° "
+"selezioneranno solo i pixel sulla stessa riga, mentre -90° selezionerà solo "
+"i pixel sulla stessa colonna.]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:38
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:14
@@ -3242,7 +3259,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
 msgid "Doubleweave"
-msgstr "Doppia onda"
+msgstr "Doppio intreccio"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
@@ -3703,6 +3720,9 @@ msgid ""
 "       \tThis sets denoising strength. Using very high sigma with low "
 "overlap may give blocking artifacts.]]>"
 msgstr ""
+"<![CDATA[Imposta la costante sigma del rumore.<br>\n"
+"       \tImposta l'intensità della riduzione del rumore. L'uso di un sigma "
+"molto alta con una sovrapposizione bassa può causare artefatti di blocco.]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:13
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:20
@@ -4036,7 +4056,7 @@ msgstr "Interpolazione"
 #: data/effects/avfilter/avfilter_flanger.xml:38
 #, kde-format
 msgid "Set delay-line interpolation, linear or quadratic."
-msgstr ""
+msgstr "Imposta l'interpolazione della linea di ritardo: lineare o quadratica."
 
 #: data/effects/avfilter/avfilter_flanger.xml:39
 #, kde-format
@@ -4084,10 +4104,9 @@ msgid "Constant quantizer"
 msgstr "Quantizzatore costante"
 
 #: data/effects/avfilter/avfilter_fspp.xml:18
-#, fuzzy, kde-format
-#| msgid "In Frame"
+#, kde-format
 msgid "QP on B-Frames"
-msgstr "Fotogramma di attacco"
+msgstr "Fotogrammi QP su B"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
 #, kde-format
@@ -4119,17 +4138,15 @@ msgstr ""
 "        Per impostazione predefinita tutti i piani lo sono (YUV).]]>"
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set horizontal sigma, standard deviation of Gaussian blur. Determines the "
-#| "strength of the horizontal blur. Default is 10."
+#, kde-format
 msgid ""
 "<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
 "        Determines the strength of the horizontal blur. Default is 10.]]>"
 msgstr ""
-"Imposta la sigma orizzontale, la deviazione standard della sfocatura "
-"gaussiana. Determina la forza della sfocatura orizzontale. Il valore "
-"predefinito è 10."
+"<![CDATA[Imposta sigma, la deviazione standard della sfocatura gaussiana."
+"<br>\n"
+"         Determina la forza della sfocatura orizzontale. Il valore "
+"predefinito è 10.]]>"
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4411,7 +4428,7 @@ msgstr "Visualizza"
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
 msgid "Overlay,Stack,Parade"
-msgstr ""
+msgstr "Sovrapponi,Impila,Parata"
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
 #, kde-format
@@ -4487,12 +4504,14 @@ msgid "Hq*x Interpolator"
 msgstr "Interpolatore HQ*X"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
-#, fuzzy, kde-format
-#| msgid "Scale the input by 2, 3 or 4 using the hq*x magnification algorithm"
+#, kde-format
 msgid ""
 "Apply a high-quality magnification filter designed for pixel art. Scaling is "
 "done by 2, 3 or 4 using the hq*x magnification algorithm."
-msgstr "Scala l'ingresso di 2, 3 o 4 usando l'algoritmo d'ingrandimento hq*x"
+msgstr ""
+"Applica un filtro di ingrandimento di alta qualità progettato per le pixel "
+"art. Il ridimensionamento viene effettuato di 2, 3 o 4 volte utilizzando "
+"l'algoritmo di ingrandimento hq*x."
 
 #: data/effects/avfilter/avfilter_hqx.xml:9
 #, kde-format
@@ -5007,10 +5026,9 @@ msgid "Measured threshold of input file"
 msgstr "Soglia misurata del file d'ingresso"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset gain"
-msgstr "Scostamento X"
+msgstr "Scostamento guadagno"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
@@ -5186,16 +5204,14 @@ msgid "Convert video to gray using custom color filter."
 msgstr "Converte in grigio il video usando un filtro di colore personalizzato."
 
 #: data/effects/avfilter/avfilter_monochrome.xml:8
-#, fuzzy, kde-format
-#| msgid "Chroma Keep"
+#, kde-format
 msgid "Chroma blue spot"
-msgstr "Tieni crominanza"
+msgstr "Punto blu cromatico"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:11
-#, fuzzy, kde-format
-#| msgid "Chroma Keep"
+#, kde-format
 msgid "Chroma red spot"
-msgstr "Tieni crominanza"
+msgstr "Punto rosso cromatico"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:14
 #, kde-format
@@ -5235,31 +5251,27 @@ msgstr "Aggiungi rumore ai fotogrammi dell'ingresso video"
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, kde-format
 msgid "All components noise seed"
-msgstr ""
+msgstr "Seme del rumore per tutte le componenti"
 
 #: data/effects/avfilter/avfilter_noise.xml:11
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #0 noise seed"
-msgstr "Quantità di rumore aggiunto."
+msgstr "Seme del rumore della componente 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #1 noise seed"
-msgstr "Quantità di rumore aggiunto."
+msgstr "Seme del rumore della componente 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #2 noise seed"
-msgstr "Quantità di rumore aggiunto."
+msgstr "Seme del rumore della componente 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #3 noise seed"
-msgstr "Quantità di rumore aggiunto."
+msgstr "Seme del rumore della componente 3"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, kde-format
@@ -5337,24 +5349,28 @@ msgstr ""
 #: data/effects/avfilter/avfilter_normalize.xml:8
 #, kde-format
 msgid "Output darkest input color"
-msgstr ""
+msgstr "Il colore di uscita più scuro possibile"
 
 #: data/effects/avfilter/avfilter_normalize.xml:9
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
 #, kde-format
 msgid "Output color to which darkest input color is mapped (default black)"
 msgstr ""
+"Colore di uscita a cui viene associato il colore in ingresso più scuro (il "
+"nero è il predefinito)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:12
 #, kde-format
 msgid "Output brightest input color"
-msgstr ""
+msgstr "Il colore di uscita più chiaro possibile"
 
 #: data/effects/avfilter/avfilter_normalize.xml:13
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
 #, kde-format
 msgid "Output color to which brightest input color is mapped (default white)"
 msgstr ""
+"Colore di uscita a cui viene associato il colore in ingresso più chiaro (il "
+"bianco è il predefinito)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:16
 #: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
@@ -6060,6 +6076,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Imposta il raggio cromatico.<br>\n"
+"            Il valore specifica la varianza del filtro gaussiano utilizzato "
+"per sfocare l'immagine (più lento se più grande). Se non specificato, il "
+"valore predefinito è quello impostato per <em>Raggio Luma</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -6113,6 +6133,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Imposta il raggio alfa.<br>\n"
+"            Il valore specifica la varianza del filtro gaussiano utilizzato "
+"per sfocare l'immagine (più lento se più grande). Se non specificato, il "
+"valore predefinito è quello impostato per <em>Raggio Luma</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -6281,6 +6305,10 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
+"affiancato parallelo, affiancato incrociato, sopra-sotto (sinistra sopra), "
+"sopra-sotto (destra sopra), righe intercalate (sinistra in alto), righe "
+"intercalate (destra in alto), colonne intercalate con occhio sinistro prima, "
+"colonne intercalate con occhio destro prima"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
 #, kde-format
@@ -6481,6 +6509,8 @@ msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
 msgstr ""
+"Imposta la base stereo tra i canali mono e invertiti. Il valore predefinito "
+"è 0. L'intervallo permesso va da -1 a 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -6594,7 +6624,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereowiden.xml:22
 #, kde-format
 msgid "Drymix"
-msgstr ""
+msgstr "Drymix"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:23
 #, kde-format
@@ -6878,7 +6908,7 @@ msgstr "Soglia alta"
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
-msgstr ""
+msgstr "Automatico,Rec.601 (intercalato),Rec.709 (progressivo)"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
@@ -7004,6 +7034,13 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+"<![CDATA[In modalità riga, il grafico sul lato sinistro rappresenta il "
+"valore<br>\n"
+"       \t0 della componente colore, mentre quello sul lato destro "
+"rappresenta il valore di 255.<br>\n"
+"       \tIn modalità colonna, la parte superiore rappresenta il valore della "
+"componente colore = 0, mentre la parte inferiore rappresenta il valore di "
+"255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:12
 #, kde-format
@@ -7027,6 +7064,9 @@ msgid ""
 "       \ton the left side for <em>row</em> mode and at the top for "
 "<em>column</em> mode.]]>"
 msgstr ""
+"<![CDATA[In modalità specchio, i valori più alti saranno rappresentati<br>\n"
+"       \tsul lato sinistro per la modalità <em>riga</em> e in alto per la "
+"modalità <em>colonna</em>.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:26
 #, kde-format
@@ -7101,7 +7141,7 @@ msgstr "<![CDATA[Imposta la scala usata per visualizzare la graticola]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "Digital,Millivolts,IRE"
-msgstr ""
+msgstr "Digitale,Millivolt,IRE"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, kde-format
@@ -7120,6 +7160,8 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
+"<![CDATA[Utilizzato solo con filtro passa-basso, e quando lo schermo<br>\n"
+"       \tnon è sovrapposto e i formati dei pixel in ingresso non sono RGB]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
@@ -8713,6 +8755,8 @@ msgid ""
 "<![CDATA[The amount of fisheye to mix in.<br>\n"
 "    \t100 means that you get a 100% fisheye lens.]]>"
 msgstr ""
+"<![CDATA[La quantità di occhio di pesce da aggiungere.<br>\n"
+"    \t100 significa avere una lente al 100% a occhio di pesce.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -8818,6 +8862,10 @@ msgid ""
 "degrees apart.<br>\n"
 "    \tThese parameters adds a rotation to both lenses to correct for this.]]>"
 msgstr ""
+"<![CDATA[Raramente le due fotocamere a occhio di pesce di una fotocamera a "
+"360 gradi sono perfettamente distanziate di 180 gradi l'una dall'altra.<br>\n"
+"    \tQuesti parametri aggiungono una rotazione a entrambe le lenti per "
+"correggere questo difetto.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:13
 #, kde-format
@@ -8991,11 +9039,16 @@ msgid ""
 "    \tThis parameter \"stretches\" the image near nadir to cover up the "
 "missing parts.]]>"
 msgstr ""
+"<![CDATA[Le fotocamere a 360 gradi come la Theta hanno un problema con la "
+"direzione del nadir: indipendentemente da tutto, nell'immagine sarà sempre "
+"visibile una piccola parte della fotocamera.<br>\n"
+"    \tQuesto parametro \"allunga\" l'immagine vicino al nadir in modo da "
+"coprire le parti mancanti.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
 #, kde-format
 msgid "Nadir start"
-msgstr "Nadir inizio"
+msgstr "Inizio nadir"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:76
 #, kde-format
@@ -14144,10 +14197,9 @@ msgstr ""
 "Applica gli effetti precedenti nella zona definita dall'effetto Mask Start."
 
 #: data/effects/mask_start.xml:4
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Mask Start"
-msgstr "Inizio"
+msgstr "Inizio maschera"
 
 #: data/effects/mask_start.xml:5
 #, fuzzy, kde-format
@@ -14755,6 +14807,9 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Quando si animano le proprietà con fotogrammi chiave e l'opzione\n"
+"<em>Disabilita ripetizione</em> è disattivata\t     l'animazione alterna la "
+"riproduzione in avanti e all'indietro ad ogni ripetizione.]]>"
 
 #: data/effects/rotate-3-way.xml:20
 #, kde-format
@@ -19119,10 +19174,9 @@ msgid "Import File on Double Click"
 msgstr "Importa file al doppio clic"
 
 #: src/bin/mediabrowser.cpp:76
-#, fuzzy, kde-format
-#| msgid "Show Preview >>>"
+#, kde-format
 msgid "Show Preview Panel"
-msgstr "Mostra anteprima >>>"
+msgstr "Mostra pannello di anteprima"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19270,22 +19324,19 @@ msgid "Add markers"
 msgstr "Aggiungi marcatori"
 
 #: src/bin/model/markerlistmodel.cpp:1134
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "Aggiorna fotogramma chiave"
+msgstr "Aggiorna il marcatore di intervallo"
 
 #: src/bin/model/markerlistmodel.cpp:1136
-#, fuzzy, kde-format
-#| msgid "Convert color matrix."
+#, kde-format
 msgid "Convert to range marker"
-msgstr "Converti la matrice dei colori."
+msgstr "Converti in marcatore di intervallo"
 
 #: src/bin/model/markerlistmodel.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "Aggiungi marcatore"
+msgstr "Aggiungi marcatore di intervallo"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -19379,11 +19430,10 @@ msgid "Sequence count"
 msgstr "Conteggio sequenza"
 
 #: src/bin/previewpanel.cpp:60
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgctxt "@info:tooltip play a video or audio file"
 msgid "Play media"
-msgstr "Riproduci zona"
+msgstr "Riproduci file multimediale"
 
 #: src/bin/previewpanel.cpp:69 src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
@@ -19396,63 +19446,54 @@ msgid "Mute"
 msgstr "Silenzia"
 
 #: src/bin/previewpanel.cpp:73
-#, fuzzy, kde-format
-#| msgid "Mute Video"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Mute audio"
-msgstr "Silenzia video"
+msgstr "Silenzia audio"
 
 #: src/bin/previewpanel.cpp:74
-#, fuzzy, kde-format
-#| msgid "Unmute Monitor"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Unmute audio"
-msgstr "Attiva l'audio del controllo"
+msgstr "Attiva audio"
 
 #: src/bin/previewpanel.cpp:103
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
-msgstr "Automatica"
+msgstr "Riproduzione automatica"
 
 #: src/bin/previewpanel.cpp:112 src/bin/previewpanel.cpp:203
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import File"
-msgstr "Importa sottotitoli"
+msgstr "Importa file"
 
 #: src/bin/previewpanel.cpp:198
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import %1 Files"
-msgstr "Importa guide"
+msgstr "importa %1 file"
 
 #: src/bin/previewpanel.cpp:201
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgctxt "@action:button"
 msgid "Import Folder"
-msgstr "Crea cartella"
+msgstr "Importa cartella"
 
 #: src/bin/previewpanel.cpp:378
-#, fuzzy, kde-format
-#| msgctxt "frames per second"
-#| msgid "fps"
+#, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "fps"
 
 #: src/bin/previewpanel.cpp:389
-#, fuzzy, kde-format
-#| msgid "A&udio track"
+#, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
 msgid_plural "%1 audio tracks"
-msgstr[0] "Traccia a&udio"
-msgstr[1] "Traccia a&udio"
+msgstr[0] "Una traccia audio"
+msgstr[1] "%1 tracce audio"
 
 #: src/bin/projectclip.cpp:257
 #, kde-format
@@ -19634,11 +19675,10 @@ msgstr ""
 "registrazione, <b>Esc</b> per terminare."
 
 #: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
-msgstr "Cattura"
+msgstr "cattura"
 
 #: src/core.cpp:116
 #, kde-format
@@ -26469,64 +26509,54 @@ msgid "Add Marker Quickly"
 msgstr "Aggiungi velocemente un marcatore o una guida"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 1"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 2"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 3"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 4"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 5"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 6"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 7"
 
 #: src/mainwindow.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 8"
 
 #: src/mainwindow.cpp:1817
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 9"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Aggiungi marcatori per categoria"
+msgstr "Aggiungi marcatore di categoria 10"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -35239,11 +35269,9 @@ msgstr "Profilo per le clip con canale alfa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Rimuovi clip rappresentativa"
+msgstr "Clip rappresentative della videocamera:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -37148,11 +37176,9 @@ msgstr "Dimensione dell'immagine della clip rappresentativa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Rimuovi clip rappresentativa"
+msgstr "Clip rappresentative della videocamera"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
