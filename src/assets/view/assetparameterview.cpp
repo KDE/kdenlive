@@ -289,13 +289,17 @@ int AssetParameterView::contentHeight() const
 
 MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
 {
+    MonitorSceneType requestedType = MonitorSceneDefault;
     if (m_mainKeyframeWidget) {
-        return m_mainKeyframeWidget->requiredScene();
+        requestedType = m_mainKeyframeWidget->requiredScene();
+    }
+    if (requestedType != MonitorSceneDefault) {
+        return requestedType;
     }
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::Geometry) {
+        if (type == ParamType::Geometry || type == ParamType::FakeRect) {
             return MonitorSceneGeometry;
         }
     }

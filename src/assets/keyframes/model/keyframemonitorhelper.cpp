@@ -77,7 +77,7 @@ void KeyframeMonitorHelper::refreshParams(int pos)
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
     for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type != ParamType::AnimatedRect) {
+        if (type != ParamType::AnimatedRect && type != ParamType::AnimatedFakeRect) {
             continue;
         }
 
@@ -121,7 +121,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
     }
     for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type != ParamType::AnimatedRect) {
+        if (type != ParamType::AnimatedRect && type != ParamType::AnimatedFakeRect) {
             continue;
         }
 

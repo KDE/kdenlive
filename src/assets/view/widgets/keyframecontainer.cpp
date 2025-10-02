@@ -329,7 +329,13 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
         QList<QPersistentModelIndex> rectParams;
         for (const auto &w : m_parameters) {
             auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-            if (type == ParamType::AnimatedRect) {
+            if (type == ParamType::AnimatedFakeRect) {
+                paramList.insert(w.first, i18n("Height"));
+                paramList.insert(w.first, i18n("Width"));
+                paramList.insert(w.first, i18n("Y position"));
+                paramList.insert(w.first, i18n("X position"));
+                rectParams << w.first;
+            } else if (type == ParamType::AnimatedRect) {
                 if (m_model->data(w.first, AssetParameterModel::OpacityRole).toBool()) {
                     paramList.insert(w.first, i18n("Opacity"));
                 }
@@ -504,7 +510,7 @@ void KeyframeContainer::slotRefreshParams()
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
             (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
-        } else if (type == ParamType::AnimatedRect) {
+        } else if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
             QRect rect;
@@ -663,7 +669,7 @@ void KeyframeContainer::initNeededSceneAndHelper()
             m_neededScene = MonitorSceneType::MonitorSceneRoto;
             m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
-        } else if (type == ParamType::AnimatedRect) {
+        } else if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
             m_neededScene = MonitorSceneType::MonitorSceneGeometry;
             m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
             break;
@@ -692,7 +698,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 
     qDebug() << "::::::PARAM ADDED:" << name << static_cast<int>(type) << comment << suffix;
     // create KeyframeCurveEditor(s) which controls the current parameter
-    if (type == ParamType::AnimatedRect) {
+    if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
         QVector<QString> tabname = QVector<QString>() << i18n("X position") << i18n("Y position") << i18n("Width") << i18n("Height");
         if (m_model->data(index, AssetParameterModel::OpacityRole).toBool()) {
             tabname.append(i18n("Opacity"));
@@ -708,7 +714,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
     QLabel *labelWidget = nullptr;
     QWidget *paramWidget = nullptr;
     QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
-    if (type == ParamType::AnimatedRect) {
+    if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();

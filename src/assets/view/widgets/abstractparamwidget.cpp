@@ -102,6 +102,7 @@ std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::const
         widget = new BoolParamWidget(model, index, parent);
         break;
     case ParamType::Geometry:
+    case ParamType::FakeRect:
         widget = new GeometryEditWidget(model, index, frameSize, parent, layout);
         break;
     case ParamType::Position:
