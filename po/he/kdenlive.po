@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-28 02:47+0000\n"
-"PO-Revision-Date: 2025-09-27 23:04+0300\n"
+"PO-Revision-Date: 2025-09-30 15:05+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4856,10 +4856,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
 #: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Mode"
-msgstr "ביון"
+msgstr "מצב ביון"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
@@ -10277,10 +10276,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
-#, fuzzy, kde-format
-#| msgid "Source segment"
+#, kde-format
 msgid "Specify Source Segment"
-msgstr "קטע במקור"
+msgstr "ציון קטע במקור"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
@@ -10291,8 +10289,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
-#, fuzzy, kde-format
-#| msgid "Source segment"
+#, kde-format
 msgid "Source Segment"
 msgstr "קטע במקור"
 
@@ -10310,8 +10307,7 @@ msgid "None,Counter Clockwise,Clockwise"
 msgstr "ללא,נגד כיוון השעון,עם כיוון השעון"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
-#, fuzzy, kde-format
-#| msgid "Segmentation direction"
+#, kde-format
 msgid "Segmentation Direction"
 msgstr "כיוון חלוקה"
 
@@ -11413,10 +11409,9 @@ msgid "<![CDATA[Influence of mean pixel value]]>"
 msgstr "<![CDATA[השפעת ערך פיקסל ממוצע]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
-#, fuzzy, kde-format
-#| msgid "Channel to draw"
+#, kde-format
 msgid "Channel Extractor RED"
-msgstr "ערוץ לציור"
+msgstr "מחלץ ערוץ אדום"
 
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
@@ -11509,10 +11504,9 @@ msgid "Crop, Scale, and Tilt"
 msgstr "חיתוך, קנה־מידה והטייה"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
-#, fuzzy, kde-format
-#| msgid "Scales, Tilts and Crops an Image"
+#, kde-format
 msgid "Scales, tilts, and crops an image"
-msgstr "שינוי קנה מידה, הסט וקיטוע של תמונה"
+msgstr "שינוי קנה מידה, סיבוב וחיתוך של תמונה"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:8
 #, kde-format
