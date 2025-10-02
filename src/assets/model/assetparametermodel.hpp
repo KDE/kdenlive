@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "core.h"
 #include "definitions.h"
 #include "klocalizedstring.h"
 #include <QAbstractListModel>
@@ -28,7 +29,9 @@ enum class ParamType {
     Switch,
     EffectButtons,
     MultiSwitch,
-    AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
+    AnimatedRect,     // Animated rects have X, Y, width, height, and opacity (in [0,1])
+    AnimatedFakeRect, // Contains 4 parameters that make a rect, animated
+    FakeRect,         // Contains 4 parameters that make a rect
     Geometry,
     KeyframeParam,
     Color,
@@ -44,9 +47,137 @@ enum class ParamType {
     Fontfamily,
     Filterjob,
     Readonly,
-    Hidden
+    Hidden,
+    Unknown
 };
 Q_DECLARE_METATYPE(ParamType)
+
+struct AssetRectInfo
+{
+    QString destName;
+    int position{0};
+    double defaultValue;
+    double minimum;
+    double maximum;
+    double factor{1};
+    double from{0};
+    bool fromBorder;
+    explicit AssetRectInfo(const QString &name, int pos, const QString &value, const QString &min, const QString &max, const QString &fac = QString(),
+                           bool border = false, const QString &fr = QString())
+        : destName(name)
+        , position(pos)
+        , fromBorder(border)
+    {
+        if (value == QLatin1String("%width")) {
+            defaultValue = pCore->getCurrentFrameSize().width();
+        } else if (value == QLatin1String("%height")) {
+            defaultValue = pCore->getCurrentFrameSize().height();
+        } else {
+            defaultValue = value.toDouble();
+        }
+        if (min == QLatin1String("%width")) {
+            minimum = pCore->getCurrentFrameSize().width();
+        } else if (min == QLatin1String("%height")) {
+            minimum = pCore->getCurrentFrameSize().height();
+        } else {
+            minimum = min.toDouble();
+        }
+        if (max == QLatin1String("%width")) {
+            maximum = pCore->getCurrentFrameSize().width();
+        } else if (max == QLatin1String("%height")) {
+            maximum = pCore->getCurrentFrameSize().height();
+        } else {
+            maximum = max.toDouble();
+        }
+        if (fac == QLatin1String("%width")) {
+            factor = pCore->getCurrentFrameSize().width();
+        } else if (fac == QLatin1String("%height")) {
+            factor = pCore->getCurrentFrameSize().height();
+        } else {
+            if (fac.isEmpty()) {
+                factor = 1.0;
+            } else {
+                factor = fac.toDouble();
+            }
+        }
+        if (fr == QLatin1String("%width")) {
+            from = pCore->getCurrentFrameSize().width();
+        } else if (fr == QLatin1String("%height")) {
+            from = pCore->getCurrentFrameSize().height();
+        } else {
+            from = fr.toDouble();
+        }
+    }
+    explicit AssetRectInfo() {}
+    double getValue(double val) const
+    {
+        if (from != 0) {
+            val = from - val;
+        }
+        if (factor != 1.) {
+            val /= factor;
+        }
+        return val;
+    }
+    double getValue(const QStringList &vals) const
+    {
+        double val = vals.at(position).toDouble();
+        if (fromBorder) {
+            if (position == 2) {
+                // Width
+                val += vals.at(0).toDouble();
+            } else if (position == 3) {
+                // Width
+                val += vals.at(1).toDouble();
+            }
+        }
+
+        if (from != 0) {
+            val = from - val;
+        }
+        if (factor != 1.) {
+            val /= factor;
+        }
+        return val;
+    }
+    double getValue(const mlt_rect rect) const
+    {
+        double val = 0.;
+        switch (position) {
+        case 0:
+            val = rect.x;
+            break;
+        case 1:
+            val = rect.y;
+            break;
+        case 2:
+            val = rect.w;
+            break;
+        case 3:
+            val = rect.h;
+            break;
+        default:
+            break;
+        }
+        if (fromBorder) {
+            if (position == 2) {
+                // Width
+                val += rect.x;
+            } else if (position == 3) {
+                // Width
+                val += rect.y;
+            }
+        }
+
+        if (from != 0) {
+            val = from - val;
+        }
+        if (factor != 1.) {
+            val /= factor;
+        }
+        return val;
+    }
+};
 
 /** @class AssetParameterModel
     @brief This class is the model for a list of parameters.
@@ -116,6 +247,8 @@ public:
         ParentPositionRole,
         ParentDurationRole,
         HideKeyframesFirstRole,
+        // Obtain the real (distinct) parameters for a fake rect (x, y, w, h)
+        FakeRectRole,
         List1Role,
         List2Role,
         Enum1Role,
