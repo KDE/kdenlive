@@ -359,7 +359,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
             // no change
             return true;
         }
-        if (m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
             return updateKeyframe(pos, newVal);
         }
         // Calculate real value from normalized
@@ -381,7 +381,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
-        if (m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
             if (!newVal.isValid()) {
                 newVal = oldValue;
             }
@@ -672,7 +672,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return false;
     }
     case NormalizedValueRole: {
-        if (m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
             const QString &data = it->second.second.toString();
             bool ok;
             double converted = data.section(QLatin1Char(' '), -1).toDouble(&ok);
@@ -908,6 +908,7 @@ QString KeyframeModel::getAnimProperty() const
     for (const auto &keyframe : m_keyframeList) {
         switch (m_paramType) {
         case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect:
         case ParamType::Color:
             mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
             break;
@@ -983,7 +984,8 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
         }
         QVariant value;
         switch (m_paramType) {
-        case ParamType::AnimatedRect: {
+        case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect: {
             const QString rect_str(mlt_prop.get("key"));
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
             if (rect_str.contains(QLatin1Char('%'))) {
@@ -1041,6 +1043,8 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         ptr->passProperties(mlt_prop);
         if (m_paramType == ParamType::AnimatedRect) {
             useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+        } else if (m_paramType == ParamType::AnimatedFakeRect) {
+            useOpacity = false;
         }
     }
     mlt_prop.set("key", prop.toUtf8().constData());
@@ -1061,7 +1065,8 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         }
         QVariant value;
         switch (m_paramType) {
-        case ParamType::AnimatedRect: {
+        case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect: {
             const QString rect_str(mlt_prop.get("key"));
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
             if (rect_str.contains(QLatin1Char('%'))) {
@@ -1243,7 +1248,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         (void)mlt_prop.anim_get_double("key", 0, out);
         return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
     }
-    if (!animData.isEmpty() && m_paramType == ParamType::AnimatedRect) {
+    if (!animData.isEmpty() && (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect)) {
         mlt_prop.set("key", animData.toUtf8().constData());
         // This is a fake query to force the animation to be parsed
         (void)mlt_prop.anim_get_double("key", 0, out);
@@ -1487,7 +1492,8 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
     if (lastPos > duration) {
         QVariant value;
         switch (paramType) {
-        case ParamType::AnimatedRect: {
+        case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", duration);
             QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
             if (useOpacity) {
