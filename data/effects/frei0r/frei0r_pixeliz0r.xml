@@ -2,12 +2,18 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="frei0r.pixeliz0r" id="frei0r.pixeliz0r">
     <name>Pixelize (basic)</name>
-    <description>Pixelize input image</description>
+    <description>Pixelize the input image</description>
     <author>Gephex crew</author>
-    <parameter type="animated" name="BlockSizeX" default="0.07" min="0" max="%width" factor="%width" suffix="px">
+    <parameter type="animated" name="0" default="0.07" min="0" max="%width" factor="%width" suffix="px">
         <name>Block Width</name>
+        <comment>Horizontal size of one 'pixel'</comment>
     </parameter>
-    <parameter type="animated" name="BlockSizeY" default="0.1" min="0" max="%height" factor="%height" suffix="px">
+    <parameter type="animated" name="1" default="0.1" min="0" max="%height" factor="%height" suffix="px">
         <name>Block Height</name>
+        <comment>Vertical size of one 'pixel'</comment>
+    </parameter>
+    <parameter type="bool" name="2" default="0" min="0" max="1">
+        <name>Pass-through Alpha</name>
+        <comment>Do not average the alpha channel over each block</comment>
     </parameter>
 </effect>
