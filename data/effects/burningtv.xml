@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="BurningTV" id="BurningTV">
+<effect xmlns="https://www.kdenlive.org" tag="BurningTV" id="BurningTV">
     <name>Burning TV</name>
     <description>Simulate burning TV pixels</description>
     <author>FUKUCHI Kentaro, Stephane Fillod</author>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.exposure" id="avfilter.exposure">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.exposure" id="avfilter.exposure">
     <name>Exposure</name>
     <description>Adjust exposure of the video stream.</description>
     <author>libavfilter</author>

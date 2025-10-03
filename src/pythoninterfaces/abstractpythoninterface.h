@@ -31,11 +31,11 @@ public:
     /** @brief Check if python and pip are installed, as well as all required scripts.
         If a check failed setupError() will be emitted with an error message that can be
         shown to the user.
-        @returns wether all checks succeeded.
+        @returns whether all checks succeeded.
     */
     ~AbstractPythonInterface() override;
     /** @brief Check if the Python venv is setup correctly, if not create it if requested.
-     *  @returns true if the venv is setup properly or was created sucessfully, otherwiese false
+     *  @returns true if the venv is setup properly or was created successfully, otherwise false
      */
     bool checkVenv(bool calculateSize = false, bool forceInstall = false);
     /** @brief Check which versions of the dependencies are installed.
@@ -64,9 +64,9 @@ public:
     bool optionalDependencyAvailable(const QString &dependency) const;
     /** @brief The text that will appear on the install button when a dependency is missing. */
     virtual const QString installMessage() const;
-    /** @brief The path to the binary location for this virtual environement. */
+    /** @brief The path to the binary location for this virtual environment. */
     const QString getVenvBinPath();
-    /** @brief The virtual enviroments dir name. */
+    /** @brief The virtual environments dir name. */
     virtual const QString getVenvPath();
     /** @brief Add a special dependency. */
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
@@ -86,9 +86,9 @@ public Q_SLOTS:
     /** @brief Check if all dependencies are installed.
         If everything is okay dependenciesAvailable() will be emitted,
         otherwise dependenciesMissing() with a message that can be shown
-        to the user telling wich dependencies are missing.
+        to the user telling which dependencies are missing.
         To get a list of all missing dependencies use missingDependencies
-        @returns wether all checks succeeded.
+        @returns whether all checks succeeded.
     */
     bool checkDependencies(bool force = false, bool async = true);
     void checkDependenciesConcurrently();

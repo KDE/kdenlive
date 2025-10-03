@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="ladspa.9354877" id="ladspa.9354877" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="ladspa.9354877" id="ladspa.9354877" type="audio">
     <name>Noise Suppressor for Voice</name>
     <description>Microphone background noise removal filter</description>
     <author>Danil Werman</author>

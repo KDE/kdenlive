@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="loudness" id="loudness" type="audio" condition="results">
+<effect xmlns="https://www.kdenlive.org" tag="loudness" id="loudness" type="audio" condition="results">
     <name>Normalize (2 pass)</name>
     <description>Correct audio loudness as recommended by EBU R128</description>
     <author>Brian Matherly</author>
@@ -9,7 +9,7 @@
     </parameter>
     <parameter type="hidden" name="results" default="">
     </parameter>
-    <parameter type="filterjob" filtertag="loudness" filterparams="%params" consumer="null" consumerparams="video_off=1 no_meta=1 all=1 terminate_on_pause=1">
+    <parameter type="filterjob" name="filterjob" filtertag="loudness" filterparams="%params" consumer="null" consumerparams="video_off=1 no_meta=1 all=1 terminate_on_pause=1">
         <name conditional="Reset">Analyse to Apply Effect</name>
         <jobparam name="conditionalinfo">Click Analyse to Apply Effect</jobparam>
         <jobparam name="key">results</jobparam>

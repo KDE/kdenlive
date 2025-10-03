@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.alimiter" id="avfilter.alimiter" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.alimiter" id="avfilter.alimiter" type="audio">
     <name>Limiter</name>
     <description>Audio lookahead limiter.</description>
     <author>libavfilter</author>

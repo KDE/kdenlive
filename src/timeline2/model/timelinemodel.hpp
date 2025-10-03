@@ -540,7 +540,7 @@ public:
     /**  @brief True if we are selecting a single item in a group
      */
     bool singleSelectionMode() const;
-    /**  @brief CHange the black bacground track duration.
+    /**  @brief Change the black background track duration.
      *  if @limit is  true, reduce track duration to project duration
      *  if @limit is false, add seek offset
      */
@@ -945,7 +945,7 @@ public:
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
-    /** @brief The sequence name displayed in master effec button needs an update */
+    /** @brief The sequence name displayed in master effect button needs an update */
     void updateVisibleSequenceName(const QString displayName);
     /** @brief Register all clips in this sequence to Bin */
     void registerTimeline();

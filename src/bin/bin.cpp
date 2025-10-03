@@ -105,6 +105,142 @@ static QIcon m_folderIcon;
 static QIcon m_sequenceFolderIcon;
 
 /**
+ * @brief Draws the "Double click, drop files or click <icon> to import media" placeholder text when user has not yet imported any media
+ */
+static void drawDropFilesPlaceholder(QPainter &painter, const QRect &rect, const QPalette &palette)
+{
+    // Increment default font size by this amount to make it slightly stand out
+    static constexpr int FONT_SIZE_INCREASE = 3;
+    // Margin as percentage of font height. Less than this and we will not draw the text
+    static constexpr qreal MIN_MARGIN_RATIO_MULTILINE = 0.15;
+    // Margin as percentage of font height. Less than this and we'll switch to multiline layout
+    static constexpr qreal MIN_MARGIN_RATIO_SINGLELINE = 1.0;
+    // Space between lines
+    static constexpr qreal LINE_SPACING_RATIO = 0.3;
+    // Icon vertical alignment compensation for breeze-icons having top/bottom paddings so we can align it to the text baseline
+    static constexpr qreal ICON_ALIGNMENT_RATIO = 0.8;
+
+    // Icon placeholder text. Used in the text template but will be replaced by drawing an actual icon.
+    static const QString iconPlaceholder = QStringLiteral("{icon}");
+
+    QFont font = painter.font();
+    font.setPointSize(font.pointSize() + FONT_SIZE_INCREASE);
+    painter.setFont(font);
+
+    // Use a muted color for the placeholder text
+    QColor textColor = palette.color(QPalette::PlaceholderText);
+    if (!textColor.isValid()) {
+        textColor = palette.color(QPalette::Disabled, QPalette::Text);
+    }
+    painter.setPen(textColor);
+
+    // Setup text content templates with icon placeholder
+    const QString singlelineTemplate =
+        i18nc("Text shown when no media is imported yet. %1 is replaced by an icon", "Double click, drop files or click %1 to import media", iconPlaceholder);
+    const QString multilineTemplate = i18nc("Multiline version: Text shown when no media is imported yet. %1 is replaced by an icon",
+                                            "Double click, drop files\nor click %1 to import media", iconPlaceholder);
+
+    QIcon addIcon = QIcon::fromTheme(QStringLiteral("kdenlive-add-clip"));
+
+    // Calculate layout metrics
+    QFontMetrics fontMetrics(font);
+    const qreal devicePixelRatio = painter.device()->devicePixelRatioF();
+    const int fontHeight = fontMetrics.height();
+    const int iconSize = fontHeight;
+    const int minMarginMultiline = qRound(fontHeight * MIN_MARGIN_RATIO_MULTILINE);
+    const int minMarginSingleline = qRound(fontHeight * MIN_MARGIN_RATIO_SINGLELINE);
+
+    QPixmap iconPixmap = addIcon.pixmap(iconSize * devicePixelRatio, iconSize * devicePixelRatio);
+    iconPixmap.setDevicePixelRatio(devicePixelRatio);
+
+    // Determine if we need a multiline layout
+    // Width of the text + icon + margin on both sides of the text
+    const int singleLineTotalWidth =
+        fontMetrics.horizontalAdvance(QString(singlelineTemplate).replace(iconPlaceholder, "")) + iconSize + 2 * minMarginSingleline;
+
+    const bool needsMultilineLayout = singleLineTotalWidth > rect.width();
+
+    if (needsMultilineLayout) {
+        // Split multiline text into lines for layout calculation
+        const QStringList lines = multilineTemplate.split('\n', Qt::SkipEmptyParts);
+        // Ensure we have exactly 2 non-empty lines from translation. If not, bail out.
+        if (lines.size() != 2) {
+            return;
+        }
+
+        const QString firstLine = lines.at(0);
+        const QString secondLine = lines.at(1);
+
+        // Calculate width needed for drawing the text and icon
+        const int firstLineWidth = fontMetrics.horizontalAdvance(firstLine);
+        QString cleanedSecondLine = secondLine;
+        cleanedSecondLine.remove(iconPlaceholder);
+        const int secondLineWidth = fontMetrics.horizontalAdvance(cleanedSecondLine) + iconSize;
+        const int maxLineWidth = qMax(firstLineWidth, secondLineWidth);
+
+        // Early return if content won't fit even in multiline. So no text will be drawn in this case to avoid clipping.
+        if (maxLineWidth + 2 * minMarginMultiline > rect.width()) {
+            return;
+        }
+
+        const int lineSpacing = qRound(fontHeight * LINE_SPACING_RATIO);
+        const int totalContentHeight = fontHeight * 2 + lineSpacing;
+
+        const int layoutCenterX = rect.center().x();
+        const int layoutCenterY = rect.center().y();
+        const int contentStartY = layoutCenterY - totalContentHeight / 2 + fontMetrics.ascent();
+
+        // Draw first line centered
+        const int firstLineStartX = layoutCenterX - firstLineWidth / 2;
+        painter.drawText(firstLineStartX, contentStartY, firstLine);
+
+        // Draw second line with icon
+        const int secondLineY = contentStartY + fontHeight + lineSpacing;
+        const int iconPlaceholderIndex = secondLine.indexOf(iconPlaceholder);
+        const QString secondLineBeforeIcon = secondLine.left(iconPlaceholderIndex);
+        const QString secondLineAfterIcon = secondLine.mid(iconPlaceholderIndex + iconPlaceholder.length());
+
+        const int beforeIconWidth = fontMetrics.horizontalAdvance(secondLineBeforeIcon);
+        const int afterIconWidth = fontMetrics.horizontalAdvance(secondLineAfterIcon);
+        const int secondLineStartX = layoutCenterX - (beforeIconWidth + iconSize + afterIconWidth) / 2;
+
+        // Draw text before icon
+        painter.drawText(secondLineStartX, secondLineY, secondLineBeforeIcon);
+
+        // Draw icon
+        const int iconX = secondLineStartX + beforeIconWidth;
+        const int iconY = secondLineY - ICON_ALIGNMENT_RATIO * iconSize;
+        painter.drawPixmap(iconX, iconY, iconSize, iconSize, iconPixmap);
+
+        // Draw text after icon
+        const int afterIconX = iconX + iconSize;
+        painter.drawText(afterIconX, secondLineY, secondLineAfterIcon);
+
+    } else {
+        // single-line layout
+        const int textBaselineY = rect.center().y() + fontMetrics.ascent() / 2;
+        const QString textBeforeIcon = singlelineTemplate.left(singlelineTemplate.indexOf(iconPlaceholder));
+        const QString textAfterIcon = singlelineTemplate.mid(singlelineTemplate.indexOf(iconPlaceholder) + iconPlaceholder.length());
+
+        const int beforeIconWidth = fontMetrics.horizontalAdvance(textBeforeIcon);
+        const int totalWidth = beforeIconWidth + iconSize + fontMetrics.horizontalAdvance(textAfterIcon);
+        const int layoutStartX = rect.center().x() - totalWidth / 2;
+
+        // Draw text before icon
+        painter.drawText(layoutStartX, textBaselineY, textBeforeIcon);
+
+        // Draw icon aligned with text baseline
+        const int iconX = layoutStartX + beforeIconWidth;
+        const int iconY = textBaselineY - ICON_ALIGNMENT_RATIO * iconSize;
+        painter.drawPixmap(iconX, iconY, iconSize, iconSize, iconPixmap);
+
+        // Draw text after icon
+        const int afterIconX = iconX + iconSize;
+        painter.drawText(afterIconX, textBaselineY, textAfterIcon);
+    }
+}
+
+/**
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
  */
@@ -883,6 +1019,22 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
+void MyListView::paintEvent(QPaintEvent *event)
+{
+    QListView::paintEvent(event);
+
+    // Check if there are no user media clips (excluding sequences) and show placeholder text
+    if (model() && !pCore->bin()->hasUserClip()) {
+        QPainter painter(viewport());
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        // Get the viewport rect
+        QRect rect = viewport()->rect();
+
+        drawDropFilesPlaceholder(painter, rect, palette());
+    }
+}
+
 MyTreeView::MyTreeView(QWidget *parent)
     : QTreeView(parent)
 {
@@ -1033,6 +1185,22 @@ void MyTreeView::setEditing(bool edit)
     if (!edit) {
         // Ensure edited item is selected
         Q_EMIT selectCurrent();
+    }
+}
+
+void MyTreeView::paintEvent(QPaintEvent *event)
+{
+    QTreeView::paintEvent(event);
+
+    // Check if there are no user media clips (excluding sequences) and show placeholder text
+    if (model() && !pCore->bin()->hasUserClip()) {
+        QPainter painter(viewport());
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        // Get the viewport rect
+        QRect rect = viewport()->rect();
+
+        drawDropFilesPlaceholder(painter, rect, palette());
     }
 }
 
@@ -2129,7 +2297,7 @@ void Bin::slotReplaceClip()
             if (ix == activeSelection) {
                 qDebug() << "==== FOUND ACTIVE CLIP: " << currentItem->clipUrl();
             } else {
-                qDebug() << "==== FOUND SELECED CLIP: " << currentItem->clipUrl();
+                qDebug() << "==== FOUND SELECTED CLIP: " << currentItem->clipUrl();
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
@@ -2907,7 +3075,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
     } else {
         // No item selected in bin
         clearMonitor();
-        Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
     m_editAction->setEnabled(false);
     if (m_clipsActionsMenu) {
@@ -2933,11 +3100,13 @@ void Bin::clearMonitor()
 {
     Q_EMIT requestShowClipProperties(nullptr);
     Q_EMIT requestClipShow(nullptr);
-    // clear effect stack
+    // clear effect stack first
     Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
+    // clear monitor
+    Q_EMIT openClip(nullptr);
 }
 
-std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
+std::vector<QString> Bin::selectedClipsIds(bool allowSubClips, bool allowFolders)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
@@ -2954,6 +3123,8 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
                 ids.push_back(item->clipId());
             }
         } else if (item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
+            ids.push_back(item->clipId());
+        } else if (allowFolders && item->itemType() == AbstractProjectItem::FolderItem) {
             ids.push_back(item->clipId());
         }
     }
@@ -4104,7 +4275,7 @@ void Bin::slotAddEffect(std::vector<QString> ids, const QStringList &effectData)
 {
     if (ids.size() == 0) {
         // Apply effect to all selected clips
-        ids = selectedClipsIds();
+        ids = selectedClipsIds(false, true);
     }
     if (ids.size() == 0) {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
@@ -4116,16 +4287,11 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
 {
     if (parent.isValid()) {
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
-        if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
-            // effect not supported on folder items
-            Q_EMIT displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
-            return;
-        }
         if (parentItem->itemType() == AbstractProjectItem::SubClipItem || parentItem->itemType() == AbstractProjectItem::SubSequenceItem) {
             // effect only supported on clip items
             parentItem = std::static_pointer_cast<ProjectSubClip>(parentItem)->getMasterClip();
         }
-        std::vector<QString> ids = selectedClipsIds();
+        std::vector<QString> ids = selectedClipsIds(false, true);
         const QString droppedId = parentItem->clipId();
         if (ids.size() > 1 && std::find(ids.begin(), ids.end(), droppedId) != ids.end()) {
             if (effectData.count() == 6) {
@@ -4172,15 +4338,51 @@ bool Bin::doPasteEffect(std::vector<QString> ids, const QStringList &effectData)
     bool res = true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    QList<std::shared_ptr<ProjectClip>> clipList;
+    for (auto &id : ids) {
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+        if (!item) {
+            continue;
+        }
+        std::shared_ptr<ProjectClip> clip = nullptr;
+        switch (item->itemType()) {
+        case AbstractProjectItem::ClipItem: {
+            clip = std::static_pointer_cast<ProjectClip>(item);
+            break;
+        }
+        case AbstractProjectItem::SubClipItem: {
+            std::shared_ptr<ProjectSubClip> subClip = std::static_pointer_cast<ProjectSubClip>(item);
+            if (subClip) {
+                clip = subClip->getMasterClip();
+            }
+        } break;
+        case AbstractProjectItem::FolderItem: {
+            std::shared_ptr<ProjectFolder> folder = std::static_pointer_cast<ProjectFolder>(item);
+            if (folder) {
+                QList<std::shared_ptr<ProjectClip>> children = folder->childClips();
+                for (auto &c : children) {
+                    if (!clipList.contains(c)) {
+                        clipList << c;
+                    }
+                }
+            }
+        } break;
+        default:
+            break;
+        }
+        if (clip && !clipList.contains(clip)) {
+            clipList << clip;
+        }
+    }
     if (effectData.count() == 6) {
         // Paste effect from another stack
         std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
-        for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
+        for (auto &c : clipList) {
+            res = res && c->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
         }
     } else {
-        for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
+        for (auto &c : clipList) {
+            res = res && c->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
         }
     }
     if (res) {

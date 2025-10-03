@@ -74,9 +74,6 @@ private Q_SLOTS:
     void slotRevealCaptureFolder(int ix);
     void slotEnableLibraryFolder();
     void slotEnableVideoFolder(int ix);
-    void slotUpdatev4lDevice();
-    void slotUpdatev4lCaptureProfile();
-    void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
     /** @brief fill list of connected monitors */
@@ -125,13 +122,10 @@ private:
     EncodingProfilesChooser *m_proxyProfiles;
     EncodingProfilesChooser *m_alphaProxyProfiles;
     EncodingProfilesChooser *m_decklinkProfiles;
-    EncodingProfilesChooser *m_v4lProfiles;
     EncodingProfilesChooser *m_grabProfiles;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();
-    void loadCurrentV4lProfileInfo();
-    void saveCurrentV4lProfile();
     void setupJogshuttleBtns(const QString &device);
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(QComboBox *devicelist, bool force = false);

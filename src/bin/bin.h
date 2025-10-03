@@ -80,6 +80,7 @@ protected:
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 Q_SIGNALS:
     void focusView();
@@ -114,6 +115,7 @@ protected:
     void enterEvent(QEnterEvent *) override;
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
@@ -236,7 +238,7 @@ public:
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
      */
-    std::vector<QString> selectedClipsIds(bool allowSubClips = false);
+    std::vector<QString> selectedClipsIds(bool allowSubClips = false, bool allowFolders = false);
 
     // Returns the selected clips
     QList<std::shared_ptr<ProjectClip>> selectedClips();
@@ -525,7 +527,7 @@ public Q_SLOTS:
     /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix = QString(),
                             const QString &message = QString());
-    /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
+    /** @brief Display the transcode to edit friendly format for currently selected bin clips */
     void requestSelectionTranscoding(bool forceReplace = false);
     /** @brief Build the project bin audio/video icons according to color theme */
     void slotUpdatePalette();

@@ -28,6 +28,9 @@ TimelineWaveform::TimelineWaveform(QQuickItem *parent)
     // setMipmap(true);
     // setTextureSize(QSize(1, 1));
     connect(this, &TimelineWaveform::needRecompute, [this] {
+        if (m_normalize) {
+            m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
+        }
         m_needRecompute = true;
         update();
     });

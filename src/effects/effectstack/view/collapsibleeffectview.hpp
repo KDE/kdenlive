@@ -85,7 +85,7 @@ public Q_SLOTS:
     void slotSyncEffectsPos(int pos);
     /** @brief Enable / disable an effect. */
     void slotDisable(bool disable);
-    /** @brief Restrict an effec to an in/out point region, of full length. */
+    /** @brief Restrict an effect to an in/out point region, of full length. */
     void switchInOut(bool checked);
     void slotResetEffect();
     void slotActivateEffect(bool active);

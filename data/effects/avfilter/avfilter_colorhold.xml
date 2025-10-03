@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colorhold" id="avfilter.colorhold">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colorhold" id="avfilter.colorhold">
     <name>Color Hold</name>
     <description>Remove all color information for all RGB colors except for certain one. </description>
     <author>libavfilter</author>

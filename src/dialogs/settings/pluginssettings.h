@@ -84,7 +84,7 @@ private Q_SLOTS:
     void doDeleteWrVenv();
     /** @brief Get ready to delete the models */
     void doDeleteSamModels();
-    /** @brief Check if SAM is corectly setup */
+    /** @brief Check if SAM is correctly setup */
     void checkSamEnvironement(bool afterInstall = true);
     void gotWhisperFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
     void whisperFinished(const QString &scriptName, const QStringList &args);

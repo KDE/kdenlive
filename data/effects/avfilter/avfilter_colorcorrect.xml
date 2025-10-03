@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colorcorrect" id="avfilter.colorcorrect">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colorcorrect" id="avfilter.colorcorrect">
     <name>Color Correct</name>
     <description>Adjust color white balance selectively for blacks and whites.This filter operates in YUV colorspace.</description>
     <author>libavfilter</author>
@@ -20,7 +20,7 @@
         <name>Saturation</name>
     </parameter>
     <parameter type="list" name="av.analyze" default="manual" paramlist="manual;average;minimax;median">
-        <paramlistdisplay>Manual,Average,Minimax,Median</paramlistdisplay>
         <name>Analyze mode</name>
+        <paramlistdisplay>Manual,Average,Minimax,Median</paramlistdisplay>
     </parameter>
 </effect>

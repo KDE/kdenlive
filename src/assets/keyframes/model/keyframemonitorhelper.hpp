@@ -65,13 +65,9 @@ protected:
     QList<QPersistentModelIndex> m_indexes;
     bool m_active;
     MonitorSceneType m_requestedSceneType{MonitorSceneNone};
-    /** @brief Whether this helper manages rotation parameters (for now only used for Transform effect based on qtblend)
-     */
-    bool m_rotatable{false};
 
 private Q_SLOTS:
     virtual void slotUpdateFromMonitorData(const QVariantList &v);
-    virtual void slotUpdateRotationFromMonitorData(double rotation);
 
 public Q_SLOTS:
     /**

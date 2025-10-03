@@ -25,7 +25,7 @@ public:
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
-    /** @brief Load the marker model (created after model ins instanciated) */
+    /** @brief Load the marker model (created after model is instantiated) */
     void loadMarkerModel();
 
     /** @brief Return the project's tractor

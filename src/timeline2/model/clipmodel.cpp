@@ -565,7 +565,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                             toAdd.insert(outPoint, keyframes.value(oldOut) + delta);
                             toDelete << oldOut;
                         } else {
-                            // Add defaut keyframe
+                            // Add default keyframe
                             toAdd.insert(outPoint, outPoint);
                         }
                     } else {
@@ -574,7 +574,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                             int delta = oldOut - outPoint;
                             toAdd.insert(outPoint, keyframes.value(oldOut) - delta);
                         } else {
-                            // Add defaut keyframe
+                            // Add default keyframe
                             toAdd.insert(outPoint, outPoint);
                         }
                         // Delete all keyframes after outpoint

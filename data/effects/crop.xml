@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="crop" id="crop">
+<effect xmlns="https://www.kdenlive.org" tag="crop" id="crop">
     <name>Edge Crop</name>
     <description>Trim the edges of a clip</description>
     <author>Dan Dennedy</author>

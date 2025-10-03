@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.pixs0r" id="frei0r.pixs0r">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.pixs0r" id="frei0r.pixs0r">
     <name>Glitching (rows only)</name>
     <description>Glitch image by shifting rows to and fro.</description>
     <author>Gephex crew</author>
     <parameter type="animated" name="shift_intensity" default="0.010" min="0" max="100" factor="100" decimals="1" suffix="%">
         <name>Shift Intensity</name>
-        <comment>Agressiveness of row/column shifting</comment>
+        <comment>Aggressiveness of row/column shifting</comment>
     </parameter>
     <parameter type="animated" name="block_height" default="0" min="0" max="%height" factor="%height" decimals="0" suffix="px">
         <name>Block Height</name>

@@ -426,7 +426,7 @@ void ProjectClip::resetSequenceThumbnails()
     pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB, true);
     m_thumbXml.clear();
     ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
-    // Force refeshing thumbs producer
+    // Force refreshing thumbs producer
     lk.unlock();
     m_uuid = QUuid::createUuid();
     // Clips will be replanted so no need to refresh thumbs
@@ -2438,7 +2438,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
                 }
             }
             if (timeline->isClosed) {
-                // Refresh timeline occurences
+                // Refresh timeline occurrences
                 pCore->currentDoc()->setModified(true);
                 pCore->currentDoc()->setSequenceThumbRequiresUpdate(uuid);
                 pCore->projectManager()->doSyncTimeline(timeline, false);

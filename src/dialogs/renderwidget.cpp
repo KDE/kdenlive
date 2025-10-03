@@ -360,6 +360,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     connect(m_view.guide_end, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
     connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
+    connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::updateGuideEndOptionsForStartSelection);
 
     m_view.guide_zone_box->setVisible(false);
 
@@ -571,7 +572,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     // Memory check timer
     connect(&m_memCheckTimer, &QTimer::timeout, this, &RenderWidget::slotCheckFreeMemory);
-    // Devault interval check is 10 seconds
+    // Default interval check is 10 seconds
     m_memCheckTimer.setInterval(10000);
     m_memCheckTimer.setSingleShot(false);
 
@@ -691,6 +692,33 @@ void RenderWidget::slotCheckEndGuidePosition()
     showRenderDuration();
 }
 
+void RenderWidget::updateGuideEndOptionsForStartSelection()
+{
+    int currentIndex = m_view.guide_start->currentIndex();
+
+    if (currentIndex <= 0 || m_currentMarkers.isEmpty()) {
+        m_view.guide_end->setEnabled(true);
+        return;
+    }
+
+    int markerIndex = currentIndex - 1;
+    if (markerIndex < m_currentMarkers.size()) {
+        const CommentedTime &marker = m_currentMarkers.at(markerIndex);
+        if (marker.hasRange()) {
+            m_view.guide_end->setEnabled(false);
+            double endTime = marker.endTime().seconds();
+            int endIndex = m_view.guide_end->findData(endTime);
+            if (endIndex >= 0) {
+                m_view.guide_end->setCurrentIndex(endIndex);
+            }
+        } else {
+            m_view.guide_end->setEnabled(true);
+        }
+    }
+
+    showRenderDuration();
+}
+
 void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 {
     m_guidesModel = std::move(guidesModel);
@@ -711,6 +739,7 @@ void RenderWidget::reloadGuides()
         int sequenceOffset = pCore->currentTimelineOffset();
         m_view.guideCategoryChooser->setMarkerModel(ptr.get());
         QList<CommentedTime> markers = ptr->getAllMarkers();
+        m_currentMarkers = markers;
         double fps = pCore->getCurrentFps();
         m_view.render_guide->setDisabled(markers.isEmpty());
         m_view.guide_multi_box->setDisabled(markers.isEmpty());
@@ -718,14 +747,29 @@ void RenderWidget::reloadGuides()
             m_view.guide_multi_box->setChecked(false);
         }
         if (!markers.isEmpty()) {
-            m_view.guide_start->addItem(i18n("Beginning"), 0);
+            QIcon zoneIn = QIcon::fromTheme(QStringLiteral("zone-in"));
+            QIcon zoneOut = QIcon::fromTheme(QStringLiteral("zone-out"));
+            QIcon zoneRange = QIcon::fromTheme(QStringLiteral("timeline-use-zone-on"));
+
+            m_view.guide_start->addItem(zoneIn, i18n("Beginning"), 0);
             for (const auto &marker : std::as_const(markers)) {
                 GenTime pos = marker.time();
                 const QString guidePos = Timecode::getStringTimecode(pos.frames(fps) + sequenceOffset, fps);
-                m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
-                m_view.guide_end->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
+                QString displayText = marker.comment() + QLatin1Char('/') + guidePos;
+
+                if (marker.hasRange()) {
+                    GenTime duration = marker.duration();
+                    const QString durationString = Timecode::formatMarkerDuration(duration.frames(fps), fps);
+                    displayText.append(QStringLiteral(" (%1)").arg(durationString));
+
+                    m_view.guide_start->addItem(zoneRange, displayText, pos.seconds());
+                    m_view.guide_end->addItem(zoneRange, displayText, pos.seconds());
+                } else {
+                    m_view.guide_start->addItem(zoneIn, displayText, pos.seconds());
+                    m_view.guide_end->addItem(zoneOut, displayText, pos.seconds());
+                }
             }
-            m_view.guide_end->addItem(i18n("End"), projectDuration);
+            m_view.guide_end->addItem(zoneOut, i18n("End"), projectDuration);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);
@@ -931,15 +975,45 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
         Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
         request->setBounds(pMon->getZoneStart(), pMon->getZoneEnd() - 1);
     } else if (m_view.render_guide->isChecked()) {
-        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
         double fps = pCore->getCurrentProfile()->fps();
+        int startIndex = m_view.guide_start->currentIndex();
 
-        int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
-        // End rendering at frame before last guide
-        int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
-        request->setBounds(in, out);
-    } // else: full project is the default
+        if (startIndex > 0 && !m_currentMarkers.isEmpty()) {
+            int markerIndex = startIndex - 1;
+            if (markerIndex < m_currentMarkers.size()) {
+                const CommentedTime &marker = m_currentMarkers.at(markerIndex);
+                if (marker.hasRange()) {
+                    double guideStart = marker.time().seconds();
+                    double guideEnd = marker.endTime().seconds();
+
+                    int in = int(GenTime(guideStart).frames(fps));
+                    int out = int(GenTime(guideEnd).frames(fps)) - 1;
+                    request->setBounds(in, out);
+                } else {
+                    double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                    double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+
+                    int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+                    int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+                    request->setBounds(in, out);
+                }
+            } else {
+                double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+
+                int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+                int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+                request->setBounds(in, out);
+            }
+        } else {
+            double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+            double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+
+            int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+            int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+            request->setBounds(in, out);
+        }
+    }
 
     std::vector<RenderRequest::RenderJob> jobs = request->process();
 
@@ -1645,7 +1719,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         }
         if (!item) {
             if (dest.isEmpty() && status == -2) {
-                // start failure returs an empty url
+                // start failure returns an empty url
                 item = startingJob();
             }
             if (item == nullptr) {
@@ -2224,10 +2298,35 @@ void RenderWidget::showRenderDuration(int projectLength)
         m_renderDuration = out - pMon->getZoneStart();
     } else if (m_view.render_guide->isChecked()) {
         double fps = pCore->getCurrentProfile()->fps();
-        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
-        m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+        int startIndex = m_view.guide_start->currentIndex();
+
+        if (startIndex > 0 && !m_currentMarkers.isEmpty()) {
+            int markerIndex = startIndex - 1;
+            if (markerIndex < m_currentMarkers.size()) {
+                const CommentedTime &marker = m_currentMarkers.at(markerIndex);
+                if (marker.hasRange()) {
+                    double guideStart = marker.time().seconds();
+                    double guideEnd = marker.endTime().seconds();
+                    int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+                } else {
+                    double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                    double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+                    int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+                }
+            } else {
+                double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+                double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+                int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+            }
+        } else {
+            double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
+            double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+            int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            m_renderDuration = out - int(GenTime(guideStart).frames(fps));
+        }
     } else {
         m_renderDuration = maxFrame;
     }

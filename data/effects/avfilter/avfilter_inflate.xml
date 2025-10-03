@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.inflate" id="avfilter.inflate">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.inflate" id="avfilter.inflate">
     <name>Inflate</name>
     <description>Replaces the pixel by the local(3x3) average by taking into account only values higher than the pixel. </description>
     <author>libavfilter</author>

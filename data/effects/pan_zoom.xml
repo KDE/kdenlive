@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="affine" id="pan_zoom" type="video" context="nomovit">
+<effect xmlns="https://www.kdenlive.org" tag="affine" id="pan_zoom" type="video" context="nomovit">
     <name>Position and Zoom</name>
     <description>Adjust size and position of clip</description>
     <author>Charles Yates</author>

@@ -77,7 +77,7 @@ void TrackDialog::buildCombo()
         } else {
             comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
         }
-        // Track index in in MLT, so add + 1 to compensate black track
+        // Track index in MLT, so add + 1 to compensate black track
         m_positionByIndex.insert(tid, i + 1);
     }
     if (m_trackIndex > -1) {

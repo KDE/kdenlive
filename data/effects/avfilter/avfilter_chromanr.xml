@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.chromanr" id="avfilter.chromanr">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.chromanr" id="avfilter.chromanr">
     <name>Chroma Noise Reduction</name>
     <description>Reduce chrominance noise.</description>
     <author>libavfilter</author>
@@ -26,7 +26,7 @@
         <name>V threshold</name>
     </parameter>
     <parameter type="list" name="av.distance" default="0" paramlist="manhattan;euclidean">
-        <paramlistdisplay>Manhattan,Euclidean</paramlistdisplay>
         <name>Distance</name>
+        <paramlistdisplay>Manhattan,Euclidean</paramlistdisplay>
     </parameter>
 </effect>

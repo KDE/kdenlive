@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.aecho" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.aecho" type="audio">
     <name>Echo (avfilter)</name>
     <description>Add Echo</description>
     <author>libavfilter</author>

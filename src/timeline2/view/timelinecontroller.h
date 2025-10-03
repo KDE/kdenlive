@@ -203,7 +203,7 @@ public:
     Q_INVOKABLE QVariantList subtitlesList() const;
     int getMaxSubLayer() const;
     void setMaxSubLayer(int value);
-    /** @brief Returns true if the avfilter.subtiles filter is not found */
+    /** @brief Returns true if the avfilter.subtitles filter is not found */
     bool subtitlesWarning() const;
     Q_INVOKABLE void subtitlesWarningDetails();
     void switchSubtitleDisable();
@@ -320,6 +320,14 @@ public:
     /** @brief Ask for marker delete
      */
     Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
+    /** @brief Resize a range marker
+     * @param cid The clip id
+     * @param position The marker position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeMarker(int cid, int position, int duration, bool isStart = false, int newPosition = -1);
     /** @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid = -1);
@@ -328,6 +336,26 @@ public:
     Q_INVOKABLE void editGuide(int frame = -1);
     Q_INVOKABLE void moveGuideById(int id, int newFrame);
     Q_INVOKABLE int moveGuideWithoutUndo(int mid, int newFrame);
+    /** @brief Resize a range guide marker
+     * @param position The guide position in frames
+     * @param duration The new duration in frames
+     * @param isStart True if resizing from start, false if resizing from end
+     * @param newPosition The new start position when resizing from start (optional)
+     */
+    Q_INVOKABLE void resizeGuide(int position, int duration, bool isStart = false, int newPosition = -1);
+    /** @brief Suggest a snap point for the given position
+     * @param position The position in frames
+     * @param snapDistance The maximum distance to snap to (or -1 to disable snapping)
+     * @return The suggested snap position
+     */
+    Q_INVOKABLE int suggestSnapPoint(int position, int snapDistance);
+    /** @brief Create a range marker from the current timeline zone
+     * @param comment Optional comment for the marker
+     * @param type Marker type
+     * @return true if successful
+     */
+    Q_INVOKABLE bool createRangeMarkerFromZone(const QString &comment = QString(), int type = -1);
+
     /** @brief Move all guides in the given range
      * @param start the start point of the range in frames
      * @param end the end point of the range in frames

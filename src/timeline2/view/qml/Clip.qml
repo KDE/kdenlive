@@ -471,7 +471,8 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
-            property bool handleVisible: width > 3 * root.baseUnit / 2
+            property bool handleMini: width < 2 * root.baseUnit
+            property bool handleVisible: width > root.baseUnit * 1.2
             
             Item {
                 // Mix indicator
@@ -637,31 +638,63 @@ Rectangle {
                     property string markerText
                     property color markerColor
                     property int position
-                    width: 1
-                    height: container.height
+                    property bool hasRange: false
+                    property real duration: 0
+                    width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
+                    height: hasRange ? textMetrics.height + 2 : container.height
                     x: clipRoot.speed < 0
                     ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
                     : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
-                    color: markerColor
+                    y: hasRange ? Math.min(label.height, container.height - textMetrics.height) : 0
+                    color: hasRange ? Qt.rgba(markerColor.r, markerColor.g, markerColor.b, 0.7) : markerColor
+                    border.color: hasRange ? markerColor : "transparent"
+                    border.width: hasRange ? 1 : 0
+                    radius: hasRange ? 2 : 0
+
                     Rectangle {
-                        width: mlabel.contentWidth + 4
-                        height: mlabel.contentHeight
+                        visible: markerBase.hasRange
+                        x: 0
+                        y: -markerBase.y
+                        width: 1
+                        height: container.height
                         color: markerBase.markerColor
+                    }
+                    
+                    // Tapered end effect for range markers
+                    Rectangle {
+                        id: clipRangeEndTaper
+                        visible: markerBase.hasRange
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: Math.min(parent.width / 8, 10)
+                        gradient: Gradient {
+                            orientation: Gradient.Horizontal
+                            GradientStop { position: 0.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.3) }
+                            GradientStop { position: 1.0; color: Qt.rgba(markerBase.markerColor.r, markerBase.markerColor.g, markerBase.markerColor.b, 0.1) }
+                        }
+                    }
+                    
+                    TextMetrics {
+                        id: textMetrics
+                        font: miniFont
+                        text: markerBase.markerText
+                        elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                        elideWidth: root.maxLabelWidth
+                    }
+                    Rectangle {
+                        id: labelRectangle
+                        width: textMetrics.width + 4
+                        height: textMetrics.height
+                        color: markerBase.hasRange ? "transparent" : markerBase.markerColor
                         radius: 2
                         opacity: 0.7
-                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
+                        visible: K.KdenliveSettings.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > textMetrics.width || container.height > 2 * height)
 
                         anchors {
                             top: parent.top
                             left: parent.left
-                            topMargin: Math.min(label.height, container.height - height)
-                        }
-                        TextMetrics {
-                            id: textMetrics
-                            font: miniFont
-                            text: markerBase.markerText
-                            elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
-                            elideWidth: root.maxLabelWidth
+                            topMargin: markerBase.hasRange ? (parent.height - height) / 2 : Math.min(label.height, container.height - height)
                         }
                         Text {
                             id: mlabel
@@ -687,6 +720,153 @@ Rectangle {
                             onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
                             ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
                             : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
+                        }
+                    }
+                    
+                    // Left resize handle for range markers
+                    Rectangle {
+                        id: leftResizeHandle
+                        visible: markerBase.hasRange && markerBase.width > 10
+                        width: 4
+                        height: markerBase.height
+                        x: 0
+                        y: 0
+                        color: Qt.darker(markerBase.markerColor, 1.3)
+                        opacity: leftResizeArea.containsMouse || leftResizeArea.isResizing ? 0.8 : 0.5
+                        
+                        MouseArea {
+                            id: leftResizeArea
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            z: 15
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            
+                            property bool isResizing: false
+                            property real startX: 0
+                            property real globalStartX: 0
+                            property real startDuration: 0
+                            property real startPosition: 0
+                            property real originalEndPosition: 0
+                            
+                            onPressed: {
+                                isResizing = true
+                                startX = mouseX
+                                globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                startDuration = markerBase.duration
+                                startPosition = markerBase.position
+                                originalEndPosition = markerBase.position + markerBase.duration
+                                cursorShape = Qt.SizeHorCursor
+                            }
+                            
+                            onPositionChanged: {
+                                if (isResizing) {
+                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    var realDeltaX = globalCurrentX - globalStartX
+                                    
+                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    var newStartPosition = Math.max(clipRoot.inPoint * clipRoot.speed, startPosition + deltaFrames)
+                                    var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+                                    
+                                    markerBase.position = newStartPosition
+                                    markerBase.duration = newDuration
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onReleased: {
+                                if (isResizing) {
+                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, true, markerBase.position)
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onCanceled: {
+                                if (isResizing) {
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Right resize handle for range markers
+                    Rectangle {
+                        id: rightResizeHandle
+                        visible: markerBase.hasRange && markerBase.width > 10
+                        width: 4
+                        height: markerBase.height
+                        anchors.right: parent.right
+                        y: 0
+                        color: Qt.darker(markerBase.markerColor, 1.3)
+                        opacity: rightResizeArea.containsMouse || rightResizeArea.isResizing ? 0.8 : 0.5
+                        
+                        MouseArea {
+                            id: rightResizeArea
+                            anchors.fill: parent
+                            anchors.margins: -2
+                            z: 15
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            acceptedButtons: Qt.LeftButton
+                            preventStealing: true
+                            
+                            property bool isResizing: false
+                            property real startX: 0
+                            property real globalStartX: 0
+                            property real startDuration: 0
+                            property real startPosition: 0
+                            
+                            onPressed: {
+                                isResizing = true
+                                startX = mouseX
+                                globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                startDuration = markerBase.duration
+                                startPosition = markerBase.position
+                                cursorShape = Qt.SizeHorCursor
+                            }
+                            
+                            onPositionChanged: {
+                                if (isResizing) {
+                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    var realDeltaX = globalCurrentX - globalStartX
+                                    
+                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    var maxEnd = (clipRoot.inPoint + clipRoot.outPoint) * clipRoot.speed
+                                    var newDuration = Math.max(1, Math.min(startDuration + deltaFrames, maxEnd - startPosition))
+                                    
+                                    markerBase.duration = newDuration
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onReleased: {
+                                if (isResizing) {
+                                    timeline.resizeMarker(clipRoot.clipId, startPosition, markerBase.duration, false)
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                    
+                                    cursorShape = Qt.SizeHorCursor
+                                }
+                            }
+                            
+                            onCanceled: {
+                                if (isResizing) {
+                                    isResizing = false
+                                    markerBase.position = Qt.binding(function() { return loader.modelData.frame })
+                                    markerBase.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                }
+                            }
                         }
                     }
                 }
@@ -720,6 +900,18 @@ Rectangle {
                         value: modelData.color
                         when: isInside && loader.status == Loader.Ready
                     }
+                    Binding {
+                        target: loader.item
+                        property: "hasRange"
+                        value: modelData.hasRange || false
+                        when: isInside && loader.status == Loader.Ready
+                    }
+                    Binding {
+                        target: loader.item
+                        property: "duration"
+                        value: modelData.duration || 0
+                        when: isInside && loader.status == Loader.Ready
+                    }
                     sourceComponent: {
                         if (isInside) {
                             return markerComponent;
@@ -736,7 +928,7 @@ Rectangle {
                 x: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: root.baseUnit
+                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
                 visible: {
                     if (!enabled) {
                         return false
@@ -791,7 +983,12 @@ Rectangle {
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) { //TODO
                             timeline.requestEndTrimmingMode();
+                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                        } else if (shiftTrim) {
+                            controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
+
                         root.groupTrimData = undefined
                     }
                     root.trimInProgress = false;
@@ -866,7 +1063,7 @@ Rectangle {
                 anchors.rightMargin: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: root.baseUnit
+                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === K.ToolType.SelectTool
                                      || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
@@ -908,6 +1105,10 @@ Rectangle {
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) {
                             timeline.requestEndTrimmingMode();
+                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                        } else if (shiftTrim) {
+                            controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
                         root.groupTrimData = undefined
                     }

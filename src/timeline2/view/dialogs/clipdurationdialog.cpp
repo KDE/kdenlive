@@ -153,7 +153,7 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
     }
 
     if (itemIn < 0) {
-        // Disable crop adjustement
+        // Disable crop adjustment
         m_cropStart->setHidden(true);
         crop_label->hide();
         m_cropEnd->setHidden(true), end_label->hide();

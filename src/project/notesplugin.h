@@ -42,9 +42,9 @@ private Q_SLOTS:
     void slotInsertText(const QString &text);
     /** @brief Show / hide the find toolbar. */
     void find();
-    /** @brief Find next occurence of a search. */
+    /** @brief Find next occurrence of a search. */
     void findNext();
-    /** @brief Find previous occurence of a search. */
+    /** @brief Find previous occurrence of a search. */
     void findPrevious();
     /** @brief Check if editor has a selection and timecodes in it. */
     void checkSelection();

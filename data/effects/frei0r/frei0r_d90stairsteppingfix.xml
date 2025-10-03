@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.d90stairsteppingfix" id="frei0r.d90stairsteppingfix">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.d90stairsteppingfix" id="frei0r.d90stairsteppingfix">
     <name>Nikon D90 Stairstepping fix</name>
     <description>Removes stairstepping artifacts from Nikon D90's 720p videos.
         Sharp lines in videos from the Nikon D90 show steps each 8th or 9th line, assumedly

@@ -1440,7 +1440,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         if (!QFile::copy(path, backupFile)) {
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
-        // backup subitle file in case we have on
+        // backup subtitle file in case we have one
         QStringList subFiles = getAllSubtitlesPath(true);
         if (!subFiles.isEmpty()) {
             // Create folder for subtitles backup

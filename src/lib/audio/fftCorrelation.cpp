@@ -105,7 +105,7 @@ void FFTCorrelation::convolve(const float *left, const size_t leftSize, const fl
     kiss_fftr(fftConfig, &leftData[0], &leftFFT[0]);
     kiss_fftr(fftConfig, &rightData[0], &rightFFT[0]);
 
-    // Convolution in spacial domain is a multiplication in fourier domain. O(n).
+    // Convolution in spatial domain is a multiplication in fourier domain. O(n).
     for (size_t i = 0; i < correlatedFFT.size(); ++i) {
         correlatedFFT[i].r = leftFFT[i].r * rightFFT[i].r - leftFFT[i].i * rightFFT[i].i;
         correlatedFFT[i].i = leftFFT[i].r * rightFFT[i].i + leftFFT[i].i * rightFFT[i].r;

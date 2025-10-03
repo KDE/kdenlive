@@ -9,6 +9,7 @@
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rect/recthelper.hpp"
+#include "assets/keyframes/model/rect/rotatedrecthelper.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
@@ -497,7 +498,10 @@ void KeyframeContainer::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe && getCurrentView() == 0);
-    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, !m_monitorActive);
+
+    int pos = pCore->getMonitorPosition(m_model->monitorId);
+    bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
+    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, outside);
     bool enableWidgets = (m_monitorActive && atKeyframe) || singleKeyframe;
     m_selectType->setEnabled(enableWidgets);
     if (m_geom) {
@@ -586,7 +590,7 @@ void KeyframeContainer::initNeededSceneAndHelper()
         const QString assetId = m_model->getAssetId();
         if (assetId == QLatin1String("qtblend")) {
             m_neededScene = MonitorSceneType::MonitorSceneRotatedGeometry;
-            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            m_monitorHelper = new RotatedRectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
             break;
         } else if (type == ParamType::Roto_spline) {
             m_neededScene = MonitorSceneType::MonitorSceneRoto;

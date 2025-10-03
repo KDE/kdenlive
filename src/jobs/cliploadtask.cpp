@@ -285,7 +285,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     }
                 }
             } else {
-                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOT CLIP\n\nYYYYYYYYYYYY";
+                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOR CLIP\n\nYYYYYYYYYYYY";
             }
         }
     }
@@ -316,7 +316,6 @@ void ClipLoadTask::run()
     }
     Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.itemId));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    qDebug() << "============STARTING LOAD TASK FOR: " << m_owner.itemId << " = " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
@@ -403,6 +402,10 @@ void ClipLoadTask::run()
         break;
     }
     case ClipType::Playlist: {
+        if (!QFile::exists(resource)) {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
+            resource = binClip->url();
+        }
         producer = loadPlaylist(resource);
         if (producer) {
             QFile f(resource);
@@ -496,8 +499,10 @@ void ClipLoadTask::run()
                                           Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                           Q_ARG(int, int(KMessageWidget::Warning)));
             }
-            Q_EMIT taskDone();
+            // Delete clip
             abort();
+            // Done, we are ready for post processing
+            Q_EMIT taskDone();
         }
         return;
     }
@@ -813,14 +818,15 @@ void ClipLoadTask::abort()
     if (!m_softDelete && !m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
+            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::BlockingQueuedConnection);
             if (!m_isCanceled.loadAcquire() && !binClip->isReloading) {
                 // User tried to add an invalid clip, remove it.
-                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "requestBinClipDeletionById", Qt::QueuedConnection,
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "requestBinClipDeletionById", Qt::BlockingQueuedConnection,
                                           Q_ARG(QString, QString::number(m_owner.itemId)));
             } else {
                 // An existing clip just became invalid, mark it as missing.
-                QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::QueuedConnection, Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
+                QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::BlockingQueuedConnection,
+                                          Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
             }
         }
     }

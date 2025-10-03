@@ -1384,7 +1384,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     }
 
     // slipping a downsized clip should only change the in and out point
-    SECTION("Slip single cutted clip")
+    SECTION("Slip single cut clip")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         int l = timeline->getClipPlaytime(cid1);

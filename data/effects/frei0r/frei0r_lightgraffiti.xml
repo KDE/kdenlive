@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<group>
+<group xmlns="https://www.kdenlive.org">
     <effect tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti">
         <name>Light Graffiti</name>
         <description>Light Graffiti effect.

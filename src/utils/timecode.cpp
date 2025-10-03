@@ -362,6 +362,27 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     return text;
 }
 
+QString Timecode::formatMarkerDuration(int frames, double fps)
+{
+    if (frames < 0) {
+        frames = qAbs(frames);
+    }
+
+    int totalSeconds = static_cast<int>(frames / fps);
+    int remainingFrames = frames % qRound(fps);
+    int minutes = totalSeconds / 60;
+    int seconds = totalSeconds % 60;
+
+    if (minutes > 0) {
+        return QStringLiteral("%1:%2:%3")
+            .arg(minutes, 2, 10, QLatin1Char('0'))
+            .arg(seconds, 2, 10, QLatin1Char('0'))
+            .arg(remainingFrames, 2, 10, QLatin1Char('0'));
+    } else {
+        return QStringLiteral("%1:%2").arg(seconds, 2, 10, QLatin1Char('0')).arg(remainingFrames, 2, 10, QLatin1Char('0'));
+    }
+}
+
 // static
 QString Timecode::scaleTimecode(QString timecode, double sourceFps, double targetFps)
 {

@@ -1415,6 +1415,62 @@ void TimelineController::deleteMarker(int cid, int position)
     clip->getMarkerModel()->removeMarker(pos);
 }
 
+void TimelineController::resizeMarker(int cid, int position, int duration, bool isStart, int newPosition)
+{
+    if (cid == -1) {
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return;
+        }
+    }
+    Q_ASSERT(m_model->isClip(cid));
+    double speed = m_model->getClipSpeed(cid);
+    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
+        return;
+    }
+
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    GenTime pos(position, pCore->getCurrentFps());
+
+    bool exists;
+    CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &exists);
+    if (!exists || !marker.hasRange()) {
+        pCore->displayMessage(i18n("No range marker found at position"), ErrorMessage, 500);
+        return;
+    }
+
+    GenTime newDuration(duration, pCore->getCurrentFps());
+    GenTime newStartTime;
+
+    if (isStart) {
+        if (newPosition != -1) {
+            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+        } else {
+            GenTime endTime = marker.endTime();
+            newStartTime = endTime - newDuration;
+        }
+        GenTime minStart(m_model->getClipIn(cid) * speed, pCore->getCurrentFps());
+        if (newStartTime < minStart) {
+            newStartTime = minStart;
+            newDuration = marker.endTime() - newStartTime;
+        }
+    } else {
+        newStartTime = pos;
+        GenTime maxEnd(m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid), pCore->getCurrentFps());
+        if (newStartTime + newDuration > maxEnd) {
+            newDuration = maxEnd - newStartTime;
+        }
+    }
+
+    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+        newDuration = GenTime(1, pCore->getCurrentFps());
+    }
+
+    clip->getMarkerModel()->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+}
+
 void TimelineController::deleteAllMarkers(int cid)
 {
     if (cid == -1) {
@@ -1502,7 +1558,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
     CommentedTime marker = m_model->getGuideModel()->getMarker(frame, &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
-            pCore->displayMessage(i18n("No guide found at current position"), ErrorMessage, 500);
+            pCore->displayMessage(i18n("No marker found at current position"), ErrorMessage, 500);
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
@@ -1512,7 +1568,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
             auto clip = pCore->projectItemModel()->getClipByBinID(binId);
             m_model->getGuideModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
         } else {
-            m_model->getGuideModel()->addMarker(pos, i18n("guide"));
+            m_model->getGuideModel()->addMarker(pos, i18n("Marker"));
             if (KdenliveSettings::guidesShowThumbs()) {
                 const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
                 std::set<int> frames;
@@ -2812,7 +2868,7 @@ void TimelineController::remapItemTime(int clipId)
     if (clipId == -1) {
         clipId = getMainSelectedClip();
     }
-    // Don't allow remaping a clip with speed effect
+    // Don't allow remapping a clip with speed effect
     if (clipId == -1 || !m_model->isClip(clipId) || !qFuzzyCompare(1., m_model->m_allClips[clipId]->getSpeed())) {
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
@@ -4825,7 +4881,6 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         }
         if (highlightClip) {
             pCore->activeBin()->selectClipById(binId);
-
         }
         qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
         int endPos = recPosition.second;
@@ -5557,7 +5612,7 @@ void TimelineController::switchFocusClip()
                             clip2->setActiveEffect(row);
                             m_model->requestSetSelection({nextClip});
                             if (m_model->m_groups->isInGroup(nextClip)) {
-                                // When the clip is grouped, we need to explicitely show the stack
+                                // When the clip is grouped, we need to explicitly show the stack
                                 showAsset(nextClip);
                             }
                             Q_EMIT pCore->monitorManager()->projectMonitor()->blockSceneChange(false);
@@ -5634,4 +5689,80 @@ void TimelineController::setTimecodeOffset(int offset)
 {
     m_timecodeOffset = offset;
     Q_EMIT timecodeOffsetChanged();
+}
+
+void TimelineController::resizeGuide(int position, int duration, bool isStart, int newPosition)
+{
+    auto guideModel = m_model->getGuideModel();
+    GenTime pos(position, pCore->getCurrentFps());
+
+    bool exists;
+    CommentedTime marker = guideModel->getMarker(pos, &exists);
+    if (!exists || !marker.hasRange()) {
+        pCore->displayMessage(i18n("No range guide found at position"), ErrorMessage, 500);
+        return;
+    }
+
+    GenTime newDuration(duration, pCore->getCurrentFps());
+    GenTime newStartTime;
+
+    if (isStart) {
+        if (newPosition != -1) {
+            newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+        } else {
+            GenTime endTime = marker.endTime();
+            newStartTime = endTime - newDuration;
+        }
+        if (newStartTime < GenTime(0, pCore->getCurrentFps())) {
+            newStartTime = GenTime(0, pCore->getCurrentFps());
+            newDuration = marker.endTime() - newStartTime;
+        }
+    } else {
+        newStartTime = pos;
+        GenTime maxEnd(pCore->projectDuration(), pCore->getCurrentFps());
+        if (newStartTime + newDuration > maxEnd) {
+            newDuration = maxEnd - newStartTime;
+        }
+    }
+
+    if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+        newDuration = GenTime(1, pCore->getCurrentFps());
+    }
+
+    guideModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+}
+
+int TimelineController::suggestSnapPoint(int position, int snapDistance)
+{
+    if (snapDistance <= 0) {
+        return position;
+    }
+    return m_model->suggestSnapPoint(position, snapDistance);
+}
+
+bool TimelineController::createRangeMarkerFromZone(const QString &comment, int type)
+{
+    if (m_zone.isNull() || m_zone.x() >= m_zone.y()) {
+        pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
+        return false;
+    }
+
+    auto guideModel = m_model->getGuideModel();
+    GenTime startPos(m_zone.x(), pCore->getCurrentFps());
+    GenTime duration(m_zone.y() - m_zone.x(), pCore->getCurrentFps());
+    QString markerComment = comment.isEmpty() ? i18n("Zone marker") : comment;
+
+    if (type == -1) {
+        type = KdenliveSettings::default_marker_type();
+    }
+
+    bool success = guideModel->addRangeMarker(startPos, duration, markerComment, type);
+    if (success) {
+        pCore->displayMessage(i18n("Range marker created from zone"), InformationMessage);
+        setZone(QPoint(-1, -1), false);
+    } else {
+        pCore->displayMessage(i18n("Failed to create range marker from zone"), ErrorMessage);
+    }
+
+    return success;
 }

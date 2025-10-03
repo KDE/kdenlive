@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="wave" id="wave">
+<effect xmlns="https://www.kdenlive.org" tag="wave" id="wave">
     <name context="Wave Effect Name">Wave</name>
     <description>Make waves on your clip with keyframes</description>
     <author>Leny Grisel, Jean-Baptiste Mardelle</author>

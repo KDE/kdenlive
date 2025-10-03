@@ -6,8 +6,11 @@
 */
 
 #include "monitorproxy.h"
+#include "KLocalizedString"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
@@ -639,7 +642,115 @@ void MonitorProxy::terminateJob(const QString &uuid)
     pCore->taskManager.discardJob(ObjectId(KdenliveObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));
 }
 
+void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int newPosition)
+{
+    std::shared_ptr<MarkerListModel> markerModel;
+
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        // For clip monitor, use the currently active clip
+        auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (!activeClip.isEmpty()) {
+            auto clip = pCore->bin()->getBinClip(activeClip);
+            if (clip) {
+                markerModel = clip->getMarkerModel();
+            }
+        }
+    } else {
+        // For project monitor, use the timeline guide model
+        if (pCore->currentDoc()) {
+            markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+        }
+    }
+
+    if (markerModel) {
+        GenTime pos(position, pCore->getCurrentFps());
+        bool exists;
+        CommentedTime marker = markerModel->getMarker(pos, &exists);
+        if (exists && marker.hasRange()) {
+            GenTime newDuration(duration, pCore->getCurrentFps());
+            GenTime newStartTime;
+
+            if (isStart) {
+                if (newPosition != -1) {
+                    newStartTime = GenTime(newPosition, pCore->getCurrentFps());
+                } else {
+                    GenTime endTime = marker.endTime();
+                    newStartTime = endTime - newDuration;
+                }
+            } else {
+                newStartTime = pos;
+            }
+
+            if (newDuration < GenTime(1, pCore->getCurrentFps())) {
+                newDuration = GenTime(1, pCore->getCurrentFps());
+            }
+
+            markerModel->editMarker(pos, newStartTime, marker.comment(), marker.markerType(), newDuration);
+        }
+    }
+}
+
+bool MonitorProxy::createRangeMarkerFromZone(const QString &comment, int type)
+{
+    if (m_zoneIn <= 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
+        return false;
+    }
+
+    std::shared_ptr<MarkerListModel> markerModel;
+
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        auto activeClip = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (!activeClip.isEmpty()) {
+            auto clip = pCore->bin()->getBinClip(activeClip);
+            if (clip) {
+                markerModel = clip->getMarkerModel();
+            }
+        }
+    } else {
+        if (pCore->currentDoc()) {
+            markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
+        }
+    }
+
+    if (!markerModel) {
+        return false;
+    }
+
+    GenTime startPos(m_zoneIn, pCore->getCurrentFps());
+    GenTime duration(m_zoneOut - m_zoneIn, pCore->getCurrentFps());
+    QString markerComment = comment.isEmpty() ? i18n("Zone marker") : comment;
+
+    if (type == -1) {
+        type = KdenliveSettings::default_marker_type();
+    }
+
+    bool success = markerModel->addRangeMarker(startPos, duration, markerComment, type);
+    return success;
+}
+
 bool MonitorProxy::monitorIsActive() const
 {
     return pCore->monitorManager()->isActive(Kdenlive::MonitorId(q->m_id));
+}
+
+bool MonitorProxy::isKeyframe() const
+{
+    return m_isKeyframe;
+}
+
+bool MonitorProxy::cursorOutsideEffect() const
+{
+    return m_cursorOutsideEffect;
+}
+
+void MonitorProxy::setIsKeyframe(bool isKeyframe)
+{
+    m_isKeyframe = isKeyframe;
+    Q_EMIT isKeyframeChanged();
+}
+
+void MonitorProxy::setCursorOutsideEffect(bool isOutside)
+{
+    m_cursorOutsideEffect = isOutside;
+    Q_EMIT cursorOutsideEffectChanged();
 }

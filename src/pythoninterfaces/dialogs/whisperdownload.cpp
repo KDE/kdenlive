@@ -202,7 +202,7 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
                     qDebug() << "////// GOT MODEL NAME AND SIZE: " << modelName << " = " << size;
                     for (int i = 0; i < m_lw->count(); i++) {
                         QListWidgetItem *item = m_lw->item(i);
-                        qDebug() << "==== TRYIG TO MATCH: " << modelName << " = " << item->data(WPModelNameRole).toString();
+                        qDebug() << "==== TRYING TO MATCH: " << modelName << " = " << item->data(WPModelNameRole).toString();
                         if (size > 0 && item->data(WPModelNameRole).toString() == modelName) {
                             // Match
                             item->setData(WPSizeRole, size);
@@ -222,7 +222,7 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
             return;
         }
         if (args.contains(QStringLiteral("task=download"))) {
-            // check if model is now correcty downloaded
+            // check if model is now correctly downloaded
             return;
         }
         // Don't display installed or duplicated models

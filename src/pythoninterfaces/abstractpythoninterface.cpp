@@ -422,7 +422,7 @@ bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)
     PythonExec exes = venvPythonExecs(true);
     qDebug() << "::::: FOUND PYTHON EXECS: " << exes.python << exes.pip;
     if (!exes.python.isEmpty() && !exes.pip.isEmpty() && std::find(m_scripts.cbegin(), m_scripts.cend(), QString()) == m_scripts.cend()) {
-        qDebug() << "//// SCRIP VALUES: " << m_scripts.values();
+        qDebug() << "//// SCRIPT VALUES: " << m_scripts.values();
         if (m_installStatus == Unknown) {
             setStatus(Installed);
         }
@@ -539,7 +539,7 @@ void AbstractPythonInterface::checkVersionsConcurrently()
 bool AbstractPythonInterface::checkDependencies(bool force, bool async)
 {
     if (m_installStatus == InProgress || (!force && m_dependenciesChecked)) {
-        // Don't check twice if dependecies are satisfied
+        // Don't check twice if dependencies are satisfied
         return true;
     }
     // Force check, reset flag

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="hslrange" id="hslrange">
+<effect xmlns="https://www.kdenlive.org" tag="hslrange" id="hslrange">
     <name>HSL Range</name>
     <description>Adjust Hue, Saturation and Lightness for a range of hue values. The user can specify the range of the hue values to be adjusted.</description>
     <author>Meltytech, LLC</author>

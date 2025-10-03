@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.colorcontrast" id="avfilter.colorcontrast">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.colorcontrast" id="avfilter.colorcontrast">
     <name>Color Contrast</name>
     <description>Adjust color contrast between RGB components.</description>
     <author>libavfilter</author>

@@ -68,7 +68,7 @@ Each provider config files should only specify a certain media type such as `vid
 | api | Object | yes | see  [Api](#api) |
 
 ## Api
-The `api` object describs the api endpoints
+The `api` object describes the api endpoints
 
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
@@ -139,7 +139,7 @@ The objects in the arrays in `params` and `header` should contain two fields: `k
 ### Fetch Download Urls
 Only necessary in special cases (e.g. https://archive.org) when no download urls are provided with the search response i.e. neither `downloadUrl` nor `downloadUrls` can be set in [Search `res`](#response)
 
-For the `req` object see the description of the [`req` obeject for `search`](#request)
+For the `req` object see the description of the [`req` object for `search`](#request)
 
 The `res` object should hold two fields: `format` (same as in [search response](#response)) and `downloadUrl` (same as in [search response](#response)) or `downloadUrls`. The field `downloadUrls` is again similar to the one in [search response](#response), but has some additional fields:
 

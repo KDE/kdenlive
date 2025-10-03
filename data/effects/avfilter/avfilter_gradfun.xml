@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.gradfun" id="avfilter.gradfun">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.gradfun" id="avfilter.gradfun">
     <name>gradfun</name>
     <description><![CDATA[<b>-= Deprecated =-</b><br>
     Debands video quickly using gradients.<br>

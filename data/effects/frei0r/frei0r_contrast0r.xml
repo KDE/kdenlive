@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="frei0r.contrast0r" id="frei0r.contrast0r">
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.contrast0r" id="frei0r.contrast0r">
     <name context="Contrast Effect Name">Contrast</name>
     <description>Adjusts the contrast of a source image</description>
     <author>Jean-Sebastien Senecal</author>

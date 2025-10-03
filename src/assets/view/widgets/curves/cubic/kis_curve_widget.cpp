@@ -52,11 +52,6 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
 
 KisCurveWidget::~KisCurveWidget() = default;
 
-QSize KisCurveWidget::sizeHint() const
-{
-    return minimumSize();
-}
-
 void KisCurveWidget::addPointInTheMiddle()
 {
     QPointF pt(0.5, m_curve.value(0.5));

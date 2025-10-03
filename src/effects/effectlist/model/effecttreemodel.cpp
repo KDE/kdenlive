@@ -170,7 +170,7 @@ void EffectTreeModel::deleteEffect(const QModelIndex &index)
     } else if (item->hasAncestor(m_templateCategory->getId())) {
         m_templateCategory->removeChild(item);
     } else {
-        // ERRROR
+        // ERROR
         return;
     }
     EffectsRepository::get()->deleteEffect(id);

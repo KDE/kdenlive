@@ -104,7 +104,7 @@ struct TimelineFunctions
         @param trackId
         @param position
         @param ignoreMultiTrackGroups
-        @param allowGroupBreaking Whether independant move of grouped items is allowed
+        @param allowGroupBreaking Whether independent move of grouped items is allowed
         @see requestSpacerEndOperation
     */
     static std::pair<int, int> requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position,
