@@ -218,6 +218,12 @@ bool LayoutManagement::loadLayout(const QString &layoutId)
         return false;
     }
 
+    // Check if this is a KDDockWidgets Layout (and not an old QDockWidgets layout
+    if (!layout.isKDDockWidgetsLayout()) {
+        pCore->displayBinMessage(i18n("The layout %1 uses an old and unsupported format.", layout.displayName), KMessageWidget::Warning);
+        return false;
+    }
+
     // Set as current layout
     m_currentLayoutId = layoutId;
 
