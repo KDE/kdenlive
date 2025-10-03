@@ -1829,6 +1829,10 @@ void KdenliveDoc::loadDocumentProperties()
     QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
     QString name;
     QDomElement e;
+    const QString bins = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:extraBins"));
+    if (!bins.isEmpty()) {
+        pCore->window()->loadBins(bins.split(QLatin1Char(';')));
+    }
     for (int i = 0; i < props.count(); i++) {
         e = props.at(i).toElement();
         name = e.attribute(QStringLiteral("name"));

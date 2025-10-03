@@ -193,13 +193,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     projectManager()->init(Url, clipsToLoad);
     m_mainWindow->init();
 
-    // Secondary bins
     m_guiConstructed = true;
-    for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
-        bin = new Bin(m_projectItemModel, m_mainWindow, false);
-        m_mainWindow->addBin(bin, QString(), false);
-    }
-
     m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();

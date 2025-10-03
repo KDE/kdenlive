@@ -962,8 +962,42 @@ void MainWindow::init()
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(true);
     }
+
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+}
+
+void MainWindow::loadBins(QStringList binInfo)
+{
+    // Delete all secondary bins
+    while (m_binWidgets.size() > 1) {
+        int ix = 0;
+        auto bin = m_binWidgets.at(ix);
+        if (bin->isMainBin()) {
+            ix = 1;
+            bin = m_binWidgets.at(ix);
+        }
+        auto toDelete = bin->parentWidget();
+        m_binWidgets.takeAt(ix);
+        delete toDelete;
+    }
+
+    // Create missing bins
+    Bin *mainBin = nullptr;
+    if (!m_binWidgets.isEmpty()) {
+        // Main bin still there
+        mainBin = m_binWidgets.first();
+    }
+
+    QStringList existingNames;
+    for (const QString &info : binInfo) {
+        if (mainBin && info.startsWith("project_bin:")) {
+            // Main Bin, don't recreate
+            continue;
+        }
+        auto bin = new Bin(pCore->projectItemModel(), this, false);
+        addBin(bin, QString(), false, info.section(QLatin1Char(':'), 0, 0));
+    }
 }
 
 void MainWindow::loadContainerActions()
@@ -5223,7 +5257,7 @@ void MainWindow::slotRemoveBinDock(const QString &name)
     }
 }
 
-void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
+void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount, const QString &objectName)
 {
     connect(bin, &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
     connect(bin, &Bin::setupTargets, this, [&](bool hasVideo, QMap<int, QString> audioStreams) {
@@ -5243,7 +5277,7 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
                 objectNames << p->objectName();
             }
         }
-        QString newBinName = QStringLiteral("project_bin_%1").arg(ix);
+        QString newBinName = objectName.isEmpty() ? QStringLiteral("project_bin_%1").arg(ix) : objectName;
         while (objectNames.contains(newBinName)) {
             ix++;
             newBinName = QStringLiteral("project_bin_%1").arg(ix);
@@ -5268,18 +5302,27 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
 
 void MainWindow::cleanBins()
 {
-    // Clean secondary bins first
+    // Close secondary bins
     QWidget *wid = QApplication::focusWidget();
     bool binHasFocus = false;
-    for (auto &bin : m_binWidgets) {
-        if (bin == wid || bin->isAncestorOf(wid)) {
+    while (m_binWidgets.size() > 1) {
+        int ix = 0;
+        auto bin = m_binWidgets.at(ix);
+        if (!binHasFocus && (bin == wid || bin->isAncestorOf(wid))) {
             binHasFocus = true;
         }
         if (bin->isMainBin()) {
-            continue;
+            ix = 1;
+            bin = m_binWidgets.at(ix);
+            if (!binHasFocus && (bin == wid || bin->isAncestorOf(wid))) {
+                binHasFocus = true;
+            }
         }
-        bin->cleanDocument();
+        auto toDelete = bin->parentWidget();
+        m_binWidgets.takeAt(ix);
+        delete toDelete;
     }
+
     // Clean main bins last
     for (auto &bin : m_binWidgets) {
         if (!bin->isMainBin()) {
@@ -5298,6 +5341,7 @@ void MainWindow::loadExtraBins(const QStringList binInfo)
     QString folderName;
     QStringList existingNames;
     pCore->lastActiveBin.clear();
+
     for (auto &bin : m_binWidgets) {
         KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
         if (!dock) {
@@ -5305,7 +5349,7 @@ void MainWindow::loadExtraBins(const QStringList binInfo)
         }
         bool binFound = false;
         const QString dockName = dock->objectName() + QLatin1Char(':');
-        for (auto info : binInfo) {
+        for (const QString &info : binInfo) {
             if (info.startsWith(dockName)) {
                 existingNames << bin->loadInfo(info.split(QLatin1Char(':')), existingNames);
                 binFound = true;
@@ -5338,16 +5382,6 @@ void MainWindow::folderRenamed(const QString &binId, const QString &folderName)
                 dock->setWindowTitle(folderName);
             }
             break;
-        }
-    }
-}
-
-void MainWindow::tabifyBins()
-{
-    QList<KDDockWidgets::QtWidgets::DockWidget *> docks = findChildren<KDDockWidgets::QtWidgets::DockWidget *>();
-    for (auto dock : std::as_const(docks)) {
-        if (dock->objectName().startsWith(QLatin1String("project_bin_"))) {
-            m_projectBinDock->addDockWidgetAsTab(dock);
         }
     }
 }

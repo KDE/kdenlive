@@ -2637,11 +2637,13 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     if (!id.isEmpty() && id != QLatin1String("-1")) {
         // Open view in a specific folder
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
-        auto parentIx = m_itemModel->getIndexFromItem(item);
-        m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
-        folderName = item->name();
-        m_upAction->setEnabled(true);
-        m_upAction->setVisible(true);
+        if (item) {
+            auto parentIx = m_itemModel->getIndexFromItem(item);
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+            folderName = item->name();
+            m_upAction->setEnabled(true);
+            m_upAction->setVisible(true);
+        }
     }
 
     // setBinEffectsEnabled(!binEffectsDisabled, false);

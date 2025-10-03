@@ -178,7 +178,7 @@ public:
     /** @brief Give focus to the active timeline widget */
     void focusTimeline();
     /** @brief Add a bin widget*/
-    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true);
+    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true, const QString &objectName = QString());
     /** @brief Clean current document references from all bins*/
     void cleanBins();
     /** @brief Get the main (first) bin*/
@@ -187,9 +187,8 @@ public:
     void blockBins(bool block);
     /** @brief Get the active (focused) bin or first one if none is active*/
     Bin *activeBin();
-    /** @brief Ensure all bin widgets are tabbed together*/
-    void tabifyBins();
     int binCount() const;
+    void loadBins(QStringList binInfo);
 
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);
