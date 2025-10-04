@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -5675,7 +5675,7 @@ msgstr "Makroblokk szélessége"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Macroblock height"
@@ -10721,7 +10721,7 @@ msgstr "Színezés mértéke"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
 #| msgid "Change the opacity of the image"
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "A kép átlátszatlanságának módosítása"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10765,6 +10765,54 @@ msgstr ""
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, fuzzy, kde-format
+#| msgid "Rate Scaler"
+msgid "Gate Weave"
+msgstr "Ráta méretező"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "Finomság"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "Vízszintes igazítás"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "Forgatás az X tengely körül"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximal Diameter"
+msgid "Maximum Vertical Movement"
+msgstr "Legnagyobb átmérő"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr "Forgatás az X tengely körül"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -12064,6 +12112,12 @@ msgstr "Hibás TV"
 msgid "HSync"
 msgstr "HSync"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "HSync"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -12102,8 +12156,31 @@ msgstr "Bemeneti kép pixelesítése."
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Bemeneti kép pixelesítése."
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Horizontal size of one 'pixel'"
+msgstr "Vízszintes"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Vertical size of one 'pixel'"
+msgstr "Függőleges"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "Feather Alfa elmosás"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12496,10 +12573,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
-msgid "Brightness of image."
-msgstr "Telítettség csökkentése"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -19339,7 +19415,7 @@ msgstr "Effektus törlése"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -21603,7 +21679,7 @@ msgstr "Video hangsáv nélkül"
 msgid "Audio without video track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25833,256 +25909,241 @@ msgstr "Nem lehet írni az elérési útra: %1"
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr ""
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr ""
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr ""
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr ""
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "Nyílt forráskódú videoszerkesztő."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2014 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © A Kdenlive szerzői, 2007-2014."
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, fuzzy, kde-format
 #| msgid "MLT and KDE SC 4 porting, main developer and maintainer"
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT és KDE SC 4 portolás, fő fejlesztő és karbantartó"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr ""
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr ""
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr ""
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, fuzzy, kde-format
 #| msgid "Bug fixing, etc."
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Hibajavítások, stb."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Színfigyelők, hibajavítás, stb."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr ""
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr ""
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Az eredeti KDE3 verzió szerzője (nem dolgozik már velünk)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr ""
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr ""
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr ""
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr ""
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr ""
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr ""
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr ""
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Testing"
 msgstr "Beállítások"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr ""
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr ""
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "KAMI, Bojtos Péter"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "kami911@gmail.com, ptr@ulx.hu"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr ""
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr ""
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr ""
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Set the path for MLT environment."
 msgstr "Adja meg az MLT program elérési útját"
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, fuzzy, kde-format
 #| msgid "Comma separated list of clips to add"
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "A hozzáadandó klipek vesszővel elválasztott listája"
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Directly render the project and exit."
 msgstr "Alapértelmezett projekt mappa"
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Kdenlive document to open."
 msgstr "Megnyitandó dokumentum"
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, fuzzy, kde-format
 #| msgid "Enter name for rendered movie file"
 msgid "Output file for rendered video."
 msgstr "Adja meg a renderelt videó fájl nevét"
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, fuzzy, kde-format
 #| msgid "Version 0.5svn"
 msgid "Version %1"
@@ -28082,31 +28143,31 @@ msgstr "Képkocka elrejtése"
 msgid "No subtitles in current project"
 msgstr "A kurzornál található segédpont szerkesztése"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Eszközbeállítás"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -39907,6 +39968,11 @@ msgstr "%1 p"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 ó"
+
+#, fuzzy
+#~| msgid "Brightness down"
+#~ msgid "Brightness of image."
+#~ msgstr "Telítettség csökkentése"
 
 #, fuzzy
 #~| msgid "Render using proxy clips"

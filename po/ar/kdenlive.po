@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
 "PO-Revision-Date: 2025-09-23 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -5520,7 +5520,7 @@ msgstr "عرض الكتلة"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -10441,8 +10441,9 @@ msgid "Dust Amount"
 msgstr "مقدار الغبار"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, kde-format
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "<![CDATA[مقدار جزيئات الغبار على الصورة]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10484,6 +10485,58 @@ msgstr "مستخرج القناة خضراء"
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr "يستخرج الأخضر من الصورة"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, fuzzy, kde-format
+#| msgid "Gate (avfilter)"
+msgid "Gate Weave"
+msgstr "بوابة (avfilter)"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "النّعومة"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "محاذاة أفقية"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The distance between the track points]]>"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "<![CDATA[المسافة بين نقاط التتبع]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximum diameter"
+msgid "Maximum Vertical Movement"
+msgstr "أقصى قطر"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[The amount to rotate the image<br>\n"
+#| "    \t(nose up or down).]]>"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr ""
+"<![CDATA[مقدار دوران الصورة <br>\n"
+"    \t(الأنف لأعلى أو لأسفل).]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -11733,6 +11786,12 @@ msgstr "تلفاز معطل"
 msgid "HSync"
 msgstr "تزامن أفقي"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "تزامن أفقي"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -11764,9 +11823,33 @@ msgid "Pixelize (basic)"
 msgstr "بكسلة (أساسية)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image"
+#, fuzzy, kde-format
+#| msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "بكسل الصورة المدخلة"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal size"
+msgid "Horizontal size of one 'pixel'"
+msgstr "حجم أفقي"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical size"
+msgid "Vertical size of one 'pixel'"
+msgstr "حجم عمودي"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "ريش ألفا"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12148,8 +12231,8 @@ msgstr "يُزيل تشبع الصورة ويخلق مظهرًا معينًا ي
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "سطوع الصورة."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -18710,7 +18793,7 @@ msgstr "احذف التّأثير %1"
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
@@ -20812,7 +20895,7 @@ msgstr "فيديو بلا مسار صوت"
 msgid "Audio without video track"
 msgstr "صوت بلا مسار فيديو"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "بدأ تصيير %1"
@@ -24809,230 +24892,215 @@ msgstr "تعذّرت الكتابة إلى مسار المكتبة: %1، سأس�
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "رجاءً أبلغ عن العلل إلى <a href=\"%1\">%2</a>."
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "أنت تستخدم حزمة آب ايمج.<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "أنت تستخدم حزمة فلات باك.<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "أنت تستخدم حزمة سناب.<br>"
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "كدنلايف"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "محرّر فيديوهات مفتوح المصدر."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "الحقوق محفوظة © 2007–2025، لمؤلّفي كدنلايف"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "جان بابتيست ماردل"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "منفذ MLT و KDE SC 4 / KF5، المطور الرئيس والصائن"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "نيكولاس كاريون"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "إعادة بناء معمارية التطبيق وكتابة الخط الزمني (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "يوليوس كونزيل"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "تطوير مزايا والتحزيم وإصلاح العلل"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "فنسنت بينون"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "منفذ KF5، البناء عبر Windows، التغليف، إصلاح الأخطاء"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "دان ديننيدي"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "مصين مكتبة ام ال تي ،وإصلاح العلل وغيرها."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "سيمون أ. يوجستر"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "مناظير الألوان، إصلاح الأخطاء، إلخ."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "اريك جيانغ"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "إصلاح العِلل والتحسينات"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "مؤلّف إصدارة «كِيدِي 3» الأصليّ (لم يعد نشطًا)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "فريد عبدالنور"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "الشعار والترويج والاختبار"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "يوجين موهر"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "فرز الأخطاء والاختبار ومصين التوثيق"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "نارا أوليفيرا"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "الشّعار"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "برونو سانتوس"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "اختباريّ"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "ماسيمو ستيلا"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "نصيحة خبراء، والاختبار"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "صفا الفليج,زايد السعيدي"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "safa1996alfulaij@gmail.com,zayed.alsaidi@gmail.com"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "ام ال تي"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "إطار عمل للوسائط مفتوح المصدر"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "‏FFMpeg: "
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "حل كامل وعبر المنصات لتسجيل الصوت والفيديو وتحويله ودفقه."
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "عيّن اسم ملفّ ضبط مخصّص."
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "اضبط مسار بيئة MLT."
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "عيّن مستوى سجل MTL. اترك هذا الخيار غير معين لمستوى \"التحذيرات\"."
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "قائمة ملفات مفصولة بفواصل لإضافتها كمقاطع إلى السلة."
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "صيّر المشروع مباشرة واخرج."
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "اسم الإعداد المسبق لعرض كدنلايف (سيستخدم MP4-H264/AAC إذا لم يحدد)."
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25041,17 +25109,17 @@ msgstr ""
 "اخرج بعد بدء عملية التصيير (المنفصلة)، دون هذه العلامة ستخرج فقط بعد انتهاء "
 "العملية."
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "مستند كدنلايف لفتحه"
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "ملفّ الخرج للفيديو المصير."
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "الإصدار %1"
@@ -26911,30 +26979,30 @@ msgstr "أخفِ شريط القوائم"
 msgid "No subtitles in current project"
 msgstr "لا يوجد ترجمات في المشروع الحالي"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "اذهب إلى صفحة التحميل"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "لا تحقق مجددًا"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "الإصدار كدنلايف قديمة بعام كامل، نحن نشجعك بشدة على الترقية"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "إصدار كدنلايف قديمة بستة أشهر، نحن نشجعك على الترقية"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "يفحص حجم بيانات الخبيئة"
@@ -37921,6 +37989,18 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "أنت تستخدم حزمة آب ايمج.<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "أنت تستخدم حزمة فلات باك.<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "أنت تستخدم حزمة سناب.<br>"
+
+#~ msgid "Brightness of image."
+#~ msgstr "سطوع الصورة."
 
 #~ msgid "External proxy clips:"
 #~ msgstr "مقاطع وسيطة خارجية:"

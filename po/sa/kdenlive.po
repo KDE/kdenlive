@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -5637,7 +5637,7 @@ msgstr "सीमाविस्तारः"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Fit to height"
@@ -10637,7 +10637,7 @@ msgstr "गणनां कारोतु"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "<![CDATA[पृष्ठभूमिप्रतिबिम्बस्य कृते अस्पष्टतां सेट् करोति]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10683,6 +10683,53 @@ msgstr ""
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, kde-format
+msgid "Gate Weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "मृदुता"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "क्षैतिज संरेखण"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "X अक्षस्य परितः परिभ्रमणम्"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximal Diameter"
+msgid "Maximum Vertical Movement"
+msgstr "अधिकतम व्यास"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr "X अक्षस्य परितः परिभ्रमणम्"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -11930,6 +11977,11 @@ msgstr ""
 msgid "HSync"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -11967,8 +12019,31 @@ msgstr "पिक्सेल स्केल"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Replace video"
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "विडियो प्रतिस्थापयन्तु"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal Flip"
+msgid "Horizontal size of one 'pixel'"
+msgstr "क्षैतिज पलट"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical Flip"
+msgid "Vertical size of one 'pixel'"
+msgstr "ऊर्ध्वाधर Flip"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather width"
+msgid "Pass-through Alpha"
+msgstr "पंखविस्तारः"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12358,10 +12433,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
-msgid "Brightness of image."
-msgstr "कान्तिः अधः"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -19118,7 +19192,7 @@ msgstr "प्रभावः %1 विलोपयतु"
 msgid "Project Bin"
 msgstr "परियोजना बिन"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "परियोजना बिन् %1"
@@ -21248,7 +21322,7 @@ msgstr "श्रव्यपट्टिकां विना विडिय�
 msgid "Audio without video track"
 msgstr "विडियो ट्रैक विना ऑडियो"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25233,233 +25307,218 @@ msgstr "Library path: %1 इत्यत्र लिखितुं न शक�
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "कृपया <a href=\"%1\">%2</a> इत्यस्मै दोषान् निवेदयन्तु"
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "भवान् AppImage इत्यस्य उपयोगं करोति ।<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "भवान् Flatpak इत्यस्य उपयोगं करोति ।<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "भवान् Snap संकुलस्य उपयोगं करोति ।<br>"
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "क्डेन्लिव्"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "एकः मुक्तस्रोतः विडियो सम्पादकः ।"
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "प्रतिलिपि अधिकार © 2007–2024 Kdenlive लेखक"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "जीन-बैप्टिस्ट मार्डेले"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT तथा KDE SC 4 / KF5 पोर्ट्, मुख्यविकासकः परिपालकः च"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "निकोलस कैरियन"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "कोड पुनः वास्तुकला एवं समयरेखा पुनर्लेखन (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "जूलियस कुन्जेल"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "विशेषताविकासः, पैकेजिंग्, दोषनिराकरणम्"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "विन्सेन्ट् पिनोन"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 पोर्ट्, विण्डोज क्रॉस्-बिल्ड्, पैकेजिंग्, बग् फिक्सिंग् च"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "दान डेण्डी"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT maintainer, Bug fixing इत्यादि।"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "सिमोन ए यूगस्टर"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "वर्णव्याप्तिः, दोषनिवारणम् इत्यादयः ।"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "एरिक जियांग"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "दोषनिवारणं परीक्षणसुधारं च"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "जेसन वुड्"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "मूल KDE 3 संस्करणस्य लेखकः (अधुना सक्रियः नास्ति)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "फरीद अब्देलनौर"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "लोगो, प्रचार, परीक्षण"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "यूजीन मोहर्"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "बग ट्रायेज्, परीक्षणम्, दस्तावेजीकरणस्य परिपालकः"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "नारा ओलिवेरा"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "लोगो"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ब्रूनो सन्तोस्"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "परीक्षणम्"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "मास्सिमो स्टेला"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "विशेषज्ञ सल्लाहः, परीक्षणम्"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "अनुवादकानां नाम"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "अनुवादकानां ईमेल"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "एम.एल.टी"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "मुक्तस्रोतबहुमाध्यमरूपरेखा।"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "श्रव्य-वीडियो-अभिलेखयितुं, परिवर्तयितुं, प्रवाहयितुं च सम्पूर्णं, पार-मञ्च-समाधानम् ।"
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "इष्टं विन्याससञ्चिकानाम सेट् कुर्वन्तु ।"
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT वातावरणस्य कृते मार्गं सेट् कुर्वन्तु ।"
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT log स्तरं सेट् कुर्वन्तु । \"चेतावनी\" स्तरस्य कृते एतत् अनिर्मितं त्यजन्तु ।"
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "बिन् मध्ये क्लिप्स् रूपेण योजयितुं सञ्चिकानां अल्पविरामेन पृथक्कृता सूची ।"
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "प्रत्यक्षतया परियोजनां रेण्डर् कृत्वा निर्गच्छतु।"
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive render preset name (यदि कोऽपि न दत्तः तर्हि MP4-H264/AAC इत्यस्य उपयोगः "
 "भविष्यति) ।"
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25468,17 +25527,17 @@ msgstr ""
 "(विच्छिन्न) रेण्डर् प्रक्रिया आरब्धस्य अनन्तरं निर्गच्छतु, एतत् ध्वजं विना समाप्तस्य अनन्तरमेव "
 "विद्यते ।"
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Kdenlive दस्तावेजं उद्घाटयितुं।"
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "रेण्डर्ड् विडियो कृते आउटपुट् सञ्चिका ।"
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "संस्करणम् %1"
@@ -27370,17 +27429,17 @@ msgstr "मेनू-पट्टिकां गोपयन्तु"
 msgid "No subtitles in current project"
 msgstr "वर्तमान परियोजनायां उपशीर्षकाणि नास्ति"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "डाउनलोड् पृष्ठं गच्छन्तु"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "पुनः कदापि न परीक्ष्यताम्"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -27388,14 +27447,14 @@ msgid ""
 msgstr ""
 "भवतः Kdenlive संस्करणं 1 वर्षात् प्राचीनम् अस्ति, वयं भवन्तं उन्नयनार्थं दृढतया प्रोत्साहयामः"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 "भवतः Kdenlive संस्करणं 6 मासाभ्यः प्राचीनम् अस्ति, वयं भवन्तं उन्नयनार्थं प्रोत्साहयामः"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "संग्रहीतदत्तांशस्य आकारस्य जाँचः"
@@ -38451,6 +38510,20 @@ msgstr "%1म्"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ह"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "भवान् AppImage इत्यस्य उपयोगं करोति ।<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "भवान् Flatpak इत्यस्य उपयोगं करोति ।<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "भवान् Snap संकुलस्य उपयोगं करोति ।<br>"
+
+#, fuzzy
+#~| msgid "Brightness down"
+#~ msgid "Brightness of image."
+#~ msgstr "कान्तिः अधः"
 
 #~ msgid "External proxy clips:"
 #~ msgstr "बाह्य प्रॉक्सी क्लिप्स् :"

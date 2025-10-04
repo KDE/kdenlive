@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5450,7 +5450,7 @@ msgstr "马赛克宽度"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -10303,8 +10303,9 @@ msgid "Dust Amount"
 msgstr "灰尘数量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, kde-format
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "<![CDATA[图像上模拟的灰尘颗粒数量]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10346,6 +10347,58 @@ msgstr "频道提取器 GREEN"
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr "从图像中提取绿色通道"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, fuzzy, kde-format
+#| msgid "Gate (avfilter)"
+msgid "Gate Weave"
+msgstr "门 (avfilter)"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "柔和度"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "水平对齐"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The distance between the track points]]>"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "<![CDATA[跟踪点之间的距离]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximum diameter"
+msgid "Maximum Vertical Movement"
+msgstr "最大直径"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[The amount to rotate the image<br>\n"
+#| "    \t(nose up or down).]]>"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr ""
+"<![CDATA[图像垂直转动量<br>\n"
+"    \t(中心点沿上下方向移动)]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -11567,6 +11620,12 @@ msgstr "模仿损坏电视机的扫描不同步画面效果"
 msgid "HSync"
 msgstr "水平同步"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "水平同步"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -11598,9 +11657,33 @@ msgid "Pixelize (basic)"
 msgstr "像素化(基本)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image"
+#, fuzzy, kde-format
+#| msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "对输入图像进行像素化处理"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal size"
+msgid "Horizontal size of one 'pixel'"
+msgstr "水平大小"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical size"
+msgid "Vertical size of one 'pixel'"
+msgstr "垂直大小"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "羽化透明度"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11980,8 +12063,8 @@ msgstr "将图像去色并生成邮票、报纸、影印等特有的视觉效果
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "图像亮度。"
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -18425,7 +18508,7 @@ msgstr "删除效果 %1"
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -20504,7 +20587,7 @@ msgstr "无音轨视频"
 msgid "Audio without video track"
 msgstr "无视频的音频轨道"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "渲染 %1 已开始"
@@ -24415,174 +24498,159 @@ msgstr "无法写入到素材库路径：%1，使用默认值"
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "请将程序缺陷报告到 <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "您正在使用 AppImage 软件包。<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "您正在使用 Flatpak 软件包。<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "您正在使用 Snap 软件包。<br>"
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "一款自由开源的视频编辑工具。"
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2025 Kdenlive authors"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT 和 KDE SC 4 / KF5 移植，主要开发人员和项目负责人"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "代码重构和时间轴重写 (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "功能开发、打包、程序缺陷修复"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 移植、Windows 交叉编译、软件打包、错误修复"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT 维护者、程序缺陷修复等"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "颜色示波器、程序缺陷修复等。"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "程序缺陷修复和测试改进"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "KDE 3 版本原始作者 (不再参与开发工作)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "图标、推广、测试"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "程序缺陷分拣、测试、文档维护者"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "图标"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "测试"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "专业建议、测试"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr ""
 "AngelSherry, DuckSoft, fangzheng, Guo Yunhe, ikochina, loaden, magsom, "
 "mrwang, ovo-Tim, phone-burner, Tyson Tan,Zhang Jie, 大宝, 潘晓宇, 阎金昭"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
@@ -24591,77 +24659,77 @@ msgstr ""
 "Tim@kde.org, phone-burner@kde.org, phoxtail@kde.org, tds00@qq.com, linux."
 "dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "自由开源的多媒体程序框架。"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "一套用于对音频和视频进行录制、转换和推流的完整跨平台解决方案。"
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "设置自定义配置文件名。"
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "设置 MLT 环境的路径。"
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "设置 MLT 日志级别。如果不设置，则默认为“警告”级别。"
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "要添加到素材箱的剪辑文件列表，以半角逗号区隔。"
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "直接导出项目并退出。"
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "Kdenlive 导出预设名称 (如果不给定，则使用 MP4-H264/AAC)。"
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr "在分离的导出进程开始后退出。如果不带此标记则只在导出完成后才退出。"
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "要打开的 Kdenlive 文档。"
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "导出视频的输出文件。"
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "版本 %1"
@@ -26477,30 +26545,30 @@ msgstr "隐藏菜单栏"
 msgid "No subtitles in current project"
 msgstr "当前项目不含字幕"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "访问下载页面"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "不再检查"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "此 Kdenlive 已经是 1 年前的版本了，我们强烈建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "此 Kdenlive 已经是 6 个月前的版本了，我们建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "检查缓存的数据大小"
@@ -37364,3 +37432,15 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "您正在使用 AppImage 软件包。<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "您正在使用 Flatpak 软件包。<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "您正在使用 Snap 软件包。<br>"
+
+#~ msgid "Brightness of image."
+#~ msgstr "图像亮度。"

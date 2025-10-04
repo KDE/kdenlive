@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
-"PO-Revision-Date: 2025-09-30 15:05+0300\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
+"PO-Revision-Date: 2025-10-04 11:20+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1209,10 +1209,9 @@ msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Square Blur"
+#, kde-format
 msgid "Planes Blur"
-msgstr "טישטוש ריבועי"
+msgstr "טשטוש מישורים"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1223,10 +1222,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Luma Radius"
-msgstr "רדיוס טשטוש"
+msgstr "רדיוס לומה"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
@@ -1234,10 +1232,9 @@ msgid "Radius of the luma blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Power"
-msgstr "מצב לומה"
+msgstr "עוצמת לומה"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
@@ -1246,10 +1243,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Chroma Radius"
-msgstr "רדיוס טשטוש"
+msgstr "רדיוס כרומה"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
@@ -1257,10 +1253,9 @@ msgid "Radius of the chroma blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
-#, fuzzy, kde-format
-#| msgid "Chroma Keep"
+#, kde-format
 msgid "Chroma Power"
-msgstr "שמירה על כרומה"
+msgstr "עוצמת כרומה"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
@@ -1268,10 +1263,9 @@ msgid "How many times should the boxblur be applied to chroma"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Alpha Radius"
-msgstr "רדיוס טשטוש"
+msgstr "רדיוס שקיפות"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
@@ -5392,7 +5386,7 @@ msgstr "עובי ריבוע"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -6289,10 +6283,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback Gain"
-msgstr "משוב"
+msgstr "שבח משוב"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -6510,10 +6503,9 @@ msgid "Percentage"
 msgstr "אחוזים"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Vectorscope (advanced)"
-msgstr "מבזק מחזורי"
+msgstr "מבזק מחזורי (מתקדם)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
@@ -7621,10 +7613,9 @@ msgid "Analog Video Echo"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Create an analog video echo"
-msgstr "סרטון מצגת שקופיות"
+msgstr "יצירת הד וידאו אנלוגי"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, kde-format
@@ -8038,10 +8029,9 @@ msgid "Remove the background of a static video"
 msgstr "הסרת רקע של וידאו דומם"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis Sample Radius"
-msgstr "נתוני אבחון"
+msgstr "רדיוס דגימת אבחון"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:11
 #, kde-format
@@ -8307,7 +8297,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
 #, kde-format
 msgid "Yaw"
-msgstr ""
+msgstr "סבסוב"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:10
@@ -8337,7 +8327,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:18
 #, kde-format
 msgid "Roll"
-msgstr ""
+msgstr "גלגול"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:20
@@ -10102,8 +10092,9 @@ msgid "Dust Amount"
 msgstr "כמות אבק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, kde-format
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "<![CDATA[כמות חלקיקי האבק בתמונה]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10146,6 +10137,54 @@ msgstr "מחלץ ערוץ ירוק"
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr "חילוץ ירוק מהתמונה"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, fuzzy, kde-format
+#| msgid "Gate (avfilter)"
+msgid "Gate Weave"
+msgstr "שער (avfilter)"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "רכות"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "יישור אופקי"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The distance between the track points]]>"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "<![CDATA[המרחק בין נקודות הרצועה]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximum diameter"
+msgid "Maximum Vertical Movement"
+msgstr "קוטר מרבי"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid "<![CDATA[The distance between the track points]]>"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr "<![CDATA[המרחק בין נקודות הרצועה]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -11194,7 +11233,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:83
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[להשתמש בטווח של 0-255 במקום 0.0-1.0]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
@@ -11206,13 +11245,13 @@ msgstr "קידוד צבע"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[נא לבחור בין שלוב (601) למדורג (709)]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
 #, kde-format
 msgid "CCIR Rec.601 (interlaced),CCIR Rec.709 (progressive)"
-msgstr ""
+msgstr "CCIR Rec.601 (שלוב),CCIR Rec.709 (מדורג)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:90
 #: data/effects/frei0r/frei0r_pr0file.xml:91
@@ -11316,6 +11355,11 @@ msgstr "טלוויזיה מקולקלת"
 msgid "HSync"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -11347,9 +11391,33 @@ msgid "Pixelize (basic)"
 msgstr "פיקסול (בסיסי)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image"
+#, fuzzy, kde-format
+#| msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "פיקסול תמונת הקלט"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal size"
+msgid "Horizontal size of one 'pixel'"
+msgstr "גודל אופקי"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical size"
+msgid "Vertical size of one 'pixel'"
+msgstr "גודל אנכי"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "אלפא בתצורת נוצה"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11726,8 +11794,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "בהירות תמונה."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -18245,7 +18313,7 @@ msgstr "מחיקת אפקט %1"
 msgid "Project Bin"
 msgstr "סל מיזם"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "סל המיזם %1"
@@ -20340,7 +20408,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Audio without video track"
 msgstr "שמע ללא רצועת וידאו"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "התיצוג של %1 התחיל"
@@ -24308,230 +24376,215 @@ msgstr "לא ניתן לכתוב לנתיב הספרייה: %1, נעשה שימ�
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "נא לדווח תקלות אל <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "בחרת להשתמש ב־AppImage.<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "בחרת להשתמש ב־Flatpak.<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "בחרת להשתמש בחבילת ה־Snap.<br>"
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "עורך וידאו בקוד פתוח."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "כל הזכויות שמורות © 2007–2025 ליוצרי Kdenlive"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "ז׳אן־בפטיסט מרדל"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "הסבה של MLT ו־KDE SC 4 / KF5, מפתח ומתחזק ראשי"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "ניקולס קריון"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "תכנון ויישום מחודש של קוד ושכתוב של ציר הזמן (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "יוליוס קונצל"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "פיתוח יכולות, אריזה, תיקון תקלות"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "וינסנט פינון"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "הסבה ל־KF5, בנייה צולבת ל־Windows, אריזה, תיקון תקלות"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "דן דנדי"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "המתחזק של MLT, תיקוני תקלות ועוד."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "סיימון א. יוגסטר"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "טווחי צבע, תיקוני תקלות ועוד."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "אריק ג׳יאנג"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "תיקון תקלות ושיפור הבדיקות"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "ג׳ייסון ווד"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "יוצר הגרסה המקורית ל־KDE 3 (אינו פעיל עוד)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "פריד עבדלנור"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "לוגו, קידום, בדיקות"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "יוג׳ין מוהר"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "אימות תקלות, בדיקה, תחזוקת תיעוד"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "נארה אוליביירה"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "לוגו"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ברונו סנטוס"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "בדיקה"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "מסימו סטלה"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "ייעוץ מומחה, בדיקה"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Amir S.,צוות התרגום של KDE ישראל"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "amir_in@netvision.net.il,kde-l10n-he@kde.org"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "תשתית מולטימדיה בקוד פתוח."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "פתרון חוצה פלטפורמות מלא להקלטה, המרה והזרמה של וידאו ושמע."
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "הגדרת שם משלך לקובץ ההגדרות."
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "הגדרת הנתיב לסביבת MLT."
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "הגדרת רמת פירוט היומן של ה־MLT. אם לא יוגדר זה יעבור למצב „אזהרה”."
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "רשימה מופרדת בפסיקים של קבצים להוספה כסרטונים לסל."
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "להכין תיצוג של המיזם ישירות ולצאת."
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "שם ערכת תיצוג של Kdenlive‏ (MP4-H264/AAC תיבחר אם לא סופקה שום ערכה)."
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -24539,17 +24592,17 @@ msgid ""
 msgstr ""
 "יציאה לאחר שתהליך העיבוד יתחיל (במנותק), אם דגלון זה לא קיים רק לאחר הסיום."
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "מסמך Kdenlive לפתיחה."
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "קובץ פלט לווידאו שעבר תיצוג."
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "גרסה %1"
@@ -26397,30 +26450,30 @@ msgstr "הסתרת סרגל תפריטים"
 msgid "No subtitles in current project"
 msgstr "אין כתוביות במיזם הנוכחי"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "מעבר לעמוד ההורדה"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "לא לבדוק שוב"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר משנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
@@ -37377,6 +37430,18 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "בחרת להשתמש ב־AppImage.<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "בחרת להשתמש ב־Flatpak.<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "בחרת להשתמש בחבילת ה־Snap.<br>"
+
+#~ msgid "Brightness of image."
+#~ msgstr "בהירות תמונה."
 
 #~ msgid "External proxy clips:"
 #~ msgstr "סרטוני תיווך חיצוניים:"

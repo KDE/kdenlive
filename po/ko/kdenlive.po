@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5688,7 +5688,7 @@ msgstr "매크로블록 너비"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Block height"
@@ -10703,7 +10703,7 @@ msgstr "색조 정도"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "X축 회전"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10747,6 +10747,54 @@ msgstr ""
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, fuzzy, kde-format
+#| msgid "Rate Scaler"
+msgid "Gate Weave"
+msgstr "속도 스케일러"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "부드러움"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "수평 정렬"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "X축 회전"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximal Diameter"
+msgid "Maximum Vertical Movement"
+msgstr "최대 지름"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr "X축 회전"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -12033,6 +12081,12 @@ msgstr "깨진 TV"
 msgid "HSync"
 msgstr "수평 동기화"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "수평 동기화"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, fuzzy, kde-format
 #| msgid "NTSC 4:3"
@@ -12072,8 +12126,32 @@ msgstr "입력 이미지를 픽셀화합니다."
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "입력 이미지를 픽셀화합니다."
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Horizontal Blinds"
+msgid "Horizontal size of one 'pixel'"
+msgstr "수평 블라인드"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Vertical size of one 'pixel'"
+msgstr "세로"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "알파 항적"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12464,8 +12542,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "이미지의 명도입니다."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -19122,7 +19200,7 @@ msgstr "%1 효과 삭제"
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -21307,7 +21385,7 @@ msgstr "오디오 트랙이 없는 동영상"
 msgid "Audio without video track"
 msgstr "오디오 트랙이 없는 동영상"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25422,196 +25500,181 @@ msgstr "라이브러리 경로에 쓸 수 없음: %1, 기본값 사용"
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr ""
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr ""
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr ""
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr ""
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "오픈 소스 동영상 편집기."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2021 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2021 Kdenlive authors"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT 및 KDE SC 4/KF5 이식, 주 개발자 및 관리자"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, fuzzy, kde-format
 #| msgid "Code re-architecture & timeline rewrite"
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "코드 재구성 및 타임라인 재작성"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr ""
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 포트, Windows 크로스 빌드, 패키지, 버그 수정"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, fuzzy, kde-format
 #| msgid "MLT, Bug fixing, etc."
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT, 버그 수정 등."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "색상 범위, 버그 수정 등."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr ""
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr ""
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "기존 KDE 3 버전 작성자(더 이상 활동하지 않음)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "로고, 프로모션, 테스트"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr ""
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "로고"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "테스트"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "전문적인 조언, 테스트"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "JungHee Lee,박신조"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "daemul72@gmail.com,kde@peremen.name"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "오픈 소스 멀티미디어 프레임워크입니다."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25620,60 +25683,60 @@ msgstr ""
 "오디오와 비디오를 기록, 변환, 스트림할 수 있는 완전한 크로스 플랫폼 솔루션입"
 "니다."
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, fuzzy, kde-format
 #| msgid "Set a custom config file name"
 msgid "Set a custom config file name."
 msgstr "사용자 정의 설정 파일 이름 지정"
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Set the path for MLT environment."
 msgstr "MLT 환경 경로 설정"
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, fuzzy, kde-format
 #| msgid "Comma separated list of clips to add"
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "쉼표로 구분된 클립 목록"
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Directly render the project and exit."
 msgstr "기본 프로젝트 파일 폴더"
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Kdenlive document to open."
 msgstr "열 문서"
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Output file for rendered video."
 msgstr "파일 확장자:"
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "버전 %1"
@@ -27614,31 +27677,31 @@ msgstr "메뉴 표시줄 숨기기"
 msgid "No subtitles in current project"
 msgstr "현재 프로젝트에 자막 없음"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, fuzzy, kde-format
 #| msgid "Check again"
 msgid "Never check again"
 msgstr "다시 확인"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -39177,6 +39240,9 @@ msgstr "%1분"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
+
+#~ msgid "Brightness of image."
+#~ msgstr "이미지의 명도입니다."
 
 #, fuzzy
 #~| msgid "Use external proxy clips"

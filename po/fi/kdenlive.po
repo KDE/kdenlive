@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -5687,7 +5687,7 @@ msgstr "Makrolohkon leveys"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Macroblock height"
@@ -10796,7 +10796,7 @@ msgstr "Sävytyksen määrä"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
 msgstr "Kierrä (X-akseli)"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10843,6 +10843,53 @@ msgstr ""
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, fuzzy, kde-format
+msgid "Gate Weave"
+msgstr "\t"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, fuzzy, kde-format
+#| msgid "Softness"
+msgid "Smoothness"
+msgstr "Pehmeys"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Maximum Horizontal Movement"
+msgstr "Vaakatasaus"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, fuzzy, kde-format
+#| msgid "Maximal Diameter"
+msgid "Maximum Vertical Movement"
+msgstr "Suurin halkaisija"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr "Kierrä (X-akseli)"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -12126,6 +12173,12 @@ msgstr "Rikkinäinen TV"
 msgid "HSync"
 msgstr "HSync"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "HSync"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, fuzzy, kde-format
 #| msgid "NTSC 4:3"
@@ -12165,8 +12218,31 @@ msgstr "Pikselöi syötekuva."
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pikselöi syötekuva."
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal Flip"
+msgid "Horizontal size of one 'pixel'"
+msgstr "Vaakakääntö"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical Flip"
+msgid "Vertical size of one 'pixel'"
+msgstr "Pystykääntö"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather width"
+msgid "Pass-through Alpha"
+msgstr "Kuvion leveys"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12565,10 +12641,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
-msgid "Brightness of image."
-msgstr "Kirkkauden lasku"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -19331,7 +19406,7 @@ msgstr "Poista tehoste %1"
 msgid "Project Bin"
 msgstr "Projektikansio"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektikansio %1"
@@ -21467,7 +21542,7 @@ msgstr "Video ilman ääniraitaa"
 msgid "Audio without video track"
 msgstr "Ääni ilman videoraitaa"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
@@ -25484,196 +25559,181 @@ msgstr "Kirjaston polkuun %1 ei voi kirjoittaa, käytetään oletusta"
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Ilmoita bugeista <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "Käytät AppImagea.<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "Käytät Flatpakiä.<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "Käytät Snapiä.<br>"
-
 # pmap: =:gen=Kdenliven:
 # pmap: =:elat=Kdenlivestä:
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "Avoimen lähdekoodin videoeditointi-ohjelma."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2024 Kdenlive authors"
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Tekijänoikeudet © 2007–2024 Kdenliven tekijät"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "Koodin siirto MLT ja KDE SC 4 / KF5, pääkehittäjä ja ylläpitäjä"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Koodiarkkitehtuurin ja aikajanan uudistaminen (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Ominaisuuskehitys, paketointi, virheenkorjaus"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5-portti, Windows sovitus, paketointi, virheenkorjaus"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT-ylläpitäjä, virheenkorjaus jne."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Värialueet, virhekorjaukset jne."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Virheenkorjaus ja parannusten kokeilu"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Alkuperäinen KDE 3 version kehittäjä (ei enää aktiivinen)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, mainonta, testaus"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Virheiden diagnosointi ja kokeilu, ohjeistuksen ylläpitäjä"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "Testaus"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Asiantuntijan neuvoja, testaus"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Tommi Nieminen,Antti Sokero,Kimmo Kujansuu"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "translator@legisign.org,antti@sokero.com,mrkujansuu@gmail.com"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Avoimen lähdekoodin multimedia kehitysympäristö."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25682,43 +25742,43 @@ msgstr ""
 "Täydellinen, alustariippumaton ratkaisu äänen ja videon tallentamiseen, "
 "muuntamiseen ja suoratoistoon."
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Aseta mukautetun asetustiedoston nimi."
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Aseta MLT-ympäristön polku."
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Aseta MLT-lokin kirjaustaso. Jätä tämä asettamatta niin tason on "
 "\"varoitukset\"."
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Pilkuilla eroteltu luettelo tiedostoista, jotka lisätään leikkeiksi "
 "roskakoriin."
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Hahmonna projekti ja lopeta."
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenliven hahmonnusesiasetuksen nimi (käytetään MP4-H264/AAC, ellei mitään "
 "anneta)."
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25727,17 +25787,17 @@ msgstr ""
 "Lopeta (irrotetun) hahmonnusprosessin käynnistyttyä; ilman tätä lopetetaan "
 "vasta sen valmistuttua."
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Avattava Kdenlive-dokumentti."
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Hahmonnetun videon tulostiedosto."
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "Versio %1"
@@ -27648,17 +27708,17 @@ msgstr "Piilota valikko"
 msgid "No subtitles in current project"
 msgstr "Projektissa ei ole tekstityksiä"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "Siirry lataussivulle"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "Älä tarkista uudelleen"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -27666,7 +27726,7 @@ msgid ""
 msgstr ""
 "Kdenlive-versiosi on vanhempi kuin 1 vuosi, joten suosittelemme päivittämään"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -27674,7 +27734,7 @@ msgstr ""
 "Kdenlive-versiosi on yli 6 kuukautta vanhempi, joten suosittelemme "
 "päivittämään"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Tarkistetaan välimuistissa olevan datan kokoa"
@@ -38811,6 +38871,20 @@ msgstr "%1 min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "Käytät AppImagea.<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "Käytät Flatpakiä.<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "Käytät Snapiä.<br>"
+
+#, fuzzy
+#~| msgid "Brightness down"
+#~ msgid "Brightness of image."
+#~ msgstr "Kirkkauden lasku"
 
 #~ msgid "External proxy clips:"
 #~ msgstr "Ulkoisia puskurileikkeitä:"

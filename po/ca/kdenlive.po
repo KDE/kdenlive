@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
-"PO-Revision-Date: 2025-09-26 12:55+0200\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
+"PO-Revision-Date: 2025-10-04 11:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5688,7 +5688,7 @@ msgstr "Amplada dels blocs"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -10728,8 +10728,8 @@ msgstr "Quantitat de pols"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
-msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[La quantitat de partícules de pols a la imatge]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
+msgstr "<![CDATA[La quantitat de partícules de pols afegides a la imatge]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10770,6 +10770,53 @@ msgstr "Extractor de canal verd"
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr "Extreu el verd de la imatge"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, kde-format
+msgid "Gate Weave"
+msgstr "Gate Weave"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr ""
+"Mou aleatòriament la imatge per simular el «gate weave» d'una pel·lícula"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, kde-format
+msgid "Smoothness"
+msgstr "Suavitzat"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+"<![CDATA[Factor utilitzat per a barrejar entre les posicions. Un nombre més "
+"baix significa un efecte més ràpid]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, kde-format
+msgid "Maximum Horizontal Movement"
+msgstr "Moviment horitzontal màxim"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, kde-format
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr ""
+"<![CDATA[La distància màxima que la imatge es mourà a l'esquerra o la "
+"dreta]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, kde-format
+msgid "Maximum Vertical Movement"
+msgstr "Moviment vertical màxim"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, kde-format
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr "<![CDATA[La distància màxima que la imatge es mourà amunt o avall]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -12047,6 +12094,11 @@ msgstr "Televisor espatllat"
 msgid "HSync"
 msgstr "HSync"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr "VSync"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -12079,8 +12131,28 @@ msgstr "Pixela (bàsic)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pixela la imatge d'entrada"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, kde-format
+msgid "Horizontal size of one 'pixel'"
+msgstr "Mida horitzontal d'un «píxel»"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, kde-format
+msgid "Vertical size of one 'pixel'"
+msgstr "Mida vertical d'un «píxel»"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, kde-format
+msgid "Pass-through Alpha"
+msgstr "Alfa del curtcircuitat"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr "No fa la mitjana del canal alfa de cada bloc"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12469,8 +12541,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "Lluminositat de la imatge."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr "Lluminositat de la imatge. Punt mitjà de la corba sigmoidal"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -19158,7 +19230,7 @@ msgstr "Suprimeix l'efecte %1"
 msgid "Project Bin"
 msgstr "Safata del projecte"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Safata del projecte %1"
@@ -21277,7 +21349,7 @@ msgstr "Vídeo sense pista d'àudio"
 msgid "Audio without video track"
 msgstr "Àudio sense pista de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Ha començat la renderització de %1"
@@ -25316,197 +25388,182 @@ msgstr ""
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Informeu dels errors a <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "Esteu emprant l'AppImage.<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "Esteu emprant el Flatpak.<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "Esteu emprant el paquet Snap.<br>"
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "Un editor de vídeo de codi obert."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2025 Els autors del Kdenlive"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
 "Adaptació al MLT i la KDE SC 4 / els KF5. Desenvolupador i mantenidor "
 "principal"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Rearquitectura del codi i reescriptura de la línia de temps (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Desenvolupament de característiques, empaquetatge, correcció d'errors"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Adaptació als KF5, compilació creuada de Windows, empaquetatge, correcció "
 "d'errors"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Mantenidor del MLT, correcció d'errors, etc."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Electroscopis de color, esmena d'errors, etc."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Correcció d'errors i millora de les proves"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autor de la versió original per al KDE 3 (inactiva)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logotip, promoció, proves"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Triatge d'errors, proves, mantenidor de la documentació"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "Logotip"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "Proves"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Assessorament expert, proves"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Joan M. Herrera,Orestes Mas"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "herrej01@gmail.com,orestes@tsc.upc.edu"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Marc de treball multimèdia de codi obert."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25515,42 +25572,42 @@ msgstr ""
 "Una solució completa i multiplataforma per a enregistrar, convertir i "
 "transmetre àudio i vídeo."
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Estableix un nom de fitxer de configuració personalitzat."
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Estableix el camí per a l'entorn MLT."
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Estableix el nivell de registre del MLT. Deixeu-ho sense definir per al "
 "nivell «avís»."
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Llista de fitxers separats per comes, per a afegir com a clips a la safata."
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Renderitza el projecte directament i surt."
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Nom de valors predefinits de renderització del Kdenlive (s'usarà MP4-H264/"
 "AAC si no s'indica cap)."
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25559,17 +25616,17 @@ msgstr ""
 "Surt després d'iniciar el procés de renderització (separat), sense aquest "
 "indicador només surt després d'acabar."
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "El document del Kdenlive a obrir."
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Fitxer de sortida del vídeo renderitzat."
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "Versió %1"
@@ -27443,17 +27500,17 @@ msgstr "Oculta la barra de menús"
 msgid "No subtitles in current project"
 msgstr "No s'ha trobat cap subtítol en el projecte actual"
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "Ves a la pàgina de baixades"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "No ho tornis a comprovar mai més"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -27462,7 +27519,7 @@ msgstr ""
 "Aquesta versió del Kdenlive té més d'un any d'antiguitat, us animem "
 "completament que l'actualitzeu"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -27470,7 +27527,7 @@ msgstr ""
 "Aquesta versió del Kdenlive té més de 6 mesos d'antiguitat, us animem que "
 "l'actualitzeu"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Comprovació de la mida de les dades a la memòria cau"
@@ -38587,6 +38644,18 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "Esteu emprant l'AppImage.<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "Esteu emprant el Flatpak.<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "Esteu emprant el paquet Snap.<br>"
+
+#~ msgid "Brightness of image."
+#~ msgstr "Lluminositat de la imatge."
 
 #~ msgid "External proxy clips:"
 #~ msgstr "Clips intermediaris externs:"

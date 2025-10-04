@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 00:43+0000\n"
-"PO-Revision-Date: 2025-09-26 06:53-0300\n"
-"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
+"POT-Creation-Date: 2025-10-04 14:14+0000\n"
+"PO-Revision-Date: 2025-10-04 02:02-0300\n"
+"Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -5638,7 +5638,7 @@ msgstr "Largura do bloco"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -10649,8 +10649,8 @@ msgstr "Quantidade de poeira"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
-msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[A quantidade de partículas de poeira na imagem]]>"
+msgid "<![CDATA[The amount of dust particles added to the image]]>"
+msgstr "<![CDATA[A quantidade de partículas de poeira adicionadas à imagem]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10691,6 +10691,54 @@ msgstr "Canal extrator VERDE"
 #, kde-format
 msgid "Extracts Green from Image"
 msgstr "Extrai o verde da imagem"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:4
+#, kde-format
+msgid "Gate Weave"
+msgstr "Portão em trama"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:5
+#, kde-format
+msgid "Randomly moves image around to simulate film gate weave"
+msgstr "Move a imagem aleatoriamente para simular portão em trama no filme"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:8
+#, kde-format
+msgid "Smoothness"
+msgstr "Suavidade"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:9
+#, kde-format
+msgid ""
+"<![CDATA[Factor used to blend between positions. A lower number means a "
+"faster effect]]>"
+msgstr ""
+"<![CDATA[Fator usado para mesclar posições. Um número menor significa um "
+"efeito mais rápido]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:12
+#, kde-format
+msgid "Maximum Horizontal Movement"
+msgstr "Movimento horizontal máximo"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:13
+#, kde-format
+msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgstr ""
+"<![CDATA[A distância máxima que a imagem pode mover para a esquerda ou "
+"direita]]>"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:16
+#, kde-format
+msgid "Maximum Vertical Movement"
+msgstr "Movimento vertical máximo"
+
+#: data/effects/frei0r/frei0r_gateweave.xml:17
+#, kde-format
+msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgstr ""
+"<![CDATA[A distância máxima que a imagem pode mover para cima ou para "
+"baixo]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -11962,6 +12010,11 @@ msgstr "TV quebrada"
 msgid "HSync"
 msgstr "HSync"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr "VSync"
+
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
 msgid "NTSC"
@@ -11994,8 +12047,28 @@ msgstr "Pixelizar (básico)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pixeliza a imagem de entrada."
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, kde-format
+msgid "Horizontal size of one 'pixel'"
+msgstr "Tamanho horizontal de um 'pixel'"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, kde-format
+msgid "Vertical size of one 'pixel'"
+msgstr "Tamanho vertical de um 'pixel'"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, kde-format
+msgid "Pass-through Alpha"
+msgstr "Passagem Alfa"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr "Não calcular a média do canal alfa em cada bloco"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12383,8 +12456,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "Brilho da imagem."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr "Brilho da imagem. Ponto médio da curva sigmoidal"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -19046,7 +19119,7 @@ msgstr "Excluir efeito %1"
 msgid "Project Bin"
 msgstr "Biblioteca multimídia"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5153
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5156
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Biblioteca multimídia %1"
@@ -21163,7 +21236,7 @@ msgstr "Vídeo sem trilha de áudio"
 msgid "Audio without video track"
 msgstr "Áudio sem trilha de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:457
+#: src/dialogs/renderwidget.cpp:1174 src/main.cpp:445
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Renderização %1 iniciada"
@@ -25185,200 +25258,185 @@ msgstr ""
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Por favor, reporte erros para <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:284
-#, kde-format
-msgid "You are using the AppImage.<br>"
-msgstr "Você está usando o pacote AppImage.<br>"
-
-#: src/main.cpp:287
-#, kde-format
-msgid "You are using the Flatpak.<br>"
-msgstr "Você está usando o pacote Flatpak.<br>"
-
-#: src/main.cpp:290
-#, kde-format
-msgid "You are using the Snap package.<br>"
-msgstr "Você está usando o pacote Snap.<br>"
-
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:296
+#: src/main.cpp:282
 #, kde-format
 msgid "An open source video editor."
 msgstr "Um editor de vídeo de código aberto."
 
-#: src/main.cpp:297
+#: src/main.cpp:283
 #, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2025 Os autores do Kdenlive"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:299
+#: src/main.cpp:285
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
 "Migração para MLT, KDE SC 4 e KF5, desenvolvedor principal e mantenedor"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:301
+#: src/main.cpp:287
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Re-arquitetura do código e reescrita da linha do tempo (2019)"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:302
+#: src/main.cpp:288
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Desenvolvimento de recursos, empacotamento, correção de bugs"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:303
+#: src/main.cpp:289
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Porte para o KF5, compilação cruzada no Windows, empacotamento, correção de "
 "erros"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:305
+#: src/main.cpp:291
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Mantenedor do MLT, correção de erros, etc."
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:306
+#: src/main.cpp:292
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Escopo de Cor, correção de erro, etc."
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:307
+#: src/main.cpp:293
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Correção de bugs e testes de melhorias"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:309
+#: src/main.cpp:295
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autor original da versão para KDE 3 (inativo)"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:311
+#: src/main.cpp:297
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, promoção, testes"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:312
+#: src/main.cpp:298
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Triagem de bugs, testes, mantenedor da documentação"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:313
+#: src/main.cpp:299
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:314
+#: src/main.cpp:300
 #, kde-format
 msgid "Testing"
 msgstr "Testes"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:315
+#: src/main.cpp:301
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Conselhos avançados, testes"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr ""
 "Marcelo Soares Souza, Wille Marcel, Thiago Lima de Sousa, André Marcelo "
 "Alvarenga"
 
-#: src/main.cpp:317
+#: src/main.cpp:303
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "marcelo@juntadados.org, wille@riseup.net, filhosdaweb@gmail.com, "
 "alvarenga@kde.org"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:320
+#: src/main.cpp:308
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Framework multimídia de código aberto."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/main.cpp:322 src/ui/configcapture_ui.ui:38
+#: src/main.cpp:310 src/ui/configcapture_ui.ui:38
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:322
+#: src/main.cpp:310
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -25387,41 +25445,41 @@ msgstr ""
 "Uma solução completa e multiplataforma para gravar, converter e transmitir "
 "áudio e vídeo."
 
-#: src/main.cpp:342
+#: src/main.cpp:330
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Definir um nome de arquivo de configuração personalizado."
 
-#: src/main.cpp:343
+#: src/main.cpp:331
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Defina o caminho para o ambiente MLT."
 
-#: src/main.cpp:345
+#: src/main.cpp:333
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Define o nível de registro do MLT. Deixe sem definir para o nível \"aviso\"."
 
-#: src/main.cpp:348
+#: src/main.cpp:336
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Lista de clipes separados por vírgula para adicionar à biblioteca multimídia."
 
-#: src/main.cpp:352
+#: src/main.cpp:340
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Renderizar projeto diretamente e sair."
 
-#: src/main.cpp:355
+#: src/main.cpp:343
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Nome da predefinição de renderização do Kdenlive (MP4-H264/AAC será usado se "
 "nenhum for inserido)."
 
-#: src/main.cpp:360
+#: src/main.cpp:348
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -25430,17 +25488,17 @@ msgstr ""
 "Sair após o processo de renderização (desanexado) for iniciado. Sem esse "
 "marcador ele sai apenas após terminar."
 
-#: src/main.cpp:363
+#: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Documento do Kdenlive para abrir."
 
-#: src/main.cpp:364
+#: src/main.cpp:352
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Arquivo de saída para o vídeo renderizado."
 
-#: src/main.cpp:476
+#: src/main.cpp:464
 #, kde-format
 msgid "Version %1"
 msgstr "Versão %1"
@@ -27313,17 +27371,17 @@ msgstr "Ocultar barra de menus"
 msgid "No subtitles in current project"
 msgstr "Nenhuma legenda no projeto atual."
 
-#: src/mainwindow.cpp:5329
+#: src/mainwindow.cpp:5332
 #, kde-format
 msgid "Go to download page"
 msgstr "Ir à página de download"
 
-#: src/mainwindow.cpp:5334
+#: src/mainwindow.cpp:5337
 #, kde-format
 msgid "Never check again"
 msgstr "Nunca verificar de novo"
 
-#: src/mainwindow.cpp:5337
+#: src/mainwindow.cpp:5340
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -27332,7 +27390,7 @@ msgstr ""
 "Sua versão do Kdenlive é mais antiga que 1 ano. Procurar atualizações é "
 "fortemente recomendado"
 
-#: src/mainwindow.cpp:5341
+#: src/mainwindow.cpp:5344
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -27340,7 +27398,7 @@ msgstr ""
 "Sua versão do Kdenlive é mais antiga que 6 meses. Procurar atualizações é "
 "recomendado"
 
-#: src/mainwindow.cpp:5383
+#: src/mainwindow.cpp:5386
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Verificando o tamanho dos dados em cache"
@@ -38407,6 +38465,18 @@ msgstr "%1min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "You are using the AppImage.<br>"
+#~ msgstr "Você está usando o pacote AppImage.<br>"
+
+#~ msgid "You are using the Flatpak.<br>"
+#~ msgstr "Você está usando o pacote Flatpak.<br>"
+
+#~ msgid "You are using the Snap package.<br>"
+#~ msgstr "Você está usando o pacote Snap.<br>"
+
+#~ msgid "Brightness of image."
+#~ msgstr "Brilho da imagem."
 
 #~ msgid "External proxy clips:"
 #~ msgstr "Clipes de proxy externo:"
