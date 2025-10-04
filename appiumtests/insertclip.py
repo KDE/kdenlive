@@ -38,7 +38,7 @@ class SimpleKdenliveTests(unittest.TestCase):
         #wait.until(lambda x: self.getresults() == '0')
 
     def getStatusText(self):
-        displaytext = self.driver.find_element(by="description", value="Status Message").text
+        displaytext = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.MainWindow#1.QStatusBar.StatusBarMessageLabel.QLabel").text
         return displaytext
 
     def assertResult(self, actual, expected):
@@ -51,7 +51,8 @@ class SimpleKdenliveTests(unittest.TestCase):
 
     def test_initialize(self):
         self.driver.find_element(by=AppiumBy.NAME, value="Add Color Clip…").click()
-        self.driver.find_element(by=AppiumBy.NAME, value="OK").click()
+
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.ColorClip_UI.buttonBox.QPushButton").click()
         # insert clip in timeline
         self.driver.find_element(by=AppiumBy.NAME, value="Insert Clip Zone in Timeline").click()
         # insert clip in timeline again
