@@ -34,6 +34,10 @@ Dependencies:
 #- 'on': ['Linux', 'FreeBSD']
   #'require':
     #'plasma/drkonqi' : '@stable'
+RuntimeDependencies:
+- 'on': ['Linux']
+  'require':
+    'sdk/selenium-webdriver-at-spi': '@latest-kf6'
 
 Options:
   require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
