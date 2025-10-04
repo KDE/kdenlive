@@ -5037,7 +5037,7 @@ void MainWindow::slotCopyDebugInfo()
 {
     // General note for this function: since the information targets developers, we don't want it to be translated
 
-    QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
+    QString debuginfo;
     QString packageType;
     switch (pCore->packageType()) {
     case LinuxPackageType::AppImage:
@@ -5053,8 +5053,11 @@ void MainWindow::slotCopyDebugInfo()
         packageType = QStringLiteral("Unknown/Default");
         break;
     }
+    QList<KAboutComponent> components = KAboutData::applicationData().components();
+    for (auto &c : components) {
+        debuginfo.append(QStringLiteral("%1: %2\n").arg(c.name(), c.version()));
+    }
     debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType));
-    debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
     debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
     debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));

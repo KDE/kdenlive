@@ -201,7 +201,7 @@ endif()
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
-if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
+if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
   # Probably a Git workspace; determine the revision.
   find_package(Git QUIET)
   if(GIT_FOUND)
@@ -209,7 +209,7 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
 	  ARGS "log -n 1 --pretty=format:\"%h\""
       OUTPUT_VARIABLE KDENLIVE_GIT_REVISION)
     message(STATUS "Kdenlive Git revision: ${KDENLIVE_GIT_REVISION}")
-    set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION} (rev. ${KDENLIVE_GIT_REVISION})")
+    set(KDENLIVE_FULL_VERSION_STRING "${KDENLIVE_VERSION} - rev. ${KDENLIVE_GIT_REVISION}")
   else()
     message(STATUS "Kdenlive Git revision could not be determined")
   endif()
