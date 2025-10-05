@@ -9992,10 +9992,9 @@ msgid "Randomly moves image around to simulate film gate weave"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "Jemnost"
+msgstr "Hladkost"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format

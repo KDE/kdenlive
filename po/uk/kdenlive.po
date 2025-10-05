@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-04 14:14+0000\n"
-"PO-Revision-Date: 2025-09-26 18:35+0300\n"
+"PO-Revision-Date: 2025-10-04 18:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10670,10 +10670,10 @@ msgid "Dust Amount"
 msgstr "Рівень запиленості"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles added to the image]]>"
-msgstr "<![CDATA[Питома кількість часток пилу на зображенні]]>"
+msgstr ""
+"<![CDATA[Питома кількість часток пилу, які буде додано до зображення]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10716,21 +10716,19 @@ msgid "Extracts Green from Image"
 msgstr "Видобуває зелений канал з зображення"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:4
-#, fuzzy, kde-format
-#| msgid "Gate (avfilter)"
+#, kde-format
 msgid "Gate Weave"
-msgstr "Шлюз (avfilter)"
+msgstr "Пересування затвора"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:5
 #, kde-format
 msgid "Randomly moves image around to simulate film gate weave"
-msgstr ""
+msgstr "Випадково пересуває кадр екраном для імітації ефекту кіноапарата"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "М’якість"
+msgstr "Плавність"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
@@ -10738,34 +10736,32 @@ msgid ""
 "<![CDATA[Factor used to blend between positions. A lower number means a "
 "faster effect]]>"
 msgstr ""
+"<![CDATA[Коефіцієнт, що використовується для об'єднання між позиціями. Нижче "
+"значення означає швидший ефект]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "Горизонтальне вирівнювання"
+msgstr "Максимальне пересування за горизонталлю"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
-msgstr "<![CDATA[Відстань між точками маршруту]]>"
+msgstr ""
+"<![CDATA[Максимальна відстань, на яку можна рухати зображення ліворуч або "
+"праворуч]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Maximum diameter"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "Максимальний діаметр"
+msgstr "Максимальне пересування за вертикаллю"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The amount to rotate the image<br>\n"
-#| "    \t(nose up or down).]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
 msgstr ""
-"<![CDATA[Величина обертання зображення<br>\n"
-"    \t(ніс рухається вгору або вниз).]]>"
+"<![CDATA[Максимальна відстань на яку зображення можна рухати вгору або "
+"вниз]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -12038,10 +12034,9 @@ msgid "HSync"
 msgstr "Гор. синхронізація"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "Гор. синхронізація"
+msgstr "Верт. синхронізація"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -12074,33 +12069,29 @@ msgid "Pixelize (basic)"
 msgstr "Пікселізація (базова)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
 msgstr "Пікселювання вхідного зображення"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "Горизонтальний розмір"
+msgstr "Горизонтальний розмір одного «пікселя»"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "Вертикальний розмір"
+msgstr "Вертикальний розмір одного «пікселя»"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "Степінь прозорості"
+msgstr "Пропускання альфи"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "Не усереднювати альфа-канал за кожним блоком"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12491,7 +12482,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "Яскравість зображення. Середня точка сигмоїди"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
