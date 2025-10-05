@@ -1714,7 +1714,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
 void Monitor::stop()
 {
     updatePlayAction(false);
-    m_glMonitor->stop();
+    m_glMonitor->pause();
 }
 
 void Monitor::mute(bool mute)
