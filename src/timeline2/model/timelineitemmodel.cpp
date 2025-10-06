@@ -731,6 +731,10 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
     const QUuid uuid(source.at(3));
     bool singleTarget = source.at(4).toInt() == 1;
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
+    if (effectStack == nullptr) {
+        pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);
+        return false;
+    }
     if (!singleTarget && m_singleSelectionMode && m_currentSelection.count(clipId)) {
         // only operate on the selected item
         Fun undo = []() { return true; };

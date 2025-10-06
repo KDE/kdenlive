@@ -1039,14 +1039,32 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, in
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
-    case int(KdenliveObjectType::TimelineClip):
-        return currentDoc()->getTimeline(uuid)->getClipEffectStack(itemId);
-    case int(KdenliveObjectType::TimelineTrack):
-        return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
+    case int(KdenliveObjectType::TimelineClip): {
+        auto tl = currentDoc()->getTimeline(uuid, true);
+        if (tl) {
+            return tl->getClipEffectStack(itemId);
+        } else {
+            return nullptr;
+        }
+    }
+    case int(KdenliveObjectType::TimelineTrack): {
+        auto tl = currentDoc()->getTimeline(uuid, true);
+        if (tl) {
+            return tl->getTrackEffectStackModel(itemId);
+        } else {
+            return nullptr;
+        }
+    }
     case int(KdenliveObjectType::BinClip):
         return m_projectItemModel->getClipEffectStack(itemId);
-    case int(KdenliveObjectType::Master):
-        return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
+    case int(KdenliveObjectType::Master): {
+        auto tl = currentDoc()->getTimeline(uuid, true);
+        if (tl) {
+            return tl->getMasterEffectStackModel();
+        } else {
+            return nullptr;
+        }
+    }
     default:
         return nullptr;
     }
