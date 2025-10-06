@@ -1535,7 +1535,21 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
                             QJsonValue v1 = j;
                             if (v1.isObject()) {
                                 QJsonObject ob = v1.toObject();
-                                params.append({ob.value("name").toString(), ob.value("value").toVariant()});
+                                const QString name = ob.value("name").toString();
+                                QVariant val = ob.value("value").toVariant();
+                                if ((m_assetId == QLatin1String("fade_to_black") || m_assetId == QLatin1String("fadeout"))) {
+                                    // Fade out duration is expressed from the end of the clip
+                                    if (name == QLatin1String("in")) {
+                                        int filterDuration = ob.value("out").toInt();
+                                        if (filterDuration > 0) {
+                                            filterDuration = filterDuration - 1 - val.toInt();
+                                            val = m_asset->get_int("out") - filterDuration;
+                                        }
+                                    } else if (name == QLatin1String("out")) {
+                                        val = m_asset->get_int("out");
+                                    }
+                                }
+                                params.append({name, val});
                             }
                         }
                     }
