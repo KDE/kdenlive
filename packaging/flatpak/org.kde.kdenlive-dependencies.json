@@ -754,6 +754,20 @@
                     "tag": "v0.17.0"
                 }
             ]
+        },
+        {
+            "name": "kddockwidgets",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DKDDockWidgets_FRONTENDS=qtwidgets"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/KDAB/KDDockWidgets/releases/download/v2.3.0/kddockwidgets-2.3.0.tar.gz",
+                    "sha256": "843baf9e1812c1ab82fd81d85b57cbc0d29bb43245efeb2539039780004b1056"
+                }
+            ]
         }
     ]
 }
