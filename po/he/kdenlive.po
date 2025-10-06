@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 14:14+0000\n"
-"PO-Revision-Date: 2025-10-04 11:20+0300\n"
+"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"PO-Revision-Date: 2025-10-05 12:29+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -12686,7 +12686,7 @@ msgid ""
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
 "<![CDATA[הגדרת היחידה לשימוש להצגת ערכים של גובה ומהירות.<br>\n"
-"        ברירת המחדל היא מטרים וקמ״ש בהתאמה. היחידה נתפסת בכל מקוםבמחרוזת כך "
+"        ברירת המחדל היא מטרים וקמ״ש בהתאמה. היחידה נתפסת בכל מקום במחרוזת כך "
 "שניתן להשתמש ברווחים נוספים כדי לשפר את ההצגה.]]>"
 
 #: data/effects/gpsgraphic.xml:146
@@ -13658,7 +13658,7 @@ msgstr ""
 #: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
 #, kde-format
 msgid "Alpha,Luma,RGB"
-msgstr "אלפא,לומה,RGB"
+msgstr "שקיפות,לומה,RGB"
 
 #: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
@@ -25582,7 +25582,7 @@ msgid ""
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
 "לחיצה להתחלה הפעלת כל אזורי התצוגה המקדימה (מומלץ לאזורים מורכבים עם הרבה "
-"אפקטים).  <nl/> לחיצה על סמליל החץ למטה לקבלת רשימת אפשרויות (לדוגמה:  הוספת "
+"אפקטים).<nl/>לחיצה על סמליל החץ למטה לקבלת רשימת אפשרויות (לדוגמה: הוספת "
 "אזור תצוגה מקדימה, הסרת כל האזורים)."
 
 #: src/mainwindow.cpp:1761
@@ -26125,7 +26125,7 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 "הפעולה הזאת תסיר את כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>,<br/"
-">קובץ המיזםייטען מחדש"
+">קובץ המיזם ייטען מחדש"
 
 #: src/mainwindow.cpp:2374 src/project/projectmanager.cpp:620
 #, kde-format
@@ -26302,8 +26302,8 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"<shortcut>לחיצה</shortcut>  על פריט להחלקה, <shortcut>Shift ולחיצה</"
-"shortcut>  לבחירה במרוכז"
+"<shortcut>לחיצה</shortcut> על פריט להחלקה, <shortcut>Shift ולחיצה</shortcut> "
+"לבחירה במרוכז"
 
 #: src/mainwindow.cpp:3625
 #, kde-format
@@ -27431,17 +27431,17 @@ msgstr "יש להדר את MLT עם libfftw3 כדי לאפשר מנעד שמע"
 msgid "Enable Audio Spectrum"
 msgstr "הפעלת מנעד שמע"
 
-#: src/monitor/videowidget.cpp:1122
+#: src/monitor/videowidget.cpp:1118
 #, kde-format
 msgid "Select a zone to play"
 msgstr "נא לבחור קטע לנגינה"
 
-#: src/monitor/videowidget.cpp:1131
+#: src/monitor/videowidget.cpp:1127
 #, kde-format
 msgid "Select a clip to play"
 msgstr "נא לבחור סרטון לנגינה"
 
-#: src/monitor/videowidget.cpp:1236
+#: src/monitor/videowidget.cpp:1232
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28275,7 +28275,7 @@ msgstr[3] "(%1 פריטים)"
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
-msgstr[0] "קובץ אחד (%1)  לארכיון, דרושים %2"
+msgstr[0] "קובץ אחד (%1) לארכיון, דרושים %2"
 msgstr[1] "שני קבצים (%1) לארכיון, דרושים %2"
 msgstr[2] "%1 קבצים לארכיון, דרושים %2"
 msgstr[3] "%1 קבצים לארכיון, דרושים %2"
@@ -30771,7 +30771,7 @@ msgstr "הסרטון %1 על תת־רצועה שגויה נמצא ברצועה %
 #: src/timeline2/model/builders/meltBuilder.cpp:980
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
-msgstr "%1 מקטע (%2) עם רשימת הפעלה  שגויה נמצא"
+msgstr "%1 מקטע (%2) עם רשימת הפעלה שגויה נמצא"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:994
 #, kde-format
@@ -31262,7 +31262,7 @@ msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "החלקת סרטון"
 msgstr[1] "החלקת סרטונים"
-msgstr[2] "החלקת  סרטונים"
+msgstr[2] "החלקת סרטונים"
 msgstr[3] "החלקת סרטונים"
 
 #: src/timeline2/model/timelinemodel.cpp:4531
@@ -32764,7 +32764,7 @@ msgid ""
 "Eighth_note</a>"
 msgstr ""
 "שמינית תו (עב׳) או Eighth note (אנגלית אמריקאית) או quaver (אנגלית בריטית). "
-"מחצית מאורכו של רבע תו (U+2669).לפרטים: <a href=\"https://he.wikipedia.org/"
+"מחצית מאורכו של רבע תו (U+2669). לפרטים: <a href=\"https://he.wikipedia.org/"
 "wiki/תו_(מוזיקה)\">ויקיפדיה:תו (מוזיקה)</a>"
 
 #: src/titler/unicodedialog.cpp:205

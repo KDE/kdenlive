@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 14:14+0000\n"
-"PO-Revision-Date: 2025-09-27 09:42+0200\n"
+"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"PO-Revision-Date: 2025-10-05 18:27+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -10608,10 +10608,9 @@ msgid "Dust Amount"
 msgstr "Količina prahu"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles added to the image]]>"
-msgstr "<![CDATA[Količina prašnih delcev na sliki]]>"
+msgstr "<![CDATA[Količina prašnih delcev, dodanih sliki]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10654,21 +10653,21 @@ msgid "Extracts Green from Image"
 msgstr "Izlušči zeleno iz slike"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:4
-#, fuzzy, kde-format
-#| msgid "Gate (avfilter)"
+#, kde-format
 msgid "Gate Weave"
-msgstr "Vrata (avfilter)"
+msgstr "Trak skozi vratca"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:5
 #, kde-format
 msgid "Randomly moves image around to simulate film gate weave"
 msgstr ""
+"Naključno premakne sličico naokoli, da simulira premikanje traku v vratcih "
+"filmske kamere"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "Mehkoba"
+msgstr "Gladkost"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
@@ -10676,34 +10675,32 @@ msgid ""
 "<![CDATA[Factor used to blend between positions. A lower number means a "
 "faster effect]]>"
 msgstr ""
+"<![CDATA[Faktor, ki se uporablja za mešanje med položaji. Nižje število "
+"pomeni hitrejši učinek]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "Vodoravna poravnava"
+msgstr "Največje vodoravno gibanje"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
-msgstr "<![CDATA[Razdalja med točkami stez]]>"
+msgstr ""
+"<![CDATA[Največja razdalja, za katero se lahko slika premakne levo ali "
+"desno]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Maximum diameter"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "Največji premer"
+msgstr "Največje navpično gibanje"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The amount to rotate the image<br>\n"
-#| "    \t(nose up or down).]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
 msgstr ""
-"<![CDATA[Količina sukanja slike<br>\n"
-"    \t(nos navzgor ali navzdol).]]>"
+"<![CDATA[Največja razdalja, za katero se lahko slika premakne navzgor ali "
+"navzdol]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -11967,10 +11964,9 @@ msgid "HSync"
 msgstr "V-sinh"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "V-sinh"
+msgstr "N-sinh"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -12003,33 +11999,29 @@ msgid "Pixelize (basic)"
 msgstr "Pikseliziraj (osnovno)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
-msgstr "Pikseliziraj vhodno sliko"
+msgstr "Pikselizira vhodno sliko"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "Vodoravna velikost"
+msgstr "Vodoravna velikost ene »slikovne točke«."
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "Navpična velikost"
+msgstr "Navpična velikost ene »slikovne točke«"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "Operjana alfa"
+msgstr "Prepuščena alfa"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "Ne povpreči alfa-kanala v vsakem bloku"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12418,7 +12410,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "Svetlost slike. Srednja točka sigmoidne krivulje"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -28286,17 +28278,17 @@ msgstr "Za omogočitev zvočnega spektra mora biti MLT preveden z libfftw3"
 msgid "Enable Audio Spectrum"
 msgstr "Omogoči zvočni spekter"
 
-#: src/monitor/videowidget.cpp:1122
+#: src/monitor/videowidget.cpp:1118
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Izberite območje predvajanja"
 
-#: src/monitor/videowidget.cpp:1131
+#: src/monitor/videowidget.cpp:1127
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Izberite posnetek za predvajanje"
 
-#: src/monitor/videowidget.cpp:1236
+#: src/monitor/videowidget.cpp:1232
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -38385,15 +38377,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "You are using the AppImage.<br>"
-#~ msgstr "Uporabljate AppImage.<br>"
-
-#~ msgid "You are using the Flatpak.<br>"
-#~ msgstr "Uporabljate Flatpak.<br>"
-
-#~ msgid "You are using the Snap package.<br>"
-#~ msgstr "Uporabljate paket Snap.<br>"
-
-#~ msgid "Brightness of image."
-#~ msgstr "Svetlost slike."

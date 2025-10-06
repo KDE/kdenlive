@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 14:14+0000\n"
+"POT-Creation-Date: 2025-10-06 00:41+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -29014,19 +29014,19 @@ msgstr "MLT musí byť preložené s libfftw3 na povolenie Audio Spectrum"
 msgid "Enable Audio Spectrum"
 msgstr "Povoliť Audio Spectrum"
 
-#: src/monitor/videowidget.cpp:1122
+#: src/monitor/videowidget.cpp:1118
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Nástroj pre výber"
 
-#: src/monitor/videowidget.cpp:1131
+#: src/monitor/videowidget.cpp:1127
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Nástroj pre výber"
 
-#: src/monitor/videowidget.cpp:1236
+#: src/monitor/videowidget.cpp:1232
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

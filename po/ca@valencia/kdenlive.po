@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 14:14+0000\n"
-"PO-Revision-Date: 2025-09-26 12:55+0200\n"
+"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"PO-Revision-Date: 2025-10-04 11:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -10720,10 +10720,9 @@ msgid "Dust Amount"
 msgstr "Quantitat de pols"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles added to the image]]>"
-msgstr "<![CDATA[La quantitat de partícules de pols a la imatge]]>"
+msgstr "<![CDATA[La quantitat de partícules de pols afegides a la imatge]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10766,21 +10765,20 @@ msgid "Extracts Green from Image"
 msgstr "Extrau el verd de la imatge"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:4
-#, fuzzy, kde-format
-#| msgid "Gate (avfilter)"
+#, kde-format
 msgid "Gate Weave"
-msgstr "Porta (avfilter)"
+msgstr "Gate Weave"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:5
 #, kde-format
 msgid "Randomly moves image around to simulate film gate weave"
 msgstr ""
+"Mou aleatòriament la imatge per simular el «gate weave» d'una pel·lícula"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "Suavitat"
+msgstr "Suavitzat"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
@@ -10788,34 +10786,30 @@ msgid ""
 "<![CDATA[Factor used to blend between positions. A lower number means a "
 "faster effect]]>"
 msgstr ""
+"<![CDATA[Factor utilitzat per a barrejar entre les posicions. Un nombre més "
+"baix significa un efecte més ràpid]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "Alineació horitzontal"
+msgstr "Moviment horitzontal màxim"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
-msgstr "<![CDATA[La distància entre els punts de seguiment]]>"
+msgstr ""
+"<![CDATA[La distància màxima que la imatge es mourà a l'esquerra o la "
+"dreta]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Maximum diameter"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "Diàmetre màxim"
+msgstr "Moviment vertical màxim"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The amount to rotate the image<br>\n"
-#| "    \t(nose up or down).]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
-msgstr ""
-"<![CDATA[La quantitat a girar la imatge<br>\n"
-"    \t(la cara es mou cap amunt o avall).]]>"
+msgstr "<![CDATA[La distància màxima que la imatge es mourà amunt o avall]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -12090,10 +12084,9 @@ msgid "HSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "HSync"
+msgstr "VSync"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -12126,33 +12119,29 @@ msgid "Pixelize (basic)"
 msgstr "Pixela (bàsic)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
 msgstr "Pixela la imatge d'entrada"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "Mida horitzontal"
+msgstr "Mida horitzontal d'un «píxel»"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "Mida vertical"
+msgstr "Mida vertical d'un «píxel»"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "Alfa del difuminat"
+msgstr "Alfa del curtcircuitat"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "No fa la mitjana del canal alfa de cada bloc"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12542,7 +12531,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "Brillantor de la imatge. Punt mitjà de la corba sigmoidal"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -28493,17 +28482,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Activa l'espectre d'àudio"
 
-#: src/monitor/videowidget.cpp:1122
+#: src/monitor/videowidget.cpp:1118
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Trieu una zona per a reproduir"
 
-#: src/monitor/videowidget.cpp:1131
+#: src/monitor/videowidget.cpp:1127
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Trieu un clip que s'ha de reproduir"
 
-#: src/monitor/videowidget.cpp:1236
+#: src/monitor/videowidget.cpp:1232
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -38636,15 +38625,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "You are using the AppImage.<br>"
-#~ msgstr "Esteu emprant AppImage.<br>"
-
-#~ msgid "You are using the Flatpak.<br>"
-#~ msgstr "Esteu emprant Flatpak.<br>"
-
-#~ msgid "You are using the Snap package.<br>"
-#~ msgstr "Esteu emprant el paquet Snap.<br>"
-
-#~ msgid "Brightness of image."
-#~ msgstr "Brillantor de la imatge."
