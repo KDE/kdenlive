@@ -1010,6 +1010,16 @@ void Monitor::slotSetZoneEnd()
     pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
 }
 
+void Monitor::slotSetZone(const QPoint zone)
+{
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+        // Don't allow changing in/out when in mask mode
+        pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
+        return;
+    }
+    m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y(), true);
+}
+
 // virtual
 void Monitor::mousePressEvent(QMouseEvent *event)
 {

@@ -467,6 +467,18 @@ void Core::seekMonitor(int id, int position)
     }
 }
 
+void Core::setMonitorZone(int id, QPoint zone)
+{
+    if (!m_guiConstructed) {
+        return;
+    }
+    if (id == Kdenlive::ProjectMonitor) {
+        m_monitorManager->projectMonitor()->slotSetZone(zone);
+    } else {
+        m_monitorManager->clipMonitor()->slotSetZone(zone);
+    }
+}
+
 MediaBrowser *Core::mediaBrowser()
 {
     if (!m_mainWindow) {

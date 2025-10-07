@@ -185,7 +185,15 @@ GuidesList::GuidesList(QWidget *parent)
     showThumbs->setCheckable(true);
     showThumbs->setChecked(KdenliveSettings::guidesShowThumbs());
     connect(showThumbs, &QAction::toggled, this, &GuidesList::slotShowThumbs);
+
+    // Select zone action
+    QAction *selectZone = new QAction(QIcon::fromTheme(QStringLiteral("view-preview")), i18n("Select Zone For Range Markers"), this);
+    selectZone->setCheckable(true);
+    selectZone->setChecked(KdenliveSettings::guidesSelectZone());
+    connect(selectZone, &QAction::toggled, this, [&](bool toggled) { KdenliveSettings::setGuidesSelectZone(toggled); });
+
     settingsMenu->addAction(showThumbs);
+    settingsMenu->addAction(selectZone);
 
     m_importGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Import…"), this);
     connect(m_importGuides, &QAction::triggered, this, &GuidesList::importGuides);
@@ -557,11 +565,24 @@ void GuidesList::activateMarker(const QModelIndex &ix)
             const MarkerListModel *markerModel = static_cast<const MarkerListModel *>(sourceModel);
             if (markerModel) {
                 qDebug() << "//// MATCH FOR MODEL: " << markerModel->ownerId();
-                pCore->bin()->selectClipById(markerModel->ownerId(), pos, QPoint(), true);
+                QPoint zone;
+                if (KdenliveSettings::guidesSelectZone()) {
+                    int out = m_proxy->data(ix, MarkerListModel::EndPosRole).toInt();
+                    if (out > pos) {
+                        zone = QPoint(pos, out);
+                    }
+                }
+                pCore->bin()->selectClipById(markerModel->ownerId(), pos, zone, true);
             }
         }
     } else {
         pCore->seekMonitor(m_displayMode == TimelineMarkers ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, pos);
+        if (KdenliveSettings::guidesSelectZone()) {
+            int out = m_proxy->data(ix, MarkerListModel::EndPosRole).toInt();
+            if (out > pos) {
+                pCore->setMonitorZone(m_displayMode == TimelineMarkers ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, QPoint(pos, out));
+            }
+        }
     }
 }
 

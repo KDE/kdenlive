@@ -784,6 +784,10 @@
       <label>Display markers thumbnails in guide dialog.</label>
       <default>false</default>
     </entry>
+    <entry name="guidesSelectZone" type="Bool">
+      <label>Select zone when selecting a range marker.</label>
+      <default>false</default>
+    </entry>
 
   </group>
 
