@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2025-09-23 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -5512,7 +5512,7 @@ msgstr "عرض الكتلة"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -11710,15 +11710,45 @@ msgstr "تلفاز معطل"
 msgid "HSync"
 msgstr "تزامن أفقي"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "تزامن أفقي"
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize (basic)"
 msgstr "بكسلة (أساسية)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image"
+#, fuzzy, kde-format
+#| msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "بكسل الصورة المدخلة"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal size"
+msgid "Horizontal size of one 'pixel'"
+msgstr "حجم أفقي"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical size"
+msgid "Vertical size of one 'pixel'"
+msgstr "حجم عمودي"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "ريش ألفا"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12100,8 +12130,8 @@ msgstr "يُزيل تشبع الصورة ويخلق مظهرًا معينًا ي
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "سطوع الصورة."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -16937,7 +16967,7 @@ msgid "Delete keyframes"
 msgstr "احذف الأطر الرئيسة"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "حدث التأثير"
@@ -17022,7 +17052,7 @@ msgstr "حدّث %1"
 msgid "Cannot open preset file %1"
 msgstr "تعذّر فتح ملفّ المعد مسبقا %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -17941,12 +17971,12 @@ msgstr ""
 "استبدال نسخةات المقطع <b>%1</b><br/>في المخطط الزمني\n"
 "النشط بالمقطع <b>%2</b>"
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr "استبدل الصوت"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "استبدل الفيديو"
@@ -18349,6 +18379,7 @@ msgstr "اختر مقطع لتطبيق تأثير عليها"
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "لا يمكن إضافة تأثير على المقطع"
@@ -18589,7 +18620,7 @@ msgid "Transcode Without Saving"
 msgstr "يبدل الترميز دون حفظ"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "احذف التّأثير %1"
@@ -19457,12 +19488,12 @@ msgstr "ملف تعريف مشروعك غير صالح، قد يفشل التص�
 msgid "Loading clips"
 msgstr "يحمّل المقاطع"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, kde-format
 msgid "Marker %1"
 msgstr "علامة %1"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19472,7 +19503,7 @@ msgstr ""
 "سيفتح هذا المتصفح ليعرض توثيقات كدينلايف على الشابكة على العنوان التالي:\n"
 " %1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "افتح المتصفّح"
@@ -23296,8 +23327,8 @@ msgid "Update zone for %1"
 msgstr "حدّث منطقة لـ%1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "تأثير النسخ"
@@ -31156,18 +31187,18 @@ msgstr "مكّن كومة تأثير التتبع"
 msgid "Disable Track Effect Stack"
 msgstr "عطّل كومة تأثير التتبع"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "لا يمكن ضبط تركيب المسار، تأكد من تثبيتك"
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "المقاطع المستبدلة: %1. <b> المقاطع غير المستبدلة: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
@@ -31178,12 +31209,12 @@ msgstr[3] "استبدل %1 مقاطع"
 msgstr[4] "استبدل %1 مقطعاً"
 msgstr[5] "استبدل %1 مقطع"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "المقاطع المستبدلة: %1، المقاطع الطويلة جدًا: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace clip"
 msgstr "استبدل المقطع"
@@ -37578,6 +37609,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Brightness of image."
+#~ msgstr "سطوع الصورة."
 
 #~ msgid "Cannot apply effects on folders"
 #~ msgstr "لا يمكن تطبيق التأثيرات على المجلدات"

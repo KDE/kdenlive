@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -5644,7 +5644,7 @@ msgstr "Bloka platums"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Block height"
@@ -12046,6 +12046,12 @@ msgstr "Nefunkcionējošs TV"
 msgid "HSync"
 msgstr "HSync"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "HSync"
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixelize (avfilter)"
@@ -12055,8 +12061,31 @@ msgstr "Pikselizēt („avfilter“)"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pikselizēt izvades attēlu."
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal size"
+msgid "Horizontal size of one 'pixel'"
+msgstr "Horizontālais izmērs"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical size"
+msgid "Vertical size of one 'pixel'"
+msgstr "Vertikālais izmērs"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "Spalvas alfa"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12449,8 +12478,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "Attēla gaišums."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17423,7 +17452,7 @@ msgid "Delete keyframes"
 msgstr "Dzēst atslēgkadrus"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "Atjaunināt efektu"
@@ -17505,7 +17534,7 @@ msgstr "Atjaunināt %1"
 msgid "Cannot open preset file %1"
 msgstr "Nevar atvērt priekšiestatījumu datni „%1“"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18441,12 +18470,12 @@ msgstr ""
 "Aizvieto klipa <b>%1</b><br/> instances aktīvajā laika joslā\n"
 "ar klipu <b>%2</b>"
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr "Aizstāt audio"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "Aizstāt video"
@@ -18844,6 +18873,7 @@ msgstr "Atlasiet klipu, lai pievienotu efektu"
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Never pievienot efektu klipam"
@@ -19081,7 +19111,7 @@ msgid "Transcode Without Saving"
 msgstr "Transkodēt bez saglabāšanas"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Dzēst efektu „%1“"
@@ -19946,13 +19976,13 @@ msgstr "Jūsu projekts nav derīgs, renderēšana var neizdoties."
 msgid "Loading clips"
 msgstr "Ielādē klipus"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker 1"
 msgid "Marker %1"
 msgstr "1. marķieris"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19963,7 +19993,7 @@ msgstr ""
 "no URL adreses:\n"
 " %1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "Atvērt pārlūku"
@@ -23796,8 +23826,8 @@ msgid "Update zone for %1"
 msgstr "Atjaunināt „%1“ apgabalu"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "Kopēt efektu"
@@ -31733,18 +31763,18 @@ msgstr "Ieslēgt izsekošanas efekta rindu"
 msgid "Disable Track Effect Stack"
 msgstr "Izslēgt izsekošanas efektu rindu"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "Nevarēja sagatavot celiņa salikšanu, pārbaudiet instalāciju"
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "Aizstātie klipi: %1. <b>Neaizstātie klipi: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
@@ -31752,12 +31782,12 @@ msgstr[0] "Aizstāts %1 klips"
 msgstr[1] "Aizstāti %1 klipi"
 msgstr[2] "Aizstāti %1 klipi"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "Aizstātie klipi: %1, pārāk gari klipi: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace clip"
 msgstr "Aizstāt klipu"
@@ -38192,6 +38222,9 @@ msgstr "%1 min."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 st."
+
+#~ msgid "Brightness of image."
+#~ msgstr "Attēla gaišums."
 
 #~ msgid "Cannot apply effects on folders"
 #~ msgstr "Nevar pievienot efektus mapēm"

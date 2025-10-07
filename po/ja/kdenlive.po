@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5596,7 +5596,7 @@ msgstr "境界の幅"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Fit to height"
@@ -11836,6 +11836,11 @@ msgstr ""
 msgid "HSync"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixel scale"
@@ -11845,8 +11850,31 @@ msgstr "ピクセルスケール"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Replace video"
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "ビデオの置き換え"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Horizontal size of one 'pixel'"
+msgstr "水平方向"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Vertical size of one 'pixel'"
+msgstr "垂直方向"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather width"
+msgid "Pass-through Alpha"
+msgstr "フェザリングの幅"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12236,10 +12264,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
-msgid "Brightness of image."
-msgstr "明るさを下げる"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17185,7 +17212,7 @@ msgid "Delete keyframes"
 msgstr "キーフレームの削除"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
@@ -17276,7 +17303,7 @@ msgstr "%1 を更新"
 msgid "Cannot open preset file %1"
 msgstr "プロジェクトファイル %1 を開くことができません"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -18240,12 +18267,12 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr "オーディオの置き換え"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "ビデオの置き換え"
@@ -18635,6 +18662,7 @@ msgstr "効果を適用したい場合は、クリップを選択してくださ
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
@@ -18879,7 +18907,7 @@ msgid "Transcode Without Saving"
 msgstr "保存せずにトランスコード"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "効果 %1の削除"
@@ -19808,13 +19836,13 @@ msgstr ""
 msgid "Loading clips"
 msgstr "クリップを読み込んでいます"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "マーカー"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19822,7 +19850,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
@@ -23802,8 +23830,8 @@ msgid "Update zone for %1"
 msgstr "プロファイルの更新"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "効果をコピー"
@@ -32006,30 +32034,30 @@ msgstr "効果の有効化"
 msgid "Disable Track Effect Stack"
 msgstr "効果の保存"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "トラック遷移を設定できませんでした、インストールを確認してください"
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "利用可能なクリップが選択されていません"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace clip"
@@ -38761,6 +38789,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Brightness down"
+#~ msgid "Brightness of image."
+#~ msgstr "明るさを下げる"
 
 #, fuzzy
 #~| msgid "Cannot add a video effect to this clip"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2025-05-16 15:05+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -5318,7 +5318,7 @@ msgstr "Výška bloku"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Block height"
@@ -11387,6 +11387,12 @@ msgstr "Pokažená TV"
 msgid "HSync"
 msgstr "Svislý posun"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "Svislý posun"
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixelize"
@@ -11396,8 +11402,29 @@ msgstr "Pixelizovat"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pixelizuje (rozčtverečkuje) vstupní obraz."
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, kde-format
+msgid "Horizontal size of one 'pixel'"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, kde-format
+msgid "Vertical size of one 'pixel'"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "Alfa rozptýlení"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11781,7 +11808,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
@@ -16463,7 +16490,7 @@ msgid "Delete keyframes"
 msgstr ""
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr ""
@@ -16545,7 +16572,7 @@ msgstr "Aktualizovat %1"
 msgid "Cannot open preset file %1"
 msgstr "Nelze otevřít soubor přednastavení %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -17453,12 +17480,12 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr ""
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "Nahradit video"
@@ -17843,6 +17870,7 @@ msgstr ""
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr ""
@@ -18078,7 +18106,7 @@ msgid "Transcode Without Saving"
 msgstr ""
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Smazat efekt %1"
@@ -18928,12 +18956,12 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Načítání klipů"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, kde-format
 msgid "Marker %1"
 msgstr "Značka %1"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -18941,7 +18969,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "Otevřít prohlížeč"
@@ -22657,8 +22685,8 @@ msgid "Update zone for %1"
 msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "Kopírovat efekt"
@@ -30285,18 +30313,18 @@ msgstr ""
 msgid "Disable Track Effect Stack"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
@@ -30304,12 +30332,12 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace clip"
 msgstr "Nahradit klip"

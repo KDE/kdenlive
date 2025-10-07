@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2025-07-17 08:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -5630,7 +5630,7 @@ msgstr "Ширина блока"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block Height"
@@ -11961,15 +11961,45 @@ msgstr "Поламаний телевізор"
 msgid "HSync"
 msgstr "Гор. синхронізація"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "Гор. синхронізація"
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize (basic)"
 msgstr "Пікселізація (базова)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, kde-format
-msgid "Pixelize input image"
+#, fuzzy, kde-format
+#| msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Пікселювання вхідного зображення"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal size"
+msgid "Horizontal size of one 'pixel'"
+msgstr "Горизонтальний розмір"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical size"
+msgid "Vertical size of one 'pixel'"
+msgstr "Вертикальний розмір"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "Степінь прозорості"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12359,8 +12389,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "Яскравість зображення."
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17299,7 +17329,7 @@ msgid "Delete keyframes"
 msgstr "Вилучити ключові кадри"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "Оновити ефект"
@@ -17383,7 +17413,7 @@ msgstr "Оновити %1"
 msgid "Cannot open preset file %1"
 msgstr "Не вдалося відкрити файл шаблона %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18314,12 +18344,12 @@ msgstr ""
 "Замінюємо екземпляри кліпу <b>%1</b><br/>на активному монтажному столі\n"
 "кліпом <b>%2</b>"
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr "Замінити звук"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "Замінити відео"
@@ -18722,6 +18752,7 @@ msgstr "Позначте кліп для застосування ефекту"
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Не вдалося додати ефект до кліпу"
@@ -18961,7 +18992,7 @@ msgid "Transcode Without Saving"
 msgstr "Перекодувати без збереження"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Вилучити ефект %1"
@@ -19833,12 +19864,12 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Завантаження кліпів"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, kde-format
 msgid "Marker %1"
 msgstr "Позначка %1"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19849,7 +19880,7 @@ msgstr ""
 "такою адресою:\n"
 " %1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "Відкрити браузер"
@@ -23737,8 +23768,8 @@ msgid "Update zone for %1"
 msgstr "Оновити ділянку для %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "Копіювати ефект"
@@ -31738,20 +31769,20 @@ msgstr "Увімкнути стос ефектів доріжки"
 msgid "Disable Track Effect Stack"
 msgstr "Вимкнути стос ефектів доріжки"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 "Не вдалося налаштувати композицію доріжок, перевірте, чи належно встановлено "
 "програму"
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "Замінено кліпів: %1. <b>Не замінено кліпів: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
@@ -31760,12 +31791,12 @@ msgstr[1] "Замінено %1 кліпи"
 msgstr[2] "Замінено %1 кліпів"
 msgstr[3] "Замінено один кліп"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "Замінено кліпів: %1, надто довгих кліпів: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace clip"
 msgstr "Замінити кліп"
@@ -38220,6 +38251,9 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Brightness of image."
+#~ msgstr "Яскравість зображення."
 
 #~ msgid "Cannot apply effects on folders"
 #~ msgstr "Ефекти не можна застосовувати до тек"

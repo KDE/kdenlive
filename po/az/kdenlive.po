@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -5667,7 +5667,7 @@ msgstr "Makroblok eni"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Block height"
@@ -12015,6 +12015,12 @@ msgstr "Sınmış TV effekti"
 msgid "HSync"
 msgstr "Üfüqi mövqe"
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, fuzzy, kde-format
+#| msgid "HSync"
+msgid "VSync"
+msgstr "Üfüqi mövqe"
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
@@ -12024,8 +12030,32 @@ msgstr "Orijinal görüntünün pikselləşməsi"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize input image."
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Orijinal görüntünün pikselləşməsi"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Horizontal Blinds"
+msgid "Horizontal size of one 'pixel'"
+msgstr "Üfüqi pərdələr"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Vertical size of one 'pixel'"
+msgstr "Şaquli"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather Alpha"
+msgid "Pass-through Alpha"
+msgstr "Lələk Aıfa-kanal"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12418,8 +12448,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
-msgid "Brightness of image."
-msgstr "Şəkilin parlaqlığı"
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17358,7 +17388,7 @@ msgid "Delete keyframes"
 msgstr "Əsas kadrları silmək"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "Effekti yeniləyin"
@@ -17441,7 +17471,7 @@ msgstr "Yeniləmək: %1"
 msgid "Cannot open preset file %1"
 msgstr "Əvvəlcədən qurulmuş \"%1\" faylı açıla bilmədi"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -18396,12 +18426,12 @@ msgstr ""
 "Zaman xəttindəki <b>%1</b><br/> klipinin nümunələri \n"
 "<b>%2</b> klipi ilə əvəzlənir"
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr "Səsi əvəz edin"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "Videonu əvəz edin"
@@ -18799,6 +18829,7 @@ msgstr "Effekt tətbiq etmək üçün klipi seçin"
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Effekt klipə tətbiq edilə bilmədi"
@@ -19037,7 +19068,7 @@ msgid "Transcode Without Saving"
 msgstr "Təkrar kodlama həyata keçirilir"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 effektini silin"
@@ -19917,13 +19948,13 @@ msgstr "Sizin layihə profiliniz səhvdir, render uğursuz ola bilər."
 msgid "Loading clips"
 msgstr "Kliplər yüklənir"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Marker 2"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19931,7 +19962,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
@@ -23841,8 +23872,8 @@ msgid "Update zone for %1"
 msgstr "%1 üçün yenilənmə sahəsi"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "Effekti kopyalayın"
@@ -31898,30 +31929,30 @@ msgstr "Effekti aktiv edin"
 msgid "Disable Track Effect Stack"
 msgstr "Əsas kadrları söndürün"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "Cığırın kompozisiya olunmasını ayarlamaq mümkün olmadı"
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "Əvəzlənmiş kliplər: %1. <b>Əvəzlənməyən kliplər: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "Bir klip əvəzlənib"
 msgstr[1] "%1 klip əvəzlənib"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "Əvəzlənmiş kliplər: %1, kliplər çox uzundur: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace clip"
 msgstr "Klipi əvəzləyin"
@@ -38437,6 +38468,9 @@ msgstr "%1d"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1s"
+
+#~ msgid "Brightness of image."
+#~ msgstr "Şəkilin parlaqlığı"
 
 #~ msgid "Cannot apply effects on folders"
 #~ msgstr "Effektlər qovluğa tətbiq edilə bilmədi"

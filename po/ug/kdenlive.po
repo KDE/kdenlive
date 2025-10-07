@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -5574,7 +5574,7 @@ msgstr "گىرۋەك كەڭلىكى"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Font weight"
@@ -11800,6 +11800,11 @@ msgstr ""
 msgid "HSync"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixelize"
@@ -11809,8 +11814,31 @@ msgstr "Pixelize"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize"
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pixelize"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Horizontal size of one 'pixel'"
+msgstr "توغرا"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Vertical size of one 'pixel'"
+msgstr "تىك"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Border width"
+msgid "Pass-through Alpha"
+msgstr "گىرۋەك كەڭلىكى"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12199,10 +12227,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness"
-msgid "Brightness of image."
-msgstr "يورۇقلۇق"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17152,7 +17179,7 @@ msgid "Delete keyframes"
 msgstr "كاندۇك ئۆچۈر"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Update effect"
@@ -17245,7 +17272,7 @@ msgstr ""
 msgid "Cannot open preset file %1"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgctxt "@info:status"
@@ -18208,13 +18235,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Replace audio"
 msgstr "ئايرىش"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Video"
 msgid "Replace video"
@@ -18632,6 +18659,7 @@ msgstr ""
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot add effect to clip"
@@ -18875,7 +18903,7 @@ msgid "Transcode Without Saving"
 msgstr "ئالماشتۇر"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effect %1"
@@ -19787,13 +19815,13 @@ msgstr ""
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "بەلگە قەلىمى"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19801,7 +19829,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
@@ -23653,8 +23681,8 @@ msgid "Update zone for %1"
 msgstr " كاندۇك"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Copy effect"
@@ -31715,30 +31743,30 @@ msgstr "ئۈنۈم يوق"
 msgid "Disable Track Effect Stack"
 msgstr "ئۈنۈم يوق"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "قۇرۇلۇشقا قوشىدۇ"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Filename"
 msgid "Replace clip"
@@ -38474,6 +38502,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Brightness"
+#~ msgid "Brightness of image."
+#~ msgstr "يورۇقلۇق"
 
 #, fuzzy
 #~| msgid "Cannot open file"

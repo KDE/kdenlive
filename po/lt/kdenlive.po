@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -5589,7 +5589,7 @@ msgstr "Linijos storis"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Fit to height"
@@ -11820,6 +11820,11 @@ msgstr ""
 msgid "HSync"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixelize"
@@ -11829,8 +11834,31 @@ msgstr "Pikseliuoti"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Pixelize"
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "Pikseliuoti"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Horizontal size of one 'pixel'"
+msgstr "Horizontaliai"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Vertical size of one 'pixel'"
+msgstr "Vertikaliai"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Mask to Alpha"
+msgid "Pass-through Alpha"
+msgstr "Kaukė į alfą"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12219,10 +12247,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness"
-msgid "Brightness of image."
-msgstr "Ryškumas"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17179,7 +17206,7 @@ msgid "Delete keyframes"
 msgstr "Ištrinti kadrą"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Update effect"
@@ -17276,7 +17303,7 @@ msgstr "Atnaujinti profilį"
 msgid "Cannot open preset file %1"
 msgstr "Nepavyksta atverti failo %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -18249,13 +18276,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Replace audio"
 msgstr "Išskleisti į"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Replace video"
@@ -18679,6 +18706,7 @@ msgstr ""
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect to clip"
@@ -18926,7 +18954,7 @@ msgid "Transcode Without Saving"
 msgstr "Perkoduojama"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effect %1"
@@ -19848,13 +19876,13 @@ msgstr ""
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Žymeklis 2"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19862,7 +19890,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
@@ -23762,8 +23790,8 @@ msgid "Update zone for %1"
 msgstr "Atnaujinti profilį"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Copy effect"
@@ -31887,18 +31915,18 @@ msgstr "Be efektų"
 msgid "Disable Track Effect Stack"
 msgstr "Be efektų"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "One clip replaced"
@@ -31908,12 +31936,12 @@ msgstr[1] "Pridėti į projektą"
 msgstr[2] "Pridėti į projektą"
 msgstr[3] "Pridėti į projektą"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Replace clip"
@@ -38686,6 +38714,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Brightness"
+#~ msgid "Brightness of image."
+#~ msgstr "Ryškumas"
 
 #, fuzzy
 #~| msgid "Cannot write to file %1"

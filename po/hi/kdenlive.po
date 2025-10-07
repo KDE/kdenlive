@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-28 02:47+0000\n"
+"POT-Creation-Date: 2025-10-07 02:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -5630,7 +5630,7 @@ msgstr "सीमा की चौड़ाई"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
-#: data/effects/frei0r/frei0r_pixeliz0r.xml:11
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:12
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, fuzzy, kde-format
 #| msgid "Fit to height"
@@ -11909,6 +11909,11 @@ msgstr ""
 msgid "HSync"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_nosync0r.xml:11
+#, kde-format
+msgid "VSync"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Pixel scale"
@@ -11918,8 +11923,31 @@ msgstr "पिक्सेल स्केल"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Replace video"
-msgid "Pixelize input image"
+msgid "Pixelize the input image"
 msgstr "वीडियो बदलें"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Horizontal Flip"
+msgid "Horizontal size of one 'pixel'"
+msgstr "क्षैतिज फ्लिप"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Vertical Flip"
+msgid "Vertical size of one 'pixel'"
+msgstr "वर्टिकल फ्लिप"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:16
+#, fuzzy, kde-format
+#| msgid "Feather width"
+msgid "Pass-through Alpha"
+msgstr "पंख की चौड़ाई"
+
+#: data/effects/frei0r/frei0r_pixeliz0r.xml:17
+#, kde-format
+msgid "Do not average the alpha channel over each block"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12309,10 +12337,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
-msgid "Brightness of image."
-msgstr "चमक कम"
+#, kde-format
+msgid "Brightness of image. Midpoint of sigmoidal curve"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17344,7 +17371,7 @@ msgid "Delete keyframes"
 msgstr "मुख्य फ़्रेम हटाएं"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
@@ -17425,7 +17452,7 @@ msgstr "अपडेट करें %1"
 msgid "Cannot open preset file %1"
 msgstr "प्रीसेट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18364,12 +18391,12 @@ msgstr ""
 "क्लिप <b>%1</b> के इंस्टैंस प्रतिस्थापित किए जा रहे हैं<br/> सक्रिय टाइमलाइन में क्लिप <b>"
 "%2</b> के साथ"
 
-#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2021 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace audio"
 msgstr "ऑडियो बदलें"
 
-#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:972
+#: src/bin/bin.cpp:2024 src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace video"
 msgstr "वीडियो बदलें"
@@ -18766,6 +18793,7 @@ msgstr "प्रभाव लागू करने के लिए क्ल�
 
 #: src/bin/bin.cpp:4077 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:728
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "क्लिप में प्रभाव नहीं जोड़ा जा सकता"
@@ -19002,7 +19030,7 @@ msgid "Transcode Without Saving"
 msgstr "बिना सहेजे ट्रांसकोड करें"
 
 #: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1107
+#: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "प्रभाव %1 मिटाएँ"
@@ -19865,13 +19893,13 @@ msgstr "आपकी प्रोजेक्ट प्रोफ़ाइल अ
 msgid "Loading clips"
 msgstr "क्लिप लोड हो रहा है"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "निशान"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19881,7 +19909,7 @@ msgstr ""
 "इससे एक ब्राउज़र खुलेगा जिसमें Kdenlive का ऑनलाइन दस्तावेज़ निम्न URL पर प्रदर्शित होगा:\n"
 "%1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "खुला ब्राउज़र"
@@ -23681,8 +23709,8 @@ msgid "Update zone for %1"
 msgstr "%1 के लिए ज़ोन अपडेट करें"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:736
-#: src/timeline2/model/timelineitemmodel.cpp:749
+#: src/timeline2/model/timelineitemmodel.cpp:740
+#: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "प्रतिलिपि प्रभाव"
@@ -31594,30 +31622,30 @@ msgstr "ट्रैक प्रभाव स्टैक सक्षम क�
 msgid "Disable Track Effect Stack"
 msgstr "ट्रैक प्रभाव स्टैक अक्षम करें"
 
-#: src/timeline2/model/timelineitemmodel.cpp:840
+#: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "ट्रैक कंपोजिंग सेट नहीं किया जा सका, अपना इंस्टॉलेशन जांचें"
 
-#: src/timeline2/model/timelineitemmodel.cpp:939
+#: src/timeline2/model/timelineitemmodel.cpp:943
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "प्रतिस्थापित क्लिप: %1. <b>प्रतिस्थापित नहीं की गई क्लिप: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:941
-#: src/timeline2/model/timelineitemmodel.cpp:968
+#: src/timeline2/model/timelineitemmodel.cpp:945
+#: src/timeline2/model/timelineitemmodel.cpp:972
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "%1 क्लिप प्रतिस्थापित"
 msgstr[1] "%1 क्लिप प्रतिस्थापित"
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
+#: src/timeline2/model/timelineitemmodel.cpp:970
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "प्रतिस्थापित क्लिप: %1, बहुत लम्बी क्लिप: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:972
+#: src/timeline2/model/timelineitemmodel.cpp:976
 #, kde-format
 msgid "Replace clip"
 msgstr "क्लिप बदलें"
@@ -38037,6 +38065,11 @@ msgstr "%1मि"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1घंटा"
+
+#, fuzzy
+#~| msgid "Brightness down"
+#~ msgid "Brightness of image."
+#~ msgstr "चमक कम"
 
 #~ msgid "Cannot apply effects on folders"
 #~ msgstr "फ़ोल्डरों पर प्रभाव लागू नहीं किया जा सकता"
