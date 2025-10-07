@@ -101,6 +101,17 @@ SPDX-License-Identifier: CC0-1.0
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="features">
+        <xs:sequence>
+            <xs:element name="feature" minOccurs="1">
+                <xs:complexType>
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="supported" type="xs:boolean" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="parameter">
         <xs:sequence>
             <xs:element name="name" minOccurs="0" maxOccurs="1">
@@ -193,6 +204,7 @@ SPDX-License-Identifier: CC0-1.0
                 <xs:element name="name" type="i18nString"/>
                 <xs:element name="description" type="xs:string" minOccurs="0"/>
                 <xs:element name="author" type="xs:string"/>
+                <xs:element name="features" type="features" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="parameter" type="parameter" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="tag" type="xs:string" use="required"/>

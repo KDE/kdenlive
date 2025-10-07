@@ -34,7 +34,7 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
 
 void AssetFilter::updateIncludeList()
 {
-    m_includeListEnabled = KdenliveSettings::enableAssetsIncludeList();
+    m_includeListEnabled = KdenliveSettings::effectsFilter() && KdenliveSettings::enableAssetsIncludeList();
     invalidateFilter();
 }
 

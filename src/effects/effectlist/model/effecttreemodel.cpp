@@ -33,7 +33,7 @@ EffectTreeModel::EffectTreeModel(QObject *parent)
 std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categoryFile, QObject *parent)
 {
     std::shared_ptr<EffectTreeModel> self(new EffectTreeModel(parent));
-    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist"};
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist", "SupportsTenBit"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     QHash<QString, std::shared_ptr<TreeItem>> effectCategory; // category in which each effect should land.
@@ -94,14 +94,16 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
         // we create the data list corresponding to this profile
         bool isFav = KdenliveSettings::favorite_effects().contains(effect.first);
-        bool isPreferred = EffectsRepository::get()->isPreferred(effect.first);
-        bool includeListed = EffectsRepository::get()->isIncludedInList(effect.first);
+        bool supportsTenBit = false;
+        bool isPreferred = false;
+        bool includeListed = false;
+        EffectsRepository::get()->getAttributes(effect.first, &isPreferred, &includeListed, &supportsTenBit);
         QList<QVariant> data;
         if (targetCategory->dataColumn(0).toString() == i18n("Deprecated")) {
             QString updatedName = effect.second + i18n(" - deprecated");
-            data = {updatedName, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed};
+            data = {updatedName, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed, supportsTenBit};
         } else {
-            data = {effect.second, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed};
+            data = {effect.second, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed, supportsTenBit};
         }
         if (KdenliveSettings::favorite_effects().contains(effect.first) && effectCategory.contains(favCategory)) {
             targetCategory = effectCategory[favCategory];

@@ -348,6 +348,9 @@ int main(int argc, char *argv[])
                                   i18n("Exit after (detached) render process started, without this flag it exists only after it finished."));
     parser.addOption(exitOption);
 
+    QCommandLineOption debugOption(QStringLiteral("debug"), i18n("Show some development specific features in the UI, disable all exclude lists for assets."));
+    parser.addOption(debugOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
 
@@ -496,7 +499,7 @@ int main(int argc, char *argv[])
     }
     const QString clipsToLoad = parser.value(clipsOption);
     qApp->processEvents(QEventLoop::AllEvents);
-    if (!Core::build(packageType)) {
+    if (!Core::build(packageType, false, parser.isSet(debugOption))) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {

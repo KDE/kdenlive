@@ -4,6 +4,9 @@
     <name>Composite and transform</name>
     <description>Composites second input on the first input with user-defined blend mode, opacity and scale.</description>
     <author>Jean-Baptiste Mardelle</author>
+    <features>
+        <feature name="tenbit" supported="true" />
+    </features>
     <parameter type="animatedrect" name="rect" default="0 0 %width %height 1">
         <name>Rectangle</name>
     </parameter>

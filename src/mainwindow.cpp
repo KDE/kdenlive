@@ -402,12 +402,21 @@ void MainWindow::init()
         }
     });
 
-    m_effectList2 = new EffectListWidget(this);
+    // Assets filter options
+    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("games-solve")), i18n("Only show reviewed items"), this);
+    includeList->setCheckable(true);
+    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
+    // 10 bit support
+    QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Only show 10 bit compatible items"), this);
+    tenBit->setCheckable(true);
+    tenBit->setChecked(KdenliveSettings::tenbitpipeline());
+
+    m_effectList2 = new EffectListWidget(includeList, tenBit, this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
 
-    m_compositionList = new TransitionListWidget(this);
+    m_compositionList = new TransitionListWidget(includeList, tenBit, this);
     m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList);
 
     // Add monitors here to keep them at the right of the window

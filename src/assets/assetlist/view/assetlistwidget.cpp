@@ -9,10 +9,13 @@
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "mltconnection.h"
 
+#include <KMessageBox>
+#include <KMessageWidget>
 #include <KNSCore/Entry>
 #include <KNSWidgets/Action>
 #include <KStandardAction>
 #include <QAction>
+#include <QActionGroup>
 #include <QFontDatabase>
 #include <QKeyEvent>
 #include <QLineEdit>
@@ -45,7 +48,7 @@ protected:
     }
 };
 
-AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
+AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent)
     : QWidget(parent)
     , m_isEffect(isEffect)
 {
@@ -84,40 +87,116 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
     m_toolbar->setIconSize(QSize(iconSize, iconSize));
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    QActionGroup *filterGroup = new QActionGroup(this);
     QAction *allEffects = new QAction(this);
     allEffects->setIcon(QIcon::fromTheme(QStringLiteral("show-all-effects")));
     allEffects->setToolTip(m_isEffect ? i18n("Main effects") : i18n("Main compositions"));
     connect(allEffects, &QAction::triggered, this, [this]() { setFilterType(QLatin1String()); });
+    allEffects->setCheckable(true);
+    allEffects->setChecked(true);
+    filterGroup->addAction(allEffects);
     m_toolbar->addAction(allEffects);
     if (m_isEffect) {
         QAction *videoEffects = new QAction(this);
         videoEffects->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
         videoEffects->setToolTip(i18n("Show all video effects"));
         connect(videoEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("video")); });
+        videoEffects->setCheckable(true);
+        filterGroup->addAction(videoEffects);
         m_toolbar->addAction(videoEffects);
         QAction *audioEffects = new QAction(this);
         audioEffects->setIcon(QIcon::fromTheme(QStringLiteral("audio-volume-high")));
         audioEffects->setToolTip(i18n("Show all audio effects"));
         connect(audioEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("audio")); });
+        audioEffects->setCheckable(true);
+        filterGroup->addAction(audioEffects);
         m_toolbar->addAction(audioEffects);
         QAction *customEffects = new QAction(this);
         customEffects->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-custom-effect")));
         customEffects->setToolTip(i18n("Show all custom effects"));
         connect(customEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("custom")); });
+        customEffects->setCheckable(true);
+        filterGroup->addAction(customEffects);
         m_toolbar->addAction(customEffects);
     } else {
         QAction *transOnly = new QAction(this);
         transOnly->setIcon(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")));
         transOnly->setToolTip(i18n("Show transitions only"));
         connect(transOnly, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("transition")); });
+        transOnly->setCheckable(true);
+        filterGroup->addAction(transOnly);
         m_toolbar->addAction(transOnly);
     }
     QAction *favEffects = new QAction(this);
     favEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     favEffects->setToolTip(i18n("Show favorite items"));
     connect(favEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("favorites")); });
+    favEffects->setCheckable(true);
+    filterGroup->addAction(favEffects);
     m_toolbar->addAction(favEffects);
     m_lay->addWidget(m_toolbar);
+    QWidget *empty = new QWidget(this);
+    empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    m_toolbar->addWidget(empty);
+
+    // Filter button
+    m_filterButton = new QToolButton(this);
+    m_filterButton->setCheckable(true);
+    m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
+    m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
+    m_filterButton->setToolTip(i18n("Filter"));
+    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the assets list. Click on the filter icon to toggle the filter display. Click on "
+                                                           "the arrow icon to open a list of possible filter settings."));
+    m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+
+    // Menu
+    QMenu *more = new QMenu(this);
+    m_filterButton->setMenu(more);
+
+    // Include list
+    more->addAction(includeList);
+
+    // 10 bit filter
+    more->addAction(tenBit);
+    if (m_isEffect) {
+        m_filterButton->setChecked(KdenliveSettings::effectsFilter());
+    } else {
+        m_filterButton->setChecked(KdenliveSettings::transitionsFilter());
+    }
+
+    connect(includeList, &QAction::triggered, this, [this, tenBit](bool enable) {
+        KdenliveSettings::setEnableAssetsIncludeList(enable);
+        if (enable) {
+            if (!m_filterButton->isChecked()) {
+                QSignalBlocker bk(m_filterButton);
+                m_filterButton->setChecked(true);
+            }
+        } else if (m_filterButton->isChecked() && !tenBit->isChecked()) {
+            QSignalBlocker bk(m_filterButton);
+            m_filterButton->setChecked(false);
+        }
+        m_proxyModel->updateIncludeList();
+    });
+
+    connect(tenBit, &QAction::toggled, this, [this, includeList](bool enabled) {
+        KdenliveSettings::setTenbitpipeline(enabled);
+        if (enabled) {
+            if (!m_filterButton->isChecked()) {
+                QSignalBlocker bk(m_filterButton);
+                m_filterButton->setChecked(true);
+            }
+        } else if (m_filterButton->isChecked() && !includeList->isChecked()) {
+            QSignalBlocker bk(m_filterButton);
+            m_filterButton->setChecked(false);
+        }
+        switchTenBitFilter();
+    });
+
+    connect(m_filterButton, &QToolButton::toggled, this, [this]() {
+        switchTenBitFilter();
+        m_proxyModel->updateIncludeList();
+    });
+
     if (m_isEffect) {
         KNSWidgets::Action *downloadAction = new KNSWidgets::Action(i18n("Download New Effects..."), QStringLiteral(":data/kdenlive_effects.knsrc"), this);
         m_toolbar->addAction(downloadAction);
@@ -147,21 +226,9 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
             }
         });
     }
-    QWidget *empty = new QWidget(this);
-    empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_toolbar->addWidget(empty);
-    // Include list
-    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
-    includeList->setCheckable(true);
-    // Disable include list on startup until ready
-    KdenliveSettings::setEnableAssetsIncludeList(false);
-    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
-    connect(includeList, &QAction::triggered, this, [this](bool enable) {
-        KdenliveSettings::setEnableAssetsIncludeList(enable);
-        m_proxyModel->updateIncludeList();
-    });
-    includeList->setToolTip(i18n("Only show reviewed assets"));
-    m_toolbar->addAction(includeList);
+
+    m_toolbar->addWidget(m_filterButton);
+
     // Asset Info
     QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
     showInfo->setCheckable(true);
@@ -208,6 +275,16 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     viewSplitter->insertWidget(1, textEdit);
     m_lay->addWidget(viewSplitter);
     viewSplitter->setSizes({50, 0});
+
+    if (pCore->debugMode) {
+        tenBit->setEnabled(false);
+        includeList->setEnabled(false);
+        KMessageWidget *mw = new KMessageWidget(this);
+        mw->setMessageType(KMessageWidget::Warning);
+        mw->setText(i18n("You have enabled unsupported assets"));
+        mw->setCloseButtonVisible(false);
+        m_lay->addWidget(mw);
+    }
     connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
         if (showInfo->isChecked()) {
             int height;

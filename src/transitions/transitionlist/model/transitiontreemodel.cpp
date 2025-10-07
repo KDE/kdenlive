@@ -23,7 +23,7 @@ TransitionTreeModel::TransitionTreeModel(QObject *parent)
 std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, QObject *parent)
 {
     std::shared_ptr<TransitionTreeModel> self(new TransitionTreeModel(parent));
-    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist"};
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist", "SupportTenBit"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     // We create categories, if requested
@@ -46,8 +46,11 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
 
         // we create the data list corresponding to this transition
         bool isFav = KdenliveSettings::favorite_transitions().contains(transition.first);
-        bool includeListed = TransitionsRepository::get()->isIncludedInList(transition.first);
-        QList<QVariant> data{transition.second, transition.first, QVariant::fromValue(type), isFav, 0, true, includeListed};
+        bool isPreferred = false;
+        bool includeListed = false;
+        bool supportsTenBit = false;
+        TransitionsRepository::get()->getAttributes(transition.first, &isPreferred, &includeListed, &supportsTenBit);
+        QList<QVariant> data{transition.second, transition.first, QVariant::fromValue(type), isFav, 0, true, includeListed, supportsTenBit};
 
         targetCategory->appendChild(data);
     }

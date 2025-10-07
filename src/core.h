@@ -78,6 +78,7 @@ public:
     QReadWriteLock xmlMutex;
     bool closing{false};
     QString lastActiveBin;
+    bool debugMode{false};
 
     ~Core() override;
 
@@ -86,7 +87,7 @@ public:
      * with Mlt
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(LinuxPackageType packageType, bool testMode = false);
+    static bool build(LinuxPackageType packageType, bool testMode = false, bool debugMode = false);
 
     void initHeadless(const QUrl &url);
 
@@ -357,7 +358,7 @@ public:
     void updateHwDecoding();
 
 private:
-    explicit Core(LinuxPackageType packageType);
+    explicit Core(LinuxPackageType packageType, bool debugMode = false);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */

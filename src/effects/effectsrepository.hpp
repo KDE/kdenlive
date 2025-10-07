@@ -30,9 +30,6 @@ public:
     QPair<QString, QString> reloadCustom(const QString &path);
     QString getCustomPath(const QString &id);
 
-    /** @brief Returns whether this belongs to main effects */
-    bool isPreferred(const QString &effectId) const;
-
     /** @brief Check custom effects (older custom effects need an update to default and current values
      *  returns a list of effects that were incorrectly converted */
     QPair<QStringList, QStringList> fixDeprecatedEffects();

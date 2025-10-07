@@ -18,6 +18,7 @@ class QVBoxLayout;
 class QMenu;
 class QTextDocument;
 class QLineEdit;
+class QToolButton;
 
 /** @class AssetListWidget
     @brief This class is a generic widget that display the list of available assets
@@ -30,7 +31,7 @@ class AssetListWidget : public QWidget
     Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
-    AssetListWidget(bool isEffect, QWidget *parent = Q_NULLPTR);
+    AssetListWidget(bool isEffect, QAction *includeList, QAction *tenBit, QWidget *parent = Q_NULLPTR);
     ~AssetListWidget() override;
 
     virtual bool isEffect() const = 0;
@@ -67,6 +68,7 @@ public:
 
     void activate(const QModelIndex &ix);
     virtual void exportCustomEffect(const QModelIndex &index) = 0;
+    virtual void switchTenBitFilter() = 0;
 
     /** @brief Should the descriptive info box be displayed
      */
@@ -94,6 +96,7 @@ protected:
     QMenu *m_contextMenu;
     QLineEdit *m_searchLine;
     QTreeView *m_effectsTree;
+    QToolButton *m_filterButton;
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private Q_SLOTS:

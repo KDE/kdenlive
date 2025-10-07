@@ -25,10 +25,9 @@
 
 #include <memory>
 
-EffectListWidget::EffectListWidget(QWidget *parent)
-    : AssetListWidget(true, parent)
+EffectListWidget::EffectListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
+    : AssetListWidget(true, includeList, tenBit, parent)
 {
-
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model = EffectTreeModel::construct(effectCategory, this);
     m_proxyModel = std::make_unique<EffectFilter>(this);
@@ -41,6 +40,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_effectsTree->setColumnHidden(2, true);
     m_effectsTree->setColumnHidden(3, true);
     m_effectsTree->setColumnHidden(4, true);
+    m_effectsTree->setColumnHidden(5, true);
     m_effectsTree->header()->setStretchLastSection(true);
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
     connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
@@ -152,4 +152,10 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index)
 bool EffectListWidget::isMasterOnly(const QString &assetId) const
 {
     return static_cast<EffectTreeModel *>(m_model.get())->isMasterOnly(assetId);
+}
+
+void EffectListWidget::switchTenBitFilter()
+{
+    KdenliveSettings::setEffectsFilter(m_filterButton->isChecked());
+    m_proxyModel->invalidate();
 }
