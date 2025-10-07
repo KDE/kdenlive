@@ -2818,8 +2818,7 @@ void Monitor::slotEditInlineMarker()
             // No change
             return;
         }
-        oldMarker.setComment(newComment);
-        model->addMarker(oldMarker.time(), oldMarker.comment(), oldMarker.markerType());
+        model->editMarker(oldMarker.time(), oldMarker.time(), newComment, oldMarker.markerType());
     }
 }
 
