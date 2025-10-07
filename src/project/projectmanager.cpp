@@ -790,7 +790,7 @@ void ProjectManager::openFile(const QUrl &url)
     }
 
     if (!QFile::exists(url.toLocalFile())) {
-        KMessageBox::error(pCore->window(), i18n("File %1 does nor exist", url.toLocalFile()));
+        KMessageBox::error(pCore->window(), i18n("File %1 does not exist", url.toLocalFile()));
         Q_EMIT pCore->loadingMessageHide();
         newFile(false);
         return;
