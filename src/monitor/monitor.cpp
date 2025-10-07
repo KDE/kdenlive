@@ -3295,7 +3295,7 @@ void Monitor::slotCreateRangeMarkerFromZone()
     }
 
     QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
-    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+    if (currentZone.x() < 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
         pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
         return;
     }
@@ -3326,7 +3326,7 @@ void Monitor::slotCreateRangeMarkerFromZoneQuick()
     }
 
     QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
-    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+    if (currentZone.x() < 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
         pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
         return;
     }

@@ -692,7 +692,7 @@ void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int ne
 
 bool MonitorProxy::createRangeMarkerFromZone(const QString &comment, int type)
 {
-    if (m_zoneIn <= 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
+    if (m_zoneIn < 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
         return false;
     }
 
