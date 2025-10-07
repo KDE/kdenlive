@@ -872,51 +872,57 @@ Rectangle {
                 }
             }
 
-            Repeater {
-                // Clip markers
-                id: markersContainer
-                model: container.width > 3 * root.baseUnit ? markers : 0
+            Item {
+                // Clipping container
                 anchors.fill: container
-                delegate: Loader {
-                    id: loader
-                    required property var modelData
-                    property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
-                    asynchronous: true
-                    Binding {
-                        target: loader.item
-                        property: "position"
-                        value: modelData.frame
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "markerText"
-                        value: modelData.comment
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "markerColor"
-                        value: modelData.color
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "hasRange"
-                        value: modelData.hasRange || false
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "duration"
-                        value: modelData.duration || 0
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    sourceComponent: {
-                        if (isInside) {
-                            return markerComponent;
-                        } else {
-                            return null;
+                clip: true
+
+                Repeater {
+                    // Clip markers
+                    id: markersContainer
+                    model: container.width > 3 * root.baseUnit ? markers : 0
+                    anchors.fill: parent
+                    delegate: Loader {
+                        id: loader
+                        required property var modelData
+                        property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
+                        asynchronous: true
+                        Binding {
+                            target: loader.item
+                            property: "position"
+                            value: modelData.frame
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerText"
+                            value: modelData.comment
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerColor"
+                            value: modelData.color
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "hasRange"
+                            value: modelData.hasRange || false
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "duration"
+                            value: modelData.duration || 0
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        sourceComponent: {
+                            if (isInside) {
+                                return markerComponent;
+                            } else {
+                                return null;
+                            }
                         }
                     }
                 }
