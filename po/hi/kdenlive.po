@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"POT-Creation-Date: 2025-10-07 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -8048,7 +8048,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha Operations (SUPERCEDED)"
+msgid "Alpha Operations (SUPERSEDED)"
 msgstr "अल्फा ऑपरेशन"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
@@ -8297,7 +8297,7 @@ msgstr "संक्रमण चौड़ाई"
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha Gradient (SUPERCEDED)"
+msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "अल्फा ऑपरेशन"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
@@ -8310,7 +8310,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha shapes (Mask)"
-msgid "Alpha Shapes (SUPERCEDED)"
+msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "अल्फा आकार (मास्क)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
@@ -10775,9 +10775,10 @@ msgid "Creates a Glamorous Glow"
 msgstr "समूह बनाना"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, kde-format
-msgid "Denoiser (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Alpha shapes (Mask)"
+msgid "Denoiser (SUPERSEDED)"
+msgstr "अल्फा आकार (मास्क)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -12055,7 +12056,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
-msgid "Glitch image by shifting rows to and fro."
+msgid "Glitch image by shifting rows back and forth."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -12111,27 +12112,29 @@ msgid "Number of (color) values per channel"
 msgstr "आउटपुट चैनलों की संख्या"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, kde-format
-msgid "Video Values (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Video Files"
+msgid "Video Values (SUPERSEDED)"
+msgstr "वीडियो फ़ाइलें"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, kde-format
-msgid "Oscilloscope (advanced) (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vectorscope"
+msgid "Oscilloscope (advanced) (SUPERSEDED)"
+msgstr "vectorscope"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
@@ -17504,7 +17507,7 @@ msgid "Delete keyframes"
 msgstr "मुख्य फ़्रेम हटाएं"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:699
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
@@ -17585,7 +17588,7 @@ msgstr "अपडेट करें %1"
 msgid "Cannot open preset file %1"
 msgstr "प्रीसेट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18551,12 +18554,12 @@ msgstr ""
 "क्लिप <b>%1</b> के इंस्टैंस प्रतिस्थापित किए जा रहे हैं<br/> सक्रिय टाइमलाइन में क्लिप <b>"
 "%2</b> के साथ"
 
-#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace audio"
 msgstr "ऑडियो बदलें"
 
-#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace video"
 msgstr "वीडियो बदलें"
@@ -18959,6 +18962,7 @@ msgstr "प्रभाव लागू करने के लिए क्ल�
 
 #: src/bin/bin.cpp:4315 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:735
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "क्लिप में प्रभाव नहीं जोड़ा जा सकता"
@@ -19196,7 +19200,7 @@ msgid "Transcode Without Saving"
 msgstr "बिना सहेजे ट्रांसकोड करें"
 
 #: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1114
+#: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "प्रभाव %1 मिटाएँ"
@@ -20181,13 +20185,13 @@ msgstr "आपकी प्रोजेक्ट प्रोफ़ाइल अ
 msgid "Loading clips"
 msgstr "क्लिप लोड हो रहा है"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "निशान"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20197,7 +20201,7 @@ msgstr ""
 "इससे एक ब्राउज़र खुलेगा जिसमें Kdenlive का ऑनलाइन दस्तावेज़ निम्न URL पर प्रदर्शित होगा:\n"
 "%1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "खुला ब्राउज़र"
@@ -21803,8 +21807,8 @@ msgstr "इससे शैली <b>%1</b> और उसके सभी गु
 #| "reenable the python virtual environment."
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
-"environment will be recreated and modules downloaded whenever you reenable "
-"the plugin."
+"environment will be recreated and modules downloaded whenever you enable the "
+"plugin again."
 msgstr ""
 "इससे python वर्चुअल वातावरण नष्ट हो जाएगा:<br/> <b>%1</b><br/> जब भी आप पाइथन "
 "वर्चुअल वातावरण को पुनः सक्षम करेंगे, वातावरण पुनः निर्मित हो जाएगा और मॉड्यूल डाउनलोड "
@@ -24063,8 +24067,8 @@ msgid "Update zone for %1"
 msgstr "%1 के लिए ज़ोन अपडेट करें"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:743
-#: src/timeline2/model/timelineitemmodel.cpp:756
+#: src/timeline2/model/timelineitemmodel.cpp:747
+#: src/timeline2/model/timelineitemmodel.cpp:760
 #, kde-format
 msgid "Copy effect"
 msgstr "प्रतिलिपि प्रभाव"
@@ -28354,8 +28358,9 @@ msgid "Deinterlacer"
 msgstr "डिइंटरलैसर"
 
 #: src/monitor/monitormanager.cpp:624
-#, kde-format
-msgid "YADIF - temporal + spacial (best)"
+#, fuzzy, kde-format
+#| msgid "YADIF - temporal + spacial (best)"
+msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - टेम्पोरल + स्पैशियल (सर्वोत्तम)"
 
 #: src/monitor/monitormanager.cpp:639
@@ -32179,30 +32184,30 @@ msgstr "ट्रैक प्रभाव स्टैक सक्षम क�
 msgid "Disable Track Effect Stack"
 msgstr "ट्रैक प्रभाव स्टैक अक्षम करें"
 
-#: src/timeline2/model/timelineitemmodel.cpp:847
+#: src/timeline2/model/timelineitemmodel.cpp:851
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "ट्रैक कंपोजिंग सेट नहीं किया जा सका, अपना इंस्टॉलेशन जांचें"
 
-#: src/timeline2/model/timelineitemmodel.cpp:946
+#: src/timeline2/model/timelineitemmodel.cpp:950
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "प्रतिस्थापित क्लिप: %1. <b>प्रतिस्थापित नहीं की गई क्लिप: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:948
-#: src/timeline2/model/timelineitemmodel.cpp:975
+#: src/timeline2/model/timelineitemmodel.cpp:952
+#: src/timeline2/model/timelineitemmodel.cpp:979
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "%1 क्लिप प्रतिस्थापित"
 msgstr[1] "%1 क्लिप प्रतिस्थापित"
 
-#: src/timeline2/model/timelineitemmodel.cpp:973
+#: src/timeline2/model/timelineitemmodel.cpp:977
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "प्रतिस्थापित क्लिप: %1, बहुत लम्बी क्लिप: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:979
+#: src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace clip"
 msgstr "क्लिप बदलें"

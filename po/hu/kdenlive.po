@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"POT-Creation-Date: 2025-10-07 00:42+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -8121,7 +8121,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha Operations (SUPERCEDED)"
+msgid "Alpha Operations (SUPERSEDED)"
 msgstr "Alfa művelet"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
@@ -8375,7 +8375,7 @@ msgstr "Átmenet szélessége"
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha trace"
-msgid "Alpha Gradient (SUPERCEDED)"
+msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "Alfa követés"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
@@ -8388,7 +8388,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha shapes"
-msgid "Alpha Shapes (SUPERCEDED)"
+msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Alfa alakzatok"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
@@ -10856,9 +10856,10 @@ msgid "Creates a Glamorous Glow"
 msgstr "Elbűvölő ragyogás létrehozása"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, kde-format
-msgid "Denoiser (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Alpha shapes"
+msgid "Denoiser (SUPERSEDED)"
+msgstr "Alfa alakzatok"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -12189,7 +12190,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
-msgid "Glitch image by shifting rows to and fro."
+msgid "Glitch image by shifting rows back and forth."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -12244,28 +12245,29 @@ msgid "Number of (color) values per channel"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, kde-format
-msgid "Video Values (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Video clips"
+msgid "Video Values (SUPERSEDED)"
+msgstr "Videoklipek"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, fuzzy, kde-format
 #| msgid "2D video oscilloscope"
-msgid "Oscilloscope (advanced) (SUPERCEDED)"
+msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "2D videó oszcilloszkóp"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
@@ -17571,7 +17573,7 @@ msgid "Delete keyframes"
 msgstr "Kulcskép törlése"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:699
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -17666,7 +17668,7 @@ msgstr "Profil frissítése"
 msgid "Cannot open preset file %1"
 msgstr "Nem lehet megnyitni a(z) %1 projektfájlt"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -18696,13 +18698,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "Replace audio"
 msgstr "Hang kibontása"
 
-#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Restore Backup File"
 msgid "Replace video"
@@ -19136,6 +19138,7 @@ msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
 #: src/bin/bin.cpp:4315 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:735
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
@@ -19403,7 +19406,7 @@ msgid "Transcode Without Saving"
 msgstr "Átkódolás"
 
 #: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1114
+#: src/timeline2/model/timelineitemmodel.cpp:1118
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
@@ -20473,13 +20476,13 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Klipek betöltése"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "2. jelölő"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20487,7 +20490,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
@@ -22160,8 +22163,8 @@ msgstr ""
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
-"environment will be recreated and modules downloaded whenever you reenable "
-"the plugin."
+"environment will be recreated and modules downloaded whenever you enable the "
+"plugin again."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
@@ -24529,8 +24532,8 @@ msgid "Update zone for %1"
 msgstr "Profil frissítése"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:743
-#: src/timeline2/model/timelineitemmodel.cpp:756
+#: src/timeline2/model/timelineitemmodel.cpp:747
+#: src/timeline2/model/timelineitemmodel.cpp:760
 #, fuzzy, kde-format
 #| msgid "Add effect %1"
 msgid "Copy effect"
@@ -29107,8 +29110,9 @@ msgid "Deinterlacer"
 msgstr "Váltottsorosság megszüntető"
 
 #: src/monitor/monitormanager.cpp:624
-#, kde-format
-msgid "YADIF - temporal + spacial (best)"
+#, fuzzy, kde-format
+#| msgid "YADIF - temporal + spacial (best)"
+msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - átmeneti + speciális (legjobb)"
 
 #: src/monitor/monitormanager.cpp:639
@@ -33035,18 +33039,18 @@ msgstr "Effekt engedélyezése"
 msgid "Disable Track Effect Stack"
 msgstr "Effekt letiltása"
 
-#: src/timeline2/model/timelineitemmodel.cpp:847
+#: src/timeline2/model/timelineitemmodel.cpp:851
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:946
+#: src/timeline2/model/timelineitemmodel.cpp:950
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:948
-#: src/timeline2/model/timelineitemmodel.cpp:975
+#: src/timeline2/model/timelineitemmodel.cpp:952
+#: src/timeline2/model/timelineitemmodel.cpp:979
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "One clip replaced"
@@ -33054,12 +33058,12 @@ msgid_plural "%1 clips replaced"
 msgstr[0] "Nincs elérhető klip kiválasztva"
 msgstr[1] "Nincs elérhető klip kiválasztva"
 
-#: src/timeline2/model/timelineitemmodel.cpp:973
+#: src/timeline2/model/timelineitemmodel.cpp:977
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:979
+#: src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Create Virtual Clip"
 msgid "Replace clip"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"POT-Creation-Date: 2025-10-07 00:42+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -8062,7 +8062,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha Operations (SUPERCEDED)"
+msgid "Alpha Operations (SUPERSEDED)"
 msgstr "Operasi Alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
@@ -8314,7 +8314,7 @@ msgstr "Lebar transisi"
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha Operation"
-msgid "Alpha Gradient (SUPERCEDED)"
+msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "Operasi Alfa"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
@@ -8327,7 +8327,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
 #| msgid "Alpha shapes (Mask)"
-msgid "Alpha Shapes (SUPERCEDED)"
+msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Bentuk alfa (Mask)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
@@ -10802,9 +10802,10 @@ msgid "Creates a Glamorous Glow"
 msgstr "Buat Kelompok"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, kde-format
-msgid "Denoiser (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Alpha shapes (Mask)"
+msgid "Denoiser (SUPERSEDED)"
+msgstr "Bentuk alfa (Mask)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -12085,7 +12086,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
-msgid "Glitch image by shifting rows to and fro."
+msgid "Glitch image by shifting rows back and forth."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -12141,27 +12142,29 @@ msgid "Number of (color) values per channel"
 msgstr "jumlah kanal output"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, kde-format
-msgid "Video Values (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Video values"
+msgid "Video Values (SUPERSEDED)"
+msgstr "Nilai video"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, kde-format
-msgid "Oscilloscope (advanced) (SUPERCEDED)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Vectorscope"
+msgid "Oscilloscope (advanced) (SUPERSEDED)"
+msgstr "Vektorskop"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
@@ -17479,7 +17482,7 @@ msgid "Delete keyframes"
 msgstr "Hapus keyframe"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:699
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "Perbarui efek"
@@ -17560,7 +17563,7 @@ msgstr "Perbarui %1"
 msgid "Cannot open preset file %1"
 msgstr "Tak bisa membuka file preset %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -18518,13 +18521,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "Replace audio"
 msgstr "Rekam audio"
 
-#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Restore video"
 msgid "Replace video"
@@ -18919,6 +18922,7 @@ msgstr "Pilih klip untuk menerapkan efek"
 
 #: src/bin/bin.cpp:4315 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:735
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tidak bisa menambahkan efek ke klip"
@@ -19158,7 +19162,7 @@ msgid "Transcode Without Saving"
 msgstr "Mentranskode"
 
 #: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1114
+#: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Hapus efek %1"
@@ -20155,13 +20159,13 @@ msgstr "Profil proyek Anda tidak valid, rendering mungkin gagal."
 msgid "Loading clips"
 msgstr "Memuat klip"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "Penanda"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20169,7 +20173,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
@@ -21773,8 +21777,8 @@ msgstr ""
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
-"environment will be recreated and modules downloaded whenever you reenable "
-"the plugin."
+"environment will be recreated and modules downloaded whenever you enable the "
+"plugin again."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
@@ -24091,8 +24095,8 @@ msgid "Update zone for %1"
 msgstr "Perbarui zona %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:743
-#: src/timeline2/model/timelineitemmodel.cpp:756
+#: src/timeline2/model/timelineitemmodel.cpp:747
+#: src/timeline2/model/timelineitemmodel.cpp:760
 #, kde-format
 msgid "Copy effect"
 msgstr "Salin efek"
@@ -28383,8 +28387,9 @@ msgid "Deinterlacer"
 msgstr "Deinterlacer"
 
 #: src/monitor/monitormanager.cpp:624
-#, kde-format
-msgid "YADIF - temporal + spacial (best)"
+#, fuzzy, kde-format
+#| msgid "YADIF - temporal + spacial (best)"
+msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - temporal + spasial (terbaik)"
 
 #: src/monitor/monitormanager.cpp:639
@@ -32274,18 +32279,18 @@ msgstr "Aktifkan Efek"
 msgid "Disable Track Effect Stack"
 msgstr "Nonaktifkan Efek"
 
-#: src/timeline2/model/timelineitemmodel.cpp:847
+#: src/timeline2/model/timelineitemmodel.cpp:851
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "Tidak bisa mengeset pengomposisian trek, periksalah instalasi Anda"
 
-#: src/timeline2/model/timelineitemmodel.cpp:946
+#: src/timeline2/model/timelineitemmodel.cpp:950
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:948
-#: src/timeline2/model/timelineitemmodel.cpp:975
+#: src/timeline2/model/timelineitemmodel.cpp:952
+#: src/timeline2/model/timelineitemmodel.cpp:979
 #, fuzzy, kde-format
 #| msgid "No clip selected"
 msgid "One clip replaced"
@@ -32293,12 +32298,12 @@ msgid_plural "%1 clips replaced"
 msgstr[0] "Tidak ada klip yang dipilih"
 msgstr[1] "Tidak ada klip yang dipilih"
 
-#: src/timeline2/model/timelineitemmodel.cpp:973
+#: src/timeline2/model/timelineitemmodel.cpp:977
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:979
+#: src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Replace Clip…"
 msgid "Replace clip"

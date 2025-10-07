@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"POT-Creation-Date: 2025-10-07 00:42+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -7736,8 +7736,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, kde-format
-msgid "Alpha Operations (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Alpha Operations (SUPERCEDED)"
+msgid "Alpha Operations (SUPERSEDED)"
 msgstr "透明度操作（已被取代）"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
@@ -7977,8 +7978,9 @@ msgid "Transition width"
 msgstr "轉場特效寬度"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, kde-format
-msgid "Alpha Gradient (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Alpha Gradient (SUPERCEDED)"
+msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "透明度漸層（已被取代）"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
@@ -7989,8 +7991,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, kde-format
-msgid "Alpha Shapes (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Alpha Shapes (SUPERCEDED)"
+msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Alpha 形狀（已被取代）"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
@@ -10337,8 +10340,9 @@ msgid "Creates a Glamorous Glow"
 msgstr "建立一個暈映"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, kde-format
-msgid "Denoiser (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Denoiser (SUPERCEDED)"
+msgid "Denoiser (SUPERSEDED)"
 msgstr "降噪器（已被取代）"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
@@ -11540,7 +11544,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
-msgid "Glitch image by shifting rows to and fro."
+msgid "Glitch image by shifting rows back and forth."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -11596,27 +11600,29 @@ msgid "Number of (color) values per channel"
 msgstr "輸出頻道數量"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, kde-format
-msgid "Video Values (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Video Values (SUPERCEDED)"
+msgid "Video Values (SUPERSEDED)"
 msgstr "視訊明度（已被取代）"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, kde-format
-msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "示波器（進階）（已被取代）"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
@@ -16685,7 +16691,7 @@ msgid "Delete keyframes"
 msgstr "刪除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:699
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "更新效果"
@@ -16765,7 +16771,7 @@ msgstr "更新 %1"
 msgid "Cannot open preset file %1"
 msgstr "無法寫入預設檔 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -17693,12 +17699,12 @@ msgstr ""
 "正在將作用中時間軸中素材 <b>%1</b> 的實體<br/>\n"
 "取代為素材 <b>%2</b>"
 
-#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace audio"
 msgstr "取代音訊"
 
-#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace video"
 msgstr "取代視訊"
@@ -18092,6 +18098,7 @@ msgstr "選取素材來套用效果"
 
 #: src/bin/bin.cpp:4315 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:735
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "無法新增效果到素材上"
@@ -18326,7 +18333,7 @@ msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
 #: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1114
+#: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "刪除效果 %1"
@@ -19286,12 +19293,12 @@ msgstr "您的專案編碼方案是無效的，算繪可能會失敗。"
 msgid "Loading clips"
 msgstr "載入素材中"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, kde-format
 msgid "Marker %1"
 msgstr "標記 %1"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19301,7 +19308,7 @@ msgstr ""
 "這會開啟瀏覽器來在以下網址查看 Kdenlive 的線上說明文件：\n"
 " %1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "開啟瀏覽器"
@@ -20867,11 +20874,15 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
+#| ">The environment will be recreated and modules downloaded whenever you "
+#| "reenable the plugin."
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
-"environment will be recreated and modules downloaded whenever you reenable "
-"the plugin."
+"environment will be recreated and modules downloaded whenever you enable the "
+"plugin again."
 msgstr ""
 "這會從這個地方刪除外掛程式的 Python virtualenv：<br/><b>%1</b><br/>您重新啟用"
 "該外掛程式時會重新下載模組並重新建立 virtualenv 虛擬環境。"
@@ -23077,8 +23088,8 @@ msgid "Update zone for %1"
 msgstr "為 %1 更新區段"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:743
-#: src/timeline2/model/timelineitemmodel.cpp:756
+#: src/timeline2/model/timelineitemmodel.cpp:747
+#: src/timeline2/model/timelineitemmodel.cpp:760
 #, kde-format
 msgid "Copy effect"
 msgstr "複製效果"
@@ -27235,8 +27246,9 @@ msgid "Deinterlacer"
 msgstr "去交錯"
 
 #: src/monitor/monitormanager.cpp:624
-#, kde-format
-msgid "YADIF - temporal + spacial (best)"
+#, fuzzy, kde-format
+#| msgid "YADIF - temporal + spacial (best)"
+msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF-時間+空間(最好)"
 
 #: src/monitor/monitormanager.cpp:639
@@ -30957,29 +30969,29 @@ msgstr "啟用軌道效果堆疊"
 msgid "Disable Track Effect Stack"
 msgstr "停用軌道效果堆疊"
 
-#: src/timeline2/model/timelineitemmodel.cpp:847
+#: src/timeline2/model/timelineitemmodel.cpp:851
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "無法初始設定軌道合成，請檢查您的安裝"
 
-#: src/timeline2/model/timelineitemmodel.cpp:946
+#: src/timeline2/model/timelineitemmodel.cpp:950
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "取代素材數：%1，<b>未取代素材：%2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:948
-#: src/timeline2/model/timelineitemmodel.cpp:975
+#: src/timeline2/model/timelineitemmodel.cpp:952
+#: src/timeline2/model/timelineitemmodel.cpp:979
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "取代了 %1 個素材"
 
-#: src/timeline2/model/timelineitemmodel.cpp:973
+#: src/timeline2/model/timelineitemmodel.cpp:977
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "取代素材數：%1，太長的素材：%2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:979
+#: src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace clip"
 msgstr "取代素材"

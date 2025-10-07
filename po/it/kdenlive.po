@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-06 00:41+0000\n"
+"POT-Creation-Date: 2025-10-07 00:42+0000\n"
 "PO-Revision-Date: 2025-09-28 17:05+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -8015,8 +8015,9 @@ msgstr "<![CDATA[Frequenza dello stroboscopio (da 0 a 8 fotogrammi)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, kde-format
-msgid "Alpha Operations (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Alpha Operations (SUPERCEDED)"
+msgid "Alpha Operations (SUPERSEDED)"
 msgstr "Operazione su alfa (SUPERATO)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
@@ -8264,8 +8265,9 @@ msgid "Transition width"
 msgstr "Larghezza della transizione"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, kde-format
-msgid "Alpha Gradient (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Alpha Gradient (SUPERCEDED)"
+msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "Gradiente alfa (SUPERATO)"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
@@ -8278,8 +8280,9 @@ msgstr ""
 "    Questo effetto è stato sostituito dafrei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, kde-format
-msgid "Alpha Shapes (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Alpha Shapes (SUPERCEDED)"
+msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Forme in alfa (SUPERATO)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
@@ -10757,8 +10760,9 @@ msgid "Creates a Glamorous Glow"
 msgstr "Crea una luminosità glamour"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, kde-format
-msgid "Denoiser (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Denoiser (SUPERCEDED)"
+msgid "Denoiser (SUPERSEDED)"
 msgstr "Riduttore del rumore (SUPERATO)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
@@ -12069,8 +12073,9 @@ msgid "Glitching (rows only)"
 msgstr "Interferenze (solo righe)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, kde-format
-msgid "Glitch image by shifting rows to and fro."
+#, fuzzy, kde-format
+#| msgid "Glitch image by shifting rows to and fro."
+msgid "Glitch image by shifting rows back and forth."
 msgstr "L'immagine viene alterata spostando le righe da una parte all'altra."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
@@ -12129,29 +12134,37 @@ msgid "Number of (color) values per channel"
 msgstr "Numero di valori (di colore) per canale"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, kde-format
-msgid "Video Values (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Video Values (SUPERCEDED)"
+msgid "Video Values (SUPERSEDED)"
 msgstr "Valori video (SUPERATO)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Measure video values.<br>\n"
+#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
 "<![CDATA[Misura i valori video.<br>\n"
 "    Questo effetto è stato superato da <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, kde-format
-msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, fuzzy, kde-format
+#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "Oscilloscopio (avanzato) (SUPERATO)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[2D video oscilloscope.<br>\n"
+#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
-"    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+"    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
 "<![CDATA[2D Oscilloscopio video.<br>\n"
 "    Questo effetto è stato superato da <em>frei0r.measure_pr0file</em>]]>"
@@ -17413,7 +17426,7 @@ msgid "Delete keyframes"
 msgstr "Elimina i fotogrammi chiave"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:699
-#: src/assets/model/assetparametermodel.cpp:1574
+#: src/assets/model/assetparametermodel.cpp:1588
 #, kde-format
 msgid "Update effect"
 msgstr "Aggiorna effetto"
@@ -17494,7 +17507,7 @@ msgstr "Aggiorna %1"
 msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
 
-#: src/assets/model/assetparametermodel.cpp:1548
+#: src/assets/model/assetparametermodel.cpp:1562
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18451,12 +18464,12 @@ msgstr ""
 "Sostituzione nella linea temporale attiva delle istanze della clip\n"
 "<b>%1</b><br/> con la clip <b>%2</b>"
 
-#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2256 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace audio"
 msgstr "Sostituisci audio"
 
-#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:979
+#: src/bin/bin.cpp:2259 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace video"
 msgstr "Sostituisci video"
@@ -18863,6 +18876,7 @@ msgstr "Seleziona una clip per applicare un effetto"
 
 #: src/bin/bin.cpp:4315 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/timeline2/model/timelineitemmodel.cpp:735
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Impossibile aggiungere l'effetto video alla clip"
@@ -19103,7 +19117,7 @@ msgid "Transcode Without Saving"
 msgstr "Transcodifica senza salvare"
 
 #: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1114
+#: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Elimina effetto %1"
@@ -20072,12 +20086,12 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Caricamento clip"
 
-#: src/core.cpp:1454
+#: src/core.cpp:1472
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcatore %1"
 
-#: src/core.cpp:1808
+#: src/core.cpp:1826
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20088,7 +20102,7 @@ msgstr ""
 "di Kdenlive al seguente url:\n"
 " %1"
 
-#: src/core.cpp:1809
+#: src/core.cpp:1827
 #, kde-format
 msgid "Open Browser"
 msgstr "Apri il browser"
@@ -21699,11 +21713,15 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
+#| ">The environment will be recreated and modules downloaded whenever you "
+#| "reenable the plugin."
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
-"environment will be recreated and modules downloaded whenever you reenable "
-"the plugin."
+"environment will be recreated and modules downloaded whenever you enable the "
+"plugin again."
 msgstr ""
 "Ciò eliminerà l'estensione per l'ambiente python da:<br/><b>%1</b><br/"
 ">L'ambiente verrà ricreato e i moduli saranno scaricati di nuovo se "
@@ -24014,8 +24032,8 @@ msgid "Update zone for %1"
 msgstr "Aggiorna zona per %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:314
-#: src/timeline2/model/timelineitemmodel.cpp:743
-#: src/timeline2/model/timelineitemmodel.cpp:756
+#: src/timeline2/model/timelineitemmodel.cpp:747
+#: src/timeline2/model/timelineitemmodel.cpp:760
 #, kde-format
 msgid "Copy effect"
 msgstr "Copia effetto"
@@ -28300,8 +28318,9 @@ msgid "Deinterlacer"
 msgstr "De-interlacciamento"
 
 #: src/monitor/monitormanager.cpp:624
-#, kde-format
-msgid "YADIF - temporal + spacial (best)"
+#, fuzzy, kde-format
+#| msgid "YADIF - temporal + spacial (best)"
+msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - temporale + spaziale (migliore)"
 
 #: src/monitor/monitormanager.cpp:639
@@ -32164,31 +32183,31 @@ msgstr "Abilita la pila degli effetti della traccia"
 msgid "Disable Track Effect Stack"
 msgstr "Disabilita la pila degli effetti della traccia"
 
-#: src/timeline2/model/timelineitemmodel.cpp:847
+#: src/timeline2/model/timelineitemmodel.cpp:851
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 "Impossibile impostare il compositing della traccia, controlla l'installazione"
 
-#: src/timeline2/model/timelineitemmodel.cpp:946
+#: src/timeline2/model/timelineitemmodel.cpp:950
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "Clip sostituite: %1. <b>Clip non sostituite: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:948
-#: src/timeline2/model/timelineitemmodel.cpp:975
+#: src/timeline2/model/timelineitemmodel.cpp:952
+#: src/timeline2/model/timelineitemmodel.cpp:979
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "Una clip sostituita"
 msgstr[1] "%1 clip sostituite"
 
-#: src/timeline2/model/timelineitemmodel.cpp:973
+#: src/timeline2/model/timelineitemmodel.cpp:977
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "Clip sostituite: %1, clip troppo lunghe: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:979
+#: src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace clip"
 msgstr "Sostituisci clip"
