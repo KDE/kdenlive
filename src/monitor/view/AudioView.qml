@@ -11,9 +11,9 @@ import org.kde.kdenlive as K
 
 Item {
     id: audioThumb
-    property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || audioZoom.containsMouse || dragZone.opacity === 1 || root.showZoomBar)
+    property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.pressed || thumbMouseArea.containsMouse || audioZoom.containsMouse || dragZone.opacity === 1 || root.showZoomBar)
     property bool isAudioClip: controller.clipType === K.ClipType.Audio
-    property int audioZoomHeight: isAudioClip ? height / 6 : K.KdenliveSettings.alwaysShowMonitorAudio ? 0 : height / 3
+    property int audioZoomHeight: isAudioClip ? height / 5 : K.KdenliveSettings.alwaysShowMonitorAudio ? 0 : height / 3
     property bool containsMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse
     property bool displayAudioZoom: K.KdenliveSettings.alwaysShowMonitorAudio && controller.clipHasAV ? (dragZone.opacity === 1 || clipMonitorRuler.containsMouse) : true
     property bool timedAudioCollapsed: true
@@ -80,8 +80,6 @@ Item {
     K.AudioZoomBar {
         id: audioZoom
         visible: audioThumb.isAudioClip || controller.clipHasAV
-        width: mainThumbsContainer.width
-        height: audioThumb.audioZoomHeight
         anchors.top: parent.top
         states: [
             State {
@@ -100,7 +98,7 @@ Item {
     Item {
         id: mainThumbsContainer
         anchors.fill: parent
-        anchors.topMargin: audioZoom.height
+        anchors.topMargin: audioThumb.audioZoomHeight
         Rectangle {
             // Audio monitor background
             id: audioBg
@@ -212,6 +210,7 @@ Item {
         propagateComposedEvents: true
         onEntered: {
             // Show clip name
+            console.log('GOT AUDIO ZOOM HEIGHT: ', audioThumb.audioZoomHeight)
             if (labelContainer.opacity == 0) {
                 labelContainer.opacity = 1
                 contextMenu.opacity = 1

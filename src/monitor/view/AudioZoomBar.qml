@@ -14,6 +14,8 @@ Rectangle {
     property int zoomZoneBorder: root.baseUnit * 0.24
     property bool containsMouse: containerArea.containsMouse || mainHandleArea.containsMouse || leftHandle.containsMouse || mainHandleArea.pressed || leftHandle.pressed || rightHandle.pressed || rightHandle.containsMouse
     color: activePalette.midlight
+    width: parent.width
+    height: audioThumb.audioZoomHeight
     MouseArea {
         id: containerArea
         anchors.fill: parent
@@ -60,27 +62,27 @@ Rectangle {
     }
     Item {
         id: thumbsContainer
-        anchors.fill: parent
+        anchors.fill: audioSeekZone
         anchors.topMargin: 2 * audioSeekZone.zoomZoneBorder
         anchors.bottomMargin: 2 * audioSeekZone.zoomZoneBorder
+        property double streamHeight: (audioThumb.audioZoomHeight - (4 * audioSeekZone.zoomZoneBorder) - (2 * controller.audioStreams.length - 1)) / controller.audioStreams.length
 
         Repeater {
             id: streamThumbMini
             anchors.fill: parent
             model: controller.audioStreams.length
-            property double streamHeight: (height - 2 * (controller.audioStreams.length - 1)) / controller.audioStreams.length
             onCountChanged: {
                 thumbTimer.start()
             }
             Item {
                 // Color for the waveform (behind the wave, will be seen by transparency)
                 id: streamContainer
-                y: model.index * (streamThumbMini.streamHeight + 2)
-                height: streamThumbMini.streamHeight
+                y: model.index * (thumbsContainer.streamHeight + 2)
+                height: thumbsContainer.streamHeight
                 width: streamThumbMini.width
                 // Normal color for the audio wave
                 Rectangle {
-                    height: streamThumbMini.streamHeight - 2
+                    height: thumbsContainer.streamHeight - 2
                     anchors.right: parent.right
                     anchors.left: parent.left
                     color: Utils.mixColors(activePalette.midlight, activePalette.text, 0.3)
@@ -89,7 +91,7 @@ Rectangle {
                 Rectangle {
                     x: controller.zoneIn * audioThumb.width / root.duration
                     width: (controller.zoneOut - controller.zoneIn) * audioThumb.width / root.duration
-                    height: streamThumbMini.streamHeight - 2
+                    height: thumbsContainer.streamHeight - 2
                     color:  Utils.mixColors(activePalette.midlight, activePalette.highlight, 0.7)
                         //Utils.desaturateColor(activePalette.highlight, 0.6, 1)
                     visible: controller.zoneOut > controller.zoneIn
@@ -99,7 +101,7 @@ Rectangle {
                     isOpaque: false
                     anchors.right: parent.right
                     anchors.left: parent.left
-                    height: streamThumbMini.streamHeight
+                    height: thumbsContainer.streamHeight
                     property int aChannels: controller.audioChannels[model.index]
                     channels: aChannels
                     binId: controller.clipId
@@ -125,7 +127,7 @@ Rectangle {
                 // fade a bit the not viewed zone audio wave
                 Rectangle {
                     visible: root.zoomStart > 0
-                    height: streamThumbMini.streamHeight - 2
+                    height: thumbsContainer.streamHeight - 2
                     anchors.left: parent.left
                     width: streamThumbMini.width * root.zoomStart
                     color: audioSeekZone.color
@@ -133,7 +135,7 @@ Rectangle {
                 }
                 Rectangle {
                     visible: root.zoomFactor < 1
-                    height: streamThumbMini.streamHeight - 2
+                    height: thumbsContainer.streamHeight - 2
                     width: streamThumbMini.width * (1 - root.zoomStart - root.zoomFactor)
                     anchors.right: parent.right
                     color: audioSeekZone.color
@@ -154,7 +156,7 @@ Rectangle {
         id: zoomRef
         x: audioSeekZone.width * root.zoomStart
         width: audioSeekZone.width * root.zoomFactor
-        height: parent.height - 1
+        height: audioThumb.audioZoomHeight - 1
         opacity: mainHandleArea.containsMouse || mainHandleArea.pressed ? 1 : root.zoomFactor === 1. ? 0.5 : 0.8
         radius: 2
         border.width: controller.clipHasAV ? 2 : 2
