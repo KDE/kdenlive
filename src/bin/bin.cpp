@@ -1843,7 +1843,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             monitor->slotActivateMonitor();
         } else {
             // Force raise
-            monitor->parentWidget()->raise();
+            pCore->window()->raiseMonitor(true);
         }
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
@@ -3571,8 +3571,8 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
     } else {
         m_propertiesPanel->setEnabled(true);
         Q_EMIT requestShowClipProperties(clip);
-        m_propertiesDock->show();
-        m_propertiesDock->raise();
+        m_propertiesDock->open();
+        m_propertiesDock->setAsCurrentTab();
     }
 }
 
@@ -5692,8 +5692,11 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
                 for (ClipPropertiesController *w : children) {
                     if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                         // Raise panel
-                        w->parentWidget()->parentWidget()->show();
-                        w->parentWidget()->parentWidget()->raise();
+                        auto dock = static_cast<KDDockWidgets::QtWidgets::DockWidget *>(w->parentWidget()->parentWidget());
+                        if (dock) {
+                            dock->open();
+                            dock->setAsCurrentTab();
+                        }
                     }
                     // Show audio tab
                     w->activatePage(2);

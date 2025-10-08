@@ -110,7 +110,7 @@ void MonitorManager::focusProjectMonitor()
         activateMonitor(Kdenlive::ProjectMonitor);
     } else {
         // Force raise
-        m_projectMonitor->parentWidget()->raise();
+        pCore->window()->raiseMonitor(false);
     }
 }
 
@@ -199,7 +199,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
         if (name == Kdenlive::ClipMonitor) {
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
-                    m_clipMonitor->parentWidget()->raise();
+                    pCore->window()->raiseMonitor(true);
                     if (!quickSwitch) {
                         pCore->window()->activeBin()->focusBinView();
                     }
@@ -233,7 +233,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             m_projectMonitor->updateGuidesList();
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
-                    m_projectMonitor->parentWidget()->raise();
+                    pCore->window()->raiseMonitor(false);
                     if (!quickSwitch) {
                         pCore->window()->focusTimeline();
                     }

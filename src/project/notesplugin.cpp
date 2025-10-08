@@ -21,6 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KColorScheme>
 #include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/core/DockWidget.h>
 
 NotesPlugin::NotesPlugin(KDDockWidgets::QtWidgets::DockWidget *tabbedDock, QObject *parent)
     : QObject(parent)
@@ -188,8 +189,10 @@ void NotesPlugin::setProject(KdenliveDoc *document)
 
 void NotesPlugin::showDock()
 {
-    m_notesDock->show();
-    m_notesDock->raise();
+    m_notesDock->open();
+    if (m_notesDock->asDockWidgetController()->isTabbed()) {
+        m_notesDock->setAsCurrentTab();
+    }
 }
 
 void NotesPlugin::checkSelection()
