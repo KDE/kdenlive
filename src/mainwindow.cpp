@@ -151,18 +151,16 @@ MainWindow::MainWindow(QWidget *parent)
     auto flags = KDDockWidgets::Config::self().flags();
     flags |= KDDockWidgets::Config::Flag_HideTitleBarWhenTabsVisible;
     flags |= KDDockWidgets::Config::Flag_AllowReorderTabs;
+    flags |= KDDockWidgets::Config::Flag_AutoHideSupport;
     KDDockWidgets::Config::self().setFlags(flags);
 
     // Increase the separator size, just for demo
     KDDockWidgets::Config::self().setViewFactory(new CustomWidgetFactory());
-    /*auto iflags = KDDockWidgets::Config::self().internalFlags();
-    iflags |= KDDockWidgets::Config::InternalFlag::InternalFlag_DontUseQtToolWindowsForFloatingWindows;
-    KDDockWidgets::Config::self().setInternalFlags(iflags);*/
     KDDockWidgets::Config::self().setLayoutSpacing(0); // SeparatorThickness(3);
     if (KdenliveSettings::tabposition() == 1) {
         KDDockWidgets::Config::self().setTabsAtBottom(true);
     }
-    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"), {});
+    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"));
 }
 
 void MainWindow::init()
