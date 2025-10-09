@@ -31,7 +31,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kddockwidgets/DockWidget.h>
 #include <kddockwidgets/MainWindow.h>
 #include <kddockwidgets/core/Layout.h>
-#include <kddockwidgets/qtwidgets/ViewFactory.h>
 #include <kiconthemes_version.h>
 
 #include <mlt++/Mlt.h>
@@ -66,16 +65,6 @@ class Transition;
 class TimelineItemModel;
 class MonitorProxy;
 class KDualAction;
-
-class CustomWidgetFactory : public KDDockWidgets::QtWidgets::ViewFactory
-{
-    Q_OBJECT
-public:
-    KDDockWidgets::Core::View *createTitleBar(KDDockWidgets::Core::TitleBar *, KDDockWidgets::Core::View *parent) const override;
-    KDDockWidgets::Core::View *createSeparator(KDDockWidgets::Core::Separator *, KDDockWidgets::Core::View *parent) const override;
-    KDDockWidgets::Core::View *createDockWidget(const QString &uniqueName, KDDockWidgets::DockWidgetOptions = {}, KDDockWidgets::LayoutSaverOptions = {},
-                                                Qt::WindowFlags = {}) const override;
-};
 
 class MltErrorEvent : public QEvent
 {
@@ -237,6 +226,7 @@ protected:
     bool queryClose() override;
     bool m_windowClosing{false};
     void closeEvent(QCloseEvent *) override;
+    QSize sizeHint() const override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
@@ -370,7 +360,6 @@ private:
     void saveOptions();
 
     QStringList m_pluginFileNames;
-    QByteArray m_timelineState;
     void buildDynamicActions();
     void loadClipActions();
     void loadContainerActions();

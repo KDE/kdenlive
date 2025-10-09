@@ -303,6 +303,8 @@ public:
     void clearTimeRemap();
     /** @brief Create the dock widgets */
     void buildDocks();
+    /** @brief Restore the default app layout */
+    void restoreLayout();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
@@ -525,4 +527,5 @@ Q_SIGNALS:
     /** Some properties related to rendering changed, update */
     void updateRenderOffset();
     void hideBars(bool);
+    void switchTitleBars();
 };

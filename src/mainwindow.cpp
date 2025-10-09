@@ -23,7 +23,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/wizard.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "docktitlebarmanager.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -33,6 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/speedtask.h"
 #include "jobs/stabilizetask.h"
 #include "jobs/transcodetask.h"
+#include "kddocksetup.h"
 #include "kdenlivesettings.h"
 #include "layouts/layoutmanagement.h"
 #include "library/librarywidget.h"
@@ -99,13 +99,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KToggleFullScreenAction>
 #include <KToolBar>
 #include <KXMLGUIFactory>
-#include <kddockwidgets/Config.h>
-#include <kddockwidgets/core/Group.h>
-#include <kddockwidgets/core/TitleBar.h>
-#include <kddockwidgets/qtcommon/View.h>
-#include <kddockwidgets/qtwidgets/views/Group.h>
-#include <kddockwidgets/qtwidgets/views/Separator.h>
-#include <kddockwidgets/qtwidgets/views/TitleBar.h>
 #include <kwidgetsaddons_version.h>
 #include <kxmlgui_version.h>
 
@@ -126,107 +119,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUndoGroup>
 #include <QVBoxLayout>
 #include <QtConcurrent/QtConcurrentRun>
-
-class MyTitleBar : public KDDockWidgets::QtWidgets::TitleBar
-{
-public:
-    explicit MyTitleBar(KDDockWidgets::Core::TitleBar *controller, KDDockWidgets::Core::View *parent = nullptr)
-        : KDDockWidgets::QtWidgets::TitleBar(controller, parent)
-        , m_controller(controller)
-    {
-        connect(pCore.get(), &Core::hideBars, this, [this](bool hide) {
-            if (!hide && (m_controller->dockWidgets().size() > 1 || m_controller->isFloating())) {
-                // Don't show title bar when there are tabbed widgets
-                return;
-            }
-            setVisible(!hide);
-        });
-    }
-
-    ~MyTitleBar() override;
-
-    /*void paintEvent(QPaintEvent *) override
-    {
-        QPainter p(this);
-        QPen pen(Qt::black);
-        const QColor focusedBackgroundColor = Qt::yellow;
-        const QColor backgroundColor = focusedBackgroundColor.darker(115);
-        QBrush brush(m_controller->isFocused() ? focusedBackgroundColor : backgroundColor);
-        pen.setWidth(4);
-        p.setPen(pen);
-        p.setBrush(brush);
-        p.drawRect(rect().adjusted(4, 4, -4, -4));
-        QFont f = qGuiApp->font();
-        f.setPixelSize(30);
-        f.setBold(true);
-        p.setFont(f);
-        p.drawText(QPoint(10, 40), m_controller->title());
-    }*/
-
-    // Not needed to override. Just here to illustrate setHideDisabledButtons()
-    void init() override
-    {
-        // For demo purposes, we're hiding the close button if it's disabled (non-closable dock widget)
-        // Affects dock #0 when running: ./bin/qtwidgets_dockwidgets -n -p
-        m_controller->setHideDisabledButtons(KDDockWidgets::TitleBarButtonType::Close);
-
-        // But if you do override init(), never forget to call the base method:
-        KDDockWidgets::QtWidgets::TitleBar::init();
-    }
-
-private:
-    KDDockWidgets::Core::TitleBar *const m_controller;
-};
-
-MyTitleBar::~MyTitleBar() = default;
-
-class MySeparator : public KDDockWidgets::QtWidgets::Separator
-{
-public:
-    explicit MySeparator(KDDockWidgets::Core::Separator *controller, KDDockWidgets::Core::View *parent)
-        : KDDockWidgets::QtWidgets::Separator(controller, parent)
-    {
-    }
-
-    ~MySeparator() override;
-
-    void paintEvent(QPaintEvent *) override
-    {
-        QPainter p(this);
-        if (QWidget::rect().width() > QWidget::rect().height()) {
-            // Horizontal rect
-            p.fillRect(QWidget::rect(), qApp->palette().base());
-            p.setPen(qApp->palette().shadow().color());
-            p.drawLine(QWidget::rect().x(), QWidget::rect().y() + QWidget::rect().height() / 2, QWidget::rect().right(),
-                       QWidget::rect().y() + QWidget::rect().height() / 2);
-        } else {
-            // Vertical rect
-            p.fillRect(QWidget::rect(), qApp->palette().base());
-            p.setPen(qApp->palette().shadow().color());
-            p.drawLine(QWidget::rect().x() + QWidget::rect().width() / 2, QWidget::rect().top(), QWidget::rect().x() + QWidget::rect().width() / 2,
-                       QWidget::rect().bottom());
-        }
-    }
-};
-
-MySeparator::~MySeparator() = default;
-
-KDDockWidgets::Core::View *CustomWidgetFactory::createTitleBar(KDDockWidgets::Core::TitleBar *controller, KDDockWidgets::Core::View *parent) const
-{
-    // Feel free to return MyTitleBar_CSS here instead, but just for education purposes!
-    return new MyTitleBar(controller, parent);
-}
-
-KDDockWidgets::Core::View *CustomWidgetFactory::createSeparator(KDDockWidgets::Core::Separator *controller, KDDockWidgets::Core::View *parent) const
-{
-    return new MySeparator(controller, parent);
-}
-
-KDDockWidgets::Core::View *CustomWidgetFactory::createDockWidget(const QString &uniqueName, KDDockWidgets::DockWidgetOptions options,
-                                                                 KDDockWidgets::LayoutSaverOptions layoutSaverOptions, Qt::WindowFlags flags) const
-{
-    return new KDDockWidgets::QtWidgets::DockWidget(uniqueName, options, layoutSaverOptions, {Qt::FramelessWindowHint});
-}
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt {
@@ -263,11 +155,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Increase the separator size, just for demo
     KDDockWidgets::Config::self().setViewFactory(new CustomWidgetFactory());
+    /*auto iflags = KDDockWidgets::Config::self().internalFlags();
+    iflags |= KDDockWidgets::Config::InternalFlag::InternalFlag_DontUseQtToolWindowsForFloatingWindows;
+    KDDockWidgets::Config::self().setInternalFlags(iflags);*/
     KDDockWidgets::Config::self().setLayoutSpacing(0); // SeparatorThickness(3);
     if (KdenliveSettings::tabposition() == 1) {
         KDDockWidgets::Config::self().setTabsAtBottom(true);
     }
-    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"));
+    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"), {});
 }
 
 void MainWindow::init()
@@ -585,6 +480,7 @@ void MainWindow::init()
         KdenliveSettings::setShowtitlebars(checked);
         Q_EMIT pCore->hideBars(!checked);
     });
+    connect(pCore.get(), &Core::switchTitleBars, this, [switchAction]() { switchAction->trigger(); });
 
     QAction *stylesAction = KStyleManager::createConfigureAction(this);
     // stylesAction->menu() is only available on non KDE platform
@@ -962,9 +858,6 @@ void MainWindow::init()
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(true);
     }
-
-    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-    dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
 }
 
 void MainWindow::loadBins(QStringList binInfo)
@@ -4627,6 +4520,7 @@ KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, 
     auto dock = new KDDockWidgets::QtWidgets::DockWidget(objectName);
     qDebug() << "Building dock: " << objectName;
     Q_ASSERT(widget != nullptr);
+    widget->setProperty("_breeze_force_frame", false);
     dock->setTitle(title);
     dock->setWidget(widget);
     dock->setObjectName(objectName);
@@ -5230,6 +5124,17 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             }
         }
         break;
+    case QEvent::WindowStateChange:
+        if (static_cast<QWindowStateChangeEvent *>(event)->oldState() & Qt::WindowMaximized) {
+            if ((windowState() & Qt::WindowMinimized) == false) {
+                // HACK: When the app is started in full screen mode, restoring to normal resizes to very small window (50x50)
+                // So workaround bug
+                if (size().width() < 500 && size().height() < 500) {
+                    resize(sizeHint());
+                }
+            }
+        }
+        break;
     default:
         break;
     }
@@ -5427,11 +5332,6 @@ int MainWindow::binCount() const
         return 0;
     }
     return m_binWidgets.count();
-}
-
-void MainWindow::processRestoreState(const QByteArray &state)
-{
-    restoreState(state);
 }
 
 void MainWindow::checkMaxCacheSize()
@@ -5841,4 +5741,20 @@ void MainWindow::slotCreateRangeMarkerFromZoneQuick()
     } else {
         pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZoneQuick();
     }
+}
+
+QSize MainWindow::sizeHint() const
+{
+    QRect desktop = QGuiApplication::primaryScreen()->geometry();
+    if (desktop.width() > 1200) {
+        desktop.setWidth(desktop.width() * 0.8);
+    } else {
+        desktop.setWidth(qMax(desktop.width(), 600));
+    }
+    if (desktop.height() > 1080) {
+        desktop.setHeight(desktop.height() * 0.8);
+    } else {
+        desktop.setHeight(qMax(desktop.height(), 600));
+    }
+    return desktop.size();
 }

@@ -72,8 +72,8 @@ add_subdirectory(layouts)
 list(APPEND kdenlive_SRCS
     core.cpp
     definitions.cpp
-    docktitlebarmanager.cpp
     mainwindow.cpp
+    kddocksetup.cpp
     mltconnection.cpp
     statusbarmessagelabel.cpp
     undohelper.cpp

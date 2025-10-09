@@ -244,13 +244,15 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     // TODO make it a more proper image, it currently causes a crash on exit
     ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
     ClipController::mediaUnavailable->set("length", 99999999);
-
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
     m_mainWindow->show();
-    Q_EMIT m_mainWindow->GUISetupDone();
+#ifndef Q_OS_WIN
+    // For some reason, on Windows, the layout restore needs to happen later or full screen state is not properly restored
+    pCore->restoreLayout();
+#endif
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
@@ -258,6 +260,12 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
 
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
+}
+
+void Core::restoreLayout()
+{
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
 }
 
 void Core::buildDocks()
