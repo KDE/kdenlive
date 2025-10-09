@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-07 02:41+0000\n"
-"PO-Revision-Date: 2025-09-18 07:08+0200\n"
+"PO-Revision-Date: 2025-10-09 00:05+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4360,7 +4360,7 @@ msgstr "HSL გასაღები"
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
-msgstr ""
+msgstr "გადაიყვანს გარკვეულ HSV შუალედს გამჭვირვალობაში. მუშაობს YUV ფერებზე."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:4
 #, kde-format
@@ -11258,10 +11258,9 @@ msgid "HSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "HSync"
+msgstr "VSync"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
@@ -11269,28 +11268,24 @@ msgid "Pixelize (basic)"
 msgstr "პიქსელიზაცია (ძირითადი)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
 msgstr "შეყვანილი გამოსახულების პიქსელიზაცია"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "ჰორიზონტალური ზომა"
+msgstr "ერთი \"პიქსელის\" ჰორიზონტალური ზომა"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "ვერტიკალური ზომა"
+msgstr "ერთი პიქსელის ვერტიკალური ზომა"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "ბუმბულის ალფა"
+msgstr "გამჭოლი ალფა"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
