@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-04 11:45+0200\n"
+"PO-Revision-Date: 2025-10-08 10:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8115,8 +8115,7 @@ msgstr "<![CDATA[Velocitat de l'estroboscopi (de 0 a 8 fotogrames)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
 msgstr "Operacions d'alfa (SUBSTITUÏT)"
 
@@ -8364,8 +8363,7 @@ msgid "Transition width"
 msgstr "Amplària de la transició"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "Degradat d'alfa (SUBSTITUÏT)"
 
@@ -8380,8 +8378,7 @@ msgstr ""
 "     Este efecte s'ha substituït per frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Formes d'alfa (SUBSTITUÏT)"
 
@@ -10853,8 +10850,7 @@ msgid "Creates a Glamorous Glow"
 msgstr "Crea una lluïssor glamurosa"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser (SUPERCEDED)"
+#, kde-format
 msgid "Denoiser (SUPERSEDED)"
 msgstr "Reductor de soroll (SUBSTITUÏT)"
 
@@ -12154,10 +12150,9 @@ msgid "Glitching (rows only)"
 msgstr "Creació de defectes (només files)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Glitch image by shifting rows to and fro."
+#, kde-format
 msgid "Glitch image by shifting rows back and forth."
-msgstr "Pixela una imatge desplaçant les files d'una banda a l'altra."
+msgstr "Pixela una imatge desplaçant les files arrere i avant."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -12214,16 +12209,12 @@ msgid "Number of (color) values per channel"
 msgstr "Nombre de valors (de color) per canal"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values (SUPERCEDED)"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
 msgstr "Valors del vídeo (SUBSTITUÏT)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Measure video values.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
@@ -12232,16 +12223,12 @@ msgstr ""
 "    Este efecte s'ha substituït per <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "Oscil·loscopi (avançat) (SUBSTITUÏT)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[2D video oscilloscope.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
@@ -14697,7 +14684,7 @@ msgstr ""
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la lluminositat"
+msgstr "Augmenta la brillantor"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
@@ -17179,20 +17166,15 @@ msgid "Show favorite items"
 msgstr "Mostra els elements preferits"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"Filtra el contingut de la safata del projecte. Cliqueu damunt de la icona "
-"del filtre per a canviar la visualització del filtre. Cliqueu damunt de la "
-"icona de fletxa per a obrir una llista de possibles paràmetres del filtre."
+"Filtra la llista d'actius. Cliqueu damunt de la icona del filtre per a "
+"canviar la visualització del filtre. Cliqueu damunt de la icona de fletxa "
+"per a obrir una llista de possibles paràmetres del filtre."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -17224,7 +17206,7 @@ msgstr "Busca…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "Heu habilitat actius no admesos"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -21829,19 +21811,15 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
 "plugin again."
 msgstr ""
 "Suprimirà l'entorn de connectors de Python de:<br/><b>%1</b><br/>L'entorn es "
-"tornarà a crear i es descarregaran els mòduls cada vegada que torneu a "
-"activar el connector."
+"tornarà a crear i es descarregaran els mòduls si activeu el connector una "
+"altra vegada."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:523 src/ui/configspeech_ui.ui:369
@@ -25641,6 +25619,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"Mostra algunes característiques específiques de desenvolupament a la "
+"interfície d'usuari, desactiva totes les llistes d'exclusió dels actius."
 
 #: src/main.cpp:354
 #, kde-format
@@ -25749,15 +25729,14 @@ msgid "Effect/Composition Stack"
 msgstr "Pila d'efectes i composicions"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "Mostra només els actius revisats"
+msgstr "Mostra només els elements revisats"
 
 #: src/mainwindow.cpp:410
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Mostra només els elements compatibles de 10 bits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:420
@@ -28425,10 +28404,9 @@ msgid "Deinterlacer"
 msgstr "Desentrellaçador"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
-msgstr "YADIF -temporal + espacial (millor)-"
+msgstr "YADIF - temporal + espacial (millor)"
 
 #: src/monitor/monitormanager.cpp:639
 #, kde-format
@@ -29617,10 +29595,9 @@ msgid "Show Thumbnails"
 msgstr "Mostra les miniatures"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "Crea marcadors d'interval"
+msgstr "Selecció de zona per als marcadors d'interval"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format

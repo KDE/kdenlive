@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-07 06:12+0200\n"
+"PO-Revision-Date: 2025-10-08 03:55+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4368,7 +4368,7 @@ msgstr "HSL გასაღები"
 #: data/effects/avfilter/avfilter_hsvkey.xml:5
 #, kde-format
 msgid "Turns a certain HSV range into transparency. Operates on YUV colors."
-msgstr ""
+msgstr "გადაიყვანს გარკვეულ HSV შუალედს გამჭვირვალობაში. მუშაობს YUV ფერებზე."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:4
 #, kde-format
@@ -16294,20 +16294,15 @@ msgid "Show favorite items"
 msgstr "რჩეული ელემენტების ჩვენება"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"პროექტის კალათის შემცველობის გაფილტვრა.დააწკაპუნეთ ფილტრის ხატულაზე, რათა "
-"ფილტრის ჩვენება გადართოთ. დააწკაპუნეთ ისრის ხატულაზე, რომ შესაძლო ფილტრის "
-"პარამეტრები გახსნათ."
+"აქტივების სიის გაფილტვრა. დააწკაპუნეთ ფილტრის ხატულაზე, რათა ფილტრის ჩვენება "
+"გადართოთ. დააწკაპუნეთ ისრის ხატულაზე, რომ შესაძლო ფილტრის პარამეტრები "
+"გახსნათ."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -16339,7 +16334,7 @@ msgstr "ძებნა…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "თქვენ ჩართეთ მხარდაუჭერელი აქტივები"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -24772,10 +24767,9 @@ msgid "Effect/Composition Stack"
 msgstr "ეფექტის/კომპოზიციის სტეკი"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "მხოლოდ, გადამოწმებული ლემენტების ჩვენება"
+msgstr "მხოლოდ, გადამოწმებული ელემენტების ჩვენება"
 
 #: src/mainwindow.cpp:410
 #, kde-format
@@ -28604,10 +28598,9 @@ msgid "Show Thumbnails"
 msgstr "მინიატურების ჩვენება"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "შუალედის მარკერების შექმნა"
+msgstr "აირჩიეთ ზონა შუალედის მარკერებისთვის"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format

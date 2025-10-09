@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-07 23:40+0200\n"
+"PO-Revision-Date: 2025-10-08 12:12+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17133,20 +17133,15 @@ msgid "Show favorite items"
 msgstr "Favoriete items tonen"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"De inhoud van de project-bin filteren. Klik op het filterpictogram om het "
-"tonen van het filter om te schakelen. Klik on het pijlpictogram om een lijst "
-"met mogelijke filterinstellingen te openen."
+"De inhoud van de lijst met bezittingen filteren. Klik op het filterpictogram "
+"om het tonen van het filter om te schakelen. Klik on het pijlpictogram om "
+"een lijst met mogelijke filterinstellingen te openen."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -17178,7 +17173,7 @@ msgstr "Zoeken…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "U hebt niet ondersteunde bezittingen ingeschakeld"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -25563,6 +25558,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"Toon enige functies, specifiek voor ontwikkeling, in de UI, schakel alle "
+"uitsluitlijsten voor bezittingen uit."
 
 #: src/main.cpp:354
 #, kde-format
@@ -25668,15 +25665,14 @@ msgid "Effect/Composition Stack"
 msgstr "Effect/compositiestack:"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "Alleen geïnspecteerde composities tonen"
+msgstr "Toon alleen bekeken items"
 
 #: src/mainwindow.cpp:410
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Toon alleen 10 bits compatibele items"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:420
@@ -29516,10 +29512,9 @@ msgid "Show Thumbnails"
 msgstr "Miniaturen tonen"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "Reeksmarkering aanmaken"
+msgstr "Selecteer zone voor reeksmarkering"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format

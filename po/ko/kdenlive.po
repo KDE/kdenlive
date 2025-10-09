@@ -20593,8 +20593,7 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Export markers"
+#, kde-format
 msgid "Export markers"
 msgstr "마커 내보내기"
 
@@ -26347,8 +26346,7 @@ msgid "Current Audio Waveform Zoom Level"
 msgstr ""
 
 #: src/mainwindow.cpp:1418
-#, fuzzy, kde-format
-#| msgid "Audio Thumbnails"
+#, kde-format
 msgid "Audio Thumbnails"
 msgstr "오디오 미리 듣기"
 

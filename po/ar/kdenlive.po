@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-05 10:09+0400\n"
+"PO-Revision-Date: 2025-10-08 21:53+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7891,10 +7891,9 @@ msgstr "<![CDATA[معدل الوميض (من 0 إلى 8 إطارات)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
-msgstr "عمليات ألفا (منقوصة)"
+msgstr "عمليات ألفا (مستبدل)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -8135,10 +8134,9 @@ msgid "Transition width"
 msgstr "عرض الانتقال"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
-msgstr "تدرج ألفا (منقوص)"
+msgstr "تدرج ألفا (مستبدل)"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
@@ -8150,10 +8148,9 @@ msgstr ""
 "    هذا التأثير استبدل بـ frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
-msgstr "أشكال ألفا (منقوصة)"
+msgstr "أشكال ألفا (مستبدل)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -10571,8 +10568,7 @@ msgid "Creates a Glamorous Glow"
 msgstr "ينشئ توهّجاً ساحراً"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser (SUPERCEDED)"
+#, kde-format
 msgid "Denoiser (SUPERSEDED)"
 msgstr "مزيل الضوضاء (مستبدل)"
 
@@ -11848,8 +11844,7 @@ msgid "Glitching (rows only)"
 msgstr "الخلل (صفوف فقط)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Glitch image by shifting rows to and fro."
+#, kde-format
 msgid "Glitch image by shifting rows back and forth."
 msgstr "يُخلل الصورة عبر تحريك الصفوف ذهابًا وإيابًا."
 
@@ -11907,16 +11902,12 @@ msgid "Number of (color) values per channel"
 msgstr "عدد قيم (الألوان) في كل قناة"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values (SUPERCEDED)"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
-msgstr "قيم الفيديو (مُستبدل)"
+msgstr "قيم الفيديو (مستبدل)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Measure video values.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
@@ -11925,16 +11916,12 @@ msgstr ""
 "    حل <em>frei0r.measure_pr0be</em> مكان هذا التأثير]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "راسم الإشارة (متقدم) (مُستبدل)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[2D video oscilloscope.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
@@ -16747,19 +16734,14 @@ msgid "Show favorite items"
 msgstr "أظهر العناصر المفضّلة"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"ترشح محتويات سلة المشروع. انقر على رمز المُرشِح لتظهر/تخفي عرض المُرشِح. انقر "
-"على رمز السهم لتفتح قائمة إعدادات المُرشِح الممكنة."
+"ترشح قائمة الأصول. انقر على رمز المُرشِح لتظهر/تخفي عرض المُرشِح. انقر على رمز "
+"السهم لتفتح قائمة إعدادات المُرشِح الممكنة."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -16791,7 +16773,7 @@ msgstr "ابحث..."
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "لقد قمت بتمكين أصول لا يمكن التعامل معها"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -21380,18 +21362,14 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
 "plugin again."
 msgstr ""
 "سيؤدي هذا إلى حذف بيئة بيثون للمحلق من:<br/><b>%1</b><br/>سيعاد إنشاء البيئة "
-"وتنزيل الوحدات  عند إعادة تمكين المحلق."
+"وتنزيل الوحدات عند إعادة تمكين المحلق مرة أخرى."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:523 src/ui/configspeech_ui.ui:369
@@ -25135,6 +25113,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"اعرض بعض الميزات الخاصة بالتطوير في واجهة المستخدم، وعطِّل جميع قوائم "
+"الاستثناء للأصول."
 
 #: src/main.cpp:354
 #, kde-format
@@ -25240,15 +25220,14 @@ msgid "Effect/Composition Stack"
 msgstr "كومة التأثير/التركيب"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "أظهر الأصول المراجعة فقط"
+msgstr "أظهر العناصر المراجعة فقط"
 
 #: src/mainwindow.cpp:410
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "اعرض فقط العناصر المتوافقة مع 10 بت"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:420
@@ -27892,10 +27871,9 @@ msgid "Deinterlacer"
 msgstr "التشابك"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
-msgstr "YADIF -الزماني + الخاص (الأفضل)"
+msgstr "YADIF - زماني + مكاني (الأفضل)"
 
 #: src/monitor/monitormanager.cpp:639
 #, kde-format
@@ -29084,10 +29062,9 @@ msgid "Show Thumbnails"
 msgstr "أظهر المصغرات"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "أنشئ علامات نطاق"
+msgstr "أنشئ منطقة لعلامات نطاق"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
