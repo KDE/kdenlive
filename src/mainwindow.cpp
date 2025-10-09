@@ -151,7 +151,8 @@ MainWindow::MainWindow(QWidget *parent)
     auto flags = KDDockWidgets::Config::self().flags();
     flags |= KDDockWidgets::Config::Flag_HideTitleBarWhenTabsVisible;
     flags |= KDDockWidgets::Config::Flag_AllowReorderTabs;
-    flags |= KDDockWidgets::Config::Flag_AutoHideSupport;
+    // TODO: Currently it is not possible to have both undock and autohide enabled in KDDockWidgets
+    // flags |= KDDockWidgets::Config::Flag_AutoHideSupport;
     KDDockWidgets::Config::self().setFlags(flags);
 
     // Increase the separator size, just for demo

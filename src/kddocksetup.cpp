@@ -19,8 +19,8 @@ public:
         setProperty("_breeze_force_frame", false);
         setDocumentMode(true);
         parentWidget->setProperty("_breeze_force_frame", false);
-        parentWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(parentWidget, &QWidget::customContextMenuRequested, []() { Q_EMIT pCore.get()->switchTitleBars(); });
+        setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(this, &QWidget::customContextMenuRequested, []() { Q_EMIT pCore.get()->switchTitleBars(); });
     }
 };
 
