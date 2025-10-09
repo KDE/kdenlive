@@ -224,7 +224,9 @@ Item {
                 mouse.accepted = false
                 return
             }
+            root.seeking = true
             var pos = Math.max(mouseX, 0)
+            root.mouseRulerPos = mouseX
             pos += audioThumb.width / root.zoomFactor * root.zoomStart
             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
         }
@@ -235,10 +237,15 @@ Item {
             }
             if (mouse.modifiers & Qt.ShiftModifier || pressed) {
                 var pos = Math.max(mouseX, 0)
+                root.mouseRulerPos = mouseX
                 pos += audioThumb.width / root.zoomFactor * root.zoomStart
                 controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
+        onReleased: {
+            root.seeking = false
+        }
+
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
                 if (wheel.angleDelta.y == 0) {

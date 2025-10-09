@@ -24,6 +24,7 @@ Item {
     property double scalex
     property double scaley
     property bool captureRightClick: false
+    property bool seeking: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false

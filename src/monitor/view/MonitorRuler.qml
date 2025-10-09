@@ -17,6 +17,8 @@ Rectangle {
     property double rulerZoomWidth: root.zoomFactor * width
     // The pixel offset
     property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
+    // The scroll factor on seek
+    property int seekOffset: root.baseUnit * 0.7
     
     property int playheadPosition: controller.position
     Rectangle {
@@ -29,11 +31,9 @@ Rectangle {
         id: scrollTimer
         interval: 200; running: false;
         onTriggered: {
-            if (rulerMouseArea.pressed) {
+            if (root.seeking) {
                 // Check if seeking ruler
-                var pos = Math.max(rulerMouseArea.mouseX, 0)
-                root.mouseRulerPos = pos
-                controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+                controller.position = Math.max(0, Math.min((root.mouseRulerPos + ruler.rulerZoomOffset) / root.timeScale, root.duration))
             }
         }
     }
@@ -45,16 +45,20 @@ Rectangle {
         var scaledPosition = ruler.playheadPosition * root.timeScale - ruler.rulerZoomOffset
         if (scaledPosition < root.baseUnit) {
             if (scaledPosition < 0) {
-                root.zoomStart = Math.max(0, (rulerZoomOffset + scaledPosition) * root.zoomFactor - (rulerZoomWidth / 2)) / ruler.width
+                root.zoomStart = Math.max(0, (rulerZoomOffset - seekOffset + scaledPosition) * root.zoomFactor) / ruler.width
             } else {
-                root.zoomStart = Math.max(0, (rulerZoomOffset - root.baseUnit) * root.zoomFactor) / ruler.width
+                root.zoomStart = Math.max(0, (rulerZoomOffset - seekOffset) * root.zoomFactor) / ruler.width
+            }
+            if (root.zoomStart > 0) {
                 scrollTimer.start()
             }
         } else if (scaledPosition > ruler.width - root.baseUnit) {
             if (scaledPosition > ruler.width) {
-                root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + scaledPosition) * root.zoomFactor - (rulerZoomWidth / 2)) / ruler.width
+                root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset + scaledPosition - ruler.width) * root.zoomFactor) / ruler.width
             } else {
-                root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + root.baseUnit) * root.zoomFactor) / ruler.width
+                root.zoomStart = Math.min(ruler.width - rulerZoomWidth, (rulerZoomOffset + seekOffset) * root.zoomFactor) / ruler.width
+            }
+            if (root.zoomStart < ruler.width - rulerZoomWidth) {
                 scrollTimer.start()
             }
         }
@@ -197,12 +201,15 @@ Rectangle {
             root.captureRightClick = true
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
+                root.seeking = true
+                root.mouseRulerPos = mouseX
                 controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
                 mouse.accepted = true
             }
         }
         onReleased: mouse => {
             root.updateClickCapture()
+            root.seeking = false
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
