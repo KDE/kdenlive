@@ -1937,7 +1937,7 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     pasteEffects->setData('C');
 
-    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Effects"), this);
+    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Remove Effects"), this);
     addAction(QStringLiteral("delete_effects"), delEffects, QKeySequence(), clipActionCategory);
     delEffects->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
