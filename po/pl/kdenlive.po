@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-07 02:41+0000\n"
+"POT-Creation-Date: 2025-10-10 02:35+0000\n"
 "PO-Revision-Date: 2025-09-13 07:20+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -27941,17 +27941,17 @@ msgstr "MLT musi być skompilowany z libfftw3, aby włączyć Widmo Dźwięku"
 msgid "Enable Audio Spectrum"
 msgstr "Włącz widmo dźwięku"
 
-#: src/monitor/videowidget.cpp:1122
+#: src/monitor/videowidget.cpp:1118
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Wybierz zakres do odtworzenia"
 
-#: src/monitor/videowidget.cpp:1131
+#: src/monitor/videowidget.cpp:1127
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Wybierz wycinek do odtworzenia"
 
-#: src/monitor/videowidget.cpp:1236
+#: src/monitor/videowidget.cpp:1232
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
