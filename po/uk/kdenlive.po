@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-07 16:31+0300\n"
+"PO-Revision-Date: 2025-10-09 19:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17104,21 +17104,15 @@ msgid "Show favorite items"
 msgstr "Показати улюблені пункти"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"Фільтрувати за вмістом контейнера проєкту. Натисніть на піктограмі "
-"фільтрування, щоб увімкнути або вимкнути показ фільтрування. Натисніть "
-"піктограму зі стрілочкою, щоб відкрити список можливих параметрів "
-"фільтрування."
+"Фільтрувати список ресурсів. Натисніть на піктограмі фільтрування, щоб "
+"увімкнути або вимкнути показ фільтрування. Натисніть піктограму зі "
+"стрілочкою, щоб відкрити список можливих параметрів фільтрування."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -17150,7 +17144,7 @@ msgstr "Шукати…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "Вами увімкнено непідтримувані ресурси"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -25598,6 +25592,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"Показувати деякі специфічні для розробників можливості в інтерфейсі "
+"користувача, вимкнути усі списки включення для ресурсів."
 
 #: src/main.cpp:354
 #, kde-format
@@ -25703,15 +25699,14 @@ msgid "Effect/Composition Stack"
 msgstr "Стос ефектів/композицій"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "Показувати лише ресурси із рецензіями"
+msgstr "Показувати лише записи із рецензіями"
 
 #: src/mainwindow.cpp:410
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Показувати лише сумісні з 10 бітами елементи"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:420
@@ -29593,10 +29588,9 @@ msgid "Show Thumbnails"
 msgstr "Показувати мініатюри"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "Створити позначки діапазонів"
+msgstr "Вибрати зону для позначок діапазонів"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
