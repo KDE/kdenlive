@@ -8,7 +8,7 @@ The schedule of KDE Gear can be found at https://community.kde.org/Schedules
 
 ## Tasks
 
-### Preparation (~2 weeks before release)
+### Preparation (~ 2 weeks before release)
 
 - [ ] For major releases: if it was decided to change the splash screen, make sure it has been merged/committed
 - [ ] Update MLT and other dependencies [in Craft](https://invent.kde.org/packaging/craft-blueprints-kde/)
