@@ -1,15 +1,15 @@
 # SPDX-FileCopyrightText: 2024 R. Arp <rarp@7bps.de>
-# Marco Gittler <g.marco@freenet.de>, 2008.
-# Felix Hammer <f.hammer@gmx.de>, 2008.
-# Thomas Holzmann <holzi1@gmx.at>, 2008.
-# Simon Eugster <simon.eu@gmail.com>, 2009, 2010, 2011.
-# Markus Slopianka <markus.s@kdemail.net>, 2009, 2010, 2011.
-# Lukas Lacheta <joshlukas@aryuna.de>, 2009.
-# Till Theato <root@ttill.de>, 2009, 2010, 2011.
-# Burkhard Lück <lueck@hube-lueck.de>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
-# Frederik Schwarzer <schwarzer@kde.org>, 2011, 2012, 2013, 2014, 2015, 2016, 2021, 2022, 2023.
-# Dominik Waurenschk <dominik.waurenschk+kde@protonmail.com>, 2020.
-# Jannick Kuhr <opensource@kuhr.org>, 2023.
+# SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+# SPDX-FileCopyrightText: 2008 Felix Hammer <f.hammer@gmx.de>
+# SPDX-FileCopyrightText: 2008 Thomas Holzmann <holzi1@gmx.at>
+# SPDX-FileCopyrightText: 2009, 2010, 2011 Simon Eugster <simon.eu@gmail.com>
+# SPDX-FileCopyrightText: 2009, 2010, 2011 Markus Slopianka <markus.s@kdemail.net>
+# SPDX-FileCopyrightText: 2009 Lukas Lacheta <joshlukas@aryuna.de>
+# SPDX-FileCopyrightText: 2009, 2010, 2011 Till Theato <root@ttill.de>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2021, 2022, 2023 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2020 Dominik Waurenschk <dominik.waurenschk+kde@protonmail.com>
+# SPDX-FileCopyrightText: 2023 Jannick Kuhr <opensource@kuhr.org>
 # SPDX-FileCopyrightText: 2025 Flori G <Renner03@protonmail.com>
 msgid ""
 msgstr ""
