@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-05 08:58+0200\n"
+"PO-Revision-Date: 2025-10-10 21:29+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8013,8 +8013,7 @@ msgstr "<![CDATA[Stroboskopets frekvens (från 0 till 8 bildrutor)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
 msgstr "Alfaoperationer (ERSATT)"
 
@@ -8261,8 +8260,7 @@ msgid "Transition width"
 msgstr "Övertoningsbredd"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "Alfatoning (ERSATT)"
 
@@ -8276,8 +8274,7 @@ msgstr ""
 "    Effekten har ersatts av frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Alfaformer (ERSATT)"
 
@@ -10750,8 +10747,7 @@ msgid "Creates a Glamorous Glow"
 msgstr "Skapar en glamorös glöd"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser (SUPERCEDED)"
+#, kde-format
 msgid "Denoiser (SUPERSEDED)"
 msgstr "Brusreducering (ERSATT)"
 
@@ -12037,8 +12033,7 @@ msgid "Glitching (rows only)"
 msgstr "Störningar (bara rader)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Glitch image by shifting rows to and fro."
+#, kde-format
 msgid "Glitch image by shifting rows back and forth."
 msgstr "Stör bilden med skiftning av rader fram och tillbaka."
 
@@ -12097,16 +12092,12 @@ msgid "Number of (color) values per channel"
 msgstr "Antal (färg)värden per kanal"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values (SUPERCEDED)"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
 msgstr "Videovärden (ERSATT)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Measure video values.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
@@ -12115,16 +12106,12 @@ msgstr ""
 "    Effekten har ersatts av <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "Oscilloskop (avancerat) (ERSATT)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[2D video oscilloscope.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
@@ -17019,20 +17006,15 @@ msgid "Show favorite items"
 msgstr "Visa favoritobjekt"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"Filtrera projektstapelns innehåll. Klicka på filterikonen för att visa eller "
-"dölja filtervisningen. Klicka på pilikonen för att öppna en lista med "
-"möjliga filterinställningar."
+"Filtrera resurslistan. Klicka på filterikonen för att visa eller dölja "
+"filtervisningen. Klicka på pilikonen för att öppna en lista med möjliga "
+"filterinställningar."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -17064,7 +17046,7 @@ msgstr "Sök…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "Resurser som inte stöds har aktiverats"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -21634,19 +21616,15 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
 "plugin again."
 msgstr ""
 "Tar bort insticksprogrammets Python-miljö från:<br/><b>%1</b><br/>Miljön "
-"kommer att återskapas och moduler laddas ner när du återaktiverar "
-"insticksprogrammet."
+"kommer att återskapas och moduler laddas ner när insticksprogrammet "
+"aktiveras igen."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:523 src/ui/configspeech_ui.ui:369
@@ -25416,6 +25394,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"Visa vissa utvecklingsspecifika funktioner i användargränssnittet, "
+"inaktivera alla undantagslistor för resurser."
 
 #: src/main.cpp:354
 #, kde-format
@@ -25521,15 +25501,14 @@ msgid "Effect/Composition Stack"
 msgstr "Effekt- och kompositionsstapel"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "Visa bara granskade tillgångar"
+msgstr "Visa bara granskade objekt"
 
 #: src/mainwindow.cpp:410
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Visa bara objekt kompatibla med 10 bitar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:420
@@ -28180,8 +28159,7 @@ msgid "Deinterlacer"
 msgstr "Inflätningsborttagning"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - tidsmässig + rumslig (bäst)"
 
@@ -29359,10 +29337,9 @@ msgid "Show Thumbnails"
 msgstr "Visa miniatyrbilder"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "Skapa intervallmarkörer"
+msgstr "Markera zon för intervallmarkörer"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
@@ -30975,7 +30952,7 @@ msgid ""
 "Could not create assets folder:\n"
 " %1"
 msgstr ""
-"Kan inte skapa tillgångskatalog:\n"
+"Kan inte skapa resurskatalog:\n"
 " %1"
 
 #: src/render/renderrequest.cpp:237
@@ -36920,7 +36897,7 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"Projektkatalogen är platsen där tillgångar såsom ersättningsklipp, "
+"Projektkatalogen är platsen där resurser såsom ersättningsklipp, "
 "miniatyrbilder eller förhandsgranskningar lagras."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
