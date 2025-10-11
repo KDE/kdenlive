@@ -68,27 +68,32 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     , m_mappable_actions(std::move(mappable_actions))
 {
     setWindowModality(Qt::ApplicationModal);
+    setFaceType(KPageDialog::Tree);
 
-    initMiscPage();
     initProjectPage();
-    initProxyPage();
 
-    QWidget *p3 = new QWidget;
-    m_configTimeline.setupUi(p3);
-    m_pageTimeline = addPage(p3, i18n("Timeline"), QStringLiteral("video-display"));
+    QWidget *p8 = new QWidget;
+    m_configSaveOpen.setupUi(p8);
+    m_pageSaveOpen = addPage(p8, i18n("Save/Open"), QStringLiteral("document-save"));
+
+    initMediaImportPage();
+    initProxyPage();
 
     QWidget *p4 = new QWidget;
     m_configTools.setupUi(p4);
     m_pageTools = addPage(p4, i18n("Tools"), QStringLiteral("tools"));
 
-    initEnviromentPage();
-
     QWidget *p11 = new QWidget;
     m_configColors.setupUi(p11);
-    m_pageColors = addPage(p11, i18n("Colors and Markers"), QStringLiteral("color-management"));
+    m_pageColors = addPage(p11, i18n("User Interface"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
     guidesLayout->addWidget(m_guidesCategories);
+
+    QWidget *p3 = new QWidget;
+    m_configTimeline.setupUi(p3);
+    m_pageTimeline = addSubPage(m_pageColors, p3, i18n("Timeline"));
+    m_pageTimeline->setIcon(QIcon::fromTheme(QStringLiteral("video-display")));
 
     m_pluginsPage = new PluginsSettings(this);
     connect(m_pluginsPage, &PluginsSettings::openBrowserUrl, this, &KdenliveSettingsDialog::openBrowserUrl);
@@ -96,7 +101,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p7 = new QWidget;
     m_configSdl.setupUi(p7);
-    m_pagePlay = addPage(p7, i18n("Playback"), QStringLiteral("media-playback-start"));
+    m_pagePlay = addPage(p7, i18n("Playback Devices"), QStringLiteral("media-playback-start"));
 
     QWidget *p5 = new QWidget;
     m_configCapture.setupUi(p5);
@@ -112,6 +117,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     initTranscodePage();
 
     initSdlPage(gpuAllowed);
+
+    initEnviromentPage();
+
+    QWidget *pA = new QWidget;
+    addSubPage(m_pageEnv, pA, i18n("Paths"))->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy-path")));
+
+    initMiscPage();
 
     // Config dialog size
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -156,7 +168,15 @@ bool KdenliveSettingsDialog::getBlackMagicDeviceList(QComboBox *devicelist, bool
     return true;
 }
 
-// static
+void KdenliveSettingsDialog::setupTimecodeInput(QLineEdit *lineEdit)
+{
+    static const QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
+    QValidator *validator = new QRegularExpressionValidator(reg, this);
+
+    lineEdit->setInputMask(pCore->timecode().mask());
+    lineEdit->setValidator(validator);
+}
+
 bool KdenliveSettingsDialog::initAudioRecDevice()
 {
     QStringList audioDevices = pCore->getAudioCaptureDevices();
@@ -179,26 +199,10 @@ void KdenliveSettingsDialog::initMiscPage()
     m_configMisc.setupUi(p1);
     m_pageMisc = addPage(p1, i18n("Misc"), QStringLiteral("configure"));
 
-    m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
-
-    static const QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
-    QValidator *validator = new QRegularExpressionValidator(reg, this);
-    m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_color_duration->setValidator(validator);
-    m_configMisc.kcfg_title_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_title_duration->setValidator(validator);
-    m_configMisc.kcfg_transition_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_transition_duration->setValidator(validator);
-    m_configMisc.kcfg_mix_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_mix_duration->setValidator(validator);
-    m_configMisc.kcfg_image_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_image_duration->setValidator(validator);
-    m_configMisc.kcfg_sequence_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_sequence_duration->setValidator(validator);
-    m_configMisc.kcfg_fade_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_fade_duration->setValidator(validator);
-    m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_subtitle_duration->setValidator(validator);
+    setupTimecodeInput(m_configMisc.kcfg_transition_duration);
+    setupTimecodeInput(m_configMisc.kcfg_mix_duration);
+    setupTimecodeInput(m_configMisc.kcfg_fade_duration);
+    setupTimecodeInput(m_configMisc.kcfg_subtitle_duration);
 
     m_configMisc.preferredcomposite->clear();
     m_configMisc.preferredcomposite->addItem(i18n("auto"));
@@ -221,6 +225,25 @@ void KdenliveSettingsDialog::initMiscPage()
             pCore->currentDoc()->setModified();
         }
     });
+}
+
+void KdenliveSettingsDialog::initMediaImportPage()
+{
+    QWidget *p = new QWidget;
+    m_configImport.setupUi(p);
+    m_pageImport = addPage(p, i18n("Media Import"), QStringLiteral("document-import"));
+
+    m_configImport.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
+
+    setupTimecodeInput(m_configImport.kcfg_color_duration);
+    setupTimecodeInput(m_configImport.kcfg_title_duration);
+    setupTimecodeInput(m_configImport.kcfg_image_duration);
+    setupTimecodeInput(m_configImport.kcfg_sequence_duration);
+
+    // Mime types
+    QStringList mimes = FileFilter::getExtensions();
+    std::sort(mimes.begin(), mimes.end());
+    m_configImport.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
 }
 
 void KdenliveSettingsDialog::initProjectPage()
@@ -270,7 +293,7 @@ void KdenliveSettingsDialog::initProxyPage()
     m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
     m_alphaProxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyAlphaClips, true, QStringLiteral("alpha_profile"));
     m_configProxy.alpha_profile_box->addWidget(m_alphaProxyProfiles);
-    addPage(p10, i18n("Proxy Clips"), QStringLiteral("transform-scale"));
+    addSubPage(m_pageProject, p10, i18n("Proxy Clips"))->setIcon(QIcon::fromTheme(QStringLiteral("transform-scale")));
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
@@ -337,11 +360,6 @@ void KdenliveSettingsDialog::initEnviromentPage()
         m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
     }
     connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
-
-    // Mime types
-    QStringList mimes = FileFilter::getExtensions();
-    std::sort(mimes.begin(), mimes.end());
-    m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
 
     connect(m_configEnv.kp_image, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditImageApplication);
     connect(m_configEnv.kp_audio, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditAudioApplication);
@@ -1148,8 +1166,8 @@ void KdenliveSettingsDialog::updateSettings()
     }
 
     // Autosave
-    if (m_configMisc.kcfg_autosave_time->value() != KdenliveSettings::autosave_time()) {
-        KdenliveSettings::setAutosave_time(m_configMisc.kcfg_autosave_time->value());
+    if (m_configSaveOpen.kcfg_autosave_time->value() != KdenliveSettings::autosave_time()) {
+        KdenliveSettings::setAutosave_time(m_configSaveOpen.kcfg_autosave_time->value());
         pCore->projectManager()->updateAutoSaveTimer();
     }
 
@@ -1277,12 +1295,12 @@ void KdenliveSettingsDialog::updateSettings()
     m_pluginsPage->applySettings();
 
     // Mimes
-    if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
+    if (m_configImport.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
         // Update list
-        KdenliveSettings::setAddedExtensions(m_configEnv.kcfg_addedExtensions->text());
+        KdenliveSettings::setAddedExtensions(m_configImport.kcfg_addedExtensions->text());
         QStringList mimes = FileFilter::getExtensions();
         std::sort(mimes.begin(), mimes.end());
-        m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
+        m_configImport.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
     }
 
     // proxy/transcode max concurrent jobs

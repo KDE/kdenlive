@@ -14,10 +14,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_configcapture_ui.h"
 #include "ui_configcolors_ui.h"
 #include "ui_configenv_ui.h"
+#include "ui_configimport_ui.h"
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configmisc_ui.h"
 #include "ui_configproject_ui.h"
 #include "ui_configproxy_ui.h"
+#include "ui_configsaveopen_ui.h"
 #include "ui_configsdl_ui.h"
 #include "ui_configtimeline_ui.h"
 #include "ui_configtools_ui.h"
@@ -87,7 +89,9 @@ private Q_SLOTS:
 private:
     KPageWidgetItem *m_pageMisc;
     KPageWidgetItem *m_pageEnv;
+    KPageWidgetItem *m_pageImport;
     KPageWidgetItem *m_pageTimeline;
+    KPageWidgetItem *m_pageSaveOpen;
     KPageWidgetItem *m_pageTools;
     KPageWidgetItem *m_pageCapture;
     KPageWidgetItem *m_pageJog;
@@ -99,6 +103,8 @@ private:
 
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
+    Ui::ConfigImport_UI m_configImport;
+    Ui::ConfigSaveOpen_UI m_configSaveOpen;
     Ui::ConfigColors_UI m_configColors;
     Ui::ConfigTimeline_UI m_configTimeline;
     Ui::ConfigTools_UI m_configTools;
@@ -130,9 +136,11 @@ private:
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(QComboBox *devicelist, bool force = false);
     static bool getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force = false);
+    void setupTimecodeInput(QLineEdit *lineEdit);
     /** @brief Init QtMultimedia audio record settings */
     bool initAudioRecDevice();
     void initMiscPage();
+    void initMediaImportPage();
     void initProjectPage();
     void initProxyPage();
     void initTimelinePage();

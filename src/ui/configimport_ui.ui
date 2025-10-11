@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>
+SPDX-FileCopyrightText: none
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+ </author>
+ <class>ConfigImport_UI</class>
+ <widget class="QWidget" name="ConfigImport_UI">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="1">
+    <widget class="QCheckBox" name="kcfg_checkfirstprojectclip">
+     <property name="text">
+      <string>Check if first added clip matches project profile</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="kcfg_keep_original_frame_size">
+     <property name="text">
+      <string>Keep clip original frame size on import</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Multi Stream Clips:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="kcfg_automultistreams">
+     <property name="text">
+      <string>Automatically import all video streams</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>On import, enable</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="kcfg_multistream">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <item>
+        <property name="text">
+         <string>All Audio Streams</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>First Audio Stream</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>First 2 Audio Streams</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="8" column="1">
+    <widget class="QCheckBox" name="kcfg_multistream_checktrack">
+     <property name="text">
+      <string>Check if current sequence contains enough audio tracks for active streams</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>File Structure:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QCheckBox" name="kcfg_autoimagesequence">
+     <property name="text">
+      <string>Automatically detect and import image sequences</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="kcfg_ignoresubdirstructure">
+       <property name="text">
+        <string>Ignore subfolder structure on import</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
+       <property name="contextualHelpText">
+        <string>This will import all files into a toplevel folder</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="16" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Metadata:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="1">
+    <widget class="QCheckBox" name="kcfg_use_exiftool">
+     <property name="text">
+      <string>Get clip metadata with exiftool</string>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="1">
+    <widget class="QCheckBox" name="kcfg_use_magicLantern">
+     <property name="text">
+      <string>Get clip metadata created by Magic Lantern</string>
+     </property>
+    </widget>
+   </item>
+   <item row="21" column="0" colspan="2">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="22" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Default Durations</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Color Clips:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="kcfg_color_duration"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Title Clips:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="kcfg_title_duration"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Image Clips:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="kcfg_image_duration"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Image Sequence:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="kcfg_sequence_duration"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="23" column="0" colspan="2">
+    <widget class="Line" name="line_5">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="24" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Supported File Types:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="24" column="1">
+    <widget class="QPlainTextEdit" name="supportedmimes">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="25" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="25" column="1">
+    <widget class="QLabel" name="label_9">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Add additional file types below to make Kdenlive recognize them on import. Entries should be seperated by whitespace.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="26" column="1">
+    <widget class="QLineEdit" name="kcfg_addedExtensions">
+     <property name="placeholderText">
+      <string notr="true">*.mp4 *.mov</string>
+     </property>
+    </widget>
+   </item>
+   <item row="27" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KContextualHelpButton</class>
+   <extends>QToolButton</extends>
+   <header>kcontextualhelpbutton.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_checkfirstprojectclip</tabstop>
+  <tabstop>kcfg_keep_original_frame_size</tabstop>
+  <tabstop>kcfg_autoimagesequence</tabstop>
+  <tabstop>kcfg_use_exiftool</tabstop>
+  <tabstop>kcfg_use_magicLantern</tabstop>
+  <tabstop>kcfg_ignoresubdirstructure</tabstop>
+  <tabstop>kcontextualhelpbutton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
