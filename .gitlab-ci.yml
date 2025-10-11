@@ -8,6 +8,8 @@ include:
       - /gitlab-templates/reuse-lint.yml
       - /gitlab-templates/xml-lint.yml
       - /gitlab-templates/pre-commit.yml
+      # Quality checks
+      - /gitlab-templates/cppcheck.yml
       # CI Qt6
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/linux-qt6-next.yml
