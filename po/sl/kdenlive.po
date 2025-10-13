@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-08 00:42+0000\n"
-"PO-Revision-Date: 2025-10-05 18:27+0200\n"
+"POT-Creation-Date: 2025-10-13 00:41+0000\n"
+"PO-Revision-Date: 2025-10-08 23:41+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -8018,8 +8018,7 @@ msgstr "<![CDATA[Hitrost stroboskopije (od 0 do 8 sličic)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
 msgstr "Opravila kanala alfa (NADOMEŠČENO)"
 
@@ -8265,8 +8264,7 @@ msgid "Transition width"
 msgstr "Širina prehoda"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
 msgstr "Alfa-preliv (NADOMEŠČENO)"
 
@@ -8280,8 +8278,7 @@ msgstr ""
 "    Ta učinek je zamenjal novi učinek frei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
 msgstr "Alfa v likih (NADOMEŠČENO)"
 
@@ -10744,8 +10741,7 @@ msgid "Creates a Glamorous Glow"
 msgstr "Ustvari glamurozno žarenje"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser (SUPERCEDED)"
+#, kde-format
 msgid "Denoiser (SUPERSEDED)"
 msgstr "Razšumnik (NADOMEŠČEN)"
 
@@ -12034,10 +12030,9 @@ msgid "Glitching (rows only)"
 msgstr "Napake (samo vrstice)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Glitch image by shifting rows to and fro."
+#, kde-format
 msgid "Glitch image by shifting rows back and forth."
-msgstr "Okvari sliko z premikanjem vrstice sem in tja."
+msgstr "Okvari sliko z premikanjem vrstic sem in tja."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -12093,16 +12088,12 @@ msgid "Number of (color) values per channel"
 msgstr "Število (barvnih) vrednosti na kanal"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values (SUPERCEDED)"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
 msgstr "Vrednosti videoposnetka (NADOMEŠČEN)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Measure video values.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
@@ -12111,16 +12102,12 @@ msgstr ""
 "    Ta učinek je nadomestil nov učinek <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
 msgstr "Osciloskop (napredno) (NADOMEŠČEN)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[2D video oscilloscope.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
@@ -17060,7 +17047,7 @@ msgstr "Poišči …"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "Omogočili ste nepodprta sredstva"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -18918,7 +18905,7 @@ msgstr "Shrani v datoteko naslova"
 msgid "Save in project only"
 msgstr "Shrani le v projekt"
 
-#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:327
 #, kde-format
 msgid "Title clip"
 msgstr "Posnetek naslova"
@@ -19176,7 +19163,7 @@ msgstr "Prenosna naprava"
 msgid "Loading done"
 msgstr "Nalaganje dokončano"
 
-#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19243,17 +19230,17 @@ msgstr "Ime:"
 msgid "Filter:"
 msgstr "Filter:"
 
-#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:428
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Prezri strukturo podmape"
 
-#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:430
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Ne ustvarjaj podmap v košu projektov"
 
-#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19263,17 +19250,17 @@ msgstr ""
 "Če je ta možnost omogočena, bo Kdenlive uvozil vse posnetke iz mape in "
 "njenih podmap, ne da bi ustvaril podmape v košu projekta."
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:423
 #, kde-format
 msgid "Import image sequence"
 msgstr "Uvozi zaporedje slik"
 
-#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Poskusi uvoziti zaporedje slik"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19571,7 +19558,7 @@ msgstr ""
 msgid "Invalid"
 msgstr "Neveljaven"
 
-#: src/bin/projectclip.cpp:1361 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1361 src/dialogs/clipcreationdialog.cpp:129
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
@@ -20083,48 +20070,43 @@ msgstr "Barvni posnetek"
 msgid "Clip Name"
 msgstr "Ime posnetka"
 
-#: src/dialogs/clipcreationdialog.cpp:67
-#, kde-format
-msgid "Create Color Clip"
-msgstr "Ustvari barvni posnetek"
-
-#: src/dialogs/clipcreationdialog.cpp:106
+#: src/dialogs/clipcreationdialog.cpp:105
 #, kde-format
 msgid "Create animation"
 msgstr "Ustvari animacijo"
 
-#: src/dialogs/clipcreationdialog.cpp:114
+#: src/dialogs/clipcreationdialog.cpp:113
 #, kde-format
 msgid "Save animation as"
 msgstr "Shrani animacijo kot"
 
-#: src/dialogs/clipcreationdialog.cpp:117
+#: src/dialogs/clipcreationdialog.cpp:116
 #, kde-format
 msgid "Animation duration"
 msgstr "Trajanje animacije"
 
-#: src/dialogs/clipcreationdialog.cpp:196
+#: src/dialogs/clipcreationdialog.cpp:195
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Ustvari posnetek animacije"
 
-#: src/dialogs/clipcreationdialog.cpp:212
+#: src/dialogs/clipcreationdialog.cpp:211
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Posnetek iz besedila"
 
-#: src/dialogs/clipcreationdialog.cpp:230
+#: src/dialogs/clipcreationdialog.cpp:229
 #, kde-format
 msgid "Text Clip"
 msgstr "Posnetek iz besedila"
 
-#: src/dialogs/clipcreationdialog.cpp:285
+#: src/dialogs/clipcreationdialog.cpp:284
 #, kde-format
 msgid "Create Text clip"
 msgstr "Ustvari besedilni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
+#: src/dialogs/clipcreationdialog.cpp:348 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
 msgstr "Predloga posnetka naslova"
@@ -21655,11 +21637,7 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
@@ -25443,6 +25421,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"V uporabniškem vmesniku prikažite nekatere funkcije, specifične za razvoj, "
+"onemogočite vse sezname izključitev za sredstva."
 
 #: src/main.cpp:354
 #, kde-format
@@ -25555,9 +25535,9 @@ msgid "Only show reviewed items"
 msgstr "Pokaži samo pregledana sredstva"
 
 #: src/mainwindow.cpp:410
-#, kde-format
+#, fuzzy, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Pokaži samo 10-bitne združljive elemente"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:420
@@ -28223,8 +28203,7 @@ msgid "Deinterlacer"
 msgstr "Razpletanje"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - začasno + prostorsko (najboljše)"
 
@@ -29418,9 +29397,8 @@ msgstr "Pokaži sličice"
 
 #: src/project/dialogs/guideslist.cpp:190
 #, fuzzy, kde-format
-#| msgid "Create range markers"
 msgid "Select Zone For Range Markers"
-msgstr "Ustvari označevalnike obsega"
+msgstr "Izberite območje za oznake obsega"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
@@ -38438,3 +38416,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Create Color Clip"
+#~ msgstr "Ustvari barvni posnetek"

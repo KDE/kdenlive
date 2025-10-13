@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-08 00:42+0000\n"
+"POT-Creation-Date: 2025-10-13 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -19052,7 +19052,7 @@ msgstr "शीर्षकसञ्चिकायां रक्षन्त�
 msgid "Save in project only"
 msgstr "केवलं परियोजनायां रक्षन्तु"
 
-#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:327
 #, kde-format
 msgid "Title clip"
 msgstr "शीर्षक क्लिप"
@@ -19310,7 +19310,7 @@ msgstr "हटनीयं यन्त्रम्"
 msgid "Loading done"
 msgstr "लोडिंग् कृतम्"
 
-#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19376,17 +19376,17 @@ msgstr "नामः:"
 msgid "Filter:"
 msgstr "फ़िल्टर :"
 
-#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:428
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "उपपुटसंरचनायाः अवहेलना कुर्वन्तु"
 
-#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:430
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Project Bin मध्ये उपपुटं न रचयन्तु"
 
-#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19396,17 +19396,17 @@ msgstr ""
 "यदा सक्षमं भवति तदा Kdenlive Project Bin मध्ये उपपुटं न निर्माय पुटे निहिताः सर्वाणि "
 "क्लिप्स् तस्य उपपुटं च आयातयिष्यति ।"
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:423
 #, kde-format
 msgid "Import image sequence"
 msgstr "इमेज अनुक्रम आयात करें"
 
-#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "एकं चित्रक्रमं आयातयितुं प्रयतध्वम्"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19719,7 +19719,7 @@ msgstr ""
 msgid "Invalid"
 msgstr "अप्रतिषेध"
 
-#: src/bin/projectclip.cpp:1361 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1361 src/dialogs/clipcreationdialog.cpp:129
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
@@ -20233,48 +20233,43 @@ msgstr "रङ्ग क्लिप"
 msgid "Clip Name"
 msgstr "क्लिप् नाम"
 
-#: src/dialogs/clipcreationdialog.cpp:67
-#, kde-format
-msgid "Create Color Clip"
-msgstr "रङ्ग क्लिप रचयन्तु"
-
-#: src/dialogs/clipcreationdialog.cpp:106
+#: src/dialogs/clipcreationdialog.cpp:105
 #, kde-format
 msgid "Create animation"
 msgstr "एनिमेशन रचयन्तु"
 
-#: src/dialogs/clipcreationdialog.cpp:114
+#: src/dialogs/clipcreationdialog.cpp:113
 #, kde-format
 msgid "Save animation as"
 msgstr "एनिमेशनं यथा रक्षन्तु"
 
-#: src/dialogs/clipcreationdialog.cpp:117
+#: src/dialogs/clipcreationdialog.cpp:116
 #, kde-format
 msgid "Animation duration"
 msgstr "एनिमेशन अवधि"
 
-#: src/dialogs/clipcreationdialog.cpp:196
+#: src/dialogs/clipcreationdialog.cpp:195
 #, kde-format
 msgid "Create Animation clip"
 msgstr "एनिमेशन क्लिप रचयन्तु"
 
-#: src/dialogs/clipcreationdialog.cpp:212
+#: src/dialogs/clipcreationdialog.cpp:211
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "पाठः क्लिप्"
 
-#: src/dialogs/clipcreationdialog.cpp:230
+#: src/dialogs/clipcreationdialog.cpp:229
 #, kde-format
 msgid "Text Clip"
 msgstr "पाठः क्लिप्"
 
-#: src/dialogs/clipcreationdialog.cpp:285
+#: src/dialogs/clipcreationdialog.cpp:284
 #, kde-format
 msgid "Create Text clip"
 msgstr "Text clip रचयन्तु"
 
-#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
+#: src/dialogs/clipcreationdialog.cpp:348 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
 msgstr "टेम्पलेट शीर्षक क्लिप"
@@ -38560,6 +38555,9 @@ msgstr "%1म्"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ह"
+
+#~ msgid "Create Color Clip"
+#~ msgstr "रङ्ग क्लिप रचयन्तु"
 
 #~ msgid "You are using the AppImage.<br>"
 #~ msgstr "भवान् AppImage इत्यस्य उपयोगं करोति ।<br>"

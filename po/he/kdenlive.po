@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-08 00:42+0000\n"
+"POT-Creation-Date: 2025-10-13 00:41+0000\n"
 "PO-Revision-Date: 2025-10-05 12:29+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -18175,7 +18175,7 @@ msgstr "שמירה לקובץ כותר"
 msgid "Save in project only"
 msgstr "שמירה במיזם בלבד"
 
-#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:5085 src/dialogs/clipcreationdialog.cpp:327
 #, kde-format
 msgid "Title clip"
 msgstr "סרטון כותר"
@@ -18432,7 +18432,7 @@ msgstr "התקן נתיק"
 msgid "Loading done"
 msgstr "הטעינה הושלמה"
 
-#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:520
+#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -18499,17 +18499,17 @@ msgstr "שם:"
 msgid "Filter:"
 msgstr "מסנן:"
 
-#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:429
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:428
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "התעלמות ממבנה תת־תיקיות"
 
-#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:431
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:430
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "לט ליצוא תת־תיקיות בסל המיזם"
 
-#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:434
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18519,17 +18519,17 @@ msgstr ""
 "כשהאפשרות מסומנת, Kdenlive ייבא את כל הסרטונים בתיקייה על תת־תיקיותיה מבלי "
 "ליצור את תת־התיקיות בסל המיזם."
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:423
 #, kde-format
 msgid "Import image sequence"
 msgstr "ייבוא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:425
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "לנסות לייבא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:427
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18827,7 +18827,7 @@ msgstr ""
 msgid "Invalid"
 msgstr "שגוי"
 
-#: src/bin/projectclip.cpp:1361 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1361 src/dialogs/clipcreationdialog.cpp:129
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
@@ -19337,48 +19337,43 @@ msgstr "סרטון צבע"
 msgid "Clip Name"
 msgstr "שם סרטון"
 
-#: src/dialogs/clipcreationdialog.cpp:67
-#, kde-format
-msgid "Create Color Clip"
-msgstr "יצירת סרטון צבע"
-
-#: src/dialogs/clipcreationdialog.cpp:106
+#: src/dialogs/clipcreationdialog.cpp:105
 #, kde-format
 msgid "Create animation"
 msgstr "יצירת הנפשה"
 
-#: src/dialogs/clipcreationdialog.cpp:114
+#: src/dialogs/clipcreationdialog.cpp:113
 #, kde-format
 msgid "Save animation as"
 msgstr "שמירת הנפשה בשם"
 
-#: src/dialogs/clipcreationdialog.cpp:117
+#: src/dialogs/clipcreationdialog.cpp:116
 #, kde-format
 msgid "Animation duration"
 msgstr "משך הנפשה"
 
-#: src/dialogs/clipcreationdialog.cpp:196
+#: src/dialogs/clipcreationdialog.cpp:195
 #, kde-format
 msgid "Create Animation clip"
 msgstr "יצירת סרטון הנפשה"
 
-#: src/dialogs/clipcreationdialog.cpp:212
+#: src/dialogs/clipcreationdialog.cpp:211
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:230
+#: src/dialogs/clipcreationdialog.cpp:229
 #, kde-format
 msgid "Text Clip"
 msgstr "סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:285
+#: src/dialogs/clipcreationdialog.cpp:284
 #, kde-format
 msgid "Create Text clip"
 msgstr "יצירת סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
+#: src/dialogs/clipcreationdialog.cpp:348 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
 msgstr "תבנית סרטון כותר"
@@ -37483,6 +37478,9 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "Create Color Clip"
+#~ msgstr "יצירת סרטון צבע"
 
 #~ msgid "You are using the AppImage.<br>"
 #~ msgstr "בחרת להשתמש ב־AppImage.<br>"
