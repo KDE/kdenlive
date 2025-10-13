@@ -3225,6 +3225,11 @@ void MainWindow::slotEditGuide()
 
 void MainWindow::slotSearchGuide()
 {
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(pCore->guidesList()->parentWidget());
+    if (dock) {
+        dock->open();
+        dock->setAsCurrentTab();
+    }
     pCore->guidesList()->filter_line->setFocus();
 }
 
