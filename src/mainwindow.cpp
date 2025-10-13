@@ -162,6 +162,7 @@ MainWindow::MainWindow(QWidget *parent)
         KDDockWidgets::Config::self().setTabsAtBottom(true);
     }
     mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"));
+    mainDockWindow->setCenterWidgetMargins(QMargins(1, 1, 1, 1));
 }
 
 void MainWindow::init()
