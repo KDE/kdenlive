@@ -34,6 +34,16 @@ public:
     void paintEvent(QPaintEvent *) override {}
 };
 
+class MyStack : public KDDockWidgets::QtWidgets::Stack
+{
+public:
+    explicit MyStack(KDDockWidgets::Core::Stack *controller, KDDockWidgets::Core::View *parent = nullptr)
+        : KDDockWidgets::QtWidgets::Stack(controller, KDDockWidgets::QtCommon::View_qt::asQWidget(parent))
+    {
+    }
+    void paintEvent(QPaintEvent *) override {}
+};
+
 class MyTitleBar : public KDDockWidgets::QtWidgets::TitleBar
 {
 public:
@@ -153,6 +163,11 @@ KDDockWidgets::Core::View *CustomWidgetFactory::createGroup(KDDockWidgets::Core:
 {
     // Feel free to return MyTitleBar_CSS here instead, but just for education purposes!
     return new MyGroup(controller, parent);
+}
+
+KDDockWidgets::Core::View *CustomWidgetFactory::createStack(KDDockWidgets::Core::Stack *controller, KDDockWidgets::Core::View *parent) const
+{
+    return new MyStack(controller, parent);
 }
 
 KDDockWidgets::Core::View *CustomWidgetFactory::createSeparator(KDDockWidgets::Core::Separator *controller, KDDockWidgets::Core::View *parent) const
