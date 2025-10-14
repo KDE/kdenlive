@@ -117,13 +117,14 @@ public:
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
-        ResourceRole, /// clip only
-        IsProxyRole,  /// clip only
-        ServiceRole,  /// clip only
-        StartRole,    /// clip only
-        MixRole,      /// clip only, the duration of the mix
-        MixCutRole,   /// The original cut position for the mix
-        BinIdRole,    /// clip only
+        ResourceRole,       /// clip only
+        IsProxyRole,        /// clip only
+        ServiceRole,        /// clip only
+        StartRole,          /// clip only
+        MixRole,            /// clip only, the duration of the mix
+        MixCutRole,         /// The original cut position for the mix
+        MixEndDurationRole, /// Duration of the mix at the end of the clip
+        BinIdRole,          /// clip only
         TrackIdRole,
         FakeTrackIdRole,
         FakePositionRole,

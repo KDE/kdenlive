@@ -95,11 +95,11 @@ Row {
             property int aWaveInPoint: Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / scaleFactor)) * Math.abs(clipRoot.speed))
             waveInPoint: aWaveInPoint
             waveOutPoint: aWaveInPoint + Math.round(width / scaleFactor * Math.abs(clipRoot.speed))
-            bgColorEven: K.KdenliveSettings.thumbColor1.darker(5)
-            bgColorOdd: K.KdenliveSettings.thumbColor2.darker(5)
+            bgColorEven: K.KdenliveSettings.thumbColor1.darker(3)
+            bgColorOdd: K.KdenliveSettings.thumbColor2.darker(3)
             fgColorEven: K.KdenliveSettings.thumbColor1
             fgColorOdd: K.KdenliveSettings.thumbColor2
-            drawChannelNames: (index + waveform.offset) == 0
+            drawChannelNames: false //(index + waveform.offset) == 0
         }
     }
 }

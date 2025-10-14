@@ -199,6 +199,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "mixEndDuration"
+                    value: model.mixEndDuration
+                    when: loader.status == Loader.Ready && loader.item && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "selected"
                     value: model.selected
                     when: loader.status == Loader.Ready && loader.item

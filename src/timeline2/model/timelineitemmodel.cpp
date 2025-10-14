@@ -260,6 +260,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[StartRole] = "start";
     roles[MixRole] = "mixDuration";
     roles[MixCutRole] = "mixCut";
+    roles[MixEndDurationRole] = "mixEndDuration";
     roles[DurationRole] = "duration";
     roles[MaxDurationRole] = "maxDuration";
     roles[MarkersRole] = "markers";
@@ -410,6 +411,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getMixDuration();
         case MixCutRole:
             return clip->getMixCutPosition();
+        case MixEndDurationRole:
+            return getEndMixDuration(id);
         case ClipThumbRole:
             return clip->clipThumbPath();
         case ReloadAudioThumbRole:
@@ -1181,4 +1184,24 @@ QList<std::shared_ptr<KeyframeModelList>> TimelineItemModel::getGroupKeyframeMod
         }
     }
     return models;
+}
+
+int TimelineItemModel::getEndMixDuration(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    int tid = m_allClips.at(cid)->getCurrentTrackId();
+    qDebug() << ":::: CHECKING MIX  FOR: " << cid;
+    if (tid > -1) {
+        MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).second;
+        if (mixData.secondClipId > -1) {
+            qDebug() << ":::: CLIP HAS END MIX WITH: " << mixData.secondClipId;
+            MixInfo mixData2 = getTrackById_const(tid)->getMixInfo(mixData.secondClipId).first;
+            qDebug() << ":::: GOT OFFSET DATA FOR CLIP: " << cid << " = " << mixData2.mixOffset;
+            return mixData2.firstClipInOut.second - mixData2.secondClipInOut.first;
+            // return {mixData.secondClipInOut.first, mixData.firstClipInOut.second};
+        } else {
+            qDebug() << ":::: CLIP HAS NO END MIX... FIRST MIX:" << getTrackById_const(tid)->getMixInfo(cid).first.firstClipId;
+        }
+    }
+    return 0;
 }

@@ -17,7 +17,7 @@ Row {
     property real initialSpeed: 1
     opacity: clipState === Kdenlive.PlaylistState.Disabled ? 0.2 : 1
     property bool fixedThumbs: clipRoot.itemType === Kdenlive.ClipType.Image || clipRoot.itemType === Kdenlive.ClipType.Text || clipRoot.itemType === Kdenlive.ClipType.TextTemplate
-    property int thumbWidth: container.height * root.dar
+    property int thumbWidth: thumbRow.height * root.dar
     property bool enableCache: clipRoot.itemType === Kdenlive.ClipType.Video || clipRoot.itemType === Kdenlive.ClipType.AV
 
     Repeater {
@@ -61,7 +61,7 @@ Row {
 
         Image {
             width: thumbRepeater.imageWidth
-            height: container.height
+            height: thumbRow.height
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: enableCache
@@ -70,22 +70,22 @@ Row {
             property int currentFrame: fixedThumbs
                                        ? 0
                                        : thumbRepeater.count < 3
-                                         ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame)
+                                         ? (index === 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame)
                                          : Math.floor(clipRoot.inPoint * thumbRow.initialSpeed + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3
-                                 ? (index == 0 ? Image.AlignLeft : Image.AlignRight)
+                                 ? (index === 0 ? Image.AlignLeft : Image.AlignRight)
                                  : Image.AlignLeft
             source: thumbRepeater.count < 3
                     ? (clipRoot.baseThumbPath + currentFrame)
                     : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentFrame
             onStatusChanged: {
-                if (status === Image.Ready && (index == 0  || index == thumbRepeater.count - 1)) {
+                if (status === Image.Ready && (index === 0  || index === thumbRepeater.count - 1)) {
                     thumbPlaceholder.source = source
                 }
             }
             Image {
                 id: thumbPlaceholder
-                visible: parent.status != Image.Ready && (index == 0  || index == thumbRepeater.count - 1)
+                visible: parent.status != Image.Ready && (index === 0  || index === thumbRepeater.count - 1)
                 anchors.left: parent.left
                 anchors.leftMargin: index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
                 width: parent.width
@@ -97,10 +97,9 @@ Row {
             Rectangle {
                 visible: thumbRepeater.count < 3
                 anchors.left: parent.left
-                anchors.leftMargin: index == 0 ? thumbRow.thumbWidth : parent.width - thumbRow.thumbWidth - 1
-                color: "#ffffff"
-                opacity: 0.3
-                width: 1
+                anchors.leftMargin: index === 0 ? thumbRow.thumbWidth: parent.width - thumbRow.thumbWidth - 1
+                color: clipRoot.color.darker()
+                width: 2
                 height: parent.height
             }
         }
