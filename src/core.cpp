@@ -266,6 +266,9 @@ void Core::restoreLayout()
 {
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT hideBars(!KdenliveSettings::showtitlebars());
+    }
 }
 
 void Core::buildDocks()

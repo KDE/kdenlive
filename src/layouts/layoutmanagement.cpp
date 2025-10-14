@@ -7,7 +7,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "layouts/layoutmanagement.h"
 #include "core.h"
+#include "kdenlivesettings.h"
+#include "layouts/layoutmanagerdialog.h"
+#include "layouts/layoutswitcher.h"
 #include "mainwindow.h"
+
 #include <KMessageBox>
 #include <QButtonGroup>
 #include <QDialog>
@@ -21,8 +25,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenuBar>
 #include <QVBoxLayout>
 
-#include "layouts/layoutmanagerdialog.h"
-#include "layouts/layoutswitcher.h"
 #include <KColorScheme>
 #include <KConfigGroup>
 #include <KIconEffect>
@@ -231,6 +233,9 @@ bool LayoutManagement::loadLayout(const QString &layoutId)
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     dockLayout.restoreLayout(layout.data.toLatin1());
     m_layoutSwitcher->setCurrentLayout(layoutId);
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
+    }
     return true;
 }
 
