@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-13 00:41+0000\n"
-"PO-Revision-Date: 2025-10-05 12:29+0300\n"
+"PO-Revision-Date: 2025-10-09 13:17+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -30684,7 +30684,7 @@ msgstr "נמצאה תרכובת שגויה %1 ברצועה %2 ב־%3."
 #: src/timeline2/model/builders/meltBuilder.cpp:559
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
-msgstr "%1 תרכובת (%2) עם הפנייה שגויה לרצועה נמצא והוסר."
+msgstr "%1 תרכובת (%2) עם הפניה שגויה לרצועה נמצא והוסר."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:573
 #, kde-format
@@ -30760,7 +30760,7 @@ msgstr "המיזם נפגם. הסרטון %1 (%2) לא נמצא בסל המיז�
 #: src/timeline2/model/builders/meltBuilder.cpp:840
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
-msgstr "%1 סרטון ציר זמן (%2) עם הפנייה שגויה לסל נמצא ותוקן."
+msgstr "%1 סרטון ציר זמן (%2) עם הפניה שגויה לסל נמצא ותוקן."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:841
 #, kde-format
