@@ -135,7 +135,7 @@ find_package(Qt${QT_MAJOR_VERSION}
     # Test
 )
 
-find_package(KDDockWidgets-qt6 REQUIRED)
+find_package(KDDockWidgets-qt6 2.3.0 REQUIRED)
 
 if(USE_DBUS)
     find_package(KF${KF_MAJOR} ${KF_DEP_VERSION} REQUIRED COMPONENTS DBusAddons)
