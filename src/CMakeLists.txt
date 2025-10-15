@@ -254,7 +254,6 @@ target_link_libraries(kdenliveLib PUBLIC
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
-
     )
 
 if(KF6_VERSION VERSION_GREATER_EQUAL "6.8.0")

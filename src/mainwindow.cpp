@@ -218,6 +218,7 @@ void MainWindow::init()
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
+    connect(pCore.get(), &Core::loadLayout, layoutManager, &LayoutManagement::slotLoadLayout, Qt::DirectConnection);
     pCore->buildDocks();
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
@@ -790,7 +791,7 @@ void MainWindow::init()
 
     if (firstRun) {
         // Load editing layout
-        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"));
+        layoutManager->slotLoadLayoutById(QStringLiteral("kdenlive_editing"));
     }
 
 #ifdef USE_JOGSHUTTLE

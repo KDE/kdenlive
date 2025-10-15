@@ -43,7 +43,8 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
     // Required to enable user to add the load layout action to toolbar
     m_layoutCategory->addAction(QStringLiteral("load_layouts"), m_loadLayout);
-    connect(m_loadLayout, &KSelectAction::actionTriggered, this, static_cast<void (LayoutManagement::*)(QAction *)>(&LayoutManagement::slotLoadLayout));
+    connect(m_loadLayout, &KSelectAction::actionTriggered, this,
+            static_cast<void (LayoutManagement::*)(QAction *)>(&LayoutManagement::slotLoadLayoutFromAction));
 
     QAction *saveLayout = new QAction(i18n("Save Layout…"), pCore->window()->actionCollection());
     m_layoutCategory->addAction(QStringLiteral("save_layout"), saveLayout);
@@ -64,7 +65,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     m_container = new QWidget(main);
     m_layoutSwitcher = new LayoutSwitcher(m_container);
     connect(m_layoutSwitcher, &LayoutSwitcher::layoutSelected, this,
-            static_cast<void (LayoutManagement::*)(const QString &)>(&LayoutManagement::slotLoadLayout));
+            static_cast<bool (LayoutManagement::*)(const QString &)>(&LayoutManagement::slotLoadLayoutById));
 
     auto *l1 = new QHBoxLayout;
     l1->addStretch();
@@ -195,44 +196,41 @@ void LayoutManagement::initializeLayouts()
     main->menuBar()->resize(main->menuBar()->sizeHint());
 }
 
-void LayoutManagement::slotLoadLayout(const QString &layoutId)
-{
-    if (layoutId.isEmpty()) {
-        return;
-    }
-    loadLayout(layoutId);
-}
-
-void LayoutManagement::slotLoadLayout(QAction *action)
+void LayoutManagement::slotLoadLayoutFromAction(QAction *action)
 {
     if (!action) return;
     QString layoutId = action->data().toString();
     if (layoutId.isEmpty()) return;
-    slotLoadLayout(layoutId);
+    slotLoadLayoutById(layoutId);
 }
 
-bool LayoutManagement::loadLayout(const QString &layoutId)
+bool LayoutManagement::slotLoadLayoutById(const QString &layoutId)
 {
     // Get the layout from our collection
     LayoutInfo layout = m_layoutCollection.getLayout(layoutId);
+    return slotLoadLayout(layout);
+}
+
+bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
+{
     if (!layout.isValid() || layout.data.isEmpty()) {
         // Layout not found or has no data
         return false;
     }
-
     // Check if this is a KDDockWidgets Layout (and not an old QDockWidgets layout
     if (!layout.isKDDockWidgetsLayout()) {
-        pCore->displayBinMessage(i18n("The layout %1 uses an old and unsupported format.", layout.displayName), KMessageWidget::Warning);
+        pCore->displayBinMessage(i18n("The layout %1 uses an old and unsupported format, should be removed and recreated.", layout.displayName),
+                                 KMessageWidget::Warning);
         return false;
     }
 
     // Set as current layout
-    m_currentLayoutId = layoutId;
+    m_currentLayoutId = layout.internalId;
 
     // Parse layout data
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     dockLayout.restoreLayout(layout.data.toLatin1());
-    m_layoutSwitcher->setCurrentLayout(layoutId);
+    m_layoutSwitcher->setCurrentLayout(layout.internalId);
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
     }

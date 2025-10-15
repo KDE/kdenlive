@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "definitions.h"
 #include "jobs/taskmanager.h"
 #include "kdenlivecore_export.h"
+#include "layouts/layoutinfo.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
 
@@ -528,4 +529,5 @@ Q_SIGNALS:
     void updateRenderOffset();
     void hideBars(bool);
     void switchTitleBars();
+    void loadLayout(LayoutInfo layout);
 };

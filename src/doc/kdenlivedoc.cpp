@@ -1841,11 +1841,8 @@ void KdenliveDoc::loadDocumentProperties()
             // Restore Layout
             if (name == QLatin1String("layout")) {
                 const QString layoutData = e.firstChild().nodeValue();
-                KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-                dockLayout.restoreLayout(layoutData.toLatin1());
-                if (!KdenliveSettings::showtitlebars()) {
-                    Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
-                }
+                LayoutInfo docLayout(QStringLiteral("current_doc"), QString(), layoutData);
+                Q_EMIT pCore->loadLayout(docLayout);
                 continue;
             }
             if (name == QLatin1String("storagefolder")) {

@@ -27,16 +27,18 @@ class LayoutManagement : public QObject
 
 public:
     explicit LayoutManagement(QObject *parent);
+
+public Q_SLOTS:
+    /** @brief Loads a layout by LayoutInfo. */
+    bool slotLoadLayout(LayoutInfo layout);
     /** @brief Load a layout by its name. */
-    bool loadLayout(const QString &layoutId);
+    bool slotLoadLayoutById(const QString &layoutId);
 
 private Q_SLOTS:
     /** @brief Saves the widget layout. */
     void slotSaveLayout();
-    /** @brief Loads a layout by ID (for LayoutSwitcher). */
-    void slotLoadLayout(const QString &layoutId);
     /** @brief Loads a layout from a QAction containing its ID (for Toolbar buttons). */
-    void slotLoadLayout(QAction *action);
+    void slotLoadLayoutFromAction(QAction *action);
     /** @brief Manage layout. */
     void slotManageLayouts();
     /** @brief Hide the autosave indicator . */
@@ -68,10 +70,4 @@ private:
     LayoutCollection m_layoutCollection;
     KActionCategory *m_layoutCategory;
     QString m_currentLayoutId;
-
-Q_SIGNALS:
-    /** @brief Layout changed, ensure title bars are correctly displayed. */
-    void updateTitleBars();
-    /** @brief Connect/disconnect stuff to update titlebars on dock location changed. */
-    void connectDocks(bool doConnect);
 };
