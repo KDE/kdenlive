@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-10 02:35+0000\n"
-"PO-Revision-Date: 2025-08-10 23:18+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2025-10-15 14:03+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -11891,10 +11891,9 @@ msgid "HSync"
 msgstr "V-sinh"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "V-sinh"
+msgstr "N-sinh"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
@@ -11902,33 +11901,29 @@ msgid "Pixelize (basic)"
 msgstr "Pikseliziraj (osnovno)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
-msgstr "Pikseliziraj vhodno sliko"
+msgstr "Pikselizira vhodno sliko"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "Vodoravna velikost"
+msgstr "Vodoravna velikost ene »slikovne točke«."
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "Navpična velikost"
+msgstr "Navpična velikost ene »slikovne točke«"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "Operjana alfa"
+msgstr "Prepuščena alfa"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "Ne povpreči alfa-kanala v vsakem bloku"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12317,7 +12312,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "Svetlost slike. Srednja točka sigmoidne krivulje"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -37999,140 +37994,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Brightness of image."
-#~ msgstr "Svetlost slike."
-
-#~ msgid "Cannot apply effects on folders"
-#~ msgstr "Ni možno dodati slikovnega učinka na mape"
-
-#, fuzzy
-#~| msgid "Threshold"
-#~ msgid "Theshold"
-#~ msgstr "Prag"
-
-#~ msgid "Chroma-blue H shift"
-#~ msgstr "V kromatični zamik modre"
-
-#~ msgid "Chroma-blue V shift"
-#~ msgstr "N kromatični zamik modre"
-
-#~ msgid "Chroma-red H shift"
-#~ msgstr "V kromatični zamik rdeče"
-
-#~ msgid "Chroma-red V shift"
-#~ msgstr "N kromatični zamik rdeče"
-
-#~ msgid " Hue"
-#~ msgstr "Obarvanost"
-
-#~ msgid "ELBG Posterizer"
-#~ msgstr "Posterizacija ELBG"
-
-#~ msgid "None,Y,U,YU,V,YV,UV,YUV"
-#~ msgstr "Brez,Y,U,YU,V,YV,UV,YUV"
-
-#~ msgid "All,Y,U,YU,V,YV,UV,All,Alpha"
-#~ msgstr "Vse,Y,U,YU,V,YV,UV,Vse,Alfa"
-
-#~ msgid "High precision/quality 3d denoiser"
-#~ msgstr "Visoko kakovostni 3D-razšumnik"
-
-#~ msgid "Lens correction"
-#~ msgstr "Popravek objektiva"
-
-#~ msgid "Focal point relative-X coord"
-#~ msgstr "Koordinata žarišča glede na X"
-
-#~ msgid "Focal point relative-Y coord"
-#~ msgstr "Koordinata žarišča glede na Y"
-
-#~ msgid "Quadratic correction coeff."
-#~ msgstr "Kvadratni korekcijski koeficient"
-
-#~ msgid "Apply roberts cross operator to input video stream"
-#~ msgstr "Uporaba Robertsovega navzkrižnega operatorja za vnos video toka"
-
-#~ msgid "Interpolation mode"
-#~ msgstr "Način interpolacije"
-
-#~ msgid "Wavelet based Denoiser"
-#~ msgstr "Razšumnik na osnovi valčkov"
-
-#~ msgid "White,Black,Name"
-#~ msgstr "Bela,Črna,Ime"
-
-#~ msgid "Auto,601,709"
-#~ msgstr "Samodejno,601,709"
-
-#~ msgid "Colorspace"
-#~ msgstr "Barvni prostor"
-
-#~ msgid "Brightness (keyframable)"
-#~ msgstr "Svetlost (s ključnimi sličicami)"
-
-#~ msgid "Aech0r"
-#~ msgstr "Aech0r"
-
-#~ msgid "Alpha operations"
-#~ msgstr "Opravila kanala alfa"
-
-#~ msgid "Alpha operation"
-#~ msgstr "Operacija alfe"
-
-#~ msgid "Plasma"
-#~ msgstr "Plasma"
-
-#~ msgid "Light direction angle."
-#~ msgstr "Kot smeri svetlobe."
-
-#~ msgid "Background lightness (0 to 90)."
-#~ msgstr "Svetlost ozadja (od 0 do 90)."
-
-#~ msgid "Bump height (0 to 40)."
-#~ msgstr "Višina vbočenja (od 0 do 40)."
-
-#~ msgid "Glitch0r"
-#~ msgstr "Glitch0r"
-
-#~ msgid "Denoiser"
-#~ msgstr "Razšumnik"
-
-#~ msgid "Background color"
-#~ msgstr "Barva ozadja"
-
-#~ msgid "LetterB0xed"
-#~ msgstr "LetterB0xed"
-
-#~ msgid "Pixelize"
-#~ msgstr "Pikseliziraj"
-
-#~ msgid "Block Size X"
-#~ msgstr "Velikost bloka X"
-
-#~ msgid "Block Size Y"
-#~ msgstr "Velikost bloka Y"
-
-#~ msgid "Pixs0r"
-#~ msgstr "Pixs0r"
-
-#~ msgid "Length"
-#~ msgstr "Dolžina"
-
-#~ msgid "CCIR rec. 601,CCIR rec. 709"
-#~ msgstr "CCIR rec. 601,CCIR rec. 709"
-
-#~ msgid "rgbsplit0r"
-#~ msgstr "rgbsplit0r"
-
-#~ msgid "Oldfilm"
-#~ msgstr "Star film"
-
-#~ msgid "Y-Delta"
-#~ msgstr "Y-delta"
-
-#~ msgid "% of picture have a delta"
-#~ msgstr "% slike ima delto"
-
-#~ msgid "MLT ladspa"
-#~ msgstr "MLT ladspa"

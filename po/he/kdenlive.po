@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-10 02:35+0000\n"
-"PO-Revision-Date: 2025-10-09 13:17+0300\n"
+"PO-Revision-Date: 2025-10-14 07:44+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -15438,14 +15438,12 @@ msgid "Cairo Affine Blend"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Composites second input on the first input with user-defined blend mode, "
-#| "opacity and scale."
+#, kde-format
 msgid ""
 "Composites second input on first input applying user-defined transformation, "
 "opacity and blend mode."
-msgstr "מחבר קלט שני לקלט הראשון עם מצב ערבול, אטימות וקנה מידה בהגדרת המשתמש."
+msgstr ""
+"מחבר קלט שני לקלט הראשון תוך החלת התמרה בהגדרת המשתמש, אטימות ומצב ערבול."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:283
@@ -15495,14 +15493,11 @@ msgid "Cairo Blend"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Composites second input on the first input with user-defined blend mode, "
-#| "opacity and scale."
+#, kde-format
 msgid ""
 "Composites second input on the first input with user-defined blend mode and "
 "opacity."
-msgstr "מחבר קלט שני לקלט הראשון עם מצב ערבול, אטימות וקנה מידה בהגדרת המשתמש."
+msgstr "מחבר קלט שני לקלט הראשון עם מצב ערבול ואטימות בהגדרת המשתמש."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
 #, kde-format
