@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-13 00:41+0000\n"
-"PO-Revision-Date: 2025-10-08 23:41+0200\n"
+"PO-Revision-Date: 2025-10-15 14:02+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -17002,20 +17002,14 @@ msgid "Show favorite items"
 msgstr "Pokaži priljubljene predmete"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"Filtrirajte vsebino projektne posode. Kliknite ikono filtra, da preklopite "
-"filtriran prikaz. Kliknite ikono puščice, da odprete seznam možnih "
-"nastavitev filtra."
+"Filtrirajte seznam sredstev. Kliknite ikono filtra, da preklopite filtriran "
+"prikaz. Kliknite ikono puščice, da odprete seznam možnih nastavitev filtra."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -25529,13 +25523,12 @@ msgid "Effect/Composition Stack"
 msgstr "Sklad učinkov/sestav"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "Pokaži samo pregledana sredstva"
+msgstr "Pokaži samo pregledane elemente"
 
 #: src/mainwindow.cpp:410
-#, fuzzy, kde-format
+#, kde-format
 msgid "Only show 10 bit compatible items"
 msgstr "Pokaži samo 10-bitne združljive elemente"
 
@@ -29396,7 +29389,7 @@ msgid "Show Thumbnails"
 msgstr "Pokaži sličice"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select Zone For Range Markers"
 msgstr "Izberite območje za oznake obsega"
 
@@ -38416,6 +38409,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Create Color Clip"
-#~ msgstr "Ustvari barvni posnetek"

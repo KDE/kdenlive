@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-13 00:41+0000\n"
-"PO-Revision-Date: 2025-10-09 13:17+0300\n"
+"PO-Revision-Date: 2025-10-14 07:44+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -15564,14 +15564,12 @@ msgid "Cairo Affine Blend"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Composites second input on the first input with user-defined blend mode, "
-#| "opacity and scale."
+#, kde-format
 msgid ""
 "Composites second input on first input applying user-defined transformation, "
 "opacity and blend mode."
-msgstr "מחבר קלט שני לקלט הראשון עם מצב ערבול, אטימות וקנה מידה בהגדרת המשתמש."
+msgstr ""
+"מחבר קלט שני לקלט הראשון תוך החלת התמרה בהגדרת המשתמש, אטימות ומצב ערבול."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:283
@@ -15621,14 +15619,11 @@ msgid "Cairo Blend"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Composites second input on the first input with user-defined blend mode, "
-#| "opacity and scale."
+#, kde-format
 msgid ""
 "Composites second input on the first input with user-defined blend mode and "
 "opacity."
-msgstr "מחבר קלט שני לקלט הראשון עם מצב ערבול, אטימות וקנה מידה בהגדרת המשתמש."
+msgstr "מחבר קלט שני לקלט הראשון עם מצב ערבול ואטימות בהגדרת המשתמש."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
 #, kde-format
@@ -16294,18 +16289,13 @@ msgid "Show favorite items"
 msgstr "הצגת הפריטים המועדפים"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"סינון תוכן סל המיזם. לחיצה על סמל הסינון תשנה את תצוגת הסינון. יש ללחוץ על "
+"סינון רשימת הנכסים. לחיצה על סמל הסינון תשנה את תצוגת הסינון. יש ללחוץ על "
 "סמל החץ כדי לפתוח רשימה של הגדרות סינון אפשריות."
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
@@ -20888,11 +20878,7 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
@@ -24725,10 +24711,9 @@ msgid "Effect/Composition Stack"
 msgstr "ערמת אפקטים/תרכובות"
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "להציג רק נכסים שעברו סקירה"
+msgstr "להציג פריטים שנסקרו בלבד"
 
 #: src/mainwindow.cpp:410
 #, kde-format
@@ -28545,10 +28530,9 @@ msgid "Show Thumbnails"
 msgstr "הצגת תמונות ממוזערות"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Create range markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "יצירת סמני טווח"
+msgstr "נא לבחור אזור לסמני טווח"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
@@ -34251,11 +34235,9 @@ msgstr "פרופיל לסרטונים עם ערוץ אלפא:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #: src/ui/configproxy_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "הסרת סרטון תיווך"
+msgstr "סרטוני תיווך מצלמת יד:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -36140,11 +36122,9 @@ msgstr "גודל תמונת תיווך"
 
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/projectsettings_ui.ui:516
-#, fuzzy, kde-format
-#| msgid "Remove proxy clip"
-#| msgid_plural "Remove proxy clips"
+#, kde-format
 msgid "Camcorder proxy clips"
-msgstr "הסרת סרטון תיווך"
+msgstr "סרטוני תיווך מצלמת יד"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/projectsettings_ui.ui:540
