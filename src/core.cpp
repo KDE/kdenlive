@@ -248,11 +248,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
-    m_mainWindow->show();
-#ifndef Q_OS_WIN
-    // For some reason, on Windows, the layout restore needs to happen later or full screen state is not properly restored
-    pCore->restoreLayout();
-#endif
+
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
@@ -264,8 +260,13 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
 
 void Core::restoreLayout()
 {
-    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-    dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+    if (KdenliveSettings::kdockLayout().isEmpty()) {
+        // No existing layout, probably first run
+        m_mainWindow->show();
+    } else {
+        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+    }
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT hideBars(!KdenliveSettings::showtitlebars());
     }

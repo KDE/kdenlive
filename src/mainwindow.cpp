@@ -5130,17 +5130,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             }
         }
         break;
-    case QEvent::WindowStateChange:
-        if (static_cast<QWindowStateChangeEvent *>(event)->oldState() & Qt::WindowMaximized) {
-            if ((windowState() & Qt::WindowMinimized) == false) {
-                // HACK: When the app is started in full screen mode, restoring to normal resizes to very small window (50x50)
-                // So workaround bug
-                if (size().width() < 500 && size().height() < 500) {
-                    resize(sizeHint());
-                }
-            }
-        }
-        break;
     default:
         break;
     }
@@ -5747,20 +5736,4 @@ void MainWindow::slotCreateRangeMarkerFromZoneQuick()
     } else {
         pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZoneQuick();
     }
-}
-
-QSize MainWindow::sizeHint() const
-{
-    QRect desktop = QGuiApplication::primaryScreen()->geometry();
-    if (desktop.width() > 1200) {
-        desktop.setWidth(desktop.width() * 0.8);
-    } else {
-        desktop.setWidth(qMax(desktop.width(), 600));
-    }
-    if (desktop.height() > 1080) {
-        desktop.setHeight(desktop.height() * 0.8);
-    } else {
-        desktop.setHeight(qMax(desktop.height(), 600));
-    }
-    return desktop.size();
 }

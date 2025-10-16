@@ -93,9 +93,7 @@ void ProjectManager::slotLoadOnOpen()
     } else if (KdenliveSettings::openlastproject()) {
         openLastFile();
     } else {
-#ifdef Q_OS_WIN
         pCore->restoreLayout();
-#endif
         newFile(false);
     }
     Q_EMIT pCore->window()->GUISetupDone();

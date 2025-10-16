@@ -1865,6 +1865,10 @@ void KdenliveDoc::loadDocumentProperties()
             m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
     }
+    if (!pCore->window()->isVisible()) {
+        // The project file did not contain a layout, ensure we show our window
+        pCore->restoreLayout();
+    }
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     if (!path.isEmpty()) {
         QDir dir(path);
