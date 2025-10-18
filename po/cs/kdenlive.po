@@ -7515,10 +7515,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
-msgstr "Operace s alfa kanálem"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -7760,10 +7759,9 @@ msgid "Transition width"
 msgstr "Šířka přechodu"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
-msgstr "Přechod v alfa kanálu"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
@@ -7773,10 +7771,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (Mask)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
-msgstr "Tvary v alfa kanálu (Maska)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -10008,10 +10005,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "Vodorovné zarovnání"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
 #, kde-format
@@ -10019,10 +10015,9 @@ msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "Svislé zarovnání"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
 #, kde-format
@@ -11241,10 +11236,9 @@ msgid "HSync"
 msgstr "Svislý posun"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "Svislý posun"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -11292,10 +11286,9 @@ msgid "Vertical size of one 'pixel'"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "Alfa rozptýlení"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
@@ -11362,10 +11355,9 @@ msgid "Number of (color) values per channel"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
-msgstr "Hodnoty videa"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
@@ -24230,10 +24222,9 @@ msgid "Effect/Composition Stack"
 msgstr ""
 
 #: src/mainwindow.cpp:406
-#, fuzzy, kde-format
-#| msgid "Show favorite items"
+#, kde-format
 msgid "Only show reviewed items"
-msgstr "Zobrazit oblíbené položky"
+msgstr ""
 
 #: src/mainwindow.cpp:410
 #, kde-format
@@ -26806,10 +26797,9 @@ msgid "Deinterlacer"
 msgstr "Deinterlacer"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
-msgstr "YADIF - časový + prostorový (nejlepší)"
+msgstr ""
 
 #: src/monitor/monitormanager.cpp:639
 #, kde-format
