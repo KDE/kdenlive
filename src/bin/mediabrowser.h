@@ -56,6 +56,7 @@ private:
     QList<QAction *> m_browserActions;
     QList<QAction *> m_conflictingAppActions;
     PreviewPanel *m_previewPanel;
+    QAction *m_inlinePreview{nullptr};
     KFileItem m_item;
     QLabel *m_fileLabel;
     bool m_isVideo{false};

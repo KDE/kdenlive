@@ -69,7 +69,10 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *up = m_op->action(KDirOperator::Up);
     QAction *back = m_op->action(KDirOperator::Back);
     QAction *forward = m_op->action(KDirOperator::Forward);
-    QAction *inlinePreview = m_op->action(KDirOperator::ShowPreview);
+    m_inlinePreview = m_op->action(KDirOperator::ShowPreview);
+    m_inlinePreview->setShortcut({});
+    m_inlinePreview->setChecked(KdenliveSettings::mediaBrowserInlinePreview());
+    connect(m_inlinePreview, &QAction::triggered, this, [this](bool enable) { KdenliveSettings::setMediaBrowserInlinePreview(enable); });
     QAction *previewPanel = m_op->action(KDirOperator::ShowPreviewPanel);
     previewPanel->setEnabled(false);
     previewPanel->setShortcut({});
@@ -85,7 +88,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     tb->addAction(forward);
     tb->addAction(zoomOut);
     tb->addAction(zoomIn);
-    tb->addAction(inlinePreview);
+    tb->addAction(m_inlinePreview);
     tb->addAction(preview);
     tb->addSeparator();
     tb->addAction(importAction);
@@ -140,7 +143,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
             m_filenameEdit->clear();
         } else {
             const QString fileName = item.url().fileName();
-            qDebug() << ":::::: HIGHLIGHTD FILE: " << item.url();
             if (!fileName.isEmpty()) {
                 QUrl url = QUrl::fromLocalFile(fileName);
                 m_filenameEdit->setUrl(QUrl(fileName));
@@ -293,8 +295,16 @@ void MediaBrowser::connectView()
     // always enable thumbnails
     if (m_op->previewGenerator()) {
         QStringList enabledPlugs = m_op->previewGenerator()->enabledPlugins();
+        bool modified = false;
         if (!enabledPlugs.contains(QStringLiteral("ffmpegthumbs"))) {
             enabledPlugs << QStringLiteral("ffmpegthumbs");
+            modified = true;
+        }
+        if (!enabledPlugs.contains(QStringLiteral("mltpreview"))) {
+            enabledPlugs << QStringLiteral("mltpreview");
+            modified = true;
+        }
+        if (modified) {
             m_op->previewGenerator()->setEnabledPlugins(enabledPlugs);
         }
     }
@@ -393,16 +403,20 @@ bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
 {
     // To avoid shortcut conflicts between the media browser and main app, we dis/enable actions when we gain/lose focus
     if (event->type() == QEvent::FocusIn) {
-        qDebug() << ":::::: \n\nFOCUS IN\n\n:::::::::::::::::";
         disableAppShortcuts();
     } else if (event->type() == QEvent::FocusOut) {
-        qDebug() << ":::::: \n\nFOCUS OUT\n\n:::::::::::::::::";
         enableAppShortcuts();
     } else if (event->type() == QEvent::Hide) {
+        if (KdenliveSettings::mediaBrowserInlinePreview()) {
+            m_inlinePreview->setChecked(false);
+        }
         if (m_op->dirLister()->autoUpdate()) {
             m_op->dirLister()->setAutoUpdate(false);
         }
     } else if (event->type() == QEvent::Show) {
+        if (KdenliveSettings::mediaBrowserInlinePreview()) {
+            m_inlinePreview->setChecked(true);
+        }
         if (!m_op->dirLister()->autoUpdate()) {
             m_op->dirLister()->setAutoUpdate(true);
         }

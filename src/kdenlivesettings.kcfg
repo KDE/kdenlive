@@ -1566,6 +1566,10 @@
       <default>true</default>
     </entry>
     <entry name="mediaDoubleClickImport" type="Bool">
+      <label>Double click on a file imports it to the project.</label>
+        <default>true</default>
+    </entry>
+    <entry name="mediaBrowserInlinePreview" type="Bool">
       <label>Show inline preview in media browser.</label>
       <default>true</default>
     </entry>
