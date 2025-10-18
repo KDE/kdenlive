@@ -8,6 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layouts/layoutcollection.h"
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <QFile>
+#include <QJsonArray>
 #include <QStandardPaths>
 
 LayoutCollection::LayoutCollection()
@@ -90,7 +92,7 @@ LayoutCollection LayoutCollection::getDefaultLayouts()
     LayoutCollection collection;
 
     // Load default layouts from the default config
-    KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfig defaultConfig(QStringLiteral("kdenlive_default_layouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup defaultOrder(&defaultConfig, "Order");
     KConfigGroup defaultLayout(&defaultConfig, "Layouts");
 
@@ -154,7 +156,7 @@ void LayoutCollection::loadFromConfig(KSharedConfigPtr config)
     QStringList entries;
     if (!orderGroup.exists()) {
         // Load default layouts
-        KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+        KConfig defaultConfig(QStringLiteral("kdenlive_default_layouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
         KConfigGroup defaultOrder(&defaultConfig, "Order");
         KConfigGroup defaultLayout(&defaultConfig, "Layouts");
 

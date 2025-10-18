@@ -35,7 +35,7 @@ install(FILES
   externalproxies.rc
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
-  kdenlivedefaultlayouts.rc
+  kdenlive_default_layouts.rc
   slideanimations.rc
   clipjobsettings.rc
 

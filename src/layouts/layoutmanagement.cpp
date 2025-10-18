@@ -145,7 +145,7 @@ void LayoutManagement::initializeLayouts()
     MainWindow *main = pCore->window();
 
     // Load layouts from config
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"), KConfig::NoCascade);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kdlayoutsrc"), KConfig::NoCascade);
     m_layoutCollection.loadFromConfig(config);
 
     // Get all layouts and use the first 5 for the switcher
@@ -221,6 +221,7 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
     if (!layout.isKDDockWidgetsLayout()) {
         pCore->displayBinMessage(i18n("The layout %1 uses an old and unsupported format, should be removed and recreated.", layout.displayName),
                                  KMessageWidget::Warning);
+        qDebug() << "BROKEN LAYOUT DATA: " << layout.data;
         return false;
     }
 
@@ -253,7 +254,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
     LayoutInfo existingLayout = m_layoutCollection.getLayout(layoutName);
 
     // Check if this layout already exists
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kdlayoutsrc"));
 
     if (m_layoutCollection.hasLayout(internalId)) {
         // Layout already exists, confirm overwrite
@@ -298,7 +299,7 @@ void LayoutManagement::slotSaveLayout()
 void LayoutManagement::slotManageLayouts()
 {
     // Save current layouts
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kdlayoutsrc"));
     QString currentLayoutId = m_layoutSwitcher->currentLayout();
 
     // Use the new dialog
