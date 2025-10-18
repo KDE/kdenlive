@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the kdenlive package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Antoni Bella Pérez <antonibella5@yahoo.com>
-# Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
+# SPDX-FileCopyrightText: 2009, 2011, 2012, 2015 Orestes Mas <orestes@tsc.upc.edu>
 # SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
@@ -14559,7 +14559,7 @@ msgstr ""
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la lluminositat"
+msgstr "Augmenta la brillantor"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
