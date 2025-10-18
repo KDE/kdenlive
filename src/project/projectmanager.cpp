@@ -97,6 +97,7 @@ void ProjectManager::slotLoadOnOpen()
         newFile(false);
     }
     Q_EMIT pCore->window()->GUISetupDone();
+
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;

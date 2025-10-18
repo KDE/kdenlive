@@ -592,21 +592,14 @@ void MainWindow::init()
     previewButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("preview-render-on")));
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
-    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
+
+    // Since not all widgets are added yet, don't use the Save flag now
+    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar /*| KXmlGuiWindow::Save*/ | KXmlGuiWindow::Create);
+
+    // Only start saving config once all GUI setup is done.
+    connect(this, &MainWindow::GUISetupDone, this, [&]() { setAutoSaveSettings(); });
 
     LocaleHandling::resetLocale();
-    if (firstRun) {
-        if (QScreen *current = QApplication::primaryScreen()) {
-            int screenHeight = current->availableSize().height();
-            if (screenHeight < 1000) {
-                resize(current->availableSize());
-            } else if (screenHeight < 2000) {
-                resize(current->availableSize() / 1.2);
-            } else {
-                resize(current->availableSize() / 1.6);
-            }
-        }
-    }
 
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     m_timelineToolBar->setProperty("otherToolbar", true);
@@ -1048,6 +1041,7 @@ bool MainWindow::queryClose()
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     KdenliveSettings::setKdockLayout(QString(dockLayout.serializeLayout()));
+    setAutoSaveSettings(QStringLiteral("MainWindow"), false);
     if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
         return false;
     }
@@ -5736,4 +5730,10 @@ void MainWindow::slotCreateRangeMarkerFromZoneQuick()
     } else {
         pCore->monitorManager()->projectMonitor()->slotCreateRangeMarkerFromZoneQuick();
     }
+}
+
+QSize MainWindow::sizeHint() const
+{
+    const QSize desktopSize = QGuiApplication::primaryScreen()->availableSize();
+    return KXmlGuiWindow::sizeHint().expandedTo(desktopSize * 0.8);
 }

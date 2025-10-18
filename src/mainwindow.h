@@ -226,6 +226,7 @@ protected:
     bool queryClose() override;
     bool m_windowClosing{false};
     void closeEvent(QCloseEvent *) override;
+    QSize sizeHint() const override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
