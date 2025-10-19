@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-13 00:41+0000\n"
+"POT-Creation-Date: 2025-10-19 00:42+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -19239,7 +19239,7 @@ msgstr "選択の反転"
 msgid "Import File on Double Click"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:76
+#: src/bin/mediabrowser.cpp:79
 #, fuzzy, kde-format
 #| msgid "Stop Preview Render"
 msgid "Show Preview Panel"
@@ -19247,7 +19247,7 @@ msgstr "プレビューのレンダリングを停止"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:197
+#: src/bin/mediabrowser.cpp:199
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -19255,23 +19255,23 @@ msgstr "プレビューのレンダリングを停止"
 msgid "Name:"
 msgstr "名前:"
 
-#: src/bin/mediabrowser.cpp:201
+#: src/bin/mediabrowser.cpp:203
 #, kde-format
 msgid "Filter:"
 msgstr "フィルタ:"
 
-#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:428
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:428
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:430
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:430
 #, fuzzy, kde-format
 #| msgid "Insert zone in project tree"
 msgid "Do not create subfolders in Project Bin"
 msgstr "プロジェクトツリーにゾーンを挿入(I)"
 
-#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:433
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19279,18 +19279,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:423
 #, kde-format
 msgid "Import image sequence"
 msgstr "イメージシーケンスのインポート"
 
-#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:424
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "イメージシーケンスのインポート"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:426
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

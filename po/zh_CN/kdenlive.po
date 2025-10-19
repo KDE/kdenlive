@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-13 00:41+0000\n"
+"POT-Creation-Date: 2025-10-19 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18678,14 +18678,14 @@ msgstr "导入所选项"
 msgid "Import File on Double Click"
 msgstr "双击时导入文件"
 
-#: src/bin/mediabrowser.cpp:76
+#: src/bin/mediabrowser.cpp:79
 #, kde-format
 msgid "Show Preview Panel"
 msgstr "显示预览面板"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:197
+#: src/bin/mediabrowser.cpp:199
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -18693,22 +18693,22 @@ msgstr "显示预览面板"
 msgid "Name:"
 msgstr "名称："
 
-#: src/bin/mediabrowser.cpp:201
+#: src/bin/mediabrowser.cpp:203
 #, kde-format
 msgid "Filter:"
 msgstr "过滤："
 
-#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:428
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:428
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "忽略子文件夹结构"
 
-#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:430
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:430
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "不要在项目素材箱中创建子文件夹"
 
-#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:433
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18718,17 +18718,17 @@ msgstr ""
 "启用此项后，Kdenlive 将导入文件夹及其子文件夹中包含的所有剪辑，但不会在项目素"
 "材箱中创建子文件夹。"
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:423
 #, kde-format
 msgid "Import image sequence"
 msgstr "导入图像序列"
 
-#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "尝试导入图像序列"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:426
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
