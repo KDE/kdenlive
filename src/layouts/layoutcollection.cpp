@@ -92,7 +92,7 @@ LayoutCollection LayoutCollection::getDefaultLayouts()
     LayoutCollection collection;
 
     // Load default layouts from the default config
-    KConfig defaultConfig(QStringLiteral("kdenlive_default_layouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup defaultOrder(&defaultConfig, "Order");
     KConfigGroup defaultLayout(&defaultConfig, "Layouts");
 
@@ -156,7 +156,7 @@ void LayoutCollection::loadFromConfig(KSharedConfigPtr config)
     QStringList entries;
     if (!orderGroup.exists()) {
         // Load default layouts
-        KConfig defaultConfig(QStringLiteral("kdenlive_default_layouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+        KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
         KConfigGroup defaultOrder(&defaultConfig, "Order");
         KConfigGroup defaultLayout(&defaultConfig, "Layouts");
 

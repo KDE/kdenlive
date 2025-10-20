@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kddocksetup.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 
 #include <QPainter>
 
@@ -30,6 +31,12 @@ public:
     explicit KdenliveDockGroup(KDDockWidgets::Core::Group *controller, KDDockWidgets::Core::View *parent = nullptr)
         : KDDockWidgets::QtWidgets::Group(controller, KDDockWidgets::QtCommon::View_qt::asQWidget(parent))
     {
+        connect(this, &KDDockWidgets::QtWidgets::Group::actualTitleBarChanged, [&]() {
+            // Signal emitted when the title bar changes from docked to floating
+            if (!KdenliveSettings::showtitlebars()) {
+                Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
+            }
+        });
     }
     void paintEvent(QPaintEvent *) override {}
 };
@@ -52,9 +59,16 @@ public:
         , m_controller(controller)
     {
         connect(pCore.get(), &Core::hideBars, this, [this](bool hide) {
-            if (!hide && (m_controller->dockWidgets().size() > 1 || m_controller->isFloating())) {
-                // Don't show title bar when there are tabbed widgets
-                return;
+            if (!hide) {
+                if (m_controller->dockWidgets().size() > 1) {
+                    // Don't show title bar when there are tabbed widgets
+                    return;
+                }
+                auto parentWidget = m_controller->view()->parentView();
+                if (parentWidget && parentWidget->asFloatingWindowController() != nullptr) {
+                    // Floating window, don't show as we already have the widget titlebar
+                    return;
+                }
             }
             setVisible(!hide);
         });

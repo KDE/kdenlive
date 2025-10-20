@@ -145,7 +145,7 @@ void LayoutManagement::initializeLayouts()
     MainWindow *main = pCore->window();
 
     // Load layouts from config
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kdlayoutsrc"), KConfig::NoCascade);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"), KConfig::NoCascade);
     m_layoutCollection.loadFromConfig(config);
 
     // Get all layouts and use the first 5 for the switcher
@@ -254,7 +254,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
     LayoutInfo existingLayout = m_layoutCollection.getLayout(layoutName);
 
     // Check if this layout already exists
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kdlayoutsrc"));
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"));
 
     if (m_layoutCollection.hasLayout(internalId)) {
         // Layout already exists, confirm overwrite
@@ -299,7 +299,7 @@ void LayoutManagement::slotSaveLayout()
 void LayoutManagement::slotManageLayouts()
 {
     // Save current layouts
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kdlayoutsrc"));
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"));
     QString currentLayoutId = m_layoutSwitcher->currentLayout();
 
     // Use the new dialog
