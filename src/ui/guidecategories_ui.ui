@@ -67,7 +67,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Guides and Markers Categories</string>
+      <string>Markers Categories</string>
      </property>
     </widget>
    </item>
