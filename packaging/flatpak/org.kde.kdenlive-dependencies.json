@@ -763,9 +763,9 @@
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/KDAB/KDDockWidgets/releases/download/v2.3.0/kddockwidgets-2.3.0.tar.gz",
-                    "sha256": "843baf9e1812c1ab82fd81d85b57cbc0d29bb43245efeb2539039780004b1056"
+                    "type": "git",
+                    "url": "https://github.com/KDAB/KDDockWidgets.git",
+                    "commit": "1e25b357bbc7e0485c172dde77c653fa30c26ba8"
                 }
             ]
         }
