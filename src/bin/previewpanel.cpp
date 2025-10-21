@@ -100,11 +100,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     m_metadataLayout->addRow(m_durationLabel);
     // Date
     m_metadataLayout->addRow(m_dateLabel);
-    QCheckBox *autoPlay = new QCheckBox(i18nc("@action:checkbox enable automatic playback", "Autoplay"), this);
-    autoPlay->setChecked(KdenliveSettings::mediaBrowserAutoPlay());
-    connect(autoPlay, &QCheckBox::toggled, this, [](bool enable) { KdenliveSettings::setMediaBrowserAutoPlay(enable); });
 
-    m_metadataLayout->addRow(autoPlay);
     panelLayout->addLayout(m_metadataLayout);
 
     connect(m_playButton, &QToolButton::clicked, this, &PreviewPanel::switchPlay);
@@ -401,8 +397,10 @@ void PreviewPanel::buildPlayer()
         }
         if (!mData.value(QMediaMetaData::Date).isNull()) {
             m_dateLabel->setText(mData.stringValue(QMediaMetaData::Date));
+            m_dateLabel->show();
         } else {
             m_dateLabel->clear();
+            m_dateLabel->hide();
         }
     });
 

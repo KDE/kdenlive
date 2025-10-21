@@ -61,6 +61,11 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     importOnDoubleClick->setChecked(KdenliveSettings::mediaDoubleClickImport());
     connect(importOnDoubleClick, &QAction::triggered, this, [](bool enabled) { KdenliveSettings::setMediaDoubleClickImport(enabled); });
 
+    QAction *autoPlay = new QAction(QIcon::fromTheme("view-refresh"), i18nc("@action:checkbox enable automatic playback", "Autoplay"), this);
+    autoPlay->setCheckable(true);
+    autoPlay->setChecked(KdenliveSettings::mediaBrowserAutoPlay());
+    connect(autoPlay, &QAction::triggered, this, [](bool enable) { KdenliveSettings::setMediaBrowserAutoPlay(enable); });
+
     // Create View
     m_op = new KDirOperator(QUrl(), parent);
     m_op->dirLister()->setAutoUpdate(false);
@@ -97,6 +102,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QToolButton *but = new QToolButton(this);
     QMenu *configMenu = new QMenu(this);
     configMenu->addAction(importOnDoubleClick);
+    configMenu->addAction(autoPlay);
     configMenu->addAction(viewMenu);
     but->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     but->setMenu(configMenu);
