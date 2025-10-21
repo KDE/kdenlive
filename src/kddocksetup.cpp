@@ -22,6 +22,11 @@ public:
         parentWidget->setProperty("_breeze_force_frame", false);
         setContextMenuPolicy(Qt::CustomContextMenu);
         connect(this, &QWidget::customContextMenuRequested, []() { Q_EMIT pCore.get()->switchTitleBars(); });
+        connect(this, &KDDockWidgets::QtWidgets::TabBar::countChanged, [&]() {
+            if (!KdenliveSettings::showtitlebars()) {
+                pCore->startHideBarsTimer();
+            }
+        });
     }
 };
 
@@ -31,12 +36,6 @@ public:
     explicit KdenliveDockGroup(KDDockWidgets::Core::Group *controller, KDDockWidgets::Core::View *parent = nullptr)
         : KDDockWidgets::QtWidgets::Group(controller, KDDockWidgets::QtCommon::View_qt::asQWidget(parent))
     {
-        connect(this, &KDDockWidgets::QtWidgets::Group::actualTitleBarChanged, [&]() {
-            // Signal emitted when the title bar changes from docked to floating
-            if (!KdenliveSettings::showtitlebars()) {
-                Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
-            }
-        });
     }
     void paintEvent(QPaintEvent *) override {}
 };

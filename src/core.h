@@ -358,6 +358,9 @@ public:
     /** HW decoder changed */
     void updateHwDecoding();
 
+    void startHideBarsTimer();
+    void updateHideBarsTimer(bool inhibit);
+
 private:
     explicit Core(LinuxPackageType packageType);
     static std::unique_ptr<Core> m_self;
@@ -393,6 +396,7 @@ private:
     void checkProfileValidity();
     std::shared_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
+    QTimer m_hideTimer;
     void resetThumbProfile();
 
 protected:

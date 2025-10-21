@@ -78,6 +78,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include <kddockwidgets/core/FloatingWindow.h>
+
 #include <KAboutData>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -154,6 +156,7 @@ MainWindow::MainWindow(QWidget *parent)
     // TODO: Currently it is not possible to have both undock and autohide enabled in KDDockWidgets
     // flags |= KDDockWidgets::Config::Flag_TitleBarShowAutoHide;
     KDDockWidgets::Config::self().setFlags(flags);
+    KDDockWidgets::Core::FloatingWindow::s_windowFlagsOverride = Qt::Tool;
 
     // Increase the separator size, just for demo
     KDDockWidgets::Config::self().setViewFactory(new CustomWidgetFactory());
@@ -161,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (KdenliveSettings::tabposition() == 1) {
         KDDockWidgets::Config::self().setTabsAtBottom(true);
     }
-    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("MyMainWindow"));
+    mainDockWindow = new KDDockWidgets::QtWidgets::MainWindow(QStringLiteral("KdenliveKDDock"));
     mainDockWindow->setCenterWidgetMargins(QMargins(1, 1, 1, 1));
 }
 

@@ -34,6 +34,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
+#include <kddockwidgets/Config.h>
+#include <kddockwidgets/core/Draggable_p.h>
 
 #include <QCoreApplication>
 #include <QDesktopServices>
@@ -46,6 +48,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <xlocale.h>
 #endif
 
+static bool m_inhibitHideBarTimer{false};
+
 std::unique_ptr<Core> Core::m_self;
 Core::Core(LinuxPackageType packageType)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
@@ -54,6 +58,31 @@ Core::Core(LinuxPackageType packageType)
     , m_capture(new MediaCapture(this))
     , sessionId(QUuid::createUuid().toString())
 {
+    m_hideTimer.setInterval(5000);
+    m_hideTimer.setSingleShot(true);
+    connect(&m_hideTimer, &QTimer::timeout, this, [&]() { Q_EMIT hideBars(!KdenliveSettings::showtitlebars()); });
+}
+
+void Core::startHideBarsTimer()
+{
+    if (!m_inhibitHideBarTimer) {
+        m_hideTimer.start();
+    }
+}
+
+void Core::updateHideBarsTimer(bool inhibit)
+{
+    if (inhibit) {
+        if (m_hideTimer.isActive()) {
+            m_hideTimer.stop();
+            m_inhibitHideBarTimer = true;
+        }
+    } else {
+        if (m_inhibitHideBarTimer && !KdenliveSettings::showtitlebars()) {
+            m_hideTimer.start();
+        }
+        m_inhibitHideBarTimer = false;
+    }
 }
 
 void Core::prepareShutdown()
@@ -154,6 +183,17 @@ void Core::initHeadless(const QUrl &url)
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
+    KDDockWidgets::Config::self().setDragAboutToStartFunc([](KDDockWidgets::Core::Draggable *) -> bool {
+        if (!KdenliveSettings::showtitlebars()) {
+            pCore->updateHideBarsTimer(true);
+        }
+        return true;
+    });
+
+    KDDockWidgets::Config::self().setDragEndedFunc([]() {
+        // cleanup
+        pCore->updateHideBarsTimer(false);
+    });
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
     bool inSandbox = m_packageType == LinuxPackageType::AppImage || m_packageType == LinuxPackageType::Flatpak || m_packageType == LinuxPackageType::Snap;
@@ -260,7 +300,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
 
 void Core::restoreLayout()
 {
-    if (KdenliveSettings::kdockLayout().isEmpty()) {
+    if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
         // No existing layout, probably first run
         m_mainWindow->show();
     } else {
