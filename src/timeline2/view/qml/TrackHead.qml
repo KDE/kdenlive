@@ -212,7 +212,7 @@ Rectangle {
         ToolButton {
             id: expandButton
             focusPolicy: Qt.NoFocus
-            property var modifier: 0
+            property int modifier: 0
             icon.name: trackHeadRoot.collapsed ? "go-next" : "go-down"
             onClicked: {
                 if (modifier & Qt.ShiftModifier) {
@@ -378,7 +378,7 @@ Rectangle {
             }
             ToolButton {
                 id: muteButton
-                property var modifier: 0
+                property int modifier: 0
                 focusPolicy: Qt.NoFocus
                 icon.name: isAudio ? (isDisabled ? "audio-off" : "audio-volume-high") : (isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
                 width: root.collapsedHeight

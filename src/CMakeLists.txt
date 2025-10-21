@@ -130,6 +130,8 @@ ecm_add_qml_module(kdenliveLib
 ecm_target_qml_sources(kdenliveLib
     SOURCES
     qml/ZoomBar.qml
+    monitor/view/AudioView.qml
+    monitor/view/AudioZoomBar.qml
     monitor/view/ProjectMonitor.qml
     monitor/view/Countdown.qml
     monitor/view/ClipMonitor.qml
@@ -157,6 +159,7 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/ResizeLogic.js
     monitor/view/SnappingLogic.js
     monitor/view/RotationHandle.qml
+    monitor/view/Utils.js
     timeline2/view/qml/Timeline.qml
     timeline2/view/qml/TimelineLogic.js
     timeline2/view/qml/TrackHead.qml

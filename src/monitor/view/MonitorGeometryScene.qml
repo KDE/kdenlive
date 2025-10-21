@@ -467,8 +467,8 @@ Item {
           anchors.fill: parent
           cursorShape: handleContainsMouse ? Qt.PointingHandCursor : enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
           propagateComposedEvents: true
-          property var mouseClickPos
-          property var frameClicksize: Qt.point(0, 0)
+          property point mouseClickPos
+          property point frameClicksize: Qt.point(0, 0)
           enabled: root.showHandles
           hoverEnabled: true
           readonly property bool handleContainsMouse: {

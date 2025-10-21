@@ -2012,6 +2012,17 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
+    // Check if the view had a monitor zoom that is not relevant (e.g. for audio clips)
+    if (m_glMonitor->zoom() > 1.0f) {
+        if (!m_controller || m_controller->clipType() == ClipType::Audio) {
+            // Hide scroll bar when no clip or an audio clip is selected
+            m_horizontalScroll->hide();
+            m_verticalScroll->hide();
+        } else {
+            m_horizontalScroll->show();
+            m_verticalScroll->show();
+        }
+    }
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
@@ -2025,7 +2036,6 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
         m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-        m_glMonitor->rootObject()->setProperty("showZoomBar", false);
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
         m_glMonitor->setRulerInfo(0, nullptr);
@@ -2129,16 +2139,13 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     double audioStart = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomStart"));
                     m_glMonitor->rootObject()->setProperty("zoomFactor", audioScale);
                     m_glMonitor->rootObject()->setProperty("zoomStart", audioStart);
-                    m_glMonitor->rootObject()->setProperty("showZoomBar", true);
                 } else {
                     m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
                     m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-                    m_glMonitor->rootObject()->setProperty("showZoomBar", false);
                 }
             } else {
                 m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
                 m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-                m_glMonitor->rootObject()->setProperty("showZoomBar", false);
             }
             pCore->guidesList()->setClipMarkerModel(m_controller);
             loadQmlScene(MonitorSceneDefault);

@@ -73,7 +73,7 @@ Item {
     signal effectPolygonChanged(var points, var centers)
     focus: true
     Keys.onPressed: (event)=> {
-        if (event.key == Qt.Key_Return) {
+        if (event.key === Qt.Key_Return) {
             if (!root.isDefined && root.centerPoints.length > 2) {
                 root.closeShape()
                 event.accepted = true;
@@ -235,7 +235,7 @@ Item {
                 } else {
                     ctx.setLineDash([]);
                 }
-                for (var i = 0; i < root.centerPoints.length; i++) {
+                for (i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
                     var subkf = false
@@ -606,7 +606,7 @@ Item {
                     lastMouseX = mouse.x
                     lastMouseY = mouse.y
                     lastMousePos = controller.position
-                    for (var j = 0; j < root.centerPoints.length; j++) {
+                    for (j = 0; j < root.centerPoints.length; j++) {
                         root.centerPoints[j].x += xDiff
                         root.centerPoints[j].y += yDiff
                         root.centerPointsTypes[j * 2].x += xDiff
