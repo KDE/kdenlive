@@ -306,8 +306,12 @@
       <Action name="add_clip_marker"/>
       <Action name="add_marker_guide_quickly"/>
       <Action name="edit_clip_marker"/>
+      <Action name="lock_guides"/>
       <Action name="delete_clip_marker"/>
       <Action name="delete_all_clip_markers"/>
+      <Separator/>
+      <Action name="search_guide"/>
+      <Action name="export_guides"/>
       <Menu name="marker_category_menu">
         <text>Add Markers by Category</text>
         <Action name="add_marker_guide_1"/>
@@ -322,13 +326,6 @@
         <Action name="add_marker_guide_10"/>
       </Menu>
       <Separator/>
-      <Action name="add_guide"/>
-      <Action name="edit_guide"/>
-      <Action name="search_guide"/>
-      <Action name="delete_guide"/>
-      <Action name="delete_all_guides"/>
-      <Action name="export_guides"/>
-      <Action name="lock_guides"/>
     </Menu>
     <Menu name="settings">
       <Action name="manage_cache"/>

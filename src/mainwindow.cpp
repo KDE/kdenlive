@@ -611,15 +611,15 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_clip_marker")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_clip_marker")));
     QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
     // Timeline ruler menu
     auto *timelineRulerMenu = new QMenu(this);
-    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
-    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_clip_marker")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_clip_marker")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("export_guides")));
     timelineRulerMenu->addMenu(guideMenu);
@@ -773,7 +773,7 @@ void MainWindow::init()
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    m_timelineTabs->setTimelineMenu(compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")),
+    m_timelineTabs->setTimelineMenu(compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_clip_marker")),
                                     timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
     m_scopesManager->slotCheckActiveScopes();
     connect(qApp, &QGuiApplication::applicationStateChanged, this, [&](Qt::ApplicationState state) {
@@ -2047,11 +2047,8 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Marker"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_G);
-    addAction(QStringLiteral("delete_guide"), i18n("Delete Marker"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("bookmark-remove")));
-    addAction(QStringLiteral("edit_guide"), i18n("Edit Marker…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("bookmark-edit")));
-    addAction(QStringLiteral("search_guide"), i18n("Search Marker…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
     addAction(QStringLiteral("export_guides"), i18n("Export Markers…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
+    addAction(QStringLiteral("search_guide"), i18n("Search Marker…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
 
     QAction *lockGuides =
         addAction(QStringLiteral("lock_guides"), i18n("Timeline Markers Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("lock")));
@@ -2061,8 +2058,6 @@ void MainWindow::setupActions()
     lockGuides->setWhatsThis(xi18nc(
         "@info:whatsthis", "Lock Timeline Markers. When locked, the markers won't move when using the spacer tool or inserting/removing blank in tracks."));
 
-    addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllGuides()),
-              QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")),
               Qt::SHIFT | Qt::Key_S);
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
