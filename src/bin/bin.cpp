@@ -3983,7 +3983,7 @@ void Bin::setupMenu()
     m_proxyAction->setChecked(false);
     m_proxyAction->setEnabled(false);
 
-    m_editAction = addBinAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editAction = addBinAction(QStringLiteral("show_clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
     m_editAction->setData("clip_properties");
     m_editAction->setEnabled(false);
     connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));

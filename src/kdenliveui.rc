@@ -89,7 +89,7 @@
         <text>Clip in Timeline</text>
         <ActionList name="timeline_occurences"/>
       </Menu>
-      <Action name="clip_properties"/>
+      <Action name="show_clip_properties"/>
       <Action name="edit_clip"/>
       <Action name="renamefile"/>
       <Action name="delete_clip"/>
