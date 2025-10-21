@@ -1521,6 +1521,11 @@ int TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
     return -1;
 }
 
+void TimelineController::pauseGuideSorting(bool pause)
+{
+    m_model->getFilteredGuideModel()->setDynamicSortFilter(!pause);
+}
+
 bool TimelineController::moveGuidesInRange(int start, int end, int offset)
 {
     std::function<bool(void)> undo = []() { return true; };

@@ -336,6 +336,7 @@ public:
     Q_INVOKABLE void editGuide(int frame = -1);
     Q_INVOKABLE void moveGuideById(int id, int newFrame);
     Q_INVOKABLE int moveGuideWithoutUndo(int mid, int newFrame);
+    Q_INVOKABLE void pauseGuideSorting(bool pause);
     /** @brief Resize a range guide marker
      * @param position The guide position in frames
      * @param duration The new duration in frames
