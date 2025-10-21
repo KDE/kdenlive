@@ -152,7 +152,7 @@ void Core::initHeadless(const QUrl &url)
     connect(this, &Core::displayBinLogMessage, this, [](QString text, int, QString) { qInfo() << QStringLiteral("Bin message: ") << text; });
 }
 
-void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
 

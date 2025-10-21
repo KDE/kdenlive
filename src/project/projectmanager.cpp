@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "filefilter.h"
 #include "jobs/cliploadtask.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -94,10 +95,9 @@ void ProjectManager::slotLoadOnOpen()
         newFile(false);
     }
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
-        const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;
-        urls.reserve(list.count());
-        for (const QString &path : list) {
+        urls.reserve(m_loadClipsOnOpen.count());
+        for (const QString &path : m_loadClipsOnOpen) {
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
         pCore->bin()->droppedUrls(urls);
@@ -130,7 +130,7 @@ void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)
     lockFile.remove();
 }
 
-void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
+void ProjectManager::init(const QUrl &projectUrl, const QStringList &clipList)
 {
     m_startUrl = projectUrl;
     m_loadClipsOnOpen = clipList;
@@ -789,15 +789,23 @@ void ProjectManager::openFile(const QUrl &url)
         return;
     }
 
-    /*if (!url.fileName().endsWith(".kdenlive")) {
-        // This is not a Kdenlive project file, abort loading
-        KMessageBox::error(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.toLocalFile()));
-        if (m_startUrl.isValid()) {
-            // we tried to open an invalid file from command line, init new project
-            newFile(false);
-        }
+    if (!QFile::exists(url.toLocalFile())) {
+        KMessageBox::error(pCore->window(), i18n("File %1 does not exist", url.toLocalFile()));
+        Q_EMIT pCore->loadingMessageHide();
+        newFile(false);
         return;
-    }*/
+    }
+
+    if (!url.fileName().endsWith(".kdenlive")) {
+        if (!isKdenliveProjectFile(url)) {
+            // Not a project file, open as clip
+            m_loadClipsOnOpen = {url.toLocalFile()};
+            m_startUrl.clear();
+            Q_EMIT pCore->loadingMessageHide();
+            newFile(false);
+            return;
+        }
+    }
 
     if ((m_project != nullptr) && m_project->url() == url) {
         return;
@@ -811,6 +819,16 @@ void ProjectManager::openFile(const QUrl &url)
     }
     pCore->displayMessage(i18n("Opening file %1", url.toLocalFile()), OperationCompletedMessage, 100);
     doOpenFile(url, nullptr);
+}
+
+bool ProjectManager::isKdenliveProjectFile(const QUrl url)
+{
+    QMimeDatabase db;
+    QMimeType type = db.mimeTypeForUrl(url);
+    if (type.name().contains(QLatin1String("kdenlive"))) {
+        return true;
+    }
+    return false;
 }
 
 void ProjectManager::abortLoading()

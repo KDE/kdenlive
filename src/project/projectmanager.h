@@ -52,7 +52,7 @@ public:
     virtual KdenliveDoc *current();
 
     /** @brief Store command line args for later opening. */
-    void init(const QUrl &projectUrl, const QString &clipList);
+    void init(const QUrl &projectUrl, const QStringList &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup = false);
     void doOpenFileHeadless(const QUrl &url);
@@ -157,6 +157,9 @@ public:
     /** @brief A sequence timecode offset changed, update display in the UI
      */
     void updateSequenceOffset(const QUuid &uuid);
+    /** @brief Check if a file has a kdenlive mime type, returns true if it does.
+     */
+    static bool isKdenliveProjectFile(const QUrl url);
 
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -279,7 +282,7 @@ private:
     QTimer m_autoSaveTimer;
     int m_autoSaveChangeCount{0};
     QUrl m_startUrl;
-    QString m_loadClipsOnOpen;
+    QStringList m_loadClipsOnOpen;
     QMap<QString, QString> m_replacementPattern;
 
     QAction *m_fileRevert;

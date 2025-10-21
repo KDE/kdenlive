@@ -102,7 +102,7 @@ public:
      * a default new file will be created.
      * @param clipsToLoad
      */
-    void initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+    void initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad = {});
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
