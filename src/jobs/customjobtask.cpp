@@ -296,7 +296,7 @@ void CustomJobTask::run()
     // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
 
     qDebug() << "/// CUSTOM TASK PARAMS:\n" << parameters << "\n------";
-    m_jobProcess = new QProcess(this);
+    m_jobProcess = new QProcess;
     // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
     QObject::connect(this, &CustomJobTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &CustomJobTask::processLogInfo);
@@ -304,6 +304,7 @@ void CustomJobTask::run()
     AbstractTask::setPreferredPriority(m_jobProcess->processId());
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     requestedOutput.removeAll(destPath);
     // remove temporary playlist if it exists
     m_progress = 100;

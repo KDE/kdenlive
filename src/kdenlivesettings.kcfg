@@ -43,6 +43,10 @@
       <label>Add markers on Scene split.</label>
       <default>true</default>
     </entry>
+    <entry name="scenesplitrangemarkers" type="Bool">
+      <label>Add range markers on Scene split.</label>
+      <default>true</default>
+    </entry>
     <entry name="scenesplitsubclips" type="Bool">
       <label>Add subclips on Scene split.</label>
       <default>false</default>
@@ -443,6 +447,21 @@
       <default>false</default>
     </entry>
 
+    <entry name="tenbitpipeline" type="Bool">
+      <label>Hide all effects that are not compatible with 10 bit.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="effectsFilter" type="Bool">
+      <label>Filter effects by property.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="transitionsFilter" type="Bool">
+      <label>Filter transitions by property.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="scrollvertically" type="Bool">
       <label>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</label>
       <default>false</default>
@@ -778,6 +797,10 @@
 
     <entry name="guidesShowThumbs" type="Bool">
       <label>Display markers thumbnails in guide dialog.</label>
+      <default>false</default>
+    </entry>
+    <entry name="guidesSelectZone" type="Bool">
+      <label>Select zone when selecting a range marker.</label>
       <default>false</default>
     </entry>
 
@@ -1547,6 +1570,10 @@
       <default>true</default>
     </entry>
     <entry name="mediaDoubleClickImport" type="Bool">
+      <label>Double click on a file imports it to the project.</label>
+        <default>true</default>
+    </entry>
+    <entry name="mediaBrowserInlinePreview" type="Bool">
       <label>Show inline preview in media browser.</label>
       <default>true</default>
     </entry>

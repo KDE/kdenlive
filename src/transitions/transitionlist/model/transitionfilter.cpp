@@ -47,5 +47,10 @@ bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 
 bool TransitionFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
+    if (KdenliveSettings::transitionsFilter() && KdenliveSettings::tenbitpipeline()) {
+        if (item->dataColumn(AssetTreeModel::TenBitCol).toBool() == false) {
+            return false;
+        }
+    }
     return filterName(item) && filterType(item);
 }

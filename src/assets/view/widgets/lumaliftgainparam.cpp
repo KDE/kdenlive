@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
-    Some code was borrowed from shotcut
+    Some code was borrowed from Shotcut
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 

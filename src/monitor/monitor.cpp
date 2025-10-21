@@ -1010,6 +1010,16 @@ void Monitor::slotSetZoneEnd()
     pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
 }
 
+void Monitor::slotSetZone(const QPoint zone)
+{
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+        // Don't allow changing in/out when in mask mode
+        pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
+        return;
+    }
+    m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y(), true);
+}
+
 // virtual
 void Monitor::mousePressEvent(QMouseEvent *event)
 {
@@ -1714,7 +1724,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
 void Monitor::stop()
 {
     updatePlayAction(false);
-    m_glMonitor->stop();
+    m_glMonitor->pause();
 }
 
 void Monitor::mute(bool mute)
@@ -2818,8 +2828,7 @@ void Monitor::slotEditInlineMarker()
             // No change
             return;
         }
-        oldMarker.setComment(newComment);
-        model->addMarker(oldMarker.time(), oldMarker.comment(), oldMarker.markerType());
+        model->editMarker(oldMarker.time(), oldMarker.time(), newComment, oldMarker.markerType());
     }
 }
 
@@ -3295,7 +3304,7 @@ void Monitor::slotCreateRangeMarkerFromZone()
     }
 
     QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
-    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+    if (currentZone.x() < 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
         pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
         return;
     }
@@ -3326,7 +3335,7 @@ void Monitor::slotCreateRangeMarkerFromZoneQuick()
     }
 
     QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
-    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+    if (currentZone.x() < 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
         pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
         return;
     }

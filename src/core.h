@@ -79,6 +79,7 @@ public:
     QReadWriteLock xmlMutex;
     bool closing{false};
     QString lastActiveBin;
+    bool debugMode{false};
 
     ~Core() override;
 
@@ -87,7 +88,7 @@ public:
      * with Mlt
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(LinuxPackageType packageType, bool testMode = false);
+    static bool build(LinuxPackageType packageType, bool testMode = false, bool debugMode = false);
 
     void initHeadless(const QUrl &url);
 
@@ -187,6 +188,7 @@ public:
     Monitor *getMonitor(int id);
     /** @brief Seek a monitor to position */
     void seekMonitor(int id, int position);
+    void setMonitorZone(int id, QPoint zone);
     /** @brief Returns timeline's active track info (position and tag) */
     QPair<int, QString> currentTrackInfo() const;
     /** @brief This function must be called whenever the profile used changes */
@@ -362,7 +364,7 @@ public:
     void updateHideBarsTimer(bool inhibit);
 
 private:
-    explicit Core(LinuxPackageType packageType);
+    explicit Core(LinuxPackageType packageType, bool debugMode = false);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */

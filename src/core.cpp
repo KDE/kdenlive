@@ -51,12 +51,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 static bool m_inhibitHideBarTimer{false};
 
 std::unique_ptr<Core> Core::m_self;
-Core::Core(LinuxPackageType packageType)
+Core::Core(LinuxPackageType packageType, bool debugMode)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
     , sessionId(QUuid::createUuid().toString())
+    , debugMode(debugMode)
 {
     m_hideTimer.setInterval(5000);
     m_hideTimer.setSingleShot(true);
@@ -106,12 +107,12 @@ void Core::finishShutdown()
 
 Core::~Core() {}
 
-bool Core::build(LinuxPackageType packageType, bool testMode)
+bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode)
 {
     if (m_self) {
         return true;
     }
-    m_self.reset(new Core(packageType));
+    m_self.reset(new Core(packageType, debugMode));
     m_self->initLocale();
 
     qRegisterMetaType<audioShortVector>("audioShortVector");
@@ -510,6 +511,18 @@ void Core::seekMonitor(int id, int position)
         m_monitorManager->projectMonitor()->requestSeek(position);
     } else {
         m_monitorManager->clipMonitor()->requestSeek(position);
+    }
+}
+
+void Core::setMonitorZone(int id, QPoint zone)
+{
+    if (!m_guiConstructed) {
+        return;
+    }
+    if (id == Kdenlive::ProjectMonitor) {
+        m_monitorManager->projectMonitor()->slotSetZone(zone);
+    } else {
+        m_monitorManager->clipMonitor()->slotSetZone(zone);
     }
 }
 
@@ -1085,14 +1098,32 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, in
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
-    case int(KdenliveObjectType::TimelineClip):
-        return currentDoc()->getTimeline(uuid)->getClipEffectStack(itemId);
-    case int(KdenliveObjectType::TimelineTrack):
-        return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
+    case int(KdenliveObjectType::TimelineClip): {
+        auto tl = currentDoc()->getTimeline(uuid, true);
+        if (tl) {
+            return tl->getClipEffectStack(itemId);
+        } else {
+            return nullptr;
+        }
+    }
+    case int(KdenliveObjectType::TimelineTrack): {
+        auto tl = currentDoc()->getTimeline(uuid, true);
+        if (tl) {
+            return tl->getTrackEffectStackModel(itemId);
+        } else {
+            return nullptr;
+        }
+    }
     case int(KdenliveObjectType::BinClip):
         return m_projectItemModel->getClipEffectStack(itemId);
-    case int(KdenliveObjectType::Master):
-        return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
+    case int(KdenliveObjectType::Master): {
+        auto tl = currentDoc()->getTimeline(uuid, true);
+        if (tl) {
+            return tl->getMasterEffectStackModel();
+        } else {
+            return nullptr;
+        }
+    }
     default:
         return nullptr;
     }

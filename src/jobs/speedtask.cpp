@@ -226,7 +226,7 @@ void SpeedTask::run()
     // Start the MLT Process
     QProcess filterProcess;
     producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("terminate_on_pause=1");
-    m_jobProcess = new QProcess(this);
+    m_jobProcess = new QProcess();
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
@@ -235,6 +235,7 @@ void SpeedTask::run()
     m_jobProcess->waitForFinished(-1);
     qDebug() << " + + + + + + + + SOURCE FILE PROCESSED: " << m_jobProcess->exitStatus();
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    m_jobProcess->deleteLater();
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (m_isCanceled || !result) {

@@ -146,7 +146,7 @@ void Histogram::readConfig()
     // Read components
     m_aComponentY->setChecked(scopeConfig.readEntry("yEnabled", true));
     m_aComponentS->setChecked(scopeConfig.readEntry("sEnabled", false));
-    m_aComponentR->setChecked(scopeConfig.readEntry("rEnabled", true));
+    m_aComponentR->setChecked(scopeConfig.readEntry("rEnabled", true)); // codespell:ignore renabled
     m_aComponentG->setChecked(scopeConfig.readEntry("gEnabled", true));
     m_aComponentB->setChecked(scopeConfig.readEntry("bEnabled", true));
     slotComponentsChanged();
@@ -170,7 +170,7 @@ void Histogram::writeConfig()
     KConfigGroup scopeConfig(config, configName());
     scopeConfig.writeEntry("yEnabled", m_aComponentY->isChecked());
     scopeConfig.writeEntry("sEnabled", m_aComponentS->isChecked());
-    scopeConfig.writeEntry("rEnabled", m_aComponentR->isChecked());
+    scopeConfig.writeEntry("rEnabled", m_aComponentR->isChecked()); // codespell:ignore renabled
     scopeConfig.writeEntry("gEnabled", m_aComponentG->isChecked());
     scopeConfig.writeEntry("bEnabled", m_aComponentB->isChecked());
     scopeConfig.writeEntry("rec601", m_aRec601->isChecked());

@@ -198,7 +198,7 @@ Q_SIGNALS:
     void lastClipsChanged();
     /** @brief Switch to another clip at the same time position that uses the same effect scene*/
     void switchFocusClip();
-    /** @brief Enable build-in transform effect*/
+    /** @brief Enable built-in transform effect*/
     void enableTransform();
     void previewOverlayChanged();
     void refreshMask();

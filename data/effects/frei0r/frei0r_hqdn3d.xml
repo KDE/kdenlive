@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="frei0r.hqdn3d" id="frei0r.hqdn3d">
-    <name>Denoiser (SUPERCEDED)</name>
+    <name>Denoiser (SUPERSEDED)</name>
     <description><![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>
     High quality 3D denoiser]]></description>
     <author>Marko Cebokli, Daniel Moreno</author>

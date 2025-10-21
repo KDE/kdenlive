@@ -238,13 +238,14 @@ void CutTask::run()
                               QStringLiteral("-map"),
                               QStringLiteral("0")};
         params << m_encodingParams << m_destination;
-        m_jobProcess = new QProcess(this);
+        m_jobProcess = new QProcess;
         connect(m_jobProcess, &QProcess::readyReadStandardError, this, &CutTask::processLogInfo);
         connect(this, &CutTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         qDebug() << "=== STARTING CUT JOB: " << params;
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), params, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
         bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        m_jobProcess->deleteLater();
         // remove temporary playlist if it exists
         if (result && !m_isCanceled) {
             if (QFileInfo(m_destination).size() == 0) {

@@ -373,6 +373,7 @@ public Q_SLOTS:
     void slotSetZoneEnd();
     void slotZoneStart();
     void slotZoneEnd();
+    void slotSetZone(const QPoint zone);
     void slotLoadClipZone(const QPoint &zone);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();

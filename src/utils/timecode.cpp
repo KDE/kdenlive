@@ -370,14 +370,16 @@ QString Timecode::formatMarkerDuration(int frames, double fps)
 
     int totalSeconds = static_cast<int>(frames / fps);
     int remainingFrames = frames % qRound(fps);
-
     int minutes = totalSeconds / 60;
     int seconds = totalSeconds % 60;
 
     if (minutes > 0) {
-        return QStringLiteral("%1m:%2s:%3f").arg(minutes).arg(seconds, 2, 10, QLatin1Char('0')).arg(remainingFrames, 2, 10, QLatin1Char('0'));
+        return QStringLiteral("%1:%2:%3")
+            .arg(minutes, 2, 10, QLatin1Char('0'))
+            .arg(seconds, 2, 10, QLatin1Char('0'))
+            .arg(remainingFrames, 2, 10, QLatin1Char('0'));
     } else {
-        return QStringLiteral("%1s:%2f").arg(seconds).arg(remainingFrames, 2, 10, QLatin1Char('0'));
+        return QStringLiteral("%1:%2").arg(seconds, 2, 10, QLatin1Char('0')).arg(remainingFrames, 2, 10, QLatin1Char('0'));
     }
 }
 

@@ -460,6 +460,8 @@ private Q_SLOTS:
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
+    /** @brief Close Kdenlive and try to restart it */
+    void slotRestart(bool clean = false);
 
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
@@ -603,8 +605,6 @@ private Q_SLOTS:
     void slotAlignPlayheadToMousePos();
 
     void slotThemeChanged(const QString &name);
-    /** @brief Close Kdenlive and try to restart it */
-    void slotRestart(bool clean = false);
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);

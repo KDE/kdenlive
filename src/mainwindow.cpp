@@ -439,12 +439,21 @@ void MainWindow::init()
         }
     });
 
-    m_effectList2 = new EffectListWidget(this);
+    // Assets filter options
+    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("games-solve")), i18n("Only show reviewed items"), this);
+    includeList->setCheckable(true);
+    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
+    // 10 bit support
+    QAction *tenBit = new QAction(QIcon::fromTheme(QStringLiteral("colormanagement")), i18n("Only show 10 bit compatible items"), this);
+    tenBit->setCheckable(true);
+    tenBit->setChecked(KdenliveSettings::tenbitpipeline());
+
+    m_effectList2 = new EffectListWidget(includeList, tenBit, this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2, KDDockWidgets::Location_None, m_projectBinDock);
 
-    m_compositionList = new TransitionListWidget(this);
+    m_compositionList = new TransitionListWidget(includeList, tenBit, this);
     m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList, KDDockWidgets::Location_None, m_projectBinDock);
 
     m_undoView = new QUndoView();
@@ -1627,7 +1636,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
               QIcon::fromTheme(QStringLiteral("media-record")));
 
-    addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
+    addAction(QStringLiteral("project_clean"), i18n("Remove Unused Media"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear-all")));
 
     QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Configuration…"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
@@ -1996,7 +2005,7 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     pasteEffects->setData('C');
 
-    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Effects"), this);
+    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Remove Effects"), this);
     addAction(QStringLiteral("delete_effects"), delEffects, QKeySequence(), clipActionCategory);
     delEffects->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
@@ -5067,7 +5076,7 @@ void MainWindow::slotCopyDebugInfo()
 {
     // General note for this function: since the information targets developers, we don't want it to be translated
 
-    QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
+    QString debuginfo;
     QString packageType;
     switch (pCore->packageType()) {
     case LinuxPackageType::AppImage:
@@ -5083,8 +5092,11 @@ void MainWindow::slotCopyDebugInfo()
         packageType = QStringLiteral("Unknown/Default");
         break;
     }
+    QList<KAboutComponent> components = KAboutData::applicationData().components();
+    for (auto &c : components) {
+        debuginfo.append(QStringLiteral("%1: %2\n").arg(c.name(), c.version()));
+    }
     debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType));
-    debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
     debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
     debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));

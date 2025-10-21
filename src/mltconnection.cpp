@@ -288,15 +288,15 @@ void MltConnection::refreshLumas()
         for (const QString &f : std::as_const(folders)) {
             QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
-            QStringList filesnames;
+            QStringList filenames;
             QDirIterator it(dir.absolutePath(), fileFilters, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext()) {
-                filesnames.append(it.next());
+                filenames.append(it.next());
             }
             if (MainWindow::m_lumaFiles.contains(format)) {
                 imagefiles = MainWindow::m_lumaFiles.value(format);
             }
-            for (const QString &fname : std::as_const(filesnames)) {
+            for (const QString &fname : std::as_const(filenames)) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             if (f == QLatin1String("HD")) {

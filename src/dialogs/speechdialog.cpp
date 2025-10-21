@@ -572,7 +572,7 @@ void SpeechDialog::fillSeamlessLanguages()
     langs.insert(i18n("Sindhi"), QStringLiteral("snd"));
     langs.insert(i18n("Slovak"), QStringLiteral("slk"));
     langs.insert(i18n("Slovenian"), QStringLiteral("slv"));
-    langs.insert(i18n("Somali"), QStringLiteral("som"));
+    langs.insert(i18n("Somali"), QStringLiteral("som")); // codespell:ignore som
     langs.insert(i18n("Southern Pashto"), QStringLiteral("pbt"));
     langs.insert(i18n("Spanish"), QStringLiteral("spa"));
     langs.insert(i18n("Standard Latvian"), QStringLiteral("lvs"));
@@ -583,11 +583,11 @@ void SpeechDialog::fillSeamlessLanguages()
     langs.insert(i18n("Tajik"), QStringLiteral("tgk"));
     langs.insert(i18n("Tamil"), QStringLiteral("tam"));
     langs.insert(i18n("Telugu"), QStringLiteral("tel"));
-    langs.insert(i18n("Thai"), QStringLiteral("tha"));
+    langs.insert(i18n("Thai"), QStringLiteral("tha")); // codespell:ignore tha
     langs.insert(i18n("Turkish"), QStringLiteral("tur"));
     langs.insert(i18n("Ukrainian"), QStringLiteral("ukr"));
     langs.insert(i18n("Urdu"), QStringLiteral("urd"));
-    langs.insert(i18n("Vietnamese"), QStringLiteral("vie"));
+    langs.insert(i18n("Vietnamese"), QStringLiteral("vie")); // codespell:ignore vie
     langs.insert(i18n("Welsh"), QStringLiteral("cym"));
     langs.insert(i18n("West Central Oromo"), QStringLiteral("gaz"));
     langs.insert(i18n("Western Persian"), QStringLiteral("pes"));

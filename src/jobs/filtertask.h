@@ -45,6 +45,8 @@ private:
     int m_inPoint;
     int m_outPoint;
     QString m_assetId;
+    bool m_onPlaylist{false};
+    int m_length{0};
     std::weak_ptr<AssetParameterModel> m_model;
     std::unordered_map<QString, QVariant> m_filterParams;
     std::unordered_map<QString, QString> m_filterData;

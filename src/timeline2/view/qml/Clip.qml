@@ -471,7 +471,8 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
-            property bool handleVisible: width > 3 * root.baseUnit / 2
+            property bool handleMini: width < 2 * root.baseUnit
+            property bool handleVisible: width > root.baseUnit * 1.2
             
             Item {
                 // Mix indicator
@@ -871,51 +872,57 @@ Rectangle {
                 }
             }
 
-            Repeater {
-                // Clip markers
-                id: markersContainer
-                model: container.width > 3 * root.baseUnit ? markers : 0
+            Item {
+                // Clipping container
                 anchors.fill: container
-                delegate: Loader {
-                    id: loader
-                    required property var modelData
-                    property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
-                    asynchronous: true
-                    Binding {
-                        target: loader.item
-                        property: "position"
-                        value: modelData.frame
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "markerText"
-                        value: modelData.comment
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "markerColor"
-                        value: modelData.color
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "hasRange"
-                        value: modelData.hasRange || false
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "duration"
-                        value: modelData.duration || 0
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    sourceComponent: {
-                        if (isInside) {
-                            return markerComponent;
-                        } else {
-                            return null;
+                clip: true
+
+                Repeater {
+                    // Clip markers
+                    id: markersContainer
+                    model: container.width > 3 * root.baseUnit ? markers : 0
+                    anchors.fill: parent
+                    delegate: Loader {
+                        id: loader
+                        required property var modelData
+                        property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
+                        asynchronous: true
+                        Binding {
+                            target: loader.item
+                            property: "position"
+                            value: modelData.frame
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerText"
+                            value: modelData.comment
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerColor"
+                            value: modelData.color
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "hasRange"
+                            value: modelData.hasRange || false
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "duration"
+                            value: modelData.duration || 0
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        sourceComponent: {
+                            if (isInside) {
+                                return markerComponent;
+                            } else {
+                                return null;
+                            }
                         }
                     }
                 }
@@ -927,7 +934,7 @@ Rectangle {
                 x: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: root.baseUnit
+                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
                 visible: {
                     if (!enabled) {
                         return false
@@ -982,7 +989,12 @@ Rectangle {
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) { //TODO
                             timeline.requestEndTrimmingMode();
+                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                        } else if (shiftTrim) {
+                            controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
+
                         root.groupTrimData = undefined
                     }
                     root.trimInProgress = false;
@@ -1057,7 +1069,7 @@ Rectangle {
                 anchors.rightMargin: -itemBorder.border.width
                 anchors.top: container.top
                 height: container.height
-                width: root.baseUnit
+                width: container.handleMini ? root.baseUnit / 2 : root.baseUnit
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === K.ToolType.SelectTool
                                      || (root.activeTool === K.ToolType.RippleTool && clipRoot.mixDuration <= 0))
@@ -1099,6 +1111,10 @@ Rectangle {
                     } else {
                         if (root.activeTool === K.ToolType.RippleTool) {
                             timeline.requestEndTrimmingMode();
+                        } else if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
+                            controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                        } else if (shiftTrim) {
+                            controller.requestRemoveFromSelection(clipRoot.clipId)
                         }
                         root.groupTrimData = undefined
                     }

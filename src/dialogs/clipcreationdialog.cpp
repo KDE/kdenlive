@@ -64,7 +64,6 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 
     dia_ui.clip_duration->setValue(KdenliveSettings::color_duration());
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
-    dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setAccessibleName(i18n("Create Color Clip"));
 
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();

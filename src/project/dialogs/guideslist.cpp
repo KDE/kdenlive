@@ -61,6 +61,49 @@ GuidesProxyModel::GuidesProxyModel(int normalHeight, QObject *parent)
     refreshDar();
 }
 
+Qt::ItemFlags GuidesProxyModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid()) return Qt::ItemIsDropEnabled; // allow dropping between items
+    if (data(index, MarkerListModel::HasRangeRole).toBool()) {
+        // Allow dragging range markers
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled;
+    }
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+Qt::DropActions GuidesProxyModel::supportedDragActions() const
+{
+    return Qt::MoveAction;
+}
+
+QMimeData *GuidesProxyModel::mimeData(const QModelIndexList &indexes) const
+{
+    QMimeData *mimeData = new QMimeData;
+    QStringList list;
+    for (auto &ix : indexes) {
+        if (!ix.isValid()) {
+            continue;
+        }
+        const QString dragId = data(ix, MarkerListModel::ClipIdRole).toString();
+        int inPoint = data(ix, MarkerListModel::FrameRole).toInt();
+        int outPoint = data(ix, MarkerListModel::EndPosRole).toInt();
+        if (outPoint > inPoint) {
+            list << QStringLiteral("%1/%2/%3").arg(dragId).arg(inPoint).arg(outPoint);
+        }
+    }
+    if (!list.isEmpty()) {
+        QByteArray data;
+        data.append(list.join(QLatin1Char(';')).toUtf8());
+        mimeData->setData(QStringLiteral("text/producerslist"), data);
+    }
+    return mimeData;
+}
+
+QStringList GuidesProxyModel::mimeTypes() const
+{
+    return {QStringLiteral("kdenlive/clip")};
+}
+
 void GuidesProxyModel::switchThumbs()
 {
     m_showThumbs = KdenliveSettings::guidesShowThumbs();
@@ -103,8 +146,8 @@ QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
         bool hasRange = QIdentityProxyModel::data(index, MarkerListModel::HasRangeRole).toBool();
         if (hasRange) {
             int durationFrames = QIdentityProxyModel::data(index, MarkerListModel::DurationRole).toInt();
-            QString durationString = Timecode::formatMarkerDuration(durationFrames, pCore->getCurrentFps());
-            comment.append(QStringLiteral(" (%1)").arg(durationString));
+            QString durationString = Timecode::getStringTimecode(durationFrames, pCore->getCurrentFps());
+            comment.append(QStringLiteral(" | %1").arg(durationString));
         }
 
         return QStringLiteral("%1 %2").arg(pCore->timecode().getDisplayTimecodeFromFrames(frames, false), comment);
@@ -129,6 +172,8 @@ GuidesList::GuidesList(QWidget *parent)
     connect(show_all, &QToolButton::toggled, this, &GuidesList::showAllMarkers);
     QAction *a = KStandardAction::renameFile(this, &GuidesList::editGuides, this);
     guides_list->addAction(a);
+    guides_list->setDragEnabled(true);
+    guides_list->setDragDropMode(QAbstractItemView::DragOnly);
     slotShowThumbs(KdenliveSettings::guidesShowThumbs());
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     guide_edit->setEnabled(false);
@@ -140,7 +185,15 @@ GuidesList::GuidesList(QWidget *parent)
     showThumbs->setCheckable(true);
     showThumbs->setChecked(KdenliveSettings::guidesShowThumbs());
     connect(showThumbs, &QAction::toggled, this, &GuidesList::slotShowThumbs);
+
+    // Select zone action
+    QAction *selectZone = new QAction(QIcon::fromTheme(QStringLiteral("view-preview")), i18n("Select Zone For Range Markers"), this);
+    selectZone->setCheckable(true);
+    selectZone->setChecked(KdenliveSettings::guidesSelectZone());
+    connect(selectZone, &QAction::toggled, this, [&](bool toggled) { KdenliveSettings::setGuidesSelectZone(toggled); });
+
     settingsMenu->addAction(showThumbs);
+    settingsMenu->addAction(selectZone);
 
     m_importGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Import…"), this);
     connect(m_importGuides, &QAction::triggered, this, &GuidesList::importGuides);
@@ -512,11 +565,24 @@ void GuidesList::activateMarker(const QModelIndex &ix)
             const MarkerListModel *markerModel = static_cast<const MarkerListModel *>(sourceModel);
             if (markerModel) {
                 qDebug() << "//// MATCH FOR MODEL: " << markerModel->ownerId();
-                pCore->bin()->selectClipById(markerModel->ownerId(), pos, QPoint(), true);
+                QPoint zone;
+                if (KdenliveSettings::guidesSelectZone()) {
+                    int out = m_proxy->data(ix, MarkerListModel::EndPosRole).toInt();
+                    if (out > pos) {
+                        zone = QPoint(pos, out);
+                    }
+                }
+                pCore->bin()->selectClipById(markerModel->ownerId(), pos, zone, true);
             }
         }
     } else {
         pCore->seekMonitor(m_displayMode == TimelineMarkers ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, pos);
+        if (KdenliveSettings::guidesSelectZone()) {
+            int out = m_proxy->data(ix, MarkerListModel::EndPosRole).toInt();
+            if (out > pos) {
+                pCore->setMonitorZone(m_displayMode == TimelineMarkers ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, QPoint(pos, out));
+            }
+        }
     }
 }
 

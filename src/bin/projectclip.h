@@ -317,6 +317,7 @@ public:
 
 protected:
     friend class ClipModel;
+    friend class FilterTask;
     QMutex m_thumbMutex;
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */

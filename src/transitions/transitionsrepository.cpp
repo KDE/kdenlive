@@ -69,29 +69,26 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             continue;
         }
         Info result;
-        bool ok = parseInfoFromXml(currentNode.toElement(), result);
-        if (!ok) {
-            continue;
-        }
-        if (customAssets.count(result.id) > 0) {
-            // qDebug() << "duplicate transition" << result.id;
-        }
-        result.xml = currentNode.toElement();
-        QString type = result.xml.attribute(QStringLiteral("type"), QString());
+        QString type = currentNode.toElement().attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("hidden")) {
             result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
         }
-        if (m_includedList.contains(result.id)) {
-            result.included = true;
-        }
+
         if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
                 result.type = AssetListType::AssetType::AudioTransition;
             } else {
                 result.type = AssetListType::AssetType::VideoTransition;
             }
+        }
+        bool ok = parseInfoFromXml(currentNode.toElement(), result);
+        if (!ok) {
+            continue;
+        }
+        if (customAssets.count(result.id) > 0) {
+            // qDebug() << "duplicate transition" << result.id;
         }
         customAssets[result.id] = result;
     }

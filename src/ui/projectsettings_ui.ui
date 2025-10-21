@@ -537,7 +537,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </widget>
      <widget class="QWidget" name="tab_5">
       <attribute name="title">
-       <string>Guides</string>
+       <string>Markers</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="tab_3">

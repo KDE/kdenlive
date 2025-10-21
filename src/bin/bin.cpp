@@ -1604,7 +1604,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterUsageGroup.setExclusive(true);
     m_filterTypeGroup.setExclusive(false);
     m_filterMenu = new QMenu(i18n("Filter"), this);
-    m_filterButton = new QToolButton;
+    m_filterButton = new QToolButton(this);
     m_filterButton->setCheckable(true);
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
