@@ -1190,7 +1190,7 @@ bool ProjectItemModel::requestCleanupUnused()
             return false;
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Clean Project"));
+    pCore->pushUndo(undo, redo, i18n("Remove Unused Media"));
     return true;
 }
 

@@ -1568,7 +1568,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
               QIcon::fromTheme(QStringLiteral("media-record")));
 
-    addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
+    addAction(QStringLiteral("project_clean"), i18n("Remove Unused Media"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear-all")));
 
     QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Configuration…"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
@@ -1937,7 +1937,7 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     pasteEffects->setData('C');
 
-    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Effects"), this);
+    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Remove Effects"), this);
     addAction(QStringLiteral("delete_effects"), delEffects, QKeySequence(), clipActionCategory);
     delEffects->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
