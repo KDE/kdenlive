@@ -281,6 +281,7 @@ Item {
 
                                 var deltaFrames = Math.round(realDeltaX / timeline.scaleFactor)
                                 var newStartPosition = Math.max(0, startPosition + deltaFrames)
+                                newStartPosition = controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 var newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                                 currentNewStartPosition = newStartPosition
@@ -366,6 +367,7 @@ Item {
                                 
                                 var deltaFrames = Math.round(realDeltaX / timeline.scaleFactor)
                                 var newDuration = Math.max(1, startDuration + deltaFrames)
+                                newDuration = controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping) - startPosition
                                 
                                 rangeSpan.width = Math.max(1, newDuration * timeline.scaleFactor)
                                 
