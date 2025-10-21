@@ -301,6 +301,9 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
 
 void Core::restoreLayout()
 {
+    if (m_mainWindow == nullptr) {
+        return;
+    }
     if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
         // No existing layout, probably first run
         m_mainWindow->show();
