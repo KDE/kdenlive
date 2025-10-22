@@ -26,7 +26,7 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     connect(buttonSelectFont, &QPushButton::clicked, this, [this]() {
         QFont oldFont;
         oldFont.setFamily(labelFontName->text());
-        oldFont.setPointSizeF(spinFontSize->text().toDouble());
+        oldFont.setPointSizeF(spinFontSize->value());
         oldFont.setBold(checkBold->isChecked());
         oldFont.setItalic(checkItalic->isChecked());
         oldFont.setUnderline(checkUnderline->isChecked());
