@@ -722,8 +722,7 @@ bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, F
         ungroupItem(corresp.second, local_undo, local_redo);
     }
     std::unordered_set<int> roots;
-    std::transform(mapping.begin(), mapping.end(), std::inserter(roots, roots.begin()),
-                   [&](decltype(*mapping.begin()) corresp) { return getRootId(corresp.first); });
+    std::transform(mapping.begin(), mapping.end(), std::inserter(roots, roots.begin()), [&](const auto &corresp) { return getRootId(corresp.first); });
     bool res = true;
     qDebug() << "found" << roots.size() << "roots";
     for (int r : roots) {
@@ -780,7 +779,7 @@ QJsonObject GroupsModel::toJson(int gid) const
 const QString GroupsModel::toJson() const
 {
     std::unordered_set<int> roots;
-    std::transform(m_groupIds.begin(), m_groupIds.end(), std::inserter(roots, roots.begin()), [&](decltype(*m_groupIds.begin()) g) {
+    std::transform(m_groupIds.begin(), m_groupIds.end(), std::inserter(roots, roots.begin()), [&](const auto &g) {
         const int parentId = getRootId(g.first);
         if (getType(parentId) == GroupType::Selection) {
             // Don't insert selection group, only its child groups
