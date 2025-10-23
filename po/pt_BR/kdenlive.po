@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 00:42+0000\n"
-"PO-Revision-Date: 2025-10-08 06:31-0300\n"
+"POT-Creation-Date: 2025-10-23 00:41+0000\n"
+"PO-Revision-Date: 2025-10-22 08:53-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3903,7 +3903,7 @@ msgstr "Borrão,Espelho,Cor,Reflexo,Envolvimento,Desbotamento,Margens"
 #: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
 #: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
 #: data/effects/frei0r/frei0r_mask0mate.xml:8
-#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:212
 #, kde-format
 msgid "Left"
@@ -3913,7 +3913,7 @@ msgstr "Esquerda"
 #: data/effects/avfilter/avfilter_fillborders.xml:18 data/effects/crop.xml:17
 #: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
 #: data/effects/frei0r/frei0r_mask0mate.xml:11
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:115
 #: src/ui/configmisc_ui.ui:217
 #, kde-format
 msgid "Right"
@@ -3923,7 +3923,7 @@ msgstr "Direita"
 #: data/effects/avfilter/avfilter_fillborders.xml:21 data/effects/crop.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:202
 #, kde-format
 msgid "Top"
@@ -3933,7 +3933,7 @@ msgstr "Superior"
 #: data/effects/avfilter/avfilter_fillborders.xml:24 data/effects/crop.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
-#: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:117
 #: src/ui/configmisc_ui.ui:207
 #, kde-format
 msgid "Bottom"
@@ -10273,7 +10273,7 @@ msgstr "Escalonar de maneira não linear"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
 #: src/assets/view/widgets/keyframeimport.cpp:240
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -19710,10 +19710,9 @@ msgid "Rename Folder"
 msgstr "Renomear pasta"
 
 #: src/bin/projectitemmodel.cpp:1193 src/mainwindow.cpp:1571
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Unused Media"
-msgstr "Remover guia"
+msgstr "Remover mídia não usada"
 
 #: src/bin/projectitemmodel.cpp:1421
 #, kde-format
@@ -20740,22 +20739,22 @@ msgstr "evento"
 msgid " events"
 msgstr "eventos"
 
-#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:116
 #, kde-format
 msgid "Bottom Left"
 msgstr "Inferior esquerdo"
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:118
 #, kde-format
 msgid "Bottom Right"
 msgstr "Inferior direito"
 
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
 #, kde-format
 msgid "Top Left"
 msgstr "Superior esquerdo"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Top Right"
 msgstr "Superior direito"
@@ -20763,7 +20762,7 @@ msgstr "Superior direito"
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:384
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:677
-#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Padrão"
@@ -20773,7 +20772,7 @@ msgstr "Padrão"
 msgid "Box as Border"
 msgstr "Caixa como borda"
 
-#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Caixa como sombra"
@@ -22772,12 +22771,12 @@ msgstr "Definir posição Y"
 msgid "Y:"
 msgstr "Y:"
 
-#: src/dialogs/subtitlestyleedit.cpp:48
+#: src/dialogs/subtitlestyleedit.cpp:40 src/dialogs/subtitlestyleedit.cpp:52
 #, kde-format
 msgid "Select font"
 msgstr "Selecionar fonte"
 
-#: src/dialogs/subtitlestyleedit.cpp:49
+#: src/dialogs/subtitlestyleedit.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
@@ -22785,40 +22784,40 @@ msgstr ""
 "Abre a janela de diálogo de fontes para selecionar uma fonte e definir suas "
 "propriedades."
 
-#: src/dialogs/subtitlestyleedit.cpp:101
+#: src/dialogs/subtitlestyleedit.cpp:105
 #, kde-format
 msgid "Box as Outline"
 msgstr "Caixa como contorno"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
+#: src/dialogs/subtitlestyleedit.cpp:137 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "Mostrar prévia >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:142
+#: src/dialogs/subtitlestyleedit.cpp:146
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< Esconder prévia"
 
-#: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
-#: src/dialogs/subtitlestyleedit.cpp:180
+#: src/dialogs/subtitlestyleedit.cpp:174 src/dialogs/subtitlestyleedit.cpp:179
+#: src/dialogs/subtitlestyleedit.cpp:184
 #: src/effects/effectlist/model/effecttreemodel.cpp:287
 #, kde-format
 msgid "Error"
 msgstr "Erro"
 
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:174
 #, kde-format
 msgid "Style name already exists."
 msgstr "O nome do estilo já existe."
 
-#: src/dialogs/subtitlestyleedit.cpp:175
+#: src/dialogs/subtitlestyleedit.cpp:179
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "O nome do estilo não pode estar vazio."
 
-#: src/dialogs/subtitlestyleedit.cpp:180
+#: src/dialogs/subtitlestyleedit.cpp:184
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "O nome do estilo não pode conter ','."
@@ -24758,10 +24757,9 @@ msgstr "Nenhuma ação aplicada para o botão de deslocamento %1"
 
 #. i18n: ectx: Menu (video_effects_menu)
 #: src/kdenliveui.rc:26
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Effects"
-msgstr "Adicionar efeito"
+msgstr "Adicionar efeitos"
 
 #. i18n: ectx: Menu (view)
 #: src/kdenliveui.rc:36
@@ -24777,17 +24775,15 @@ msgstr "Orientação da área de dock"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:52
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Media"
-msgstr "Mediana"
+msgstr "Mídia"
 
 #. i18n: ectx: Menu (add_media)
 #: src/kdenliveui.rc:54
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Add Media"
-msgstr "Mediana"
+msgstr "Adicionar mídia"
 
 #. i18n: ectx: Menu (generators)
 #: src/kdenliveui.rc:63
@@ -24803,10 +24799,9 @@ msgstr "Extrair áudio"
 
 #. i18n: ectx: Menu (clip_actions)
 #: src/kdenliveui.rc:72
-#, fuzzy, kde-format
-#| msgid "Medians"
+#, kde-format
 msgid "Media Jobs"
-msgstr "Medianas"
+msgstr "Tarefas de mídia"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:89
@@ -24816,10 +24811,9 @@ msgstr "Clipe na linha do tempo"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:101
-#, fuzzy, kde-format
-#| msgid "Sequences"
+#, kde-format
 msgid "Sequence"
-msgstr "Sequências"
+msgstr "Sequência"
 
 #. i18n: ectx: Menu (keyboard_selection)
 #: src/kdenliveui.rc:106
@@ -24829,15 +24823,13 @@ msgstr "Seleção"
 
 #. i18n: ectx: Menu (current_item)
 #: src/kdenliveui.rc:116
-#, fuzzy, kde-format
-#| msgid "Grab Current Item"
+#, kde-format
 msgid "Current Item"
-msgstr "Segurar o item atual"
+msgstr "Item atual"
 
 #. i18n: ectx: Menu (current_clip)
 #: src/kdenliveui.rc:124
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current Clip"
 msgstr "Clipe atual"
 
@@ -24861,8 +24853,7 @@ msgstr "Espaço"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:159
-#, fuzzy, kde-format
-#| msgid "&Current track"
+#, kde-format
 msgid "&Current Track"
 msgstr "&Trilha atual"
 
@@ -26755,10 +26746,9 @@ msgid "Paste Effects"
 msgstr "Colar efeitos"
 
 #: src/mainwindow.cpp:1940
-#, fuzzy, kde-format
-#| msgid "Reset Effect"
+#, kde-format
 msgid "Remove Effects"
-msgstr "Restaurar efeito"
+msgstr "Restaurar efeitos"
 
 #: src/mainwindow.cpp:1947
 #, kde-format
@@ -30324,10 +30314,9 @@ msgid "Do not recover"
 msgstr "Não recuperar"
 
 #: src/project/projectmanager.cpp:793
-#, fuzzy, kde-format
-#| msgid "Marker category does not exist"
+#, kde-format
 msgid "File %1 does not exist"
-msgstr "A categoria de marcadores não existe"
+msgstr "O arquivo %1 não existe"
 
 #: src/project/projectmanager.cpp:820
 #, kde-format
@@ -36397,10 +36386,9 @@ msgstr "Editar categoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Markers Categories"
-msgstr "Categoria de marcadores"
+msgstr "Categorias de marcadores"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:21

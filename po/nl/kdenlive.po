@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 00:42+0000\n"
-"PO-Revision-Date: 2025-10-08 12:12+0200\n"
+"POT-Creation-Date: 2025-10-23 00:41+0000\n"
+"PO-Revision-Date: 2025-10-23 00:38+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -3910,7 +3910,7 @@ msgstr "Vlekken,Spiegel,Kleur,Reflecteer,Rondlopen,Vagen,Marges"
 #: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
 #: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
 #: data/effects/frei0r/frei0r_mask0mate.xml:8
-#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:212
 #, kde-format
 msgid "Left"
@@ -3920,7 +3920,7 @@ msgstr "Links"
 #: data/effects/avfilter/avfilter_fillborders.xml:18 data/effects/crop.xml:17
 #: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
 #: data/effects/frei0r/frei0r_mask0mate.xml:11
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:115
 #: src/ui/configmisc_ui.ui:217
 #, kde-format
 msgid "Right"
@@ -3930,7 +3930,7 @@ msgstr "Rechts"
 #: data/effects/avfilter/avfilter_fillborders.xml:21 data/effects/crop.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:202
 #, kde-format
 msgid "Top"
@@ -3940,7 +3940,7 @@ msgstr "Bovenaan"
 #: data/effects/avfilter/avfilter_fillborders.xml:24 data/effects/crop.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
-#: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:117
 #: src/ui/configmisc_ui.ui:207
 #, kde-format
 msgid "Bottom"
@@ -10318,7 +10318,7 @@ msgstr "Niet lineair verschalen"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
 #: src/assets/view/widgets/keyframeimport.cpp:240
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -19766,10 +19766,9 @@ msgid "Rename Folder"
 msgstr "Map hernoemen"
 
 #: src/bin/projectitemmodel.cpp:1193 src/mainwindow.cpp:1571
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Unused Media"
-msgstr "Hulplijn verwijderen"
+msgstr "Ongebruikte media verwijderen"
 
 #: src/bin/projectitemmodel.cpp:1421
 #, kde-format
@@ -20799,22 +20798,22 @@ msgstr " gebeurtenis"
 msgid " events"
 msgstr " gebeurtenissen"
 
-#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:116
 #, kde-format
 msgid "Bottom Left"
 msgstr "Linksonder"
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:118
 #, kde-format
 msgid "Bottom Right"
 msgstr "Rechtsonder"
 
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
 #, kde-format
 msgid "Top Left"
 msgstr "Linksboven"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Top Right"
 msgstr "Rechtsboven"
@@ -20822,7 +20821,7 @@ msgstr "Rechtsboven"
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:384
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:677
-#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Standaard"
@@ -20832,7 +20831,7 @@ msgstr "Standaard"
 msgid "Box as Border"
 msgstr "Vak als rand"
 
-#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Vak als schaduw"
@@ -22834,12 +22833,12 @@ msgstr "Positie Y instellen"
 msgid "Y:"
 msgstr "Y:"
 
-#: src/dialogs/subtitlestyleedit.cpp:48
+#: src/dialogs/subtitlestyleedit.cpp:40 src/dialogs/subtitlestyleedit.cpp:52
 #, kde-format
 msgid "Select font"
 msgstr "Lettertype selecteren"
 
-#: src/dialogs/subtitlestyleedit.cpp:49
+#: src/dialogs/subtitlestyleedit.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
@@ -22847,40 +22846,40 @@ msgstr ""
 "Open een dialoog voor lettertypen om een lettertype te selecteren en zijn "
 "eigenschappen in te stellen."
 
-#: src/dialogs/subtitlestyleedit.cpp:101
+#: src/dialogs/subtitlestyleedit.cpp:105
 #, kde-format
 msgid "Box as Outline"
 msgstr "Vak als omlijning"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
+#: src/dialogs/subtitlestyleedit.cpp:137 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "Voorbeeld tonen >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:142
+#: src/dialogs/subtitlestyleedit.cpp:146
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< Voorbeel verbergen"
 
-#: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
-#: src/dialogs/subtitlestyleedit.cpp:180
+#: src/dialogs/subtitlestyleedit.cpp:174 src/dialogs/subtitlestyleedit.cpp:179
+#: src/dialogs/subtitlestyleedit.cpp:184
 #: src/effects/effectlist/model/effecttreemodel.cpp:287
 #, kde-format
 msgid "Error"
 msgstr "Fout"
 
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:174
 #, kde-format
 msgid "Style name already exists."
 msgstr "Naam van stijl bestaat al"
 
-#: src/dialogs/subtitlestyleedit.cpp:175
+#: src/dialogs/subtitlestyleedit.cpp:179
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "Naam van stijl mag niet leeg zijn"
 
-#: src/dialogs/subtitlestyleedit.cpp:180
+#: src/dialogs/subtitlestyleedit.cpp:184
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "Naam van stijl mag geen ',' bevatten."
@@ -24811,10 +24810,9 @@ msgstr "Geen actie toegepast voor jog-shuttle-knop %1"
 
 #. i18n: ectx: Menu (video_effects_menu)
 #: src/kdenliveui.rc:26
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Effects"
-msgstr "Effect toevoegen"
+msgstr "Effecten toevoegen"
 
 #. i18n: ectx: Menu (view)
 #: src/kdenliveui.rc:36
@@ -24830,17 +24828,15 @@ msgstr "Oriëntatie van vastzetgebied"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:52
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Media"
-msgstr "Mediaan"
+msgstr "Media"
 
 #. i18n: ectx: Menu (add_media)
 #: src/kdenliveui.rc:54
-#, fuzzy, kde-format
-#| msgid "Add data"
+#, kde-format
 msgid "Add Media"
-msgstr "Gegevens toevoegen"
+msgstr "Medium toevoegen"
 
 #. i18n: ectx: Menu (generators)
 #: src/kdenliveui.rc:63
@@ -24856,10 +24852,9 @@ msgstr "Extract audio"
 
 #. i18n: ectx: Menu (clip_actions)
 #: src/kdenliveui.rc:72
-#, fuzzy, kde-format
-#| msgid "Medians"
+#, kde-format
 msgid "Media Jobs"
-msgstr "Medianen"
+msgstr "Mediajobs"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:89
@@ -24869,10 +24864,9 @@ msgstr "Clip in de tijdlijn"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:101
-#, fuzzy, kde-format
-#| msgid "Sequences"
+#, kde-format
 msgid "Sequence"
-msgstr "Sequences"
+msgstr "Sequentie"
 
 #. i18n: ectx: Menu (keyboard_selection)
 #: src/kdenliveui.rc:106
@@ -24882,15 +24876,13 @@ msgstr "Selectie"
 
 #. i18n: ectx: Menu (current_item)
 #: src/kdenliveui.rc:116
-#, fuzzy, kde-format
-#| msgid "Grab Current Item"
+#, kde-format
 msgid "Current Item"
-msgstr "Huidig item oppakken"
+msgstr "Huidig item"
 
 #. i18n: ectx: Menu (current_clip)
 #: src/kdenliveui.rc:124
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current Clip"
 msgstr "Huidige clip"
 
@@ -24914,8 +24906,7 @@ msgstr "Ruimte"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:159
-#, fuzzy, kde-format
-#| msgid "&Current track"
+#, kde-format
 msgid "&Current Track"
 msgstr "&Huidige track"
 
@@ -26800,10 +26791,9 @@ msgid "Paste Effects"
 msgstr "Effecten plakken"
 
 #: src/mainwindow.cpp:1940
-#, fuzzy, kde-format
-#| msgid "Reset Effect"
+#, kde-format
 msgid "Remove Effects"
-msgstr "Effect resetten"
+msgstr "Effecten verwijderen"
 
 #: src/mainwindow.cpp:1947
 #, kde-format
@@ -30353,10 +30343,9 @@ msgid "Do not recover"
 msgstr "Niet herstellen"
 
 #: src/project/projectmanager.cpp:793
-#, fuzzy, kde-format
-#| msgid "Marker category does not exist"
+#, kde-format
 msgid "File %1 does not exist"
-msgstr "Categorie van markering bestaat niet"
+msgstr "Bestand %1 bestaat niet"
 
 #: src/project/projectmanager.cpp:820
 #, kde-format
@@ -36426,8 +36415,7 @@ msgstr "Categorie bewerken"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Markers Categories"
 msgstr "Categorie van markeringen"
 
