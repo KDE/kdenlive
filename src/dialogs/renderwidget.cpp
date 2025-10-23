@@ -584,6 +584,11 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(this, &RenderWidget::renderStatusChanged, this, &RenderWidget::updatePowerManagement);
     m_view.keep_log_files->setChecked(KdenliveSettings::keepRenderLogFiles());
     connect(m_view.keep_log_files, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setKeepRenderLogFiles(enabled); });
+
+    m_lowSpaceTimer.setSingleShot(true);
+    m_lowSpaceTimer.setInterval(3000);
+    connect(&m_lowSpaceTimer, &QTimer::timeout, this, &RenderWidget::checkDriveSpace, Qt::QueuedConnection);
+    checkDriveSpace();
 }
 
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
@@ -812,6 +817,11 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         m_view.buttonEdit->setEnabled(profile->editable());
     }
     if (url.isValid()) {
+        QStorageInfo info(QFileInfo(url.toLocalFile()).absolutePath());
+        if (m_lastCheckedDevice != info.device()) {
+            // User selected a new device, check now if it has enough space
+            checkDriveSpace();
+        }
         std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
         m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
     }
@@ -2107,6 +2117,8 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 
     // If stemaudio is not defined, will return 0
     m_view.stemAudioExport->setChecked(props.value(QStringLiteral("renderstemaudio")).toInt());
+    // New document opened, check space on drive
+    m_lowSpaceTimer.start();
 }
 
 void RenderWidget::saveRenderProfile()
@@ -2259,14 +2271,68 @@ void RenderWidget::updateRenderOffset()
     refreshParams();
 }
 
+void RenderWidget::checkDriveSpace()
+{
+    QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
+    m_lastCheckedDevice = info.device();
+    DriveSpaceStatus previousState = m_freeSpaceStatus;
+    if (!info.isReady() || !info.isValid() || info.isReadOnly()) {
+        m_freeSpaceStatus = SpaceNotWritable;
+        if (!info.isReady()) {
+            // Drive may be mounting, check agin in a few seconds
+            m_lowSpaceTimer.start();
+        }
+        if (previousState != m_freeSpaceStatus) {
+            updateRenderInfoMessage();
+        }
+        return;
+    }
+    m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
+
+    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+    if (m_lastFreeSpace < 5 * minimumSize) {
+        m_freeSpaceStatus = SpaceLow;
+    } else if (m_lastFreeSpace < minimumSize) {
+        m_freeSpaceStatus = SpaceNone;
+    } else {
+        m_freeSpaceStatus = SpaceOk;
+    }
+    if (previousState != m_freeSpaceStatus) {
+        updateRenderInfoMessage();
+    }
+}
+
 void RenderWidget::updateRenderInfoMessage()
 {
-    m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    if (m_freeSpaceStatus != SpaceOk) {
+        m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
+                                                                                                                   : KMessageWidget::Warning);
+    } else {
+        m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    }
     if (m_renderDuration <= 0) {
         m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
         m_view.infoMessage->show();
         return;
     }
+    if (m_freeSpaceStatus != SpaceOk) {
+        switch (m_freeSpaceStatus) {
+        case SpaceNotWritable:
+            m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
+            break;
+        case SpaceNone:
+            m_view.infoMessage->setText(i18n("Your disk is almost full, rendering might fail"));
+            break;
+        case SpaceLow:
+            m_view.infoMessage->setText(i18n("Your disk space is limited (%1)", KIO::convertSize(m_lastFreeSpace)));
+            break;
+        default:
+            break;
+        }
+        m_view.infoMessage->show();
+        return;
+    }
+
     QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
     QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
     int sequenceOffset = pCore->currentTimelineOffset();
@@ -2329,6 +2395,14 @@ void RenderWidget::showRenderDuration(int projectLength)
         }
     } else {
         m_renderDuration = maxFrame;
+    }
+
+    if (m_freeSpaceStatus != SpaceNotWritable) {
+        KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(0), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+        if (5 * minimumSize > m_lastFreeSpace || m_freeSpaceStatus != SpaceOk) {
+            // Space is limited, inform user
+            m_lowSpaceTimer.start();
+        }
     }
     updateRenderInfoMessage();
 }

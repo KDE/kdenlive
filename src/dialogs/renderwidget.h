@@ -21,6 +21,7 @@ class Menu;
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
 
+#include <KIO/FileJob>
 #include <KNSWidgets/Button>
 
 class QDomElement;
@@ -66,6 +67,7 @@ class RenderWidget : public QDialog
 public:
     enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
     enum RenderStatus { NotRendering = 0, Rendering = 1 };
+    enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3 };
     // Render job roles
     enum ItemRole {
         ParametersRole = Qt::UserRole + 1,
@@ -181,6 +183,7 @@ private Q_SLOTS:
     void slotPrepareExport2(bool scriptExport = false);
     void slotCheckFreeMemory();
     void updatePowerManagement();
+    void checkDriveSpace();
 
 private:
     enum Tabs { RenderTab = 0, JobsTab, ScriptsTab };
@@ -203,8 +206,12 @@ private:
     int m_missingUsedClips{0};
     int m_lowMemThreshold{1000};
     int m_veryLowMemThreshold{500};
+    QByteArray m_lastCheckedDevice;
+    QTimer m_lowSpaceTimer;
+    KIO::filesize_t m_lastFreeSpace{0};
     MemCheckStatus m_lowMemStatus{NoWarning};
     RenderStatus m_renderStatus{NotRendering};
+    DriveSpaceStatus m_freeSpaceStatus{SpaceOk};
     QTimer m_memCheckTimer;
 
     Purpose::Menu *m_shareMenu;
