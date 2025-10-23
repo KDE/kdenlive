@@ -2279,7 +2279,7 @@ void RenderWidget::checkDriveSpace()
     if (!info.isReady() || !info.isValid() || info.isReadOnly()) {
         m_freeSpaceStatus = SpaceNotWritable;
         if (!info.isReady()) {
-            // Drive may be mounting, check agin in a few seconds
+            // Drive may be mounting, check again in a few seconds
             m_lowSpaceTimer.start();
         }
         if (previousState != m_freeSpaceStatus) {
