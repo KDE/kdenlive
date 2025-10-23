@@ -3857,7 +3857,7 @@ void TimelineController::pasteEffects(int targetId)
         pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
         return;
     }
-    const QStringList effectSource = copiedItems.documentElement().attribute(QStringLiteral("mainClip"), QStringLiteral()).split(QLatin1Char(';'));
+    const QStringList effectSource = copiedItems.documentElement().attribute(QStringLiteral("mainClip")).split(QLatin1Char(';'));
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     if (clips.isEmpty()) {
         pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);

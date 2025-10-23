@@ -481,6 +481,8 @@ int TimelineModel::getTrackPosition(int trackId) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
+    // Yes, there is a small risk, but it is by design…
+    // cppcheck-suppress mismatchingContainers
     auto it = m_allTracks.cbegin();
     int pos = int(std::distance(it, static_cast<decltype(it)>(m_iteratorTable.at(trackId))));
     return pos;
@@ -3740,6 +3742,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isItem(itemId));
     if (size <= 0) {
+        // cppcheck-suppress unknownMacro
         TRACE_RES(-1)
         return -1;
     }
