@@ -581,7 +581,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
 
 void ArchiveWidget::slotCheckSpace()
 {
-    QStorageInfo info(archive_url->url().toLocalFile());
+    QStorageInfo info(QFileInfo(archive_url->url().toLocalFile()).absolutePath());
     auto freeSize = static_cast<KIO::filesize_t>(info.bytesAvailable());
     if (freeSize > m_requestedSize) {
         // everything is ok
