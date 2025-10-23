@@ -216,7 +216,7 @@ protected:
     /** @brief Helper function that generate a lambda to add given marker */
     Fun addMarker_lambda(GenTime pos, const QString &comment, int type);
     /** @brief Helper function that generate a lambda to add or update a given range marker */
-    Fun addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration, const QString &comment, int type, const CommentedTime *existingMarker = nullptr);
+    Fun addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration, const QString &comment, int type);
 
     /** @brief Helper function that generate a lambda to remove given marker */
     Fun deleteMarker_lambda(GenTime pos);

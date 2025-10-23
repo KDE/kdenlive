@@ -230,8 +230,8 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     if (hasMarker(pos)) {
         // In this case we simply change the comment and type
         CommentedTime current = marker(pos);
-        local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), &current);
-        local_redo = addOrUpdateRangeMarker_lambda(pos, GenTime(0), comment, type, &current);
+        local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType());
+        local_redo = addOrUpdateRangeMarker_lambda(pos, GenTime(0), comment, type);
     } else {
         // In this case we create one
         local_redo = addMarker_lambda(pos, comment, type);
@@ -295,7 +295,7 @@ bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
         return false;
     }
     CommentedTime current = marker(pos);
-    Fun local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), nullptr);
+    Fun local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType());
     Fun local_redo = deleteMarker_lambda(pos);
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -549,12 +549,12 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
     };
 }
 
-Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration, const QString &comment, int type, const CommentedTime *existingMarker)
+Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);
-    return [pos, duration, comment, type, existingMarker, this]() {
+    return [pos, duration, comment, type, this]() {
         int mid;
-        if (existingMarker) {
+        if (hasMarker(pos)) {
             mid = getIdFromPos(pos);
             Q_ASSERT(mid != -1);
             int row = getRowfromId(mid);
@@ -563,7 +563,6 @@ Fun MarkerListModel::addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration
             m_markerList[mid].setDuration(duration);
             Q_EMIT dataChanged(index(row), index(row), {CommentRole, ColorRole, DurationRole, EndPosRole, HasRangeRole});
         } else {
-            Q_ASSERT(hasMarker(pos) == false);
             mid = TimelineModel::getNextId();
             int insertionRow = static_cast<int>(m_markerList.size());
             beginInsertRows(QModelIndex(), insertionRow, insertionRow);
@@ -1151,10 +1150,10 @@ bool MarkerListModel::addRangeMarker(GenTime pos, GenTime duration, const QStrin
 
     if (hasMarker(pos)) {
         CommentedTime current = marker(pos);
-        local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType(), &current);
-        local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type, &current);
+        local_undo = addOrUpdateRangeMarker_lambda(pos, current.duration(), current.comment(), current.markerType());
+        local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type);
     } else {
-        local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type, nullptr);
+        local_redo = addOrUpdateRangeMarker_lambda(pos, duration, comment, type);
         local_undo = deleteMarker_lambda(pos);
     }
 
