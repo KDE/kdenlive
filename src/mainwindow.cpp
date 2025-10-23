@@ -2086,10 +2086,12 @@ void MainWindow::setupActions()
     KStandardAction::configureNotifications(this, &MainWindow::configureNotifications, actionCollection());
     KStandardAction::fullScreen(this, &MainWindow::slotFullScreen, this, actionCollection());
 
+    // cppcheck-suppress legacyUninitvar
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
 
+    // cppcheck-suppress legacyUninitvar
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
