@@ -85,8 +85,14 @@ public:
     {
         bool enableRemap;
         QString timeMapData;
-        int pitchShift;
+        bool pitchShift;
         QString imageMode;
+
+        TimeWarpInfo()
+            : enableRemap(false)
+            , pitchShift(false)
+        {
+        }
     };
 
 protected:

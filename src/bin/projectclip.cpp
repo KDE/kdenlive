@@ -1191,7 +1191,6 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         double speed = 1.0;
         bool timeWarp = false;
         ProjectClip::TimeWarpInfo remapInfo;
-        remapInfo.enableRemap = false;
         if (master->parent().property_exists("warp_speed")) {
             speed = master->parent().get_double("warp_speed");
             timeWarp = true;
@@ -1207,7 +1206,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                         }
                         remapInfo.enableRemap = true;
                         remapInfo.timeMapData = link->get("time_map");
-                        remapInfo.pitchShift = link->get_int("pitch");
+                        remapInfo.pitchShift = (bool)link->get("pitch");
                         remapInfo.imageMode = link->get("image_mode");
                         break;
                     }
