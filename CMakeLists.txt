@@ -26,7 +26,16 @@ option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" OFF)
+set(FETCH_OTIO_DEFAULT OFF)
+if(BSD)
+    # We don't want to fetch OTIO by default and long term might not even offer this option,
+    # however there is a bug (crash) with the shared builds of OTIO on FreeBSD
+    # Hence we keep the fetching enabled as a stop gap solution on this platform
+    # https://invent.kde.org/multimedia/kdenlive/-/issues/1992
+    set(FETCH_OTIO_DEFAULT ON)
+endif()
+
+option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" ${FETCH_OTIO_DEFAULT})
 
 # shall we use DBus?
 # enabled per default on Linux & BSD systems
