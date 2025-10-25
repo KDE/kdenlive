@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-22 08:53-0300\n"
+"PO-Revision-Date: 2025-10-24 08:13-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -21342,18 +21342,17 @@ msgstr "Adicionar clipes à linha do tempo antes de renderizar"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "O local de saída não é gravável, selecione outro"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "O perfil do seu projeto é inválido, a renderização pode falhar."
+msgstr "Seu disco está quase cheio, a renderização pode falhar"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Seu espaço em disco é limitado (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-22 09:40+0300\n"
+"PO-Revision-Date: 2025-10-24 13:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -21397,18 +21397,17 @@ msgstr "Додати кліпи до монтажного столу до обр
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
+"Місце для зберігання результатів є непридатним до запису — виберіть інше"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr ""
-"Профіль вашого проєкту є некоректним. Можливі помилки під час його обробки."
+msgstr "Диск майже переповнено, обробка даних може завершитися помилкою"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Місце на вашому диску обмежене (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format

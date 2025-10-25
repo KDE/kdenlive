@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-23 00:38+0200\n"
+"PO-Revision-Date: 2025-10-24 23:20+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -21401,18 +21401,17 @@ msgstr "Clip in de tijdlijn toevoegen alvorens te renderen"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "Uitvoerlocatie is niet beschrijfbaar, selecteer een andere"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "Uw projectprofiel is ongeldig, renderen kan mislukken."
+msgstr "Uw schijf is bijna vol, renderen kan mislukken"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Uw schijfruimte is beperkt (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format

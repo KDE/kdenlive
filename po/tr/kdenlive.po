@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-22 17:07+0300\n"
+"PO-Revision-Date: 2025-10-24 16:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -21270,18 +21270,17 @@ msgstr "Sunum öncesi klipleri zaman akışına ekle"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "Çıktı konumu yazılabilir değil, lütfen başka bir tane seçin"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
+msgstr "Diskiniz neredeyse dolu, sunum başarısız olabilir"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Disk alanınız sınırlı (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format
