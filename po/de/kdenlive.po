@@ -25230,10 +25230,9 @@ msgid "An open source video editor."
 msgstr "Ein Open-Source-Videoschnittprogramm."
 
 #: src/main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2023 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
-msgstr "Copyright © 2007–2023 Kdenlive-Autoren"
+msgstr "© 2007–2025 Kdenlive-Autoren"
 
 #: src/main.cpp:299
 #, kde-format
