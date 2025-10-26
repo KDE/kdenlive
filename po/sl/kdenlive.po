@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-23 15:11+0200\n"
+"PO-Revision-Date: 2025-10-25 00:05+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21266,18 +21266,17 @@ msgstr "Pred izrisovanjem dodaj posnetke s časovnice"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "V izhodno mesto ni mogoče pisati, izberite drugega"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "Vaš profil projekta ni veljaven, izrisovanje morda ne bo uspelo."
+msgstr "Disk je skoraj poln, izrisovanje morda ne bo uspelo"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Prostor na disku je omejen (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-23 09:04+0400\n"
+"PO-Revision-Date: 2025-10-25 16:55+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -20989,18 +20989,17 @@ msgstr "أضف مقاطع إلى الخط الزمني قبل التصيير"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "موقع الإخراج غير قابل للكتابة، يرجى تحديد موقع آخر"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "ملف تعريف مشروعك غير صالح، قد يفشل التصيير."
+msgstr "القرص الخاص بك ممتلئ تقريبًا، وقد يفشل التصيير."
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "مساحة القرص لديك محدودة (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format
