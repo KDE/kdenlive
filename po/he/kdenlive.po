@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:42+0000\n"
-"PO-Revision-Date: 2025-10-14 07:44+0300\n"
+"PO-Revision-Date: 2025-10-25 16:29+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4301,9 +4301,9 @@ msgid "Temporal Chroma Strength"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hq*x Interpolator"
-msgstr "בין"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -4355,19 +4355,17 @@ msgstr "ערך"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:20
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the value which will<br>\n"
 "        be used in color difference calculation]]>"
-msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set similarity percentage with the key color]]>"
-msgstr "<![CDATA[זווית גזירה סביב ציר X]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
@@ -10096,10 +10094,9 @@ msgid "Dust Amount"
 msgstr "כמות אבק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles added to the image]]>"
-msgstr "<![CDATA[כמות חלקיקי האבק בתמונה]]>"
+msgstr "<![CDATA[כמות חלקיקי האבק שנוספים לתמונה]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10154,10 +10151,9 @@ msgid "Randomly moves image around to simulate film gate weave"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "רכות"
+msgstr "חלקלקות"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
@@ -10167,28 +10163,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "יישור אופקי"
+msgstr "כמות תנועה אופקית מרבית"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
-msgstr "<![CDATA[המרחק בין נקודות הרצועה]]>"
+msgstr "<![CDATA[המרחק המרבי שהתמונה יכולה לנוע שמאלה או ימינה]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Maximum diameter"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "קוטר מרבי"
+msgstr "כמות תנועה אנכית מרבית"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
-msgstr "<![CDATA[המרחק בין נקודות הרצועה]]>"
+msgstr "<![CDATA[המרחק המרבי שהתמונה יכולה לנוע למעלה או למטה]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -18907,10 +18899,9 @@ msgid "Rename Folder"
 msgstr "שינוי שם תיקייה"
 
 #: src/bin/projectitemmodel.cpp:1193 src/mainwindow.cpp:1571
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Unused Media"
-msgstr "הסרת קו מנחה"
+msgstr "הסרת מדיה שאינה בשימוש"
 
 #: src/bin/projectitemmodel.cpp:1421
 #, kde-format
@@ -20521,10 +20512,9 @@ msgid "Output location is not writable, please select another one"
 msgstr ""
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "פרופיל המיזם שלך שגוי, התיצוג עלול להיכשל."
+msgstr "הכונן שלך כמעט התמלא לגמרי, התיצוג עלול להיכשל"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
@@ -23893,10 +23883,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (video_effects_menu)
 #: src/kdenliveui.rc:26
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Effects"
-msgstr "הוספת אפקט"
+msgstr "הוספת אפקטים"
 
 #. i18n: ectx: Menu (view)
 #: src/kdenliveui.rc:36
@@ -23912,17 +23901,15 @@ msgstr "כיוון אזור המעגן"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:52
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Media"
-msgstr "פרטי מדיה:"
+msgstr "מדיה"
 
 #. i18n: ectx: Menu (add_media)
 #: src/kdenliveui.rc:54
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Add Media"
-msgstr "פרטי מדיה:"
+msgstr "הוספת מדיה"
 
 #. i18n: ectx: Menu (generators)
 #: src/kdenliveui.rc:63
@@ -23938,10 +23925,9 @@ msgstr "חילוץ שמע"
 
 #. i18n: ectx: Menu (clip_actions)
 #: src/kdenliveui.rc:72
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Media Jobs"
-msgstr "פרטי מדיה:"
+msgstr "משימות מדיה"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:89
@@ -23951,10 +23937,9 @@ msgstr "סרטון בציר הזמן"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:101
-#, fuzzy, kde-format
-#| msgid "Sequences"
+#, kde-format
 msgid "Sequence"
-msgstr "רצפים"
+msgstr "רצף"
 
 #. i18n: ectx: Menu (keyboard_selection)
 #: src/kdenliveui.rc:106
@@ -23964,15 +23949,13 @@ msgstr "בחירה"
 
 #. i18n: ectx: Menu (current_item)
 #: src/kdenliveui.rc:116
-#, fuzzy, kde-format
-#| msgid "Grab Current Item"
+#, kde-format
 msgid "Current Item"
-msgstr "לכידת הפריט הנוכחי"
+msgstr "הפריט הנוכחי"
 
 #. i18n: ectx: Menu (current_clip)
 #: src/kdenliveui.rc:124
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current Clip"
 msgstr "סרטון נוכחי"
 
@@ -23996,8 +23979,7 @@ msgstr "רווח"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:159
-#, fuzzy, kde-format
-#| msgid "&Current track"
+#, kde-format
 msgid "&Current Track"
 msgstr "&רצועה נוכחית"
 
@@ -25858,10 +25840,9 @@ msgid "Paste Effects"
 msgstr "הדבקת אפקטים"
 
 #: src/mainwindow.cpp:1940
-#, fuzzy, kde-format
-#| msgid "Reset Effect"
+#, kde-format
 msgid "Remove Effects"
-msgstr "איפוס אפקט"
+msgstr "הסרת אפקטים"
 
 #: src/mainwindow.cpp:1947
 #, kde-format
@@ -27380,10 +27361,9 @@ msgid "Deinterlacer"
 msgstr "מבטל שזירה"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
-msgstr "YADIF - זמני ומרבי (עדיף)"
+msgstr "YADIF - זמני ומרחבי (עדיף)"
 
 #: src/monitor/monitormanager.cpp:639
 #, kde-format
@@ -29379,10 +29359,9 @@ msgid "Do not recover"
 msgstr "לא לשחזר"
 
 #: src/project/projectmanager.cpp:793
-#, fuzzy, kde-format
-#| msgid "Marker category does not exist"
+#, kde-format
 msgid "File %1 does not exist"
-msgstr "קטגוריית הסמנים לא קיימת"
+msgstr "הקובץ %1 לא קיים"
 
 #: src/project/projectmanager.cpp:820
 #, kde-format
@@ -35376,10 +35355,9 @@ msgstr "עריכת קטגוריה"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Markers Categories"
-msgstr "קטגוריית סמנים"
+msgstr "קטגוריות סמנים"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:21
