@@ -856,7 +856,11 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    if (KdenliveSettings::monitor_background() != "black") {
+    if (KdenliveSettings::monitor_background() == "black" || m_controller->clipType() == ClipType::Audio) {
+        // No compositing required
+        m_glMonitor->setProducer(producer, isActive(), pos);
+    } else {
+        // Add background compositing
         Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
@@ -871,8 +875,6 @@ void Monitor::buildBackgroundedProducer(int pos)
         transition->set_tracks(0, 1);
         trac.plant_transition(*transition.get(), 0, 1);
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
-    } else {
-        m_glMonitor->setProducer(producer, isActive(), pos);
     }
     m_openMutex.unlock();
 }

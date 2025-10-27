@@ -15,7 +15,6 @@ Rectangle {
     property bool containsMouse: containerArea.containsMouse || mainHandleArea.containsMouse || leftHandle.containsMouse || mainHandleArea.pressed || leftHandle.pressed || rightHandle.pressed || rightHandle.containsMouse
     color: activePalette.midlight
     width: parent.width
-    height: audioThumb.audioZoomHeight
     MouseArea {
         id: containerArea
         anchors.fill: parent
@@ -65,7 +64,8 @@ Rectangle {
         anchors.fill: audioSeekZone
         anchors.topMargin: 2 * audioSeekZone.zoomZoneBorder
         anchors.bottomMargin: 2 * audioSeekZone.zoomZoneBorder
-        property double streamHeight: (audioThumb.audioZoomHeight - (4 * audioSeekZone.zoomZoneBorder) - (2 * controller.audioStreams.length - 1)) / controller.audioStreams.length
+        property double streamHeight: (audioSeekZone.height - (4 * audioSeekZone.zoomZoneBorder) - (2 * controller.audioStreams.length - 1)) / controller.audioStreams.length
+        visible: height > 8
 
         Repeater {
             id: streamThumbMini
@@ -148,15 +148,16 @@ Rectangle {
     Rectangle {
         color: "#99FF0000"
         width: 2
-        height: parent.height
+        height: parent.height - 2 * zoomRef.border.width - 1
         x: controller.position * audioThumb.width / root.duration
+        y: zoomRef.border.width
     }
     // Current view reference
     Rectangle {
         id: zoomRef
         x: audioSeekZone.width * root.zoomStart
         width: audioSeekZone.width * root.zoomFactor
-        height: audioThumb.audioZoomHeight - 1
+        height: audioSeekZone.height - 1
         opacity: mainHandleArea.containsMouse || mainHandleArea.pressed ? 1 : root.zoomFactor === 1. ? 0.5 : 0.8
         radius: 2
         border.width: controller.clipHasAV ? 2 : 2

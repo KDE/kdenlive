@@ -437,16 +437,20 @@ void MonitorProxy::selectClip(int ix)
 
 void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
 {
-    if (clipId != m_clipId) {
-        m_clipId = clipId;
+    bool idChanged = clipId != m_clipId;
+    bool avChanged = hasAV != m_hasAV;
+    bool typeChanged = type != m_clipType;
+    m_clipId = clipId;
+    m_hasAV = hasAV;
+    m_clipType = type;
+
+    if (idChanged) {
         Q_EMIT clipIdChanged();
     }
-    if (hasAV != m_hasAV) {
-        m_hasAV = hasAV;
+    if (avChanged) {
         Q_EMIT clipHasAVChanged();
     }
-    if (type != m_clipType) {
-        m_clipType = type;
+    if (typeChanged) {
         Q_EMIT clipTypeChanged();
     }
     if (!clipName.isEmpty()) {

@@ -11,25 +11,57 @@ import org.kde.kdenlive as K
 
 Item {
     id: audioThumb
-    property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.pressed || thumbMouseArea.containsMouse || audioZoom.containsMouse || dragZone.opacity === 1 || root.showZoomBar)
-    property bool isAudioClip: controller.clipType === K.ClipType.Audio
-    property int audioZoomHeight: isAudioClip ? height / 5 : K.KdenliveSettings.alwaysShowMonitorAudio ? 0 : height / 3
-    property bool containsMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse
-    property bool displayAudioZoom: K.KdenliveSettings.alwaysShowMonitorAudio && controller.clipHasAV ? (dragZone.opacity === 1 || clipMonitorRuler.containsMouse) : true
-    property bool timedAudioCollapsed: true
+    property bool isAudioClip: false
+    property bool stateVisible: false
+    property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
+    property bool displayAudioZoom: true
+    property bool containsMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || clipMonitorRuler.containsMouse || thumbMouseArea.pressed
+    property int clipId: controller.clipId
+    state: stateVisible ? "showAudio" : "hideAudio"
 
     Timer {
         id: zoomCollapseTimer
-        interval: 800; running: false; repeat: false
-        onTriggered: audioThumb.timedAudioCollapsed = true
+        interval: 1000; running: false; repeat: false
+        onTriggered: {
+            state = "animatedHide"
+        }
     }
 
-    onDisplayAudioZoomChanged: {
-        if (displayAudioZoom || !K.KdenliveSettings.alwaysShowMonitorAudio) {
+    onClipIdChanged:
+    {
+        audioThumb.isAudioClip = controller.clipType === K.ClipType.Audio
+        audioThumb.stateVisible = (K.KdenliveSettings.alwaysShowMonitorAudio && controller.clipHasAV) || audioThumb.isAudioClip
+        checkAudioThumbState()
+    }
+
+    onContainsMouseChanged: {
+        if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
+            if (containsMouse) {
+               zoomCollapseTimer.stop()
+                state = "showAudio"
+            } else if (controller.clipHasAV) {
+                zoomCollapseTimer.start()
+            }
+        }
+    }
+
+    function checkAudioThumbState()
+    {
+        if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
             zoomCollapseTimer.stop()
-            timedAudioCollapsed = false
+            if (audioThumb.stateVisible) {
+                state = "showAudio"
+            } else {
+                state = "hideAudio"
+            }
         } else {
-            zoomCollapseTimer.start()
+            // adjust monitor image size
+            if (audioThumb.stateVisible) {
+                controller.rulerHeight = audioThumb.height + root.zoomOffset
+            } else {
+                controller.rulerHeight = root.zoomOffset
+            }
+            state = "showAudio"
         }
     }
 
@@ -48,30 +80,30 @@ Item {
         visible: text != ""
         padding: 4
     }
-    onStateVisibleChanged: {
-        // adjust monitor image size
-        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
-        }
-    }
 
     states: [
         State {
-            when: audioThumb.stateVisible || audioThumb.isAudioClip;
+            name: "showAudio"
             PropertyChanges {
                 audioThumb.opacity: 1.0
             }
         },
         State {
-            when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
+            name: "animatedHide"
+            PropertyChanges {
+                audioThumb.opacity: 0.0
+            }
+        },
+        State {
+            name: "hideAudio"
             PropertyChanges {
                 audioThumb.opacity: 0.0
             }
         }
     ]
+
     transitions: [Transition {
+        from: "showAudio"; to: "animatedHide";
         NumberAnimation {
             property: "opacity";
             duration: audioThumb.isAudioClip ? 0 : 500
@@ -81,24 +113,12 @@ Item {
         id: audioZoom
         visible: audioThumb.isAudioClip || controller.clipHasAV
         anchors.top: parent.top
-        states: [
-            State {
-                name: "invisible"
-                when: !audioThumb.timedAudioCollapsed
-                PropertyChanges { audioZoom.height: audioThumb.height / 3 }
-            }
-        ]
-        transitions: [Transition {
-            NumberAnimation {
-                property: "height";
-                duration: 100
-            }
-        }]
+        height: audioThumb.audioZoomHeightRef
     }
     Item {
         id: mainThumbsContainer
         anchors.fill: parent
-        anchors.topMargin: audioThumb.audioZoomHeight
+        anchors.topMargin: audioZoom.height
         Rectangle {
             // Audio monitor background
             id: audioBg
@@ -210,14 +230,13 @@ Item {
         propagateComposedEvents: true
         onEntered: {
             // Show clip name
-            console.log('GOT AUDIO ZOOM HEIGHT: ', audioThumb.audioZoomHeight)
-            if (labelContainer.opacity == 0) {
+            /*if (!pressed && labelContainer.opacity == 0) {
                 labelContainer.opacity = 1
                 contextMenu.opacity = 1
                 if (!clipNameLabel.hovered) {
                     showAnimate.restart()
                 }
-            }
+            }*/
         }
         onPressed: mouse => {
             if (audioThumb.isAudioClip && mouseY < audioZoom.height) {
