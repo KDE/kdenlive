@@ -1492,6 +1492,10 @@ void TimelineController::editGuide(int frame)
     }
     auto guideModel = m_model->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
+    if (!guideModel->hasMarker(pos)) {
+        pCore->displayMessage(i18n("No marker at frame %1", frame), ErrorMessage, 500);
+        return;
+    }
     const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
     auto clip = pCore->projectItemModel()->getClipByBinID(binId);
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());

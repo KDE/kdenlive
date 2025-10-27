@@ -611,15 +611,15 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_clip_marker")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_clip_marker")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
     QMenu *guideMenu = new QMenu(i18n("Go to Marker…"), this);
     timelineMenu->addMenu(guideMenu);
 
     // Timeline ruler menu
     auto *timelineRulerMenu = new QMenu(this);
-    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_clip_marker")));
-    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_clip_marker")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_sequence_marker")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_sequence_marker")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("export_guides")));
     timelineRulerMenu->addMenu(guideMenu);
@@ -2046,6 +2046,13 @@ void MainWindow::setupActions()
     QAction *disablePreview = new QAction(i18n("Disable Timeline Preview"), this);
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
+
+    addAction(QStringLiteral("add_sequence_marker"), i18n("Add/Remove Timeline Marker"), this, SLOT(slotAddGuide()),
+              QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_G);
+    addAction(QStringLiteral("delete_sequence_marker"), i18n("Delete Timeline Marker"), this, SLOT(slotDeleteGuide()),
+              QIcon::fromTheme(QStringLiteral("bookmark-remove")));
+    addAction(QStringLiteral("edit_sequence_marker"), i18n("Edit Timeline Marker…"), this, SLOT(slotEditGuide()),
+              QIcon::fromTheme(QStringLiteral("bookmark-edit")));
 
     addAction(QStringLiteral("export_guides"), i18n("Export Markers…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
     addAction(QStringLiteral("search_guide"), i18n("Search Marker…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
