@@ -21,6 +21,11 @@ Rectangle {
         hoverEnabled: true
         acceptedButtons: Qt.MiddleButton | Qt.LeftButton
         onWheel: wheel => {
+            if (wheel.modifiers & Qt.AltModifier) {
+                wheel.accepted = false
+                return
+            }
+
             if (wheel.modifiers & Qt.ControlModifier) {
                 // Zoom in audio wave
                 if (wheel.angleDelta.y == 0) {
