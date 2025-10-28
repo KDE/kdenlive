@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-24 00:42+0000\n"
+"POT-Creation-Date: 2025-10-28 00:42+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -18955,8 +18955,8 @@ msgstr[4] "Teideal"
 msgid "No valid clip to insert"
 msgstr "Amlíne"
 
-#: src/bin/bin.cpp:4281 src/timeline2/view/timelinecontroller.cpp:1612
-#: src/timeline2/view/timelinecontroller.cpp:3502
+#: src/bin/bin.cpp:4281 src/timeline2/view/timelinecontroller.cpp:1616
+#: src/timeline2/view/timelinecontroller.cpp:3506
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr ""
@@ -19119,7 +19119,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5718 src/mainwindow.cpp:2914
+#: src/bin/bin.cpp:5718 src/mainwindow.cpp:2921
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
@@ -19130,7 +19130,7 @@ msgstr ""
 #: src/bin/bin.cpp:5732 src/bin/model/markerlistmodel.cpp:848
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
-#: src/timeline2/view/timelinecontroller.cpp:1576
+#: src/timeline2/view/timelinecontroller.cpp:1580
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
@@ -19226,7 +19226,7 @@ msgstr "Scrios %1"
 msgid "Project Bin"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5162
+#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5169
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -19505,7 +19505,7 @@ msgstr "Scrios marcóir"
 #: src/bin/model/markerlistmodel.cpp:1015
 #: src/bin/model/markerlistmodel.cpp:1057
 #: src/bin/model/markerlistmodel.cpp:1087
-#: src/timeline2/view/timelinecontroller.cpp:1566
+#: src/timeline2/view/timelinecontroller.cpp:1570
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "No marker found at current position"
@@ -20696,8 +20696,8 @@ msgstr "Luchtaigh marcóirí"
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
-#: src/timeline2/view/timelinecontroller.cpp:5240
-#: src/timeline2/view/timelinecontroller.cpp:5245
+#: src/timeline2/view/timelinecontroller.cpp:5244
+#: src/timeline2/view/timelinecontroller.cpp:5249
 #: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Cannot write to file %1"
@@ -21430,7 +21430,7 @@ msgstr "Cuir rian leis"
 msgid "Rendering %1 started"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1417
+#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1419
 #, kde-format
 msgid "untitled"
 msgstr "gan teideal"
@@ -21603,7 +21603,7 @@ msgstr "Tionscadal"
 msgid "Open Containing Folder"
 msgstr "Formáid ghabhála:"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:78 src/mainwindow.cpp:4164
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:78 src/mainwindow.cpp:4171
 #, kde-format
 msgid "Timeline"
 msgstr "Amlíne"
@@ -23857,7 +23857,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2201 src/mainwindow.cpp:3662
+#: src/doc/documentvalidator.cpp:2201 src/mainwindow.cpp:3669
 #, fuzzy, kde-format
 #| msgid "Typewriter"
 msgid "Overwrite"
@@ -24505,7 +24505,7 @@ msgid "Exporting…"
 msgstr "Bain Amach"
 
 #: src/effects/effectstack/view/effectstackview.cpp:703
-#: src/timeline2/view/timelinecontroller.cpp:3353
+#: src/timeline2/view/timelinecontroller.cpp:3357
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
@@ -24513,7 +24513,7 @@ msgid "Enable Effect Stack"
 msgstr "Cumasaigh maisíocht"
 
 #: src/effects/effectstack/view/effectstackview.cpp:703
-#: src/timeline2/view/timelinecontroller.cpp:3353
+#: src/timeline2/view/timelinecontroller.cpp:3357
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
@@ -25084,7 +25084,7 @@ msgid "Generators"
 msgstr "Ginearálta"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:68 src/mainwindow.cpp:4052
+#: src/kdenliveui.rc:68 src/mainwindow.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Audio"
@@ -25220,21 +25220,21 @@ msgid "Markers"
 msgstr "Cuir Marcóirí Leis"
 
 #. i18n: ectx: Menu (marker_category_menu)
-#: src/kdenliveui.rc:316
+#: src/kdenliveui.rc:319
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Add Markers by Category"
 msgstr "Catagóir"
 
 #. i18n: ectx: ToolBar (timelineToolBar)
-#: src/kdenliveui.rc:343
+#: src/kdenliveui.rc:346
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Timeline Toolbar"
 msgstr "Amlíne"
 
 #. i18n: ectx: ToolBar (extraToolBar)
-#: src/kdenliveui.rc:370
+#: src/kdenliveui.rc:373
 #, kde-format
 msgid "Extra Toolbar"
 msgstr "Barra Uirlisí Breise"
@@ -26004,7 +26004,7 @@ msgstr ""
 msgid "Add Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:506 src/mainwindow.cpp:2155
+#: src/mainwindow.cpp:506 src/mainwindow.cpp:2162
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #, kde-format
 msgid "Transitions"
@@ -26175,7 +26175,7 @@ msgstr "Tosaigh ag"
 msgid "Delete them"
 msgstr "Scrios %1"
 
-#: src/mainwindow.cpp:1069 src/timeline2/view/timelinecontroller.cpp:2231
+#: src/mainwindow.cpp:1069 src/timeline2/view/timelinecontroller.cpp:2235
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr ""
@@ -26505,7 +26505,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1482 src/mainwindow.cpp:3645
+#: src/mainwindow.cpp:1482 src/mainwindow.cpp:3652
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -27199,7 +27199,7 @@ msgstr "Ionsá"
 msgid "Fit all Tracks in View"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2003 src/timeline2/view/timelinecontroller.cpp:4967
+#: src/mainwindow.cpp:2003 src/timeline2/view/timelinecontroller.cpp:4971
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Master effects"
@@ -27240,29 +27240,47 @@ msgstr "Comhad Íomhá"
 
 #: src/mainwindow.cpp:2050
 #, fuzzy, kde-format
+#| msgid "Delete marker"
+msgid "Add/Remove Timeline Marker"
+msgstr "Scrios marcóir"
+
+#: src/mainwindow.cpp:2052
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Delete Timeline Marker"
+msgstr "Cuardaigh"
+
+#: src/mainwindow.cpp:2054
+#, fuzzy, kde-format
+#| msgid "Archive Project"
+msgid "Edit Timeline Marker…"
+msgstr "Cuir an Tionscadal i gCartlann"
+
+#: src/mainwindow.cpp:2057
+#, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Export Markers…"
 msgstr "Cuir marcóir in eagar"
 
-#: src/mainwindow.cpp:2051
+#: src/mainwindow.cpp:2058
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search Marker…"
 msgstr "Cuardaigh"
 
-#: src/mainwindow.cpp:2054
+#: src/mainwindow.cpp:2061
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Timeline Markers Locked"
 msgstr "Comhad Íomhá"
 
-#: src/mainwindow.cpp:2057
+#: src/mainwindow.cpp:2064
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Lock Timeline Markers"
 msgstr "Luchtaigh marcóirí"
 
-#: src/mainwindow.cpp:2059
+#: src/mainwindow.cpp:2066
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27270,55 +27288,55 @@ msgid ""
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
 
-#: src/mainwindow.cpp:2061
+#: src/mainwindow.cpp:2068
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Add Subtitle"
 msgstr "Cuir Próifíl Leis"
 
-#: src/mainwindow.cpp:2063
+#: src/mainwindow.cpp:2070
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Disable Subtitle"
 msgstr "Scrios comhaid"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2071
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock Subtitle"
 msgstr "gan teideal"
 
-#: src/mainwindow.cpp:2066
+#: src/mainwindow.cpp:2073
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Manage Subtitles"
 msgstr "gan teideal"
 
-#: src/mainwindow.cpp:2068
+#: src/mainwindow.cpp:2075
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import Subtitle File…"
 msgstr "Luchtaigh marcóirí"
 
-#: src/mainwindow.cpp:2070
+#: src/mainwindow.cpp:2077
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Export Subtitle File…"
 msgstr "Cuir Próifíl Leis"
 
-#: src/mainwindow.cpp:2072 src/timeline2/model/timelinemodel.cpp:2215
+#: src/mainwindow.cpp:2079 src/timeline2/model/timelinemodel.cpp:2215
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete Subtitle"
 msgstr "Scrios comhaid"
 
-#: src/mainwindow.cpp:2073
+#: src/mainwindow.cpp:2080
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Speech Recognition…"
 msgstr "Roghnú"
 
-#: src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27326,128 +27344,128 @@ msgid ""
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
 
-#: src/mainwindow.cpp:2108
+#: src/mainwindow.cpp:2115
 #, kde-format
 msgid "Copy Debug Information"
 msgstr ""
 
-#: src/mainwindow.cpp:2110
+#: src/mainwindow.cpp:2117
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Timeline Effects"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/mainwindow.cpp:2116
+#: src/mainwindow.cpp:2123
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Disabled"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2118
+#: src/mainwindow.cpp:2125
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle All Tracks Disabled"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2120
+#: src/mainwindow.cpp:2127
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Lock"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2122
+#: src/mainwindow.cpp:2129
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle All Tracks Lock"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2124
+#: src/mainwindow.cpp:2131
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Target"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2126
+#: src/mainwindow.cpp:2133
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Active"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2128
+#: src/mainwindow.cpp:2135
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle All Tracks Active"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2130
+#: src/mainwindow.cpp:2137
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Switch All Tracks Active"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:2132
+#: src/mainwindow.cpp:2139
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:2134
+#: src/mainwindow.cpp:2141
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Add Project Note"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:2140
+#: src/mainwindow.cpp:2147
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Select Audio Track %1"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:2144
+#: src/mainwindow.cpp:2151
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Select Video Track %1"
 msgstr "Scrios Rian"
 
-#: src/mainwindow.cpp:2148
+#: src/mainwindow.cpp:2155
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Select Target %1"
 msgstr "Scrios %1"
 
-#: src/mainwindow.cpp:2165
+#: src/mainwindow.cpp:2172
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Frame…"
 msgstr "Bain Amach"
 
-#: src/mainwindow.cpp:2168
+#: src/mainwindow.cpp:2175
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Extract Frame to Project…"
 msgstr "Sábháil marcóirí"
 
-#: src/mainwindow.cpp:2171
+#: src/mainwindow.cpp:2178
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Extract Frame to Clipboard"
 msgstr "Sábháil marcóirí"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2312
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
 
-#: src/mainwindow.cpp:2306
+#: src/mainwindow.cpp:2313
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Cruthaigh Grúpa"
 
-#: src/mainwindow.cpp:2307 src/onlineresources/resourcewidget.cpp:705
+#: src/mainwindow.cpp:2314 src/onlineresources/resourcewidget.cpp:705
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -27455,7 +27473,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr ""
 
-#: src/mainwindow.cpp:2363
+#: src/mainwindow.cpp:2370
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -27463,74 +27481,74 @@ msgid ""
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2371
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2380 src/project/projectmanager.cpp:620
+#: src/mainwindow.cpp:2387 src/project/projectmanager.cpp:620
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2385 src/project/projectmanager.cpp:626
+#: src/mainwindow.cpp:2392 src/project/projectmanager.cpp:626
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2535
+#: src/mainwindow.cpp:2542
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr ""
 
-#: src/mainwindow.cpp:2535
+#: src/mainwindow.cpp:2542
 #, kde-format
 msgid "Clean up project"
 msgstr ""
 
-#: src/mainwindow.cpp:2678
+#: src/mainwindow.cpp:2685
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr ""
 
-#: src/mainwindow.cpp:2722
+#: src/mainwindow.cpp:2729
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Ginearálta"
 
-#: src/mainwindow.cpp:2795
+#: src/mainwindow.cpp:2802
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2796
+#: src/mainwindow.cpp:2803
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Cumraigh"
 
-#: src/mainwindow.cpp:2932 src/mainwindow.cpp:2959
+#: src/mainwindow.cpp:2939 src/mainwindow.cpp:2966
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr ""
 
-#: src/mainwindow.cpp:2942 src/mainwindow.cpp:2988
+#: src/mainwindow.cpp:2949 src/mainwindow.cpp:2995
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr ""
 
-#: src/mainwindow.cpp:2964
+#: src/mainwindow.cpp:2971
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2981 src/timeline2/view/timelinecontroller.cpp:1316
+#: src/mainwindow.cpp:2988 src/timeline2/view/timelinecontroller.cpp:1316
 #: src/timeline2/view/timelinecontroller.cpp:1324
 #: src/timeline2/view/timelinecontroller.cpp:1345
 #: src/timeline2/view/timelinecontroller.cpp:1385
@@ -27541,51 +27559,51 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/mainwindow.cpp:3033
+#: src/mainwindow.cpp:3040
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Marker category does not exist"
 msgstr "Catagóir"
 
-#: src/mainwindow.cpp:3216 src/timeline2/model/timelinefunctions.cpp:798
-#: src/timeline2/view/timelinecontroller.cpp:3214
+#: src/mainwindow.cpp:3223 src/timeline2/model/timelinefunctions.cpp:798
+#: src/timeline2/view/timelinecontroller.cpp:3218
 #, kde-format
 msgid "Overwrite zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3218 src/mainwindow.cpp:3237
+#: src/mainwindow.cpp:3225 src/mainwindow.cpp:3244
 #: src/timeline2/model/timelinefunctions.cpp:800
-#: src/timeline2/view/timelinecontroller.cpp:3216
+#: src/timeline2/view/timelinecontroller.cpp:3220
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Could not insert zone"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:3228
+#: src/mainwindow.cpp:3235
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip selected in project bin"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:3235 src/timeline2/model/timelinefunctions.cpp:798
-#: src/timeline2/view/timelinecontroller.cpp:3214
+#: src/mainwindow.cpp:3242 src/timeline2/model/timelinefunctions.cpp:798
+#: src/timeline2/view/timelinecontroller.cpp:3218
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert zone"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:3402
+#: src/mainwindow.cpp:3409
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect to active item"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/mainwindow.cpp:3464
+#: src/mainwindow.cpp:3471
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3613
+#: src/mainwindow.cpp:3620
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27594,7 +27612,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3617
+#: src/mainwindow.cpp:3624
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27604,25 +27622,25 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3620
+#: src/mainwindow.cpp:3627
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select"
 msgstr "Roghnú"
 
-#: src/mainwindow.cpp:3622
+#: src/mainwindow.cpp:3629
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3623 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3630 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr ""
 
-#: src/mainwindow.cpp:3627
+#: src/mainwindow.cpp:3634
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27630,13 +27648,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3628
+#: src/mainwindow.cpp:3635
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Spás"
 
-#: src/mainwindow.cpp:3630
+#: src/mainwindow.cpp:3637
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27644,14 +27662,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3631
+#: src/mainwindow.cpp:3638
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Uirlis roghnúcháin"
 
-#: src/mainwindow.cpp:3636
+#: src/mainwindow.cpp:3643
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27660,14 +27678,14 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3638
+#: src/mainwindow.cpp:3645
 #, fuzzy, kde-format
 #| msgid "File size"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Méid an chomhaid"
 
-#: src/mainwindow.cpp:3644
+#: src/mainwindow.cpp:3651
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27675,159 +27693,159 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3660
+#: src/mainwindow.cpp:3667
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:3942 src/mainwindow.cpp:3944
+#: src/mainwindow.cpp:3949 src/mainwindow.cpp:3951
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3956
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bins"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:4026
+#: src/mainwindow.cpp:4033
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Clip Jobs"
 msgstr "Ailínigh ar chlé"
 
-#: src/mainwindow.cpp:4045
+#: src/mainwindow.cpp:4052
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure Clip Jobs…"
 msgstr "Cumraigh"
 
-#: src/mainwindow.cpp:4051
+#: src/mainwindow.cpp:4058
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:4118
+#: src/mainwindow.cpp:4125
 #, fuzzy, kde-format
 #| msgid "Merge"
 msgid "-merged"
 msgstr "Cumaisc"
 
-#: src/mainwindow.cpp:4121
+#: src/mainwindow.cpp:4128
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "-stream-%1"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:4163
+#: src/mainwindow.cpp:4170
 #, kde-format
 msgid "Interface"
 msgstr "Comhéadan"
 
-#: src/mainwindow.cpp:4185
+#: src/mainwindow.cpp:4192
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Raise %1"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/mainwindow.cpp:4252
+#: src/mainwindow.cpp:4259
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:4423
+#: src/mainwindow.cpp:4430
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4431
+#: src/mainwindow.cpp:4438
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archiving project"
 msgstr "Cuir an Tionscadal i gCartlann"
 
-#: src/mainwindow.cpp:4571
+#: src/mainwindow.cpp:4578
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Icon Size"
 msgstr "Clómhéid"
 
-#: src/mainwindow.cpp:4575
+#: src/mainwindow.cpp:4582
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Réamhshocrú"
 
-#: src/mainwindow.cpp:4596 src/mainwindow.cpp:4624
+#: src/mainwindow.cpp:4603 src/mainwindow.cpp:4631
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4598 src/mainwindow.cpp:4626
+#: src/mainwindow.cpp:4605 src/mainwindow.cpp:4633
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4600 src/mainwindow.cpp:4628
+#: src/mainwindow.cpp:4607 src/mainwindow.cpp:4635
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4602 src/mainwindow.cpp:4630
+#: src/mainwindow.cpp:4609 src/mainwindow.cpp:4637
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4686
+#: src/mainwindow.cpp:4693
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4686
+#: src/mainwindow.cpp:4693
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
 
-#: src/mainwindow.cpp:5028 src/timeline2/view/timelinecontroller.cpp:5198
+#: src/mainwindow.cpp:5035 src/timeline2/view/timelinecontroller.cpp:5202
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "No subtitles in current project"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:5338
+#: src/mainwindow.cpp:5345
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5343
+#: src/mainwindow.cpp:5350
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Never check again"
 msgstr "Cumraigh"
 
-#: src/mainwindow.cpp:5346
+#: src/mainwindow.cpp:5353
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5350
+#: src/mainwindow.cpp:5357
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5392
+#: src/mainwindow.cpp:5399
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Checking cached data size"
@@ -28095,7 +28113,7 @@ msgid "Audio streams"
 msgstr "Cuir rian leis"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:849
-#: src/monitor/monitor.cpp:2100
+#: src/monitor/monitor.cpp:2102
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -28530,45 +28548,45 @@ msgstr "Monatóir Taifeadta"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr ""
 
-#: src/monitor/monitor.cpp:945 src/monitor/monitor.cpp:981
-#: src/monitor/monitor.cpp:1017
+#: src/monitor/monitor.cpp:947 src/monitor/monitor.cpp:983
+#: src/monitor/monitor.cpp:1019
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:974 src/monitor/monitor.cpp:1010
-#: src/timeline2/view/timelinecontroller.cpp:1892
+#: src/monitor/monitor.cpp:976 src/monitor/monitor.cpp:1012
+#: src/timeline2/view/timelinecontroller.cpp:1896
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgid "Set Zone"
 msgstr "Sábháil go"
 
-#: src/monitor/monitor.cpp:1430
+#: src/monitor/monitor.cpp:1432
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Sábháil marcóirí"
 
-#: src/monitor/monitor.cpp:1430
+#: src/monitor/monitor.cpp:1432
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Sábháil marcóirí"
 
-#: src/monitor/monitor.cpp:1437
+#: src/monitor/monitor.cpp:1439
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1977
+#: src/monitor/monitor.cpp:1979
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "Cuir Fad Ama in Eagar"
 
-#: src/monitor/monitor.cpp:2085 src/monitor/monitor.cpp:2214
+#: src/monitor/monitor.cpp:2087 src/monitor/monitor.cpp:2216
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "%1 audio stream"
@@ -28579,72 +28597,72 @@ msgstr[2] "Cuir rian leis"
 msgstr[3] "Cuir rian leis"
 msgstr[4] "Cuir rian leis"
 
-#: src/monitor/monitor.cpp:2531
+#: src/monitor/monitor.cpp:2533
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2573 src/monitor/monitor.cpp:2630
+#: src/monitor/monitor.cpp:2575 src/monitor/monitor.cpp:2632
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2593
+#: src/monitor/monitor.cpp:2595
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Clip has no effects"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/monitor/monitor.cpp:2595
+#: src/monitor/monitor.cpp:2597
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2637
+#: src/monitor/monitor.cpp:2639
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2713
+#: src/monitor/monitor.cpp:2715
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3212
+#: src/monitor/monitor.cpp:3214
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip selected in Clip Monitor"
 msgstr "Amlíne"
 
-#: src/monitor/monitor.cpp:3233
+#: src/monitor/monitor.cpp:3235
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/monitor/monitor.cpp:3315 src/monitor/monitor.cpp:3346
-#: src/timeline2/view/timelinecontroller.cpp:5751
+#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/timeline2/view/timelinecontroller.cpp:5755
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3325
+#: src/monitor/monitor.cpp:3327
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3331 src/monitor/monitor.cpp:3352
-#: src/timeline2/view/timelinecontroller.cpp:5766
+#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/timeline2/view/timelinecontroller.cpp:5770
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
-#: src/timeline2/view/timelinecontroller.cpp:5769
+#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/timeline2/view/timelinecontroller.cpp:5773
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Failed to create range marker from zone"
@@ -28788,8 +28806,8 @@ msgstr ""
 msgid "Go to Zone End"
 msgstr ""
 
-#: src/monitor/monitorproxy.cpp:721
-#: src/timeline2/view/timelinecontroller.cpp:5758
+#: src/monitor/monitorproxy.cpp:725
+#: src/timeline2/view/timelinecontroller.cpp:5762
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Zone marker"
@@ -32284,20 +32302,20 @@ msgid "Cut all clips"
 msgstr "Dath 1"
 
 #: src/timeline2/model/timelinefunctions.cpp:692
-#: src/timeline2/view/timelinecontroller.cpp:1537
+#: src/timeline2/view/timelinecontroller.cpp:1541
 #, kde-format
 msgid "Insert space"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:694
-#: src/timeline2/view/timelinecontroller.cpp:1539
+#: src/timeline2/view/timelinecontroller.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove space"
 msgstr "Bain an comhad"
 
 #: src/timeline2/model/timelinefunctions.cpp:763
-#: src/timeline2/view/timelinecontroller.cpp:3021
+#: src/timeline2/view/timelinecontroller.cpp:3025
 #, fuzzy, kde-format
 #| msgid "Offset"
 msgid "Lift zone"
@@ -32305,8 +32323,8 @@ msgstr "Fritháireamh"
 
 #: src/timeline2/model/timelinefunctions.cpp:763
 #: src/timeline2/view/timelinecontroller.cpp:746
-#: src/timeline2/view/timelinecontroller.cpp:3021
-#: src/timeline2/view/timelinecontroller.cpp:3094
+#: src/timeline2/view/timelinecontroller.cpp:3025
+#: src/timeline2/view/timelinecontroller.cpp:3098
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract zone"
@@ -32326,23 +32344,23 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:1398
 #: src/timeline2/view/timelinecontroller.cpp:1423
 #: src/timeline2/view/timelinecontroller.cpp:1479
-#: src/timeline2/view/timelinecontroller.cpp:2394
-#: src/timeline2/view/timelinecontroller.cpp:3039
-#: src/timeline2/view/timelinecontroller.cpp:3103
-#: src/timeline2/view/timelinecontroller.cpp:3316
-#: src/timeline2/view/timelinecontroller.cpp:3361
-#: src/timeline2/view/timelinecontroller.cpp:3402
-#: src/timeline2/view/timelinecontroller.cpp:3409
-#: src/timeline2/view/timelinecontroller.cpp:3437
-#: src/timeline2/view/timelinecontroller.cpp:3511
-#: src/timeline2/view/timelinecontroller.cpp:3528
-#: src/timeline2/view/timelinecontroller.cpp:3790
-#: src/timeline2/view/timelinecontroller.cpp:3805
-#: src/timeline2/view/timelinecontroller.cpp:3830
-#: src/timeline2/view/timelinecontroller.cpp:3845
-#: src/timeline2/view/timelinecontroller.cpp:3904
-#: src/timeline2/view/timelinecontroller.cpp:3957
-#: src/timeline2/view/timelinecontroller.cpp:3980
+#: src/timeline2/view/timelinecontroller.cpp:2398
+#: src/timeline2/view/timelinecontroller.cpp:3043
+#: src/timeline2/view/timelinecontroller.cpp:3107
+#: src/timeline2/view/timelinecontroller.cpp:3320
+#: src/timeline2/view/timelinecontroller.cpp:3365
+#: src/timeline2/view/timelinecontroller.cpp:3406
+#: src/timeline2/view/timelinecontroller.cpp:3413
+#: src/timeline2/view/timelinecontroller.cpp:3441
+#: src/timeline2/view/timelinecontroller.cpp:3515
+#: src/timeline2/view/timelinecontroller.cpp:3532
+#: src/timeline2/view/timelinecontroller.cpp:3794
+#: src/timeline2/view/timelinecontroller.cpp:3809
+#: src/timeline2/view/timelinecontroller.cpp:3834
+#: src/timeline2/view/timelinecontroller.cpp:3849
+#: src/timeline2/view/timelinecontroller.cpp:3908
+#: src/timeline2/view/timelinecontroller.cpp:3961
+#: src/timeline2/view/timelinecontroller.cpp:3984
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip selected"
@@ -32356,7 +32374,7 @@ msgstr ""
 #: src/timeline2/model/timelinefunctions.cpp:1132
 #: src/timeline2/model/timelinefunctions.cpp:1136
 #: src/timeline2/model/timelinefunctions.cpp:1143
-#: src/timeline2/view/timelinecontroller.cpp:4121
+#: src/timeline2/view/timelinecontroller.cpp:4125
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
@@ -32366,7 +32384,7 @@ msgstr "Díchumasaigh Maisíocht"
 #: src/timeline2/model/timelinefunctions.cpp:1132
 #: src/timeline2/model/timelinefunctions.cpp:1136
 #: src/timeline2/model/timelinefunctions.cpp:1143
-#: src/timeline2/view/timelinecontroller.cpp:4121
+#: src/timeline2/view/timelinecontroller.cpp:4125
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
@@ -32614,7 +32632,7 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:1229
-#: src/timeline2/view/timelinecontroller.cpp:1769
+#: src/timeline2/view/timelinecontroller.cpp:1773
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "No active track"
@@ -32636,7 +32654,7 @@ msgstr ""
 #: src/timeline2/model/timelinemodel.cpp:1971
 #: src/timeline2/model/timelinemodel.cpp:1995
 #: src/timeline2/model/timelinemodel.cpp:2024
-#: src/timeline2/view/timelinecontroller.cpp:3387
+#: src/timeline2/view/timelinecontroller.cpp:3391
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
@@ -32687,7 +32705,7 @@ msgstr "Ilchodach"
 
 #: src/timeline2/model/timelinemodel.cpp:2452
 #: src/timeline2/model/timelinemodel.cpp:2753
-#: src/timeline2/view/timelinecontroller.cpp:4358
+#: src/timeline2/view/timelinecontroller.cpp:4362
 #, kde-format
 msgid "Move group"
 msgstr ""
@@ -33351,7 +33369,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:934
-#: src/timeline2/view/timelinecontroller.cpp:5128
+#: src/timeline2/view/timelinecontroller.cpp:5132
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Could not insert track"
@@ -33378,201 +33396,207 @@ msgstr ""
 msgid "No range marker found at position"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:1853
+#: src/timeline2/view/timelinecontroller.cpp:1496
+#, fuzzy, kde-format
+#| msgid "Title"
+msgid "No marker at frame %1"
+msgstr "Teideal"
+
+#: src/timeline2/view/timelinecontroller.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No item selected in timeline"
 msgstr "Amlíne"
 
-#: src/timeline2/view/timelinecontroller.cpp:1991
+#: src/timeline2/view/timelinecontroller.cpp:1995
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip to cut"
 msgstr "Amlíne"
 
-#: src/timeline2/view/timelinecontroller.cpp:2313
+#: src/timeline2/view/timelinecontroller.cpp:2317
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2401
+#: src/timeline2/view/timelinecontroller.cpp:2405
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2797
+#: src/timeline2/view/timelinecontroller.cpp:2801
 #, kde-format
 msgid "No clips found to insert space"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2815
+#: src/timeline2/view/timelinecontroller.cpp:2819
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2829
+#: src/timeline2/view/timelinecontroller.cpp:2833
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot remove all spaces"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/view/timelinecontroller.cpp:2843
+#: src/timeline2/view/timelinecontroller.cpp:2847
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot remove all clips"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/view/timelinecontroller.cpp:2878
-#: src/timeline2/view/timelinecontroller.cpp:2883
-#: src/timeline2/view/timelinecontroller.cpp:2905
+#: src/timeline2/view/timelinecontroller.cpp:2882
+#: src/timeline2/view/timelinecontroller.cpp:2887
+#: src/timeline2/view/timelinecontroller.cpp:2909
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No item to edit"
 msgstr "Amlíne"
 
-#: src/timeline2/view/timelinecontroller.cpp:2995
-#: src/timeline2/view/timelinecontroller.cpp:5388
+#: src/timeline2/view/timelinecontroller.cpp:2999
+#: src/timeline2/view/timelinecontroller.cpp:5392
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3259
+#: src/timeline2/view/timelinecontroller.cpp:3263
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3328
+#: src/timeline2/view/timelinecontroller.cpp:3332
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Select a favorite composition"
 msgstr "Ilchodach"
 
-#: src/timeline2/view/timelinecontroller.cpp:3393
+#: src/timeline2/view/timelinecontroller.cpp:3397
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3421
-#: src/timeline2/view/timelinecontroller.cpp:3489
-#: src/timeline2/view/timelinecontroller.cpp:3545
+#: src/timeline2/view/timelinecontroller.cpp:3425
+#: src/timeline2/view/timelinecontroller.cpp:3493
+#: src/timeline2/view/timelinecontroller.cpp:3549
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot move clip to frame %1."
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/view/timelinecontroller.cpp:3442
+#: src/timeline2/view/timelinecontroller.cpp:3446
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3516
-#: src/timeline2/view/timelinecontroller.cpp:3538
+#: src/timeline2/view/timelinecontroller.cpp:3520
+#: src/timeline2/view/timelinecontroller.cpp:3542
 #, kde-format
 msgid "No timecode for clip"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3533
+#: src/timeline2/view/timelinecontroller.cpp:3537
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3654
+#: src/timeline2/view/timelinecontroller.cpp:3658
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3813
+#: src/timeline2/view/timelinecontroller.cpp:3817
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effects"
 msgstr "Scrios %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:3851
-#: src/timeline2/view/timelinecontroller.cpp:3857
-#: src/timeline2/view/timelinecontroller.cpp:3863
+#: src/timeline2/view/timelinecontroller.cpp:3855
+#: src/timeline2/view/timelinecontroller.cpp:3861
+#: src/timeline2/view/timelinecontroller.cpp:3867
 #, kde-format
 msgid "No information in clipboard"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3888
+#: src/timeline2/view/timelinecontroller.cpp:3892
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Paste effects"
 msgstr "Maisíochtaí"
 
-#: src/timeline2/view/timelinecontroller.cpp:3890
+#: src/timeline2/view/timelinecontroller.cpp:3894
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Cannot paste effect on selected clip"
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/timeline2/view/timelinecontroller.cpp:3942
+#: src/timeline2/view/timelinecontroller.cpp:3946
 #, fuzzy, kde-format
 #| msgid "Preview Settings"
 msgid "Open sequence"
 msgstr "Socruithe Réamhamhairc"
 
-#: src/timeline2/view/timelinecontroller.cpp:3964
+#: src/timeline2/view/timelinecontroller.cpp:3968
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Item is not a title clip"
 msgstr "Cruthaigh Grúpa"
 
-#: src/timeline2/view/timelinecontroller.cpp:4062
+#: src/timeline2/view/timelinecontroller.cpp:4066
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4116
+#: src/timeline2/view/timelinecontroller.cpp:4120
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Restore video"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/timeline2/view/timelinecontroller.cpp:4116
+#: src/timeline2/view/timelinecontroller.cpp:4120
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Restore audio"
 msgstr "Bain Amach"
 
-#: src/timeline2/view/timelinecontroller.cpp:4337
+#: src/timeline2/view/timelinecontroller.cpp:4341
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Move item"
 msgstr "Teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:4819
+#: src/timeline2/view/timelinecontroller.cpp:4823
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4830
+#: src/timeline2/view/timelinecontroller.cpp:4834
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4921
+#: src/timeline2/view/timelinecontroller.cpp:4925
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Record audio"
 msgstr "Bain Amach"
 
-#: src/timeline2/view/timelinecontroller.cpp:5068
+#: src/timeline2/view/timelinecontroller.cpp:5072
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Expand clip"
 msgstr "Teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:5071
+#: src/timeline2/view/timelinecontroller.cpp:5075
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgid "Could not expand clip"
 msgstr "Dún an cluaisín reatha"
 
-#: src/timeline2/view/timelinecontroller.cpp:5126
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -33582,18 +33606,18 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5205
+#: src/timeline2/view/timelinecontroller.cpp:5209
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Export subtitle file"
 msgstr "Cuir Próifíl Leis"
 
-#: src/timeline2/view/timelinecontroller.cpp:5206
+#: src/timeline2/view/timelinecontroller.cpp:5210
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5220
+#: src/timeline2/view/timelinecontroller.cpp:5224
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -33602,59 +33626,59 @@ msgid ""
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5225
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Warning"
 msgstr "Á Scanadh"
 
-#: src/timeline2/view/timelinecontroller.cpp:5263
+#: src/timeline2/view/timelinecontroller.cpp:5267
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5280
+#: src/timeline2/view/timelinecontroller.cpp:5284
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Show subtitle track"
 msgstr "Cuir rian leis"
 
-#: src/timeline2/view/timelinecontroller.cpp:5280
+#: src/timeline2/view/timelinecontroller.cpp:5284
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Hide subtitle track"
 msgstr "Scrios comhaid"
 
-#: src/timeline2/view/timelinecontroller.cpp:5303
+#: src/timeline2/view/timelinecontroller.cpp:5307
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Unlock subtitle track"
 msgstr "Amhrán"
 
-#: src/timeline2/view/timelinecontroller.cpp:5303
+#: src/timeline2/view/timelinecontroller.cpp:5307
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "gan teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:5465
-#: src/timeline2/view/timelinecontroller.cpp:5474
+#: src/timeline2/view/timelinecontroller.cpp:5469
+#: src/timeline2/view/timelinecontroller.cpp:5478
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "gan teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:5476
+#: src/timeline2/view/timelinecontroller.cpp:5480
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "gan teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:5707
+#: src/timeline2/view/timelinecontroller.cpp:5711
 #, kde-format
 msgid "No range guide found at position"
 msgstr ""
@@ -39342,11 +39366,6 @@ msgstr ""
 #~| msgid "Delete %1"
 #~ msgid "Delete Effects"
 #~ msgstr "Scrios %1"
-
-#, fuzzy
-#~| msgid "Delete marker"
-#~ msgid "Add/Remove Marker"
-#~ msgstr "Scrios marcóir"
 
 #, fuzzy
 #~| msgid "Guides"
