@@ -665,9 +665,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
         AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
     }
-    // TODO: currently when adding a transform effect to a bin clip and adding
-    // another transform to it in timeline there is an image distortion
-    if (KdenliveSettings::keep_original_frame_size() && !m_usesProxy && m_clipType != ClipType::Timeline && !replacingProducer) {
+    if (KdenliveSettings::keep_original_frame_size() && !m_usesProxy &&
+        (m_clipType == ClipType::Video || m_clipType == ClipType::AV || m_clipType == ClipType::Image) && !replacingProducer) {
         const QSize producerSize = getFrameSize();
         const QSize refSize = pCore->getCurrentFrameSize();
         if (producerSize != refSize) {
