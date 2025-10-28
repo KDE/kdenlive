@@ -124,7 +124,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                     setMinimumHeight(contentHeight());
                     Q_EMIT updateHeight();
                 });
-                if (type == ParamType::Curve || type == ParamType::Bezier_spline) {
+                if (type == ParamType::Curve || type == ParamType::Bezier_spline || type == ParamType::Keywords) {
                     m_lay->insertRow(nonKeyframeRow, w);
                     nonKeyframeRow++;
                 } else if (type != ParamType::Hidden) {

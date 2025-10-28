@@ -10,31 +10,38 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>194</width>
-    <height>64</height>
+    <width>175</width>
+    <height>131</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>4</number>
+   </property>
    <property name="leftMargin">
-    <number>0</number>
+    <number>4</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>4</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>4</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>4</number>
    </property>
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <item row="1" column="0">
-    <widget class="QComboBox" name="comboboxwidget"/>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="lineeditwidget"/>
+   <item>
+    <widget class="QPlainTextEdit" name="lineeditwidget"/>
+   </item>
+   <item>
+    <widget class="QComboBox" name="comboboxwidget"/>
    </item>
   </layout>
  </widget>
