@@ -6407,6 +6407,10 @@ bool Bin::usesVariableFpsClip()
 {
     QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
     for (auto &c : allClips) {
+        if (c->refCount() == 0) {
+            // Ignore unused clips
+            continue;
+        }
         ClipType::ProducerType type = c->clipType();
         if ((type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio) && c->hasVariableFps()) {
             return true;
