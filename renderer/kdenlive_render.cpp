@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
+#include <QImageReader>
 #include <QTemporaryFile>
 #include <QtGlobal>
 
@@ -27,6 +28,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("kdenlive_render");
     QCoreApplication::setApplicationVersion(KDENLIVE_VERSION);
+    QImageReader::setAllocationLimit(1024);
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Kdenlive video renderer for MLT");
