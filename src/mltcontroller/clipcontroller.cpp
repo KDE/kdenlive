@@ -293,7 +293,15 @@ void ClipController::getInfoForProducer()
                 m_properties = new Mlt::Properties(m_masterProducer->parent().get_properties());
                 return getInfoForProducer();*/
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
-        if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."))) {
+        bool isSlideShow = m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."));
+        if (!isSlideShow && m_path.contains(QLatin1Char('%'))) {
+            // Check if we have smoething like image-%04d
+            const QRegularExpression regexp("%\\d+d$");
+            if (regexp.match(QFileInfo(m_path).baseName()).hasMatch()) {
+                isSlideShow = true;
+            }
+        }
+        if (isSlideShow) {
             m_clipType = ClipType::SlideShow;
         } else {
             m_clipType = ClipType::Image;
