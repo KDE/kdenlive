@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-10 02:35+0000\n"
+"POT-Creation-Date: 2025-10-29 02:38+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -18683,7 +18683,7 @@ msgid "Edit Tags"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
 #: src/bin/bin.cpp:4670 src/bin/projectclip.cpp:189
-#: src/bin/projectclip.cpp:1985 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -18882,40 +18882,40 @@ msgstr "بايت نىسبىتى"
 msgid "Remove clip markers"
 msgstr "قىسقۇچ قۇر"
 
-#: src/bin/bin.cpp:6185
+#: src/bin/bin.cpp:6189
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6186
+#: src/bin/bin.cpp:6190
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Profile نى ساقلاش"
 
-#: src/bin/bin.cpp:6187
+#: src/bin/bin.cpp:6191
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "ئالماشتۇر"
 
-#: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6349 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1111
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effect %1"
 msgstr "%1 ئۆچۈر"
 
-#: src/bin/bin.cpp:6411 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6415 src/mainwindow.cpp:302
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Bin"
 msgstr "قۇرۇلۇش تەڭشىكى"
 
-#: src/bin/bin.cpp:6414 src/bin/bin.cpp:6417 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6418 src/bin/bin.cpp:6421 src/mainwindow.cpp:4976
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Bin %1"
@@ -19326,13 +19326,13 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1125 src/jobs/cliploadtask.cpp:270
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/bin/projectclip.cpp:1355 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1510
 #, fuzzy, kde-format
@@ -19340,31 +19340,31 @@ msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 msgid "File already exists"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/bin/projectclip.cpp:2578 src/bin/projectclip.cpp:2617
+#: src/bin/projectclip.cpp:2577 src/bin/projectclip.cpp:2616
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Adjust timeline clips"
 msgstr "ئۈنسىز"
 
-#: src/bin/projectclip.cpp:2807
+#: src/bin/projectclip.cpp:2806
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Add stream effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2831
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/bin/projectclip.cpp:3170
+#: src/bin/projectclip.cpp:3169
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Mask added to clip"
 msgstr "ئۈنسىز"
 
-#: src/bin/projectclip.cpp:3174
+#: src/bin/projectclip.cpp:3173
 #, kde-format
 msgid "Missing clip for mask"
 msgstr ""
@@ -23639,7 +23639,7 @@ msgstr "ئاتى"
 msgid "Comments : "
 msgstr "ئىزاھات"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -24104,37 +24104,37 @@ msgid ""
 "undone."
 msgstr ""
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, fuzzy, kde-format
 #| msgid "Audio device:"
 msgid "Audio Files"
 msgstr "ئۈن ئۈسكۈنە:"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Image Files"
 msgstr "تەسۋىر ھۆججەت"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, fuzzy, kde-format
 #| msgid "Video device"
 msgid "Video Files"
 msgstr "ئاۋاز ئۈسكۈنىسى"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "User Files"
 msgstr "سەپلەك ئۆچۈر"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Other Files"
 msgstr "ئىلغۇچ"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "قوللايدىغان ھەممە ھۆججەتلەر"

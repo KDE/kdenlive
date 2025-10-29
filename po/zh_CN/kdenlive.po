@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-10 02:35+0000\n"
+"POT-Creation-Date: 2025-10-29 02:38+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18127,7 +18127,7 @@ msgid "Edit Tags"
 msgstr "编辑标签"
 
 #: src/bin/bin.cpp:4670 src/bin/projectclip.cpp:189
-#: src/bin/projectclip.cpp:1985 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -18321,36 +18321,36 @@ msgstr "音频流 %1"
 msgid "Remove clip markers"
 msgstr "移除剪辑标记"
 
-#: src/bin/bin.cpp:6185
+#: src/bin/bin.cpp:6189
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我们建议您在进行转码操作之前保存项目"
 
-#: src/bin/bin.cpp:6186
+#: src/bin/bin.cpp:6190
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "保存项目"
 
-#: src/bin/bin.cpp:6187
+#: src/bin/bin.cpp:6191
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "转码但不保存"
 
-#: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6349 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "删除效果 %1"
 
-#: src/bin/bin.cpp:6411 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6415 src/mainwindow.cpp:302
 #, kde-format
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:6414 src/bin/bin.cpp:6417 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6418 src/bin/bin.cpp:6421 src/mainwindow.cpp:4976
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -18734,39 +18734,39 @@ msgstr ""
 "图像尺寸小于 8 像素。\n"
 "视频程序框架尚不能正确支持此类图像。"
 
-#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1125 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "无效"
 
-#: src/bin/projectclip.cpp:1355 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1510
 #, kde-format
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: src/bin/projectclip.cpp:2578 src/bin/projectclip.cpp:2617
+#: src/bin/projectclip.cpp:2577 src/bin/projectclip.cpp:2616
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "调整时间轴剪辑"
 
-#: src/bin/projectclip.cpp:2807
+#: src/bin/projectclip.cpp:2806
 #, kde-format
 msgid "Add stream effect"
 msgstr "添加流效果"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2831
 #, kde-format
 msgid "Remove stream effect"
 msgstr "移除流效果"
 
-#: src/bin/projectclip.cpp:3170
+#: src/bin/projectclip.cpp:3169
 #, kde-format
 msgid "Mask added to clip"
 msgstr "蒙版已添加到剪辑"
 
-#: src/bin/projectclip.cpp:3174
+#: src/bin/projectclip.cpp:3173
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "缺少蒙版的剪辑"
@@ -22910,7 +22910,7 @@ msgstr "名称："
 msgid "Comments : "
 msgstr "备注："
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -23346,32 +23346,32 @@ msgid ""
 "undone."
 msgstr "这将删除蒙版 <b>%1</b> 的文件：<br/>%2<br/>此操作无法撤销。"
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, kde-format
 msgid "Audio Files"
 msgstr "音频文件"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, kde-format
 msgid "Image Files"
 msgstr "图像文件"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, kde-format
 msgid "Video Files"
 msgstr "视频文件"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, kde-format
 msgid "User Files"
 msgstr "用户文件"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, kde-format
 msgid "Other Files"
 msgstr "其他文件"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "所有支持的文件"

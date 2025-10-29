@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-10 02:35+0000\n"
+"POT-Creation-Date: 2025-10-29 02:38+0000\n"
 "PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -18895,7 +18895,7 @@ msgid "Edit Tags"
 msgstr "Editatu Etiketak"
 
 #: src/bin/bin.cpp:4670 src/bin/projectclip.cpp:189
-#: src/bin/projectclip.cpp:1985 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -19092,37 +19092,37 @@ msgstr "%1 audio korrontea"
 msgid "Remove clip markers"
 msgstr "Kendu klip-markatzaileak"
 
-#: src/bin/bin.cpp:6185
+#: src/bin/bin.cpp:6189
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Transkodetze eragiketa aurretik proiektua gordetzea gomendatzen dizugu."
 
-#: src/bin/bin.cpp:6186
+#: src/bin/bin.cpp:6190
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gorde proiektua"
 
-#: src/bin/bin.cpp:6187
+#: src/bin/bin.cpp:6191
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodetu gorde gabe"
 
-#: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6349 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Ezabatu %1 efektua"
 
-#: src/bin/bin.cpp:6411 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6415 src/mainwindow.cpp:302
 #, kde-format
 msgid "Project Bin"
 msgstr "Proiektu-ontzia"
 
-#: src/bin/bin.cpp:6414 src/bin/bin.cpp:6417 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6418 src/bin/bin.cpp:6421 src/mainwindow.cpp:4976
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proiektu-ontzia %1"
@@ -19508,39 +19508,39 @@ msgstr ""
 "Irudiaren tamaina 8 pixel baino txikiagoa d.\n"
 "Egoera hau ez da bateragarria gure bideo euskarriarekin."
 
-#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1125 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "Baliogabea"
 
-#: src/bin/projectclip.cpp:1355 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1510
 #, kde-format
 msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: src/bin/projectclip.cpp:2578 src/bin/projectclip.cpp:2617
+#: src/bin/projectclip.cpp:2577 src/bin/projectclip.cpp:2616
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Doitu denbora-lerroko klipak"
 
-#: src/bin/projectclip.cpp:2807
+#: src/bin/projectclip.cpp:2806
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2831
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Kendu korronte efektua"
 
-#: src/bin/projectclip.cpp:3170
+#: src/bin/projectclip.cpp:3169
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Klipean maskara gehitu da"
 
-#: src/bin/projectclip.cpp:3174
+#: src/bin/projectclip.cpp:3173
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Maskararako klipa falta da"
@@ -23804,7 +23804,7 @@ msgstr "Izena : "
 msgid "Comments : "
 msgstr "Iruzkinak : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -24248,32 +24248,32 @@ msgstr ""
 "Honek <b>%1</b> maskara ezabatuko du, fitxategia:<br/>%2<br/>Eragiketa hau "
 "ezin da desegin."
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, kde-format
 msgid "Audio Files"
 msgstr "Audio-fitxategiak"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, kde-format
 msgid "Image Files"
 msgstr "Irudi-fitxategiak"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, kde-format
 msgid "Video Files"
 msgstr "Bideo-fitxategiak"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, kde-format
 msgid "User Files"
 msgstr "Erabiltzaile-fitxategiak"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, kde-format
 msgid "Other Files"
 msgstr "Beste fitxategi batzuk"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "Onartutako fitxategi guztiak"

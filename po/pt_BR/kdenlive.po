@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-10 02:35+0000\n"
+"POT-Creation-Date: 2025-10-29 02:38+0000\n"
 "PO-Revision-Date: 2025-10-07 07:17-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -18732,7 +18732,7 @@ msgid "Edit Tags"
 msgstr "Editar etiquetas"
 
 #: src/bin/bin.cpp:4670 src/bin/projectclip.cpp:189
-#: src/bin/projectclip.cpp:1985 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -18929,36 +18929,36 @@ msgstr "Transmissão de áudio %1"
 msgid "Remove clip markers"
 msgstr "Excluir os marcadores do clipe"
 
-#: src/bin/bin.cpp:6185
+#: src/bin/bin.cpp:6189
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Se recomenda salvar o projeto antes da operação de transcodificação"
 
-#: src/bin/bin.cpp:6186
+#: src/bin/bin.cpp:6190
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Salvar projeto"
 
-#: src/bin/bin.cpp:6187
+#: src/bin/bin.cpp:6191
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificar sem salvar"
 
-#: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6349 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1111
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Excluir efeito %1"
 
-#: src/bin/bin.cpp:6411 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6415 src/mainwindow.cpp:302
 #, kde-format
 msgid "Project Bin"
 msgstr "Biblioteca multimídia"
 
-#: src/bin/bin.cpp:6414 src/bin/bin.cpp:6417 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6418 src/bin/bin.cpp:6421 src/mainwindow.cpp:4976
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Biblioteca multimídia %1"
@@ -19346,39 +19346,39 @@ msgstr ""
 "Dimensão da imagem menor que 8 pixels.\n"
 "Isso não é suportado corretamente por nossa estrutura de vídeo."
 
-#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1125 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "Inválido"
 
-#: src/bin/projectclip.cpp:1355 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1510
 #, kde-format
 msgid "File already exists"
 msgstr "Arquivo já existe"
 
-#: src/bin/projectclip.cpp:2578 src/bin/projectclip.cpp:2617
+#: src/bin/projectclip.cpp:2577 src/bin/projectclip.cpp:2616
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajustar clipes da linha do tempo"
 
-#: src/bin/projectclip.cpp:2807
+#: src/bin/projectclip.cpp:2806
 #, kde-format
 msgid "Add stream effect"
 msgstr "Adicionar efeito de fluxo"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2831
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Remover efeito de fluxo"
 
-#: src/bin/projectclip.cpp:3170
+#: src/bin/projectclip.cpp:3169
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Máscara adicionada ao clipe"
 
-#: src/bin/projectclip.cpp:3174
+#: src/bin/projectclip.cpp:3173
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "O clipe para a máscara está faltando"
@@ -23640,7 +23640,7 @@ msgstr "Nome: "
 msgid "Comments : "
 msgstr "Comentários: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -24088,32 +24088,32 @@ msgstr ""
 "Isto irá excluir o arquivo de máscara <b>%1</b>:<br/>%2<br/>Esta operação "
 "não pode ser desfeita."
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, kde-format
 msgid "Audio Files"
 msgstr "Arquivos de áudio"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, kde-format
 msgid "Image Files"
 msgstr "Arquivos de imagem"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, kde-format
 msgid "Video Files"
 msgstr "Arquivos de vídeo"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, kde-format
 msgid "User Files"
 msgstr "Arquivos do usuário"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, kde-format
 msgid "Other Files"
 msgstr "Outros arquivos"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "Todos os arquivos suportados"

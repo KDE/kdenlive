@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-10 02:35+0000\n"
+"POT-Creation-Date: 2025-10-29 02:38+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -19002,7 +19002,7 @@ msgid "Edit Tags"
 msgstr "Időtartam szerkesztése"
 
 #: src/bin/bin.cpp:4670 src/bin/projectclip.cpp:189
-#: src/bin/projectclip.cpp:1985 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, fuzzy, kde-format
@@ -19223,40 +19223,40 @@ msgstr "Hangfolyam %1"
 msgid "Remove clip markers"
 msgstr "Jelző törlése"
 
-#: src/bin/bin.cpp:6185
+#: src/bin/bin.cpp:6189
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6186
+#: src/bin/bin.cpp:6190
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD projekt mentése"
 
-#: src/bin/bin.cpp:6187
+#: src/bin/bin.cpp:6191
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Átkódolás"
 
-#: src/bin/bin.cpp:6345 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6349 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1111
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Effektus törlése"
 
-#: src/bin/bin.cpp:6411 src/mainwindow.cpp:302
+#: src/bin/bin.cpp:6415 src/mainwindow.cpp:302
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6414 src/bin/bin.cpp:6417 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6418 src/bin/bin.cpp:6421 src/mainwindow.cpp:4976
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -19689,13 +19689,13 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1125 src/jobs/cliploadtask.cpp:270
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Érvénytelen klip"
 
-#: src/bin/projectclip.cpp:1355 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1510
 #, fuzzy, kde-format
@@ -19703,32 +19703,32 @@ msgstr "Érvénytelen klip"
 msgid "File already exists"
 msgstr "A profil már létezik"
 
-#: src/bin/projectclip.cpp:2578 src/bin/projectclip.cpp:2617
+#: src/bin/projectclip.cpp:2577 src/bin/projectclip.cpp:2616
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Idővonal klip törlése"
 
-#: src/bin/projectclip.cpp:2807
+#: src/bin/projectclip.cpp:2806
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Videó effektus hozzáadása"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2831
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
 msgstr "Effekt visszaállítása"
 
-#: src/bin/projectclip.cpp:3170
+#: src/bin/projectclip.cpp:3169
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Mask added to clip"
 msgstr "Lejátszólista klipek"
 
-#: src/bin/projectclip.cpp:3174
+#: src/bin/projectclip.cpp:3173
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -24159,7 +24159,7 @@ msgstr "Név:"
 msgid "Comments : "
 msgstr "Megjegyzés"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -24636,37 +24636,37 @@ msgid ""
 "undone."
 msgstr ""
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, fuzzy, kde-format
 #| msgid "Sox echo audio effect"
 msgid "Audio Files"
 msgstr "Sox visszhang-effektus"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Image Files"
 msgstr "Képfájl"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, fuzzy, kde-format
 #| msgid "Video clips"
 msgid "Video Files"
 msgstr "Videoklipek"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, fuzzy, kde-format
 #| msgid "Clear center size"
 msgid "User Files"
 msgstr "Központi méret törlése"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, fuzzy, kde-format
 #| msgid "Other clips"
 msgid "Other Files"
 msgstr "Egyéb klipek"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "Összes támogatott fájltípus"
