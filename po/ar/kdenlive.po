@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-28 00:42+0000\n"
+"POT-Creation-Date: 2025-10-29 00:43+0000\n"
 "PO-Revision-Date: 2025-10-25 16:55+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -17572,9 +17572,10 @@ msgid "Import keyframes from clipboard"
 msgstr "استورد الأطر الرئيسة من الحافظة"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, kde-format
-msgid "<Select a Keyword>"
-msgstr "<حدّد كلمة مفتاحيّة>"
+#, fuzzy, kde-format
+#| msgid "Insert Space…"
+msgid "Insert a Keyword…"
+msgstr "أدرج فضاء…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -18559,7 +18560,7 @@ msgid "Edit Tags"
 msgstr "حرر الأوسمة"
 
 #: src/bin/bin.cpp:4908 src/bin/projectclip.cpp:195
-#: src/bin/projectclip.cpp:1990 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1989 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -18761,36 +18762,36 @@ msgstr "دفق الصّوت %1"
 msgid "Remove clip markers"
 msgstr "أزل علامات المقطع"
 
-#: src/bin/bin.cpp:6423
+#: src/bin/bin.cpp:6427
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "نوصي بحفظ المشروع قبل عملية تحويل الترميز"
 
-#: src/bin/bin.cpp:6424
+#: src/bin/bin.cpp:6428
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "احفظ المشروع"
 
-#: src/bin/bin.cpp:6425
+#: src/bin/bin.cpp:6429
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "يبدل الترميز دون حفظ"
 
-#: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6587 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "احذف التّأثير %1"
 
-#: src/bin/bin.cpp:6649 src/mainwindow.cpp:305
+#: src/bin/bin.cpp:6653 src/mainwindow.cpp:305
 #, kde-format
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5169
+#: src/bin/bin.cpp:6656 src/bin/bin.cpp:6659 src/mainwindow.cpp:5169
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
@@ -19279,39 +19280,39 @@ msgstr ""
 "أبعاد الصورة أصغر من 8 بكسل.\n"
 "هذا غير متاح بشكل صحيح بواسطة إطار الفيديو الخاص بنا."
 
-#: src/bin/projectclip.cpp:1132 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1131 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "غير صالح"
 
-#: src/bin/projectclip.cpp:1360 src/dialogs/clipcreationdialog.cpp:129
+#: src/bin/projectclip.cpp:1359 src/dialogs/clipcreationdialog.cpp:129
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
 msgid "File already exists"
 msgstr "الملفّ موجود فعلًا"
 
-#: src/bin/projectclip.cpp:2583 src/bin/projectclip.cpp:2622
+#: src/bin/projectclip.cpp:2582 src/bin/projectclip.cpp:2621
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "اضبط مقاطع الخط الزمني"
 
-#: src/bin/projectclip.cpp:2812
+#: src/bin/projectclip.cpp:2811
 #, kde-format
 msgid "Add stream effect"
 msgstr "أضف تّأثير دفق"
 
-#: src/bin/projectclip.cpp:2837
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Remove stream effect"
 msgstr "أزل  تّأثير دفق"
 
-#: src/bin/projectclip.cpp:3175
+#: src/bin/projectclip.cpp:3174
 #, kde-format
 msgid "Mask added to clip"
 msgstr "أُضيف قناع إلى مقطع"
 
-#: src/bin/projectclip.cpp:3179
+#: src/bin/projectclip.cpp:3178
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "مقطع مفقود للقناع"
@@ -23614,7 +23615,7 @@ msgstr "الاسم : "
 msgid "Comments : "
 msgstr "التعليقات: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -24053,32 +24054,32 @@ msgstr ""
 "سيؤدي هذا إلى حذف القناع <b>%1</b>:<br/>%2<br/>لا يمكن التراجع عن هذه "
 "العملية."
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, kde-format
 msgid "Audio Files"
 msgstr "ملفات الصّوت"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, kde-format
 msgid "Image Files"
 msgstr "ملفّات الصّور"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, kde-format
 msgid "Video Files"
 msgstr "ملفّات الفيديو"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, kde-format
 msgid "User Files"
 msgstr "ملفات المستخدم"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, kde-format
 msgid "Other Files"
 msgstr "ملفات أخرى"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "كلّ الملفّات المدعومة"
@@ -38050,6 +38051,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "<Select a Keyword>"
+#~ msgstr "<حدّد كلمة مفتاحيّة>"
 
 #~ msgid "Clean Project"
 #~ msgstr "نظف المشروع"

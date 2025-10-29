@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-28 00:42+0000\n"
-"PO-Revision-Date: 2025-10-24 11:51+0200\n"
+"POT-Creation-Date: 2025-10-29 00:43+0000\n"
+"PO-Revision-Date: 2025-10-28 09:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18005,9 +18005,10 @@ msgid "Import keyframes from clipboard"
 msgstr "Importa fotogrames clau des del porta-retalls"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, kde-format
-msgid "<Select a Keyword>"
-msgstr "<seleccioneu una paraula clau>"
+#, fuzzy, kde-format
+#| msgid "Insert Space…"
+msgid "Insert a Keyword…"
+msgstr "Inserix un espai…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -19001,7 +19002,7 @@ msgid "Edit Tags"
 msgstr "Editeu les etiquetes"
 
 #: src/bin/bin.cpp:4908 src/bin/projectclip.cpp:195
-#: src/bin/projectclip.cpp:1990 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1989 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -19199,37 +19200,37 @@ msgstr "Flux d'àudio %1"
 msgid "Remove clip markers"
 msgstr "Elimina els marcadors dels clips"
 
-#: src/bin/bin.cpp:6423
+#: src/bin/bin.cpp:6427
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Vos recomanem que guardeu el projecte abans de l'operació de transcodificació"
 
-#: src/bin/bin.cpp:6424
+#: src/bin/bin.cpp:6428
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Guarda el projecte"
 
-#: src/bin/bin.cpp:6425
+#: src/bin/bin.cpp:6429
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificació sense guardar"
 
-#: src/bin/bin.cpp:6583 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6587 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Suprimix l'efecte %1"
 
-#: src/bin/bin.cpp:6649 src/mainwindow.cpp:305
+#: src/bin/bin.cpp:6653 src/mainwindow.cpp:305
 #, kde-format
 msgid "Project Bin"
 msgstr "Safata del projecte"
 
-#: src/bin/bin.cpp:6652 src/bin/bin.cpp:6655 src/mainwindow.cpp:5169
+#: src/bin/bin.cpp:6656 src/bin/bin.cpp:6659 src/mainwindow.cpp:5169
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Safata del projecte %1"
@@ -19715,39 +19716,39 @@ msgstr ""
 "La dimensió de la imatge és inferior a 8 píxels.\n"
 "Açò no s'admet en este entorn de treball de vídeo."
 
-#: src/bin/projectclip.cpp:1132 src/jobs/cliploadtask.cpp:270
+#: src/bin/projectclip.cpp:1131 src/jobs/cliploadtask.cpp:270
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: src/bin/projectclip.cpp:1360 src/dialogs/clipcreationdialog.cpp:129
+#: src/bin/projectclip.cpp:1359 src/dialogs/clipcreationdialog.cpp:129
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
 msgid "File already exists"
 msgstr "El fitxer ja existix"
 
-#: src/bin/projectclip.cpp:2583 src/bin/projectclip.cpp:2622
+#: src/bin/projectclip.cpp:2582 src/bin/projectclip.cpp:2621
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajusta els clips de la línia de temps"
 
-#: src/bin/projectclip.cpp:2812
+#: src/bin/projectclip.cpp:2811
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afig un nou de flux"
 
-#: src/bin/projectclip.cpp:2837
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
 
-#: src/bin/projectclip.cpp:3175
+#: src/bin/projectclip.cpp:3174
 #, kde-format
 msgid "Mask added to clip"
 msgstr "La màscara s'ha afegit al clip"
 
-#: src/bin/projectclip.cpp:3179
+#: src/bin/projectclip.cpp:3178
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Falta un clip per a la màscara"
@@ -24084,7 +24085,7 @@ msgstr "Nom: "
 msgid "Comments : "
 msgstr "Comentaris: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
+#: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:135
 #: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
@@ -24538,32 +24539,32 @@ msgstr ""
 "Suprimirà el fitxer de màscara <b>%1</b>:<br/>%2<br/>Esta operació no es "
 "podrà desfer."
 
-#: src/filefilter.cpp:122
+#: src/filefilter.cpp:125
 #, kde-format
 msgid "Audio Files"
 msgstr "Fitxers d'àudio"
 
-#: src/filefilter.cpp:124
+#: src/filefilter.cpp:127
 #, kde-format
 msgid "Image Files"
 msgstr "Fitxers d'imatge"
 
-#: src/filefilter.cpp:126
+#: src/filefilter.cpp:129
 #, kde-format
 msgid "Video Files"
 msgstr "Fitxers de vídeo"
 
-#: src/filefilter.cpp:128
+#: src/filefilter.cpp:131
 #, kde-format
 msgid "User Files"
 msgstr "Fitxers d'usuari"
 
-#: src/filefilter.cpp:130
+#: src/filefilter.cpp:133
 #, kde-format
 msgid "Other Files"
 msgstr "Altres fitxers"
 
-#: src/filefilter.cpp:134
+#: src/filefilter.cpp:137
 #, kde-format
 msgid "All Supported Files"
 msgstr "Tots els fitxers admesos"
@@ -26986,22 +26987,19 @@ msgid "Disable Timeline Preview"
 msgstr "Desactiva la vista prèvia de la línia de temps"
 
 #: src/mainwindow.cpp:2050
-#, fuzzy, kde-format
-#| msgid "Lock Timeline Markers"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Bloqueja els marcadors de la línia de temps"
+msgstr "Afig/Elimina el marcador de la línia de temps"
 
 #: src/mainwindow.cpp:2052
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Busca els marcadors de la línia de temps"
+msgstr "Suprimix el marcador de la línia de temps"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Ves fins al marcador de la línia de temps…"
+msgstr "Edita el marcador de la línia de temps…"
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -33059,10 +33057,9 @@ msgid "No range marker found at position"
 msgstr "No s'ha trobat cap marcador d'interval a la posició"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Next marker position in frames"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "Posició següent del marcador en fotogrames"
+msgstr "No hi ha cap marcador al fotograma %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -33870,27 +33867,27 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:159
 #, kde-format
 msgid "En Space (width of an n)"
-msgstr "Espai ena (amplària d'una «n»)"
+msgstr "Espai ene (amplària d'una «n»)"
 
 #: src/titler/unicodedialog.cpp:161
 #, kde-format
 msgid "Em Space (width of an m)"
-msgstr "Espai ema (amplària d'una «m»)"
+msgstr "Espai eme (amplària d'una «m»)"
 
 #: src/titler/unicodedialog.cpp:163
 #, kde-format
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
-msgstr "Espai tres-per-ema. Amplària: 1/3 d'una <em>ema</em>"
+msgstr "Espai tres-per-eme. Amplària: 1/3 d'una <em>eme</em>"
 
 #: src/titler/unicodedialog.cpp:165
 #, kde-format
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
-msgstr "Espai quatre-per-ema. Amplària: 1/4 d'una <em>ema</em>"
+msgstr "Espai quatre-per-eme. Amplària: 1/4 d'una <em>eme</em>"
 
 #: src/titler/unicodedialog.cpp:167
 #, kde-format
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
-msgstr "Espai sis-per-ema. Amplària: 1/6 d'una <em>ema</em>"
+msgstr "Espai sis-per-eme. Amplària: 1/6 d'una <em>eme</em>"
 
 #: src/titler/unicodedialog.cpp:169
 #, kde-format
@@ -38702,3 +38699,6 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "<Select a Keyword>"
+#~ msgstr "<seleccioneu una paraula clau>"
