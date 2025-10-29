@@ -2370,6 +2370,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
     if (newSequenceId.isEmpty()) {
         // Action canceled
         undo();
+        pCore->displayMessage(i18n("Sequence creation failed"), ErrorMessage);
         return;
     }
     const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
@@ -2396,6 +2397,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
     result = m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {});
     if (!result) {
         undo();
+        pCore->displayMessage(i18n("Cannot insert sequence in current timeline"), ErrorMessage);
         return;
     }
     m_activeTimelineModel->updateDuration();
