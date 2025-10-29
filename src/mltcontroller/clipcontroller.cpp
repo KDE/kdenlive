@@ -295,7 +295,7 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         bool isSlideShow = m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."));
         if (!isSlideShow && m_path.contains(QLatin1Char('%'))) {
-            // Check if we have smoething like image-%04d
+            // Check if we have something like image-%04d
             const QRegularExpression regexp("%\\d+d$");
             if (regexp.match(QFileInfo(m_path).baseName()).hasMatch()) {
                 isSlideShow = true;
