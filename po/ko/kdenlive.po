@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -19795,7 +19795,7 @@ msgstr ""
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -38502,8 +38502,9 @@ msgstr "이미지 형식"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, kde-format
-msgid "First frame"
+#, fuzzy, kde-format
+#| msgid "First frame"
+msgid "First frame:"
 msgstr "첫 프레임"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)

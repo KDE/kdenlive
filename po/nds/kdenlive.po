@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -19672,7 +19672,7 @@ msgstr ""
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -38238,7 +38238,7 @@ msgstr "Bildtyp"
 #: src/ui/slideshowclip_ui.ui:227
 #, fuzzy, kde-format
 #| msgid " frames"
-msgid "First frame"
+msgid "First frame:"
 msgstr " Biller"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)

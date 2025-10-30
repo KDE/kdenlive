@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
-"PO-Revision-Date: 2025-10-24 16:58+0300\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
+"PO-Revision-Date: 2025-10-29 08:47+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17860,10 +17860,9 @@ msgid "Import keyframes from clipboard"
 msgstr "Panodan anahtar kareleri içe aktar"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "Boşluk Yerleştir…"
+msgstr "Anahtar sözcük gir…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -19620,7 +19619,7 @@ msgstr "Kullanım"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -26768,22 +26767,19 @@ msgid "Disable Timeline Preview"
 msgstr "Zaman Akışı Önizlemesini Kapat"
 
 #: src/mainwindow.cpp:2050
-#, fuzzy, kde-format
-#| msgid "Add/Remove Marker"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "İmleyici Ekle/Kaldır"
+msgstr "Zaman Akışı İmleyicisi Ekle/Kaldır"
 
 #: src/mainwindow.cpp:2052
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Zaman akışı imleyicilerinde ara…"
+msgstr "Zaman Akışı İmleyicisini Sil"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Zaman Akışı İmleyicisine Git…"
+msgstr "Zaman Akışı İmleyicisini Düzenle…"
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -32767,10 +32763,9 @@ msgid "No range marker found at position"
 msgstr "Konumda hiçbir erim imleyicisi bulunamadı"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Next marker position in frames"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "Kare olarak sonraki imleyici konumu"
+msgstr "%1. karede imleyici yok"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -37635,8 +37630,9 @@ msgstr "Görsel türü:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, kde-format
-msgid "First frame"
+#, fuzzy, kde-format
+#| msgid "First frame"
+msgid "First frame:"
 msgstr "İlk kare"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)

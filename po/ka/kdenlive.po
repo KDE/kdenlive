@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
-"PO-Revision-Date: 2025-10-28 05:24+0100\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
+"PO-Revision-Date: 2025-10-29 04:06+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -17126,10 +17126,9 @@ msgid "Import keyframes from clipboard"
 msgstr "საკვანძო კადრების შემოტანა ბუფერიდან"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "გამოტოვების ჩასმა…"
+msgstr "საკვანძო სიტყვის ჩასმა…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -18882,7 +18881,7 @@ msgstr "გამოყენება"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -36870,8 +36869,9 @@ msgstr "ასლის ტიპი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, kde-format
-msgid "First frame"
+#, fuzzy, kde-format
+#| msgid "First frame"
+msgid "First frame:"
 msgstr "პირველი კადრი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)

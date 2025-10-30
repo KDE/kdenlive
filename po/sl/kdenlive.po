@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
-"PO-Revision-Date: 2025-10-25 00:05+0200\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
+"PO-Revision-Date: 2025-10-29 17:42+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2119,7 +2119,7 @@ msgstr "Izhodni barvni prostor"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
-"BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 nekonstantnna luma"
+"BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 nekonstantna luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #, kde-format
@@ -3383,8 +3383,8 @@ msgid ""
 "    \tBy default, the box will be composited onto the input, leaving the "
 "video's alpha intact.]]>"
 msgstr ""
-"<![CDATA[Če ima vhod alfo, bboste s potrditvijo tega<br>\n"
-"    \tprepisalic barvo videoposnetka in slikovne točke alfe s slikovnimi "
+"<![CDATA[Če ima vhod alfo, boste s potrditvijo tega<br>\n"
+"    \tprepisali barvo videoposnetka in slikovne točke alfe s slikovnimi "
 "točkami pobarvanega polja.<br>\n"
 "    \tPrivzeto bo polje sestavljeno na vhod, pri čemer bo alfa videoposnetka "
 "ostala nedotaknjena.]]>"
@@ -5749,7 +5749,7 @@ msgstr "Navpični premik alfe"
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Edge Operation"
-msgstr "Operacija robbu"
+msgstr "Operacija robu"
 
 #: data/effects/avfilter/avfilter_roberts.xml:4
 #, kde-format
@@ -11470,8 +11470,8 @@ msgid ""
 "Makes the background transparent, allowing to apply a composite effect and "
 "paint the light mask over a completely different video."
 msgstr ""
-"Naredi ozadje prosojnno, kar omogoča uporabo sestavljenega učinka in "
-"slikannje svetlobne maske na popolnoma drugem videu."
+"Naredi ozadje prosojno, kar omogoča uporabo sestavljenega učinka in slikanje "
+"svetlobne maske na popolnoma drugem videu."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:68
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:140
@@ -13332,7 +13332,7 @@ msgstr ""
 "<![CDATA[Če je omogočeno, nariše pet vodoravnih (in navpičnih za vrsto "
 "zemljevida) <br>\n"
 "    \\črt z majhnimi vrednostmi, od katerih vsaka ustreza trenutni vrednosti "
-"vira podatkov pri 0 %, 25 %, 50 %, 75% inn 100% trenutnega grafa, na "
+"vira podatkov pri 0 %, 25 %, 50 %, 75 % in 100 % trenutnega grafa, na "
 "katerega vpliva vrsta <em>enot legende</em> , če je primerno, in z nizom, "
 "dodanim vrednosti. Za vrsto merilnika hitrosti to prikazuje vrednosti "
 "deljenja (vendar brez dodajanja enote).]]>"
@@ -14853,7 +14853,7 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
-"<![CDATA[Ali naj se vrednosti  <em>merila X</em> in <em>Y</em> preobrnnejo."
+"<![CDATA[Ali naj se vrednosti  <em>merila X</em> in <em>Y</em> preobrnejo."
 "<br>\n"
 "        To je koristno, da je interpolacija animacije razumna, sicer se "
 "vrednosti merila ne animirajo linearno.]]>"
@@ -17838,10 +17838,9 @@ msgid "Import keyframes from clipboard"
 msgstr "Uvozi ključne sličice iz odložišča"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "Vstavi praznino …"
+msgstr "Vstavi ključno besedo …"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -19610,7 +19609,7 @@ msgstr "Uporaba"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -22667,7 +22666,7 @@ msgstr "Počisti vse oblikovanje po meri"
 #: src/dialogs/subtitleedit.cpp:412
 #, kde-format
 msgid "Simple Editor"
-msgstr "Ennostaven urejevalnik"
+msgstr "Enostaven urejevalnik"
 
 #: src/dialogs/subtitleedit.cpp:609
 #, kde-format
@@ -26789,22 +26788,19 @@ msgid "Disable Timeline Preview"
 msgstr "Onemogoči predogled časovnice"
 
 #: src/mainwindow.cpp:2050
-#, fuzzy, kde-format
-#| msgid "Lock Timeline Markers"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Zaklenni označevalnike časovnice"
+msgstr "Dodaj/odstrani označevalnik časovnice"
 
 #: src/mainwindow.cpp:2052
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Poišči označevalnike časovnice"
+msgstr "Izbriši označevalnik časovnice"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Pojdi na označevalnik časovnice …"
+msgstr "Uredi označevalnik časovnice …"
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -26824,7 +26820,7 @@ msgstr "Označevalniki časovnice zaklenjeni"
 #: src/mainwindow.cpp:2064
 #, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Zaklenni označevalnike časovnice"
+msgstr "Zakleni označevalnike časovnice"
 
 #: src/mainwindow.cpp:2066
 #, kde-kuit-format
@@ -26833,7 +26829,7 @@ msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Zaklenite označevalnike časovnice. Če so zaklenjeni, se označevalnniki ne "
+"Zaklenite označevalnike časovnice. Če so zaklenjeni, se označevalniki ne "
 "premikajo med uporabo orodja za praznine ali pri vstavljanju/odstranjevanju "
 "praznine na stezah."
 
@@ -32828,10 +32824,9 @@ msgid "No range marker found at position"
 msgstr "Na položaju kazalca ni nobenega označevalnika obsega"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Next marker position in frames"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "Položaj naslednjega označevalnika v sličicah"
+msgstr "Ni označevalnika pri sličici %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -37688,8 +37683,9 @@ msgstr "Vrsta slike:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, kde-format
-msgid "First frame"
+#, fuzzy, kde-format
+#| msgid "First frame"
+msgid "First frame:"
 msgstr "Prva sličica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
@@ -38454,6 +38450,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "<Select a Keyword>"
-#~ msgstr "<izberite ključno besedo>"

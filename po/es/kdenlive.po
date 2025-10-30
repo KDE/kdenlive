@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
-"PO-Revision-Date: 2025-10-23 12:06+0100\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
+"PO-Revision-Date: 2025-10-29 12:22+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19949,7 +19949,7 @@ msgstr "Uso"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -20883,7 +20883,7 @@ msgstr "Final del marcador, en fotogramas"
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr "Determina si el marcador demarca un rango o no (verdadero/falso)"
+msgstr "Es marcador de rango (verdadero/falso)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -21623,17 +21623,17 @@ msgstr "Agregar clips a la secuencia antes de procesarla"
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
+"No se puede escribir en la ubicación de salida, seleccionar una distinta"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "El perfil del proyecto no es válido, el procesamiento podría fallar."
+msgstr "El disco está casi lleno, el procesamiento podría fallar"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "El espacio en el disco es limitado (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format
@@ -27160,22 +27160,19 @@ msgid "Disable Timeline Preview"
 msgstr "Deshabilitar previsualización de línea de tiempo"
 
 #: src/mainwindow.cpp:2050
-#, fuzzy, kde-format
-#| msgid "Lock Timeline Markers"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Bloquear marcadores de línea de tiempo"
+msgstr "Agregar/Eliminar marcador (línea de tiempo)"
 
 #: src/mainwindow.cpp:2052
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Buscar marcadores (línea de tiempo)"
+msgstr "Borrar marcador (línea de tiempo)"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Ir a marcador de la línea de tiempo…"
+msgstr "Editar marcador (línea de tiempo)…"
 
 #: src/mainwindow.cpp:2057
 #, kde-format
@@ -27190,12 +27187,12 @@ msgstr "Buscar marcador…"
 #: src/mainwindow.cpp:2061
 #, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Bloquear marcadores de línea de tiempo"
+msgstr "Bloquear marcadores (línea de tiempo)"
 
 #: src/mainwindow.cpp:2064
 #, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Bloquear marcadores de línea de tiempo"
+msgstr "Bloquear marcadores (línea de tiempo)"
 
 #: src/mainwindow.cpp:2066
 #, kde-kuit-format
@@ -27204,9 +27201,9 @@ msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Bloquear marcadores de línea de tiempo. Al estar bloqueados, los marcadores "
-"no se moverán al usar la herramienta de espaciado o al insertar/eliminar "
-"espacios en blanco en las pistas."
+"Bloquear marcadores de la línea de tiempo. Al estar bloqueados, los "
+"marcadores no se moverán al usar la herramienta de espaciado o al insertar/"
+"eliminar espacios en blanco en las pistas."
 
 #: src/mainwindow.cpp:2068
 #, kde-format
@@ -27468,7 +27465,7 @@ msgstr "No se encuentra clip del cual editar un marcador"
 #: src/mainwindow.cpp:3040
 #, kde-format
 msgid "Marker category does not exist"
-msgstr "Categoría de marcador no existe"
+msgstr "La categoría de marcador no existe"
 
 #: src/mainwindow.cpp:3223 src/timeline2/model/timelinefunctions.cpp:798
 #: src/timeline2/view/timelinecontroller.cpp:3218
@@ -28298,12 +28295,12 @@ msgstr ""
 #: src/monitor/monitor.cpp:442
 #, kde-format
 msgid "Go to Clip Marker…"
-msgstr "Ir a marcador del clip…"
+msgstr "Ir a marcador (clip)…"
 
 #: src/monitor/monitor.cpp:442
 #, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "Ir a marcador de la línea de tiempo…"
+msgstr "Ir a marcador (línea de tiempo)…"
 
 #: src/monitor/monitor.cpp:446
 #, kde-format
@@ -29919,7 +29916,7 @@ msgstr "Marcadores de todo el proyecto"
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
-msgstr "Cargar marcadores de clip"
+msgstr "Importar marcadores"
 
 #: src/project/dialogs/guideslist.cpp:401
 #, kde-format
@@ -33216,13 +33213,12 @@ msgstr "Seleccionar al menos 2 elementos para agrupar"
 #: src/timeline2/view/timelinecontroller.cpp:1440
 #, kde-format
 msgid "No range marker found at position"
-msgstr "No se encontró un marcador de rango en la posición actual"
+msgstr "No hay un marcador de rango en la posición actual"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Next marker position in frames"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "Posición del marcador siguiente, en fotogramas"
+msgstr "No hay un marcador en el fotograma %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -38098,8 +38094,9 @@ msgstr "Tipo de imagen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, kde-format
-msgid "First frame"
+#, fuzzy, kde-format
+#| msgid "First frame"
+msgid "First frame:"
 msgstr "Primer fotograma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
@@ -38866,6 +38863,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "<Select a Keyword>"
-#~ msgstr "<Seleccionar una palabra clave>"

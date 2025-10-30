@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 00:43+0000\n"
+"POT-Creation-Date: 2025-10-30 00:41+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -19147,7 +19147,7 @@ msgstr ""
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, fuzzy, kde-format
 msgid "Unknown"
@@ -37020,9 +37020,10 @@ msgstr "प्रतिमेचा आकार"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, kde-format
-msgid "First frame"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgid "First frame:"
+msgstr "प्रतिमा जोडा"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
