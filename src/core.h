@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "definitions.h"
 #include "jobs/taskmanager.h"
 #include "kdenlivecore_export.h"
+#include "layouts/layoutinfo.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
 
@@ -305,6 +306,8 @@ public:
     void clearTimeRemap();
     /** @brief Create the dock widgets */
     void buildDocks();
+    /** @brief Restore the default app layout */
+    void restoreLayout();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
@@ -357,6 +360,9 @@ public:
     /** HW decoder changed */
     void updateHwDecoding();
 
+    void startHideBarsTimer();
+    void updateHideBarsTimer(bool inhibit);
+
 private:
     explicit Core(LinuxPackageType packageType, bool debugMode = false);
     static std::unique_ptr<Core> m_self;
@@ -392,6 +398,7 @@ private:
     void checkProfileValidity();
     std::shared_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
+    QTimer m_hideTimer;
     void resetThumbProfile();
 
 protected:
@@ -526,4 +533,7 @@ Q_SIGNALS:
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
     /** Some properties related to rendering changed, update */
     void updateRenderOffset();
+    void hideBars(bool);
+    void switchTitleBars();
+    void loadLayout(LayoutInfo layout);
 };

@@ -226,6 +226,10 @@ void LayoutManagerDialog::addLayoutItem(const LayoutInfo &layout)
 {
     auto *item = new QListWidgetItem(layout.displayName, m_listWidget);
     item->setData(Qt::UserRole, layout.internalId);
+    if (!layout.isKDDockWidgetsLayout()) {
+        item->setIcon(QIcon::fromTheme("dialog-warning"));
+        item->setToolTip(i18n("This layout uses an old and unsupported format, should be removed and recreated"));
+    }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 

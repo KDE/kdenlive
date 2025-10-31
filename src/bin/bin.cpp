@@ -1790,7 +1790,7 @@ void Bin::slotUpdatePalette()
     }
 }
 
-QDockWidget *Bin::clipPropertiesDock()
+KDDockWidgets::QtWidgets::DockWidget *Bin::clipPropertiesDock()
 {
     return m_propertiesDock;
 }
@@ -1843,7 +1843,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             monitor->slotActivateMonitor();
         } else {
             // Force raise
-            monitor->parentWidget()->raise();
+            pCore->window()->raiseMonitor(true);
         }
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
@@ -2637,11 +2637,13 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     if (!id.isEmpty() && id != QLatin1String("-1")) {
         // Open view in a specific folder
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
-        auto parentIx = m_itemModel->getIndexFromItem(item);
-        m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
-        folderName = item->name();
-        m_upAction->setEnabled(true);
-        m_upAction->setVisible(true);
+        if (item) {
+            auto parentIx = m_itemModel->getIndexFromItem(item);
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+            folderName = item->name();
+            m_upAction->setEnabled(true);
+            m_upAction->setVisible(true);
+        }
     }
 
     // setBinEffectsEnabled(!binEffectsDisabled, false);
@@ -3569,11 +3571,9 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
     } else {
         m_propertiesPanel->setEnabled(true);
         Q_EMIT requestShowClipProperties(clip);
-        m_propertiesDock->show();
-        m_propertiesDock->raise();
+        m_propertiesDock->open();
+        m_propertiesDock->setAsCurrentTab();
     }
-    // Check if properties panel is not tabbed under Bin
-    // if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
 }
 
 void Bin::doRefreshPanel(const QString &id)
@@ -4038,7 +4038,8 @@ void Bin::setupMenu()
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
     if (m_isMainBin) {
-        m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
+        m_propertiesDock =
+            pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnRight);
         m_propertiesDock->close();
     }
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
@@ -5691,8 +5692,11 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
                 for (ClipPropertiesController *w : children) {
                     if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                         // Raise panel
-                        w->parentWidget()->parentWidget()->show();
-                        w->parentWidget()->parentWidget()->raise();
+                        auto dock = static_cast<KDDockWidgets::QtWidgets::DockWidget *>(w->parentWidget()->parentWidget());
+                        if (dock) {
+                            dock->open();
+                            dock->setAsCurrentTab();
+                        }
                     }
                     // Show audio tab
                     w->activatePage(2);
@@ -6620,7 +6624,7 @@ const QString Bin::rootFolderId() const
 
 const QString Bin::binInfoToString() const
 {
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     QString binInfo;
     if (dock) {
         binInfo = QStringLiteral("%1:%2:%3").arg(dock->objectName(), rootFolderId(), m_listType == BinIconView ? QLatin1String("1") : QLatin1String("0"));
@@ -6661,7 +6665,7 @@ const QString Bin::loadInfo(const QStringList binInfo, const QStringList existin
             folderName = binName;
         }
     }
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     if (dock) {
         dock->setWindowTitle(folderName);
     }

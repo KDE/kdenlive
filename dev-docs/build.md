@@ -106,6 +106,28 @@ going to be installed in non-user-writable system paths to make them work. If yo
 
 ```bash
 JOBS=8
+
+
+### KDDockWidgets
+
+If your distribution ships a recent enough version of KDDockWidgets, you could install the following package:
+
+```bash
+sudo apt install kddockwidgets-qt6
+```
+
+Otherwise, you should build KDDockWidgets:
+
+```bash
+git clone https://github.com/KDAB/KDDockWidgets.git
+cd KDDockWidgets
+mkdir build && cd build
+# To build with Qt6
+cmake .. -GNinja -DKDDockWidgets_QT6=ON -DKDDockWidgets_FRONTENDS=qtwidgets
+
+# install (use make instead of ninja if ninja is not used)
+ninja -j$JOBS
+sudo ninja install
 ```
 
 ### Building MLT

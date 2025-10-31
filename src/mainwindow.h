@@ -28,6 +28,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <kconfigwidgets_version.h>
+#include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/MainWindow.h>
+#include <kddockwidgets/core/Layout.h>
 #include <kiconthemes_version.h>
 
 #include <mlt++/Mlt.h>
@@ -125,7 +128,9 @@ public:
      * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+    KDDockWidgets::QtWidgets::DockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget,
+                                                  KDDockWidgets::Location area = KDDockWidgets::Location_OnRight,
+                                                  KDDockWidgets::QtWidgets::DockWidget *otherDockWidget = nullptr, const QSize preferredSize = QSize());
 
     QUndoGroup *m_commandStack{nullptr};
     QUndoView *m_undoView;
@@ -134,9 +139,6 @@ public:
     int m_exitCode{EXIT_SUCCESS};
     QMap<QString, KActionCategory *> kdenliveCategoryMap;
     QList<QAction *> getExtraActions(const QString &name);
-    /** @brief Returns true if docked widget is tabbed with another widget from its object name */
-    bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
-    bool isDockTabbedWith(QDockWidget *widget, QDockWidget *otherWidget);
 
     /** @brief Returns true if mixer widget is tabbed */
     bool isMixedTabbed() const;
@@ -165,7 +167,7 @@ public:
     /** @brief Give focus to the active timeline widget */
     void focusTimeline();
     /** @brief Add a bin widget*/
-    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true);
+    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true, const QString &objectName = QString());
     /** @brief Clean current document references from all bins*/
     void cleanBins();
     /** @brief Get the main (first) bin*/
@@ -174,9 +176,8 @@ public:
     void blockBins(bool block);
     /** @brief Get the active (focused) bin or first one if none is active*/
     Bin *activeBin();
-    /** @brief Ensure all bin widgets are tabbed together*/
-    void tabifyBins();
     int binCount() const;
+    void loadBins(QStringList binInfo);
 
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);
@@ -225,6 +226,7 @@ protected:
     bool queryClose() override;
     bool m_windowClosing{false};
     void closeEvent(QCloseEvent *) override;
+    QSize sizeHint() const override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
@@ -253,27 +255,28 @@ private:
     OtioImport *m_otioImport{nullptr};
     KColorSchemeManager *m_colorschemes;
     ScopeManager *m_scopesManager{nullptr};
-
-    QDockWidget *m_projectBinDock;
-    QDockWidget *m_effectListDock;
-    QDockWidget *m_compositionListDock;
-    TransitionListWidget *m_compositionList;
-    EffectListWidget *m_effectList2;
+    KDDockWidgets::QtWidgets::MainWindow *mainDockWindow;
+    KDDockWidgets::QtWidgets::DockWidget *m_timelineDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_projectBinDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_effectListDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_compositionListDock{nullptr};
+    TransitionListWidget *m_compositionList{nullptr};
+    EffectListWidget *m_effectList2{nullptr};
 
     AssetPanel *m_assetPanel{nullptr};
-    QDockWidget *m_effectStackDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_effectStackDock{nullptr};
 
-    QDockWidget *m_clipMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_clipMonitorDock{nullptr};
     Monitor *m_clipMonitor{nullptr};
 
-    QDockWidget *m_projectMonitorDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_projectMonitorDock{nullptr};
     Monitor *m_projectMonitor{nullptr};
 
     AudioGraphSpectrum *m_audioSpectrum;
 
-    QDockWidget *m_undoViewDock;
-    QDockWidget *m_mixerDock;
-    QDockWidget *m_onlineResourcesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_undoViewDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_mixerDock{nullptr};
+    KDDockWidgets::QtWidgets::DockWidget *m_onlineResourcesDock{nullptr};
 
     KSelectAction *m_timeFormatButton;
     QAction *m_compositeAction;
@@ -357,7 +360,6 @@ private:
     void saveOptions();
 
     QStringList m_pluginFileNames;
-    QByteArray m_timelineState;
     void buildDynamicActions();
     void loadClipActions();
     void loadContainerActions();
@@ -566,7 +568,6 @@ private Q_SLOTS:
     void slotSetTimecodeReference();
     void slotAlignTimecode();
     void slotUpdateTimelineView(QAction *action);
-    void slotShowTimeline(bool show);
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();

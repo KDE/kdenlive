@@ -72,8 +72,8 @@ add_subdirectory(layouts)
 list(APPEND kdenlive_SRCS
     core.cpp
     definitions.cpp
-    docktitlebarmanager.cpp
     mainwindow.cpp
+    kddocksetup.cpp
     mltconnection.cpp
     statusbarmessagelabel.cpp
     undohelper.cpp
@@ -275,6 +275,8 @@ target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::SvgWidgets
     # Qt${QT_MAJOR_VERSION}::Test
 )
+
+target_link_libraries(kdenliveLib PUBLIC KDAB::kddockwidgets)
 
 target_link_libraries(kdenliveLib PUBLIC FFmpeg::FFmpeg)
 

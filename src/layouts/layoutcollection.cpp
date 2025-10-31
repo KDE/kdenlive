@@ -8,6 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layouts/layoutcollection.h"
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <QFile>
+#include <QJsonArray>
 #include <QStandardPaths>
 
 LayoutCollection::LayoutCollection()

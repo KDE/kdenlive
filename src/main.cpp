@@ -44,6 +44,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 
 #include <KStyleManager>
+#include <kddockwidgets/DockWidget.h>
 
 #include <QApplication>
 #include <QCommandLineOption>
@@ -524,6 +525,7 @@ int main(int argc, char *argv[])
         clipsToLoad = parser.value(clipsOption).split(QLatin1Char(','));
     }
     qApp->processEvents(QEventLoop::AllEvents);
+    KDDockWidgets::initFrontend(KDDockWidgets::FrontendType::QtWidgets);
     if (!Core::build(packageType, false, parser.isSet(debugOption))) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;

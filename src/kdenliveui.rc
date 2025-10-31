@@ -39,11 +39,6 @@
       <Action name="load_layouts"/>
       <Action name="save_layout"/>
       <Action name="manage_layout"/>
-      <Menu name="dockareaoriantation">
-        <text>Dock Area Orientation</text>
-        <Action name="vertical_dockareaorientation"/>
-        <Action name="horizontal_dockareaorientation"/>
-      </Menu>
       <Action name="show_titlebars"/>
       <Separator/>
       <ActionList name="dock_actions"/>

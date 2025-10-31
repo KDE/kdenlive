@@ -39,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <kddockwidgets/LayoutSaver.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
@@ -1828,12 +1829,23 @@ void KdenliveDoc::loadDocumentProperties()
     QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
     QString name;
     QDomElement e;
+    const QString bins = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:extraBins"));
+    if (!bins.isEmpty()) {
+        pCore->window()->loadBins(bins.split(QLatin1Char(';')));
+    }
     for (int i = 0; i < props.count(); i++) {
         e = props.at(i).toElement();
         name = e.attribute(QStringLiteral("name"));
         if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
             name = name.section(QLatin1Char('.'), 1);
-            if (name == QStringLiteral("storagefolder")) {
+            // Restore Layout
+            if (name == QLatin1String("layout")) {
+                const QString layoutData = e.firstChild().nodeValue();
+                LayoutInfo docLayout(QStringLiteral("current_doc"), QString(), layoutData);
+                Q_EMIT pCore->loadLayout(docLayout);
+                continue;
+            }
+            if (name == QLatin1String("storagefolder")) {
                 // Make sure we have an absolute path
                 QString value = e.firstChild().nodeValue();
                 if (QFileInfo(value).isRelative()) {
@@ -1852,6 +1864,10 @@ void KdenliveDoc::loadDocumentProperties()
             name = name.section(QLatin1Char('.'), 1);
             m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
+    }
+    if (pCore->window() && !pCore->window()->isVisible()) {
+        // The project file did not contain a layout, ensure we show our window
+        pCore->restoreLayout();
     }
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     if (!path.isEmpty()) {

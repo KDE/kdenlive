@@ -38,4 +38,5 @@ struct LayoutInfo
      * @brief Check if the layout has valid data
      */
     bool isValid() const { return !internalId.isEmpty(); }
+    bool isKDDockWidgetsLayout() const { return data.contains(QLatin1String("KdenliveKDDock")); }
 };

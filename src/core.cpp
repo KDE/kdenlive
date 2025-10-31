@@ -34,6 +34,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
+#include <kddockwidgets/Config.h>
+#include <kddockwidgets/core/Draggable_p.h>
 
 #include <QCoreApplication>
 #include <QDesktopServices>
@@ -46,6 +48,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <xlocale.h>
 #endif
 
+static bool m_inhibitHideBarTimer{false};
+
 std::unique_ptr<Core> Core::m_self;
 Core::Core(LinuxPackageType packageType, bool debugMode)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
@@ -55,6 +59,31 @@ Core::Core(LinuxPackageType packageType, bool debugMode)
     , sessionId(QUuid::createUuid().toString())
     , debugMode(debugMode)
 {
+    m_hideTimer.setInterval(5000);
+    m_hideTimer.setSingleShot(true);
+    connect(&m_hideTimer, &QTimer::timeout, this, [&]() { Q_EMIT hideBars(!KdenliveSettings::showtitlebars()); });
+}
+
+void Core::startHideBarsTimer()
+{
+    if (!m_inhibitHideBarTimer) {
+        m_hideTimer.start();
+    }
+}
+
+void Core::updateHideBarsTimer(bool inhibit)
+{
+    if (inhibit) {
+        if (m_hideTimer.isActive()) {
+            m_hideTimer.stop();
+            m_inhibitHideBarTimer = true;
+        }
+    } else {
+        if (m_inhibitHideBarTimer && !KdenliveSettings::showtitlebars()) {
+            m_hideTimer.start();
+        }
+        m_inhibitHideBarTimer = false;
+    }
 }
 
 void Core::prepareShutdown()
@@ -155,6 +184,17 @@ void Core::initHeadless(const QUrl &url)
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
+    KDDockWidgets::Config::self().setDragAboutToStartFunc([](KDDockWidgets::Core::Draggable *) -> bool {
+        if (!KdenliveSettings::showtitlebars()) {
+            pCore->updateHideBarsTimer(true);
+        }
+        return true;
+    });
+
+    KDDockWidgets::Config::self().setDragEndedFunc([]() {
+        // cleanup
+        pCore->updateHideBarsTimer(false);
+    });
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
     bool inSandbox = m_packageType == LinuxPackageType::AppImage || m_packageType == LinuxPackageType::Flatpak || m_packageType == LinuxPackageType::Snap;
@@ -194,13 +234,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     projectManager()->init(Url, clipsToLoad);
     m_mainWindow->init();
 
-    // Secondary bins
     m_guiConstructed = true;
-    for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
-        bin = new Bin(m_projectItemModel, m_mainWindow, false);
-        m_mainWindow->addBin(bin, QString(), false);
-    }
-
     m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();
@@ -251,13 +285,11 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     // TODO make it a more proper image, it currently causes a crash on exit
     ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
     ClipController::mediaUnavailable->set("length", 99999999);
-
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
-    m_mainWindow->show();
-    Q_EMIT m_mainWindow->GUISetupDone();
+
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
@@ -265,6 +297,23 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
 
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
+}
+
+void Core::restoreLayout()
+{
+    if (m_mainWindow == nullptr) {
+        return;
+    }
+    if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
+        // No existing layout, probably first run
+        m_mainWindow->show();
+    } else {
+        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+    }
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT hideBars(!KdenliveSettings::showtitlebars());
+    }
 }
 
 void Core::buildDocks()

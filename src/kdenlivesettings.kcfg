@@ -997,6 +997,10 @@
       <label>Default project format.</label>
       <default></default>
     </entry>
+    <entry name="kdockLayout" type="String">
+      <label>Default project layout.</label>
+      <default></default>
+    </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">
       <label>Show descriptions in project tree view.</label>

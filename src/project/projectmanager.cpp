@@ -47,6 +47,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KNotification>
 #include <KRecentDirs>
+#include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/LayoutSaver.h>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -92,8 +94,11 @@ void ProjectManager::slotLoadOnOpen()
     } else if (KdenliveSettings::openlastproject()) {
         openLastFile();
     } else {
+        pCore->restoreLayout();
         newFile(false);
     }
+    Q_EMIT pCore->window()->GUISetupDone();
+
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         QList<QUrl> urls;
         urls.reserve(m_loadClipsOnOpen.count());
@@ -159,9 +164,9 @@ void ProjectManager::init(const QUrl &projectUrl, const QStringList &clipList)
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 }
 
-void ProjectManager::buildNotesWidget()
+void ProjectManager::buildNotesWidget(KDDockWidgets::QtWidgets::DockWidget *tabbedDock)
 {
-    m_notesPlugin = new NotesPlugin(this);
+    m_notesPlugin = new NotesPlugin(tabbedDock, this);
 }
 
 void ProjectManager::newFile(bool showProjectSettings)
@@ -1365,6 +1370,8 @@ void ProjectManager::prepareSave()
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotesversion"), QStringLiteral("2"));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->window()->openedSequences().join(QLatin1Char(';')));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.activetimeline"), m_activeTimelineModel->uuid().toString());
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.layout"), QString(dockLayout.serializeLayout()));
 }
 
 void ProjectManager::slotResetProfiles(bool reloadThumbs)
