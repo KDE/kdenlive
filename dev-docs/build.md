@@ -6,7 +6,7 @@ Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build 
 
 Currently supported GNU/Linux distributions are:
 
-* Ubuntu 24.10 Oracular Oriolea and derivatives, or later.
+* Ubuntu 25.10 (Questing Quokka) and derivatives, or later.
 * Arch Linux
 
 But it should work on any platforms fulfilling the requirements described below
@@ -81,7 +81,12 @@ sudo apt install kde-style-breeze
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg mediainfo
 
-sudo apt install  ladspa-sdk libfftw3-dev libsdl1.2-dev libxine2-dev debhelper libarchive-dev libgdk-pixbuf-2.0-dev libsdl2-dev libxml2-dev   libavdevice-dev librtaudio-dev libsox-dev frei0r-plugins-dev libdv4-dev libmovit-dev librubberband-dev libswscale-dev imagemagick libebur128-dev libopencv-dev libsamplerate0-dev libvidstab-dev  imagemagick-6.q16 libexif-dev libpango1.0-dev libsdl1.2-compat-dev libvorbis-dev libavformat-dev libavcodec-dev libswresample-dev libavutil-dev
+sudo apt install  ladspa-sdk libfftw3-dev libsdl1.2-dev libxine2-dev debhelper \
+libarchive-dev libgdk-pixbuf-2.0-dev libsdl2-dev libxml2-dev libavdevice-dev \
+librtaudio-dev libsox-dev frei0r-plugins-dev libdv4-dev libmovit-dev \
+librubberband-dev libswscale-dev libebur128-dev libopencv-dev libsamplerate0-dev \
+libvidstab-dev libexif-dev libpango1.0-dev libsdl1.2-compat-dev libvorbis-dev \
+libavformat-dev libavcodec-dev libswresample-dev libavutil-dev libopentimelineio-dev
 
 # Additional libraries
 
@@ -92,6 +97,7 @@ sudo apt install chrpath debhelper dh-python libxml2-dev python3-dev swig
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
 ```
+
 ### Define your environment variables
 
 - If you have specific needs and know what you're doing, you can define where you want to install your builds, like `=$HOME/.local`, as `INSTALL_PREFIX` variable:
@@ -105,12 +111,12 @@ going to be installed in non-user-writable system paths to make them work. If yo
 - You can also set the `JOBS` variable to the number of threads your CPU can offer for builds.
 
 ```bash
-JOBS=8
-
+JOBS=16
+```
 
 ### KDDockWidgets
 
-If your distribution ships a recent enough version of KDDockWidgets, you could install the following package:
+If your distribution ships a recent enough version of KDDockWidgets (which is not the case for Ubuntu 25.10), you could install the following package:
 
 ```bash
 sudo apt install kddockwidgets-qt6
@@ -181,7 +187,8 @@ In your development directory, run:
 git clone https://invent.kde.org/multimedia/kdenlive.git
 cd kdenlive
 mkdir build && cd build
-cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF
+cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+-DRELEASE_BUILD=OFF -DCMAKE_FIND_ROOT_PATH=/usr/local/KDAB/KDDockWidgets-2.5.0
 ninja -j$JOBS
 sudo ninja install
 ```
