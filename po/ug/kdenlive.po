@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -30636,7 +30636,19 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "تاللاش"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Color Selection"
+msgid "Sequence creation failed"
+msgstr "رەڭ تاللاش"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "Timeline"
+msgid "Cannot insert sequence in current timeline"
+msgstr "ۋاقىت سىزىقى"
+
+#: src/project/projectmanager.cpp:2404
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Create Sequence Clip"

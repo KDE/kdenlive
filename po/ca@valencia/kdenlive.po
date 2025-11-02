@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
-"PO-Revision-Date: 2025-10-30 13:24+0100\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"PO-Revision-Date: 2025-11-01 09:29+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -14680,7 +14680,7 @@ msgstr ""
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la brillantor"
+msgstr "Augmenta la lluminositat"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
@@ -19432,7 +19432,7 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
-"Quan se selecciona, Kdenlive buscarà imatges amb el mateix patró de nom i "
+"Quan se selecciona, Kdenlive buscarà imatges amb el mateix patró del nom i "
 "les importarà com una seqüència d'imatges."
 
 #: src/bin/model/markerlistmodel.cpp:82
@@ -25097,6 +25097,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"La disposició %1 utilitza un format antic que ja no s'admet, s'hauria "
+"d'eliminar i tornar a crear."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -25197,6 +25199,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Esta disposició utilitza un format antic que ja no s'admet, s'hauria "
+"d'eliminar i tornar a crear"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30612,7 +30616,23 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Trieu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid ""
+#| "Speech recognition failed:\n"
+#| "%1"
+msgid "Sequence creation failed"
+msgstr ""
+"No s'ha pogut fer el reconeixement de veu:\n"
+"%1"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "No es pot afegir una seqüència que es continga a si mateixa"
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
@@ -38687,15 +38707,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Dock Area Orientation"
-#~ msgstr "Orientació de l'àrea d'acoblament"
-
-#~ msgid "Arrange Dock Areas In Rows"
-#~ msgstr "Organitza les àrees d'acoblament en files"
-
-#~ msgid "Arrange Dock Areas In Columns"
-#~ msgstr "Organitza les àrees d'acoblament en columnes"
-
-#~ msgid "Raise %1"
-#~ msgstr "Eleva %1"

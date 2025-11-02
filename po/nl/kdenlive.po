@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
-"PO-Revision-Date: 2025-10-31 10:40+0100\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"PO-Revision-Date: 2025-11-01 17:03+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -25040,6 +25040,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"De indeling %1 gebruikt een oud en niet ondersteund formaat, zou verwijderd "
+"en opnieuw gemaakt moeten worden."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -25140,6 +25142,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Deze indeling  gebruikt een oud en niet ondersteund formaat, zou verwijderd "
+"en opnieuw gemaakt moeten worden"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30518,7 +30522,19 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Mask creation failed."
+msgid "Sequence creation failed"
+msgstr "Aanmaken van masker is mislukt"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "U kunt geen sequentie in zichzelf invoegen."
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"
@@ -39027,10 +39043,6 @@ msgstr "%1u"
 #~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Intensiteit"
-
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "Aanmaken van masker is mislukt"
 
 #~ msgid "Check config"
 #~ msgstr "Configuratie controleren"

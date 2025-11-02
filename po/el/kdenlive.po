@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -30825,7 +30825,19 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Select Transition"
+msgid "Sequence creation failed"
+msgstr "Επιλογή μετάβασης"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "Cannot insert clip in timeline"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Αδυναμία εισαγωγής του κλιπ στο χρονοδιάγραμμα"
+
+#: src/project/projectmanager.cpp:2404
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

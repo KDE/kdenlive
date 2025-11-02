@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -31086,7 +31086,19 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Selectați un clip dacă doriți să aplicați un efect"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Select Transition"
+msgid "Sequence creation failed"
+msgstr "Selectare tranziție"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "Cannot cut a transition"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Nu se poate tăia o tranziție"
+
+#: src/project/projectmanager.cpp:2404
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

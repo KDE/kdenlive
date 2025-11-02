@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
-"PO-Revision-Date: 2025-10-31 10:43+0100\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"PO-Revision-Date: 2025-11-01 11:35+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -24908,6 +24908,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"Postavitev %1 uporablja staro in nepodprto obliko; treba jo je odstraniti in "
+"ponovno ustvariti."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -25008,6 +25010,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Ta postavitev uporablja staro in nepodprto obliko; treba jo je odstraniti in "
+"ponovno ustvariti"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30410,7 +30414,23 @@ msgstr "Uvažanje posnetka zaporedja je trenutno v stanju preizkušanja"
 msgid "Select a clip to create sequence"
 msgstr "Izberite posnetek za ustvarjanje zaporedja"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid ""
+#| "Speech recognition failed:\n"
+#| "%1"
+msgid "Sequence creation failed"
+msgstr ""
+"Razpoznava govora ni uspela:\n"
+"%1"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe"
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -38438,15 +38458,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Dock Area Orientation"
-#~ msgstr "Usmerjenost sidrišč"
-
-#~ msgid "Arrange Dock Areas In Rows"
-#~ msgstr "Razporedi sidrišča v vrstice"
-
-#~ msgid "Arrange Dock Areas In Columns"
-#~ msgstr "Razporedi sidrišča v stolpce"
-
-#~ msgid "Raise %1"
-#~ msgstr "Dvigni %1"

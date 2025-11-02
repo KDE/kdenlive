@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -30758,7 +30758,19 @@ msgstr "Sekuentzia-klip bat inportatzen, une honetan egoera esperimentalean"
 msgid "Select a clip to create sequence"
 msgstr "Hautatu klip bat sortzeko sekuentzia"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Mask creation"
+msgid "Sequence creation failed"
+msgstr "Maskarak sortzea"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Ezin duzu txertatu bere burua barruan duen sekuentzia bat"
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sortu sekuentzia-klipa"
@@ -39251,11 +39263,6 @@ msgstr "%1h"
 #~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Intentsitatea"
-
-#, fuzzy
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "Maskarak sortzea"
 
 #~ msgid "Check config"
 #~ msgstr "Egiaztatu konfigurazioa"

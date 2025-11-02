@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2025-09-28 10:06+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -30692,7 +30692,20 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Sélectionner une vidéo pour créer une séquence"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Mask creation"
+msgid "Sequence creation failed"
+msgstr "Création de masque"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr ""
+"Il vous est impossible d'insérer une séquence à l'intérieur d'elle-même."
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Créer une vidéo de séquences"
@@ -39288,11 +39301,6 @@ msgstr "%1h"
 #~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Intensité"
-
-#, fuzzy
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "Création de masque"
 
 #~ msgid "Check config"
 #~ msgstr "Vérifier la configuration"

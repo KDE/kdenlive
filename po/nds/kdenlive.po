@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -30665,7 +30665,19 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Utsöök-Warktüüch"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Selection tool"
+msgid "Sequence creation failed"
+msgstr "Utsöök-Warktüüch"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "Align left"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Linkerhand utrichten"
+
+#: src/project/projectmanager.cpp:2404
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Create Sequence Clip"

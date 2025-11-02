@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
-"PO-Revision-Date: 2025-10-30 13:50+0200\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"PO-Revision-Date: 2025-11-01 16:22+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -25070,6 +25070,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"У компонуванні %1 використано застарілий і непідтримуване форматування, його "
+"слід вилучити і створити повторно."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -25170,6 +25172,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"У цьому компонуванні використано застарілий і непідтримуване форматування, "
+"його слід вилучити і створити повторно"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30612,7 +30616,19 @@ msgstr "Імпорт кліпу послідовності, у поточній 
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Mask creation failed."
+msgid "Sequence creation failed"
+msgstr "Спроба створення маски зазнала невдачі."
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Не можна вставляти послідовності, які містять самі себе"
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"
@@ -39159,10 +39175,6 @@ msgstr "%1 год."
 #~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Інтенсивність"
-
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "Спроба створення маски зазнала невдачі."
 
 #~ msgid "Check config"
 #~ msgstr "Перевірити налаштування"

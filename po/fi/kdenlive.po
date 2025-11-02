@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -30893,7 +30893,19 @@ msgstr "Tuodaan sarjaleikettä, tämä on tällä hetkellä kokeellista"
 msgid "Select a clip to create sequence"
 msgstr "Valitse leike sarjan luomiseksi"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Mask creation"
+msgid "Sequence creation failed"
+msgstr "Maskin luominen"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Et voi lisätä sarjaa, joka sisältää itsensä"
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Luo sarjaleike"
@@ -39418,11 +39430,6 @@ msgstr "%1 t"
 #~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Intensiteetti"
-
-#, fuzzy
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "Maskin luominen"
 
 #~ msgid "Check config"
 #~ msgstr "Tarkista asetukset"

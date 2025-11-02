@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-01 00:45+0000\n"
-"PO-Revision-Date: 2025-10-30 01:28-0300\n"
+"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"PO-Revision-Date: 2025-11-01 00:52-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -19269,7 +19269,7 @@ msgstr "Importar seleção"
 #: src/bin/mediabrowser.cpp:59
 #, kde-format
 msgid "Import File on Double Click"
-msgstr "Importar arquivo com duplo clique"
+msgstr "Importar arquivo com clique duplo"
 
 #: src/bin/mediabrowser.cpp:64
 #, kde-format
@@ -24987,6 +24987,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"O layout %1 utiliza um formato antigo e não suportado, portanto deve ser "
+"removido e recriado."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -25087,6 +25089,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Este layout utiliza um formato antigo e não suportado, portanto deve ser "
+"removido e recriado"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30489,7 +30493,19 @@ msgstr "Importando um clipe em sequência, atualmente em estado experimental"
 msgid "Select a clip to create sequence"
 msgstr "Selecione um clipe para criar a sequência"
 
-#: src/project/projectmanager.cpp:2402
+#: src/project/projectmanager.cpp:2373
+#, fuzzy, kde-format
+#| msgid "Mask creation"
+msgid "Sequence creation failed"
+msgstr "Criação de máscara"
+
+#: src/project/projectmanager.cpp:2400
+#, fuzzy, kde-format
+#| msgid "You cannot insert a sequence containing itself"
+msgid "Cannot insert sequence in current timeline"
+msgstr "Você não pode adicionar uma sequência dentro dela mesma"
+
+#: src/project/projectmanager.cpp:2404
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Criar clipe de sequência"
@@ -38967,11 +38983,6 @@ msgstr "%1h"
 #~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Intensidade"
-
-#, fuzzy
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "Criação de máscara"
 
 #~ msgid "Check config"
 #~ msgstr "Verificar configuração"
