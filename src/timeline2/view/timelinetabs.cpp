@@ -367,7 +367,9 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("send_sequence")));
 
     QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("marker_menu"), pCore->window()));
-    m_timelineClipMenu->addMenu(markerMenu);
+    if (markerMenu) {
+        m_timelineClipMenu->addMenu(markerMenu);
+    }
     QMenu *alignMenu = new QMenu(i18n("Align to Reference"), this);
     m_timelineClipMenu->addMenu(alignMenu);
     alignMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
