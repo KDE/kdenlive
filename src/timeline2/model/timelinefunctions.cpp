@@ -2244,8 +2244,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             return clipId;
         };
 
-        auto pasteClip = [disableProxy, callBack, useFreeBinId](const QDomNodeList &clips, int ratio, const QString &folderId, bool &clipsImported,
-                                                                QStringList &importedUuids, Fun &undo, Fun &redo) {
+        auto pasteClip = [disableProxy, callBack, useFreeBinId, sourceFps, ratio](const QDomNodeList &clips, const QString &folderId, bool &clipsImported,
+                                                                                  QStringList &importedUuids, Fun &undo, Fun &redo) {
             for (int i = 0; i < clips.count(); ++i) {
                 QDomElement currentProd = clips.item(i).toElement();
                 QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
@@ -2257,7 +2257,14 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 // Adjust duration in case of different fps on source and target
                 if (ratio != 1.) {
                     int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
-                    int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
+                    bool ok;
+                    const QString lengthString = Xml::getXmlProperty(currentProd, QStringLiteral("length"));
+                    int length = lengthString.toInt(&ok);
+                    if (!ok) {
+                        Timecode tc(Timecode::HH_MM_SS_FF, sourceFps.toDouble());
+                        length = tc.getFrameCount(lengthString);
+                    }
+                    length *= ratio;
                     currentProd.setAttribute(QStringLiteral("out"), out);
                     Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
                 }
@@ -2305,7 +2312,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
         QStringList importedUuids;
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
-        if (!pasteClip(binClips, ratio, folderId, clipsImported, importedUuids, undo, redo)) {
+        if (!pasteClip(binClips, folderId, clipsImported, importedUuids, undo, redo)) {
             pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
             undo();
             semaphore.release(1);
@@ -2313,7 +2320,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
 
         QDomNodeList chainClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("chain"));
-        if (!pasteClip(chainClips, ratio, folderId, clipsImported, importedUuids, undo, redo)) {
+        if (!pasteClip(chainClips, folderId, clipsImported, importedUuids, undo, redo)) {
             pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
             undo();
             semaphore.release(1);
