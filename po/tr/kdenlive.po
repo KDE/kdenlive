@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-10-31 17:30+0300\n"
+"PO-Revision-Date: 2025-11-02 22:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24891,6 +24891,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"%1 yerleşimi, eski ve desteklenmeyen bir biçim kullanıyor; kaldırılmalı ve "
+"yeniden oluşturulmalıdır."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -24991,6 +24993,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Bu yerleşim, eski ve desteklenmeyen bir biçim kullanıyor; kaldırılmalı ve "
+"yeniden oluşturulmalıdır."
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30358,20 +30362,14 @@ msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr ""
-"Konuşma tanıma başarısız oldu:\n"
-"%1"
+msgstr "Sekans oluşturma başarısız"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Kendini içeren bir sekans yerleştiremezsiniz"
+msgstr "Geçerli zaman akışına sekans eklenemiyor"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format

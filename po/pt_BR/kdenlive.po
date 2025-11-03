@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-11-01 00:52-0300\n"
-"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
+"PO-Revision-Date: 2025-11-02 05:58-0300\n"
+"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -30494,16 +30494,14 @@ msgid "Select a clip to create sequence"
 msgstr "Selecione um clipe para criar a sequência"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "Criação de máscara"
+msgstr "Criação da sequência falhou"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Você não pode adicionar uma sequência dentro dela mesma"
+msgstr "Você não pode inserir uma sequência na linha do tempo atual"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format

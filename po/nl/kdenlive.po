@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-11-01 17:03+0100\n"
+"PO-Revision-Date: 2025-11-02 13:42+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -30523,16 +30523,14 @@ msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation failed."
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "Aanmaken van masker is mislukt"
+msgstr "Aanmaken van sequentie is mislukt"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "U kunt geen sequentie in zichzelf invoegen."
+msgstr "Kan geen sequentie in huidige tijdlijn invoegen."
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format

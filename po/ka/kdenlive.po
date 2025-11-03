@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-10-30 05:29+0100\n"
+"PO-Revision-Date: 2025-11-02 06:49+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -29600,16 +29600,14 @@ msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation failed."
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "ნიღბის შექმნა ჩავარდა."
+msgstr "მიმდევრობის შექმნა ჩავარდა"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "მიმდევრობას, რომელიც თავის თავს შეიცავს, ვერ ჩასვამთ"
+msgstr "მიმდევრობის ჩასმა მიმდინარე დროის ხაზში შეუძლებელია"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format

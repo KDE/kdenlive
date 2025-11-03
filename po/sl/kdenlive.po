@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-11-01 11:35+0100\n"
+"PO-Revision-Date: 2025-11-02 22:45+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -30415,20 +30415,14 @@ msgid "Select a clip to create sequence"
 msgstr "Izberite posnetek za ustvarjanje zaporedja"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr ""
-"Razpoznava govora ni uspela:\n"
-"%1"
+msgstr "Ustvarjanje zaporedja ni uspelo"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe"
+msgstr "Zaporedja ni mogoče vstaviti v trenutno časovnico"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format

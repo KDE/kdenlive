@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-11-01 16:22+0200\n"
+"PO-Revision-Date: 2025-11-02 11:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -30617,16 +30617,14 @@ msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation failed."
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "Спроба створення маски зазнала невдачі."
+msgstr "Не вдалося створити послідовність"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Не можна вставляти послідовності, які містять самі себе"
+msgstr "Не можна вставляти послідовності на поточний монтажний стіл"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format

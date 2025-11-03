@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-02 00:41+0000\n"
-"PO-Revision-Date: 2025-10-28 16:58+0200\n"
+"PO-Revision-Date: 2025-11-02 16:36+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -3414,10 +3414,9 @@ msgstr "בחר צבע גבול"
 
 #: data/effects/avfilter/avfilter_epx.xml:8
 #: data/effects/avfilter/avfilter_hqx.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur factor"
+#, kde-format
 msgid "Scale factor"
-msgstr "מקדם טשטוש"
+msgstr "מקדם קנה מידה"
 
 #: data/effects/avfilter/avfilter_epx.xml:9
 #, kde-format
@@ -3425,10 +3424,9 @@ msgid "2x,3x"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_eq.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "Video Equalizer"
-msgstr "אקולייזר"
+msgstr "אקוולייזר וידאו"
 
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
@@ -3466,10 +3464,9 @@ msgid "Gamma Weight"
 msgstr "משקל גאמה"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Audio Equalizer (avfilter)"
-msgstr "מסנן צורת גל של שמע"
+msgstr "אקוולייזר (avfilter)"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
@@ -9947,7 +9944,7 @@ msgstr "עובי קו מתאר"
 #, kde-format
 msgid ""
 "0 means fill; otherwise, draw unfilled with a stroke width of this size."
-msgstr ""
+msgstr "0 משמעותו למלא, אחרת, לצייר בלי מילוי עם קו מתאר בעובי הזה."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
 #, kde-format
@@ -9968,7 +9965,7 @@ msgstr "החלקת קצוות"
 #: data/effects/frei0r/frei0r_facedetect.xml:37
 #, kde-format
 msgid "Draw with anti-aliasing?"
-msgstr ""
+msgstr "לצייר עם החלקת קצוות?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
@@ -10461,7 +10458,7 @@ msgstr "סוג מסכה"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, kde-format
 msgid "Color distance,Transparency,Edge inwards,Edge outwards"
-msgstr ""
+msgstr "מרחק צבע,שקיפות,קצה כלפי פנים,קצה כלפי חוץ"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
@@ -11336,7 +11333,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
 msgid "nosync0r"
-msgstr ""
+msgstr "nosync0r"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:5
 #, kde-format
@@ -11346,12 +11343,12 @@ msgstr "טלוויזיה מקולקלת"
 #: data/effects/frei0r/frei0r_nosync0r.xml:8
 #, kde-format
 msgid "HSync"
-msgstr ""
+msgstr "סנכרון אופקי"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
 #, kde-format
 msgid "VSync"
-msgstr ""
+msgstr "סנכרון אנכי"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -11384,8 +11381,7 @@ msgid "Pixelize (basic)"
 msgstr "פיקסול (בסיסי)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
 msgstr "פיקסול תמונת הקלט"
 
@@ -11584,7 +11580,7 @@ msgstr "מרחק פיצול אופקי"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
 msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
-msgstr ""
+msgstr "<![CDATA[ערכים < 0.500 מזיזים ימינה, ערכים > 0.500 מזיזים שמאלה.]]>"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, fuzzy, kde-format
@@ -11595,7 +11591,7 @@ msgstr "מרחק פיצול אנכי"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
 msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
-msgstr ""
+msgstr "<![CDATA[ערכים < 0.5002 מזיזים למטה, ערכים > 0.500 מזיזים למעלה.]]>"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -11668,7 +11664,7 @@ msgstr "הסט בציר Y"
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
 msgid "scanline0r"
-msgstr ""
+msgstr "scanline0r"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:5
 #, kde-format
@@ -11999,7 +11995,7 @@ msgstr "גודל ליבה"
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
 msgid "TehRoxx0r"
-msgstr ""
+msgstr "TehRoxx0r"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:5
 #, kde-format
@@ -13173,7 +13169,7 @@ msgstr "אקולייזר 15 ערוצים"
 #: data/effects/ladspa/ladspa_equalizer_15.xml:5
 #, kde-format
 msgid "LADSPA equalizer audio effect (15 band)"
-msgstr ""
+msgstr "אפקט שמע אקוולייזר LADSPA (רצועה 15)"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
 #, kde-format
@@ -15481,7 +15477,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
-msgstr ""
+msgstr "ביצוע פעולת addition_alpha ב־RGB[A] של מקורות הפיקסלים."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, kde-format
@@ -16316,7 +16312,7 @@ msgstr "חיפוש…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "הפעלת נכסים שלא נתמכים"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -17106,10 +17102,9 @@ msgid "Import keyframes from clipboard"
 msgstr "ייבוא תמוניות מפתח מלוח הגזירים"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "הוספת רווח…"
+msgstr "הוספת מילת מפתח…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -20506,7 +20501,7 @@ msgstr "הוספת סרטונים לציר הזמן בטרם התיצוג"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "מקום הפלט לא נגיש לכתיבה, נא לבחור מקום אחר"
 
 #: src/dialogs/renderwidget.cpp:2324
 #, kde-format
@@ -20516,7 +20511,7 @@ msgstr "הכונן שלך כמעט התמלא לגמרי, התיצוג עלול 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "המקום שלך בכונן מוגבל (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format
@@ -24604,6 +24599,7 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"להציג יכולות נקודתיות לפיתוח בממשק המשתמש, להשבית את כל רשימות ההחרגה לנכסים."
 
 #: src/main.cpp:355
 #, kde-format
@@ -24726,7 +24722,7 @@ msgstr "להציג פריטים שנסקרו בלבד"
 #: src/mainwindow.cpp:450
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "להציג רק פריטים שתואמים ל־10 סיביות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:460
@@ -25191,10 +25187,9 @@ msgid "%1×"
 msgstr "%1×"
 
 #: src/mainwindow.cpp:1456
-#, fuzzy, kde-format
-#| msgid "Reset Audio Waveform Zoom"
+#, kde-format
 msgid "Click to reset Audio Waveform Zoom"
-msgstr "איפוס תקריב על צורת גל של שמע"
+msgstr "לחיצה תאפס את התקריב על צורת גל של שמע"
 
 #: src/mainwindow.cpp:1462
 #, kde-format
@@ -25946,22 +25941,19 @@ msgid "Disable Timeline Preview"
 msgstr "השבתת תצוגה מקדימה של ציר זמן"
 
 #: src/mainwindow.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Add/Remove Marker"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "הוספת/הסרת סמן"
+msgstr "הוספת/הסרת סמן ציר זמן"
 
 #: src/mainwindow.cpp:2123
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "חיפוש סמני ציר זמן"
+msgstr "מחיקת סמן ציר זמן"
 
 #: src/mainwindow.cpp:2125
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "מעבר לסמן ציר זמן…"
+msgstr "עריכת סמן ציר זמן…"
 
 #: src/mainwindow.cpp:2128
 #, kde-format
@@ -29516,16 +29508,14 @@ msgid "Select a clip to create sequence"
 msgstr "בחירת סרטון ליצירת רצף"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation failed."
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "יצירת מסכה נכשלה."
+msgstr "יצירת רצף נכשלה"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "אי אפשר להוסיף רצף שמכיל את עצמו"
+msgstr "לא ניתן להוסיף רצף בציר הזמן הנוכחי"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format
@@ -31902,10 +31892,9 @@ msgid "No range marker found at position"
 msgstr "לא נמצא סמן טווח במקום הזה"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Markers for %1"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "סמנים עבור %1"
+msgstr "אין סמן בתמונית %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -36729,10 +36718,9 @@ msgstr "סוג תמונה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "תמונית ראשונה"
+msgstr "תמונית ראשונה:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
