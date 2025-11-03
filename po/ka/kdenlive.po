@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-29 02:38+0000\n"
-"PO-Revision-Date: 2025-10-09 00:05+0200\n"
+"PO-Revision-Date: 2025-11-02 00:45+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7003,12 +7003,12 @@ msgstr "სურათის ინტენსივობის შეცვ�
 #: data/effects/burningtv.xml:4
 #, kde-format
 msgid "Burning TV"
-msgstr ""
+msgstr "ცეცხლმოკიდებული ტელევიზორი"
 
 #: data/effects/burningtv.xml:5
 #, kde-format
 msgid "Simulate burning TV pixels"
-msgstr ""
+msgstr "ცეცხლმოკიდებული ტელევიზორის პიქსელების სიმულაცია"
 
 #: data/effects/burningtv.xml:8
 #, kde-format
