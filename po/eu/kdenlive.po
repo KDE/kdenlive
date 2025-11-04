@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -32312,7 +32312,7 @@ msgstr "Itsatsi klipak"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Ez dago pista nahikorik arbela itsasteko"
@@ -32362,36 +32362,36 @@ msgstr "Itsaste Abisua"
 msgid "Paste"
 msgstr "Itsatsi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Ezin izan du ontziko klipa gehitu"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Klip guztiak ez dira ondo kopiatu"
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ezin izan dira elementuak itsatsi denbora-lerroan"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Itsatsi denbora-lerroko klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, kde-format
 msgid "Remove space on track"
 msgstr "Kendu pistako espazioa"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Ezabatu pistako klipak"
@@ -33492,12 +33492,12 @@ msgstr "Ez neurria aldatu"
 msgid "Close %1"
 msgstr "Itxi %1"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, kde-format
 msgid "Align to Reference"
 msgstr "Lerrokatu erreferentziarekin"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Berrizendatu sekuentzia"

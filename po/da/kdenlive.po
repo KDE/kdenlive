@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -32616,7 +32616,7 @@ msgstr "Indsæt klip"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Not enough tracks to paste clipboard"
@@ -32666,39 +32666,39 @@ msgstr ""
 msgid "Paste"
 msgstr "Master"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "Tilføj klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kunne ikke indsætte elementer i tidslinje"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Indsæt tidslinjeklip"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove space on track"
 msgstr "Fjern tomrum i alle spor"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"
@@ -33885,13 +33885,13 @@ msgstr "Ændr størrelse"
 msgid "Close %1"
 msgstr "Luk"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
 #| msgid "Align Audio to Reference"
 msgid "Align to Reference"
 msgstr "Justér lyd til reference"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Rename Sequence"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -32663,7 +32663,7 @@ msgstr "Clip cu listă de redare"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr ""
@@ -32713,40 +32713,40 @@ msgstr ""
 msgid "Paste"
 msgstr "Clip cu listă de redare"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Se adaugă clipurile"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "actualizează valorile în cronologie"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Paste timeline clips"
 msgstr "Clip cu listă de redare"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "Elimină spațiul"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
@@ -33934,13 +33934,13 @@ msgstr "Redimensionare"
 msgid "Close %1"
 msgstr "Închide"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Align to Reference"
 msgstr "Aliniază la stânga"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Rename Sequence"

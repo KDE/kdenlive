@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -32488,7 +32488,7 @@ msgstr "クリップを貼り付け"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "クリップボードに貼り付ける十分なトラックがありません"
@@ -32536,41 +32536,41 @@ msgstr ""
 msgid "Paste"
 msgstr "貼り付け"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "クリップの追加"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "すべてのクリップのコピーが成功しませんでした"
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "タイムライン内で値を更新する"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste timeline clips"
 msgstr "プレイリスト・クリップ"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "領域の削除"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"
@@ -33719,13 +33719,13 @@ msgstr "サイズ変更"
 msgid "Close %1"
 msgstr "%1 を閉じる"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
 #| msgid "Auto Refresh"
 msgid "Align to Reference"
 msgstr "自動更新"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, kde-format
 msgid "Rename Sequence"
 msgstr "シーケンスの名前を変更"

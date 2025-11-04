@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -31138,7 +31138,7 @@ msgstr "粘贴剪辑"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "没有足够的轨道来粘贴剪贴板内容"
@@ -31186,36 +31186,36 @@ msgstr "粘贴警告"
 msgid "Paste"
 msgstr "粘贴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "无法添加项目素材箱剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "未成功复制所有素材"
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, kde-format
 msgid "Remove space on track"
 msgstr "移除轨道中的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
@@ -32280,12 +32280,12 @@ msgstr "不改变大小"
 msgid "Close %1"
 msgstr "关闭 %1"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, kde-format
 msgid "Align to Reference"
 msgstr "对齐到基准点"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, kde-format
 msgid "Rename Sequence"
 msgstr "重命名序列"

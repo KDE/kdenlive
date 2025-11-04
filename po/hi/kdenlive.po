@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -32165,7 +32165,7 @@ msgstr "क्लिप चिपकाएँ"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "क्लिपबोर्ड पर चिपकाने के लिए पर्याप्त ट्रैक नहीं हैं"
@@ -32215,36 +32215,36 @@ msgstr "चिपकाने की चेतावनी"
 msgid "Paste"
 msgstr "पेस्ट करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "बिन क्लिप नहीं जोड़ा जा सका"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "सभी क्लिप सफलतापूर्वक कॉपी नहीं की गईं"
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "टाइमलाइन में आइटम चिपकाए नहीं जा सके"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "टाइमलाइन क्लिप चिपकाएँ"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, kde-format
 msgid "Remove space on track"
 msgstr "ट्रैक पर जगह हटाएं"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, kde-format
 msgid "Delete clips on track"
 msgstr "ट्रैक पर मौजूद क्लिप हटाएँ"
@@ -33336,13 +33336,13 @@ msgstr "आकार"
 msgid "Close %1"
 msgstr "बंद करें %1"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
 #| msgid "Align Audio to Reference"
 msgid "Align to Reference"
 msgstr "ऑडियो को संदर्भ से संरेखित करें"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, kde-format
 msgid "Rename Sequence"
 msgstr "अनुक्रम का नाम बदलें"

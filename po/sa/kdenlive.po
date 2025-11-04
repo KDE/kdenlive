@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -32130,7 +32130,7 @@ msgstr "क्लिप्स् पेस्ट् कुर्वन्तु"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "क्लिप्बोर्ड् पेस्ट् कर्तुं पर्याप्ताः पटलाः न सन्ति"
@@ -32179,36 +32179,36 @@ msgstr "चेतावनी चिपकना"
 msgid "Paste"
 msgstr "चिनोतु"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "बिन् क्लिप् योजयितुं न शक्तवान्"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "सर्वाणि क्लिप्स् सफलतया प्रतिलिपितानि न अभवन्"
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "समयरेखायां वस्तूनि चिनोतु न शक्तवान्"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "समयरेखा क्लिप्स् चिनोतु"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, kde-format
 msgid "Remove space on track"
 msgstr "पटले स्थानं निष्कासयन्तु"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, kde-format
 msgid "Delete clips on track"
 msgstr "पटले क्लिप्स् विलोपयन्तु"
@@ -33295,13 +33295,13 @@ msgstr "आकारं परिवर्तयतु"
 msgid "Close %1"
 msgstr "%1 बन्दं कुर्वन्तु"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
 #| msgid "Align Audio to Reference"
 msgid "Align to Reference"
 msgstr "श्रव्यं सन्दर्भं प्रति संरेखयन्तु"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, kde-format
 msgid "Rename Sequence"
 msgstr "अनुक्रमस्य नाम परिवर्तयतु"

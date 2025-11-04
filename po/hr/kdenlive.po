@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-02 00:41+0000\n"
+"POT-Creation-Date: 2025-11-04 00:41+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -31802,7 +31802,7 @@ msgstr "Playlista isječak"
 #: src/timeline2/model/timelinefunctions.cpp:2087
 #: src/timeline2/model/timelinefunctions.cpp:2110
 #: src/timeline2/model/timelinefunctions.cpp:2147
-#: src/timeline2/model/timelinefunctions.cpp:2537
+#: src/timeline2/model/timelinefunctions.cpp:2544
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr ""
@@ -31850,39 +31850,39 @@ msgstr ""
 msgid "Paste"
 msgstr "Playlista isječak"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
-#: src/timeline2/model/timelinefunctions.cpp:2323
-#: src/timeline2/model/timelinefunctions.cpp:2447
-#: src/timeline2/model/timelinefunctions.cpp:2475
+#: src/timeline2/model/timelinefunctions.cpp:2322
+#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2454
+#: src/timeline2/model/timelinefunctions.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Add clips"
 msgid "Could not add bin clip"
 msgstr "Dodaj isječke"
 
-#: src/timeline2/model/timelinefunctions.cpp:2529
+#: src/timeline2/model/timelinefunctions.cpp:2536
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2579
-#: src/timeline2/model/timelinefunctions.cpp:2760
+#: src/timeline2/model/timelinefunctions.cpp:2586
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "osvježi vrjednosti na vremenskoj liniji"
 
-#: src/timeline2/model/timelinefunctions.cpp:2780
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, fuzzy, kde-format
 msgid "Paste timeline clips"
 msgstr "Obriši vremenski isječak"
 
-#: src/timeline2/model/timelinefunctions.cpp:3000
+#: src/timeline2/model/timelinefunctions.cpp:3007
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "Ukloni prazninu"
 
-#: src/timeline2/model/timelinefunctions.cpp:3027
+#: src/timeline2/model/timelinefunctions.cpp:3034
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
@@ -33025,12 +33025,12 @@ msgstr "Promjeni veličinu..."
 msgid "Close %1"
 msgstr "Zatvori"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
 msgid "Align to Reference"
 msgstr "Poravnaj lijevo"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:449
 #, fuzzy, kde-format
 msgid "Rename Sequence"
 msgstr "Veličina slike"
