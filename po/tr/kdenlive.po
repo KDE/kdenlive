@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 02:38+0000\n"
+"POT-Creation-Date: 2025-11-04 02:54+0000\n"
 "PO-Revision-Date: 2025-10-22 17:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3892,7 +3892,7 @@ msgstr "Leke,Ayna,Sabit,Yansıt,Kaydır,Soldur,Boşluklar"
 #: data/effects/avfilter/avfilter_fillborders.xml:15 data/effects/crop.xml:11
 #: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
 #: data/effects/frei0r/frei0r_mask0mate.xml:8
-#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:212
 #, kde-format
 msgid "Left"
@@ -3902,7 +3902,7 @@ msgstr "Sol"
 #: data/effects/avfilter/avfilter_fillborders.xml:18 data/effects/crop.xml:17
 #: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
 #: data/effects/frei0r/frei0r_mask0mate.xml:11
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:115
 #: src/ui/configmisc_ui.ui:217
 #, kde-format
 msgid "Right"
@@ -3912,7 +3912,7 @@ msgstr "Sağ"
 #: data/effects/avfilter/avfilter_fillborders.xml:21 data/effects/crop.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:202
 #, kde-format
 msgid "Top"
@@ -3922,7 +3922,7 @@ msgstr "Üst"
 #: data/effects/avfilter/avfilter_fillborders.xml:24 data/effects/crop.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
-#: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:117
 #: src/ui/configmisc_ui.ui:207
 #, kde-format
 msgid "Bottom"
@@ -10342,7 +10342,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:230
 #: src/assets/view/widgets/keyframeimport.cpp:240
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -19634,7 +19634,7 @@ msgstr "Kullanım"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:531 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -20661,22 +20661,22 @@ msgstr " olay"
 msgid " events"
 msgstr " olay"
 
-#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:116
 #, kde-format
 msgid "Bottom Left"
 msgstr "Sol Alt"
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:118
 #, kde-format
 msgid "Bottom Right"
 msgstr "Sağ Alt"
 
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
 #, kde-format
 msgid "Top Left"
 msgstr "Sol Üst"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Top Right"
 msgstr "Sağ Üst"
@@ -20685,7 +20685,7 @@ msgstr "Sağ Üst"
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:331
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:709
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
-#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Öntanımlı"
@@ -20695,7 +20695,7 @@ msgstr "Öntanımlı"
 msgid "Box as Border"
 msgstr "Kenarlık Olarak Kutu"
 
-#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Gölge Olarak Kutu"
@@ -22659,12 +22659,12 @@ msgstr "Y Konumunu Ayarla"
 msgid "Y:"
 msgstr "Y:"
 
-#: src/dialogs/subtitlestyleedit.cpp:48
+#: src/dialogs/subtitlestyleedit.cpp:40 src/dialogs/subtitlestyleedit.cpp:52
 #, kde-format
 msgid "Select font"
 msgstr "Yazıtipi seç"
 
-#: src/dialogs/subtitlestyleedit.cpp:49
+#: src/dialogs/subtitlestyleedit.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
@@ -22672,40 +22672,40 @@ msgstr ""
 "Bir yazıtipi seçmek ve özelliklerini ayarlamak için bir yazıtipi iletişim "
 "kutusu açar."
 
-#: src/dialogs/subtitlestyleedit.cpp:101
+#: src/dialogs/subtitlestyleedit.cpp:105
 #, kde-format
 msgid "Box as Outline"
 msgstr "Dış Hat Olarak Kutu"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
+#: src/dialogs/subtitlestyleedit.cpp:137 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "Önizlemeyi Göster >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:142
+#: src/dialogs/subtitlestyleedit.cpp:146
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< Önizlemeyi Gizle"
 
-#: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
-#: src/dialogs/subtitlestyleedit.cpp:180
+#: src/dialogs/subtitlestyleedit.cpp:174 src/dialogs/subtitlestyleedit.cpp:179
+#: src/dialogs/subtitlestyleedit.cpp:184
 #: src/effects/effectlist/model/effecttreemodel.cpp:285
 #, kde-format
 msgid "Error"
 msgstr "Hata"
 
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:174
 #, kde-format
 msgid "Style name already exists."
 msgstr "Biçem adı halihazırda var."
 
-#: src/dialogs/subtitlestyleedit.cpp:175
+#: src/dialogs/subtitlestyleedit.cpp:179
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "Biçem adı boş olamaz."
 
-#: src/dialogs/subtitlestyleedit.cpp:180
+#: src/dialogs/subtitlestyleedit.cpp:184
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "Biçem adı “,” içeremez."
@@ -31669,7 +31669,7 @@ msgstr "Klipleri yapıştır"
 #: src/timeline2/model/timelinefunctions.cpp:2081
 #: src/timeline2/model/timelinefunctions.cpp:2104
 #: src/timeline2/model/timelinefunctions.cpp:2141
-#: src/timeline2/model/timelinefunctions.cpp:2531
+#: src/timeline2/model/timelinefunctions.cpp:2538
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Panoyu yapıştırmak için yeterli iz yok"
@@ -31718,36 +31718,36 @@ msgstr "Yapıştırma Uyarısı"
 msgid "Paste"
 msgstr "Yapıştır"
 
-#: src/timeline2/model/timelinefunctions.cpp:2309
-#: src/timeline2/model/timelinefunctions.cpp:2317
-#: src/timeline2/model/timelinefunctions.cpp:2441
-#: src/timeline2/model/timelinefunctions.cpp:2469
+#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2324
+#: src/timeline2/model/timelinefunctions.cpp:2448
+#: src/timeline2/model/timelinefunctions.cpp:2476
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Kova klibi eklenemedi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2523
+#: src/timeline2/model/timelinefunctions.cpp:2530
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Tüm klipler başarıyla kopyalandı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2573
-#: src/timeline2/model/timelinefunctions.cpp:2754
+#: src/timeline2/model/timelinefunctions.cpp:2580
+#: src/timeline2/model/timelinefunctions.cpp:2761
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ögeler, zaman akışına yapıştırılamadı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2774
+#: src/timeline2/model/timelinefunctions.cpp:2781
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Zaman akışı kliplerini yapıştır"
 
-#: src/timeline2/model/timelinefunctions.cpp:2994
+#: src/timeline2/model/timelinefunctions.cpp:3001
 #, kde-format
 msgid "Remove space on track"
 msgstr "İzdeki boşluğu kaldır"
 
-#: src/timeline2/model/timelinefunctions.cpp:3021
+#: src/timeline2/model/timelinefunctions.cpp:3028
 #, kde-format
 msgid "Delete clips on track"
 msgstr "İzdeki klipleri sil"
@@ -32840,12 +32840,12 @@ msgstr "Yeniden Boyutlandır"
 msgid "Close %1"
 msgstr "Kapat: %1"
 
-#: src/timeline2/view/timelinetabs.cpp:371
+#: src/timeline2/view/timelinetabs.cpp:373
 #, kde-format
 msgid "Align to Reference"
 msgstr "Başvuruya Hizala"
 
-#: src/timeline2/view/timelinetabs.cpp:445
+#: src/timeline2/view/timelinetabs.cpp:447
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Sekansı Yeniden Adlandır"
