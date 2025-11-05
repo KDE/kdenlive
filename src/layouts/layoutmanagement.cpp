@@ -229,7 +229,7 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
     m_currentLayoutId = layout.internalId;
 
     // Parse layout data
-    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
     dockLayout.restoreLayout(layout.data.toLatin1());
     m_layoutSwitcher->setCurrentLayout(layout.internalId);
     if (!KdenliveSettings::showtitlebars()) {
@@ -282,7 +282,7 @@ void LayoutManagement::slotSaveLayout()
     QString saveName = m_layoutSwitcher->currentLayout();
 
     // Get current window state
-    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
     const QString state(dockLayout.serializeLayout());
 
     // Save the layout
