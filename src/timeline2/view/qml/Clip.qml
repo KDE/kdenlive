@@ -27,6 +27,7 @@ Rectangle {
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
+    property int mixEndDuration: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -386,7 +387,7 @@ Rectangle {
             id: thumbsLoader
             anchors.fill: parent
             anchors.leftMargin: parentTrack.isAudio ? xIntegerOffset : itemBorder.border.width + mixContainer.width
-            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width
+            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width + clipRoot.mixEndDuration * clipRoot.timeScale
             anchors.topMargin: itemBorder.border.width
             anchors.bottomMargin: itemBorder.border.width
             //clip: true
@@ -491,19 +492,26 @@ Rectangle {
                     id: mixBackground
                     property double mixPos: mixBackground.width - clipRoot.mixCut * clipRoot.timeScale
                     property bool mixSelected: root.selectedMix == clipRoot.clipId
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    anchors.fill: parent
                     visible: clipRoot.mixDuration > 0
-                    color: mixSelected ? root.selectionColor : "mediumpurple"
+                    color: mixSelected ? root.selectionColor : "transparent"
                     Loader {
                         source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
-                    border.color: mixSelected ? root.selectionColor : "transparent"
+                    border.color: mixSelected ? root.selectionColor : "white"
                     border.width: clipRoot.mixDuration > 0 ? 2 : 0
+                    radius: 3
+                    Rectangle {
+                        id: mixCutPos
+                        anchors.right: parent.right
+                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: 2
+                        color: itemBorder.border.color
+                    }
                     MouseArea {
                         // Mix click mouse area
                         id: mixArea
@@ -526,15 +534,6 @@ Rectangle {
                             .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
                             timeline.showToolTip(text)
                         }
-                    }
-                    Rectangle {
-                        id: mixCutPos
-                        anchors.right: parent.right
-                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        width: 2
-                        color: "navy"
                     }
                     MouseArea {
                         // Right mix resize handle
@@ -1249,11 +1248,13 @@ Rectangle {
                         property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
+                        topPadding: -2
+                        bottomPadding: -1
                         anchors {
                             left: labelRect.left
                             leftMargin: itemBorder.border.width
                         }
-                        color: 'white'
+                        color: "#FFFFFF"
                         //style: Text.Outline
                         //styleColor: 'black'
                     }

@@ -4755,8 +4755,7 @@ QColor TimelineController::targetTextColor() const
 
 QColor TimelineController::audioColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::PositiveText).color().darker(200);
+    return KdenliveSettings::thumbColor1().darker(150);
 }
 
 QColor TimelineController::titleColor() const
@@ -4794,7 +4793,7 @@ QColor TimelineController::lockedColor() const
 QColor TimelineController::groupColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::ActiveText).color();
+    return scheme.foreground(KColorScheme::ActiveText).color().darker(150);
 }
 
 QColor TimelineController::selectionColor() const
