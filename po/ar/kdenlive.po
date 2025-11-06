@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-04 00:41+0000\n"
-"PO-Revision-Date: 2025-10-30 10:08+0400\n"
+"PO-Revision-Date: 2025-11-05 18:39+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -24607,6 +24607,7 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"يستخدم التخطيط %1 تنسيقًا قديمًا وغير متاح الآن، يجب إزالته وإعادة إنشائه."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -24707,6 +24708,7 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"يستخدم هذا التخطيط تنسيقًا قديمًا وغير متاح الآن، يجب إزالته وإعادة إنشائه"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30055,16 +30057,14 @@ msgid "Select a clip to create sequence"
 msgstr "اختر مقطع لتنشئ تسلسل"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "إنشاء القناع"
+msgstr "فشل إنشاء تسلسل"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "لا يمكنك إضافة تسلسل يحوي نفسه."
+msgstr "لا يمكنك إضافة تسلسل في الخط الزمني الحالي"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format
@@ -37281,10 +37281,9 @@ msgstr "نوع الصّورة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "أوّل إطار"
+msgstr "أوّل إطار:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
