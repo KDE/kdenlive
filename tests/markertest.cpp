@@ -323,7 +323,6 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         REQUIRE(convertedMarker.duration().seconds() == 3.0);
         REQUIRE(convertedMarker.comment() == QLatin1String("converted to range"));
 
-
         // Test converting range marker to point marker
         REQUIRE(model->addMarker(GenTime(1.0), QLatin1String("converted to point"), 1));
         std::get<1>(list[0]) = QLatin1String("converted to point");

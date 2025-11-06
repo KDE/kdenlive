@@ -99,7 +99,7 @@ Row {
             bgColorOdd: clipRoot.selected ? root.audioColor : root.audioColor.darker(1.5)//K.KdenliveSettings.thumbColor2.darker(5)
             fgColorEven: clipRoot.selected ? K.KdenliveSettings.thumbColor1 :  K.KdenliveSettings.thumbColor1.darker(1.5)
             fgColorOdd: clipRoot.selected ? K.KdenliveSettings.thumbColor2 : K.KdenliveSettings.thumbColor2.darker(1.5)
-            drawChannelNames: (index + waveform.offset) == 0
+            drawChannelNames: false //(index + waveform.offset) == 0
         }
     }
 }
