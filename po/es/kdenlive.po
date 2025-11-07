@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-06 17:05+0000\n"
-"PO-Revision-Date: 2025-10-29 12:22+0100\n"
+"PO-Revision-Date: 2025-11-07 00:57+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18175,10 +18175,9 @@ msgid "Import keyframes from clipboard"
 msgstr "Importar claves en el portapapeles"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "Insertar espacio…"
+msgstr "Insertar palabra clave…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -25275,6 +25274,8 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"La organización %1 usa un formato antiguo no soportado, debería ser "
+"eliminada y crearse nuevamente."
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -25375,6 +25376,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Esta organización usa un formato antiguo no soportado, debería ser eliminada "
+"y crearse nuevamente."
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -30773,20 +30776,14 @@ msgid "Select a clip to create sequence"
 msgstr "Seleccionar un clip para crear una secuencia"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr ""
-"Falló el reconocimiento de voz:\n"
-"%1"
+msgstr "Error al crear secuencia"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "No es posible insertar una secuencia que se contenga a sí misma"
+msgstr "No es posible insertar la secuencia en la línea de tiempo actual"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format
@@ -38099,10 +38096,9 @@ msgstr "Tipo de imagen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "Primer fotograma"
+msgstr "Primer fotograma:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
@@ -38868,15 +38864,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Dock Area Orientation"
-#~ msgstr "Orientación de áreas empotradas"
-
-#~ msgid "Arrange Dock Areas In Rows"
-#~ msgstr "Distribuir áreas empotradas en filas"
-
-#~ msgid "Arrange Dock Areas In Columns"
-#~ msgstr "Distribuir áreas empotradas en columnas"
-
-#~ msgid "Raise %1"
-#~ msgstr "Invocar %1"
