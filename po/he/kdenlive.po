@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-06 17:05+0000\n"
-"PO-Revision-Date: 2025-11-05 09:06+0200\n"
+"PO-Revision-Date: 2025-11-05 15:41+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -5322,7 +5322,7 @@ msgstr "מסנן רגישות לאור"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
-msgstr ""
+msgstr "ניפוי הבהובים שעלולים לגרום להתקפים אצל חולי אפילפסיה שרגישים לאור."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, kde-format
@@ -5332,17 +5332,17 @@ msgstr "תמוניות לשימוש"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:9
 #, kde-format
 msgid "Set how many frames to use."
-msgstr ""
+msgstr "להגדיר בכמה תמוניות להשתמש."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
-msgstr ""
+msgstr "הגדרת מקדם סף זיהוי, יותר נמוך יותר נוקשה"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
 msgid "Skip"
-msgstr ""
+msgstr "דילוג"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, kde-format
@@ -5357,7 +5357,7 @@ msgstr "מעקף"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
 msgid "Leave frames unchanged"
-msgstr ""
+msgstr "להשאיר את התמוניות ללא שינוי"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
@@ -5391,17 +5391,17 @@ msgstr "מצב פיקסול"
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
 msgid "Average,Minimum,Maximum"
-msgstr ""
+msgstr "ממוצע,מזערי,מרבי"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
 msgid "Prewitt"
-msgstr ""
+msgstr "פרוויט"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "החלת אופטור פרוויט על קלט תזרים וידאו"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5439,22 +5439,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_removegrain.xml:8
 #, kde-format
 msgid "Mode for 1st plane"
-msgstr ""
+msgstr "מצב למישור הראשון"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:11
 #, kde-format
 msgid "Mode for 2nd plane"
-msgstr ""
+msgstr "מצב למישור השני"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:14
 #, kde-format
 msgid "Mode for 3rd plane"
-msgstr ""
+msgstr "מצב למישור השלישי"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:17
 #, kde-format
 msgid "Mode for 4th plane"
-msgstr ""
+msgstr "מצב למישור הרביעי"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, kde-format
