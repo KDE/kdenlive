@@ -230,7 +230,11 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
 
     // Parse layout data
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
-    dockLayout.restoreLayout(layout.data.toLatin1());
+    if (pCore->isVertical() && !layout.verticalData.isEmpty()) {
+        dockLayout.restoreLayout(layout.verticalData.toLatin1());
+    } else {
+        dockLayout.restoreLayout(layout.data.toLatin1());
+    }
     m_layoutSwitcher->setCurrentLayout(layout.internalId);
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
@@ -251,10 +255,12 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
 
     // See if this is a default layout with translation
     QString internalId = layoutName;
-    LayoutInfo existingLayout = m_layoutCollection.getLayout(layoutName);
 
     // Check if this layout already exists
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"));
+
+    // Create or update the layout
+    LayoutInfo newLayout(internalId, layoutName);
 
     if (m_layoutCollection.hasLayout(internalId)) {
         // Layout already exists, confirm overwrite
@@ -263,10 +269,16 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
         if (res != KMessageBox::PrimaryAction) {
             return {nullptr, nullptr};
         }
+        LayoutInfo existingLayout = m_layoutCollection.getLayout(layoutName);
+        newLayout.data = existingLayout.data;
+        newLayout.verticalData = existingLayout.verticalData;
     }
 
-    // Create or update the layout
-    LayoutInfo newLayout(internalId, layoutName, layout);
+    if (pCore->isVertical()) {
+        newLayout.verticalData = layout;
+    } else {
+        newLayout.data = layout;
+    }
     m_layoutCollection.addLayout(newLayout);
 
     // Save to config

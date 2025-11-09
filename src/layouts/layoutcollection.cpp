@@ -76,7 +76,6 @@ bool LayoutCollection::hasLayout(const QString &id) const
 QList<LayoutInfo> LayoutCollection::getAllLayouts() const
 {
     QList<LayoutInfo> result;
-
     // Return layouts in the correct order
     for (const QString &id : m_layoutOrder) {
         if (m_layouts.contains(id)) {
@@ -96,19 +95,23 @@ LayoutCollection LayoutCollection::getDefaultLayouts()
     KConfigGroup defaultOrder(&defaultConfig, "Order");
     KConfigGroup defaultLayout(&defaultConfig, "Layouts");
 
-    QStringList defaultIds = defaultOrder.entryMap().values();
+    const QStringList defaultIds = defaultOrder.entryMap().values();
 
     for (const QString &id : defaultIds) {
+        LayoutInfo layout;
         if (collection.m_layouts.contains(id)) {
             // We already have this as a translation, update with data
-            LayoutInfo layout = collection.m_layouts[id];
+            layout = collection.m_layouts[id];
             layout.data = defaultLayout.readEntry(id);
-            collection.addLayout(layout);
         } else {
             // Create a new default layout
-            LayoutInfo layout(id, id, defaultLayout.readEntry(id), true);
-            collection.addLayout(layout);
+            layout = LayoutInfo(id, id, defaultLayout.readEntry(id), true);
         }
+        QString verticalId = id + QStringLiteral("_vertical");
+        if (defaultLayout.hasKey(verticalId)) {
+            layout.verticalData = defaultLayout.readEntry(verticalId);
+        }
+        collection.addLayout(layout);
     }
 
     return collection;
@@ -169,6 +172,10 @@ void LayoutCollection::loadFromConfig(KSharedConfigPtr config)
                 entries.insert(defaultLayouts.indexOf(id), id);
                 layoutGroup.writeEntry(id, defaultLayout.readEntry(id));
             }
+            const QString verticalId = id + QStringLiteral("_vertical");
+            if (!entries.contains(verticalId)) {
+                layoutGroup.writeEntry(verticalId, defaultLayout.readEntry(verticalId));
+            }
         }
 
         // Update order
@@ -196,6 +203,9 @@ void LayoutCollection::loadFromConfig(KSharedConfigPtr config)
         if (layoutGroup.hasKey(id)) {
             layout.data = layoutGroup.readEntry(id);
         }
+        if (layoutGroup.hasKey(id + QStringLiteral("_vertical"))) {
+            layout.data = layoutGroup.readEntry(id + QStringLiteral("_vertical"));
+        }
         layout.isDefault = m_layouts.contains(id) && m_layouts[id].isDefault;
 
         // Add to collection
@@ -218,6 +228,9 @@ void LayoutCollection::saveToConfig(KSharedConfigPtr config) const
         if (m_layouts.contains(id) && !id.isEmpty()) {
             // Save layout data
             layoutGroup.writeEntry(id, m_layouts[id].data);
+            if (!m_layouts[id].verticalData.isEmpty()) {
+                layoutGroup.writeEntry(id + QStringLiteral("_vertical"), m_layouts[id].verticalData);
+            }
 
             // Save order
             orderGroup.writeEntry(QStringLiteral("%1").arg(i, 2, 10, QLatin1Char('0')), id);
