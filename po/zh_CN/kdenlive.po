@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 49324\n"
+"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49586\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -32,8 +32,8 @@ msgstr ""
 "angelsherry@kde.org, ducksoft@kde.org, fangzheng@kde.org, i@guoyunhe.me, "
 "ikochina@kde.org, magsom@kde.org, Monstorix@kde.org, mywang@kde.org, ovo-"
 "Tim@kde.org, phone-burner@kde.org, phoxtail@kde.org, tds00@qq.com, "
-"shiroazusa@qq.com, loaden@kde.org, zhangjie@kde.org, linux.dabao@gmail.com, "
-"panxiaoyu6@kde.org, leonardyan@kde.org"
+"azusa@shiroazusa.net, loaden@kde.org, zhangjie@kde.org, linux.dabao@gmail."
+"com, panxiaoyu6@kde.org, leonardyan@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
@@ -517,7 +517,7 @@ msgstr "阈值"
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
 #, kde-format
 msgid "Ratio"
-msgstr "比例"
+msgstr "比率"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
@@ -551,7 +551,7 @@ msgstr "链接类型"
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, kde-format
 msgid "Average,Maximum"
-msgstr "平均，最大值"
+msgstr "平均,最大值"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
@@ -3480,7 +3480,7 @@ msgstr "视频均衡器"
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
 msgid "Adjust Brightness, contrast, gamma, saturation"
-msgstr "调整亮度、对比度、伽玛、饱和度"
+msgstr "调整亮度、对比度、伽马、饱和度"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
 #: data/effects/frei0r/frei0r_levels.xml:19
@@ -3490,7 +3490,7 @@ msgstr "调整亮度、对比度、伽玛、饱和度"
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
 msgid "Gamma"
-msgstr "伽玛值"
+msgstr "伽马"
 
 #: data/effects/avfilter/avfilter_eq.xml:20
 #, kde-format
@@ -3510,7 +3510,7 @@ msgstr "蓝色伽马"
 #: data/effects/avfilter/avfilter_eq.xml:29
 #, kde-format
 msgid "Gamma Weight"
-msgstr "伽玛权重"
+msgstr "伽马权重"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
 #, kde-format
@@ -7782,10 +7782,9 @@ msgstr "<![CDATA[频闪仪频率 (0 到 8 帧）]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
-msgstr "透明度操作(已淘汰)"
+msgstr "透明度操作 (已被取代)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -8026,10 +8025,9 @@ msgid "Transition width"
 msgstr "转场宽度"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
-msgstr "透明度渐变(已被取代)"
+msgstr "透明度渐变 (已被取代)"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
@@ -8041,10 +8039,9 @@ msgstr ""
 "    该特效已被 frei0r.alphaops_alphagrad 替代。]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
-msgstr "透明度形状(已淘汰)"
+msgstr "透明度形状 (已被取代)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -9490,7 +9487,7 @@ msgstr "操作"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
 #, kde-format
 msgid "Add constant,Change gamma,Multiply"
-msgstr "添加常量,更改伽玛值,相乘"
+msgstr "添加常量,更改伽马,相乘"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
@@ -10303,10 +10300,9 @@ msgid "Dust Amount"
 msgstr "灰尘数量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles on the image]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles added to the image]]>"
-msgstr "<![CDATA[图像上模拟的灰尘颗粒数量]]>"
+msgstr "<![CDATA[添加到图像中的模拟的灰尘颗粒数量]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10349,56 +10345,46 @@ msgid "Extracts Green from Image"
 msgstr "从图像中提取绿色通道"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:4
-#, fuzzy, kde-format
-#| msgid "Gate (avfilter)"
+#, kde-format
 msgid "Gate Weave"
-msgstr "门 (avfilter)"
+msgstr "片门摆动"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:5
 #, kde-format
 msgid "Randomly moves image around to simulate film gate weave"
-msgstr ""
+msgstr "随机移动图像来模拟片门摆动"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "柔和度"
+msgstr "平滑度"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
 msgid ""
 "<![CDATA[Factor used to blend between positions. A lower number means a "
 "faster effect]]>"
-msgstr ""
+msgstr "<![CDATA[用于在位置之间进行混合的系数。较低的数字意味着更快的效果]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "水平对齐"
+msgstr "最大水平移动"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
-msgstr "<![CDATA[跟踪点之间的距离]]>"
+msgstr "<![CDATA[图片可左右移动的最大距离]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Maximum diameter"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "最大直径"
+msgstr "最大垂直移动"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The amount to rotate the image<br>\n"
-#| "    \t(nose up or down).]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
-msgstr ""
-"<![CDATA[图像垂直转动量<br>\n"
-"    \t(中心点沿上下方向移动)]]>"
+msgstr "<![CDATA[图片可上下移动的最大距离]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -10438,10 +10424,9 @@ msgid "Creates a Glamorous Glow"
 msgstr "创建炫目的发光效果"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser (SUPERCEDED)"
+#, kde-format
 msgid "Denoiser (SUPERSEDED)"
-msgstr "降噪器 (已淘汰)"
+msgstr "降噪器 (已被淘汰)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -11622,10 +11607,9 @@ msgid "HSync"
 msgstr "水平同步"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "水平同步"
+msgstr "垂直同步"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -11658,33 +11642,29 @@ msgid "Pixelize (basic)"
 msgstr "像素化(基本)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
-msgstr "对输入图像进行像素化处理"
+msgstr "对输入图像进行马赛克化处理"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "水平大小"
+msgstr "马赛克的水平大小"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "垂直大小"
+msgstr "马赛克的垂直大小"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Feather Alpha"
+#, kde-format
 msgid "Pass-through Alpha"
-msgstr "羽化透明度"
+msgstr "透传透明度"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "不平均方块透明度"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11692,10 +11672,9 @@ msgid "Glitching (rows only)"
 msgstr "模拟故障 (行和颜色) "
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Glitch image by shifting rows to and fro."
+#, kde-format
 msgid "Glitch image by shifting rows back and forth."
-msgstr "通过来回移动行制造故障图像"
+msgstr "通过来回移动行制造故障图像。"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -11749,34 +11728,26 @@ msgid "Number of (color) values per channel"
 msgstr "每个通道的 (颜色) 值。"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values (SUPERCEDED)"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
-msgstr "视频亮度 (已废弃)  "
+msgstr "视频亮度 (已被取代)  "
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Measure video values.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
-"<![CDATA[测量视频亮度<br>\n"
+"<![CDATA[测量视频亮度。<br>\n"
 "    此效果已被 <em>frei0r.measure_pr0be</em> 替代]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
-msgstr "示波器 (高级) (已淘汰)"
+msgstr "示波器 (高级)  (已被取代)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[2D video oscilloscope.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
@@ -12074,7 +12045,7 @@ msgstr "将图像去色并生成邮票、报纸、影印等特有的视觉效果
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "图像亮度. S型曲线中点"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -12239,10 +12210,10 @@ msgid ""
 "                Mathematically, what happens is an exponentiation of the "
 "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgstr ""
-"<![CDATA[更改所选通道的伽玛值。黑色像素和白色像素将不受影响，但在黑白之间的所"
+"<![CDATA[更改所选通道的伽马值。黑色像素和白色像素将不受影响，但在黑白之间的所"
 "有颜色将受到影响。<br/>\n"
 "                从数学角度来说，这是在像素的颜色数值在 <code>[0,1]</code> 范"
-"围时与伽玛值的乘幂所得的数值。]]>"
+"围时与伽马值的乘幂所得的数值。]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
@@ -12516,12 +12487,12 @@ msgstr "调整音频音量 (不通过关键帧调整)"
 #, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
-msgstr "Gamma - 伽玛值 (可关键帧调整)"
+msgstr "Gamma - 伽马 (可关键帧调整)"
 
 #: data/effects/gamma.xml:5
 #, kde-format
 msgid "Change gamma color value"
-msgstr "更改伽玛颜色数值"
+msgstr "更改伽马颜色数值"
 
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
@@ -13711,7 +13682,7 @@ msgstr "磨损"
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
 msgid "Lift/gamma/gain"
-msgstr "Lift/gamma/gain - 提升/伽玛值/增益"
+msgstr "Lift/gamma/gain - 提升/伽马/增益"
 
 #: data/effects/lift_gamma_gain.xml:7
 #, kde-format
@@ -13731,17 +13702,17 @@ msgstr "提升：蓝"
 #: data/effects/lift_gamma_gain.xml:16
 #, kde-format
 msgid "Gamma: Red"
-msgstr "伽玛值：红"
+msgstr "伽马：红"
 
 #: data/effects/lift_gamma_gain.xml:19
 #, kde-format
 msgid "Gamma: Green"
-msgstr "伽玛值：绿"
+msgstr "伽马：绿"
 
 #: data/effects/lift_gamma_gain.xml:22
 #, kde-format
 msgid "Gamma: Blue"
-msgstr "伽玛值：蓝"
+msgstr "伽马：蓝"
 
 #: data/effects/lift_gamma_gain.xml:25
 #, kde-format
@@ -13821,7 +13792,7 @@ msgstr "Luma LiftGainGamma"
 msgid ""
 "Filter can be used to apply lift, gain, and gamma correction to luma values "
 "of image."
-msgstr "此滤镜可以对图像的亮度数值进行提升、增益和伽玛校正处理。"
+msgstr "此滤镜可以对图像的亮度数值进行提升、增益和伽马校正处理。"
 
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
@@ -16529,19 +16500,14 @@ msgid "Show favorite items"
 msgstr "显示常用项"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggle the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the assets list. Click on the filter icon to toggle the filter "
 "display. Click on the arrow icon to open a list of possible filter settings."
 msgstr ""
-"过滤项目素材箱的内容。点击过滤按钮显示/隐藏过滤选项。点击箭头按钮打开可用的过"
-"滤设置列表。"
+"过滤素材清单内容。点击过滤按钮显示/隐藏过滤选项。点击箭头按钮打开可用的过滤设"
+"置列表。"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:201
 #, kde-format
@@ -16573,7 +16539,7 @@ msgstr "搜索…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "您启用了不支持的素材"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -17353,10 +17319,9 @@ msgid "Import keyframes from clipboard"
 msgstr "从剪贴板导入关键帧"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "插入空白区域…"
+msgstr "插入关键词…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -19107,10 +19072,9 @@ msgid "Rename Folder"
 msgstr "重命名文件夹"
 
 #: src/bin/projectitemmodel.cpp:1193 src/mainwindow.cpp:1642
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Unused Media"
-msgstr "移除辅助线"
+msgstr "移除未使用的媒体"
 
 #: src/bin/projectitemmodel.cpp:1421
 #, kde-format
@@ -20706,18 +20670,17 @@ msgstr "请在进行渲染前添加剪辑到时间轴"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "输出位置不可写，请选择另一个位置"
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "您的项目编码方案无效，导出可能失败。"
+msgstr "您的磁盘空间即将耗尽，渲染可能会失败"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "您的磁盘空间有限（%1）"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format
@@ -21076,11 +21039,7 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
@@ -24030,8 +23989,7 @@ msgstr "未为穿梭旋钮按钮 %1 分配操作"
 
 #. i18n: ectx: Menu (video_effects_menu)
 #: src/kdenliveui.rc:26
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Effects"
 msgstr "添加效果"
 
@@ -24043,17 +24001,15 @@ msgstr "视图"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:47
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Media"
-msgstr "Median - 中值滤波"
+msgstr "媒体"
 
 #. i18n: ectx: Menu (add_media)
 #: src/kdenliveui.rc:49
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Add Media"
-msgstr "Median - 中值滤波"
+msgstr "添加媒体"
 
 #. i18n: ectx: Menu (generators)
 #: src/kdenliveui.rc:58
@@ -24069,10 +24025,9 @@ msgstr "提取音频"
 
 #. i18n: ectx: Menu (clip_actions)
 #: src/kdenliveui.rc:67
-#, fuzzy, kde-format
-#| msgid "Medians"
+#, kde-format
 msgid "Media Jobs"
-msgstr "Medians - 中位数"
+msgstr "媒体任务"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:84
@@ -24082,8 +24037,7 @@ msgstr "时间轴中的剪辑"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:96
-#, fuzzy, kde-format
-#| msgid "Sequences"
+#, kde-format
 msgid "Sequence"
 msgstr "序列"
 
@@ -24095,15 +24049,13 @@ msgstr "选择"
 
 #. i18n: ectx: Menu (current_item)
 #: src/kdenliveui.rc:111
-#, fuzzy, kde-format
-#| msgid "Grab Current Item"
+#, kde-format
 msgid "Current Item"
-msgstr "捕获当前项目"
+msgstr "当前项目"
 
 #. i18n: ectx: Menu (current_clip)
 #: src/kdenliveui.rc:119
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current Clip"
 msgstr "当前剪辑"
 
@@ -24127,8 +24079,7 @@ msgstr "空白区域"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:154
-#, fuzzy, kde-format
-#| msgid "&Current track"
+#, kde-format
 msgid "&Current Track"
 msgstr "当前轨道(&C)"
 
@@ -24261,7 +24212,7 @@ msgstr "布局 %1：%2"
 msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
-msgstr ""
+msgstr "布局 %1 使用了旧的且不再支持的格式，您应该删除并重新进行创建。"
 
 #: src/layouts/layoutmanagement.cpp:247
 #, kde-format
@@ -24359,7 +24310,7 @@ msgstr "布局导入成功。"
 msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
-msgstr ""
+msgstr "该布局使用了旧的且不再支持的格式，您应该删除并重新进行创建。"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -24769,7 +24720,7 @@ msgstr "在分离的导出进程开始后退出。如果不带此标记则只在
 msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
-msgstr ""
+msgstr "在 UI 中显示一些开发的特定功能，禁用所有素材排除列表。"
 
 #: src/main.cpp:355
 #, kde-format
@@ -24885,15 +24836,14 @@ msgid "Effect/Composition Stack"
 msgstr "效果/合成堆栈"
 
 #: src/mainwindow.cpp:446
-#, fuzzy, kde-format
-#| msgid "Only show reviewed assets"
+#, kde-format
 msgid "Only show reviewed items"
 msgstr "仅显示已审核的资源"
 
 #: src/mainwindow.cpp:450
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "仅显示 10 bit 兼容的资源"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:460
@@ -25583,7 +25533,7 @@ msgstr "实时 (跳帧)"
 #: src/mainwindow.cpp:1779
 #, kde-format
 msgid "Monitor Gamma"
-msgstr "监视器伽玛值"
+msgstr "监视器伽马"
 
 #: src/mainwindow.cpp:1780
 #, kde-format
@@ -25975,10 +25925,9 @@ msgid "Paste Effects"
 msgstr "粘贴效果"
 
 #: src/mainwindow.cpp:2011
-#, fuzzy, kde-format
-#| msgid "Reset Effect"
+#, kde-format
 msgid "Remove Effects"
-msgstr "重置效果"
+msgstr "移除特效"
 
 #: src/mainwindow.cpp:2018
 #, kde-format
@@ -26087,22 +26036,19 @@ msgid "Disable Timeline Preview"
 msgstr "禁用时间轴预览"
 
 #: src/mainwindow.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Add/Remove Marker"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "添加/删除标记"
+msgstr "添加/删除时间轴标记"
 
 #: src/mainwindow.cpp:2123
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "搜索时间线标记"
+msgstr "删除时间线标记"
 
 #: src/mainwindow.cpp:2125
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "跳转到时间线标记..."
+msgstr "编辑时间线标记..."
 
 #: src/mainwindow.cpp:2128
 #, kde-format
@@ -27499,8 +27445,7 @@ msgid "Deinterlacer"
 msgstr "去隔行扫描"
 
 #: src/monitor/monitormanager.cpp:624
-#, fuzzy, kde-format
-#| msgid "YADIF - temporal + spacial (best)"
+#, kde-format
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - 时域 + 空间滤波 (最佳画质)"
 
@@ -28522,7 +28467,7 @@ msgstr "可用存储设备空间：%1"
 #: src/project/dialogs/archivewidget.cpp:592
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
-msgstr "存储设备空间不足，可用空间：%1"
+msgstr "存储设备空间不足，剩余空间：%1"
 
 #: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
@@ -28665,10 +28610,9 @@ msgid "Show Thumbnails"
 msgstr "显示缩略图"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Select some timecodes to create markers"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "选择时间码以创建标记"
+msgstr "选择范围标记的区域"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
@@ -29465,10 +29409,9 @@ msgid "Do not recover"
 msgstr "不恢复"
 
 #: src/project/projectmanager.cpp:798
-#, fuzzy, kde-format
-#| msgid "Marker category does not exist"
+#, kde-format
 msgid "File %1 does not exist"
-msgstr "标记类别不存在"
+msgstr "文件 %1 不存在"
 
 #: src/project/projectmanager.cpp:825
 #, kde-format
@@ -29614,20 +29557,14 @@ msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid ""
-#| "Speech recognition failed:\n"
-#| "%1"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr ""
-"语音识别失败：\n"
-"%1"
+msgstr "序列创建失败"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "您不能插入一个包含它自身的序列"
+msgstr "无法在当前时间线中插入序列"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format
@@ -31978,10 +31915,9 @@ msgid "No range marker found at position"
 msgstr "在位置没有找到范围标记"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Next marker position in frames"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "下一个标记位置，以帧计"
+msgstr "帧 %1 中没有标记"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -35439,8 +35375,7 @@ msgstr "编辑类别"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Markers Categories"
 msgstr "标记类别"
 
@@ -36716,7 +36651,7 @@ msgstr "更改阈值"
 #: src/ui/scenecutdialog_ui.ui:114
 #, kde-format
 msgid "Create range markers"
-msgstr ""
+msgstr "创建范围标记"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
@@ -36786,10 +36721,9 @@ msgstr "图像类型："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "第一帧"
+msgstr "起始帧："
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
@@ -37551,57 +37485,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Dock Area Orientation"
-#~ msgstr "面板停靠区排列方式"
-
-#~ msgid "Arrange Dock Areas In Rows"
-#~ msgstr "横向排列"
-
-#~ msgid "Arrange Dock Areas In Columns"
-#~ msgstr "竖向排列"
-
-#~ msgid "Raise %1"
-#~ msgstr "上移 %1"
-
-#~ msgid "<Select a Keyword>"
-#~ msgstr "<选择一个关键词>"
-
-#~ msgid "Clean Project"
-#~ msgstr "清理项目"
-
-#~ msgid "&Project"
-#~ msgstr "项目(&P)"
-
-#~ msgid "&Clip"
-#~ msgstr "剪辑(&C)"
-
-#~ msgid "T&imeline"
-#~ msgstr "时间轴(&I)"
-
-#~ msgid "&Guides"
-#~ msgstr "辅助线(&G)"
-
-#~ msgid "Delete Effects"
-#~ msgstr "删除效果"
-
-#~ msgid "Guides and Markers Categories"
-#~ msgstr "辅助线和标记类别"
-
-#~ msgid "Guides"
-#~ msgstr "辅助线"
-
-#~ msgid "Create Color Clip"
-#~ msgstr "创建颜色剪辑"
-
-#~ msgid "You are using the AppImage.<br>"
-#~ msgstr "您正在使用 AppImage 软件包。<br>"
-
-#~ msgid "You are using the Flatpak.<br>"
-#~ msgstr "您正在使用 Flatpak 软件包。<br>"
-
-#~ msgid "You are using the Snap package.<br>"
-#~ msgstr "您正在使用 Snap 软件包。<br>"
-
-#~ msgid "Brightness of image."
-#~ msgstr "图像亮度。"

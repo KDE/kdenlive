@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-06 17:05+0000\n"
-"PO-Revision-Date: 2025-11-02 05:58-0300\n"
-"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
+"PO-Revision-Date: 2025-11-08 21:16-0300\n"
+"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -18730,7 +18730,7 @@ msgstr "Não é possível definir uma avaliação neste item"
 #: src/bin/bin.cpp:3923
 #, kde-format
 msgid "Add Clip or Folder…"
-msgstr "Adicionar clipe ou pasta..."
+msgstr "Adicionar clipe ou pasta…"
 
 #: src/bin/bin.cpp:3924
 #, kde-kuit-format
@@ -18750,32 +18750,32 @@ msgstr ""
 #: src/bin/bin.cpp:3930
 #, kde-format
 msgid "Add Color Clip…"
-msgstr "Adicionar clipe de cor..."
+msgstr "Adicionar clipe de cor…"
 
 #: src/bin/bin.cpp:3932
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr "Adicionar sequência de imagem..."
+msgstr "Adicionar sequência de imagem…"
 
 #: src/bin/bin.cpp:3934
 #, kde-format
 msgid "Add Title Clip…"
-msgstr "Adicionar clipe de título..."
+msgstr "Adicionar clipe de título…"
 
 #: src/bin/bin.cpp:3936
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Adicionar modelo de título..."
+msgstr "Adicionar modelo de título…"
 
 #: src/bin/bin.cpp:3938
 #, kde-format
 msgid "Create Animation…"
-msgstr "Criar animação..."
+msgstr "Criar animação…"
 
 #: src/bin/bin.cpp:3940
 #, kde-format
 msgid "Add Sequence…"
-msgstr "Adicionar sequência..."
+msgstr "Adicionar sequência…"
 
 #: src/bin/bin.cpp:3943 src/mainwindow.cpp:360
 #, kde-format
@@ -19833,7 +19833,7 @@ msgstr ""
 #: src/core.cpp:294 src/project/projectmanager.cpp:856
 #, kde-format
 msgid "Loading project…"
-msgstr "Carregando projeto..."
+msgstr "Carregando projeto…"
 
 #: src/core.cpp:432
 #, kde-format
@@ -20259,7 +20259,7 @@ msgstr "Estabilizar"
 #: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:291
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
-msgstr "Clipe duplicado com mudança de velocidade..."
+msgstr "Clipe duplicado com mudança de velocidade…"
 
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
@@ -20280,7 +20280,7 @@ msgstr ""
 #: src/dialogs/clipjobmanager.cpp:289
 #, kde-format
 msgid "Automatic Scene Split…"
-msgstr "Divisão de cenas automática..."
+msgstr "Divisão de cenas automática…"
 
 #: src/dialogs/clipjobmanager.cpp:319
 #, kde-format
@@ -29508,7 +29508,7 @@ msgstr "Selecionar zona para marcadores de intervalo"
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
 msgid "Import…"
-msgstr "Importar..."
+msgstr "Importar…"
 
 #: src/project/dialogs/guideslist.cpp:201
 #, kde-format
@@ -30583,7 +30583,7 @@ msgstr "Reconstruído ambiente com sucesso"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:266
 #, kde-format
 msgid "Corrupted plugin, trying to reinstall…"
-msgstr "Plugin corrompido, tentando reinstalar..."
+msgstr "Plugin corrompido, tentando reinstalar…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #, kde-format
@@ -33491,7 +33491,7 @@ msgstr "Adicionar elipse"
 #: src/titler/titlewidget.cpp:427
 #, kde-format
 msgid "Add Image…"
-msgstr "Adicionar imagem..."
+msgstr "Adicionar imagem…"
 
 #: src/titler/titlewidget.cpp:434
 #, kde-format
@@ -33501,12 +33501,12 @@ msgstr "Abrir título…"
 #: src/titler/titlewidget.cpp:439
 #, kde-format
 msgid "Save Title As…"
-msgstr "Salvar titulo como..."
+msgstr "Salvar titulo como…"
 
 #: src/titler/titlewidget.cpp:444
 #, kde-format
 msgid "Download New Title Templates…"
-msgstr "Baixar novos modelos de título..."
+msgstr "Baixar novos modelos de título…"
 
 #: src/titler/titlewidget.cpp:561
 #, kde-format
