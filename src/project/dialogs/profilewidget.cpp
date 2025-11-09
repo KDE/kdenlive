@@ -72,6 +72,8 @@ ProfileWidget::ProfileWidget(QWidget *parent)
         if (str.isEmpty()) {
             // focus last selected item when clearing search line
             trySelectProfile(m_currentProfile);
+        } else {
+            m_treeView->expandAll();
         }
     });
 

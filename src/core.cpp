@@ -660,6 +660,11 @@ const QString &Core::getCurrentProfilePath() const
     return m_currentProfile;
 }
 
+bool Core::isVertical() const
+{
+    return m_projectProfile.dar() < 0.7;
+}
+
 bool Core::setCurrentProfile(const QString profilePath)
 {
     if (m_currentProfile == profilePath) {

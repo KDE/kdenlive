@@ -15,6 +15,7 @@ struct LayoutInfo
     QString internalId;  // Internal ID like "kdenlive_editing"
     QString displayName; // User specified name or for default layouts this we be the translated name like "Editing"
     QString data;        // The serialized layout data
+    QString verticalData; // The serialized layout data for a vertical profile
     bool isDefault;      // Whether this is a default layout
     int sortOrder;       // Custom order for display
 

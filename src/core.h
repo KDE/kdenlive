@@ -362,6 +362,8 @@ public:
 
     void startHideBarsTimer();
     void updateHideBarsTimer(bool inhibit);
+    /** Returns true if the project uses a vertical profile */
+    bool isVertical() const;
 
 private:
     explicit Core(LinuxPackageType packageType, bool debugMode = false);
