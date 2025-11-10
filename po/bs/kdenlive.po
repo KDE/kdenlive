@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-06 17:05+0000\n"
+"POT-Creation-Date: 2025-11-10 02:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -7123,7 +7123,7 @@ msgstr "Trajanje"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:768 src/kdenliveui.rc:184 src/mainwindow.cpp:265
+#: src/core.cpp:773 src/kdenliveui.rc:184 src/mainwindow.cpp:265
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, fuzzy, kde-format
@@ -19750,7 +19750,7 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -19758,17 +19758,17 @@ msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Datoteka dokumenta projekta je neispravna, namještanje na standardni: %1"
 
-#: src/core.cpp:1078
+#: src/core.cpp:1083
 #, kde-format
 msgid "Loading clips"
 msgstr "Učitavanje isječaka"
 
-#: src/core.cpp:1534
+#: src/core.cpp:1539
 #, fuzzy, kde-format
 msgid "Marker %1"
 msgstr "Marker"
 
-#: src/core.cpp:1888
+#: src/core.cpp:1893
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19776,7 +19776,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1889
+#: src/core.cpp:1894
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
@@ -24861,19 +24861,19 @@ msgid ""
 "recreated."
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:247
+#: src/layouts/layoutmanagement.cpp:251
 #, fuzzy, kde-format
 #| msgid "Save Layout"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Spremi raspored"
 
-#: src/layouts/layoutmanagement.cpp:247 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:251 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "Ime rasporeda:"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:267 src/layouts/layoutmanagerdialog.cpp:174
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -27604,7 +27604,7 @@ msgstr "Protok kadrova:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:125 src/ui/editrenderpreset_ui.ui:215
+#: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
@@ -27614,7 +27614,7 @@ msgstr "Isprepleteno"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:126 src/ui/editrenderpreset_ui.ui:220
+#: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
@@ -29838,78 +29838,78 @@ msgid ""
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:124
-#: src/project/dialogs/profilewidget.cpp:155
+#: src/project/dialogs/profilewidget.cpp:126
+#: src/project/dialogs/profilewidget.cpp:157
 #, kde-format
 msgid "Any"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:205
+#: src/project/dialogs/profilewidget.cpp:207
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No profile selected"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/project/dialogs/profilewidget.cpp:209
+#: src/project/dialogs/profilewidget.cpp:211
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Video Settings"
 msgstr "Postavke"
 
-#: src/project/dialogs/profilewidget.cpp:212
+#: src/project/dialogs/profilewidget.cpp:214
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:213
+#: src/project/dialogs/profilewidget.cpp:215
 #, fuzzy, kde-format
 #| msgid "Frame rate:"
 msgid "Frame rate: %1 fps"
 msgstr "Protok kadrova:"
 
-#: src/project/dialogs/profilewidget.cpp:215
+#: src/project/dialogs/profilewidget.cpp:217
 #, fuzzy, kde-format
 #| msgid "Pixel aspect ratio:"
 msgid "Pixel aspect ratio: %1"
 msgstr "Omjer piksela:"
 
-#: src/project/dialogs/profilewidget.cpp:217
+#: src/project/dialogs/profilewidget.cpp:219
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Color space: %1"
 msgstr "Opseg boja"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, fuzzy, kde-format
 #| msgctxt "Normal editing"
 #| msgid "n"
 msgid "no"
 msgstr "n"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "yes"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, fuzzy, kde-format
 #| msgid "Interlaced"
 msgid "Interlaced: %1"
 msgstr "Isprepleteno"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom field first"
 msgstr "Dno prvo"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, fuzzy, kde-format
 #| msgid "Top first"
 msgid "Top field first"
 msgstr "Vrh prvo"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, fuzzy, kde-format
 #| msgid "Force field order"
 msgid "Field order: %1"

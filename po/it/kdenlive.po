@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-06 17:05+0000\n"
-"PO-Revision-Date: 2025-09-28 17:05+0200\n"
+"POT-Creation-Date: 2025-11-10 02:42+0000\n"
+"PO-Revision-Date: 2025-11-09 12:39+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1197,7 +1197,7 @@ msgstr "Bilaterale"
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
-msgstr ""
+msgstr "Applica il filtro bilaterale, smussatura spaziale preservando i bordi."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
@@ -1328,6 +1328,8 @@ msgid ""
 "Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
 "Meier circuit (fcut=650 feed=95)"
 msgstr ""
+"Livello predefinito (fcut=700 feed=50),Circuito di Chu Moy (fcut=700 "
+"feed=60),Circuito di Jan Meier (fcut=650 feed=95)"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
 #, kde-format
@@ -3144,10 +3146,9 @@ msgid "Screen type"
 msgstr "Tipo di schermo"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Green,Blue"
-msgstr "Verde-blu"
+msgstr "Verde,Blu"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -5381,6 +5382,8 @@ msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
 msgstr ""
+"Quantità di smussatura temporale dell'intervallo di ingresso, per ridurre lo "
+"sfarfallio (per impostazione predefinita 0)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
@@ -7303,7 +7306,7 @@ msgstr "Durata"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:768 src/kdenliveui.rc:184 src/mainwindow.cpp:265
+#: src/core.cpp:773 src/kdenliveui.rc:184 src/mainwindow.cpp:265
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -8012,10 +8015,9 @@ msgstr "<![CDATA[Frequenza dello stroboscopio (da 0 a 8 fotogrammi)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
-#, fuzzy, kde-format
-#| msgid "Alpha Operations (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Operations (SUPERSEDED)"
-msgstr "Operazione su alfa (SUPERATO)"
+msgstr "Operazione su alfa (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
@@ -8262,10 +8264,9 @@ msgid "Transition width"
 msgstr "Larghezza della transizione"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Gradient (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Gradient (SUPERSEDED)"
-msgstr "Gradiente alfa (SUPERATO)"
+msgstr "Gradiente alfa (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
@@ -8277,10 +8278,9 @@ msgstr ""
 "    Questo effetto è stato sostituito dafrei0r.alphaops_alphagrad.]]>"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Shapes (SUPERCEDED)"
+#, kde-format
 msgid "Alpha Shapes (SUPERSEDED)"
-msgstr "Forme in alfa (SUPERATO)"
+msgstr "Forme in alfa (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
@@ -10679,10 +10679,9 @@ msgid "Randomly moves image around to simulate film gate weave"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:8
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Smoothness"
-msgstr "Morbidezza"
+msgstr "Smussatura"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
@@ -10692,32 +10691,28 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Maximum Horizontal Movement"
-msgstr "Allineamento orizzontale"
+msgstr "Movimento orizzontale massimo"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
-msgstr "<![CDATA[La distanza tra i punti di tracciamento]]>"
+msgstr ""
+"<![CDATA[La distanza massima per cui l'immagine può spostarsi verso sinistra "
+"o destra]]>"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
-#, fuzzy, kde-format
-#| msgid "Maximum diameter"
+#, kde-format
 msgid "Maximum Vertical Movement"
-msgstr "Diametro massimo"
+msgstr "Movimento verticale massimo"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The amount to rotate the image<br>\n"
-#| "    \t(nose up or down).]]>"
+#, kde-format
 msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
 msgstr ""
-"<![CDATA[La quantità per rotare l'immagine<br>\n"
-"    \t(naso in su o in giù).]]>"
+"<![CDATA[La distanza massima per cui l'immagine può spostarsi verso su o "
+"giù]]>"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -10757,10 +10752,9 @@ msgid "Creates a Glamorous Glow"
 msgstr "Crea una luminosità glamour"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser (SUPERCEDED)"
+#, kde-format
 msgid "Denoiser (SUPERSEDED)"
-msgstr "Riduttore del rumore (SUPERATO)"
+msgstr "Riduttore del rumore (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
@@ -12000,10 +11994,9 @@ msgid "HSync"
 msgstr "HSync"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:11
-#, fuzzy, kde-format
-#| msgid "HSync"
+#, kde-format
 msgid "VSync"
-msgstr "HSync"
+msgstr "Sincronizzazione verticale"
 
 #: data/effects/frei0r/frei0r_ntsc.xml:4
 #, kde-format
@@ -12036,22 +12029,19 @@ msgid "Pixelize (basic)"
 msgstr "Mosaico (di base)"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Pixelize input image"
+#, kde-format
 msgid "Pixelize the input image"
 msgstr "Applica l'effetto Mosaico all'immagine in ingresso"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal size"
+#, kde-format
 msgid "Horizontal size of one 'pixel'"
-msgstr "Dimensione orizzontale"
+msgstr "La dimensione orizzontale di un \"pixel\""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical size"
+#, kde-format
 msgid "Vertical size of one 'pixel'"
-msgstr "Dimensione verticale"
+msgstr "La dimensione verticale di un \"pixel\""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:16
 #, fuzzy, kde-format
@@ -12062,7 +12052,7 @@ msgstr "Sfumatura alfa"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "Non calcolare la media del canale alfa su ciascun blocco"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12070,16 +12060,14 @@ msgid "Glitching (rows only)"
 msgstr "Interferenze (solo righe)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Glitch image by shifting rows to and fro."
+#, kde-format
 msgid "Glitch image by shifting rows back and forth."
-msgstr "L'immagine viene alterata spostando le righe da una parte all'altra."
+msgstr "Immagine alterata spostando le righe avanti e indietro."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Agressiveness of row/column shifting"
+#, kde-format
 msgid "Aggressiveness of row/column shifting"
-msgstr "Aggressività dello spostamento delle righe/colonne"
+msgstr "Aggressività dello spostamento di righe/colonne"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
 #, kde-format
@@ -12131,40 +12119,32 @@ msgid "Number of (color) values per channel"
 msgstr "Numero di valori (di colore) per canale"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Values (SUPERCEDED)"
+#, kde-format
 msgid "Video Values (SUPERSEDED)"
-msgstr "Valori video (SUPERATO)"
+msgstr "Valori video (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Measure video values.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
 msgstr ""
 "<![CDATA[Misura i valori video.<br>\n"
-"    Questo effetto è stato superato da <em>frei0r.measure_pr0be</em>]]>"
+"    Questo effetto è stato sostituito da <em>frei0r.measure_pr0be</em>]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope (advanced) (SUPERCEDED)"
+#, kde-format
 msgid "Oscilloscope (advanced) (SUPERSEDED)"
-msgstr "Oscilloscopio (avanzato) (SUPERATO)"
+msgstr "Oscilloscopio (avanzato) (SOSTITUITO)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[2D video oscilloscope.<br>\n"
-#| "    This effect has been superceded by <em>frei0r.measure_pr0file</em>]]>"
+#, kde-format
 msgid ""
 "<![CDATA[2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
 msgstr ""
-"<![CDATA[2D Oscilloscopio video.<br>\n"
-"    Questo effetto è stato superato da <em>frei0r.measure_pr0file</em>]]>"
+"<![CDATA[Oscilloscopio video 2D.<br>\n"
+"    Questo effetto è stato sostituito da <em>frei0r.measure_pr0file</em>]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -12459,7 +12439,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "Luminosità dell'immagine. Punto medio della curva sigmoidea"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -17116,7 +17096,7 @@ msgstr "Cerca…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:284
 #, kde-format
 msgid "You have enabled unsupported assets"
-msgstr ""
+msgstr "Hai abilitato le risorse non supportate"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:480
 #, kde-format
@@ -17914,10 +17894,9 @@ msgid "Import keyframes from clipboard"
 msgstr "Importa fotogrammi chiave dagli appunti"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "Inserisci spazio…"
+msgstr "Inserisci una parola chiave..."
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -19719,10 +19698,9 @@ msgid "Rename Folder"
 msgstr "Rinomina cartella"
 
 #: src/bin/projectitemmodel.cpp:1193 src/mainwindow.cpp:1642
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Unused Media"
-msgstr "Rimuovi guida"
+msgstr "Rimuovi i file multimediali non utilizzati"
 
 #: src/bin/projectitemmodel.cpp:1421
 #, kde-format
@@ -20089,23 +20067,23 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Orologio sopra"
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Il profilo del progetto non è valido, l'esportazione potrebbe non riuscire."
 
-#: src/core.cpp:1078
+#: src/core.cpp:1083
 #, kde-format
 msgid "Loading clips"
 msgstr "Caricamento clip"
 
-#: src/core.cpp:1534
+#: src/core.cpp:1539
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcatore %1"
 
-#: src/core.cpp:1888
+#: src/core.cpp:1893
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20116,7 +20094,7 @@ msgstr ""
 "di Kdenlive al seguente url:\n"
 " %1"
 
-#: src/core.cpp:1889
+#: src/core.cpp:1894
 #, kde-format
 msgid "Open Browser"
 msgstr "Apri il browser"
@@ -21360,19 +21338,17 @@ msgstr "Aggiungi le clip nella linea temporale prima di esportare"
 #: src/dialogs/renderwidget.cpp:2321
 #, kde-format
 msgid "Output location is not writable, please select another one"
-msgstr ""
+msgstr "La posizione di output non è scrivibile, selezionarne un'altra."
 
 #: src/dialogs/renderwidget.cpp:2324
-#, fuzzy, kde-format
-#| msgid "Your project profile is invalid, rendering might fail."
+#, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr ""
-"Il profilo del progetto non è valido, l'esportazione potrebbe non riuscire."
+msgstr "Il disco è quasi pieno, l'esportazione potrebbe non riuscire"
 
 #: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Your disk space is limited (%1)"
-msgstr ""
+msgstr "Lo spazio su disco è limitato (%1)"
 
 #: src/dialogs/renderwidget.cpp:2337
 #, kde-format
@@ -21739,11 +21715,7 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:494
 #: src/dialogs/settings/pluginssettings.cpp:508
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the plugin python environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the plugin."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you enable the "
@@ -21751,7 +21723,7 @@ msgid ""
 msgstr ""
 "Ciò eliminerà l'estensione per l'ambiente python da:<br/><b>%1</b><br/"
 ">L'ambiente verrà ricreato e i moduli saranno scaricati di nuovo se "
-"l'estensione verrà abilitata di nuovo."
+"abiliterai nuovamente l'estensione."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:523 src/ui/configspeech_ui.ui:369
@@ -24811,10 +24783,9 @@ msgstr "Nessuna azione applicata per il pulsante %1 del jog shuttle"
 
 #. i18n: ectx: Menu (video_effects_menu)
 #: src/kdenliveui.rc:26
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Effects"
-msgstr "Aggiungi effetto"
+msgstr "Aggiungi effetti"
 
 #. i18n: ectx: Menu (view)
 #: src/kdenliveui.rc:36
@@ -24824,17 +24795,15 @@ msgstr "Visualizza"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:47
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Media"
-msgstr "Mediana"
+msgstr "File multimediale"
 
 #. i18n: ectx: Menu (add_media)
 #: src/kdenliveui.rc:49
-#, fuzzy, kde-format
-#| msgid "Add data"
+#, kde-format
 msgid "Add Media"
-msgstr "Aggiungi dati"
+msgstr "Aggiungi file multimediale"
 
 #. i18n: ectx: Menu (generators)
 #: src/kdenliveui.rc:58
@@ -24850,10 +24819,9 @@ msgstr "Estrai audio"
 
 #. i18n: ectx: Menu (clip_actions)
 #: src/kdenliveui.rc:67
-#, fuzzy, kde-format
-#| msgid "Medians"
+#, kde-format
 msgid "Media Jobs"
-msgstr "Mediane"
+msgstr "Processi sul file multimediale"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:84
@@ -24863,10 +24831,9 @@ msgstr "Clip nella linea temporale"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:96
-#, fuzzy, kde-format
-#| msgid "Sequences"
+#, kde-format
 msgid "Sequence"
-msgstr "Sequenze"
+msgstr "Sequenza"
 
 #. i18n: ectx: Menu (keyboard_selection)
 #: src/kdenliveui.rc:101
@@ -24876,15 +24843,13 @@ msgstr "Selezione"
 
 #. i18n: ectx: Menu (current_item)
 #: src/kdenliveui.rc:111
-#, fuzzy, kde-format
-#| msgid "Grab Current Item"
+#, kde-format
 msgid "Current Item"
-msgstr "Afferra l'elemento corrente"
+msgstr "Elemento attuale"
 
 #. i18n: ectx: Menu (current_clip)
 #: src/kdenliveui.rc:119
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current Clip"
 msgstr "Clip corrente"
 
@@ -24908,8 +24873,7 @@ msgstr "Spazio"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:154
-#, fuzzy, kde-format
-#| msgid "&Current track"
+#, kde-format
 msgid "&Current Track"
 msgstr "Tra&ccia corrente"
 
@@ -25043,19 +25007,21 @@ msgid ""
 "The layout %1 uses an old and unsupported format, should be removed and "
 "recreated."
 msgstr ""
+"La disposizione %1 utilizza un formato vecchio e non supportato, dovrebbe "
+"essere rimossa e ricreata."
 
-#: src/layouts/layoutmanagement.cpp:247
+#: src/layouts/layoutmanagement.cpp:251
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Salva disposizione"
 
-#: src/layouts/layoutmanagement.cpp:247 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:251 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "Nome della disposizione:"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:267 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La disposizione %1 esiste già. Vuoi sostituirla?"
@@ -25144,6 +25110,8 @@ msgid ""
 "This layout uses an old and unsupported format, should be removed and "
 "recreated"
 msgstr ""
+"Questa disposizione utilizza un formato vecchio e non supportato, dovrebbe "
+"essere rimossa e ricreata"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -25565,6 +25533,8 @@ msgid ""
 "Show some development specific features in the UI, disable all exclude lists "
 "for assets."
 msgstr ""
+"Mostra alcune funzionalità specifiche per lo sviluppo nell'interfaccia "
+"utente, disabilita tutti gli elenchi di esclusione delle risorse."
 
 #: src/main.cpp:355
 #, kde-format
@@ -25688,7 +25658,7 @@ msgstr "Mostra solo le risorse revisionate"
 #: src/mainwindow.cpp:450
 #, kde-format
 msgid "Only show 10 bit compatible items"
-msgstr ""
+msgstr "Mostra solo elementi compatibili a 10 bit"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:460
@@ -25800,10 +25770,9 @@ msgstr "Crea marcatore dalla zona"
 
 #: src/mainwindow.cpp:666 src/monitor/monitor.cpp:721
 #: src/monitor/monitor.cpp:746
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Crea marcatori dai codici temporali selezionati"
+msgstr "Crea velocemente un marcatore dalla zona"
 
 #: src/mainwindow.cpp:685
 #, kde-format
@@ -26646,10 +26615,9 @@ msgid "Delete All Markers"
 msgstr "Elimina tutti i marcatori"
 
 #: src/mainwindow.cpp:1861
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi velocemente un marcatore"
 
 #: src/mainwindow.cpp:1865
 #, kde-format
@@ -26820,10 +26788,9 @@ msgid "Paste Effects"
 msgstr "Incolla effetti"
 
 #: src/mainwindow.cpp:2011
-#, fuzzy, kde-format
-#| msgid "Reset Effect"
+#, kde-format
 msgid "Remove Effects"
-msgstr "Ripristina effetto"
+msgstr "Rimuovi effetti"
 
 #: src/mainwindow.cpp:2018
 #, kde-format
@@ -26933,22 +26900,19 @@ msgid "Disable Timeline Preview"
 msgstr "Disabilita l'anteprima nella linea temporale"
 
 #: src/mainwindow.cpp:2121
-#, fuzzy, kde-format
-#| msgid "Add/Remove Marker"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Aggiungi/rimuovi marcatore"
+msgstr "Aggiungi/rimuovi marcatore della Linea temporale"
 
 #: src/mainwindow.cpp:2123
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Cerca marcatori nella linea temporale"
+msgstr "Elimina marcatore della linea temporale"
 
 #: src/mainwindow.cpp:2125
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Vai al marcatore della linea temporale…"
+msgstr "Modifica marcatore della linea temporale…"
 
 #: src/mainwindow.cpp:2128
 #, kde-format
@@ -27664,7 +27628,7 @@ msgstr "Frequenza dei fotogrammi:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:125 src/ui/editrenderpreset_ui.ui:215
+#: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
@@ -27674,7 +27638,7 @@ msgstr "Interlacciato"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:126 src/ui/editrenderpreset_ui.ui:220
+#: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
@@ -29585,10 +29549,9 @@ msgid "Show Thumbnails"
 msgstr "Mostra miniature"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "Aggiorna fotogramma chiave"
+msgstr "Seleziona zona per i marcatori di intervallo"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
@@ -29801,68 +29764,68 @@ msgstr ""
 "progetto. Nota che il profilo usato nel progetto aperto non può essere "
 "modificato."
 
-#: src/project/dialogs/profilewidget.cpp:124
-#: src/project/dialogs/profilewidget.cpp:155
+#: src/project/dialogs/profilewidget.cpp:126
+#: src/project/dialogs/profilewidget.cpp:157
 #, kde-format
 msgid "Any"
 msgstr "Qualsiasi"
 
-#: src/project/dialogs/profilewidget.cpp:205
+#: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "No profile selected"
 msgstr "Nessun profilo selezionato"
 
-#: src/project/dialogs/profilewidget.cpp:209
+#: src/project/dialogs/profilewidget.cpp:211
 #, kde-format
 msgid "Video Settings"
 msgstr "Impostazioni video"
 
-#: src/project/dialogs/profilewidget.cpp:212
+#: src/project/dialogs/profilewidget.cpp:214
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
 msgstr "Dimensione dei fotogrammi: %1 x %2 (%3:%4)"
 
-#: src/project/dialogs/profilewidget.cpp:213
+#: src/project/dialogs/profilewidget.cpp:215
 #, kde-format
 msgid "Frame rate: %1 fps"
 msgstr "Frequenza dei fotogrammi: %1 fps"
 
-#: src/project/dialogs/profilewidget.cpp:215
+#: src/project/dialogs/profilewidget.cpp:217
 #, kde-format
 msgid "Pixel aspect ratio: %1"
 msgstr "Rapporto d'aspetto dei pixel: %1"
 
-#: src/project/dialogs/profilewidget.cpp:217
+#: src/project/dialogs/profilewidget.cpp:219
 #, kde-format
 msgid "Color space: %1"
 msgstr "Spazio dei colori: %1"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "no"
 msgstr "no"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "yes"
 msgstr "sì"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "Interlaced: %1"
 msgstr "Interlacciato: %1"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Bottom field first"
 msgstr "Prima il campo inferiore"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Top field first"
 msgstr "Prima il campo superiore"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Field order: %1"
 msgstr "Ordine dei campi: %1"
@@ -30430,10 +30393,9 @@ msgid "Do not recover"
 msgstr "Non recuperare"
 
 #: src/project/projectmanager.cpp:798
-#, fuzzy, kde-format
-#| msgid "Marker category does not exist"
+#, kde-format
 msgid "File %1 does not exist"
-msgstr "La categoria di marcatori non esiste"
+msgstr "Il file %1 non esiste"
 
 # , kde-format, kde-format
 #: src/project/projectmanager.cpp:825
@@ -30593,16 +30555,14 @@ msgid "Select a clip to create sequence"
 msgstr "Seleziona una clip per creare una sequenza"
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "Creazione della maschera"
+msgstr "Creazione della sequenza non riuscita"
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Non puoi inserire una sequenza che contiene se stessa"
+msgstr "Impossibile inserire una sequenza nella linea temporale corrente"
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format
@@ -36575,10 +36535,9 @@ msgstr "Modifica categoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Markers Categories"
-msgstr "Categoria dei marcatori"
+msgstr "Categorie dei marcatori"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:21
@@ -37033,10 +36992,9 @@ msgstr "Anteprima dell'immagine"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Tempo di esportazione"
+msgstr "Ora di fine"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:192
@@ -37859,10 +37817,9 @@ msgstr "Modifica soglia"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Create range markers"
-msgstr "Aggiorna fotogramma chiave"
+msgstr "Crea indicatori di intervallo"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
@@ -37932,10 +37889,9 @@ msgstr "Tipo di immagine:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "Primo fotogramma"
+msgstr "Primo fotogramma:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
