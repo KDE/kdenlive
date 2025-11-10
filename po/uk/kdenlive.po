@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-07 00:42+0000\n"
+"POT-Creation-Date: 2025-11-10 00:42+0000\n"
 "PO-Revision-Date: 2025-11-02 11:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -7348,7 +7348,7 @@ msgstr "Тривалість"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:768 src/kdenliveui.rc:184 src/mainwindow.cpp:265
+#: src/core.cpp:773 src/kdenliveui.rc:184 src/mainwindow.cpp:265
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -20124,23 +20124,23 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Годинник"
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Профіль вашого проєкту є некоректним. Можливі помилки під час його обробки."
 
-#: src/core.cpp:1078
+#: src/core.cpp:1083
 #, kde-format
 msgid "Loading clips"
 msgstr "Завантаження кліпів"
 
-#: src/core.cpp:1534
+#: src/core.cpp:1539
 #, kde-format
 msgid "Marker %1"
 msgstr "Позначка %1"
 
-#: src/core.cpp:1888
+#: src/core.cpp:1893
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20151,7 +20151,7 @@ msgstr ""
 "такою адресою:\n"
 " %1"
 
-#: src/core.cpp:1889
+#: src/core.cpp:1894
 #, kde-format
 msgid "Open Browser"
 msgstr "Відкрити браузер"
@@ -25073,18 +25073,18 @@ msgstr ""
 "У компонуванні %1 використано застарілий і непідтримуване форматування, його "
 "слід вилучити і створити повторно."
 
-#: src/layouts/layoutmanagement.cpp:247
+#: src/layouts/layoutmanagement.cpp:251
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Збереження компонування"
 
-#: src/layouts/layoutmanagement.cpp:247 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:251 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "Назва компонування:"
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:267 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "Компонування %1 вже існує. Хочете його замінити?"
@@ -27691,7 +27691,7 @@ msgstr "Частота кадрів:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:125 src/ui/editrenderpreset_ui.ui:215
+#: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
@@ -27701,7 +27701,7 @@ msgstr "Черезрядкове"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:126 src/ui/editrenderpreset_ui.ui:220
+#: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
@@ -29828,68 +29828,68 @@ msgstr ""
 "проєкту. Зауваження: профіль, який використано у відкритому проєкті, не "
 "можна змінити."
 
-#: src/project/dialogs/profilewidget.cpp:124
-#: src/project/dialogs/profilewidget.cpp:155
+#: src/project/dialogs/profilewidget.cpp:126
+#: src/project/dialogs/profilewidget.cpp:157
 #, kde-format
 msgid "Any"
 msgstr "Байдуже"
 
-#: src/project/dialogs/profilewidget.cpp:205
+#: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "No profile selected"
 msgstr "Не вибрано жодного профілю"
 
-#: src/project/dialogs/profilewidget.cpp:209
+#: src/project/dialogs/profilewidget.cpp:211
 #, kde-format
 msgid "Video Settings"
 msgstr "Параметри відео"
 
-#: src/project/dialogs/profilewidget.cpp:212
+#: src/project/dialogs/profilewidget.cpp:214
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
 msgstr "Розмір кадру: %1 ⨯ %2 (%3:%4)"
 
-#: src/project/dialogs/profilewidget.cpp:213
+#: src/project/dialogs/profilewidget.cpp:215
 #, kde-format
 msgid "Frame rate: %1 fps"
 msgstr "Частота кадрів: %1 кд/с"
 
-#: src/project/dialogs/profilewidget.cpp:215
+#: src/project/dialogs/profilewidget.cpp:217
 #, kde-format
 msgid "Pixel aspect ratio: %1"
 msgstr "Співвідношення розмірів у пікселях: %1"
 
-#: src/project/dialogs/profilewidget.cpp:217
+#: src/project/dialogs/profilewidget.cpp:219
 #, kde-format
 msgid "Color space: %1"
 msgstr "Простір кольорів: %1"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "no"
 msgstr "ні"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "yes"
 msgstr "так"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "Interlaced: %1"
 msgstr "Черезрядкове: %1"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Bottom field first"
 msgstr "Нижнє поле перше"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Top field first"
 msgstr "Верхнє поле перше"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Field order: %1"
 msgstr "Порядок полів: %1"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-07 00:42+0000\n"
+"POT-Creation-Date: 2025-11-10 00:42+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -7233,7 +7233,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:768 src/kdenliveui.rc:184 src/mainwindow.cpp:265
+#: src/core.cpp:773 src/kdenliveui.rc:184 src/mainwindow.cpp:265
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, fuzzy, kde-format
@@ -20088,23 +20088,23 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
-#: src/core.cpp:1078
+#: src/core.cpp:1083
 #, kde-format
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1534
+#: src/core.cpp:1539
 #, fuzzy, kde-format
 #| msgid "Image Type"
 msgid "Marker %1"
 msgstr "Bildtyp"
 
-#: src/core.cpp:1888
+#: src/core.cpp:1893
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20112,7 +20112,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1889
+#: src/core.cpp:1894
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Open Browser"
@@ -25083,19 +25083,19 @@ msgid ""
 "recreated."
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:247
+#: src/layouts/layoutmanagement.cpp:251
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Profil wegmaken"
 
-#: src/layouts/layoutmanagement.cpp:247 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:251 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:267 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr ""
@@ -27754,7 +27754,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:125 src/ui/editrenderpreset_ui.ui:215
+#: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
@@ -27764,7 +27764,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:126 src/ui/editrenderpreset_ui.ui:220
+#: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
@@ -29940,75 +29940,75 @@ msgid ""
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:124
-#: src/project/dialogs/profilewidget.cpp:155
+#: src/project/dialogs/profilewidget.cpp:126
+#: src/project/dialogs/profilewidget.cpp:157
 #, kde-format
 msgid "Any"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:205
+#: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "No profile selected"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:209
+#: src/project/dialogs/profilewidget.cpp:211
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Video Settings"
 msgstr "Projektinstellen"
 
-#: src/project/dialogs/profilewidget.cpp:212
+#: src/project/dialogs/profilewidget.cpp:214
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:213
+#: src/project/dialogs/profilewidget.cpp:215
 #, fuzzy, kde-format
 #| msgid "Frame size:"
 msgid "Frame rate: %1 fps"
 msgstr "Rahmengrött"
 
-#: src/project/dialogs/profilewidget.cpp:215
+#: src/project/dialogs/profilewidget.cpp:217
 #, fuzzy, kde-format
 #| msgid "Keep aspect ratio"
 msgid "Pixel aspect ratio: %1"
 msgstr "Bildproportschoon wohren"
 
-#: src/project/dialogs/profilewidget.cpp:217
+#: src/project/dialogs/profilewidget.cpp:219
 #, fuzzy, kde-format
 #| msgid "Color Distance"
 msgid "Color space: %1"
 msgstr "Klöörafstand"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "no"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "yes"
 msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, fuzzy, kde-format
 #| msgid "White Balance"
 msgid "Interlaced: %1"
 msgstr "Wittbalangs"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, fuzzy, kde-format
 #| msgid "Align bottom"
 msgid "Bottom field first"
 msgstr "Nerrn utrichten"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, fuzzy, kde-format
 #| msgid "Align right"
 msgid "Top field first"
 msgstr "Rechterhand utrichten"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Field order: %1"

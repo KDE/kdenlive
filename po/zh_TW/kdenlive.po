@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-07 00:42+0000\n"
+"POT-Creation-Date: 2025-11-10 00:42+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -7021,7 +7021,7 @@ msgstr "持續時間"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:768 src/kdenliveui.rc:184 src/mainwindow.cpp:265
+#: src/core.cpp:773 src/kdenliveui.rc:184 src/mainwindow.cpp:265
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -19296,22 +19296,22 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "時鐘頂部"
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的專案編碼方案是無效的，算繪可能會失敗。"
 
-#: src/core.cpp:1078
+#: src/core.cpp:1083
 #, kde-format
 msgid "Loading clips"
 msgstr "載入素材中"
 
-#: src/core.cpp:1534
+#: src/core.cpp:1539
 #, kde-format
 msgid "Marker %1"
 msgstr "標記 %1"
 
-#: src/core.cpp:1888
+#: src/core.cpp:1893
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19321,7 +19321,7 @@ msgstr ""
 "這會開啟瀏覽器來在以下網址查看 Kdenlive 的線上說明文件：\n"
 " %1"
 
-#: src/core.cpp:1889
+#: src/core.cpp:1894
 #, kde-format
 msgid "Open Browser"
 msgstr "開啟瀏覽器"
@@ -24078,18 +24078,18 @@ msgid ""
 "recreated."
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:247
+#: src/layouts/layoutmanagement.cpp:251
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "儲存版面配置"
 
-#: src/layouts/layoutmanagement.cpp:247 src/layouts/layoutmanagerdialog.cpp:168
+#: src/layouts/layoutmanagement.cpp:251 src/layouts/layoutmanagerdialog.cpp:168
 #, kde-format
 msgid "Layout name:"
 msgstr "版面配置名稱："
 
-#: src/layouts/layoutmanagement.cpp:261 src/layouts/layoutmanagerdialog.cpp:174
+#: src/layouts/layoutmanagement.cpp:267 src/layouts/layoutmanagerdialog.cpp:174
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "版面配置 %1 已存在。您要覆寫它嗎？"
@@ -26606,7 +26606,7 @@ msgstr "幀率："
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:125 src/ui/editrenderpreset_ui.ui:215
+#: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
@@ -26616,7 +26616,7 @@ msgstr "交錯式"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:682
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
-#: src/project/dialogs/profilewidget.cpp:126 src/ui/editrenderpreset_ui.ui:220
+#: src/project/dialogs/profilewidget.cpp:128 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
@@ -28688,68 +28688,68 @@ msgstr ""
 "開啟可以變更專案編碼方案的編碼方案對話框。請注意：已開啟的專案的編碼方案不能"
 "被變更。"
 
-#: src/project/dialogs/profilewidget.cpp:124
-#: src/project/dialogs/profilewidget.cpp:155
+#: src/project/dialogs/profilewidget.cpp:126
+#: src/project/dialogs/profilewidget.cpp:157
 #, kde-format
 msgid "Any"
 msgstr "任何"
 
-#: src/project/dialogs/profilewidget.cpp:205
+#: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "No profile selected"
 msgstr "未選取設定檔"
 
-#: src/project/dialogs/profilewidget.cpp:209
+#: src/project/dialogs/profilewidget.cpp:211
 #, kde-format
 msgid "Video Settings"
 msgstr "視訊設定"
 
-#: src/project/dialogs/profilewidget.cpp:212
+#: src/project/dialogs/profilewidget.cpp:214
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
 msgstr "影格大小：%1 x %2 (%3:%4)"
 
-#: src/project/dialogs/profilewidget.cpp:213
+#: src/project/dialogs/profilewidget.cpp:215
 #, kde-format
 msgid "Frame rate: %1 fps"
 msgstr "幀率：%1 fps"
 
-#: src/project/dialogs/profilewidget.cpp:215
+#: src/project/dialogs/profilewidget.cpp:217
 #, kde-format
 msgid "Pixel aspect ratio: %1"
 msgstr "像素寬高比：%1"
 
-#: src/project/dialogs/profilewidget.cpp:217
+#: src/project/dialogs/profilewidget.cpp:219
 #, kde-format
 msgid "Color space: %1"
 msgstr "色彩空間：%1"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "no"
 msgstr "否"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "yes"
 msgstr "是"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:221
 #, kde-format
 msgid "Interlaced: %1"
 msgstr "交錯式：%1"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Bottom field first"
 msgstr "下場優先"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Top field first"
 msgstr "上場優先"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:224
 #, kde-format
 msgid "Field order: %1"
 msgstr "場序：%1"
