@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-10 00:42+0000\n"
 "PO-Revision-Date: 2025-05-16 15:05+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -16782,10 +16782,9 @@ msgid "Import keyframes from clipboard"
 msgstr "Importovat klíčové snímky ze schránky"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "Vložit místo…"
+msgstr ""
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -25433,16 +25432,14 @@ msgid "Add/Remove Timeline Marker"
 msgstr ""
 
 #: src/mainwindow.cpp:2123
-#, fuzzy, kde-format
-#| msgid "Delete All Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Smazat všechny značky"
+msgstr ""
 
 #: src/mainwindow.cpp:2125
-#, fuzzy, kde-format
-#| msgid "Edit Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Upravit značku…"
+msgstr ""
 
 #: src/mainwindow.cpp:2128
 #, kde-format
@@ -28871,16 +28868,14 @@ msgid "Select a clip to create sequence"
 msgstr ""
 
 #: src/project/projectmanager.cpp:2373
-#, fuzzy, kde-format
-#| msgid "Generator Failed"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "Generátor selhal"
+msgstr ""
 
 #: src/project/projectmanager.cpp:2400
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Nelze vložit sekvenci obsahující sebe samu"
+msgstr ""
 
 #: src/project/projectmanager.cpp:2404
 #, kde-format
@@ -31213,10 +31208,9 @@ msgid "No range marker found at position"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "Na pozici kurzoru neexistuje žádná značka"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -35989,10 +35983,9 @@ msgstr "Typ obrázku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "První snímek"
+msgstr "První rámec:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
@@ -36752,15 +36745,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Dock Area Orientation"
-#~ msgstr "Orientace dokovací oblasti"
-
-#~ msgid "Arrange Dock Areas In Rows"
-#~ msgstr "Uspořádat dokovací oblasti v řadách"
-
-#~ msgid "Arrange Dock Areas In Columns"
-#~ msgstr "Uspořádat dokovací oblasti ve sloupcích"
-
-#~ msgid "Raise %1"
-#~ msgstr "Do popředí %1"
