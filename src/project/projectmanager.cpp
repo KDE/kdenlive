@@ -112,17 +112,8 @@ void ProjectManager::slotLoadOnOpen()
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
-    // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
-    QTimer::singleShot(1000, this, []() {
-        QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
-        for (QTabBar *tab : std::as_const(tabbars)) {
-            // Fix tabbar tooltip containing ampersand
-            for (int i = 0; i < tab->count(); i++) {
-                tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
-            }
-        }
-        pCore->window()->checkMaxCacheSize();
-    });
+    // Check disk space use by temporary data
+    QTimer::singleShot(1000, pCore->window(), &MainWindow::checkMaxCacheSize);
 }
 
 void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)

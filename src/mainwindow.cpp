@@ -5425,9 +5425,7 @@ void MainWindow::checkMaxCacheSize()
     while (!toAdd.isEmpty()) {
         QDir dir = toAdd.takeFirst();
         m_totalCacheJobs++;
-        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             m_totalCacheSize += size;
@@ -5437,13 +5435,13 @@ void MainWindow::checkMaxCacheSize()
                 slotManageCache();
             }
         });
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        watcher->setFuture(future);
     }
     while (!toRemove.isEmpty()) {
         QDir dir = toRemove.takeFirst();
         m_totalCacheJobs++;
-        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             m_totalCacheSize -= size;
@@ -5453,6 +5451,8 @@ void MainWindow::checkMaxCacheSize()
                 slotManageCache();
             }
         });
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        watcher->setFuture(future);
     }
 }
 
