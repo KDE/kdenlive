@@ -601,7 +601,7 @@ private:
     QAction *m_upAction{nullptr};
     QAction *m_tagAction{nullptr};
     QActionGroup *m_sortGroup{nullptr};
-    SmallJobLabel *m_infoLabel;
+    SmallJobLabel *m_infoLabel{nullptr};
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu{nullptr};
     QActionGroup m_filterTagGroup;

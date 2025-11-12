@@ -2591,7 +2591,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     }
     m_doc = project;
     QString folderName;
-    if (m_isMainBin) {
+    if (m_isMainBin && m_infoLabel) {
         m_infoLabel->slotSetJobCount(0);
     }
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);

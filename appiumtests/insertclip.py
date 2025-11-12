@@ -38,7 +38,8 @@ class SimpleKdenliveTests(unittest.TestCase):
         #wait.until(lambda x: self.getresults() == '0')
 
     def getStatusText(self):
-        displaytext = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.MainWindow#1.QStatusBar.StatusBarMessageLabel.QLabel").text
+        displaytext = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
+        value="QApplication.MainWindow#1.QStatusBar.StatusBarMessageLabel.FlashLabel.QLabel").text
         return displaytext
 
     def assertResult(self, actual, expected):
@@ -60,7 +61,7 @@ class SimpleKdenliveTests(unittest.TestCase):
         # select all in Bin
         self.driver.find_element(by=AppiumBy.NAME, value="Select All").click()
         #wait = WebDriverWait(self.driver, 2)
-        self.assertResult(self.getStatusText(), "2 clips (2 selected) | ")
+        self.assertResult(self.getStatusText(), "2 items selected (00:10:00) |")
 
 
 if __name__ == '__main__':
