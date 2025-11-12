@@ -149,6 +149,21 @@ void MonitorProxy::setOverlayType(int ix)
     }
 }
 
+bool MonitorProxy::showSafezone() const
+{
+    return (q->m_id == int(Kdenlive::ClipMonitor) ? KdenliveSettings::showClipMonitorSafeZone() : KdenliveSettings::showProjectMonitorSafeZone());
+}
+
+void MonitorProxy::setShowSafezone(bool display)
+{
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        KdenliveSettings::setShowClipMonitorSafeZone(display);
+    } else {
+        KdenliveSettings::setShowProjectMonitorSafeZone(display);
+    }
+    Q_EMIT showSafezoneChanged();
+}
+
 bool MonitorProxy::setPosition(int pos)
 {
     return setPositionAdvanced(pos, false);

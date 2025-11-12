@@ -1095,6 +1095,14 @@
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x55</default>
     </entry>
+    <entry name="showClipMonitorSafeZone" type="Bool">
+      <label>Show monitor safe zones.</label>
+      <default>false</default>
+    </entry>
+    <entry name="showProjectMonitorSafeZone" type="Bool">
+      <label>Show monitor safe zones.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="displayProjectMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
@@ -1216,6 +1224,11 @@
     <entry name="overlayColor" type="Color">
       <label>Color to draw the monitor overlay guides.</label>
       <default>#00ffff</default>
+    </entry>
+
+    <entry name="safeColor" type="Color">
+      <label>Color to draw the safe zone.</label>
+      <default>#ffcc00</default>
     </entry>
 
     <entry name="defaultrescalewidth" type="Int">

@@ -3,10 +3,10 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Window 2.15
-import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
+import QtQuick
 
 import org.kde.kdenlive as K
 import 'Utils.js' as Utils
@@ -45,7 +45,6 @@ Item {
     property bool showMarkers: false
     property bool showTimecode: false
     property bool showFps: false
-    property bool showSafezone: false
     // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
     property bool showClipJobs: false
@@ -189,13 +188,19 @@ Item {
             objectName: "referenceframe"
             width: root.profile.x * root.scalex
             height: root.profile.y * root.scaley
-            x: root.center.x - width / 2 - root.offsetx;
-            y: root.center.y - height / 2 - root.offsety;
+            x: root.center.x - width / 2 - root.offsetx
+            y: root.center.y - height / 2 - root.offsety
 
             K.MonitorOverlay {
                 anchors.fill: frame
                 color: K.KdenliveSettings.overlayColor
                 overlayType: root.overlayType
+            }
+            K.MonitorSafeZone {
+                id: safeZone
+                anchors.fill: frame
+                color: K.KdenliveSettings.safeColor
+                showSafeZone: controller.showSafezone
             }
         }
         DropArea { //Drop area for effects

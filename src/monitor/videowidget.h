@@ -149,6 +149,7 @@ public Q_SLOTS:
     void setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth);
     void setOffsetY(int verticalScrollValue, int verticalScrollMaximum, int horizontalScrollBarHeight);
     void slotZoom(bool zoomIn);
+    void slotZoomReset();
     void releaseAnalyse();
     bool switchPlay(bool play, double speed = 1.0);
     void reloadProfile();

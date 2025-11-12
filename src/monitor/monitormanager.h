@@ -132,6 +132,8 @@ private Q_SLOTS:
     void slotZoomIn();
     /** @brief Zoom out active monitor */
     void slotZoomOut();
+    /** @brief Reset monitor zoom to normal */
+    void slotZoomReset();
     /** @brief Trigger refresh of both monitors */
     void forceProjectMonitorRefresh();
     /** @brief Enables / disables effect scene*/

@@ -151,6 +151,12 @@ Item {
                 overlayType: root.overlayType
             }
 
+            K.MonitorSafeZone {
+                anchors.fill: frame
+                color: K.KdenliveSettings.safeColor
+                showSafeZone: controller.showSafezone
+            }
+
             Loader {
                 id: countDownLoader
                 anchors.fill: frame

@@ -3081,6 +3081,11 @@ void Monitor::slotZoomOut()
     m_glMonitor->slotZoom(false);
 }
 
+void Monitor::slotZoomReset()
+{
+    m_glMonitor->slotZoomReset();
+}
+
 void Monitor::setConsumerProperty(const QString &name, const QString &value)
 {
     m_glMonitor->setConsumerProperty(name, value);
