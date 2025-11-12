@@ -415,6 +415,12 @@ Item {
             color: K.KdenliveSettings.overlayColor
             overlayType: root.overlayType
         }
+        K.MonitorSafeZone {
+            id: safeZone
+            anchors.fill: frame
+            color: K.KdenliveSettings.safeColor
+            showSafeZone: controller.showSafezone
+        }
     }
 
     Rectangle {

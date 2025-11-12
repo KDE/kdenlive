@@ -288,6 +288,11 @@ void VideoWidget::slotZoom(bool zoomIn)
     }
 }
 
+void VideoWidget::slotZoomReset()
+{
+    setZoom(1.);
+}
+
 void VideoWidget::refreshRect()
 {
     resizeVideo(width(), height());

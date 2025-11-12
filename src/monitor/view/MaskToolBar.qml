@@ -106,27 +106,8 @@ MouseArea {
                     root.exitMaskPreview()
                 }
             }
-            /*Kdenlive.MonitorToolButton {
-                objectName: "nextKeyframe"
-                iconName: "keyframe-next"
-                toolTipText: i18n("Go to Next Keyframe")
-                onClicked: controller.seekToKeyframe(-1, 1);
-            }
-            Kdenlive.MonitorToolButton {
-                objectName: "prevKeyframe"
-                iconName: "keyframe-previous"
-                toolTipText: i18n("Go to Previous Keyframe")
-                onClicked: controller.seekToKeyframe(-1, -1);
-            }*/
-            Kdenlive.MonitorToolButton {
-                iconName: "zoom-in"
-                toolTipText: i18n("Zoom in")
-                onClicked: controller.triggerAction('monitor_zoomin')
-            }
-            Kdenlive.MonitorToolButton {
-                iconName: "zoom-out"
-                toolTipText: i18n("Zoom out")
-                onClicked: controller.triggerAction('monitor_zoomout')
+            Kdenlive.MonitorZoomButton {
+                id: zoomButton
             }
 
             Kdenlive.MonitorToolButton {

@@ -563,6 +563,11 @@ void MonitorManager::setupActions()
     connect(monitorZoomOut, &QAction::triggered, this, &MonitorManager::slotZoomOut);
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
 
+    QAction *monitorZoomReset = new QAction(i18n("Reset Monitor Zoom"), this);
+    monitorZoomReset->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
+    connect(monitorZoomReset, &QAction::triggered, this, &MonitorManager::slotZoomReset);
+    pCore->window()->addAction(QStringLiteral("monitor_zoomreset"), monitorZoomReset, {}, QStringLiteral("monitor"));
+
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     connect(monitorSeekBackward, &QAction::triggered, this, [&](bool) { MonitorManager::slotRewind(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J, QStringLiteral("navandplayback"));
@@ -855,6 +860,13 @@ void MonitorManager::slotZoomOut()
 {
     if (m_activeMonitor) {
         static_cast<Monitor *>(m_activeMonitor)->slotZoomOut();
+    }
+}
+
+void MonitorManager::slotZoomReset()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotZoomReset();
     }
 }
 

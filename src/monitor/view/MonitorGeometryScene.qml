@@ -246,6 +246,12 @@ Item {
             color: K.KdenliveSettings.overlayColor
             overlayType: root.overlayType
         }
+        K.MonitorSafeZone {
+            id: safeZone
+            anchors.fill: frame
+            color: K.KdenliveSettings.safeColor
+            showSafeZone: controller.showSafezone
+        }
 
         Repeater {
           model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0

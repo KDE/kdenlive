@@ -140,9 +140,11 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/MonitorGeometryScene.qml
     monitor/view/MonitorOverlay.qml
     monitor/view/MonitorRotoScene.qml
+    monitor/view/MonitorSafeZone.qml
     monitor/view/MonitorSplit.qml
     monitor/view/MonitorSplitTracks.qml
     monitor/view/MonitorToolButton.qml
+    monitor/view/MonitorZoomButton.qml
     monitor/view/MonitorTrimming.qml
     monitor/view/SceneToolBar.qml
     monitor/view/MultiScreenToolBar.qml
@@ -155,6 +157,8 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/OverlayCenterDiagonal.qml
     monitor/view/OverlayThirds.qml
     monitor/view/OverlayLabel.qml
+    monitor/view/Safe169.qml
+    monitor/view/Safe916.qml
     monitor/view/ResizeHandle.qml
     monitor/view/ResizeLogic.js
     monitor/view/SnappingLogic.js

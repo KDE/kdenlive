@@ -141,6 +141,8 @@ public:
     void slotZoomIn();
     /** @brief Zoom out active monitor */
     void slotZoomOut();
+    /** @brief Reset monitor zoom to normal */
+    void slotZoomReset();
     /** @brief Set a property on the MLT consumer */
     void setConsumerProperty(const QString &name, const QString &value);
     /** @brief Play or Loop zone sets a fake "out" on the producer. It is necessary to reset this before reloading the producer */

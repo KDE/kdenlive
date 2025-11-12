@@ -22,7 +22,9 @@ MouseArea {
         effecttoolbar.opacity = 1
     }
     onExited: {
-        effecttoolbar.opacity = 0
+        if (!zoomButton.menuVisible) {
+            effecttoolbar.opacity = 0
+        }
     }
 
     Rectangle {
@@ -71,6 +73,19 @@ MouseArea {
                 }
             }
             K.MonitorToolButton {
+                objectName: "showSafeZone"
+                iconName: "select-rectangular"
+                toolTipText: i18n("Show Safe Zone")
+                checkable: true
+                checked: false
+                onCheckedChanged: {
+                    controller.showSafezone = checked
+                }
+                Component.onCompleted: {
+                    checked = controller.showSafezone
+                }
+            }
+            K.MonitorToolButton {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
                 toolTipText: i18n("Change Overlay")
@@ -109,17 +124,9 @@ MouseArea {
                 checked: K.KdenliveSettings.autoKeyframe
                 visible: barZone.showAutoKeyframe
             }
-            K.MonitorToolButton {
-                iconName: "zoom-in"
-                toolTipText: i18n("Zoom in")
-                onClicked: controller.triggerAction('monitor_zoomin')
+            K.MonitorZoomButton {
+                id: zoomButton
             }
-            K.MonitorToolButton {
-                iconName: "zoom-out"
-                toolTipText: i18n("Zoom out")
-                onClicked: controller.triggerAction('monitor_zoomout')
-            }
-
             K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
