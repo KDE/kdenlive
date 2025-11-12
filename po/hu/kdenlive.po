@@ -1,19 +1,19 @@
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2011, 2012.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
-# SPDX-FileCopyrightText: 2024 Kristof Kiszel <ulysses@fsf.hu>
+# SPDX-FileCopyrightText: 2024, 2025 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-10 00:42+0000\n"
-"PO-Revision-Date: 2024-05-28 23:07+0200\n"
+"PO-Revision-Date: 2025-11-11 21:32+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.08.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -36136,8 +36136,7 @@ msgstr "A JogShuttle eszköz le van tiltva."
 
 #. i18n: ectx: property (title), widget (QGroupBox, config_group)
 #: src/ui/configjogshuttle_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Device configuration"
+#, kde-format
 msgid "Device Configuration"
 msgstr "Eszközbeállítás"
 
@@ -36173,10 +36172,9 @@ msgstr "Gomb  4"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configjogshuttle_ui.ui:187
-#, fuzzy, kde-format
-#| msgid "Device name"
+#, kde-format
 msgid "Device name:"
-msgstr "Eszköznév"
+msgstr "Eszköznév:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configjogshuttle_ui.ui:200
@@ -36240,10 +36238,9 @@ msgstr "Gomb 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Project files"
+#, kde-format
 msgid "Project file:"
-msgstr "Projektfájlok"
+msgstr "Projektfájl:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:28
@@ -36259,11 +36256,9 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid " second"
-#| msgid_plural " seconds"
+#, kde-format
 msgid " seconds"
-msgstr "másodperc"
+msgstr " másodperc"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
@@ -36274,10 +36269,9 @@ msgstr "Formátum"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha operations"
+#, kde-format
 msgid " operations"
-msgstr "Alfa műveletek"
+msgstr " művelet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86
@@ -36391,10 +36385,9 @@ msgstr "Cím klipek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:252
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#, kde-format
 msgid "Transitions:"
-msgstr "Átmenetek"
+msgstr "Átmenetek:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configmisc_ui.ui:262
@@ -36425,10 +36418,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configmisc_ui.ui:311
-#, fuzzy, kde-format
-#| msgid "untitled"
+#, kde-format
 msgid "Subtitles:"
-msgstr "névtelen"
+msgstr "Feliratok:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -36441,10 +36433,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "Project folder"
+#, kde-format
 msgid "Project folder:"
-msgstr "Projekt mappa"
+msgstr "Projektmappa:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:58
@@ -36522,10 +36513,9 @@ msgstr "Nagyobb videókat hoz létre, mint"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
 #: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:86
 #: src/ui/configproxy_ui.ui:133 src/ui/configproxy_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid " pixels"
-msgstr "képpont"
+msgstr " képpont"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:79
@@ -36641,10 +36631,9 @@ msgstr "Használjon külső kijelzőt (Blackmagic card)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:149
-#, fuzzy, kde-format
-#| msgid "Output device"
+#, kde-format
 msgid "Output device:"
-msgstr "Kimeneti eszköz"
+msgstr "Kimeneti eszköz:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configspeech_ui.ui:31
@@ -36687,17 +36676,15 @@ msgstr "Projekt mappa használata"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:170
-#, fuzzy, kde-format
-#| msgid "Rename Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Mappa átnevezése"
+msgstr "Modell eltávolítása"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:180
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Mappa hozzáadása"
+msgstr "Modell hozzáadása"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:206
@@ -36736,10 +36723,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Model:"
-msgstr "Mód"
+msgstr "Modell:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configspeech_ui.ui:492
@@ -36914,10 +36900,9 @@ msgstr "Kijelölés"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Scaling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "Méretezés"
+msgstr "Görgetés:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:115
@@ -36987,10 +36972,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Slope"
+#, kde-format
 msgid "Developer:"
-msgstr "Dőlés"
+msgstr "Fejlesztő:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
@@ -37064,10 +37048,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configtranscode_ui.ui:69 src/ui/editrenderpreset_ui.ui:79
-#, fuzzy, kde-format
-#| msgid "Extension"
+#, kde-format
 msgid "Extension:"
-msgstr "Kiterjesztés"
+msgstr "Kiterjesztés:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: src/ui/configtranscode_ui.ui:76
@@ -37083,10 +37066,9 @@ msgstr "Paraméterek"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configtranscode_ui.ui:93
-#, fuzzy, kde-format
-#| msgid "Add Profile"
+#, kde-format
 msgid "Add Profile…"
-msgstr "Profil hozzáadása"
+msgstr "Profil hozzáadása…"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_update)
 #: src/ui/configtranscode_ui.ui:100
@@ -37141,10 +37123,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add new video file"
+#, kde-format
 msgid "Add new profile"
-msgstr "Új videofájl hozzáadása"
+msgstr "Új profil hozzáadása"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -37188,10 +37169,9 @@ msgstr "Projekt leképzése"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Group"
+#, kde-format
 msgid "Group:"
-msgstr "Csoport"
+msgstr "Csoport:"
 
 #. i18n: ectx: property (text), widget (QLabel, presetNameLabel)
 #: src/ui/editrenderpreset_ui.ui:52
@@ -37202,18 +37182,16 @@ msgstr "Érték alaphelyzetbe állítása"
 
 #. i18n: ectx: property (text), widget (QLabel, label_container)
 #: src/ui/editrenderpreset_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Continue"
+#, kde-format
 msgid "Container:"
-msgstr "Folytatás"
+msgstr "Konténer:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/editrenderpreset_ui.ui:188 src/ui/editrenderpreset_ui.ui:860
-#, fuzzy, kde-format
-#| msgid "Codec"
+#, kde-format
 msgid "Codec:"
-msgstr "Kodek"
+msgstr "Kodek:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
 #: src/ui/editrenderpreset_ui.ui:234
@@ -37255,17 +37233,15 @@ msgstr "Pályasorrend fenntartása"
 #. i18n: ectx: property (text), widget (QLabel, vquality_label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: src/ui/editrenderpreset_ui.ui:388 src/ui/editrenderpreset_ui.ui:985
-#, fuzzy, kde-format
-#| msgid "Qualities"
+#, kde-format
 msgid "Quality:"
-msgstr "Minőségek"
+msgstr "Minőség:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/ui/editrenderpreset_ui.ui:525
-#, fuzzy, kde-format
-#| msgid "Keep as placeholder"
+#, kde-format
 msgid "Placeholder"
-msgstr "Megtartás helykitöltőként"
+msgstr "Helykitöltő"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:535
@@ -37292,10 +37268,9 @@ msgstr " képkocka"
 #. i18n: ectx: property (suffix), widget (QSpinBox, default_vbitrate)
 #. i18n: ectx: property (suffix), widget (QSpinBox, aBitrate)
 #: src/ui/editrenderpreset_ui.ui:576 src/ui/editrenderpreset_ui.ui:975
-#, fuzzy, kde-format
-#| msgid "Ok"
+#, kde-format
 msgid "k"
-msgstr "OK"
+msgstr "k"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
 #: src/ui/editrenderpreset_ui.ui:592
@@ -37314,10 +37289,9 @@ msgstr "Másodpercenkénti mezők"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/editrenderpreset_ui.ui:713 src/ui/editrenderpreset_ui.ui:968
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgid "Bitrate:"
-msgstr "Bitsebesség"
+msgstr "Bitráta:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
@@ -37329,10 +37303,9 @@ msgstr "Felvétel Monitor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "Resolution"
+#, kde-format
 msgid "Resolution:"
-msgstr "Felbontás"
+msgstr "Felbontás:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:753
@@ -37368,24 +37341,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:870
-#, fuzzy, kde-format
-#| msgid "Samplerate"
+#, kde-format
 msgid "Sample Rate:"
-msgstr "Mintavételi sebesség"
+msgstr "Mintavételi sebesség:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:902
-#, fuzzy, kde-format
-#| msgid "48000"
+#, kde-format
 msgid "8000"
-msgstr "48000"
+msgstr "8000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:907
-#, fuzzy, kde-format
-#| msgid "32000"
+#, kde-format
 msgid "12000"
-msgstr "32000"
+msgstr "12000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:912
@@ -37407,10 +37377,9 @@ msgstr "32000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:927
-#, fuzzy, kde-format
-#| msgid "41000"
+#, kde-format
 msgid "44100"
-msgstr "41000"
+msgstr "44100"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:932
@@ -37426,17 +37395,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: src/ui/editrenderpreset_ui.ui:948
-#, fuzzy, kde-format
-#| msgid "Hz"
+#, kde-format
 msgid "Hz"
 msgstr "Hz"
 
 #. i18n: ectx: attribute (title), widget (QWidget, other_tab)
 #: src/ui/editrenderpreset_ui.ui:1013
-#, fuzzy, kde-format
-#| msgid "Other clips"
+#, kde-format
 msgid "Other"
-msgstr "Egyéb klipek"
+msgstr "Egyéb"
 
 #. i18n: ectx: property (text), widget (QLabel, speedsLabel)
 #: src/ui/editrenderpreset_ui.ui:1019
@@ -37453,10 +37420,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/editrenderpreset_ui.ui:1036
-#, fuzzy, kde-format
-#| msgid "dvgrab additional parameters"
+#, kde-format
 msgid "Additional Parameters:"
-msgstr "dvgrab további paraméterei"
+msgstr "További paraméterek:"
 
 #. i18n: ectx: property (text), widget (QLabel, parametersLabel)
 #: src/ui/editrenderpreset_ui.ui:1056
@@ -37497,10 +37463,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:191
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "Style:"
-msgstr "Stabilizálás"
+msgstr "Stílus:"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_save)
 #. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
@@ -37565,10 +37530,9 @@ msgstr "névtelen"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "Fájlnév"
+msgstr "Stílusnév"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -37594,10 +37558,9 @@ msgstr "Interpolálás"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Target color"
+#, kde-format
 msgid "Text color"
-msgstr "Célszín"
+msgstr "Szövegszín"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -37616,19 +37579,16 @@ msgstr "Árnyék"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsubstyle_ui.ui:378 src/ui/managesubtitles_ui.ui:364
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "Félkövér"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsubstyle_ui.ui:397 src/ui/managesubtitles_ui.ui:369
-#, fuzzy, kde-format
-#| msgid "Antialias"
+#, kde-format
 msgid "Italic"
-msgstr "Élsimítás"
+msgstr "Dőlt"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
@@ -37647,10 +37607,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:455 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align center"
+#, kde-format
 msgid "Alignment"
-msgstr "Igazítás középre"
+msgstr "Igazítás"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -37668,17 +37627,15 @@ msgstr "Beállítások"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
 #: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:903
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Offset:"
-msgstr "Eltolás"
+msgstr "Eltolás:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/exportguidesdialog_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Format"
+#, kde-format
 msgid "Format:"
-msgstr "Formátum"
+msgstr "Formátum:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: src/ui/exportguidesdialog_ui.ui:120
@@ -37702,17 +37659,15 @@ msgstr "1. jelölő"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:189
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "Kdenlive JSON"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Mentés másként…"
+msgstr "Mentés másként:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/exportguidesdialog_ui.ui:216
@@ -37730,24 +37685,21 @@ msgstr "FFmpeg paraméterek"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete category"
-msgstr "Jelző törlése"
+msgstr "Kategória törlése"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add category"
-msgstr "Fejezet hozzáadása"
+msgstr "Kategória hozzáadása"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:63
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Kategória"
+msgstr "Kategória szerkesztése"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
@@ -37765,10 +37717,9 @@ msgstr "Arány keresése"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:40
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "Szövegcímke"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
@@ -37781,18 +37732,16 @@ msgstr "Beállítások"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
-#, fuzzy, kde-format
-#| msgid "untitled"
+#, kde-format
 msgid "Subtitle file:"
-msgstr "névtelen"
+msgstr "Feliratfájl:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/import_subtitle_ui.ui:68 src/ui/managesubtitles_ui.ui:459
-#, fuzzy, kde-format
-#| msgid "Record"
+#, kde-format
 msgid "Encoding"
-msgstr "Felvétel"
+msgstr "Kódolás"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
 #: src/ui/import_subtitle_ui.ui:96
@@ -37909,10 +37858,9 @@ msgstr "Projekt profil: %1"
 
 #. i18n: ectx: attribute (title), widget (QWidget, globalPage)
 #: src/ui/managecache_ui.ui:297
-#, fuzzy, kde-format
-#| msgid "Project"
+#, kde-format
 msgid "All Projects"
-msgstr "Projekt"
+msgstr "Minden projekt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:305
@@ -37942,10 +37890,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, gProxySize)
 #: src/ui/managecache_ui.ui:388 src/ui/managecache_ui.ui:439
 #: src/ui/managecache_ui.ui:512 src/ui/managecache_ui.ui:609
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Calculating..."
-msgstr "Várakozás…"
+msgstr "Számolás…"
 
 #. i18n: ectx: property (text), widget (QLabel, qSelectedLabel)
 #: src/ui/managecache_ui.ui:408
@@ -37980,10 +37927,9 @@ msgstr "Összes segédpont törlése"
 #. i18n: ectx: property (text), widget (QLabel, gBackupLabel)
 #. i18n: ectx: property (text), widget (QLabel, gProxyLabel)
 #: src/ui/managecache_ui.ui:505 src/ui/managecache_ui.ui:602
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "Total size:"
-msgstr "Fájl méret"
+msgstr "Teljes méret:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:523
@@ -38067,10 +38013,9 @@ msgstr "Szerkesztő profilok"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
-msgstr "Fájl"
+msgstr "Fájlok"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
@@ -38080,20 +38025,18 @@ msgstr "Elérési út"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "New Folder"
+#, kde-format
 msgid "New File"
-msgstr "Új mappa"
+msgstr "Új fájl"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteStyle)
 #: src/ui/managesubtitles_ui.ui:130 src/ui/managesubtitles_ui.ui:246
 #: src/ui/managesubtitles_ui.ui:505
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete"
-msgstr "%1 törlése"
+msgstr "Törlés"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabLayer)
 #: src/ui/managesubtitles_ui.ui:157
@@ -38109,17 +38052,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New Folder"
+#, kde-format
 msgid "New Layer"
-msgstr "Új mappa"
+msgstr "Új réteg"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "Styles"
-msgstr "Stabilizálás"
+msgstr "Stílusok"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
 #: src/ui/managesubtitles_ui.ui:323
@@ -38217,10 +38158,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "New Style"
-msgstr "Betűméret"
+msgstr "Új stílus"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
@@ -38271,10 +38211,9 @@ msgstr "Jelző törlése"
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/maskmanage_ui.ui:44 src/ui/maskmanage_ui.ui:179
-#, fuzzy, kde-format
-#| msgid "Playlist clips"
+#, kde-format
 msgid "Mask"
-msgstr "Lejátszólista klipek"
+msgstr "Maszk"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:60
@@ -38320,10 +38259,9 @@ msgstr "Projekt leképzése"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/maskmanage_ui.ui:165
-#, fuzzy, kde-format
-#| msgid "Border Width"
+#, kde-format
 msgid "Border"
-msgstr "Szegély vastagsága"
+msgstr "Szegély"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
@@ -38374,10 +38312,9 @@ msgstr "Kézi keresés"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/ui/missingclips_ui.ui:152
-#, fuzzy, kde-format
-#| msgid "Remove file"
+#, kde-format
 msgid "Remove"
-msgstr "Fájl eltávolítása"
+msgstr "Eltávolítás"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:170
@@ -38402,15 +38339,13 @@ msgstr "Megtartás helykitöltőként"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Start Position"
-msgstr "Átmenet kiválasztása"
+msgstr "Kezdőpozíció"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/newtimeline_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Sequence name"
+#, kde-format
 msgid "Sequence Name"
 msgstr "Sorozatnév"
 
@@ -38422,8 +38357,7 @@ msgstr "Profilok"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_create)
 #: src/ui/profiledialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create new profile"
+#, kde-format
 msgid "Create  new profile"
 msgstr "Új profil létrehozása"
 
@@ -38517,10 +38451,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
-#, fuzzy, kde-format
-#| msgid "Default folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Alapértelmezett mappák"
+msgstr "Alapértelmezett mappa"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:67
@@ -38531,31 +38464,27 @@ msgstr "Alapértelmezett projekt mappa"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Egyéni"
+msgstr "Egyéni:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:148
-#, fuzzy, kde-format
-#| msgid "%1 Channels"
+#, kde-format
 msgid "2 Channels (Stereo)"
-msgstr "%1 Csatornák"
+msgstr "2 csatorna (sztereó)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:153
-#, fuzzy, kde-format
-#| msgid "%1 Channels"
+#, kde-format
 msgid "4 Channels"
-msgstr "%1 Csatornák"
+msgstr "4 csatorna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "%1 Channels"
+#, kde-format
 msgid "6 Channels"
-msgstr "%1 Csatornák"
+msgstr "6 csatorna"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:193
@@ -38566,10 +38495,9 @@ msgstr "Kép-előnézet"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
-#, fuzzy, kde-format
-#| msgid "proxy"
+#, kde-format
 msgid "Proxy"
-msgstr "proxy"
+msgstr "Proxy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
@@ -38636,10 +38564,9 @@ msgstr "Betűtípusok"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/projectsettings_ui.ui:673
-#, fuzzy, kde-format
-#| msgid "Project files"
+#, kde-format
 msgid "Project files:"
-msgstr "Projektfájlok"
+msgstr "Projektfájlok:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
 #: src/ui/projectsettings_ui.ui:680
@@ -38668,45 +38595,39 @@ msgstr "A projektben felhasznált klipek:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "Text:"
-msgstr "Szöveg"
+msgstr "Szöveg:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_font)
 #: src/ui/qtextclip_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "Font:"
-msgstr "Betűtípus"
+msgstr "Betűtípus:"
 
 #. i18n: ectx: property (text), widget (QLabel, weightLabel)
 #: src/ui/qtextclip_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Weight:"
-msgstr "Magasság"
+msgstr "Vastagság:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
 #: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:1027
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Outline:"
-msgstr "Körvonal"
+msgstr "Körvonal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_bg)
 #: src/ui/qtextclip_ui.ui:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background:"
-msgstr "Háttér"
+msgstr "Háttér:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_padding)
 #: src/ui/qtextclip_ui.ui:184
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Padding:"
-msgstr "Helykitöltés"
+msgstr "Kitöltés:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:18
@@ -38742,10 +38663,9 @@ msgstr "Kiválasztás időtartama:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, options)
 #: src/ui/renderwidget_ui.ui:152
-#, fuzzy, kde-format
-#| msgid "Show/Hide options"
+#, kde-format
 msgid "More options"
-msgstr "Beállítások megjelenítése vagy elrejtése"
+msgstr "További beállítások"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonNew)
 #: src/ui/renderwidget_ui.ui:222
@@ -38756,10 +38676,9 @@ msgstr "Új profil létrehozása"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonNew)
 #: src/ui/renderwidget_ui.ui:225
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "&Save"
-msgstr "Mentés"
+msgstr "Menté&s"
 
 #. i18n: ectx: property (toolTip), widget (KNSWidgets::Button, m_knsbutton)
 #: src/ui/renderwidget_ui.ui:238
@@ -38796,17 +38715,15 @@ msgstr "Segédpont szerkesztése"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
 #: src/ui/renderwidget_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgid "&Edit"
-msgstr "Szerkesztés"
+msgstr "S&zerkesztés"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #: src/ui/renderwidget_ui.ui:305
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "&Delete"
-msgstr "%1 törlése"
+msgstr "&Törlés"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
 #: src/ui/renderwidget_ui.ui:335
@@ -38898,10 +38815,9 @@ msgstr "Átfedés"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:614
-#, fuzzy, kde-format
-#| msgid "Aspect ratio"
+#, kde-format
 msgid "Aspect Ratio:"
-msgstr "Képméretarány"
+msgstr "Képarány:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:636
@@ -38919,10 +38835,9 @@ msgstr "Közepes minőség"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/renderwidget_ui.ui:660
-#, fuzzy, kde-format
-#| msgid "Log"
+#, kde-format
 msgid "Low"
-msgstr "Napló"
+msgstr "Alacsony"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
 #: src/ui/renderwidget_ui.ui:673
@@ -38932,10 +38847,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
 #: src/ui/renderwidget_ui.ui:692
-#, fuzzy, no-c-format, kde-format
-#| msgid "50%"
+#, no-c-format, kde-format
 msgid "75%"
-msgstr "50%"
+msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/renderwidget_ui.ui:699
@@ -38945,10 +38859,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
 #: src/ui/renderwidget_ui.ui:711
-#, fuzzy, kde-format
-#| msgid "End Speed"
+#, kde-format
 msgid "Encoder"
-msgstr "Leállítás Sebesség "
+msgstr "Kódoló"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
@@ -38961,18 +38874,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
 #: src/ui/renderwidget_ui.ui:720
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Speed:"
-msgstr "Sebesség"
+msgstr "Sebesség:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/renderwidget_ui.ui:752 src/ui/renderwidget_ui.ui:787
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Threads:"
-msgstr "Tűréshatár"
+msgstr "Szálak:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
 #: src/ui/renderwidget_ui.ui:765
@@ -39088,10 +38999,9 @@ msgstr "Parancsfájl törlése"
 
 #. i18n: ectx: property (placeholderText), widget (KLineEdit, search_text)
 #: src/ui/resourcewidget_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search..."
-msgstr "Keresés"
+msgstr "Keresés…"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, page_number)
 #: src/ui/resourcewidget_ui.ui:121
@@ -39107,10 +39017,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/resourcewidget_ui.ui:319
-#, fuzzy, kde-format
-#| msgid "Service"
+#, kde-format
 msgid "Service:"
-msgstr "Szolgáltatás"
+msgstr "Szolgáltatás:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -39192,10 +39101,9 @@ msgstr "Áttűnés"
 
 #. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: src/ui/slideshowclip_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Softness:"
-msgstr "Finomság"
+msgstr "Finomság:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/slideshowclip_ui.ui:157
@@ -39206,10 +39114,9 @@ msgstr "Képválasztás módja"
 
 #. i18n: ectx: property (text), widget (QRadioButton, method_mime)
 #: src/ui/slideshowclip_ui.ui:166
-#, fuzzy, kde-format
-#| msgid "Mask type"
+#, kde-format
 msgid "&MIME type"
-msgstr "Maszk típus"
+msgstr "&MIME-típus"
 
 #. i18n: ectx: property (text), widget (QRadioButton, method_pattern)
 #: src/ui/slideshowclip_ui.ui:176
@@ -39226,17 +39133,15 @@ msgstr "Mappa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/slideshowclip_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Image type"
+#, kde-format
 msgid "Image type:"
-msgstr "Kép típus"
+msgstr "Képtípus:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "Első képkocka"
+msgstr "Első képkocka:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
@@ -39252,10 +39157,9 @@ msgstr "Bélyegképek megjelenítése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/slideshowclip_ui.ui:311
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Animation:"
-msgstr "Animáció"
+msgstr "Animáció:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, low_pass)
 #: src/ui/slideshowclip_ui.ui:321
@@ -39454,17 +39358,15 @@ msgstr "V"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
 #: src/ui/titlewidget_ui.ui:117
-#, fuzzy, kde-format
-#| msgid "Show %1 in timeline"
+#, kde-format
 msgid "Show timeline"
-msgstr "%1 megjelenítése az idővonalon"
+msgstr "Idővonal megjelenítése"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/ui/titlewidget_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Check"
+#, kde-format
 msgid "Checkered"
-msgstr "Ellenőrzés"
+msgstr "Kockás"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
 #: src/ui/titlewidget_ui.ui:173
@@ -39609,24 +39511,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_blur)
 #: src/ui/titlewidget_ui.ui:863
-#, fuzzy, kde-format
-#| msgid "Blur"
+#, kde-format
 msgid "Blur:"
-msgstr "Elmosás"
+msgstr "Elmosás:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignCenter)
 #: src/ui/titlewidget_ui.ui:946
-#, fuzzy, kde-format
-#| msgid "Align center"
+#, kde-format
 msgid "Align center."
-msgstr "Igazítás középre"
+msgstr "Középre igazítás."
 
 #. i18n: ectx: property (text), widget (QLabel, label_lineSpacing)
 #: src/ui/titlewidget_ui.ui:965
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "Line spacing:"
-msgstr "Fájlkiterjesztés:"
+msgstr "Sorköz:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
@@ -39863,18 +39762,16 @@ msgstr "További információ"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset"
+#, kde-format
 msgid "Reset Zoom"
-msgstr "Visszaállítás"
+msgstr "Nagyítás visszaállítása"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Zoom level"
-msgstr "Szín kulcs"
+msgstr "Nagyítási szint"
 
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:106
@@ -39952,8 +39849,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr ""
 
 #: src/widgets/geometrywidget.cpp:34
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "X pozíció"
@@ -39977,11 +39873,10 @@ msgid "Lock aspect ratio"
 msgstr "Méretarány rögzítése"
 
 #: src/widgets/geometrywidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
-msgstr "H"
+msgstr "M"
 
 #: src/widgets/geometrywidget.cpp:90
 #, kde-format
