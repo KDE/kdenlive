@@ -224,7 +224,7 @@ void MainWindow::init()
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
-    connect(pCore.get(), &Core::loadLayout, layoutManager, &LayoutManagement::slotLoadLayout, Qt::DirectConnection);
+    connect(pCore.get(), &Core::loadLayoutFromData, layoutManager, &LayoutManagement::slotLoadLayoutFromData, Qt::DirectConnection);
     pCore->buildDocks();
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);

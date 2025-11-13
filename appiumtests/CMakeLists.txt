@@ -12,7 +12,7 @@ set_package_properties(SeleniumWebDriverATSPI PROPERTIES
     URL "https://invent.kde.org/sdk/selenium-webdriver-at-spi"
     TYPE OPTIONAL
 )
-if(NOT SeleniumWebDriverATSPI_FOUND AND NOT DEFINED ENV{KDECI_BUILD})
+if(NOT SeleniumWebDriverATSPI_FOUND) # AND NOT DEFINED ENV{KDECI_BUILD})
     return()
 endif()
 

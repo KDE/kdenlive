@@ -1841,8 +1841,7 @@ void KdenliveDoc::loadDocumentProperties()
             // Restore Layout
             if (name == QLatin1String("layout")) {
                 const QString layoutData = e.firstChild().nodeValue();
-                LayoutInfo docLayout(QStringLiteral("current_doc"), QString(), layoutData);
-                Q_EMIT pCore->loadLayout(docLayout);
+                Q_EMIT pCore->loadLayoutFromData(layoutData);
                 continue;
             }
             if (name == QLatin1String("storagefolder")) {

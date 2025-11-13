@@ -58,25 +58,12 @@ public:
      * @brief Get the default layout collection
      * @return A collection with default layouts
      */
-    static LayoutCollection getDefaultLayouts();
+    void resetDefaultLayouts();
 
     /**
-     * @brief Reorder the layouts according to the given list of IDs
-     * @param newOrder The new order of layout IDs
+     * @brief Load layouts from disk
      */
-    void reorderLayouts(const QStringList &newOrder);
-
-    /**
-     * @brief Load layouts from config
-     * @param config The config to load from
-     */
-    void loadFromConfig(KSharedConfigPtr config);
-
-    /**
-     * @brief Save layouts to config
-     * @param config The config to save to
-     */
-    void saveToConfig(KSharedConfigPtr config) const;
+    void loadLayouts();
 
     /**
      * @brief Get the translated name for a layout ID
@@ -87,7 +74,6 @@ public:
 
 private:
     QMap<QString, LayoutInfo> m_layouts; // Map of layouts by ID
-    QStringList m_layoutOrder;           // Ordered list of layout IDs
 
     /**
      * @brief Initialize the layout translations

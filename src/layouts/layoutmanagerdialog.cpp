@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "layouts/layoutmanagerdialog.h"
+#include "kdenlivesettings.h"
 #include "layouts/layoutcollection.h"
 #include "layouts/layoutinfo.h"
 #include <KLocalizedString>
@@ -16,16 +17,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QPainter>
 #include <QUrl>
 
-LayoutManagerDialog::LayoutManagerDialog(QWidget *parent, LayoutCollection layouts, const QString &currentLayoutId)
+LayoutManagerDialog::LayoutManagerDialog(QWidget *parent, LayoutCollection &layouts, const QString &currentLayoutId)
     : QDialog(parent)
-    , m_previewCollection(std::move(layouts))
+    , m_previewCollection(layouts)
 {
-    setupUi(m_previewCollection, currentLayoutId);
+    setupUi(currentLayoutId);
 }
 
-void LayoutManagerDialog::setupUi(const LayoutCollection &layouts, const QString &currentLayoutId)
+void LayoutManagerDialog::setupUi(const QString &currentLayoutId)
 {
     setWindowTitle(i18n("Manage Layouts"));
     auto *mainLayout = new QVBoxLayout(this);
@@ -35,9 +37,31 @@ void LayoutManagerDialog::setupUi(const LayoutCollection &layouts, const QString
     m_listWidget->setAlternatingRowColors(true);
     mainLayout->addWidget(m_listWidget);
 
+    int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    qDebug() << "::: PAINTING ITEMS WITH ICON SIZE: " << iconSize;
+    QIcon horizontalIcon = QIcon::fromTheme(QStringLiteral("video-television"));
+    QIcon verticalIcon = QIcon::fromTheme(QStringLiteral("smartphone"));
+    QPixmap pix(iconSize * 2, iconSize);
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+    horizontalIcon.paint(&p, QRect(0, 0, iconSize, iconSize));
+    p.end();
+    m_horizontalProfile = QIcon(pix);
+    p.begin(&pix);
+    verticalIcon.paint(&p, QRect(iconSize, 0, iconSize, iconSize));
+    p.end();
+    m_horizontalAndVerticalProfile = QIcon(pix);
+    pix.fill(Qt::transparent);
+    p.begin(&pix);
+    verticalIcon.paint(&p, QRect(iconSize, 0, iconSize, iconSize));
+    p.end();
+    m_verticalProfile = QIcon(pix);
+
+    m_listWidget->setIconSize(QSize(2 * iconSize, iconSize));
+
     // Add layouts to list
-    QList<LayoutInfo> allLayouts = layouts.getAllLayouts();
-    for (const LayoutInfo &layout : allLayouts) {
+    QList<LayoutInfo> allLayouts = m_previewCollection.getAllLayouts();
+    for (const LayoutInfo &layout : std::as_const(allLayouts)) {
         addLayoutItem(layout);
     }
     // Select current
@@ -89,12 +113,11 @@ void LayoutManagerDialog::setupUi(const LayoutCollection &layouts, const QString
     buttonLayout->addStretch();
     mainLayout->addLayout(buttonLayout);
 
-    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
     mainLayout->addWidget(m_buttonBox);
 
     // Connections
-    connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::accept);
     connect(m_deleteButton, &QToolButton::clicked, this, &LayoutManagerDialog::deleteCurrentItem);
     connect(m_upButton, &QToolButton::clicked, this, &LayoutManagerDialog::moveItemUp);
     connect(m_downButton, &QToolButton::clicked, this, &LayoutManagerDialog::moveItemDown);
@@ -108,6 +131,32 @@ void LayoutManagerDialog::setupUi(const LayoutCollection &layouts, const QString
 void LayoutManagerDialog::deleteCurrentItem()
 {
     if (m_listWidget->currentItem()) {
+        if (QMessageBox::question(this, i18n("Delete Layout"), i18n("Are you sure you want to delete the layout %1?", m_listWidget->currentItem()->text())) !=
+            QMessageBox::Yes) {
+            return;
+        }
+        const QString layoutId = m_listWidget->currentItem()->data(Qt::UserRole).toString();
+        LayoutInfo info = m_previewCollection.getLayout(layoutId);
+        QDir layoutsFolder(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+        if (layoutsFolder.cd(QStringLiteral("layouts"))) {
+            // Process deletion
+            QFileInfo path(info.path);
+            if (layoutsFolder.exists(path.fileName())) {
+                QFile::remove(layoutsFolder.absoluteFilePath(path.fileName()));
+            }
+            QFileInfo vPath(info.verticalPath);
+            if (layoutsFolder.exists(vPath.fileName())) {
+                QFile::remove(layoutsFolder.absoluteFilePath(vPath.fileName()));
+            }
+        }
+        if (info.isDefault) {
+            // We never delete default layouts, just set empty paths
+            info.path.clear();
+            info.verticalPath.clear();
+            m_previewCollection.addLayout(info);
+        } else {
+            m_previewCollection.removeLayout(layoutId);
+        }
         delete m_listWidget->currentItem();
     }
     updateButtonStates();
@@ -140,9 +189,12 @@ void LayoutManagerDialog::resetToDefaults()
     if (QMessageBox::question(this, i18n("Reset Layouts"),
                               i18n("Are you sure you want to reset all layouts to the default set? This will remove all custom layouts.")) ==
         QMessageBox::Yes) {
+        m_previewCollection.resetDefaultLayouts();
+        // Reset and reload list
         m_listWidget->clear();
-        LayoutCollection defaults = LayoutCollection::getDefaultLayouts();
-        for (const LayoutInfo &layout : defaults.getAllLayouts()) {
+        // Add layouts to list
+        QList<LayoutInfo> allLayouts = m_previewCollection.getAllLayouts();
+        for (const LayoutInfo &layout : std::as_const(allLayouts)) {
             addLayoutItem(layout);
         }
         updateButtonStates();
@@ -151,36 +203,53 @@ void LayoutManagerDialog::resetToDefaults()
 
 void LayoutManagerDialog::importLayout()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, i18n("Import Layout"), QString(), i18n("Kdenlive Layout (*.kdenlivelayout)"));
+    QString fileName = QFileDialog::getOpenFileName(this, i18n("Import Layout"), QString(), i18n("Kdenlive Layout (*.json)"));
     if (fileName.isEmpty()) return;
 
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QFile srcFile(fileName);
+    if (!srcFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(this, i18n("Import Layout"), i18n("Cannot open file %1", QUrl::fromLocalFile(fileName).fileName()));
         return;
     }
 
-    QString state = QString::fromUtf8(file.readAll());
-    file.close();
+    srcFile.close();
 
     QFileInfo fileInfo(fileName);
     QString suggestedName = fileInfo.baseName();
+    bool isVertical = suggestedName.contains(QStringLiteral("_vertical"));
+    if (isVertical) {
+        suggestedName.replace(QStringLiteral("_vertical"), QString());
+    }
     QString layoutName = QInputDialog::getText(this, i18n("Import Layout"), i18n("Layout name:"), QLineEdit::Normal, suggestedName);
     if (layoutName.isEmpty()) return;
 
-    // Check for duplicate
-    for (int i = 0; i < m_listWidget->count(); ++i) {
-        if (m_listWidget->item(i)->text() == layoutName) {
-            int res = KMessageBox::questionTwoActions(this, i18n("The layout %1 already exists. Do you want to replace it?", layoutName), {},
-                                                      KStandardGuiItem::overwrite(), KStandardGuiItem::cancel());
-            if (res != KMessageBox::PrimaryAction) {
-                return;
-            } else {
-                delete m_listWidget->item(i);
-                break;
-            }
-        }
+    // Copy file to Layout folder
+    QDir layoutsFolder(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    layoutsFolder.mkdir(QStringLiteral("layouts"));
+    if (!layoutsFolder.cd(QStringLiteral("layouts"))) {
+        KMessageBox::information(this, i18n("Could not write in the layouts folder %1", layoutsFolder.absolutePath()));
+        return;
     }
+    if (fileInfo.dir() == layoutsFolder) {
+        KMessageBox::information(this, i18n("Selected layout is already imported"));
+        return;
+    }
+    QString newFile = layoutsFolder.absoluteFilePath(layoutName + QStringLiteral(".json"));
+    // Sanity check
+    QFileInfo destFile(newFile);
+    if (destFile.dir() != layoutsFolder) {
+        KMessageBox::information(this, i18n("Invalid file selected: %1", newFile));
+        return;
+    }
+    if (destFile.exists()) {
+        int res = KMessageBox::questionTwoActions(this, i18n("The layout %1 already exists. Do you want to replace it?", layoutName), {},
+                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel());
+        if (res != KMessageBox::PrimaryAction) {
+            return;
+        }
+        QFile::remove(newFile);
+    }
+    srcFile.copy(newFile);
 
     // Add to list
     auto *item = new QListWidgetItem(layoutName, m_listWidget);
@@ -188,7 +257,12 @@ void LayoutManagerDialog::importLayout()
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 
     // Store the layout data in m_previewCollection for export
-    LayoutInfo info(layoutName, layoutName, state);
+    LayoutInfo info(layoutName, layoutName);
+    if (isVertical) {
+        info.verticalPath = newFile;
+    } else {
+        info.path = newFile;
+    }
     m_previewCollection.addLayout(info);
     m_listWidget->setCurrentItem(item);
     updateButtonStates();
@@ -201,35 +275,76 @@ void LayoutManagerDialog::exportLayout()
         return;
     }
 
-    QString layoutId = m_listWidget->currentItem()->data(Qt::UserRole).toString();
-    LayoutInfo info = m_previewCollection.getLayout(layoutId);
-    if (!info.isValid() || info.data.isEmpty()) {
-        QMessageBox::warning(this, i18n("Export Layout"), i18n("Cannot find layout data for %1.", layoutId));
+    const QString layoutId = m_listWidget->currentItem()->data(Qt::UserRole).toString();
+    LayoutInfo layout = m_previewCollection.getLayout(layoutId);
+    if (!layout.isValid()) {
+        QMessageBox::warning(this, i18n("Export Layout"), i18n("Cannot find layout file for %1.", layoutId));
         return;
     }
-
-    QString fileName = QFileDialog::getSaveFileName(this, i18n("Export Layout"), layoutId + ".kdenlivelayout", i18n("Kdenlive Layout (*.kdenlivelayout)"));
+    QString fileName = QFileDialog::getSaveFileName(this, i18n("Export Layout"), layoutId + ".json", i18n("Kdenlive Layout (*.json)"));
     if (fileName.isEmpty()) return;
 
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, i18n("Export Layout"), i18n("Cannot open file %1", QUrl::fromLocalFile(fileName).fileName()));
+    bool result = false;
+    if (QFile::exists(fileName)) {
+        QFile::remove(fileName);
+    }
+    // First export the horizontal layout
+    if (!layout.path.isEmpty()) {
+        QFile src(layout.path);
+        result = src.copy(fileName);
+    }
+    // Next export the vertical layout if any
+    QFileInfo info(fileName);
+    QDir folder = info.dir();
+    QString baseName = info.baseName();
+    fileName = folder.absoluteFilePath(baseName + QStringLiteral("_vertical.json"));
+    if (QFile::exists(fileName)) {
+        if (KMessageBox::warningContinueCancel(this, i18n("Overwrite existing file for vertical layout %1?", fileName)) != KMessageBox::Continue) {
+            if (result) {
+                QMessageBox::information(this, i18n("Export Layout"), i18n("Horizontal layout exported successfully."));
+            }
+            return;
+        }
+        QFile::remove(fileName);
+    }
+    if (!layout.verticalPath.isEmpty()) {
+        QFile src(layout.verticalPath);
+        result = src.copy(fileName);
+    }
+    if (!result) {
+        QMessageBox::critical(this, i18n("Export Layout"), i18n("Cannot write to file %1", QUrl::fromLocalFile(fileName).fileName()));
         return;
     }
-
-    file.write(info.data.toUtf8());
-    file.close();
     QMessageBox::information(this, i18n("Export Layout"), i18n("Layout exported successfully."));
 }
 
 void LayoutManagerDialog::addLayoutItem(const LayoutInfo &layout)
 {
-    auto *item = new QListWidgetItem(layout.displayName, m_listWidget);
+    if (!layout.isValid()) {
+        // Don't show items with no path
+        return;
+    }
+    QIcon icon;
+    QString toolTip;
+    if (layout.hasHorizontalData()) {
+        if (layout.hasVerticalData()) {
+            icon = m_horizontalAndVerticalProfile;
+            toolTip = i18nc("@info:tooltip", "This layout contains horizontal and vertical profiles");
+        } else {
+            icon = m_horizontalProfile;
+            toolTip = i18nc("@info:tooltip", "This layout contains an horizontal profile");
+        }
+    } else {
+        icon = m_verticalProfile;
+        toolTip = i18nc("@info:tooltip", "This layout contains an vertical profile");
+    }
+    auto *item = new QListWidgetItem(icon, layout.displayName, m_listWidget);
     item->setData(Qt::UserRole, layout.internalId);
-    if (!layout.isKDDockWidgetsLayout()) {
+    item->setToolTip(toolTip);
+    /*if (!layout.isKDDockWidgetsLayout()) {
         item->setIcon(QIcon::fromTheme("dialog-warning"));
         item->setToolTip(i18n("This layout uses an old and unsupported format, should be removed and recreated"));
-    }
+    }*/
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 
@@ -242,27 +357,24 @@ void LayoutManagerDialog::updateButtonStates()
     m_exportButton->setEnabled(row >= 0);
 }
 
-LayoutCollection LayoutManagerDialog::getUpdatedCollection() const
+void LayoutManagerDialog::updateOrder()
 {
-    LayoutCollection updated = m_previewCollection;
     QStringList newOrder;
     for (int i = 0; i < m_listWidget->count(); ++i) {
         QListWidgetItem *item = m_listWidget->item(i);
         QString layoutId = item->data(Qt::UserRole).toString();
         QString displayName = item->text();
-        LayoutInfo info = updated.getLayout(layoutId);
+        LayoutInfo info = m_previewCollection.getLayout(layoutId);
         if (info.isValid()) {
             if (info.displayName != displayName) {
                 info.displayName = displayName;
-                updated.addLayout(info);
+                m_previewCollection.addLayout(info);
             }
-        } else {
-            updated.addLayout(LayoutInfo(layoutId, displayName));
         }
         newOrder.append(layoutId);
     }
-    updated.reorderLayouts(newOrder);
-    return updated;
+    qDebug() << "::: UPDATING LAYOUTS ORDER TO: " << newOrder;
+    KdenliveSettings::setLayoutsOrder(newOrder);
 }
 
 QString LayoutManagerDialog::getSelectedLayoutId() const

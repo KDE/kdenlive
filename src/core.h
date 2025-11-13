@@ -537,5 +537,5 @@ Q_SIGNALS:
     void updateRenderOffset();
     void hideBars(bool);
     void switchTitleBars();
-    void loadLayout(LayoutInfo layout);
+    void loadLayoutFromData(const QString layout);
 };

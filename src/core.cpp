@@ -309,7 +309,7 @@ void Core::restoreLayout()
         m_mainWindow->show();
     } else {
         KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toUtf8());
     }
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT hideBars(!KdenliveSettings::showtitlebars());

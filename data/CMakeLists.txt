@@ -3,6 +3,7 @@
 
 add_subdirectory(effects)
 add_subdirectory(generators)
+add_subdirectory(layouts)
 add_subdirectory(transitions)
 add_subdirectory(icons)
 add_subdirectory(knewstuff)
@@ -35,7 +36,6 @@ install(FILES
   externalproxies.rc
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
-  kdenlivedefaultlayouts.rc
   slideanimations.rc
   clipjobsettings.rc
 

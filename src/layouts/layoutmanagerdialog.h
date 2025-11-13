@@ -23,15 +23,15 @@ class LayoutManagerDialog : public QDialog
 public:
     /**
      * @brief LayoutManagerDialog always works on a copy of LayoutCollection for preview. Changes are only applied if accepted.
-     * @param layouts The collection to preview and edit. You should provide a copy of the original collection.
+     * @param layouts The collection to preview and edit.
      * @param currentLayoutId The currently selected layout.
      */
-    LayoutManagerDialog(QWidget *parent, LayoutCollection layouts, const QString &currentLayoutId);
-    LayoutCollection getUpdatedCollection() const;
+    LayoutManagerDialog(QWidget *parent, LayoutCollection &layouts, const QString &currentLayoutId);
+    void updateOrder();
     QString getSelectedLayoutId() const;
 
 private:
-    void setupUi(const LayoutCollection &layouts, const QString &currentLayoutId);
+    void setupUi(const QString &currentLayoutId);
     void addLayoutItem(const LayoutInfo &layout);
     void updateButtonStates();
 
@@ -50,5 +50,8 @@ private:
     QToolButton *m_resetButton;
     QToolButton *m_importButton;
     QToolButton *m_exportButton;
-    LayoutCollection m_previewCollection; ///< Always a copy, never the original
+    LayoutCollection m_previewCollection;
+    QIcon m_horizontalProfile;
+    QIcon m_horizontalAndVerticalProfile;
+    QIcon m_verticalProfile;
 };
