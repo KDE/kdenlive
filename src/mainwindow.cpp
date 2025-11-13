@@ -615,7 +615,11 @@ void MainWindow::init()
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar /*| KXmlGuiWindow::Save*/ | KXmlGuiWindow::Create);
 
     // Only start saving config once all GUI setup is done.
-    connect(this, &MainWindow::GUISetupDone, this, [&]() { setAutoSaveSettings(); });
+    connect(this, &MainWindow::GUISetupDone, this, [&]() {
+        pCore->closeSplash();
+        setAutoSaveSettings();
+        QObject::disconnect(this, &MainWindow::GUISetupDone, this, nullptr);
+    });
 
     LocaleHandling::resetLocale();
 
@@ -1058,7 +1062,7 @@ bool MainWindow::queryClose()
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     KdenliveSettings::setKdockLayout(QString(dockLayout.serializeLayout()));
-    setAutoSaveSettings(QStringLiteral("MainWindow"), false);
+    // setAutoSaveSettings(QStringLiteral("MainWindow"), false);
     if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
         return false;
     }
@@ -2073,7 +2077,7 @@ void MainWindow::setupActions()
     connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
     timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
 
-    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Master effects"), this);
+    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Sequence effects"), this);
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();
@@ -2283,6 +2287,7 @@ bool MainWindow::readOptions()
         firstRun = true;
         // Define default video location for first run
         KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+        KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
 
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true);

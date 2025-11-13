@@ -4,10 +4,11 @@
 */
 
 import QtQuick
+import org.kde.kdenlive as K
 
 Item {
     id: overlay
-    property color color
+    property color color: K.KdenliveSettings.safeColor
 
     Rectangle {
         id: safezone

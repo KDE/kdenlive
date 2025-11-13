@@ -4967,7 +4967,7 @@ QString TimelineController::audioZoomText() const
 
 void TimelineController::showMasterEffects()
 {
-    Q_EMIT showItemEffectStack(i18n("Master effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
+    Q_EMIT showItemEffectStack(i18n("Sequence effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
 }
 
 bool TimelineController::refreshIfVisible(int cid)

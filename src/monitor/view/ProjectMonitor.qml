@@ -30,7 +30,6 @@ Item {
     property bool showMarkers: false
     property bool showTimecode: false
     property bool showFps: false
-    property bool showSafezone: false
     property bool showAudiothumb: false
     // Zoombar properties
     property double zoomStart: 0
@@ -153,7 +152,6 @@ Item {
 
             K.MonitorSafeZone {
                 anchors.fill: frame
-                color: K.KdenliveSettings.safeColor
                 showSafeZone: controller.showSafezone
             }
 

@@ -199,7 +199,6 @@ Item {
             K.MonitorSafeZone {
                 id: safeZone
                 anchors.fill: frame
-                color: K.KdenliveSettings.safeColor
                 showSafeZone: controller.showSafezone
             }
         }

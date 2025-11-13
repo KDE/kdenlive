@@ -5,10 +5,11 @@
 
 import QtQuick
 import QtQuick.Shapes
+import org.kde.kdenlive as K
 
 Item {
     id: overlay
-    property color color
+    property color color: K.KdenliveSettings.safeColor
 
     Shape {
         id: framePath
