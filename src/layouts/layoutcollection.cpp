@@ -6,8 +6,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "layouts/layoutcollection.h"
+#include "kdenlivesettings.h"
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <QDir>
+#include <QDirIterator>
 #include <QFile>
 #include <QJsonArray>
 #include <QStandardPaths>
@@ -19,32 +22,27 @@ LayoutCollection::LayoutCollection()
 
 void LayoutCollection::initTranslations()
 {
-    LayoutInfo logging(QStringLiteral("kdenlive_logging"), i18n("Logging"), QString(), true);
-    LayoutInfo editing(QStringLiteral("kdenlive_editing"), i18n("Editing"), QString(), true);
-    LayoutInfo audio(QStringLiteral("kdenlive_audio"), i18n("Audio"), QString(), true);
-    LayoutInfo effects(QStringLiteral("kdenlive_effects"), i18n("Effects"), QString(), true);
-    LayoutInfo color(QStringLiteral("kdenlive_color"), i18n("Color"), QString(), true);
-
-    // Add translated names to the collection even if we don't have the data yet
-    // This ensures name translations work properly
-    m_layouts[logging.internalId] = logging;
-    m_layouts[editing.internalId] = editing;
-    m_layouts[audio.internalId] = audio;
-    m_layouts[effects.internalId] = effects;
-    m_layouts[color.internalId] = color;
+    // Ensure we have a reference to the translated names
+    QStringList translations = {i18nc("Short layout name for logging interface", "Logging"), i18nc("Short layout name for editing interface", "Editing"),
+                                i18nc("Short layout name for audio interface", "Audio"), i18nc("Short layout name for effects interface", "Effects"),
+                                i18nc("Short layout name for color grading interface", "Color")};
 }
 
 void LayoutCollection::addLayout(const LayoutInfo &layout)
 {
+    qDebug() << ":::::: ADDING LAYOUT: " << layout.internalId;
     if (!layout.isValid()) {
+        qDebug() << ":::::: ADDING LAYOUT INVALID!!! " << layout.internalId;
         return;
     }
 
     m_layouts[layout.internalId] = layout;
 
     // Update order list if not already present
-    if (!m_layoutOrder.contains(layout.internalId)) {
-        m_layoutOrder.append(layout.internalId);
+    if (!KdenliveSettings::layoutsOrder().contains(layout.internalId)) {
+        QStringList order = KdenliveSettings::layoutsOrder();
+        order << layout.internalId;
+        KdenliveSettings::setLayoutsOrder(order);
     }
 }
 
@@ -55,8 +53,9 @@ bool LayoutCollection::removeLayout(const QString &id)
     }
 
     m_layouts.remove(id);
-    m_layoutOrder.removeAll(id);
-
+    QStringList order = KdenliveSettings::layoutsOrder();
+    order.removeAll(id);
+    KdenliveSettings::setLayoutsOrder(order);
     return true;
 }
 
@@ -77,7 +76,7 @@ QList<LayoutInfo> LayoutCollection::getAllLayouts() const
 {
     QList<LayoutInfo> result;
     // Return layouts in the correct order
-    for (const QString &id : m_layoutOrder) {
+    for (const QString &id : KdenliveSettings::layoutsOrder()) {
         if (m_layouts.contains(id)) {
             result.append(m_layouts.value(id));
         }
@@ -86,159 +85,124 @@ QList<LayoutInfo> LayoutCollection::getAllLayouts() const
     return result;
 }
 
-LayoutCollection LayoutCollection::getDefaultLayouts()
+void LayoutCollection::resetDefaultLayouts()
 {
     LayoutCollection collection;
 
-    // Load default layouts from the default config
-    KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup defaultOrder(&defaultConfig, "Order");
-    KConfigGroup defaultLayout(&defaultConfig, "Layouts");
-
-    const QStringList defaultIds = defaultOrder.entryMap().values();
-
-    for (const QString &id : defaultIds) {
-        LayoutInfo layout;
-        if (collection.m_layouts.contains(id)) {
-            // We already have this as a translation, update with data
-            layout = collection.m_layouts[id];
-            layout.data = defaultLayout.readEntry(id);
-        } else {
-            // Create a new default layout
-            layout = LayoutInfo(id, id, defaultLayout.readEntry(id), true);
-        }
-        QString verticalId = id + QStringLiteral("_vertical");
-        if (defaultLayout.hasKey(verticalId)) {
-            layout.verticalData = defaultLayout.readEntry(verticalId);
-        }
-        collection.addLayout(layout);
-    }
-
-    return collection;
-}
-
-void LayoutCollection::reorderLayouts(const QStringList &newOrder)
-{
-    m_layoutOrder.clear();
-    for (const QString &id : newOrder) {
-        if (m_layouts.contains(id)) {
-            m_layoutOrder.append(id);
+    // Remove any custom layout overwriting defaults
+    QDir customLayoutsFolder(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if (customLayoutsFolder.cd(QStringLiteral("layouts"))) {
+        for (auto &id : KdenliveSettings::defaultLayoutsOrder()) {
+            if (!m_layouts.contains(id)) {
+                // This should not happen, default layouts should always be there
+                continue;
+            }
+            if (customLayoutsFolder.exists(id + QStringLiteral(".json"))) {
+                customLayoutsFolder.remove(id + QStringLiteral(".json"));
+            }
+            if (customLayoutsFolder.exists(id + QStringLiteral("_vertical.json"))) {
+                customLayoutsFolder.remove(id + QStringLiteral("_vertical.json"));
+            }
         }
     }
+
+    // Reset layouts order and reload
+    KdenliveSettings::setLayoutsOrder({});
+    loadLayouts();
 }
 
-void LayoutCollection::loadFromConfig(KSharedConfigPtr config)
+void LayoutCollection::loadLayouts()
 {
     // Keep translated names but clear any existing layout data
-    QMap<QString, LayoutInfo> translatedLayouts = m_layouts;
     m_layouts.clear();
-    m_layoutOrder.clear();
 
-    // Restore translated names
-    for (auto it = translatedLayouts.begin(); it != translatedLayouts.end(); ++it) {
-        if (it.value().isDefault) {
-            m_layouts[it.key()] = it.value();
-        }
-    }
-
-    // Load from config
-    KConfigGroup layoutGroup(config, "Layouts");
-    KConfigGroup orderGroup(config, "Order");
-
-    if (!layoutGroup.exists()) {
-        // If user config doesn't exist, try main config
-        KSharedConfigPtr mainConfig = KSharedConfig::openConfig();
-        KConfigGroup mainLayoutGroup(mainConfig, "Layouts");
-        if (mainLayoutGroup.exists()) {
-            // Migrate to the new config
-            mainLayoutGroup.copyTo(&layoutGroup);
-        }
-    }
-
-    // If user order doesn't exist, fill from default order
-    QStringList entries;
-    if (!orderGroup.exists()) {
-        // Load default layouts
-        KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-        KConfigGroup defaultOrder(&defaultConfig, "Order");
-        KConfigGroup defaultLayout(&defaultConfig, "Layouts");
-
-        QStringList defaultLayouts = defaultOrder.entryMap().values();
-        entries = layoutGroup.keyList();
-
-        // Add default layouts to user config if they don't exist
-        for (const QString &id : defaultLayouts) {
-            if (!entries.contains(id)) {
-                entries.insert(defaultLayouts.indexOf(id), id);
-                layoutGroup.writeEntry(id, defaultLayout.readEntry(id));
+    // Search layouts
+    QMap<QString, LayoutInfo> foundlayouts;
+    const QStringList layoutsFolders =
+        QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("layouts"), QStandardPaths::LocateDirectory);
+    for (const QString &folderpath : layoutsFolders) {
+        QDir dir(folderpath);
+        QDirIterator it(dir.absolutePath(), {QStringLiteral("*.json")}, QDir::Files);
+        while (it.hasNext()) {
+            const QFileInfo fInfo(dir.absoluteFilePath(it.next()));
+            QString layoutId = fInfo.baseName();
+            if (foundlayouts.contains(fInfo.baseName()) && !fInfo.isWritable()) {
+                // Only overwrite if the folder is writable
+                continue;
             }
-            const QString verticalId = id + QStringLiteral("_vertical");
-            if (!entries.contains(verticalId)) {
-                layoutGroup.writeEntry(verticalId, defaultLayout.readEntry(verticalId));
+            // Read layout info
+            QFile loadFile(fInfo.absoluteFilePath());
+            if (!loadFile.open(QIODevice::ReadOnly)) {
+                qDebug() << "// Cannot read layout: " << fInfo.absoluteFilePath();
+                continue;
             }
+            const QByteArray saveData = loadFile.readAll();
+            QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+            QVariantList results = loadDoc["kdenliveInfo"].toArray().toVariantList();
+            if (results.isEmpty()) {
+                qDebug() << "// No Kdenlive data found in layout: " << fInfo.absoluteFilePath();
+                continue;
+            }
+            if (layoutId.endsWith(QLatin1String("_vertical"))) {
+                // Remove _vertical suffix from id
+                layoutId.chop(9);
+            }
+            const QString displayName = results[0].toMap().value(QStringLiteral("displayName")).toString();
+            const QString insideId = results[0].toMap().value(QStringLiteral("id")).toString();
+            bool isDefault = results[0].toMap().value(QStringLiteral("default"), false).toBool();
+            bool isVertical = results[0].toMap().value(QStringLiteral("vertical"), false).toBool();
+            if (!insideId.isEmpty()) {
+                // Allow overriding id based on file name
+                layoutId = insideId;
+            }
+            LayoutInfo layout;
+            if (foundlayouts.contains(layoutId)) {
+                layout = foundlayouts.value(layoutId);
+                if ((isVertical && !layout.verticalPath.isEmpty()) || (!isVertical && !layout.path.isEmpty())) {
+                    // Duplicate layout
+                    qDebug() << "Duplicate layout, ignoring: " << layoutId << " = " << fInfo.absoluteFilePath();
+                    continue;
+                }
+            } else {
+                layout = LayoutInfo(layoutId, isDefault ? i18n(displayName.toUtf8().constData()) : displayName);
+            }
+            layout.isDefault = isDefault;
+            if (isVertical) {
+                layout.verticalPath = fInfo.absoluteFilePath();
+            } else {
+                layout.path = fInfo.absoluteFilePath();
+            }
+            foundlayouts.insert(layoutId, layout);
         }
-
-        // Update order
-        orderGroup.deleteGroup();
-        int i = 1;
-        for (const QString &id : entries) {
-            orderGroup.writeEntry(QStringLiteral("%1").arg(i, 2, 10, QLatin1Char('0')), id);
-            i++;
-        }
-        config->reparseConfiguration();
-    } else {
-        // User has a custom order
-        entries = orderGroup.entryMap().values();
     }
 
-    // Now build the layouts from the entries
-    for (const QString &id : entries) {
-        if (id.isEmpty()) {
+    QStringList previousOrder = KdenliveSettings::layoutsOrder();
+    KdenliveSettings::setLayoutsOrder({});
+    if (previousOrder.isEmpty()) {
+        // Default layout order
+        previousOrder = KdenliveSettings::defaultLayoutsOrder();
+    }
+
+    // Now load the layouts from the entries
+    for (const QString &id : std::as_const(previousOrder)) {
+        if (id.isEmpty() || !foundlayouts.contains(id)) {
             continue;
         }
-
-        LayoutInfo layout;
-        layout.internalId = id;
-        layout.displayName = getTranslatedName(id);
-        if (layoutGroup.hasKey(id)) {
-            layout.data = layoutGroup.readEntry(id);
-        }
-        if (layoutGroup.hasKey(id + QStringLiteral("_vertical"))) {
-            layout.data = layoutGroup.readEntry(id + QStringLiteral("_vertical"));
-        }
-        layout.isDefault = m_layouts.contains(id) && m_layouts[id].isDefault;
-
-        // Add to collection
-        addLayout(layout);
-    }
-}
-
-void LayoutCollection::saveToConfig(KSharedConfigPtr config) const
-{
-    KConfigGroup layoutGroup(config, "Layouts");
-    KConfigGroup orderGroup(config, "Order");
-
-    // Clear existing entries
-    layoutGroup.deleteGroup();
-    orderGroup.deleteGroup();
-
-    // Write layouts and order
-    int i = 1;
-    for (const QString &id : m_layoutOrder) {
-        if (m_layouts.contains(id) && !id.isEmpty()) {
-            // Save layout data
-            layoutGroup.writeEntry(id, m_layouts[id].data);
-            if (!m_layouts[id].verticalData.isEmpty()) {
-                layoutGroup.writeEntry(id + QStringLiteral("_vertical"), m_layouts[id].verticalData);
-            }
-
-            // Save order
-            orderGroup.writeEntry(QStringLiteral("%1").arg(i, 2, 10, QLatin1Char('0')), id);
-            i++;
+        LayoutInfo layout = foundlayouts.take(id);
+        if (layout.isValid()) {
+            addLayout(layout);
         }
     }
-
-    config->sync();
+    // Add remaining layouts not yet in order
+    for (auto i = foundlayouts.cbegin(), end = foundlayouts.cend(); i != end; ++i) {
+        if (i.value().isDefault) {
+            // Default layout not in list, was removed so skip
+            continue;
+        }
+        if (i.value().isValid()) {
+            addLayout(i.value());
+        }
+    }
 }
 
 QString LayoutCollection::getTranslatedName(const QString &id) const

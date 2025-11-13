@@ -834,9 +834,10 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
             filter.remove(filter.indexOf(QLatin1String(")")) - 1, -1);
             QStringList fileExt = filter.split(QStringLiteral(" "));
             // check for Kdenlive installed luts files
-            QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
+            const QStringList customLuts =
+                QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
             QStringList results;
-            for (const QString &folderpath : std::as_const(customLuts)) {
+            for (const QString &folderpath : customLuts) {
                 QDir dir(folderpath);
                 QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
                 while (it.hasNext()) {

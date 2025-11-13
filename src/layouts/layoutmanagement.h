@@ -33,6 +33,7 @@ public Q_SLOTS:
     bool slotLoadLayout(LayoutInfo layout);
     /** @brief Load a layout by its name. */
     bool slotLoadLayoutById(const QString &layoutId);
+    bool slotLoadLayoutFromData(const QString &layoutData);
 
 private Q_SLOTS:
     /** @brief Saves the widget layout. */
@@ -49,12 +50,6 @@ private Q_SLOTS:
     void slotUpdatePalette();
 
 private:
-    /** @brief Saves the given layout asking the user for a name.
-     * @param layout
-     * @param suggestedName name that is filled in to the save layout dialog
-     * @return names of the saved layout. First is the visible name, second the internal name (they are different if the layout is a default one)
-     */
-    std::pair<QString, QString> saveLayout(const QString &layout, const QString &suggestedName);
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
     /** @brief Updates the autosave icon with highlight color. */
