@@ -26,8 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileInfo>
 #include <QPixmap>
 
-std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
-
 ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer, const QDomElement &description)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
@@ -123,7 +121,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     int id = m_controllerBinId.toInt();
     m_effectStack = EffectStackModel::construct(m_masterProducer, ObjectId(KdenliveObjectType::BinClip, id, QUuid()), pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
-        m_masterProducer = ClipController::mediaUnavailable;
+        m_masterProducer = std::shared_ptr<Mlt::Producer>(pCore->mediaUnavailable->cut());
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);

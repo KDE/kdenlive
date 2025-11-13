@@ -178,6 +178,7 @@ void MainWindow::init()
     auto themeManager = new ThemeManager(actionCollection());
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged, Qt::QueuedConnection);
+    connect(pCore.get(), &Core::switchDarkPalette, themeManager, &ThemeManager::switchDarkPalette);
 
     // Handle communication with the renderer app
     new RenderServer(this);
@@ -224,6 +225,7 @@ void MainWindow::init()
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
+    connect(pCore.get(), &Core::loadLayoutById, layoutManager, &LayoutManagement::slotLoadLayoutById, Qt::DirectConnection);
     connect(pCore.get(), &Core::loadLayoutFromData, layoutManager, &LayoutManagement::slotLoadLayoutFromData, Qt::DirectConnection);
     pCore->buildDocks();
 
@@ -797,11 +799,6 @@ void MainWindow::init()
     if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
-    if (firstRun) {
-        // Load editing layout
-        layoutManager->slotLoadLayoutById(QStringLiteral("kdenlive_editing"));
-    }
-
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
@@ -977,7 +974,9 @@ void MainWindow::slotThemeChanged(const QString &name)
     }
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
-        getCurrentTimeline()->controller()->resetView();
+        if (getCurrentTimeline() && getCurrentTimeline()->controller()) {
+            getCurrentTimeline()->controller()->resetView();
+        }
     }
     applyToolMessageStyling();
     applyZoomLevelButtonStyling();
@@ -989,14 +988,16 @@ MainWindow::~MainWindow()
 {
     pCore->prepareShutdown();
     delete m_timelineTabs;
-    delete m_audioSpectrum;
+    if (m_audioSpectrum) {
+        delete m_audioSpectrum;
+    }
     if (m_projectMonitor) {
         m_projectMonitor->stop();
     }
     if (m_clipMonitor) {
         m_clipMonitor->stop();
     }
-    ClipController::mediaUnavailable.reset();
+    // Core::mediaUnavailable.reset();
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
@@ -2875,17 +2876,22 @@ void MainWindow::slotRestart(bool clean)
             return;
         }
     }
-    cleanRestart(clean);
+    cleanRestart(clean, false);
 }
 
-void MainWindow::cleanRestart(bool clean)
+void MainWindow::cleanRestart(bool clean, bool forceQuit)
 {
     m_exitCode = clean ? EXIT_CLEAN_RESTART : EXIT_RESTART;
     QApplication::closeAllWindows();
+    if (forceQuit) {
+        // qApp->quit();
+        qApp->exit(m_exitCode);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug() << ":::: CLOSE EVENT REQUESTED....";
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
         QApplication::exit(m_exitCode);

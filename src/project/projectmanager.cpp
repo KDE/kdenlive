@@ -10,7 +10,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "filefilter.h"
 #include "jobs/cliploadtask.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -23,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
 #include "timeline2/model/timelinefunctions.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "utils/qstringutils.h"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
@@ -90,11 +90,10 @@ ProjectManager::~ProjectManager() = default;
 void ProjectManager::slotLoadOnOpen()
 {
     if (m_startUrl.isValid()) {
-        openFile();
+        slotOpenFile();
     } else if (KdenliveSettings::openlastproject()) {
         openLastFile();
     } else {
-        pCore->restoreLayout();
         newFile(false);
     }
     Q_EMIT pCore->window()->GUISetupDone();
@@ -102,7 +101,7 @@ void ProjectManager::slotLoadOnOpen()
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         QList<QUrl> urls;
         urls.reserve(m_loadClipsOnOpen.count());
-        for (const QString &path : m_loadClipsOnOpen) {
+        for (const QString &path : std::as_const(m_loadClipsOnOpen)) {
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
         pCore->bin()->droppedUrls(urls);
@@ -110,8 +109,7 @@ void ProjectManager::slotLoadOnOpen()
     m_loadClipsOnOpen.clear();
     Q_EMIT pCore->closeSplash();
     // Release startup crash lock file
-    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    lockFile.remove();
+    clearLockFile();
     // Check disk space use by temporary data
     QTimer::singleShot(1000, pCore->window(), &MainWindow::checkMaxCacheSize);
 }
@@ -122,8 +120,7 @@ void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)
         doOpenFileHeadless(projectUrl);
     }
     // Release startup crash lock file
-    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    lockFile.remove();
+    clearLockFile();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QStringList &clipList)
@@ -134,7 +131,7 @@ void ProjectManager::init(const QUrl &projectUrl, const QStringList &clipList)
     m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
     m_fileRevert->setEnabled(false);
 
-    QAction *a = KStandardAction::open(this, SLOT(openFile()), pCore->window()->actionCollection());
+    QAction *a = KStandardAction::open(this, SLOT(slotOpenFile()), pCore->window()->actionCollection());
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     a = KStandardAction::saveAs(this, SLOT(saveFileAs()), pCore->window()->actionCollection());
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
@@ -165,6 +162,10 @@ void ProjectManager::newFile(bool showProjectSettings)
     QString profileName = KdenliveSettings::default_profile();
     if (profileName.isEmpty()) {
         profileName = pCore->getCurrentProfile()->path();
+    }
+    if (!m_project) {
+        // We are just opening Kdenlive, restore layout
+        pCore->restoreLayout();
     }
     newFile(profileName, showProjectSettings);
 }
@@ -208,6 +209,9 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
+            if (m_project == nullptr) {
+                slotLoadOnOpen();
+            }
             return;
         }
         if (!closeCurrentDocument()) {
@@ -291,6 +295,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
+    clearLockFile();
 }
 
 void ProjectManager::setActiveTimeline(const QUuid &uuid)
@@ -470,16 +475,16 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     // Abort clip loading if any
     Q_EMIT pCore->stopProgressTask();
-    if (guiConstructed) {
-        // Clear clip monitor and guides list
-        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-        qApp->processEvents();
-        pCore->window()->disableMulticam();
-        pCore->mixer()->unsetModel();
-        pCore->monitorManager()->projectMonitor()->setProducer(QUuid(), nullptr);
-        Q_EMIT pCore->window()->clearAssetPanel();
-    }
     if (m_project) {
+        if (guiConstructed) {
+            // Clear clip monitor and guides list
+            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+            qApp->processEvents();
+            pCore->window()->disableMulticam();
+            pCore->mixer()->unsetModel();
+            pCore->monitorManager()->projectMonitor()->setProducer(QUuid(), nullptr);
+            Q_EMIT pCore->window()->clearAssetPanel();
+        }
         qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS...";
         pCore->taskManager.slotCancelJobs(true);
         qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS...DONE";
@@ -684,7 +689,7 @@ bool ProjectManager::saveFile()
     return result;
 }
 
-void ProjectManager::openFile()
+void ProjectManager::slotOpenFile()
 {
     if (m_startUrl.isValid()) {
         openFile(m_startUrl);
@@ -694,6 +699,10 @@ void ProjectManager::openFile()
     QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"))),
                                            getProjectNameFilters());
     if (!url.isValid()) {
+        if (!m_project) {
+            // First opening, switch to blank project
+            newFile(false);
+        }
         return;
     }
     KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
@@ -772,6 +781,7 @@ bool ProjectManager::isSupportedArchive(const QUrl &url)
 void ProjectManager::openFile(const QUrl &url)
 {
     // Make sure the url is a Kdenlive project file
+    bool freshStart = m_project == nullptr;
     if (isSupportedArchive(url)) {
         // Opening a compressed project file, we need to process it
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
@@ -780,15 +790,22 @@ void ProjectManager::openFile(const QUrl &url)
         } else if (m_startUrl.isValid()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
+            if (freshStart) {
+                clearLockFile();
+            }
         }
         delete ar;
         return;
     }
 
     if (!QFile::exists(url.toLocalFile())) {
+        pCore->restoreLayout();
         KMessageBox::error(pCore->window(), i18n("File %1 does not exist", url.toLocalFile()));
         Q_EMIT pCore->loadingMessageHide();
         newFile(false);
+        if (freshStart) {
+            clearLockFile();
+        }
         return;
     }
 
@@ -799,6 +816,9 @@ void ProjectManager::openFile(const QUrl &url)
             m_startUrl.clear();
             Q_EMIT pCore->loadingMessageHide();
             newFile(false);
+            if (freshStart) {
+                clearLockFile();
+            }
             return;
         }
     }
@@ -815,6 +835,9 @@ void ProjectManager::openFile(const QUrl &url)
     }
     pCore->displayMessage(i18n("Opening file %1", url.toLocalFile()), OperationCompletedMessage, 100);
     doOpenFile(url, nullptr);
+    if (freshStart) {
+        clearLockFile();
+    }
 }
 
 bool ProjectManager::isKdenliveProjectFile(const QUrl url)
@@ -1451,17 +1474,17 @@ void ProjectManager::slotSwitchTrackTarget()
     pCore->window()->getCurrentTimeline()->controller()->switchTargetTrack();
 }
 
-QString ProjectManager::getDefaultProjectFormat()
+const QString ProjectManager::getDefaultProjectFormat()
 {
     // On first run, lets use an HD1080p profile with fps related to timezone country. Then, when the first video is added to a project, if it does not match
     // our profile, propose a new default.
     QTimeZone zone;
     zone = QTimeZone::systemTimeZone();
 
-    QList<int> ntscCountries;
-    ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;
-    ntscCountries << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
-    ntscCountries << QLocale::PuertoRico << QLocale::SouthKorea << QLocale::Taiwan << QLocale::UnitedStates;
+    QList<int> ntscCountries = {QLocale::Canada,      QLocale::Chile,       QLocale::CostaRica,  QLocale::Cuba,       QLocale::DominicanRepublic,
+                                QLocale::Ecuador,     QLocale::Japan,       QLocale::Mexico,     QLocale::Nicaragua,  QLocale::Panama,
+                                QLocale::Peru,        QLocale::Philippines, QLocale::PuertoRico, QLocale::SouthKorea, QLocale::Taiwan,
+                                QLocale::UnitedStates};
     bool ntscProject = ntscCountries.contains(zone.territory());
     if (!ntscProject) {
         return QStringLiteral("atsc_1080p_25");
@@ -2446,5 +2469,13 @@ void ProjectManager::updateSequenceOffset(const QUuid &uuid)
         pCore->guidesList()->setTimecodeOffset(offset);
         // Update info in render dialog
         Q_EMIT pCore->updateRenderOffset();
+    }
+}
+
+void ProjectManager::clearLockFile()
+{
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    if (lockFile.exists()) {
+        lockFile.remove();
     }
 }

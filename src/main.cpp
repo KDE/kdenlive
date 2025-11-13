@@ -10,12 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "logger.hpp"
 #endif
 #include "definitions.h"
-#include "dialogs/splash.hpp"
 #include "dialogs/wizard.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
+// Required for MacOS definition of MLT_LC_NAME
 #include "lib/localeHandling.h"
-#include "mainwindow.h"
 #include "render/renderrequest.h"
 #include <config-kdenlive.h>
 #include <project/projectmanager.h>
@@ -41,22 +40,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifndef NODBUS
 #include <KDBusService>
 #endif
-#include <KLocalizedString>
 
 #include <KStyleManager>
 #include <kddockwidgets/DockWidget.h>
 
+#include <KLocalizedString>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QDir>
 #include <QIcon>
 #include <QProcess>
-#include <QQmlEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QResource>
-#include <QSplashScreen>
+
 #include <QUndoGroup>
 #include <QUrl> //new
 
@@ -117,18 +115,12 @@ static void resetConfig()
     }
 
     // Delete xml ui rc file
-    const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    if (configLocation.isEmpty()) {
+    const QString configFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kxmlgui5/kdenlive/kdenliveui.rc"));
+
+    if (configFile.isEmpty()) {
         return;
     }
-    QDir dir(configLocation);
-    if (!(dir.cd(QStringLiteral("kxmlgui5")) && dir.cd(QStringLiteral("kdenlive")))) {
-        return;
-    }
-    QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
-    if (!f.exists()) {
-        return;
-    }
+    QFile f(configFile);
     if (!f.open(QIODevice::ReadOnly)) {
         return;
     }
@@ -274,7 +266,6 @@ int main(int argc, char *argv[])
     }
 
     KLocalizedString::setApplicationDomain("kdenlive");
-    qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
     QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
@@ -321,8 +312,6 @@ int main(int argc, char *argv[])
 
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
-    qApp->processEvents(QEventLoop::AllEvents);
-
     // Create command line parser with options
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
@@ -348,6 +337,9 @@ int main(int argc, char *argv[])
     QCommandLineOption exitOption(QStringLiteral("render-async"),
                                   i18n("Exit after (detached) render process started, without this flag it exists only after it finished."));
     parser.addOption(exitOption);
+
+    QCommandLineOption disableWelcome(QStringLiteral("no-welcome"), i18n("Do not show any welcome screen."));
+    parser.addOption(disableWelcome);
 
     QCommandLineOption debugOption(QStringLiteral("debug"), i18n("Show some development specific features in the UI, disable all exclude lists for assets."));
     parser.addOption(debugOption);
@@ -400,8 +392,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-
-    qApp->processEvents(QEventLoop::AllEvents);
 
     if (parser.isSet(renderOption)) {
         if (app.url.isEmpty()) {
@@ -485,24 +475,20 @@ int main(int argc, char *argv[])
         return exitCode;
     }
 
-    qApp->processEvents(QEventLoop::AllEvents);
-    Splash splash;
-    qApp->processEvents(QEventLoop::AllEvents);
-    splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
-    splash.show();
-    qApp->processEvents(QEventLoop::AllEvents);
-
 #ifdef Q_OS_WIN
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup grp(config, "unmanaged");
     KConfigGroup uicg(config, "UiSettings");
     if (!uicg.exists()) {
         uicg.writeEntry("ColorSchemePath", "BreezeDark.colors");
         uicg.sync();
+    }
+    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
+        qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     }
 
 #ifndef NODBUS
@@ -510,7 +496,7 @@ int main(int argc, char *argv[])
     KDBusService programDBusService;
 #endif
 
-    qApp->processEvents(QEventLoop::AllEvents);
+    // qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)
     KCrash::initialize();
@@ -524,16 +510,17 @@ int main(int argc, char *argv[])
     if (parser.isSet(clipsOption)) {
         clipsToLoad = parser.value(clipsOption).split(QLatin1Char(','));
     }
-    qApp->processEvents(QEventLoop::AllEvents);
+
     KDDockWidgets::initFrontend(KDDockWidgets::FrontendType::QtWidgets);
-    if (!Core::build(packageType, false, parser.isSet(debugOption))) {
+
+    if (!Core::build(packageType, false, parser.isSet(debugOption), app.url.isEmpty() && clipsToLoad.isEmpty() && !parser.isSet(disableWelcome))) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
-        QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
+        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });*/
         pCore->initGUI(parser.value(mltPathOption), app.url, clipsToLoad);
         result = app.exec();
     }

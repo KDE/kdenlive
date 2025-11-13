@@ -70,6 +70,7 @@ class ProfileParam : public ProfileInfo
 public:
     ProfileParam() = delete;
 
+    ProfileParam(int width, int height, int fpsNum, int fpsDen, int darNum, int darDen, int sarNum, int sarDen, int colorSpace, bool interlaced);
     ProfileParam(QDomElement element);
     ProfileParam(ProfileInfo *p);
     ProfileParam(Mlt::Profile *p);

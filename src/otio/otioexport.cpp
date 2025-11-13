@@ -17,6 +17,7 @@
 #include "otioutil.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <KLocalizedString>
 #include <KMessageBox>
