@@ -2283,6 +2283,7 @@ bool MainWindow::readOptions()
         firstRun = true;
         // Define default video location for first run
         KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+        KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
 
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true);
