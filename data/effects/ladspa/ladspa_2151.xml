@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="ladspa.2151" library="tap_eqbw.so" id="ladspa.2151" ladspaid="2151" type="audio">
+    <name>TAP Equalizer/BW</name>
+    <description><![CDATA[TAP Equalizer (LADSPA (2151)<br>
+    8-band equalizer with adjustable band center frequencies and bandwidth.]]></description>
+    <author>http://www.ladspa.org</author>
+    <parameter type="constant" name="9" max="280" min="40" default="100" decimals="1" suffix="Hz">
+       <name><![CDATA[<u><b>Band 1</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="1" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="17" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="10" max="500" min="100" default="200" decimals="1" suffix="Hz">
+       <name><![CDATA[<u><b>Band 2</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="2" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="18" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="11" max="1000" min="200" default="400" decimals="1" suffix="Hz">
+       <name><![CDATA[<u><b>Band 3</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="3" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[<Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="19" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="12" max="2800" min="400" default="1000" decimals="0" suffix="Hz">
+       <name><![CDATA[<u><b>Band 4</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="4" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="20" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="13" max="5000" min="1000" default="3000" decimals="0" suffix="Hz">
+       <name><![CDATA[<u><b>Band 5</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="5" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="21" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="14" max="9000" min="3000" default="6000" decimals="0" suffix="Hz">
+       <name><![CDATA[<u><b>Band 6</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="6" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="22" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="15" max="18000" min="6000" default="12000" decimals="0" suffix="Hz">
+       <name><![CDATA[<u><b>Band 7</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="7" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="23" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+    <parameter type="constant" name="16" max="20000" min="10000" default="15000" decimals="0" suffix="Hz">
+       <name><![CDATA[<u><b>Band 8</b></u> Freq]]></name>
+    </parameter>
+    <parameter type="constant" name="8" max="20" min="-50" default="0" decimals="1" suffix="dB">
+       <name><![CDATA[Gain]]></name>
+    </parameter>
+    <parameter type="constant" name="24" max="5.0" min="0.1" default="1" decimals="1" suffix="oct">
+       <name><![CDATA[BW]]></name>
+    </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+       <name>Dry/Wet</name>
+    </parameter>
+</effect>

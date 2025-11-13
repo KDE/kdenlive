@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2143" tag="ladspa.2143" ladspaid="2143" type="audio">
+   <name>TAP Stereo Echo</name>
+   <description><![CDATA[TAP Stereo Echo (LADSPA 2143)<br>
+   Supports conventional mono and stereo delays, ping-pong delays and the Haas effect (also known as Cross Delay Stereo).]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="7" type="bool" default="0">
+      <name>Cross Mode</name>
+   </parameter>
+   <parameter name="8" type="bool" default="0">
+      <name>Haas Effect</name>
+   </parameter>
+   <parameter name="9" type="bool" default="0">
+      <name>Swap Outputs</name>
+   </parameter>
+   <parameter name="0" type="animated" decimals="0" default="100" max="2000" min="0" suffix="ms">
+      <name>L Delay</name>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="0.0" max="100.0" min="0.0" suffix="%">
+      <name>L Feedback</name>
+   </parameter>
+   <parameter name="2" type="animated" decimals="0" default="100" max="2000" min="0" suffix="ms">
+      <name>R/Haas Delay</name>
+   </parameter>
+   <parameter name="3" type="animated" decimals="1" default="0.0" max="100.0" min="0.0" suffix="%">
+      <name>R/Haas Feedback</name>
+   </parameter>
+   <parameter name="4" type="animated" decimals="1" default="0.0" max="10.0" min="-70.0" suffix="dB">
+      <name>L Echo Level</name>
+   </parameter>
+   <parameter name="5" type="animated" decimals="1" default="0.0" max="10.0" min="-70.0" suffix="dB">
+      <name>R Echo Level</name>
+   </parameter>
+   <parameter name="6" type="animated" decimals="1" default="0.0" max="10.0" min="-70.0" suffix="dB">
+      <name>Dry Level</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>
