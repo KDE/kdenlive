@@ -75,7 +75,7 @@ MouseArea {
             K.MonitorToolButton {
                 objectName: "showSafeZone"
                 iconName: "select-rectangular"
-                toolTipText: i18n("Show Safe Zone")
+                toolTipText: i18n("Show Safe Areas")
                 checkable: true
                 checked: false
                 onCheckedChanged: {
@@ -88,7 +88,7 @@ MouseArea {
             K.MonitorToolButton {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
-                toolTipText: i18n("Change Overlay")
+                toolTipText: i18n("Composition Guides")
                 onClicked: {
                     if (controller.overlayType >= 5) {
                         controller.overlayType = 0

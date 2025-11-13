@@ -65,7 +65,7 @@ MouseArea {
             Kdenlive.MonitorToolButton {
                 objectName: "showSafeZone"
                 iconName: "select-rectangular"
-                toolTipText: i18n("Show Safe Zone")
+                toolTipText: i18n("Show Safe Areas")
                 checkable: true
                 checked: false
                 onCheckedChanged: {
