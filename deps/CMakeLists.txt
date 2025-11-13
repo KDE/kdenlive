@@ -14,7 +14,7 @@ if (FETCH_OTIO)
     FetchContent_Declare(
         OTIO
         GIT_REPOSITORY https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git
-        GIT_TAG v0.17.0)
+        GIT_TAG v0.18.1)
     FetchContent_MakeAvailable(OTIO)
     set(otio_SOURCE_DIR ${otio_SOURCE_DIR} PARENT_SCOPE)
 endif()

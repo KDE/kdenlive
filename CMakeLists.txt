@@ -168,15 +168,20 @@ if(FETCH_OTIO)
     kde_target_enable_exceptions(opentimelineio PUBLIC)
     kde_target_enable_exceptions(Imath PUBLIC)
 else()
+    # It is highly recommended to use OTIO 0.18.0 or newer!
+    # Unfortunately we can not enforce this at the moment because OTIO does not install
+    # a VersionConfig.cmake file. This should be adjusted once fixed upstream.
+    # See https://github.com/AcademySoftwareFoundation/OpenTimelineIO/pull/1981
     find_package(OpenTimelineIO REQUIRED)
-    # Work around for header oddity with OTIO and Imath
+    # Work around for header oddity with OTIO and Imath, this is fixed in OTIO 0.18.0
     find_package(Imath REQUIRED)
     get_target_property(IMATH_INCLUDE_DIRS Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
     include_directories("${IMATH_INCLUDE_DIRS}/Imath")
+    # < workaround end
     set_package_properties(OpenTimelineIO PROPERTIES
         DESCRIPTION "API and interchange format for editorial timeline information"
         URL "http://opentimeline.io/"
-        PURPOSE "Required for OpenTimelineIO import and export")
+        PURPOSE "Required for OpenTimelineIO import and export, at least version 0.18.0 is highly recommended")
 endif()
 
 # Windows
