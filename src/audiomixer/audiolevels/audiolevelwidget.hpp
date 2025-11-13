@@ -71,6 +71,7 @@ private:
 
     // Clipping indicator support
     bool m_showClippingIndicator;
+    bool m_displayClipping{false};
     QVector<bool> m_clippingStates;
     QVector<int> m_clippingFrameCounters;
 
