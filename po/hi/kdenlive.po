@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-10 00:42+0000\n"
+"POT-Creation-Date: 2025-11-13 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4036,7 +4036,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
+#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:643
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
@@ -7285,6 +7285,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
+#: src/monitor/view/MonitorZoomButton.qml:14
 #: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
@@ -18250,12 +18251,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:572
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:577
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:537
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:542
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -18752,7 +18753,7 @@ msgstr "प्लेलिस्ट"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2739 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1643
+#: src/project/projectmanager.cpp:1632 src/project/projectmanager.cpp:1634
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -19344,12 +19345,12 @@ msgstr "अवधि:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "एमएलटी प्लेलिस्ट (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:39
 #, kde-format
 msgid "Zoom In"
 msgstr "ज़ूम इन"
 
-#: src/bin/mediabrowser.cpp:56
+#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:47
 #, kde-format
 msgid "Zoom Out"
 msgstr "ज़ूम आउट"
@@ -19943,7 +19944,7 @@ msgstr ""
 "दी गई प्रोफ़ाइल अमान्य है। हम डिफ़ॉल्ट रूप से \"dv_pal\" प्रोफ़ाइल का उपयोग करते हैं, "
 "लेकिन आप इसे Kdenlive के सेटिंग पैनल से बदल सकते हैं"
 
-#: src/core.cpp:294 src/project/projectmanager.cpp:856
+#: src/core.cpp:294 src/project/projectmanager.cpp:847
 #, kde-format
 msgid "Loading project…"
 msgstr "प्रोजेक्ट लोड हो रहा है…"
@@ -20629,7 +20630,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1952 src/project/projectmanager.cpp:1958
+#: src/project/projectmanager.cpp:1943 src/project/projectmanager.cpp:1949
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -20734,7 +20735,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चित हों तो प्रयास करें:<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1841
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1832
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -21125,12 +21126,12 @@ msgstr "रेंडरिंग निरस्त"
 msgid "Nearest (fast)"
 msgstr "निकटतम (तेज़)"
 
-#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "द्विरेखीय (अच्छा)"
 
-#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "बाइक्यूबिक (बेहतर)"
@@ -21155,17 +21156,17 @@ msgstr "वर्टिकल (9:16)"
 msgid "Square (1:1)"
 msgstr "वर्ग (1:1)"
 
-#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "One Field (fast)"
 msgstr "एक फ़ील्ड (तेज़)"
 
-#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "रैखिक मिश्रण (तेज़)"
 
-#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "यादिफ़ - केवल लौकिक (अच्छा)"
@@ -23736,8 +23737,8 @@ msgstr "परियोजना से निम्नलिखित फ़ि
 msgid "Invalid file path"
 msgstr "अमान्य फ़ाइल पथ"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:841
-#: src/project/projectmanager.cpp:883
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:832
+#: src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "दूषित फ़ाइल पुनर्प्राप्त नहीं की जा सकी."
@@ -23813,8 +23814,8 @@ msgstr ""
 "आपकी प्रोजेक्ट फ़ाइल को नवीनतम Kdenlive दस्तावेज़ संस्करण में अपग्रेड कर दिया गया था, "
 "लेकिन बैकअप प्रतिलिपि %1 बनाना संभव नहीं था।"
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1515
-#: src/project/projectmanager.cpp:1551
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1506
+#: src/project/projectmanager.cpp:1542
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाते समय त्रुटि: %1"
@@ -26741,7 +26742,7 @@ msgstr "श्रेणी के अनुसार मार्कर जो�
 msgid "Current Selection"
 msgstr "वर्तमान चयन"
 
-#: src/mainwindow.cpp:1908 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Add Marker"
 msgstr "मार्कर जोड़ें"
@@ -26892,7 +26893,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "प्रभाव कीफ़्रेम"
 
-#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:101
+#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:116
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "मुख्यफ़्रेम जोड़ें/हटाएँ"
@@ -27211,12 +27212,12 @@ msgstr ""
 "इससे सभी अस्थायी फ़ाइलें स्थानांतरित हो जाएंगी<br/> <b>%1</b> से <b>%2</b> ,<br/> फिर "
 "प्रोजेक्ट फ़ाइल पुनः लोड हो जाएगी"
 
-#: src/mainwindow.cpp:2458 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2458 src/project/projectmanager.cpp:616
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "कार्रवाई नहीं की जा सकती, अवैध दस्तावेज़ आईडी: %1"
 
-#: src/mainwindow.cpp:2463 src/project/projectmanager.cpp:631
+#: src/mainwindow.cpp:2463 src/project/projectmanager.cpp:622
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ऑपरेशन निष्पादित नहीं किया जा सकता, लक्ष्य निर्देशिका पहले से मौजूद है: %1"
@@ -28059,17 +28060,17 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:687
 #, kde-format
 msgid "Set Zone In"
 msgstr "ज़ोन सेट करें"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:691
 #, kde-format
 msgid "Set Zone Out"
 msgstr "ज़ोन आउट सेट करें"
 
-#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Rewind"
 msgstr "रिवाइंड"
@@ -28086,7 +28087,7 @@ msgstr "खेल"
 msgid "Pause"
 msgstr "विराम"
 
-#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:584
 #, kde-format
 msgid "Forward"
 msgstr "आगे"
@@ -28301,35 +28302,35 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभाव संपादित करने के लिए मॉनिटर में संपादन मोड सक्षम करें"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3219
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "प्रोजेक्ट बिन में कोई क्लिप चयनित नहीं है"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3240
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3322 src/monitor/monitor.cpp:3353
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3332
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3338 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -28369,110 +28370,116 @@ msgstr "ज़ूम इन मॉनिटर"
 msgid "Zoom Out Monitor"
 msgstr "ज़ूम आउट मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:566
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Monitor Zoom"
+msgstr "रीसेट करें%1"
+
+#: src/monitor/monitormanager.cpp:575
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "1 फ्रेम रिवाइंड करें"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "1 सेकंड पीछे जाएं"
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Go to Project Start"
 msgstr "प्रोजेक्ट प्रारंभ पर जाएं"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "Go to Project End"
 msgstr "प्रोजेक्ट समाप्ति पर जाएँ"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "1 फ्रेम आगे"
 
-#: src/monitor/monitormanager.cpp:595
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "1 सेकंड आगे"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:605
 #, kde-format
 msgid "Multitrack View"
 msgstr "मल्टीट्रैक दृश्य"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:614
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "मल्टीट्रैक ऑपरेशन निष्पादित करें"
 
-#: src/monitor/monitormanager.cpp:613
+#: src/monitor/monitormanager.cpp:618
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "संपादन मोड दिखाएँ/छिपाएँ"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "संपादन मोड (और ऑब्जेक्ट हैंडल का प्रदर्शन) को टॉगल करता है।"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:607
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Deinterlacer"
 msgstr "डिइंटरलैसर"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:629
 #, fuzzy, kde-format
 #| msgid "YADIF - temporal + spacial (best)"
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - टेम्पोरल + स्पैशियल (सर्वोत्तम)"
 
-#: src/monitor/monitormanager.cpp:639
+#: src/monitor/monitormanager.cpp:644
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "निकटतम पड़ोसी (तेज़)"
 
-#: src/monitor/monitormanager.cpp:642
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "हाइपर/लैंक्ज़ोस (सर्वोत्तम)"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Progressive playback"
 msgstr "प्रगतिशील प्लेबैक"
 
-#: src/monitor/monitormanager.cpp:662
+#: src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "ऑडियो स्क्रबिंग"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Mute Monitor"
 msgstr "म्यूट मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "मॉनिटर अनम्यूट करें"
 
-#: src/monitor/monitormanager.cpp:674
+#: src/monitor/monitormanager.cpp:679
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "ज़ोन प्रारंभ पर जाएँ"
 
-#: src/monitor/monitormanager.cpp:678
+#: src/monitor/monitormanager.cpp:683
 #, kde-format
 msgid "Go to Zone End"
 msgstr "जोन अंत पर जाएँ"
 
-#: src/monitor/monitorproxy.cpp:725
+#: src/monitor/monitorproxy.cpp:740
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, fuzzy, kde-format
 #| msgid "Rename marker"
@@ -28539,17 +28546,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम सक्षम करें"
 
-#: src/monitor/videowidget.cpp:1118
+#: src/monitor/videowidget.cpp:1123
 #, kde-format
 msgid "Select a zone to play"
 msgstr "खेलने के लिए एक क्षेत्र का चयन करें"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1132
 #, kde-format
 msgid "Select a clip to play"
 msgstr "चलाने के लिए कोई क्लिप चुनें"
 
-#: src/monitor/videowidget.cpp:1232
+#: src/monitor/videowidget.cpp:1237
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28559,7 +28566,7 @@ msgstr ""
 "वीडियो पूर्वावलोकन विंडो नहीं बनाई जा सकी।\n"
 "आपके Kdenlive इंस्टाल या ड्राइवर सेटिंग में कुछ गड़बड़ है, कृपया इसे ठीक करें।"
 
-#: src/monitor/view/ClipMonitor.qml:166
+#: src/monitor/view/ClipMonitor.qml:165
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28572,82 +28579,72 @@ msgstr ""
 "टूलबार के लिए <शॉर्टकट>दाईं ओर होवर करें</शॉर्टकट>, खोजने के लिए <शॉर्टकट>व्हील</"
 "शॉर्टकट> या <शॉर्टकट>तीर</शॉर्टकट>, ज़ूम करने के लिए <शॉर्टकट>Ctrl व्हील</शॉर्टकट>"
 
-#: src/monitor/view/ClipMonitor.qml:358 src/monitor/view/ProjectMonitor.qml:191
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:197
 #, kde-format
 msgid "%1fps"
 msgstr "%1एफपीएस"
 
-#: src/monitor/view/ClipMonitor.qml:397 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:230
 #, kde-format
 msgid "In Point"
 msgstr "बिंदु में"
 
-#: src/monitor/view/ClipMonitor.qml:397
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "इन/आउट पॉइंट"
 
-#: src/monitor/view/ClipMonitor.qml:420 src/monitor/view/ProjectMonitor.qml:241
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:247
 #, kde-format
 msgid "Out Point"
 msgstr "आउट प्वाइंट"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:623
 #, kde-format
 msgid "Terminate Job"
 msgstr "नौकरी समाप्त करें"
 
-#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:57
-#: src/monitor/view/SceneToolBar.qml:56
+#: src/monitor/view/EffectToolBar.qml:62 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:59
+#: src/monitor/view/SceneToolBar.qml:59
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "पूर्ण स्क्रीन पर स्विच करें"
 
-#: src/monitor/view/EffectToolBar.qml:66
+#: src/monitor/view/EffectToolBar.qml:68
 #, kde-format
 msgid "Show Grid"
 msgstr "ग्रिड दिखाएं"
 
-#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
+#: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Show Safe Zone"
+msgstr "क्षेत्र निर्धारित करें"
+
+#: src/monitor/view/EffectToolBar.qml:91
 #, kde-format
 msgid "Change Overlay"
 msgstr "ओवरले बदलें"
 
-#: src/monitor/view/EffectToolBar.qml:89
+#: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "अगले कीफ़्रेम पर जाएँ"
 
-#: src/monitor/view/EffectToolBar.qml:95
+#: src/monitor/view/EffectToolBar.qml:110
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "पिछले कीफ़्रेम पर जाएँ"
 
-#: src/monitor/view/EffectToolBar.qml:106
+#: src/monitor/view/EffectToolBar.qml:121
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "स्वचालित कीफ़्रेम"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:65
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "ज़ूम इन"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:73
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "ज़ूम आउट"
-
-#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:82
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:133 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:71
+#: src/monitor/view/SceneToolBar.qml:106
 #, kde-format
 msgid "Move Toolbar"
 msgstr "टूलबार ले जाएँ"
@@ -28681,7 +28678,7 @@ msgstr "अवधि संपादित करें"
 msgid "Exit Preview Mode"
 msgstr "पूर्वावलोकन क्षेत्र जोड़ें"
 
-#: src/monitor/view/MonitorAutomask.qml:295
+#: src/monitor/view/MonitorAutomask.qml:281
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -28699,23 +28696,23 @@ msgstr ""
 "क्लिक</शॉर्टकट>, समूह में किसी आइटम का चयन करने के लिए <शॉर्टकट>Alt क्लिक</शॉर्टकट>, "
 "पैन करने के लिए <शॉर्टकट>Ctrl ड्रैग</शॉर्टकट>"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "प्रभाव की तुलना करने के लिए प्रोजेक्ट बिन में एक क्लिप का चयन करें"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -28723,13 +28720,13 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, fuzzy, kde-format
 #| msgid "Preview Using Proxy Clips"
 msgid "Previewing video mask"
 msgstr "प्रॉक्सी क्लिप का उपयोग करके पूर्वावलोकन करें"
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -28738,19 +28735,19 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:415
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "क्लिप प्रारंभ पर जाएं"
 
-#: src/monitor/view/MonitorAutomask.qml:441
+#: src/monitor/view/MonitorAutomask.qml:427
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
 msgstr "क्लिप अंत पर जाएं"
 
-#: src/monitor/view/MonitorGeometryScene.qml:336
+#: src/monitor/view/MonitorGeometryScene.qml:342
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28795,7 +28792,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "केंद्र-आधारित आकार परिवर्तन के लिए <shortcut>Shift ड्रैग हैंडल</shortcut>"
 
-#: src/monitor/view/MonitorRotoScene.qml:428
+#: src/monitor/view/MonitorRotoScene.qml:434
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -28838,6 +28835,13 @@ msgstr ""
 "ज़ोन आउट बिंदु सेट करने के लिए <शॉर्टकट> ड्रैग</शॉर्टकट>, ज़ोन आउट समायोजित करते समय "
 "खोजने के लिए <शॉर्टकट> शिफ्ट+ ड्रैग</शॉर्टकट>"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/monitor/view/MonitorZoomButton.qml:55 src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Zoom"
+msgstr "रीसेट करें%1"
+
 #: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
@@ -28848,27 +28852,24 @@ msgstr ""
 "<b>दाईं ओर होवर करें</b> , खोजने के लिए <b>व्हील</b> या <b>तीर</b> , ज़ूम करने के लिए "
 "<b>Ctrl व्हील</b>"
 
-#: src/monitor/view/ProjectMonitor.qml:295
+#: src/monitor/view/ProjectMonitor.qml:301
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "परिवर्तन"
 
-#: src/monitor/view/SceneToolBar.qml:94
-#, kde-format
-msgid "Add Guide"
-msgstr "गाइड जोड़ें"
+#: src/monitor/view/SceneToolBar.qml:81
+#, fuzzy, kde-format
+#| msgid "Compositions"
+msgid "Composition Guides"
+msgstr "रचनाएं"
 
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Marker"
+#: src/monitor/view/SceneToolBar.qml:97
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Add/Remove Marker"
 msgstr "मार्कर हटाएँ"
-
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Guide"
-msgstr "गाइड हटाएँ"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -30400,22 +30401,22 @@ msgstr "केडेनलाइव परियोजना"
 msgid "Archived Project"
 msgstr "संग्रहीत परियोजना"
 
-#: src/project/projectmanager.cpp:154
+#: src/project/projectmanager.cpp:145
 #, kde-format
 msgid "Save Copy…"
 msgstr "सहेजें प्रतिलिपि…"
 
-#: src/project/projectmanager.cpp:158
+#: src/project/projectmanager.cpp:149
 #, kde-format
 msgid "Open Backup File…"
 msgstr "बैकअप फ़ाइल खोलें…"
 
-#: src/project/projectmanager.cpp:452
+#: src/project/projectmanager.cpp:443
 #, kde-format
 msgid "Save changes to document?"
 msgstr "दस्तावेज़ में परिवर्तन सहेजें?"
 
-#: src/project/projectmanager.cpp:454 src/project/projectmanager.cpp:1778
+#: src/project/projectmanager.cpp:445 src/project/projectmanager.cpp:1769
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -30423,17 +30424,17 @@ msgid ""
 msgstr ""
 "प्रोजेक्ट <b>&quot;%1&quot;</b> बदल दिया गया है। क्या आप अपने परिवर्तन सहेजना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:567
+#: src/project/projectmanager.cpp:558
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "प्रोजेक्ट फ़ाइल सहेजा जा रहा है<br> <b>%1</b> विफल"
 
-#: src/project/projectmanager.cpp:600
+#: src/project/projectmanager.cpp:591
 #, kde-format
 msgid "Saving successful"
 msgstr "सहेजना सफल रहा"
 
-#: src/project/projectmanager.cpp:613
+#: src/project/projectmanager.cpp:604
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -30444,44 +30445,44 @@ msgstr ""
 "स्थान का उपयोग करना चुना है। इससे सभी अस्थायी फ़ाइलें <b>%1</b> से <b>%2</b> पर चली "
 "जाएँगी, फिर प्रोजेक्ट फ़ाइल को फिर से लोड किया जाएगा"
 
-#: src/project/projectmanager.cpp:654
+#: src/project/projectmanager.cpp:645
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "सहेजें प्रतिलिपि"
 
-#: src/project/projectmanager.cpp:760
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "स्वतः सहेजी गई फ़ाइल मौजूद है। क्या आप अभी पुनर्प्राप्त करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:760
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "File Recovery"
 msgstr "फ़ाइल पुनर्प्राप्ति"
 
-#: src/project/projectmanager.cpp:761 src/project/projectmanager.cpp:871
+#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:862
 #, kde-format
 msgid "Recover"
 msgstr "वापस पाना"
 
-#: src/project/projectmanager.cpp:761
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Do not recover"
 msgstr "ठीक न होना"
 
-#: src/project/projectmanager.cpp:798
+#: src/project/projectmanager.cpp:789
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "मार्कर श्रेणी मौजूद नहीं है"
 
-#: src/project/projectmanager.cpp:825
+#: src/project/projectmanager.cpp:816
 #, kde-format
 msgid "Opening file %1"
 msgstr "फ़ाइल %1 खोली जा रही है"
 
-#: src/project/projectmanager.cpp:870
+#: src/project/projectmanager.cpp:861
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -30492,44 +30493,44 @@ msgstr ""
 "%1\n"
 "क्या आप बैकअप फ़ाइल खोलना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:871 src/project/projectmanager.cpp:1105
+#: src/project/projectmanager.cpp:862 src/project/projectmanager.cpp:1096
 #, kde-format
 msgid "Error opening file"
 msgstr "फ़ाइल खोलने में त्रुटि"
 
-#: src/project/projectmanager.cpp:871 src/project/projectmanager.cpp:1106
+#: src/project/projectmanager.cpp:862 src/project/projectmanager.cpp:1097
 #, kde-format
 msgid "Open Backup"
 msgstr "बैकअप खोलें"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "बैकअप प्रोजेक्ट फ़ाइल नहीं खोली जा सकी."
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:893
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "आपका प्रोजेक्ट अपग्रेड हो गया है, अगली बार सेव करने पर बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:904
+#: src/project/projectmanager.cpp:895
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "आपका प्रोजेक्ट खोलते समय संशोधित किया गया था, अगली बार सहेजने पर एक बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:975
+#: src/project/projectmanager.cpp:966
 #, kde-format
 msgid "Loading timeline…"
 msgstr "टाइमलाइन लोड हो रही है…"
 
-#: src/project/projectmanager.cpp:993
+#: src/project/projectmanager.cpp:984
 #, kde-format
 msgid "Building sequences…"
 msgstr "अनुक्रम निर्माण…"
 
-#: src/project/projectmanager.cpp:1132
+#: src/project/projectmanager.cpp:1123
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -30538,7 +30539,7 @@ msgstr ""
 "प्रोजेक्ट फ़ाइल नहीं खोली जा सकी। त्रुटि:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1172
+#: src/project/projectmanager.cpp:1163
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -30547,12 +30548,12 @@ msgstr ""
 "इससे आपके द्वारा अपना प्रोजेक्ट अंतिम बार सहेजे जाने के बाद किए गए सभी परिवर्तन मिट "
 "जाएँगे। क्या आप वाकई जारी रखना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1173
+#: src/project/projectmanager.cpp:1164
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "अंतिम सहेजे गए संस्करण पर वापस लौटें"
 
-#: src/project/projectmanager.cpp:1272
+#: src/project/projectmanager.cpp:1263
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -30561,47 +30562,47 @@ msgstr ""
 "प्रोजेक्ट दूषित हो गया है, बैकअप नहीं लिया जा सकता। कृपया अंतिम बैकअप प्राप्त करने के लिए "
 "अपनी प्रोजेक्ट फ़ाइल को बंद करके पुनः खोलें"
 
-#: src/project/projectmanager.cpp:1493
+#: src/project/projectmanager.cpp:1484
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाने में त्रुटि, कैश फ़ोल्डर तक पहुँच नहीं पा रहा"
 
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1520
 #, kde-format
 msgid "Moving project folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाना"
 
-#: src/project/projectmanager.cpp:1620 src/project/projectmanager.cpp:1675
-#: src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1611 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1670
 #, kde-format
 msgid "Sequence 1"
 msgstr "अनुक्रम 1"
 
-#: src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1622
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "प्रोजेक्ट फ़ाइल दूषित है - ट्रैक लोड करने में विफल। बैकअप फ़ाइल ढूँढने का प्रयास करें?"
 
-#: src/project/projectmanager.cpp:1770 src/project/projectmanager.cpp:1783
-#: src/project/projectmanager.cpp:1807 src/project/projectmanager.cpp:1816
+#: src/project/projectmanager.cpp:1761 src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1798 src/project/projectmanager.cpp:1807
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तन निरस्त किया गया"
 
-#: src/project/projectmanager.cpp:1946
+#: src/project/projectmanager.cpp:1937
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr "आउटपुट फ़ाइल %1 पहले से मौजूद है। क्या आप इसे अधिलेखित करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1971
+#: src/project/projectmanager.cpp:1962
 #, kde-format
 msgid "Project profile changed"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तित"
 
-#: src/project/projectmanager.cpp:2035
+#: src/project/projectmanager.cpp:2026
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -30610,29 +30611,29 @@ msgstr ""
 "इस क्लिप से टाइमलाइन नहीं बनाई जा सकती:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2118
+#: src/project/projectmanager.cpp:2109
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "अनुक्रम क्लिप आयात किया जा रहा है, यह वर्तमान में प्रायोगिक अवस्था में है"
 
-#: src/project/projectmanager.cpp:2363
+#: src/project/projectmanager.cpp:2354
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "अनुक्रम बनाने के लिए एक क्लिप चुनें"
 
-#: src/project/projectmanager.cpp:2373
+#: src/project/projectmanager.cpp:2364
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Sequence creation failed"
 msgstr "मास्क क्लिप"
 
-#: src/project/projectmanager.cpp:2400
+#: src/project/projectmanager.cpp:2391
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "आप स्वयं को शामिल करने वाला अनुक्रम सम्मिलित नहीं कर सकते"
 
-#: src/project/projectmanager.cpp:2404
+#: src/project/projectmanager.cpp:2395
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "अनुक्रम क्लिप बनाएँ"
@@ -34354,6 +34355,18 @@ msgid ""
 msgstr ""
 "ग्रिड में लाइनों की संख्या बढ़ जाती है.<br /> 8 पंक्तियों के बाद यह पुनः 0 से शुरू होगा।"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/ui/bezierspline_ui.ui:169
+#, kde-format
+msgid "Zoom in"
+msgstr "ज़ूम इन"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/ui/bezierspline_ui.ui:186
+#, kde-format
+msgid "Zoom out"
+msgstr "ज़ूम आउट"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
@@ -34759,9 +34772,10 @@ msgstr "ऑडियो थंबनेल रंग:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, kde-format
-msgid "Monitor overlay color:"
-msgstr "मॉनिटर ओवरले रंग:"
+#, fuzzy, kde-format
+#| msgid "Main compositions"
+msgid "Monitor composition guides:"
+msgstr "मुख्य रचनाएँ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -34774,6 +34788,13 @@ msgstr "मॉनिटर पृष्ठभूमि रंग:"
 #, kde-format
 msgid "Monitor grid"
 msgstr "मॉनिटर ग्रिड"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configcolors_ui.ui:125
+#, fuzzy, kde-format
+#| msgid "Monitor audio"
+msgid "Monitor safe zone:"
+msgstr "ऑडियो मॉनिटर करें"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -38488,13 +38509,6 @@ msgstr "यूनिकोड मान दर्ज करें"
 msgid "Additional Information"
 msgstr "अतिरिक्त जानकारी"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
-#: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
-msgid "Reset Zoom"
-msgstr "रीसेट करें%1"
-
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
@@ -38670,6 +38684,15 @@ msgstr "%1मि"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1घंटा"
+
+#~ msgid "Add Guide"
+#~ msgstr "गाइड जोड़ें"
+
+#~ msgid "Remove Guide"
+#~ msgstr "गाइड हटाएँ"
+
+#~ msgid "Monitor overlay color:"
+#~ msgstr "मॉनिटर ओवरले रंग:"
 
 #~ msgid "Dock Area Orientation"
 #~ msgstr "डॉक क्षेत्र अभिविन्यास"

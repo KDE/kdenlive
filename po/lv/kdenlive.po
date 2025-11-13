@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-10 00:42+0000\n"
+"POT-Creation-Date: 2025-11-13 00:41+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -4027,7 +4027,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
+#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:643
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
@@ -7369,6 +7369,7 @@ msgstr "Pielietot tuvinājuma un panorāmas efektu"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
+#: src/monitor/view/MonitorZoomButton.qml:14
 #: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
@@ -18327,12 +18328,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:572
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:577
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:537
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:542
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -18835,7 +18836,7 @@ msgstr "Repertuārs"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2739 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1643
+#: src/project/projectmanager.cpp:1632 src/project/projectmanager.cpp:1634
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -19430,12 +19431,12 @@ msgstr "Ilgums:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT repertuārs (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:39
 #, kde-format
 msgid "Zoom In"
 msgstr "Tuvināt"
 
-#: src/bin/mediabrowser.cpp:56
+#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:47
 #, kde-format
 msgid "Zoom Out"
 msgstr "Tālināt"
@@ -20031,7 +20032,7 @@ msgstr ""
 "Dotais profils nav derīgs. Pēc noklusējuma atgriezās uz profilu „dv_pal“, "
 "bet varat to mainīt „Kdenlive“ iestatījumu panelī"
 
-#: src/core.cpp:294 src/project/projectmanager.cpp:856
+#: src/core.cpp:294 src/project/projectmanager.cpp:847
 #, kde-format
 msgid "Loading project…"
 msgstr "Ielādē projektu…"
@@ -20720,7 +20721,7 @@ msgstr "Eksportēt palīgnorāžu datus"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1952 src/project/projectmanager.cpp:1958
+#: src/project/projectmanager.cpp:1943 src/project/projectmanager.cpp:1949
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -20825,7 +20826,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Ja nezināt, mēģiniet:<br/><b>unikods (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1841
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1832
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -21216,12 +21217,12 @@ msgstr "Renderēšana atcelta"
 msgid "Nearest (fast)"
 msgstr "Tuvākais (ātrs)"
 
-#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilineāri (labs)"
 
-#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bikuba (labāks)"
@@ -21246,17 +21247,17 @@ msgstr "Vertikāli (9:16)"
 msgid "Square (1:1)"
 msgstr "Kvadrāts (1:1)"
 
-#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Viens lauks (ātrs)"
 
-#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineārs sajaukums (ātrs)"
 
-#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF — tikai pagaidu (labs)"
@@ -23860,8 +23861,8 @@ msgstr "Šie filtri/pārejas projektā ir dzēstas:"
 msgid "Invalid file path"
 msgstr "Nederīgs datnes ceļš"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:841
-#: src/project/projectmanager.cpp:883
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:832
+#: src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Nevar atgūt bojātu datni."
@@ -23940,8 +23941,8 @@ msgstr ""
 "Projekta datne ir atjaunināta uz pēdējo „Kdenlive“ dokumenta versiju, bet "
 "nebija iespējams izveidot dublējumu „%1“."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1515
-#: src/project/projectmanager.cpp:1551
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1506
+#: src/project/projectmanager.cpp:1542
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Kļūda, pārvietojot projekta mapi: %1"
@@ -26870,7 +26871,7 @@ msgstr "Pievienot marķierus pēc kategorijas"
 msgid "Current Selection"
 msgstr "Pašreizējā atlase"
 
-#: src/mainwindow.cpp:1908 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Add Marker"
 msgstr "Pievienot marķieri"
@@ -27019,7 +27020,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "Efekta atslēgkadri"
 
-#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:101
+#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:116
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Pievienot/noņemt atslēgkadru"
@@ -27335,12 +27336,12 @@ msgstr ""
 "Šī darbība pārvietos visas pagaidu datnes no<br/><b>%1</b> uz <b>%2</b>,<br/"
 ">bet projekta datne tiks pārlādēta"
 
-#: src/mainwindow.cpp:2458 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2458 src/project/projectmanager.cpp:616
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Nevar izpildīt darbību, nederīgs dokumenta ID: %1"
 
-#: src/mainwindow.cpp:2463 src/project/projectmanager.cpp:631
+#: src/mainwindow.cpp:2463 src/project/projectmanager.cpp:622
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Nevar veikt darbību, mērķa mape jau pastāv: %1"
@@ -28189,17 +28190,17 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:687
 #, kde-format
 msgid "Set Zone In"
 msgstr "Noteikt apgabala sākumu"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:691
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Noteikt apgabala beigas"
 
-#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Rewind"
 msgstr "Paiet atpakaļ"
@@ -28216,7 +28217,7 @@ msgstr "Atskaņot"
 msgid "Pause"
 msgstr "Pauzēt"
 
-#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:584
 #, kde-format
 msgid "Forward"
 msgstr "Paiet uz priekšu"
@@ -28429,34 +28430,34 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ieslēdziet rediģēšanas režīmu un pārskatiet rediģēšanas efektu"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3219
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klipu monitorā nav atlasīts klips"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3240
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Nevar iegūt ražotāju klipu monitoram"
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3322 src/monitor/monitor.cpp:3353
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3332
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3338 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -28496,110 +28497,116 @@ msgstr "Tuvināt monitorā"
 msgid "Zoom Out Monitor"
 msgstr "Tālināt monitorā"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:566
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Monitor Zoom"
+msgstr "Atiestatīt %1"
+
+#: src/monitor/monitormanager.cpp:575
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "Iet atpakaļ vienu kadru"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "Iet atpakaļ vienu sekundi"
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Go to Project Start"
 msgstr "Iet uz projekta sākumu"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "Go to Project End"
 msgstr "Iet uz projekta beigām"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "Iet uz priekšu vienu kadru"
 
-#: src/monitor/monitormanager.cpp:595
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "Iet uz priekšu vienu sekundi"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:605
 #, kde-format
 msgid "Multitrack View"
 msgstr "Vairāku celiņu skats"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:614
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "Veikt vairāku celiņu darbību"
 
-#: src/monitor/monitormanager.cpp:613
+#: src/monitor/monitormanager.cpp:618
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "Slēpt/rādīt rediģēšanas režīmu"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "Ieslēdz vai izslēdz rediģēšanas režīmu (un objektu turu displeju)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:607
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Rindpārlēces veidotājs"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:629
 #, fuzzy, kde-format
 #| msgid "YADIF - temporal + spacial (best)"
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF — laika + telpas (labākais)"
 
-#: src/monitor/monitormanager.cpp:639
+#: src/monitor/monitormanager.cpp:644
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "Tuvākais kaimiņš (ātrs)"
 
-#: src/monitor/monitormanager.cpp:642
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hiper/„Lanczos“ (labākais"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Progressive playback"
 msgstr "Progresīvā atskaņošana"
 
-#: src/monitor/monitormanager.cpp:662
+#: src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "Audio skrubēšana"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Mute Monitor"
 msgstr "Apklusināt monitoru"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "Noņemt monitora skaņu"
 
-#: src/monitor/monitormanager.cpp:674
+#: src/monitor/monitormanager.cpp:679
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "Iet uz apgabala sākumu"
 
-#: src/monitor/monitormanager.cpp:678
+#: src/monitor/monitormanager.cpp:683
 #, kde-format
 msgid "Go to Zone End"
 msgstr "Iet uz apgabala beigām"
 
-#: src/monitor/monitorproxy.cpp:725
+#: src/monitor/monitorproxy.cpp:740
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, fuzzy, kde-format
 #| msgid "Rename marker"
@@ -28665,17 +28672,17 @@ msgstr "Lai ieslēgtu Audio spektru, MLT ir jābūt kompilētam ar „libfftw3�
 msgid "Enable Audio Spectrum"
 msgstr "Ieslēgt audio spektru"
 
-#: src/monitor/videowidget.cpp:1118
+#: src/monitor/videowidget.cpp:1123
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Atlasīt atskaņojamo apgabalu"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1132
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Atlasīt atskaņojamo klipu"
 
-#: src/monitor/videowidget.cpp:1232
+#: src/monitor/videowidget.cpp:1237
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28686,7 +28693,7 @@ msgstr ""
 "Ir problēmas ar „Kdenlive“ instalāciju vai draivera iestatījumiem. Novērsiet "
 "tās."
 
-#: src/monitor/view/ClipMonitor.qml:166
+#: src/monitor/view/ClipMonitor.qml:165
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28701,82 +28708,72 @@ msgstr ""
 "<shortcut>bultiņas</shortcut>, lai pārvietotos. <shortcut>„Ctrl“ un "
 "ritenītis</shortcut> tālummaiņai"
 
-#: src/monitor/view/ClipMonitor.qml:358 src/monitor/view/ProjectMonitor.qml:191
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:197
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/ClipMonitor.qml:397 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:230
 #, kde-format
 msgid "In Point"
 msgstr "Sākuma punkts"
 
-#: src/monitor/view/ClipMonitor.qml:397
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "Sākuma/beigu punkts"
 
-#: src/monitor/view/ClipMonitor.qml:420 src/monitor/view/ProjectMonitor.qml:241
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:247
 #, kde-format
 msgid "Out Point"
 msgstr "Beigu punkts"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:623
 #, kde-format
 msgid "Terminate Job"
 msgstr "Nobeigt darbu"
 
-#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:57
-#: src/monitor/view/SceneToolBar.qml:56
+#: src/monitor/view/EffectToolBar.qml:62 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:59
+#: src/monitor/view/SceneToolBar.qml:59
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "Ieslēgt pilnekrānu"
 
-#: src/monitor/view/EffectToolBar.qml:66
+#: src/monitor/view/EffectToolBar.qml:68
 #, kde-format
 msgid "Show Grid"
 msgstr "Rādīt režģi"
 
-#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
+#: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Show Safe Zone"
+msgstr "Noteikt apgabalu"
+
+#: src/monitor/view/EffectToolBar.qml:91
 #, kde-format
 msgid "Change Overlay"
 msgstr "Mainīt virsobjektu"
 
-#: src/monitor/view/EffectToolBar.qml:89
+#: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Iet uz nākamo atslēgkadru"
 
-#: src/monitor/view/EffectToolBar.qml:95
+#: src/monitor/view/EffectToolBar.qml:110
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Iet uz iepriekšējo atslēgkadru"
 
-#: src/monitor/view/EffectToolBar.qml:106
+#: src/monitor/view/EffectToolBar.qml:121
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "Automātiskie atslēgkadri"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:65
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "Tuvināt"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:73
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "Tālināt"
-
-#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:82
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:133 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:71
+#: src/monitor/view/SceneToolBar.qml:106
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Pārvietot rīkjoslu"
@@ -28806,7 +28803,7 @@ msgstr "Iziet no maskas izveides"
 msgid "Exit Preview Mode"
 msgstr "Iziet no priekšskatījuma režīma"
 
-#: src/monitor/view/MonitorAutomask.qml:295
+#: src/monitor/view/MonitorAutomask.qml:281
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Click on an object or draw a box to start a mask.\n"
@@ -28822,22 +28819,22 @@ msgstr ""
 "„Shift“+klikšķis iekļaus vēl citu zonu.\n"
 "„Ctrl“+klikšķis izņems zonu."
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Vispirms attēlā atlasiet objektu"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "Ģenerē attēla masku"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "Ģenerē video masku"
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -28848,12 +28845,12 @@ msgstr ""
 "„Shift“+klikšķis iekļaus vēl citu zonu.\n"
 "„Ctrl“+klikšķis izņems zonu."
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Video maskas priekšskatījums"
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -28866,17 +28863,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:415
 #, kde-format
 msgid "Go to mask start"
 msgstr "Iet uz maskas sākumu"
 
-#: src/monitor/view/MonitorAutomask.qml:441
+#: src/monitor/view/MonitorAutomask.qml:427
 #, kde-format
 msgid "Go to mask end"
 msgstr "Iet uz maskas beigām"
 
-#: src/monitor/view/MonitorGeometryScene.qml:336
+#: src/monitor/view/MonitorGeometryScene.qml:342
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28923,7 +28920,7 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>„Shift“ un vilkt aiz tura</shortcut>, lai mainītu izmēru no centra"
 
-#: src/monitor/view/MonitorRotoScene.qml:428
+#: src/monitor/view/MonitorRotoScene.qml:434
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -28968,6 +28965,13 @@ msgstr ""
 "<shortcut>„Shift“+vilkt</shortcut>, lai pārvietotu, kad regulējat apgabalu "
 "ārpusē"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/monitor/view/MonitorZoomButton.qml:55 src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Zoom"
+msgstr "Atiestatīt %1"
+
 #: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
@@ -28978,27 +28982,24 @@ msgstr ""
 "<b>Pārlikt peli labajā pusē</b> rīku joslai. <b>Ritenītis</b> vai "
 "<b>bultiņas</b>, lai pārvietotos. <b>„Ctrl“ + ritenītis</b> tālummaiņai"
 
-#: src/monitor/view/ProjectMonitor.qml:295
+#: src/monitor/view/ProjectMonitor.qml:301
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "Transformēt"
 
-#: src/monitor/view/SceneToolBar.qml:94
-#, kde-format
-msgid "Add Guide"
-msgstr "Pievienot palīgnorādi"
+#: src/monitor/view/SceneToolBar.qml:81
+#, fuzzy, kde-format
+#| msgid "Compositions"
+msgid "Composition Guides"
+msgstr "Kompozīcijas"
 
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Marker"
+#: src/monitor/view/SceneToolBar.qml:97
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Add/Remove Marker"
 msgstr "Noņemt marķieri"
-
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Guide"
-msgstr "Noņemt palīgnorādi"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -30541,22 +30542,22 @@ msgstr "„Kdenlive“ projekts"
 msgid "Archived Project"
 msgstr "Arhivēts projekts"
 
-#: src/project/projectmanager.cpp:154
+#: src/project/projectmanager.cpp:145
 #, kde-format
 msgid "Save Copy…"
 msgstr "Saglabāt kopiju…"
 
-#: src/project/projectmanager.cpp:158
+#: src/project/projectmanager.cpp:149
 #, kde-format
 msgid "Open Backup File…"
 msgstr "Atvērt dublējuma datni…"
 
-#: src/project/projectmanager.cpp:452
+#: src/project/projectmanager.cpp:443
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Vai saglabāt dokumenta izmaiņas?"
 
-#: src/project/projectmanager.cpp:454 src/project/projectmanager.cpp:1778
+#: src/project/projectmanager.cpp:445 src/project/projectmanager.cpp:1769
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -30565,17 +30566,17 @@ msgstr ""
 "Projekts <b>„%1“</b> ir izmainīts.\n"
 "Vai vēlaties izmaiņas saglabāt?"
 
-#: src/project/projectmanager.cpp:567
+#: src/project/projectmanager.cpp:558
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Projekta datnes <br><b>„%1“</B> saglabāšana neizdevās"
 
-#: src/project/projectmanager.cpp:600
+#: src/project/projectmanager.cpp:591
 #, kde-format
 msgid "Saving successful"
 msgstr "Saglabāšana izdevās"
 
-#: src/project/projectmanager.cpp:613
+#: src/project/projectmanager.cpp:604
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -30587,44 +30588,44 @@ msgstr ""
 "pārvietos visas pagaidu datnes no  <b>%1</b> uz <b>%2</b>, pēc tam projekta "
 "datne tiks pārlādēta"
 
-#: src/project/projectmanager.cpp:654
+#: src/project/projectmanager.cpp:645
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Saglabāt kopiju"
 
-#: src/project/projectmanager.cpp:760
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Pastāv automātiski saglabāta datne. Vai vēlaties atgūt no tās?"
 
-#: src/project/projectmanager.cpp:760
+#: src/project/projectmanager.cpp:751
 #, kde-format
 msgid "File Recovery"
 msgstr "Datnes atgūšana"
 
-#: src/project/projectmanager.cpp:761 src/project/projectmanager.cpp:871
+#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:862
 #, kde-format
 msgid "Recover"
 msgstr "Atgūt"
 
-#: src/project/projectmanager.cpp:761
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Do not recover"
 msgstr "Neatgūt"
 
-#: src/project/projectmanager.cpp:798
+#: src/project/projectmanager.cpp:789
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "Marķieru kategorija nepastāv"
 
-#: src/project/projectmanager.cpp:825
+#: src/project/projectmanager.cpp:816
 #, kde-format
 msgid "Opening file %1"
 msgstr "Atver datni „%1“"
 
-#: src/project/projectmanager.cpp:870
+#: src/project/projectmanager.cpp:861
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -30635,29 +30636,29 @@ msgstr ""
 "%1\n"
 "Vai vēlaties atvērt dublējuma datni?"
 
-#: src/project/projectmanager.cpp:871 src/project/projectmanager.cpp:1105
+#: src/project/projectmanager.cpp:862 src/project/projectmanager.cpp:1096
 #, kde-format
 msgid "Error opening file"
 msgstr "Kļūda, atverot datni"
 
-#: src/project/projectmanager.cpp:871 src/project/projectmanager.cpp:1106
+#: src/project/projectmanager.cpp:862 src/project/projectmanager.cpp:1097
 #, kde-format
 msgid "Open Backup"
 msgstr "Atvērt dublējumu"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Neizdevās atvērt projekta datnes dublējumu."
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:893
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Jūsu projekts ir atjaunināts, nākamās saglabāšanas laikā tiks izveidots "
 "dublējums"
 
-#: src/project/projectmanager.cpp:904
+#: src/project/projectmanager.cpp:895
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -30665,17 +30666,17 @@ msgstr ""
 "Jūsu projekts ir izmainīts pēc atvēršanas, nākamās saglabāšanas laikā tiks "
 "izveidots dublējums."
 
-#: src/project/projectmanager.cpp:975
+#: src/project/projectmanager.cpp:966
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Ielādē laika joslu…"
 
-#: src/project/projectmanager.cpp:993
+#: src/project/projectmanager.cpp:984
 #, kde-format
 msgid "Building sequences…"
 msgstr "Būvē sekvences…"
 
-#: src/project/projectmanager.cpp:1132
+#: src/project/projectmanager.cpp:1123
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -30684,7 +30685,7 @@ msgstr ""
 "Nevar atvērt projekta datni. Kļūda:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1172
+#: src/project/projectmanager.cpp:1163
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -30693,12 +30694,12 @@ msgstr ""
 "Šī darbība dzēsīs visas izmaiņas, ko veicāt pēc pēdējās projekta "
 "saglabāšanas. Vai tiešām vēlaties turpināt?"
 
-#: src/project/projectmanager.cpp:1173
+#: src/project/projectmanager.cpp:1164
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Atgriezties pie pēdējās saglabātās versijas"
 
-#: src/project/projectmanager.cpp:1272
+#: src/project/projectmanager.cpp:1263
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -30707,23 +30708,23 @@ msgstr ""
 "Projekts ir bojāts, to nevar dublēt. Aizveriet un no jauna atveriet projekta "
 "datni, lai atgūtu no pēdējā dublējuma."
 
-#: src/project/projectmanager.cpp:1493
+#: src/project/projectmanager.cpp:1484
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Kļūda, pārvietojot projekta mapi, nevar piekļūt kešatmiņas mapei"
 
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1520
 #, kde-format
 msgid "Moving project folder"
 msgstr "Pārvieto projekta mapi"
 
-#: src/project/projectmanager.cpp:1620 src/project/projectmanager.cpp:1675
-#: src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1611 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1670
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvence 1"
 
-#: src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1622
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -30731,13 +30732,13 @@ msgstr ""
 "Projekta datne ir bojāta — neizdevās ielādēt celiņus. Vai mēģināt atrast "
 "dublējuma datni?"
 
-#: src/project/projectmanager.cpp:1770 src/project/projectmanager.cpp:1783
-#: src/project/projectmanager.cpp:1807 src/project/projectmanager.cpp:1816
+#: src/project/projectmanager.cpp:1761 src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1798 src/project/projectmanager.cpp:1807
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projekta profila izmaiņas ir atceltas"
 
-#: src/project/projectmanager.cpp:1946
+#: src/project/projectmanager.cpp:1937
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -30746,12 +30747,12 @@ msgstr ""
 "Izvades datne „%1“ jau pastāv.\n"
 "Vai vēlaties to pārrakstīt?"
 
-#: src/project/projectmanager.cpp:1971
+#: src/project/projectmanager.cpp:1962
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projekta profils ir nomainīts"
 
-#: src/project/projectmanager.cpp:2035
+#: src/project/projectmanager.cpp:2026
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -30760,29 +30761,29 @@ msgstr ""
 "Nevar izveidot laika joslu no šī klipa:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2118
+#: src/project/projectmanager.cpp:2109
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importē sekvences klipu. Šī darbība šobrīd ir eksperimentālā stadijā"
 
-#: src/project/projectmanager.cpp:2363
+#: src/project/projectmanager.cpp:2354
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Atlasīt klipu, lai izveidotu sekvenci"
 
-#: src/project/projectmanager.cpp:2373
+#: src/project/projectmanager.cpp:2364
 #, fuzzy, kde-format
 #| msgid "Mask creation"
 msgid "Sequence creation failed"
 msgstr "Maskas izveide"
 
-#: src/project/projectmanager.cpp:2400
+#: src/project/projectmanager.cpp:2391
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Nevarat ievietot sekvenci, kas satur pati sevi"
 
-#: src/project/projectmanager.cpp:2404
+#: src/project/projectmanager.cpp:2395
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Izveidot sekvences klipu"
@@ -34531,6 +34532,18 @@ msgstr ""
 "Palielina līniju skaitu režģī.<br />Pēc astoņām līnijām skaitīšana atsāksies "
 "no nulles."
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/ui/bezierspline_ui.ui:169
+#, kde-format
+msgid "Zoom in"
+msgstr "Tuvināt"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/ui/bezierspline_ui.ui:186
+#, kde-format
+msgid "Zoom out"
+msgstr "Tālināt"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
@@ -34935,9 +34948,10 @@ msgstr "Audio sīktēla krāsas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, kde-format
-msgid "Monitor overlay color:"
-msgstr "Virsobjekta krāsa:"
+#, fuzzy, kde-format
+#| msgid "Main compositions"
+msgid "Monitor composition guides:"
+msgstr "Pamata salikšanas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -34950,6 +34964,13 @@ msgstr "Monitora fona krāsa:"
 #, kde-format
 msgid "Monitor grid"
 msgstr "Monitora režģis"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configcolors_ui.ui:125
+#, fuzzy, kde-format
+#| msgid "Monitor audio"
+msgid "Monitor safe zone:"
+msgstr "Pārraudzīt skaņu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -38656,13 +38677,6 @@ msgstr "Ievadiet unikoda vērtību"
 msgid "Additional Information"
 msgstr "Papildu informācija"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
-#: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
-msgid "Reset Zoom"
-msgstr "Atiestatīt %1"
-
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
@@ -38838,6 +38852,15 @@ msgstr "%1 min."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 st."
+
+#~ msgid "Add Guide"
+#~ msgstr "Pievienot palīgnorādi"
+
+#~ msgid "Remove Guide"
+#~ msgstr "Noņemt palīgnorādi"
+
+#~ msgid "Monitor overlay color:"
+#~ msgstr "Virsobjekta krāsa:"
 
 #~ msgid "Dock Area Orientation"
 #~ msgstr "Piestiprināšanas zonas orientācija"
