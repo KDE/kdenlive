@@ -177,7 +177,7 @@ Rectangle {
     }
     
     // Tick marks below levels
-    Repeater {
+    /*Repeater {
         model: [
             { db: 0, pos: iecScaleMax(0) },
             { db: -6, pos: iecScaleMax(-6) },
@@ -199,5 +199,5 @@ Rectangle {
             color: activePalette.text
             opacity: 0.8  // Matching C++ opacity
         }
-    }
+    }*/
 }
