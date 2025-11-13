@@ -556,4 +556,6 @@ Q_SIGNALS:
     void switchDarkPalette(bool dark);
     void mainWindowReady();
     void loadLayoutFromData(const QString layout);
+    /** The project profile changed, check if we have a more appropriate layout (horizontal/vertical) */
+    void adjustLayoutToDar();
 };

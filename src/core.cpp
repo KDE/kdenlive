@@ -585,7 +585,7 @@ void Core::restoreLayout()
     }
     if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
         // No existing layout, probably first run
-        Q_EMIT loadLayoutById(QStringLiteral("kdenlive_editing"));
+        Q_EMIT loadLayoutById(QStringLiteral("editing"));
     } else {
         KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
         dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toUtf8());
@@ -954,6 +954,11 @@ bool Core::setCurrentProfile(const QString profilePath)
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
         // Ensure all running tasks are stopped before attempting a global profile change
+        bool layoutNeedsCheck = false;
+        bool wasVertical = false;
+        if (!m_currentProfile.isEmpty()) {
+            wasVertical = isVertical();
+        }
         taskManager.slotCancelJobs();
         m_currentProfile = profilePath;
         // Init producer shown for unavailable media
@@ -1021,6 +1026,9 @@ bool Core::setCurrentProfile(const QString profilePath)
                 Q_EMIT m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
             }
             Q_EMIT updateProjectTimecode();
+            if (wasVertical != isVertical()) {
+                Q_EMIT adjustLayoutToDar();
+            }
         }
         return true;
     }

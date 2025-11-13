@@ -242,6 +242,18 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
     return true;
 }
 
+void LayoutManagement::adjustLayoutToDar()
+{
+    if (!m_currentLayoutId.isEmpty()) {
+        LayoutInfo lay = m_layoutCollection.getLayout(m_currentLayoutId);
+        if (lay.isValid()) {
+            if (lay.hasHorizontalData() && lay.hasVerticalData()) {
+                slotLoadLayoutById(lay.internalId);
+            }
+        }
+    }
+}
+
 bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData)
 {
     if (layoutData.isEmpty()) {
@@ -255,6 +267,8 @@ bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData)
         pCore->displayBinMessage(i18n("The layout from the project file could not be restored."), KMessageWidget::Warning);
         return false;
     }
+    // Loaded a layout from Kdenlive settings or document
+    m_currentLayoutId.clear();
     m_layoutSwitcher->setCurrentLayout(QString());
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
