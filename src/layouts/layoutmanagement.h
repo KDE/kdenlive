@@ -34,6 +34,8 @@ public Q_SLOTS:
     /** @brief Load a layout by its name. */
     bool slotLoadLayoutById(const QString &layoutId);
     bool slotLoadLayoutFromData(const QString &layoutData);
+    /** @brief Load a layout by its name. */
+    void adjustLayoutToDar();
 
 private Q_SLOTS:
     /** @brief Saves the widget layout. */
