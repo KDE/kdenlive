@@ -696,8 +696,11 @@ void ProjectManager::slotOpenFile()
         m_startUrl.clear();
         return;
     }
-    QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"))),
-                                           getProjectNameFilters());
+    QString projectFolder = KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"));
+    if (!QFileInfo::exists(projectFolder)) {
+        projectFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
+    QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl::fromLocalFile(projectFolder), getProjectNameFilters());
     if (!url.isValid()) {
         if (!m_project) {
             // First opening, switch to blank project
