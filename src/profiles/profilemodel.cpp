@@ -150,6 +150,24 @@ void ProfileModel::set_explicit(int b)
     m_profile->set_explicit(b);
 }
 
+ProfileParam::ProfileParam(int width, int height, int fpsNum, int fpsDen, int darNum, int darDen, int sarNum, int sarDen, int colorSpace, bool interlaced)
+    : m_frame_rate_num(fpsNum)
+    , m_frame_rate_den(fpsDen)
+    , m_width(width)
+    , m_height(height)
+    , m_progressive(!interlaced)
+    , m_bottom_field_first(false)
+    , m_sample_aspect_num(sarNum)
+    , m_sample_aspect_den(sarDen)
+    , m_display_aspect_num(darNum)
+    , m_display_aspect_den(darDen)
+    , m_colorspace(colorSpace)
+
+{
+    m_fps = m_frame_rate_num / m_frame_rate_den;
+    m_dar = m_display_aspect_num / m_display_aspect_den;
+}
+
 ProfileParam::ProfileParam(QDomElement element)
     : m_description(element.attribute(QStringLiteral("description")))
     , m_frame_rate_num(element.attribute(QStringLiteral("frame_rate_num")).toInt())

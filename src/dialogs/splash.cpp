@@ -4,69 +4,154 @@
 */
 
 #include "splash.hpp"
-#include <KLocalizedString>
+#include "core.h"
+#include "kdenlivesettings.h"
+#include "project/projectmanager.h"
 #include <QDebug>
-#include <QPainter>
-#include <QStyle>
+#include <QFileInfo>
+#include <ki18n_version.h>
 
-Splash::Splash()
-    : QSplashScreen()
-    , m_progress(0)
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <KLocalizedQmlContext>
+#else
+#include <KLocalizedContext>
+#endif
+#include <KColorSchemeManager>
+#include <KColorSchemeModel>
+#include <KLocalizedString>
+#include <QDir>
+#include <QStandardPaths>
+#include <QtConcurrent/QtConcurrentRun>
+
+Splash::Splash(const QString version, const QStringList urls, const QStringList profileIds, const QStringList profileNames, bool showWelcome, bool firstRun,
+               bool showCrashRecovery, bool wasUpgraded, QObject *parent)
+    : QObject(parent)
+    , m_showWelcome(showWelcome)
+    , m_hasCrashRecovery(showCrashRecovery)
+    , m_wasUpgraded(wasUpgraded)
 {
-    qreal scalingFactor = devicePixelRatioF();
-    m_pixmap = QPixmap(":/pics/splash-background.png");
-    m_pixmap = m_pixmap.scaled(m_pixmap.width() * scalingFactor, m_pixmap.height() * scalingFactor, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-    m_pixmap.setDevicePixelRatio(scalingFactor);
+    m_engine = new QQmlApplicationEngine(this);
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    KLocalization::setupLocalizedContext(m_engine);
+#else
+    m_engine->rootContext()->setContextObject(new KLocalizedContext(this));
+#endif
+    qDebug() << ":::::::::: CREATING SPLASH SCREEN SPLASH";
+    QLocale locale;
 
-    // Set style for progressbar...
-    m_pbStyle.initFrom(this);
-    m_pbStyle.state = QStyle::State_Enabled;
-    m_pbStyle.textVisible = false;
-    m_pbStyle.minimum = 0;
-    m_pbStyle.maximum = 100;
-    m_pbStyle.progress = 0;
-    m_pbStyle.invertedAppearance = false;
-    m_pbStyle.rect = QRect(4, m_pixmap.height() - 24, m_pixmap.width() / 2, 20); // Where is it.
-
-    // Add KDE branding to pixmap
-    QPainter *paint = new QPainter(&m_pixmap);
-    paint->setPen(Qt::white);
-    QPixmap kde(":/pics/kde-logo.png");
-    kde = kde.scaled(kde.width() * scalingFactor, kde.height() * scalingFactor, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-    kde.setDevicePixelRatio(scalingFactor);
-    const int logoSize = 32;
-    QPoint pos(12, 12);
-    paint->drawPixmap(pos.x(), pos.y(), logoSize, logoSize, kde);
-    paint->drawText(pos.x() + logoSize, pos.y() + (logoSize / 2) + paint->fontMetrics().strikeOutPos(), i18n("Made by KDE"));
-    setPixmap(m_pixmap);
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    KConfigGroup cg(KSharedConfig::openConfig(), "UiSettings");
+    const QString theme = cg.readEntry("ColorSchemePath");
+    QString schemeId;
+    int max = KColorSchemeManager::instance()->model()->rowCount();
+    for (int i = 0; i < max; ++i) {
+        QModelIndex index = KColorSchemeManager::instance()->model()->index(i, 0);
+        if ((theme.isEmpty() && index.data(KColorSchemeModel::PathRole).toString().isEmpty()) ||
+            index.data(KColorSchemeModel::PathRole).toString().endsWith(theme)) {
+            KColorSchemeManager::instance()->activateScheme(index);
+            break;
+        }
+    }
+#endif
+    QStringList fileNames;
+    QStringList fileDates;
+    for (auto &s : urls) {
+        QFileInfo info(s);
+        fileNames.append(info.fileName());
+        fileDates.append(locale.toString(info.fileTime(QFileDevice::FileModificationTime), "dd/MM/yy HH:mm:ss"));
+    }
+    if (showWelcome) {
+        bool isPalFps = ProjectManager::getDefaultProjectFormat().endsWith(QLatin1String("_25"));
+        m_engine->setInitialProperties({{"version", version},
+                                        {"fileNames", fileNames},
+                                        {"fileDates", fileDates},
+                                        {"urls", urls},
+                                        {"profileIds", profileIds},
+                                        {"profileNames", profileNames},
+                                        {"palFps", isPalFps},
+                                        {"firstRun", firstRun},
+                                        {"crashRecovery", m_hasCrashRecovery},
+                                        {"wasUpgraded", m_wasUpgraded}});
+    } else {
+        m_engine->setInitialProperties({{"version", version}, {"crashRecovery", m_hasCrashRecovery}, {"wasUpgraded", m_wasUpgraded}});
+    }
+    m_engine->load(showWelcome ? QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Splash.qml"))
+                               : QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Simplesplash.qml")));
+    m_rootObject = m_engine->rootObjects().at(0);
+    if (showWelcome) {
+        connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(openBlank()));
+        connect(m_rootObject, SIGNAL(openOtherFile()), this, SIGNAL(openOtherFile()));
+        connect(m_rootObject, SIGNAL(closeApp()), this, SIGNAL(closeApp()));
+        connect(m_rootObject, SIGNAL(openFile(QString)), this, SIGNAL(openFile(QString)));
+        connect(m_rootObject, SIGNAL(openLink(QString)), this, SIGNAL(openLink(QString)));
+        connect(m_rootObject, SIGNAL(openTemplate(QString)), this, SIGNAL(openTemplate(QString)));
+        connect(m_rootObject, SIGNAL(showWelcome(bool)), this, SLOT(updateWelcomeDisplay(bool)));
+        connect(m_rootObject, SIGNAL(switchPalette(bool)), this, SIGNAL(switchPalette(bool)));
+        connect(m_rootObject, SIGNAL(clearHistory()), this, SIGNAL(clearHistory()));
+        connect(m_rootObject, SIGNAL(clearProfiles()), this, SIGNAL(clearProfiles()));
+        connect(m_rootObject, SIGNAL(forgetFile(QString)), this, SIGNAL(forgetFile(QString)));
+        connect(m_rootObject, SIGNAL(forgetProfile(QString)), this, SIGNAL(forgetProfile(QString)));
+        if (m_hasCrashRecovery) {
+            // All signals should also trigger a release lock
+            connect(m_rootObject, SIGNAL(resetConfig()), this, SIGNAL(resetConfig()));
+            connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(releaseLock()));
+            connect(m_rootObject, SIGNAL(openOtherFile()), this, SIGNAL(releaseLock()));
+            connect(m_rootObject, SIGNAL(openFile(QString)), this, SIGNAL(releaseLock()));
+            connect(m_rootObject, SIGNAL(openTemplate(QString)), this, SIGNAL(releaseLock()));
+            connect(m_rootObject, SIGNAL(firstStart(QString, QString, bool, int, int)), this, SIGNAL(releaseLock()));
+        }
+        connect(m_rootObject, SIGNAL(firstStart(QString, QString, bool, int, int)), this, SIGNAL(firstStart(QString, QString, bool, int, int)));
+    } else {
+        if (m_hasCrashRecovery || m_wasUpgraded) {
+            connect(m_rootObject, SIGNAL(resetConfig()), this, SIGNAL(resetConfig()));
+            connect(m_rootObject, SIGNAL(openLink(QString)), this, SIGNAL(openLink(QString)));
+            connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(releaseLock()));
+        }
+    }
+    if (m_wasUpgraded) {
+        const QStringList currentVersion = version.split(QLatin1Char('.'));
+        if (currentVersion.length() == 3) {
+            // Store latest version
+            KdenliveSettings::setLastSeenVersionMajor(currentVersion.at(0).toInt());
+            KdenliveSettings::setLastSeenVersionMinor(currentVersion.at(1).toInt());
+            KdenliveSettings::setLastSeenVersionMicro(currentVersion.at(2).toInt());
+        }
+    }
 }
 
-void Splash::increaseProgressMessage()
+bool Splash::welcomeDisplayed() const
 {
-    m_progress++;
-    repaint();
+    return m_showWelcome;
 }
 
-void Splash::showProgressMessage(const QString &message, int max)
+bool Splash::hasCrashRecovery() const
 {
-    if (max > -1) {
-        m_pbStyle.maximum = max;
-        m_progress = 0;
-    }
-    if (!message.isEmpty()) {
-        showMessage(message, Qt::AlignRight | Qt::AlignBottom, Qt::white);
-    }
-    repaint();
+    return m_hasCrashRecovery;
 }
 
-void Splash::drawContents(QPainter *painter)
+bool Splash::hasEventLoop() const
 {
-    QSplashScreen::drawContents(painter);
+    return m_hasCrashRecovery || (!m_showWelcome && m_wasUpgraded);
+}
 
-    if (m_progress > 0) {
-        // Set style for progressbar and draw it
-        m_pbStyle.progress = m_progress;
-        // Draw it...
-        style()->drawControl(QStyle::CE_ProgressBar, &m_pbStyle, painter, this);
-    }
+bool Splash::wasUpgraded() const
+{
+    return m_wasUpgraded;
+}
+
+void Splash::updateWelcomeDisplay(bool show)
+{
+    KdenliveSettings::setShowWelcome(show);
+}
+
+void Splash::fadeOutAndDelete()
+{
+    QMetaObject::invokeMethod(m_rootObject, "fade");
+    // Plan deletion
+    QTimer::singleShot(100, this, &Splash::deleteLater);
+}
+
+void Splash::fadeOut()
+{
+    QMetaObject::invokeMethod(m_rootObject, "fade");
 }

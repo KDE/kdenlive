@@ -32,6 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "utils/thumbnailcache.hpp"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
@@ -1309,7 +1310,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         return {getTimelineProducer(-1, clipId, state, master->get_int("audio_index"), speed), false};
     }
     // we have a problem
-    return {std::shared_ptr<Mlt::Producer>(ClipController::mediaUnavailable->cut()), false};
+    return {std::shared_ptr<Mlt::Producer>(pCore->mediaUnavailable->cut()), false};
 }
 
 void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)

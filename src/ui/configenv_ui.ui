@@ -106,6 +106,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_showWelcome">
+     <property name="text">
+      <string>Show Welcome screen at startup</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="kcfg_checkForUpdate">
      <property name="text">
       <string>Check for updates</string>
@@ -480,6 +487,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>kcfg_proxythreads</tabstop>
   <tabstop>kcfg_nice_tasks</tabstop>
   <tabstop>kcfg_maxcachesize</tabstop>
+  <tabstop>kcfg_showWelcome</tabstop>
+  <tabstop>kcfg_checkForUpdate</tabstop>
+  <tabstop>kcfg_usePowerManagement</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>ffmpegurl</tabstop>
   <tabstop>ffplayurl</tabstop>
@@ -494,6 +504,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>libraryfolderurl</tabstop>
   <tabstop>kcfg_videotodefaultfolder</tabstop>
   <tabstop>videofolderurl</tabstop>
+  <tabstop>kcfg_defaultimageapp</tabstop>
+  <tabstop>kp_image</tabstop>
+  <tabstop>kcfg_defaultaudioapp</tabstop>
+  <tabstop>kp_audio</tabstop>
+  <tabstop>kcfg_glaxnimatePath</tabstop>
+  <tabstop>kp_anim</tabstop>
   <tabstop>kcfg_addedExtensions</tabstop>
   <tabstop>supportedmimes</tabstop>
  </tabstops>

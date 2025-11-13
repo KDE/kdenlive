@@ -983,6 +983,16 @@
        </entry>
    </group>
 
+  <group name="Recent Profiles">
+    <entry name="recentProfiles" type="StringList">
+         <label>List of recently used profile ids</label>
+         <default></default>
+    </entry>
+    <entry name="recentProfileNames" type="StringList">
+         <label>List of recently used profile display names</label>
+         <default></default>
+    </entry>
+  </group>
 
   <group name="unmanaged">
     <entry name="properties_panel_page" type="Int">
@@ -1384,6 +1394,8 @@
       <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
+    </group>
+  <group name="startup">
     <entry name="force_breeze" type="Bool">
       <label>Force breeze icon theme for consistent look.</label>
       <default>false</default>
@@ -1392,6 +1404,24 @@
       <label>Force breeze icon color theme for consistent look.</label>
       <default>false</default>
     </entry>
+    <entry name="showWelcome" type="Bool">
+      <label>Show Welcome page on Start.</label>
+      <default>true</default>
+    </entry>
+    <entry name="lastSeenVersionMajor" type="Int">
+      <label>Last used version of Kdenlive - major.</label>
+      <default>0</default>
+    </entry>
+    <entry name="lastSeenVersionMinor" type="Int">
+      <label>Last used version of Kdenlive - minor.</label>
+      <default>0</default>
+    </entry>
+    <entry name="lastSeenVersionMicro" type="Int">
+      <label>Last used version of Kdenlive - micro.</label>
+      <default>0</default>
+    </entry>
+
+
     </group>
   <group name="effects">
       <entry name="lock_ratio" type="Bool">

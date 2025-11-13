@@ -182,9 +182,6 @@ public:
     /** @brief Hide subtitle track and delete its temporary file*/
     void resetSubtitles(const QUuid &uuid);
 
-    /** @brief Restart the application and delete config files if clean is true */
-    void cleanRestart(bool clean);
-
     /** @brief Show current tool key combination in status bar */
     void showToolMessage();
     /** @brief Show the widget's default key binding message */
@@ -272,7 +269,7 @@ private:
     KDDockWidgets::QtWidgets::DockWidget *m_projectMonitorDock{nullptr};
     Monitor *m_projectMonitor{nullptr};
 
-    AudioGraphSpectrum *m_audioSpectrum;
+    AudioGraphSpectrum *m_audioSpectrum{nullptr};
 
     KDDockWidgets::QtWidgets::DockWidget *m_undoViewDock{nullptr};
     KDDockWidgets::QtWidgets::DockWidget *m_mixerDock{nullptr};
@@ -289,13 +286,13 @@ private:
 
     KActionCategory *m_effectActions;
     KActionCategory *m_transitionActions;
-    QMenu *m_effectsMenu;
-    QMenu *m_transitionsMenu;
-    QMenu *m_timelineContextMenu;
+    QMenu *m_effectsMenu{nullptr};
+    QMenu *m_transitionsMenu{nullptr};
+    QMenu *m_timelineContextMenu{nullptr};
     QMenu *m_binsListMenu{nullptr};
     QMenu *m_scopesListMenu{nullptr};
     QList<QAction *> m_timelineClipActions;
-    KDualAction *m_useTimelineZone;
+    KDualAction *m_useTimelineZone{nullptr};
 
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_actionNames;
@@ -304,7 +301,7 @@ private:
      *
      * It allows one to get out of e.g. text input fields and to press another
      * shortcut. */
-    QShortcut *m_shortcutRemoveFocus;
+    QShortcut *m_shortcutRemoveFocus{nullptr};
 
     RenderWidget *m_renderWidget{nullptr};
     StatusBarMessageLabel *m_messageLabel{nullptr};
@@ -368,8 +365,8 @@ private:
     KXMLGUIClient *m_extraFactory;
     bool m_themeInitialized{false};
     bool m_isDarkTheme{false};
-    EffectBasket *m_effectBasket;
-    QProgressDialog *m_loadingDialog;
+    EffectBasket *m_effectBasket{nullptr};
+    QProgressDialog *m_loadingDialog{nullptr};
 
 public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
@@ -386,6 +383,8 @@ public Q_SLOTS:
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
     void appHelpActivated();
+    /** @brief Restart the application and delete config files if clean is true */
+    void cleanRestart(bool clean, bool forceQuit = false);
 
     void slotPreferences();
     void slotShowPreferencePage(Kdenlive::ConfigPage page, int option = -1);
