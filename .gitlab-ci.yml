@@ -12,7 +12,7 @@ include:
       - /gitlab-templates/cppcheck.yml
       # CI Qt6
       - /gitlab-templates/linux-qt6.yml
-      - /gitlab-templates/linux-qt6-next.yml
+      # - /gitlab-templates/linux-qt6-next.yml # disabled until all dependencies are included
       - /gitlab-templates/freebsd-qt6.yml
       # CD Qt6
       - /gitlab-templates/flatpak.yml
