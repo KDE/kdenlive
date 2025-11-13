@@ -4,62 +4,62 @@
     <name>HSL Primaries</name>
     <description>Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary colors.</description>
     <author>Meltytech, LLC</author>
-    <parameter type="animated" name="h_shift_red" min="0" max="360" default="0" decimals="1" suffix="°">
-        <name>Hue Shift Red</name>
+    <parameter type="animated" name="overlap" min="0" max="100" default="100" decimals="1" suffix="%">
+        <name><![CDATA[Overlap]]></name>
+        <comment>The amount of overlap or blending between primaries</comment>
+    </parameter>
+    <parameter type="animated" name="h_shift_red" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name><![CDATA[<b><u>Hue Shift</u></b> Red]]></name>
+    </parameter>
+    <parameter type="animated" name="h_shift_yellow" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Yellow</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_green" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Green</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_cyan" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Cyan</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_blue" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Blue</name>
+    </parameter>
+    <parameter type="animated" name="h_shift_magenta" min="-180" max="180" default="0" decimals="1" suffix="°">
+        <name>Magenta</name>
     </parameter>
     <parameter type="animated" name="s_scale_red" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Saturation Scale Red</name>
-    </parameter>
-    <parameter type="animated" name="l_scale_red" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Lightness Scale Red</name>
-    </parameter>
-    <parameter type="animated" name="h_shift_yellow" min="0" max="360" default="0" decimals="1" suffix="°">
-        <name>Hue Shift Yellow</name>
+        <name><![CDATA[<b><u>Saturation</u></b> Red]]></name>
     </parameter>
     <parameter type="animated" name="s_scale_yellow" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Saturation Scale Yellow</name>
-    </parameter>
-    <parameter type="animated" name="l_scale_yellow" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Lightness Scale Yellow</name>
-    </parameter>
-    <parameter type="animated" name="h_shift_green" min="0" max="360" default="0" decimals="1" suffix="°">
-        <name>Hue Shift Green</name>
+        <name>Yellow</name>
     </parameter>
     <parameter type="animated" name="s_scale_green" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Saturation Scale Green</name>
-    </parameter>
-    <parameter type="animated" name="l_scale_green" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Lightness Scale Green</name>
-    </parameter>
-    <parameter type="animated" name="h_shift_cyan" min="0" max="360" default="0" decimals="1" suffix="°">
-        <name>Hue Shift Cyan</name>
+        <name>Green</name>
     </parameter>
     <parameter type="animated" name="s_scale_cyan" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Saturation Scale Cyan</name>
-    </parameter>
-    <parameter type="animated" name="l_scale_cyan" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Lightness Scale Cyan</name>
-    </parameter>
-    <parameter type="animated" name="h_shift_blue" min="0" max="360" default="0" decimals="1" suffix="°">
-        <name>Hue Shift Blue</name>
+        <name>Cyan</name>
     </parameter>
     <parameter type="animated" name="s_scale_blue" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Saturation Scale Blue</name>
-    </parameter>
-    <parameter type="animated" name="l_scale_blue" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Lightness Scale Blue</name>
-    </parameter>
-    <parameter type="animated" name="h_shift_magenta" min="0" max="360" default="0" decimals="1" suffix="°">
-        <name>Hue Shift Magenta</name>
+        <name>Blue</name>
     </parameter>
     <parameter type="animated" name="s_scale_magenta" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Saturation Scale Magenta</name>
+        <name>Magenta</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_red" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name><![CDATA[<b><u>Lightness</u></b> Red]]></name>
+    </parameter>
+    <parameter type="animated" name="l_scale_yellow" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Yellow</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_green" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Green</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_cyan" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Cyan</name>
+    </parameter>
+    <parameter type="animated" name="l_scale_blue" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Blue</name>
     </parameter>
     <parameter type="animated" name="l_scale_magenta" min="0" max="500" default="100" decimals="1" suffix="%">
-        <name>Lightness Scale Magenta</name>
-    </parameter>
-    <parameter type="animated" name="overlap" min="0" max="100" default="0" decimals="1" suffix="%">
-        <name>Overlap</name>
-        <comment>The amount of overlap or blending between primaries</comment>
+        <name>Magenta</name>
     </parameter>
 </effect>
