@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-10 02:42+0000\n"
+"POT-Creation-Date: 2025-11-13 02:37+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -4033,7 +4033,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
+#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:643
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
@@ -7282,6 +7282,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
+#: src/monitor/view/MonitorZoomButton.qml:14
 #: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
@@ -18242,12 +18243,12 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:572
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:577
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:537
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:542
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -19331,12 +19332,12 @@ msgstr "अवधि:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT प्लेलिस्ट (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:39
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom In इति"
 
-#: src/bin/mediabrowser.cpp:56
+#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:47
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zoom Out इति"
@@ -21114,12 +21115,12 @@ msgstr "प्रतिपादनं निरस्तम्"
 msgid "Nearest (fast)"
 msgstr "समीपस्थः (वेगः)"
 
-#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "द्विरेखीय (उत्तम)"
 
-#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "द्विघन (उत्तम)"
@@ -21144,17 +21145,17 @@ msgstr "ऊर्ध्वाधर (९:१६)"
 msgid "Square (1:1)"
 msgstr "वर्ग (१:१)"
 
-#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "One Field (fast)"
 msgstr "एकं क्षेत्रम् (वेगम्)"
 
-#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "रेखीय मिश्रण (द्रुत)"
 
-#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "यदीफ - लौकिक एव (अच्छा)"
@@ -26713,7 +26714,7 @@ msgstr "श्रेणीनुसारं मार्करं योजय�
 msgid "Current Selection"
 msgstr "वर्तमान चयन"
 
-#: src/mainwindow.cpp:1908 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Add Marker"
 msgstr "मार्करं योजयतु"
@@ -26864,7 +26865,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "प्रभाव कीफ्रेम्स"
 
-#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:101
+#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:116
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Keyframe योजयतु/निष्कासयतु"
@@ -28029,17 +28030,17 @@ msgstr ""
 msgid "1:1"
 msgstr "१:१"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:687
 #, kde-format
 msgid "Set Zone In"
 msgstr "Set Zone In इति"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:691
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Zone Out सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Rewind"
 msgstr "पश्चात्तापं कुरुत"
@@ -28056,7 +28057,7 @@ msgstr "क्रीडतु"
 msgid "Pause"
 msgstr "विराम"
 
-#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:584
 #, kde-format
 msgid "Forward"
 msgstr "अग्रतः"
@@ -28272,35 +28273,35 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभावं सम्पादयितुं मॉनिटरे सम्पादनविधिं सक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3219
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "प्रोजेक्ट् बिन् मध्ये कोऽपि क्लिप् चयनितः नास्ति"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3240
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3322 src/monitor/monitor.cpp:3353
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3332
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3338 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
@@ -28339,110 +28340,116 @@ msgstr "Zoom In Monitor इति"
 msgid "Zoom Out Monitor"
 msgstr "Zoom Out Monitor"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:566
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Monitor Zoom"
+msgstr "%1 पुनः सेट् कुर्वन्तु"
+
+#: src/monitor/monitormanager.cpp:575
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "Rewind 1 फ्रेम"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "Rewind 1 सेकण्ड"
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Go to Project Start"
 msgstr "Project Start इत्यत्र गच्छन्तु"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "Go to Project End"
 msgstr "Project End इत्यत्र गच्छन्तु"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "अग्रे १ फ्रेम"
 
-#: src/monitor/monitormanager.cpp:595
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "अग्रे १ द्वितीयः"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:605
 #, kde-format
 msgid "Multitrack View"
 msgstr "बहुपटल दृश्य"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:614
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "Multitrack Operation करणीयम्"
 
-#: src/monitor/monitormanager.cpp:613
+#: src/monitor/monitormanager.cpp:618
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "सम्पादनविधिं दर्शयतु/गोपयतु"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "सम्पादनविधिं (वस्तुनियंत्रणानां प्रदर्शनं च) टॉगल करोति ।"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:607
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Deinterlacer"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:629
 #, fuzzy, kde-format
 #| msgid "YADIF - temporal + spacial (best)"
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF - लौकिक + स्थानिक (सर्वश्रेष्ठ)"
 
-#: src/monitor/monitormanager.cpp:639
+#: src/monitor/monitormanager.cpp:644
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "समीपस्थः प्रतिवेशी (द्रुत)"
 
-#: src/monitor/monitormanager.cpp:642
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "हाइपर/लान्क्जोस् (सर्वश्रेष्ठ)"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Progressive playback"
 msgstr "प्रगतिशीलं वादनम्"
 
-#: src/monitor/monitormanager.cpp:662
+#: src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "ऑडियो स्क्रबिंग"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Mute Monitor"
 msgstr "म्यूट मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "अनम्यूट मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:674
+#: src/monitor/monitormanager.cpp:679
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "Zone Start इत्यत्र गच्छन्तु"
 
-#: src/monitor/monitormanager.cpp:678
+#: src/monitor/monitormanager.cpp:683
 #, kde-format
 msgid "Go to Zone End"
 msgstr "Zone End इति गच्छन्तु"
 
-#: src/monitor/monitorproxy.cpp:725
+#: src/monitor/monitorproxy.cpp:740
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, fuzzy, kde-format
 #| msgid "Rename marker"
@@ -28508,17 +28515,17 @@ msgstr "Audio Spectrum सक्षमीकरणाय MLT libfftw3 इत्�
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम् सक्षमं कुर्वन्तु"
 
-#: src/monitor/videowidget.cpp:1118
+#: src/monitor/videowidget.cpp:1123
 #, kde-format
 msgid "Select a zone to play"
 msgstr "क्रीडितुं क्षेत्रं चिनोतु"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1132
 #, kde-format
 msgid "Select a clip to play"
 msgstr "वादयितुं क्लिप् चिनोतु"
 
-#: src/monitor/videowidget.cpp:1232
+#: src/monitor/videowidget.cpp:1237
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28529,7 +28536,7 @@ msgstr ""
 "भवतः Kdenlive संस्थापने अथवा भवतः चालकसेटिंग्स् इत्यत्र किमपि दोषः अस्ति, कृपया तत् "
 "समाधात ।"
 
-#: src/monitor/view/ClipMonitor.qml:166
+#: src/monitor/view/ClipMonitor.qml:165
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28543,82 +28550,72 @@ msgstr ""
 "shortcut> अथवा <shortcut>बाण</shortcut> नुदन्तु । shortcut> अन्वेष्टुं, "
 "<shortcut>Ctrl चक्रं</shortcut>ं जूम कर्तुं"
 
-#: src/monitor/view/ClipMonitor.qml:358 src/monitor/view/ProjectMonitor.qml:191
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:197
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:397 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:230
 #, kde-format
 msgid "In Point"
 msgstr "In Point इति"
 
-#: src/monitor/view/ClipMonitor.qml:397
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "अन्तः/बहिः बिन्दुः"
 
-#: src/monitor/view/ClipMonitor.qml:420 src/monitor/view/ProjectMonitor.qml:241
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:247
 #, kde-format
 msgid "Out Point"
 msgstr "आउट प्वाइण्ट्"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:623
 #, kde-format
 msgid "Terminate Job"
 msgstr "कार्य समाप्त करें"
 
-#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:57
-#: src/monitor/view/SceneToolBar.qml:56
+#: src/monitor/view/EffectToolBar.qml:62 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:59
+#: src/monitor/view/SceneToolBar.qml:59
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "पूर्ण स्क्रीन स्विच करें"
 
-#: src/monitor/view/EffectToolBar.qml:66
+#: src/monitor/view/EffectToolBar.qml:68
 #, kde-format
 msgid "Show Grid"
 msgstr "ग्रिड् दर्शयतु"
 
-#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
+#: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Show Safe Zone"
+msgstr "क्षेत्रं सेट् कुर्वन्तु"
+
+#: src/monitor/view/EffectToolBar.qml:91
 #, kde-format
 msgid "Change Overlay"
 msgstr "आच्छादनं परिवर्तयतु"
 
-#: src/monitor/view/EffectToolBar.qml:89
+#: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Next Keyframe इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/EffectToolBar.qml:95
+#: src/monitor/view/EffectToolBar.qml:110
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Previous Keyframe इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/EffectToolBar.qml:106
+#: src/monitor/view/EffectToolBar.qml:121
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "स्वचालित कीफ्रेम्स"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:65
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "जूम इन करें"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:73
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "जूम आउट् कुर्वन्तु"
-
-#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:82
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:133 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:71
+#: src/monitor/view/SceneToolBar.qml:106
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Toolbar चालयन्तु"
@@ -28648,7 +28645,7 @@ msgstr "मास्क निर्माणात् निर्गच्छ�
 msgid "Exit Preview Mode"
 msgstr "पूर्वावलोकनमोडतः निर्गच्छन्तु"
 
-#: src/monitor/view/MonitorAutomask.qml:295
+#: src/monitor/view/MonitorAutomask.qml:281
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -28664,23 +28661,23 @@ msgstr ""
 "अन्यं क्षेत्रं समावेशयितुं Shift+क्लिक् कुर्वन्तु।\n"
 "क्षेत्रं बहिष्कृत्य Ctrl+क्लिक् कुर्वन्तु ।"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "इमेज मास्क जननम्"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "विडियो मास्क जननम्"
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -28695,12 +28692,12 @@ msgstr ""
 "अन्यं क्षेत्रं समावेशयितुं Shift+क्लिक् कुर्वन्तु।\n"
 "क्षेत्रं बहिष्कृत्य Ctrl+क्लिक् कुर्वन्तु ।"
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "विडियो मास्क पूर्वावलोकनम्v"
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -28709,19 +28706,19 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:415
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "Clip Start इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/MonitorAutomask.qml:441
+#: src/monitor/view/MonitorAutomask.qml:427
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
 msgstr "Clip End इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/MonitorGeometryScene.qml:336
+#: src/monitor/view/MonitorGeometryScene.qml:342
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28766,7 +28763,7 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>केन्द्र-आधारित-आकार-परिवर्तनार्थं drag handle</shortcut> शिफ्ट् कुर्वन्तु"
 
-#: src/monitor/view/MonitorRotoScene.qml:428
+#: src/monitor/view/MonitorRotoScene.qml:434
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -28809,6 +28806,13 @@ msgstr ""
 "<shortcut>Drag</shortcut> इति क्षेत्रं बहिः बिन्दुं सेट् कर्तुं, <shortcut>Shift+Drag</"
 "shortcut> इति क्षेत्रं बहिः समायोजयन् अन्वेष्टुं"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/monitor/view/MonitorZoomButton.qml:55 src/ui/vectorscope_ui.ui:68
+#, fuzzy, kde-format
+#| msgid "Reset %1"
+msgid "Reset Zoom"
+msgstr "%1 पुनः सेट् कुर्वन्तु"
+
 #: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
@@ -28819,27 +28823,24 @@ msgstr ""
 "<b>दक्षिणतः Hover कुर्वन्तु</b> , अन्वेष्टुं <b>चक्रं</b> वा <b>बाणं</b> , जूम कर्तुं <b>Ctrl "
 "चक्रं</b> कुर्वन्तु"
 
-#: src/monitor/view/ProjectMonitor.qml:295
+#: src/monitor/view/ProjectMonitor.qml:301
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "परिवर्तनं कुरुत"
 
-#: src/monitor/view/SceneToolBar.qml:94
-#, kde-format
-msgid "Add Guide"
-msgstr "मार्गदर्शकं योजयतु"
+#: src/monitor/view/SceneToolBar.qml:81
+#, fuzzy, kde-format
+#| msgid "Compositions"
+msgid "Composition Guides"
+msgstr "रचनाः"
 
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Marker"
+#: src/monitor/view/SceneToolBar.qml:97
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Add/Remove Marker"
 msgstr "मार्करं निष्कासयन्तु"
-
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Guide"
-msgstr "मार्गदर्शिकां निष्कासयन्तु"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -34315,6 +34316,18 @@ msgid ""
 "from 0 again."
 msgstr "जालपुटे रेखानां संख्यां वर्धयति ।<br /> ८ पङ्क्तयः अनन्तरं पुनः ० तः आरभ्यते ।"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/ui/bezierspline_ui.ui:169
+#, kde-format
+msgid "Zoom in"
+msgstr "जूम इन करें"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/ui/bezierspline_ui.ui:186
+#, kde-format
+msgid "Zoom out"
+msgstr "जूम आउट् कुर्वन्तु"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
@@ -34720,9 +34733,10 @@ msgstr "श्रव्यलघुचित्रवर्णाः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, kde-format
-msgid "Monitor overlay color:"
-msgstr "मॉनिटर ओवरले वर्ण: 1।"
+#, fuzzy, kde-format
+#| msgid "Main compositions"
+msgid "Monitor composition guides:"
+msgstr "मुख्य रचनाएँ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -34735,6 +34749,13 @@ msgstr "पृष्ठभूमिवर्णः निरीक्षकः :
 #, kde-format
 msgid "Monitor grid"
 msgstr "निरीक्षकजालम्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configcolors_ui.ui:125
+#, fuzzy, kde-format
+#| msgid "Monitor audio"
+msgid "Monitor safe zone:"
+msgstr "श्रव्यस्य निरीक्षणं कुर्वन्तु"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -38432,13 +38453,6 @@ msgstr "यूनिकोड मूल्यं प्रविष्टं क
 msgid "Additional Information"
 msgstr "अतिरिक्त सूचना"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
-#: src/ui/vectorscope_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Reset %1"
-msgid "Reset Zoom"
-msgstr "%1 पुनः सेट् कुर्वन्तु"
-
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
@@ -38614,6 +38628,15 @@ msgstr "%1म्"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ह"
+
+#~ msgid "Add Guide"
+#~ msgstr "मार्गदर्शकं योजयतु"
+
+#~ msgid "Remove Guide"
+#~ msgstr "मार्गदर्शिकां निष्कासयन्तु"
+
+#~ msgid "Monitor overlay color:"
+#~ msgstr "मॉनिटर ओवरले वर्ण: 1।"
 
 #~ msgid "Dock Area Orientation"
 #~ msgstr "गोदी क्षेत्र अभिविन्यास"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-10 02:42+0000\n"
+"POT-Creation-Date: 2025-11-13 02:37+0000\n"
 "PO-Revision-Date: 2025-11-02 11:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -4042,7 +4042,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
+#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:643
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
@@ -7314,6 +7314,7 @@ msgstr "Застосувати ефект масштабування і пано
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
+#: src/monitor/view/MonitorZoomButton.qml:14
 #: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
@@ -18177,12 +18178,12 @@ msgstr ""
 "Двічі клацніть, скиньте файли\n"
 "або натисніть %1 для імпортування мультимедійних даних"
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:572
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:577
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Перетягніть, щоб додати на монтажний стіл лише звукові дані"
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:537
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:542
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Перетягніть, щоб додати на монтажний стіл лише відеодані"
@@ -19293,12 +19294,12 @@ msgstr "Тривалість:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "список відтворення MLT (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:39
 #, kde-format
 msgid "Zoom In"
 msgstr "Збільшити"
 
-#: src/bin/mediabrowser.cpp:56
+#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:47
 #, kde-format
 msgid "Zoom Out"
 msgstr "Зменшити"
@@ -21062,12 +21063,12 @@ msgstr "Обробку перервано"
 msgid "Nearest (fast)"
 msgstr "Найближче (швидко)"
 
-#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Білінійне (якісно)"
 
-#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Бікубічне (якісніше)"
@@ -21092,17 +21093,17 @@ msgstr "Вертикально (9:16)"
 msgid "Square (1:1)"
 msgstr "Квадрат (1:1)"
 
-#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Одне поле (швидко)"
 
-#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Лінійне змішування (швидко)"
 
-#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF, лише за часом (якісно)"
@@ -26743,7 +26744,7 @@ msgstr "Додати категорію позначки 10"
 msgid "Current Selection"
 msgstr "Поточне позначене"
 
-#: src/mainwindow.cpp:1908 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Add Marker"
 msgstr "Додати позначку"
@@ -26889,7 +26890,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "Ключові кадри ефекту"
 
-#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:101
+#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:116
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Додати/Вилучити ключовий кадр"
@@ -28051,17 +28052,17 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:687
 #, kde-format
 msgid "Set Zone In"
 msgstr "Встановити позначку входу ділянки"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:691
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Встановити позначку виходу ділянки"
 
-#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Rewind"
 msgstr "Повний назад"
@@ -28078,7 +28079,7 @@ msgstr "Відтворити"
 msgid "Pause"
 msgstr "Пауза"
 
-#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:584
 #, kde-format
 msgid "Forward"
 msgstr "Вперед"
@@ -28292,17 +28293,17 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Увімкнути режим редагування у монітор для редагування ефекту"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3219
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "На панелі монітора кліпів не вибрано кліпу"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3240
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Не вдалося отримати засіб створення для монітора кліпу"
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3322 src/monitor/monitor.cpp:3353
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
@@ -28310,18 +28311,18 @@ msgstr ""
 "Не визначено коректної зони. Будь ласка, спочатку встановіть вхідну і "
 "вихідну точки."
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3332
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Створити позначку діапазону із зони"
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3338 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Позначку діапазону створено на основі зони"
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -28360,52 +28361,58 @@ msgstr "Збільшити монітор"
 msgid "Zoom Out Monitor"
 msgstr "Зменшити монітор"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:566
+#, fuzzy, kde-format
+#| msgid "Reset Zoom"
+msgid "Reset Monitor Zoom"
+msgstr "Відновити початковий масштаб"
+
+#: src/monitor/monitormanager.cpp:575
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "Назад на 1 кадр"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "Назад на 1 секунду"
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Go to Project Start"
 msgstr "Перейти до початку проєкту"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "Go to Project End"
 msgstr "Перейти до кінця проєкту"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "Вперед на 1 кадр"
 
-#: src/monitor/monitormanager.cpp:595
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "Вперед на 1 секунду"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:605
 #, kde-format
 msgid "Multitrack View"
 msgstr "Багатодоріжковий перегляд"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:614
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "Виконати багатодоріжкову дію"
 
-#: src/monitor/monitormanager.cpp:613
+#: src/monitor/monitormanager.cpp:618
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "Показати/Сховати режим редагування"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
@@ -28413,57 +28420,57 @@ msgstr ""
 "Вмикає або вимикає режим редагування (і показ елементів керування об'єктами)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:607
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Усування черезрядковості"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:629
 #, kde-format
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF, час і простір (найкраще)"
 
-#: src/monitor/monitormanager.cpp:639
+#: src/monitor/monitormanager.cpp:644
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "Найближче суміжне (швидко)"
 
-#: src/monitor/monitormanager.cpp:642
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Гіпер/Ланцошеве (найкраще)"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Progressive playback"
 msgstr "Прогресивне відтворення"
 
-#: src/monitor/monitormanager.cpp:662
+#: src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "Прокручування звуку"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Mute Monitor"
 msgstr "Вимкнути звук з монітора"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "Увімкнути звук з монітора"
 
-#: src/monitor/monitormanager.cpp:674
+#: src/monitor/monitormanager.cpp:679
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "Перейти до початку ділянки"
 
-#: src/monitor/monitormanager.cpp:678
+#: src/monitor/monitormanager.cpp:683
 #, kde-format
 msgid "Go to Zone End"
 msgstr "Перейти до кінця ділянки"
 
-#: src/monitor/monitorproxy.cpp:725
+#: src/monitor/monitorproxy.cpp:740
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Zone marker"
@@ -28530,17 +28537,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Увімкнути звуковий спектр"
 
-#: src/monitor/videowidget.cpp:1118
+#: src/monitor/videowidget.cpp:1123
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Виберіть ділянку для відтворення"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1132
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Виберіть кліп для відтворення"
 
-#: src/monitor/videowidget.cpp:1232
+#: src/monitor/videowidget.cpp:1237
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28551,7 +28558,7 @@ msgstr ""
 "Щось не так зі встановленим вами пакунком Kdenlive або параметрами "
 "драйверів. Будь ласка, виправте помилки."
 
-#: src/monitor/view/ClipMonitor.qml:166
+#: src/monitor/view/ClipMonitor.qml:165
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28566,82 +28573,72 @@ msgstr ""
 "shortcut> — позиціювання, <shortcut>Ctrl + коліщатко</shortcut> — "
 "масштабування"
 
-#: src/monitor/view/ClipMonitor.qml:358 src/monitor/view/ProjectMonitor.qml:191
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:197
 #, kde-format
 msgid "%1fps"
 msgstr "%1 кд/с"
 
-#: src/monitor/view/ClipMonitor.qml:397 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:230
 #, kde-format
 msgid "In Point"
 msgstr "Вхідна точка"
 
-#: src/monitor/view/ClipMonitor.qml:397
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "Вхідна/Вихідна точка"
 
-#: src/monitor/view/ClipMonitor.qml:420 src/monitor/view/ProjectMonitor.qml:241
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:247
 #, kde-format
 msgid "Out Point"
 msgstr "Вихідна точка"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:623
 #, kde-format
 msgid "Terminate Job"
 msgstr "Перервати завдання"
 
-#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:57
-#: src/monitor/view/SceneToolBar.qml:56
+#: src/monitor/view/EffectToolBar.qml:62 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:59
+#: src/monitor/view/SceneToolBar.qml:59
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "Перемкнути повноекранний режим"
 
-#: src/monitor/view/EffectToolBar.qml:66
+#: src/monitor/view/EffectToolBar.qml:68
 #, kde-format
 msgid "Show Grid"
 msgstr "Показати ґратку"
 
-#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
+#: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Show Safe Zone"
+msgstr "Встановити ділянку"
+
+#: src/monitor/view/EffectToolBar.qml:91
 #, kde-format
 msgid "Change Overlay"
 msgstr "Змінити накладання"
 
-#: src/monitor/view/EffectToolBar.qml:89
+#: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Перейти до наступного ключового кадру"
 
-#: src/monitor/view/EffectToolBar.qml:95
+#: src/monitor/view/EffectToolBar.qml:110
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Перейти до попереднього ключового кадру"
 
-#: src/monitor/view/EffectToolBar.qml:106
+#: src/monitor/view/EffectToolBar.qml:121
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "Автоматичні ключові кадри"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:65
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "Збільшити"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:73
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "Зменшити"
-
-#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:82
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:133 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:71
+#: src/monitor/view/SceneToolBar.qml:106
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Пересунути панель інструментів"
@@ -28671,7 +28668,7 @@ msgstr "Вийти зі створення маски"
 msgid "Exit Preview Mode"
 msgstr "Вийти з режиму перегляду"
 
-#: src/monitor/view/MonitorAutomask.qml:295
+#: src/monitor/view/MonitorAutomask.qml:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28683,22 +28680,22 @@ msgstr ""
 "щоб почати маскування, <shortcut>Shift+клацання</shortcut> — включити іншу "
 "ділянку, <shortcut>Ctrl+клацання</shortcut> — виключити ділянку."
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Спочатку виберіть об'єкт на зображенні"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "Створюємо маску зображення"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "Створення відеомаски"
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -28709,12 +28706,12 @@ msgstr ""
 "Shift+клацніть, щоб включити іншу ділянку.\n"
 "Ctrl+клацніть, щоб виключити ділянку."
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Попередній перегляд відеомаски"
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -28727,17 +28724,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:415
 #, kde-format
 msgid "Go to mask start"
 msgstr "Перейти до початку маски"
 
-#: src/monitor/view/MonitorAutomask.qml:441
+#: src/monitor/view/MonitorAutomask.qml:427
 #, kde-format
 msgid "Go to mask end"
 msgstr "Перейти до кінця маски"
 
-#: src/monitor/view/MonitorGeometryScene.qml:336
+#: src/monitor/view/MonitorGeometryScene.qml:342
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28785,7 +28782,7 @@ msgstr ""
 "<shortcut>Перетягніть з утриманням Shift</shortcut> для зміни розмірів із "
 "збереженням центра"
 
-#: src/monitor/view/MonitorRotoScene.qml:428
+#: src/monitor/view/MonitorRotoScene.qml:434
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -28831,6 +28828,12 @@ msgstr ""
 "<shortcut>Shift+перетягніть</shortcut> для позиціювання разом із "
 "коригуванням виходу з зони"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/monitor/view/MonitorZoomButton.qml:55 src/ui/vectorscope_ui.ui:68
+#, kde-format
+msgid "Reset Zoom"
+msgstr "Відновити початковий масштаб"
+
 #: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
@@ -28841,26 +28844,23 @@ msgstr ""
 "режим, <b>наведення праворуч</b> — панель інструментів, <b>коліщатко</b> або "
 "<b>стрілки</b> — позиціювання, <b>Ctrl + коліщатко</b> — масштабування"
 
-#: src/monitor/view/ProjectMonitor.qml:295
+#: src/monitor/view/ProjectMonitor.qml:301
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "Увімкнути перетворення"
 
-#: src/monitor/view/SceneToolBar.qml:94
-#, kde-format
-msgid "Add Guide"
-msgstr "Додати напрямну"
+#: src/monitor/view/SceneToolBar.qml:81
+#, fuzzy, kde-format
+#| msgid "Compositions"
+msgid "Composition Guides"
+msgstr "Композиції"
 
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Marker"
+#: src/monitor/view/SceneToolBar.qml:97
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Add/Remove Marker"
 msgstr "Вилучити позначку"
-
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Guide"
-msgstr "Вилучити напрямну"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -34405,6 +34405,18 @@ msgstr ""
 "Збільшує кількість ліній у сітці.<br />Після 8 ліній кількість буде знову "
 "скинуто у значення 0."
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/ui/bezierspline_ui.ui:169
+#, kde-format
+msgid "Zoom in"
+msgstr "Збільшити"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/ui/bezierspline_ui.ui:186
+#, kde-format
+msgid "Zoom out"
+msgstr "Зменшити"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
@@ -34813,9 +34825,10 @@ msgstr "Кольори мініатюр звуку:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, kde-format
-msgid "Monitor overlay color:"
-msgstr "Колір накладки монітора:"
+#, fuzzy, kde-format
+#| msgid "Main compositions"
+msgid "Monitor composition guides:"
+msgstr "Основні композиції"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -34828,6 +34841,13 @@ msgstr "Колір тла монітора:"
 #, kde-format
 msgid "Monitor grid"
 msgstr "Ґратка монітора"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configcolors_ui.ui:125
+#, fuzzy, kde-format
+#| msgid "Monitor audio"
+msgid "Monitor safe zone:"
+msgstr "Стеження за звуком"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -38523,12 +38543,6 @@ msgstr "Введіть значення Unicode"
 msgid "Additional Information"
 msgstr "Додаткова інформація"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
-#: src/ui/vectorscope_ui.ui:68
-#, kde-format
-msgid "Reset Zoom"
-msgstr "Відновити початковий масштаб"
-
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
@@ -38705,6 +38719,15 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Add Guide"
+#~ msgstr "Додати напрямну"
+
+#~ msgid "Remove Guide"
+#~ msgstr "Вилучити напрямну"
+
+#~ msgid "Monitor overlay color:"
+#~ msgstr "Колір накладки монітора:"
 
 #~ msgid "Dock Area Orientation"
 #~ msgstr "Орієнтація областей панелей"

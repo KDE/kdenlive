@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-10 02:42+0000\n"
+"POT-Creation-Date: 2025-11-13 02:37+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -3866,7 +3866,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
 #: data/effects/frei0r/frei0r_c0rners.xml:44
-#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
+#: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:643
 #: src/ui/renderwidget_ui.ui:597
 #, kde-format
 msgid "Interpolation"
@@ -6987,6 +6987,7 @@ msgstr "Sox 頻段聲訊特效"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
+#: src/monitor/view/MonitorZoomButton.qml:14
 #: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
@@ -17404,12 +17405,12 @@ msgstr ""
 "雙擊、拖放檔案，或\n"
 "點擊 %1 來匯入媒體"
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:572
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:577
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "拖曳來只將音訊加入時間軸"
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:537
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:542
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "拖曳來只將視訊加入時間軸"
@@ -18475,12 +18476,12 @@ msgstr "時長："
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT 播放清單 (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:55
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:39
 #, kde-format
 msgid "Zoom In"
 msgstr "放大"
 
-#: src/bin/mediabrowser.cpp:56
+#: src/bin/mediabrowser.cpp:56 src/monitor/view/MonitorZoomButton.qml:47
 #, kde-format
 msgid "Zoom Out"
 msgstr "縮小"
@@ -20208,12 +20209,12 @@ msgstr "算繪已中止"
 msgid "Nearest (fast)"
 msgstr "最近鄰 (快)"
 
-#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "雙線性 (不錯)"
 
-#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "兩次立方 (較好)"
@@ -20238,17 +20239,17 @@ msgstr "垂直 (9:16)"
 msgid "Square (1:1)"
 msgstr "方形 (1:1)"
 
-#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "One Field (fast)"
 msgstr "一個區段 (快速)"
 
-#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "線性混合 (快速)"
 
-#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF-只有時間 (不錯)"
@@ -25676,7 +25677,7 @@ msgstr "新增標記分類 10"
 msgid "Current Selection"
 msgstr "目前的選取"
 
-#: src/mainwindow.cpp:1908 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Add Marker"
 msgstr "新增標記"
@@ -25822,7 +25823,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "效果關鍵幀"
 
-#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:101
+#: src/mainwindow.cpp:2048 src/monitor/view/EffectToolBar.qml:116
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "新增/移除關鍵幀"
@@ -26964,17 +26965,17 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:687
 #, kde-format
 msgid "Set Zone In"
 msgstr "設定區段起點"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:388 src/monitor/monitormanager.cpp:691
 #, kde-format
 msgid "Set Zone Out"
 msgstr "設定區段終點"
 
-#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:400 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Rewind"
 msgstr "快退"
@@ -26991,7 +26992,7 @@ msgstr "播放"
 msgid "Pause"
 msgstr "暫停"
 
-#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:428 src/monitor/monitormanager.cpp:584
 #, kde-format
 msgid "Forward"
 msgstr "快進"
@@ -27194,36 +27195,36 @@ msgstr "該功能需要 cairoblend 轉場特效，請安裝 frei0r 並重新啟�
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "在預覽視窗啟用編輯模式來編輯效果"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3219
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "專案素材庫中沒有選取素材"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3240
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "無法寫入檔案 %1"
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3322 src/monitor/monitor.cpp:3353
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3332
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "從區段建立範圍標記"
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3338 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "已從區段建立範圍標記"
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -27258,110 +27259,116 @@ msgstr "放大預覽視窗"
 msgid "Zoom Out Monitor"
 msgstr "縮小預覽視窗"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:566
+#, fuzzy, kde-format
+#| msgid "Reset Zoom"
+msgid "Reset Monitor Zoom"
+msgstr "重設縮放"
+
+#: src/monitor/monitormanager.cpp:575
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "後退 1 幀"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "後退 1 秒"
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Go to Project Start"
 msgstr "跳到專案起點"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "Go to Project End"
 msgstr "跳到專案末端"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "前進 1 幀"
 
-#: src/monitor/monitormanager.cpp:595
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "前進 1 秒"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:605
 #, kde-format
 msgid "Multitrack View"
 msgstr "多軌檢視"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:614
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "進行多軌道操作"
 
-#: src/monitor/monitormanager.cpp:613
+#: src/monitor/monitormanager.cpp:618
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "顯示/隱藏編輯模式"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "切換編輯模式（以及物件控制項是否顯示）。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:607
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Deinterlacer"
 msgstr "去交錯"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:629
 #, fuzzy, kde-format
 #| msgid "YADIF - temporal + spacial (best)"
 msgid "YADIF - temporal + spatial (best)"
 msgstr "YADIF-時間+空間(最好)"
 
-#: src/monitor/monitormanager.cpp:639
+#: src/monitor/monitormanager.cpp:644
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "最近鄰(快)"
 
-#: src/monitor/monitormanager.cpp:642
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hyper/Lanczos演算(最好)"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Progressive playback"
 msgstr "漸進式播放"
 
-#: src/monitor/monitormanager.cpp:662
+#: src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "拖動播放頭時播放音訊"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Mute Monitor"
 msgstr "將預覽視窗靜音"
 
-#: src/monitor/monitormanager.cpp:668
+#: src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "將預覽視窗解除靜音"
 
-#: src/monitor/monitormanager.cpp:674
+#: src/monitor/monitormanager.cpp:679
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "跳到區段起點"
 
-#: src/monitor/monitormanager.cpp:678
+#: src/monitor/monitormanager.cpp:683
 #, kde-format
 msgid "Go to Zone End"
 msgstr "跳到區段終點"
 
-#: src/monitor/monitorproxy.cpp:725
+#: src/monitor/monitorproxy.cpp:740
 #: src/timeline2/view/timelinecontroller.cpp:5761
 #, kde-format
 msgid "Zone marker"
@@ -27426,17 +27433,17 @@ msgstr "MLT 編譯時必須有 libfftw3 才能使用音訊頻譜"
 msgid "Enable Audio Spectrum"
 msgstr "啟用音訊頻譜"
 
-#: src/monitor/videowidget.cpp:1118
+#: src/monitor/videowidget.cpp:1123
 #, kde-format
 msgid "Select a zone to play"
 msgstr "選取要播放的區段"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1132
 #, kde-format
 msgid "Select a clip to play"
 msgstr "選擇要播放的素材"
 
-#: src/monitor/videowidget.cpp:1232
+#: src/monitor/videowidget.cpp:1237
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -27446,7 +27453,7 @@ msgstr ""
 "無法建立影片預覽視窗。\n"
 "您的 Kdenlive 安裝或驅動程式設定有問題，請修正它。"
 
-#: src/monitor/view/ClipMonitor.qml:166
+#: src/monitor/view/ClipMonitor.qml:165
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27460,82 +27467,72 @@ msgstr ""
 "shortcut>或<shortcut>方向鍵</shortcut>來前後移動，<shortcut>Ctrl+滾輪</"
 "shortcut>來縮放"
 
-#: src/monitor/view/ClipMonitor.qml:358 src/monitor/view/ProjectMonitor.qml:191
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:197
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:397 src/monitor/view/ProjectMonitor.qml:224
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:230
 #, kde-format
 msgid "In Point"
 msgstr "起點"
 
-#: src/monitor/view/ClipMonitor.qml:397
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "起點/終點"
 
-#: src/monitor/view/ClipMonitor.qml:420 src/monitor/view/ProjectMonitor.qml:241
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:247
 #, kde-format
 msgid "Out Point"
 msgstr "終點"
 
-#: src/monitor/view/ClipMonitor.qml:618
+#: src/monitor/view/ClipMonitor.qml:623
 #, kde-format
 msgid "Terminate Job"
 msgstr "終止工作"
 
-#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:57
-#: src/monitor/view/SceneToolBar.qml:56
+#: src/monitor/view/EffectToolBar.qml:62 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:59
+#: src/monitor/view/SceneToolBar.qml:59
 #, kde-format
 msgid "Switch Full Screen"
 msgstr "切換全螢幕"
 
-#: src/monitor/view/EffectToolBar.qml:66
+#: src/monitor/view/EffectToolBar.qml:68
 #, kde-format
 msgid "Show Grid"
 msgstr "顯示格線"
 
-#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
+#: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Show Safe Zone"
+msgstr "設定區段"
+
+#: src/monitor/view/EffectToolBar.qml:91
 #, kde-format
 msgid "Change Overlay"
 msgstr "變更覆蓋顯示"
 
-#: src/monitor/view/EffectToolBar.qml:89
+#: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "跳到下一個關鍵幀"
 
-#: src/monitor/view/EffectToolBar.qml:95
+#: src/monitor/view/EffectToolBar.qml:110
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "跳到上一個關鍵幀"
 
-#: src/monitor/view/EffectToolBar.qml:106
+#: src/monitor/view/EffectToolBar.qml:121
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "自動關鍵幀"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:65
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "放大"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:73
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "縮小"
-
-#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:82
-#: src/monitor/view/SceneToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:133 src/monitor/view/MaskToolBar.qml:116
+#: src/monitor/view/MultiScreenToolBar.qml:71
+#: src/monitor/view/SceneToolBar.qml:106
 #, kde-format
 msgid "Move Toolbar"
 msgstr "移動工具列"
@@ -27567,7 +27564,7 @@ msgstr "離開遮罩建立"
 msgid "Exit Preview Mode"
 msgstr "離開預覽模式"
 
-#: src/monitor/view/MonitorAutomask.qml:295
+#: src/monitor/view/MonitorAutomask.qml:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27579,23 +27576,23 @@ msgstr ""
 "罩，<shortcut>Shift+點擊</shortcut>來包含另一個區域，<shortcut>Ctrl+點擊</"
 "shortcut>來排除一個區域。"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "在專案素材庫中選取素材來比對效果"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在建立影像遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:397
+#: src/monitor/view/MonitorAutomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在建立影片遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -27606,12 +27603,12 @@ msgstr ""
 "Shift+點擊來包含另一個區域。\n"
 "Ctrl+點擊來排除一個區域。"
 
-#: src/monitor/view/MonitorAutomask.qml:408
+#: src/monitor/view/MonitorAutomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在預覽影片遮罩"
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -27620,17 +27617,17 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:429
+#: src/monitor/view/MonitorAutomask.qml:415
 #, kde-format
 msgid "Go to mask start"
 msgstr "跳到遮罩起點"
 
-#: src/monitor/view/MonitorAutomask.qml:441
+#: src/monitor/view/MonitorAutomask.qml:427
 #, kde-format
 msgid "Go to mask end"
 msgstr "跳到遮罩末尾"
 
-#: src/monitor/view/MonitorGeometryScene.qml:336
+#: src/monitor/view/MonitorGeometryScene.qml:342
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27672,7 +27669,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift-拖曳把手</shortcut>來以中央為中心調整大小"
 
-#: src/monitor/view/MonitorRotoScene.qml:428
+#: src/monitor/view/MonitorRotoScene.qml:434
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -27715,6 +27712,12 @@ msgstr ""
 "<shortcut>拖曳</shortcut>來設定區段終點，<shortcut>Shift+拖曳</shortcut>來一"
 "邊移動一邊調整區段終點"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
+#: src/monitor/view/MonitorZoomButton.qml:55 src/ui/vectorscope_ui.ui:68
+#, kde-format
+msgid "Reset Zoom"
+msgstr "重設縮放"
+
 #: src/monitor/view/ProjectMonitor.qml:102
 #, kde-format
 msgid ""
@@ -27724,27 +27727,24 @@ msgstr ""
 "<b>點擊</b>來播放，<b>雙擊</b>進入全螢幕，<b>滑鼠停留於右方</b>來打開工具列，"
 "使用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
 
-#: src/monitor/view/ProjectMonitor.qml:295
+#: src/monitor/view/ProjectMonitor.qml:301
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
 msgstr "簡易變形"
 
-#: src/monitor/view/SceneToolBar.qml:94
-#, kde-format
-msgid "Add Guide"
-msgstr "新增參照線"
+#: src/monitor/view/SceneToolBar.qml:81
+#, fuzzy, kde-format
+#| msgid "Compositions"
+msgid "Composition Guides"
+msgstr "合成方案"
 
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Marker"
+#: src/monitor/view/SceneToolBar.qml:97
+#, fuzzy, kde-format
+#| msgid "Remove Marker"
+msgid "Add/Remove Marker"
 msgstr "移除標記"
-
-#: src/monitor/view/SceneToolBar.qml:103
-#, kde-format
-msgid "Remove Guide"
-msgstr "移除參考線"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -33108,6 +33108,18 @@ msgid ""
 "from 0 again."
 msgstr "增加格線中的線的數量。<br />超過 8 條線之後會從 0 重新開始。"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/ui/bezierspline_ui.ui:169
+#, kde-format
+msgid "Zoom in"
+msgstr "放大"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/ui/bezierspline_ui.ui:186
+#, kde-format
+msgid "Zoom out"
+msgstr "縮小"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
@@ -33511,9 +33523,10 @@ msgstr "音訊縮圖顏色："
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, kde-format
-msgid "Monitor overlay color:"
-msgstr "預覽視窗覆蓋色彩："
+#, fuzzy, kde-format
+#| msgid "Main compositions"
+msgid "Monitor composition guides:"
+msgstr "主要合成方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -33526,6 +33539,13 @@ msgstr "預覽視窗背景色彩:"
 #, kde-format
 msgid "Monitor grid"
 msgstr "預覽視窗格線"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configcolors_ui.ui:125
+#, fuzzy, kde-format
+#| msgid "Monitor audio"
+msgid "Monitor safe zone:"
+msgstr "監聽音訊"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -37184,12 +37204,6 @@ msgstr "輸入 Unicode 數值"
 msgid "Additional Information"
 msgstr "附加資訊"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
-#: src/ui/vectorscope_ui.ui:68
-#, kde-format
-msgid "Reset Zoom"
-msgstr "重設縮放"
-
 #. i18n: ectx: property (toolTip), widget (QSlider, gainSlider)
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #: src/ui/vectorscope_ui.ui:93 src/ui/vectorscope_ui.ui:109
@@ -37364,6 +37378,15 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "Add Guide"
+#~ msgstr "新增參照線"
+
+#~ msgid "Remove Guide"
+#~ msgstr "移除參考線"
+
+#~ msgid "Monitor overlay color:"
+#~ msgstr "預覽視窗覆蓋色彩："
 
 #~ msgid "Dock Area Orientation"
 #~ msgstr "工具面板方向"
