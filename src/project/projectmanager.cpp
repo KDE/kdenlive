@@ -107,7 +107,6 @@ void ProjectManager::slotLoadOnOpen()
         pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
-    Q_EMIT pCore->closeSplash();
     // Release startup crash lock file
     clearLockFile();
     // Check disk space use by temporary data
@@ -173,6 +172,7 @@ void ProjectManager::newFile(bool showProjectSettings)
 void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 {
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
+    Q_EMIT pCore->window()->GUISetupDone();
     if (checkForBackupFile(startFile, true)) {
         return;
     }
@@ -691,6 +691,7 @@ bool ProjectManager::saveFile()
 
 void ProjectManager::slotOpenFile()
 {
+    Q_EMIT pCore->window()->GUISetupDone();
     if (m_startUrl.isValid()) {
         openFile(m_startUrl);
         m_startUrl.clear();
@@ -785,6 +786,7 @@ void ProjectManager::openFile(const QUrl &url)
 {
     // Make sure the url is a Kdenlive project file
     bool freshStart = m_project == nullptr;
+    Q_EMIT pCore->window()->GUISetupDone();
     if (isSupportedArchive(url)) {
         // Opening a compressed project file, we need to process it
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);

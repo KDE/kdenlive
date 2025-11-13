@@ -989,23 +989,24 @@ function getTrackColor(audio, header) {
                 // Padding between toolbar and track headers.
                 width: parent.width
                 height: ruler.height
-                Button {
+                ToolButton {
                     text: metrics.elidedText
                     font: miniFont
                     flat: true
+                    icon.name: 'tools-wizard'
                     anchors.fill: parent
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: i18n("Show master effects")
+                    ToolTip.text: i18n("Show sequence effects")
                     TextMetrics {
                         id: metrics
                         font: miniFont
                         elide: Text.ElideRight
                         elideWidth: root.headerWidth * 0.8
-                        text: root.addedSequenceName.length == 0 ? i18n("Master") : root.addedSequenceName
+                        text: root.addedSequenceName.length == 0 ? i18n("Sequence") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
