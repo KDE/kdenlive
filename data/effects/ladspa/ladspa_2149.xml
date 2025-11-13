@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2149" tag="ladspa.2149" ladspaid="2149" type="audio">
+   <name>TAP Rotary Speaker</name>
+   <description><![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>
+   Simulates the sound of rotating speakers.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" decimals="1" default="5.0" max="30.0" min="0.0" suffix="Hz">
+      <name>Rotor Frequency</name>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="5.0" max="30.0" min="0.0" suffix="Hz">
+      <name>Horn Frequency</name>
+   </parameter>
+   <parameter name="2" type="animated" decimals="1" default="25.0" max="100.0" min="0.0" suffix="%">
+      <name>Mic Distance</name>
+   </parameter>
+   <parameter name="3" type="animated" decimals="1" default="0.5" max="1.0" min="0.0">
+      <name>Rotor/Horn Mix</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

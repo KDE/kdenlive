@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2158" tag="ladspa.2158" ladspaid="2158" type="audio">
+   <name>TAP TubeWarmth</name>
+   <description><![CDATA[TAP TubeWarmth (LADSPA 2158)<br>
+   Adds the character of vacuum tube amplification by emulating the sonically desirable nonlinear characteristics of triodes. It also supports emulating analog tape saturation.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" decimals="3" default="2.575" max="10.000" min="0.100">
+      <name>Drive</name>
+      <comment>Adjusts the amount of the effect</comment>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="10.0" max="10.0" min="-10.0">
+      <name>Tape--Tube Blend</name>
+      <comment>Controls the color of the TubeWarmth sound</comment>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

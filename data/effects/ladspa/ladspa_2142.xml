@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2142" tag="ladspa.2142" ladspaid="2142" type="audio">
+   <name>TAP Reverberator</name>
+   <description><![CDATA[TAP Reverberator (LADSPA 2142)<br>
+   Versatile reverb filter based on the comb/allpass filter model. For recommended decay times for reverb types refer to the effect documentation linked below.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="constant" max="10000" min="0" decimals="0" default="2500" suffix="ms">
+      <name>Decay</name>
+   </parameter>
+   <parameter name="1" type="constant" max="10.0" min="-70.0" decimals="1" default="0.0" suffix="dB">
+      <name>Dry Level</name>
+   </parameter>
+   <parameter name="2" type="constant" max="10.0" min="-70.0" decimals="1" default="0.0" suffix="dB">
+      <name>Wet Level</name>
+   </parameter>
+   <parameter name="3" type="bool" default="1">
+      <name>Comb Filters</name>
+   </parameter>
+   <parameter name="4" type="bool" default="1">
+      <name>Allpass Filters</name>
+   </parameter>
+   <parameter name="5" type="bool" default="1">
+      <name>Bandpass Filter</name>
+   </parameter>
+   <parameter name="6" type="bool" default="1">
+      <name>Enhanced Stereo</name>
+   </parameter>
+   <parameter name="7" type="list" default="1" paramlist="AfterBurn;AfterBurn (Long);Ambience;Ambience (Thick);Ambience (Thick) - HD;Cathedral;Cathedral - HD;Drum Chamber;Garage;Garage (Bright);Gymnasium;Gymnasium (Bright);Gymnasium (Bright) - HD;Hall (Small);Hall (Medium);Hall (Large);Hall (Large) - HD;Plate (Small);Plate (Medium);Plate (Large);Plate (Large) - HD;Pulse Chamber;Pulse Chamber (Reverse);Resonator (96 ms);Resonator (152 ms);Resonator (208 ms);Room (Small);Room (Medium);Room (Large);Room (Large) - HD;Slap Chamber;Slap Chamber - HD;Slap Chamber (Bright);Slap Chamber (Bright) - HD;Smooth Hall (Small);Smooth Hall (Medium);Smooth Hall (Large);Smooth Hall (Large) - HD;Vocal Plate;Vocal Plate - HD;Warble Chamber;Warehouse;Warehouse - HD">
+      <name>Reverb Type</name>
+      <comment><![CDATA[HD stands for <i>High Density</i>.<br>
+      Reverb types with HD are enhanced versions of the other types and usually result in an even smoother reverb effect.]]></comment>
+   </parameter>
+   <parameter name="wetness" type="constant" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>
