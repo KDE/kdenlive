@@ -789,7 +789,9 @@ function getTrackColor(audio, header) {
                     fakeFrame = moveData[0]
                     fakeTrack = moveData[1]
                     timeline.activeTrack = fakeTrack
-                    //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
+                    if (!controller.normalEdit()) {
+                        controller.requestFakeClipMove(clipBeingDroppedId, fakeTrack, fakeFrame, true, false, false)
+                    }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
                 if (offset != 0) {
@@ -1806,22 +1808,18 @@ function getTrackColor(audio, header) {
                                                     return
                                                 }
                                             }
+                                            var moveData
                                             if (dragProxy.isComposition) {
-                                                var moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
+                                                moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
                                                 dragProxyArea.dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
                                             } else {
-                                                if (!controller.normalEdit() && dragProxy.masterObject.parent !== dragContainer) {
-                                                    var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y)
-                                                    dragProxy.masterObject.parent = dragContainer
-                                                    pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
-                                                    dragProxy.masterObject.x = pos.x
-                                                    dragProxy.masterObject.y = pos.y
-                                                }
-                                                var moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
+                                                moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
                                                 dragProxyArea.dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
-                                                //timeline.getItemMovingTrack(dragProxy.draggedItem)
+                                                if (!controller.normalEdit()) {
+                                                    controller.requestFakeClipMove(dragProxy.draggedItem, timeline.activeTrack, dragProxyArea.dragFrame, true, false, false)
+                                                }
                                             }
                                             var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
@@ -1912,10 +1910,11 @@ function getTrackColor(audio, header) {
                             Column {
                                 id: tracksContainer
                                 Repeater { id: tracksRepeater; model: trackDelegateModel }
-                                Item {
-                                    id: dragContainer
-                                    z: 100
-                                }
+                            }
+                            Item {
+                                id: dragContainer
+                                anchors.fill: tracksContainer
+                                z: 100
                             }
                             Rectangle {
                                 id: sameTrackIndicator

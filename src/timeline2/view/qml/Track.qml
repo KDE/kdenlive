@@ -135,7 +135,7 @@ Item{
                 // Z order indicates the items that will be drawn on top.
                 if (model.clipType == Kdenlive.ClipType.Composition) {
                     // Compositions should be top, then clips
-                    return 50000;
+                    return 50000
                 }
 
                 if (model.mixDuration > 0) {
