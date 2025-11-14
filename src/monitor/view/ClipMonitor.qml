@@ -231,7 +231,7 @@ Item {
                 }
                 height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width
-                visible: (K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (isAudioClip || controller.clipType === K.ClipType.AV || controller.clipHasAV)
+                visible: isAudioClip || ((K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
             }
             Menu {
                 id: contextMenu
