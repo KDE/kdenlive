@@ -1933,6 +1933,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         return false;
     }
     type = master->clipType();
+    bool hasAV = master->hasAudioAndVideo();
     // Ensure we don't insert a timeline clip onto itself
     if (type == ClipType::Timeline && !master->canBeDropped(m_uuid)) {
         // Abort insert
@@ -1942,8 +1943,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
-    if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) &&
-        (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline)) {
+    if (((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) &&
+         (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline || m_audioTarget.keys().size() > 1))) {
         bool useAudioTarget = false;
         if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio
@@ -2034,6 +2035,19 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             audioStream = m_audioTarget.first();
         } else {
             // Using target tracks
+            if (keys.count() > 1) {
+                int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
+                if (tracksBelow < keys.count() - 1) {
+                    // We don't have enough audio tracks below, check above
+                    QList<int> audioTrackIds = getTracksIds(true);
+                    if (audioTrackIds.count() < keys.count()) {
+                        // Not enough audio tracks
+                        pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", keys.count()), ErrorMessage);
+                        return false;
+                    }
+                    trackId = audioTrackIds.at(audioTrackIds.count() - keys.count());
+                }
+            }
             if (m_audioTarget.contains(trackId)) {
                 audioStream = m_audioTarget.value(trackId);
             }
@@ -2042,7 +2056,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioStream, 1.0, false, local_undo, local_redo);
         res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == TimelineModel::MoveSuccess);
         // Get mirror track
-        int mirror = dropType == PlaylistState::Disabled ? getMirrorTrackId(trackId) : -1;
+        int mirror = dropType == PlaylistState::Disabled && hasAV ? getMirrorTrackId(trackId) : -1;
         if (mirror > -1 && ((getTrackById_const(mirror)->isLocked() && !useTargets) || (!allowedTracks.isEmpty() && !allowedTracks.contains(mirror)))) {
             mirror = -1;
         }
@@ -2051,7 +2065,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked() && dropType != PlaylistState::AudioOnly) {
                 target_track << m_videoTarget;
             }
-        } else if (useTargets) {
+        }
+        if (useTargets) {
             QList<int> targetIds = m_audioTarget.keys();
             targetIds.removeAll(trackId);
             for (int &ix : targetIds) {
@@ -2063,7 +2078,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
         bool canMirrorDrop = !useTargets && ((mirror > -1 && (audioDrop || !keys.isEmpty())) || keys.count() > 1);
         QMap<int, int> dropTargets;
-        if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
+        if (res && (canMirrorDrop || !target_track.isEmpty())) {
             if (!useTargets) {
                 int streamsCount = 0;
                 target_track.clear();
