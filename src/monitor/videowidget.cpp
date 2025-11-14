@@ -421,6 +421,8 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     if (rootObject() != nullptr && rootObject()->property("captureRightClick").toBool()) {
         // The event has been handled in qml
         m_swallowDrop = true;
+    } else {
+        m_swallowDrop = false;
     }
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
