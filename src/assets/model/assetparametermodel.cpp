@@ -568,7 +568,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         QDomElement commentElem = element.firstChildElement(QStringLiteral("comment"));
         QString comment;
         if (!commentElem.isNull()) {
-            comment = i18n(commentElem.text().toUtf8().data());
+            comment = i18n(commentElem.text().trimmed().toUtf8().data());
         }
         return comment;
     }
