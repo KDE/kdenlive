@@ -1,18 +1,18 @@
-# Copyright (C) 2023 This_file_is_part_of_KDE
+# Copyright (C) 2025 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdenlive package.
 #
 #
-# Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
-# Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2015, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Martin Srebotnjak <miles@filmsi.net>
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020 Andrej Mernik <andrejm@ubuntu.si>.
 # SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2025 Matjaž Jeran <matjaz.jeran@amis.net>
-#
 # SPDX-FileCopyrightText: 2024 Jure Repinc <jlp@holodeck1.com>
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Kdenlive Trunk\n"
+"Project-Id-Version: Kdenlive Stable\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:39+0000\n"
-"PO-Revision-Date: 2025-11-13 10:45+0100\n"
+"POT-Creation-Date: 2025-11-15 02:36+0000\n"
+"PO-Revision-Date: 2025-11-14 11:40+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -13641,10 +13641,9 @@ msgstr ""
 "sekundarnih barv."
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Overlap]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Prekrivanje]]>"
 
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
@@ -13654,7 +13653,7 @@ msgstr "Količina prekrivanja ali mešanja med primarnimi barvami"
 #: data/effects/hsl_primaries.xml:12
 #, kde-format
 msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>Sprememba obarvanosti</u></b> - rdeča]]>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2532
@@ -13671,21 +13670,19 @@ msgstr "Sinja"
 
 #: data/effects/hsl_primaries.xml:27 data/effects/hsl_primaries.xml:45
 #: data/effects/hsl_primaries.xml:63
-#, fuzzy, kde-format
-#| msgid "Magentas"
+#, kde-format
 msgid "Magenta"
-msgstr "Magente"
+msgstr "Magenta"
 
 #: data/effects/hsl_primaries.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Saturation</u></b> Red]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<b><u>Nasičenost</u></b> - rdeča]]>"
 
 #: data/effects/hsl_primaries.xml:48
 #, kde-format
 msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>Svetlost</u></b> - rdeča]]>"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -13764,10 +13761,9 @@ msgid "Invert colors"
 msgstr "Obrni barve"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer"
-msgstr "Izenačevalnik"
+msgstr "TAP: izenačevalnik"
 
 #: data/effects/ladspa/ladspa_2141.xml:6
 #, kde-format
@@ -13775,12 +13771,13 @@ msgid ""
 "<![CDATA[TAP Equalizer (LADSPA 2141)<br>\n"
 "    8-band equalizer with adjustable band center frequencies.]]>"
 msgstr ""
+"<![CDATA[TAP: izenačevalnik (LADSPA 2141)<br>\n"
+"    8-pasovni izenačevalnik z nastavljivimi frekvencami osrednjega pasu.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 1</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
@@ -13796,78 +13793,67 @@ msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
 #: data/effects/ladspa/ladspa_2151.xml:57
 #: data/effects/ladspa/ladspa_2151.xml:66
 #: data/effects/ladspa/ladspa_2151.xml:75
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Ojačitev]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 2</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 3</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[<Ojačitev]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 4</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 5</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 6</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 7</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
-msgstr "<![CDATA[Začetek <b>--Na dnu--</b>]]>"
+msgstr "<![CDATA[<u><b>Pas 8</b></u> - frekv.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Dry/Wet]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Suho/mokro]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:4
-#, fuzzy, kde-format
-#| msgid "Reverberance"
+#, kde-format
 msgid "TAP Reverberator"
-msgstr "Odmev"
+msgstr "TAP: odmevnik"
 
 #: data/effects/ladspa/ladspa_2142.xml:6
 #, kde-format
@@ -13877,6 +13863,10 @@ msgid ""
 "recommended decay times for reverb types refer to the effect documentation "
 "linked below.]]>"
 msgstr ""
+"<![CDATA[TAP: odmevnik (LADSPA 2142)<br>\n"
+"   Vsestranski filter odmeva, ki temelji na modelu prečesalnega/prepustnega "
+"filtra. Za priporočene čase razpadanja za vrste odmeva glejte dokumentacijo "
+"o učinkih, ki ima povezave spodaj.]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:12
 #: data/effects/ladspa/ladspa_2143.xml:36
@@ -13885,10 +13875,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2154.xml:14
 #: data/effects/ladspa/ladspa_2156.xml:19
 #: data/effects/ladspa/ladspa_2159.xml:34
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Dry Level"
-msgstr "Raven srednjega"
+msgstr "Raven suhega"
 
 #: data/effects/ladspa/ladspa_2142.xml:15
 #: data/effects/ladspa/ladspa_2148.xml:20
@@ -13896,40 +13885,34 @@ msgstr "Raven srednjega"
 #: data/effects/ladspa/ladspa_2154.xml:17
 #: data/effects/ladspa/ladspa_2156.xml:33
 #: data/effects/ladspa/ladspa_2159.xml:39
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Wet Level"
-msgstr "Raven stranskega"
+msgstr "Raven mokrega"
 
 #: data/effects/ladspa/ladspa_2142.xml:18
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filters"
-msgstr "Počisti filtre"
+msgstr "Prečesalni filtri"
 
 #: data/effects/ladspa/ladspa_2142.xml:21
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Allpass Filters"
-msgstr "Vse datoteke"
+msgstr "Vseprepustni filtri"
 
 #: data/effects/ladspa/ladspa_2142.xml:24
-#, fuzzy, kde-format
-#| msgid "EQ and Filters"
+#, kde-format
 msgid "Bandpass Filter"
-msgstr "Izenačevalnik in filtri"
+msgstr "Pasovni filtri"
 
 #: data/effects/ladspa/ladspa_2142.xml:27
-#, fuzzy, kde-format
-#| msgid "2 Channels (Stereo)"
+#, kde-format
 msgid "Enhanced Stereo"
-msgstr "2 kanala (stereo)"
+msgstr "Izboljšani stereo"
 
 #: data/effects/ladspa/ladspa_2142.xml:30
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb Type"
-msgstr "Čas odmeva"
+msgstr "Vrsta odmeva"
 
 #: data/effects/ladspa/ladspa_2142.xml:32
 #, kde-format
@@ -13938,6 +13921,9 @@ msgid ""
 "      Reverb types with HD are enhanced versions of the other types and "
 "usually result in an even smoother reverb effect.]]>"
 msgstr ""
+"<![CDATA[HD pomeni <i>visoko gostoto</i> (angl. high density).<br>\n"
+"      Vrste odmeva so s HD izboljšane različice drugih vrst in običajno "
+"povzročijo še bolj gladek učinek odmeva.]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:35
 #: data/effects/ladspa/ladspa_2143.xml:39
@@ -13959,13 +13945,12 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2159.xml:44
 #, kde-format
 msgid "Dry/Wet"
-msgstr ""
+msgstr "Suho/mokro"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "TAP Stereo Echo"
-msgstr "Stereo "
+msgstr "TAP: stereo odmev"
 
 #: data/effects/ladspa/ladspa_2143.xml:6
 #, kde-format
@@ -13974,62 +13959,59 @@ msgid ""
 "   Supports conventional mono and stereo delays, ping-pong delays and the "
 "Haas effect (also known as Cross Delay Stereo).]]>"
 msgstr ""
+"<![CDATA[TAP: stereo odmev (LADSPA 2143)<br>\n"
+"   Podpira običajne mono in stereo zakasnitve, namizne zakasnitve in Haasov "
+"učinek (znan tudi kot Cross Delay Stereo).]]>"
 
 #: data/effects/ladspa/ladspa_2143.xml:9
-#, fuzzy, kde-format
-#| msgid "Colors Mode"
+#, kde-format
 msgid "Cross Mode"
-msgstr "Način barv"
+msgstr "Navzkrižni način"
 
 #: data/effects/ladspa/ladspa_2143.xml:12
-#, fuzzy, kde-format
-#| msgid "Paste Effects"
+#, kde-format
 msgid "Haas Effect"
-msgstr "Prilepi učinke"
+msgstr "Haasov učinek"
 
 #: data/effects/ladspa/ladspa_2143.xml:15
-#, fuzzy, kde-format
-#| msgid "Pal8 Output"
+#, kde-format
 msgid "Swap Outputs"
-msgstr "Izhod Pal8"
+msgstr "Zamenjaj izhode"
 
 #: data/effects/ladspa/ladspa_2143.xml:18
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "L Delay"
-msgstr "Časovni zamik"
+msgstr "Zamik L"
 
 #: data/effects/ladspa/ladspa_2143.xml:21
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "L Feedback"
-msgstr "Odziv"
+msgstr "Odziv L"
 
 #: data/effects/ladspa/ladspa_2143.xml:24
 #, kde-format
 msgid "R/Haas Delay"
-msgstr ""
+msgstr "D/Haasova zakasnitev"
 
 #: data/effects/ladspa/ladspa_2143.xml:27
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "R/Haas Feedback"
-msgstr "Odziv"
+msgstr "Odziv D/Haas"
 
 #: data/effects/ladspa/ladspa_2143.xml:30
 #, kde-format
 msgid "L Echo Level"
-msgstr ""
+msgstr "Raven odmeva L"
 
 #: data/effects/ladspa/ladspa_2143.xml:33
 #, kde-format
 msgid "R Echo Level"
-msgstr ""
+msgstr "Raven odmeva D"
 
 #: data/effects/ladspa/ladspa_2144.xml:4
 #, kde-format
 msgid "TAP Tremolo"
-msgstr ""
+msgstr "TAP: tremolo"
 
 #: data/effects/ladspa/ladspa_2144.xml:6
 #, kde-format
@@ -14037,12 +14019,13 @@ msgid ""
 "<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
 "   Sounds good mainly on acoustic or electric guitar tracks.]]>"
 msgstr ""
+"<![CDATA[TAP: tremolo (LADSPA 2144)<br>\n"
+"   Dobro zveni predvsem na akustičnih ali električnih kitarskih stezah.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:4
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "TAP Scaling Limiter"
-msgstr "Mera skaliranja"
+msgstr "TAP: omejevalnik skaliranja"
 
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
@@ -14050,23 +14033,23 @@ msgid ""
 "<![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts.]]>"
 msgstr ""
+"<![CDATA[TAP: omejevalnik skaliranja (LADSPA 2145)<br>\n"
+"   Doseže omejitev ravni signala brez slišnih artefaktov.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:9
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Limit Level"
-msgstr "Raven srednjega"
+msgstr "Raven omejitve"
 
 #: data/effects/ladspa/ladspa_2145.xml:12
-#, fuzzy, kde-format
-#| msgid "Output mode"
+#, kde-format
 msgid "Output Volume"
-msgstr "Izhodni način"
+msgstr "Izhodna glasnost"
 
 #: data/effects/ladspa/ladspa_2146.xml:4
 #, kde-format
 msgid "TAP AutoPanner"
-msgstr ""
+msgstr "TAP: samodejni zasučnik"
 
 #: data/effects/ladspa/ladspa_2146.xml:6
 #, kde-format
@@ -14074,6 +14057,8 @@ msgid ""
 "<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
 "   Main use is to liven up synth tracks in the mix]]>"
 msgstr ""
+"<![CDATA[TAP: samodejni zasučnik (LADSPA 2146)<br>\n"
+"   Glavna uporaba je poživitev sintetizatorskih stez v miksu]]>"
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
@@ -14082,12 +14067,14 @@ msgid ""
 "      A setting of 100% means that mono input signal is panned between the "
 "extreme left and right positions]]>"
 msgstr ""
+"<![CDATA[Določa širino sukanja.<br>\n"
+"      Nastavitev 100 % pomeni, da se mono vhodni signal premika med skrajnim "
+"levim in desnim položajem]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:4
-#, fuzzy, kde-format
-#| msgid "Deesser"
+#, kde-format
 msgid "TAP DeEsser"
-msgstr "Odsičnik"
+msgstr "TAP: odsičnik"
 
 #: data/effects/ladspa/ladspa_2147.xml:6
 #, kde-format
@@ -14096,18 +14083,19 @@ msgid ""
 "   Used for attenuating higher pitched frequencies in vocals such as those "
 "found in 'ess', 'shh' and 'chh' sounds.]]>"
 msgstr ""
+"<![CDATA[TAP: razsičnik (LADSPA 2147)<br>\n"
+"   Uporablja se za dušenje višjih frekvenc v vokalih, kot so tiste, ki jih "
+"najdemo v zvokih »sss«, »ššš« in »ččč«.]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:9
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold Level"
-msgstr "Vrednost praga"
+msgstr "Raven praga"
 
 #: data/effects/ladspa/ladspa_2147.xml:15
-#, fuzzy, kde-format
-#| msgid "Sidechain Gain"
+#, kde-format
 msgid "Sidechain Filter"
-msgstr "Ojačitev stranskega zvoka"
+msgstr "Filter stranskega zvoka"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -14115,24 +14103,23 @@ msgid ""
 "<![CDATA[The chosen filter's frequency<br>\n"
 "      is set by the <b>Frequency</b> parameter]]>"
 msgstr ""
+"<![CDATA[Frekvenca izbranega fiitra<br>\n"
+"      je nastavljena s parametrom <b>Frekvenca</b>.]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:18
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "Highpass,Bandpass"
-msgstr "Dvopolni pasovni filter"
+msgstr "Visokoprepustni,Pasovno-prepustni"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor On"
-msgstr "Prikaz"
+msgstr "Ogled vključen"
 
 #: data/effects/ladspa/ladspa_2148.xml:4
-#, fuzzy, kde-format
-#| msgid "Vibrato"
+#, kde-format
 msgid "TAP Vibrato"
-msgstr "Vibrato"
+msgstr "TAP: vibrato"
 
 #: data/effects/ladspa/ladspa_2148.xml:6
 #, kde-format
@@ -14142,23 +14129,26 @@ msgid ""
 "signal. It is useful for guitar and synth tracks, and it can also come handy "
 "if a strange effect is needed.]]>"
 msgstr ""
+"<![CDATA[TAP: vibrato (LADSPA 2148)<br>\n"
+"   Modulira višino vhodnega signala z nizkofrekvenčnim sinusoidnim signalom. "
+"Uporaben je za kitarske in sintetizatorske steze, lahko pa pride tudi prav, "
+"če je potreben čuden učinek.]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change down]]>"
+#, kde-format
 msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
-msgstr "<![CDATA[Določa vrednost pri spremembi svetlosti navzdol]]>"
+msgstr ""
+"<![CDATA[Določa, kako hitro se višina tona modulira navzgor in navzdol]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Sets the amount of pitch modulation]]>"
-msgstr "<![CDATA[Nastavite kot za smer]]>"
+msgstr "<![CDATA[Nastavi količino modulacije višine tona]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
 msgid "TAP Rotary Speaker"
-msgstr ""
+msgstr "TAP: vrteči se zvočnik"
 
 #: data/effects/ladspa/ladspa_2149.xml:6
 #, kde-format
@@ -14166,35 +14156,33 @@ msgid ""
 "<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
 "   Simulates the sound of rotating speakers.]]>"
 msgstr ""
+"<![CDATA[TAP: vrteči se zvočnik (LADSPA 2149)<br>\n"
+"   Simulira zvok vrtljivih zvočnikov.]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:9
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Rotor Frequency"
-msgstr "Nizka frekvenca"
+msgstr "Frekvenca rotorja"
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "Nizka frekvenca"
+msgstr "Frekvenca hupe"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
-#, fuzzy, kde-format
-#| msgid "Distance"
+#, kde-format
 msgid "Mic Distance"
-msgstr "Razdalja"
+msgstr "Oddaljenost mikrofona"
 
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format
 msgid "Rotor/Horn Mix"
-msgstr ""
+msgstr "Mešanica rotorja in hupe"
 
 #: data/effects/ladspa/ladspa_2150.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "TAP Pitch Shifter"
-msgstr "Zamik višine tona"
+msgstr "TAP: zamik višine tona"
 
 #: data/effects/ladspa/ladspa_2150.xml:6
 #, kde-format
@@ -14202,25 +14190,28 @@ msgid ""
 "<![CDATA[TAP Pitch Shifter (LADSPA 2150)<br>\n"
 "   Change the pitch in the range of plus/minus one octave.]]>"
 msgstr ""
+"<![CDATA[TAP: zamik višine tona (LADSPA 2150)<br>\n"
+"   Spremenite višino višine v območju plus/minus ene oktave.]]>"
 
 #: data/effects/ladspa/ladspa_2150.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation Shift"
+#, kde-format
 msgid "Semitone Shift"
-msgstr "Zamik nasičenosti"
+msgstr "Poltonski zamik"
 
 #: data/effects/ladspa/ladspa_2150.xml:11
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Does the same thing as <b>Rate Shift</b></br>\n"
 "      but allows to set musically sensible pitch shift rates.]]>"
 msgstr ""
+"<![CDATA[Stori enako kot <b>Zamik bitne? hitrosti/mere?</b></br>\n"
+"      vendar omogoča nastavitev glasbeno smiselnih hitrosti premika višine "
+"tona.]]>"
 
 #: data/effects/ladspa/ladspa_2150.xml:14
 #, fuzzy, kde-format
-#| msgid "Hue Shift"
 msgid "Rate Shift"
-msgstr "Zamik obarvanosti"
+msgstr "Zamik bitne? hitrosti/mere?"
 
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
@@ -14229,12 +14220,14 @@ msgid ""
 "      but in percentage of the original pitch, so that is closer to a "
 "\"physical\", non-musical approach]]>"
 msgstr ""
+"<![CDATA[Naredi enako kot <b>Poltonski zamik</b><br>,\n"
+"      ampak v odstotkih prvotne višine tona, tako da je to bližje "
+"»fizikalnemu«, neglasbenemu pristopu.]]>"
 
 #: data/effects/ladspa/ladspa_2151.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer/BW"
-msgstr "Izenačevalnik"
+msgstr "TAP: izenačevalnik/BW"
 
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
@@ -14243,6 +14236,9 @@ msgid ""
 "    8-band equalizer with adjustable band center frequencies and "
 "bandwidth.]]>"
 msgstr ""
+"<![CDATA[TAP: izenačevalnik (LADSPA 2151)<br>\n"
+"    8-pasovni izenačevalnik z nastavljivimi frekvencami osrednjega pasu in "
+"širino pasu.]]>"
 
 #: data/effects/ladspa/ladspa_2151.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:24
@@ -14252,15 +14248,14 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[BW]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[BW]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
 msgid "TAP Dynamics (M)"
-msgstr ""
+msgstr "TAP: dinamika (M)"
 
 #: data/effects/ladspa/ladspa_2152.xml:6
 #, kde-format
@@ -14268,18 +14263,18 @@ msgid ""
 "<![CDATA[TAP Dynamics Mono (LADSPA 2152)<br>\n"
 "   Allows changing the dynamic content of the audio stream]]>"
 msgstr ""
+"<![CDATA[TAP: dinamika (mono) (LADSPA 2153)<br>\n"
+"   Omogoča spreminjanje dinamične vsebine zvočnega toka.]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
-#, fuzzy, kde-format
-#| msgid "Offset gain"
+#, kde-format
 msgid "Offset Gain"
 msgstr "Ojačitev zamika"
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Make Up Gain"
+#, kde-format
 msgid "Makeup Gain"
 msgstr "Kompenzacijska ojačitev"
 
@@ -14287,7 +14282,7 @@ msgstr "Kompenzacijska ojačitev"
 #: data/effects/ladspa/ladspa_2153.xml:27
 #, kde-format
 msgid "Dynamics Transfer Function"
-msgstr ""
+msgstr "Funkcija prenosa dinamike"
 
 #: data/effects/ladspa/ladspa_2152.xml:22
 #: data/effects/ladspa/ladspa_2153.xml:28
@@ -14298,12 +14293,16 @@ msgid ""
 "Hard limiter at -6dB;Hard limiter at -12dB;Hard gate at -35dB;Soft limiter;"
 "Soft knee comp/gate;Softgate below -36dB"
 msgstr ""
+"2:1 stisk. pri -6dB,2:1 stisk. pri -9dB,2:1 stisk. pri -12dB,2:1 stisk. pri "
+"-18dB,2.5 stisk. pri -18dB,3:1 stisl. pri -12dB,3:1 stisk. pri -15dB,"
+"Kompresor/vrata,Razširjevalnik,Trdi omejevalnik pri -6dB;Trdi omejevalnik "
+"pri -12dB;Trda vrata pri -35dB;Mehki omejevalnik;Mehko koleno komp./vrata;"
+"Mehka vrata pod -36dB"
 
 #: data/effects/ladspa/ladspa_2153.xml:4
-#, fuzzy, kde-format
-#| msgid "Dynamic Text"
+#, kde-format
 msgid "TAP Dynamics (St)"
-msgstr "Dinamično besedilo"
+msgstr "TAP: dinamika (St)"
 
 #: data/effects/ladspa/ladspa_2153.xml:6
 #, kde-format
@@ -14311,6 +14310,8 @@ msgid ""
 "<![CDATA[TAP Dynamics Stereo (LADSPA 2153)<br>\n"
 "   Allows changing the dynamic content of the audio stream]]>"
 msgstr ""
+"<![CDATA[TAP: dinamika (stereo) (LADSPA 2153)<br>\n"
+"   Omogoča spreminjanje dinamične vsebine zvočnega toka.]]>"
 
 #: data/effects/ladspa/ladspa_2153.xml:23
 #, kde-format
@@ -14318,17 +14319,18 @@ msgid ""
 "<![CDATA[Controls how the envelope levels<br>\n"
 "      are used to determine the needed gain adjustment]]>"
 msgstr ""
+"<![CDATA[Nadzira, kako se ravni ovojnice<br>\n"
+"      uporabljajo za določitev potrebne prilagoditve ojačitve.]]>"
 
 #: data/effects/ladspa/ladspa_2153.xml:24
-#, fuzzy, kde-format
-#| msgid "Independence"
+#, kde-format
 msgid "Independent,Average,Peak"
-msgstr "Neodvisnost"
+msgstr "Neodvisno,Povprečno,Vrh"
 
 #: data/effects/ladspa/ladspa_2154.xml:4
 #, kde-format
 msgid "TAP Reflector"
-msgstr ""
+msgstr "TAP: odbojnik"
 
 #: data/effects/ladspa/ladspa_2154.xml:6
 #, kde-format
@@ -14336,12 +14338,13 @@ msgid ""
 "<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
 "    Creates a psychedelic reverse audio effect.]]>"
 msgstr ""
+"<![CDATA[TAP: odbojnik (LADSPA 2154)<br>\n"
+"    Ustvari psihedelični obratni zvočni učinek.]]>"
 
 #: data/effects/ladspa/ladspa_2154.xml:9
-#, fuzzy, kde-format
-#| msgid "Profile Length"
+#, kde-format
 msgid "Fragment Length"
-msgstr "Dolžina profila"
+msgstr "Dolžina fragmenta"
 
 #: data/effects/ladspa/ladspa_2154.xml:11
 #, kde-format
@@ -14350,11 +14353,14 @@ msgid ""
 "      approximately match the tempo of the track, so the Fragment Length is "
 "equal to the time of one measure.]]>"
 msgstr ""
+"<![CDATA[Najbolje, da nastavite na<br>\n"
+"      približno ujemanje s tempom steze, tako da je dolžina fragmenta enaka "
+"času enega takta.]]>"
 
 #: data/effects/ladspa/ladspa_2155.xml:4
 #, kde-format
 msgid "TAP Pink/Fractal Noise"
-msgstr ""
+msgstr "TAP: roza/fraktalni šum"
 
 #: data/effects/ladspa/ladspa_2155.xml:6
 #, kde-format
@@ -14363,29 +14369,29 @@ msgid ""
 "    Adds pink noise to the incoming signal using a one-dimensional random "
 "fractal line generated by the Midpoint Displacement Method.]]>"
 msgstr ""
+"<![CDATA[TAP: roza/fraktalni šum (LADSPA 2155)<br>\n"
+"    Doda rožnati šum vhodnemu signalu z uporabo enodimenzionalne naključne "
+"fraktalne črte, ki jo ustvari metoda premika srednje točke.]]>"
 
 #: data/effects/ladspa/ladspa_2155.xml:9
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "Fractal Dimension"
-msgstr "Mera skaliranja"
+msgstr "Mere fraktala"
 
 #: data/effects/ladspa/ladspa_2155.xml:12
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Signal Level"
-msgstr "Raven stranskega"
+msgstr "Raven signala"
 
 #: data/effects/ladspa/ladspa_2155.xml:15
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Noise Level"
-msgstr "Raven stranskega"
+msgstr "Raven šuma"
 
 #: data/effects/ladspa/ladspa_2156.xml:4
 #, kde-format
 msgid "TAP Fractal Doubler"
-msgstr ""
+msgstr "TAP: fraktalni podvojevalnik"
 
 #: data/effects/ladspa/ladspa_2156.xml:6
 #, kde-format
@@ -14394,12 +14400,14 @@ msgid ""
 "    Suitable for doubling tracks with vocals, acoustic/electric guitars, "
 "bass and just about any other instrument on them.]]>"
 msgstr ""
+"<![CDATA[TAP: fraktalni podvojevalnik (LADSPA 2156)<br>\n"
+"    Primerno za podvojitev stez z vokali, akustično / električno kitaro, "
+"basom in skoraj katerim koli drugim inštrumentom na njih.]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "Skrij stezo"
+msgstr "Sledenje časa"
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -14410,18 +14418,20 @@ msgid ""
 "(\"bad backup singer\"). When set to 1, changes are smaller and smoother "
 "(\"better tracking of the original\").]]>"
 msgstr ""
+"<![CDATA[Določa, kako »grobe« in kako obsežne<br>\n"
+"      so te spremembe. Ko je nastavljeno na 0, so spremembe večje in bolj "
+"kaotične (»slab spremljevalni vokal«). Ko je nastavljeno na 1, so spremembe "
+"manjše in bolj gladke (»boljše sledenje izvirniku«).]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:14
-#, fuzzy, kde-format
-#| msgid "Pitch smoothing"
+#, kde-format
 msgid "Pitch Tracking"
-msgstr "Glajenje z nagibanjem"
+msgstr "Sledenje višine tona"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "Nastavite položaj"
+msgstr "Levi suhi položaj"
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -14432,29 +14442,28 @@ msgid ""
 "<![CDATA[These controls range between 0 and 1,<br>\n"
 "      0 meaning hard left and 1 meaning hard right position.]]>"
 msgstr ""
+"<![CDATA[Te vrednosti so med 0 in 1,<br>\n"
+"      0 pomeni trdi levi in 1 pomeni trdi desni položaj.]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "Začni položaj"
+msgstr "Desni suhi položaj"
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "Nastavite položaj"
+msgstr "Levi mokri položaj"
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "Nastavite položaj"
+msgstr "Desni mokri položaj"
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
 msgid "TAP Sigmoid Booster"
-msgstr ""
+msgstr "TAP: sigmoidni okrepčevalnik"
 
 #: data/effects/ladspa/ladspa_2157.xml:6
 #, kde-format
@@ -14463,33 +14472,35 @@ msgid ""
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
 "signal.]]>"
 msgstr ""
+"<![CDATA[TAP: sigmoidni okrepčevalnik (LADSPA 2157)<br>\n"
+"   Uveljavi časovno nespremenljivo funkcijo prenosa nelinearne amplitude za "
+"signal.]]>"
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "Ojačitev leve"
+msgstr "Predojačitev"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
 msgid "Scales the input signal before the transfer function is applied to it."
 msgstr ""
+"Spremeni mero vhodnega signala, preden se na njem uveljavi funkcija prenosa."
 
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "Sox: ojačitev"
+msgstr "Poojačitev"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
 msgid "Can be used to adjust the output gain of the effect."
-msgstr ""
+msgstr "Lahko se uporablja za prilagoditev izhodne ojačitve učinka."
 
 #: data/effects/ladspa/ladspa_2158.xml:4
 #, kde-format
 msgid "TAP TubeWarmth"
-msgstr ""
+msgstr "TAP: TubeWarmth"
 
 #: data/effects/ladspa/ladspa_2158.xml:6
 #, kde-format
@@ -14499,32 +14510,35 @@ msgid ""
 "sonically desirable nonlinear characteristics of triodes. It also supports "
 "emulating analog tape saturation.]]>"
 msgstr ""
+"<![CDATA[TAP TubeWarmth (LADSPA 2158)<br>\n"
+"   Dodaja značaj ojačitev vakuumske cevi z posnemanjem zvočno zaželenih "
+"nelinearnih značilnosti triod. Podpira tudi emulacijo nasičenosti analognega "
+"traku.]]>"
 
 #: data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
 msgid "Drive"
-msgstr ""
+msgstr "Pogon"
 
 #: data/effects/ladspa/ladspa_2158.xml:10
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Adjusts the amount of the effect"
-msgstr "Prilagodi kontrast izvorne slike"
+msgstr "Prilagodi količino učinka"
 
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
 msgid "Tape--Tube Blend"
-msgstr ""
+msgstr "Mešanica traku in cevi"
 
 #: data/effects/ladspa/ladspa_2158.xml:14
 #, kde-format
 msgid "Controls the color of the TubeWarmth sound"
-msgstr ""
+msgstr "Nadzoruje barvo zvoka TubeWarmth"
 
 #: data/effects/ladspa/ladspa_2159.xml:4
 #, kde-format
 msgid "TAP Chorus/Flange"
-msgstr ""
+msgstr "TAP: zbor/prirobnik"
 
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
@@ -14533,6 +14547,10 @@ msgid ""
 "    Creates traditional Chorus and Flanger effects, spiced up a bit to make "
 "use of stereo processing. It sounds best on guitar and synth tracks.]]>"
 msgstr ""
+"<![CDATA[TAP: zbor/prirobnik (LADSPA 2159)<br>\n"
+"    Ustvarja tradicionalne učinke zbora (Chorus) in prirobnika (Flanger), ki "
+"so nekoliko začinjeni za uporabo pri stereo obdelavi. Najbolje zveni s "
+"kitarskimi in sintetizatorskimi stezami.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:11
 #, kde-format
@@ -14541,12 +14559,14 @@ msgid ""
 "      with which the time-varying delay is modulated. The higher the "
 "frequency, the more intense the effect will be.]]>"
 msgstr ""
+"<![CDATA[Določi frekvenco LFO,<br>\n"
+"      s katero se modulira časovno spremenljiva zakasnitev. Višja kot je "
+"frekvenca, močnejši bo učinek.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:14
-#, fuzzy, kde-format
-#| msgid "Phase Left"
+#, kde-format
 msgid "L/R Phase Shift"
-msgstr "Leva faza"
+msgstr "Fazni zamik L/D"
 
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
@@ -14557,6 +14577,10 @@ msgid ""
 "phase; when set to 180 degrees, the two LFO's are is counter-phase to create "
 "the widest stereo effect.]]>"
 msgstr ""
+"<![CDATA[Nadzira fazni zamik med dvema LFO-jema.<br>\n"
+"      Višja kot je ta nastavitev, močnejša bo »stereo-st« učinka. Ko je "
+"nastavljena na 0, bo obdelava obeh kanalov v fazi; ko sta nastavljena na 180 "
+"stopinj, sta dva LFO v protifazi, da ustvarita najširši stereo učinek.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:21
 #, kde-format
@@ -14565,6 +14589,8 @@ msgid ""
 "      Increasing it will result in stronger modulation using the same LFO "
 "frequency.]]>"
 msgstr ""
+"<![CDATA[Prilagodi globino modulacije zakasnitve.<br>\n"
+"      Povečanje povzroči močnejšo modulacijo z uporabo iste frekvence LFO.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:26
 #, kde-format
@@ -14576,12 +14602,17 @@ msgid ""
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
 "blend between Chorus and Flanger.]]>"
 msgstr ""
+"<![CDATA[Določa fiksno količino časa,<br>\n"
+"      pri čemer je signal zakasnnjen po uporabi časovno spremenljive "
+"zakasnitve. Nastavitev tega kontrolnika razlikuje med učinkoma zbora "
+"(Chorus) in prirobnika (Flanger). Zakasnitve, manjše od 10 ms, se lahko "
+"označijo kot prirobne, zakasnitve nad 20 ms povzročijo zbor, zakasnitve v "
+"območju 10-20 ms pa povzročijo mešanico med zborom in prirobnikom.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:29
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Contour"
-msgstr "Kontrast"
+msgstr "Obris"
 
 #: data/effects/ladspa/ladspa_2159.xml:31
 #, kde-format
@@ -14589,6 +14620,8 @@ msgid ""
 "<![CDATA[The cutoff frequency of a high-pass<br>\n"
 "      filter applied to the now twice-delayed signal.]]>"
 msgstr ""
+"<![CDATA[Frekvenca porezave visokoprepustnega<br>\n"
+"      filtra, uveljavljena na signalu s sedaj dvakratno zakasnitvijo.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:36
 #: data/effects/ladspa/ladspa_2159.xml:41
@@ -14599,6 +14632,10 @@ msgid ""
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
 "unwanted side effects) results in a subtler effect.]]>"
 msgstr ""
+"<![CDATA[Omogoča končno fino nastavitev zvoka.<br>\n"
+"      Najmočnejši učinek je dosežen, če sta obe nastavitvi približno enaki. "
+"Zmanjšanje ene od njih (po možnosti mokre ravni, za ublažitev neželenih "
+"stranskih učinkov) ima za posledico subtilnejši učinek.]]>"
 
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
@@ -19421,7 +19458,7 @@ msgid "Create bin folder"
 msgstr "Ustvari mapo posode"
 
 #: src/bin/bin.cpp:2978 src/bin/bin.cpp:2991 src/bin/bin.cpp:4003
-#: src/timeline2/model/timelinemodel.cpp:2211
+#: src/timeline2/model/timelinemodel.cpp:2226
 #, kde-format
 msgid "Delete Clip"
 msgstr "Izbriši posnetek"
@@ -20195,7 +20232,7 @@ msgid "Cut clip"
 msgstr "Odreži posnetek"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4058
+#: src/timeline2/model/timelinemodel.cpp:4073
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Spremeni velikost podnaslova"
@@ -20332,7 +20369,7 @@ msgstr[3] "%1 zvočne steze"
 msgid "Timeline sequence"
 msgstr "Zaporedje časovnice"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1373
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1370
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20835,17 +20872,12 @@ msgid "Open Browser"
 msgstr "Odpri brskalnik"
 
 #: src/core.cpp:2228
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will open a browser to display Kdenlive's online documentation at "
-#| "the following url:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
 " %1"
 msgstr ""
-"S tem boste odprli brskalnik za prikaz spletne dokumentacije Kdenlive na "
-"naslednjem URL-ju:\n"
+"S tem boste odprli brskalnik za prikaz povezave:\n"
 " %1"
 
 #: src/dialogs/clipcreationdialog.cpp:59
@@ -22599,8 +22631,7 @@ msgstr ""
 "ni pravilno zaznana ali ne deluje s tem vstavkom."
 
 #: src/dialogs/Simplesplash.qml:102
-#, fuzzy, kde-format
-#| msgid "Made by KDE"
+#, kde-format
 msgid "Make by KDE"
 msgstr "Narejeno s KDE"
 
@@ -22612,20 +22643,17 @@ msgstr "Kdenlive"
 #: src/dialogs/Simplesplash.qml:161
 #, kde-format
 msgid "Kdenlive crashed on last start."
-msgstr ""
+msgstr "Kdenlive se je sesul ob zadnjem zagonu."
 
 #: src/dialogs/Simplesplash.qml:170
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Reset Configuration"
+#, kde-format
 msgid "Reset Configuration"
 msgstr "Ponastavi prilagoditev"
 
 #: src/dialogs/Simplesplash.qml:179
-#, fuzzy, kde-format
-#| msgid "Start Color"
+#, kde-format
 msgid "Start Normally"
-msgstr "Začetna barva"
+msgstr "Zaženi na običajen način"
 
 #: src/dialogs/Simplesplash.qml:206 src/dialogs/Splash.qml:614
 #, kde-format
@@ -22634,17 +22662,19 @@ msgid ""
 "org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive."
 "org/fund/\">funding</a>."
 msgstr ""
+"Kdenlive je bil nadgrajen. Če vam je všeč, razmislite o <a href=\"https://"
+"kdenlive.org/get-involved/\">sodelovanju</a> ali pomoči pri <a href="
+"\"https://kdenlive.org/fund/\">financiranju</a>."
 
 #: src/dialogs/Simplesplash.qml:219 src/dialogs/Splash.qml:628
 #, kde-format
 msgid "What's New"
-msgstr ""
+msgstr "Kaj je novega?"
 
 #: src/dialogs/Simplesplash.qml:228
-#, fuzzy, kde-format
-#| msgid "Container:"
+#, kde-format
 msgid "Continue"
-msgstr "Vsebnik:"
+msgstr "Nadaljuj"
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -23281,105 +23311,99 @@ msgid "Zulu"
 msgstr "zulujski"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K UHD 2160"
+#, kde-format
 msgid "4K UHD 3840x2160"
-msgstr "4K UHD 2160"
+msgstr "4K UHD, 3840x2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K DCI 2160"
+#, kde-format
 msgid "4K DCI 4096x2160"
-msgstr "4K DCI 2160"
+msgstr "4K DCI, 4096x2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "2.5K QHD 1440"
+#, kde-format
 msgid "2.5K QHD 2560x1440"
-msgstr "2.5K QHD 1440"
+msgstr "2,5K QHD, 2560x1440"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1920x1080"
-msgstr "Full HD 1080"
+msgstr "Polni HD, 1920x1080"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "HD 1280x720"
-msgstr ""
+msgstr "HD, 1280x720"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "SD NTSC, široki, 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC 720x480"
-msgstr ""
+msgstr "SD NTSC, 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "SD PAL, široki, 720x576"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL 720x576"
-msgstr ""
+msgstr "SD PAL, 720x576"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1080x1920"
-msgstr "Full HD 1080"
+msgstr "Polni HD, 1080x1920"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "HD 720"
+#, kde-format
 msgid "HD 720x1280"
-msgstr "HD 720"
+msgstr "HD, 720x1280"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "23.98 fps"
-msgstr ""
+msgstr "23,98 sl/s"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "24 fps"
-msgstr ""
+msgstr "24 sl/s"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "25 fps"
-msgstr ""
+msgstr "25 sl/s"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "29.97 fps"
-msgstr ""
+msgstr "29,97 sl/s"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "30 fps"
-msgstr ""
+msgstr "30 sl/s"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "50 fps"
-msgstr ""
+msgstr "50 sl/s"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "59.94 fps"
-msgstr ""
+msgstr "59,94 sl/s"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "60 fps"
-msgstr ""
+msgstr "60 sl/s"
 
 #: src/dialogs/Splash.qml:169
 #, kde-format
@@ -23387,98 +23411,86 @@ msgid "Made by KDE"
 msgstr "Narejeno s KDE"
 
 #: src/dialogs/Splash.qml:227
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "Open Project…"
-msgstr "Arhiviraj projekt …"
+msgstr "Odpri projekt …"
 
 #: src/dialogs/Splash.qml:255
-#, fuzzy, kde-format
-#| msgid "Open sequence"
+#, kde-format
 msgid "Open Recent"
-msgstr "Odpri zaporedje"
+msgstr "Odpri nedavne"
 
 #: src/dialogs/Splash.qml:263
 #, kde-format
 msgid "Clear History of Recent Projects"
-msgstr ""
+msgstr "Počisti zgodovino nedavnih projektov"
 
 #: src/dialogs/Splash.qml:359
-#, fuzzy, kde-format
-#| msgid "Remove from favorites"
+#, kde-format
 msgid "Remove file from list"
-msgstr "Odstrani iz priljubljenih"
+msgstr "Odstrani datoteko s seznama"
 
 #: src/dialogs/Splash.qml:389
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "New Project…"
-msgstr "Arhiviraj projekt …"
+msgstr "Nov projekt ..."
 
 #: src/dialogs/Splash.qml:416
-#, fuzzy, kde-format
-#| msgid "Test Proxy Profiles"
+#, kde-format
 msgid "New From Profile"
-msgstr "Preizkusi profile posrednih posnetkov"
+msgstr "Nov iz profila"
 
 #: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
-msgstr ""
+msgstr "Počisti zgodovino nedavnih profilov"
 
 #: src/dialogs/Splash.qml:507
-#, fuzzy, kde-format
-#| msgid "Request option from list"
+#, kde-format
 msgid "Remove profile from list"
-msgstr "Zahtevaj možnost s seznama"
+msgstr "Odstrani profil s seznama"
 
 #: src/dialogs/Splash.qml:546
-#, fuzzy, kde-format
-#| msgid "Go to Zone Start"
+#, kde-format
 msgid "Show on Startup"
-msgstr "Pojdi na začetek območja"
+msgstr "Pokaži ob zagonu"
 
 #: src/dialogs/Splash.qml:580 src/dialogs/Splash.qml:948
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
-"Kdenlive se je sesul pri zadnjem zagonu.\n"
-"Ali želite ponovno nastaviti prilagoditvene datoteke?"
+"Kdenlive se je sesul pri zadnjem zagonu. Ali želite ponovno nastaviti "
+"prilagoditvene datoteke in ga znova zagnati?"
 
 #: src/dialogs/Splash.qml:658
 #, kde-format
 msgid "Help us make Kdenlive even better"
-msgstr ""
+msgstr "Pomagajte nam izboljšati Kdenlive"
 
 #: src/dialogs/Splash.qml:664
 #, kde-format
 msgid "Contribute…"
-msgstr ""
+msgstr "Želim prispevati …"
 
 #: src/dialogs/Splash.qml:669
 #, kde-format
 msgid "Donate…"
-msgstr ""
+msgstr "Želim donirati …"
 
 #: src/dialogs/Splash.qml:699
-#, fuzzy, kde-format
-#| msgid "Welcome to Kdenlive %1"
+#, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
-msgstr "Dobrodošli v Kdenlive %1"
+msgstr "<b>Dobrodošli v hitro nastavitev programa Kdenlive</b>"
 
 #: src/dialogs/Splash.qml:705
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr ""
+msgstr "Vedno uporabi temno barvno temo"
 
 #: src/dialogs/Splash.qml:717
-#, fuzzy, kde-format
-#| msgid "Change default project profile"
+#, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "Spremeni privzeti profil projekta"
+msgstr "<b>Privzeti profil projekta</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:834 src/ui/colorplaneexport_ui.ui:105
@@ -23487,10 +23499,9 @@ msgid "Resolution"
 msgstr "Ločljivost"
 
 #: src/dialogs/Splash.qml:861
-#, fuzzy, kde-format
-#| msgid "Frame Rate:"
+#, kde-format
 msgid "Frame Rate"
-msgstr "Hitrost sličic:"
+msgstr "Hitrost sličic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
@@ -23504,34 +23515,29 @@ msgid "Interlaced"
 msgstr "Prepleteno"
 
 #: src/dialogs/Splash.qml:906
-#, fuzzy, kde-format
-#| msgid "Video tracks:"
+#, kde-format
 msgid "Video Tracks"
-msgstr "Slikovne steze:"
+msgstr "Slikovne steze"
 
 #: src/dialogs/Splash.qml:915
-#, fuzzy, kde-format
-#| msgid "Audio tracks:"
+#, kde-format
 msgid "Audio Tracks"
-msgstr "Zvočne steze:"
+msgstr "Zvočne steze"
 
 #: src/dialogs/Splash.qml:928
 #, kde-format
 msgid "This can always be changed later in the Settings."
-msgstr ""
+msgstr "To lahko še vedno kasneje spremenite v nastavitvah."
 
 #: src/dialogs/Splash.qml:973
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Check Online Documentation"
-msgstr "Spletna dokumentacija"
+msgstr "Preveri dokumentacijo na spletu"
 
 #: src/dialogs/Splash.qml:981
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Start Editing"
-msgstr "Začni položaj"
+msgstr "Začni montirati"
 
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
@@ -25052,7 +25058,7 @@ msgstr "Učinka %1 ni možno dodati dvakrat."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5181
+#: src/timeline2/model/timelinemodel.cpp:5196
 #, kde-format
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
@@ -25828,7 +25834,7 @@ msgid "Clip in Timeline"
 msgstr "Posnetek na časovnici"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1009
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
 #, kde-format
 msgid "Sequence"
 msgstr "Zaporedje"
@@ -25952,36 +25958,31 @@ msgid "Extra Toolbar"
 msgstr "Dodatna orodna vrstica"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "Beleženje"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "Montaža"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "Zvok"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "Učinki"
 
 #: src/layouts/layoutcollection.cpp:28
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
 msgstr "Barva"
@@ -26018,20 +26019,15 @@ msgid "Layout %1: %2"
 msgstr "Razpored %1: %2"
 
 #: src/layouts/layoutmanagement.cpp:235
-#, fuzzy, kde-format
-#| msgid ""
-#| "The layout %1 uses an old and unsupported format, should be removed and "
-#| "recreated."
+#, kde-format
 msgid "The layout %1 could not be restored, should be removed and recreated."
 msgstr ""
-"Postavitev %1 uporablja staro in nepodprto obliko; treba jo je odstraniti in "
-"ponovno ustvariti."
+"Postavitve %1 ni možno obnoviti; treba jo je odstraniti in ponovno ustvariti."
 
 #: src/layouts/layoutmanagement.cpp:267
-#, fuzzy, kde-format
-#| msgid "Project file could not be saved for export."
+#, kde-format
 msgid "The layout from the project file could not be restored."
-msgstr "Datoteke projekta ni bilo možno shraniti za izvoz."
+msgstr "Postavitve iz projektne datoteke ni bilo mogoče obnoviti."
 
 #: src/layouts/layoutmanagement.cpp:285
 #, kde-format
@@ -26050,10 +26046,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "Postavitev %1 že obstaja. Ali jo želite zamenjati?"
 
 #: src/layouts/layoutmanagement.cpp:340
-#, fuzzy, kde-format
-#| msgid "Could not create temporary file in %1"
+#, kde-format
 msgid "Could not save layout to file: %1"
-msgstr "Ni možno ustvariti začasne datoteke v %1"
+msgstr "Postavitve ni možno shraniti v datoteko: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -26082,15 +26077,14 @@ msgid "Export selected"
 msgstr "Izvozi izbrane"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "Delete the layout."
+#, kde-format
 msgid "Delete Layout"
-msgstr "Izbriši postavitev."
+msgstr "Izbriši postavitev"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
 #, kde-format
 msgid "Are you sure you want to delete the layout %1?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izbrisati postavitev %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:189
 #, kde-format
@@ -26115,31 +26109,24 @@ msgstr "Uvozi postavitev"
 
 #: src/layouts/layoutmanagerdialog.cpp:206
 #: src/layouts/layoutmanagerdialog.cpp:284
-#, fuzzy, kde-format
-#| msgid "Kdenlive Layout (*.kdenlivelayout)"
+#, kde-format
 msgid "Kdenlive Layout (*.json)"
-msgstr "Postavitev Kdenlive (*.kdenlivelayout)"
+msgstr "Postavitev Kdenlive (*.json)"
 
 #: src/layouts/layoutmanagerdialog.cpp:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not create assets folder:\n"
-#| " %1"
+#, kde-format
 msgid "Could not write in the layouts folder %1"
-msgstr ""
-"Ni možno ustvariti mape sredstev:\n"
-"%1"
+msgstr "V mapo postavitev %1 ni možno pisati"
 
 #: src/layouts/layoutmanagerdialog.cpp:234
 #, kde-format
 msgid "Selected layout is already imported"
-msgstr ""
+msgstr "Izbrana postavitev je že uvožena"
 
 #: src/layouts/layoutmanagerdialog.cpp:241
-#, fuzzy, kde-format
-#| msgid "Invalid LUT file %1"
+#, kde-format
 msgid "Invalid file selected: %1"
-msgstr "Neveljavna datoteka LUT %1"
+msgstr "Izbrana je neveljavna datoteka: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:274
 #: src/layouts/layoutmanagerdialog.cpp:281
@@ -26157,21 +26144,19 @@ msgid "No layout selected."
 msgstr "Postavitev ni izbrana."
 
 #: src/layouts/layoutmanagerdialog.cpp:281
-#, fuzzy, kde-format
-#| msgid "Cannot find layout data for %1."
+#, kde-format
 msgid "Cannot find layout file for %1."
-msgstr "Ni mogoče najti podatkov postavitve za %1."
+msgstr "Datoteke postavitve za %1 ni mogoče najti."
 
 #: src/layouts/layoutmanagerdialog.cpp:302
 #, kde-format
 msgid "Overwrite existing file for vertical layout %1?"
-msgstr ""
+msgstr "Ali želite prepisati obstoječo datoteko za navpično postavitev %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:304
-#, fuzzy, kde-format
-#| msgid "Layout exported successfully."
+#, kde-format
 msgid "Horizontal layout exported successfully."
-msgstr "Postavitev je bila uspešno izvožena."
+msgstr "Vodoravna postavitev je uspešno izvožena."
 
 #: src/layouts/layoutmanagerdialog.cpp:318
 #, kde-format
@@ -26179,23 +26164,22 @@ msgid "Layout exported successfully."
 msgstr "Postavitev je bila uspešno izvožena."
 
 #: src/layouts/layoutmanagerdialog.cpp:332
-#, fuzzy, kde-format
-#| msgid "Shift chroma pixels horizontally and/or vertically. "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains horizontal and vertical profiles"
-msgstr "Vodoravni in/ali navpični zamik kromatičnih slikovnih točk."
+msgstr "Ta postavitev vsebuje vodoravne in navpične profile"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an horizontal profile"
-msgstr ""
+msgstr "Ta postavitev vsebuje vodoravni profil"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an vertical profile"
-msgstr ""
+msgstr "Ta postavitev vsebuje navpični profil"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -26600,7 +26584,7 @@ msgstr ""
 #: src/main.cpp:341
 #, kde-format
 msgid "Do not show any welcome screen."
-msgstr ""
+msgstr "Ne prikazujte pozdravnega zaslona."
 
 #: src/main.cpp:344
 #, kde-format
@@ -27936,10 +27920,9 @@ msgid "Fit all Tracks in View"
 msgstr "Umeri vse steze na pogled"
 
 #: src/mainwindow.cpp:2080 src/timeline2/view/timelinecontroller.cpp:4970
-#, fuzzy, kde-format
-#| msgid "Sequence count"
+#, kde-format
 msgid "Sequence effects"
-msgstr "Število zaporedij"
+msgstr "Učinki zaporedja"
 
 #: src/mainwindow.cpp:2087
 #, kde-format
@@ -28047,7 +28030,7 @@ msgstr "Uvozi datoteko s podnaslovi …"
 msgid "Export Subtitle File…"
 msgstr "Izvozi datoteko s podnaslovi …"
 
-#: src/mainwindow.cpp:2156 src/timeline2/model/timelinemodel.cpp:2215
+#: src/mainwindow.cpp:2156 src/timeline2/model/timelinemodel.cpp:2230
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Izbriši podnaslov"
@@ -29515,17 +29498,17 @@ msgstr "Za omogočitev zvočnega spektra mora biti MLT preveden z libfftw3"
 msgid "Enable Audio Spectrum"
 msgstr "Omogoči zvočni spekter"
 
-#: src/monitor/videowidget.cpp:1123
+#: src/monitor/videowidget.cpp:1125
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Izberite območje predvajanja"
 
-#: src/monitor/videowidget.cpp:1132
+#: src/monitor/videowidget.cpp:1134
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Izberite posnetek za predvajanje"
 
-#: src/monitor/videowidget.cpp:1237
+#: src/monitor/videowidget.cpp:1239
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -29587,10 +29570,9 @@ msgid "Show Grid"
 msgstr "Pokaži mrežo"
 
 #: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
-#, fuzzy, kde-format
-#| msgid "Show Safe Zone"
+#, kde-format
 msgid "Show Safe Areas"
-msgstr "Pokaži varno območje"
+msgstr "Pokaži varna območja"
 
 #: src/monitor/view/EffectToolBar.qml:91 src/monitor/view/SceneToolBar.qml:81
 #, kde-format
@@ -33211,7 +33193,7 @@ msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4758
+#: src/timeline2/model/timelinemodel.cpp:4773
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -33307,9 +33289,9 @@ msgid "Move clip"
 msgstr "Premakni posnetek"
 
 #: src/timeline2/model/timelinemodel.cpp:1878
-#: src/timeline2/model/timelinemodel.cpp:1971
-#: src/timeline2/model/timelinemodel.cpp:1995
-#: src/timeline2/model/timelinemodel.cpp:2024
+#: src/timeline2/model/timelinemodel.cpp:1972
+#: src/timeline2/model/timelinemodel.cpp:1996
+#: src/timeline2/model/timelinemodel.cpp:2025
 #: src/timeline2/view/timelinecontroller.cpp:3391
 #, kde-format
 msgid "No available track for insert operation"
@@ -33320,95 +33302,96 @@ msgstr "Nobene steze ni na voljo za vstavljanje"
 msgid "Insert Clip"
 msgstr "Vstavi posnetek"
 
-#: src/timeline2/model/timelinemodel.cpp:1939
+#: src/timeline2/model/timelinemodel.cpp:1940
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe"
 
-#: src/timeline2/model/timelinemodel.cpp:1988
-#: src/timeline2/model/timelinemodel.cpp:2016
+#: src/timeline2/model/timelinemodel.cpp:1989
+#: src/timeline2/model/timelinemodel.cpp:2017
+#: src/timeline2/model/timelinemodel.cpp:2045
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Ni dovolj zvočnih stez za vse tokove (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2100
+#: src/timeline2/model/timelinemodel.cpp:2115
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Nobene steze ni na voljo za delitev"
 
-#: src/timeline2/model/timelinemodel.cpp:2137
+#: src/timeline2/model/timelinemodel.cpp:2152
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Razdeljevanje zvoka ni uspelo: ni primerne steze"
 
-#: src/timeline2/model/timelinemodel.cpp:2145
+#: src/timeline2/model/timelinemodel.cpp:2160
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Razdeljevanje zvoka ni uspelo: ni možno ustvariti zvočnega posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:2208
+#: src/timeline2/model/timelinemodel.cpp:2223
 #, kde-format
 msgid "Remove group"
 msgstr "Odstrani skupino"
 
-#: src/timeline2/model/timelinemodel.cpp:2213
+#: src/timeline2/model/timelinemodel.cpp:2228
 #, kde-format
 msgid "Delete Composition"
 msgstr "Izbriši sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:2452
-#: src/timeline2/model/timelinemodel.cpp:2753
+#: src/timeline2/model/timelinemodel.cpp:2467
+#: src/timeline2/model/timelinemodel.cpp:2768
 #: src/timeline2/view/timelinecontroller.cpp:4362
 #, kde-format
 msgid "Move group"
 msgstr "Premakni skupino"
 
-#: src/timeline2/model/timelinemodel.cpp:3449
+#: src/timeline2/model/timelinemodel.cpp:3464
 #, kde-format
 msgid "Resize group"
 msgstr "Spremeni velikost skupine"
 
-#: src/timeline2/model/timelinemodel.cpp:3573
+#: src/timeline2/model/timelinemodel.cpp:3588
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:3732
+#: src/timeline2/model/timelinemodel.cpp:3747
 #, kde-format
 msgid "Remove mix"
 msgstr "Odstrani mešanico"
 
-#: src/timeline2/model/timelinemodel.cpp:3734
+#: src/timeline2/model/timelinemodel.cpp:3749
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Odstranjevanje mešanice ni uspelo"
 
-#: src/timeline2/model/timelinemodel.cpp:4054
+#: src/timeline2/model/timelinemodel.cpp:4069
 #, kde-format
 msgid "Resize clip"
 msgstr "Spremeni velikost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:4056
+#: src/timeline2/model/timelinemodel.cpp:4071
 #, kde-format
 msgid "Resize composition"
 msgstr "Spremeni velikost sestave"
 
-#: src/timeline2/model/timelinemodel.cpp:4384
+#: src/timeline2/model/timelinemodel.cpp:4399
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Spremeni velikost posnetka z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4386
+#: src/timeline2/model/timelinemodel.cpp:4401
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Spremeni velikost sestave z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4388
+#: src/timeline2/model/timelinemodel.cpp:4403
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Spremeni velikost podnaslova z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4531
+#: src/timeline2/model/timelinemodel.cpp:4546
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -33418,135 +33401,135 @@ msgstr[1] "Podrsaj posnetek"
 msgstr[2] "Podrsaj posnetka"
 msgstr[3] "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4566
+#: src/timeline2/model/timelinemodel.cpp:4581
 #, kde-format
 msgid "Slip clip"
 msgstr "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4601
+#: src/timeline2/model/timelinemodel.cpp:4616
 #, kde-format
 msgid "Group clips"
 msgstr "Združi posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4686
-#: src/timeline2/model/timelinemodel.cpp:4702
+#: src/timeline2/model/timelinemodel.cpp:4701
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Razdruži posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4867
+#: src/timeline2/model/timelinemodel.cpp:4882
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Delete Track"
 msgstr "Izbriši stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4877
+#: src/timeline2/model/timelinemodel.cpp:4892
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Zadnje steze na časovnici ni možno izbrisati"
 
-#: src/timeline2/model/timelinemodel.cpp:5102
+#: src/timeline2/model/timelinemodel.cpp:5117
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Učinka %1 ni možno dodati na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5109
+#: src/timeline2/model/timelinemodel.cpp:5124
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Učinka %1 ni možno dodati na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5130
+#: src/timeline2/model/timelinemodel.cpp:5145
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Ni možno prilepiti učinka na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5136
+#: src/timeline2/model/timelinemodel.cpp:5151
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Ni možno prilepiti učinka na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5184
+#: src/timeline2/model/timelinemodel.cpp:5199
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Izbranemu posnetku ni možno dodati slikovnega učinka %1"
 
-#: src/timeline2/model/timelinemodel.cpp:5208
+#: src/timeline2/model/timelinemodel.cpp:5223
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Prilagodi pojemanje"
 
-#: src/timeline2/model/timelinemodel.cpp:5573
+#: src/timeline2/model/timelinemodel.cpp:5588
 #, kde-format
 msgid "Insert Composition"
 msgstr "Vstavi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:5794
+#: src/timeline2/model/timelinemodel.cpp:5809
 #, kde-format
 msgid "Move composition"
 msgstr "Prenesi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6508
+#: src/timeline2/model/timelinemodel.cpp:6523
 #, kde-format
 msgid "Enable time remap"
 msgstr "Omogoči časovno preslikavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6582
+#: src/timeline2/model/timelinemodel.cpp:6597
 #, kde-format
 msgid "Change speed failed"
 msgstr "Sprememba hitrosti ni uspela"
 
-#: src/timeline2/model/timelinemodel.cpp:6592
+#: src/timeline2/model/timelinemodel.cpp:6607
 #, kde-format
 msgid "Change clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
+#: src/timeline2/model/timelinemodel.cpp:7055
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Zakleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:7045
+#: src/timeline2/model/timelinemodel.cpp:7060
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Odkleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:7079
-#: src/timeline2/model/timelinemodel.cpp:7141
+#: src/timeline2/model/timelinemodel.cpp:7094
+#: src/timeline2/model/timelinemodel.cpp:7156
 #, kde-format
 msgid "Change composition"
 msgstr "Spremeni sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:7093
+#: src/timeline2/model/timelinemodel.cpp:7108
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ni možno delovati na skupinski sestavi, najprej jo razdružite"
 
-#: src/timeline2/model/timelinemodel.cpp:7291
-#: src/timeline2/model/timelinemodel.cpp:7330
-#: src/timeline2/model/timelinemodel.cpp:7365
-#: src/timeline2/model/timelinemodel.cpp:7446
+#: src/timeline2/model/timelinemodel.cpp:7306
+#: src/timeline2/model/timelinemodel.cpp:7345
+#: src/timeline2/model/timelinemodel.cpp:7380
+#: src/timeline2/model/timelinemodel.cpp:7461
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka za manj kot 1 sličico"
 
-#: src/timeline2/model/timelinemodel.cpp:7302
-#: src/timeline2/model/timelinemodel.cpp:7338
-#: src/timeline2/model/timelinemodel.cpp:7382
-#: src/timeline2/model/timelinemodel.cpp:7470
+#: src/timeline2/model/timelinemodel.cpp:7317
+#: src/timeline2/model/timelinemodel.cpp:7353
+#: src/timeline2/model/timelinemodel.cpp:7397
+#: src/timeline2/model/timelinemodel.cpp:7485
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7486
+#: src/timeline2/model/timelinemodel.cpp:7501
 #, kde-format
 msgid "Resize mix"
 msgstr "Spremeni dolžino mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7606
+#: src/timeline2/model/timelinemodel.cpp:7621
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Napaka pri inicializiranju predogleda časovnice"
@@ -33674,49 +33657,49 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1999
+#: src/timeline2/view/qml/Timeline.qml:1998
 #, kde-format
 msgid "Paused"
 msgstr "Prekinjeno"
 
-#: src/timeline2/view/qml/Clip.qml:230 src/timeline2/view/qml/Clip.qml:1155
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Pozicija: %4, Trajanje: %5"
 
-#: src/timeline2/view/qml/Clip.qml:332 src/timeline2/view/qml/Clip.qml:346
+#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
 #: src/timeline2/view/qml/SubTitle.qml:211
 #: src/timeline2/view/qml/SubTitle.qml:217
 #, kde-format
 msgid "Position: %1"
 msgstr "Položaj:%1"
 
-#: src/timeline2/view/qml/Clip.qml:533
+#: src/timeline2/view/qml/Clip.qml:530
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Trajanje mešanja: %1, Izreži na: %2"
 
-#: src/timeline2/view/qml/Clip.qml:587
+#: src/timeline2/view/qml/Clip.qml:584
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Trajanje mešanja: %2"
 
-#: src/timeline2/view/qml/Clip.qml:589
+#: src/timeline2/view/qml/Clip.qml:586
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Trajanje mešanja: %2"
 
-#: src/timeline2/view/qml/Clip.qml:592 src/timeline2/view/qml/Clip.qml:607
+#: src/timeline2/view/qml/Clip.qml:589 src/timeline2/view/qml/Clip.qml:604
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Trajanje mešanja: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1040
+#: src/timeline2/view/qml/Clip.qml:1037
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1043 src/timeline2/view/qml/Clip.qml:1145
+#: src/timeline2/view/qml/Clip.qml:1040 src/timeline2/view/qml/Clip.qml:1142
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -33725,54 +33708,54 @@ msgstr ""
 "<b>Krmilka in povlek</b> za spremembo hitrosti, <b>dvojni klik</b> za "
 "mešanje s sosednjim posnetkom"
 
-#: src/timeline2/view/qml/Clip.qml:1045
+#: src/timeline2/view/qml/Clip.qml:1042
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Povlecite</b> za spremembo trajanja zmešanega zvoka"
 
-#: src/timeline2/view/qml/Clip.qml:1142
+#: src/timeline2/view/qml/Clip.qml:1139
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:1278
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Zamik: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:1278
 #, kde-format
 msgid "Offset: %1"
 msgstr "Zamik: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1282
+#: src/timeline2/view/qml/Clip.qml:1279
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Kliknite</b> za poravnanje posnetkov"
 
-#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1562
+#: src/timeline2/view/qml/Clip.qml:1522 src/timeline2/view/qml/Clip.qml:1559
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Kliknite</b> za dodajanje sestave"
 
-#: src/timeline2/view/qml/Clip.qml:1639 src/timeline2/view/qml/Clip.qml:1646
+#: src/timeline2/view/qml/Clip.qml:1636 src/timeline2/view/qml/Clip.qml:1643
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Utišanje: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1650 src/timeline2/view/qml/Clip.qml:1757
+#: src/timeline2/view/qml/Clip.qml:1647 src/timeline2/view/qml/Clip.qml:1754
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Povlecite</b>, da prilagodite bledenje, <b>kliknite</b>, da dodate "
 "privzeto trajanje bledenja"
 
-#: src/timeline2/view/qml/Clip.qml:1746 src/timeline2/view/qml/Clip.qml:1753
+#: src/timeline2/view/qml/Clip.qml:1743 src/timeline2/view/qml/Clip.qml:1750
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Dvig jakosti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1841
+#: src/timeline2/view/qml/Clip.qml:1838
 #, kde-format
 msgid "Slip Clip"
 msgstr "Podrsaj posnetek"
@@ -33836,29 +33819,28 @@ msgstr "Pokaži"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/timeline2/view/qml/Timeline.qml:1003
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#: src/timeline2/view/qml/Timeline.qml:1005
+#, kde-format
 msgid "Show sequence effects"
-msgstr "Pokaži glavne učinke"
+msgstr "Pokaži učinke zaporedja"
 
-#: src/timeline2/view/qml/Timeline.qml:1662
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvokliknite</b> za dodajanje podnaslova"
 
-#: src/timeline2/view/qml/Timeline.qml:1829
+#: src/timeline2/view/qml/Timeline.qml:1827
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Odmik:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1988
-#: src/timeline2/view/qml/Timeline.qml:1997
+#: src/timeline2/view/qml/Timeline.qml:1987
+#: src/timeline2/view/qml/Timeline.qml:1996
 #, kde-format
 msgid "Recording"
 msgstr "Snemanje"
 
-#: src/timeline2/view/qml/Timeline.qml:2091
+#: src/timeline2/view/qml/Timeline.qml:2090
 #, kde-format
 msgid "Multicam In"
 msgstr "Vstopna/sinhrona točka posnetkov več kamer"
@@ -35820,7 +35802,7 @@ msgstr "Opozori, če predpomnjeni podatki presegajo:"
 #: src/ui/configenv_ui.ui:111
 #, kde-format
 msgid "Show Welcome screen at startup"
-msgstr ""
+msgstr "Pokaži pozdravni zaslon ob zagonu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:118
@@ -39632,73 +39614,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Hue Shift Red"
-#~ msgstr "Zamik obarvanosti - rdeča"
-
-#~ msgid "Saturation Scale Red"
-#~ msgstr "Mera nasičenosti - rdeča"
-
-#~ msgid "Lightness Scale Red"
-#~ msgstr "Mera svetlosti - rdeča"
-
-#~ msgid "Hue Shift Yellow"
-#~ msgstr "Zamik obarvanosti - rumena"
-
-#~ msgid "Saturation Scale Yellow"
-#~ msgstr "Mera nasičenosti - rumena"
-
-#~ msgid "Lightness Scale Yellow"
-#~ msgstr "Mera svetlosti - rumena"
-
-#~ msgid "Hue Shift Green"
-#~ msgstr "Zamik obarvanosti - zelena"
-
-#~ msgid "Saturation Scale Green"
-#~ msgstr "Mera nasičenosti - zelena"
-
-#~ msgid "Lightness Scale Green"
-#~ msgstr "Mera svetlosti - zelena"
-
-#~ msgid "Hue Shift Cyan"
-#~ msgstr "Zamik obarvanosti - cijanska"
-
-#~ msgid "Saturation Scale Cyan"
-#~ msgstr "Mera nasičenosti - cijanska"
-
-#~ msgid "Lightness Scale Cyan"
-#~ msgstr "Mera svetlosti - cijanska"
-
-#~ msgid "Hue Shift Blue"
-#~ msgstr "Zamik obarvanosti - modra"
-
-#~ msgid "Saturation Scale Blue"
-#~ msgstr "Mera nasičenosti - modra"
-
-#~ msgid "Lightness Scale Blue"
-#~ msgstr "Mera svetlosti - modra"
-
-#~ msgid "Hue Shift Magenta"
-#~ msgstr "Zamik obarvanosti - škrlatna"
-
-#~ msgid "Saturation Scale Magenta"
-#~ msgstr "Mera nasičenosti - škrlatna"
-
-#~ msgid "Lightness Scale Magenta"
-#~ msgstr "Mera svetlosti - škrlatna"
-
-#~ msgid ""
-#~ "This layout uses an old and unsupported format, should be removed and "
-#~ "recreated"
-#~ msgstr ""
-#~ "Ta postavitev uporablja staro in nepodprto obliko; treba jo je odstraniti "
-#~ "in ponovno ustvariti"
-
-#~ msgid "Version %1"
-#~ msgstr "Različica %1"
-
-#~ msgid "Master effects"
-#~ msgstr "Glavni učinki"
-
-#~ msgid "Change Overlay"
-#~ msgstr "Zamenjaj prekrivanje"

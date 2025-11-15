@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:39+0000\n"
-"PO-Revision-Date: 2025-11-02 06:49+0100\n"
+"POT-Creation-Date: 2025-11-15 02:36+0000\n"
+"PO-Revision-Date: 2025-11-14 09:59+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2597,6 +2597,8 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
+"დააყენეთ DC წანაცვლება. დაშვებული შუალედია [-1, 1]. მიუთითებს აუდიოს "
+"წანაცვლების რაოდენობას."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
@@ -3990,6 +3992,9 @@ msgid ""
 "<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
+"<![CDATA[მაქსიმალური რაოდენობა, რომლითაც ფილტრი ერთ ნებისმიერ პიქსელს "
+"შეცვლის.<br>\n"
+"       \tეს ასევე გამოიყენება თითქმის ბრტყელი რეგიონების გამოსავლენად.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:19
 #, kde-format
@@ -4255,6 +4260,9 @@ msgid ""
 "White on Black,Black on White,White on Gray,Black on Gray,Color on Black,"
 "Color on White,Color on Gray,Black on Color,White on Color,Gray on Color"
 msgstr ""
+"თეთრი შავზე, შავი თეთრზე, თეთრი ნაცრისფერზე, შავი ნაცრისფერზე, ფერადი შავზე, "
+"ფერადი თეთრზე, ფერადი ნაცრისფერზე, შავი ფერადზე, თეთრი ფერადზე, ნაცრისფერი "
+"ფერადზე"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, kde-format
@@ -4397,6 +4405,8 @@ msgid ""
 "<![CDATA[Set which primary and<br>\n"
 "        complementary colors are going to be adjusted]]>"
 msgstr ""
+"<![CDATA[დააყენეთ, რომელი ძირითადი<br>\n"
+"        და დამხმარე ფერების გასწორება მოხდება]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -4460,6 +4470,8 @@ msgid ""
 "<![CDATA[Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[დააყენეთ სიმძიმე წითელი კომპონენტისთვის.<br>\n"
+"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
 #, kde-format
@@ -4472,6 +4484,8 @@ msgid ""
 "<![CDATA[Set weight for GREEN component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[დააყენეთ სიმძიმე მწვანე კომპონენტისთვის.<br>\n"
+"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის.]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
 #, kde-format
@@ -4484,6 +4498,8 @@ msgid ""
 "<![CDATA[Set weight for BLUE component.<br>\n"
 "        Is used in saturation and lightness processing.]]>"
 msgstr ""
+"<![CDATA[დააყენეთ სიმძიმე ლურჯი კომპონენტისთვის.<br>\n"
+"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის.]]>"
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -5113,6 +5129,8 @@ msgstr "გამოტანის უმუქესი შეყვანი�
 #, kde-format
 msgid "Output color to which darkest input color is mapped (default black)"
 msgstr ""
+"გამოტანის ფერი, რომელზეც ასახულია ყველაზე მუქი შეყვანის ფერები "
+"(ნაგულისხმევია შავი)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:12
 #, kde-format
@@ -5124,6 +5142,8 @@ msgstr "გამოტანის ყველაზე კაშკაშა 
 #, kde-format
 msgid "Output color to which brightest input color is mapped (default white)"
 msgstr ""
+"გამოტანის ფერი, რომელზეც ასახულია ყველაზე კაშკაშა შეყვანის ფერები "
+"(ნაგულისხმევია თეთრი)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:16
 #: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
@@ -5151,12 +5171,16 @@ msgstr "დამოკიდებულება"
 #, kde-format
 msgid "Proportion of independent to linked channel normalization (default 1)"
 msgstr ""
+"დამოუკიდებელი არხის ნორმალიზაციის პროპორცია მიბმულთან შედარებით "
+"(ნაგულისხმევია 1)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1)"
 msgstr ""
+"ფილტრის სიძლიერე. მნიშვნელობა ეფექტის გარეშედან (0) სრულ ნორმალიზაციამდე "
+"(ნაგულისხმევია 1)"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
 #, kde-format
@@ -5551,7 +5575,7 @@ msgstr "Scharr"
 #: data/effects/avfilter/avfilter_scharr.xml:5
 #, kde-format
 msgid "Apply Scharr operators for edge detection"
-msgstr ""
+msgstr "Scharr ოპერატორების გადატარება წიბოების დასადგენად"
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
 #, kde-format
@@ -5639,7 +5663,7 @@ msgstr "ლურჯები"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, kde-format
 msgid "Magentas"
-msgstr "ალისფრები"
+msgstr "ფუქსინები"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
 #, kde-format
@@ -6058,6 +6082,8 @@ msgid ""
 "Set input level before filtering for both channels.\n"
 "Allowed range is from 0.015625 to 64."
 msgstr ""
+"დააყენეთ შეყვანის დონე ორივე არხის გაფილტვრამდე.\n"
+"დაშვებული შუალედია 0.015625-დან 64-მდე."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
 #, kde-format
@@ -6142,6 +6168,12 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"მარცხენა/მარჯვენა მარცხენამდე/მარჯვენამდე, მარცხენა/მარჯვენა შუამდე/"
+"გვერდამდე, შუა/გვერდი მარცხენამდე/მარჯვენამდე, მარცხენა/მარჯვენა მარცხენამდე/"
+"მარცხენამდე, მარცხენა/მარჯვენა მარჯვენამდე/მარჯვენამდე, მარცხენა/მარჯვენა "
+"მარცხენამდე + მარჯვენამდე, მარცხენა/მარჯვენა მარჯვენამდე/მარცხენამდე, შუა/"
+"გვერდი მარცხენამდე/მარცხენამდე, შუა/გვერდი მარჯვენამდე/მარჯვენამდე, შუა/"
+"გვერდი მარჯვენამდე/მარცხენამდე, მარცხენა/მარჯვენა მარცხენა - მარჯვენა"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, kde-format
@@ -6205,6 +6237,8 @@ msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
 msgstr ""
+"დააყენეთ სტერეოს ბაზა მონოსა და შებრუნებულ არხებს შორის. ნაგულისხმევია 0. "
+"დაშვებული შუალედია -1-დან 1-მდე."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -6490,7 +6524,7 @@ msgstr "ვექტოროსკოპი (დამატებით)"
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
-msgstr ""
+msgstr "2 ფერის კომპონენტის მნიშვნელობების ჩვენება ორგანზომილებიან გრაფიკში"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:9
 #, kde-format
@@ -6571,7 +6605,7 @@ msgstr "მაღალი ზღვარი"
 #: data/effects/avfilter/avfilter_vectorscope.xml:52
 #, kde-format
 msgid "Auto,Rec.601 (interleaved),Rec.709 (progressive)"
-msgstr ""
+msgstr "ავტო,Rec.601 (ხაზგამოტოვებით),Rec.709 (პროგრესული)"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
@@ -8076,6 +8110,8 @@ msgid ""
 "<![CDATA[Degrees from the horizon<br>\n"
 "    \twhere we start to fill in]]>"
 msgstr ""
+"<![CDATA[გრადუსი ჰორიზონტიდან<br>\n"
+"    \tსადაც ჩვენ შევსებას ვიწყებთ]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -8093,6 +8129,8 @@ msgid ""
 "<![CDATA[Degrees from the horizon<br>\n"
 "    \twhere we reach maximum blur]]>"
 msgstr ""
+"<![CDATA[გრადუსი ჰორიზონტიდან<br>\n"
+"    \tსადაც მაქსიმალურ ბუნდოვნებას ვაღწევთ]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
@@ -8139,7 +8177,7 @@ msgstr "<![CDATA[ბუნდოვნების სიგანე დას�
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
-msgstr ""
+msgstr "<![CDATA[ჰორიზონტალური კუთხე შევსების დასაწყისთან გაბუნდოვნებისთვის]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
@@ -8152,6 +8190,7 @@ msgstr "<![CDATA[ბუნდოვნების სიგანე ბოლ�
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
 msgstr ""
+"<![CDATA[ჰორიზონტალური კუთხე შევსების\tდასასრულთან გაბუნდოვნებისთვის]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
@@ -8195,12 +8234,12 @@ msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
 msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
-msgstr ""
+msgstr "<![CDATA[კუთხე ჰორიზონტიდან, სადაც შევსებას ვიწყებთ]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
 #, kde-format
 msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
-msgstr ""
+msgstr "<![CDATA[კუთხე ჰორიზონტიდან, სადაც მაქსიმალურ ბუნდოვნებას ვაღწევთ]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
 #, kde-format
@@ -8687,6 +8726,7 @@ msgstr "სენსორის პასუხის პარამეტრ�
 #, kde-format
 msgid "<![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]>"
 msgstr ""
+"<![CDATA[ჩართეთ სენსორის პასუხის პარამეტრების გამოსაყენებლად (EMoR h(x))]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
 #, kde-format
@@ -8799,6 +8839,7 @@ msgstr "ანალიზის ნიმუშის რადიუსი"
 #, kde-format
 msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
 msgstr ""
+"<![CDATA[კვადრატის რადიუსი, რომლის ზონდირებასაც სტაბილიზატორი მოახდენს]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #, kde-format
@@ -8809,6 +8850,7 @@ msgstr "ძებნის ანალიზის რადიუსი"
 #, kde-format
 msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
 msgstr ""
+"<![CDATA[მოძრაობის მაქსიმალური რაოდენობა, რომელსაც სტაბილიზატორი აღმოაჩენს]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, kde-format
@@ -8823,7 +8865,7 @@ msgstr "<![CDATA[დაშორება ტრეკინგის წერ�
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
 msgid "Use backwards-facing track points"
-msgstr ""
+msgstr "უკუღმა მიტრიალებული ტრეკის წერტილების გამოყენება"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:36
 #, kde-format
@@ -8943,7 +8985,7 @@ msgstr "ლურჯი ეკრანი (ფერიდან ალფა�
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
 #, kde-format
 msgid "<![CDATA[Turns the selected color into alpha making it transparent.]]>"
-msgstr ""
+msgstr "<![CDATA[გადაიყვანს არჩეულ ფერს ალფაში და მას გამჭვირვალეს ხდის.]]>"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:14
 #, kde-format
@@ -9343,6 +9385,7 @@ msgstr "წინასწარ აღწერილი ფერის ეფ
 #, kde-format
 msgid "X-Pro,Sepia,Heat,Red-Green,Old Photo,X-Ray,Esses (Ss),Yellow-Blue"
 msgstr ""
+"X-Pro,სეპია,თავი,წითელი-მწვანე,ძველი სურათი,რენტგენი,Esses (Ss),ყვითელი-ლურჯი"
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
 #, kde-format
@@ -11229,7 +11272,7 @@ msgstr "ფერის კოდირება"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[აირჩიეთ ხაზგამოტოვებითსა (601) და პროგრესიულს (709) შორის]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
@@ -11774,7 +11817,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
 #, kde-format
 msgid "Brightness of image. Midpoint of sigmoidal curve"
-msgstr ""
+msgstr "გამოსახულების სიკაშკაშე. სიგმოიდური მრუდის შუა წერტილი"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:22
@@ -12960,22 +13003,23 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
 "colors."
 msgstr ""
+"ტონის, გაჯერებულობის და განათებულობის გასწორება 5 ძირითადი/დამხმარე "
+"ფერებისთვის."
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Overlap]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[გადაფარვა]]>"
 
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
 msgid "The amount of overlap or blending between primaries"
-msgstr ""
+msgstr "გადაფარვის ან შერევის რაოდენობა ძირითადებს შორის"
 
 #: data/effects/hsl_primaries.xml:12
 #, kde-format
 msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>ტონის წანაცვლება</u></b> წითელი]]>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2532
@@ -12992,21 +13036,19 @@ msgstr "ცისფერი"
 
 #: data/effects/hsl_primaries.xml:27 data/effects/hsl_primaries.xml:45
 #: data/effects/hsl_primaries.xml:63
-#, fuzzy, kde-format
-#| msgid "Magentas"
+#, kde-format
 msgid "Magenta"
-msgstr "ალისფრები"
+msgstr "ფუქსინი"
 
 #: data/effects/hsl_primaries.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Saturation</u></b> Red]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<b><u>გაჯერება</u></b> წითელი]]>"
 
 #: data/effects/hsl_primaries.xml:48
 #, kde-format
 msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>განათებულობა</u></b> წითელი]]>"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -13082,10 +13124,9 @@ msgid "Invert colors"
 msgstr "ფერების ინვერსია"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer"
-msgstr "ეკვალაიზერი"
+msgstr "TAP ეკვალაიზერი"
 
 #: data/effects/ladspa/ladspa_2141.xml:6
 #, kde-format
@@ -13095,10 +13136,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 1</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
@@ -13114,78 +13154,67 @@ msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
 #: data/effects/ladspa/ladspa_2151.xml:57
 #: data/effects/ladspa/ladspa_2151.xml:66
 #: data/effects/ladspa/ladspa_2151.xml:75
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[გაძლიერება]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 2</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 3</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[<გაძლიერება]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 4</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 5</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 6</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 7</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--ქვედა--</b> Start]]>"
+msgstr "<![CDATA[<u><b>ზოლი 8</b></u> სიხშ]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Dry/Wet]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[მშრალი/ნოტიო]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:4
-#, fuzzy, kde-format
-#| msgid "Reverberance"
+#, kde-format
 msgid "TAP Reverberator"
-msgstr "რევერბერაცია"
+msgstr "TAP რევერბერაცია"
 
 #: data/effects/ladspa/ladspa_2142.xml:6
 #, kde-format
@@ -13203,10 +13232,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2154.xml:14
 #: data/effects/ladspa/ladspa_2156.xml:19
 #: data/effects/ladspa/ladspa_2159.xml:34
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Dry Level"
-msgstr "შუა დონე"
+msgstr "სიმშრალის დონე"
 
 #: data/effects/ladspa/ladspa_2142.xml:15
 #: data/effects/ladspa/ladspa_2148.xml:20
@@ -13214,40 +13242,34 @@ msgstr "შუა დონე"
 #: data/effects/ladspa/ladspa_2154.xml:17
 #: data/effects/ladspa/ladspa_2156.xml:33
 #: data/effects/ladspa/ladspa_2159.xml:39
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Wet Level"
-msgstr "გვერდის დონე"
+msgstr "სისველის დონე"
 
 #: data/effects/ladspa/ladspa_2142.xml:18
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filters"
-msgstr "ფილტრების გასუფთავება"
+msgstr "ფილტრების გაერთ"
 
 #: data/effects/ladspa/ladspa_2142.xml:21
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Allpass Filters"
-msgstr "ყველა ფაილი"
+msgstr "ყველა გავლის ფილტრები"
 
 #: data/effects/ladspa/ladspa_2142.xml:24
-#, fuzzy, kde-format
-#| msgid "EQ and Filters"
+#, kde-format
 msgid "Bandpass Filter"
-msgstr "EQ და ფილტრები"
+msgstr "ზოლური ფილტრი"
 
 #: data/effects/ladspa/ladspa_2142.xml:27
-#, fuzzy, kde-format
-#| msgid "2 Channels (Stereo)"
+#, kde-format
 msgid "Enhanced Stereo"
-msgstr "2 არხი (სტერეო)"
+msgstr "გაფართოებული სტერეო"
 
 #: data/effects/ladspa/ladspa_2142.xml:30
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb Type"
-msgstr "ექოს დრო"
+msgstr "ექოს ტიპი"
 
 #: data/effects/ladspa/ladspa_2142.xml:32
 #, kde-format
@@ -13277,13 +13299,12 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2159.xml:44
 #, kde-format
 msgid "Dry/Wet"
-msgstr ""
+msgstr "მშრალი/ნოტიო"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "TAP Stereo Echo"
-msgstr "სტერეო "
+msgstr "TAP სტერეო ექო"
 
 #: data/effects/ladspa/ladspa_2143.xml:6
 #, kde-format
@@ -13294,60 +13315,54 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:9
-#, fuzzy, kde-format
-#| msgid "Colors Mode"
+#, kde-format
 msgid "Cross Mode"
-msgstr "ფერების რეჟიმი"
+msgstr "ჯვრის რეჟიმი"
 
 #: data/effects/ladspa/ladspa_2143.xml:12
-#, fuzzy, kde-format
-#| msgid "Paste Effects"
+#, kde-format
 msgid "Haas Effect"
-msgstr "ეფექტების ჩასმა"
+msgstr "ჰაასის ეფექტი"
 
 #: data/effects/ladspa/ladspa_2143.xml:15
-#, fuzzy, kde-format
-#| msgid "Pal8 Output"
+#, kde-format
 msgid "Swap Outputs"
-msgstr "Pal8 გამოტანა"
+msgstr "გამოტანების გადანაცვლება"
 
 #: data/effects/ladspa/ladspa_2143.xml:18
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "L Delay"
-msgstr "შეყოვნება"
+msgstr "მარცხ დაყოვნება"
 
 #: data/effects/ladspa/ladspa_2143.xml:21
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "L Feedback"
-msgstr "უკუკავშირი"
+msgstr "მარცხ უკუკავშირი"
 
 #: data/effects/ladspa/ladspa_2143.xml:24
 #, kde-format
 msgid "R/Haas Delay"
-msgstr ""
+msgstr "მარჯვ/ჰაასის დაყოვნება"
 
 #: data/effects/ladspa/ladspa_2143.xml:27
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "R/Haas Feedback"
-msgstr "უკუკავშირი"
+msgstr "მარჯვ/ჰაასის უკუკავშირი"
 
 #: data/effects/ladspa/ladspa_2143.xml:30
 #, kde-format
 msgid "L Echo Level"
-msgstr ""
+msgstr "მარცხ ექოს დონე"
 
 #: data/effects/ladspa/ladspa_2143.xml:33
 #, kde-format
 msgid "R Echo Level"
-msgstr ""
+msgstr "მარჯვ ექოს დონე"
 
 #: data/effects/ladspa/ladspa_2144.xml:4
 #, kde-format
 msgid "TAP Tremolo"
-msgstr ""
+msgstr "TAP ტრემოლო"
 
 #: data/effects/ladspa/ladspa_2144.xml:6
 #, kde-format
@@ -13357,10 +13372,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:4
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "TAP Scaling Limiter"
-msgstr "მასშტაბის განზომილება"
+msgstr "TAP მასშტაბის შემზღუდავი"
 
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
@@ -13370,21 +13384,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:9
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Limit Level"
-msgstr "შუა დონე"
+msgstr "შეზღუდვის დონე"
 
 #: data/effects/ladspa/ladspa_2145.xml:12
-#, fuzzy, kde-format
-#| msgid "Output mode"
+#, kde-format
 msgid "Output Volume"
-msgstr "გამოტანის რეჟიმი"
+msgstr "გამოტანის ხმა"
 
 #: data/effects/ladspa/ladspa_2146.xml:4
 #, kde-format
 msgid "TAP AutoPanner"
-msgstr ""
+msgstr "TAP ავტოპანერი"
 
 #: data/effects/ladspa/ladspa_2146.xml:6
 #, kde-format
@@ -13402,10 +13414,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:4
-#, fuzzy, kde-format
-#| msgid "Deesser"
+#, kde-format
 msgid "TAP DeEsser"
-msgstr "Deesser"
+msgstr "TAP Deesser"
 
 #: data/effects/ladspa/ladspa_2147.xml:6
 #, kde-format
@@ -13416,16 +13427,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:9
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold Level"
-msgstr "ზღვრის მნიშვნელობა"
+msgstr "ზღვრული დონე"
 
 #: data/effects/ladspa/ladspa_2147.xml:15
-#, fuzzy, kde-format
-#| msgid "Sidechain Gain"
+#, kde-format
 msgid "Sidechain Filter"
-msgstr "გვერდითი ჯაჭვის გაძლიერება"
+msgstr "გვერდითი ჯაჭვის ფილტრი"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -13435,22 +13444,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:18
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "Highpass,Bandpass"
-msgstr "გატარების ზოლი"
+msgstr "მაღალი სიხშირის ფილტრი,გატარების ზოლი"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor On"
-msgstr "მონიტორინგი"
+msgstr "მონიტორინგის ჩართვა"
 
 #: data/effects/ladspa/ladspa_2148.xml:4
-#, fuzzy, kde-format
-#| msgid "Vibrato"
+#, kde-format
 msgid "TAP Vibrato"
-msgstr "ვიბრატო"
+msgstr "TAP ვიბრატო"
 
 #: data/effects/ladspa/ladspa_2148.xml:6
 #, kde-format
@@ -13462,21 +13468,21 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change down]]>"
+#, kde-format
 msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
-msgstr "<![CDATA[განსაზღვრავს განათებულობის დაწევის ცვლილების მნიშვნელობას]]>"
+msgstr ""
+"<![CDATA[განსაზღვრავს რამდენად სწრაფად ხდება გაძლიერების მოდულაციის აწევა/"
+"დაწევა]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Sets the amount of pitch modulation]]>"
-msgstr "<![CDATA[აყენებს კუთხეს მიმართულებისთვის]]>"
+msgstr "<![CDATA[აყენებს გაძლიერების მოდულაციის რაოდენობას]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
 msgid "TAP Rotary Speaker"
-msgstr ""
+msgstr "TAP ლესლის დინამიკი"
 
 #: data/effects/ladspa/ladspa_2149.xml:6
 #, kde-format
@@ -13486,33 +13492,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:9
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Rotor Frequency"
-msgstr "დაბალი სიხშირე"
+msgstr "როტორის სიხშირე"
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "დაბალი სიხშირე"
+msgstr "საყვირის სიხშირე"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
-#, fuzzy, kde-format
-#| msgid "Distance"
+#, kde-format
 msgid "Mic Distance"
-msgstr "მანძილი"
+msgstr "მიკროფონის დაშორება"
 
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format
 msgid "Rotor/Horn Mix"
-msgstr ""
+msgstr "როტორის/საყვირის მიქსი"
 
 #: data/effects/ladspa/ladspa_2150.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "TAP Pitch Shifter"
-msgstr "ტონის წანაცვლება"
+msgstr "TAP ტონის წამნაცვლებელია"
 
 #: data/effects/ladspa/ladspa_2150.xml:6
 #, kde-format
@@ -13522,10 +13524,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation Shift"
+#, kde-format
 msgid "Semitone Shift"
-msgstr "გაჯერებულობის წანაცვლება"
+msgstr "ნახევარტონის წანაცვლება"
 
 #: data/effects/ladspa/ladspa_2150.xml:11
 #, kde-format
@@ -13535,10 +13536,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:14
-#, fuzzy, kde-format
-#| msgid "Hue Shift"
+#, kde-format
 msgid "Rate Shift"
-msgstr "ტონის წანაცვლება"
+msgstr "სიხშირის წანაცვლება"
 
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
@@ -13549,10 +13549,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer/BW"
-msgstr "ეკვალაიზერი"
+msgstr "TAP ეკვალაიზერი შ/თ"
 
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
@@ -13570,15 +13569,14 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[BW]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[შთ]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
 msgid "TAP Dynamics (M)"
-msgstr ""
+msgstr "TAP დინამიკა (M)"
 
 #: data/effects/ladspa/ladspa_2152.xml:6
 #, kde-format
@@ -13589,15 +13587,13 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
-#, fuzzy, kde-format
-#| msgid "Offset gain"
+#, kde-format
 msgid "Offset Gain"
 msgstr "წანაცვლების გაძლიერება"
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Make Up Gain"
+#, kde-format
 msgid "Makeup Gain"
 msgstr "გაძლიერების კომპენსაცია"
 
@@ -13605,7 +13601,7 @@ msgstr "გაძლიერების კომპენსაცია"
 #: data/effects/ladspa/ladspa_2153.xml:27
 #, kde-format
 msgid "Dynamics Transfer Function"
-msgstr ""
+msgstr "დინამიკის გადაცემის ფუნქცია"
 
 #: data/effects/ladspa/ladspa_2152.xml:22
 #: data/effects/ladspa/ladspa_2153.xml:28
@@ -13618,10 +13614,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:4
-#, fuzzy, kde-format
-#| msgid "Dynamic Text"
+#, kde-format
 msgid "TAP Dynamics (St)"
-msgstr "დინამიური ტექსტი"
+msgstr "TAP-ის დინამიკა (St)"
 
 #: data/effects/ladspa/ladspa_2153.xml:6
 #, kde-format
@@ -13638,15 +13633,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:24
-#, fuzzy, kde-format
-#| msgid "Independence"
+#, kde-format
 msgid "Independent,Average,Peak"
-msgstr "დამოკიდებულება"
+msgstr "დამოუკიდებელი,საშუალო,პიკი"
 
 #: data/effects/ladspa/ladspa_2154.xml:4
 #, kde-format
 msgid "TAP Reflector"
-msgstr ""
+msgstr "TAP ამრეკლი"
 
 #: data/effects/ladspa/ladspa_2154.xml:6
 #, kde-format
@@ -13656,10 +13650,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2154.xml:9
-#, fuzzy, kde-format
-#| msgid "Profile Length"
+#, kde-format
 msgid "Fragment Length"
-msgstr "პროფილის სიგრძე"
+msgstr "ფრაგმენტის სიგრძე"
 
 #: data/effects/ladspa/ladspa_2154.xml:11
 #, kde-format
@@ -13672,7 +13665,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2155.xml:4
 #, kde-format
 msgid "TAP Pink/Fractal Noise"
-msgstr ""
+msgstr "TAP ვარდისფერი/ფრაქტალური ხმაური"
 
 #: data/effects/ladspa/ladspa_2155.xml:6
 #, kde-format
@@ -13683,27 +13676,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2155.xml:9
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "Fractal Dimension"
-msgstr "მასშტაბის განზომილება"
+msgstr "ფრაქტალის გამზომილება"
 
 #: data/effects/ladspa/ladspa_2155.xml:12
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Signal Level"
-msgstr "გვერდის დონე"
+msgstr "სიგნალის დონე"
 
 #: data/effects/ladspa/ladspa_2155.xml:15
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Noise Level"
-msgstr "გვერდის დონე"
+msgstr "ხმაურის დონე"
 
 #: data/effects/ladspa/ladspa_2156.xml:4
 #, kde-format
 msgid "TAP Fractal Doubler"
-msgstr ""
+msgstr "TAP ფრაქტალის გამაორმაგებელი"
 
 #: data/effects/ladspa/ladspa_2156.xml:6
 #, kde-format
@@ -13714,10 +13704,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "ტრეკის დამალვა"
+msgstr "დროის თვალყურის დევნება"
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -13730,16 +13719,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:14
-#, fuzzy, kde-format
-#| msgid "Pitch smoothing"
+#, kde-format
 msgid "Pitch Tracking"
-msgstr "ტანგაჟის მოგლუვება"
+msgstr "ტონის ტრეკინგი"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "პოზიციის დაყენება"
+msgstr "მშრალი მარცხენა პოზიცია"
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -13752,27 +13739,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "დაწყების პოზიცია"
+msgstr "მშრალი მარჯვენა პოზიცია"
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "პოზიციის დაყენება"
+msgstr "სველი მარცხენა პოზიცია"
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "პოზიციის დაყენება"
+msgstr "სველი მარჯვნეა პოზიცია"
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
 msgid "TAP Sigmoid Booster"
-msgstr ""
+msgstr "TAP სიგმოიდის გამაძლიერებელი"
 
 #: data/effects/ladspa/ladspa_2157.xml:6
 #, kde-format
@@ -13783,26 +13767,25 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "მარცხენას გაზლიერება"
+msgstr "წინასწარი გაძლიერება"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
 msgid "Scales the input signal before the transfer function is applied to it."
-msgstr ""
+msgstr "შეყვანილი სიგნალის მასშტაბი, სანამ მასზე გადაყვანის ფუნქცია მოქმედებს."
 
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "Sox გაძლიერება"
+msgstr "შემდგომი გაძლიერება"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
 msgid "Can be used to adjust the output gain of the effect."
 msgstr ""
+"შეიძლება გამოყენებული იქნას ეფექტის გამოტანის გაძლიერების მორგებისთვის."
 
 #: data/effects/ladspa/ladspa_2158.xml:4
 #, kde-format
@@ -13821,28 +13804,27 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
 msgid "Drive"
-msgstr ""
+msgstr "დისკი"
 
 #: data/effects/ladspa/ladspa_2158.xml:10
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Adjusts the amount of the effect"
-msgstr "გაასწორებს წყარო გამოსახულების კონტრასტს"
+msgstr "ასწორებს ეფექტის რაოდენობას"
 
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
 msgid "Tape--Tube Blend"
-msgstr ""
+msgstr "ლენტის--მილის შერევა"
 
 #: data/effects/ladspa/ladspa_2158.xml:14
 #, kde-format
 msgid "Controls the color of the TubeWarmth sound"
-msgstr ""
+msgstr "მართავს TubeWarmth-ის ხმის ფერს"
 
 #: data/effects/ladspa/ladspa_2159.xml:4
 #, kde-format
 msgid "TAP Chorus/Flange"
-msgstr ""
+msgstr "TAP ქორი/Flange"
 
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
@@ -13861,10 +13843,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:14
-#, fuzzy, kde-format
-#| msgid "Phase Left"
+#, kde-format
 msgid "L/R Phase Shift"
-msgstr "მარცხენის ფაზა"
+msgstr "მარჯვ/მარცხ ფაზის წანაცვლება"
 
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
@@ -13896,10 +13877,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:29
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Contour"
-msgstr "კონტრასტი"
+msgstr "კონტური"
 
 #: data/effects/ladspa/ladspa_2159.xml:31
 #, kde-format
@@ -18703,7 +18683,7 @@ msgid "Create bin folder"
 msgstr "კალათის საქაღალდის შექმნა"
 
 #: src/bin/bin.cpp:2978 src/bin/bin.cpp:2991 src/bin/bin.cpp:4003
-#: src/timeline2/model/timelinemodel.cpp:2211
+#: src/timeline2/model/timelinemodel.cpp:2226
 #, kde-format
 msgid "Delete Clip"
 msgstr "კლიპის წაშლა"
@@ -19471,7 +19451,7 @@ msgid "Cut clip"
 msgstr "კლიპის ამოჭრა"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4058
+#: src/timeline2/model/timelinemodel.cpp:4073
 #, kde-format
 msgid "Resize subtitle"
 msgstr "სუბტიტრის ზომის შეცვლა"
@@ -19606,7 +19586,7 @@ msgstr[1] "%1 აუდიობილიკი"
 msgid "Timeline sequence"
 msgstr "დროის ხაზის მიმდევრობა"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1373
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1370
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -20107,17 +20087,12 @@ msgid "Open Browser"
 msgstr "ბრაუზერის გახსნა"
 
 #: src/core.cpp:2228
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will open a browser to display Kdenlive's online documentation at "
-#| "the following url:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
 " %1"
 msgstr ""
-"ეს გახსნის ბრაუზერს, რო Kdenlive-ის დოკუმენტაცია გახსნას ინტერნეტიდან, "
-"მისამართიდან:\n"
+"ეს გახსნის ბრაუზერს შემდეგი ბმულის საჩვენებლად:\n"
 "%1"
 
 #: src/dialogs/clipcreationdialog.cpp:59
@@ -21858,8 +21833,7 @@ msgstr ""
 "თქვენი GPU-ის აღმოჩენა ვერ ხერხდება, ან, თუ ის ამ დამატებასთან არ მუშაობს."
 
 #: src/dialogs/Simplesplash.qml:102
-#, fuzzy, kde-format
-#| msgid "Made by KDE"
+#, kde-format
 msgid "Make by KDE"
 msgstr "შეიქმნა KDE-ის მიერ"
 
@@ -21871,20 +21845,17 @@ msgstr "Kdenlive"
 #: src/dialogs/Simplesplash.qml:161
 #, kde-format
 msgid "Kdenlive crashed on last start."
-msgstr ""
+msgstr "Kdenlive ბოლო გაშვებისას ავარიულად დასრულდა."
 
 #: src/dialogs/Simplesplash.qml:170
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Reset Configuration"
+#, kde-format
 msgid "Reset Configuration"
-msgstr "კონფიგურაციის გასუფთავება"
+msgstr "კონფიგურაციის ჩამოყრა"
 
 #: src/dialogs/Simplesplash.qml:179
-#, fuzzy, kde-format
-#| msgid "Start Color"
+#, kde-format
 msgid "Start Normally"
-msgstr "საწყისი ფერი"
+msgstr "ნორმალურად დაწყება"
 
 #: src/dialogs/Simplesplash.qml:206 src/dialogs/Splash.qml:614
 #, kde-format
@@ -21893,17 +21864,19 @@ msgid ""
 "org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive."
 "org/fund/\">funding</a>."
 msgstr ""
+"Kdenlive განახლდა. თუ გნებავთ, <a href=\"https://kdenlive.org/get-involved/"
+"\">ჩაერიოთ</a> ან დაგვეხმაროთ <a href=\"https://kdenlive.org/fund/"
+"\">დაფინანსებაში</a>."
 
 #: src/dialogs/Simplesplash.qml:219 src/dialogs/Splash.qml:628
 #, kde-format
 msgid "What's New"
-msgstr ""
+msgstr "რა არის ახალი"
 
 #: src/dialogs/Simplesplash.qml:228
-#, fuzzy, kde-format
-#| msgid "Container:"
+#, kde-format
 msgid "Continue"
-msgstr "შემადგენლობა:"
+msgstr "გაგრძელება"
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -22540,106 +22513,99 @@ msgid "Zulu"
 msgstr "ზულუ"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K UHD 2160"
+#, kde-format
 msgid "4K UHD 3840x2160"
-msgstr "4K UHD 2160"
+msgstr "4K UHD 3840x2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K DCI 2160"
+#, kde-format
 msgid "4K DCI 4096x2160"
-msgstr "4K DCI 2160"
+msgstr "4K DCI 4096x2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "2.5K QHD 1440"
+#, kde-format
 msgid "2.5K QHD 2560x1440"
-msgstr "2.5K QHD 1440"
+msgstr "2.5K QHD 2560x1440"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1920x1080"
-msgstr "Full HD 1080"
+msgstr "Full HD 1920x1080"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "HD 1280x720"
-msgstr ""
+msgstr "HD 1280x720"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "SD NTSC Wide 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC 720x480"
-msgstr ""
+msgstr "SD NTSC 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "SD PAL Wide 720x576"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "720x576"
+#, kde-format
 msgid "SD PAL 720x576"
-msgstr "720x576"
+msgstr "SD PAL 720x576"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1080x1920"
-msgstr "Full HD 1080"
+msgstr "Full HD 1080x1920"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "HD 720"
+#, kde-format
 msgid "HD 720x1280"
-msgstr "HD 720"
+msgstr "HD 720x1280"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "23.98 fps"
-msgstr ""
+msgstr "23.98 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "24 fps"
-msgstr ""
+msgstr "24 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "25 fps"
-msgstr ""
+msgstr "25 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "29.97 fps"
-msgstr ""
+msgstr "29.97 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "30 fps"
-msgstr ""
+msgstr "30 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "50 fps"
-msgstr ""
+msgstr "50 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "59.94 fps"
-msgstr ""
+msgstr "59.94 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "60 fps"
-msgstr ""
+msgstr "60 კადრი/წმ"
 
 #: src/dialogs/Splash.qml:169
 #, kde-format
@@ -22647,98 +22613,86 @@ msgid "Made by KDE"
 msgstr "შეიქმნა KDE-ის მიერ"
 
 #: src/dialogs/Splash.qml:227
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "Open Project…"
-msgstr "პროექტის დაარქივება…"
+msgstr "პროექტის გახსნა…"
 
 #: src/dialogs/Splash.qml:255
-#, fuzzy, kde-format
-#| msgid "Open Document"
+#, kde-format
 msgid "Open Recent"
-msgstr "დოკუმენტის გახსნა"
+msgstr "ბოლოს გახსნილი ფაილების გახსნა"
 
 #: src/dialogs/Splash.qml:263
 #, kde-format
 msgid "Clear History of Recent Projects"
-msgstr ""
+msgstr "უახლოესი პროექტების ისტორიის გაწმენდა"
 
 #: src/dialogs/Splash.qml:359
-#, fuzzy, kde-format
-#| msgid "Remove from favorites"
+#, kde-format
 msgid "Remove file from list"
-msgstr "რჩეულებიდან წაშლა"
+msgstr "სიიდან წაშლა"
 
 #: src/dialogs/Splash.qml:389
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "New Project…"
-msgstr "პროექტის დაარქივება…"
+msgstr "ახალი პროექტი…"
 
 #: src/dialogs/Splash.qml:416
-#, fuzzy, kde-format
-#| msgid "Test Proxy Profiles"
+#, kde-format
 msgid "New From Profile"
-msgstr "პროქსის პროფილების დატესტვა"
+msgstr "ახალი პროფილიდან"
 
 #: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
-msgstr ""
+msgstr "უახლოესი პროფილების ისტორიის გაწმენდა"
 
 #: src/dialogs/Splash.qml:507
-#, fuzzy, kde-format
-#| msgid "Request option from list"
+#, kde-format
 msgid "Remove profile from list"
-msgstr "მოთხოვნის პარამეტრი სიიდან"
+msgstr "პროფილის წაშლა სიიდან"
 
 #: src/dialogs/Splash.qml:546
-#, fuzzy, kde-format
-#| msgid "Go to Zone Start"
+#, kde-format
 msgid "Show on Startup"
-msgstr "გადასვლა ზონის დასაწყისში"
+msgstr "გაშვებისას ჩვენება"
 
 #: src/dialogs/Splash.qml:580 src/dialogs/Splash.qml:948
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
-"Kdenlive ბოლო გაშვებისას ავარიულად დასრულდა.\n"
-"გნებავთ ჩამოყაროთ კონფიგურაციის ფაილები?"
+"Kdenlive ბოლო გაშვებისას ავარიულად დასრულდა. გნებავთ ჩამოყაროთ კონფიგურაციის "
+"ფაილები და გადატვირთოთ პროგრამა?"
 
 #: src/dialogs/Splash.qml:658
 #, kde-format
 msgid "Help us make Kdenlive even better"
-msgstr ""
+msgstr "დაგვეხმარეთ, Kdenlive უკეთესი გავხადოთ"
 
 #: src/dialogs/Splash.qml:664
 #, kde-format
 msgid "Contribute…"
-msgstr ""
+msgstr "შემოწირულობა…"
 
 #: src/dialogs/Splash.qml:669
 #, kde-format
 msgid "Donate…"
-msgstr ""
+msgstr "შეწირვა…"
 
 #: src/dialogs/Splash.qml:699
-#, fuzzy, kde-format
-#| msgid "Welcome to Kdenlive %1"
+#, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
-msgstr "მოგესალმებათ Kdenlive %1"
+msgstr "<b>მოგესალმებათ Kdenlive-ის სწრაფი მორგება</b>"
 
 #: src/dialogs/Splash.qml:705
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr ""
+msgstr "მუქი თემის გამოყენება ყოველთვის"
 
 #: src/dialogs/Splash.qml:717
-#, fuzzy, kde-format
-#| msgid "Change default project profile"
+#, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "ნაგულისხმევი პროექტის პროფილის შეცვლა"
+msgstr "<b>ნაგულისხმევი პროექტის პროფილის</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:834 src/ui/colorplaneexport_ui.ui:105
@@ -22747,10 +22701,9 @@ msgid "Resolution"
 msgstr "გარჩევადობა"
 
 #: src/dialogs/Splash.qml:861
-#, fuzzy, kde-format
-#| msgid "Frame Rate:"
+#, kde-format
 msgid "Frame Rate"
-msgstr "კადრების სიხშირე:"
+msgstr "კადრების სიხშირე"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
@@ -22764,34 +22717,29 @@ msgid "Interlaced"
 msgstr "ხაზგამოტოვებით"
 
 #: src/dialogs/Splash.qml:906
-#, fuzzy, kde-format
-#| msgid "Video tracks:"
+#, kde-format
 msgid "Video Tracks"
-msgstr "ვიდეობილიკები:"
+msgstr "ვიდეობილიკები"
 
 #: src/dialogs/Splash.qml:915
-#, fuzzy, kde-format
-#| msgid "Audio tracks:"
+#, kde-format
 msgid "Audio Tracks"
-msgstr "აუდიობილიკები:"
+msgstr "აუდიობილიკები"
 
 #: src/dialogs/Splash.qml:928
 #, kde-format
 msgid "This can always be changed later in the Settings."
-msgstr ""
+msgstr "ამისი შეცვლა გარეგნობის პარამეტრებში ყოველთვის შეგიძლიათ."
 
 #: src/dialogs/Splash.qml:973
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Check Online Documentation"
-msgstr "ონლაინ-დოკუმენტაცია"
+msgstr "ონლაინ-დოკუმენტაციის შემოწმება"
 
 #: src/dialogs/Splash.qml:981
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Start Editing"
-msgstr "დაწყების პოზიცია"
+msgstr "ჩასწორების დაწყება"
 
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
@@ -24294,7 +24242,7 @@ msgstr "ეფექტს %1 ორჯერ ვერ დაამატებ
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5181
+#: src/timeline2/model/timelinemodel.cpp:5196
 #, kde-format
 msgid "Add effect %1"
 msgstr "ეფექტის დამატება: %1"
@@ -25068,7 +25016,7 @@ msgid "Clip in Timeline"
 msgstr "კლიპი დროის ხაზზე"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1009
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
 #, kde-format
 msgid "Sequence"
 msgstr "მიმდევრობა"
@@ -25192,36 +25140,31 @@ msgid "Extra Toolbar"
 msgstr "დამატებით პანელი"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "ჩაწერა"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "ჩასწორება"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "აუდიო"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "ეფექტები"
 
 #: src/layouts/layoutcollection.cpp:28
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
 msgstr "ფერი"
@@ -25261,12 +25204,12 @@ msgstr "%1-ის განლაგება: %2"
 #, kde-format
 msgid "The layout %1 could not be restored, should be removed and recreated."
 msgstr ""
+"განლაგების %1 აღდგენა შეუძლებელია. სჯობს, ის წაშალოთ და თავიდან შექმნათ."
 
 #: src/layouts/layoutmanagement.cpp:267
-#, fuzzy, kde-format
-#| msgid "Project file could not be saved for export."
+#, kde-format
 msgid "The layout from the project file could not be restored."
-msgstr "პროექტის ფაილის შენახვა გასატანად შეუძლებელია."
+msgstr "პროექტის ფაილიდან განლაგების აღდგენა შეუძლებელია."
 
 #: src/layouts/layoutmanagement.cpp:285
 #, kde-format
@@ -25285,10 +25228,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "განლაგება %1 უკვე არსებობს. გნებავთ, ჩაანაცვლოთ ის?"
 
 #: src/layouts/layoutmanagement.cpp:340
-#, fuzzy, kde-format
-#| msgid "Could not create temporary file in %1"
+#, kde-format
 msgid "Could not save layout to file: %1"
-msgstr "%1-ში დროებით ფაილების შექმნის შეცდომა"
+msgstr "ვერ შევინახე განლაგება ფაილში: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -25317,15 +25259,14 @@ msgid "Export selected"
 msgstr "მონიშნულის გატანა"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "Delete the layout."
+#, kde-format
 msgid "Delete Layout"
-msgstr "განლაგების წაშლა."
+msgstr "განლაგების წაშლა"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
 #, kde-format
 msgid "Are you sure you want to delete the layout %1?"
-msgstr ""
+msgstr "მართლა გნებავთ, წაშალოთ განლაგება %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:189
 #, kde-format
@@ -25350,31 +25291,24 @@ msgstr "განლაგების შემოტანა"
 
 #: src/layouts/layoutmanagerdialog.cpp:206
 #: src/layouts/layoutmanagerdialog.cpp:284
-#, fuzzy, kde-format
-#| msgid "Kdenlive Layout (*.kdenlivelayout)"
+#, kde-format
 msgid "Kdenlive Layout (*.json)"
-msgstr "Kdenlive-ის განლაგება (*.kdenlivelayout)"
+msgstr "Kdenlive-ის განლაგება (*.json)"
 
 #: src/layouts/layoutmanagerdialog.cpp:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not create assets folder:\n"
-#| " %1"
+#, kde-format
 msgid "Could not write in the layouts folder %1"
-msgstr ""
-"ფაილებს საქაღალდის შექმნის შეცდომა:\n"
-"%1"
+msgstr "ვერ ჩავწერე განლაგებების საქაღალდეში %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:234
 #, kde-format
 msgid "Selected layout is already imported"
-msgstr ""
+msgstr "მონიშნული განლაგება უკვე შემოტანილია"
 
 #: src/layouts/layoutmanagerdialog.cpp:241
-#, fuzzy, kde-format
-#| msgid "Invalid LUT file %1"
+#, kde-format
 msgid "Invalid file selected: %1"
-msgstr "არასწორი LUT ფაილი %1"
+msgstr "არჩეული ფაილი არასწორია: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:274
 #: src/layouts/layoutmanagerdialog.cpp:281
@@ -25392,21 +25326,19 @@ msgid "No layout selected."
 msgstr "განლაგება არჩეული არაა."
 
 #: src/layouts/layoutmanagerdialog.cpp:281
-#, fuzzy, kde-format
-#| msgid "Cannot find layout data for %1."
+#, kde-format
 msgid "Cannot find layout file for %1."
-msgstr "ვერ ვიპოვე განლაგების მონაცემები %1-სთვის."
+msgstr "ვერ ვიპოვე განლაგების ფაილი %1-ისთვის."
 
 #: src/layouts/layoutmanagerdialog.cpp:302
 #, kde-format
 msgid "Overwrite existing file for vertical layout %1?"
-msgstr ""
+msgstr "გადავაწერო თავზე არსებულ ფაილს ვერტიკალური განლაგებისთვის %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:304
-#, fuzzy, kde-format
-#| msgid "Layout exported successfully."
+#, kde-format
 msgid "Horizontal layout exported successfully."
-msgstr "დოკუმენტების გატანა წარმატებულია."
+msgstr "ჰორიზონტალური განლაგების გატანა წარმატებულია."
 
 #: src/layouts/layoutmanagerdialog.cpp:318
 #, kde-format
@@ -25414,24 +25346,22 @@ msgid "Layout exported successfully."
 msgstr "დოკუმენტების გატანა წარმატებულია."
 
 #: src/layouts/layoutmanagerdialog.cpp:332
-#, fuzzy, kde-format
-#| msgid "Shift chroma pixels horizontally and/or vertically. "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains horizontal and vertical profiles"
-msgstr ""
-"გაბუნდოვნების პიქსელების წანაცვლება ჰორიზონტალურად ან/და ვერტიკალურად. "
+msgstr "ეს განლაგება შეიცავს ჰორიზონტალურ და ვერტიკალურ პროფილებს"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an horizontal profile"
-msgstr ""
+msgstr "ეს განლაგება ჰორიზონტალურ პროფილს შეიცავს"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an vertical profile"
-msgstr ""
+msgstr "ეს განლაგება ვერტიკალურ პროფილს შეიცავს"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -25839,7 +25769,7 @@ msgstr ""
 #: src/main.cpp:341
 #, kde-format
 msgid "Do not show any welcome screen."
-msgstr ""
+msgstr "არ აჩვენო მისასალმებელი ფანჯარა."
 
 #: src/main.cpp:344
 #, kde-format
@@ -27158,10 +27088,9 @@ msgid "Fit all Tracks in View"
 msgstr "ყველა ტრეკის ჩატევა ხედში"
 
 #: src/mainwindow.cpp:2080 src/timeline2/view/timelinecontroller.cpp:4970
-#, fuzzy, kde-format
-#| msgid "Sequence count"
+#, kde-format
 msgid "Sequence effects"
-msgstr "მიმდევრობის რაოდენობა"
+msgstr "მიმდევრობის ეფექტები"
 
 #: src/mainwindow.cpp:2087
 #, kde-format
@@ -27268,7 +27197,7 @@ msgstr "სუბტიტრის ფაილის შემოტანა�
 msgid "Export Subtitle File…"
 msgstr "სუბტიტრის ფაილის გატანა…"
 
-#: src/mainwindow.cpp:2156 src/timeline2/model/timelinemodel.cpp:2215
+#: src/mainwindow.cpp:2156 src/timeline2/model/timelinemodel.cpp:2230
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "სუბტიტრების წაშლა"
@@ -28560,10 +28489,9 @@ msgid "Zoom Out Monitor"
 msgstr "ეკრანის დაპატარავება"
 
 #: src/monitor/monitormanager.cpp:566
-#, fuzzy, kde-format
-#| msgid "Reset Zoom"
+#, kde-format
 msgid "Reset Monitor Zoom"
-msgstr "გადიდების ჩამოყრა"
+msgstr "მონიტორის გადიდების ჩამოყრა"
 
 #: src/monitor/monitormanager.cpp:575
 #, kde-format
@@ -28733,17 +28661,17 @@ msgstr "აუდიოს სპექტრის ჩასართავა�
 msgid "Enable Audio Spectrum"
 msgstr "ხმის სპექტრის ჩართვა"
 
-#: src/monitor/videowidget.cpp:1123
+#: src/monitor/videowidget.cpp:1125
 #, kde-format
 msgid "Select a zone to play"
 msgstr "აირჩიეთ დასაკრავი ზონა"
 
-#: src/monitor/videowidget.cpp:1132
+#: src/monitor/videowidget.cpp:1134
 #, kde-format
 msgid "Select a clip to play"
 msgstr "აირჩიეთ დასაკრავი კლიპი"
 
-#: src/monitor/videowidget.cpp:1237
+#: src/monitor/videowidget.cpp:1239
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28805,16 +28733,14 @@ msgid "Show Grid"
 msgstr "ბადის ჩვენება"
 
 #: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Show Safe Areas"
-msgstr "ზონის დაყენება"
+msgstr "უსაფრთხო არეების ჩვენება"
 
 #: src/monitor/view/EffectToolBar.qml:91 src/monitor/view/SceneToolBar.qml:81
-#, fuzzy, kde-format
-#| msgid "Compositions"
+#, kde-format
 msgid "Composition Guides"
-msgstr "კომპოზიციები"
+msgstr "მიმმართველი ხაზები"
 
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
@@ -29043,10 +28969,9 @@ msgid "Enable Transform"
 msgstr "ტრასფორმაციის ჩართვა"
 
 #: src/monitor/view/SceneToolBar.qml:97
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "მარკერის წაშლა"
+msgstr "მარკერის დამატება/წაშლა"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -31515,6 +31440,8 @@ msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
 "effects not provided by avfilter."
 msgstr ""
+"10-ბიტიანი ფერის სიღრმე გადაყვანილი იქნება 8-ბიტიანში, თუ იყენებთ "
+"კომპოზიტირებას ან ეფექტებს, რომლებსაც avfilter არ გაწვდით."
 
 #: src/renderpresets/renderpresetmodel.cpp:391
 #, kde-format
@@ -32398,7 +32325,7 @@ msgid "Delete clips on track"
 msgstr "ტრეკზე კლიპები წაშლა"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4758
+#: src/timeline2/model/timelinemodel.cpp:4773
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -32492,9 +32419,9 @@ msgid "Move clip"
 msgstr "კლიპის გადატანა"
 
 #: src/timeline2/model/timelinemodel.cpp:1878
-#: src/timeline2/model/timelinemodel.cpp:1971
-#: src/timeline2/model/timelinemodel.cpp:1995
-#: src/timeline2/model/timelinemodel.cpp:2024
+#: src/timeline2/model/timelinemodel.cpp:1972
+#: src/timeline2/model/timelinemodel.cpp:1996
+#: src/timeline2/model/timelinemodel.cpp:2025
 #: src/timeline2/view/timelinecontroller.cpp:3391
 #, kde-format
 msgid "No available track for insert operation"
@@ -32505,95 +32432,96 @@ msgstr "ჩასმის ოპერაციისთვის ხელმ�
 msgid "Insert Clip"
 msgstr "კლიპის ჩასმა"
 
-#: src/timeline2/model/timelinemodel.cpp:1939
+#: src/timeline2/model/timelinemodel.cpp:1940
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "მიმდევრობას, რომელიც თავის თავს შეიცავს, ვერ ჩასვამთ"
 
-#: src/timeline2/model/timelinemodel.cpp:1988
-#: src/timeline2/model/timelinemodel.cpp:2016
+#: src/timeline2/model/timelinemodel.cpp:1989
+#: src/timeline2/model/timelinemodel.cpp:2017
+#: src/timeline2/model/timelinemodel.cpp:2045
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "არასაკმარისი აუდიობილიკები ყველა ნაკადისთვის (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2100
+#: src/timeline2/model/timelinemodel.cpp:2115
 #, kde-format
 msgid "No available track for split operation"
 msgstr "ხელმიუწვდომელი ტრეკი გაყოფის ოპერაციისთვის"
 
-#: src/timeline2/model/timelinemodel.cpp:2137
+#: src/timeline2/model/timelinemodel.cpp:2152
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "ხმის გაყოფა ჩავარდა: შესაბამისი ტრეკის გარეშე"
 
-#: src/timeline2/model/timelinemodel.cpp:2145
+#: src/timeline2/model/timelinemodel.cpp:2160
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "ხმის გაყოფა ჩავარდა: აუდიოკლიპის შექმნა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:2208
+#: src/timeline2/model/timelinemodel.cpp:2223
 #, kde-format
 msgid "Remove group"
 msgstr "ჯგუფის წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:2213
+#: src/timeline2/model/timelinemodel.cpp:2228
 #, kde-format
 msgid "Delete Composition"
 msgstr "კომპოზიციის წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:2452
-#: src/timeline2/model/timelinemodel.cpp:2753
+#: src/timeline2/model/timelinemodel.cpp:2467
+#: src/timeline2/model/timelinemodel.cpp:2768
 #: src/timeline2/view/timelinecontroller.cpp:4362
 #, kde-format
 msgid "Move group"
 msgstr "ჯგუფის გადაადგილება"
 
-#: src/timeline2/model/timelinemodel.cpp:3449
+#: src/timeline2/model/timelinemodel.cpp:3464
 #, kde-format
 msgid "Resize group"
 msgstr "ჯგუფის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3573
+#: src/timeline2/model/timelinemodel.cpp:3588
 #, kde-format
 msgid "Resize clip speed"
 msgstr "კლიპის სიჩქარის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3732
+#: src/timeline2/model/timelinemodel.cpp:3747
 #, kde-format
 msgid "Remove mix"
 msgstr "შეერთების წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3734
+#: src/timeline2/model/timelinemodel.cpp:3749
 #, kde-format
 msgid "Removing mix failed"
 msgstr "შეერთების წაშლა ჩავარდა"
 
-#: src/timeline2/model/timelinemodel.cpp:4054
+#: src/timeline2/model/timelinemodel.cpp:4069
 #, kde-format
 msgid "Resize clip"
 msgstr "კლიპის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:4056
+#: src/timeline2/model/timelinemodel.cpp:4071
 #, kde-format
 msgid "Resize composition"
 msgstr "კომპოზიციის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:4384
+#: src/timeline2/model/timelinemodel.cpp:4399
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "კლიპის ზომის შეცვლა მისი წანაცვლებით"
 
-#: src/timeline2/model/timelinemodel.cpp:4386
+#: src/timeline2/model/timelinemodel.cpp:4401
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "კომპოზიციის ზომის შეცვლა მისი წანაცვლებით"
 
-#: src/timeline2/model/timelinemodel.cpp:4388
+#: src/timeline2/model/timelinemodel.cpp:4403
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "სუბტიტრის ზომის შეცვლა მისი წანაცვლებით"
 
-#: src/timeline2/model/timelinemodel.cpp:4531
+#: src/timeline2/model/timelinemodel.cpp:4546
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -32601,136 +32529,136 @@ msgid_plural "Slip clips"
 msgstr[0] "კლიპის გადახვევა"
 msgstr[1] "კლიპების გადახვევა"
 
-#: src/timeline2/model/timelinemodel.cpp:4566
+#: src/timeline2/model/timelinemodel.cpp:4581
 #, kde-format
 msgid "Slip clip"
 msgstr "კლიპის გადახვევა"
 
-#: src/timeline2/model/timelinemodel.cpp:4601
+#: src/timeline2/model/timelinemodel.cpp:4616
 #, kde-format
 msgid "Group clips"
 msgstr "კლიპების დაჯგუფება"
 
-#: src/timeline2/model/timelinemodel.cpp:4686
-#: src/timeline2/model/timelinemodel.cpp:4702
+#: src/timeline2/model/timelinemodel.cpp:4701
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Ungroup clips"
 msgstr "კლიპების განჯგუფება"
 
-#: src/timeline2/model/timelinemodel.cpp:4867
+#: src/timeline2/model/timelinemodel.cpp:4882
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Delete Track"
 msgstr "ტრეკის წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:4877
+#: src/timeline2/model/timelinemodel.cpp:4892
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "დროის ხაზიდან უკანასკნელი ტრეკის წაშლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:5102
+#: src/timeline2/model/timelinemodel.cpp:5117
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "ძირითად ტრეკს ეფექტს %1 ვერ დაამატებთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5109
+#: src/timeline2/model/timelinemodel.cpp:5124
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "მონიშნულ ტრეკს ეფექტს %1 ვერ დაამატებთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5130
+#: src/timeline2/model/timelinemodel.cpp:5145
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "ეფექტს ძირითად ტრეკში ვერ ჩასვამთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5136
+#: src/timeline2/model/timelinemodel.cpp:5151
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "ეფექტს მონიშნულ ტრეკში ვერ ჩასვამთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5184
+#: src/timeline2/model/timelinemodel.cpp:5199
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "ეფექტის %1 დამატება მონიშნულ კლიპზე შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:5208
+#: src/timeline2/model/timelinemodel.cpp:5223
 #, kde-format
 msgid "Adjust Fade"
 msgstr "მინავლების გასწორება"
 
-#: src/timeline2/model/timelinemodel.cpp:5573
+#: src/timeline2/model/timelinemodel.cpp:5588
 #, kde-format
 msgid "Insert Composition"
 msgstr "კომპოზიციის ჩასმა"
 
-#: src/timeline2/model/timelinemodel.cpp:5794
+#: src/timeline2/model/timelinemodel.cpp:5809
 #, kde-format
 msgid "Move composition"
 msgstr "კომპოზიციის გადატანა"
 
-#: src/timeline2/model/timelinemodel.cpp:6508
+#: src/timeline2/model/timelinemodel.cpp:6523
 #, kde-format
 msgid "Enable time remap"
 msgstr "დროის თავიდან ასახვის ჩართვა"
 
-#: src/timeline2/model/timelinemodel.cpp:6582
+#: src/timeline2/model/timelinemodel.cpp:6597
 #, kde-format
 msgid "Change speed failed"
 msgstr "სიჩქარის შეცვლა ჩავარდა"
 
-#: src/timeline2/model/timelinemodel.cpp:6592
+#: src/timeline2/model/timelinemodel.cpp:6607
 #, kde-format
 msgid "Change clip speed"
 msgstr "კლიპის სიჩქარის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
+#: src/timeline2/model/timelinemodel.cpp:7055
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
-#: src/timeline2/model/timelinemodel.cpp:7045
+#: src/timeline2/model/timelinemodel.cpp:7060
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "ბილიკის გახსნა"
 
-#: src/timeline2/model/timelinemodel.cpp:7079
-#: src/timeline2/model/timelinemodel.cpp:7141
+#: src/timeline2/model/timelinemodel.cpp:7094
+#: src/timeline2/model/timelinemodel.cpp:7156
 #, kde-format
 msgid "Change composition"
 msgstr "კომპოზიციის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7093
+#: src/timeline2/model/timelinemodel.cpp:7108
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "ოპერაციის გადატარება დაჯგუფებულ კომპოზიციაზე შეუძლებელია. ჯერ განაჯგუფეთ"
 
-#: src/timeline2/model/timelinemodel.cpp:7291
-#: src/timeline2/model/timelinemodel.cpp:7330
-#: src/timeline2/model/timelinemodel.cpp:7365
-#: src/timeline2/model/timelinemodel.cpp:7446
+#: src/timeline2/model/timelinemodel.cpp:7306
+#: src/timeline2/model/timelinemodel.cpp:7345
+#: src/timeline2/model/timelinemodel.cpp:7380
+#: src/timeline2/model/timelinemodel.cpp:7461
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "შერევის ზომის შეცვლა 1 კადრზე ნაკლებისთვის შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7302
-#: src/timeline2/model/timelinemodel.cpp:7338
-#: src/timeline2/model/timelinemodel.cpp:7382
-#: src/timeline2/model/timelinemodel.cpp:7470
+#: src/timeline2/model/timelinemodel.cpp:7317
+#: src/timeline2/model/timelinemodel.cpp:7353
+#: src/timeline2/model/timelinemodel.cpp:7397
+#: src/timeline2/model/timelinemodel.cpp:7485
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "შერევის ზომის შეცვლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7486
+#: src/timeline2/model/timelinemodel.cpp:7501
 #, kde-format
 msgid "Resize mix"
 msgstr "შერევის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7606
+#: src/timeline2/model/timelinemodel.cpp:7621
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "დროის ხაზის მინიატურის ინიციალიზაციის შეცდომა"
@@ -32856,49 +32784,49 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1999
+#: src/timeline2/view/qml/Timeline.qml:1998
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
 
-#: src/timeline2/view/qml/Clip.qml:230 src/timeline2/view/qml/Clip.qml:1155
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), მდებარეობა: %4, ხანგრძლივობა: %5"
 
-#: src/timeline2/view/qml/Clip.qml:332 src/timeline2/view/qml/Clip.qml:346
+#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
 #: src/timeline2/view/qml/SubTitle.qml:211
 #: src/timeline2/view/qml/SubTitle.qml:217
 #, kde-format
 msgid "Position: %1"
 msgstr "მდებარეობა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:533
+#: src/timeline2/view/qml/Clip.qml:530
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "შერევის ხანგრძლივობა: %1. ამოჭრის დრო: %2"
 
-#: src/timeline2/view/qml/Clip.qml:587
+#: src/timeline2/view/qml/Clip.qml:584
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, შერევის ხანგრძლივობა: %2"
 
-#: src/timeline2/view/qml/Clip.qml:589
+#: src/timeline2/view/qml/Clip.qml:586
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, შერევის ხანგრძლივობა: %2"
 
-#: src/timeline2/view/qml/Clip.qml:592 src/timeline2/view/qml/Clip.qml:607
+#: src/timeline2/view/qml/Clip.qml:589 src/timeline2/view/qml/Clip.qml:604
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "შერევის ხანგრძლივობა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1040
+#: src/timeline2/view/qml/Clip.qml:1037
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "შეყვანა:%1, მდებარეობა:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1043 src/timeline2/view/qml/Clip.qml:1145
+#: src/timeline2/view/qml/Clip.qml:1040 src/timeline2/view/qml/Clip.qml:1142
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -32907,54 +32835,54 @@ msgstr ""
 "<b>Ctrl გადათრევა</b> სიჩქარის შესაცვლელად, <b>ორმაგი წკაპი</b> ახლომდებარე "
 "კლიპთან შესაერთებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1045
+#: src/timeline2/view/qml/Clip.qml:1042
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>გადაათრიეთ</b> შერევის ხანგრძლივობის შესაცვლელად"
 
-#: src/timeline2/view/qml/Clip.qml:1142
+#: src/timeline2/view/qml/Clip.qml:1139
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "გამოყვანა:%1, მდებარეობა:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:1278
 #, kde-format
 msgid "Offset: -%1"
 msgstr "წანაცვლება: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:1278
 #, kde-format
 msgid "Offset: %1"
 msgstr "წანაცვლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1282
+#: src/timeline2/view/qml/Clip.qml:1279
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>დააწკაპუნეთ</b> კლიპების გასასწორებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1562
+#: src/timeline2/view/qml/Clip.qml:1522 src/timeline2/view/qml/Clip.qml:1559
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>დააწკაპუნეთ</b> კომპოზიციის დასამატებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1639 src/timeline2/view/qml/Clip.qml:1646
+#: src/timeline2/view/qml/Clip.qml:1636 src/timeline2/view/qml/Clip.qml:1643
 #, kde-format
 msgid "Fade out: %1"
 msgstr "მინავლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1650 src/timeline2/view/qml/Clip.qml:1757
+#: src/timeline2/view/qml/Clip.qml:1647 src/timeline2/view/qml/Clip.qml:1754
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>გადათრიეთ</b> მინავლების მოსარგებად, <b>დააწკაპუნეთ</b> ნაგულისხმევი "
 "მნიშვნელობის ხანგრძლივობის მინავლების დამატება"
 
-#: src/timeline2/view/qml/Clip.qml:1746 src/timeline2/view/qml/Clip.qml:1753
+#: src/timeline2/view/qml/Clip.qml:1743 src/timeline2/view/qml/Clip.qml:1750
 #, kde-format
 msgid "Fade in: %1"
 msgstr "გამოჩენა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1841
+#: src/timeline2/view/qml/Clip.qml:1838
 #, kde-format
 msgid "Slip Clip"
 msgstr "კლიპის გადახვევა"
@@ -33018,29 +32946,28 @@ msgstr "ჩვენება"
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/Timeline.qml:1003
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#: src/timeline2/view/qml/Timeline.qml:1005
+#, kde-format
 msgid "Show sequence effects"
-msgstr "ძირითადი ეფექტების ჩვენება"
+msgstr "მიმდევრობის ეფექტების ჩვენება"
 
-#: src/timeline2/view/qml/Timeline.qml:1662
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/Timeline.qml:1829
+#: src/timeline2/view/qml/Timeline.qml:1827
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1988
-#: src/timeline2/view/qml/Timeline.qml:1997
+#: src/timeline2/view/qml/Timeline.qml:1987
+#: src/timeline2/view/qml/Timeline.qml:1996
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/Timeline.qml:2091
+#: src/timeline2/view/qml/Timeline.qml:2090
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
@@ -33463,6 +33390,9 @@ msgid ""
 "other timelines ?<br>Not resizing will temporarily keep the current duration "
 "in all other sequences."
 msgstr ""
+"დროის ხაზის მიმდევრობა <b>%1</b> შემოკლდა.<br/>შევცვალო ყველა გაშვებული "
+"ასლის ზომა სხვა დროის ხაზებზე ?<br>ზომის არშეცვლა დროებით შეინარჩუნებს "
+"მიმდინარე ხანგრძლივობას ყველა სხვა მიმდევრობაში."
 
 #: src/timeline2/view/timelinetabs.cpp:178
 #, kde-format
@@ -34926,10 +34856,9 @@ msgstr "აუდიოს მინიატურის ფერები:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Main compositions"
+#, kde-format
 msgid "Monitor composition guides:"
-msgstr "ძირითადი კომპოზიციები"
+msgstr "მონიტორის კომპოზიციის მიმმართველები:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -34945,10 +34874,9 @@ msgstr "ბადის მონიტორინგი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Monitor audio"
+#, kde-format
 msgid "Monitor safe zone:"
-msgstr "ხმის მონიტორინგი"
+msgstr "მონიტორის უსაფრთხო ზონა:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -35002,7 +34930,7 @@ msgstr "გაფრთხილება, როცა დაკეშილი
 #: src/ui/configenv_ui.ui:111
 #, kde-format
 msgid "Show Welcome screen at startup"
-msgstr ""
+msgstr "მისალმების ეკრანის ჩვენება გაშვებისას"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:118

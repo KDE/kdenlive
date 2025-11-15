@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:39+0000\n"
+"POT-Creation-Date: 2025-11-15 02:36+0000\n"
 "PO-Revision-Date: 2025-11-11 21:32+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -19718,7 +19718,7 @@ msgid "Create bin folder"
 msgstr "Mappa létrehozása"
 
 #: src/bin/bin.cpp:2978 src/bin/bin.cpp:2991 src/bin/bin.cpp:4003
-#: src/timeline2/model/timelinemodel.cpp:2211
+#: src/timeline2/model/timelinemodel.cpp:2226
 #, kde-format
 msgid "Delete Clip"
 msgstr "Klip törlése"
@@ -20576,7 +20576,7 @@ msgid "Cut clip"
 msgstr "Klip kivágása"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinemodel.cpp:4058
+#: src/timeline2/model/timelinemodel.cpp:4073
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
@@ -20733,7 +20733,7 @@ msgstr[1] "Hang sáv"
 msgid "Timeline sequence"
 msgstr "Sorozat előnézete"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1373
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1370
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
@@ -25618,7 +25618,7 @@ msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5181
+#: src/timeline2/model/timelinemodel.cpp:5196
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 effektus hozzáadása"
@@ -26478,7 +26478,7 @@ msgid "Clip in Timeline"
 msgstr "Klip az idővonalon"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1009
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence"
@@ -28834,7 +28834,7 @@ msgstr "Jelölők betöltése"
 msgid "Export Subtitle File…"
 msgstr "Exportálás fájlba"
 
-#: src/mainwindow.cpp:2156 src/timeline2/model/timelinemodel.cpp:2215
+#: src/mainwindow.cpp:2156 src/timeline2/model/timelinemodel.cpp:2230
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
@@ -30412,19 +30412,19 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Hangspektrum"
 
-#: src/monitor/videowidget.cpp:1123
+#: src/monitor/videowidget.cpp:1125
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Kiválasztó eszköz"
 
-#: src/monitor/videowidget.cpp:1132
+#: src/monitor/videowidget.cpp:1134
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Kiválasztó eszköz"
 
-#: src/monitor/videowidget.cpp:1237
+#: src/monitor/videowidget.cpp:1239
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -34198,7 +34198,7 @@ msgid "Delete clips on track"
 msgstr "Sáv törlése"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:4758
+#: src/timeline2/model/timelinemodel.cpp:4773
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -34306,9 +34306,9 @@ msgid "Move clip"
 msgstr "Klip mozgatása"
 
 #: src/timeline2/model/timelinemodel.cpp:1878
-#: src/timeline2/model/timelinemodel.cpp:1971
-#: src/timeline2/model/timelinemodel.cpp:1995
-#: src/timeline2/model/timelinemodel.cpp:2024
+#: src/timeline2/model/timelinemodel.cpp:1972
+#: src/timeline2/model/timelinemodel.cpp:1996
+#: src/timeline2/model/timelinemodel.cpp:2025
 #: src/timeline2/view/timelinecontroller.cpp:3391
 #, kde-format
 msgid "No available track for insert operation"
@@ -34320,107 +34320,108 @@ msgstr ""
 msgid "Insert Clip"
 msgstr "Klip beszúrása"
 
-#: src/timeline2/model/timelinemodel.cpp:1939
+#: src/timeline2/model/timelinemodel.cpp:1940
 #, fuzzy, kde-format
 #| msgid "You cannot include the current Kdenlive document in itself."
 msgid "You cannot insert a sequence containing itself"
 msgstr "Nem lehet beszúrni az aktuális Kdenlive dokumentumot saját magába."
 
-#: src/timeline2/model/timelinemodel.cpp:1988
-#: src/timeline2/model/timelinemodel.cpp:2016
+#: src/timeline2/model/timelinemodel.cpp:1989
+#: src/timeline2/model/timelinemodel.cpp:2017
+#: src/timeline2/model/timelinemodel.cpp:2045
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Kulcsképkockák importálása a klipből"
 
-#: src/timeline2/model/timelinemodel.cpp:2100
+#: src/timeline2/model/timelinemodel.cpp:2115
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2137
+#: src/timeline2/model/timelinemodel.cpp:2152
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2145
+#: src/timeline2/model/timelinemodel.cpp:2160
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2208
+#: src/timeline2/model/timelinemodel.cpp:2223
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "Csoport áthelyezése"
 
-#: src/timeline2/model/timelinemodel.cpp:2213
+#: src/timeline2/model/timelinemodel.cpp:2228
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Delete Composition"
 msgstr "Kompozit"
 
-#: src/timeline2/model/timelinemodel.cpp:2452
-#: src/timeline2/model/timelinemodel.cpp:2753
+#: src/timeline2/model/timelinemodel.cpp:2467
+#: src/timeline2/model/timelinemodel.cpp:2768
 #: src/timeline2/view/timelinecontroller.cpp:4362
 #, kde-format
 msgid "Move group"
 msgstr "Csoport áthelyezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3449
+#: src/timeline2/model/timelinemodel.cpp:3464
 #, kde-format
 msgid "Resize group"
 msgstr "Csoport átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3573
+#: src/timeline2/model/timelinemodel.cpp:3588
 #, fuzzy, kde-format
 #| msgid "Resize clip end"
 msgid "Resize clip speed"
 msgstr "Klip végének átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3732
+#: src/timeline2/model/timelinemodel.cpp:3747
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "Fájl eltávolítása"
 
-#: src/timeline2/model/timelinemodel.cpp:3734
+#: src/timeline2/model/timelinemodel.cpp:3749
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "Fájl eltávolítása"
 
-#: src/timeline2/model/timelinemodel.cpp:4054
+#: src/timeline2/model/timelinemodel.cpp:4069
 #, kde-format
 msgid "Resize clip"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4056
+#: src/timeline2/model/timelinemodel.cpp:4071
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Resize composition"
 msgstr "Átmeneti végpont átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4384
+#: src/timeline2/model/timelinemodel.cpp:4399
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4386
+#: src/timeline2/model/timelinemodel.cpp:4401
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Ripple resize composition"
 msgstr "Átmeneti végpont átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4388
+#: src/timeline2/model/timelinemodel.cpp:4403
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Ripple resize subtitle"
 msgstr "Klip törlése "
 
-#: src/timeline2/model/timelinemodel.cpp:4531
+#: src/timeline2/model/timelinemodel.cpp:4546
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgctxt "Undo/Redo menu text"
@@ -34429,151 +34430,151 @@ msgid_plural "Slip clips"
 msgstr[0] "Cím klip"
 msgstr[1] "Cím klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4566
+#: src/timeline2/model/timelinemodel.cpp:4581
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Slip clip"
 msgstr "Cím klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4601
+#: src/timeline2/model/timelinemodel.cpp:4616
 #, kde-format
 msgid "Group clips"
 msgstr "Klipek csoportosítása"
 
-#: src/timeline2/model/timelinemodel.cpp:4686
-#: src/timeline2/model/timelinemodel.cpp:4702
+#: src/timeline2/model/timelinemodel.cpp:4701
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Klipek csoportjának felbontása"
 
-#: src/timeline2/model/timelinemodel.cpp:4867
+#: src/timeline2/model/timelinemodel.cpp:4882
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Delete Track"
 msgstr "Sáv törlése"
 
-#: src/timeline2/model/timelinemodel.cpp:4877
+#: src/timeline2/model/timelinemodel.cpp:4892
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Cannot delete last track in timeline"
 msgstr "A klip nem illeszthető bele az idővonalba"
 
-#: src/timeline2/model/timelinemodel.cpp:5102
+#: src/timeline2/model/timelinemodel.cpp:5117
 #, fuzzy, kde-format
 #| msgid "Cannot add speed effect to track"
 msgid "Cannot add effect %1 to master track"
 msgstr "Nem adható sebesség effekt a sávhoz"
 
-#: src/timeline2/model/timelinemodel.cpp:5109
+#: src/timeline2/model/timelinemodel.cpp:5124
 #, fuzzy, kde-format
 #| msgid "Cannot add speed effect to track"
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nem adható sebesség effekt a sávhoz"
 
-#: src/timeline2/model/timelinemodel.cpp:5130
+#: src/timeline2/model/timelinemodel.cpp:5145
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to master track"
 msgstr "Nem lehet a klipet beilleszteni a megadott helyre"
 
-#: src/timeline2/model/timelinemodel.cpp:5136
+#: src/timeline2/model/timelinemodel.cpp:5151
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to selected track"
 msgstr "Nem lehet a klipet beilleszteni a megadott helyre"
 
-#: src/timeline2/model/timelinemodel.cpp:5184
+#: src/timeline2/model/timelinemodel.cpp:5199
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/timeline2/model/timelinemodel.cpp:5208
+#: src/timeline2/model/timelinemodel.cpp:5223
 #, fuzzy, kde-format
 #| msgid "Adjust levels"
 msgid "Adjust Fade"
 msgstr "Szintek beállítása"
 
-#: src/timeline2/model/timelinemodel.cpp:5573
+#: src/timeline2/model/timelinemodel.cpp:5588
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert Composition"
 msgstr "Kompozit"
 
-#: src/timeline2/model/timelinemodel.cpp:5794
+#: src/timeline2/model/timelinemodel.cpp:5809
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Move composition"
 msgstr "Beállítások megjelenítése vagy elrejtése"
 
-#: src/timeline2/model/timelinemodel.cpp:6508
+#: src/timeline2/model/timelinemodel.cpp:6523
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "Nyújtás engedélyezése"
 
-#: src/timeline2/model/timelinemodel.cpp:6582
+#: src/timeline2/model/timelinemodel.cpp:6597
 #, fuzzy, kde-format
 msgid "Change speed failed"
 msgstr "Hibás"
 
-#: src/timeline2/model/timelinemodel.cpp:6592
+#: src/timeline2/model/timelinemodel.cpp:6607
 #, fuzzy, kde-format
 #| msgid "Change Clip Speed"
 msgid "Change clip speed"
 msgstr "Klip sebesség módosítása"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
+#: src/timeline2/model/timelinemodel.cpp:7055
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Sáv zárolása"
 
-#: src/timeline2/model/timelinemodel.cpp:7045
+#: src/timeline2/model/timelinemodel.cpp:7060
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Sáv feloldása"
 
-#: src/timeline2/model/timelinemodel.cpp:7079
-#: src/timeline2/model/timelinemodel.cpp:7141
+#: src/timeline2/model/timelinemodel.cpp:7094
+#: src/timeline2/model/timelinemodel.cpp:7156
 #, fuzzy, kde-format
 #| msgid "Change Track"
 msgid "Change composition"
 msgstr "Sáv változtatása"
 
-#: src/timeline2/model/timelinemodel.cpp:7093
+#: src/timeline2/model/timelinemodel.cpp:7108
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7291
-#: src/timeline2/model/timelinemodel.cpp:7330
-#: src/timeline2/model/timelinemodel.cpp:7365
-#: src/timeline2/model/timelinemodel.cpp:7446
+#: src/timeline2/model/timelinemodel.cpp:7306
+#: src/timeline2/model/timelinemodel.cpp:7345
+#: src/timeline2/model/timelinemodel.cpp:7380
+#: src/timeline2/model/timelinemodel.cpp:7461
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióba"
 
-#: src/timeline2/model/timelinemodel.cpp:7302
-#: src/timeline2/model/timelinemodel.cpp:7338
-#: src/timeline2/model/timelinemodel.cpp:7382
-#: src/timeline2/model/timelinemodel.cpp:7470
+#: src/timeline2/model/timelinemodel.cpp:7317
+#: src/timeline2/model/timelinemodel.cpp:7353
+#: src/timeline2/model/timelinemodel.cpp:7397
+#: src/timeline2/model/timelinemodel.cpp:7485
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Az átmenet nem méretezhető át"
 
-#: src/timeline2/model/timelinemodel.cpp:7486
+#: src/timeline2/model/timelinemodel.cpp:7501
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:7606
+#: src/timeline2/model/timelinemodel.cpp:7621
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"
@@ -34706,18 +34707,18 @@ msgid "Stop"
 msgstr "Lejátszás leállítása"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1999
+#: src/timeline2/view/qml/Timeline.qml:1998
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
 msgstr "Szünet"
 
-#: src/timeline2/view/qml/Clip.qml:230 src/timeline2/view/qml/Clip.qml:1155
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:332 src/timeline2/view/qml/Clip.qml:346
+#: src/timeline2/view/qml/Clip.qml:329 src/timeline2/view/qml/Clip.qml:343
 #: src/timeline2/view/qml/SubTitle.qml:211
 #: src/timeline2/view/qml/SubTitle.qml:217
 #, fuzzy, kde-format
@@ -34725,96 +34726,96 @@ msgstr ""
 msgid "Position: %1"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Clip.qml:533
+#: src/timeline2/view/qml/Clip.qml:530
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:587
+#: src/timeline2/view/qml/Clip.qml:584
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "+%1, Mix duration: %2"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:589
+#: src/timeline2/view/qml/Clip.qml:586
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "-%1, Mix duration: %2"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:592 src/timeline2/view/qml/Clip.qml:607
+#: src/timeline2/view/qml/Clip.qml:589 src/timeline2/view/qml/Clip.qml:604
 #, fuzzy, kde-format
 #| msgid "Clip duration: %1s"
 msgid "Mix duration: %1"
 msgstr "Klip időtartama: %1s"
 
-#: src/timeline2/view/qml/Clip.qml:1040
+#: src/timeline2/view/qml/Clip.qml:1037
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "In:%1, Position:%2"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1043 src/timeline2/view/qml/Clip.qml:1145
+#: src/timeline2/view/qml/Clip.qml:1040 src/timeline2/view/qml/Clip.qml:1142
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1045
+#: src/timeline2/view/qml/Clip.qml:1042
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1142
+#: src/timeline2/view/qml/Clip.qml:1139
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Out:%1, Position:%2"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:1278
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "Eltolás:"
 
-#: src/timeline2/view/qml/Clip.qml:1281
+#: src/timeline2/view/qml/Clip.qml:1278
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "Eltolás:"
 
-#: src/timeline2/view/qml/Clip.qml:1282
+#: src/timeline2/view/qml/Clip.qml:1279
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid " <b>Click</b> to align clips"
 msgstr "Kattintson az átmenet hozzáadásához."
 
-#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1562
+#: src/timeline2/view/qml/Clip.qml:1522 src/timeline2/view/qml/Clip.qml:1559
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Click</b> to add composition"
 msgstr "Kattintson az átmenet hozzáadásához."
 
-#: src/timeline2/view/qml/Clip.qml:1639 src/timeline2/view/qml/Clip.qml:1646
+#: src/timeline2/view/qml/Clip.qml:1636 src/timeline2/view/qml/Clip.qml:1643
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Elhalványodás"
 
-#: src/timeline2/view/qml/Clip.qml:1650 src/timeline2/view/qml/Clip.qml:1757
+#: src/timeline2/view/qml/Clip.qml:1647 src/timeline2/view/qml/Clip.qml:1754
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1746 src/timeline2/view/qml/Clip.qml:1753
+#: src/timeline2/view/qml/Clip.qml:1743 src/timeline2/view/qml/Clip.qml:1750
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Fokozatos megjelenítés"
 
-#: src/timeline2/view/qml/Clip.qml:1841
+#: src/timeline2/view/qml/Clip.qml:1838
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
@@ -34879,32 +34880,32 @@ msgstr "Napló megjelenítése"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:1003
+#: src/timeline2/view/qml/Timeline.qml:1005
 #, fuzzy, kde-format
 #| msgid "Show Effects"
 msgid "Show sequence effects"
 msgstr "Effektusok megjelenítése"
 
-#: src/timeline2/view/qml/Timeline.qml:1662
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Kattintson az átmenet hozzáadásához."
 
-#: src/timeline2/view/qml/Timeline.qml:1829
+#: src/timeline2/view/qml/Timeline.qml:1827
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Timeline.qml:1988
-#: src/timeline2/view/qml/Timeline.qml:1997
+#: src/timeline2/view/qml/Timeline.qml:1987
+#: src/timeline2/view/qml/Timeline.qml:1996
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Felvétel"
 
-#: src/timeline2/view/qml/Timeline.qml:2091
+#: src/timeline2/view/qml/Timeline.qml:2090
 #, kde-format
 msgid "Multicam In"
 msgstr ""
