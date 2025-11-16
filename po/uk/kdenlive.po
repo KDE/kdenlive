@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-15 00:41+0000\n"
-"PO-Revision-Date: 2025-11-14 22:03+0200\n"
+"PO-Revision-Date: 2025-11-15 21:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -13950,6 +13950,11 @@ msgid ""
 "recommended decay times for reverb types refer to the effect documentation "
 "linked below.]]>"
 msgstr ""
+"<![CDATA[Ревербатор TAP (LADSPA 2142)<br>\n"
+"   Універсальний фільтр реверберації, заснований на моделі гребінчастого/"
+"вседіапазонного фільтра. Рекомендований час загасання для різних типів "
+"реверберації дивіться в документації ефектів, посилання на яку наведено "
+"нижче.]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:12
 #: data/effects/ladspa/ladspa_2143.xml:36
@@ -14004,6 +14009,9 @@ msgid ""
 "      Reverb types with HD are enhanced versions of the other types and "
 "usually result in an even smoother reverb effect.]]>"
 msgstr ""
+"<![CDATA[HD скорочення від <i>High Density</i> (висока щільність).<br>\n"
+"      Типи реверберації з високою щільністю є покращеними версіями інших "
+"типів і зазвичай призводять до ще плавнішого ефекту реверберації.]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:35
 #: data/effects/ladspa/ladspa_2143.xml:39
@@ -14039,6 +14047,9 @@ msgid ""
 "   Supports conventional mono and stereo delays, ping-pong delays and the "
 "Haas effect (also known as Cross Delay Stereo).]]>"
 msgstr ""
+"<![CDATA[Стерео-луна TAP (LADSPA 2143)<br>\n"
+"   Передбачено підтримку звичайної моно- та стереозатримки, пінг-понгові "
+"затримки та ефект Хааса (також відомий як перехресна стереозатримка).]]>"
 
 #: data/effects/ladspa/ladspa_2143.xml:9
 #, kde-format
@@ -14068,7 +14079,7 @@ msgstr "Лівий відгук"
 #: data/effects/ladspa/ladspa_2143.xml:24
 #, kde-format
 msgid "R/Haas Delay"
-msgstr ""
+msgstr "Правий/Затримка Хааса"
 
 #: data/effects/ladspa/ladspa_2143.xml:27
 #, kde-format
@@ -14111,6 +14122,8 @@ msgid ""
 "<![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts.]]>"
 msgstr ""
+"<![CDATA[Масштабований обмежувач TAP (LADSPA 2145)<br>\n"
+"   Досягає обмеження рівня сигналу без чутних дефектів.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:9
 #, kde-format
@@ -14133,6 +14146,8 @@ msgid ""
 "<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
 "   Main use is to liven up synth tracks in the mix]]>"
 msgstr ""
+"<![CDATA[Автопанорамування TAP (LADSPA 2146)<br>\n"
+"   Основне використання — оживити синтезаторні треки в міксі]]>"
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
@@ -14141,6 +14156,9 @@ msgid ""
 "      A setting of 100% means that mono input signal is panned between the "
 "extreme left and right positions]]>"
 msgstr ""
+"<![CDATA[Встановлює ширину панорамування.<br>\n"
+"      Значення 100% означає, що монофонічний вхідний сигнал панорамується "
+"між крайніми лівими і правими позиціями]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:4
 #, kde-format
@@ -14154,6 +14172,9 @@ msgid ""
 "   Used for attenuating higher pitched frequencies in vocals such as those "
 "found in 'ess', 'shh' and 'chh' sounds.]]>"
 msgstr ""
+"<![CDATA[Деессер TAP (LADSPA 2147)<br>\n"
+"   Використовується для ослаблення вищих частот у вокалі, таких як звуки "
+"«ес», «шш» та «чх».]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:9
 #, kde-format
@@ -14171,6 +14192,8 @@ msgid ""
 "<![CDATA[The chosen filter's frequency<br>\n"
 "      is set by the <b>Frequency</b> parameter]]>"
 msgstr ""
+"<![CDATA[Вибрана частота фільтра<br>\n"
+"      встановлюється параметром <b>Частота</b>]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:18
 #, kde-format
@@ -14178,10 +14201,9 @@ msgid "Highpass,Bandpass"
 msgstr "Високочастотний,Смуговий"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor On"
-msgstr "Монітор"
+msgstr "Спостереження"
 
 #: data/effects/ladspa/ladspa_2148.xml:4
 #, kde-format
@@ -14196,18 +14218,20 @@ msgid ""
 "signal. It is useful for guitar and synth tracks, and it can also come handy "
 "if a strange effect is needed.]]>"
 msgstr ""
+"<![CDATA[Вібрато TAP (LADSPA 2148)<br>\n"
+"   Модулює висоту вхідного сигналу за допомогою низькочастотного "
+"синусоїдального сигналу. Це корисно для гітарних та синтезаторних треків, а "
+"також може стати в пригоді, якщо потрібен незвичайний ефект.]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change down]]>"
+#, kde-format
 msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
-msgstr "<![CDATA[Визначає значення зменшення освітленості]]>"
+msgstr "<![CDATA[Визначає, наскільки швидко модулюватиметься вгору-вниз тон]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Sets the amount of pitch modulation]]>"
-msgstr "<![CDATA[Встановлює кут напрямку]]>"
+msgstr "<![CDATA[Встановлює потужність модуляції тону]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
@@ -14220,6 +14244,8 @@ msgid ""
 "<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
 "   Simulates the sound of rotating speakers.]]>"
 msgstr ""
+"<![CDATA[Обертання гучномовця TAP (LADSPA 2149)<br>\n"
+"   Імітує звук з гучномовців, що обертаються.]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:9
 #, kde-format
@@ -14227,21 +14253,19 @@ msgid "Rotor Frequency"
 msgstr "Частота обертання"
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "Найнижча частота"
+msgstr "Частота ріжка"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
-#, fuzzy, kde-format
-#| msgid "Distance"
+#, kde-format
 msgid "Mic Distance"
-msgstr "Відстань"
+msgstr "Відстань до мікрофона"
 
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format
 msgid "Rotor/Horn Mix"
-msgstr ""
+msgstr "Мікшування обертання/ріжка"
 
 #: data/effects/ladspa/ladspa_2150.xml:4
 #, kde-format
@@ -14254,12 +14278,13 @@ msgid ""
 "<![CDATA[TAP Pitch Shifter (LADSPA 2150)<br>\n"
 "   Change the pitch in the range of plus/minus one octave.]]>"
 msgstr ""
+"<![CDATA[Зсування тону TAP (LADSPA 2150)<br>\n"
+"   Зміна тону у діапазоні плюс-мінус однієї октави.]]>"
 
 #: data/effects/ladspa/ladspa_2150.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation Shift"
+#, kde-format
 msgid "Semitone Shift"
-msgstr "Зсув насиченості"
+msgstr "Зсув напівтонів"
 
 #: data/effects/ladspa/ladspa_2150.xml:11
 #, kde-format
@@ -14267,12 +14292,13 @@ msgid ""
 "<![CDATA[Does the same thing as <b>Rate Shift</b></br>\n"
 "      but allows to set musically sensible pitch shift rates.]]>"
 msgstr ""
+"<![CDATA[Виконує те саме завдання, що і <b>Зсув частоти</b>,</br>\n"
+"      але уможливлює встановлення музично притомних зсувів частот тону.]]>"
 
 #: data/effects/ladspa/ladspa_2150.xml:14
-#, fuzzy, kde-format
-#| msgid "Hue Shift"
+#, kde-format
 msgid "Rate Shift"
-msgstr "Зсув відтінку"
+msgstr "Зсув частоти"
 
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
@@ -14281,6 +14307,9 @@ msgid ""
 "      but in percentage of the original pitch, so that is closer to a "
 "\"physical\", non-musical approach]]>"
 msgstr ""
+"<![CDATA[Виконує те саме завдання, що і <b>Зсув напівтонів</b>,<br>\n"
+"      але у відсотках початкового тону, отже є ближчим до «фізичного», "
+"немузикального підходу]]>"
 
 #: data/effects/ladspa/ladspa_2151.xml:4
 #, kde-format
@@ -14294,6 +14323,9 @@ msgid ""
 "    8-band equalizer with adjustable band center frequencies and "
 "bandwidth.]]>"
 msgstr ""
+"<![CDATA[Еквалайзер TAP (LADSPA (2151)<br>\n"
+"    8-смуговий еквалайзер з корегованими частотами центрів смуг та шириною "
+"смуги пропускання.]]>"
 
 #: data/effects/ladspa/ladspa_2151.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:24
@@ -14303,10 +14335,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[BW]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[BW]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -14319,20 +14350,20 @@ msgid ""
 "<![CDATA[TAP Dynamics Mono (LADSPA 2152)<br>\n"
 "   Allows changing the dynamic content of the audio stream]]>"
 msgstr ""
+"<![CDATA[Динамічне моно TAP (LADSPA 2152)<br>\n"
+"   Уможливлює зміну динамічних даних потоку звукових даних]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
-#, fuzzy, kde-format
-#| msgid "Offset gain"
+#, kde-format
 msgid "Offset Gain"
 msgstr "Підсилення зсуву"
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Make Up Gain"
+#, kde-format
 msgid "Makeup Gain"
-msgstr "Підсилення"
+msgstr "Підсилення структури"
 
 #: data/effects/ladspa/ladspa_2152.xml:21
 #: data/effects/ladspa/ladspa_2153.xml:27
@@ -14349,6 +14380,11 @@ msgid ""
 "Hard limiter at -6dB;Hard limiter at -12dB;Hard gate at -35dB;Soft limiter;"
 "Soft knee comp/gate;Softgate below -36dB"
 msgstr ""
+"2:1 стискання на -6дБ,2:1 стискання на -9дБ,2:1 стискання на -12дБ,2:1 "
+"стискання на -18дБ,2.5 стискання на -18дБ,3:1 стискання на -12дБ,3:1 "
+"стискання на -15дБ,Стискання/Шлюз,Розгортання,Жорстке обмеження на -6дБ;"
+"Жорстке обмеження на -12дБ;Жорсткий шлюз на -35дБ;М'яке обмеження;М'яке "
+"колінчасте стискання/шлюз;М'який шлюз нижче -36дБ"
 
 #: data/effects/ladspa/ladspa_2153.xml:4
 #, kde-format
@@ -14361,6 +14397,8 @@ msgid ""
 "<![CDATA[TAP Dynamics Stereo (LADSPA 2153)<br>\n"
 "   Allows changing the dynamic content of the audio stream]]>"
 msgstr ""
+"<![CDATA[Динамічне стерео TAP (LADSPA 2153)<br>\n"
+"   Уможливлює зміну динамічних даних потоку звукових даних]]>"
 
 #: data/effects/ladspa/ladspa_2153.xml:23
 #, kde-format
@@ -14368,12 +14406,13 @@ msgid ""
 "<![CDATA[Controls how the envelope levels<br>\n"
 "      are used to determine the needed gain adjustment]]>"
 msgstr ""
+"<![CDATA[Керує використанням рівнів обгортки<br>\n"
+"      для визначення потрібних коригувань підсилення]]>"
 
 #: data/effects/ladspa/ladspa_2153.xml:24
-#, fuzzy, kde-format
-#| msgid "Independence"
+#, kde-format
 msgid "Independent,Average,Peak"
-msgstr "Незалежність"
+msgstr "Незалежно,Середнє,Пікове"
 
 #: data/effects/ladspa/ladspa_2154.xml:4
 #, kde-format
@@ -14386,6 +14425,8 @@ msgid ""
 "<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
 "    Creates a psychedelic reverse audio effect.]]>"
 msgstr ""
+"<![CDATA[Рефлектор TAP (LADSPA 2154)<br>\n"
+"    Створює психоделічний ефект реверсу для звукових даних.]]>"
 
 #: data/effects/ladspa/ladspa_2154.xml:9
 #, kde-format
@@ -14399,6 +14440,9 @@ msgid ""
 "      approximately match the tempo of the track, so the Fragment Length is "
 "equal to the time of one measure.]]>"
 msgstr ""
+"<![CDATA[Найкраще встановити його приблизно так,<br>\n"
+"     щоб він відповідав темпу треку, щоб тривалість фрагмента дорівнювала "
+"часу одного такту.]]>"
 
 #: data/effects/ladspa/ladspa_2155.xml:4
 #, kde-format
@@ -14412,12 +14456,15 @@ msgid ""
 "    Adds pink noise to the incoming signal using a one-dimensional random "
 "fractal line generated by the Midpoint Displacement Method.]]>"
 msgstr ""
+"<![CDATA[Рожевий/Фрактальний шум TAP (LADSPA 2155)<br>\n"
+"    Додає рожевий шум до вхідного сигналу за допомогою одновимірної "
+"випадкової фрактальної лінії, створеної за допомогою методу зміщення "
+"середньої точки.]]>"
 
 #: data/effects/ladspa/ladspa_2155.xml:9
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "Fractal Dimension"
-msgstr "Розмірність масштабування"
+msgstr "Розмірність фрактала"
 
 #: data/effects/ladspa/ladspa_2155.xml:12
 #, kde-format
@@ -14441,12 +14488,14 @@ msgid ""
 "    Suitable for doubling tracks with vocals, acoustic/electric guitars, "
 "bass and just about any other instrument on them.]]>"
 msgstr ""
+"<![CDATA[Фрактальний подвоювач TAP (LADSPA 2156)<br>\n"
+"    Підходить для дублювання треків з вокалом, акустичними/електричними "
+"гітарами, басом та практично будь-яким іншим інструментом.]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "Приховати доріжку"
+msgstr "Стеження за часом"
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -14457,18 +14506,20 @@ msgid ""
 "(\"bad backup singer\"). When set to 1, changes are smaller and smoother "
 "(\"better tracking of the original\").]]>"
 msgstr ""
+"<![CDATA[Визначає, наскільки «жорсткими» і великими є<br>\n"
+"      ці зміни. Якщо встановлено значення 0, зміни більші та хаотичніші "
+"(«поганий бек-вокаліст»). Якщо встановлено значення 1, зміни менші та "
+"плавніші («краще відстеження оригіналу»).]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:14
-#, fuzzy, kde-format
-#| msgid "Pitch smoothing"
+#, kde-format
 msgid "Pitch Tracking"
-msgstr "Згладжування нахилу"
+msgstr "Стеження за тоном"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "Встановити позицію"
+msgstr "Позиція холодного ліворуч"
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -14479,24 +14530,24 @@ msgid ""
 "<![CDATA[These controls range between 0 and 1,<br>\n"
 "      0 meaning hard left and 1 meaning hard right position.]]>"
 msgstr ""
+"<![CDATA[Діапазон для цих засобів керування — від 0 до 1,<br>\n"
+"      0 означає жорстку позицію ліворуч, а 1 означає, жорстку позицію "
+"праворуч.]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "Початкова позиція"
+msgstr "Позиція холодного праворуч"
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "Встановити позицію"
+msgstr "Позиція теплого ліворуч"
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "Встановити позицію"
+msgstr "Позиція теплого праворуч"
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
@@ -14510,17 +14561,20 @@ msgid ""
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
 "signal.]]>"
 msgstr ""
+"<![CDATA[Сигмоїдний підсилювач TAPr (LADSPA 2157)<br>\n"
+"   Застосовує до сигналу незмінну в часі нелінійну передавальну функцію "
+"амплітуди.]]>"
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "Підсилання ліворуч"
+msgstr "Попереднє підсилення"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
 msgid "Scales the input signal before the transfer function is applied to it."
 msgstr ""
+"Масштабує вхідний сигнал перед застосуванням до нього передавальної функції."
 
 #: data/effects/ladspa/ladspa_2157.xml:13
 #, kde-format
@@ -14530,7 +14584,7 @@ msgstr "Після"
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
 msgid "Can be used to adjust the output gain of the effect."
-msgstr ""
+msgstr "Може використовуватися для регулювання вихідного посилення в ефекті."
 
 #: data/effects/ladspa/ladspa_2158.xml:4
 #, kde-format
@@ -14545,11 +14599,15 @@ msgid ""
 "sonically desirable nonlinear characteristics of triodes. It also supports "
 "emulating analog tape saturation.]]>"
 msgstr ""
+"<![CDATA[Лампова теплота TAP (LADSPA 2158)<br>\n"
+"   Додає характер лампового підсилення, імітуючи бажані з точки зору "
+"звучання нелінійні характеристики тріодів. Також передбачено підтримку "
+"імітації насичення аналогової стрічки.]]>"
 
 #: data/effects/ladspa/ladspa_2158.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Drive"
-msgstr "Диск"
+msgstr "Драйв"
 
 #: data/effects/ladspa/ladspa_2158.xml:10
 #, kde-format
@@ -14559,17 +14617,17 @@ msgstr "Скоригувати потужність ефекту"
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
 msgid "Tape--Tube Blend"
-msgstr ""
+msgstr "Злиття стрічки-лампи"
 
 #: data/effects/ladspa/ladspa_2158.xml:14
 #, kde-format
 msgid "Controls the color of the TubeWarmth sound"
-msgstr ""
+msgstr "Керує кольором звуку лампової теплоти"
 
 #: data/effects/ladspa/ladspa_2159.xml:4
 #, kde-format
 msgid "TAP Chorus/Flange"
-msgstr ""
+msgstr "Хор/Фланжер TAP"
 
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
@@ -14578,6 +14636,10 @@ msgid ""
 "    Creates traditional Chorus and Flanger effects, spiced up a bit to make "
 "use of stereo processing. It sounds best on guitar and synth tracks.]]>"
 msgstr ""
+"<![CDATA[Хор/Фланжер TAP (LADSPA 2159)<br>\n"
+"    Створює традиційні ефекти хору та фленджера, трохи доповнені для "
+"використання стереообробки. Найкраще звучить на гітарних та синтезаторних "
+"треках.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:11
 #, kde-format
@@ -14586,6 +14648,9 @@ msgid ""
 "      with which the time-varying delay is modulated. The higher the "
 "frequency, the more intense the effect will be.]]>"
 msgstr ""
+"<![CDATA[Визначає частоту LFO,<br>\n"
+"     з якою модулюється змінна в часі затримка. Чим вища частота, тим "
+"інтенсивнішим буде ефект.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:14
 #, kde-format
@@ -14601,6 +14666,12 @@ msgid ""
 "phase; when set to 180 degrees, the two LFO's are is counter-phase to create "
 "the widest stereo effect.]]>"
 msgstr ""
+"<![CDATA[Керує фазовим зсувом між двома низькочастотними генераторами (LFO)."
+"<br>\n"
+"    Чим вищим є значення цього параметра, тим сильнішою буде «стерео» "
+"ефекту. При встановленні на 0 обробка двох каналів буде синфазною; при "
+"встановленні на 180 градусів два LFO будуть протифазними для створення "
+"найширшого стереоефекту.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:21
 #, kde-format
@@ -14609,6 +14680,9 @@ msgid ""
 "      Increasing it will result in stronger modulation using the same LFO "
 "frequency.]]>"
 msgstr ""
+"<![CDATA[Коригує глибину модуляції затримки.<br>\n"
+"      Збільшення її призведе до сильнішої модуляції з використанням тієї ж "
+"частоти LFO.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:26
 #, kde-format
@@ -14620,6 +14694,11 @@ msgid ""
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
 "blend between Chorus and Flanger.]]>"
 msgstr ""
+"<![CDATA[Визначає фіксований час, на який<br>\n"
+"      затримується сигнал після застосування змінної за часом затримки. "
+"Налаштування цього регулятора розрізняє ефекти хору та фленджера. Затримки "
+"менше 10 мс можна вважати фленджером, затримки понад 20 мс дають хор, а "
+"затримки у діапазоні 10-20 мс призводять до поєднання хору та фленджера.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:29
 #, kde-format
@@ -14632,6 +14711,8 @@ msgid ""
 "<![CDATA[The cutoff frequency of a high-pass<br>\n"
 "      filter applied to the now twice-delayed signal.]]>"
 msgstr ""
+"<![CDATA[Частота обрізання фільтра високих<br>\n"
+"      частот, яку буде застосовано до двічі затриманого сигналу.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:36
 #: data/effects/ladspa/ladspa_2159.xml:41
@@ -14642,6 +14723,10 @@ msgid ""
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
 "unwanted side effects) results in a subtler effect.]]>"
 msgstr ""
+"<![CDATA[Забезпечує остаточне коригування звуку.<br>\n"
+"      Найсильніший ефект досягається, якщо два значення параметрів приблизно "
+"однакові. Зменшення одного з них (бажано рівня теплоти, щоб пом'якшити будь-"
+"які небажані побічні ефекти) призводить до менш помітного ефекту.]]>"
 
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
