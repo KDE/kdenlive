@@ -4,21 +4,20 @@
 # Automatically generated, 2015.
 #
 # SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Gabriel Gazzán <gabcorreo@gmail.com>
-# SPDX-FileCopyrightText: 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-15 02:36+0000\n"
-"PO-Revision-Date: 2025-11-07 00:57+0100\n"
-"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"PO-Revision-Date: 2025-11-15 12:09+0100\n"
+"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -13900,10 +13899,9 @@ msgstr ""
 "6 colores primarios y secundarios."
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Overlap]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Solapamiento]]>"
 
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
@@ -13913,7 +13911,7 @@ msgstr "La cantidad de solapamiento o fundido entre los colores primarios"
 #: data/effects/hsl_primaries.xml:12
 #, kde-format
 msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>Desplaz Tono</u></b> Rojo]]>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2532
@@ -13930,21 +13928,19 @@ msgstr "Cian"
 
 #: data/effects/hsl_primaries.xml:27 data/effects/hsl_primaries.xml:45
 #: data/effects/hsl_primaries.xml:63
-#, fuzzy, kde-format
-#| msgid "Magentas"
+#, kde-format
 msgid "Magenta"
-msgstr "Magentas"
+msgstr "Magenta"
 
 #: data/effects/hsl_primaries.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Saturation</u></b> Red]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<b><u>Saturación</u></b> Rojo]]>"
 
 #: data/effects/hsl_primaries.xml:48
 #, kde-format
 msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>Luminosidad</u></b> Rojo]]>"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -14022,10 +14018,9 @@ msgid "Invert colors"
 msgstr "Permite invertir los colores de un clip"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer"
-msgstr "Ecualizador"
+msgstr "TAP Ecualizador"
 
 #: data/effects/ladspa/ladspa_2141.xml:6
 #, kde-format
@@ -14033,12 +14028,13 @@ msgid ""
 "<![CDATA[TAP Equalizer (LADSPA 2141)<br>\n"
 "    8-band equalizer with adjustable band center frequencies.]]>"
 msgstr ""
+"<![CDATA[TAP Ecualizador (LADSPA 2141)<br>\n"
+"    Ecualizador de 8 bandas con frecuencias centrales de banda ajustables.]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 1</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
@@ -14054,78 +14050,67 @@ msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
 #: data/effects/ladspa/ladspa_2151.xml:57
 #: data/effects/ladspa/ladspa_2151.xml:66
 #: data/effects/ladspa/ladspa_2151.xml:75
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Ganancia]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 2</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 3</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[<Ganancia]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 4</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 5</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 6</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 7</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Abajo--</b> Inicio]]>"
+msgstr "<![CDATA[<u><b>Banda 8</b></u> Frec]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Dry/Wet]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Original/Procesado]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:4
-#, fuzzy, kde-format
-#| msgid "Reverberance"
+#, kde-format
 msgid "TAP Reverberator"
-msgstr "Reverberación"
+msgstr "TAP Reverberación"
 
 #: data/effects/ladspa/ladspa_2142.xml:6
 #, kde-format
@@ -14135,6 +14120,11 @@ msgid ""
 "recommended decay times for reverb types refer to the effect documentation "
 "linked below.]]>"
 msgstr ""
+"<![CDATA[TAP Reverberación (LADSPA 2142)<br>\n"
+"   Efecto de reverberación versátil basado en un modelo de peine/paso "
+"completo. Para tiempos de decaimiento recomendados para los tipos de "
+"reverberación, consultar la documentación del efecto en el enlace de "
+"abajo.]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:12
 #: data/effects/ladspa/ladspa_2143.xml:36
@@ -14143,10 +14133,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2154.xml:14
 #: data/effects/ladspa/ladspa_2156.xml:19
 #: data/effects/ladspa/ladspa_2159.xml:34
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Dry Level"
-msgstr "Central nivel"
+msgstr "Nivel original"
 
 #: data/effects/ladspa/ladspa_2142.xml:15
 #: data/effects/ladspa/ladspa_2148.xml:20
@@ -14154,40 +14143,34 @@ msgstr "Central nivel"
 #: data/effects/ladspa/ladspa_2154.xml:17
 #: data/effects/ladspa/ladspa_2156.xml:33
 #: data/effects/ladspa/ladspa_2159.xml:39
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Wet Level"
-msgstr "Lateral nivel"
+msgstr "Nivel procesado"
 
 #: data/effects/ladspa/ladspa_2142.xml:18
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filters"
-msgstr "Eliminar filtros"
+msgstr "Filtros peine"
 
 #: data/effects/ladspa/ladspa_2142.xml:21
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Allpass Filters"
-msgstr "Todos los archivos"
+msgstr "Filtros paso completo"
 
 #: data/effects/ladspa/ladspa_2142.xml:24
-#, fuzzy, kde-format
-#| msgid "EQ and Filters"
+#, kde-format
 msgid "Bandpass Filter"
-msgstr "Ecualización y filtros"
+msgstr "Filtro paso de banda"
 
 #: data/effects/ladspa/ladspa_2142.xml:27
-#, fuzzy, kde-format
-#| msgid "2 Channels (Stereo)"
+#, kde-format
 msgid "Enhanced Stereo"
-msgstr "2 canales (estéreo)"
+msgstr "Mejorar estéreo"
 
 #: data/effects/ladspa/ladspa_2142.xml:30
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb Type"
-msgstr "Tiempo de reverberación"
+msgstr "Tipo de reverberación"
 
 #: data/effects/ladspa/ladspa_2142.xml:32
 #, kde-format
@@ -14196,6 +14179,9 @@ msgid ""
 "      Reverb types with HD are enhanced versions of the other types and "
 "usually result in an even smoother reverb effect.]]>"
 msgstr ""
+"<![CDATA[HD significa <i>High Density (o alta densidad)</i>.<br>\n"
+"      Los tipos de reverberación con HD son versiones mejoradas de los otros "
+"tipos y usualmente producen un efecto aún más suave.]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:35
 #: data/effects/ladspa/ladspa_2143.xml:39
@@ -14217,13 +14203,12 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2159.xml:44
 #, kde-format
 msgid "Dry/Wet"
-msgstr ""
+msgstr "Original/Procesado"
 
 #: data/effects/ladspa/ladspa_2143.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "TAP Stereo Echo"
-msgstr "Estéreo "
+msgstr "TAP Eco estéreo"
 
 #: data/effects/ladspa/ladspa_2143.xml:6
 #, kde-format
@@ -14232,62 +14217,60 @@ msgid ""
 "   Supports conventional mono and stereo delays, ping-pong delays and the "
 "Haas effect (also known as Cross Delay Stereo).]]>"
 msgstr ""
+"<![CDATA[TAP Eco estéreo (LADSPA 2143)<br>\n"
+"   Soporta retardos mono y estéreo convencionales, retardos de tipo ping-"
+"pong, así como el efecto Haas (también conocido como estéreo de retardo "
+"cruzado).]]>"
 
 #: data/effects/ladspa/ladspa_2143.xml:9
-#, fuzzy, kde-format
-#| msgid "Colors Mode"
+#, kde-format
 msgid "Cross Mode"
-msgstr "Esquema de colores"
+msgstr "Modo cruzado"
 
 #: data/effects/ladspa/ladspa_2143.xml:12
-#, fuzzy, kde-format
-#| msgid "Paste Effects"
+#, kde-format
 msgid "Haas Effect"
-msgstr "Pegar efectos"
+msgstr "Efecto Haas"
 
 #: data/effects/ladspa/ladspa_2143.xml:15
-#, fuzzy, kde-format
-#| msgid "Pal8 Output"
+#, kde-format
 msgid "Swap Outputs"
-msgstr "Salida PAL 8"
+msgstr "Intercambiar salidas"
 
 #: data/effects/ladspa/ladspa_2143.xml:18
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "L Delay"
-msgstr "Retardo"
+msgstr "Retardo I"
 
 #: data/effects/ladspa/ladspa_2143.xml:21
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "L Feedback"
-msgstr "Retroalimentación"
+msgstr "Retroalimentación I"
 
 #: data/effects/ladspa/ladspa_2143.xml:24
 #, kde-format
 msgid "R/Haas Delay"
-msgstr ""
+msgstr "Retardo D/Haas"
 
 #: data/effects/ladspa/ladspa_2143.xml:27
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "R/Haas Feedback"
-msgstr "Retroalimentación"
+msgstr "Retroalimentación D/Haas"
 
 #: data/effects/ladspa/ladspa_2143.xml:30
 #, kde-format
 msgid "L Echo Level"
-msgstr ""
+msgstr "Nivel de eco I"
 
 #: data/effects/ladspa/ladspa_2143.xml:33
 #, kde-format
 msgid "R Echo Level"
-msgstr ""
+msgstr "Nivel de eco D"
 
 #: data/effects/ladspa/ladspa_2144.xml:4
 #, kde-format
 msgid "TAP Tremolo"
-msgstr ""
+msgstr "TAP Trémolo"
 
 #: data/effects/ladspa/ladspa_2144.xml:6
 #, kde-format
@@ -14295,12 +14278,14 @@ msgid ""
 "<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
 "   Sounds good mainly on acoustic or electric guitar tracks.]]>"
 msgstr ""
+"<![CDATA[TAP Trémolo (LADSPA 2144)<br>\n"
+"   Suena bien principalmente con pistas de guitarras acústicas o "
+"eléctricas.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:4
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "TAP Scaling Limiter"
-msgstr "Dimensión"
+msgstr "TAP Limitador de escala"
 
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
@@ -14308,23 +14293,24 @@ msgid ""
 "<![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts.]]>"
 msgstr ""
+"<![CDATA[TAP Limitador de escala (LADSPA 2145)<br>\n"
+"   Permite lograr una limitación del nivel de una señal sin defectos "
+"audibles.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:9
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Limit Level"
-msgstr "Central nivel"
+msgstr "Nivel de limitación"
 
 #: data/effects/ladspa/ladspa_2145.xml:12
-#, fuzzy, kde-format
-#| msgid "Output mode"
+#, kde-format
 msgid "Output Volume"
-msgstr "Modo de salida"
+msgstr "Volumen de salida"
 
 #: data/effects/ladspa/ladspa_2146.xml:4
 #, kde-format
 msgid "TAP AutoPanner"
-msgstr ""
+msgstr "TAP Paneo automático"
 
 #: data/effects/ladspa/ladspa_2146.xml:6
 #, kde-format
@@ -14332,6 +14318,9 @@ msgid ""
 "<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
 "   Main use is to liven up synth tracks in the mix]]>"
 msgstr ""
+"<![CDATA[TAP Paneo automático (LADSPA 2146)<br>\n"
+"   Su principal uso es para dar vida a pistas de sintetizador en una "
+"mezcla]]>"
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
@@ -14340,12 +14329,14 @@ msgid ""
 "      A setting of 100% means that mono input signal is panned between the "
 "extreme left and right positions]]>"
 msgstr ""
+"<![CDATA[Define la amplitud del paneo.<br>\n"
+"      Un valor de 100% significará que una señal mono de entrada será "
+"paneada entre las posiciones extremas izquierda y derecha]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:4
-#, fuzzy, kde-format
-#| msgid "Deesser"
+#, kde-format
 msgid "TAP DeEsser"
-msgstr "Reductor de sibilantes"
+msgstr "TAP Reductor de sibilantes"
 
 #: data/effects/ladspa/ladspa_2147.xml:6
 #, kde-format
@@ -14354,18 +14345,19 @@ msgid ""
 "   Used for attenuating higher pitched frequencies in vocals such as those "
 "found in 'ess', 'shh' and 'chh' sounds.]]>"
 msgstr ""
+"<![CDATA[TAP Reductor de sibilantes (LADSPA 2147)<br>\n"
+"   Usado para atenuar las frecuencias altas en registros vocales, tales como "
+"las encontradas en los sonidos de 'ese', 'sh' y 'ch'.]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:9
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold Level"
-msgstr "Valor de umbral"
+msgstr "Nivel de umbral"
 
 #: data/effects/ladspa/ladspa_2147.xml:15
-#, fuzzy, kde-format
-#| msgid "Sidechain Gain"
+#, kde-format
 msgid "Sidechain Filter"
-msgstr "Ganancia cadena lateral"
+msgstr "Filtro de cadena lateral"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -14373,24 +14365,23 @@ msgid ""
 "<![CDATA[The chosen filter's frequency<br>\n"
 "      is set by the <b>Frequency</b> parameter]]>"
 msgstr ""
+"<![CDATA[La frecuencia en la que operará el efecto<br>\n"
+"      es establecida en el parámetro <b>Frecuencia</b>]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:18
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "Highpass,Bandpass"
-msgstr "Paso de banda"
+msgstr "Paso alto, Paso de banda"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor On"
-msgstr "Monitor"
+msgstr "Monitorear"
 
 #: data/effects/ladspa/ladspa_2148.xml:4
-#, fuzzy, kde-format
-#| msgid "Vibrato"
+#, kde-format
 msgid "TAP Vibrato"
-msgstr "Vibrato"
+msgstr "TAP Vibrato"
 
 #: data/effects/ladspa/ladspa_2148.xml:6
 #, kde-format
@@ -14400,23 +14391,29 @@ msgid ""
 "signal. It is useful for guitar and synth tracks, and it can also come handy "
 "if a strange effect is needed.]]>"
 msgstr ""
+"<![CDATA[TAP Vibrato (LADSPA 2148)<br>\n"
+"   Permite modular el tono de la señal de entrada mediante una onda "
+"sinusoidal de baja frecuencia. Es útil para pistas de guitarras y "
+"sintetizadores y también puede resultar práctico cuando se necesite algún "
+"efecto extraño.]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change down]]>"
+#, kde-format
 msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
-msgstr "<![CDATA[Determina el valor de disminución de luminosidad]]>"
+msgstr ""
+"<![CDATA[Determina qué tan rápido el tono será modulado hacia arriba y "
+"abajo]]>"
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Sets the amount of pitch modulation]]>"
-msgstr "<![CDATA[Establece el ángulo para de dirección del desenfoque]]>"
+msgstr ""
+"<![CDATA[Establece la magnitud de la modulación de tono a ser aplicada]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
 msgid "TAP Rotary Speaker"
-msgstr ""
+msgstr "TAP Altavoz rotativo"
 
 #: data/effects/ladspa/ladspa_2149.xml:6
 #, kde-format
@@ -14424,35 +14421,34 @@ msgid ""
 "<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
 "   Simulates the sound of rotating speakers.]]>"
 msgstr ""
+"<![CDATA[TAP Altavoz rotativo (LADSPA 2149)<br>\n"
+"   Permite simular el sonido de altavoces de tipo rotativo, también "
+"conocidos como Leslie.]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:9
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Rotor Frequency"
-msgstr "Frecuencia baja"
+msgstr "Frecuencia del rotor"
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "Frecuencia baja"
+msgstr "Frecuencia tweeter"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
-#, fuzzy, kde-format
-#| msgid "Distance"
+#, kde-format
 msgid "Mic Distance"
-msgstr "Distancia"
+msgstr "Distancia del mic"
 
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format
 msgid "Rotor/Horn Mix"
-msgstr ""
+msgstr "Mezcla Rotor/Tweeter"
 
 #: data/effects/ladspa/ladspa_2150.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "TAP Pitch Shifter"
-msgstr "Desplazamiento de tono"
+msgstr "TAP Desplazamiento de tono"
 
 #: data/effects/ladspa/ladspa_2150.xml:6
 #, kde-format
@@ -14460,12 +14456,13 @@ msgid ""
 "<![CDATA[TAP Pitch Shifter (LADSPA 2150)<br>\n"
 "   Change the pitch in the range of plus/minus one octave.]]>"
 msgstr ""
+"<![CDATA[TAP Desplazamiento de tono (LADSPA 2150)<br>\n"
+"   Permite modificar el tono dentro del rango de más/menos una octava.]]>"
 
 #: data/effects/ladspa/ladspa_2150.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation Shift"
+#, kde-format
 msgid "Semitone Shift"
-msgstr "Desplazamiento de saturación"
+msgstr "Desplazam en semitonos"
 
 #: data/effects/ladspa/ladspa_2150.xml:11
 #, kde-format
@@ -14473,12 +14470,14 @@ msgid ""
 "<![CDATA[Does the same thing as <b>Rate Shift</b></br>\n"
 "      but allows to set musically sensible pitch shift rates.]]>"
 msgstr ""
+"<![CDATA[Hace lo mismo que <b>Desplazam en frecuencia</b></br>\n"
+"      pero permite definir frecuencias de desplazamiento musicalmente "
+"sensatas.]]>"
 
 #: data/effects/ladspa/ladspa_2150.xml:14
-#, fuzzy, kde-format
-#| msgid "Hue Shift"
+#, kde-format
 msgid "Rate Shift"
-msgstr "Desplazamiento de tono"
+msgstr "Desplazam en frecuencia"
 
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
@@ -14487,12 +14486,14 @@ msgid ""
 "      but in percentage of the original pitch, so that is closer to a "
 "\"physical\", non-musical approach]]>"
 msgstr ""
+"<![CDATA[Hace lo mismo que <b>Desplazam en semitonos</b></br>\n"
+"      pero como porcentaje del tono original, por lo que resultará más "
+"cercano a un método \"físico\", no musical.]]>"
 
 #: data/effects/ladspa/ladspa_2151.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer/BW"
-msgstr "Ecualizador"
+msgstr "TAP Ecualizador/AB"
 
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
@@ -14501,6 +14502,9 @@ msgid ""
 "    8-band equalizer with adjustable band center frequencies and "
 "bandwidth.]]>"
 msgstr ""
+"<![CDATA[TAP Ecualizador/AB (LADSPA (2151)<br>\n"
+"    Ecualizador de 8 bandas con frecuencias centrales de banda ajustables y "
+"anchos de banda.]]>"
 
 #: data/effects/ladspa/ladspa_2151.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:24
@@ -14510,15 +14514,14 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[BW]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Ancho]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
 msgid "TAP Dynamics (M)"
-msgstr ""
+msgstr "TAP Dinámica (Mono)"
 
 #: data/effects/ladspa/ladspa_2152.xml:6
 #, kde-format
@@ -14526,18 +14529,19 @@ msgid ""
 "<![CDATA[TAP Dynamics Mono (LADSPA 2152)<br>\n"
 "   Allows changing the dynamic content of the audio stream]]>"
 msgstr ""
+"<![CDATA[TAP Dinámica mono (LADSPA 2152)<br>\n"
+"   Permite modificar el contenido dinámico de una fuente de audio "
+"monofónica]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
-#, fuzzy, kde-format
-#| msgid "Offset gain"
+#, kde-format
 msgid "Offset Gain"
 msgstr "Ganancia desplazamiento"
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Make Up Gain"
+#, kde-format
 msgid "Makeup Gain"
 msgstr "Ganancia adicional"
 
@@ -14545,7 +14549,7 @@ msgstr "Ganancia adicional"
 #: data/effects/ladspa/ladspa_2153.xml:27
 #, kde-format
 msgid "Dynamics Transfer Function"
-msgstr ""
+msgstr "Función transferencia dinámica"
 
 #: data/effects/ladspa/ladspa_2152.xml:22
 #: data/effects/ladspa/ladspa_2153.xml:28
@@ -14556,12 +14560,16 @@ msgid ""
 "Hard limiter at -6dB;Hard limiter at -12dB;Hard gate at -35dB;Soft limiter;"
 "Soft knee comp/gate;Softgate below -36dB"
 msgstr ""
+"2:1 compr en -6dB,2:1 compr en -9dB,2:1 compr en -12dB,2:1 compr en "
+"-18dB,2.5 compr en -18dB,3:1 compr en -12dB,3:1 compr en -15dB,Compresor/"
+"Compuerta,Expansor,Limitador duro en -6dB;Limitador duro en -12dB;Compuerta "
+"dura en -35dB;Limitador suave;Compr/Compu codo suave;Compuerta suave debajo "
+"de -36dB"
 
 #: data/effects/ladspa/ladspa_2153.xml:4
-#, fuzzy, kde-format
-#| msgid "Dynamic Text"
+#, kde-format
 msgid "TAP Dynamics (St)"
-msgstr "Texto dinámico"
+msgstr "TAP Dinámica (Estéreo)"
 
 #: data/effects/ladspa/ladspa_2153.xml:6
 #, kde-format
@@ -14569,6 +14577,8 @@ msgid ""
 "<![CDATA[TAP Dynamics Stereo (LADSPA 2153)<br>\n"
 "   Allows changing the dynamic content of the audio stream]]>"
 msgstr ""
+"<![CDATA[TAP Dinámica estéreo (LADSPA 2153)<br>\n"
+"   Permite modificar el contenido dinámico de una fuente de audio estéreo]]>"
 
 #: data/effects/ladspa/ladspa_2153.xml:23
 #, kde-format
@@ -14576,17 +14586,18 @@ msgid ""
 "<![CDATA[Controls how the envelope levels<br>\n"
 "      are used to determine the needed gain adjustment]]>"
 msgstr ""
+"<![CDATA[Controla la forma en que los niveles de la envolvente<br>\n"
+"      son usados para determinar el ajuste de ganancia necesario]]>"
 
 #: data/effects/ladspa/ladspa_2153.xml:24
-#, fuzzy, kde-format
-#| msgid "Independence"
+#, kde-format
 msgid "Independent,Average,Peak"
-msgstr "Independencia"
+msgstr "Independiente,Promedio,Pico"
 
 #: data/effects/ladspa/ladspa_2154.xml:4
 #, kde-format
 msgid "TAP Reflector"
-msgstr ""
+msgstr "TAP Reflector"
 
 #: data/effects/ladspa/ladspa_2154.xml:6
 #, kde-format
@@ -14594,12 +14605,13 @@ msgid ""
 "<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
 "    Creates a psychedelic reverse audio effect.]]>"
 msgstr ""
+"<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
+"    Permite crear un efecto psicodélico de inversión del audio.]]>"
 
 #: data/effects/ladspa/ladspa_2154.xml:9
-#, fuzzy, kde-format
-#| msgid "Profile Length"
+#, kde-format
 msgid "Fragment Length"
-msgstr "Perfil: Longitud"
+msgstr "Longitud de fragmento"
 
 #: data/effects/ladspa/ladspa_2154.xml:11
 #, kde-format
@@ -14608,11 +14620,14 @@ msgid ""
 "      approximately match the tempo of the track, so the Fragment Length is "
 "equal to the time of one measure.]]>"
 msgstr ""
+"<![CDATA[Se recomienda establecerlo para que<br>\n"
+"      coincida aproximadamente con el tempo de la pista, de modo que la "
+"Longitud de fragmento equivalga a la duración de un compás.]]>"
 
 #: data/effects/ladspa/ladspa_2155.xml:4
 #, kde-format
 msgid "TAP Pink/Fractal Noise"
-msgstr ""
+msgstr "TAP Ruido rosa/fractal"
 
 #: data/effects/ladspa/ladspa_2155.xml:6
 #, kde-format
@@ -14621,29 +14636,30 @@ msgid ""
 "    Adds pink noise to the incoming signal using a one-dimensional random "
 "fractal line generated by the Midpoint Displacement Method.]]>"
 msgstr ""
+"<![CDATA[TAP Ruido rosa/fractal (LADSPA 2155)<br>\n"
+"    Permite agregar un ruido rosa a la señal de entrada, usando una línea "
+"fractal unidimensional aleatoria generada mediante el método de "
+"Desplazamiento de punto medio.]]>"
 
 #: data/effects/ladspa/ladspa_2155.xml:9
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "Fractal Dimension"
-msgstr "Dimensión"
+msgstr "Dimensión fractal"
 
 #: data/effects/ladspa/ladspa_2155.xml:12
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Signal Level"
-msgstr "Lateral nivel"
+msgstr "Nivel de señal"
 
 #: data/effects/ladspa/ladspa_2155.xml:15
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Noise Level"
-msgstr "Lateral nivel"
+msgstr "Nivel de ruido"
 
 #: data/effects/ladspa/ladspa_2156.xml:4
 #, kde-format
 msgid "TAP Fractal Doubler"
-msgstr ""
+msgstr "TAP Duplicador fractal"
 
 #: data/effects/ladspa/ladspa_2156.xml:6
 #, kde-format
@@ -14652,12 +14668,15 @@ msgid ""
 "    Suitable for doubling tracks with vocals, acoustic/electric guitars, "
 "bass and just about any other instrument on them.]]>"
 msgstr ""
+"<![CDATA[TAP Duplicador fractal (LADSPA 2156)<br>\n"
+"    Apropiado para duplicar pistas con registros vocales, guitarras "
+"acústicas/eléctricas o conteniendo prácticamente cualquier otro "
+"instrumento.]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "Ocultar pista"
+msgstr "Apego al tiempo"
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -14668,18 +14687,21 @@ msgid ""
 "(\"bad backup singer\"). When set to 1, changes are smaller and smoother "
 "(\"better tracking of the original\").]]>"
 msgstr ""
+"<![CDATA[Determina qué tan \"abruptos\" y grandes serán los cambios.<br>\n"
+"      Cuando se establezca en 0, los cambios serán más grandes y más "
+"caóticos (como un \"mal cantante secundario\"). Cuando se establezca en 1, "
+"los cambios serán menores y más suaves (con un \"mayor apego a la pista "
+"original\").]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:14
-#, fuzzy, kde-format
-#| msgid "Pitch smoothing"
+#, kde-format
 msgid "Pitch Tracking"
-msgstr "Suavizado de cabeceo"
+msgstr "Apego al tono"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "Establecer posición"
+msgstr "Posición izq original"
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -14690,29 +14712,28 @@ msgid ""
 "<![CDATA[These controls range between 0 and 1,<br>\n"
 "      0 meaning hard left and 1 meaning hard right position.]]>"
 msgstr ""
+"<![CDATA[Estos controles estarán entre 0 y 1,<br>\n"
+"      significando 0 completamente a la izquierda y 1 a la derecha.]]>"
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "Posición inicial"
+msgstr "Posición der original"
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "Establecer posición"
+msgstr "Posición izq procesado"
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "Establecer posición"
+msgstr "Posición der procesado"
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
 msgid "TAP Sigmoid Booster"
-msgstr ""
+msgstr "TAP Impulso sigmoideo"
 
 #: data/effects/ladspa/ladspa_2157.xml:6
 #, kde-format
@@ -14721,33 +14742,37 @@ msgid ""
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
 "signal.]]>"
 msgstr ""
+"<![CDATA[TAP Impulso sigmoideo (LADSPA 2157)<br>\n"
+"   Permite aplicar una función no lineal de transferencia de amplitud "
+"invariante en el tiempo a la señal.]]>"
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "Ganancia izquierdo"
+msgstr "Ganancia previa"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
 msgid "Scales the input signal before the transfer function is applied to it."
 msgstr ""
+"Escala la señal de entrada antes de que se le aplique la función de "
+"transferencia."
 
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "Sox: Ganancia"
+msgstr "Ganancia posterior"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
 msgid "Can be used to adjust the output gain of the effect."
 msgstr ""
+"Esta opción puede ser usada para ajustar la ganancia de salida del efecto."
 
 #: data/effects/ladspa/ladspa_2158.xml:4
 #, kde-format
 msgid "TAP TubeWarmth"
-msgstr ""
+msgstr "TAP Calidez valvular"
 
 #: data/effects/ladspa/ladspa_2158.xml:6
 #, kde-format
@@ -14757,32 +14782,36 @@ msgid ""
 "sonically desirable nonlinear characteristics of triodes. It also supports "
 "emulating analog tape saturation.]]>"
 msgstr ""
+"<![CDATA[TAP Calidez valvular (LADSPA 2158)<br>\n"
+"   Permite agregar la personalidad de la amplificación de tubos valvulares, "
+"emulando las características no lineales acústicamente agradables de los "
+"triodos. También soporta la emulación de la saturación típica de las cintas "
+"analógicas.]]>"
 
 #: data/effects/ladspa/ladspa_2158.xml:9
 #, kde-format
 msgid "Drive"
-msgstr ""
+msgstr "Empuje"
 
 #: data/effects/ladspa/ladspa_2158.xml:10
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Adjusts the amount of the effect"
-msgstr "Permite ajustar el contraste de la imagen de un clip"
+msgstr "Permite ajustar la magnitud del efecto"
 
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
 msgid "Tape--Tube Blend"
-msgstr ""
+msgstr "Mezcla Cinta--Válvulas"
 
 #: data/effects/ladspa/ladspa_2158.xml:14
 #, kde-format
 msgid "Controls the color of the TubeWarmth sound"
-msgstr ""
+msgstr "Permite controlar el color de sonido del efecto"
 
 #: data/effects/ladspa/ladspa_2159.xml:4
 #, kde-format
 msgid "TAP Chorus/Flange"
-msgstr ""
+msgstr "TAP Coro/Flange"
 
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
@@ -14791,6 +14820,10 @@ msgid ""
 "    Creates traditional Chorus and Flanger effects, spiced up a bit to make "
 "use of stereo processing. It sounds best on guitar and synth tracks.]]>"
 msgstr ""
+"<![CDATA[TAP Coro/Flange (LADSPA 2159)<br>\n"
+"    Permite crear los tradicionales efectos de Coro y Flange, un poco "
+"sazonados para utilizar procesamiento estéreo. Suena mejor en pistas de "
+"guitarra y sintetizadores.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:11
 #, kde-format
@@ -14799,12 +14832,14 @@ msgid ""
 "      with which the time-varying delay is modulated. The higher the "
 "frequency, the more intense the effect will be.]]>"
 msgstr ""
+"<![CDATA[Determina la frecuencia del LFO (oscilador de baja frecuencia)<br>\n"
+"      mediante el cual se modulará el retardo que irá variando en el tiempo. "
+"Cuanto más alta sea la frecuencia, más intenso será el efecto.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:14
-#, fuzzy, kde-format
-#| msgid "Phase Left"
+#, kde-format
 msgid "L/R Phase Shift"
-msgstr "Fase izquierdo"
+msgstr "Desplaz de fase I/D"
 
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
@@ -14815,6 +14850,11 @@ msgid ""
 "phase; when set to 180 degrees, the two LFO's are is counter-phase to create "
 "the widest stereo effect.]]>"
 msgstr ""
+"<![CDATA[Controla el desplazamiento de fase entre los dos<br>\n"
+"      LFO. Cuanto más alta sea esta opción, más acentuado será el estéreo "
+"del efecto. Cuando sea 0, el procesamiento de los dos canales estará en "
+"fase; cuando se establezca en 180 grados, ambos LFO se encontrarán en fases "
+"opuestas, lo que permitirá producir la mayor amplitud posible del estéreo.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:21
 #, kde-format
@@ -14823,6 +14863,9 @@ msgid ""
 "      Increasing it will result in stronger modulation using the same LFO "
 "frequency.]]>"
 msgstr ""
+"<![CDATA[Ajusta la profundidad de modulación del retardo.<br>\n"
+"      Al aumentar esta opción, se producirá una modulación más fuerte usando "
+"la misma frecuencia de LFO.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:26
 #, kde-format
@@ -14834,12 +14877,18 @@ msgid ""
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
 "blend between Chorus and Flanger.]]>"
 msgstr ""
+"<![CDATA[Determina una cantidad fija de tiempo en que<br>\n"
+"      será retardada la señal, después de que el retardo variante en el "
+"tiempo hubiera sido aplicado. Según cómo se establezca esta opción, el "
+"efecto se asemejará a un Coro o a un Flange. Los retardos menores a 10 ms "
+"podrán ser catalogados como Flange, los superiores a 20 ms como Coro y "
+"aquellos que se encuentren en el rango entre 10 y 20 ms producirán un efecto "
+"intermedio entre un Coro y un Flange.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:29
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Contour"
-msgstr "Contraste"
+msgstr "Contorno"
 
 #: data/effects/ladspa/ladspa_2159.xml:31
 #, kde-format
@@ -14847,6 +14896,8 @@ msgid ""
 "<![CDATA[The cutoff frequency of a high-pass<br>\n"
 "      filter applied to the now twice-delayed signal.]]>"
 msgstr ""
+"<![CDATA[La frecuencia de corte de un filtro de<br>\n"
+"      paso alto aplicado a la señal, una vez producidos ambos retardos.]]>"
 
 #: data/effects/ladspa/ladspa_2159.xml:36
 #: data/effects/ladspa/ladspa_2159.xml:41
@@ -14857,6 +14908,11 @@ msgid ""
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
 "unwanted side effects) results in a subtler effect.]]>"
 msgstr ""
+"<![CDATA[Permite realizar un retoque final del sonido.<br>\n"
+"      El efecto más intenso se alcanzará cuando ambas opciones se encuentren "
+"establecidas en valores similares. Disminuir una de ellas (preferiblemente "
+"el Nivel procesado, para mitigar cualquier efecto secundario no deseado) "
+"producirá un efecto más sutil.]]>"
 
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
@@ -21175,17 +21231,12 @@ msgid "Open Browser"
 msgstr "Abrir explorador"
 
 #: src/core.cpp:2228
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will open a browser to display Kdenlive's online documentation at "
-#| "the following url:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
 " %1"
 msgstr ""
-"Esto abrirá un explorador para mostrar la documentación en línea de Kdenlive "
-"en la siguiente url:\n"
+"Esto abrirá un navegador para mostrar un enlace:\n"
 " %1"
 
 #: src/dialogs/clipcreationdialog.cpp:59
@@ -22958,8 +23009,7 @@ msgstr ""
 "no hubiera sido correctamente detectada o no funcionara con este complemento."
 
 #: src/dialogs/Simplesplash.qml:102
-#, fuzzy, kde-format
-#| msgid "Made by KDE"
+#, kde-format
 msgid "Make by KDE"
 msgstr "Hecho por KDE"
 
@@ -22971,20 +23021,17 @@ msgstr "Kdenlive"
 #: src/dialogs/Simplesplash.qml:161
 #, kde-format
 msgid "Kdenlive crashed on last start."
-msgstr ""
+msgstr "Kdenlive se cerró inesperadamente en la última sesión."
 
 #: src/dialogs/Simplesplash.qml:170
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Reset Configuration"
+#, kde-format
 msgid "Reset Configuration"
 msgstr "Restablecer configuración"
 
 #: src/dialogs/Simplesplash.qml:179
-#, fuzzy, kde-format
-#| msgid "Start Color"
+#, kde-format
 msgid "Start Normally"
-msgstr "Color inicial"
+msgstr "Iniciar normalmente"
 
 #: src/dialogs/Simplesplash.qml:206 src/dialogs/Splash.qml:614
 #, kde-format
@@ -22993,17 +23040,19 @@ msgid ""
 "org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive."
 "org/fund/\">funding</a>."
 msgstr ""
+"Kdenlive se ha actualizado. Por favor considera <a href=\"https://kdenlive."
+"org/get-involved/\">ayudar</a> o apoyar <a href=\"https://kdenlive.org/fund/"
+"\">donando</a>."
 
 #: src/dialogs/Simplesplash.qml:219 src/dialogs/Splash.qml:628
 #, kde-format
 msgid "What's New"
-msgstr ""
+msgstr "Novedades"
 
 #: src/dialogs/Simplesplash.qml:228
-#, fuzzy, kde-format
-#| msgid "Container:"
+#, kde-format
 msgid "Continue"
-msgstr "Contenedor:"
+msgstr "Continuar"
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -23640,105 +23689,99 @@ msgid "Zulu"
 msgstr "Zulú"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K UHD 2160"
+#, kde-format
 msgid "4K UHD 3840x2160"
-msgstr "4K UHD 2160"
+msgstr "4K UHD 3840×2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K DCI 2160"
+#, kde-format
 msgid "4K DCI 4096x2160"
-msgstr "4K DCI 2160"
+msgstr "4K DCI 4096×2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "2.5K QHD 1440"
+#, kde-format
 msgid "2.5K QHD 2560x1440"
-msgstr "2.5K QHD 1440"
+msgstr "2.5K QHD 2560×1440"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1920x1080"
-msgstr "Full HD 1080"
+msgstr "Full HD 1920×1080"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "HD 1280x720"
-msgstr ""
+msgstr "HD 1280×720"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "SD NTSC ancho 720×480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC 720x480"
-msgstr ""
+msgstr "SD NTSC 720×480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "SD PAL ancho 720×576"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL 720x576"
-msgstr ""
+msgstr "SD PAL 720×576"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1080x1920"
-msgstr "Full HD 1080"
+msgstr "Full HD 1080×1920"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "HD 720"
+#, kde-format
 msgid "HD 720x1280"
-msgstr "HD 720"
+msgstr "HD 720×1280"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "23.98 fps"
-msgstr ""
+msgstr "23,98 fps"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "24 fps"
-msgstr ""
+msgstr "24 fps"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "25 fps"
-msgstr ""
+msgstr "25 fps"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "29.97 fps"
-msgstr ""
+msgstr "29,97 fps"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "30 fps"
-msgstr ""
+msgstr "30 fps"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "50 fps"
-msgstr ""
+msgstr "50 fps"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "59.94 fps"
-msgstr ""
+msgstr "59,94 fps"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
 #, kde-format
 msgid "60 fps"
-msgstr ""
+msgstr "60 fps"
 
 #: src/dialogs/Splash.qml:169
 #, kde-format
@@ -23746,98 +23789,86 @@ msgid "Made by KDE"
 msgstr "Hecho por KDE"
 
 #: src/dialogs/Splash.qml:227
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "Open Project…"
-msgstr "Archivar proyecto…"
+msgstr "Abrir proyecto…"
 
 #: src/dialogs/Splash.qml:255
-#, fuzzy, kde-format
-#| msgid "Open sequence"
+#, kde-format
 msgid "Open Recent"
-msgstr "Abrir secuencia"
+msgstr "Abrir reciente"
 
 #: src/dialogs/Splash.qml:263
 #, kde-format
 msgid "Clear History of Recent Projects"
-msgstr ""
+msgstr "Borrar historial de proyectos recientes"
 
 #: src/dialogs/Splash.qml:359
-#, fuzzy, kde-format
-#| msgid "Remove from favorites"
+#, kde-format
 msgid "Remove file from list"
-msgstr "Eliminar de favoritos"
+msgstr "Eliminar archivo de la lista"
 
 #: src/dialogs/Splash.qml:389
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "New Project…"
-msgstr "Archivar proyecto…"
+msgstr "Nuevo proyecto…"
 
 #: src/dialogs/Splash.qml:416
-#, fuzzy, kde-format
-#| msgid "Test Proxy Profiles"
+#, kde-format
 msgid "New From Profile"
-msgstr "Probar perfiles de reemplazo"
+msgstr "Nuevo usando perfil"
 
 #: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
-msgstr ""
+msgstr "Borrar historial de perfiles recientes"
 
 #: src/dialogs/Splash.qml:507
-#, fuzzy, kde-format
-#| msgid "Request option from list"
+#, kde-format
 msgid "Remove profile from list"
-msgstr "Solicitar opción de lista"
+msgstr "Eliminar perfil de la lista"
 
 #: src/dialogs/Splash.qml:546
-#, fuzzy, kde-format
-#| msgid "Go to Zone Start"
+#, kde-format
 msgid "Show on Startup"
-msgstr "Ir al inicio de la zona"
+msgstr "Mostrar al inicio"
 
 #: src/dialogs/Splash.qml:580 src/dialogs/Splash.qml:948
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
-"Kdenlive finalizó inesperadamente al arrancar por última vez.\n"
-"¿Restablecer los archivos de configuración?"
+"Kdenlive se cerró inesperadamente en la última sesión. ¿Restablecer "
+"configuración y reiniciar?"
 
 #: src/dialogs/Splash.qml:658
 #, kde-format
 msgid "Help us make Kdenlive even better"
-msgstr ""
+msgstr "Ayúdanos a hacer que Kdenlive sea aún mejor"
 
 #: src/dialogs/Splash.qml:664
 #, kde-format
 msgid "Contribute…"
-msgstr ""
+msgstr "Contribuir…"
 
 #: src/dialogs/Splash.qml:669
 #, kde-format
 msgid "Donate…"
-msgstr ""
+msgstr "Donar…"
 
 #: src/dialogs/Splash.qml:699
-#, fuzzy, kde-format
-#| msgid "Welcome to Kdenlive %1"
+#, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
-msgstr "Bienvenido a Kdenlive %1"
+msgstr "<b>Bienvenido al asistente de configuración de Kdenlive</b>"
 
 #: src/dialogs/Splash.qml:705
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr ""
+msgstr "Siempre usar el tema de color oscuro"
 
 #: src/dialogs/Splash.qml:717
-#, fuzzy, kde-format
-#| msgid "Change default project profile"
+#, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "Cambiar perfil predeterminado de proyectos"
+msgstr "<b>Perfil de proyecto predeterminado</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:834 src/ui/colorplaneexport_ui.ui:105
@@ -23846,10 +23877,9 @@ msgid "Resolution"
 msgstr "Resolución"
 
 #: src/dialogs/Splash.qml:861
-#, fuzzy, kde-format
-#| msgid "Frame Rate:"
+#, kde-format
 msgid "Frame Rate"
-msgstr "Velocidad de fotogramas:"
+msgstr "Velocidad de fotogramas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
@@ -23863,34 +23893,29 @@ msgid "Interlaced"
 msgstr "Entrelazado"
 
 #: src/dialogs/Splash.qml:906
-#, fuzzy, kde-format
-#| msgid "Video tracks:"
+#, kde-format
 msgid "Video Tracks"
-msgstr "Pistas de video:"
+msgstr "Pistas de video"
 
 #: src/dialogs/Splash.qml:915
-#, fuzzy, kde-format
-#| msgid "Audio tracks:"
+#, kde-format
 msgid "Audio Tracks"
-msgstr "Pistas de audio:"
+msgstr "Pistas de audio"
 
 #: src/dialogs/Splash.qml:928
 #, kde-format
 msgid "This can always be changed later in the Settings."
-msgstr ""
+msgstr "Siempre podrá modificarse más adelante en las Preferencias."
 
 #: src/dialogs/Splash.qml:973
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Check Online Documentation"
-msgstr "Documentación en línea"
+msgstr "Ver documentación en línea"
 
 #: src/dialogs/Splash.qml:981
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Start Editing"
-msgstr "Posición inicial"
+msgstr "Comenzar a editar"
 
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
@@ -26318,36 +26343,31 @@ msgid "Extra Toolbar"
 msgstr "Barra de herramientas adicional"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "Registro"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "Edición"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "Audio"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "Efectos"
 
 #: src/layouts/layoutcollection.cpp:28
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
 msgstr "Color"
@@ -26384,20 +26404,17 @@ msgid "Layout %1: %2"
 msgstr "%1: %2"
 
 #: src/layouts/layoutmanagement.cpp:235
-#, fuzzy, kde-format
-#| msgid ""
-#| "The layout %1 uses an old and unsupported format, should be removed and "
-#| "recreated."
+#, kde-format
 msgid "The layout %1 could not be restored, should be removed and recreated."
 msgstr ""
-"La organización %1 usa un formato antiguo no soportado, debería ser "
-"eliminada y crearse nuevamente."
+"La organización %1 no pudo ser restaurada, debería ser eliminada y crearse "
+"nuevamente."
 
 #: src/layouts/layoutmanagement.cpp:267
-#, fuzzy, kde-format
-#| msgid "Project file could not be saved for export."
+#, kde-format
 msgid "The layout from the project file could not be restored."
-msgstr "No fue posible guardar el archivo del proyecto para ser exportado."
+msgstr ""
+"No fue posible restaurar la organización usada en el archivo del proyecto."
 
 #: src/layouts/layoutmanagement.cpp:285
 #, kde-format
@@ -26416,10 +26433,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La organización %1 ya existe. ¿Sobrescribirla?"
 
 #: src/layouts/layoutmanagement.cpp:340
-#, fuzzy, kde-format
-#| msgid "Could not create temporary file in %1"
+#, kde-format
 msgid "Could not save layout to file: %1"
-msgstr "No fue posible crear archivo temporal en %1"
+msgstr "No fue posible guardar la organización en el archivo: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -26448,15 +26464,14 @@ msgid "Export selected"
 msgstr "Exportar seleccionada…"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "Delete the layout."
+#, kde-format
 msgid "Delete Layout"
-msgstr "Eliminar organización."
+msgstr "Borrar organización"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
 #, kde-format
 msgid "Are you sure you want to delete the layout %1?"
-msgstr ""
+msgstr "¿Seguro borrar la organización %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:189
 #, kde-format
@@ -26481,31 +26496,24 @@ msgstr "Importar organización"
 
 #: src/layouts/layoutmanagerdialog.cpp:206
 #: src/layouts/layoutmanagerdialog.cpp:284
-#, fuzzy, kde-format
-#| msgid "Kdenlive Layout (*.kdenlivelayout)"
+#, kde-format
 msgid "Kdenlive Layout (*.json)"
-msgstr "Organización de Kdenlive (*.kdenlivelayout)"
+msgstr "Organización de Kdenlive (*.json)"
 
 #: src/layouts/layoutmanagerdialog.cpp:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not create assets folder:\n"
-#| " %1"
+#, kde-format
 msgid "Could not write in the layouts folder %1"
-msgstr ""
-"No fue posible crear carpeta de recursos:\n"
-"%1"
+msgstr "No fue posible escribir en la carpeta de organizaciones %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:234
 #, kde-format
 msgid "Selected layout is already imported"
-msgstr ""
+msgstr "La organización seleccionada ya fue importada con anterioridad"
 
 #: src/layouts/layoutmanagerdialog.cpp:241
-#, fuzzy, kde-format
-#| msgid "Invalid LUT file %1"
+#, kde-format
 msgid "Invalid file selected: %1"
-msgstr "Archivo LUT inválido %1"
+msgstr "Archivo inválido seleccionado: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:274
 #: src/layouts/layoutmanagerdialog.cpp:281
@@ -26523,21 +26531,19 @@ msgid "No layout selected."
 msgstr "Ninguna organización seleccionada."
 
 #: src/layouts/layoutmanagerdialog.cpp:281
-#, fuzzy, kde-format
-#| msgid "Cannot find layout data for %1."
+#, kde-format
 msgid "Cannot find layout file for %1."
-msgstr "No se encuentran datos de organización para %1."
+msgstr "No se encuentra el archivo para la organización %1."
 
 #: src/layouts/layoutmanagerdialog.cpp:302
 #, kde-format
 msgid "Overwrite existing file for vertical layout %1?"
-msgstr ""
+msgstr "¿Sobrescribir el archivo existente para la organización vertical %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:304
-#, fuzzy, kde-format
-#| msgid "Layout exported successfully."
+#, kde-format
 msgid "Horizontal layout exported successfully."
-msgstr "Organización exportada exitosamente."
+msgstr "Organización horizontal exportada exitosamente."
 
 #: src/layouts/layoutmanagerdialog.cpp:318
 #, kde-format
@@ -26545,24 +26551,24 @@ msgid "Layout exported successfully."
 msgstr "Organización exportada exitosamente."
 
 #: src/layouts/layoutmanagerdialog.cpp:332
-#, fuzzy, kde-format
-#| msgid "Shift chroma pixels horizontally and/or vertically. "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains horizontal and vertical profiles"
 msgstr ""
-"Permite desplazar el croma de los píxeles horizontal y/o verticalmente. "
+"Esta organización contiene variantes para perfiles de proyecto horizontales "
+"y verticales"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an horizontal profile"
-msgstr ""
+msgstr "Organización para perfiles de proyecto horizontales"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an vertical profile"
-msgstr ""
+msgstr "Organización para perfiles de proyecto verticales"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -26978,7 +26984,7 @@ msgstr ""
 #: src/main.cpp:341
 #, kde-format
 msgid "Do not show any welcome screen."
-msgstr ""
+msgstr "No mostrar una pantalla de bienvenida."
 
 #: src/main.cpp:344
 #, kde-format
@@ -28308,10 +28314,9 @@ msgid "Fit all Tracks in View"
 msgstr "Ajustar todas las pistas a la vista"
 
 #: src/mainwindow.cpp:2080 src/timeline2/view/timelinecontroller.cpp:4970
-#, fuzzy, kde-format
-#| msgid "Sequence count"
+#, kde-format
 msgid "Sequence effects"
-msgstr "Cantidad de secuencias"
+msgstr "Efectos (secuencia activa)"
 
 #: src/mainwindow.cpp:2087
 #, kde-format
@@ -29723,8 +29728,7 @@ msgid "Zoom Out Monitor"
 msgstr "Reducir monitor"
 
 #: src/monitor/monitormanager.cpp:566
-#, fuzzy, kde-format
-#| msgid "Reset Zoom"
+#, kde-format
 msgid "Reset Monitor Zoom"
 msgstr "Restablecer ampliación"
 
@@ -29972,16 +29976,14 @@ msgid "Show Grid"
 msgstr "Mostrar cuadrícula"
 
 #: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Show Safe Areas"
-msgstr "Marcar zona"
+msgstr "Áreas de seguridad"
 
 #: src/monitor/view/EffectToolBar.qml:91 src/monitor/view/SceneToolBar.qml:81
-#, fuzzy, kde-format
-#| msgid "Compositions"
+#, kde-format
 msgid "Composition Guides"
-msgstr "Composición"
+msgstr "Guías de composición"
 
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
@@ -30206,10 +30208,9 @@ msgid "Enable Transform"
 msgstr "Habilitar efecto incorporado Transformar"
 
 #: src/monitor/view/SceneToolBar.qml:97
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Eliminar marcador"
+msgstr "Agregar/Eliminar marcador"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -34227,10 +34228,9 @@ msgid "Hide"
 msgstr "Ocultar"
 
 #: src/timeline2/view/qml/Timeline.qml:1005
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Show sequence effects"
-msgstr "Mostrar los efectos de la pista maestra de audio"
+msgstr "Mostrar efectos de secuencia"
 
 #: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
@@ -36154,10 +36154,9 @@ msgstr "Colores de gráficas de audio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Main compositions"
+#, kde-format
 msgid "Monitor composition guides:"
-msgstr "Todos"
+msgstr "Guías de composición del monitor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -36173,10 +36172,9 @@ msgstr "Cuadrícula del monitor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Monitor audio"
+#, kde-format
 msgid "Monitor safe zone:"
-msgstr "Monitorear audio"
+msgstr "Áreas de seguridad del monitor:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -36230,7 +36228,7 @@ msgstr "Advertir cuando datos en caché excedan:"
 #: src/ui/configenv_ui.ui:111
 #, kde-format
 msgid "Show Welcome screen at startup"
-msgstr ""
+msgstr "Mostrar pantalla de bienvenida al inicio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:118
@@ -40051,82 +40049,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Hue Shift Red"
-#~ msgstr "Desplazamiento tono rojo"
-
-#~ msgid "Saturation Scale Red"
-#~ msgstr "Escala saturación rojo"
-
-#~ msgid "Lightness Scale Red"
-#~ msgstr "Escala luminosidad rojo"
-
-#~ msgid "Hue Shift Yellow"
-#~ msgstr "Desplazamiento tono amarillo"
-
-#~ msgid "Saturation Scale Yellow"
-#~ msgstr "Escala saturación amarillo"
-
-#~ msgid "Lightness Scale Yellow"
-#~ msgstr "Escala luminosidad amarillo"
-
-#~ msgid "Hue Shift Green"
-#~ msgstr "Desplazamiento tono verde"
-
-#~ msgid "Saturation Scale Green"
-#~ msgstr "Escala saturación verde"
-
-#~ msgid "Lightness Scale Green"
-#~ msgstr "Escala luminosidad verde"
-
-#~ msgid "Hue Shift Cyan"
-#~ msgstr "Desplazamiento tono cian"
-
-#~ msgid "Saturation Scale Cyan"
-#~ msgstr "Escala saturación cian"
-
-#~ msgid "Lightness Scale Cyan"
-#~ msgstr "Escala luminosidad cian"
-
-#~ msgid "Hue Shift Blue"
-#~ msgstr "Desplazamiento tono azul"
-
-#~ msgid "Saturation Scale Blue"
-#~ msgstr "Escala saturación azul"
-
-#~ msgid "Lightness Scale Blue"
-#~ msgstr "Escala luminosidad cian"
-
-#~ msgid "Hue Shift Magenta"
-#~ msgstr "Desplazamiento tono magenta"
-
-#~ msgid "Saturation Scale Magenta"
-#~ msgstr "Escala saturación magenta"
-
-#~ msgid "Lightness Scale Magenta"
-#~ msgstr "Escala luminosidad magenta"
-
-#~ msgid ""
-#~ "This layout uses an old and unsupported format, should be removed and "
-#~ "recreated"
-#~ msgstr ""
-#~ "Esta organización usa un formato antiguo no soportado, debería ser "
-#~ "eliminada y crearse nuevamente."
-
-#~ msgid "Version %1"
-#~ msgstr "Versión %1"
-
-#~ msgid "Master effects"
-#~ msgstr "Efectos de pista Maestra"
-
-#~ msgid "Change Overlay"
-#~ msgstr "Alternar sobreimpresos"
-
-#~ msgid "Add Guide"
-#~ msgstr "Agregar marcador"
-
-#~ msgid "Remove Guide"
-#~ msgstr "Eliminar marcador"
-
-#~ msgid "Monitor overlay color:"
-#~ msgstr "Color de sobreimpresos del monitor:"

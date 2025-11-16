@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-15 02:36+0000\n"
-"PO-Revision-Date: 2025-11-03 09:44+0100\n"
+"PO-Revision-Date: 2025-11-14 13:57+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -29767,10 +29767,9 @@ msgid "Zoom Out Monitor"
 msgstr "Zoom arrière pour l'écran"
 
 #: src/monitor/monitormanager.cpp:566
-#, fuzzy, kde-format
-#| msgid "Reset Zoom"
+#, kde-format
 msgid "Reset Monitor Zoom"
-msgstr "Réinitialiser le zoom"
+msgstr "Réinitialiser le zoom d'écran"
 
 #: src/monitor/monitormanager.cpp:575
 #, kde-format
@@ -30018,10 +30017,9 @@ msgid "Show Safe Areas"
 msgstr "Enregistrer la zone"
 
 #: src/monitor/view/EffectToolBar.qml:91 src/monitor/view/SceneToolBar.qml:81
-#, fuzzy, kde-format
-#| msgid "Compositions"
+#, kde-format
 msgid "Composition Guides"
-msgstr "Compositions"
+msgstr "Repères de composition"
 
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
@@ -30256,10 +30254,9 @@ msgid "Enable Transform"
 msgstr "Activer la transformation"
 
 #: src/monitor/view/SceneToolBar.qml:97
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Supprimer le repère"
+msgstr "Ajouter / Supprimer un repère"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -36250,10 +36247,9 @@ msgstr "Couleurs des vignettes audio :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Main compositions"
+#, kde-format
 msgid "Monitor composition guides:"
-msgstr "Compositions principales"
+msgstr "Guides de composition d'écran :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -36269,10 +36265,9 @@ msgstr "Grille de surveillance"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Monitor audio"
+#, kde-format
 msgid "Monitor safe zone:"
-msgstr "Entrée audio du moniteur"
+msgstr "Zone sûre d'écran :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
