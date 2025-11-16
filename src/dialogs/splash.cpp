@@ -117,6 +117,7 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
             KdenliveSettings::setLastSeenVersionMicro(currentVersion.at(2).toInt());
         }
     }
+    qApp->processEvents(QEventLoop::AllEvents);
 }
 
 bool Splash::welcomeDisplayed() const
@@ -154,4 +155,10 @@ void Splash::fadeOutAndDelete()
 void Splash::fadeOut()
 {
     QMetaObject::invokeMethod(m_rootObject, "fade");
+}
+
+void Splash::showProgressMessage(const QString &message, int)
+{
+    QMetaObject::invokeMethod(m_rootObject, "displayProgress", Qt::DirectConnection, Q_ARG(QVariant, message));
+    qApp->processEvents();
 }

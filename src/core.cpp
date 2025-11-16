@@ -228,6 +228,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
     } else {
         m_splash = new Splash(QString(KDENLIVE_VERSION), {}, {}, {}, false, firstRun, showCrashRecovery, wasUpgraded);
     }
+    qApp->processEvents(QEventLoop::AllEvents);
 }
 
 void Core::initHeadless(const QUrl &url)
@@ -273,6 +274,8 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             }
         });
         connect(m_splash, &Splash::openLink, this, [this](QString url) { openLink(QUrl(url)); });
+
+        // Check if welcome screen is displayed
         if (m_splash->welcomeDisplayed()) {
             connect(m_splash, &Splash::openFile, this, [this](QString url) {
                 m_splash->deleteLater();
@@ -392,6 +395,10 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
         } else {
             // Simple splash
             connect(this, &Core::closeSplash, m_splash, &Splash::fadeOutAndDelete);
+            connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
+            /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+            QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
+            QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);*/
         }
         if (m_splash->hasEventLoop()) {
             // Last startup crashed, so stop here until we have a change to reset the config file
@@ -954,7 +961,6 @@ bool Core::setCurrentProfile(const QString profilePath)
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
         // Ensure all running tasks are stopped before attempting a global profile change
-        bool layoutNeedsCheck = false;
         bool wasVertical = false;
         if (!m_currentProfile.isEmpty()) {
             wasVertical = isVertical();
