@@ -36,6 +36,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KOpenWithDialog>
 #include <KService>
 #include <KUrlRequesterDialog>
+#include <kddockwidgets/Config.h>
 
 #include <QAction>
 #include <QButtonGroup>
@@ -1215,6 +1216,15 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
         KdenliveSettings::setTabposition(m_configMisc.kcfg_tabposition->currentIndex());
+        // Reload layout to make it happen
+        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+        const QByteArray layoutData = dockLayout.serializeLayout();
+        if (KdenliveSettings::tabposition() == 1) {
+            KDDockWidgets::Config::self().setTabsAtBottom(true);
+        } else {
+            KDDockWidgets::Config::self().setTabsAtBottom(false);
+        }
+        dockLayout.restoreLayout(layoutData);
     }
 
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
