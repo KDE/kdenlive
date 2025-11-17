@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-15 02:36+0000\n"
+"POT-Creation-Date: 2025-11-17 02:33+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -7369,7 +7369,7 @@ msgstr "Trvanie"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1097 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1103 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -16794,7 +16794,7 @@ msgstr "Štýl"
 msgid "Motion"
 msgstr "Pohyb"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2503
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2502
 #, fuzzy, kde-format
 #| msgid "GPU effects"
 msgid "GPU Effects"
@@ -16843,7 +16843,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:94
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:82 src/mainwindow.cpp:1593
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:83 src/mainwindow.cpp:1593
 #: src/scopes/colorscopes/vectorscope.cpp:144
 #, kde-format
 msgid "Tools"
@@ -18429,7 +18429,7 @@ msgstr "Uložiť efekt"
 
 #: src/assets/view/assetparameterview.cpp:375
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1368
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -18438,7 +18438,7 @@ msgstr "Zadať názov predvoľby"
 
 #: src/assets/view/assetparameterview.cpp:375
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1368
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
 msgid "Enter the name of this preset:"
@@ -19891,7 +19891,7 @@ msgstr ""
 "Prosím, nastavte predvolenú aplikáciu pre otváranie zvukových súborov v "
 "dialógu Nastavenie."
 
-#: src/bin/bin.cpp:5012 src/core.cpp:659 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5012 src/core.cpp:666 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20756,7 +20756,7 @@ msgstr "Načítavanie projektu"
 msgid "Loading project clips…"
 msgstr "Načítavanie projektu"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2400
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2399
 #, kde-format
 msgid "Zone %1"
 msgstr "Zóna %1"
@@ -20828,7 +20828,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Zakázať zastupovanie"
 
-#: src/core.cpp:462
+#: src/core.cpp:469
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20837,7 +20837,7 @@ msgstr ""
 "Predvolený profil Kdenlive nie je nastavený alebo je neplatný, stlačte OK na "
 "nastavenie na správnu hodnotu."
 
-#: src/core.cpp:474
+#: src/core.cpp:481
 #, fuzzy, kde-format
 #| msgid "Select Default Profile"
 msgctxt "@title:window"
@@ -20845,12 +20845,12 @@ msgid "Select Default Profile"
 msgstr "Vyberte predvolený profil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:474 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:481 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profil:"
 
-#: src/core.cpp:487
+#: src/core.cpp:494
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20859,287 +20859,287 @@ msgstr ""
 "Daný proil je neplatný. Predvolíme profil \"dv_pal\", ale môžete to zmeniť z "
 "panelu nastavení Kdenlive"
 
-#: src/core.cpp:502 src/project/projectmanager.cpp:875
+#: src/core.cpp:509 src/project/projectmanager.cpp:875
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
 msgstr "Načítavanie projektu"
 
-#: src/core.cpp:711
+#: src/core.cpp:718
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Štvorčekové rozmazanie"
 
-#: src/core.cpp:712
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:713
+#: src/core.cpp:720
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontálne"
 
-#: src/core.cpp:714
+#: src/core.cpp:721
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Polomer"
 
-#: src/core.cpp:715
+#: src/core.cpp:722
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineárny"
 
-#: src/core.cpp:716
+#: src/core.cpp:723
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Lineárny"
 
-#: src/core.cpp:717
+#: src/core.cpp:724
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineárny"
 
-#: src/core.cpp:718
+#: src/core.cpp:725
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Lineárny"
 
-#: src/core.cpp:719
+#: src/core.cpp:726
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Štvorčekové rozmazanie"
 
-#: src/core.cpp:720
+#: src/core.cpp:727
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Štvorčekové rozmazanie"
 
-#: src/core.cpp:721
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:722
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:723
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:724
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:725
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:726
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:727
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:728
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:730
+#: src/core.cpp:737
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Horizontálne"
 
-#: src/core.cpp:731
+#: src/core.cpp:738
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Vertikálne"
 
-#: src/core.cpp:732
+#: src/core.cpp:739
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Horizontálne"
 
-#: src/core.cpp:733
+#: src/core.cpp:740
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Vertikálne"
 
-#: src/core.cpp:734
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:735
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:736
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:737
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:738
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:739
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:740
+#: src/core.cpp:747
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Horizontálne"
 
-#: src/core.cpp:741
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:742
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:743
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:744
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:745
+#: src/core.cpp:752
 #, fuzzy, kde-format
 #| msgid "Circle"
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Kruh"
 
-#: src/core.cpp:746
+#: src/core.cpp:753
 #, fuzzy, kde-format
 #| msgid "Disable proxies"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Zakázať zastupovanie"
 
-#: src/core.cpp:747
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:748
+#: src/core.cpp:755
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Spodok najskôr"
 
-#: src/core.cpp:749
+#: src/core.cpp:756
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Spodok najskôr"
 
-#: src/core.cpp:750
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:751
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:1043
+#: src/core.cpp:1049
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Profil projektu je neplatný, vykresľovanie môže zlyhať."
 
-#: src/core.cpp:1407
+#: src/core.cpp:1413
 #, kde-format
 msgid "Loading clips"
 msgstr "Načítanie klipov"
 
-#: src/core.cpp:1863
+#: src/core.cpp:1869
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Značka 2"
 
-#: src/core.cpp:2217
+#: src/core.cpp:2223
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21147,13 +21147,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2218 src/core.cpp:2229
+#: src/core.cpp:2224 src/core.cpp:2235
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Prehrávače médií"
 
-#: src/core.cpp:2228
+#: src/core.cpp:2234
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21397,7 +21397,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Spravovať profily kódovania"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:273
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:274
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
@@ -21491,7 +21491,7 @@ msgstr "Automatické"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:652
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:653
 #: src/project/dialogs/projectsettings.cpp:909
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -21830,7 +21830,7 @@ msgstr "Orezať vpravo"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:384
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:677
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:678
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -22069,7 +22069,7 @@ msgstr "Ukázať záznam"
 msgid "Waiting…"
 msgstr "Čakám..."
 
-#: src/dialogs/renderwidget.cpp:254
+#: src/dialogs/renderwidget.cpp:254 src/dialogs/Simplesplash.qml:188
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Starting…"
@@ -22508,48 +22508,48 @@ msgstr "Pridať do aktuálneho projektu"
 msgid "Open Containing Folder"
 msgstr "Cieľový priečinok"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:78 src/mainwindow.cpp:260
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:79 src/mainwindow.cpp:260
 #, kde-format
 msgid "Timeline"
 msgstr "Časová os"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:88
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:89
 #, fuzzy, kde-format
 #| msgid "Color range"
 msgid "Colors and Markers"
 msgstr "Farebný rozsah"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:95
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:96
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Plugins"
 msgstr "Neplatný klip"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:99
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:100
 #, kde-format
 msgid "Playback"
 msgstr "Prehrávanie"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:107
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:108
 #, kde-format
 msgid "Capture"
 msgstr "Zachytiť"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:180
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:181
 #: src/effects/effectlist/model/effecttreemodel.cpp:64
 #, kde-format
 msgid "Misc"
 msgstr "Rôzne"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:204
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:744
-#: src/doc/documentvalidator.cpp:2512
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:205
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:745
+#: src/doc/documentvalidator.cpp:2511
 #: src/transitions/transitionsrepository.cpp:185
 #, kde-format
 msgid "auto"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:214
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22558,80 +22558,80 @@ msgid ""
 "if you change a parameter."
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:241
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:242
 #, fuzzy, kde-format
 #| msgid "Select the default profile (preset)"
 msgid "Select the Default Profile (preset)"
 msgstr "Vyberte predvolený profil (predvoľba)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:262
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:263
 #, kde-format
 msgid "Project Defaults"
 msgstr "Predvolené nastavenia projektu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:307
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:332
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:308
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:333
 #, fuzzy, kde-format
 #| msgid "Use default folder"
 msgid "Use default folder: %1"
 msgstr "Použiť predvolený priečinok"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:309
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:335
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1025
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:310
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:336
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1026
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1041
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1027
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1042
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1043
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "Použiť priečinok projektu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:311
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:337
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1037
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:312
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1038
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1039
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "Použiť priečinok projektu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:350
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:351
 #, kde-format
 msgid "Environment"
 msgstr "Prostredie"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:365
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:366
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Zachytenie ešte nie je k dispozícii pre Mac OS X."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:375
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:376
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanál)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:376
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:377
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanály)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:383
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:384
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:384
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:385
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:437
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:438
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:439
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:440
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -22641,7 +22641,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:461
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:462
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:73
 #: src/mltcontroller/clippropertiescontroller.cpp:781
 #: src/project/transcodeseek.cpp:52 src/project/transcodeseek.cpp:65
@@ -22649,89 +22649,89 @@ msgstr ""
 msgid "Transcode"
 msgstr "Prekódovať"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:495
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:496
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU spracovanie potrebuje MLT skompilované s modulmi Movit a Rtaudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:659
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:660
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:660
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:661
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:661
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:662
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:662
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:663
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:664
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:665
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound démon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:665
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:666
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS démon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:712
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:713
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:724
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:725
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:748 src/mainwindow.cpp:300
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:749 src/mainwindow.cpp:300
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:832
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:833
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:840
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:841
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:848
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:849
 #: src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter path to the Glaxnimate application"
 msgstr "Zadajte názov pre klip v knižnici"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:930
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:976
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:931
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:977
 #: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Prosím, vyberte video profil"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1248
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1258
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive sa musí reštartovať na zmenu tohto nastavenia"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1371
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1381
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profil s týmto názvom už existuje"
@@ -22962,34 +22962,34 @@ msgid ""
 "is not correctly detected or not working with this plugin."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:102
+#: src/dialogs/Simplesplash.qml:108
 #, kde-format
 msgid "Make by KDE"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:130 src/dialogs/Splash.qml:556 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:556 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/dialogs/Simplesplash.qml:161
+#: src/dialogs/Simplesplash.qml:167
 #, kde-format
 msgid "Kdenlive crashed on last start."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:170
+#: src/dialogs/Simplesplash.qml:176
 #, fuzzy, kde-format
 #| msgid "Reset configuration"
 msgid "Reset Configuration"
 msgstr "Obnoviť konfiguráciu"
 
-#: src/dialogs/Simplesplash.qml:179
+#: src/dialogs/Simplesplash.qml:185
 #, fuzzy, kde-format
 #| msgid "Color"
 msgid "Start Normally"
 msgstr "Farba"
 
-#: src/dialogs/Simplesplash.qml:206 src/dialogs/Splash.qml:614
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:614
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -22997,12 +22997,12 @@ msgid ""
 "org/fund/\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:219 src/dialogs/Splash.qml:628
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:628
 #, kde-format
 msgid "What's New"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:228
+#: src/dialogs/Simplesplash.qml:237
 #, fuzzy, kde-format
 #| msgid "Continue"
 msgid "Continue"
@@ -25051,13 +25051,13 @@ msgstr ""
 msgid "Incorrect project file"
 msgstr "Nie je možné obnoviť tento súbor projektu"
 
-#: src/doc/documentvalidator.cpp:188
+#: src/doc/documentvalidator.cpp:187
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Upgrading project version…"
 msgstr "Načítavanie projektu"
 
-#: src/doc/documentvalidator.cpp:194
+#: src/doc/documentvalidator.cpp:193
 #, fuzzy, kde-format
 #| msgid ""
 #| "This project type is unsupported (version %1) and can't be loaded.\n"
@@ -25070,19 +25070,19 @@ msgstr ""
 "Tento typ projekt nie je podporovaný (verzia %1) a nie je ho možné načítať.\n"
 "Prosím, zvážte zvýšenie verzie vašej aplikácie Kdenlive."
 
-#: src/doc/documentvalidator.cpp:197 src/doc/documentvalidator.cpp:206
+#: src/doc/documentvalidator.cpp:196 src/doc/documentvalidator.cpp:205
 #, kde-format
 msgid "Unable to open project"
 msgstr "Nemožno otvoriť projekt"
 
-#: src/doc/documentvalidator.cpp:205
+#: src/doc/documentvalidator.cpp:204
 #, fuzzy, kde-format
 #| msgid "This project type is unsupported (version %1) and can't be loaded."
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr ""
 "Tento typ projektu nie je podporovaný (verzia %1) a nemôže byť načítaný."
 
-#: src/doc/documentvalidator.cpp:720
+#: src/doc/documentvalidator.cpp:719
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -25095,40 +25095,40 @@ msgstr ""
 "veľkosť, aby boli prenosné? Odporúča sa, aby ste to urobili na počítači, na "
 "ktorom boli najprv vytvorené alebo ste mohli nastaviť ich veľkosť."
 
-#: src/doc/documentvalidator.cpp:723
+#: src/doc/documentvalidator.cpp:722
 #, kde-format
 msgid "Update Text Clips"
 msgstr "Aktualizovať textové klipy"
 
-#: src/doc/documentvalidator.cpp:723 src/doc/documentvalidator.cpp:2503
+#: src/doc/documentvalidator.cpp:722 src/doc/documentvalidator.cpp:2502
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgid "Convert"
 msgstr "Invertovať"
 
-#: src/doc/documentvalidator.cpp:1293
+#: src/doc/documentvalidator.cpp:1292
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "Nie je možné obnoviť tento súbor projektu"
 
-#: src/doc/documentvalidator.cpp:1611
+#: src/doc/documentvalidator.cpp:1610
 #, kde-format
 msgid "extra audio"
 msgstr "extra audio"
 
-#: src/doc/documentvalidator.cpp:2200
+#: src/doc/documentvalidator.cpp:2199
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Výstupný súbor už existuje. Chcete ho prepísať?"
 
-#: src/doc/documentvalidator.cpp:2201 src/mainwindow.cpp:3757
+#: src/doc/documentvalidator.cpp:2200 src/mainwindow.cpp:3757
 #, kde-format
 msgid "Overwrite"
 msgstr "Prepísať"
 
-#: src/doc/documentvalidator.cpp:2501
+#: src/doc/documentvalidator.cpp:2500
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -25146,12 +25146,12 @@ msgstr ""
 "Chcete previesť projekt do nie-GPU verzie?\n"
 "Môžu sa stratiť nejaké dáta."
 
-#: src/doc/documentvalidator.cpp:2596
+#: src/doc/documentvalidator.cpp:2595
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Nasledovné filtre/prechody boli prevedené do nie-GPU verzie:"
 
-#: src/doc/documentvalidator.cpp:2599
+#: src/doc/documentvalidator.cpp:2598
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Nasledovné filtre/prechody boli vymazané z projektu:"
