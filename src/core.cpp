@@ -262,43 +262,29 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
         });
         connect(m_splash, &Splash::openBlank, this, [this]() {
             if (m_splash->hasEventLoop()) {
-                connect(this, &Core::mainWindowReady, this, [this]() {
-                    m_splash->deleteLater();
-                    m_mainWindow->show();
-                    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
-                });
+                connect(this, &Core::mainWindowReady, m_projectManager, &ProjectManager::slotLoadOnOpen, Qt::QueuedConnection);
             } else {
-                m_splash->deleteLater();
-                m_mainWindow->show();
                 QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
             }
         });
         connect(m_splash, &Splash::openLink, this, [this](QString url) { openLink(QUrl(url)); });
+        connect(this, &Core::closeSplash, m_splash, &QWidget::deleteLater);
 
         // Check if welcome screen is displayed
         if (m_splash->welcomeDisplayed()) {
             connect(m_splash, &Splash::openFile, this, [this](QString url) {
-                m_splash->deleteLater();
                 if (m_splash->hasEventLoop()) {
                     connect(this, &Core::mainWindowReady, this, [&, url]() {
-                        m_mainWindow->show();
-                        QMetaObject::invokeMethod(m_projectManager, "openFile", Q_ARG(QUrl, QUrl::fromLocalFile(url)));
+                        QMetaObject::invokeMethod(m_projectManager, "openFile", Qt::QueuedConnection, Q_ARG(QUrl, QUrl::fromLocalFile(url)));
                     });
                 } else {
-                    m_mainWindow->show();
                     QMetaObject::invokeMethod(m_projectManager, "openFile", Q_ARG(QUrl, QUrl::fromLocalFile(url)));
                 }
             });
             connect(m_splash, &Splash::openOtherFile, this, [this]() {
                 if (m_splash->hasEventLoop()) {
-                    connect(this, &Core::mainWindowReady, [this]() {
-                        m_splash->deleteLater();
-                        m_mainWindow->show();
-                        QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection);
-                    });
+                    connect(this, &Core::mainWindowReady, [this]() { QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection); });
                 } else {
-                    m_splash->deleteLater();
-                    m_mainWindow->show();
                     QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection);
                 }
             });
@@ -2264,4 +2250,13 @@ int Core::currentTimelineOffset()
 void Core::updateHwDecoding()
 {
     qputenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8());
+}
+
+void Core::closeApp()
+{
+    if (m_splash) {
+        delete m_splash;
+    }
+    QApplication::closeAllWindows();
+    QApplication::exit(EXIT_SUCCESS);
 }

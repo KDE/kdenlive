@@ -459,6 +459,8 @@ private Q_SLOTS:
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
+    /** @brief Process a few last things as soon as ui is built */
+    void finishUiSetup();
     /** @brief Close Kdenlive and try to restart it */
     void slotRestart(bool clean = false);
 
