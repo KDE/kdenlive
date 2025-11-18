@@ -341,12 +341,12 @@ void MainWindow::init()
     spectrumDock->close();
 
     // Add monitors here to keep them at the right of the window
-    const QSize monitorSize(firstWindowSize.width() * 0.2, 0);
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clipmonitor"), m_clipMonitor, KDDockWidgets::Location_OnRight, m_projectBinDock);
     m_projectMonitorDock =
         addDock(i18n("Project Monitor"), QStringLiteral("projectmonitor"), m_projectMonitor, KDDockWidgets::Location_OnRight, m_clipMonitorDock);
 
     m_clipMonitorDock->addDockWidgetAsTab(dockLib);
+    pCore->bin()->buildPropertiesDock(m_clipMonitorDock);
     m_projectMonitorDock->addDockWidgetAsTab(dockText);
     // Notes widget
     pCore->projectManager()->buildNotesWidget(m_projectMonitorDock);

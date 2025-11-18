@@ -1702,6 +1702,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         m_propertiesPanel = new QScrollArea(this);
         m_propertiesPanel->setFrameShape(QFrame::NoFrame);
         m_propertiesPanel->setAccessibleName(i18n("Bin Clip Properties"));
+        m_propertiesPanel->setMinimumWidth(m_toolbar->sizeHint().width());
     }
     // Insert listview
     m_itemView = new MyTreeView(this);
@@ -4037,12 +4038,14 @@ void Bin::setupMenu()
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
-    if (m_isMainBin) {
-        m_propertiesDock =
-            pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnRight);
-        m_propertiesDock->close();
-    }
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
+}
+
+void Bin::buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock)
+{
+    m_propertiesDock =
+        pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnLeft, parentDock);
+    m_propertiesDock->close();
 }
 
 const QString Bin::getDocumentProperty(const QString &key)

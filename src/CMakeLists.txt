@@ -110,13 +110,10 @@ kconfig_target_kcfg_file(kdenliveLib
     CLASS_NAME KdenliveSettings
     MUTATORS
     SINGLETON
-
     GENERATE_PROPERTIES
     GENERATE_MOC
-
     QML_REGISTRATION
-
-    # DEFAULT_VALUE_GETTERS
+    DEFAULT_VALUE_GETTERS
 )
 install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 

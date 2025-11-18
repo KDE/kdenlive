@@ -398,6 +398,7 @@ public:
     /** @brief Expand / collapse all items */
     void expandAll();
     bool isMainBin() const;
+    void buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock);
 
 private Q_SLOTS:
     void slotAddClip();

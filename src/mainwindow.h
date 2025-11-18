@@ -125,7 +125,7 @@ public:
      * @param objectName objectName of the dock widget (required for storing layouts)
      * @param widget widget to use in the dock
      * @param area area to which the dock should be added to
-     * @param shortcut default shortcut to raise the dock
+     * @param otherDockWidget if any, the widget that will be used to get the relative area
      * @returns the created dock widget
      */
     KDDockWidgets::QtWidgets::DockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget,

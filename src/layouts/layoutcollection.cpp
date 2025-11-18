@@ -92,7 +92,7 @@ void LayoutCollection::resetDefaultLayouts()
     // Remove any custom layout overwriting defaults
     QDir customLayoutsFolder(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     if (customLayoutsFolder.cd(QStringLiteral("layouts"))) {
-        for (auto &id : KdenliveSettings::defaultLayoutsOrder()) {
+        for (auto &id : KdenliveSettings::defaultLayoutsOrderValue()) {
             if (!m_layouts.contains(id)) {
                 // This should not happen, default layouts should always be there
                 continue;
@@ -180,7 +180,7 @@ void LayoutCollection::loadLayouts()
     KdenliveSettings::setLayoutsOrder({});
     if (previousOrder.isEmpty()) {
         // Default layout order
-        previousOrder = KdenliveSettings::defaultLayoutsOrder();
+        previousOrder = KdenliveSettings::defaultLayoutsOrderValue();
     }
 
     // Now load the layouts from the entries

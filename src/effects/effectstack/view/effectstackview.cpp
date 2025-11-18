@@ -411,6 +411,7 @@ void EffectStackView::loadEffects()
         pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
             ->slotShowEffectScene(MonitorSceneDefault);
         updateTreeHeight();
+        Q_EMIT effectsCountChanged();
         return;
     }
     bool hasLift = false;
@@ -502,6 +503,7 @@ void EffectStackView::loadEffects()
     } else {
         slotFocusEffect();
     }
+    Q_EMIT effectsCountChanged();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
 
