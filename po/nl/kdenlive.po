@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 00:41+0000\n"
-"PO-Revision-Date: 2025-11-16 14:25+0100\n"
+"POT-Creation-Date: 2025-11-17 11:51+0000\n"
+"PO-Revision-Date: 2025-11-17 13:12+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14461,10 +14461,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2155.xml:9
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "Fractal Dimension"
-msgstr "Schaaldimensie"
+msgstr "Fractale dimensie"
 
 #: data/effects/ladspa/ladspa_2155.xml:12
 #, kde-format
@@ -14490,10 +14489,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "Verberg spoor"
+msgstr "Volgen van tijd"
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -14511,10 +14509,9 @@ msgid "Pitch Tracking"
 msgstr "Toonhoogte volgen"
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "Positie instellen"
+msgstr "Droge linker positie"
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -14527,22 +14524,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "Startpositie"
+msgstr "Droge rechter positie"
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "Positie instellen"
+msgstr "Natte linker positie"
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "Positie instellen"
+msgstr "Natte rechter positie"
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
@@ -14558,10 +14552,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "Linker versterking"
+msgstr "Voorversterking"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
@@ -14570,10 +14563,9 @@ msgstr ""
 
 # gain = toenemen ?
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "Sox ingang"
+msgstr "Naversterking"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
@@ -14600,10 +14592,9 @@ msgid "Drive"
 msgstr "Station"
 
 #: data/effects/ladspa/ladspa_2158.xml:10
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Adjusts the amount of the effect"
-msgstr "Het contrast van een bron beeld instellen"
+msgstr "Pas de hoeveelheid van het effect aan"
 
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
@@ -14637,10 +14628,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:14
-#, fuzzy, kde-format
-#| msgid "Phase Left"
+#, kde-format
 msgid "L/R Phase Shift"
-msgstr "Fase links"
+msgstr "L/R faseverschuiving"
 
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
@@ -20940,17 +20930,12 @@ msgid "Open Browser"
 msgstr "Browser openen"
 
 #: src/core.cpp:2228
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will open a browser to display Kdenlive's online documentation at "
-#| "the following url:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
 " %1"
 msgstr ""
-"Dit zal een browser openen om de online documentatie van Kdenlive te tonen "
-"op de volgende url:\n"
+"Dit zal een browser openen om een koppeling te tonen:\n"
 " %1"
 
 #: src/dialogs/clipcreationdialog.cpp:59
@@ -22717,8 +22702,7 @@ msgstr ""
 "niet juist is gedetecteerd of niet werkt met deze plug-in."
 
 #: src/dialogs/Simplesplash.qml:102
-#, fuzzy, kde-format
-#| msgid "Made by KDE"
+#, kde-format
 msgid "Make by KDE"
 msgstr "Gemaakt door KDE"
 
@@ -22738,10 +22722,9 @@ msgid "Reset Configuration"
 msgstr "Configuratie resetten"
 
 #: src/dialogs/Simplesplash.qml:179
-#, fuzzy, kde-format
-#| msgid "Start Color"
+#, kde-format
 msgid "Start Normally"
-msgstr "Beginkleur"
+msgstr "Normaal starten"
 
 #: src/dialogs/Simplesplash.qml:206 src/dialogs/Splash.qml:614
 #, kde-format
@@ -23396,111 +23379,99 @@ msgid "Zulu"
 msgstr "Zulu"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K UHD 2160"
+#, kde-format
 msgid "4K UHD 3840x2160"
-msgstr "4K UHD 2160"
+msgstr "4K UHD 3840x2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K DCI 2160"
+#, kde-format
 msgid "4K DCI 4096x2160"
-msgstr "4K DCI 2160"
+msgstr "4K DCI 4096x2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "2.5K QHD 1440"
+#, kde-format
 msgid "2.5K QHD 2560x1440"
-msgstr "2.5K QHD 1440"
+msgstr "2.5K QHD 2560x1440"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1920x1080"
-msgstr "Full-HD 1080"
+msgstr "Full HD 1920x1080"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "HD 1280x720"
-msgstr ""
+msgstr "HD 1280x720"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "SD NTSC Wide 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC 720x480"
-msgstr ""
+msgstr "SD NTSC 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "SD PAL Wide 720x576"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "720x576"
+#, kde-format
 msgid "SD PAL 720x576"
-msgstr "720x576"
+msgstr "SD PAL 720x576"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1080x1920"
-msgstr "Full-HD 1080"
+msgstr "Full HD 1080x1920"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "HD 720"
+#, kde-format
 msgid "HD 720x1280"
-msgstr "HD 720"
+msgstr "HD 720x1280"
 
 #: src/dialogs/Splash.qml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "23.98 fps"
-msgstr "fps"
+msgstr "23.98 fps"
 
 #: src/dialogs/Splash.qml:26
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "24 fps"
-msgstr "fps"
+msgstr "24 fps"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "25 fps"
-msgstr "fps"
+msgstr "25 fps"
 
 #: src/dialogs/Splash.qml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "29.97 fps"
-msgstr "fps"
+msgstr "29.97 fps"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "30 fps"
-msgstr "fps"
+msgstr "30 fps"
 
 #: src/dialogs/Splash.qml:26
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "50 fps"
-msgstr "fps"
+msgstr "50 fps"
 
 #: src/dialogs/Splash.qml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "59.94 fps"
-msgstr "fps"
+msgstr "59.94 fps"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "60 fps"
-msgstr "fps"
+msgstr "60 fps"
 
 #: src/dialogs/Splash.qml:169
 #, kde-format
@@ -23508,100 +23479,86 @@ msgid "Made by KDE"
 msgstr "Gemaakt door KDE"
 
 #: src/dialogs/Splash.qml:227
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "Open Project…"
-msgstr "Project openen"
+msgstr "Project openen…"
 
 #: src/dialogs/Splash.qml:255
-#, fuzzy, kde-format
-#| msgid "Open Document"
+#, kde-format
 msgid "Open Recent"
 msgstr "Recent openen"
 
 #: src/dialogs/Splash.qml:263
-#, fuzzy, kde-format
-#| msgid "Recent Projects"
+#, kde-format
 msgid "Clear History of Recent Projects"
-msgstr "Recente projecten"
+msgstr "Geschiedenis van recente projecten wissen"
 
 #: src/dialogs/Splash.qml:359
-#, fuzzy, kde-format
-#| msgid "Remove file"
+#, kde-format
 msgid "Remove file from list"
-msgstr "Verwijder bestand"
+msgstr "Bestand uit lijst verwijderen"
 
 #: src/dialogs/Splash.qml:389
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "New Project…"
-msgstr "Nieuw project"
+msgstr "Nieuw project…"
 
 #: src/dialogs/Splash.qml:416
-#, fuzzy, kde-format
-#| msgid "Video Profile"
+#, kde-format
 msgid "New From Profile"
-msgstr "Video profiel"
+msgstr "Nieuw uit profiel"
 
 #: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
-msgstr ""
+msgstr "Wis geschiedenis van recente profielen"
 
 #: src/dialogs/Splash.qml:507
-#, fuzzy, kde-format
-#| msgid "Request option from list"
+#, kde-format
 msgid "Remove profile from list"
-msgstr "Optie uit lijst vragen"
+msgstr "Profiel uit lijst verwijderen"
 
 #: src/dialogs/Splash.qml:546
-#, fuzzy, kde-format
-#| msgid "Hide on startup"
+#, kde-format
 msgid "Show on Startup"
 msgstr "Bij opstarten tonen"
 
 #: src/dialogs/Splash.qml:580 src/dialogs/Splash.qml:948
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
-"Kdenlive is gecrasht bij laatste keer opstarten.\n"
-"Wilt u de configuratiebestanden resetten?"
+"Kdenlive is gecrasht bij laatste keer opstarten. Wilt u de configuratie "
+"resetten en opnieuw starten?"
 
 #: src/dialogs/Splash.qml:658
 #, kde-format
 msgid "Help us make Kdenlive even better"
-msgstr ""
+msgstr "Help ons om Kdenlive nog beter te maken"
 
 #: src/dialogs/Splash.qml:664
-#, fuzzy, kde-format
+#, kde-format
 msgid "Contribute…"
-msgstr "Meewerken…"
+msgstr "Bijdragen…"
 
 #: src/dialogs/Splash.qml:669
-#, fuzzy, kde-format
-#| msgid "Donate"
+#, kde-format
 msgid "Donate…"
-msgstr "Doneren"
+msgstr "Doneren…"
 
 #: src/dialogs/Splash.qml:699
-#, fuzzy, kde-format
-#| msgid "Welcome to Kdenlive %1"
+#, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
-msgstr "Welkom bij Kdenlive %1"
+msgstr "<b>Welkom bij Kdenlive snelle opzet</b>"
 
 #: src/dialogs/Splash.qml:705
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr ""
+msgstr "Altijd het donkere kleurenthema gebruiken"
 
 #: src/dialogs/Splash.qml:717
-#, fuzzy, kde-format
-#| msgid "Default Profile"
+#, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "Standaard profiel"
+msgstr "<b>Standaard projectprofiel</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:834 src/ui/colorplaneexport_ui.ui:105
@@ -23626,10 +23583,9 @@ msgid "Interlaced"
 msgstr "Interlaced"
 
 #: src/dialogs/Splash.qml:906
-#, fuzzy, kde-format
-#| msgid "Video tracks"
+#, kde-format
 msgid "Video Tracks"
-msgstr "Video-tracks:"
+msgstr "Video-tracks"
 
 #: src/dialogs/Splash.qml:915
 #, kde-format
@@ -23639,20 +23595,17 @@ msgstr "Audiotracks"
 #: src/dialogs/Splash.qml:928
 #, kde-format
 msgid "This can always be changed later in the Settings."
-msgstr ""
+msgstr "Dit kan altijd later gewijzigd worden in de Instellingen."
 
 #: src/dialogs/Splash.qml:973
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Check Online Documentation"
-msgstr "Online documentatie"
+msgstr "Online documentatie raadplegen"
 
 #: src/dialogs/Splash.qml:981
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Start Editing"
-msgstr "Startpositie"
+msgstr "Bewerken beginnen"
 
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
@@ -26068,22 +26021,19 @@ msgid "Extra Toolbar"
 msgstr "Extra werkbalk"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "Loggen"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "Bewerken"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "Audio"
@@ -26132,20 +26082,16 @@ msgid "Layout %1: %2"
 msgstr "Indeling %1: %2"
 
 #: src/layouts/layoutmanagement.cpp:235
-#, fuzzy, kde-format
-#| msgid ""
-#| "The layout %1 uses an old and unsupported format, should be removed and "
-#| "recreated."
+#, kde-format
 msgid "The layout %1 could not be restored, should be removed and recreated."
 msgstr ""
-"De indeling %1 gebruikt een oud en niet ondersteund formaat, zou verwijderd "
-"en opnieuw gemaakt moeten worden."
+"De indeling %1 kon niet hersteld worden, zou verwijderd en opnieuw gemaakt "
+"moeten worden."
 
 #: src/layouts/layoutmanagement.cpp:267
-#, fuzzy, kde-format
-#| msgid "Project file could not be saved for export."
+#, kde-format
 msgid "The layout from the project file could not be restored."
-msgstr "Projectbestand kon niet worden opgeslagen voor exporteren."
+msgstr "De indeling van het projectbestand kon niet hersteld worden."
 
 #: src/layouts/layoutmanagement.cpp:285
 #, kde-format
@@ -26164,10 +26110,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "De indeling %1 bestaat al. Wilt u het vervangen?"
 
 #: src/layouts/layoutmanagement.cpp:340
-#, fuzzy, kde-format
-#| msgid "Could not create temporary file in %1"
+#, kde-format
 msgid "Could not save layout to file: %1"
-msgstr "Kon geen tijdelijk bestand in %1 aanmaken"
+msgstr "Kon de indeling niet opslaan in bestand %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -26196,15 +26141,14 @@ msgid "Export selected"
 msgstr "Geselecteerde exporteren"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "Delete the layout."
+#, kde-format
 msgid "Delete Layout"
-msgstr "Indeling verwijderen."
+msgstr "Indeling verwijderen"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
 #, kde-format
 msgid "Are you sure you want to delete the layout %1?"
-msgstr ""
+msgstr "Wilt u de indeling %1 verwijderen?"
 
 #: src/layouts/layoutmanagerdialog.cpp:189
 #, kde-format
@@ -26229,31 +26173,24 @@ msgstr "Indeling importeren"
 
 #: src/layouts/layoutmanagerdialog.cpp:206
 #: src/layouts/layoutmanagerdialog.cpp:284
-#, fuzzy, kde-format
-#| msgid "Kdenlive Layout (*.kdenlivelayout)"
+#, kde-format
 msgid "Kdenlive Layout (*.json)"
-msgstr "Kdenlive-indeling (*.kdenlivelayout)"
+msgstr "Kdenlive-indeling (*.json)"
 
 #: src/layouts/layoutmanagerdialog.cpp:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not create assets folder:\n"
-#| " %1"
+#, kde-format
 msgid "Could not write in the layouts folder %1"
-msgstr ""
-"Kon map voor bezittingen niet aanmaken:\n"
-" %1"
+msgstr "Kon niet schrijven in de indelingenmap %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:234
 #, kde-format
 msgid "Selected layout is already imported"
-msgstr ""
+msgstr "Geselecteerde indeling is al geïmporteerd"
 
 #: src/layouts/layoutmanagerdialog.cpp:241
-#, fuzzy, kde-format
-#| msgid "Invalid LUT file %1"
+#, kde-format
 msgid "Invalid file selected: %1"
-msgstr "Ongeldig LUT-bestand %1"
+msgstr "Ongeldig bestand geselecteerd: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:274
 #: src/layouts/layoutmanagerdialog.cpp:281
@@ -26271,21 +26208,19 @@ msgid "No layout selected."
 msgstr "Geen indeling geselecteerd."
 
 #: src/layouts/layoutmanagerdialog.cpp:281
-#, fuzzy, kde-format
-#| msgid "Cannot find layout data for %1."
+#, kde-format
 msgid "Cannot find layout file for %1."
-msgstr "Kan indelingsgegevens voor %1 niet vinden."
+msgstr "Kan indelingsbestand voor %1 niet vinden."
 
 #: src/layouts/layoutmanagerdialog.cpp:302
 #, kde-format
 msgid "Overwrite existing file for vertical layout %1?"
-msgstr ""
+msgstr "Bestaand bestand overschrijven voor verticaal indeling %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:304
-#, fuzzy, kde-format
-#| msgid "Layout exported successfully."
+#, kde-format
 msgid "Horizontal layout exported successfully."
-msgstr "Indeling met succes geëxporteerd."
+msgstr "Horizontale indeling met succes geëxporteerd."
 
 #: src/layouts/layoutmanagerdialog.cpp:318
 #, kde-format
@@ -26293,23 +26228,22 @@ msgid "Layout exported successfully."
 msgstr "Indeling met succes geëxporteerd."
 
 #: src/layouts/layoutmanagerdialog.cpp:332
-#, fuzzy, kde-format
-#| msgid "Shift chroma pixels horizontally and/or vertically. "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains horizontal and vertical profiles"
-msgstr "Chroma-pixels horizontaal en/of verticaal verschuiven. "
+msgstr "Deze indeling bevat horizontale en verticale profielen. "
 
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an horizontal profile"
-msgstr ""
+msgstr "Deze indeling bevat een horizontaal profiel"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an vertical profile"
-msgstr ""
+msgstr "Deze indeling bevat een verticaal profiel"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -26720,7 +26654,7 @@ msgstr ""
 #: src/main.cpp:341
 #, kde-format
 msgid "Do not show any welcome screen."
-msgstr ""
+msgstr "Laat geen welkomstscherm zien."
 
 #: src/main.cpp:344
 #, kde-format
@@ -28047,10 +27981,9 @@ msgid "Fit all Tracks in View"
 msgstr "Alle tracks in weergave laten passen"
 
 #: src/mainwindow.cpp:2080 src/timeline2/view/timelinecontroller.cpp:4970
-#, fuzzy, kde-format
-#| msgid "Sequence count"
+#, kde-format
 msgid "Sequence effects"
-msgstr "Aantal in sequentie"
+msgstr "Sequentie-effecten"
 
 #: src/mainwindow.cpp:2087
 #, kde-format
@@ -29702,10 +29635,9 @@ msgid "Show Grid"
 msgstr "Raster tonen"
 
 #: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
-#, fuzzy, kde-format
-#| msgid "Show Safe Zone"
+#, kde-format
 msgid "Show Safe Areas"
-msgstr "Veilige zone tonen"
+msgstr "Veilige gebieden tonen"
 
 #: src/monitor/view/EffectToolBar.qml:91 src/monitor/view/SceneToolBar.qml:81
 #, kde-format
@@ -33932,10 +33864,9 @@ msgid "Hide"
 msgstr "Verbergen"
 
 #: src/timeline2/view/qml/Timeline.qml:1005
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Show sequence effects"
-msgstr "Mastereffecten tonen"
+msgstr "Sequentie-effecten tonen"
 
 #: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
@@ -35919,7 +35850,7 @@ msgstr "Waarschuwen als gegevens in de cache meer is dan:"
 #: src/ui/configenv_ui.ui:111
 #, kde-format
 msgid "Show Welcome screen at startup"
-msgstr ""
+msgstr "Welkomstscherm tonen bij opstarten"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:118
