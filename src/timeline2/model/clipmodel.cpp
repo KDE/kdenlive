@@ -86,7 +86,6 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     if (!qFuzzyCompare(speed, 1.)) {
         cutProducer->parent().set("warp_pitch", warp_pitch ? 1 : 0);
     }
-    qDebug() << "==== BUILT CLIP STREAM: " << clip->audioStream();
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -149,13 +148,23 @@ void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool r
         qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
     }
     qDebug() << "REGISTRATION " << m_id << "ptr count" << m_parent.use_count();
-    binClip->registerService(m_parent, m_id, std::move(service), registerProducer);
+    binClip->registerService(m_parent, m_id, std::move(service), getClipInfo(), registerProducer);
+}
+
+ClipModel::TimelineClipInfo ClipModel::getClipInfo()
+{
+    TimelineClipInfo info;
+    info.trackId = getCurrentTrackId();
+    info.audioStream = audioStream();
+    info.speed = m_speed;
+    info.pitchShift = m_producer->parent().get_int("warp_pitch");
+    return info;
 }
 
 void ClipModel::deregisterClipToBin(const QUuid &uuid)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    binClip->deregisterTimelineClip(m_id, isAudioOnly(), uuid);
+    binClip->deregisterTimelineClip(m_id, isAudioOnly(), getClipInfo(), uuid);
 }
 
 ClipModel::~ClipModel() = default;
@@ -1138,7 +1147,7 @@ int ClipModel::audioStream() const
 int ClipModel::audioStreamIndex() const
 {
     READ_LOCK();
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamIndex(m_producer->parent().get_int("audio_index")) + 1;
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamIndex(audioStream()) + 1;
 }
 
 int ClipModel::fadeIn() const

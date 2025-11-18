@@ -777,6 +777,7 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
         qWarning() << "clip type mismatch 3";
         return MoveErrorType;
     }
+    int sourceIndex = m_allClips[clipId]->audioStreamIndex();
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool ok = true;
@@ -1831,8 +1832,8 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     Fun local_redo = [clip, this, state, audioStream, speed, warp_pitch]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
-        registerClip(clip, true);
         clip->refreshProducerFromBin(-1, state, audioStream, speed, warp_pitch);
+        registerClip(clip, true);
         return true;
     };
 

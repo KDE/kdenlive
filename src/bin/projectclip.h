@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "abstractprojectitem.h"
 #include "definitions.h"
 #include "mltcontroller/clipcontroller.h"
+#include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 
 #include <QFuture>
@@ -327,7 +328,7 @@ protected:
     QMutex m_thumbMutex;
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
+    std::unordered_map<QString, std::shared_ptr<Mlt::Producer>> m_audioProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
@@ -344,7 +345,8 @@ protected:
         @param clipId id of the inserted clip
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
-    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, bool forceRegister = false);
+    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, ClipModel::TimelineClipInfo info,
+                         bool forceRegister = false);
 
     /** @brief update the producer to reflect new parent folder */
     void updateParent(std::shared_ptr<TreeItem> parent) override;
@@ -352,7 +354,7 @@ protected:
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip
     */
-    void deregisterTimelineClip(int clipId, bool audioClip, const QUuid &uuid);
+    void deregisterTimelineClip(int clipId, bool audioClip, ClipModel::TimelineClipInfo info, const QUuid &uuid);
     void replaceInTimeline();
     void limitMaxDuration(int maxDuration);
     void connectEffectStack() override;

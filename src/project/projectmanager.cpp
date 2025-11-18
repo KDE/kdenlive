@@ -442,7 +442,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     // Disable autosave
     m_autoSaveTimer.stop();
     m_autoSaveChangeCount = 0;
-    if ((m_project != nullptr) && m_project->isModified() && saveChanges) {
+    if ((m_project != nullptr) && m_project->isModified() && saveChanges && !m_project->loading) {
         QString message;
         if (m_project->url().isEmpty()) {
             message = i18n("Save changes to document?");
@@ -485,7 +485,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->monitorManager()->projectMonitor()->setProducer(QUuid(), nullptr);
             Q_EMIT pCore->window()->clearAssetPanel();
         }
-        qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS...";
+        qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS... CLOSING: " << m_project->closing;
         pCore->taskManager.slotCancelJobs(true);
         qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS...DONE";
         if (m_activeTimelineModel) {
@@ -493,6 +493,12 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         if (guiConstructed && !quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
+        }
+        if (quit) {
+            if (m_project->loading) {
+                // Wait until project finished loading to close app
+                return false;
+            }
         }
         m_project->commandStack()->clear();
         pCore->cleanup();
@@ -786,7 +792,6 @@ void ProjectManager::openFile(const QUrl &url)
 {
     // Make sure the url is a Kdenlive project file
     bool freshStart = m_project == nullptr;
-    Q_EMIT pCore->window()->GUISetupDone();
     if (isSupportedArchive(url)) {
         // Opening a compressed project file, we need to process it
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
@@ -857,6 +862,10 @@ bool ProjectManager::isKdenliveProjectFile(const QUrl url)
 
 void ProjectManager::abortLoading()
 {
+    if (pCore->closing) {
+        pCore->closeApp();
+        return;
+    }
     KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
     Q_EMIT pCore->loadingMessageHide();
     // Don't propose to save corrupted doc
@@ -993,6 +1002,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     Q_EMIT pCore->loadingMessageNewStage(i18n("Loading timeline…"), 0);
     qApp->processEvents();
+    if (pCore->closing) {
+        m_project->loading = false;
+        pCore->closeApp();
+        return;
+    }
     bool timelineResult = updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                                          m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
                                          m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
@@ -1044,6 +1058,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
     }
+    Q_EMIT pCore->window()->GUISetupDone();
 
     // Now that sequence clips are fully built, fetch thumbnails
     QList<QUuid> uuids = sequences.keys();
@@ -1111,6 +1126,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     m_lastSave.start();
     m_project->loading = false;
+    if (pCore->closing) {
+        pCore->closeApp();
+    }
+
     checkProjectWarnings();
     pCore->projectItemModel()->missingClipTimer.start();
     Q_EMIT pCore->loadingMessageHide();

@@ -31,6 +31,7 @@ private:
 public Q_SLOTS:
     void fadeOut();
     void fadeOutAndDelete();
+    void showProgressMessage(const QString &message, int max = -1);
 
 private Q_SLOTS:
     void updateWelcomeDisplay(bool show);

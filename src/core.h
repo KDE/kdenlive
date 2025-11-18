@@ -360,6 +360,8 @@ public:
     int currentTimelineOffset();
     /** HW decoder changed */
     void updateHwDecoding();
+    /** Close the application */
+    void closeApp();
 
     void startHideBarsTimer();
     void updateHideBarsTimer(bool inhibit);

@@ -44,6 +44,12 @@ Window {
         splashContent.forceActiveFocus()
     }
 
+    function displayProgress(message)
+    {
+        loadingLabel.text = message
+        loadingBox.visible = message.length > 0
+    }
+
     Rectangle {
         id: splashContent
         height: splash.crashRecovery || splash.wasUpgraded ? kdenliveid.height * 17 : kdenliveid.height * 15
@@ -178,7 +184,10 @@ Window {
                 anchors.rightMargin: 10
                 text: i18n("Start Normally")
                 icon.name: "go-next"
-                onClicked: openBlank()
+                onClicked: {
+                    normalStartButton.text = i18n("Starting…")
+                    openBlank()
+                }
             }
         }
         Rectangle {
@@ -230,6 +239,23 @@ Window {
                 onClicked: openBlank()
             }
         }
+        Rectangle {
+            id: loadingBox
+            visible: false
+            color: activePalette.window
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: splashContent.border.width + 5
+            anchors.rightMargin: splashContent.border.width + 5
+            anchors.bottom: buttonBar.top
+            height: Math.max(loadingLabel.height, notesButton.height) + 10
+            Label {
+                id: loadingLabel
+                anchors.fill: parent
+                anchors.margins: 10
+                wrapMode: Text.Wrap
+            }
+        }
     }
     Component.onCompleted: {
         if (splash.crashRecovery)
@@ -239,7 +265,6 @@ Window {
         } else {
             splashContent.forceActiveFocus()
         }
-
         visible = true;
     }
 }

@@ -615,11 +615,7 @@ void MainWindow::init()
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar /*| KXmlGuiWindow::Save*/ | KXmlGuiWindow::Create);
 
     // Only start saving config once all GUI setup is done.
-    connect(this, &MainWindow::GUISetupDone, this, [&]() {
-        pCore->closeSplash();
-        setAutoSaveSettings();
-        QObject::disconnect(this, &MainWindow::GUISetupDone, this, nullptr);
-    });
+    connect(this, &MainWindow::GUISetupDone, this, &MainWindow::finishUiSetup, Qt::QueuedConnection);
 
     LocaleHandling::resetLocale();
 
@@ -850,6 +846,19 @@ void MainWindow::init()
     m_loadingDialog->setAutoReset(false);
     m_loadingDialog->setModal(true);
     m_loadingDialog->close();
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(true);
+    }
+}
+
+void MainWindow::finishUiSetup()
+{
+    qDebug() << ":::::::::\n\nUI SETUP DONE!!!!!!\n\n::::::::::::::::::::";
+    Q_EMIT pCore->closeSplash();
+    show();
+    setAutoSaveSettings();
+    QObject::disconnect(this, &MainWindow::GUISetupDone, this, nullptr);
+    // This should connect only after splash is done
     connect(pCore.get(), &Core::loadingMessageNewStage, this, [&](const QString &message, int max = -1) {
         if (max > -1) {
             m_loadingDialog->reset();
@@ -866,9 +875,6 @@ void MainWindow::init()
         m_loadingDialog->setMaximum(0);
         m_loadingDialog->close();
     });
-    if (!KdenliveSettings::showtitlebars()) {
-        Q_EMIT pCore->hideBars(true);
-    }
 }
 
 void MainWindow::loadBins(QStringList binInfo)
