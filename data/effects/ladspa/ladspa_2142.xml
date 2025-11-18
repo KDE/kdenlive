@@ -26,10 +26,11 @@
    <parameter name="6" type="bool" default="1">
       <name>Enhanced Stereo</name>
    </parameter>
-   <parameter name="7" type="list" default="1" paramlist="AfterBurn;AfterBurn (Long);Ambience;Ambience (Thick);Ambience (Thick) - HD;Cathedral;Cathedral - HD;Drum Chamber;Garage;Garage (Bright);Gymnasium;Gymnasium (Bright);Gymnasium (Bright) - HD;Hall (Small);Hall (Medium);Hall (Large);Hall (Large) - HD;Plate (Small);Plate (Medium);Plate (Large);Plate (Large) - HD;Pulse Chamber;Pulse Chamber (Reverse);Resonator (96 ms);Resonator (152 ms);Resonator (208 ms);Room (Small);Room (Medium);Room (Large);Room (Large) - HD;Slap Chamber;Slap Chamber - HD;Slap Chamber (Bright);Slap Chamber (Bright) - HD;Smooth Hall (Small);Smooth Hall (Medium);Smooth Hall (Large);Smooth Hall (Large) - HD;Vocal Plate;Vocal Plate - HD;Warble Chamber;Warehouse;Warehouse - HD">
+   <parameter name="7" type="list" default="1" paramlist="1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33;34;35;36;37;38;39;40;41;42;43">
       <name>Reverb Type</name>
       <comment><![CDATA[HD stands for <i>High Density</i>.<br>
       Reverb types with HD are enhanced versions of the other types and usually result in an even smoother reverb effect.]]></comment>
+      <paramlistdisplay>AfterBurn,AfterBurn (Long),Ambience,Ambience (Thick),Ambience (Thick) - HD,Cathedral,Cathedral - HD,Drum Chamber,Garage,Garage (Bright),Gymnasium,Gymnasium (Bright),Gymnasium (Bright) - HD,Hall (Small),Hall (Medium),Hall (Large),Hall (Large) - HD,Plate (Small),Plate (Medium),Plate (Large),Plate (Large) - HD,Pulse Chamber,Pulse Chamber (Reverse),Resonator (96 ms),Resonator (152 ms),Resonator (208 ms),Room (Small),Room (Medium),Room (Large),Room (Large) - HD,Slap Chamber,Slap Chamber - HD,Slap Chamber (Bright),Slap Chamber (Bright) - HD,Smooth Hall (Small),Smooth Hall (Medium),Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,Warble Chamber,Warehouse,Warehouse - HD</paramlistdisplay>
    </parameter>
    <parameter name="wetness" type="constant" decimals="0" default="100" max="100" min="0" factor="100">
       <name>Dry/Wet</name>
