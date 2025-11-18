@@ -55,6 +55,35 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent/QtConcurrentRun>
 #include <QtMath>
 
+PropertiesDelegate::PropertiesDelegate(QObject *parent)
+    : QStyledItemDelegate(parent)
+{
+}
+
+QSize PropertiesDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QSize ret = QStyledItemDelegate::sizeHint(option, index);
+    if (index.data(Qt::DisplayRole).toString().isEmpty()) {
+        ret *= 0.3; // separator is smaller
+    }
+    return ret;
+}
+
+void PropertiesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QStyledItemDelegate::paint(painter, option, index);
+    if (!index.data(Qt::DisplayRole).toString().isEmpty()) {
+        return;
+    }
+    // Empty separator item
+    painter->save();
+    QRect r = option.rect;
+    painter->translate(r.topLeft() + QPoint(0, r.height() / 2));
+    painter->setOpacity(0.2);
+    painter->drawLine(0, 0, r.width(), 0);
+    painter->restore();
+}
+
 AnalysisTree::AnalysisTree(QWidget *parent)
     : QTreeWidget(parent)
 {
@@ -141,7 +170,7 @@ public:
                 stringValue = value.toString();
             }
             if (!stringValue.isEmpty()) {
-                m_results->insert(info.displayName(), stringValue);
+                m_results->insert(info.displayName() + QLatin1Char(':'), stringValue);
             }
         }
     }
@@ -241,7 +270,7 @@ void ClipPropertiesController::constructFileInfoPage()
     m_propertiesTree->setRootIsDecorated(false);
     m_propertiesTree->setColumnCount(2);
     m_propertiesTree->setAlternatingRowColors(true);
-    m_propertiesTree->sortByColumn(0, Qt::AscendingOrder);
+    m_propertiesTree->setItemDelegate(new PropertiesDelegate(this));
     m_propertiesTree->setHeaderHidden(true);
     box->addWidget(m_propertiesTree);
 
@@ -1337,17 +1366,23 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
 
     QList<QStringList> propertyMap;
 
-    // Video codec
-    QString property = codecInfo + QStringLiteral("long_name");
-    QString codec = m_sourceProperties->get(property.toUtf8().constData());
-    if (!codec.isEmpty()) {
-        propertyMap.append({i18n("Video codec:"), codec});
-    }
-
     // Frame size
     int width = m_sourceProperties->get_int("meta.media.width");
     int height = m_sourceProperties->get_int("meta.media.height");
     propertyMap.append({i18n("Frame size:"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
+
+    // Pixel aspect ratio
+    QString property = codecInfo + QStringLiteral("sample_aspect_ratio");
+    double par = m_sourceProperties->get_double(property.toUtf8().constData());
+    if (qFuzzyIsNull(par)) {
+        // Read media aspect ratio
+        par = m_sourceProperties->get_double("meta.media.sample_aspect_num");
+        double den = m_sourceProperties->get_double("meta.media.sample_aspect_den");
+        if (den > 0) {
+            par /= den;
+        }
+    }
+    propertyMap.append({i18n("Pixel aspect ratio:"), QString::number(par, 'f', 3)});
 
     // Frame rate
     property = streamInfo + QStringLiteral("frame_rate");
@@ -1361,6 +1396,9 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
             propertyMap.append({i18n("Frame rate:"), QString::number(fps, 'f', 2)});
         }
     }
+    // Scanning
+    int scan = m_sourceProperties->get_int("meta.media.progressive");
+    propertyMap.append({i18n("Scanning:"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
 
     // Video bitrate
     property = codecInfo + QStringLiteral("bit_rate");
@@ -1369,22 +1407,13 @@ QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
         propertyMap.append({i18n("Video bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
     }
 
-    // Scanning
-    int scan = m_sourceProperties->get_int("meta.media.progressive");
-    propertyMap.append({i18n("Scanning:"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
-
-    // Pixel aspect ratio
-    property = codecInfo + QStringLiteral("sample_aspect_ratio");
-    double par = m_sourceProperties->get_double(property.toUtf8().constData());
-    if (qFuzzyIsNull(par)) {
-        // Read media aspect ratio
-        par = m_sourceProperties->get_double("meta.media.sample_aspect_num");
-        double den = m_sourceProperties->get_double("meta.media.sample_aspect_den");
-        if (den > 0) {
-            par /= den;
-        }
+    // Video codec
+    property = codecInfo + QStringLiteral("long_name");
+    QString codec = m_sourceProperties->get(property.toUtf8().constData());
+    if (!codec.isEmpty()) {
+        propertyMap.append({i18n("Video codec:"), codec});
     }
-    propertyMap.append({i18n("Pixel aspect ratio:"), QString::number(par, 'f', 3)});
+
     property = codecInfo + QStringLiteral("pix_fmt");
 
     // Pixel format
@@ -1406,15 +1435,8 @@ QList<QStringList> ClipPropertiesController::getAudioProperties(int streamIndex)
     const QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(streamIndex);
     QList<QStringList> propertyMap;
 
-    // Audio codec
-    QString property = codecInfo + QStringLiteral("long_name");
-    QString codec = m_sourceProperties->get(property.toUtf8().constData());
-    if (!codec.isEmpty()) {
-        propertyMap.append({i18n("Audio codec:"), codec});
-    }
-
     // Audio channels
-    property = codecInfo + QStringLiteral("channels");
+    QString property = codecInfo + QStringLiteral("channels");
     int channels = m_sourceProperties->get_int(property.toUtf8().constData());
     propertyMap.append({i18n("Audio channels:"), QString::number(channels)});
 
@@ -1422,6 +1444,13 @@ QList<QStringList> ClipPropertiesController::getAudioProperties(int streamIndex)
     property = codecInfo + QStringLiteral("sample_rate");
     int srate = m_sourceProperties->get_int(property.toUtf8().constData());
     propertyMap.append({i18n("Audio frequency:"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
+
+    // Audio codec
+    property = codecInfo + QStringLiteral("long_name");
+    QString codec = m_sourceProperties->get(property.toUtf8().constData());
+    if (!codec.isEmpty()) {
+        propertyMap.append({i18n("Audio codec:"), codec});
+    }
 
     // Audio bitrate
     property = codecInfo + QStringLiteral("bit_rate");
@@ -1439,6 +1468,12 @@ void ClipPropertiesController::fillProperties()
     QList<QStringList> propertyMap;
     m_propertiesTree->clear();
     m_propertiesTree->setSortingEnabled(false);
+    qint64 filesize = m_sourceProperties->get_int64("kdenlive:file_size");
+    if (filesize > 0) {
+        QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
+        propertyMap.append({i18n("File size:"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
+        propertyMap.append({QString(), QString()});
+    }
 
     if (m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Audio || m_type == ClipType::Video) {
         // Read File Metadata through KDE's metadata system
@@ -1450,6 +1485,7 @@ void ClipPropertiesController::fillProperties()
             Mlt::Properties subProperties;
             subProperties.pass_values(*m_properties, "kdenlive:meta.extractor.");
             if (subProperties.count() > 0) {
+                new QTreeWidgetItem(m_propertiesTree, QStringList{QString(), QString()});
                 for (int i = 0; i < subProperties.count(); i++) {
                     new QTreeWidgetItem(m_propertiesTree, QStringList{subProperties.get_name(i), subProperties.get(i)});
                 }
@@ -1496,7 +1532,8 @@ void ClipPropertiesController::fillProperties()
         if (vindex > -1) {
             propertyMap << getVideoProperties(vindex);
         }
-
+        // Add separator
+        propertyMap.append({QString(), QString()});
         // Audio streams
         propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
 
@@ -1516,16 +1553,10 @@ void ClipPropertiesController::fillProperties()
         }
     }
 
-    qint64 filesize = m_sourceProperties->get_int64("kdenlive:file_size");
-    if (filesize > 0) {
-        QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
-        propertyMap.append({i18n("File size:"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
-    }
     for (int i = 0; i < propertyMap.count(); i++) {
         auto *item = new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
         item->setToolTip(1, propertyMap.at(i).at(1));
     }
-    m_propertiesTree->setSortingEnabled(true);
     m_propertiesTree->resizeColumnToContents(0);
 }
 
@@ -1548,8 +1579,10 @@ void ClipPropertiesController::extractInfo(const QString &url)
 void ClipPropertiesController::addMetadata(const QMap<QString, QString> meta)
 {
     m_controller->setProducerProperty(QStringLiteral("kdenlive:kextractor"), 1);
+    if (!meta.isEmpty()) {
+        new QTreeWidgetItem(m_propertiesTree, QStringList{QString(), QString()});
+    }
     for (auto i = meta.cbegin(), end = meta.cend(); i != end; ++i) {
-        qDebug() << ":::::: GOT KDENLIT_META: " << i.key() << " = " << i.value();
         new QTreeWidgetItem(m_propertiesTree, QStringList{i.key(), i.value()});
         m_controller->setProducerProperty(QStringLiteral("kdenlive:meta.extractor.%1").arg(i.key()), i.value());
     }
