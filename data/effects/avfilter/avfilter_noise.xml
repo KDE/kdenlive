@@ -19,19 +19,19 @@
     <parameter type="constant" name="av.c3_seed" max="123457" min="-1" default="-1">
         <name>Component #3 noise seed</name>
     </parameter>
-    <parameter type="animated" name="av.alls" max="100" min="0" default="0">
+    <parameter type="constant" name="av.alls" max="100" min="0" default="0">
         <name>All components strength</name>
     </parameter>
-    <parameter type="animated" name="av.c0s" max="100" min="0" default="0">
+    <parameter type="constant" name="av.c0s" max="100" min="0" default="0">
         <name>Component #0 strength</name>
     </parameter>
-    <parameter type="animated" name="av.c1s" max="100" min="0" default="0">
+    <parameter type="constant" name="av.c1s" max="100" min="0" default="0">
         <name>Component #1 strength</name>
     </parameter>
-    <parameter type="animated" name="av.c2s" max="100" min="0" default="0">
+    <parameter type="constant" name="av.c2s" max="100" min="0" default="0">
         <name>Component #2 strength</name>
     </parameter>
-    <parameter type="animated" name="av.c3s" max="100" min="0" default="0">
+    <parameter type="constant" name="av.c3s" max="100" min="0" default="0">
         <name>Component #3 strength</name>
     </parameter>
     <parameter type="list" name="av.allf" default="a" paramlist="a;p;t;u">
