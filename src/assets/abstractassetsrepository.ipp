@@ -430,7 +430,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Update description if the xml provide one
     const QString description = Xml::getSubTagContent(assetXml, QStringLiteral("description"));
     if (!description.isEmpty()) {
-        res.description = i18n(description.trimmed().toUtf8().constData());
+        res.description = i18n(description.toUtf8().constData());
     }
     // Check supported features
     setDefaultFeatures(res);
