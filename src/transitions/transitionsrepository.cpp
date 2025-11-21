@@ -69,6 +69,10 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             continue;
         }
         Info result;
+        bool ok = parseInfoFromXml(currentNode.toElement(), result);
+        if (!ok) {
+            continue;
+        }
         QString type = currentNode.toElement().attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("hidden")) {
             result.type = AssetListType::AssetType::Hidden;
@@ -82,10 +86,6 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             } else {
                 result.type = AssetListType::AssetType::VideoTransition;
             }
-        }
-        bool ok = parseInfoFromXml(currentNode.toElement(), result);
-        if (!ok) {
-            continue;
         }
         if (customAssets.count(result.id) > 0) {
             // qDebug() << "duplicate transition" << result.id;
