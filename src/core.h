@@ -560,4 +560,6 @@ Q_SIGNALS:
     void loadLayoutFromData(const QString layout);
     /** The project profile changed, check if we have a more appropriate layout (horizontal/vertical) */
     void adjustLayoutToDar();
+    /** Should be called when the mainwindow has been constructed and before any dialog is shown to hide the splash screen */
+    void GUISetupDone();
 };
