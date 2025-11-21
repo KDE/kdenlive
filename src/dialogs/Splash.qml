@@ -76,7 +76,7 @@ Window {
     Rectangle {
         id: splashContent
 
-        height: splash.crashRecovery ? newProjectButton.height * 18 : newProjectButton.height * 16
+        height: splash.crashRecovery || splash.wasUpgraded  ? newProjectButton.height * 18 : newProjectButton.height * 16
         width: newProjectButton.height * 16
         radius: 5
         border.width: 2
@@ -195,7 +195,6 @@ Window {
 
         Item {
             id: recentProjects
-
             anchors.top: header.bottom
             anchors.left: splashContent.left
             anchors.leftMargin: splash.border
@@ -205,7 +204,6 @@ Window {
             visible: !splash.firstRun
             RowLayout {
                 id: recentListContainer
-
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -240,7 +238,6 @@ Window {
 
                         Rectangle {
                             id: recentSeparator
-
                             anchors.top: parent.top
                             anchors.margins: 10
                             height: recentLabel.height + 6
@@ -281,13 +278,14 @@ Window {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.topMargin: 10
-                            height: newProjectButton.height * 4
+                            height: newProjectButton.height * (splash.crashRecovery || splash.wasUpgraded ? 4 : 5)
                             ScrollBar.vertical.policy: ScrollBar.AsNeeded
                             clip: true
 
                             ListView {
                                 id: listView
                                 property int hoveredIndex: -1
+                                property int itemHeight: recentLabel.font.pixelSize * 2.2
                                 focus: true
                                 model: splash.urls
                                 KeyNavigation.right: tlistView
@@ -296,12 +294,13 @@ Window {
                                 delegate: Item {
                                     id: fileItem
                                     width: parent.width
-                                    height: listButton.height
+                                    height: listView.itemHeight
                                     ToolTip.text: modelData
                                     ToolTip.visible: index == listView.hoveredIndex
                                     ToolTip.delay: Application.styleHints.mousePressAndHoldInterval
                                     Rectangle {
                                         anchors.fill: parent
+                                        radius: 4
                                         color: activePalette.highlight
                                         visible: index == listView.currentIndex && listView.activeFocus
                                         opacity: 0.5
@@ -322,6 +321,7 @@ Window {
                                         id: datesLabel
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.right: parent.right
+                                        anchors.rightMargin: 4
                                         text: splash.fileDates[model.index]
                                         color: activePalette.text
                                         opacity: 0.7
@@ -354,6 +354,8 @@ Window {
                                         id: listButton
                                         anchors.right: parent.right
                                         anchors.verticalCenter: parent.verticalCenter
+                                        height: listLabel.height
+                                        width: height
                                         icon.name: "list-remove"
                                         hoverEnabled: true
                                         ToolTip.text: i18n("Remove file from list")
@@ -379,7 +381,6 @@ Window {
                 }
 
                 Item {
-                    //Layout.fillWidth: true
                     height: childrenRect.height
                     width: templateSeparator.width
 
@@ -406,7 +407,7 @@ Window {
                             anchors.top: parent.top
                             anchors.margins: 10
                             height: templatesLabel.height + 6
-                            width: templatesLabel.width + 3 * templatesClearButton.width
+                            width: templatesLabel.width + 2.5 * templatesClearButton.width
                             radius: height / 4
                             color: Qt.darker(splashContent.color, 1.5)
                             Label {
@@ -440,7 +441,7 @@ Window {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.margins: 10
-                            height: newProjectButton.height * 4
+                            height: recentListView.height
                             ScrollBar.vertical.policy: ScrollBar.AsNeeded
                             clip: true
 
@@ -456,12 +457,13 @@ Window {
                                 delegate: Item {
                                     id: templateItem
                                     width: parent.width
-                                    height: tlistButton.height
+                                    height: listView.itemHeight
                                     ToolTip.text: modelData
                                     ToolTip.visible: index == tlistView.hoveredIndex
                                     ToolTip.delay: Application.styleHints.mousePressAndHoldInterval
                                     Rectangle {
                                         anchors.fill: parent
+                                        radius: 4
                                         color: activePalette.highlight
                                         visible: index == tlistView.currentIndex && tlistView.activeFocus
                                         opacity: 0.5
@@ -503,6 +505,8 @@ Window {
                                         id: tlistButton
                                         anchors.right: parent.right
                                         anchors.verticalCenter: parent.verticalCenter
+                                        height: tlistLabel.height
+                                        width: height
                                         icon.name: "list-remove"
                                         ToolTip.text: i18n("Remove profile from list")
                                         ToolTip.delay: 1000
