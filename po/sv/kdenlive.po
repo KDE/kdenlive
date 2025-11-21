@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:42+0000\n"
+"POT-Creation-Date: 2025-11-21 00:42+0000\n"
 "PO-Revision-Date: 2025-10-26 20:50+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -1389,6 +1389,10 @@ msgstr "Använd adaptiv kontrastskärpefilter på en videoström."
 #: data/effects/avfilter/avfilter_gradfun.xml:12
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_huesaturation.xml:26
+#: data/effects/avfilter/avfilter_noise.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:39
+#: data/effects/avfilter/avfilter_noise.xml:53
+#: data/effects/avfilter/avfilter_noise.xml:67
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
@@ -4342,6 +4346,11 @@ msgstr "Använd ett högpassfilter med 3 dB punktfrekvens."
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:14
+#: data/effects/avfilter/avfilter_noise.xml:28
+#: data/effects/avfilter/avfilter_noise.xml:42
+#: data/effects/avfilter/avfilter_noise.xml:56
+#: data/effects/avfilter/avfilter_noise.xml:70
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
@@ -5231,95 +5240,72 @@ msgid "Video Noise Generator"
 msgstr "Videobrusgenerator"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, kde-format
-msgid "Add noise on video input frame"
+#, fuzzy, kde-format
+#| msgid "Add noise on video input frame"
+msgid "<![CDATA[Add noise on video input frame]]>"
 msgstr "Lägg till brus i videons indatabildruta"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, kde-format
-msgid "All components noise seed"
-msgstr "Alla komponenters brusfrö"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:11
-#, kde-format
-msgid "Component #0 noise seed"
-msgstr "Brusfrö för komponent nr. 0"
-
-#: data/effects/avfilter/avfilter_noise.xml:14
-#, kde-format
-msgid "Component #1 noise seed"
-msgstr "Brusfrö för komponent nr. 1"
-
-#: data/effects/avfilter/avfilter_noise.xml:17
-#, kde-format
-msgid "Component #2 noise seed"
-msgstr "Brusfrö för komponent nr. 2"
-
-#: data/effects/avfilter/avfilter_noise.xml:20
-#, kde-format
-msgid "Component #3 noise seed"
-msgstr "Brusfrö för komponent nr. 3"
-
-#: data/effects/avfilter/avfilter_noise.xml:23
-#, kde-format
-msgid "All components strength"
-msgstr "Styrka för alla komponenter"
-
-#: data/effects/avfilter/avfilter_noise.xml:26
-#, kde-format
-msgid "Component #0 strength"
-msgstr "Styrka för komponent nr. 0"
-
-#: data/effects/avfilter/avfilter_noise.xml:29
-#, kde-format
-msgid "Component #1 strength"
-msgstr "Styrka för komponent nr. 1"
-
+#: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
+#: data/effects/avfilter/avfilter_noise.xml:46
+#: data/effects/avfilter/avfilter_noise.xml:60
+#: data/effects/avfilter/avfilter_noise.xml:74
 #, kde-format
-msgid "Component #2 strength"
-msgstr "Styrka för komponent nr. 2"
+msgid ""
+"<![CDATA[Available noise types:<ul><li>Averaged temporal noise (smoother)</"
+"li>\n"
+"        <li>Mix random noise with a (semi)regular pattern</li>\n"
+"        <li>Temporal noise (noise pattern changes between frames)</li>\n"
+"        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:35
-#, kde-format
-msgid "Component #3 strength"
-msgstr "Styrka för komponent nr. 3"
-
-#: data/effects/avfilter/avfilter_noise.xml:38
-#, kde-format
-msgid "Flag all"
-msgstr "Flagga alla"
-
-#: data/effects/avfilter/avfilter_noise.xml:39
-#: data/effects/avfilter/avfilter_noise.xml:43
+#: data/effects/avfilter/avfilter_noise.xml:19
+#: data/effects/avfilter/avfilter_noise.xml:33
 #: data/effects/avfilter/avfilter_noise.xml:47
-#: data/effects/avfilter/avfilter_noise.xml:51
-#: data/effects/avfilter/avfilter_noise.xml:55
-#, kde-format
-msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+#: data/effects/avfilter/avfilter_noise.xml:61
+#: data/effects/avfilter/avfilter_noise.xml:75
+#, fuzzy, kde-format
+#| msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
 "Tidsmässigt medelvärdesbrus,Blanda slumpmässigt brus,Tidsmässigt brus,"
 "Likformigt brus"
 
-#: data/effects/avfilter/avfilter_noise.xml:42
-#, kde-format
-msgid "Flag component 0"
-msgstr "Flagga komponent 0"
+#: data/effects/avfilter/avfilter_noise.xml:22
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:46
-#, kde-format
-msgid "Flag component 1"
-msgstr "Flagga komponent 1"
+#: data/effects/avfilter/avfilter_noise.xml:25
+#, fuzzy, kde-format
+#| msgid "Strength"
+msgid " Strength"
+msgstr "Styrka"
+
+#: data/effects/avfilter/avfilter_noise.xml:36
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, kde-format
-msgid "Flag component 2"
-msgstr "Flagga komponent 2"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:54
-#, kde-format
-msgid "Flag component 3"
-msgstr "Flagga komponent 3"
+#: data/effects/avfilter/avfilter_noise.xml:64
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -39578,6 +39564,51 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "All components noise seed"
+#~ msgstr "Alla komponenters brusfrö"
+
+#~ msgid "Component #0 noise seed"
+#~ msgstr "Brusfrö för komponent nr. 0"
+
+#~ msgid "Component #1 noise seed"
+#~ msgstr "Brusfrö för komponent nr. 1"
+
+#~ msgid "Component #2 noise seed"
+#~ msgstr "Brusfrö för komponent nr. 2"
+
+#~ msgid "Component #3 noise seed"
+#~ msgstr "Brusfrö för komponent nr. 3"
+
+#~ msgid "All components strength"
+#~ msgstr "Styrka för alla komponenter"
+
+#~ msgid "Component #0 strength"
+#~ msgstr "Styrka för komponent nr. 0"
+
+#~ msgid "Component #1 strength"
+#~ msgstr "Styrka för komponent nr. 1"
+
+#~ msgid "Component #2 strength"
+#~ msgstr "Styrka för komponent nr. 2"
+
+#~ msgid "Component #3 strength"
+#~ msgstr "Styrka för komponent nr. 3"
+
+#~ msgid "Flag all"
+#~ msgstr "Flagga alla"
+
+#~ msgid "Flag component 0"
+#~ msgstr "Flagga komponent 0"
+
+#~ msgid "Flag component 1"
+#~ msgstr "Flagga komponent 1"
+
+#~ msgid "Flag component 2"
+#~ msgstr "Flagga komponent 2"
+
+#~ msgid "Flag component 3"
+#~ msgstr "Flagga komponent 3"
 
 #~ msgid "Hue Shift Red"
 #~ msgstr "Färgton skiftar röd"

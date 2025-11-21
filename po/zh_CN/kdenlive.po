@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:42+0000\n"
+"POT-Creation-Date: 2025-11-21 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1372,6 +1372,10 @@ msgstr "将对比度自适应锐化滤镜应用于视频流。"
 #: data/effects/avfilter/avfilter_gradfun.xml:12
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_huesaturation.xml:26
+#: data/effects/avfilter/avfilter_noise.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:39
+#: data/effects/avfilter/avfilter_noise.xml:53
+#: data/effects/avfilter/avfilter_noise.xml:67
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
@@ -4228,6 +4232,11 @@ msgstr "应用3dB点频率的高通滤波器."
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:14
+#: data/effects/avfilter/avfilter_noise.xml:28
+#: data/effects/avfilter/avfilter_noise.xml:42
+#: data/effects/avfilter/avfilter_noise.xml:56
+#: data/effects/avfilter/avfilter_noise.xml:70
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
@@ -5090,93 +5099,65 @@ msgid "Video Noise Generator"
 msgstr "视频噪声生成器"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, kde-format
-msgid "Add noise on video input frame"
+#, fuzzy, kde-format
+#| msgid "Add noise on video input frame"
+msgid "<![CDATA[Add noise on video input frame]]>"
 msgstr "在视频输入帧上添加噪声"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, kde-format
-msgid "All components noise seed"
-msgstr "全局噪声种子"
+msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:11
-#, kde-format
-msgid "Component #0 noise seed"
-msgstr "组件 #0 噪声种子"
-
-#: data/effects/avfilter/avfilter_noise.xml:14
-#, kde-format
-msgid "Component #1 noise seed"
-msgstr "组件 #1 噪声种子"
-
-#: data/effects/avfilter/avfilter_noise.xml:17
-#, kde-format
-msgid "Component #2 noise seed"
-msgstr "组件 #2 噪声种子"
-
-#: data/effects/avfilter/avfilter_noise.xml:20
-#, kde-format
-msgid "Component #3 noise seed"
-msgstr "组件 #3 噪声种子"
-
-#: data/effects/avfilter/avfilter_noise.xml:23
-#, kde-format
-msgid "All components strength"
-msgstr "全局效果强度"
-
-#: data/effects/avfilter/avfilter_noise.xml:26
-#, kde-format
-msgid "Component #0 strength"
-msgstr "组件 #0 效果强度"
-
-#: data/effects/avfilter/avfilter_noise.xml:29
-#, kde-format
-msgid "Component #1 strength"
-msgstr "组件 #1 效果强度"
-
+#: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
+#: data/effects/avfilter/avfilter_noise.xml:46
+#: data/effects/avfilter/avfilter_noise.xml:60
+#: data/effects/avfilter/avfilter_noise.xml:74
 #, kde-format
-msgid "Component #2 strength"
-msgstr "组件 #2 效果强度"
+msgid ""
+"<![CDATA[Available noise types:<ul><li>Averaged temporal noise (smoother)</"
+"li>\n"
+"        <li>Mix random noise with a (semi)regular pattern</li>\n"
+"        <li>Temporal noise (noise pattern changes between frames)</li>\n"
+"        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:35
-#, kde-format
-msgid "Component #3 strength"
-msgstr "组件 #3 效果强度"
-
-#: data/effects/avfilter/avfilter_noise.xml:38
-#, kde-format
-msgid "Flag all"
-msgstr "标记所有"
-
-#: data/effects/avfilter/avfilter_noise.xml:39
-#: data/effects/avfilter/avfilter_noise.xml:43
+#: data/effects/avfilter/avfilter_noise.xml:19
+#: data/effects/avfilter/avfilter_noise.xml:33
 #: data/effects/avfilter/avfilter_noise.xml:47
-#: data/effects/avfilter/avfilter_noise.xml:51
-#: data/effects/avfilter/avfilter_noise.xml:55
-#, kde-format
-msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+#: data/effects/avfilter/avfilter_noise.xml:61
+#: data/effects/avfilter/avfilter_noise.xml:75
+#, fuzzy, kde-format
+#| msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr "平均时域噪声,混合随机噪声,时域噪音,均匀噪音"
 
-#: data/effects/avfilter/avfilter_noise.xml:42
+#: data/effects/avfilter/avfilter_noise.xml:22
 #, kde-format
-msgid "Flag component 0"
-msgstr "标记组件 0"
+msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:46
+#: data/effects/avfilter/avfilter_noise.xml:25
+#, fuzzy, kde-format
+#| msgid "Strength"
+msgid " Strength"
+msgstr "强度"
+
+#: data/effects/avfilter/avfilter_noise.xml:36
 #, kde-format
-msgid "Flag component 1"
-msgstr "标记组件 1"
+msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:50
 #, kde-format
-msgid "Flag component 2"
-msgstr "标记组件 2"
+msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:54
+#: data/effects/avfilter/avfilter_noise.xml:64
 #, kde-format
-msgid "Flag component 3"
-msgstr "标记组件 3"
+msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -38553,3 +38534,48 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "All components noise seed"
+#~ msgstr "全局噪声种子"
+
+#~ msgid "Component #0 noise seed"
+#~ msgstr "组件 #0 噪声种子"
+
+#~ msgid "Component #1 noise seed"
+#~ msgstr "组件 #1 噪声种子"
+
+#~ msgid "Component #2 noise seed"
+#~ msgstr "组件 #2 噪声种子"
+
+#~ msgid "Component #3 noise seed"
+#~ msgstr "组件 #3 噪声种子"
+
+#~ msgid "All components strength"
+#~ msgstr "全局效果强度"
+
+#~ msgid "Component #0 strength"
+#~ msgstr "组件 #0 效果强度"
+
+#~ msgid "Component #1 strength"
+#~ msgstr "组件 #1 效果强度"
+
+#~ msgid "Component #2 strength"
+#~ msgstr "组件 #2 效果强度"
+
+#~ msgid "Component #3 strength"
+#~ msgstr "组件 #3 效果强度"
+
+#~ msgid "Flag all"
+#~ msgstr "标记所有"
+
+#~ msgid "Flag component 0"
+#~ msgstr "标记组件 0"
+
+#~ msgid "Flag component 1"
+#~ msgstr "标记组件 1"
+
+#~ msgid "Flag component 2"
+#~ msgstr "标记组件 2"
+
+#~ msgid "Flag component 3"
+#~ msgstr "标记组件 3"

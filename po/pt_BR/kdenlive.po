@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:42+0000\n"
+"POT-Creation-Date: 2025-11-21 00:42+0000\n"
 "PO-Revision-Date: 2025-11-19 06:54-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1403,6 +1403,10 @@ msgstr "Aplique o filtro de Nitidez Adaptativa de Contraste ao fluxo de vídeo."
 #: data/effects/avfilter/avfilter_gradfun.xml:12
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_huesaturation.xml:26
+#: data/effects/avfilter/avfilter_noise.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:39
+#: data/effects/avfilter/avfilter_noise.xml:53
+#: data/effects/avfilter/avfilter_noise.xml:67
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
@@ -4368,6 +4372,11 @@ msgstr "Aplica um filtro passa-alto com frequência de ponto de 3dB."
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:14
+#: data/effects/avfilter/avfilter_noise.xml:28
+#: data/effects/avfilter/avfilter_noise.xml:42
+#: data/effects/avfilter/avfilter_noise.xml:56
+#: data/effects/avfilter/avfilter_noise.xml:70
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
@@ -5260,94 +5269,71 @@ msgid "Video Noise Generator"
 msgstr "Gerador de ruído de vídeo"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, kde-format
-msgid "Add noise on video input frame"
+#, fuzzy, kde-format
+#| msgid "Add noise on video input frame"
+msgid "<![CDATA[Add noise on video input frame]]>"
 msgstr "Adiciona ruído ao quadro de entrada de vídeo"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, kde-format
-msgid "All components noise seed"
-msgstr "Todas as sementes de ruído de componente"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
+msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b><u>Luminosidade</u></b> Vermelho]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:11
-#, kde-format
-msgid "Component #0 noise seed"
-msgstr "Semente de ruído do componente #0"
-
-#: data/effects/avfilter/avfilter_noise.xml:14
-#, kde-format
-msgid "Component #1 noise seed"
-msgstr "Semente de ruído do componente #1"
-
-#: data/effects/avfilter/avfilter_noise.xml:17
-#, kde-format
-msgid "Component #2 noise seed"
-msgstr "Semente de ruído do componente #2"
-
-#: data/effects/avfilter/avfilter_noise.xml:20
-#, kde-format
-msgid "Component #3 noise seed"
-msgstr "Semente de ruído do componente #3"
-
-#: data/effects/avfilter/avfilter_noise.xml:23
-#, kde-format
-msgid "All components strength"
-msgstr "Potência de todos os componentes"
-
-#: data/effects/avfilter/avfilter_noise.xml:26
-#, kde-format
-msgid "Component #0 strength"
-msgstr "Potência do componente #0"
-
-#: data/effects/avfilter/avfilter_noise.xml:29
-#, kde-format
-msgid "Component #1 strength"
-msgstr "Potência do componente #1"
-
+#: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
+#: data/effects/avfilter/avfilter_noise.xml:46
+#: data/effects/avfilter/avfilter_noise.xml:60
+#: data/effects/avfilter/avfilter_noise.xml:74
 #, kde-format
-msgid "Component #2 strength"
-msgstr "Potência do componente #2"
+msgid ""
+"<![CDATA[Available noise types:<ul><li>Averaged temporal noise (smoother)</"
+"li>\n"
+"        <li>Mix random noise with a (semi)regular pattern</li>\n"
+"        <li>Temporal noise (noise pattern changes between frames)</li>\n"
+"        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_noise.xml:35
-#, kde-format
-msgid "Component #3 strength"
-msgstr "Potência do componente #3"
-
-#: data/effects/avfilter/avfilter_noise.xml:38
-#, kde-format
-msgid "Flag all"
-msgstr "Marcar todos"
-
-#: data/effects/avfilter/avfilter_noise.xml:39
-#: data/effects/avfilter/avfilter_noise.xml:43
+#: data/effects/avfilter/avfilter_noise.xml:19
+#: data/effects/avfilter/avfilter_noise.xml:33
 #: data/effects/avfilter/avfilter_noise.xml:47
-#: data/effects/avfilter/avfilter_noise.xml:51
-#: data/effects/avfilter/avfilter_noise.xml:55
-#, kde-format
-msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+#: data/effects/avfilter/avfilter_noise.xml:61
+#: data/effects/avfilter/avfilter_noise.xml:75
+#, fuzzy, kde-format
+#| msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
 "Ruído temporal médio,Ruído aleatório misto,Ruído temporal,Ruído uniforme"
 
-#: data/effects/avfilter/avfilter_noise.xml:42
-#, kde-format
-msgid "Flag component 0"
-msgstr "Marcar componente 0"
+#: data/effects/avfilter/avfilter_noise.xml:22
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b><u>Desvio de tonalidade</u></b> Vermelho]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:46
-#, kde-format
-msgid "Flag component 1"
-msgstr "Marcar componente 1"
+#: data/effects/avfilter/avfilter_noise.xml:25
+#, fuzzy, kde-format
+#| msgid "Strength"
+msgid " Strength"
+msgstr "Força"
+
+#: data/effects/avfilter/avfilter_noise.xml:36
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b><u>Desvio de tonalidade</u></b> Vermelho]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, kde-format
-msgid "Flag component 2"
-msgstr "Marcar componente 2"
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b><u>Desvio de tonalidade</u></b> Vermelho]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:54
-#, kde-format
-msgid "Flag component 3"
-msgstr "Marcar componente 3"
+#: data/effects/avfilter/avfilter_noise.xml:64
+#, fuzzy, kde-format
+#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+msgstr "<![CDATA[<b><u>Desvio de tonalidade</u></b> Vermelho]]>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -39736,6 +39722,51 @@ msgstr "%1min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "All components noise seed"
+#~ msgstr "Todas as sementes de ruído de componente"
+
+#~ msgid "Component #0 noise seed"
+#~ msgstr "Semente de ruído do componente #0"
+
+#~ msgid "Component #1 noise seed"
+#~ msgstr "Semente de ruído do componente #1"
+
+#~ msgid "Component #2 noise seed"
+#~ msgstr "Semente de ruído do componente #2"
+
+#~ msgid "Component #3 noise seed"
+#~ msgstr "Semente de ruído do componente #3"
+
+#~ msgid "All components strength"
+#~ msgstr "Potência de todos os componentes"
+
+#~ msgid "Component #0 strength"
+#~ msgstr "Potência do componente #0"
+
+#~ msgid "Component #1 strength"
+#~ msgstr "Potência do componente #1"
+
+#~ msgid "Component #2 strength"
+#~ msgstr "Potência do componente #2"
+
+#~ msgid "Component #3 strength"
+#~ msgstr "Potência do componente #3"
+
+#~ msgid "Flag all"
+#~ msgstr "Marcar todos"
+
+#~ msgid "Flag component 0"
+#~ msgstr "Marcar componente 0"
+
+#~ msgid "Flag component 1"
+#~ msgstr "Marcar componente 1"
+
+#~ msgid "Flag component 2"
+#~ msgstr "Marcar componente 2"
+
+#~ msgid "Flag component 3"
+#~ msgstr "Marcar componente 3"
 
 #~ msgid "Hue Shift Red"
 #~ msgstr "Mudança de matiz vermelha"

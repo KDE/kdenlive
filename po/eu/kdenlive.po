@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:42+0000\n"
+"POT-Creation-Date: 2025-11-21 00:42+0000\n"
 "PO-Revision-Date: 2025-08-31 02:53+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1402,6 +1402,10 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:12
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_huesaturation.xml:26
+#: data/effects/avfilter/avfilter_noise.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:39
+#: data/effects/avfilter/avfilter_noise.xml:53
+#: data/effects/avfilter/avfilter_noise.xml:67
 #: data/effects/avfilter/avfilter_normalize.xml:24
 #: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, fuzzy, kde-format
@@ -4365,6 +4369,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
+#: data/effects/avfilter/avfilter_noise.xml:14
+#: data/effects/avfilter/avfilter_noise.xml:28
+#: data/effects/avfilter/avfilter_noise.xml:42
+#: data/effects/avfilter/avfilter_noise.xml:56
+#: data/effects/avfilter/avfilter_noise.xml:70
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
@@ -5266,102 +5275,69 @@ msgid "Video Noise Generator"
 msgstr "Bideo-zarata sortzailea"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, kde-format
-msgid "Add noise on video input frame"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Add noise on video input frame]]>"
+msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, kde-format
-msgid "All components noise seed"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_noise.xml:11
 #, fuzzy, kde-format
-#| msgid "Amount of noise added."
-msgid "Component #0 noise seed"
-msgstr "Gehitutako zarata kopurua"
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:14
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
-msgid "Component #1 noise seed"
-msgstr "Gehitutako zarata kopurua"
-
-#: data/effects/avfilter/avfilter_noise.xml:17
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
-msgid "Component #2 noise seed"
-msgstr "Gehitutako zarata kopurua"
-
-#: data/effects/avfilter/avfilter_noise.xml:20
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
-msgid "Component #3 noise seed"
-msgstr "Gehitutako zarata kopurua"
-
-#: data/effects/avfilter/avfilter_noise.xml:23
-#, fuzzy, kde-format
-#| msgid "Glow strength"
-msgid "All components strength"
-msgstr "Dirdiraren indarra"
-
-#: data/effects/avfilter/avfilter_noise.xml:26
-#, fuzzy, kde-format
-#| msgid "Components:"
-msgid "Component #0 strength"
-msgstr "Osagaiak:"
-
-#: data/effects/avfilter/avfilter_noise.xml:29
-#, fuzzy, kde-format
-#| msgid "Components:"
-msgid "Component #1 strength"
-msgstr "Osagaiak:"
-
+#: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
-#, fuzzy, kde-format
-#| msgid "Components:"
-msgid "Component #2 strength"
-msgstr "Osagaiak:"
-
-#: data/effects/avfilter/avfilter_noise.xml:35
-#, fuzzy, kde-format
-#| msgid "Components:"
-msgid "Component #3 strength"
-msgstr "Osagaiak:"
-
-#: data/effects/avfilter/avfilter_noise.xml:38
-#, kde-format
-msgid "Flag all"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_noise.xml:39
-#: data/effects/avfilter/avfilter_noise.xml:43
-#: data/effects/avfilter/avfilter_noise.xml:47
-#: data/effects/avfilter/avfilter_noise.xml:51
-#: data/effects/avfilter/avfilter_noise.xml:55
-#, kde-format
-msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
-msgstr ""
-
-#: data/effects/avfilter/avfilter_noise.xml:42
-#, kde-format
-msgid "Flag component 0"
-msgstr ""
-
 #: data/effects/avfilter/avfilter_noise.xml:46
+#: data/effects/avfilter/avfilter_noise.xml:60
+#: data/effects/avfilter/avfilter_noise.xml:74
 #, kde-format
-msgid "Flag component 1"
+msgid ""
+"<![CDATA[Available noise types:<ul><li>Averaged temporal noise (smoother)</"
+"li>\n"
+"        <li>Mix random noise with a (semi)regular pattern</li>\n"
+"        <li>Temporal noise (noise pattern changes between frames)</li>\n"
+"        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_noise.xml:19
+#: data/effects/avfilter/avfilter_noise.xml:33
+#: data/effects/avfilter/avfilter_noise.xml:47
+#: data/effects/avfilter/avfilter_noise.xml:61
+#: data/effects/avfilter/avfilter_noise.xml:75
+#, kde-format
+msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_noise.xml:22
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
+
+#: data/effects/avfilter/avfilter_noise.xml:25
+#, fuzzy, kde-format
+#| msgid "Stretch"
+msgid " Strength"
+msgstr "Luzatu"
+
+#: data/effects/avfilter/avfilter_noise.xml:36
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, kde-format
-msgid "Flag component 2"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
-#: data/effects/avfilter/avfilter_noise.xml:54
-#, kde-format
-msgid "Flag component 3"
-msgstr ""
+#: data/effects/avfilter/avfilter_noise.xml:64
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+msgstr "<![CDATA[Atzeko planoko opakotasuna ezartzen du]]>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, fuzzy, kde-format
@@ -40006,6 +39982,51 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Amount of noise added."
+#~ msgid "Component #0 noise seed"
+#~ msgstr "Gehitutako zarata kopurua"
+
+#, fuzzy
+#~| msgid "Amount of noise added."
+#~ msgid "Component #1 noise seed"
+#~ msgstr "Gehitutako zarata kopurua"
+
+#, fuzzy
+#~| msgid "Amount of noise added."
+#~ msgid "Component #2 noise seed"
+#~ msgstr "Gehitutako zarata kopurua"
+
+#, fuzzy
+#~| msgid "Amount of noise added."
+#~ msgid "Component #3 noise seed"
+#~ msgstr "Gehitutako zarata kopurua"
+
+#, fuzzy
+#~| msgid "Glow strength"
+#~ msgid "All components strength"
+#~ msgstr "Dirdiraren indarra"
+
+#, fuzzy
+#~| msgid "Components:"
+#~ msgid "Component #0 strength"
+#~ msgstr "Osagaiak:"
+
+#, fuzzy
+#~| msgid "Components:"
+#~ msgid "Component #1 strength"
+#~ msgstr "Osagaiak:"
+
+#, fuzzy
+#~| msgid "Components:"
+#~ msgid "Component #2 strength"
+#~ msgstr "Osagaiak:"
+
+#, fuzzy
+#~| msgid "Components:"
+#~ msgid "Component #3 strength"
+#~ msgstr "Osagaiak:"
 
 #, fuzzy
 #~| msgid "Hue shift"
