@@ -96,7 +96,7 @@ void ProjectManager::slotLoadOnOpen()
     } else {
         newFile(false);
     }
-    Q_EMIT pCore->window()->GUISetupDone();
+    Q_EMIT pCore->GUISetupDone();
 
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         QList<QUrl> urls;
@@ -172,7 +172,7 @@ void ProjectManager::newFile(bool showProjectSettings)
 void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 {
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
-    Q_EMIT pCore->window()->GUISetupDone();
+    Q_EMIT pCore->GUISetupDone();
     if (checkForBackupFile(startFile, true)) {
         return;
     }
@@ -697,7 +697,7 @@ bool ProjectManager::saveFile()
 
 void ProjectManager::slotOpenFile()
 {
-    Q_EMIT pCore->window()->GUISetupDone();
+    Q_EMIT pCore->GUISetupDone();
     if (m_startUrl.isValid()) {
         openFile(m_startUrl);
         m_startUrl.clear();
@@ -767,6 +767,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     }
 
     if (orphanedFile) {
+        Q_EMIT pCore->GUISetupDone();
         if (KMessageBox::questionTwoActions(nullptr, i18n("Auto-saved file exists. Do you want to recover now?"), i18n("File Recovery"),
                                             KGuiItem(i18n("Recover")), KGuiItem(i18n("Do not recover"))) == KMessageBox::PrimaryAction) {
             doOpenFile(url, orphanedFile);
@@ -794,6 +795,7 @@ void ProjectManager::openFile(const QUrl &url)
     bool freshStart = m_project == nullptr;
     if (isSupportedArchive(url)) {
         // Opening a compressed project file, we need to process it
+        Q_EMIT pCore->GUISetupDone();
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
             openFile(QUrl::fromLocalFile(ar->extractedProjectFile()));
@@ -809,6 +811,7 @@ void ProjectManager::openFile(const QUrl &url)
     }
 
     if (!QFile::exists(url.toLocalFile())) {
+        Q_EMIT pCore->GUISetupDone();
         pCore->restoreLayout();
         KMessageBox::error(pCore->window(), i18n("File %1 does not exist", url.toLocalFile()));
         Q_EMIT pCore->loadingMessageHide();
@@ -1058,7 +1061,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
     }
-    Q_EMIT pCore->window()->GUISetupDone();
+    Q_EMIT pCore->GUISetupDone();
 
     // Now that sequence clips are fully built, fetch thumbnails
     QList<QUuid> uuids = sequences.keys();

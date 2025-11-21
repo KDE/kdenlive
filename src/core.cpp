@@ -268,10 +268,10 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             }
         });
         connect(m_splash, &Splash::openLink, this, [this](QString url) { openLink(QUrl(url)); });
-        connect(this, &Core::closeSplash, m_splash, &QWidget::deleteLater);
 
         // Check if welcome screen is displayed
         if (m_splash->welcomeDisplayed()) {
+            connect(this, &Core::closeSplash, m_splash, &Splash::hideAndDelete);
             connect(m_splash, &Splash::openFile, this, [this](QString url) {
                 if (m_splash->hasEventLoop()) {
                     connect(this, &Core::mainWindowReady, this, [&, url]() {
