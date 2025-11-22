@@ -702,6 +702,8 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         // m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
         auto *extractZone = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Extract Zone"), this);
         connect(extractZone, &QAction::triggered, this, &Monitor::slotExtractCurrentZone);
+        // Ensure the action can have a shortcut
+        pCore->window()->addAction(QStringLiteral("extract_zone"), extractZone, {}, QStringLiteral("monitor"));
         m_configMenuAction->addAction(extractZone);
         m_contextMenu->addAction(extractZone);
 
