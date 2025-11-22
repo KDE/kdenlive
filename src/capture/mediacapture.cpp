@@ -262,7 +262,12 @@ const QVector<double> MediaCapture::recLevels() const
     return m_recLevels;
 }
 
-MediaCapture::~MediaCapture() = default;
+MediaCapture::~MediaCapture()
+{
+    if (m_audioSource) {
+        switchMonitorState(false);
+    }
+}
 
 void MediaCapture::displayErrorMessage()
 {
