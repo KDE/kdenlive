@@ -58,7 +58,7 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
     for (auto &s : urls) {
         QFileInfo info(s);
         fileNames.append(info.fileName());
-        fileDates.append(locale.toString(info.fileTime(QFileDevice::FileModificationTime), "dd/MM/yy HH:mm:ss"));
+        fileDates.append(locale.toString(info.lastModified(), "dd/MM/yy HH:mm:ss"));
     }
     if (showWelcome) {
         bool isPalFps = ProjectManager::getDefaultProjectFormat().endsWith(QLatin1String("_25"));
