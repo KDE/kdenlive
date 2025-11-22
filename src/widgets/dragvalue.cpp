@@ -308,7 +308,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     l->setSpacing(2);
     l->setContentsMargins(0, 0, 0, 0);
     int minWidth = 0;
-    if (showSlider) {
+    if (showSlider && m_maximum != m_minimum) {
         m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
         m_label->setObjectName("draggLabel");
         l->addWidget(m_label, 0, Qt::AlignVCenter);
