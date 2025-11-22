@@ -411,7 +411,6 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             return false;
         }
     }
-
     res = m_assets.at(tag);
     res.id = id;
     res.mltId = tag;
