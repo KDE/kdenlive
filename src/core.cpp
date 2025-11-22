@@ -202,13 +202,18 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
     // Get info for the Welcome Screen
     if (showWelcome) {
         qDebug() << "::::: SHOWING WELCOME!!!!!!";
-        QStringList urls;
+        QMap<int, QString> urls;
         KConfigGroup recent(KSharedConfig::openConfig(), "Recent Files");
         if (recent.exists()) {
             auto entries = recent.entryMap();
+            bool ok;
             for (auto i = entries.cbegin(), end = entries.cend(); i != end; ++i) {
                 if (i.key().startsWith(QLatin1String("File"))) {
-                    urls.prepend(QUrl::fromLocalFile(i.value()).toLocalFile());
+                    // Ensure proper sorting
+                    int ix = 100 - i.key().mid(4).toInt(&ok);
+                    if (ok) {
+                        urls.insert(ix, QUrl::fromLocalFile(i.value()).toLocalFile());
+                    }
                 }
             }
         }
@@ -224,7 +229,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
                 profileNames = {QStringLiteral("HD 1080p 25 fps")};
             }
         }
-        m_splash = new Splash(QString(KDENLIVE_VERSION), urls, profileIds, profileNames, true, firstRun, showCrashRecovery, wasUpgraded);
+        m_splash = new Splash(QString(KDENLIVE_VERSION), urls.values(), profileIds, profileNames, true, firstRun, showCrashRecovery, wasUpgraded);
     } else {
         m_splash = new Splash(QString(KDENLIVE_VERSION), {}, {}, {}, false, firstRun, showCrashRecovery, wasUpgraded);
     }
