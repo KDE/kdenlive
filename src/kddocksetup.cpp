@@ -58,7 +58,15 @@ public:
         , m_controller(controller)
     {
         connect(pCore.get(), &Core::hideBars, this, [this](bool hide) {
-            if (!hide) {
+            if (hide) {
+#if defined(Q_OS_WIN)
+                auto parentWidget = m_controller->view()->parentView();
+                if (parentWidget && parentWidget->asFloatingWindowController() != nullptr) {
+                    // Floating window, don't show as we already have the widget titlebar
+                    return;
+                }
+#endif
+            } else {
                 if (m_controller->dockWidgets().size() > 1) {
                     // Don't show title bar when there are tabbed widgets
                     return;
