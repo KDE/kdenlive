@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-22 00:41+0000\n"
+"POT-Creation-Date: 2025-11-23 00:42+0000\n"
 "PO-Revision-Date: 2025-11-21 09:30-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -7335,7 +7335,7 @@ msgstr "Duração"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1089 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1094 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -19786,7 +19786,7 @@ msgstr "Insira o caminho para seu aplicativo de edição de áudio"
 msgid "Please set a default application to open audio files"
 msgstr "Defina um aplicativo padrão para abrir arquivos de áudio"
 
-#: src/bin/bin.cpp:5015 src/core.cpp:652 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5015 src/core.cpp:657 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20620,7 +20620,7 @@ msgstr "Adicionar etiqueta"
 msgid "New tag"
 msgstr "Nova etiqueta"
 
-#: src/capture/mediacapture.cpp:288
+#: src/capture/mediacapture.cpp:296
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20629,7 +20629,7 @@ msgstr ""
 "Monitoramento de áudio. Pressione <b>Espaço</b> para iniciar/pausar a "
 "gravação, <b>Esc</b> para finalizar."
 
-#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -20649,7 +20649,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Desabilitar processamento via GPU"
 
-#: src/core.cpp:455
+#: src/core.cpp:460
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20658,19 +20658,19 @@ msgstr ""
 "O perfil padrão do Kdenlive não está definido ou é inválido, pressione OK "
 "para defini-lo como um valor correto."
 
-#: src/core.cpp:467
+#: src/core.cpp:472
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Selecionar perfil padrão"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:467 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:472 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Perfil:"
 
-#: src/core.cpp:480
+#: src/core.cpp:485
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20679,267 +20679,267 @@ msgstr ""
 "O perfil fornecido é inválido. O padrão é o perfil \"dv_pal\", mas vocêpode "
 "alterar isto no painel de configurações do Kdenlive"
 
-#: src/core.cpp:495 src/project/projectmanager.cpp:887
+#: src/core.cpp:500 src/project/projectmanager.cpp:887
 #, kde-format
 msgid "Loading project…"
 msgstr "Carregando projeto…"
 
-#: src/core.cpp:704
+#: src/core.cpp:709
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "2 barras quadradas"
 
-#: src/core.cpp:705
+#: src/core.cpp:710
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Axadrezado Pequeno"
 
-#: src/core.cpp:706
+#: src/core.cpp:711
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Cortinar Horizontais"
 
-#: src/core.cpp:707
+#: src/core.cpp:712
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Raio"
 
-#: src/core.cpp:708
+#: src/core.cpp:713
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X"
 
-#: src/core.cpp:709
+#: src/core.cpp:714
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X"
 
-#: src/core.cpp:710
+#: src/core.cpp:715
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y"
 
-#: src/core.cpp:711
+#: src/core.cpp:716
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y"
 
-#: src/core.cpp:712
+#: src/core.cpp:717
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Quadrado"
 
-#: src/core.cpp:713
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Quadrado 2"
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nuvem"
 
-#: src/core.cpp:715
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Relógio simétrico"
 
-#: src/core.cpp:716
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barras radiais"
 
-#: src/core.cpp:717
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Espiral"
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Espiral 2"
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Cortina"
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Explosão"
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Relógio"
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barra horizontal"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barra vertical"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Porta de Celeiro Horizontal"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Porta de Celeiro Vertical"
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Porta de Celeiro SO-NE"
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Porta de Celeiro NO-SE"
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal cima-esquerda"
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal cima-direita"
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal"
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical"
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Paralela Horizontal"
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical"
 
-#: src/core.cpp:736
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Paralela Vertical"
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Cima"
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Íria em círculo"
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Íris dupla"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Caixa Iris"
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Caixa inferior direita"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Caixa inferior esquerda"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Caixa central direita"
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Topo do relógio"
 
-#: src/core.cpp:1035
+#: src/core.cpp:1040
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "O perfil do seu projeto é inválido, a renderização pode falhar."
 
-#: src/core.cpp:1399
+#: src/core.cpp:1404
 #, kde-format
 msgid "Loading clips"
 msgstr "Carregando clipes"
 
-#: src/core.cpp:1855
+#: src/core.cpp:1860
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcador %1"
 
-#: src/core.cpp:2209
+#: src/core.cpp:2214
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20950,12 +20950,12 @@ msgstr ""
 "seguinte URL:\n"
 " %1"
 
-#: src/core.cpp:2210 src/core.cpp:2221
+#: src/core.cpp:2215 src/core.cpp:2226
 #, kde-format
 msgid "Open Browser"
 msgstr "Abrir navegador"
 
-#: src/core.cpp:2220
+#: src/core.cpp:2225
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21372,7 +21372,7 @@ msgstr "Exportar dados dos marcadores"
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:421
+#: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
 #: src/effects/effectstack/view/effectstackview.cpp:830
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -22103,7 +22103,7 @@ msgstr "Áudio sem trilha de vídeo"
 msgid "Rendering %1 started"
 msgstr "Renderização %1 iniciada"
 
-#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1411
+#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1413
 #, kde-format
 msgid "untitled"
 msgstr "sem título"
@@ -26926,13 +26926,13 @@ msgstr "Renderizando a prévia"
 msgid "Go to Marker…"
 msgstr "Ir para marcador…"
 
-#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:708
+#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:710
 #, kde-format
 msgid "Create Marker from Zone"
 msgstr "Criar marcador da zona"
 
-#: src/mainwindow.cpp:669 src/monitor/monitor.cpp:713
-#: src/monitor/monitor.cpp:738
+#: src/mainwindow.cpp:669 src/monitor/monitor.cpp:715
+#: src/monitor/monitor.cpp:740
 #, kde-format
 msgid "Create Marker from Zone Quickly"
 msgstr "Criar marcador da zona rapidamente"
@@ -28879,7 +28879,7 @@ msgid "Audio streams"
 msgstr "Transmissões de áudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2094
+#: src/monitor/monitor.cpp:2096
 #, kde-format
 msgid "Merge all streams"
 msgstr "Unir todas as transmissões"
@@ -29254,84 +29254,84 @@ msgstr "+5"
 msgid "Extract Zone"
 msgstr "Extrair área"
 
-#: src/monitor/monitor.cpp:728
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Definir imagem atual como miniatura"
 
-#: src/monitor/monitor.cpp:733
+#: src/monitor/monitor.cpp:735
 #, kde-format
 msgid "Create Marker from Zone..."
 msgstr "Criar marcador da zona..."
 
-#: src/monitor/monitor.cpp:745
+#: src/monitor/monitor.cpp:747
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Sempre mostrar miniaturas de áudio"
 
-#: src/monitor/monitor.cpp:759
+#: src/monitor/monitor.cpp:761
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Mostrar os níveis de áudio"
 
-#: src/monitor/monitor.cpp:766
+#: src/monitor/monitor.cpp:768
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Mostrar o código de tempo da fonte"
 
-#: src/monitor/monitor.cpp:803
+#: src/monitor/monitor.cpp:805
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "A resolução da sua tela não é suficiente para esta ação"
 
-#: src/monitor/monitor.cpp:939 src/monitor/monitor.cpp:975
-#: src/monitor/monitor.cpp:1011
+#: src/monitor/monitor.cpp:941 src/monitor/monitor.cpp:977
+#: src/monitor/monitor.cpp:1013
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Não é possível alterar a zona ao criar uma máscara"
 
-#: src/monitor/monitor.cpp:968 src/monitor/monitor.cpp:1004
+#: src/monitor/monitor.cpp:970 src/monitor/monitor.cpp:1006
 #: src/timeline2/view/timelinecontroller.cpp:1896
 #, kde-format
 msgid "Set Zone"
 msgstr "Definir área"
 
-#: src/monitor/monitor.cpp:1424
+#: src/monitor/monitor.cpp:1426
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Salvar imagem no projeto"
 
-#: src/monitor/monitor.cpp:1424
+#: src/monitor/monitor.cpp:1426
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Salvar imagem"
 
-#: src/monitor/monitor.cpp:1431
+#: src/monitor/monitor.cpp:1433
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exportar imagem usando resolução de origem"
 
-#: src/monitor/monitor.cpp:1971
+#: src/monitor/monitor.cpp:1973
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Sair da criação da máscara ?"
 
-#: src/monitor/monitor.cpp:2079 src/monitor/monitor.cpp:2208
+#: src/monitor/monitor.cpp:2081 src/monitor/monitor.cpp:2210
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 fluxo de áudio"
 msgstr[1] "%1 fluxos de áudio"
 
-#: src/monitor/monitor.cpp:2525
+#: src/monitor/monitor.cpp:2527
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Não é possível iniciar o gerenciador de GLSL do Movit - desative o Movit"
 
-#: src/monitor/monitor.cpp:2567 src/monitor/monitor.cpp:2624
+#: src/monitor/monitor.cpp:2569 src/monitor/monitor.cpp:2626
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29340,18 +29340,18 @@ msgstr ""
 "O filtro alphagrad é necessário para esse recurso, instale o frei0r e "
 "reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2587
+#: src/monitor/monitor.cpp:2589
 #, kde-format
 msgid "Clip has no effects"
 msgstr "O clipe não tem efeitos"
 
-#: src/monitor/monitor.cpp:2589
+#: src/monitor/monitor.cpp:2591
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 "Selecione um clipe na biblioteca multimídia do projeto para comparar o efeito"
 
-#: src/monitor/monitor.cpp:2631
+#: src/monitor/monitor.cpp:2633
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29360,40 +29360,40 @@ msgstr ""
 "A transição 'cairoblend' é necessária para este recurso; instale o 'frei0r' "
 "e reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2707
+#: src/monitor/monitor.cpp:2709
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ative o modo de edição no monitor para editar o efeito"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3216
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Nenhum clipe selecionado no monitor de clipe"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3237
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Não foi possível obter o produtor para o monitor de clipe"
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3319 src/monitor/monitor.cpp:3350
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "Nenhuma zona válida definida. Defina primeiro os pontos de entrada/saída."
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3329
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Criar marcador de intervalo a partir da zona"
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Marcador de intervalo criado a partir da zona"
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3337 src/monitor/monitor.cpp:3358
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, kde-format
 msgid "Failed to create range marker from zone"

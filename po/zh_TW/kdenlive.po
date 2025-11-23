@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-22 00:41+0000\n"
+"POT-Creation-Date: 2025-11-23 00:42+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -7014,7 +7014,7 @@ msgstr "持續時間"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1089 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1094 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -18950,7 +18950,7 @@ msgstr "輸入您的音訊編輯應用程式的路徑"
 msgid "Please set a default application to open audio files"
 msgstr "請設定用於開啟音訊檔案的應用程式"
 
-#: src/bin/bin.cpp:5015 src/core.cpp:652 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5015 src/core.cpp:657 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -19778,14 +19778,14 @@ msgstr "新增標籤"
 msgid "New tag"
 msgstr "建立標籤"
 
-#: src/capture/mediacapture.cpp:288
+#: src/capture/mediacapture.cpp:296
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr "監聽音訊中。按下<b>空白鍵</b>來開始/暫停錄製，<b>Esc</b>來結束。"
 
-#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -19805,26 +19805,26 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "關閉 GPU 處理"
 
-#: src/core.cpp:455
+#: src/core.cpp:460
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr "預設的 Kdenlive 設定檔未設定或無效，請點擊確認來為它設定一個正確的值。"
 
-#: src/core.cpp:467
+#: src/core.cpp:472
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "選擇預設編碼方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:467 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:472 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "編碼方案："
 
-#: src/core.cpp:480
+#: src/core.cpp:485
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -19833,267 +19833,267 @@ msgstr ""
 "指定的設定檔是無效的。已使用預設設定檔「dv_pal」，但您還是可以從 Kdenlive 的"
 "設定面板變更此選項"
 
-#: src/core.cpp:495 src/project/projectmanager.cpp:887
+#: src/core.cpp:500 src/project/projectmanager.cpp:887
 #, kde-format
 msgid "Loading project…"
 msgstr "載入專案中…"
 
-#: src/core.cpp:704
+#: src/core.cpp:709
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "方形 2 條狀"
 
-#: src/core.cpp:705
+#: src/core.cpp:710
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "棋盤狀（小）"
 
-#: src/core.cpp:706
+#: src/core.cpp:711
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "水平窗簾"
 
-#: src/core.cpp:707
+#: src/core.cpp:712
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "圓形"
 
-#: src/core.cpp:708
+#: src/core.cpp:713
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "線性 X"
 
-#: src/core.cpp:709
+#: src/core.cpp:714
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "雙線性 X"
 
-#: src/core.cpp:710
+#: src/core.cpp:715
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "線性 Y"
 
-#: src/core.cpp:711
+#: src/core.cpp:716
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "雙線性 Y"
 
-#: src/core.cpp:712
+#: src/core.cpp:717
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "方形"
 
-#: src/core.cpp:713
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "方形 2"
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "雲朵"
 
-#: src/core.cpp:715
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "時鐘（對稱）"
 
-#: src/core.cpp:716
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "放射條狀"
 
-#: src/core.cpp:717
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "螺旋"
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "螺旋 2"
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "布幕"
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "撕裂"
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "時鐘"
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "長條水平"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "長條垂直"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "兩側長條水平"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "兩側長條垂直"
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "兩側長條斜角（左下/右上）"
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "兩側長條斜角（左上/右下）"
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "對角線左上"
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "對角線右上"
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "矩陣瀑布水平"
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "矩陣瀑布垂直"
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "矩陣蛇行水平"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "矩陣蛇行同步水平"
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "矩陣蛇行垂直"
 
-#: src/core.cpp:736
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "矩陣蛇行同步垂直"
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "兩側 V 字向上"
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "虹膜圓形"
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "雙重虹膜"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "虹膜方框"
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "方塊右下"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "方塊左下"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "方塊中右"
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "時鐘頂部"
 
-#: src/core.cpp:1035
+#: src/core.cpp:1040
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的專案編碼方案是無效的，算繪可能會失敗。"
 
-#: src/core.cpp:1399
+#: src/core.cpp:1404
 #, kde-format
 msgid "Loading clips"
 msgstr "載入素材中"
 
-#: src/core.cpp:1855
+#: src/core.cpp:1860
 #, kde-format
 msgid "Marker %1"
 msgstr "標記 %1"
 
-#: src/core.cpp:2209
+#: src/core.cpp:2214
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20103,12 +20103,12 @@ msgstr ""
 "這會開啟瀏覽器來在以下網址查看 Kdenlive 的線上說明文件：\n"
 " %1"
 
-#: src/core.cpp:2210 src/core.cpp:2221
+#: src/core.cpp:2215 src/core.cpp:2226
 #, kde-format
 msgid "Open Browser"
 msgstr "開啟瀏覽器"
 
-#: src/core.cpp:2220
+#: src/core.cpp:2225
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will open a browser to display Kdenlive's online documentation at "
@@ -20513,7 +20513,7 @@ msgstr "匯出標記資料"
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:421
+#: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
 #: src/effects/effectstack/view/effectstackview.cpp:830
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -21228,7 +21228,7 @@ msgstr "不含視訊軌的音訊"
 msgid "Rendering %1 started"
 msgstr "算繪 <i>%1</i> 已開始"
 
-#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1411
+#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1413
 #, kde-format
 msgid "untitled"
 msgstr "無標題"
@@ -25976,13 +25976,13 @@ msgstr "算繪預覽"
 msgid "Go to Marker…"
 msgstr "跳到標記…"
 
-#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:708
+#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:710
 #, kde-format
 msgid "Create Marker from Zone"
 msgstr "從區段建立標記"
 
-#: src/mainwindow.cpp:669 src/monitor/monitor.cpp:713
-#: src/monitor/monitor.cpp:738
+#: src/mainwindow.cpp:669 src/monitor/monitor.cpp:715
+#: src/monitor/monitor.cpp:740
 #, kde-format
 msgid "Create Marker from Zone Quickly"
 msgstr "從區段快速建立標記"
@@ -27876,7 +27876,7 @@ msgid "Audio streams"
 msgstr "音訊串流"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2094
+#: src/monitor/monitor.cpp:2096
 #, kde-format
 msgid "Merge all streams"
 msgstr "合併所有串流"
@@ -28251,140 +28251,140 @@ msgstr "+5"
 msgid "Extract Zone"
 msgstr "刪除選取區段後前移"
 
-#: src/monitor/monitor.cpp:728
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "將目前圖片設定為縮圖"
 
-#: src/monitor/monitor.cpp:733
+#: src/monitor/monitor.cpp:735
 #, kde-format
 msgid "Create Marker from Zone..."
 msgstr "從區段建立標記..."
 
-#: src/monitor/monitor.cpp:745
+#: src/monitor/monitor.cpp:747
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "總是顯示音訊縮圖"
 
-#: src/monitor/monitor.cpp:759
+#: src/monitor/monitor.cpp:761
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "顯示音量等級"
 
-#: src/monitor/monitor.cpp:766
+#: src/monitor/monitor.cpp:768
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "顯示來源時間碼"
 
-#: src/monitor/monitor.cpp:803
+#: src/monitor/monitor.cpp:805
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "螢幕解析度不夠執行此操作"
 
-#: src/monitor/monitor.cpp:939 src/monitor/monitor.cpp:975
-#: src/monitor/monitor.cpp:1011
+#: src/monitor/monitor.cpp:941 src/monitor/monitor.cpp:977
+#: src/monitor/monitor.cpp:1013
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:968 src/monitor/monitor.cpp:1004
+#: src/monitor/monitor.cpp:970 src/monitor/monitor.cpp:1006
 #: src/timeline2/view/timelinecontroller.cpp:1896
 #, kde-format
 msgid "Set Zone"
 msgstr "設定區段"
 
-#: src/monitor/monitor.cpp:1424
+#: src/monitor/monitor.cpp:1426
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "儲存圖片到專案中"
 
-#: src/monitor/monitor.cpp:1424
+#: src/monitor/monitor.cpp:1426
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "儲存圖片"
 
-#: src/monitor/monitor.cpp:1431
+#: src/monitor/monitor.cpp:1433
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "使用來源解析度匯出圖片"
 
-#: src/monitor/monitor.cpp:1971
+#: src/monitor/monitor.cpp:1973
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "離開遮罩模式？"
 
-#: src/monitor/monitor.cpp:2079 src/monitor/monitor.cpp:2208
+#: src/monitor/monitor.cpp:2081 src/monitor/monitor.cpp:2210
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 個音訊串流"
 
-#: src/monitor/monitor.cpp:2525
+#: src/monitor/monitor.cpp:2527
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "無法初始化 Movit 的 GLSL 管理器，請停用 Movit"
 
-#: src/monitor/monitor.cpp:2567 src/monitor/monitor.cpp:2624
+#: src/monitor/monitor.cpp:2569 src/monitor/monitor.cpp:2626
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr "該功能需要 alphagrad 過濾器，請安裝 frei0r 並重新啟動 Kdenlive"
 
-#: src/monitor/monitor.cpp:2587
+#: src/monitor/monitor.cpp:2589
 #, kde-format
 msgid "Clip has no effects"
 msgstr "素材沒有效果"
 
-#: src/monitor/monitor.cpp:2589
+#: src/monitor/monitor.cpp:2591
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "在專案素材庫中選取素材來比對效果"
 
-#: src/monitor/monitor.cpp:2631
+#: src/monitor/monitor.cpp:2633
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr "該功能需要 cairoblend 轉場特效，請安裝 frei0r 並重新啟動 Kdenlive"
 
-#: src/monitor/monitor.cpp:2707
+#: src/monitor/monitor.cpp:2709
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "在預覽視窗啟用編輯模式來編輯效果"
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3216
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "專案素材庫中沒有選取素材"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3237
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "無法寫入檔案 %1"
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3319 src/monitor/monitor.cpp:3350
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3329
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "從區段建立範圍標記"
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "已從區段建立範圍標記"
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3337 src/monitor/monitor.cpp:3358
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, kde-format
 msgid "Failed to create range marker from zone"

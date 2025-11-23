@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-22 00:41+0000\n"
+"POT-Creation-Date: 2025-11-23 00:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -7113,7 +7113,7 @@ msgstr "Trajanje"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1089 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1094 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, fuzzy, kde-format
@@ -19283,7 +19283,7 @@ msgstr ""
 "Molimo vas da odaberete standardnu aplikaciju za otvaranje zvučnih "
 "dokumenata u dijalogu Podešenja"
 
-#: src/bin/bin.cpp:5015 src/core.cpp:652 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5015 src/core.cpp:657 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20202,14 +20202,14 @@ msgstr "Dodaj traku"
 msgid "New tag"
 msgstr ""
 
-#: src/capture/mediacapture.cpp:288
+#: src/capture/mediacapture.cpp:296
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -20229,14 +20229,14 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Izbriši proxies"
 
-#: src/core.cpp:455
+#: src/core.cpp:460
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:467
+#: src/core.cpp:472
 #, fuzzy, kde-format
 #| msgid "Default Profile"
 msgctxt "@title:window"
@@ -20244,272 +20244,272 @@ msgid "Select Default Profile"
 msgstr "Zadani profil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:467 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:472 src/ui/profiledialog_ui.ui:37
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile:"
 msgstr "Profil"
 
-#: src/core.cpp:480
+#: src/core.cpp:485
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:495 src/project/projectmanager.cpp:887
+#: src/core.cpp:500 src/project/projectmanager.cpp:887
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
 msgstr "Učitavam projekat"
 
-#: src/core.cpp:704
+#: src/core.cpp:709
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr ""
 
-#: src/core.cpp:705
+#: src/core.cpp:710
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:706
+#: src/core.cpp:711
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Centriraj horizontalno"
 
-#: src/core.cpp:707
+#: src/core.cpp:712
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Poluprečnik"
 
-#: src/core.cpp:708
+#: src/core.cpp:713
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Popravi smicanje X"
 
-#: src/core.cpp:709
+#: src/core.cpp:714
 #, fuzzy, kde-format
 #| msgid "Bilinear (good)"
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilinearno (dobro)"
 
-#: src/core.cpp:710
+#: src/core.cpp:715
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Popravi smicanje Y"
 
-#: src/core.cpp:711
+#: src/core.cpp:716
 #, fuzzy, kde-format
 #| msgid "Bilinear (good)"
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilinearno (dobro)"
 
-#: src/core.cpp:712
+#: src/core.cpp:717
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr ""
 
-#: src/core.cpp:713
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr ""
 
-#: src/core.cpp:714
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:715
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:716
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:717
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:718
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:719
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:720
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:721
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:723
+#: src/core.cpp:728
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Centriraj horizontalno"
 
-#: src/core.cpp:724
+#: src/core.cpp:729
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bez poravnanja"
 
-#: src/core.cpp:725
+#: src/core.cpp:730
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Centriraj horizontalno"
 
-#: src/core.cpp:726
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr ""
 
-#: src/core.cpp:727
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:728
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:729
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:730
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:731
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:732
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:733
+#: src/core.cpp:738
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Centriraj horizontalno"
 
-#: src/core.cpp:734
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:735
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:736
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:737
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:738
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr ""
 
-#: src/core.cpp:739
+#: src/core.cpp:744
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Izbriši proxies"
 
-#: src/core.cpp:740
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:741
+#: src/core.cpp:746
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Dno prvo"
 
-#: src/core.cpp:742
+#: src/core.cpp:747
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Dno prvo"
 
-#: src/core.cpp:743
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:744
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:1035
+#: src/core.cpp:1040
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -20517,17 +20517,17 @@ msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Datoteka dokumenta projekta je neispravna, namještanje na standardni: %1"
 
-#: src/core.cpp:1399
+#: src/core.cpp:1404
 #, kde-format
 msgid "Loading clips"
 msgstr "Učitavanje isječaka"
 
-#: src/core.cpp:1855
+#: src/core.cpp:1860
 #, fuzzy, kde-format
 msgid "Marker %1"
 msgstr "Marker"
 
-#: src/core.cpp:2209
+#: src/core.cpp:2214
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20535,13 +20535,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2210 src/core.cpp:2221
+#: src/core.cpp:2215 src/core.cpp:2226
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Medijski reproduktor"
 
-#: src/core.cpp:2220
+#: src/core.cpp:2225
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -20954,7 +20954,7 @@ msgstr "Učitaj markere"
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:421
+#: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
 #: src/effects/effectstack/view/effectstackview.cpp:830
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -21708,7 +21708,7 @@ msgstr "Video bez audio zapisa"
 msgid "Rendering %1 started"
 msgstr "Iscrtavanje <i>%1</i> je započelo"
 
-#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1411
+#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1413
 #, kde-format
 msgid "untitled"
 msgstr "bez naslova"
@@ -26758,14 +26758,14 @@ msgstr "Snimanje Prikaza"
 msgid "Go to Marker…"
 msgstr "Idi na marker..."
 
-#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:708
+#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:710
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Create Marker from Zone"
 msgstr "Izbriši obilježivač"
 
-#: src/mainwindow.cpp:669 src/monitor/monitor.cpp:713
-#: src/monitor/monitor.cpp:738
+#: src/mainwindow.cpp:669 src/monitor/monitor.cpp:715
+#: src/monitor/monitor.cpp:740
 #, kde-format
 msgid "Create Marker from Zone Quickly"
 msgstr ""
@@ -28836,7 +28836,7 @@ msgid "Audio streams"
 msgstr "Zvučni slijed %1"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2094
+#: src/monitor/monitor.cpp:2096
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -29249,79 +29249,79 @@ msgstr ""
 msgid "Extract Zone"
 msgstr "Ekstraktuj zonu"
 
-#: src/monitor/monitor.cpp:728
+#: src/monitor/monitor.cpp:730
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Postavi trenutnu sliku kao ikonicu"
 
-#: src/monitor/monitor.cpp:733
+#: src/monitor/monitor.cpp:735
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Create Marker from Zone..."
 msgstr "Izbriši obilježivač"
 
-#: src/monitor/monitor.cpp:745
+#: src/monitor/monitor.cpp:747
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "Prikaži audio ikonice"
 
-#: src/monitor/monitor.cpp:759
+#: src/monitor/monitor.cpp:761
 #, fuzzy, kde-format
 msgid "Show Audio Levels"
 msgstr "Podesi  audio referencu"
 
-#: src/monitor/monitor.cpp:766
+#: src/monitor/monitor.cpp:768
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "Nadzor snimanja"
 
-#: src/monitor/monitor.cpp:803
+#: src/monitor/monitor.cpp:805
 #, fuzzy, kde-format
 #| msgid "You must select one transition for this action"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Morate izabrati jedan prenos za ovu aktivnost"
 
-#: src/monitor/monitor.cpp:939 src/monitor/monitor.cpp:975
-#: src/monitor/monitor.cpp:1011
+#: src/monitor/monitor.cpp:941 src/monitor/monitor.cpp:977
+#: src/monitor/monitor.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Cannot change grouped clips"
 msgid "Cannot change zone when creating a mask"
 msgstr "Nije moguće izmjeniti grupisane snimke"
 
-#: src/monitor/monitor.cpp:968 src/monitor/monitor.cpp:1004
+#: src/monitor/monitor.cpp:970 src/monitor/monitor.cpp:1006
 #: src/timeline2/view/timelinecontroller.cpp:1896
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
 msgstr "Postavi petlju u"
 
-#: src/monitor/monitor.cpp:1424
+#: src/monitor/monitor.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Sačuvaj DVD projekat"
 
-#: src/monitor/monitor.cpp:1424
+#: src/monitor/monitor.cpp:1426
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Sačuvaj obilježivač"
 
-#: src/monitor/monitor.cpp:1431
+#: src/monitor/monitor.cpp:1433
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1971
+#: src/monitor/monitor.cpp:1973
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "Uredi trajanje"
 
-#: src/monitor/monitor.cpp:2079 src/monitor/monitor.cpp:2208
+#: src/monitor/monitor.cpp:2081 src/monitor/monitor.cpp:2210
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "%1 audio stream"
@@ -29330,72 +29330,72 @@ msgstr[0] "Zvučni slijed %1"
 msgstr[1] "Zvučni slijed %1"
 msgstr[2] "Zvučni slijed %1"
 
-#: src/monitor/monitor.cpp:2525
+#: src/monitor/monitor.cpp:2527
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2567 src/monitor/monitor.cpp:2624
+#: src/monitor/monitor.cpp:2569 src/monitor/monitor.cpp:2626
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2587
+#: src/monitor/monitor.cpp:2589
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Snimak nema markere"
 
-#: src/monitor/monitor.cpp:2589
+#: src/monitor/monitor.cpp:2591
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/monitor/monitor.cpp:2631
+#: src/monitor/monitor.cpp:2633
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2707
+#: src/monitor/monitor.cpp:2709
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3214
+#: src/monitor/monitor.cpp:3216
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in Clip Monitor"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/monitor/monitor.cpp:3235
+#: src/monitor/monitor.cpp:3237
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/monitor/monitor.cpp:3317 src/monitor/monitor.cpp:3348
+#: src/monitor/monitor.cpp:3319 src/monitor/monitor.cpp:3350
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3327
+#: src/monitor/monitor.cpp:3329
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3333 src/monitor/monitor.cpp:3354
+#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3335 src/monitor/monitor.cpp:3356
+#: src/monitor/monitor.cpp:3337 src/monitor/monitor.cpp:3358
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
