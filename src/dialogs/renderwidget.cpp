@@ -735,7 +735,6 @@ void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 
 void RenderWidget::reloadGuides()
 {
-    double projectDuration = GenTime(pCore->projectDuration() - 1, pCore->getCurrentFps()).ms() / 1000;
     QVariant startData = m_view.guide_start->currentData();
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
@@ -774,7 +773,7 @@ void RenderWidget::reloadGuides()
                     m_view.guide_end->addItem(zoneOut, displayText, pos.seconds());
                 }
             }
-            m_view.guide_end->addItem(zoneOut, i18n("End"), projectDuration);
+            m_view.guide_end->addItem(zoneOut, i18n("End"), -1);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);
@@ -2378,19 +2377,34 @@ void RenderWidget::showRenderDuration(int projectLength)
                 } else {
                     double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                     double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-                    int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    int out;
+                    if (guideEnd == -1) {
+                        out = pCore->projectDuration() - 1;
+                    } else {
+                        out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    }
                     m_renderDuration = out - int(GenTime(guideStart).frames(fps));
                 }
             } else {
                 double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                 double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-                int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                int out;
+                if (guideEnd == -1) {
+                    out = pCore->projectDuration() - 1;
+                } else {
+                    out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                }
                 m_renderDuration = out - int(GenTime(guideStart).frames(fps));
             }
         } else {
             double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
             double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-            int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            int out;
+            if (guideEnd == -1) {
+                out = pCore->projectDuration() - 1;
+            } else {
+                out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            }
             m_renderDuration = out - int(GenTime(guideStart).frames(fps));
         }
     } else {
