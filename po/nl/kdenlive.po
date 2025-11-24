@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-23 02:37+0000\n"
+"POT-Creation-Date: 2025-11-24 02:35+0000\n"
 "PO-Revision-Date: 2025-11-22 18:19+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -8517,7 +8517,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:777 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:776 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -9831,7 +9831,7 @@ msgstr "RGB aanpassing"
 msgid "Simple color adjustment"
 msgstr "Eenvoudige kleuren instellen"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2529
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2525
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -9840,7 +9840,7 @@ msgstr "Rood"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2530
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2526
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -9851,7 +9851,7 @@ msgstr "Groen"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2531
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2527
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -13769,14 +13769,14 @@ msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
 msgstr "<![CDATA[<b><u>Kleurtoonverschuiving</u></b> rood]]>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2532
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2528
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2533
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2529
 #, kde-format
 msgid "Cyan"
 msgstr "Cyaan"
@@ -19582,7 +19582,7 @@ msgstr "Afspeellijst"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1682 src/project/projectmanager.cpp:1684
+#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1679
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20749,7 +20749,7 @@ msgstr ""
 "Het gegeven profiel is ongeldig. De standaard zal zijn het profiel \"dv_pal"
 "\", maar u kunt dit wijzigen in het paneel voor instellingen van Kdenlive"
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:887
+#: src/core.cpp:500 src/project/projectmanager.cpp:882
 #, kde-format
 msgid "Loading project…"
 msgstr "Project wordt geladen…"
@@ -21440,8 +21440,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Markeringsgegevens exporteren"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2181
-#: src/dialogs/renderwidget.cpp:2205 src/doc/kdenlivedoc.cpp:767
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2180
+#: src/dialogs/renderwidget.cpp:2204 src/doc/kdenlivedoc.cpp:767
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
@@ -21455,7 +21455,7 @@ msgstr "Markeringsgegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1993 src/project/projectmanager.cpp:1999
+#: src/project/projectmanager.cpp:1988 src/project/projectmanager.cpp:1994
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21548,7 +21548,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Indien onzeker, probeer :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1882
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1877
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -21913,7 +21913,7 @@ msgstr "Log tonen"
 msgid "Show Xml"
 msgstr "XML tonen"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2003
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2002
 #, kde-format
 msgid "Waiting…"
 msgstr "Wacht..."
@@ -22085,24 +22085,24 @@ msgstr "Document met succes gedeeld"
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "U kunt het gedeelde document vinden op: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:759
+#: src/dialogs/renderwidget.cpp:758
 #, kde-format
 msgid "Beginning"
 msgstr "Startend"
 
-#: src/dialogs/renderwidget.cpp:899
+#: src/dialogs/renderwidget.cpp:898
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Een clip voor het renderen toevoegen aan tijdlijn"
 
-#: src/dialogs/renderwidget.cpp:905
+#: src/dialogs/renderwidget.cpp:904
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Kan het melt programma; benodigd voor renderen (onderdeel van MLT), niet "
 "vinden"
 
-#: src/dialogs/renderwidget.cpp:914
+#: src/dialogs/renderwidget.cpp:913
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -22114,25 +22114,25 @@ msgstr ""
 "uit synchronisatie raken van audio/video.\n"
 "We bevelen codering overzetten naar een formaat vriendelijk voor bewerken."
 
-#: src/dialogs/renderwidget.cpp:923
+#: src/dialogs/renderwidget.cpp:922
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Toch renderen"
 
-#: src/dialogs/renderwidget.cpp:929
+#: src/dialogs/renderwidget.cpp:928
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Codering overzetten"
 
-#: src/dialogs/renderwidget.cpp:951 src/dialogs/renderwidget.cpp:1976
+#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1975
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
-#: src/dialogs/renderwidget.cpp:959 src/monitor/recmanager.cpp:181
+#: src/dialogs/renderwidget.cpp:958 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -22141,12 +22141,12 @@ msgstr ""
 "De map %1 kon niet gemaakt worden.\n"
 "Zorg ervoor dat U de nodige rechten heeft."
 
-#: src/dialogs/renderwidget.cpp:1031
+#: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "De volgende fouten deden zich voor tijdens de poging te renderen"
 
-#: src/dialogs/renderwidget.cpp:1071 src/dialogs/renderwidget.cpp:1989
+#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1988
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22155,47 +22155,47 @@ msgstr ""
 "Een opdracht schrijft al naar dit bestand:<br /><b>%1</b><br />Stop die "
 "opdracht als u deze wilt overschrijven…"
 
-#: src/dialogs/renderwidget.cpp:1072 src/dialogs/renderwidget.cpp:1990
+#: src/dialogs/renderwidget.cpp:1071 src/dialogs/renderwidget.cpp:1989
 #, kde-format
 msgid "Already running"
 msgstr "Loopt reeds"
 
-#: src/dialogs/renderwidget.cpp:1100
+#: src/dialogs/renderwidget.cpp:1099
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video zonder audio track"
 
-#: src/dialogs/renderwidget.cpp:1102
+#: src/dialogs/renderwidget.cpp:1101
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio zonder videotrack"
 
-#: src/dialogs/renderwidget.cpp:1184 src/main.cpp:462
+#: src/dialogs/renderwidget.cpp:1183 src/main.cpp:462
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Renderen %1 gestart"
 
-#: src/dialogs/renderwidget.cpp:1249 src/monitor/monitor.cpp:1413
+#: src/dialogs/renderwidget.cpp:1248 src/monitor/monitor.cpp:1413
 #, kde-format
 msgid "untitled"
 msgstr "naamloos"
 
-#: src/dialogs/renderwidget.cpp:1288
+#: src/dialogs/renderwidget.cpp:1287
 #, kde-format
 msgid "No preset selected"
 msgstr "Geen voor-instelling geselecteerd"
 
-#: src/dialogs/renderwidget.cpp:1290
+#: src/dialogs/renderwidget.cpp:1289
 #, kde-format
 msgid "No matching preset"
 msgstr "Geen overeenkomende voorinstelling"
 
-#: src/dialogs/renderwidget.cpp:1302
+#: src/dialogs/renderwidget.cpp:1301
 #, kde-format
 msgid "Invalid preset"
 msgstr "Ongeldige voorinstelling"
 
-#: src/dialogs/renderwidget.cpp:1443
+#: src/dialogs/renderwidget.cpp:1442
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -22204,115 +22204,115 @@ msgstr ""
 "Renderen zonder audio en video werkt niet. Schakel minstens een van beiden "
 "in."
 
-#: src/dialogs/renderwidget.cpp:1648
+#: src/dialogs/renderwidget.cpp:1647
 #, kde-format
 msgid "Remaining time "
 msgstr "Resterende tijd "
 
-#: src/dialogs/renderwidget.cpp:1650 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1649 src/dialogs/renderwidget.cpp:1752
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dag "
 msgstr[1] "%1 dagen "
 
-#: src/dialogs/renderwidget.cpp:1662
+#: src/dialogs/renderwidget.cpp:1661
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (frame %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1683
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Minder dan %1MB van beschikbaar geheugen resteert."
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1754
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Renderen over %1 voltooid"
 
-#: src/dialogs/renderwidget.cpp:1766
+#: src/dialogs/renderwidget.cpp:1765
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderen van %1 is klaar in %2"
 
-#: src/dialogs/renderwidget.cpp:1769
+#: src/dialogs/renderwidget.cpp:1768
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "Eerste passage van renderen van %1 is voltooid"
 
-#: src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:1788
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) is gecrasht</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1791
+#: src/dialogs/renderwidget.cpp:1790
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) van %1 is vastgelopen</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1858 src/ui/renderwidget_ui.ui:910
+#: src/dialogs/renderwidget.cpp:1857 src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Abort Job"
 msgstr "Taak afbreken"
 
-#: src/dialogs/renderwidget.cpp:1861
+#: src/dialogs/renderwidget.cpp:1860
 #, kde-format
 msgid "Remove Job"
 msgstr "Opdracht verwijderen"
 
-#: src/dialogs/renderwidget.cpp:2314
+#: src/dialogs/renderwidget.cpp:2313
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Clip in de tijdlijn toevoegen alvorens te renderen"
 
-#: src/dialogs/renderwidget.cpp:2321
+#: src/dialogs/renderwidget.cpp:2320
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "Uitvoerlocatie is niet beschrijfbaar, selecteer een andere"
 
-#: src/dialogs/renderwidget.cpp:2324
+#: src/dialogs/renderwidget.cpp:2323
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Uw schijf is bijna vol, renderen kan mislukken"
 
-#: src/dialogs/renderwidget.cpp:2327
+#: src/dialogs/renderwidget.cpp:2326
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "Uw schijfruimte is beperkt (%1)"
 
-#: src/dialogs/renderwidget.cpp:2337
+#: src/dialogs/renderwidget.cpp:2336
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Bestandslengte na renderen: %1"
 
-#: src/dialogs/renderwidget.cpp:2340
+#: src/dialogs/renderwidget.cpp:2339
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Tijdcodeverschuiving:"
 
-#: src/dialogs/renderwidget.cpp:2345
+#: src/dialogs/renderwidget.cpp:2344
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Er ontbreekt een clip gebruikt in het project.</b>"
 msgstr[1] "<b>Er ontbreken %1 clips gebruikt in het project.</b>"
 
-#: src/dialogs/renderwidget.cpp:2347
+#: src/dialogs/renderwidget.cpp:2346
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Eén ontbrekende clip (niet gebruikt)."
 msgstr[1] "%1 ontbrekende clips (niet gebruikt)."
 
-#: src/dialogs/renderwidget.cpp:2349
+#: src/dialogs/renderwidget.cpp:2348
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 ontbrekende clips (<b>%2 worden gebruikt in het project</b>)."
 
-#: src/dialogs/renderwidget.cpp:2464
+#: src/dialogs/renderwidget.cpp:2478
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22321,12 +22321,12 @@ msgstr ""
 "Snelheidsparameters van codec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2484
+#: src/dialogs/renderwidget.cpp:2498
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Aan huidig project toevoegen"
 
-#: src/dialogs/renderwidget.cpp:2493
+#: src/dialogs/renderwidget.cpp:2507
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -24864,8 +24864,8 @@ msgstr "De volgende filters/transities zijn uit het project verwijderd:"
 msgid "Invalid file path"
 msgstr "Ongeldig bestandspad"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:872
-#: src/project/projectmanager.cpp:914
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:867
+#: src/project/projectmanager.cpp:909
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kon beschadigd bestand niet herstellen."
@@ -24943,13 +24943,13 @@ msgstr ""
 "Het projectbestand is bijgewerkt naar de laatst bekende Kdenlive "
 "documentversie, maar helaas kon er geen backup %1 gemaakt worden."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1556
-#: src/project/projectmanager.cpp:1592
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1587
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2490
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Untitled"
@@ -25028,7 +25028,7 @@ msgstr[1] "Verwijder proxy clips"
 msgid "Clip type does not support proxies"
 msgstr "Clip-type ondersteunt geen proxies"
 
-#: src/doc/kdenlivedoc.cpp:1905
+#: src/doc/kdenlivedoc.cpp:1901
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -25038,14 +25038,14 @@ msgstr ""
 "Het project gebruikt een niet-standaard framesnelheid (%1), dit zal "
 "resulteren in misplaatste clips en frame-verschuiving."
 
-#: src/doc/kdenlivedoc.cpp:2023
+#: src/doc/kdenlivedoc.cpp:2019
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Waarschuwing: niet standaard fps, wordt aangepast naar dichts bij zijnd "
 "geheel getal. "
 
-#: src/doc/kdenlivedoc.cpp:2041
+#: src/doc/kdenlivedoc.cpp:2037
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -25054,43 +25054,43 @@ msgstr ""
 "Uw standaard projectprofiel is %1, maar het profiel (%2) van uw clip is %3.\n"
 "Wilt u het standaard profiel voor komende projecten wijzigingen?"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2039
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standaard projectprofiel wijzigen"
 
-#: src/doc/kdenlivedoc.cpp:2043
+#: src/doc/kdenlivedoc.cpp:2039
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standaard wijzigen naar %1"
 
-#: src/doc/kdenlivedoc.cpp:2044
+#: src/doc/kdenlivedoc.cpp:2040
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Huidige standaard %1 behouden"
 
-#: src/doc/kdenlivedoc.cpp:2044
+#: src/doc/kdenlivedoc.cpp:2040
 #, kde-format
 msgid "Ask me later"
 msgstr "Later opnieuw vragen"
 
-#: src/doc/kdenlivedoc.cpp:2064
+#: src/doc/kdenlivedoc.cpp:2060
 #, kde-format
 msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2066 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2062 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/doc/kdenlivedoc.cpp:2068
+#: src/doc/kdenlivedoc.cpp:2064
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Omschakelen naar clip (%1) profiel %2?"
 
-#: src/doc/kdenlivedoc.cpp:2073
+#: src/doc/kdenlivedoc.cpp:2069
 #, kde-format
 msgid ""
 "\n"
@@ -25099,7 +25099,7 @@ msgstr ""
 "\n"
 "Profiel fps aangepast van originele %1"
 
-#: src/doc/kdenlivedoc.cpp:2077
+#: src/doc/kdenlivedoc.cpp:2073
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -25109,7 +25109,7 @@ msgstr ""
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2887 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:2883 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28343,12 +28343,12 @@ msgstr ""
 "Dit zal alle tijdelijke bestanden van<br/><b>%1</b> naar <b>%2</b> "
 "verplaatsen,br/>, het projectbestand zal dan herladen worden"
 
-#: src/mainwindow.cpp:2470 src/project/projectmanager.cpp:627
+#: src/mainwindow.cpp:2470 src/project/projectmanager.cpp:623
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Kan bewerking niet uitvoeren, ongeldig document-id: %1"
 
-#: src/mainwindow.cpp:2475 src/project/projectmanager.cpp:633
+#: src/mainwindow.cpp:2475 src/project/projectmanager.cpp:629
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Kan bewerking niet uitvoeren, doelmap bestaat al: %1"
@@ -31483,12 +31483,12 @@ msgstr "Kopie opslaan…"
 msgid "Open Backup File…"
 msgstr "Back-up-bestand openen…"
 
-#: src/project/projectmanager.cpp:448
+#: src/project/projectmanager.cpp:444
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
-#: src/project/projectmanager.cpp:450 src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1814
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31497,17 +31497,17 @@ msgstr ""
 "Het project <b>\"%1\"</b> is gewijzigd.\n"
 "Wilt U de wijzigingen bewaren?"
 
-#: src/project/projectmanager.cpp:569
+#: src/project/projectmanager.cpp:565
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Projectbestand <br><b>%1</b> opslaan is mislukt"
 
-#: src/project/projectmanager.cpp:602
+#: src/project/projectmanager.cpp:598
 #, kde-format
 msgid "Saving successful"
 msgstr "Opslaan is gelukt"
 
-#: src/project/projectmanager.cpp:615
+#: src/project/projectmanager.cpp:611
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -31519,43 +31519,43 @@ msgstr ""
 "bestanden. Dit zal alle tijdelijke bestanden van <b>%1</b> naar <b>%2</b> "
 "verplaatsen, het projectbestand zal daarna herladen worden"
 
-#: src/project/projectmanager.cpp:656
+#: src/project/projectmanager.cpp:652
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopie opslaan"
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:767
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Automatisch opgeslagen bestand bestaat. Wilt u nu ervan herstellen?"
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:767
 #, kde-format
 msgid "File Recovery"
 msgstr "Bestand herstel"
 
-#: src/project/projectmanager.cpp:772 src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:897
 #, kde-format
 msgid "Recover"
 msgstr "Herstel"
 
-#: src/project/projectmanager.cpp:772
+#: src/project/projectmanager.cpp:768
 #, kde-format
 msgid "Do not recover"
 msgstr "Niet herstellen"
 
-#: src/project/projectmanager.cpp:816
+#: src/project/projectmanager.cpp:811
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "Bestand %1 bestaat niet"
 
-#: src/project/projectmanager.cpp:849
+#: src/project/projectmanager.cpp:844
 #, kde-format
 msgid "Opening file %1"
 msgstr "Bezig met bestand %1 aan het openen"
 
-#: src/project/projectmanager.cpp:901
+#: src/project/projectmanager.cpp:896
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31566,29 +31566,29 @@ msgstr ""
 "%1\n"
 "Wilt u een backup-bestand openen?"
 
-#: src/project/projectmanager.cpp:902 src/project/projectmanager.cpp:1146
+#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Error opening file"
 msgstr "Bestand openen lukte niet"
 
-#: src/project/projectmanager.cpp:902 src/project/projectmanager.cpp:1147
+#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1142
 #, kde-format
 msgid "Open Backup"
 msgstr "Open back-up"
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:913
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Kon de reservekopie van het projectbestand niet openen."
 
-#: src/project/projectmanager.cpp:933
+#: src/project/projectmanager.cpp:928
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Uw project is opgewaardeerd, een backup zal aangemaakt worden bij volgende "
 "keer opslaan"
 
-#: src/project/projectmanager.cpp:935
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -31596,17 +31596,17 @@ msgstr ""
 "Uw project is gewijzigd bij openen, een backup zal aangemaakt worden bij "
 "volgende keer opslaan"
 
-#: src/project/projectmanager.cpp:1006
+#: src/project/projectmanager.cpp:1001
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Tijdlijn wordt geladen…"
 
-#: src/project/projectmanager.cpp:1029
+#: src/project/projectmanager.cpp:1024
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sequenties worden gebouwd…"
 
-#: src/project/projectmanager.cpp:1173
+#: src/project/projectmanager.cpp:1168
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31615,7 +31615,7 @@ msgstr ""
 "Kan het project-bestand niet openen. Fout:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1213
+#: src/project/projectmanager.cpp:1208
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31624,12 +31624,12 @@ msgstr ""
 "Dit verwijdert alle wijzigingen sinds de laatste opslag van het project. "
 "Wilt U doorgaan?"
 
-#: src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1209
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Terugkeren naar laatste bewaarde versie"
 
-#: src/project/projectmanager.cpp:1313
+#: src/project/projectmanager.cpp:1308
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31638,23 +31638,23 @@ msgstr ""
 "Project was beschadigd, kan geen reservekopie maken. Sluit en heropen uw "
 "projectbestand om de laatste reservekopie te herstellen"
 
-#: src/project/projectmanager.cpp:1534
+#: src/project/projectmanager.cpp:1529
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fout bij projectmap verplaatsen, geen toegang tot cachemap "
 
-#: src/project/projectmanager.cpp:1570
+#: src/project/projectmanager.cpp:1565
 #, kde-format
 msgid "Moving project folder"
 msgstr "Projectmap wordt verplaatst"
 
-#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1716
-#: src/project/projectmanager.cpp:1720
+#: src/project/projectmanager.cpp:1656 src/project/projectmanager.cpp:1711
+#: src/project/projectmanager.cpp:1715
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequentie 1"
 
-#: src/project/projectmanager.cpp:1672
+#: src/project/projectmanager.cpp:1667
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -31662,13 +31662,13 @@ msgstr ""
 "Projectbestand is beschadigd -tracks laden is mislukt. Probeer een "
 "reservekopiebestand te vinden?"
 
-#: src/project/projectmanager.cpp:1811 src/project/projectmanager.cpp:1824
-#: src/project/projectmanager.cpp:1848 src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1806 src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1843 src/project/projectmanager.cpp:1852
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projectprofiel wijzigen afgebroken"
 
-#: src/project/projectmanager.cpp:1987
+#: src/project/projectmanager.cpp:1982
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31677,12 +31677,12 @@ msgstr ""
 "Uitvoerbestand %1 bestaat al.\n"
 "Wilt u het overschrijven?"
 
-#: src/project/projectmanager.cpp:2012
+#: src/project/projectmanager.cpp:2007
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profiel gewijzigd"
 
-#: src/project/projectmanager.cpp:2076
+#: src/project/projectmanager.cpp:2071
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31691,28 +31691,28 @@ msgstr ""
 "Kan geen tijdlijn uit deze clip maken:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2159
+#: src/project/projectmanager.cpp:2154
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Een clip met sequentie importeren, dit is nu in een experimentele status"
 
-#: src/project/projectmanager.cpp:2404
+#: src/project/projectmanager.cpp:2399
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:2414
+#: src/project/projectmanager.cpp:2409
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Aanmaken van sequentie is mislukt"
 
-#: src/project/projectmanager.cpp:2441
+#: src/project/projectmanager.cpp:2436
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Kan geen sequentie in huidige tijdlijn invoegen."
 
-#: src/project/projectmanager.cpp:2445
+#: src/project/projectmanager.cpp:2440
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"
