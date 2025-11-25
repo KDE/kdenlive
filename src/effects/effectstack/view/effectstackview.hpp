@@ -169,4 +169,5 @@ Q_SIGNALS:
     void checkDragScrolling();
     void updateEffectsGroupesInstances();
     void abortSam();
+    void effectsCountChanged();
 };

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2145" tag="ladspa.2145" ladspaid="2145" type="audio">
+   <name>TAP Scaling Limiter</name>
+   <description><![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>
+   Achieves signal level limiting without audible artifacts.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" decimals="1" default="0.0" max="20.0" min="-30.0" suffix="dB">
+      <name>Limit Level</name>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="0.0" max="20.0" min="-30.0" suffix="dB">
+      <name>Output Volume</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

@@ -78,10 +78,15 @@ void TimelineWaveform::drawWaveformPath(QPainter *painter, const int ch, const i
     const auto lineHeight = channelHeight * level * m_normalizeFactor / std::numeric_limits<int16_t>::max();
     path.lineTo(width() + extraSpace, yMiddle + lineHeight / 2);
     path.lineTo(width() + extraSpace, yMiddle);
-
+    if (!m_opaquePaint) {
+        painter->setCompositionMode(QPainter::CompositionMode_SourceIn);
+    }
     painter->drawPath(path);                          // draw top waveform
     const QTransform tr(1, 0, 0, -1, 0, 2 * yMiddle); // mirror it
     painter->drawPath(tr.map(path));                  // draw bottom waveform
+    if (!m_opaquePaint) {
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+    }
 }
 
 void TimelineWaveform::compute()
@@ -183,7 +188,13 @@ void TimelineWaveform::paint(QPainter *painter)
         if (m_pointsPerPixel > 1) {
             painter->setBrush(Qt::NoBrush);
             painter->setPen(fgColor);
+            if (!m_opaquePaint) {
+                painter->setCompositionMode(QPainter::CompositionMode_SourceIn);
+            }
             drawWaveformLines(painter, ch, channels, yMiddle, channelHeight);
+            if (!m_opaquePaint) {
+                painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+            }
         } else {
             painter->setPen(Qt::NoPen);
             painter->setBrush(fgColor);

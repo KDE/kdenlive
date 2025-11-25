@@ -13,7 +13,7 @@ import QtQuick.Controls 2.15
 
 import org.kde.kdenlive as K
 import 'TimelineLogic.js' as Logic
-
+import 'Utils.js' as Utils
 
 Rectangle {
     id: root
@@ -28,6 +28,7 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
+    property bool captureRightClick: false
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
@@ -280,14 +281,6 @@ Rectangle {
     function getMouseX() {
         var posInWidget = timeline.getMousePosInTimeline()
         return Math.max(0, posInWidget.x - trackHeaders.width)
-        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
-            return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) - scrollView.contentX
-        }
-        if (tracksArea.containsMouse) {
-            return tracksArea.mouseX
-        } else {
-            return -1;
-        }
     }
 
     function getScrollPos() {
@@ -481,7 +474,7 @@ function getTrackColor(audio, header) {
     property bool autoScrolling: timeline.autoScroll
     property bool blockAutoScroll: false
     property int duration: timeline.duration
-    property color audioColor: timeline.audioColor
+    property color audioColor: Utils.mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.3)
     property color videoColor: timeline.videoColor
     property color titleColor: timeline.titleColor
     property color imageColor: timeline.imageColor
@@ -796,7 +789,9 @@ function getTrackColor(audio, header) {
                     fakeFrame = moveData[0]
                     fakeTrack = moveData[1]
                     timeline.activeTrack = fakeTrack
-                    //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
+                    if (!controller.normalEdit()) {
+                        controller.requestFakeClipMove(clipBeingDroppedId, fakeTrack, fakeFrame, true, false, false)
+                    }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
                 if (offset != 0) {
@@ -996,23 +991,24 @@ function getTrackColor(audio, header) {
                 // Padding between toolbar and track headers.
                 width: parent.width
                 height: ruler.height
-                Button {
+                ToolButton {
                     text: metrics.elidedText
                     font: miniFont
                     flat: true
+                    icon.name: 'tools-wizard'
                     anchors.fill: parent
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
-                    ToolTip.text: i18n("Show master effects")
+                    ToolTip.text: i18n("Show sequence effects")
                     TextMetrics {
                         id: metrics
                         font: miniFont
                         elide: Text.ElideRight
                         elideWidth: root.headerWidth * 0.8
-                        text: root.addedSequenceName.length == 0 ? i18n("Master") : root.addedSequenceName
+                        text: root.addedSequenceName.length == 0 ? i18n("Sequence") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
@@ -1812,22 +1808,18 @@ function getTrackColor(audio, header) {
                                                     return
                                                 }
                                             }
+                                            var moveData
                                             if (dragProxy.isComposition) {
-                                                var moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
+                                                moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
                                                 dragProxyArea.dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
                                             } else {
-                                                if (!controller.normalEdit() && dragProxy.masterObject.parent !== dragContainer) {
-                                                    var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y)
-                                                    dragProxy.masterObject.parent = dragContainer
-                                                    pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
-                                                    dragProxy.masterObject.x = pos.x
-                                                    dragProxy.masterObject.y = pos.y
-                                                }
-                                                var moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
+                                                moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
                                                 dragProxyArea.dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
-                                                //timeline.getItemMovingTrack(dragProxy.draggedItem)
+                                                if (!controller.normalEdit()) {
+                                                    controller.requestFakeClipMove(dragProxy.draggedItem, timeline.activeTrack, dragProxyArea.dragFrame, true, false, false)
+                                                }
                                             }
                                             var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
@@ -1918,10 +1910,11 @@ function getTrackColor(audio, header) {
                             Column {
                                 id: tracksContainer
                                 Repeater { id: tracksRepeater; model: trackDelegateModel }
-                                Item {
-                                    id: dragContainer
-                                    z: 100
-                                }
+                            }
+                            Item {
+                                id: dragContainer
+                                anchors.fill: tracksContainer
+                                z: 100
                             }
                             Rectangle {
                                 id: sameTrackIndicator
@@ -1956,7 +1949,7 @@ function getTrackColor(audio, header) {
                         Item {
                             id: recordPlaceHolder
                             // Used to determine if drag start should trigger an event
-                            property var startTime: 0
+                            property int startTime: 0
                             property double currentLevel
                             property var recModel: []
                             property int channels: 1

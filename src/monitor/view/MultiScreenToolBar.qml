@@ -20,7 +20,9 @@ MouseArea {
         scenetoolbar.opacity = 1
     }
     onExited: {
-        scenetoolbar.opacity = 0
+        if (!zoomButton.menuVisible) {
+            scenetoolbar.opacity = 0
+        }
     }
 
     Rectangle {
@@ -60,21 +62,8 @@ MouseArea {
                     controller.triggerAction('monitor_fullscreen')
                 }
             }
-            Kdenlive.MonitorToolButton {
-                iconName: "zoom-in"
-                toolTipText: i18n("Zoom in")
-                onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomin')
-                }
-            }
-            Kdenlive.MonitorToolButton {
-                iconName: "zoom-out"
-                toolTipText: i18n("Zoom out")
-                onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomout')
-                }
+            Kdenlive.MonitorZoomButton {
+                id: zoomButton
             }
             Kdenlive.MonitorToolButton {
                 objectName: "moveBar"

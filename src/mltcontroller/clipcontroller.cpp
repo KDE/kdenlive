@@ -26,8 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileInfo>
 #include <QPixmap>
 
-std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
-
 ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer, const QDomElement &description)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
@@ -123,7 +121,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     int id = m_controllerBinId.toInt();
     m_effectStack = EffectStackModel::construct(m_masterProducer, ObjectId(KdenliveObjectType::BinClip, id, QUuid()), pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
-        m_masterProducer = ClipController::mediaUnavailable;
+        m_masterProducer = std::shared_ptr<Mlt::Producer>(pCore->mediaUnavailable->cut());
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
@@ -293,7 +291,15 @@ void ClipController::getInfoForProducer()
                 m_properties = new Mlt::Properties(m_masterProducer->parent().get_properties());
                 return getInfoForProducer();*/
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
-        if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."))) {
+        bool isSlideShow = m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."));
+        if (!isSlideShow && m_path.contains(QLatin1Char('%'))) {
+            // Check if we have something like image-%04d
+            const QRegularExpression regexp("%\\d+d$");
+            if (regexp.match(QFileInfo(m_path).baseName()).hasMatch()) {
+                isSlideShow = true;
+            }
+        }
+        if (isSlideShow) {
             m_clipType = ClipType::SlideShow;
         } else {
             m_clipType = ClipType::Image;

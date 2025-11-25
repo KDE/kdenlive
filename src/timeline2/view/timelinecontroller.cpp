@@ -1492,6 +1492,10 @@ void TimelineController::editGuide(int frame)
     }
     auto guideModel = m_model->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
+    if (!guideModel->hasMarker(pos)) {
+        pCore->displayMessage(i18n("No marker at frame %1", frame), ErrorMessage, 500);
+        return;
+    }
     const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
     auto clip = pCore->projectItemModel()->getClipByBinID(binId);
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
@@ -1519,6 +1523,11 @@ int TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
         return newFrame;
     }
     return -1;
+}
+
+void TimelineController::pauseGuideSorting(bool pause)
+{
+    m_model->getFilteredGuideModel()->setDynamicSortFilter(!pause);
 }
 
 bool TimelineController::moveGuidesInRange(int start, int end, int offset)
@@ -3852,7 +3861,7 @@ void TimelineController::pasteEffects(int targetId)
         pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
         return;
     }
-    const QStringList effectSource = copiedItems.documentElement().attribute(QStringLiteral("mainClip"), QStringLiteral()).split(QLatin1Char(';'));
+    const QStringList effectSource = copiedItems.documentElement().attribute(QStringLiteral("mainClip")).split(QLatin1Char(';'));
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     if (clips.isEmpty()) {
         pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
@@ -4746,8 +4755,7 @@ QColor TimelineController::targetTextColor() const
 
 QColor TimelineController::audioColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::PositiveText).color().darker(200);
+    return KdenliveSettings::thumbColor1().darker(150);
 }
 
 QColor TimelineController::titleColor() const
@@ -4785,7 +4793,7 @@ QColor TimelineController::lockedColor() const
 QColor TimelineController::groupColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::ActiveText).color();
+    return scheme.foreground(KColorScheme::ActiveText).color().darker(150);
 }
 
 QColor TimelineController::selectionColor() const
@@ -4959,7 +4967,7 @@ QString TimelineController::audioZoomText() const
 
 void TimelineController::showMasterEffects()
 {
-    Q_EMIT showItemEffectStack(i18n("Master effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
+    Q_EMIT showItemEffectStack(i18n("Sequence effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
 }
 
 bool TimelineController::refreshIfVisible(int cid)

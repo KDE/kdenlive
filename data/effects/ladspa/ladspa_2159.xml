@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2159" tag="ladspa.2159" ladspaid="2159" type="audio">
+    <name>TAP Chorus/Flange</name>
+    <description><![CDATA[TAP Chorus/Flange (LADSPA 2159)<br>
+    Creates traditional Chorus and Flanger effects, spiced up a bit to make use of stereo processing. It sounds best on guitar and synth tracks.]]></description>
+    <author>http://www.ladspa.org</author>
+    <parameter name="0" type="animated" decimals="3" default="1.250" max="5.000" min="0.000" suffix="Hz">
+      <name>Frequency</name>
+      <comment><![CDATA[Determines the LFO frequency<br>
+      with which the time-varying delay is modulated. The higher the frequency, the more intense the effect will be.]]></comment>
+    </parameter>
+    <parameter name="1" type="animated" decimals="1" default="90.0" max="180.0" min="0.0" suffix="°">
+      <name>L/R Phase Shift</name>
+      <comment><![CDATA[Controls the phase shift between the two<br>
+      LFOs. The higher this setting, the stronger the "stereo-ness" of the effect will be. When set to 0, processing of the two channels will be in-phase; when set to 180 degrees, the two LFO's are is counter-phase to create the widest stereo effect.]]></comment>
+    </parameter>
+    <parameter name="2" type="animated" decimals="1" default="75.0" max="100.0" min="0.0" suffix="%">
+      <name>Depth</name>
+      <comment><![CDATA[Adjusts the modulation depth of the delay.<br>
+      Increasing it will result in stronger modulation using the same LFO frequency.]]></comment>
+    </parameter>
+    <parameter name="3" type="animated" decimals="0" default="25" max="100" min="0" suffix="ms">
+      <name>Delay</name>
+      <comment><![CDATA[Determines the fixed amount of time with<br>
+      which the signal is delayed after the time-varying delay has been applied. The setting of this control distinguishes between the Chorus and Flanger effects. Delays smaller than 10 ms can be labeled Flanger, delays above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a blend between Chorus and Flanger.]]></comment>
+    </parameter>
+    <parameter name="4" type="animated" decimals="3" default="100.000" max="20000.000" min="20.000" suffix="Hz">
+      <name>Contour</name>
+      <comment><![CDATA[The cutoff frequency of a high-pass<br>
+      filter applied to the now twice-delayed signal.]]></comment>
+    </parameter>
+    <parameter name="5" type="animated" decimals="1" default="0.0" max="20.0" min="-90.0" suffix="dB">
+      <name>Dry Level</name>
+      <comment><![CDATA[Allows for a final tuning of the sound.<br>
+      The strongest effect is achieved if the two settings are about the same. Decreasing one of them (preferably the Wet Level, to mitigate any unwanted side effects) results in a subtler effect.]]></comment>
+    </parameter>
+    <parameter name="6" type="animated" decimals="1" default="0.0" max="20.0" min="-90.0" suffix="dB">
+      <name>Wet Level</name>
+      <comment><![CDATA[Allows for a final tuning of the sound.<br>
+      The strongest effect is achieved if the two settings are about the same. Decreasing one of them (preferably the Wet Level, to mitigate any unwanted side effects) results in a subtler effect.]]></comment>
+    </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+    </parameter>
+</effect>

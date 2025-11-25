@@ -97,7 +97,7 @@ ProxyTest::~ProxyTest()
 {
     m_closing = true;
     Q_EMIT jobCanceled();
-    // Wait until concurrent tread is finished
+    // Wait until concurrent thread is finished
     QMutexLocker lk(&m_locker);
 }
 

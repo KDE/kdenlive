@@ -34,8 +34,8 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     titleTemplates.removeDuplicates();
     for (const QString &folderpath : std::as_const(titleTemplates)) {
         QDir sysdir(folderpath);
-        const QStringList filesnames = sysdir.entryList(filter, QDir::Files);
-        for (const QString &fname : filesnames) {
+        const QStringList filenames = sysdir.entryList(filter, QDir::Files);
+        for (const QString &fname : filenames) {
             m_view.template_list->comboBox()->addItem(fname, sysdir.absoluteFilePath(fname));
         }
     }

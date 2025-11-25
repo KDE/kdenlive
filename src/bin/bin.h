@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/timecode.h"
 
 #include <KMessageWidget>
+#include <kddockwidgets/DockWidget.h>
 
 #include <QActionGroup>
 #include <QDir>
@@ -310,7 +311,7 @@ public:
     /** @brief Get usage stats for project bin. */
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
-    QDockWidget *clipPropertiesDock();
+    KDDockWidgets::QtWidgets::DockWidget *clipPropertiesDock();
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
@@ -397,6 +398,7 @@ public:
     /** @brief Expand / collapse all items */
     void expandAll();
     bool isMainBin() const;
+    void buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock);
 
 private Q_SLOTS:
     void slotAddClip();
@@ -573,7 +575,7 @@ private:
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
     QVBoxLayout *m_layout;
-    QDockWidget *m_propertiesDock;
+    KDDockWidgets::QtWidgets::DockWidget *m_propertiesDock;
     QScrollArea *m_propertiesPanel;
     QSlider *m_slider;
     QIcon m_blankThumb;
@@ -600,7 +602,7 @@ private:
     QAction *m_upAction{nullptr};
     QAction *m_tagAction{nullptr};
     QActionGroup *m_sortGroup{nullptr};
-    SmallJobLabel *m_infoLabel;
+    SmallJobLabel *m_infoLabel{nullptr};
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu{nullptr};
     QActionGroup m_filterTagGroup;

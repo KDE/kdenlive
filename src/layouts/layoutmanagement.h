@@ -27,22 +27,23 @@ class LayoutManagement : public QObject
 
 public:
     explicit LayoutManagement(QObject *parent);
+
+public Q_SLOTS:
+    /** @brief Loads a layout by LayoutInfo. */
+    bool slotLoadLayout(LayoutInfo layout);
     /** @brief Load a layout by its name. */
-    bool loadLayout(const QString &layoutId);
+    bool slotLoadLayoutById(const QString &layoutId);
+    bool slotLoadLayoutFromData(const QString &layoutData);
+    /** @brief Load a layout by its name. */
+    void adjustLayoutToDar();
 
 private Q_SLOTS:
     /** @brief Saves the widget layout. */
     void slotSaveLayout();
-    /** @brief Loads a layout by ID (for LayoutSwitcher). */
-    void slotLoadLayout(const QString &layoutId);
     /** @brief Loads a layout from a QAction containing its ID (for Toolbar buttons). */
-    void slotLoadLayout(QAction *action);
+    void slotLoadLayoutFromAction(QAction *action);
     /** @brief Manage layout. */
     void slotManageLayouts();
-    /** @brief Arrange the Qt::DockWidgetAreas in rows. */
-    void slotDockAreaRows();
-    /** @brief Arrange the Qt::DockWidgetAreas in columns. */
-    void slotDockAreaColumns();
     /** @brief Hide the autosave indicator . */
     void hideAutoSave();
     /** @brief Show the autosave indicator for 2 seconds. */
@@ -51,12 +52,6 @@ private Q_SLOTS:
     void slotUpdatePalette();
 
 private:
-    /** @brief Saves the given layout asking the user for a name.
-     * @param layout
-     * @param suggestedName name that is filled in to the save layout dialog
-     * @return names of the saved layout. First is the visible name, second the internal name (they are different if the layout is a default one)
-     */
-    std::pair<QString, QString> saveLayout(const QString &layout, const QString &suggestedName);
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
     /** @brief Updates the autosave icon with highlight color. */
@@ -72,10 +67,4 @@ private:
     LayoutCollection m_layoutCollection;
     KActionCategory *m_layoutCategory;
     QString m_currentLayoutId;
-
-Q_SIGNALS:
-    /** @brief Layout changed, ensure title bars are correctly displayed. */
-    void updateTitleBars();
-    /** @brief Connect/disconnect stuff to update titlebars on dock location changed. */
-    void connectDocks(bool doConnect);
 };

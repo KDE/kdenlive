@@ -64,7 +64,6 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 
     dia_ui.clip_duration->setValue(KdenliveSettings::color_duration());
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
-    dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setAccessibleName(i18n("Create Color Clip"));
 
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
@@ -440,6 +439,9 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     l->addStretch(5);
     f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    if (!QFileInfo::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
     QScopedPointer<QDialog> dlg(new QDialog(static_cast<QWidget *>(doc->parent())));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg.data()));
     auto *layout = new QVBoxLayout;

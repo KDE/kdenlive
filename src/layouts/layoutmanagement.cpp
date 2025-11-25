@@ -7,7 +7,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "layouts/layoutmanagement.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
+#include "layouts/layoutmanagerdialog.h"
+#include "layouts/layoutswitcher.h"
 #include "mainwindow.h"
+
 #include <KMessageBox>
 #include <QButtonGroup>
 #include <QDialog>
@@ -21,8 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenuBar>
 #include <QVBoxLayout>
 
-#include "layouts/layoutmanagerdialog.h"
-#include "layouts/layoutswitcher.h"
 #include <KColorScheme>
 #include <KConfigGroup>
 #include <KIconEffect>
@@ -41,7 +44,8 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
     // Required to enable user to add the load layout action to toolbar
     m_layoutCategory->addAction(QStringLiteral("load_layouts"), m_loadLayout);
-    connect(m_loadLayout, &KSelectAction::actionTriggered, this, static_cast<void (LayoutManagement::*)(QAction *)>(&LayoutManagement::slotLoadLayout));
+    connect(m_loadLayout, &KSelectAction::actionTriggered, this,
+            static_cast<void (LayoutManagement::*)(QAction *)>(&LayoutManagement::slotLoadLayoutFromAction));
 
     QAction *saveLayout = new QAction(i18n("Save Layout…"), pCore->window()->actionCollection());
     m_layoutCategory->addAction(QStringLiteral("save_layout"), saveLayout);
@@ -57,21 +61,12 @@ LayoutManagement::LayoutManagement(QObject *parent)
         m_layoutActions << m_layoutCategory->addAction("load_layout" + QString::number(i), load);
     }
 
-    // Dock Area Orientation
-    QAction *rowDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
-    m_layoutCategory->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
-    connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
-
-    QAction *colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
-    m_layoutCategory->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
-    connect(colDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaColumns);
-
     // Create layout switcher for the menu bar
     MainWindow *main = pCore->window();
     m_container = new QWidget(main);
     m_layoutSwitcher = new LayoutSwitcher(m_container);
     connect(m_layoutSwitcher, &LayoutSwitcher::layoutSelected, this,
-            static_cast<void (LayoutManagement::*)(const QString &)>(&LayoutManagement::slotLoadLayout));
+            static_cast<bool (LayoutManagement::*)(const QString &)>(&LayoutManagement::slotLoadLayoutById));
 
     auto *l1 = new QHBoxLayout;
     l1->addStretch();
@@ -151,8 +146,7 @@ void LayoutManagement::initializeLayouts()
     MainWindow *main = pCore->window();
 
     // Load layouts from config
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"), KConfig::NoCascade);
-    m_layoutCollection.loadFromConfig(config);
+    m_layoutCollection.loadLayouts();
 
     // Get all layouts and use the first 5 for the switcher
     QList<LayoutInfo> allLayouts = m_layoutCollection.getAllLayouts();
@@ -202,174 +196,176 @@ void LayoutManagement::initializeLayouts()
     main->menuBar()->resize(main->menuBar()->sizeHint());
 }
 
-void LayoutManagement::slotLoadLayout(const QString &layoutId)
-{
-    if (layoutId.isEmpty()) {
-        return;
-    }
-    loadLayout(layoutId);
-}
-
-void LayoutManagement::slotLoadLayout(QAction *action)
+void LayoutManagement::slotLoadLayoutFromAction(QAction *action)
 {
     if (!action) return;
-    QString layoutId = action->data().toString();
+    const QString layoutId = action->data().toString();
     if (layoutId.isEmpty()) return;
-    slotLoadLayout(layoutId);
+    slotLoadLayoutById(layoutId);
 }
 
-bool LayoutManagement::loadLayout(const QString &layoutId)
+bool LayoutManagement::slotLoadLayoutById(const QString &layoutId)
 {
     // Get the layout from our collection
     LayoutInfo layout = m_layoutCollection.getLayout(layoutId);
-    if (!layout.isValid() || layout.data.isEmpty()) {
+    return slotLoadLayout(layout);
+}
+
+bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
+{
+    if (!layout.isValid()) {
         // Layout not found or has no data
         return false;
     }
 
     // Set as current layout
-    m_currentLayoutId = layoutId;
-
-    // Disconnect docks during layout change
-    Q_EMIT connectDocks(false);
+    m_currentLayoutId = layout.internalId;
 
     // Parse layout data
-    QByteArray state = QByteArray::fromBase64(layout.data.toLatin1());
-    bool timelineVisible = true;
-    if (state.startsWith("NO-TL")) {
-        timelineVisible = false;
-        state.remove(0, 5);
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
+    bool restore = false;
+    if (pCore->isVertical() && !layout.verticalPath.isEmpty()) {
+        restore = dockLayout.restoreFromFile(layout.verticalPath);
+    } else if (!layout.path.isEmpty()) {
+        restore = dockLayout.restoreFromFile(layout.path);
+    } else {
+        restore = dockLayout.restoreFromFile(layout.verticalPath);
     }
-
-    // Apply layout
-    pCore->window()->centralWidget()->setHidden(!timelineVisible);
-
-    // Restore state disables all toolbars, so remember state
-    QList<KToolBar *> barsList = pCore->window()->toolBars();
-    QMap<QString, bool> toolbarVisibility;
-    for (auto &tb : barsList) {
-        toolbarVisibility.insert(tb->objectName(), tb->isVisible());
+    if (!restore) {
+        pCore->displayBinMessage(i18n("The layout %1 could not be restored, should be removed and recreated.", layout.displayName), KMessageWidget::Warning);
+        return false;
     }
-
-    // Apply window state
-    pCore->window()->processRestoreState(state);
-
-    // Restore toolbar status
-    QMapIterator<QString, bool> i(toolbarVisibility);
-    while (i.hasNext()) {
-        i.next();
-        KToolBar *tb = pCore->window()->toolBar(i.key());
-        if (tb) {
-            tb->setVisible(i.value());
-        }
+    m_layoutSwitcher->setCurrentLayout(layout.internalId);
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
     }
-
-    pCore->window()->tabifyBins();
-
-    // Reconnect docks
-    Q_EMIT connectDocks(true);
-
-    // Update layout switcher
-    m_layoutSwitcher->setCurrentLayout(layoutId);
-
-    // Update title bars
-    Q_EMIT updateTitleBars();
     return true;
 }
 
-std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, const QString &suggestedName)
+void LayoutManagement::adjustLayoutToDar()
 {
-    // Get a suggested name for the layout
-    QString visibleName = m_layoutCollection.getTranslatedName(suggestedName);
-
-    // Ask user for a name
-    QString layoutName = QInputDialog::getText(pCore->window(), i18nc("@title:window", "Save Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
-    if (layoutName.isEmpty()) {
-        return {nullptr, nullptr};
-    }
-
-    // See if this is a default layout with translation
-    QString internalId = layoutName;
-    LayoutInfo existingLayout = m_layoutCollection.getLayout(layoutName);
-
-    // Check if this layout already exists
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
-
-    if (m_layoutCollection.hasLayout(internalId)) {
-        // Layout already exists, confirm overwrite
-        int res = KMessageBox::questionTwoActions(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName), {},
-                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel());
-        if (res != KMessageBox::PrimaryAction) {
-            return {nullptr, nullptr};
+    if (!m_currentLayoutId.isEmpty()) {
+        LayoutInfo lay = m_layoutCollection.getLayout(m_currentLayoutId);
+        if (lay.isValid()) {
+            if (lay.hasHorizontalData() && lay.hasVerticalData()) {
+                slotLoadLayoutById(lay.internalId);
+            }
         }
     }
+}
 
-    // Create or update the layout
-    LayoutInfo newLayout(internalId, layoutName, layout);
-    m_layoutCollection.addLayout(newLayout);
+bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData)
+{
+    if (layoutData.isEmpty()) {
+        // Layout not found or has no data
+        return false;
+    }
 
-    // Save to config
-    m_layoutCollection.saveToConfig(config);
-
-    // Return the created layout names
-    return {layoutName, internalId};
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
+    bool restore = dockLayout.restoreLayout(layoutData.toUtf8());
+    if (!restore) {
+        pCore->displayBinMessage(i18n("The layout from the project file could not be restored."), KMessageWidget::Warning);
+        return false;
+    }
+    // Loaded a layout from Kdenlive settings or document
+    m_currentLayoutId.clear();
+    m_layoutSwitcher->setCurrentLayout(QString());
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
+    }
+    return true;
 }
 
 void LayoutManagement::slotSaveLayout()
 {
-    // Get current layout name if any
-    QString saveName = m_layoutSwitcher->currentLayout();
+    // Get a suggested name for the layout
+    QString saveName = m_layoutCollection.getTranslatedName(m_layoutSwitcher->currentLayout());
 
-    // Get current window state
-    QByteArray st = pCore->window()->saveState();
-    if (!pCore->window()->timelineVisible()) {
-        st.prepend("NO-TL");
+    // Ask user for a name
+    saveName = QInputDialog::getText(pCore->window(), i18nc("@title:window", "Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
+    if (saveName.isEmpty()) {
+        return;
     }
-
-    // Save the layout
-    std::pair<QString, QString> names = saveLayout(st.toBase64(), saveName);
+    // Ensure the layout directory exists
+    QDir layoutsFolder(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    layoutsFolder.mkdir(QStringLiteral("layouts"));
+    if (!layoutsFolder.cd(QStringLiteral("layouts"))) {
+        return;
+    }
+    LayoutInfo layout(saveName, saveName);
+    // Get current window state
+    QString fileName = saveName;
+    if (pCore->isVertical()) {
+        fileName.append(QStringLiteral("_vertical"));
+    }
+    fileName = layoutsFolder.absoluteFilePath(fileName + QStringLiteral(".json"));
+    if (QFile::exists(fileName)) {
+        if (KMessageBox::questionTwoActions(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", saveName), {},
+                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+            return;
+        }
+    }
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
+    if (pCore->isVertical()) {
+        layout.verticalPath = fileName;
+    } else {
+        layout.path = fileName;
+    }
+    const QByteArray layoutData = dockLayout.serializeLayout();
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(layoutData, &jsonError);
+    QJsonArray info;
+    QJsonObject kdenliveData;
+    kdenliveData.insert(QLatin1String("displayName"), QJsonValue(saveName));
+    kdenliveData.insert(QLatin1String("layoutVersion"), QJsonValue(1));
+    kdenliveData.insert(QLatin1String("vertical"), QJsonValue(pCore->isVertical()));
+    info.push_back(kdenliveData);
+    bool ok;
+    if (doc.isObject()) {
+        QJsonObject updatedObject = doc.object();
+        qDebug() << ":::: JSON INSERTED INFO: " << info.toVariantList();
+        updatedObject.insert(QStringLiteral("kdenliveInfo"), info);
+        QJsonDocument updatedDoc(updatedObject);
+        QFile jsonFile(fileName);
+        ok = jsonFile.open(QFile::WriteOnly);
+        if (ok) {
+            ok = jsonFile.write(updatedDoc.toJson());
+            jsonFile.close();
+        }
+    } else {
+        ok = false;
+        qDebug() << ":::: JSON IS NOT AN OBJECT. IS ARRAY: " << doc.isArray();
+    }
+    if (!ok) {
+        KMessageBox::error(QApplication::activeWindow(), i18n("Could not save layout to file: %1", fileName));
+    }
 
     // Update UI if saved successfully
-    if (names.first != nullptr) {
-        m_currentLayoutId = names.second;
-        m_layoutSwitcher->setCurrentLayout(names.second);
-        initializeLayouts();
+    m_currentLayoutId = layout.internalId;
+    if (m_layoutCollection.hasLayout(layout.internalId)) {
+        LayoutInfo currentLayout = m_layoutCollection.getLayout(layout.internalId);
+        if (pCore->isVertical()) {
+            currentLayout.verticalPath = fileName;
+        } else {
+            currentLayout.path = fileName;
+        }
+        m_layoutCollection.addLayout(currentLayout);
+    } else {
+        m_layoutCollection.addLayout(layout);
     }
+    m_layoutSwitcher->setCurrentLayout(m_currentLayoutId);
+    initializeLayouts();
 }
 
 void LayoutManagement::slotManageLayouts()
 {
-    // Save current layouts
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     QString currentLayoutId = m_layoutSwitcher->currentLayout();
 
     // Use the new dialog
-    LayoutManagerDialog dlg(pCore->window(), LayoutCollection(m_layoutCollection), currentLayoutId);
-    if (dlg.exec() != QDialog::Accepted) {
-        return;
-    }
-    // Get the updated collection and selected layout
-    m_layoutCollection = dlg.getUpdatedCollection();
-    m_layoutCollection.saveToConfig(config);
+    LayoutManagerDialog dlg(pCore->window(), m_layoutCollection, currentLayoutId);
+    dlg.exec();
+    dlg.updateOrder();
     initializeLayouts();
-}
-
-void LayoutManagement::slotDockAreaRows()
-{
-    // Use the corners for top and bottom DockWidgetArea
-    pCore->window()->setCorner(Qt::TopRightCorner, Qt::TopDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
-    pCore->window()->setCorner(Qt::TopLeftCorner, Qt::TopDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::BottomDockWidgetArea);
-}
-
-void LayoutManagement::slotDockAreaColumns()
-{
-    // Use the corners for left and right DockWidgetArea
-    pCore->window()->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-    pCore->window()->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-    pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 }
 
 void LayoutManagement::slotUpdatePalette()

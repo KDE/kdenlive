@@ -25,6 +25,7 @@ void LayoutSwitcher::buttonClicked(QAbstractButton *button)
 {
     if (button) {
         m_currentLayoutId = button->property("layoutid").toString();
+        qDebug() << ":::: LAYOUT BUTTON CLICKES: " << m_currentLayoutId;
         Q_EMIT layoutSelected(m_currentLayoutId);
     }
 }

@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     int result = Catch::Session().run(argc, argv);
     pCore->cleanup();
-    ClipController::mediaUnavailable.reset();
+    pCore->mediaUnavailable.reset();
 
     // global clean-up...
     // delete repo;

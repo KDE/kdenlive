@@ -135,7 +135,7 @@ Item{
                 // Z order indicates the items that will be drawn on top.
                 if (model.clipType == Kdenlive.ClipType.Composition) {
                     // Compositions should be top, then clips
-                    return 50000;
+                    return 50000
                 }
 
                 if (model.mixDuration > 0) {
@@ -195,6 +195,12 @@ Item{
                     target: loader.item
                     property: "mixCut"
                     value: model.mixCut
+                    when: loader.status == Loader.Ready && loader.item && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "mixEndDuration"
+                    value: model.mixEndDuration
                     when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {

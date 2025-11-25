@@ -15,8 +15,8 @@
 
 #include <QHeaderView>
 
-TransitionListWidget::TransitionListWidget(QWidget *parent)
-    : AssetListWidget(false, parent)
+TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
+    : AssetListWidget(false, includeList, tenBit, parent)
 {
     m_model = TransitionTreeModel::construct(true, this);
     m_proxyModel = std::make_unique<TransitionFilter>(this);
@@ -28,6 +28,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     m_effectsTree->setColumnHidden(2, true);
     m_effectsTree->setColumnHidden(3, true);
     m_effectsTree->setColumnHidden(4, true);
+    m_effectsTree->setColumnHidden(5, true);
     m_effectsTree->header()->setStretchLastSection(true);
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
     connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
@@ -72,3 +73,9 @@ void TransitionListWidget::reloadTemplates() {}
 void TransitionListWidget::editCustomAsset(const QModelIndex &) {}
 
 void TransitionListWidget::exportCustomEffect(const QModelIndex &){};
+
+void TransitionListWidget::switchTenBitFilter()
+{
+    KdenliveSettings::setTransitionsFilter(m_filterButton->isChecked());
+    m_proxyModel->invalidate();
+}

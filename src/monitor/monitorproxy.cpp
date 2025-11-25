@@ -149,6 +149,21 @@ void MonitorProxy::setOverlayType(int ix)
     }
 }
 
+bool MonitorProxy::showSafezone() const
+{
+    return (q->m_id == int(Kdenlive::ClipMonitor) ? KdenliveSettings::showClipMonitorSafeZone() : KdenliveSettings::showProjectMonitorSafeZone());
+}
+
+void MonitorProxy::setShowSafezone(bool display)
+{
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        KdenliveSettings::setShowClipMonitorSafeZone(display);
+    } else {
+        KdenliveSettings::setShowProjectMonitorSafeZone(display);
+    }
+    Q_EMIT showSafezoneChanged();
+}
+
 bool MonitorProxy::setPosition(int pos)
 {
     return setPositionAdvanced(pos, false);
@@ -437,16 +452,20 @@ void MonitorProxy::selectClip(int ix)
 
 void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
 {
-    if (clipId != m_clipId) {
-        m_clipId = clipId;
+    bool idChanged = clipId != m_clipId;
+    bool avChanged = hasAV != m_hasAV;
+    bool typeChanged = type != m_clipType;
+    m_clipId = clipId;
+    m_hasAV = hasAV;
+    m_clipType = type;
+
+    if (idChanged) {
         Q_EMIT clipIdChanged();
     }
-    if (hasAV != m_hasAV) {
-        m_hasAV = hasAV;
+    if (avChanged) {
         Q_EMIT clipHasAVChanged();
     }
-    if (type != m_clipType) {
-        m_clipType = type;
+    if (typeChanged) {
         Q_EMIT clipTypeChanged();
     }
     if (!clipName.isEmpty()) {
@@ -692,7 +711,7 @@ void MonitorProxy::resizeMarker(int position, int duration, bool isStart, int ne
 
 bool MonitorProxy::createRangeMarkerFromZone(const QString &comment, int type)
 {
-    if (m_zoneIn <= 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
+    if (m_zoneIn < 0 || m_zoneOut <= 0 || m_zoneIn >= m_zoneOut) {
         return false;
     }
 

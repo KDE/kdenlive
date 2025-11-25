@@ -27,6 +27,7 @@ Rectangle {
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
+    property int mixEndDuration: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -178,11 +179,8 @@ Rectangle {
     onFakeTidChanged: {
         if (clipRoot.fakeTid > -1 && parentTrack) {
             if (clipRoot.parent != dragContainer) {
-                var pos = clipRoot.mapToGlobal(clipRoot.x, clipRoot.y);
+                // Clip is parented to a track, reparent to allow moving outside of the track
                 clipRoot.parent = dragContainer
-                pos = clipRoot.mapFromGlobal(pos.x, pos.y)
-                clipRoot.x = pos.x
-                clipRoot.y = pos.y
             }
             clipRoot.y = Logic.getTrackById(clipRoot.fakeTid).y
             clipRoot.height = Logic.getTrackById(clipRoot.fakeTid).height
@@ -286,7 +284,7 @@ Rectangle {
                 controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
             dropSource = ''
-            drag.acceptProposedAction
+            drag.acceptProposedAction()
             root.regainFocus(mapToItem(root, drag.x, drag.y))
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
         }
@@ -386,7 +384,7 @@ Rectangle {
             id: thumbsLoader
             anchors.fill: parent
             anchors.leftMargin: parentTrack.isAudio ? xIntegerOffset : itemBorder.border.width + mixContainer.width
-            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width
+            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width + clipRoot.mixEndDuration * clipRoot.timeScale
             anchors.topMargin: itemBorder.border.width
             anchors.bottomMargin: itemBorder.border.width
             //clip: true
@@ -491,19 +489,26 @@ Rectangle {
                     id: mixBackground
                     property double mixPos: mixBackground.width - clipRoot.mixCut * clipRoot.timeScale
                     property bool mixSelected: root.selectedMix == clipRoot.clipId
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    anchors.fill: parent
                     visible: clipRoot.mixDuration > 0
-                    color: mixSelected ? root.selectionColor : "mediumpurple"
+                    color: mixSelected ? root.selectionColor : "transparent"
                     Loader {
                         source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
-                    border.color: mixSelected ? root.selectionColor : "transparent"
+                    border.color: mixSelected ? root.selectionColor : "white"
                     border.width: clipRoot.mixDuration > 0 ? 2 : 0
+                    radius: 3
+                    Rectangle {
+                        id: mixCutPos
+                        anchors.right: parent.right
+                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: 2
+                        color: itemBorder.border.color
+                    }
                     MouseArea {
                         // Mix click mouse area
                         id: mixArea
@@ -526,15 +531,6 @@ Rectangle {
                             .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
                             timeline.showToolTip(text)
                         }
-                    }
-                    Rectangle {
-                        id: mixCutPos
-                        anchors.right: parent.right
-                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        width: 2
-                        color: "navy"
                     }
                     MouseArea {
                         // Right mix resize handle
@@ -872,51 +868,57 @@ Rectangle {
                 }
             }
 
-            Repeater {
-                // Clip markers
-                id: markersContainer
-                model: container.width > 3 * root.baseUnit ? markers : 0
+            Item {
+                // Clipping container
                 anchors.fill: container
-                delegate: Loader {
-                    id: loader
-                    required property var modelData
-                    property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
-                    asynchronous: true
-                    Binding {
-                        target: loader.item
-                        property: "position"
-                        value: modelData.frame
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "markerText"
-                        value: modelData.comment
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "markerColor"
-                        value: modelData.color
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "hasRange"
-                        value: modelData.hasRange || false
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    Binding {
-                        target: loader.item
-                        property: "duration"
-                        value: modelData.duration || 0
-                        when: isInside && loader.status == Loader.Ready
-                    }
-                    sourceComponent: {
-                        if (isInside) {
-                            return markerComponent;
-                        } else {
-                            return null;
+                clip: true
+
+                Repeater {
+                    // Clip markers
+                    id: markersContainer
+                    model: container.width > 3 * root.baseUnit ? markers : 0
+                    anchors.fill: parent
+                    delegate: Loader {
+                        id: loader
+                        required property var modelData
+                        property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
+                        asynchronous: true
+                        Binding {
+                            target: loader.item
+                            property: "position"
+                            value: modelData.frame
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerText"
+                            value: modelData.comment
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "markerColor"
+                            value: modelData.color
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "hasRange"
+                            value: modelData.hasRange || false
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        Binding {
+                            target: loader.item
+                            property: "duration"
+                            value: modelData.duration || 0
+                            when: isInside && loader.status == Loader.Ready
+                        }
+                        sourceComponent: {
+                            if (isInside) {
+                                return markerComponent;
+                            } else {
+                                return null;
+                            }
                         }
                     }
                 }
@@ -1243,11 +1245,13 @@ Rectangle {
                         property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
+                        topPadding: -2
+                        bottomPadding: -1
                         anchors {
                             left: labelRect.left
                             leftMargin: itemBorder.border.width
                         }
-                        color: 'white'
+                        color: "#FFFFFF"
                         //style: Text.Outline
                         //styleColor: 'black'
                     }

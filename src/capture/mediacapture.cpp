@@ -164,6 +164,9 @@ void MediaCapture::switchMonitorState(int tid, bool run)
 
 void MediaCapture::initializeAudioSetup()
 {
+    if (m_audioSource) {
+        return;
+    }
     setAudioCaptureDevice();
     QAudioFormat format;
     format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
@@ -259,7 +262,12 @@ const QVector<double> MediaCapture::recLevels() const
     return m_recLevels;
 }
 
-MediaCapture::~MediaCapture() = default;
+MediaCapture::~MediaCapture()
+{
+    if (m_audioSource) {
+        switchMonitorState(false);
+    }
+}
 
 void MediaCapture::displayErrorMessage()
 {
@@ -315,9 +323,7 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
     }
 
     if (record && m_mediaRecorder->recorderState() == QMediaRecorder::StoppedState) {
-        if (!m_audioSource) {
-            initializeAudioSetup();
-        }
+        initializeAudioSetup();
         m_recTimer.invalidate();
         m_resetTimer.stop();
         m_readyForRecord = true;

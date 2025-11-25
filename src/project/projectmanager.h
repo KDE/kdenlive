@@ -5,20 +5,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include "kdenlivecore_export.h"
 #include <KRecentFilesAction>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QObject>
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
-#include <QElapsedTimer>
-
-#include "timeline2/model/timelineitemmodel.hpp"
-
 #include <memory>
-#include <unordered_map>
-#include <unordered_set>
 
 class KAutoSaveFile;
 class KJob;
@@ -31,6 +25,16 @@ class QProgressDialog;
 class QUrl;
 class DocUndoStack;
 class TimelineWidget;
+class TimelineItemModel;
+
+namespace KDDockWidgets::QtWidgets {
+class DockWidget;
+}
+
+namespace Mlt {
+class Producer;
+class Tractor;
+} // namespace Mlt
 
 /** @class ProjectManager
     @brief Takes care of interaction with projects.
@@ -52,7 +56,7 @@ public:
     virtual KdenliveDoc *current();
 
     /** @brief Store command line args for later opening. */
-    void init(const QUrl &projectUrl, const QString &clipList);
+    void init(const QUrl &projectUrl, const QStringList &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup = false);
     void doOpenFileHeadless(const QUrl &url);
@@ -74,7 +78,7 @@ public:
     std::pair<QString, QString> projectSceneList(const QString &outputFolder, bool timelineProducerOnly = false, const QString &overlayData = QString(),
                                                  const QString &aspectRation = QString());
     /** @brief returns a default hd profile depending on timezone*/
-    static QString getDefaultProjectFormat();
+    static const QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
@@ -143,7 +147,7 @@ public:
     /** @brief Sync the recent file list to settings file
      */
     void saveRecentFiles();
-    void buildNotesWidget();
+    void buildNotesWidget(KDDockWidgets::QtWidgets::DockWidget *tabbedDock);
     /** @brief Used for testing only
      */
     /** @brief This method is only there for tests, do not use in real app.
@@ -157,12 +161,15 @@ public:
     /** @brief A sequence timecode offset changed, update display in the UI
      */
     void updateSequenceOffset(const QUuid &uuid);
+    /** @brief Check if a file has a kdenlive mime type, returns true if it does.
+     */
+    static bool isKdenliveProjectFile(const QUrl url);
 
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);
     void newFile(bool showProjectSettings = true);
     /** @brief Shows file open dialog. */
-    void openFile();
+    void slotOpenFile();
     void openLastFile();
     /** @brief Load files / clips passed on the command line. */
     void slotLoadOnOpen();
@@ -279,7 +286,7 @@ private:
     QTimer m_autoSaveTimer;
     int m_autoSaveChangeCount{0};
     QUrl m_startUrl;
-    QString m_loadClipsOnOpen;
+    QStringList m_loadClipsOnOpen;
     QMap<QString, QString> m_replacementPattern;
 
     QAction *m_fileRevert;
@@ -297,4 +304,6 @@ private:
     void checkProjectIntegrity();
     /** @brief Opening a project file failed, propose to open a backup */
     void abortProjectLoad(const QUrl &url);
+    /** @brief Remove startup lock file */
+    void clearLockFile();
 };

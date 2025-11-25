@@ -151,10 +151,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 #elif defined(Q_OS_MACOS)
     m_glMonitor = new MetalVideoWidget(id, this);
 #else
-    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
-        qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
-        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-    }
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
     //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
@@ -462,20 +458,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         whiteAction->setData("white");
         QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
         pinkAction->setData("#ff00ff");
-#if LIBMLT_VERSION_INT > QT_VERSION_CHECK(7, 30, 0)
         QAction *checkerboardAction = m_background->addAction(QIcon(), i18n("Checkerboard"));
         checkerboardAction->setData("checkerboard");
-#endif
 
         m_configMenuAction->addAction(m_background);
         if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
             m_background->setCurrentAction(whiteAction);
         } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
             m_background->setCurrentAction(pinkAction);
-#if LIBMLT_VERSION_INT > QT_VERSION_CHECK(7, 30, 0)
         } else if (KdenliveSettings::monitor_background() == checkerboardAction->data().toString()) {
             m_background->setCurrentAction(checkerboardAction);
-#endif
         } else {
             m_background->setCurrentAction(blackAction);
         }
@@ -710,6 +702,8 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         // m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
         auto *extractZone = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Extract Zone"), this);
         connect(extractZone, &QAction::triggered, this, &Monitor::slotExtractCurrentZone);
+        // Ensure the action can have a shortcut
+        pCore->window()->addAction(QStringLiteral("extract_zone"), extractZone, {}, QStringLiteral("monitor"));
         m_configMenuAction->addAction(extractZone);
         m_contextMenu->addAction(extractZone);
 
@@ -856,7 +850,11 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    if (KdenliveSettings::monitor_background() != "black") {
+    if (KdenliveSettings::monitor_background() == "black" || m_controller->clipType() == ClipType::Audio) {
+        // No compositing required
+        m_glMonitor->setProducer(producer, isActive(), pos);
+    } else {
+        // Add background compositing
         Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
@@ -871,8 +869,6 @@ void Monitor::buildBackgroundedProducer(int pos)
         transition->set_tracks(0, 1);
         trac.plant_transition(*transition.get(), 0, 1);
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
-    } else {
-        m_glMonitor->setProducer(producer, isActive(), pos);
     }
     m_openMutex.unlock();
 }
@@ -1008,6 +1004,16 @@ void Monitor::slotSetZoneEnd()
     };
     redo_zone();
     pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
+}
+
+void Monitor::slotSetZone(const QPoint zone)
+{
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+        // Don't allow changing in/out when in mask mode
+        pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
+        return;
+    }
+    m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y(), true);
 }
 
 // virtual
@@ -1714,7 +1720,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
 void Monitor::stop()
 {
     updatePlayAction(false);
-    m_glMonitor->stop();
+    m_glMonitor->pause();
 }
 
 void Monitor::mute(bool mute)
@@ -2002,6 +2008,17 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
+    // Check if the view had a monitor zoom that is not relevant (e.g. for audio clips)
+    if (m_glMonitor->zoom() > 1.0f) {
+        if (!m_controller || m_controller->clipType() == ClipType::Audio) {
+            // Hide scroll bar when no clip or an audio clip is selected
+            m_horizontalScroll->hide();
+            m_verticalScroll->hide();
+        } else {
+            m_horizontalScroll->show();
+            m_verticalScroll->show();
+        }
+    }
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
@@ -2015,7 +2032,6 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
         m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-        m_glMonitor->rootObject()->setProperty("showZoomBar", false);
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
         m_glMonitor->setRulerInfo(0, nullptr);
@@ -2119,16 +2135,13 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     double audioStart = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomStart"));
                     m_glMonitor->rootObject()->setProperty("zoomFactor", audioScale);
                     m_glMonitor->rootObject()->setProperty("zoomStart", audioStart);
-                    m_glMonitor->rootObject()->setProperty("showZoomBar", true);
                 } else {
                     m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
                     m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-                    m_glMonitor->rootObject()->setProperty("showZoomBar", false);
                 }
             } else {
                 m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
                 m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-                m_glMonitor->rootObject()->setProperty("showZoomBar", false);
             }
             pCore->guidesList()->setClipMarkerModel(m_controller);
             loadQmlScene(MonitorSceneDefault);
@@ -2818,8 +2831,7 @@ void Monitor::slotEditInlineMarker()
             // No change
             return;
         }
-        oldMarker.setComment(newComment);
-        model->addMarker(oldMarker.time(), oldMarker.comment(), oldMarker.markerType());
+        model->editMarker(oldMarker.time(), oldMarker.time(), newComment, oldMarker.markerType());
     }
 }
 
@@ -2888,6 +2900,9 @@ void Monitor::displayAudioMonitor(bool isActive)
 
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
+    if (!m_glMonitor->isVisible()) {
+        return;
+    }
     m_glMonitor->rootObject()->setVisible((currentOverlay & Monitor::InfoOverlay) != 0);
     m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & Monitor::MarkersOverlay);
     bool showDropped = currentOverlay & Monitor::PlaybackFpsOverlay;
@@ -3061,6 +3076,11 @@ void Monitor::slotZoomIn()
 void Monitor::slotZoomOut()
 {
     m_glMonitor->slotZoom(false);
+}
+
+void Monitor::slotZoomReset()
+{
+    m_glMonitor->slotZoomReset();
 }
 
 void Monitor::setConsumerProperty(const QString &name, const QString &value)
@@ -3295,7 +3315,7 @@ void Monitor::slotCreateRangeMarkerFromZone()
     }
 
     QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
-    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+    if (currentZone.x() < 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
         pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
         return;
     }
@@ -3326,7 +3346,7 @@ void Monitor::slotCreateRangeMarkerFromZoneQuick()
     }
 
     QPoint currentZone = m_glMonitor->getControllerProxy()->zone();
-    if (currentZone.x() <= 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
+    if (currentZone.x() < 0 || currentZone.y() <= 0 || currentZone.x() >= currentZone.y()) {
         pCore->displayMessage(i18n("No valid zone defined. Please set in/out points first."), ErrorMessage);
         return;
     }

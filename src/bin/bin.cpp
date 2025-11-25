@@ -1604,7 +1604,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterUsageGroup.setExclusive(true);
     m_filterTypeGroup.setExclusive(false);
     m_filterMenu = new QMenu(i18n("Filter"), this);
-    m_filterButton = new QToolButton;
+    m_filterButton = new QToolButton(this);
     m_filterButton->setCheckable(true);
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
@@ -1702,6 +1702,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         m_propertiesPanel = new QScrollArea(this);
         m_propertiesPanel->setFrameShape(QFrame::NoFrame);
         m_propertiesPanel->setAccessibleName(i18n("Bin Clip Properties"));
+        m_propertiesPanel->setMinimumWidth(m_toolbar->sizeHint().width());
     }
     // Insert listview
     m_itemView = new MyTreeView(this);
@@ -1790,7 +1791,7 @@ void Bin::slotUpdatePalette()
     }
 }
 
-QDockWidget *Bin::clipPropertiesDock()
+KDDockWidgets::QtWidgets::DockWidget *Bin::clipPropertiesDock()
 {
     return m_propertiesDock;
 }
@@ -1843,7 +1844,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             monitor->slotActivateMonitor();
         } else {
             // Force raise
-            monitor->parentWidget()->raise();
+            pCore->window()->raiseMonitor(true);
         }
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
@@ -2591,7 +2592,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     }
     m_doc = project;
     QString folderName;
-    if (m_isMainBin) {
+    if (m_isMainBin && m_infoLabel) {
         m_infoLabel->slotSetJobCount(0);
     }
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
@@ -2637,11 +2638,13 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     if (!id.isEmpty() && id != QLatin1String("-1")) {
         // Open view in a specific folder
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
-        auto parentIx = m_itemModel->getIndexFromItem(item);
-        m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
-        folderName = item->name();
-        m_upAction->setEnabled(true);
-        m_upAction->setVisible(true);
+        if (item) {
+            auto parentIx = m_itemModel->getIndexFromItem(item);
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+            folderName = item->name();
+            m_upAction->setEnabled(true);
+            m_upAction->setVisible(true);
+        }
     }
 
     // setBinEffectsEnabled(!binEffectsDisabled, false);
@@ -3569,11 +3572,9 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
     } else {
         m_propertiesPanel->setEnabled(true);
         Q_EMIT requestShowClipProperties(clip);
-        m_propertiesDock->show();
-        m_propertiesDock->raise();
+        m_propertiesDock->open();
+        m_propertiesDock->setAsCurrentTab();
     }
-    // Check if properties panel is not tabbed under Bin
-    // if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
 }
 
 void Bin::doRefreshPanel(const QString &id)
@@ -3983,7 +3984,7 @@ void Bin::setupMenu()
     m_proxyAction->setChecked(false);
     m_proxyAction->setEnabled(false);
 
-    m_editAction = addBinAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editAction = addBinAction(QStringLiteral("show_clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
     m_editAction->setData("clip_properties");
     m_editAction->setEnabled(false);
     connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));
@@ -4037,11 +4038,14 @@ void Bin::setupMenu()
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
-    if (m_isMainBin) {
-        m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
-        m_propertiesDock->close();
-    }
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
+}
+
+void Bin::buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock)
+{
+    m_propertiesDock =
+        pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnLeft, parentDock);
+    m_propertiesDock->close();
 }
 
 const QString Bin::getDocumentProperty(const QString &key)
@@ -5691,8 +5695,11 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
                 for (ClipPropertiesController *w : children) {
                     if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                         // Raise panel
-                        w->parentWidget()->parentWidget()->show();
-                        w->parentWidget()->parentWidget()->raise();
+                        auto dock = static_cast<KDDockWidgets::QtWidgets::DockWidget *>(w->parentWidget()->parentWidget());
+                        if (dock) {
+                            dock->open();
+                            dock->setAsCurrentTab();
+                        }
                     }
                     // Show audio tab
                     w->activatePage(2);
@@ -6407,6 +6414,10 @@ bool Bin::usesVariableFpsClip()
 {
     QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
     for (auto &c : allClips) {
+        if (c->refCount() == 0) {
+            // Ignore unused clips
+            continue;
+        }
         ClipType::ProducerType type = c->clipType();
         if ((type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio) && c->hasVariableFps()) {
             return true;
@@ -6616,7 +6627,7 @@ const QString Bin::rootFolderId() const
 
 const QString Bin::binInfoToString() const
 {
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     QString binInfo;
     if (dock) {
         binInfo = QStringLiteral("%1:%2:%3").arg(dock->objectName(), rootFolderId(), m_listType == BinIconView ? QLatin1String("1") : QLatin1String("0"));
@@ -6657,7 +6668,7 @@ const QString Bin::loadInfo(const QStringList binInfo, const QStringList existin
             folderName = binName;
         }
     }
-    QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
+    KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(parentWidget());
     if (dock) {
         dock->setWindowTitle(folderName);
     }

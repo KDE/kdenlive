@@ -72,8 +72,8 @@ add_subdirectory(layouts)
 list(APPEND kdenlive_SRCS
     core.cpp
     definitions.cpp
-    docktitlebarmanager.cpp
     mainwindow.cpp
+    kddocksetup.cpp
     mltconnection.cpp
     statusbarmessagelabel.cpp
     undohelper.cpp
@@ -110,13 +110,10 @@ kconfig_target_kcfg_file(kdenliveLib
     CLASS_NAME KdenliveSettings
     MUTATORS
     SINGLETON
-
     GENERATE_PROPERTIES
     GENERATE_MOC
-
     QML_REGISTRATION
-
-    # DEFAULT_VALUE_GETTERS
+    DEFAULT_VALUE_GETTERS
 )
 install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
@@ -130,6 +127,8 @@ ecm_add_qml_module(kdenliveLib
 ecm_target_qml_sources(kdenliveLib
     SOURCES
     qml/ZoomBar.qml
+    monitor/view/AudioView.qml
+    monitor/view/AudioZoomBar.qml
     monitor/view/ProjectMonitor.qml
     monitor/view/Countdown.qml
     monitor/view/ClipMonitor.qml
@@ -138,9 +137,11 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/MonitorGeometryScene.qml
     monitor/view/MonitorOverlay.qml
     monitor/view/MonitorRotoScene.qml
+    monitor/view/MonitorSafeZone.qml
     monitor/view/MonitorSplit.qml
     monitor/view/MonitorSplitTracks.qml
     monitor/view/MonitorToolButton.qml
+    monitor/view/MonitorZoomButton.qml
     monitor/view/MonitorTrimming.qml
     monitor/view/SceneToolBar.qml
     monitor/view/MultiScreenToolBar.qml
@@ -153,10 +154,13 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/OverlayCenterDiagonal.qml
     monitor/view/OverlayThirds.qml
     monitor/view/OverlayLabel.qml
+    monitor/view/Safe169.qml
+    monitor/view/Safe916.qml
     monitor/view/ResizeHandle.qml
     monitor/view/ResizeLogic.js
     monitor/view/SnappingLogic.js
     monitor/view/RotationHandle.qml
+    monitor/view/Utils.js
     timeline2/view/qml/Timeline.qml
     timeline2/view/qml/TimelineLogic.js
     timeline2/view/qml/TrackHead.qml
@@ -179,6 +183,8 @@ ecm_target_qml_sources(kdenliveLib
     assets/view/qml/AssetView.qml
     timeline2/view/qml/AssetMenu.qml
     timeline2/view/qml/GuidesMenu.qml
+    dialogs/Splash.qml
+    dialogs/Simplesplash.qml
 )
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
@@ -272,6 +278,8 @@ target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::SvgWidgets
     # Qt${QT_MAJOR_VERSION}::Test
 )
+
+target_link_libraries(kdenliveLib PUBLIC KDAB::kddockwidgets)
 
 target_link_libraries(kdenliveLib PUBLIC FFmpeg::FFmpeg)
 

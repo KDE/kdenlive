@@ -41,7 +41,7 @@ ScopeManager::ScopeManager(QObject *parent)
     createScopes();
 }
 
-bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget)
+bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, KDDockWidgets::QtWidgets::DockWidget *audioScopeWidget)
 {
     bool added = false;
     int exists = 0;
@@ -63,15 +63,16 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         m_audioScopes.append(asd);
 
         if (audioScopeWidget != nullptr) {
-            connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
-            connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, [this, audioScope]() { slotRequestFrame(QString(audioScope->widgetName())); });
+            connect(audioScopeWidget, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, &ScopeManager::slotCheckActiveScopes);
+            connect(audioScopeWidget, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this,
+                    [this, audioScope]() { slotRequestFrame(QString(audioScope->widgetName())); });
         }
 
         added = true;
     }
     return added;
 }
-bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget)
+bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, KDDockWidgets::QtWidgets::DockWidget *colorScopeWidget)
 {
     bool added = false;
     int exists = 0;
@@ -93,8 +94,9 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         connect(colorScope, &AbstractGfxScopeWidget::signalFrameRequest, this, &ScopeManager::slotRequestFrame);
         connect(colorScope, &AbstractScopeWidget::signalScopeRenderingFinished, this, &ScopeManager::slotScopeReady);
         if (colorScopeWidget != nullptr) {
-            connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
-            connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, [this, colorScope]() { slotRequestFrame(QString(colorScope->widgetName())); });
+            connect(colorScopeWidget, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this, &ScopeManager::slotCheckActiveScopes);
+            connect(colorScopeWidget, &KDDockWidgets::QtWidgets::DockWidget::isOpenChanged, this,
+                    [this, colorScope]() { slotRequestFrame(QString(colorScope->widgetName())); });
         }
 
         added = true;
@@ -284,7 +286,7 @@ void ScopeManager::createScopes()
 
 template <class T> void ScopeManager::createScopeDock(T *scopeWidget, const QString &title, const QString &name)
 {
-    QDockWidget *dock = pCore->window()->addDock(title, name, scopeWidget);
+    auto dock = pCore->window()->addDock(title, name, scopeWidget);
     addScope(scopeWidget, dock);
     m_scopeNames << name;
 

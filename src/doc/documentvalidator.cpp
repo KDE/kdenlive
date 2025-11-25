@@ -172,7 +172,6 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     if (version < 1.00) {
         changedDecimalPoint = upgradeTo100(documentLocale);
     }
-
     return QPair<bool, QString>(true, changedDecimalPoint);
 }
 

@@ -288,6 +288,11 @@ void VideoWidget::slotZoom(bool zoomIn)
     }
 }
 
+void VideoWidget::slotZoomReset()
+{
+    setZoom(1.);
+}
+
 void VideoWidget::refreshRect()
 {
     resizeVideo(width(), height());
@@ -416,6 +421,8 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     if (rootObject() != nullptr && rootObject()->property("captureRightClick").toBool()) {
         // The event has been handled in qml
         m_swallowDrop = true;
+    } else {
+        m_swallowDrop = false;
     }
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
@@ -651,12 +658,15 @@ bool VideoWidget::isPaused() const
 void VideoWidget::pause(int position)
 {
     if (m_producer && !isPaused()) {
+        Q_EMIT paused();
         m_producer->set_speed(0);
         if (m_consumer && m_consumer->is_valid()) {
+            m_consumer->set("volume", 0);
             position = position > -1 ? position : m_consumer->position() + 1;
             m_producer->seek(position);
             m_consumer->purge();
             m_consumer->start();
+            m_consumer->set("scrub_audio", 0);
         }
     }
 }
@@ -1104,14 +1114,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
     } else {
-        Q_EMIT paused();
-        m_producer->set_speed(0);
-        m_consumer->set("volume", 0);
-        m_proxy->setSpeed(0);
-        m_producer->seek(m_consumer->position() + 1);
-        m_consumer->purge();
-        m_consumer->start();
-        m_consumer->set("scrub_audio", 0);
+        pause();
     }
     return true;
 }

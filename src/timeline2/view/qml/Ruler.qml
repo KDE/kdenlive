@@ -109,7 +109,7 @@ Item {
         Item {
             id: guideRoot
             anchors.fill: parent
-            property bool activated : proxy.position == model.frame
+            property bool activated : proxy.position === model.frame
             property bool isRangeMarker: model.hasRange
             property real markerDuration: model.duration
             property real markerEndPos: model.endPos
@@ -191,6 +191,7 @@ Item {
                         xOffset = mouseX
                         anchors.left = undefined
                         movingMarkerId = model.id
+                        timeline.pauseGuideSorting(true)
                     }
                     onReleased: {
                         if (prevFrame != destFrame) {
@@ -203,6 +204,7 @@ Item {
                         }
                         movingMarkerId = -1
                         anchors.left = parent.left
+                        timeline.pauseGuideSorting(false)
                     }
                     onPositionChanged: mouse => {
                         if (pressed) {
@@ -272,15 +274,17 @@ Item {
                             startPosition = model.frame
                             originalEndPosition = model.frame + guideRoot.markerDuration
                             cursorShape = Qt.SizeHorCursor
+                            timeline.pauseGuideSorting(true)
                         }
                         
-                        onPositionChanged: {
+                        onPositionChanged: mouse =>{
                             if (isResizing) {
                                 var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
                                 var realDeltaX = globalCurrentX - globalStartX
 
                                 var deltaFrames = Math.round(realDeltaX / timeline.scaleFactor)
                                 var newStartPosition = Math.max(0, startPosition + deltaFrames)
+                                newStartPosition = controller.suggestSnapPoint(newStartPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 var newDuration = Math.max(1, originalEndPosition - newStartPosition)
 
                                 currentNewStartPosition = newStartPosition
@@ -302,6 +306,7 @@ Item {
                                 rangeSpan.width = Qt.binding(function() { return Math.max(1, guideRoot.markerDuration * timeline.scaleFactor) })
                                 markerBase.x = Qt.binding(function() { return model.frame * timeline.scaleFactor })
                             }
+                            timeline.pauseGuideSorting(false)
                         }
                         
                         onCanceled: {
@@ -359,13 +364,14 @@ Item {
                             cursorShape = Qt.SizeHorCursor
                         }
                         
-                        onPositionChanged: {
+                        onPositionChanged: mouse =>{
                             if (isResizing) {
                                 var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
                                 var realDeltaX = globalCurrentX - globalStartX
                                 
                                 var deltaFrames = Math.round(realDeltaX / timeline.scaleFactor)
                                 var newDuration = Math.max(1, startDuration + deltaFrames)
+                                newDuration = controller.suggestSnapPoint(newDuration + startPosition, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping) - startPosition
                                 
                                 rangeSpan.width = Math.max(1, newDuration * timeline.scaleFactor)
                                 
@@ -463,6 +469,7 @@ Item {
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
+                        preventStealing: true
                         property int prevFrame
                         property int destFrame
                         property int movingMarkerId
@@ -472,8 +479,9 @@ Item {
                             prevFrame = model.frame
                             destFrame = prevFrame
                             xOffset = mouseX
-                            anchors.left = undefined
                             movingMarkerId = markerBase.markerId
+                            anchors.left = undefined
+                            timeline.pauseGuideSorting(true)
                         }
                         onReleased: {
                             if (prevFrame != destFrame) {
@@ -482,8 +490,9 @@ Item {
                             } else {
                                 root.markerActivated(prevFrame)
                             }
-                            movingMarkerId = -1
+                            timeline.pauseGuideSorting(false)
                             anchors.left = parent.left
+                            movingMarkerId = -1
                         }
                         onPositionChanged: mouse => {
                             if (pressed) {

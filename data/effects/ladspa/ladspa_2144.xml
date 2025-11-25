@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2144" tag="ladspa.2144" ladspaid="2144" type="audio">
+   <name>TAP Tremolo</name>
+   <description><![CDATA[TAP Tremolo (LADSPA 2144)<br>
+   Sounds good mainly on acoustic or electric guitar tracks.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" decimals="3" default="0.000" max="20.000" min="0.000" suffix="Hz">
+      <name>Frequency</name>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="0.0" max="100.0" min="0.0" suffix="%">
+      <name>Depth</name>
+   </parameter>
+   <parameter name="2" type="animated" decimals="1" default="0.0" max="20.0" min="-70.0" suffix="dB">
+      <name>Gain</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

@@ -277,7 +277,8 @@ enum CacheType {
     CacheSequence = 6,
     CacheTmpWorkFiles = 7,
     CacheMask = 8,
-    CacheMaskSource = 9
+    CacheMaskSource = 9,
+    CacheLayouts = 10
 };
 
 enum TrimMode { NormalTrim, RippleTrim, RollingTrim, SlipTrim, SlideTrim };

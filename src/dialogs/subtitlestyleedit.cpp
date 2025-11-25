@@ -26,14 +26,18 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     connect(buttonSelectFont, &QPushButton::clicked, this, [this]() {
         QFont oldFont;
         oldFont.setFamily(labelFontName->text());
-        oldFont.setPointSizeF(spinFontSize->text().toDouble());
+        oldFont.setPointSizeF(spinFontSize->value());
         oldFont.setBold(checkBold->isChecked());
         oldFont.setItalic(checkItalic->isChecked());
         oldFont.setUnderline(checkUnderline->isChecked());
         oldFont.setStrikeOut(checkStrikeOut->isChecked());
 
         bool ok;
-        QFont newFont = QFontDialog::getFont(&ok, oldFont, this, tr("Select font"));
+        QFontDialog::FontDialogOptions dialogOptions;
+        if (pCore->packageType() == LinuxPackageType::AppImage || pCore->packageType() == LinuxPackageType::Flatpak) {
+            dialogOptions = {QFontDialog::DontUseNativeDialog};
+        }
+        QFont newFont = QFontDialog::getFont(&ok, oldFont, this, i18n("Select font"), dialogOptions);
         if (ok) {
             labelFontName->setText(newFont.family());
             spinFontSize->setValue(newFont.pointSizeF());

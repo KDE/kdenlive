@@ -8,7 +8,7 @@ The schedule of KDE Gear can be found at https://community.kde.org/Schedules
 
 ## Tasks
 
-### Preparation (~2 weeks before release)
+### Preparation (~ 2 weeks before release)
 
 - [ ] For major releases: if it was decided to change the splash screen, make sure it has been merged/committed
 - [ ] Update MLT and other dependencies [in Craft](https://invent.kde.org/packaging/craft-blueprints-kde/)
@@ -56,7 +56,7 @@ Start with the following steps after the source tarballs have been released by t
     4. Finish it with the full log [(to be put to `changelog.md`)](https://invent.kde.org/websites/kdenlive-org/-/wikis/Posts/Release-Annoucements#change-log)
 - [ ] After binaries are published: Publish the announcement by merging the merge request. Make sure date and time are set correctly in UTC in the `date` tag of the release announcement. It needs to be set to a time prior the merge time, otherwise it won't show up.
 - [ ] [Merge documentation update](https://invent.kde.org/documentation/docs-kdenlive-org/-/merge_requests)
-- [ ] Notifiy KDE Promo
+- [ ] Notify KDE Promo
 - Publish on social media
     - [ ] Verify a post on KDE Discuss has automatically been created (triggered when the website post goes online)
     - [ ] [Mastodon](https://floss.social/@kdenlive)

@@ -7,8 +7,8 @@ cmake_minimum_required(VERSION 3.16)
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (RELEASE_SERVICE_VERSION_MAJOR "25")
-set (RELEASE_SERVICE_VERSION_MINOR "11")
+set (RELEASE_SERVICE_VERSION_MAJOR "26")
+set (RELEASE_SERVICE_VERSION_MINOR "03")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -25,7 +25,17 @@ option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR lib
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" ON)
+
+set(FETCH_OTIO_DEFAULT OFF)
+if(BSD)
+    # We don't want to fetch OTIO by default and long term might not even offer this option,
+    # however there is a bug (crash) with the shared builds of OTIO on FreeBSD
+    # Hence we keep the fetching enabled as a stop gap solution on this platform
+    # https://invent.kde.org/multimedia/kdenlive/-/issues/1992
+    set(FETCH_OTIO_DEFAULT ON)
+endif()
+
+option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" ${FETCH_OTIO_DEFAULT})
 
 # shall we use DBus?
 # enabled per default on Linux & BSD systems
@@ -39,7 +49,7 @@ option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" OFF)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
-set(MLT_MIN_MINOR_VERSION 28)
+set(MLT_MIN_MINOR_VERSION 32)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
@@ -135,6 +145,8 @@ find_package(Qt${QT_MAJOR_VERSION}
     # Test
 )
 
+find_package(KDDockWidgets-qt6 2.4.0 REQUIRED)
+
 if(USE_DBUS)
     find_package(KF${KF_MAJOR} ${KF_DEP_VERSION} REQUIRED COMPONENTS DBusAddons)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
@@ -201,7 +213,7 @@ endif()
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
-if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
+if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
   # Probably a Git workspace; determine the revision.
   find_package(Git QUIET)
   if(GIT_FOUND)
@@ -209,7 +221,7 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
 	  ARGS "log -n 1 --pretty=format:\"%h\""
       OUTPUT_VARIABLE KDENLIVE_GIT_REVISION)
     message(STATUS "Kdenlive Git revision: ${KDENLIVE_GIT_REVISION}")
-    set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION} (rev. ${KDENLIVE_GIT_REVISION})")
+    set(KDENLIVE_FULL_VERSION_STRING "${KDENLIVE_VERSION} - rev. ${KDENLIVE_GIT_REVISION}")
   else()
     message(STATUS "Kdenlive Git revision could not be determined")
   endif()
@@ -264,6 +276,7 @@ ecm_qt_install_logging_categories(
 # Tests
 if(BUILD_TESTING)
     add_subdirectory(tests)
+    add_subdirectory(appiumtests)
 endif()
 if(BUILD_FUZZING AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     add_subdirectory(fuzzer)

@@ -32,6 +32,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QSt
             m_projectWildcard.append(QLatin1Char('*'));
         }
     }
+
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("??"));
     m_projectWildcard.append(QStringLiteral("-??"));
@@ -59,8 +60,7 @@ BackupWidget::~BackupWidget() = default;
 void BackupWidget::slotParseBackupFiles()
 {
     QLocale locale;
-    QStringList filter;
-    filter << m_projectWildcard;
+    QStringList filter = {m_projectWildcard};
     backup_list->clear();
 
     // Parse new XDG backup folder $HOME/.local/share/kdenlive/.backup

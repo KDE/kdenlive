@@ -14,7 +14,7 @@ set(KdenliveTest_SOURCES
     documenttest.cpp
     effectstest.cpp
     effectsgrouptest.cpp
-    filetest.cpp
+    filetest.cpp # codespell:ignore filetest
     groupstest.cpp
     hidetest.cpp
     keyframetest.cpp

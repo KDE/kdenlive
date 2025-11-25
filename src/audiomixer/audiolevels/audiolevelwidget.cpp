@@ -133,7 +133,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
     AudioLevelRenderer::RenderData renderData = createRenderData();
     m_renderer->drawChannelLevels(p, renderData);
 
-    if (m_showClippingIndicator) {
+    if (m_displayClipping) {
         m_renderer->drawClippingIndicators(p, renderData);
     }
 
@@ -255,6 +255,17 @@ void AudioLevelWidget::drawBackground()
     if (!newSize.isValid()) {
         return;
     }
+    if (m_showClippingIndicator) {
+        switch (m_orientation) {
+        case Qt::Horizontal:
+            m_displayClipping = newSize.width() > 5 * SPACE_FOR_CLIPPING_INDICATOR;
+            break;
+        default:
+            m_displayClipping = newSize.height() > 5 * SPACE_FOR_CLIPPING_INDICATOR;
+            break;
+        }
+    }
+
     qreal scalingFactor = devicePixelRatioF();
     m_backgroundCache = QPixmap(newSize * scalingFactor);
     m_backgroundCache.setDevicePixelRatio(scalingFactor);
@@ -336,7 +347,7 @@ void AudioLevelWidget::setAudioValues(const QVector<double> &values)
         }
     }
 
-    if (m_showClippingIndicator) {
+    if (m_displayClipping) {
         updateClippingStates();
     }
 
@@ -370,7 +381,7 @@ void AudioLevelWidget::reset()
 
 void AudioLevelWidget::updateClippingStates()
 {
-    if (!m_showClippingIndicator || m_clippingStates.size() != audioChannels) {
+    if (!m_showClippingIndicator || !m_displayClipping || m_clippingStates.size() != audioChannels) {
         return;
     }
 
@@ -533,7 +544,7 @@ void AudioLevelWidget::updateAxisLengths()
 
     // Calculate available size for audio levels, accounting for clipping indicators
     QSize availableSize = size();
-    if (m_showClippingIndicator) {
+    if (m_displayClipping) {
         if (m_orientation == Qt::Horizontal) {
             // Reserve space on the right for clipping indicators
             availableSize.setWidth(availableSize.width() - SPACE_FOR_CLIPPING_INDICATOR);

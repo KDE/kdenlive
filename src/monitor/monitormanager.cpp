@@ -110,7 +110,7 @@ void MonitorManager::focusProjectMonitor()
         activateMonitor(Kdenlive::ProjectMonitor);
     } else {
         // Force raise
-        m_projectMonitor->parentWidget()->raise();
+        pCore->window()->raiseMonitor(false);
     }
 }
 
@@ -199,7 +199,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
         if (name == Kdenlive::ClipMonitor) {
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
-                    m_clipMonitor->parentWidget()->raise();
+                    pCore->window()->raiseMonitor(true);
                     if (!quickSwitch) {
                         pCore->window()->activeBin()->focusBinView();
                     }
@@ -233,7 +233,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             m_projectMonitor->updateGuidesList();
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
-                    m_projectMonitor->parentWidget()->raise();
+                    pCore->window()->raiseMonitor(false);
                     if (!quickSwitch) {
                         pCore->window()->focusTimeline();
                     }
@@ -563,6 +563,11 @@ void MonitorManager::setupActions()
     connect(monitorZoomOut, &QAction::triggered, this, &MonitorManager::slotZoomOut);
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
 
+    QAction *monitorZoomReset = new QAction(i18n("Reset Monitor Zoom"), this);
+    monitorZoomReset->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
+    connect(monitorZoomReset, &QAction::triggered, this, &MonitorManager::slotZoomReset);
+    pCore->window()->addAction(QStringLiteral("monitor_zoomreset"), monitorZoomReset, {}, QStringLiteral("monitor"));
+
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     connect(monitorSeekBackward, &QAction::triggered, this, [&](bool) { MonitorManager::slotRewind(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J, QStringLiteral("navandplayback"));
@@ -621,7 +626,7 @@ void MonitorManager::setupActions()
     interlace->addAction(i18n("One Field (fast)"));
     interlace->addAction(i18n("Linear Blend (fast)"));
     interlace->addAction(i18n("YADIF - temporal only (good)"));
-    interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
+    interlace->addAction(i18n("YADIF - temporal + spatial (best)"));
     if (KdenliveSettings::mltdeinterlacer() == QLatin1String("linearblend")) {
         interlace->setCurrentItem(1);
     } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif-nospatial")) {
@@ -855,6 +860,13 @@ void MonitorManager::slotZoomOut()
 {
     if (m_activeMonitor) {
         static_cast<Monitor *>(m_activeMonitor)->slotZoomOut();
+    }
+}
+
+void MonitorManager::slotZoomReset()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotZoomReset();
     }
 }
 

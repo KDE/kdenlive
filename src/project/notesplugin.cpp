@@ -20,8 +20,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 
 #include <KColorScheme>
+#include <kddockwidgets/DockWidget.h>
+#include <kddockwidgets/core/DockWidget.h>
 
-NotesPlugin::NotesPlugin(QObject *parent)
+NotesPlugin::NotesPlugin(KDDockWidgets::QtWidgets::DockWidget *tabbedDock, QObject *parent)
     : QObject(parent)
 {
     QWidget *container = new QWidget();
@@ -62,7 +64,7 @@ NotesPlugin::NotesPlugin(QObject *parent)
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here …"));
-    m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container);
+    m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container, KDDockWidgets::Location_None, tabbedDock);
     m_notesDock->close();
     connect(pCore->projectManager(), &ProjectManager::docOpened, this, &NotesPlugin::setProject);
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &searchText) {
@@ -187,8 +189,10 @@ void NotesPlugin::setProject(KdenliveDoc *document)
 
 void NotesPlugin::showDock()
 {
-    m_notesDock->show();
-    m_notesDock->raise();
+    m_notesDock->open();
+    if (m_notesDock->asDockWidgetController()->isTabbed()) {
+        m_notesDock->setAsCurrentTab();
+    }
 }
 
 void NotesPlugin::checkSelection()

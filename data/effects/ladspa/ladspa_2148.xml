@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2148" tag="ladspa.2148" ladspaid="2148" type="audio">
+   <name>TAP Vibrato</name>
+   <description><![CDATA[TAP Vibrato (LADSPA 2148)<br>
+   Modulates the pitch of its input signal with a low-frequency sinusoidal signal. It is useful for guitar and synth tracks, and it can also come handy if a strange effect is needed.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter decimals="3" default="0.000" max="30.000" min="0.000" name="0" type="animated" suffix="Hz">
+      <name>Frequency</name>
+      <comment><![CDATA[Determines how fast the pitch is modulated up-down]]></comment>
+   </parameter>
+   <parameter decimals="1" default="0.0" max="20.0" min="0.0" name="1" type="animated" suffix="%">
+      <name>Depth</name>
+      <comment><![CDATA[Sets the amount of pitch modulation]]></comment>
+   </parameter>
+   <parameter decimals="1" default="-90.0" max="20.0" min="-90.0" name="2" type="animated" suffix="dB">
+      <name>Dry Level</name>
+   </parameter>
+   <parameter decimals="1" default="0.0" max="20.0" min="-90.0" name="3" type="animated" suffix="dB">
+      <name>Wet Level</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

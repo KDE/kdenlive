@@ -160,7 +160,7 @@ void FilterTask::run()
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         return;
     }
-    if (binClip->clipType() == ClipType::Timeline) {
+    if (binClip && binClip->clipType() == ClipType::Timeline) {
         length = binClip->frameDuration();
     } else {
         length = producer->get_playtime();

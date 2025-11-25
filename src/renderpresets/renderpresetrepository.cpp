@@ -276,8 +276,7 @@ QVector<QString> RenderPresetRepository::getAllPresets() const
     QReadLocker locker(&m_mutex);
 
     QVector<QString> list;
-    std::transform(m_profiles.begin(), m_profiles.end(), std::inserter(list, list.begin()),
-                   [&](decltype(*m_profiles.begin()) corresp) { return corresp.first; });
+    std::transform(m_profiles.begin(), m_profiles.end(), std::inserter(list, list.begin()), [](const auto &corresp) { return corresp.first; });
     std::sort(list.begin(), list.end());
     return list;
 }

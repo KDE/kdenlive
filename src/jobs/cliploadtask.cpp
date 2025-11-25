@@ -793,7 +793,7 @@ void ClipLoadTask::run()
             if (transcode) {
                 producer->set("_wait_for_transcode", 1);
             }
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::BlockingQueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {
                 pCore->bin()->shouldCheckProfile = false;

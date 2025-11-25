@@ -25,10 +25,9 @@
 
 #include <memory>
 
-EffectListWidget::EffectListWidget(QWidget *parent)
-    : AssetListWidget(true, parent)
+EffectListWidget::EffectListWidget(QAction *includeList, QAction *tenBit, QWidget *parent)
+    : AssetListWidget(true, includeList, tenBit, parent)
 {
-
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model = EffectTreeModel::construct(effectCategory, this);
     m_proxyModel = std::make_unique<EffectFilter>(this);
@@ -41,6 +40,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_effectsTree->setColumnHidden(2, true);
     m_effectsTree->setColumnHidden(3, true);
     m_effectsTree->setColumnHidden(4, true);
+    m_effectsTree->setColumnHidden(5, true);
     m_effectsTree->header()->setStretchLastSection(true);
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
     connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
@@ -127,14 +127,14 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
 
 void EffectListWidget::exportCustomEffect(const QModelIndex &index)
 {
-    QString name = getName(index);
-    if (name.isEmpty()) {
+    const QString assetId = m_model->data(m_proxyModel->mapToSource(index), AssetTreeModel::IdRole).toString();
+    if (assetId.isEmpty()) {
         return;
     }
 
     QString filter = QStringLiteral("%1 (*.xml);;%2 (*)").arg(i18n("Kdenlive Effect definitions"), i18n("All Files"));
     QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveExportCustomEffect"));
-    QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(name));
+    QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(assetId));
     startFolder.append(source.fileName());
 
     QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Custom Effect"), startFolder, filter);
@@ -152,4 +152,10 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index)
 bool EffectListWidget::isMasterOnly(const QString &assetId) const
 {
     return static_cast<EffectTreeModel *>(m_model.get())->isMasterOnly(assetId);
+}
+
+void EffectListWidget::switchTenBitFilter()
+{
+    KdenliveSettings::setEffectsFilter(m_filterButton->isChecked());
+    m_proxyModel->invalidate();
 }

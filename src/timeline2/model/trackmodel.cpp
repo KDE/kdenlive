@@ -1792,8 +1792,10 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 movedClip->setMixDuration(0);
                 /*QModelIndex ix = ptr->makeClipIndexFromID(clipIds.first);
                 Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::DurationRole});*/
-                QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
-                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.first);
+                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
             }
             return true;
         };
@@ -1836,8 +1838,10 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                     new AssetParameterModel(std::move(t), xml, assetId, ObjectId(KdenliveObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
                 m_sameCompositions[clipIds.second] = asset;
                 m_mixList.insert(clipIds.first, clipIds.second);
-                QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
-                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.first);
+                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
             }
             return true;
         };
@@ -2142,6 +2146,8 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             movedClip->setMixDuration(0);
             QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
             Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
+            QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.first);
+            Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
             QScopedPointer<Mlt::Field> field(m_track->field());
             field->block();
             field->disconnect_service(transition);
@@ -2175,6 +2181,8 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                                                            true, true);
                     QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
                     Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
+                    QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.first);
+                    Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
                 }
             }
             return result;
@@ -2274,6 +2282,11 @@ bool TrackModel::deleteMix(int clipId, bool final, bool notify)
             movedClip->setMixDuration(final ? 0 : 1);
             QModelIndex ix = ptr->makeClipIndexFromID(clipId);
             Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
+            int otherClipId = getSecondMixPartner(clipId);
+            if (otherClipId > -1) {
+                QModelIndex ix2 = ptr->makeClipIndexFromID(otherClipId);
+                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
+            }
         }
         if (final) {
             Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[clipId]->getAsset());
@@ -2335,8 +2348,10 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString, QVector<QPair<QStrin
         m_sameCompositions[info.secondClipId] = asset;
         m_mixList.insert(info.firstClipId, info.secondClipId);
         if (finalMove) {
-            QModelIndex ix2 = ptr->makeClipIndexFromID(info.secondClipId);
-            Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+            QModelIndex ix = ptr->makeClipIndexFromID(info.secondClipId);
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+            QModelIndex ix2 = ptr->makeClipIndexFromID(info.firstClipId);
+            Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
         }
         return true;
     }
@@ -2406,6 +2421,8 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         movedClip->setMixDuration(mixData.second);
         QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
         Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+        QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.first);
+        Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
         bool reverse = movedClip->getSubPlaylistIndex() == 0;
         // Insert mix transition
         QString assetName;
@@ -2522,6 +2539,8 @@ void TrackModel::syncronizeMixes(bool finalMove)
             ptr->getClipPtr(secondClipId)->setMixDuration(mixOut - mixIn);
             QModelIndex ix = ptr->makeClipIndexFromID(secondClipId);
             Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+            QModelIndex ix2 = ptr->makeClipIndexFromID(firstClip);
+            Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
         }
     }
     for (int i : std::as_const(toDelete)) {

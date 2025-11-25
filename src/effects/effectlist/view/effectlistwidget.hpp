@@ -22,7 +22,7 @@ class EffectListWidget : public AssetListWidget
     Q_OBJECT
 
 public:
-    EffectListWidget(QWidget *parent = Q_NULLPTR);
+    EffectListWidget(QAction *includeList, QAction *tenBit, QWidget *parent = Q_NULLPTR);
     ~EffectListWidget() override;
     bool isEffect() const override { return true; }
     void setFilterType(const QString &type) override;
@@ -35,6 +35,7 @@ public:
     void editCustomAsset(const QModelIndex &index) override;
     void exportCustomEffect(const QModelIndex &index) override;
     bool isMasterOnly(const QString &assetId) const;
+    void switchTenBitFilter() override;
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path) override;

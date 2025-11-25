@@ -27,7 +27,7 @@ Item {
     property int clipDuration: 0
     property bool isAudio: false
     property bool showKeyframes: false
-    property var itemType: 0
+    property int itemType: 0
     property bool isGrabbed: false
     property var keyframeModel
     property bool grouped: false

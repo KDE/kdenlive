@@ -22,19 +22,20 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
         comboboxwidget->setItemData(i, keywordVal);
         i++;
     }
-    comboboxwidget->insertItem(0, i18n("<Select a Keyword>"));
+    comboboxwidget->insertItem(0, i18n("Insert a Keyword…"));
     comboboxwidget->setCurrentIndex(0);
+
+    label->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     // set check state
     slotRefresh();
-    setMinimumHeight(comboboxwidget->sizeHint().height());
 
     // Q_EMIT the signal of the base class when appropriate
-    connect(lineeditwidget, &QLineEdit::editingFinished, this, [this]() { Q_EMIT valueChanged(m_index, lineeditwidget->text(), true); });
+    connect(lineeditwidget, &QPlainTextEdit::textChanged, this, [this]() { Q_EMIT valueChanged(m_index, lineeditwidget->toPlainText(), true); });
     connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int ix) {
         if (ix > 0) {
             QString comboval = comboboxwidget->itemData(ix).toString();
-            this->lineeditwidget->insert(comboval);
-            Q_EMIT valueChanged(m_index, lineeditwidget->text(), true);
+            this->lineeditwidget->insertPlainText(comboval);
+            Q_EMIT valueChanged(m_index, lineeditwidget->toPlainText(), true);
             comboboxwidget->setCurrentIndex(0);
         }
     });
@@ -47,5 +48,5 @@ void KeywordParamWidget::slotShowComment(bool show)
 
 void KeywordParamWidget::slotRefresh()
 {
-    lineeditwidget->setText(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
+    lineeditwidget->setPlainText(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
 }

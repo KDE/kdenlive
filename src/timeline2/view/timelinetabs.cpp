@@ -366,10 +366,14 @@ void TimelineTabs::buildClipMenu()
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("save_to_bin")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("send_sequence")));
 
-    QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("marker_menu"), pCore->window()));
-    m_timelineClipMenu->addMenu(markerMenu);
+    QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("markers"), pCore->window()));
+    if (markerMenu) {
+        m_timelineClipMenu->addMenu(markerMenu);
+    }
     QMenu *alignMenu = new QMenu(i18n("Align to Reference"), this);
-    m_timelineClipMenu->addMenu(alignMenu);
+    if (alignMenu) {
+        m_timelineClipMenu->addMenu(alignMenu);
+    }
     alignMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
     alignMenu->addAction(coll->action(QStringLiteral("align_audio")));
     alignMenu->addAction(coll->action(QStringLiteral("set_timecode_ref")));

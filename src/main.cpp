@@ -10,12 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "logger.hpp"
 #endif
 #include "definitions.h"
-#include "dialogs/splash.hpp"
 #include "dialogs/wizard.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
+// Required for MacOS definition of MLT_LC_NAME
 #include "lib/localeHandling.h"
-#include "mainwindow.h"
 #include "render/renderrequest.h"
 #include <config-kdenlive.h>
 #include <project/projectmanager.h>
@@ -41,21 +40,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifndef NODBUS
 #include <KDBusService>
 #endif
-#include <KLocalizedString>
 
 #include <KStyleManager>
+#include <kddockwidgets/DockWidget.h>
 
+#include <KLocalizedString>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QDir>
 #include <QIcon>
 #include <QProcess>
-#include <QQmlEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QResource>
-#include <QSplashScreen>
+
 #include <QUndoGroup>
 #include <QUrl> //new
 
@@ -116,18 +115,12 @@ static void resetConfig()
     }
 
     // Delete xml ui rc file
-    const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    if (configLocation.isEmpty()) {
+    const QString configFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kxmlgui5/kdenlive/kdenliveui.rc"));
+
+    if (configFile.isEmpty()) {
         return;
     }
-    QDir dir(configLocation);
-    if (!(dir.cd(QStringLiteral("kxmlgui5")) && dir.cd(QStringLiteral("kdenlive")))) {
-        return;
-    }
-    QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
-    if (!f.exists()) {
-        return;
-    }
+    QFile f(configFile);
     if (!f.open(QIODevice::ReadOnly)) {
         return;
     }
@@ -273,25 +266,10 @@ int main(int argc, char *argv[])
     }
 
     KLocalizedString::setApplicationDomain("kdenlive");
-    qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
     QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
                              QStringLiteral("https://bugs.kde.org/"));
-
-    switch (packageType) {
-    case LinuxPackageType::AppImage:
-        otherText.prepend(i18n("You are using the AppImage.<br>"));
-        break;
-    case LinuxPackageType::Flatpak:
-        otherText.prepend(i18n("You are using the Flatpak.<br>"));
-        break;
-    case LinuxPackageType::Snap:
-        otherText.prepend(i18n("You are using the Snap package.<br>"));
-        break;
-    default:
-        break;
-    }
 
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
                          i18n("Copyright © 2007–2025 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
@@ -317,6 +295,8 @@ int main(int argc, char *argv[])
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
+    aboutData.addComponent(aboutData.displayName(), QString(), KDENLIVE_FULL_VERSION_STRING, aboutData.homepage());
+
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
                            QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
     aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
@@ -331,8 +311,6 @@ int main(int argc, char *argv[])
 #endif
 
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
-
-    qApp->processEvents(QEventLoop::AllEvents);
 
     // Create command line parser with options
     QCommandLineParser parser;
@@ -360,6 +338,12 @@ int main(int argc, char *argv[])
                                   i18n("Exit after (detached) render process started, without this flag it exists only after it finished."));
     parser.addOption(exitOption);
 
+    QCommandLineOption disableWelcome(QStringLiteral("no-welcome"), i18n("Do not show any welcome screen."));
+    parser.addOption(disableWelcome);
+
+    QCommandLineOption debugOption(QStringLiteral("debug"), i18n("Show some development specific features in the UI, disable all exclude lists for assets."));
+    parser.addOption(debugOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
 
@@ -369,6 +353,7 @@ int main(int argc, char *argv[])
 
     QUrl renderUrl;
     QString presetName;
+    QStringList clipsToLoad;
     if (parser.positionalArguments().count() != 0) {
         const QString inputFilename = parser.positionalArguments().at(0);
         const QFileInfo fileInfo(inputFilename);
@@ -377,16 +362,36 @@ int main(int argc, char *argv[])
             app.url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
         }
         if (parser.positionalArguments().count() > 1) {
-            // Output render
-            const QString outputFilename = parser.positionalArguments().at(1);
-            const QFileInfo outFileInfo(outputFilename);
-            if (!outFileInfo.exists()) { // easiest way to detect "invalid"/unintended URLs is no scheme
-                renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
+            if (parser.isSet(renderOption)) {
+                // Output render
+                const QString outputFilename = parser.positionalArguments().at(1);
+                const QFileInfo outFileInfo(outputFilename);
+                if (!outFileInfo.exists()) {
+                    // easiest way to detect "invalid"/unintended URLs is no scheme
+                    renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
+                }
+            } else {
+                // We may want to open several clips in a project
+                if (!app.url.isEmpty()) {
+                    // Check if first url is not a .kdenlive project file
+                    if (!app.url.toLocalFile().endsWith(QLatin1String(".kdenlive"))) {
+                        if (!ProjectManager::isKdenliveProjectFile(app.url)) {
+                            // We are trying to open clips
+                            clipsToLoad << app.url.toLocalFile();
+                            app.url.clear();
+                        }
+                    }
+                    for (int i = 1; i < parser.positionalArguments().count(); i++) {
+                        const QString outputFilename = parser.positionalArguments().at(i);
+                        const QFileInfo outFileInfo(outputFilename);
+                        if (outFileInfo.exists()) {
+                            clipsToLoad << outFileInfo.absoluteFilePath();
+                        }
+                    }
+                }
             }
         }
     }
-
-    qApp->processEvents(QEventLoop::AllEvents);
 
     if (parser.isSet(renderOption)) {
         if (app.url.isEmpty()) {
@@ -470,24 +475,20 @@ int main(int argc, char *argv[])
         return exitCode;
     }
 
-    qApp->processEvents(QEventLoop::AllEvents);
-    Splash splash;
-    qApp->processEvents(QEventLoop::AllEvents);
-    splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
-    splash.show();
-    qApp->processEvents(QEventLoop::AllEvents);
-
 #ifdef Q_OS_WIN
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup grp(config, "unmanaged");
     KConfigGroup uicg(config, "UiSettings");
     if (!uicg.exists()) {
         uicg.writeEntry("ColorSchemePath", "BreezeDark.colors");
         uicg.sync();
+    }
+    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
+        qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
+        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     }
 
 #ifndef NODBUS
@@ -495,7 +496,7 @@ int main(int argc, char *argv[])
     KDBusService programDBusService;
 #endif
 
-    qApp->processEvents(QEventLoop::AllEvents);
+    // qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)
     KCrash::initialize();
@@ -506,16 +507,20 @@ int main(int argc, char *argv[])
     } else if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
-    const QString clipsToLoad = parser.value(clipsOption);
-    qApp->processEvents(QEventLoop::AllEvents);
-    if (!Core::build(packageType)) {
+    if (parser.isSet(clipsOption)) {
+        clipsToLoad = parser.value(clipsOption).split(QLatin1Char(','));
+    }
+
+    KDDockWidgets::initFrontend(KDDockWidgets::FrontendType::QtWidgets);
+
+    if (!Core::build(packageType, false, parser.isSet(debugOption), app.url.isEmpty() && clipsToLoad.isEmpty() && !parser.isSet(disableWelcome))) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
-        QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
+        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });*/
         pCore->initGUI(parser.value(mltPathOption), app.url, clipsToLoad);
         result = app.exec();
     }

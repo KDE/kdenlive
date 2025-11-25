@@ -584,6 +584,11 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(this, &RenderWidget::renderStatusChanged, this, &RenderWidget::updatePowerManagement);
     m_view.keep_log_files->setChecked(KdenliveSettings::keepRenderLogFiles());
     connect(m_view.keep_log_files, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setKeepRenderLogFiles(enabled); });
+
+    m_lowSpaceTimer.setSingleShot(true);
+    m_lowSpaceTimer.setInterval(3000);
+    connect(&m_lowSpaceTimer, &QTimer::timeout, this, &RenderWidget::checkDriveSpace, Qt::QueuedConnection);
+    checkDriveSpace();
 }
 
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
@@ -730,7 +735,6 @@ void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 
 void RenderWidget::reloadGuides()
 {
-    double projectDuration = GenTime(pCore->projectDuration() - 1, pCore->getCurrentFps()).ms() / 1000;
     QVariant startData = m_view.guide_start->currentData();
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
@@ -769,7 +773,7 @@ void RenderWidget::reloadGuides()
                     m_view.guide_end->addItem(zoneOut, displayText, pos.seconds());
                 }
             }
-            m_view.guide_end->addItem(zoneOut, i18n("End"), projectDuration);
+            m_view.guide_end->addItem(zoneOut, i18n("End"), -1);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);
@@ -812,6 +816,11 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         m_view.buttonEdit->setEnabled(profile->editable());
     }
     if (url.isValid()) {
+        QStorageInfo info(QFileInfo(url.toLocalFile()).absolutePath());
+        if (m_lastCheckedDevice != info.device()) {
+            // User selected a new device, check now if it has enough space
+            checkDriveSpace();
+        }
         std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
         m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
     }
@@ -1683,7 +1692,7 @@ void RenderWidget::slotCheckFreeMemory()
             KNotification *notify = new KNotification(QStringLiteral("ErrorMessage"));
             notify->setText(errorMessage);
             notify->sendEvent();
-            // Increase the memory check frequence
+            // Increase the memory check frequency
             m_memCheckTimer.setInterval(5000);
         } else if (m_lowMemStatus != NoWarning) {
             m_lowMemStatus = NoWarning;
@@ -2107,6 +2116,8 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 
     // If stemaudio is not defined, will return 0
     m_view.stemAudioExport->setChecked(props.value(QStringLiteral("renderstemaudio")).toInt());
+    // New document opened, check space on drive
+    m_lowSpaceTimer.start();
 }
 
 void RenderWidget::saveRenderProfile()
@@ -2259,14 +2270,68 @@ void RenderWidget::updateRenderOffset()
     refreshParams();
 }
 
+void RenderWidget::checkDriveSpace()
+{
+    QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
+    m_lastCheckedDevice = info.device();
+    DriveSpaceStatus previousState = m_freeSpaceStatus;
+    if (!info.isReady() || !info.isValid() || info.isReadOnly()) {
+        m_freeSpaceStatus = SpaceNotWritable;
+        if (!info.isReady()) {
+            // Drive may be mounting, check again in a few seconds
+            m_lowSpaceTimer.start();
+        }
+        if (previousState != m_freeSpaceStatus) {
+            updateRenderInfoMessage();
+        }
+        return;
+    }
+    m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
+
+    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+    if (m_lastFreeSpace < 5 * minimumSize) {
+        m_freeSpaceStatus = SpaceLow;
+    } else if (m_lastFreeSpace < minimumSize) {
+        m_freeSpaceStatus = SpaceNone;
+    } else {
+        m_freeSpaceStatus = SpaceOk;
+    }
+    if (previousState != m_freeSpaceStatus) {
+        updateRenderInfoMessage();
+    }
+}
+
 void RenderWidget::updateRenderInfoMessage()
 {
-    m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    if (m_freeSpaceStatus != SpaceOk) {
+        m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
+                                                                                                                   : KMessageWidget::Warning);
+    } else {
+        m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    }
     if (m_renderDuration <= 0) {
         m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
         m_view.infoMessage->show();
         return;
     }
+    if (m_freeSpaceStatus != SpaceOk) {
+        switch (m_freeSpaceStatus) {
+        case SpaceNotWritable:
+            m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
+            break;
+        case SpaceNone:
+            m_view.infoMessage->setText(i18n("Your disk is almost full, rendering might fail"));
+            break;
+        case SpaceLow:
+            m_view.infoMessage->setText(i18n("Your disk space is limited (%1)", KIO::convertSize(m_lastFreeSpace)));
+            break;
+        default:
+            break;
+        }
+        m_view.infoMessage->show();
+        return;
+    }
+
     QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
     QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
     int sequenceOffset = pCore->currentTimelineOffset();
@@ -2312,23 +2377,46 @@ void RenderWidget::showRenderDuration(int projectLength)
                 } else {
                     double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                     double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-                    int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    int out;
+                    if (guideEnd == -1) {
+                        out = pCore->projectDuration() - 1;
+                    } else {
+                        out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    }
                     m_renderDuration = out - int(GenTime(guideStart).frames(fps));
                 }
             } else {
                 double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                 double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-                int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                int out;
+                if (guideEnd == -1) {
+                    out = pCore->projectDuration() - 1;
+                } else {
+                    out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                }
                 m_renderDuration = out - int(GenTime(guideStart).frames(fps));
             }
         } else {
             double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
             double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-            int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            int out;
+            if (guideEnd == -1) {
+                out = pCore->projectDuration() - 1;
+            } else {
+                out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            }
             m_renderDuration = out - int(GenTime(guideStart).frames(fps));
         }
     } else {
         m_renderDuration = maxFrame;
+    }
+
+    if (m_freeSpaceStatus != SpaceNotWritable) {
+        KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(0), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+        if (5 * minimumSize > m_lastFreeSpace || m_freeSpaceStatus != SpaceOk) {
+            // Space is limited, inform user
+            m_lowSpaceTimer.start();
+        }
     }
     updateRenderInfoMessage();
 }
@@ -2395,10 +2483,10 @@ void RenderWidget::adjustSpeed(int speedIndex)
 
 void RenderWidget::prepareJobContextMenu(const QPoint &pos)
 {
-    QTreeWidgetItem *nd = m_view.running_jobs->itemAt(pos);
+    QTreeWidgetItem *node = m_view.running_jobs->itemAt(pos);
     RenderJobItem *renderItem = nullptr;
-    if (nd) {
-        renderItem = static_cast<RenderJobItem *>(nd);
+    if (node) {
+        renderItem = static_cast<RenderJobItem *>(node);
     }
     if (!renderItem) {
         return;

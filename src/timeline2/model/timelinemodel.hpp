@@ -117,13 +117,14 @@ public:
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
-        ResourceRole, /// clip only
-        IsProxyRole,  /// clip only
-        ServiceRole,  /// clip only
-        StartRole,    /// clip only
-        MixRole,      /// clip only, the duration of the mix
-        MixCutRole,   /// The original cut position for the mix
-        BinIdRole,    /// clip only
+        ResourceRole,       /// clip only
+        IsProxyRole,        /// clip only
+        ServiceRole,        /// clip only
+        StartRole,          /// clip only
+        MixRole,            /// clip only, the duration of the mix
+        MixCutRole,         /// The original cut position for the mix
+        MixEndDurationRole, /// Duration of the mix at the end of the clip
+        BinIdRole,          /// clip only
         TrackIdRole,
         FakeTrackIdRole,
         FakePositionRole,
@@ -454,7 +455,7 @@ public:
 
     /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
     bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
-    bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
+    Q_INVOKABLE bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
                               bool allowViewRefresh = true);

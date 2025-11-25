@@ -165,27 +165,13 @@ Item {
                 color: K.KdenliveSettings.overlayColor
                 overlayType: root.overlayType
             }
-
-            Loader {
-                anchors.fill: parent
-                source: {
-                    switch(root.overlayType)
-                    {
-                        case 0:
-                            return '';
-                        case 1:
-                            return "OverlayStandard.qml";
-                        case 2:
-                            return "OverlayMinimal.qml";
-                        case 3:
-                            return "OverlayCenter.qml";
-                        case 4:
-                            return "OverlayCenterDiagonal.qml";
-                        case 5:
-                            return "OverlayThirds.qml";
-                    }
-                }
+            K.MonitorSafeZone {
+                id: safeZone
+                anchors.fill: frame
+                color: K.KdenliveSettings.safeColor
+                showSafeZone: controller.showSafezone
             }
+
             MouseArea {
                 id: frameArea
                 hoverEnabled: true

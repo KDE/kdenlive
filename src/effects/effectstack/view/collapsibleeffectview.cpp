@@ -398,6 +398,9 @@ void CollapsibleEffectView::slotCreateRegion()
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
+    if (!QFileInfo::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
     QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {

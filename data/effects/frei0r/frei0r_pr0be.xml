@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" LC_NUMERIC="C" tag="frei0r.pr0be" id="frei0r.pr0be">
-    <name>Video Values (SUPERCEDED)</name>
+    <name>Video Values (SUPERSEDED)</name>
     <description><![CDATA[Measure video values.<br>
-    This effect has been superceded by <em>frei0r.measure_pr0be</em>]]></description>
+    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]></description>
     <author>Marko Cebokli</author>
     <parameter type="list" name="Measurement" default="0" paramlist="0;0.3;0.5;0.7;1">
         <name>Measurement</name>

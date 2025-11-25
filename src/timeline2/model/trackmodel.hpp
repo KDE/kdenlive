@@ -17,6 +17,7 @@
 #include <unordered_set>
 
 class TimelineModel;
+class TimelineItemModel;
 class ClipModel;
 class CompositionModel;
 class EffectStackModel;

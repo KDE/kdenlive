@@ -1190,7 +1190,7 @@ bool ProjectItemModel::requestCleanupUnused()
             return false;
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Clean Project"));
+    pCore->pushUndo(undo, redo, i18n("Remove Unused Media"));
     return true;
 }
 
@@ -1441,6 +1441,9 @@ QMap<QUuid, QString> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTra
                         foundSequences << uuid;
                         Mlt::Properties sequenceProps;
                         sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
+                        if (pCore->closing) {
+                            return {};
+                        }
                         pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
 
                         std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());

@@ -78,9 +78,10 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
         // UNKNOWN, AUDIO, VIRTUAL:
         default:
             p.fill(Qt::black);
+            clip_thumb->setVisible(false);
         }
 
-        if (!p.isNull()) {
+        if (!p.isNull() && clip_thumb->isVisible()) {
             clip_thumb->setScaledContents(true);
             clip_thumb->setPixmap(p);
         }

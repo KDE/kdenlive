@@ -37,6 +37,13 @@ protected:
 
 public:
     friend class KdenliveTests;
+    struct TimelineClipInfo
+    {
+        int trackId{-1};
+        int audioStream{-1};
+        double speed{1.};
+        bool pitchShift{false};
+    };
     ~ClipModel() override;
     /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -128,6 +135,8 @@ protected:
     Fun setClipState_lambda(PlaylistState::ClipState state);
     /** @brief Returns a clip hash, useful for regression testing */
     QString clipHash() const;
+    /** @brief Get basic info to identify producer */
+    TimelineClipInfo getClipInfo();
 
 public:
     /** @brief returns the length of the item on the timeline

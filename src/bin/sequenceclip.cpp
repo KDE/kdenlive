@@ -29,6 +29,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "utils/thumbnailcache.hpp"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"

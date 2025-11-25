@@ -84,6 +84,7 @@ parts:
       - librttr-dev
       - libmlt++-dev
       - libmlt-dev
+      - opentimelineio-dev
       - libxkbcommon-dev
       - libvulkan-dev
       - python3-srp
@@ -102,6 +103,7 @@ parts:
       - melt
       - libcudart12
       - libmlt7
+      - opentimelineio
       - libxkbcommon0
       - lsp-plugins-ladspa
     stage-snaps:
