@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-23 00:42+0000\n"
-"PO-Revision-Date: 2025-11-19 10:16+0100\n"
+"PO-Revision-Date: 2025-11-23 11:43+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -5350,16 +5350,15 @@ msgid "Video Noise Generator"
 msgstr "Générateur de bruit vidéo"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "Add noise on video input frame"
+#, kde-format
 msgid "<![CDATA[Add noise on video input frame]]>"
-msgstr "Ajouter du bruit sur la trame d'entrée vidéo"
+msgstr "<![CDATA[jouter du bruit sur la trame d'entrée vidéo]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
-msgstr "<![CDATA[<b><u>Luminosité</u></b> Rouge]]>"
+msgstr ""
+"<![CDATA[Valeur de départ du bruit pour <b><u>tous les composants</u></b> ]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
@@ -5374,48 +5373,52 @@ msgid ""
 "        <li>Temporal noise (noise pattern changes between frames)</li>\n"
 "        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
 msgstr ""
+"<![CDATA[Types de bruit disponibles :<ul><li> Bruit temporel moyenné (Plus "
+"lisse)</li>\n"
+"        <li>Bruit aléatoire mélangé avec un motif (semi-)régulier,</li>\n"
+"        <li>Bruit temporel (Modifications de motif de bruit entre les "
+"trames),</li>\n"
+"        <li>Bruit uniforme (Sinon gaussien).</li></ul>]]&gt;"
 
 #: data/effects/avfilter/avfilter_noise.xml:19
 #: data/effects/avfilter/avfilter_noise.xml:33
 #: data/effects/avfilter/avfilter_noise.xml:47
 #: data/effects/avfilter/avfilter_noise.xml:61
 #: data/effects/avfilter/avfilter_noise.xml:75
-#, fuzzy, kde-format
-#| msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+#, kde-format
 msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
 "Bruit temporel moyen, Bruit avec mélange aléatoire, Bruit temporel, Bruit "
 "uniforme"
 
 #: data/effects/avfilter/avfilter_noise.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
-msgstr "<![CDATA[<b><u>Décalage de teinte</u></b> Rouge]]>"
+msgstr ""
+"<![CDATA[Valeur de départ du bruit pour le <b><u>composant #0</u></b> ]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid " Strength"
-msgstr "Force"
+msgstr " Force"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
-msgstr "<![CDATA[<b><u>Décalage de teinte</u></b> Rouge]]>"
+msgstr ""
+"<![CDATA[Valeur de départ du bruit pour le <b><u>composant #1</u></b> ]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
-msgstr "<![CDATA[<b><u>Décalage de teinte</u></b> Rouge]]>"
+msgstr ""
+"<![CDATA[Valeur de départ du bruit pour le <b><u>composant #2</u></b> ]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:64
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
-msgstr "<![CDATA[<b><u>Décalage de teinte</u></b> Rouge]]>"
+msgstr ""
+"<![CDATA[Valeur de départ du bruit pour le <b><u>composant #3</u></b> ]]>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -14155,6 +14158,17 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
+"AfterBurn, AfterBurn (Long), Ambiance, Ambiance (Épais), Ambiance (Épais) - "
+"HD, Cathédrale, Cathédrale - HD, Chambre de résonance, Garage, Garage "
+"(Léger), Gymnase, Gymnase (Léger), Gymnase (Léger) - HD, Salle (Petit), "
+"Salle (Moyen), Salle (Large), Salle (Large) - HD, Platine (Petit), Platine "
+"(Medium), Platine (Large), Platine (Large) - HD,Chambre à impulsions, "
+"Chambre à impulsions (Inverse), Résonateur (96 ms), Résonateur (152 ms), "
+"Résonateur (208 ms), Salle (Petite), Salle (Moyenne), Salle (Large), Salle "
+"(Large) - HD, Chambre de percussions, Chambre de percussions - HD, Chambre "
+"de percussions (Vif), Chambre de percussions (Vif) - HD, Salle douce "
+"(Petit), Salle douce (Moyen), Salle douce (Large), Salle douce (Large) - HD, "
+"Platine vocale, Platine vocale - HD, Salle de chant, Entrepôt, Entrepôt - HD"
 
 #: data/effects/ladspa/ladspa_2142.xml:36
 #: data/effects/ladspa/ladspa_2143.xml:39
