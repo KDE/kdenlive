@@ -271,6 +271,8 @@ public:
 
     /** @brief Returns true if @param type is animated */
     static bool isAnimated(ParamType type);
+    /** @brief Returns the MLT keyframe separator for a type, like ~= or |= */
+    static const QString getSeparatorForKeyframeType(mlt_keyframe_type type);
 
     /** @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;

@@ -10,47 +10,6 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
-static QMap<mlt_keyframe_type, QString> typeMap = {
-    // Map keyframe type to any single character except numeric values.
-    {mlt_keyframe_discrete, "|"},
-    {mlt_keyframe_discrete, "!"},
-    {mlt_keyframe_linear, ""},
-    {mlt_keyframe_smooth, "~"},
-    {mlt_keyframe_smooth_loose, "~"},
-    {mlt_keyframe_smooth_natural, "$"},
-    {mlt_keyframe_smooth_tight, "-"},
-    {mlt_keyframe_sinusoidal_in, "a"},
-    {mlt_keyframe_sinusoidal_out, "b"},
-    {mlt_keyframe_sinusoidal_in_out, "c"},
-    {mlt_keyframe_quadratic_in, "d"},
-    {mlt_keyframe_quadratic_out, "e"},
-    {mlt_keyframe_quadratic_in_out, "f"},
-    {mlt_keyframe_cubic_in, "g"},
-    {mlt_keyframe_cubic_out, "h"},
-    {mlt_keyframe_cubic_in_out, "i"},
-    {mlt_keyframe_quartic_in, "j"},
-    {mlt_keyframe_quartic_out, "k"},
-    {mlt_keyframe_quartic_in_out, "l"},
-    {mlt_keyframe_quintic_in, "m"},
-    {mlt_keyframe_quintic_out, "n"},
-    {mlt_keyframe_quintic_in_out, "o"},
-    {mlt_keyframe_exponential_in, "p"},
-    {mlt_keyframe_exponential_out, "q"},
-    {mlt_keyframe_exponential_in_out, "r"},
-    {mlt_keyframe_circular_in, "s"},
-    {mlt_keyframe_circular_out, "t"},
-    {mlt_keyframe_circular_in_out, "u"},
-    {mlt_keyframe_back_in, "v"},
-    {mlt_keyframe_back_out, "w"},
-    {mlt_keyframe_back_in_out, "x"},
-    {mlt_keyframe_elastic_in, "y"},
-    {mlt_keyframe_elastic_out, "z"},
-    {mlt_keyframe_elastic_in_out, "A"},
-    {mlt_keyframe_bounce_in, "B"},
-    {mlt_keyframe_bounce_out, "C"},
-    {mlt_keyframe_bounce_in_out, "D"},
-};
-
 EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled, QString originalDecimalPoint)
     : AbstractEffectItem(EffectItemType::Effect, effectData, stack, false, isEnabled)
@@ -211,8 +170,8 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             }
             for (auto vals = rectValues.cbegin(), end = rectValues.cend(); vals != end; ++vals) {
                 paramValue.append(QString::number(vals.key()));
-                paramValue.append(typeMap.value(keyframeMap.value(vals.key())));
-                paramValue.append(QString("%1 %2 %3 %4;").arg(vals.value().x()).arg(vals.value().y()).arg(vals.value().width()).arg(vals.value().height()));
+                paramValue.append(AssetParameterModel::getSeparatorForKeyframeType(keyframeMap.value(vals.key())));
+                paramValue.append(QString("=%1 %2 %3 %4;").arg(vals.value().x()).arg(vals.value().y()).arg(vals.value().width()).arg(vals.value().height()));
             }
         }
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);
