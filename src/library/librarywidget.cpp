@@ -597,7 +597,6 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
     QMutexLocker lock(&m_treeMutex);
     for (const KFileItem &fitem : list) {
         QUrl fileUrl = fitem.url();
-        qDebug() << ":::: STARTING PREVIEEW JOB FOR: " << fileUrl << "\n\nHHHHHHHHHHHHHHH";
         QString name = fileUrl.fileName();
         QTreeWidgetItem *treeItem;
         QTreeWidgetItem *parent = nullptr;

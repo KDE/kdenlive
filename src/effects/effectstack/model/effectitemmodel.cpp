@@ -10,6 +10,47 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
+static QMap<mlt_keyframe_type, QString> typeMap = {
+    // Map keyframe type to any single character except numeric values.
+    {mlt_keyframe_discrete, "|"},
+    {mlt_keyframe_discrete, "!"},
+    {mlt_keyframe_linear, ""},
+    {mlt_keyframe_smooth, "~"},
+    {mlt_keyframe_smooth_loose, "~"},
+    {mlt_keyframe_smooth_natural, "$"},
+    {mlt_keyframe_smooth_tight, "-"},
+    {mlt_keyframe_sinusoidal_in, "a"},
+    {mlt_keyframe_sinusoidal_out, "b"},
+    {mlt_keyframe_sinusoidal_in_out, "c"},
+    {mlt_keyframe_quadratic_in, "d"},
+    {mlt_keyframe_quadratic_out, "e"},
+    {mlt_keyframe_quadratic_in_out, "f"},
+    {mlt_keyframe_cubic_in, "g"},
+    {mlt_keyframe_cubic_out, "h"},
+    {mlt_keyframe_cubic_in_out, "i"},
+    {mlt_keyframe_quartic_in, "j"},
+    {mlt_keyframe_quartic_out, "k"},
+    {mlt_keyframe_quartic_in_out, "l"},
+    {mlt_keyframe_quintic_in, "m"},
+    {mlt_keyframe_quintic_out, "n"},
+    {mlt_keyframe_quintic_in_out, "o"},
+    {mlt_keyframe_exponential_in, "p"},
+    {mlt_keyframe_exponential_out, "q"},
+    {mlt_keyframe_exponential_in_out, "r"},
+    {mlt_keyframe_circular_in, "s"},
+    {mlt_keyframe_circular_out, "t"},
+    {mlt_keyframe_circular_in_out, "u"},
+    {mlt_keyframe_back_in, "v"},
+    {mlt_keyframe_back_out, "w"},
+    {mlt_keyframe_back_in_out, "x"},
+    {mlt_keyframe_elastic_in, "y"},
+    {mlt_keyframe_elastic_out, "z"},
+    {mlt_keyframe_elastic_in_out, "A"},
+    {mlt_keyframe_bounce_in, "B"},
+    {mlt_keyframe_bounce_out, "C"},
+    {mlt_keyframe_bounce_in_out, "D"},
+};
+
 EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled, QString originalDecimalPoint)
     : AbstractEffectItem(EffectItemType::Effect, effectData, stack, false, isEnabled)
@@ -80,7 +121,100 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             continue;
         }
         QString paramValue = effect->get(paramName.toUtf8().constData());
-        qDebug() << effectId << ": Setting parameter " << paramName << " to " << paramValue;
+        if (paramValue.isEmpty() && paramType == QLatin1String("animatedfakerect")) {
+            // Check if we have existing values for the fake rect individual components
+            QDomNodeList children = currentParameter.elementsByTagName(QLatin1String("parammap"));
+            qDebug() << ":::: FOUND FAKE RECT PARAM WITH EMPTY VALUES: " << paramName;
+            QMap<int, QRectF> rectValues;
+            QMap<int, mlt_keyframe_type> keyframeMap;
+            QMap<QString, std::pair<bool, int>> paramsFrom;
+            // Sort parameters
+            QMap<int, QString> sortedParams;
+            for (int c = 0; c < children.count(); ++c) {
+                QDomElement currentParameter = children.item(c).toElement();
+                int position = currentParameter.attribute(QStringLiteral("position")).toInt();
+                const QString childName = currentParameter.attribute(QStringLiteral("src"));
+                bool fromBorder = currentParameter.attribute(QStringLiteral("fromborder")).toInt() == 1;
+                int from = 0;
+                if (currentParameter.hasAttribute(QStringLiteral("from"))) {
+                    const QString fromString = currentParameter.attribute(QStringLiteral("from"));
+                    if (fromString == QLatin1String("%width")) {
+                        from = pCore->getCurrentFrameSize().width();
+                    } else if (fromString == QLatin1String("%height")) {
+                        from = pCore->getCurrentFrameSize().height();
+                    }
+                }
+                paramsFrom.insert(childName, {fromBorder, from});
+                sortedParams.insert(position, childName);
+            }
+
+            for (auto param = sortedParams.cbegin(), end = sortedParams.cend(); param != end; ++param) {
+                if (!effect->property_exists(param.value().toUtf8().constData())) {
+                    // Missing parameter, use default values
+                    break;
+                }
+                // Force animation parsing
+                (void)effect->anim_get_double(param.value().toUtf8().constData(), 0);
+                Mlt::Animation anim = effect->get_animation(param.value().toUtf8().constData());
+                qDebug() << "Found" << anim.key_count() << " Keyframes in " << param.value();
+                int frame;
+                if (param.key() == 0) {
+                    // First param, parse keyframes
+                    for (int j = 0; j < anim.key_count(); ++j) {
+                        mlt_keyframe_type type;
+                        anim.key_get(j, frame, type);
+                        keyframeMap.insert(frame, type);
+                    }
+                    if (keyframeMap.isEmpty()) {
+                        // No keyframes found, use default value
+                        break;
+                    }
+                    for (auto &k : keyframeMap.keys()) {
+                        QRectF rect(effect->anim_get_double(param.value().toUtf8().constData(), k), 0, 0, 0);
+                        rectValues.insert(k, rect);
+                    }
+                } else {
+                    for (auto &k : keyframeMap.keys()) {
+                        QRectF rect = rectValues.value(k);
+                        bool fromBorder = paramsFrom.value(param.value()).first;
+                        int from = paramsFrom.value(param.value()).second;
+                        double value = effect->anim_get_double(param.value().toUtf8().constData(), k);
+                        switch (param.key()) {
+                        case 1:
+                            rect.setY(value);
+                            break;
+                        case 2:
+                            if (fromBorder) {
+                                value += rect.x();
+                            }
+                            if (from > 0) {
+                                value = from - value;
+                            }
+                            rect.setWidth(value);
+                            break;
+                        case 3:
+                            if (fromBorder) {
+                                value += rect.y();
+                            }
+                            if (from > 0) {
+                                value = from - value;
+                            }
+                            rect.setHeight(value);
+                            break;
+                        default:
+                            qDebug() << ":::::: UNEXPECTED FAKERECT POSITION: " << param.key();
+                            break;
+                        }
+                        rectValues.insert(k, rect);
+                    }
+                }
+            }
+            for (auto vals = rectValues.cbegin(), end = rectValues.cend(); vals != end; ++vals) {
+                paramValue.append(QString::number(vals.key()));
+                paramValue.append(typeMap.value(keyframeMap.value(vals.key())));
+                paramValue.append(QString("%1 %2 %3 %4;").arg(vals.value().x()).arg(vals.value().y()).arg(vals.value().width()).arg(vals.value().height()));
+            }
+        }
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);
     }
 
