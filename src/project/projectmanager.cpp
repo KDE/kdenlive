@@ -162,10 +162,6 @@ void ProjectManager::newFile(bool showProjectSettings)
     if (profileName.isEmpty()) {
         profileName = pCore->getCurrentProfile()->path();
     }
-    if (!m_project) {
-        // We are just opening Kdenlive, restore layout
-        pCore->restoreLayout();
-    }
     newFile(profileName, showProjectSettings);
 }
 
@@ -812,7 +808,6 @@ void ProjectManager::openFile(const QUrl &url)
 
     if (!QFile::exists(url.toLocalFile())) {
         Q_EMIT pCore->GUISetupDone();
-        pCore->restoreLayout();
         KMessageBox::error(pCore->window(), i18n("File %1 does not exist", url.toLocalFile()));
         Q_EMIT pCore->loadingMessageHide();
         newFile(false);
