@@ -6,14 +6,14 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-24 02:35+0000\n"
-"PO-Revision-Date: 2025-11-11 21:32+0100\n"
+"PO-Revision-Date: 2025-11-24 22:03+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -35000,10 +35000,9 @@ msgid "Edit track name"
 msgstr "Egér követése"
 
 #: src/timeline2/view/timelinecontroller.cpp:283
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "unknown"
-msgstr "Ismeretlen"
+msgstr "ismeretlen"
 
 #: src/timeline2/view/timelinecontroller.cpp:382
 #, kde-format
@@ -35300,10 +35299,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5228
-#, fuzzy, kde-format
-#| msgid "Scanning"
+#, kde-format
 msgid "Warning"
-msgstr "Keresés"
+msgstr "Figyelmeztetés"
 
 #: src/timeline2/view/timelinecontroller.cpp:5266
 #, kde-format
@@ -35339,11 +35337,10 @@ msgstr "névtelen"
 
 #: src/timeline2/view/timelinecontroller.cpp:5468
 #: src/timeline2/view/timelinecontroller.cpp:5477
-#, fuzzy, kde-format
-#| msgid "untitled"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
-msgstr "névtelen"
+msgstr "Feliratok"
 
 #: src/timeline2/view/timelinecontroller.cpp:5479
 #, fuzzy, kde-format
@@ -35394,10 +35391,9 @@ msgid "Don't Resize"
 msgstr "Átméretezés"
 
 #: src/timeline2/view/timelinetabs.cpp:261
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Bezár"
+msgstr "%1 bezárása"
 
 #: src/timeline2/view/timelinetabs.cpp:373
 #, fuzzy, kde-format
@@ -35561,10 +35557,9 @@ msgid "Lower object to bottom"
 msgstr "Objektum hátraküldése"
 
 #: src/titler/titlewidget.cpp:345
-#, fuzzy, kde-format
-#| msgid "Select all"
+#, kde-format
 msgid "Select All"
-msgstr "Minden kijelölése"
+msgstr "Összes kijelölése"
 
 #: src/titler/titlewidget.cpp:351
 #, fuzzy, kde-format
@@ -35672,40 +35667,34 @@ msgid "Add Ellipse"
 msgstr "Klip hozzáadása"
 
 #: src/titler/titlewidget.cpp:427
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgid "Add Image…"
-msgstr "Kép hozzáadása"
+msgstr "Kép hozzáadása…"
 
 #: src/titler/titlewidget.cpp:434
-#, fuzzy, kde-format
-#| msgid "Open Backup File"
+#, kde-format
 msgid "Open Title…"
-msgstr "Biztonsági mentés fájl megnyitása"
+msgstr "Cím megnyitása…"
 
 #: src/titler/titlewidget.cpp:439
-#, fuzzy, kde-format
-#| msgid "Save Title"
+#, kde-format
 msgid "Save Title As…"
-msgstr "Cím mentése"
+msgstr "Cím mentése másként…"
 
 #: src/titler/titlewidget.cpp:444
-#, fuzzy, kde-format
-#| msgid "Download New Title Templates..."
+#, kde-format
 msgid "Download New Title Templates…"
 msgstr "Új címsablonok letöltése…"
 
 #: src/titler/titlewidget.cpp:561
-#, fuzzy, kde-format
-#| msgid "Save DVD Project"
+#, kde-format
 msgid "Save and add to project"
-msgstr "DVD projekt mentése"
+msgstr "Mentés és hozzáadás a projekthez"
 
 #: src/titler/titlewidget.cpp:562
-#, fuzzy, kde-format
-#| msgid "Template title clip"
+#, kde-format
 msgid "Create Title"
-msgstr "Cím klip sablon"
+msgstr "Cím létrehozása"
 
 #: src/titler/titlewidget.cpp:820
 #, kde-format
@@ -35717,16 +35706,14 @@ msgstr ""
 "fognak veszni."
 
 #: src/titler/titlewidget.cpp:929
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgid "All Images"
-msgstr "Kép hozzáadása"
+msgstr "Minden kép"
 
 #: src/titler/titlewidget.cpp:931
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "%1 Image"
-msgstr "Kép"
+msgstr "%1 kép"
 
 #: src/titler/titlewidget.cpp:941
 #, kde-format
@@ -35833,10 +35820,9 @@ msgid "End Viewport"
 msgstr "Utolsó nézőpont"
 
 #: src/titler/titlewidget.cpp:3435
-#, fuzzy, kde-format
-#| msgid "Alpha gradient"
+#, kde-format
 msgid "Gradient"
-msgstr "Alfa színátmenet"
+msgstr "Színátmenet"
 
 #: src/titler/unicodedialog.cpp:77
 #, fuzzy, kde-format
@@ -36224,17 +36210,15 @@ msgstr "Egér követése"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
 #: src/ui/addtrack_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid " track"
-msgstr "Sáv"
+msgstr " sáv"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/addtrack_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Insertion"
+#, kde-format
 msgid "Insert:"
-msgstr "Beszúrás"
+msgstr "Beszúrás:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
 #: src/ui/addtrack_ui.ui:97
@@ -36273,23 +36257,21 @@ msgstr "Archív mappa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compressed_archive)
 #: src/ui/archivewidget_ui.ui:52
-#, fuzzy, kde-format
-#| msgid "Compressed archive"
+#, kde-format
 msgid "Compressed archive:"
-msgstr "Tömörített archívum"
+msgstr "Tömörített archívum:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:60
 #, kde-format
 msgid "tar.gz"
-msgstr ""
+msgstr "tar.gz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:65
-#, fuzzy, kde-format
-#| msgid "Pip"
+#, kde-format
 msgid "zip"
-msgstr "Pip"
+msgstr "zip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_only)
 #: src/ui/archivewidget_ui.ui:75
@@ -36309,10 +36291,9 @@ msgstr "Idővonal klip hozzáadása"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:58
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1 \\%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1 \\%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -36868,24 +36849,21 @@ msgstr "Képernyő rögzítése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:67
-#, fuzzy, kde-format
-#| msgid "Region capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Terület rögzítése"
+msgstr "Rögzítendő terület:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Switch monitor fullscreen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Átváltás teljes képernyőre"
+msgstr "Teljes képernyő"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:80
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Téglalap ablak"
+msgstr "Téglalap alakú terület"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:99
@@ -36901,20 +36879,18 @@ msgstr "Képkocka elrejtése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "Kurzor elrejtése"
+msgstr "Egérmutató:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:240 src/ui/configcapture_ui.ui:293
 #: src/ui/configproxy_ui.ui:105 src/ui/projectsettings_ui.ui:277
-#, fuzzy, kde-format
-#| msgid "Encoding profile"
+#, kde-format
 msgid "Encoding profile:"
-msgstr "Kódolási profil"
+msgstr "Kódolási profil:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:264
@@ -36942,10 +36918,9 @@ msgstr "Felvétel fájlneve"
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:337 src/ui/configjogshuttle_ui.ui:106
 #: src/ui/configspeech_ui.ui:502 src/ui/configspeech_ui.ui:813
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device:"
-msgstr "Eszköz"
+msgstr "Eszköz:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configcapture_ui.ui:347
@@ -36957,17 +36932,15 @@ msgstr "Hangerő"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QCheckBox, cChannels)
 #: src/ui/configcapture_ui.ui:379 src/ui/editrenderpreset_ui.ui:840
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channels:"
-msgstr "Csatornák"
+msgstr "Csatornák:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configcapture_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "Samplerate"
+#, kde-format
 msgid "Sample rate:"
-msgstr "Mintavételi sebesség"
+msgstr "Mintavételi sebesség:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelNoAudioDevices)
 #: src/ui/configcapture_ui.ui:417
@@ -37029,10 +37002,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configenv_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Concurrent threads"
+#, kde-format
 msgid "Concurrent threads:"
-msgstr "Egyidejű szálak"
+msgstr "Egyidejű szálak:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configenv_ui.ui:69
@@ -37068,10 +37040,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:118
-#, fuzzy, kde-format
-#| msgid "Direct update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Közvetlen frissítés"
+msgstr "Frissítések keresése"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePowerManagement)
 #: src/ui/configenv_ui.ui:125
@@ -37088,17 +37059,15 @@ msgstr "MLT keretrendszer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configenv_ui.ui:142
-#, fuzzy, kde-format
-#| msgid "FFmpeg"
+#, kde-format
 msgid "FFmpeg:"
-msgstr "FFmpeg"
+msgstr "FFmpeg:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configenv_ui.ui:152
-#, fuzzy, kde-format
-#| msgid "FFplay"
+#, kde-format
 msgid "FFplay:"
-msgstr "FFplay"
+msgstr "FFplay:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configenv_ui.ui:162
@@ -37122,17 +37091,15 @@ msgstr "Melt elérési út"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configenv_ui.ui:206
-#, fuzzy, kde-format
-#| msgid "Default folders"
+#, kde-format
 msgid "Default Folders"
 msgstr "Alapértelmezett mappák"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configenv_ui.ui:212
-#, fuzzy, kde-format
-#| msgid "Temporary files"
+#, kde-format
 msgid "Temporary files:"
-msgstr "Ideiglenes fájlok mappája"
+msgstr "Ideiglenes fájlok:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configenv_ui.ui:222
@@ -37196,17 +37163,15 @@ msgstr "Nincs producer ehhez a kliphez."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Default apps"
+#, kde-format
 msgid "Default Apps"
 msgstr "Alapértelmezett programok"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configenv_ui.ui:346
-#, fuzzy, kde-format
-#| msgid "Image editing"
+#, kde-format
 msgid "Image editing:"
-msgstr "Képszerkesztés"
+msgstr "Képszerkesztés:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
 #: src/ui/configenv_ui.ui:355
@@ -37219,10 +37184,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
 #: src/ui/configenv_ui.ui:365 src/ui/configenv_ui.ui:386
 #: src/ui/configenv_ui.ui:411
-#, fuzzy, kde-format
-#| msgid "Change"
+#, kde-format
 msgid "Change…"
-msgstr "Változtatás"
+msgstr "Módosítás…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
 #: src/ui/configenv_ui.ui:376
@@ -37252,10 +37216,9 @@ msgstr "Átmenet időtartam"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:441
-#, fuzzy, kde-format
-#| msgid "Mimetype"
+#, kde-format
 msgid "Mime types"
-msgstr "MIME-típus"
+msgstr "MIME-típusok"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configenv_ui.ui:447
@@ -37410,10 +37373,9 @@ msgstr " másodperc"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "or"
-msgstr "Formátum"
+msgstr "vagy"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
@@ -40042,10 +40004,9 @@ msgstr "Visszaalakító szálak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
 #: src/ui/renderwidget_ui.ui:778
-#, fuzzy, kde-format
-#| msgid "Missing clips"
+#, kde-format
 msgid "Parallel Processing"
-msgstr "Hiányzó klipek"
+msgstr "Párhuzamos feldolgozás"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
 #: src/ui/renderwidget_ui.ui:801
@@ -40079,10 +40040,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
 #: src/ui/renderwidget_ui.ui:865
-#, fuzzy, kde-format
-#| msgid "Open browser window after export"
+#, kde-format
 msgid "Open folder after export"
-msgstr "Tallózóablak megnyitása exportálás után"
+msgstr "Mappa megnyitása exportálás után"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
 #: src/ui/renderwidget_ui.ui:872
@@ -40092,10 +40052,9 @@ msgstr "Videó lejátszása leképzés után"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_log_files)
 #: src/ui/renderwidget_ui.ui:879
-#, fuzzy, kde-format
-#| msgid "Show all profiles"
+#, kde-format
 msgid "Keep log files"
-msgstr "Minden profil megjelenítése"
+msgstr "Naplófájlok megőrzése"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:901
@@ -40846,10 +40805,9 @@ msgstr "200%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #: src/ui/titlewidget_ui.ui:1701
-#, fuzzy, kde-format
-#| msgid "Template:"
+#, kde-format
 msgid "Load template:"
-msgstr "Sablon:"
+msgstr "Sablon betöltése:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/titlewidget_ui.ui:1723
