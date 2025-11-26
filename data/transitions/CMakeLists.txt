@@ -5,6 +5,7 @@ INSTALL (FILES
 affine.xml
 composite.xml
 dissolve.xml
+euclid_eraser.xml
 luma.xml
 matte.xml
 mix.xml

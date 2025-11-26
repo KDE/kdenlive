@@ -1,0 +1,10 @@
+<?xml version="1.0"?> 
+<!DOCTYPE kpartgui> 
+<transition tag="frei0r.euclid_eraser" id="frei0r.euclid_eraser">
+    <name>Euclid Eraser</name>
+    <description>Remove background using euclidean distance.</description>
+    <author>Erik Beck</author>
+    <parameter type="double" name="0" max="100" min="0" default="6">
+        <name>Distance Threshold</name>
+    </parameter>
+</transition>
