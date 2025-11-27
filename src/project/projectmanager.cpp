@@ -877,8 +877,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     Q_ASSERT(m_project == nullptr);
     m_fileRevert->setEnabled(true);
     ThumbnailCache::get()->clearCache();
-    pCore->monitorManager()->resetDisplay();
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    if (m_project) {
+        pCore->monitorManager()->resetDisplay();
+        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    }
     Q_EMIT pCore->loadingMessageNewStage(i18n("Loading project…"));
     qApp->processEvents();
     m_notesPlugin->clear();

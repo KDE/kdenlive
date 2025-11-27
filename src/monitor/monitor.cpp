@@ -2900,7 +2900,7 @@ void Monitor::displayAudioMonitor(bool isActive)
 
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
-    if (!m_glMonitor->isVisible()) {
+    if (!m_glMonitor->rootObject()) {
         return;
     }
     m_glMonitor->rootObject()->setVisible((currentOverlay & Monitor::InfoOverlay) != 0);

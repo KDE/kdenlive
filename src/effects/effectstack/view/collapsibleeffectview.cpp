@@ -918,13 +918,6 @@ void CollapsibleEffectView::dragEnterEvent(QDragEnterEvent *event)
     */
 }
 
-void CollapsibleEffectView::resizeEvent(QResizeEvent *event)
-{
-    QWidget::resizeEvent(event);
-    m_view->adjustSize();
-    m_view->updateGeometry();
-}
-
 void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
 {
     QPalette pal = border_frame->palette();

@@ -318,7 +318,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonGenerateScript->setEnabled(false);
 
     connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index) {
-        if (m_treeModel->parent(index) == QModelIndex()) {
+        if (!index.isValid() || index.parent() == QModelIndex()) {
             // This is a top level item - group - don't edit
             return;
         }
