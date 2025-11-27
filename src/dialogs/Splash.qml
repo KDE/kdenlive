@@ -75,9 +75,8 @@ Window {
 
     Rectangle {
         id: splashContent
-
         height: splash.crashRecovery || splash.wasUpgraded  ? newProjectButton.height * 18 : newProjectButton.height * 16
-        width: newProjectButton.height * 16
+        width: newProjectButton.height * 17
         radius: 5
         border.width: 2
         border.color: "#f38577"
@@ -407,7 +406,7 @@ Window {
                             anchors.top: parent.top
                             anchors.margins: 10
                             height: templatesLabel.height + 6
-                            width: templatesLabel.width + 2.5 * templatesClearButton.width
+                            width: templatesLabel.width + 1.5 * templatesClearButton.width
                             radius: height / 4
                             color: Qt.darker(splashContent.color, 1.5)
                             Label {
@@ -574,25 +573,25 @@ Window {
                     color: "#22FF0000"
                     radius: 5
                 }
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    spacing: 10
-                    height: vTracks.height
-                    Label {
-                        id: restartLabel
-                        text: i18n("Kdenlive crashed on last start. Reset config and restart?")
-                        Layout.alignment: Qt.AlignVCenter
-                        wrapMode: Text.Wrap
-
-                    }
-                    Button {
-                        id: restartButton
-                        text: i18n("Reset")
-                        icon.name: "view-refresh"
-                        onClicked: resetConfig()
-                        KeyNavigation.tab: listView
-                    }
+                Label {
+                    id: restartLabel
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.right: restartButton.left
+                    text: i18n("Kdenlive crashed on last start. Reset config and restart?")
+                    Layout.alignment: Qt.AlignVCenter
+                    wrapMode: Text.Wrap
+                }
+                Button {
+                    id: restartButton
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    text: i18n("Reset")
+                    icon.name: "view-refresh"
+                    onClicked: resetConfig()
+                    KeyNavigation.tab: listView
                 }
             }
             Item {
@@ -656,13 +655,11 @@ Window {
 
                     Label {
                         id: donateText
-
                         Layout.fillWidth: true
                         leftPadding: 10
                         text: i18n("Help us make Kdenlive even better")
                         wrapMode: Text.WordWrap
                     }
-
                     ToolButton {
                         icon.name: "user-group-new"
                         text: i18n("Contribute…")
@@ -942,24 +939,24 @@ Window {
                         color: "#22FF0000"
                         radius: 5
                     }
-                    RowLayout {
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        spacing: 10
-                        height: vTracks.height
-                        Label {
-                            id: restartWelcomeLabel
-                            text: i18n("Kdenlive crashed on last start. Reset config and restart?")
-                            Layout.alignment: Qt.AlignVCenter
-                            wrapMode: Text.Wrap
-
-                        }
-                        Button {
-                            id: restartWelcomeButton
-                            text: i18n("Reset")
-                            icon.name: "view-refresh"
-                            onClicked: resetConfig()
-                        }
+                    Label {
+                        id: restartWelcomeLabel
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        anchors.right: restartWelcomeButton.left
+                        text: i18n("Kdenlive crashed on last start. Reset config and restart?")
+                        Layout.alignment: Qt.AlignVCenter
+                        wrapMode: Text.Wrap
+                    }
+                    Button {
+                        id: restartWelcomeButton
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 10
+                        text: i18n("Reset")
+                        icon.name: "view-refresh"
+                        onClicked: resetConfig()
                     }
                 }
 
