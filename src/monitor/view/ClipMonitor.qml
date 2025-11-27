@@ -60,7 +60,7 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: (audioView.stateVisible && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
+    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
