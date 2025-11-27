@@ -7,14 +7,14 @@
 #. i18n: file: data/effects/greyedge.xml:17
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:20
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:34
-#: rc.cpp:1115 rc.cpp:1119 rc.cpp:1137 rc.cpp:1141 rc.cpp:1145 rc.cpp:7830
-#: rc.cpp:7844
+#: rc.cpp:1121 rc.cpp:1125 rc.cpp:1143 rc.cpp:1147 rc.cpp:1151 rc.cpp:7836
+#: rc.cpp:7850
 #, kde-format
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:42+0000\n"
+"POT-Creation-Date: 2025-11-27 00:42+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -16573,6 +16573,22 @@ msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, kde-format
+msgid "Remove background using euclidean distance."
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
+#, fuzzy, kde-format
+#| msgid "1st Plane Threshold"
+msgid "Distance Threshold"
+msgstr "第一平面閥值"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, fuzzy, kde-format

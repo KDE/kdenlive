@@ -19,14 +19,14 @@
 #. i18n: file: data/effects/greyedge.xml:17
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:20
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:34
-#: rc.cpp:1115 rc.cpp:1119 rc.cpp:1137 rc.cpp:1141 rc.cpp:1145 rc.cpp:7830
-#: rc.cpp:7844
+#: rc.cpp:1121 rc.cpp:1125 rc.cpp:1143 rc.cpp:1147 rc.cpp:1151 rc.cpp:7836
+#: rc.cpp:7850
 #, kde-format
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:42+0000\n"
+"POT-Creation-Date: 2025-11-27 00:42+0000\n"
 "PO-Revision-Date: 2025-11-23 11:43+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -5562,10 +5562,9 @@ msgid "Video Noise Generator"
 msgstr "Générateur de bruit vidéo"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Add noise on video input frame]]>"
+#, kde-format
 msgid "Add noise on video input frame"
-msgstr "<![CDATA[jouter du bruit sur la trame d'entrée vidéo]]>"
+msgstr "Ajouter du bruit sur la trame d'entrée vidéo"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, fuzzy, kde-format
@@ -18531,6 +18530,23 @@ msgstr ""
 "Réaliser une opération RVB[A] d'esquive entre les sources de pixels, en "
 "utilisant l'algorithme généralisé : D = saturation de 255 ou (A * 256) / "
 "(256 - B)"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, fuzzy, kde-format
+#| msgid "Remove background using AI model"
+msgid "Remove background using euclidean distance."
+msgstr "Supprimer l'arrière-plan en utilisant un modèle d'IA."
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
+#, fuzzy, kde-format
+#| msgid "1st Plane Threshold"
+msgid "Distance Threshold"
+msgstr "Seuil pour le premier plan"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format

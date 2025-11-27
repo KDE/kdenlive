@@ -11,15 +11,15 @@
 #. i18n: file: data/effects/greyedge.xml:17
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:20
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:34
-#: rc.cpp:1115 rc.cpp:1119 rc.cpp:1137 rc.cpp:1141 rc.cpp:1145 rc.cpp:7830
-#: rc.cpp:7844
-#, fuzzy, kde-format
+#: rc.cpp:1121 rc.cpp:1125 rc.cpp:1143 rc.cpp:1147 rc.cpp:1151 rc.cpp:7836
+#: rc.cpp:7850
+#, kde-format
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:42+0000\n"
-"PO-Revision-Date: 2025-11-20 21:53+0400\n"
+"POT-Creation-Date: 2025-11-27 00:42+0000\n"
+"PO-Revision-Date: 2025-11-26 11:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5378,8 +5378,7 @@ msgid "Video Noise Generator"
 msgstr "مولد تشويش الفيديو"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "Add noise on video input frame"
+#, kde-format
 msgid "Add noise on video input frame"
 msgstr "أضف تشويش على إطار إدخال الفيديو"
 
@@ -5407,8 +5406,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_noise.xml:47
 #: data/effects/avfilter/avfilter_noise.xml:61
 #: data/effects/avfilter/avfilter_noise.xml:75
-#, fuzzy, kde-format
-#| msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
+#, kde-format
 msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
 "متوسط التشويش الزمني,اخلط التشويش العشوائي,التشويش الزمني,التشويش الموحد"
@@ -5420,10 +5418,9 @@ msgid "<b><u>Component #0</u></b> Noise Seed"
 msgstr "<![CDATA[<b><u>إزاحة الصبغة</u></b> أحمر]]>"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid " Strength"
-msgstr "القوّة:"
+msgstr " القوّة"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
 #, fuzzy, kde-format
@@ -17970,6 +17967,23 @@ msgid ""
 msgstr ""
 "قم بعملية تفتيح RGB[A] بين مصادر البكسل، باستخدام الخوارزمية العامة: D = "
 "تشبع 255 أو (A * 256) / (256 - B)"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, fuzzy, kde-format
+#| msgid "Remove background using AI model"
+msgid "Remove background using euclidean distance."
+msgstr "أزل الخلفية باستخدام نموذج الذكاء الاصطناعي"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
+#, fuzzy, kde-format
+#| msgid "1st Plane Threshold"
+msgid "Distance Threshold"
+msgstr "عتبة المستوى الأول"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format

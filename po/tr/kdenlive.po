@@ -11,15 +11,15 @@
 #. i18n: file: data/effects/greyedge.xml:17
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:20
 #. i18n: file: data/effects/ladspa/ladspa_2156.xml:34
-#: rc.cpp:1115 rc.cpp:1119 rc.cpp:1137 rc.cpp:1141 rc.cpp:1145 rc.cpp:7830
-#: rc.cpp:7844
+#: rc.cpp:1121 rc.cpp:1125 rc.cpp:1143 rc.cpp:1147 rc.cpp:1151 rc.cpp:7836
+#: rc.cpp:7850
 #, kde-format
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:42+0000\n"
-"PO-Revision-Date: 2025-11-21 22:14+0300\n"
+"POT-Creation-Date: 2025-11-27 00:42+0000\n"
+"PO-Revision-Date: 2025-11-26 16:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1462,18 +1462,13 @@ msgid "Similarity"
 msgstr "Benzerlik"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Similarity percentage with the select color<br>\n"
-#| "        0.01 matches only the exact key color, while 1.0 matches "
-#| "everything.]]>"
+#, kde-format
 msgid ""
 "Similarity percentage with the select color<br>\n"
 "        0.01 matches only the exact key color, while 1.0 matches everything."
 msgstr ""
-"<![CDATA[Seçili renkle benzerlik yüzdesi<br>\n"
-"        0,01 yalnızca tam anahtar renkle eşleşirken, 1,0 her şeyle "
-"eşleşir.]]>"
+"Seçili renkle benzerlik yüzdesi.<br>\n"
+"        0,01 yalnızca tam anahtar renkle eşleşirken, 1,0 her şeyle eşleşir."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1484,19 +1479,15 @@ msgid "Blend"
 msgstr "Harmanla"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Blend percentage. 0.0 makes pixels either fully grey, or not "
-#| "grey at all.<br>\n"
-#| "        Higher values result in more preserved color.]]>"
+#, kde-format
 msgid ""
 "Blend percentage. 0.0 makes pixels either fully grey, or not grey at all."
 "<br>\n"
 "        Higher values result in more preserved color."
 msgstr ""
-"<![CDATA[Harman yüzdesi. 0,0, pikselleri ya tamamen gri yapar ya da hiç gri "
-"yapmaz.<br>\n"
-"        Daha yüksek değerler, daha fazla korunmuş renk ile sonuçlanır.]]>"
+"Harman yüzdesi. 0,0; pikselleri ya tamamen gri yapar ya da hiç gri yapmaz."
+"<br>\n"
+"        Daha yüksek değerler, daha fazla korunmuş renk ile sonuçlanır."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1504,10 +1495,9 @@ msgid "YUV color"
 msgstr "YUV rengi"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
+#, kde-format
 msgid "Select this if the clip has YUV data instead of RGB."
-msgstr "<![CDATA[Klipte RGB yerine YUV verileri varsa bunu seçin.]]>"
+msgstr "Klipte RGB yerine YUV verileri varsa bunu seçin."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1624,10 +1614,9 @@ msgid "Color System"
 msgstr "Renk sistemi"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the color system]]>"
+#, kde-format
 msgid "Select the color system"
-msgstr "<![CDATA[Renk sistemini seçin.]]>"
+msgstr "Renk sistemini seçin."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #: data/effects/avfilter/avfilter_ciescope.xml:20
@@ -1645,10 +1634,9 @@ msgid "CIE System"
 msgstr "CIE sistemi"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the CIE color space]]>"
+#, kde-format
 msgid "Select the CIE color space"
-msgstr "<![CDATA[CIE renk uzayını seçin.]]>"
+msgstr "CIE renk uzayını seçin."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
@@ -1661,10 +1649,9 @@ msgid "Gamuts to Draw"
 msgstr "Çizilecek gamlar"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set what gamuts to draw]]>"
+#, kde-format
 msgid "Set what gamuts to draw"
-msgstr "<![CDATA[Hangi gamların çizileceğini seçin.]]>"
+msgstr "Hangi gamların çizileceğini seçin."
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -1682,10 +1669,9 @@ msgid "Size"
 msgstr "Boyut"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the size of the scope on screen]]>"
+#, kde-format
 msgid "Set the size of the scope on screen"
-msgstr "<![CDATA[Ekrandaki skopun boyutunu ayarlayın.]]>"
+msgstr "Ekrandaki skopun boyutunu ayarlayın."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -1700,28 +1686,22 @@ msgid "Intensity"
 msgstr "Yoğunluk"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:29
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the intensity used to<br>\n"
-#| "       \tmap input pixel values to CIE diagram]]>"
+#, kde-format
 msgid ""
 "Set the intensity used to<br>\n"
 "       \tmap input pixel values to CIE diagram"
 msgstr ""
-"<![CDATA[Girdi piksel değerlerini CIE diyagramına<br>\n"
-"       \teşlemlemek için kullanılan yoğunluğu seçin.]]>"
+"Girdi piksel değerlerini CIE diyagramına<br>\n"
+"       \teşlemlemek için kullanılan yoğunluğu seçin."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:34
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set contrast used to draw<br>\n"
-#| "       \ttongue colors that are out of active color system gamut]]>"
+#, kde-format
 msgid ""
 "Set contrast used to draw<br>\n"
 "       \ttongue colors that are out of active color system gamut"
 msgstr ""
-"<![CDATA[Etkin renk sistemi gamının dışındaki dil renklerini<br>\n"
-"       \tçizmek için kullanılan karşıtlığı ayarlayın.]]>"
+"Etkin renk sistemi gamının dışındaki dil renklerini<br>\n"
+"       \tçizmek için kullanılan karşıtlığı ayarlayın."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
 #, kde-format
@@ -1729,10 +1709,9 @@ msgid "Display Correct Gamma"
 msgstr "Doğru gamayı görüntüle"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:38
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
+#, kde-format
 msgid "Correct gamma displayed on scope, by default enabled"
-msgstr "<![CDATA[Skopta görüntülenen doğru gama; öntanımlı olarak etkindir.]]>"
+msgstr "Skopta görüntülenen doğru gama; öntanımlı olarak etkindir."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
 #, kde-format
@@ -1740,12 +1719,10 @@ msgid "Show White Point"
 msgstr "Beyaz noktayı göster"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:42
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
+#, kde-format
 msgid "Show white point on CIE diagram, by default disabled"
 msgstr ""
-"<![CDATA[CIE diyagramında beyaz noktaları göster; öntanımlı olarak devre "
-"dışıdır.]]>"
+"CIE diyagramında beyaz noktaları göster; öntanımlı olarak devre dışıdır."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
@@ -1753,12 +1730,9 @@ msgid "Input Gamma"
 msgstr "Girdi gaması"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
+#, kde-format
 msgid "Set input gamma. Used only with XYZ input color space."
-msgstr ""
-"<![CDATA[Girdi gamasını ayarlayın. Yalnızca XYZ girdi renk uzayıyla "
-"kullanılır.]]>"
+msgstr "Girdi gamasını ayarlayın. Yalnızca XYZ girdi renk uzayıyla kullanılır."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
@@ -1766,10 +1740,9 @@ msgid "Fill with CIE Colors"
 msgstr "CIE renkleriyle doldur"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Fill with CIE colors. By default is enabled.]]>"
+#, kde-format
 msgid "Fill with CIE colors. By default is enabled."
-msgstr "<![CDATA[CIE renkleriyle doldurun. Öntanımlı olarak etkindir.]]>"
+msgstr "CIE renkleriyle doldurun. Öntanımlı olarak etkindir."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
@@ -2673,10 +2646,9 @@ msgid "Apply directional blur filter"
 msgstr "Yönlü bulanıklaştırma süzgecini uygulayın."
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "Sets the angle for the direction"
-msgstr "<![CDATA[Yön için olan açıyı ayarlar.]]>"
+msgstr "Yön için olan açıyı ayarlar."
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2688,10 +2660,9 @@ msgid "Radius"
 msgstr "Yarıçap"
 
 #: data/effects/avfilter/avfilter_dblur.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "Sets the radius for the direction"
-msgstr "<![CDATA[Yön için olan yarıçapı ayarlar.]]>"
+msgstr "Yön için olan yarıçapı ayarlar."
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
@@ -2701,10 +2672,9 @@ msgstr "Süzülecek düzlemler"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #: data/effects/avfilter/avfilter_scharr.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
+#, kde-format
 msgid "Sets the color space plane the effect is applied to"
-msgstr "<![CDATA[Efektin uygulanacağı renk uzayı düzlemini ayarlar.]]>"
+msgstr "Efektin uygulanacağı renk uzayı düzlemini ayarlar."
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
@@ -2815,19 +2785,15 @@ msgstr "1. düzlem eşiği"
 #: data/effects/avfilter/avfilter_deband.xml:15
 #: data/effects/avfilter/avfilter_deband.xml:20
 #: data/effects/avfilter/avfilter_deband.xml:25
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets banding detection threshold for each plane.<br>\n"
-#| "        If difference between current pixel and reference pixel is less "
-#| "than threshold, it will be considered as banded.]]>"
+#, kde-format
 msgid ""
 "Sets banding detection threshold for each plane.<br>\n"
 "        If difference between current pixel and reference pixel is less than "
 "threshold, it will be considered as banded."
 msgstr ""
-"<![CDATA[Her düzlem için bantlama algılama eşiğini ayarlar.<br>\n"
+"Her düzlem için bantlama algılama eşiğini ayarlar.<br>\n"
 "        Geçerli piksel ile başvurulan piksel arasındaki fark eşik değerinden "
-"az ise bantlı olarak değerlendirilecektir.]]>"
+"az ise bantlı olarak değerlendirilecektir."
 
 #: data/effects/avfilter/avfilter_deband.xml:13
 #, kde-format
@@ -2845,23 +2811,17 @@ msgid "4th plane threshold"
 msgstr "4. düzlem eşiği"
 
 #: data/effects/avfilter/avfilter_deband.xml:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Banding detection range in pixels. Default is 16.<br>\n"
-#| "        If positive, random number in range 0 to set value will be used. "
-#| "If negative, exact absolute value will be used. The range defines square "
-#| "of four pixels around current pixel.]]>"
+#, kde-format
 msgid ""
 "Banding detection range in pixels. Default is 16.<br>\n"
 "        If positive, random number in range 0 to set value will be used. If "
 "negative, exact absolute value will be used. The range defines square of "
 "four pixels around current pixel."
 msgstr ""
-"<![CDATA[Piksel türünden bantlama algılaması erimi. Öntanımlı değer 16’dır."
-"<br>\n"
+"Piksel türünden bantlama algılaması erimi. Öntanımlı değer 16’dır.<br>\n"
 "        Pozitifse değeri ayarlamak için 0 erimindeki rastgele sayı "
 "kullanılacaktır. Negatifse kesin mutlak değer kullanılacaktır. Erim, geçerli "
-"pikselin etrafındaki dört pikselin karesini tanımlar.]]>"
+"pikselin etrafındaki dört pikselin karesini tanımlar."
 
 #: data/effects/avfilter/avfilter_deband.xml:33
 #: data/effects/avfilter/avfilter_transpose.xml:8
@@ -2872,14 +2832,7 @@ msgid "Direction"
 msgstr "Yön"
 
 #: data/effects/avfilter/avfilter_deband.xml:35
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets direction in degrees from which four pixel will be compared."
-#| "<br>\n"
-#| "        If positive, random direction from 0 to set direction will be "
-#| "picked. If negative, exact of absolute value will be picked. For example "
-#| "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
-#| "will pick only pixels on same column]]>"
+#, kde-format
 msgid ""
 "Sets direction in degrees from which four pixel will be compared.<br>\n"
 "        If positive, random direction from 0 to set direction will be "
@@ -2887,11 +2840,11 @@ msgid ""
 "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
 "will pick only pixels on same column"
 msgstr ""
-"<![CDATA[Dört pikselin karşılaştırılacağı yönü derece türünden ayarlar.<br>\n"
+"Dört pikselin karşılaştırılacağı yönü derece türünden ayarlar.<br>\n"
 "        Pozitif ise 0’dan ayarlanan yöne rastgele yön seçilecektir. Negatif "
 "ise kesin veya mutlak değer seçilecektir. Örneğin; 0°, −180° veya −360° yönü "
 "yalnızca aynı satırdaki pikselleri seçecektir ve −90° yalnızca aynı "
-"sütundaki pikselleri seçecektir.]]>"
+"sütundaki pikselleri seçecektir."
 
 #: data/effects/avfilter/avfilter_deband.xml:38
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:14
@@ -2903,13 +2856,7 @@ msgid "Blur"
 msgstr "Bulanıklaştır"
 
 #: data/effects/avfilter/avfilter_deband.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, current pixel is compared with average value of all "
-#| "four surrounding pixels.<br>\n"
-#| "        The default is enabled. If disabled, current pixel is compared "
-#| "with all four surrounding pixels. The pixel is considered banded if only "
-#| "all four differences with surrounding pixels are less than threshold.]]>"
+#, kde-format
 msgid ""
 "If enabled, current pixel is compared with average value of all four "
 "surrounding pixels.<br>\n"
@@ -2917,12 +2864,12 @@ msgid ""
 "all four surrounding pixels. The pixel is considered banded if only all four "
 "differences with surrounding pixels are less than threshold."
 msgstr ""
-"<![CDATA[Etkinleştirilmişse geçerli piksel çevresindeki dört pikselin "
-"ortalama değeriyle karşılaştırılır.<br>\n"
+"Etkinleştirilmişse geçerli piksel çevresindeki dört pikselin ortalama "
+"değeriyle karşılaştırılır.<br>\n"
 "        Öntanımlı olarak etkindir. Devre dışı bırakılırsa geçerli piksel "
 "etrafındaki dört pikselle karşılaştırılır. Yalnızca etrafındaki piksellerle "
 "olan dört farkın eşikten az olması durumunda piksel bantlı olarak kabul "
-"edilir.]]>"
+"edilir."
 
 #: data/effects/avfilter/avfilter_deband.xml:43
 #, kde-format
@@ -2930,20 +2877,15 @@ msgid "Coupling"
 msgstr "Bağlama"
 
 #: data/effects/avfilter/avfilter_deband.xml:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, current pixel is changed if and only if<br>\n"
-#| "        all pixel components are banded, e.g. banding detection threshold "
-#| "is triggered for all color components. The default is disabled.]]>"
+#, kde-format
 msgid ""
 "If enabled, current pixel is changed if and only if<br>\n"
 "        all pixel components are banded, e.g. banding detection threshold is "
 "triggered for all color components. The default is disabled."
 msgstr ""
-"<![CDATA[Etkinleştirilmişse geçerli piksel yalnızca tüm<br>\n"
+"Etkinleştirilmişse geçerli piksel yalnızca tüm<br>\n"
 "        piksel bileşenleri bantlıysa değiştirilir, örneğin bant algılama "
-"eşiği tüm renk bileşenleri için tetiklenir. Öntanımlı olarak devre "
-"dışıdır.]]>"
+"eşiği tüm renk bileşenleri için tetiklenir. Öntanımlı olarak devre dışıdır."
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
@@ -3265,19 +3207,15 @@ msgid "Dilation"
 msgstr "Yayma"
 
 #: data/effects/avfilter/avfilter_dilation.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Apply dilation effect.<br>\n"
-#| "    Simulates image dilation, an effect which will enlarge the lightest "
-#| "pixels in the image by replacing the pixel by the local (3x3) maximum.]]>"
+#, kde-format
 msgid ""
 "Apply dilation effect.<br>\n"
 "    Simulates image dilation, an effect which will enlarge the lightest "
 "pixels in the image by replacing the pixel by the local (3x3) maximum."
 msgstr ""
-"<![CDATA[Yayılma efekti uygulayın.<br>\n"
+"Yayılma efekti uygulayın.<br>\n"
 "    Görsel yayılmasını simüle eder; bu efekt, pikseli yerel (3 × 3) en "
-"yüksek değerle değiştirerek görüntüdeki en açık pikselleri büyütür.]]>"
+"yüksek değerle değiştirerek görüntüdeki en açık pikselleri büyütür."
 
 #: data/effects/avfilter/avfilter_dilation.xml:9
 #: data/effects/avfilter/avfilter_erosion.xml:9
@@ -3293,16 +3231,13 @@ msgstr "1. düzlem için olan eşik"
 #: data/effects/avfilter/avfilter_erosion.xml:16
 #: data/effects/avfilter/avfilter_erosion.xml:21
 #: data/effects/avfilter/avfilter_erosion.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Limit the maximum change for each plane.<br>\n"
-#| "        Default is 65535. If 0, plane will remain unchanged.]]>"
+#, kde-format
 msgid ""
 "Limit the maximum change for each plane.<br>\n"
 "        Default is 65535. If 0, plane will remain unchanged."
 msgstr ""
-"<![CDATA[Her bir düzlem için maksimum değişimi sınırlayın.<br>\n"
-"        Öntanımlı değer 65535’tir. 0 ise düzlem değişmeden kalacaktır.]]>"
+"Her bir düzlem için maksimum değişimi sınırlayın.<br>\n"
+"        Öntanımlı değer 65535’tir. 0 ise düzlem değişmeden kalacaktır."
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
@@ -3330,19 +3265,15 @@ msgstr "Koordinatlar"
 
 #: data/effects/avfilter/avfilter_dilation.xml:31
 #: data/effects/avfilter/avfilter_erosion.xml:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Flag which specifies the pixel to refer to.<br>\n"
-#| "        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
-#| "coordinates maps like this: 1 2 3 4 5 6 7 8]]>"
+#, kde-format
 msgid ""
 "Flag which specifies the pixel to refer to.<br>\n"
 "        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
 "coordinates maps like this: 1 2 3 4 5 6 7 8"
 msgstr ""
-"<![CDATA[Başvurulacak pikseli belirten bayrak.<br>\n"
-"        Varsayılan 255’tir, yani sekiz pikselin hepsi kullanılır. Yerel 3 × "
-"3 koordinat haritalarına ait bayraklar şu şekildedir: 1 2 3 4 5 6 7 8.]]>"
+"Başvurulacak pikseli belirten bayrak.<br>\n"
+"        Öntanımlı değer 255’tir, yani sekiz pikselin hepsi kullanılır. Yerel "
+"3 × 3 koordinat haritalarına ait bayraklar şu şekildedir: 1 2 3 4 5 6 7 8."
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3385,10 +3316,9 @@ msgid "Top-left X"
 msgstr "Sol üst X"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X coordinate of top-left corner]]>"
+#, kde-format
 msgid "X coordinate of top-left corner"
-msgstr "<![CDATA[Sol üst köşenin X koordinatı.]]>"
+msgstr "Sol üst köşenin X koordinatı."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
@@ -3397,10 +3327,9 @@ msgid "Top-left Y"
 msgstr "Sol üst Y"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y coordinate of top-left corner]]>"
+#, kde-format
 msgid "Y coordinate of top-left corner"
-msgstr "<![CDATA[Sol üst köşenin Y koordinatı.]]>"
+msgstr "Sol üst köşenin Y koordinatı."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
@@ -3408,16 +3337,13 @@ msgid "Width (px)"
 msgstr "Genişlik (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Width of the box in pixel.<br>\n"
-#| "    \tA width of <em>1</em> does not draw a line]]>"
+#, kde-format
 msgid ""
 "Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line"
 msgstr ""
-"<![CDATA[Kutunun piksel türünden genişliği.<br>\n"
-"    \t<em>1</em> genişlik değeri bir çizgi çizmez.]]>"
+"Kutunun piksel türünden genişliği.<br>\n"
+"    \t<em>1</em> genişlik değeri bir çizgi çizmez."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
@@ -3425,16 +3351,13 @@ msgid "Height (px)"
 msgstr "Yükseklik (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Height of the box in pixel.<br>\n"
-#| "    \tA height of <em>1</em> does not draw a line]]>"
+#, kde-format
 msgid ""
 "Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line"
 msgstr ""
-"<![CDATA[Kutunun piksel türünden yüksekliği.<br>\n"
-"    \t<em>1</em> yükseklik değeri bir çizgi çizmez.]]>"
+"Kutunun piksel türünden yüksekliği.<br>\n"
+"    \t<em>1</em> yükseklik değeri bir çizgi çizmez."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
@@ -3447,16 +3370,13 @@ msgid "Color"
 msgstr "Renk"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Select a color for the line.<br>\n"
-#| "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
+#, kde-format
 msgid ""
 "Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent."
 msgstr ""
-"<![CDATA[Çizgi için bir renk seçin.<br>\n"
-"    \tÇizgiyi yarısaydam yapmak için <em>Alfa</em> değerini kullanın.]]>"
+"Çizgi için bir renk seçin.<br>\n"
+"    \tÇizgiyi yarısaydam yapmak için <em>Alfa</em> değerini kullanın."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3465,10 +3385,9 @@ msgid "Thickness (px)"
 msgstr "Kalınlık (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
-#, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
+#, kde-format
 msgid "Sets the thickness for the line in pixels"
-msgstr "Çizgi grafiğin kalınlığını piksel türünden ayarlar."
+msgstr "Çizginin kalınlığını piksel türünden ayarlar."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
@@ -3477,13 +3396,7 @@ msgid "Replace color and alpha"
 msgstr "Rengi ve alfayı değiştir"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:38
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If the input has alpha, checking this<br>\n"
-#| "    \twill overwrite the video's color and alpha pixels with the pixels "
-#| "of the painted box.<br>\n"
-#| "    \tBy default, the box will be composited onto the input, leaving the "
-#| "video's alpha intact.]]>"
+#, kde-format
 msgid ""
 "If the input has alpha, checking this<br>\n"
 "    \twill overwrite the video's color and alpha pixels with the pixels of "
@@ -3491,11 +3404,10 @@ msgid ""
 "    \tBy default, the box will be composited onto the input, leaving the "
 "video's alpha intact."
 msgstr ""
-"<![CDATA[Giriş alfa değerine sahipse<br>\n"
-"    \tbunu işaretlemek videonun rengini ve alfa piksellerini boyalı kutunun "
-"pikselleriyle değiştirir.<br>\n"
+"Giriş alfa değerine sahipse bunu işaretlemek videonun rengini ve<br>\n"
+"    \talfa piksellerini boyalı kutunun pikselleriyle değiştirir.<br>\n"
 "    \tÖntanımlı olarak, kutu girdiye yerleştirilecek ve videonun alfa değeri "
-"bozulmadan kalacaktır.]]>"
+"bozulmadan kalacaktır."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
 #, kde-format
@@ -3514,10 +3426,9 @@ msgid "X Offset"
 msgstr "X ofseti"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance from the left edge in pixel]]>"
+#, kde-format
 msgid "Distance from the left edge in pixel"
-msgstr "<![CDATA[Sol kenardan piksel türünden uzaklık.]]>"
+msgstr "Sol kenardan piksel türünden uzaklık."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16 data/effects/frei0r/frei0r_mirr0r.xml:11
@@ -3526,10 +3437,9 @@ msgid "Y Offset"
 msgstr "Y ofseti"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance from the top edge in pixel]]>"
+#, kde-format
 msgid "Distance from the top edge in pixel"
-msgstr "<![CDATA[Üst kenardan piksel türünden uzaklık.]]>"
+msgstr "Üst kenardan piksel türünden uzaklık."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3545,10 +3455,9 @@ msgid "Width"
 msgstr "Genişlik"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "Distance between vertical lines in pixel"
-msgstr "<![CDATA[Dikey kenarlar arasındaki piksel türünden uzaklık.]]>"
+msgstr "Dikey kenarlar arasındaki piksel türünden uzaklık."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
@@ -3562,37 +3471,26 @@ msgid "Height"
 msgstr "Yükseklik"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
+#, kde-format
 msgid "Distance between horizontal lines in pixel"
-msgstr "<![CDATA[Yatay kenarlar arasındaki piksel türünden uzaklık.]]>"
+msgstr "Yatay kenarlar arasındaki piksel türünden uzaklık."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Select a color for the grid lines.<br>\n"
-#| "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
+#, kde-format
 msgid ""
 "Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent."
 msgstr ""
-"<![CDATA[Izgara çizgileri için bir renk seçin.<br>\n"
-"    \tIzgarayı yarısaydam yapmak için <em>Alfa</em> değerini kullanın.]]>"
+"Izgara çizgileri için bir renk seçin.<br>\n"
+"    \tIzgarayı yarısaydam yapmak için <em>Alfa</em> değerini kullanın."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
+#, kde-format
 msgid "Sets the thickness for the grid lines in pixels"
-msgstr "<![CDATA[Izgara çizgilerinin kalınlığını piksel türünden ayarlar.]]>"
+msgstr "Izgara çizgilerinin kalınlığını piksel türünden ayarlar."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If the input has alpha, checking this<br>\n"
-#| "    \twill overwrite the video's color and alpha pixels with the pixels "
-#| "of the grid lines.<br>\n"
-#| "    \tBy default, the grid lines will be composited onto the input, "
-#| "leaving the video's alpha intact.]]>"
+#, kde-format
 msgid ""
 "If the input has alpha, checking this<br>\n"
 "    \twill overwrite the video's color and alpha pixels with the pixels of "
@@ -3600,11 +3498,10 @@ msgid ""
 "    \tBy default, the grid lines will be composited onto the input, leaving "
 "the video's alpha intact."
 msgstr ""
-"<![CDATA[Girişte alfa varsa bunu işaretlemek<br>\n"
-"    \tvideonun rengini ve alfa piksellerini ızgara çizgilerinin "
-"pikselleriyle değiştirir.<br>\n"
+"Girişte alfa varsa bunu işaretlemek videonun rengini ve alfa<br>\n"
+"    \tpiksellerini ızgara çizgilerinin pikselleriyle değiştirir.<br>\n"
 "    \tÖntanımlı olarak, ızgara çizgileri girişe birleştirilecek ve videonun "
-"alfa değeri bozulmadan kalacaktır.]]>"
+"alfa değeri bozulmadan kalacaktır."
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, kde-format
@@ -3770,19 +3667,15 @@ msgid "Erosion"
 msgstr "Erozyon"
 
 #: data/effects/avfilter/avfilter_erosion.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Apply erosion effect.<br>\n"
-#| "    Simulates image erosion, an effect which will enlarge the darkest "
-#| "pixels in the image by replacing the pixel by the local (3x3) minimum.]]>"
+#, kde-format
 msgid ""
 "Apply erosion effect.<br>\n"
 "    Simulates image erosion, an effect which will enlarge the darkest pixels "
 "in the image by replacing the pixel by the local (3x3) minimum."
 msgstr ""
-"<![CDATA[Erozyon efekti uygulayın.<br>\n"
+"Erozyon efekti uygulayın.<br>\n"
 "    Görsel erozyonunu simüle eder; bu, pikseli yerel (3 × 3) en düşük "
-"değerle değiştirerek görseldeki en koyu pikselleri büyütür.]]>"
+"değerle değiştirerek görseldeki en koyu pikselleri büyütür."
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
@@ -3833,19 +3726,15 @@ msgid "Denoise frames using 3D FFT (frequency domain filtering)"
 msgstr "3B FFT ile (frekans etki alanı süzümü) karelerin gürültüsünü kaldırın."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the noise sigma constant.<br>\n"
-#| "       \tThis sets denoising strength. Using very high sigma with low "
-#| "overlap may give blocking artifacts.]]>"
+#, kde-format
 msgid ""
 "Set the noise sigma constant.<br>\n"
 "       \tThis sets denoising strength. Using very high sigma with low "
 "overlap may give blocking artifacts."
 msgstr ""
-"<![CDATA[Gürültü sigma sabitini ayarlayın.<br>\n"
+"Gürültü sigma sabitini ayarlayın.<br>\n"
 "       \tBu, gürültü kaldırma gücünü ayarlar. Düşük kaplamalı çok yüksek bir "
-"sigma kullanmak, engelleyen kalıntılar bırakabilir.]]>"
+"sigma kullanmak, engelleyen kalıntılar bırakabilir."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:13
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:20
@@ -3857,16 +3746,13 @@ msgid "Amount"
 msgstr "Miktar"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the amount of denoising.<br>\n"
-#| "       \tBy default all detected noise is reduced.]]>"
+#, kde-format
 msgid ""
 "Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced."
 msgstr ""
-"<![CDATA[Gürültü kaldırma miktarını ayarlayın.<br>\n"
-"       \tÖntanımlı olarak tüm algılanan gürültü azaltılır.]]>"
+"Gürültü kaldırma miktarını ayarlayın.<br>\n"
+"       \tÖntanımlı olarak tüm algılanan gürültü azaltılır."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, kde-format
@@ -3874,22 +3760,19 @@ msgid "Block"
 msgstr "Blok"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set size of block in pixels]]>"
+#, kde-format
 msgid "Set size of block in pixels"
-msgstr "<![CDATA[Piksel türünden blok boyutunu ayarlayın.]]>"
+msgstr "Blok boyutunu piksel türünden ayarlayın."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set block overlap]]>"
+#, kde-format
 msgid "Set block overlap"
-msgstr "<![CDATA[Blok kaplamasını ayarlayın.]]>"
+msgstr "Blok kaplamasını ayarlayın."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "Set denoising method"
-msgstr "<![CDATA[Gürültü kaldırma yöntemini ayarlayın.]]>"
+msgstr "Gürültü kaldırma yöntemini ayarlayın."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
@@ -3897,28 +3780,22 @@ msgid "Wiener,Hard"
 msgstr "Wiener,Sert"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Add <em>previous</em> frame<br>\n"
-#| "        for temporal denoising]]>"
+#, kde-format
 msgid ""
 "Add <em>previous</em> frame<br>\n"
 "        for temporal denoising"
 msgstr ""
-"<![CDATA[Zamansal gürültü kaldırma için<br>\n"
-"        <em>önceki</em> kareyi ekleyin.]]>"
+"Zamansal gürültü kaldırma için<br>\n"
+"        <em>önceki</em> kareyi ekleyin."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Add <em>next</em> frame<br>\n"
-#| "        for temporal denoising]]>"
+#, kde-format
 msgid ""
 "Add <em>next</em> frame<br>\n"
 "        for temporal denoising"
 msgstr ""
-"<![CDATA[Zamansal gürültü kaldırma için<br>\n"
-"        <em>sonraki</em> kareyi ekleyin.]]>"
+"Zamansal gürültü kaldırma için<br>\n"
+"        <em>sonraki</em> kareyi ekleyin."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:40
 #: data/effects/avfilter/avfilter_median.xml:24
@@ -4261,29 +4138,22 @@ msgid "1,2,3,4,5,6"
 msgstr "1,2,3,4,5,6"
 
 #: data/effects/avfilter/avfilter_gblur.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set which planes to filter.<br>\n"
-#| "        By default all planes are filtered (YUV).]]>"
+#, kde-format
 msgid ""
 "Set which planes to filter.<br>\n"
 "        By default all planes are filtered (YUV)."
 msgstr ""
-"<![CDATA[Hangi düzlemlerin süzüleceğini ayarlayın.<br>\n"
-"        Öntanımlı olarak tüm düzlemler süzülür (YUV).]]>"
+"Hangi düzlemlerin süzüleceğini ayarlayın.<br>\n"
+"        Öntanımlı olarak tüm düzlemler süzülür (YUV)."
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
-#| "        Determines the strength of the horizontal blur. Default is 10.]]>"
+#, kde-format
 msgid ""
 "Set sigma, the standard deviation of Gaussian blur.<br>\n"
 "        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
-"<![CDATA[Yatay sigmayı, Gauss bulanıklığının standart sapmasını ayarlayın."
-"<br>\n"
-"        Yatay bulanıklığın gücünü belirler. Öntanımlı değer 10’dur.]]>"
+"Gauss bulanıklığının standart sapmasını, yani sigmayı ayarlayın.<br>\n"
+"        Yatay bulanıklığın şiddetini belirler. Öntanımlı değer 10’dur."
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4291,16 +4161,13 @@ msgid "Vertical Sigma"
 msgstr "Dikey sigma"
 
 #: data/effects/avfilter/avfilter_gblur.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set vertical sigma.<br>\n"
-#| "        Determines the strength of the vertical blur. Default is 10.]]>"
+#, kde-format
 msgid ""
 "Set vertical sigma.<br>\n"
 "        Determines the strength of the vertical blur. Default is 10."
 msgstr ""
-"<![CDATA[Dikey sigmayı ayarlayın.<br>\n"
-"        Yatay bulanıklığın gücünü belirler. Öntanımlı değer 10’dur.]]>"
+"Dikey sigmayı ayarlayın.<br>\n"
+"        Yatay bulanıklığın gücünü belirler. Öntanımlı değer 10’dur."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -4308,17 +4175,7 @@ msgid "gradfun"
 msgstr "Gradyan Düzeltme"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:9
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[<b>-= Deprecated =-</b><br>\n"
-#| "    Debands video quickly using gradients.<br>\n"
-#| "    Fix the banding artifacts that are sometimes introduced into nearly "
-#| "flat regions by truncation to 8-bit color depth.<br>\n"
-#| "    Interpolate the gradients that should go where the bands are, and "
-#| "dither them.<br>\n"
-#| "    <b>It is designed for playback only. Do not use it prior to lossy "
-#| "compression, because compression tends to lose the dither and bring back "
-#| "the bands</b>.]]>"
+#, kde-format
 msgid ""
 "<b>-= Deprecated =-</b><br>\n"
 "    Debands video quickly using gradients.<br>\n"
@@ -4330,7 +4187,7 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>."
 msgstr ""
-"<![CDATA[<b>-= Artık Kullanılmıyor =-</b><br>\n"
+"<b>-= Artık Kullanılmıyor =-</b><br>\n"
 "    Gradyanları kullanarak videoyu hızlı bir şekilde banttan ayırır.<br>\n"
 "    Bazen 8 bit renk derinliğine kesme yoluyla neredeyse düz bölgelere "
 "eklenen bantlanma kalıntılarını düzeltin.<br>\n"
@@ -4338,37 +4195,28 @@ msgstr ""
 "bunları titretin.<br>\n"
 "    <b>Yalnızca oynatma için tasarlanmıştır. Kayıplı sıkıştırmadan önce "
 "kullanmayın; çünkü sıkıştırma titremeyi kaybetme ve bantları geri getirme "
-"eğilimindedir</b>.]]>"
+"eğilimindedir</b>."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The maximum amount by which the filter will change any one pixel."
-#| "<br>\n"
-#| "       \tThis is also the threshold for detecting nearly flat regions.]]>"
+#, kde-format
 msgid ""
 "The maximum amount by which the filter will change any one pixel.<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions."
 msgstr ""
-"<![CDATA[Süzgecin herhangi bir pikseli değiştireceği en çok miktar.<br>\n"
+"Süzgecin herhangi bir pikseli değiştireceği en çok miktar.<br>\n"
 "       \tBu aynı zamanda neredeyse düz bölgelerin tespiti için de eşik "
-"değeridir.]]>"
+"değeridir."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The neighborhood to fit the gradient to.<br>\n"
-#| "       \tA larger radius makes for smoother gradients, but also prevents "
-#| "the filter from modifying the pixels near detailed regions.]]>"
+#, kde-format
 msgid ""
 "The neighborhood to fit the gradient to.<br>\n"
 "       \tA larger radius makes for smoother gradients, but also prevents the "
 "filter from modifying the pixels near detailed regions."
 msgstr ""
-"<![CDATA[Eğimin uyacağı yöre.<br>\n"
+"Eğimin uyacağı yöre.<br>\n"
 "       \tDaha büyük bir yarıçap daha yumuşak gradyanlar sağlar; ancak aynı "
-"zamanda süzgecin ayrıntılı bölgelere yakın pikselleri değiştirmesini "
-"önler.]]>"
+"zamanda süzgecin ayrıntılı bölgelere yakın pikselleri değiştirmesini önler."
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
 #, kde-format
@@ -4702,29 +4550,23 @@ msgstr "Belirli bir HSV erimini griye döndürür."
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the hue value which<br>\n"
-#| "        will be used in color difference calculation]]>"
+#, kde-format
 msgid ""
 "Set the hue value which<br>\n"
 "        will be used in color difference calculation"
 msgstr ""
-"<![CDATA[Renk farkı hesaplamasında kullanılacak<br>\n"
-"        ton değerini ayarlayın.]]>"
+"Renk farkı hesaplamasında kullanılacak<br>\n"
+"        ton değerini ayarlayın."
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the saturation value<br>\n"
-#| "        which will be used in color difference calculation]]>"
+#, kde-format
 msgid ""
 "Set the saturation value<br>\n"
 "        which will be used in color difference calculation"
 msgstr ""
-"<![CDATA[Renk farkı hesaplamasında kullanılacak<br>\n"
-"        doygunluk değerini ayarlayın.]]>"
+"Renk farkı hesaplamasında kullanılacak<br>\n"
+"        doygunluk değerini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/effects/avfilter/avfilter_hsvhold.xml:18
@@ -4736,30 +4578,25 @@ msgstr "Değer"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:20
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the value which will<br>\n"
-#| "        be used in color difference calculation]]>"
+#, kde-format
 msgid ""
 "Set the value which will<br>\n"
 "        be used in color difference calculation"
 msgstr ""
-"<![CDATA[Renk farkı hesaplamasında kullanılacak<br>\n"
-"        değeri ayarlayın.]]>"
+"Renk farkı hesaplamasında kullanılacak<br>\n"
+"        değeri ayarlayın."
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set similarity percentage with the key color]]>"
+#, kde-format
 msgid "Set similarity percentage with the key color"
-msgstr "<![CDATA[Anahtar renkle benzerlik yüzdesini ayarlayın.]]>"
+msgstr "Anahtar renkle benzerlik yüzdesini ayarlayın."
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blend percentage]]>"
+#, kde-format
 msgid "Blend percentage"
-msgstr "<![CDATA[Harmanlama yüzdesi]]>"
+msgstr "Harman yüzdesi"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
 #, kde-format
@@ -4787,16 +4624,13 @@ msgid "Colors to Adjust"
 msgstr "Ayarlanacak renkler"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set which primary and<br>\n"
-#| "        complementary colors are going to be adjusted]]>"
+#, kde-format
 msgid ""
 "Set which primary and<br>\n"
 "        complementary colors are going to be adjusted"
 msgstr ""
-"<![CDATA[Hangi ana ve yardımcı renklerin ayardan<br>\n"
-"        geçeceğini ayarlayın.]]>"
+"Hangi ana ve yardımcı renklerin ayardan<br>\n"
+"        geçeceğini ayarlayın."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -4811,10 +4645,9 @@ msgid "Hue Shift"
 msgstr "Ton Kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
+#, kde-format
 msgid "Set the hue shift in degrees to apply"
-msgstr "<![CDATA[Derece türünden uygulanacak ton kaymasını ayarlayın.]]>"
+msgstr "Derece türünden uygulanacak ton kaymasını ayarlayın."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
@@ -4822,10 +4655,9 @@ msgid "Saturation Shift"
 msgstr "Doygunluk Kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "Set the saturation shift"
-msgstr "<![CDATA[Doygunluk kaymasını ayarlayın.]]>"
+msgstr "Doygunluk kaymasını ayarlayın."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
 #, kde-format
@@ -4833,16 +4665,14 @@ msgid "Intensity Shift"
 msgstr "Yoğunluk Kayması"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the intensity shift]]>"
+#, kde-format
 msgid "Set the intensity shift"
-msgstr "<![CDATA[Yoğunluk kaymasını ayarlayın.]]>"
+msgstr "Yoğunluk kaymasını ayarlayın."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set strength of filtering]]>"
+#, kde-format
 msgid "Set strength of filtering"
-msgstr "<![CDATA[Süzme gücünü ayarlayın.]]>"
+msgstr "Süzme gücünü ayarlayın."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
 #, kde-format
@@ -4855,16 +4685,13 @@ msgid "Red Strength"
 msgstr "Kırmızı gücü"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for RED component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[KIRMIZI bileşeni için ağırlığı ayarlayın.<br>\n"
-"        Doygunluk ve açıklık işlemede kullanılır.]]>"
+"KIRMIZI bileşeni için ağırlığı ayarlayın.<br>\n"
+"        Doygunluk ve açıklık işlemede kullanılır."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
 #, kde-format
@@ -4872,16 +4699,13 @@ msgid "Green Strength"
 msgstr "Yeşil gücü"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for GREEN component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for GREEN component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[YEŞİL bileşeni için ağırlığı ayarlayın.<br>\n"
-"        Doygunluk ve açıklık işlemede kullanılır.]]>"
+"YEŞİL bileşeni için ağırlığı ayarlayın.<br>\n"
+"        Doygunluk ve açıklık işlemede kullanılır."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
 #, kde-format
@@ -4889,16 +4713,13 @@ msgid "Blue Strength"
 msgstr "Mavi gücü"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for BLUE component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for BLUE component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[MAVİ bileşeni için ağırlığı ayarlayın.<br>\n"
-"        Doygunluk ve açıklık işlemede kullanılır.]]>"
+"MAVİ bileşeni için ağırlığı ayarlayın.<br>\n"
+"        Doygunluk ve açıklık işlemede kullanılır."
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -5102,52 +4923,40 @@ msgid "Unmapped Pixel Color"
 msgstr "Eşlemlenmemiş piksel rengi"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:16
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Focal Point Relative<br>\n"
-#| "        X-Coordinate]]>"
+#, kde-format
 msgid ""
 "Focal Point Relative<br>\n"
 "        X-Coordinate"
 msgstr ""
-"<![CDATA[X koordinatına göreceli<br>\n"
-"        odak noktası]]>"
+"X koordinatına göreceli<br>\n"
+"        odak noktası"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Focal Point Relative<br>\n"
-#| "        Y-Coordinate]]>"
+#, kde-format
 msgid ""
 "Focal Point Relative<br>\n"
 "        Y-Coordinate"
 msgstr ""
-"<![CDATA[Y koordinatına göreceli<br>\n"
-"        odak noktası]]>"
+"Y koordinatına göreceli<br>\n"
+"        odak noktası"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficient]]>"
+#, kde-format
 msgid ""
 "Quadratic<br>\n"
 "        Correction Coefficient"
 msgstr ""
-"<![CDATA[İkinci dereceden<br>\n"
-"        düzeltme katsayısı]]>"
+"İkinci dereceden<br>\n"
+"        düzeltme katsayısı"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficient]]>"
+#, kde-format
 msgid ""
 "Double Quadratic<br>\n"
 "        Correction Coefficient"
 msgstr ""
-"<![CDATA[Çift ikinci dereceden<br>\n"
-"        düzeltme katsayısı]]>"
+"Çift ikinci dereceden<br>\n"
+"        düzeltme katsayısı"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -5325,22 +5134,17 @@ msgid "QP"
 msgstr "QP"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set per-block quantization parameter (QP) used by the internal "
-#| "encoder.<br>\n"
-#| "            Higher values should result in a smoother motion vector field "
-#| "but less optimal individual vectors. Default value is 1.]]>"
+#, kde-format
 msgid ""
 "Set per-block quantization parameter (QP) used by the internal encoder.<br>\n"
 "            Higher values should result in a smoother motion vector field "
 "but less optimal individual vectors. Default value is 1."
 msgstr ""
-"<![CDATA[İçsel kodlayıcı tarafından kullanılan blok başına nicemleme "
-"parametresini (QP) ayarlayın.<br>\n"
+"İçsel kodlayıcı tarafından kullanılan blok başına nicemleme parametresini "
+"(QP) ayarlayın.<br>\n"
 "            Daha yüksek değerler daha düzgün bir hareket vektör alanıyla "
 "sonuçlanmalı ancak daha az eniyilenmiş bireysel vektörler olmalıdır. "
-"Öntanımlı değer 1’dir.]]>"
+"Öntanımlı değer 1’dir."
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, kde-format
@@ -5360,10 +5164,9 @@ msgid "Horizontal radius"
 msgstr "Yatay yarıçap"
 
 #: data/effects/avfilter/avfilter_median.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set median radius]]>"
+#, kde-format
 msgid "Set median radius"
-msgstr "<![CDATA[Ortanca yarıçapı ayarlayın.]]>"
+msgstr "Ortanca yarıçapı ayarlayın."
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, kde-format
@@ -5371,19 +5174,14 @@ msgid "Vertical radius"
 msgstr "Dikey yarıçap"
 
 #: data/effects/avfilter/avfilter_median.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set median vertical radius.<br>\n"
-#| "       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
-#| "parameter.]]>"
+#, kde-format
 msgid ""
 "Set median vertical radius.<br>\n"
 "       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
 "parameter."
 msgstr ""
-"<![CDATA[Ortanca dikey yarıçapı ayarlayın.<br>\n"
-"       \tEğer 0 ise değer <em>Yatay yarıçap</em> parametresinden "
-"alınacaktır.]]>"
+"Ortanca dikey yarıçapı ayarlayın.<br>\n"
+"       \t0 ise değer <em>Yatay yarıçap</em> parametresinden alınacaktır."
 
 #: data/effects/avfilter/avfilter_median.xml:17
 #, kde-format
@@ -5391,22 +5189,18 @@ msgid "Median percentile"
 msgstr "Ortanca yüzde"
 
 #: data/effects/avfilter/avfilter_median.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Default value of 50 will pick always median values,<br>\n"
-#| "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
+#, kde-format
 msgid ""
 "Default value of 50 will pick always median values,<br>\n"
 "       \twhile 0 will pick minimum values, and 100 maximum values."
 msgstr ""
-"<![CDATA[Öntanımlı değer olan 50 her zaman ortanca, 0 ise<br>\n"
-"       \ten düşük, 100 ise en yüksek değerleri seçecektir.]]>"
+"Öntanımlı değer olan 50 her zaman ortanca, 0 ise<br>\n"
+"       \ten düşük, 100 ise en yüksek değerleri seçecektir."
 
 #: data/effects/avfilter/avfilter_median.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid "Select which planes to process"
-msgstr "<![CDATA[İşlenecek düzlemleri seçin.]]>"
+msgstr "İşlenecek düzlemleri seçin."
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -5460,41 +5254,33 @@ msgid "Video Noise Generator"
 msgstr "Video Gürültüsü Üreteci"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Add noise on video input frame]]>"
+#, kde-format
 msgid "Add noise on video input frame"
-msgstr "<![CDATA[Video girdi karesine gürültü ekleyin.]]>"
+msgstr "Video girdi karesine gürültü ekleyin."
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>All Components</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>Tüm Bileşenler</u></b> Gürültü Besleme]]>"
+msgstr "<b><u>Tüm Bileşenler</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
 #: data/effects/avfilter/avfilter_noise.xml:46
 #: data/effects/avfilter/avfilter_noise.xml:60
 #: data/effects/avfilter/avfilter_noise.xml:74
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Available noise types:<ul><li>Averaged temporal noise "
-#| "(smoother)</li>\n"
-#| "        <li>Mix random noise with a (semi)regular pattern</li>\n"
-#| "        <li>Temporal noise (noise pattern changes between frames)</li>\n"
-#| "        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
+#, kde-format
 msgid ""
 "Available noise types:<ul><li>Averaged temporal noise (smoother)</li>\n"
 "        <li>Mix random noise with a (semi)regular pattern</li>\n"
 "        <li>Temporal noise (noise pattern changes between frames)</li>\n"
 "        <li>Uniform noise (Gaussian otherwise)</li></ul>"
 msgstr ""
-"<![CDATA[Kullanılabilir gürültü türleri:<ul><li>Ortalama zamansal gürültü "
-"(daha pürüzsüz)</li>\n"
+"Kullanılabilir gürültü türleri:<ul><li>Ortalama zamansal gürültü (daha "
+"pürüzsüz)</li>\n"
 "        <li>Rastgele gürültüyü yarı düzenli bir örüntü ile karıştır</li>\n"
 "        <li>Zamansal gürültü (gürültü örüntüsü kareler arasında değiştir)</"
 "li>\n"
-"        <li>Yekpare gürültü (aksi takdirde Gauss)</li></ul>]]>"
+"        <li>Yekpare gürültü (aksi takdirde Gauss)</li></ul>"
 
 #: data/effects/avfilter/avfilter_noise.xml:19
 #: data/effects/avfilter/avfilter_noise.xml:33
@@ -5508,10 +5294,9 @@ msgstr ""
 "gürültü,Yekpare gürültü"
 
 #: data/effects/avfilter/avfilter_noise.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #0</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>Bileşen №0</u></b> Gürültü Besleme]]>"
+msgstr "<b><u>Bileşen №0</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
 #, kde-format
@@ -5519,22 +5304,19 @@ msgid " Strength"
 msgstr "Güç"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #1</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>Bileşen №1</u></b> Gürültü Besleme]]>"
+msgstr "<b><u>Bileşen №1</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #2</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>Bileşen №2</u></b> Gürültü Besleme]]>"
+msgstr "<b><u>Bileşen №2</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:64
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #3</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>Bileşen №3</u></b> Gürültü Besleme]]>"
+msgstr "<b><u>Bileşen №3</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -5622,10 +5404,9 @@ msgid "Trace X Position"
 msgstr "X konumunu izle"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X position of the trace profile]]>"
+#, kde-format
 msgid "X position of the trace profile"
-msgstr "<![CDATA[İzleme profilinin X konumu]]>"
+msgstr "İzleme profilinin X konumu"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, kde-format
@@ -5633,16 +5414,14 @@ msgid "Trace Y Position"
 msgstr "Y konumunu izle"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y position of the trace profile]]>"
+#, kde-format
 msgid "Y position of the trace profile"
-msgstr "<![CDATA[İzleme profilinin Y konumu]]>"
+msgstr "İzleme profilinin Y konumu"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
+#, kde-format
 msgid "Size/length of the trace profile in pixel"
-msgstr "<![CDATA[İzleme profilinin piksel türünden boyutu/uzunluğu.]]>"
+msgstr "İzleme profilinin piksel türünden boyutu/uzunluğu."
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
@@ -5656,16 +5435,14 @@ msgid "Tilt"
 msgstr "Eğim"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the trace profile]]>"
+#, kde-format
 msgid "Tilting of the trace profile"
-msgstr "<![CDATA[İzleme profilinin eğimi]]>"
+msgstr "İzleme profilinin eğimi"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Opacity of the scope display]]>"
+#, kde-format
 msgid "Opacity of the scope display"
-msgstr "<![CDATA[Kapsam görüntüsünün matlığı]]>"
+msgstr "Kapsam görüntüsünün matlığı"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, kde-format
@@ -5673,10 +5450,9 @@ msgid "Scope X Position"
 msgstr "Ölçüm ekranı: X konumu"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X position of the scope display]]>"
+#, kde-format
 msgid "X position of the scope display"
-msgstr "<![CDATA[Kapsam görüntüsünün X konumu]]>"
+msgstr "Kapsam görüntüsünün X konumu"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, kde-format
@@ -5684,10 +5460,9 @@ msgid "Scope Y Position"
 msgstr "Ölçüm ekranı: Y konumu"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y position of the scope display]]>"
+#, kde-format
 msgid "Y position of the scope display"
-msgstr "<![CDATA[Kapsam görüntüsünün Y konumu]]>"
+msgstr "Kapsam görüntüsünün Y konumu"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, kde-format
@@ -5695,10 +5470,9 @@ msgid "Scope Width"
 msgstr "Ölçüm ekranı genişliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the scope display]]>"
+#, kde-format
 msgid "Width of the scope display"
-msgstr "<![CDATA[Kapsam görüntüsünün genişliği]]>"
+msgstr "Kapsam görüntüsünün genişliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
 #, kde-format
@@ -5706,16 +5480,14 @@ msgid "Scope Height"
 msgstr "Ölçüm ekranı yüksekliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Height of the scope display]]>"
+#, kde-format
 msgid "Height of the scope display"
-msgstr "<![CDATA[Kapsam görüntüsünün yüksekliği]]>"
+msgstr "Kapsam görüntüsünün yüksekliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be traced]]>"
+#, kde-format
 msgid "Select the components to be traced"
-msgstr "<![CDATA[İzlenecek bileşenleri seçin.]]>"
+msgstr "İzlenecek bileşenleri seçin."
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, kde-format
@@ -5723,10 +5495,9 @@ msgid "Draw Scope Grid"
 msgstr "Ölçüm ekranı ızgarasını çiz"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Switch grid on or off]]>"
+#, kde-format
 msgid "Switch grid on or off"
-msgstr "<![CDATA[Izgarayı açın veya kapatın.]]>"
+msgstr "Izgarayı açın veya kapatın."
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
@@ -5734,10 +5505,9 @@ msgid "Print Statistics"
 msgstr "İstatistikleri yazdır"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[switch statistics on or off]]>"
+#, kde-format
 msgid "switch statistics on or off"
-msgstr "<![CDATA[İstatistikleri açın veya kapatın.]]>"
+msgstr "İstatistikleri açın veya kapatın."
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
@@ -5745,10 +5515,9 @@ msgid "Draw Trace Profile Line"
 msgstr "İz profili çizgisi çiz"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
+#, kde-format
 msgid "Switch drawing the trace profile line on or off"
-msgstr "<![CDATA[İz profili çizgisini açın veya kapatın.]]>"
+msgstr "İz profili çizgisini açın veya kapatın."
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
@@ -6024,18 +5793,14 @@ msgid "Apply Scharr operators for edge detection"
 msgstr "Kenar algılama için Scharr işleçlerini uygulayın."
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets the value which the filtered result will be multiplied "
-#| "with ]]>"
+#, kde-format
 msgid "Sets the value which the filtered result will be multiplied with "
-msgstr "<![CDATA[Süzülen sonucun çarpılacağı değeri ayarlar.]]>"
+msgstr "Süzülen sonucun çarpılacağı değeri ayarlar."
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
-#, fuzzy, kde-format
-#| msgid "Set value which will be added to filtered result."
+#, kde-format
 msgid "Sets the value which will be added to filtered result"
-msgstr "Süzülü değere eklenecek değeri ayarlayın."
+msgstr "Süzülü değere eklenecek değeri ayarlar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
@@ -6235,19 +6000,15 @@ msgid "Luma radius"
 msgstr "Luma yarıçapı"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the luma radius.<br>\n"
-#| "            The value specifies the variance of the gaussian filter used "
-#| "to blur the image (slower if larger).]]>"
+#, kde-format
 msgid ""
 "Set the luma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger)."
 msgstr ""
-"<![CDATA[Luma yarıçapını ayarlayın.<br>\n"
+"Luma yarıçapını ayarlayın.<br>\n"
 "            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
-"varyansını belirtir (daha büyükse daha yavaş).]]>"
+"varyansını belirtir (daha büyükse daha yavaş)."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
@@ -6256,19 +6017,15 @@ msgid "Luma strength"
 msgstr "Luma gücü"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the luma strength.<br>\n"
-#| "            The value configures the blurring. A positive value will blur "
-#| "the image, whereas a negative value will sharpen the image.]]>"
+#, kde-format
 msgid ""
 "Set the luma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image."
 msgstr ""
-"<![CDATA[Set the luma strength.<br>\n"
+"Set the luma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
-"the image, whereas a negative value will sharpen the image.]]>"
+"the image, whereas a negative value will sharpen the image."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, kde-format
@@ -6276,22 +6033,17 @@ msgid "Luma threshold"
 msgstr "Luma eşiği"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the luma threshold used as a coefficient<br>\n"
-#| "            to determine whether a pixel should be blurred or not. A "
-#| "value of 0 will filter all the image, positive values will filter flat "
-#| "areas, negative values will filter edges.]]>"
+#, kde-format
 msgid ""
 "Set the luma threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges."
 msgstr ""
-"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
 "            belirlemek için katsayı olarak kullanılan luma eşiğini "
 "ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
-"değerler kenarları süzecektir.]]> "
+"değerler kenarları süzecektir."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, kde-format
@@ -6299,22 +6051,17 @@ msgid "Chroma radius"
 msgstr "Renk yarıçapı"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma radius.<br>\n"
-#| "            The value specifies the variance of the gaussian filter used "
-#| "to blur the image (slower if larger). If not specified, it defaults to "
-#| "the value set for <em>Luma radius</em>]]>"
+#, kde-format
 msgid ""
 "Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>"
 msgstr ""
-"<![CDATA[Renk yarıçapını ayarlayın.<br>\n"
+"Renk yarıçapını ayarlayın.<br>\n"
 "            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
 "varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
-"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır.]]>"
+"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -6323,22 +6070,17 @@ msgid "Chroma strength"
 msgstr "Renk gücü"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma strength.<br>\n"
-#| "            The value configures the blurring. A positive value will blur "
-#| "the image, whereas a negative value will sharpen the image. If not "
-#| "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
+#, kde-format
 msgid ""
 "Set the chroma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
-"<![CDATA[Renk yarıçapını ayarlayın.<br>\n"
+"Renk gücünü ayarlayın.<br>\n"
 "            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
 "bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
-"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır.]]>"
+"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -6346,13 +6088,7 @@ msgid "Chroma threshold"
 msgstr "Renk eşiği"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:35
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma threshold used as a coefficient<br>\n"
-#| "            to determine whether a pixel should be blurred or not. A "
-#| "value of 0 will filter all the image, positive values will filter flat "
-#| "areas, negative values will filter edges. If not specified, it defaults "
-#| "to the value set for <em>Luma threshold</em>]]>"
+#, kde-format
 msgid ""
 "Set the chroma threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
@@ -6360,11 +6096,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>"
 msgstr ""
-"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
 "            belirlemek için katsayı olarak kullanılan renk eşiğini "
 "ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
 "değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
-"eşiği</em> için ayarlanan değere ayarlanır.]]>"
+"eşiği</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -6372,22 +6108,17 @@ msgid "Alpha radius"
 msgstr "Alpha yarıçapı"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha radius.<br>\n"
-#| "            The value specifies the variance of the gaussian filter used "
-#| "to blur the image (slower if larger). If not specified, it defaults to "
-#| "the value set for <em>Luma radius</em>]]>"
+#, kde-format
 msgid ""
 "Set the alpha radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>"
 msgstr ""
-"<![CDATA[Alfa yarıçapını ayarlayın.<br>\n"
+"Alfa yarıçapını ayarlayın.<br>\n"
 "            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
 "varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
-"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır.]]>"
+"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -6396,31 +6127,20 @@ msgid "Alpha strength"
 msgstr "Alfa gücü"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha strength.<br>\n"
-#| "            The value configures the blurring. A positive value will blur "
-#| "the image, whereas a negative value will sharpen the image. If not "
-#| "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
+#, kde-format
 msgid ""
 "Set the alpha strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
-"<![CDATA[Alfa gücünü ayarlayın.<br>\n"
+"Alfa gücünü ayarlayın.<br>\n"
 "            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
 "bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
-"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır.]]>"
+"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha threshold used as a coefficient<br>\n"
-#| "            to determine whether a pixel should be blurred or not. A "
-#| "value of 0 will filter all the image, positive values will filter flat "
-#| "areas, negative values will filter edges. If not specified, it defaults "
-#| "to the value set for <em>Luma threshold</em>]]>"
+#, kde-format
 msgid ""
 "Set the alpha threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
@@ -6428,11 +6148,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>"
 msgstr ""
-"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
 "            belirlemek için katsayı olarak kullanılan alfa eşiğini "
 "ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
 "değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
-"eşiği</em> için ayarlanan değere ayarlanır.]]>"
+"eşiği</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -10664,10 +10384,9 @@ msgid "HQ 3D Denoiser (frei0r)"
 msgstr "Yüksek Kaliteli 3B Gürültü Kaldırıcısı (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high quality 3D denoiser"
+#, kde-format
 msgid "High quality 3D denoiser"
-msgstr "Bir yüksek kaliteli 3B gürültü kaldırıcısı uygulayın."
+msgstr "Yüksek kaliteli 3B gürültü kaldırıcısı"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
@@ -18267,6 +17986,23 @@ msgstr ""
 "Genelleştirilmiş algoritmayı kullanarak piksel kaynakları arasında bir "
 "RGB[A] koyulaştırma işlemi gerçekleştirin: D = 255 doygunluk veya (A * "
 "256) / (256 - B)."
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, fuzzy, kde-format
+#| msgid "Remove background using AI model"
+msgid "Remove background using euclidean distance."
+msgstr "Yapay zekâ modeli kullanarak arka planı kaldır"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
+#, fuzzy, kde-format
+#| msgid "1st Plane Threshold"
+msgid "Distance Threshold"
+msgstr "1. düzlem için olan eşik"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
