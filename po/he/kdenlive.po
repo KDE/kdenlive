@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-24 02:35+0000\n"
-"PO-Revision-Date: 2025-11-21 21:20+0200\n"
+"PO-Revision-Date: 2025-11-25 14:32+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -5790,7 +5790,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, kde-format
 msgid "Luma strength"
-msgstr ""
+msgstr "עוצמת לומה"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
@@ -6528,12 +6528,12 @@ msgstr "מבזק מחזורי (מתקדם)"
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
 msgid "Display 2 color component values in a two dimensional graph"
-msgstr ""
+msgstr "הצגת שני ערכי רכיבי צבע בתרשים דו־ממדי"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:9
 #, kde-format
 msgid "Gray,Tint,Color,Color 2,Color 3,Color 4,Color 5"
-msgstr ""
+msgstr "אפור,גוון,צבע,צבע 2,צבע 3,צבע 4,צבע 5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:73
@@ -6619,7 +6619,7 @@ msgstr "אנכי"
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
 msgid "Vertically flip the input video."
-msgstr ""
+msgstr "היפוך וידאו הקלט אנכית."
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
 #, fuzzy, kde-format
@@ -6630,7 +6630,7 @@ msgstr "שׁוֹנוּת"
 #: data/effects/avfilter/avfilter_vibrance.xml:5
 #, kde-format
 msgid "Boost or alter saturation. "
-msgstr ""
+msgstr "הגברת או שינוי הרוויה. "
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
 #, kde-format
@@ -6650,7 +6650,7 @@ msgstr "איזון כחול"
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "לומה אדומה"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
 #, kde-format
@@ -9641,7 +9641,7 @@ msgstr "מכבה רעשים תלת־ממדי באיכות גבוהה"
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
 #, kde-format
 msgid "Spatial"
-msgstr ""
+msgstr "מרחבי"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:9
 #: data/effects/frei0r/frei0r_hqdn3d.xml:10
@@ -9670,7 +9670,7 @@ msgstr "עיוות"
 #: data/effects/frei0r/frei0r_distort0r.xml:5
 #, kde-format
 msgid "Creates a plasma like distortion"
-msgstr ""
+msgstr "יצירת עיוות דמוי פלזמה"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:11
 #, kde-format
@@ -9680,7 +9680,7 @@ msgstr "משרעת"
 #: data/effects/frei0r/frei0r_distort0r.xml:14
 #, kde-format
 msgid "Use Velocity"
-msgstr ""
+msgstr "להשתמש במהירות"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:17
 #, kde-format
@@ -9814,7 +9814,7 @@ msgstr ""
 #, kde-format
 msgctxt "Emboss Effect Name"
 msgid "Emboss"
-msgstr ""
+msgstr "הבלטה"
 
 #: data/effects/frei0r/frei0r_emboss.xml:6
 #, kde-format

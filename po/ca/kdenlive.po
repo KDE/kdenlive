@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-24 02:35+0000\n"
-"PO-Revision-Date: 2025-11-19 10:11+0100\n"
+"PO-Revision-Date: 2025-11-26 22:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1636,7 +1636,7 @@ msgstr "xyY,UCS,LUV"
 #: data/effects/avfilter/avfilter_ciescope.xml:18
 #, kde-format
 msgid "Gamuts to Draw"
-msgstr "Gamma a dibuixar"
+msgstr "Gammes a dibuixar"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, kde-format
@@ -8711,7 +8711,7 @@ msgid ""
 "but only want to use part of the 360 image - for example if you and the film "
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
-"Afegeix un mat negre al fotograma. Useu-lo si filmeu amb una càmera de 360 "
+"Afegeix un matte negre al fotograma. Useu-lo si filmeu amb una càmera de 360 "
 "però només voleu usar part de la imatge de 360. Per exemple, si vós i "
 "l'equip de filmació ocupeu els 90 graus al darrere de la càmera."
 
