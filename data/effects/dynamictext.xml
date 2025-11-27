@@ -39,9 +39,9 @@
         <name>Vertical Alignment</name>
         <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
     </parameter>
-    <parameter type="keywords" name="argument" default="#timecode#" paramlist="#timecode#;#frame#;#createdate#;#filedate#;#localfiledate#;#meta.media.0.stream.frame_rate#;#meta.media.0.codec.name#;#meta.media.0.codec.bit_rate#;#meta.media.width#;#meta.media.height#;#meta.attr.comment.markup#">
+    <parameter type="keywords" name="argument" default="#timecode#" paramlist="#timecode#;#frame#;#filename#;#basename#;#createdate#;#filedate#;#localfiledate#;#meta.media.0.stream.frame_rate#;#meta.media.0.codec.name#;#meta.media.0.codec.bit_rate#;#meta.media.width#;#meta.media.height#;#meta.attr.comment.markup#">
         <name>Text</name>
-        <comment>You can also enter strftime parameters to customize the output, like: #createdate %H:%M %D#</comment>
-        <paramlistdisplay>timecode,frame,creation date,file date (GMT),file date (local),source frame rate,source codec,source bit rate,source width,source height,source comment</paramlistdisplay>
+        <comment><![CDATA[You can also enter <i>strftime</i> parameters to customize the output, like: #createdate %H:%M %D#]]></comment>
+        <paramlistdisplay>Timecode,Frame number,File name,Base name,Creation date,File date (GMT),File date (local),Source frame rate,Source codec,Source bit rate,Source width,Source height,Source comment</paramlistdisplay>
     </parameter>
 </effect>
