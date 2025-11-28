@@ -350,7 +350,10 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 void TimelineTabs::buildClipMenu()
 {
     // Timeline clip menu
-    delete m_timelineClipMenu;
+    if (m_timelineClipMenu) {
+        // Timeline clip menu already built
+        return;
+    }
     m_timelineClipMenu = new QMenu(this);
     KActionCollection *coll = pCore->window()->actionCollection();
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_copy")));

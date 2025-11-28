@@ -52,8 +52,8 @@ Window {
     title: "Splash Window"
     modality: Qt.WindowModal
     flags: Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
-    x: (Screen.width - splashContent.width) / 2
-    y: (Screen.height - splashContent.height) / 2
+    x: (Screen.width - width) / 2
+    y: (Screen.height - height) / 2
     width: splashContent.width
     height: splashContent.height
 
@@ -107,19 +107,22 @@ Window {
         }
         Keys.onReturnPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length)
+                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
                     openFile(splash.urls[listView.currentIndex]);
+                    splash.hide()
+                }
 
             } else if (tlistView.activeFocus) {
                 if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.templates.length)
                     openTemplate(splash.templates[tlistView.currentIndex]);
-
             }
         }
         Keys.onEnterPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length)
+                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
                     openFile(splash.urls[listView.currentIndex]);
+                    splash.hide()
+                }
 
             } else if (tlistView.activeFocus) {
                 if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.templates.length)
@@ -340,6 +343,7 @@ Window {
                                         }
                                         onClicked: {
                                             splash.openFile(modelData);
+                                            splash.hide()
                                         }
                                     }
                                     Rectangle {
@@ -980,7 +984,10 @@ Window {
                     id: buttonNext
                     icon.name: "go-next"
                     text: i18n("Start Editing")
-                    onClicked: firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                    onClicked: {
+                        firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                        splash.hide()
+                    }
                     Layout.alignment: Qt.AlignRight
                 }
 
