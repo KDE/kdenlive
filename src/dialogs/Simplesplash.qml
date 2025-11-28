@@ -227,7 +227,7 @@ Window {
                 anchors.rightMargin: 10
                 text: i18n("What's New")
                 icon.name: "help-contents"
-                onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version)
+                onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgradedone")
             }
             Button {
                 id: notesStartButton

@@ -634,7 +634,7 @@ Window {
                     anchors.rightMargin: 10
                     text: i18n("What's New")
                     icon.name: "help-contents"
-                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version)
+                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgradedone")
                     KeyNavigation.tab: listView
                 }
             }
@@ -667,13 +667,13 @@ Window {
                     ToolButton {
                         icon.name: "user-group-new"
                         text: i18n("Contribute…")
-                        onClicked: splash.openLink("https://kdenlive.org/get-involved")
+                        onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar")
                     }
 
                     ToolButton {
                         text: i18n("Donate…")
                         icon.name: "donate"
-                        onClicked: splash.openLink("https://kdenlive.org/fund")
+                        onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar")
                         KeyNavigation.tab: listView
                     }
 
@@ -977,7 +977,7 @@ Window {
                     icon.name: "help-browser"
                     text: i18n("Check Online Documentation")
                     Layout.alignment: Qt.AlignLeft
-                    onClicked: openLink("https://docs.kdenlive.org")
+                    onClicked: openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
                 }
 
                 Button {
