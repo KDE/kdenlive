@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:35+0000\n"
+"POT-Creation-Date: 2025-11-28 02:33+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -542,6 +542,7 @@ msgstr "Усиление на входе"
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8 data/effects/lightshow.xml:14
 #: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
 #, kde-format
 msgid "Threshold"
 msgstr "Порог"
@@ -9985,7 +9986,7 @@ msgstr "Равнопромежуточная,Ортографическая,Эк
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Scaling"
 msgstr "Масштабирование"
@@ -11465,7 +11466,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:591
-#: src/dialogs/Splash.qml:959 src/layouts/layoutmanagerdialog.cpp:98
+#: src/dialogs/Splash.qml:957 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16588,12 +16589,12 @@ msgstr "Конечная амплитуда"
 msgid "Wave Amplitude"
 msgstr "Амплитуда волны"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:778
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:775
 #, kde-format
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:825
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:822
 #, kde-format
 msgid "Vertical"
 msgstr "По вертикали"
@@ -17199,6 +17200,16 @@ msgstr ""
 "Выполняет RGB[A] операцию осветления между источниками\n"
 "пикселов, используя обобщенный алгоритм:\n"
 "D = насыщенность 255 или (А * 256) / (256 - B)"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, kde-format
+msgid "Erasing backgrounds with euclidean distance."
+msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
@@ -18295,40 +18306,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Не удалось загрузить предустановку %1"
 
-#: src/assets/view/assetparameterview.cpp:53
+#: src/assets/view/assetparameterview.cpp:51
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Сбросить эффект"
 
-#: src/assets/view/assetparameterview.cpp:55
+#: src/assets/view/assetparameterview.cpp:53
 #, kde-format
 msgid "Save preset…"
 msgstr "Сохранить предустановку…"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:54
 #, kde-format
 msgid "Update current preset"
 msgstr "Обновить текущую предустановку"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:57 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "Удалить предустановку"
 
-#: src/assets/view/assetparameterview.cpp:60
+#: src/assets/view/assetparameterview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Удаляет текущую предустановку."
 
-#: src/assets/view/assetparameterview.cpp:77
+#: src/assets/view/assetparameterview.cpp:75
 #, kde-format
 msgid "Save effect"
 msgstr "Сохранить эффект"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, kde-format
@@ -18336,7 +18347,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ввод имени предустановки"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, kde-format
@@ -19434,7 +19445,7 @@ msgstr "Список воспроизведения"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1679 src/project/projectmanager.cpp:1681
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20271,7 +20282,7 @@ msgstr "Переместить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
-#: src/effects/effectstack/view/effectstackview.cpp:795
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
 #, kde-format
@@ -20633,7 +20644,7 @@ msgstr ""
 "Указан недопустимый профиль. По умолчанию используется профиль «dv_pal», но "
 "его можно изменить в окне настройки параметров Kdenlive"
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:882
+#: src/core.cpp:500 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Loading project…"
 msgstr "Загрузка проекта…"
@@ -21335,7 +21346,7 @@ msgstr "Экспорт данных направляющих"
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
@@ -21343,7 +21354,7 @@ msgstr "Экспорт данных направляющих"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1988 src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1990 src/project/projectmanager.cpp:1996
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21449,7 +21460,7 @@ msgstr ""
 "(UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1877
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1879
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -22706,7 +22717,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "Разработано сообществом KDE"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:560 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:559 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22729,7 +22740,7 @@ msgstr "Сброс конфигурации"
 msgid "Start Normally"
 msgstr "Начальный цвет"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:618
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:617
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -22737,7 +22748,7 @@ msgid ""
 "org/fund/\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:632
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:631
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -23489,65 +23500,65 @@ msgstr ""
 msgid "60 fps"
 msgstr "%1 кадров/с"
 
-#: src/dialogs/Splash.qml:169
+#: src/dialogs/Splash.qml:168
 #, kde-format
 msgid "Made by KDE"
 msgstr "Разработано сообществом KDE"
 
-#: src/dialogs/Splash.qml:225
+#: src/dialogs/Splash.qml:224
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "Создать архивную копию проекта…"
 
-#: src/dialogs/Splash.qml:252
+#: src/dialogs/Splash.qml:251
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "Открыть документ"
 
-#: src/dialogs/Splash.qml:260
+#: src/dialogs/Splash.qml:259
 #, fuzzy, kde-format
 #| msgid "Recent Projects"
 msgid "Clear History of Recent Projects"
 msgstr "Последний проект"
 
-#: src/dialogs/Splash.qml:361
+#: src/dialogs/Splash.qml:360
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove file from list"
 msgstr "Удалить файл"
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:389
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "Создать архивную копию проекта…"
 
-#: src/dialogs/Splash.qml:417
+#: src/dialogs/Splash.qml:416
 #, fuzzy, kde-format
 #| msgid "Test Proxy Profiles"
 msgid "New From Profile"
 msgstr "Проверить профили прокси"
 
-#: src/dialogs/Splash.qml:425
+#: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:511
+#: src/dialogs/Splash.qml:510
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "Запросить параметр из списка"
 
-#: src/dialogs/Splash.qml:550
+#: src/dialogs/Splash.qml:549
 #, fuzzy, kde-format
 #| msgid "Hide on startup"
 msgid "Show on Startup"
 msgstr "Скрыть при запуске"
 
-#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:582 src/dialogs/Splash.qml:948
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -23557,46 +23568,46 @@ msgstr ""
 "Во время последнего запуска Kdenlive произошёл сбой.\n"
 "Сбросить файлы конфигурации к исходным значениям?"
 
-#: src/dialogs/Splash.qml:662
+#: src/dialogs/Splash.qml:660
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:668
+#: src/dialogs/Splash.qml:665
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:673
+#: src/dialogs/Splash.qml:670
 #, fuzzy, kde-format
 #| msgid "Donate"
 msgid "Donate…"
 msgstr "Пожертвование"
 
-#: src/dialogs/Splash.qml:703
+#: src/dialogs/Splash.qml:700
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "Добро пожаловать в Kdenlive %1"
 
-#: src/dialogs/Splash.qml:709
+#: src/dialogs/Splash.qml:706
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:721
+#: src/dialogs/Splash.qml:718
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "Изменить профиль проекта по умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:838 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:835 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Разрешение"
 
-#: src/dialogs/Splash.qml:865
+#: src/dialogs/Splash.qml:862
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -23604,7 +23615,7 @@ msgstr "Кадровая частота:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:891
+#: src/dialogs/Splash.qml:888
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23613,31 +23624,31 @@ msgstr "Кадровая частота:"
 msgid "Interlaced"
 msgstr "Чересстрочная"
 
-#: src/dialogs/Splash.qml:910
+#: src/dialogs/Splash.qml:907
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video Tracks"
 msgstr "Видеодорожки"
 
-#: src/dialogs/Splash.qml:919
+#: src/dialogs/Splash.qml:916
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio Tracks"
 msgstr "Звуковые дорожки"
 
-#: src/dialogs/Splash.qml:932
+#: src/dialogs/Splash.qml:929
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:977
+#: src/dialogs/Splash.qml:974
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Online documentation"
 msgid "Check Online Documentation"
 msgstr "Документация в Интернете"
 
-#: src/dialogs/Splash.qml:985
+#: src/dialogs/Splash.qml:982
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -24812,7 +24823,7 @@ msgid "Invalid file path"
 msgstr "Некорректный путь к файлу"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:867
-#: src/project/projectmanager.cpp:909
+#: src/project/projectmanager.cpp:911
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не удалось восстановить повреждённый файл."
@@ -24890,8 +24901,8 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии, однако создать "
 "резервную копию %1 не удалось."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1551
-#: src/project/projectmanager.cpp:1587
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1553
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
@@ -25171,7 +25182,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Эффект %1 нельзя добавить дважды."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
-#: src/effects/effectstack/view/effectstackview.cpp:237
+#: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
@@ -25402,59 +25413,59 @@ msgstr "Комментарии:"
 msgid "No name provided, effect not saved."
 msgstr "Имя не указано, эффект не был сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:351
-#: src/effects/effectstack/view/effectstackview.cpp:992
-#: src/effects/effectstack/view/effectstackview.cpp:1079
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:960
+#: src/effects/effectstack/view/effectstackview.cpp:1047
 #, kde-format
 msgid "Remove Background"
 msgstr "Удалить фон"
 
-#: src/effects/effectstack/view/effectstackview.cpp:357
+#: src/effects/effectstack/view/effectstackview.cpp:349
 #, kde-format
 msgid "Exporting…"
 msgstr "Экспорт…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Включить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Отключить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:744
+#: src/effects/effectstack/view/effectstackview.cpp:727
 #, kde-format
 msgid "No effect selected."
 msgstr "Эффект не выбран."
 
-#: src/effects/effectstack/view/effectstackview.cpp:758
+#: src/effects/effectstack/view/effectstackview.cpp:741
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Сохранение текущего стека эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:763
+#: src/effects/effectstack/view/effectstackview.cpp:746
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Имя сохраняемого стека:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:747
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Описание:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:776
+#: src/effects/effectstack/view/effectstackview.cpp:759
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Имя не было указано, стек эффектов не сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:783
+#: src/effects/effectstack/view/effectstackview.cpp:766
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -25463,28 +25474,28 @@ msgstr ""
 "Описание отсутствует. \n"
 "Сохранить эффект без описания?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:989
-#: src/effects/effectstack/view/effectstackview.cpp:1015
+#: src/effects/effectstack/view/effectstackview.cpp:957
+#: src/effects/effectstack/view/effectstackview.cpp:983
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Прервать создание маски"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1062
+#: src/effects/effectstack/view/effectstackview.cpp:1030
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Отражение по горизонтали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1068
+#: src/effects/effectstack/view/effectstackview.cpp:1036
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Отражение по вертикали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1080
+#: src/effects/effectstack/view/effectstackview.cpp:1048
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Удалить фон с помощью модели ИИ"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1093
+#: src/effects/effectstack/view/effectstackview.cpp:1061
 #, kde-format
 msgid "Flip"
 msgstr "Отражение"
@@ -31594,7 +31605,7 @@ msgstr "Открыть резервную копию…"
 msgid "Save changes to document?"
 msgstr "Сохранить изменения в документе?"
 
-#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1816
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31640,7 +31651,7 @@ msgstr "Найден файл автосохранения. Восстанови
 msgid "File Recovery"
 msgstr "Восстановление файла"
 
-#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:897
+#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:899
 #, kde-format
 msgid "Recover"
 msgstr "Восстановить"
@@ -31661,7 +31672,7 @@ msgstr "Категория маркеров не существует"
 msgid "Opening file %1"
 msgstr "Открытие файла %1"
 
-#: src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:898
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31672,28 +31683,28 @@ msgstr ""
 "%1\n"
 "Открыть резервную копию файла?"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Error opening file"
 msgstr "Ошибка при открытии файла"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1144
 #, kde-format
 msgid "Open Backup"
 msgstr "Открыть резервную копию"
 
-#: src/project/projectmanager.cpp:913
+#: src/project/projectmanager.cpp:915
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не удалось открыть резервную копию проекта."
 
-#: src/project/projectmanager.cpp:928
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Проект был обновлён, резервная копия будет создана при следующем сохранении"
 
-#: src/project/projectmanager.cpp:930
+#: src/project/projectmanager.cpp:932
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -31701,17 +31712,17 @@ msgstr ""
 "Проект был изменён при открытии, резервная копия будет создана при следующем "
 "сохранении"
 
-#: src/project/projectmanager.cpp:1001
+#: src/project/projectmanager.cpp:1003
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Загрузка монтажного стола…"
 
-#: src/project/projectmanager.cpp:1024
+#: src/project/projectmanager.cpp:1026
 #, kde-format
 msgid "Building sequences…"
 msgstr "Построение последовательностей…"
 
-#: src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:1170
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31720,7 +31731,7 @@ msgstr ""
 "Не удалось открыть файл проекта. Ошибка:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1208
+#: src/project/projectmanager.cpp:1210
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31729,12 +31740,12 @@ msgstr ""
 "Все изменения, внесённые после последнего сохранения проекта, будут "
 "потеряны. Продолжить?"
 
-#: src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1211
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Вернуться к последней сохранённой версии"
 
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1310
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31743,23 +31754,23 @@ msgstr ""
 "Проект повреждён, резервное копирование невозможно. Закройте и снова "
 "откройте файл проекта, чтобы восстановить данные из последней резервной копии"
 
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1531
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Ошибка при перемещении папки проекта, нет доступа к папке кэша"
 
-#: src/project/projectmanager.cpp:1565
+#: src/project/projectmanager.cpp:1567
 #, kde-format
 msgid "Moving project folder"
 msgstr "Перемещение папки проекта"
 
-#: src/project/projectmanager.cpp:1656 src/project/projectmanager.cpp:1711
-#: src/project/projectmanager.cpp:1715
+#: src/project/projectmanager.cpp:1658 src/project/projectmanager.cpp:1713
+#: src/project/projectmanager.cpp:1717
 #, kde-format
 msgid "Sequence 1"
 msgstr "Последовательность 1"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1669
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -31767,13 +31778,13 @@ msgstr ""
 "Файл проекта повреждён — не удалось загрузить дорожки. Выполнить поиск файла "
 "резервной копии?"
 
-#: src/project/projectmanager.cpp:1806 src/project/projectmanager.cpp:1819
-#: src/project/projectmanager.cpp:1843 src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1808 src/project/projectmanager.cpp:1821
+#: src/project/projectmanager.cpp:1845 src/project/projectmanager.cpp:1854
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1982
+#: src/project/projectmanager.cpp:1984
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31782,12 +31793,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:2007
+#: src/project/projectmanager.cpp:2009
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:2071
+#: src/project/projectmanager.cpp:2073
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31796,30 +31807,30 @@ msgstr ""
 "Не удалось создать монтажный стол из этого клипа:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2156
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
 "экспериментальном режиме"
 
-#: src/project/projectmanager.cpp:2399
+#: src/project/projectmanager.cpp:2401
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для создания последовательности"
 
-#: src/project/projectmanager.cpp:2409
+#: src/project/projectmanager.cpp:2411
 #, fuzzy, kde-format
 msgid "Sequence creation failed"
 msgstr "Сбой распознавания речи"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Нельзя вставить последовательность в саму себя"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2442
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Создать клип последовательности"
@@ -39777,37 +39788,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Пошаговый поворот на 90 °"
 
-#: src/widgets/dragvalue.cpp:412
+#: src/widgets/dragvalue.cpp:407
 #, kde-format
 msgid "Normal scale"
 msgstr "Обычный масштаб"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:408
 #, kde-format
 msgid "Pixel scale"
 msgstr "Пиксельный масштаб"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Нелинейный масштаб"
 
-#: src/widgets/dragvalue.cpp:418
+#: src/widgets/dragvalue.cpp:413
 #, kde-format
 msgid "Direct update"
 msgstr "Прямое обновление"
 
-#: src/widgets/dragvalue.cpp:423
+#: src/widgets/dragvalue.cpp:418
 #, kde-format
 msgid "Reset value"
 msgstr "Восстановить значение по умолчанию"
 
-#: src/widgets/dragvalue.cpp:428
+#: src/widgets/dragvalue.cpp:423
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Показать %1 на монтажном столе"
 
-#: src/widgets/dragvalue.cpp:758
+#: src/widgets/dragvalue.cpp:751
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Перемещение для пошагового изменения значения."

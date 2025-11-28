@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:35+0000\n"
+"POT-Creation-Date: 2025-11-28 02:33+0000\n"
 "PO-Revision-Date: 2025-11-22 18:19+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -523,6 +523,7 @@ msgstr "Invoerversterking"
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8 data/effects/lightshow.xml:14
 #: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
 #, kde-format
 msgid "Threshold"
 msgstr "Drempel"
@@ -10103,7 +10104,7 @@ msgstr "Afstandsgetrouw, Orthografisch, Equiarea, Stereografisch"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Scaling"
 msgstr "Verschalen"
@@ -11597,7 +11598,7 @@ msgstr "Als normaal dimmen niet natuurlijk genoeg lijkt, probeer dan deze."
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:591
-#: src/dialogs/Splash.qml:959 src/layouts/layoutmanagerdialog.cpp:98
+#: src/dialogs/Splash.qml:957 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16768,12 +16769,12 @@ msgstr "Eind-amplitude"
 msgid "Wave Amplitude"
 msgstr "Golfamplitude"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:778
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:775
 #, kde-format
 msgid "Horizontal"
 msgstr "Horizontaal"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:825
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:822
 #, kde-format
 msgid "Vertical"
 msgstr "Verticaal"
@@ -17375,6 +17376,16 @@ msgstr ""
 "Voer een RGB[A] dodge-bewerking uit tussen de pixelbronnen met gebruik van "
 "het gegeneraliseerde algoritme: D = verzadiging van 255 of (A * 256) / (256 "
 "- B)"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, kde-format
+msgid "Erasing backgrounds with euclidean distance."
+msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
@@ -18451,40 +18462,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Voorinstelling %1 laden is mislukt"
 
-#: src/assets/view/assetparameterview.cpp:53
+#: src/assets/view/assetparameterview.cpp:51
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Effect resetten"
 
-#: src/assets/view/assetparameterview.cpp:55
+#: src/assets/view/assetparameterview.cpp:53
 #, kde-format
 msgid "Save preset…"
 msgstr "Voor-instelling opslaan…"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:54
 #, kde-format
 msgid "Update current preset"
 msgstr "Huidige voor-instelling bijwerken"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:57 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "Voor-instelling verwijderen"
 
-#: src/assets/view/assetparameterview.cpp:60
+#: src/assets/view/assetparameterview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Verwijdert de nu geselecteerde voorinstelling."
 
-#: src/assets/view/assetparameterview.cpp:77
+#: src/assets/view/assetparameterview.cpp:75
 #, kde-format
 msgid "Save effect"
 msgstr "Effect opslaan"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, kde-format
@@ -18492,7 +18503,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Naam voor-instelling invoeren"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, kde-format
@@ -19582,7 +19593,7 @@ msgstr "Afspeellijst"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1679 src/project/projectmanager.cpp:1681
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20403,7 +20414,7 @@ msgstr "Ondertitel verplaatsen"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
-#: src/effects/effectstack/view/effectstackview.cpp:795
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
 #, kde-format
@@ -20749,7 +20760,7 @@ msgstr ""
 "Het gegeven profiel is ongeldig. De standaard zal zijn het profiel \"dv_pal"
 "\", maar u kunt dit wijzigen in het paneel voor instellingen van Kdenlive"
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:882
+#: src/core.cpp:500 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Loading project…"
 msgstr "Project wordt geladen…"
@@ -21447,7 +21458,7 @@ msgstr "Markeringsgegevens exporteren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
@@ -21455,7 +21466,7 @@ msgstr "Markeringsgegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1988 src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1990 src/project/projectmanager.cpp:1996
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21548,7 +21559,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Indien onzeker, probeer :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1877
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1879
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -22802,7 +22813,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "Gemaakt door KDE"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:560 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:559 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22822,7 +22833,7 @@ msgstr "Configuratie resetten"
 msgid "Start Normally"
 msgstr "Normaal starten"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:618
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:617
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -22833,7 +22844,7 @@ msgstr ""
 "kdenlive.org/get-involved/\">mee doen</a> of help <a href=\"https://kdenlive."
 "org/fund/\">met de financiering</a>."
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:632
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:631
 #, kde-format
 msgid "What's New"
 msgstr "Wat is nieuw"
@@ -23572,107 +23583,107 @@ msgstr "59.94 fps"
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:169
+#: src/dialogs/Splash.qml:168
 #, kde-format
 msgid "Made by KDE"
 msgstr "Gemaakt door KDE"
 
-#: src/dialogs/Splash.qml:225
+#: src/dialogs/Splash.qml:224
 #, kde-format
 msgid "Open Project…"
 msgstr "Project openen…"
 
-#: src/dialogs/Splash.qml:252
+#: src/dialogs/Splash.qml:251
 #, kde-format
 msgid "Open Recent"
 msgstr "Recent openen"
 
-#: src/dialogs/Splash.qml:260
+#: src/dialogs/Splash.qml:259
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Geschiedenis van recente projecten wissen"
 
-#: src/dialogs/Splash.qml:361
+#: src/dialogs/Splash.qml:360
 #, kde-format
 msgid "Remove file from list"
 msgstr "Bestand uit lijst verwijderen"
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:389
 #, kde-format
 msgid "New Project…"
 msgstr "Nieuw project…"
 
-#: src/dialogs/Splash.qml:417
+#: src/dialogs/Splash.qml:416
 #, kde-format
 msgid "New From Profile"
 msgstr "Nieuw uit profiel"
 
-#: src/dialogs/Splash.qml:425
+#: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Wis geschiedenis van recente profielen"
 
-#: src/dialogs/Splash.qml:511
+#: src/dialogs/Splash.qml:510
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Profiel uit lijst verwijderen"
 
-#: src/dialogs/Splash.qml:550
+#: src/dialogs/Splash.qml:549
 #, kde-format
 msgid "Show on Startup"
 msgstr "Bij opstarten tonen"
 
-#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:582 src/dialogs/Splash.qml:948
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "Kdenlive is gecrasht bij laatste keer opstarten. Wilt u de configuratie "
 "resetten en opnieuw starten?"
 
-#: src/dialogs/Splash.qml:662
+#: src/dialogs/Splash.qml:660
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "Help ons om Kdenlive nog beter te maken"
 
-#: src/dialogs/Splash.qml:668
+#: src/dialogs/Splash.qml:665
 #, kde-format
 msgid "Contribute…"
 msgstr "Bijdragen…"
 
-#: src/dialogs/Splash.qml:673
+#: src/dialogs/Splash.qml:670
 #, kde-format
 msgid "Donate…"
 msgstr "Doneren…"
 
-#: src/dialogs/Splash.qml:703
+#: src/dialogs/Splash.qml:700
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>Welkom bij Kdenlive snelle opzet</b>"
 
-#: src/dialogs/Splash.qml:709
+#: src/dialogs/Splash.qml:706
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "Altijd het donkere kleurenthema gebruiken"
 
-#: src/dialogs/Splash.qml:721
+#: src/dialogs/Splash.qml:718
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Standaard projectprofiel</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:838 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:835 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Resolutie"
 
-#: src/dialogs/Splash.qml:865
+#: src/dialogs/Splash.qml:862
 #, kde-format
 msgid "Frame Rate"
 msgstr "Framesnelheid"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:891
+#: src/dialogs/Splash.qml:888
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23681,27 +23692,27 @@ msgstr "Framesnelheid"
 msgid "Interlaced"
 msgstr "Interlaced"
 
-#: src/dialogs/Splash.qml:910
+#: src/dialogs/Splash.qml:907
 #, kde-format
 msgid "Video Tracks"
 msgstr "Video-tracks"
 
-#: src/dialogs/Splash.qml:919
+#: src/dialogs/Splash.qml:916
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Audiotracks"
 
-#: src/dialogs/Splash.qml:932
+#: src/dialogs/Splash.qml:929
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Dit kan altijd later gewijzigd worden in de Instellingen."
 
-#: src/dialogs/Splash.qml:977
+#: src/dialogs/Splash.qml:974
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Online documentatie raadplegen"
 
-#: src/dialogs/Splash.qml:985
+#: src/dialogs/Splash.qml:982
 #, kde-format
 msgid "Start Editing"
 msgstr "Bewerken beginnen"
@@ -24865,7 +24876,7 @@ msgid "Invalid file path"
 msgstr "Ongeldig bestandspad"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:867
-#: src/project/projectmanager.cpp:909
+#: src/project/projectmanager.cpp:911
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kon beschadigd bestand niet herstellen."
@@ -24943,8 +24954,8 @@ msgstr ""
 "Het projectbestand is bijgewerkt naar de laatst bekende Kdenlive "
 "documentversie, maar helaas kon er geen backup %1 gemaakt worden."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1551
-#: src/project/projectmanager.cpp:1587
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1553
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
@@ -25215,7 +25226,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
-#: src/effects/effectstack/view/effectstackview.cpp:237
+#: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
@@ -25439,59 +25450,59 @@ msgstr "Opmerkingen:"
 msgid "No name provided, effect not saved."
 msgstr "Geen naam gegeven, effect niet opgeslagen."
 
-#: src/effects/effectstack/view/effectstackview.cpp:351
-#: src/effects/effectstack/view/effectstackview.cpp:992
-#: src/effects/effectstack/view/effectstackview.cpp:1079
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:960
+#: src/effects/effectstack/view/effectstackview.cpp:1047
 #, kde-format
 msgid "Remove Background"
 msgstr "Achtergrond verwijderen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:357
+#: src/effects/effectstack/view/effectstackview.cpp:349
 #, kde-format
 msgid "Exporting…"
 msgstr "Exporteren…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Effectenstapel inschakelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Effectstapel uitschakelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:744
+#: src/effects/effectstack/view/effectstackview.cpp:727
 #, kde-format
 msgid "No effect selected."
 msgstr "Geen effect geselecteerd."
 
-#: src/effects/effectstack/view/effectstackview.cpp:758
+#: src/effects/effectstack/view/effectstackview.cpp:741
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Huidige effectenstapel opslaan"
 
-#: src/effects/effectstack/view/effectstackview.cpp:763
+#: src/effects/effectstack/view/effectstackview.cpp:746
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Naam voor opgeslagen stapel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:747
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Beschrijving:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:776
+#: src/effects/effectstack/view/effectstackview.cpp:759
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Geen naam gegeven, effectstapel niet opgeslagen."
 
-#: src/effects/effectstack/view/effectstackview.cpp:783
+#: src/effects/effectstack/view/effectstackview.cpp:766
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -25500,28 +25511,28 @@ msgstr ""
 "Geen beschrijving geleverd. \n"
 "Effect zonder beschrijving opslaan?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:989
-#: src/effects/effectstack/view/effectstackview.cpp:1015
+#: src/effects/effectstack/view/effectstackview.cpp:957
+#: src/effects/effectstack/view/effectstackview.cpp:983
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Aanmaken van masker afbreken"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1062
+#: src/effects/effectstack/view/effectstackview.cpp:1030
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Horizontaal spiegelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1068
+#: src/effects/effectstack/view/effectstackview.cpp:1036
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Verticaal spiegelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1080
+#: src/effects/effectstack/view/effectstackview.cpp:1048
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Achtergrond verwijderen met gebruik van een AI-model"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1093
+#: src/effects/effectstack/view/effectstackview.cpp:1061
 #, kde-format
 msgid "Flip"
 msgstr "Spiegelen"
@@ -31488,7 +31499,7 @@ msgstr "Back-up-bestand openen…"
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
-#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1816
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31535,7 +31546,7 @@ msgstr "Automatisch opgeslagen bestand bestaat. Wilt u nu ervan herstellen?"
 msgid "File Recovery"
 msgstr "Bestand herstel"
 
-#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:897
+#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:899
 #, kde-format
 msgid "Recover"
 msgstr "Herstel"
@@ -31555,7 +31566,7 @@ msgstr "Bestand %1 bestaat niet"
 msgid "Opening file %1"
 msgstr "Bezig met bestand %1 aan het openen"
 
-#: src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:898
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31566,29 +31577,29 @@ msgstr ""
 "%1\n"
 "Wilt u een backup-bestand openen?"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Error opening file"
 msgstr "Bestand openen lukte niet"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1144
 #, kde-format
 msgid "Open Backup"
 msgstr "Open back-up"
 
-#: src/project/projectmanager.cpp:913
+#: src/project/projectmanager.cpp:915
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Kon de reservekopie van het projectbestand niet openen."
 
-#: src/project/projectmanager.cpp:928
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Uw project is opgewaardeerd, een backup zal aangemaakt worden bij volgende "
 "keer opslaan"
 
-#: src/project/projectmanager.cpp:930
+#: src/project/projectmanager.cpp:932
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -31596,17 +31607,17 @@ msgstr ""
 "Uw project is gewijzigd bij openen, een backup zal aangemaakt worden bij "
 "volgende keer opslaan"
 
-#: src/project/projectmanager.cpp:1001
+#: src/project/projectmanager.cpp:1003
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Tijdlijn wordt geladen…"
 
-#: src/project/projectmanager.cpp:1024
+#: src/project/projectmanager.cpp:1026
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sequenties worden gebouwd…"
 
-#: src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:1170
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31615,7 +31626,7 @@ msgstr ""
 "Kan het project-bestand niet openen. Fout:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1208
+#: src/project/projectmanager.cpp:1210
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31624,12 +31635,12 @@ msgstr ""
 "Dit verwijdert alle wijzigingen sinds de laatste opslag van het project. "
 "Wilt U doorgaan?"
 
-#: src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1211
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Terugkeren naar laatste bewaarde versie"
 
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1310
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31638,23 +31649,23 @@ msgstr ""
 "Project was beschadigd, kan geen reservekopie maken. Sluit en heropen uw "
 "projectbestand om de laatste reservekopie te herstellen"
 
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1531
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fout bij projectmap verplaatsen, geen toegang tot cachemap "
 
-#: src/project/projectmanager.cpp:1565
+#: src/project/projectmanager.cpp:1567
 #, kde-format
 msgid "Moving project folder"
 msgstr "Projectmap wordt verplaatst"
 
-#: src/project/projectmanager.cpp:1656 src/project/projectmanager.cpp:1711
-#: src/project/projectmanager.cpp:1715
+#: src/project/projectmanager.cpp:1658 src/project/projectmanager.cpp:1713
+#: src/project/projectmanager.cpp:1717
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequentie 1"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1669
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -31662,13 +31673,13 @@ msgstr ""
 "Projectbestand is beschadigd -tracks laden is mislukt. Probeer een "
 "reservekopiebestand te vinden?"
 
-#: src/project/projectmanager.cpp:1806 src/project/projectmanager.cpp:1819
-#: src/project/projectmanager.cpp:1843 src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1808 src/project/projectmanager.cpp:1821
+#: src/project/projectmanager.cpp:1845 src/project/projectmanager.cpp:1854
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projectprofiel wijzigen afgebroken"
 
-#: src/project/projectmanager.cpp:1982
+#: src/project/projectmanager.cpp:1984
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31677,12 +31688,12 @@ msgstr ""
 "Uitvoerbestand %1 bestaat al.\n"
 "Wilt u het overschrijven?"
 
-#: src/project/projectmanager.cpp:2007
+#: src/project/projectmanager.cpp:2009
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profiel gewijzigd"
 
-#: src/project/projectmanager.cpp:2071
+#: src/project/projectmanager.cpp:2073
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31691,28 +31702,28 @@ msgstr ""
 "Kan geen tijdlijn uit deze clip maken:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2156
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Een clip met sequentie importeren, dit is nu in een experimentele status"
 
-#: src/project/projectmanager.cpp:2399
+#: src/project/projectmanager.cpp:2401
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:2409
+#: src/project/projectmanager.cpp:2411
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Aanmaken van sequentie is mislukt"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Kan geen sequentie in huidige tijdlijn invoegen."
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2442
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"
@@ -39633,37 +39644,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Draaien met stappen van 90° graden"
 
-#: src/widgets/dragvalue.cpp:412
+#: src/widgets/dragvalue.cpp:407
 #, kde-format
 msgid "Normal scale"
 msgstr "Standaard schaal"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:408
 #, kde-format
 msgid "Pixel scale"
 msgstr "Pixel schaal"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Niet lineaire schaal"
 
-#: src/widgets/dragvalue.cpp:418
+#: src/widgets/dragvalue.cpp:413
 #, kde-format
 msgid "Direct update"
 msgstr "Direct bijwerken"
 
-#: src/widgets/dragvalue.cpp:423
+#: src/widgets/dragvalue.cpp:418
 #, kde-format
 msgid "Reset value"
 msgstr "Terugzetten"
 
-#: src/widgets/dragvalue.cpp:428
+#: src/widgets/dragvalue.cpp:423
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Laat %1 zien in tijdsbalk"
 
-#: src/widgets/dragvalue.cpp:758
+#: src/widgets/dragvalue.cpp:751
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Slepen om de waarde met een te verhogen."

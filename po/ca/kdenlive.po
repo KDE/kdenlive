@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:35+0000\n"
+"POT-Creation-Date: 2025-11-28 02:33+0000\n"
 "PO-Revision-Date: 2025-11-26 22:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -523,6 +523,7 @@ msgstr "Guany d'entrada"
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8 data/effects/lightshow.xml:14
 #: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
 #, kde-format
 msgid "Threshold"
 msgstr "Llindar"
@@ -10136,7 +10137,7 @@ msgstr "Equidistant,Ortogràfic,Equiàrea,Estereogràfic"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Scaling"
 msgstr "Escalat"
@@ -11627,7 +11628,7 @@ msgstr "Si l'atenuació normal no es veu prou natural, proveu aquesta."
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:591
-#: src/dialogs/Splash.qml:959 src/layouts/layoutmanagerdialog.cpp:98
+#: src/dialogs/Splash.qml:957 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16809,12 +16810,12 @@ msgstr "Amplitud final"
 msgid "Wave Amplitude"
 msgstr "Amplitud de l'ona"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:778
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:775
 #, kde-format
 msgid "Horizontal"
 msgstr "Horitzontal"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:825
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:822
 #, kde-format
 msgid "Vertical"
 msgstr "Vertical"
@@ -17421,6 +17422,16 @@ msgstr ""
 "Efectua una operació d'esvaïment RGB[A] entre les fonts de píxels, "
 "utilitzant l'algorisme generalitzat: D = saturació de 255 o (A * 256) / (256 "
 "- B)"
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, kde-format
+msgid "Erasing backgrounds with euclidean distance."
+msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
@@ -18504,40 +18515,40 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "Ha fallat en carregar la predefinició %1"
 
-#: src/assets/view/assetparameterview.cpp:53
+#: src/assets/view/assetparameterview.cpp:51
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "Reinicialitza l'efecte"
 
-#: src/assets/view/assetparameterview.cpp:55
+#: src/assets/view/assetparameterview.cpp:53
 #, kde-format
 msgid "Save preset…"
 msgstr "Desa els valors predefinits…"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:54
 #, kde-format
 msgid "Update current preset"
 msgstr "Actualitza els valors predefinits actuals"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:57 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "Suprimeix els valors predefinits"
 
-#: src/assets/view/assetparameterview.cpp:60
+#: src/assets/view/assetparameterview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Suprimeix els valors predefinits seleccionats actualment."
 
-#: src/assets/view/assetparameterview.cpp:77
+#: src/assets/view/assetparameterview.cpp:75
 #, kde-format
 msgid "Save effect"
 msgstr "Desa l'efecte"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, kde-format
@@ -18545,7 +18556,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Introducció del nom dels valors predefinits"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, kde-format
@@ -19640,7 +19651,7 @@ msgstr "Llista de reproducció"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1679 src/project/projectmanager.cpp:1681
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -20461,7 +20472,7 @@ msgstr "Mou els subtítols"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
-#: src/effects/effectstack/view/effectstackview.cpp:795
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
 #, kde-format
@@ -20808,7 +20819,7 @@ msgstr ""
 "El perfil indicat no és vàlid. S'estableix el perfil predeterminat «dv_pal», "
 "però podeu canviar-ho en el plafó d'arranjament del Kdenlive"
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:882
+#: src/core.cpp:500 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Loading project…"
 msgstr "S'està carregant el projecte…"
@@ -21503,7 +21514,7 @@ msgstr "Exportació de les dades de marcadors"
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
@@ -21511,7 +21522,7 @@ msgstr "Exportació de les dades de marcadors"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1988 src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1990 src/project/projectmanager.cpp:1996
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21604,7 +21615,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "En cas de dubte, intenteu:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1877
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1879
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -22859,7 +22870,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "Creat per KDE"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:560 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:559 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22879,7 +22890,7 @@ msgstr "Reinicia la configuració"
 msgid "Start Normally"
 msgstr "Inicia normalment"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:618
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:617
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -22890,7 +22901,7 @@ msgstr ""
 "kdenlive.org/get-involved/\">participar-hi</a> o ajudeu-hi <a href=\"https://"
 "kdenlive.org/fund/\">econòmicament</a>."
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:632
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:631
 #, kde-format
 msgid "What's New"
 msgstr "Què hi ha de nou"
@@ -23630,107 +23641,107 @@ msgstr "59,94 fps"
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:169
+#: src/dialogs/Splash.qml:168
 #, kde-format
 msgid "Made by KDE"
 msgstr "Creat per la comunitat KDE"
 
-#: src/dialogs/Splash.qml:225
+#: src/dialogs/Splash.qml:224
 #, kde-format
 msgid "Open Project…"
 msgstr "Obre un projecte…"
 
-#: src/dialogs/Splash.qml:252
+#: src/dialogs/Splash.qml:251
 #, kde-format
 msgid "Open Recent"
 msgstr "Obre'n un de recent"
 
-#: src/dialogs/Splash.qml:260
+#: src/dialogs/Splash.qml:259
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Neteja l'historial de projectes recents"
 
-#: src/dialogs/Splash.qml:361
+#: src/dialogs/Splash.qml:360
 #, kde-format
 msgid "Remove file from list"
 msgstr "Elimina un fitxer de la llista"
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:389
 #, kde-format
 msgid "New Project…"
 msgstr "Projecte nou…"
 
-#: src/dialogs/Splash.qml:417
+#: src/dialogs/Splash.qml:416
 #, kde-format
 msgid "New From Profile"
 msgstr "Nou a partir del perfil"
 
-#: src/dialogs/Splash.qml:425
+#: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Neteja l'historial de perfils recents"
 
-#: src/dialogs/Splash.qml:511
+#: src/dialogs/Splash.qml:510
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Elimina un perfil de la llista"
 
-#: src/dialogs/Splash.qml:550
+#: src/dialogs/Splash.qml:549
 #, kde-format
 msgid "Show on Startup"
 msgstr "Mostra en iniciar"
 
-#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:582 src/dialogs/Splash.qml:948
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "El Kdenlive va fallar en l'últim inici. Reinicialitzo la configuració i "
 "torno a iniciar?"
 
-#: src/dialogs/Splash.qml:662
+#: src/dialogs/Splash.qml:660
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "Ajudeu-nos a fer encara millor el Kdenlive"
 
-#: src/dialogs/Splash.qml:668
+#: src/dialogs/Splash.qml:665
 #, kde-format
 msgid "Contribute…"
 msgstr "Col·laboreu…"
 
-#: src/dialogs/Splash.qml:673
+#: src/dialogs/Splash.qml:670
 #, kde-format
 msgid "Donate…"
 msgstr "Donatius…"
 
-#: src/dialogs/Splash.qml:703
+#: src/dialogs/Splash.qml:700
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>Us donem la benvinguda a la configuració ràpida del Kdenlive</b>"
 
-#: src/dialogs/Splash.qml:709
+#: src/dialogs/Splash.qml:706
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "Fes servir sempre el tema de color fosc"
 
-#: src/dialogs/Splash.qml:721
+#: src/dialogs/Splash.qml:718
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Perfil predeterminat del projecte</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:838 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:835 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Resolució"
 
-#: src/dialogs/Splash.qml:865
+#: src/dialogs/Splash.qml:862
 #, kde-format
 msgid "Frame Rate"
 msgstr "Velocitat dels fotogrames"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:891
+#: src/dialogs/Splash.qml:888
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23739,27 +23750,27 @@ msgstr "Velocitat dels fotogrames"
 msgid "Interlaced"
 msgstr "Entrellaçat"
 
-#: src/dialogs/Splash.qml:910
+#: src/dialogs/Splash.qml:907
 #, kde-format
 msgid "Video Tracks"
 msgstr "Pistes de vídeo"
 
-#: src/dialogs/Splash.qml:919
+#: src/dialogs/Splash.qml:916
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Pistes d'àudio"
 
-#: src/dialogs/Splash.qml:932
+#: src/dialogs/Splash.qml:929
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Això sempre es pot canviar més tard a la configuració."
 
-#: src/dialogs/Splash.qml:977
+#: src/dialogs/Splash.qml:974
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Vegeu la documentació en línia"
 
-#: src/dialogs/Splash.qml:985
+#: src/dialogs/Splash.qml:982
 #, kde-format
 msgid "Start Editing"
 msgstr "Comenceu l'edició"
@@ -24929,7 +24940,7 @@ msgid "Invalid file path"
 msgstr "Camí de fitxer no vàlid"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:867
-#: src/project/projectmanager.cpp:909
+#: src/project/projectmanager.cpp:911
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "No s'ha pogut recuperar un fitxer corrupte."
@@ -25010,8 +25021,8 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a la darrera versió de document del "
 "Kdenlive, però no ha estat possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1551
-#: src/project/projectmanager.cpp:1587
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1553
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error en moure la carpeta del projecte: %1"
@@ -25282,7 +25293,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
-#: src/effects/effectstack/view/effectstackview.cpp:237
+#: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
@@ -25512,59 +25523,59 @@ msgstr "Comentaris:"
 msgid "No name provided, effect not saved."
 msgstr "No s'ha proporcionat cap nom, l'efecte no s'ha desat."
 
-#: src/effects/effectstack/view/effectstackview.cpp:351
-#: src/effects/effectstack/view/effectstackview.cpp:992
-#: src/effects/effectstack/view/effectstackview.cpp:1079
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:960
+#: src/effects/effectstack/view/effectstackview.cpp:1047
 #, kde-format
 msgid "Remove Background"
 msgstr "Elimina el fons"
 
-#: src/effects/effectstack/view/effectstackview.cpp:357
+#: src/effects/effectstack/view/effectstackview.cpp:349
 #, kde-format
 msgid "Exporting…"
 msgstr "S'està exportant…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Activa la pila d'efectes"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Desactiva la pila d'efectes"
 
-#: src/effects/effectstack/view/effectstackview.cpp:744
+#: src/effects/effectstack/view/effectstackview.cpp:727
 #, kde-format
 msgid "No effect selected."
 msgstr "No s'ha seleccionat cap efecte."
 
-#: src/effects/effectstack/view/effectstackview.cpp:758
+#: src/effects/effectstack/view/effectstackview.cpp:741
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Desa la pila d'efectes actual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:763
+#: src/effects/effectstack/view/effectstackview.cpp:746
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nom de la pila desada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:747
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Descripció:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:776
+#: src/effects/effectstack/view/effectstackview.cpp:759
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "No s'ha proporcionat cap nom, la pila d'efectes no s'ha desat."
 
-#: src/effects/effectstack/view/effectstackview.cpp:783
+#: src/effects/effectstack/view/effectstackview.cpp:766
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -25573,28 +25584,28 @@ msgstr ""
 "No s'ha proporcionat cap descripció.\n"
 "Deso l'efecte sense cap descripció?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:989
-#: src/effects/effectstack/view/effectstackview.cpp:1015
+#: src/effects/effectstack/view/effectstackview.cpp:957
+#: src/effects/effectstack/view/effectstackview.cpp:983
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Interromp la creació de la màscara"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1062
+#: src/effects/effectstack/view/effectstackview.cpp:1030
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Inversió horitzontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1068
+#: src/effects/effectstack/view/effectstackview.cpp:1036
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Inversió vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1080
+#: src/effects/effectstack/view/effectstackview.cpp:1048
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Elimina el fons utilitzant un model d'IA"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1093
+#: src/effects/effectstack/view/effectstackview.cpp:1061
 #, kde-format
 msgid "Flip"
 msgstr "Inversió"
@@ -31603,7 +31614,7 @@ msgstr "Obre un fitxer de còpia de seguretat…"
 msgid "Save changes to document?"
 msgstr "Voleu desar els canvis al document?"
 
-#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1816
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31650,7 +31661,7 @@ msgstr "Existeix un fitxer desat automàticament. Voleu recuperar-lo ara?"
 msgid "File Recovery"
 msgstr "Recuperació de fitxer"
 
-#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:897
+#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:899
 #, kde-format
 msgid "Recover"
 msgstr "Recupera"
@@ -31670,7 +31681,7 @@ msgstr "El fitxer %1 no existeix"
 msgid "Opening file %1"
 msgstr "S'està obrint el fitxer %1"
 
-#: src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:898
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31681,29 +31692,29 @@ msgstr ""
 "%1\n"
 "Voleu obrir un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Error opening file"
 msgstr "Error en obrir el fitxer"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1144
 #, kde-format
 msgid "Open Backup"
 msgstr "Obre una còpia de seguretat"
 
-#: src/project/projectmanager.cpp:913
+#: src/project/projectmanager.cpp:915
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "No s'ha pogut obrir el fitxer de còpia de seguretat del projecte."
 
-#: src/project/projectmanager.cpp:928
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "El projecte s'ha actualitzat, es crearà una còpia de seguretat en el pròxim "
 "desament"
 
-#: src/project/projectmanager.cpp:930
+#: src/project/projectmanager.cpp:932
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -31711,17 +31722,17 @@ msgstr ""
 "El projecte s'ha modificat en obrir-lo, es crearà una còpia de seguretat en "
 "el pròxim desament"
 
-#: src/project/projectmanager.cpp:1001
+#: src/project/projectmanager.cpp:1003
 #, kde-format
 msgid "Loading timeline…"
 msgstr "S'està carregant la línia de temps…"
 
-#: src/project/projectmanager.cpp:1024
+#: src/project/projectmanager.cpp:1026
 #, kde-format
 msgid "Building sequences…"
 msgstr "S'estan construint les seqüències…"
 
-#: src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:1170
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31730,7 +31741,7 @@ msgstr ""
 "No s'ha pogut obrir el fitxer de projecte. Error:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1208
+#: src/project/projectmanager.cpp:1210
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31739,12 +31750,12 @@ msgstr ""
 "Això suprimirà tots els canvis efectuats des de la darrera vegada que es va "
 "desar el projecte. Esteu segur que voleu continuar?"
 
-#: src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1211
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Retorna a la darrera versió desada"
 
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1310
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31754,25 +31765,25 @@ msgstr ""
 "torneu a obrir el fitxer de projecte per a recuperar la darrera còpia de "
 "seguretat"
 
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1531
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Error en moure la carpeta del projecte, no s'ha pogut accedir a la carpeta "
 "de memòria cau"
 
-#: src/project/projectmanager.cpp:1565
+#: src/project/projectmanager.cpp:1567
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movent la carpeta del projecte"
 
-#: src/project/projectmanager.cpp:1656 src/project/projectmanager.cpp:1711
-#: src/project/projectmanager.cpp:1715
+#: src/project/projectmanager.cpp:1658 src/project/projectmanager.cpp:1713
+#: src/project/projectmanager.cpp:1717
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seqüència 1"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1669
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -31780,13 +31791,13 @@ msgstr ""
 "El fitxer del projecte està corromput: falla en carregar les pistes. Intento "
 "cercar un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1806 src/project/projectmanager.cpp:1819
-#: src/project/projectmanager.cpp:1843 src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1808 src/project/projectmanager.cpp:1821
+#: src/project/projectmanager.cpp:1845 src/project/projectmanager.cpp:1854
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "S'ha interromput el canvi del perfil del projecte"
 
-#: src/project/projectmanager.cpp:1982
+#: src/project/projectmanager.cpp:1984
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31795,12 +31806,12 @@ msgstr ""
 "El fitxer de sortida %1 ja existeix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/project/projectmanager.cpp:2007
+#: src/project/projectmanager.cpp:2009
 #, kde-format
 msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
-#: src/project/projectmanager.cpp:2071
+#: src/project/projectmanager.cpp:2073
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31809,28 +31820,28 @@ msgstr ""
 "No s'ha pogut crear una línia de temps a partir d'aquest clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2156
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:2399
+#: src/project/projectmanager.cpp:2401
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:2409
+#: src/project/projectmanager.cpp:2411
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Ha fallat la creació de la seqüència"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "No s'ha pogut afegir una seqüència a la línia de temps actual"
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2442
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
@@ -39784,37 +39795,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Gira en passos de 90°"
 
-#: src/widgets/dragvalue.cpp:412
+#: src/widgets/dragvalue.cpp:407
 #, kde-format
 msgid "Normal scale"
 msgstr "Escala normal"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:408
 #, kde-format
 msgid "Pixel scale"
 msgstr "Escala de píxel"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Escala no lineal"
 
-#: src/widgets/dragvalue.cpp:418
+#: src/widgets/dragvalue.cpp:413
 #, kde-format
 msgid "Direct update"
 msgstr "Actualització directa"
 
-#: src/widgets/dragvalue.cpp:423
+#: src/widgets/dragvalue.cpp:418
 #, kde-format
 msgid "Reset value"
 msgstr "Reinicia el valor"
 
-#: src/widgets/dragvalue.cpp:428
+#: src/widgets/dragvalue.cpp:423
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Mostra %1 a la línia de temps"
 
-#: src/widgets/dragvalue.cpp:758
+#: src/widgets/dragvalue.cpp:751
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Maj + arrossegar per a ajustar el valor un a un."

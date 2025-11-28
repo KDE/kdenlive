@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:35+0000\n"
+"POT-Creation-Date: 2025-11-28 02:33+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -529,6 +529,7 @@ msgstr "입력 게인(dB)"
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8 data/effects/lightshow.xml:14
 #: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:8
 #, kde-format
 msgid "Threshold"
 msgstr "임곗값"
@@ -10102,7 +10103,7 @@ msgstr "등거리,직교,등면적,스테레오그래피"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:411
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Scaling"
 msgstr "크기 조정"
@@ -11589,7 +11590,7 @@ msgstr "정상적인 조광 상태가 자연스럽지 않으면 사용해 보십
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:591
-#: src/dialogs/Splash.qml:959 src/layouts/layoutmanagerdialog.cpp:98
+#: src/dialogs/Splash.qml:957 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16635,12 +16636,12 @@ msgstr "끝 진폭"
 msgid "Wave Amplitude"
 msgstr "웨이브 진폭"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:778
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:775
 #, kde-format
 msgid "Horizontal"
 msgstr "가로"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:825
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:822
 #, kde-format
 msgid "Vertical"
 msgstr "세로"
@@ -17257,6 +17258,16 @@ msgstr ""
 msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
+#, kde-format
+msgid "Euclid Eraser"
+msgstr ""
+
+#: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
+#, kde-format
+msgid "Erasing backgrounds with euclidean distance."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
@@ -18352,43 +18363,43 @@ msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "파일을 만들지 못했습니다."
 
-#: src/assets/view/assetparameterview.cpp:53
+#: src/assets/view/assetparameterview.cpp:51
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
 #, kde-format
 msgid "Reset Effect"
 msgstr "효과 초기화"
 
-#: src/assets/view/assetparameterview.cpp:55
+#: src/assets/view/assetparameterview.cpp:53
 #, fuzzy, kde-format
 #| msgid "Save preset"
 msgid "Save preset…"
 msgstr "사전 설정 저장"
 
-#: src/assets/view/assetparameterview.cpp:56
+#: src/assets/view/assetparameterview.cpp:54
 #, kde-format
 msgid "Update current preset"
 msgstr "현재 사전 설정 업데이트"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:59 src/ui/renderwidget_ui.ui:302
+#: src/assets/view/assetparameterview.cpp:57 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "사전 설정 삭제"
 
-#: src/assets/view/assetparameterview.cpp:60
+#: src/assets/view/assetparameterview.cpp:58
 #, fuzzy, kde-kuit-format
 #| msgid "Delete the selected speech model"
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "선택한 음성 모델 삭제"
 
-#: src/assets/view/assetparameterview.cpp:77
+#: src/assets/view/assetparameterview.cpp:75
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "효과 저장"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, fuzzy, kde-format
@@ -18397,7 +18408,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "사전 설정 이름 입력"
 
-#: src/assets/view/assetparameterview.cpp:375
+#: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1378
 #, fuzzy, kde-format
@@ -19516,7 +19527,7 @@ msgstr "재생 목록"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1679 src/project/projectmanager.cpp:1681
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
@@ -20370,7 +20381,7 @@ msgstr "자막 이동"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
-#: src/effects/effectstack/view/effectstackview.cpp:795
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
 #, kde-format
@@ -20743,7 +20754,7 @@ msgstr ""
 "지정한 프로필이 잘못되었습니다. 기본 프로필은 \"dv_pal\"이지만 Kdenlive의 설"
 "정 패널에서 변경할 수 있습니다"
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:882
+#: src/core.cpp:500 src/project/projectmanager.cpp:884
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -21427,7 +21438,7 @@ msgstr "안내선 가져오기"
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:767
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
 #: src/project/dialogs/archivewidget.cpp:701
@@ -21435,7 +21446,7 @@ msgstr "안내선 가져오기"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1988 src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1990 src/project/projectmanager.cpp:1996
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21535,7 +21546,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1877
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1879
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -22814,7 +22825,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "KDE에서 제작"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:560 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:559 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22836,7 +22847,7 @@ msgstr "환경설정 초기화"
 msgid "Start Normally"
 msgstr "첫 번째 색상"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:618
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:617
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -22844,7 +22855,7 @@ msgid ""
 "org/fund/\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:632
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:631
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -23613,66 +23624,66 @@ msgstr ""
 msgid "60 fps"
 msgstr "%1 fps"
 
-#: src/dialogs/Splash.qml:169
+#: src/dialogs/Splash.qml:168
 #, kde-format
 msgid "Made by KDE"
 msgstr "KDE에서 제작"
 
-#: src/dialogs/Splash.qml:225
+#: src/dialogs/Splash.qml:224
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "프로젝트 압축…"
 
-#: src/dialogs/Splash.qml:252
+#: src/dialogs/Splash.qml:251
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "문서 열기"
 
-#: src/dialogs/Splash.qml:260
+#: src/dialogs/Splash.qml:259
 #, fuzzy, kde-format
 #| msgid "Recent Projects"
 msgid "Clear History of Recent Projects"
 msgstr "최근 프로젝트"
 
-#: src/dialogs/Splash.qml:361
+#: src/dialogs/Splash.qml:360
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove file from list"
 msgstr "파일 삭제"
 
-#: src/dialogs/Splash.qml:390
+#: src/dialogs/Splash.qml:389
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "프로젝트 압축…"
 
-#: src/dialogs/Splash.qml:417
+#: src/dialogs/Splash.qml:416
 #, fuzzy, kde-format
 #| msgid "Test Proxy profiles"
 msgid "New From Profile"
 msgstr "프록시 프로필 시험"
 
-#: src/dialogs/Splash.qml:425
+#: src/dialogs/Splash.qml:424
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:511
+#: src/dialogs/Splash.qml:510
 #, fuzzy, kde-format
 #| msgid "Remove proxy clip"
 #| msgid_plural "Remove proxy clips"
 msgid "Remove profile from list"
 msgstr "프록시 클립 삭제"
 
-#: src/dialogs/Splash.qml:550
+#: src/dialogs/Splash.qml:549
 #, fuzzy, kde-format
 #| msgid "Hide on startup"
 msgid "Show on Startup"
 msgstr "시작할 때 숨기기"
 
-#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:582 src/dialogs/Splash.qml:948
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -23682,46 +23693,46 @@ msgstr ""
 "Kdenlive가 마지막 실행시 충돌했었습니다.\n"
 "환경설정 파일을 재설정하시겠습니까?"
 
-#: src/dialogs/Splash.qml:662
+#: src/dialogs/Splash.qml:660
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:668
+#: src/dialogs/Splash.qml:665
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:673
+#: src/dialogs/Splash.qml:670
 #, fuzzy, kde-format
 #| msgid "Donate"
 msgid "Donate…"
 msgstr "기부하기"
 
-#: src/dialogs/Splash.qml:703
+#: src/dialogs/Splash.qml:700
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "Kdenlive %1에 오신 것을 환영합니다"
 
-#: src/dialogs/Splash.qml:709
+#: src/dialogs/Splash.qml:706
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:721
+#: src/dialogs/Splash.qml:718
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "기본 프로젝트 프로필 변경"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:838 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:835 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "해상도"
 
-#: src/dialogs/Splash.qml:865
+#: src/dialogs/Splash.qml:862
 #, fuzzy, kde-format
 #| msgid "Frame rate:"
 msgid "Frame Rate"
@@ -23729,7 +23740,7 @@ msgstr "프레임 레이트:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:891
+#: src/dialogs/Splash.qml:888
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23738,30 +23749,30 @@ msgstr "프레임 레이트:"
 msgid "Interlaced"
 msgstr "인터레이스됨"
 
-#: src/dialogs/Splash.qml:910
+#: src/dialogs/Splash.qml:907
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video Tracks"
 msgstr "동영상 트랙"
 
-#: src/dialogs/Splash.qml:919
+#: src/dialogs/Splash.qml:916
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio Tracks"
 msgstr "오디오 트랙"
 
-#: src/dialogs/Splash.qml:932
+#: src/dialogs/Splash.qml:929
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:977
+#: src/dialogs/Splash.qml:974
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Check Online Documentation"
 msgstr "열 문서"
 
-#: src/dialogs/Splash.qml:985
+#: src/dialogs/Splash.qml:982
 #, fuzzy, kde-format
 #| msgid "Start recognition"
 msgid "Start Editing"
@@ -24958,7 +24969,7 @@ msgid "Invalid file path"
 msgstr "프로필 잘못됨"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:867
-#: src/project/projectmanager.cpp:909
+#: src/project/projectmanager.cpp:911
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -25034,8 +25045,8 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었지만 백업 복사본 %1"
 "을(를) 만들 수 없습니다."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1551
-#: src/project/projectmanager.cpp:1587
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1553
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
@@ -25310,7 +25321,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "%1 효과를 두 번 추가할 수 없습니다."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:714
-#: src/effects/effectstack/view/effectstackview.cpp:237
+#: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
@@ -25530,40 +25541,40 @@ msgstr "주석: "
 msgid "No name provided, effect not saved."
 msgstr "이름을 지정하지 않았습니다. 효과를 저장하지 않았습니다."
 
-#: src/effects/effectstack/view/effectstackview.cpp:351
-#: src/effects/effectstack/view/effectstackview.cpp:992
-#: src/effects/effectstack/view/effectstackview.cpp:1079
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:960
+#: src/effects/effectstack/view/effectstackview.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
 msgstr "그룹 삭제"
 
-#: src/effects/effectstack/view/effectstackview.cpp:357
+#: src/effects/effectstack/view/effectstackview.cpp:349
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Exporting…"
 msgstr "압축 푸는 중..."
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "효과 사용"
 
-#: src/effects/effectstack/view/effectstackview.cpp:705
+#: src/effects/effectstack/view/effectstackview.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:3357
 #, fuzzy, kde-format
 #| msgid "Disable Effect"
 msgid "Disable Effect Stack"
 msgstr "효과 사용 안 함"
 
-#: src/effects/effectstack/view/effectstackview.cpp:744
+#: src/effects/effectstack/view/effectstackview.cpp:727
 #, kde-format
 msgid "No effect selected."
 msgstr "효과를 선택하지 않았습니다."
 
-#: src/effects/effectstack/view/effectstackview.cpp:758
+#: src/effects/effectstack/view/effectstackview.cpp:741
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Save Effect Stack"
@@ -25571,58 +25582,58 @@ msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "효과 스택 저장"
 
-#: src/effects/effectstack/view/effectstackview.cpp:763
+#: src/effects/effectstack/view/effectstackview.cpp:746
 #, fuzzy, kde-format
 #| msgid "Name for saved stack: "
 msgid "Name for saved stack:"
 msgstr "저장된 스택의 이름: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:747
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "설명:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:776
+#: src/effects/effectstack/view/effectstackview.cpp:759
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "이름을 지정하지 않았습니다. 효과 스택을 \t저장하지 않았습니다."
 
-#: src/effects/effectstack/view/effectstackview.cpp:783
+#: src/effects/effectstack/view/effectstackview.cpp:766
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:989
-#: src/effects/effectstack/view/effectstackview.cpp:1015
+#: src/effects/effectstack/view/effectstackview.cpp:957
+#: src/effects/effectstack/view/effectstackview.cpp:983
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"
 msgstr "지속 시간 편집"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1062
+#: src/effects/effectstack/view/effectstackview.cpp:1030
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Horizontal Blinds"
 msgid "Horizontal Flip"
 msgstr "수평 블라인드"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1068
+#: src/effects/effectstack/view/effectstackview.cpp:1036
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical Flip"
 msgstr "세로"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1080
+#: src/effects/effectstack/view/effectstackview.cpp:1048
 #, fuzzy, kde-format
 #| msgid "Remove the background of a static video"
 msgid "Remove background using AI model"
 msgstr "정적 동영상의 배경 삭제"
 
-#: src/effects/effectstack/view/effectstackview.cpp:1093
+#: src/effects/effectstack/view/effectstackview.cpp:1061
 #, fuzzy, kde-format
 #| msgid "Flippo"
 msgid "Flip"
@@ -31828,7 +31839,7 @@ msgstr "백업 파일 열기"
 msgid "Save changes to document?"
 msgstr "변경 사항을 문서에 저장하시겠습니까?"
 
-#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:446 src/project/projectmanager.cpp:1816
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31876,7 +31887,7 @@ msgstr "자동 저장된 파일이 있습니다. 지금 복구하시겠습니까
 msgid "File Recovery"
 msgstr "파일 복구"
 
-#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:897
+#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:899
 #, kde-format
 msgid "Recover"
 msgstr "복구"
@@ -31897,7 +31908,7 @@ msgstr "분류"
 msgid "Opening file %1"
 msgstr "파일 %1 여는 중"
 
-#: src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:898
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file %1,\n"
@@ -31910,46 +31921,46 @@ msgstr ""
 "%1 프로젝트 파일을 열 수 없습니다.\n"
 "백업 파일을 여시겠습니까?"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Error opening file"
 msgstr "파일 열기 오류"
 
-#: src/project/projectmanager.cpp:897 src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1144
 #, kde-format
 msgid "Open Backup"
 msgstr "백업 열기"
 
-#: src/project/projectmanager.cpp:913
+#: src/project/projectmanager.cpp:915
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/projectmanager.cpp:928
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "프로젝트가 업그레이드 되었으며 다음 저장 시 백업이 생성됩니다"
 
-#: src/project/projectmanager.cpp:930
+#: src/project/projectmanager.cpp:932
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "프로젝트가 열릴 때 수정되었습니다. 다음 저장 시 백업이 생성됩니다"
 
-#: src/project/projectmanager.cpp:1001
+#: src/project/projectmanager.cpp:1003
 #, fuzzy, kde-format
 #| msgid "Downloading model..."
 msgid "Loading timeline…"
 msgstr "모델 다운로드 중..."
 
-#: src/project/projectmanager.cpp:1024
+#: src/project/projectmanager.cpp:1026
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Building sequences…"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:1170
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -31957,7 +31968,7 @@ msgid ""
 "%1\n"
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/projectmanager.cpp:1208
+#: src/project/projectmanager.cpp:1210
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31966,12 +31977,12 @@ msgstr ""
 "마지막으로 프로젝트를 저장한 이후의 모든 변경 사항이 손실됩니다. 계속 진행하"
 "시겠습니까?"
 
-#: src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1211
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "마지막으로 저장된 버전으로 되돌리기"
 
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1310
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31980,38 +31991,38 @@ msgstr ""
 "프로젝트가 손상되어서 백업할 수 없습니다. 프로젝트 파일을 닫았다 다시 열어서 "
 "마지막 백업에서 복구하십시오"
 
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1531
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/project/projectmanager.cpp:1565
+#: src/project/projectmanager.cpp:1567
 #, kde-format
 msgid "Moving project folder"
 msgstr "프로젝트 폴더 이동"
 
-#: src/project/projectmanager.cpp:1656 src/project/projectmanager.cpp:1711
-#: src/project/projectmanager.cpp:1715
+#: src/project/projectmanager.cpp:1658 src/project/projectmanager.cpp:1713
+#: src/project/projectmanager.cpp:1717
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1669
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "프로젝트 파일이 잘못되었습니다(트랙 없음). 백업 파일이 있습니까?"
 
-#: src/project/projectmanager.cpp:1806 src/project/projectmanager.cpp:1819
-#: src/project/projectmanager.cpp:1843 src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1808 src/project/projectmanager.cpp:1821
+#: src/project/projectmanager.cpp:1845 src/project/projectmanager.cpp:1854
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "프로젝트 프로필 변경 중단됨"
 
-#: src/project/projectmanager.cpp:1982
+#: src/project/projectmanager.cpp:1984
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -32020,12 +32031,12 @@ msgstr ""
 "출력 파일 %1이(가) 이미 있습니다.\n"
 "덮어쓰시겠습니까?"
 
-#: src/project/projectmanager.cpp:2007
+#: src/project/projectmanager.cpp:2009
 #, kde-format
 msgid "Project profile changed"
 msgstr "프로젝트 프로필 변경됨"
 
-#: src/project/projectmanager.cpp:2071
+#: src/project/projectmanager.cpp:2073
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -32033,30 +32044,30 @@ msgid ""
 "%1"
 msgstr "%1 필터를 만들 수 없음"
 
-#: src/project/projectmanager.cpp:2154
+#: src/project/projectmanager.cpp:2156
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2399
+#: src/project/projectmanager.cpp:2401
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "효과를 비교할 클립을 선택하십시오"
 
-#: src/project/projectmanager.cpp:2409
+#: src/project/projectmanager.cpp:2411
 #, fuzzy, kde-format
 #| msgid "Speech recognition failed"
 msgid "Sequence creation failed"
 msgstr "음성 인식 실패"
 
-#: src/project/projectmanager.cpp:2436
+#: src/project/projectmanager.cpp:2438
 #, fuzzy, kde-format
 #| msgid "You cannot add a project inside itself."
 msgid "Cannot insert sequence in current timeline"
 msgstr "프로젝트 안에 자기 자신을 추가할 수 없습니다."
 
-#: src/project/projectmanager.cpp:2440
+#: src/project/projectmanager.cpp:2442
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
@@ -40356,37 +40367,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:412
+#: src/widgets/dragvalue.cpp:407
 #, kde-format
 msgid "Normal scale"
 msgstr "일반 크기 조절"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:408
 #, kde-format
 msgid "Pixel scale"
 msgstr "픽셀 크기 조절"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "비선형 크기 조절"
 
-#: src/widgets/dragvalue.cpp:418
+#: src/widgets/dragvalue.cpp:413
 #, kde-format
 msgid "Direct update"
 msgstr "직접 업데이트"
 
-#: src/widgets/dragvalue.cpp:423
+#: src/widgets/dragvalue.cpp:418
 #, kde-format
 msgid "Reset value"
 msgstr "값 초기화"
 
-#: src/widgets/dragvalue.cpp:428
+#: src/widgets/dragvalue.cpp:423
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "타임라인에 %1 표시"
 
-#: src/widgets/dragvalue.cpp:758
+#: src/widgets/dragvalue.cpp:751
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
