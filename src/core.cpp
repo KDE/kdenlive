@@ -381,7 +381,15 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                     });
                 });
             } else {
-                connect(m_splash, &Splash::firstStart, this, &Core::startFromGuessedProfile);
+                connect(m_splash, &Splash::firstStart, this, [&](QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks) {
+                    if (!guiReady()) {
+                        connect(this, &Core::mainWindowReady, this, [&, descriptiveString, fps, interlaced, vTracks, aTracks]() {
+                            startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                        });
+                    } else {
+                        startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                    }
+                });
             }
         } else {
             // Simple splash
@@ -502,7 +510,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     connect(this, &Core::displayBinMessage, this, &Core::displayBinMessagePrivate);
     connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
 
-    if (m_splash && m_splash->hasEventLoop()) {
+    if (m_splash && (m_splash->hasEventLoop() || m_splash->welcomeDisplayed())) {
         Q_EMIT mainWindowReady();
     } else if (m_splash == nullptr || !m_splash->welcomeDisplayed()) {
         QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
