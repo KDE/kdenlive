@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-28 00:42+0000\n"
+"POT-Creation-Date: 2025-11-29 00:42+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -1205,8 +1205,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:18
 #: data/effects/avfilter/avfilter_lowshelf.xml:18
 #: data/effects/avfilter/avfilter_sofalizer.xml:11 data/effects/gain.xml:8
+#: data/effects/ladspa/ladspa_2141.xml:12
+#: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:30
+#: data/effects/ladspa/ladspa_2141.xml:36
+#: data/effects/ladspa/ladspa_2141.xml:42
+#: data/effects/ladspa/ladspa_2141.xml:48
+#: data/effects/ladspa/ladspa_2141.xml:54
 #: data/effects/ladspa/ladspa_2144.xml:15
-#: data/effects/ladspa/ladspa_2146.xml:17 data/effects/lumaliftgaingamma.xml:11
+#: data/effects/ladspa/ladspa_2146.xml:17
+#: data/effects/ladspa/ladspa_2151.xml:12
+#: data/effects/ladspa/ladspa_2151.xml:21
+#: data/effects/ladspa/ladspa_2151.xml:39
+#: data/effects/ladspa/ladspa_2151.xml:48
+#: data/effects/ladspa/ladspa_2151.xml:57
+#: data/effects/ladspa/ladspa_2151.xml:66
+#: data/effects/ladspa/ladspa_2151.xml:75 data/effects/lumaliftgaingamma.xml:11
 #: data/effects/mute.xml:8 data/effects/normalise.xml:8
 #: data/effects/sox/sox_bass.xml:8 data/effects/sox/sox_gain.xml:8
 #: data/effects/volume.xml:8 src/assets/view/widgets/lumaliftgainparam.cpp:32
@@ -1485,9 +1499,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromahold.xml:14
 #, kde-format
 msgid ""
-"<![CDATA[Similarity percentage with the select color<br>\n"
-"        0.01 matches only the exact key color, while 1.0 matches "
-"everything.]]>"
+"Similarity percentage with the select color<br>\n"
+"        0.01 matches only the exact key color, while 1.0 matches everything."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
@@ -1502,9 +1515,9 @@ msgstr "Qarışdırma rejimi"
 #: data/effects/avfilter/avfilter_chromahold.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[Blend percentage. 0.0 makes pixels either fully grey, or not grey "
-"at all.<br>\n"
-"        Higher values result in more preserved color.]]>"
+"Blend percentage. 0.0 makes pixels either fully grey, or not grey at all."
+"<br>\n"
+"        Higher values result in more preserved color."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
@@ -1515,7 +1528,7 @@ msgstr "Əsas rəng"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
-msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
+msgid "Select this if the clip has YUV data instead of RGB."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
@@ -1654,7 +1667,7 @@ msgstr "Rəng sahəsi"
 #: data/effects/avfilter/avfilter_ciescope.xml:9
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[Select the color system]]>"
+msgid "Select the color system"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
@@ -1673,7 +1686,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_ciescope.xml:14
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[Select the CIE color space]]>"
+msgid "Select the CIE color space"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:15
@@ -1689,7 +1702,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set what gamuts to draw]]>"
+msgid "Set what gamuts to draw"
 msgstr "X oxu ətrafında döndərmək"
 
 #. i18n: Filesize
@@ -1710,7 +1723,7 @@ msgstr "Ölçü"
 #: data/effects/avfilter/avfilter_ciescope.xml:24
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set the size of the scope on screen]]>"
+msgid "Set the size of the scope on screen"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
@@ -1728,15 +1741,15 @@ msgstr "Sıxlığı"
 #: data/effects/avfilter/avfilter_ciescope.xml:29
 #, kde-format
 msgid ""
-"<![CDATA[Set the intensity used to<br>\n"
-"       \tmap input pixel values to CIE diagram]]>"
+"Set the intensity used to<br>\n"
+"       \tmap input pixel values to CIE diagram"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:34
 #, kde-format
 msgid ""
-"<![CDATA[Set contrast used to draw<br>\n"
-"       \ttongue colors that are out of active color system gamut]]>"
+"Set contrast used to draw<br>\n"
+"       \ttongue colors that are out of active color system gamut"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
@@ -1747,7 +1760,7 @@ msgstr "Ekran ölçüləri nisbəti"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:38
 #, kde-format
-msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
+msgid "Correct gamma displayed on scope, by default enabled"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
@@ -1758,7 +1771,7 @@ msgstr "Ağ küy"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:42
 #, kde-format
-msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
+msgid "Show white point on CIE diagram, by default disabled"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
@@ -1769,7 +1782,7 @@ msgstr "Girişdə güclənmə (dB)"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:46
 #, kde-format
-msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
+msgid "Set input gamma. Used only with XYZ input color space."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
@@ -1779,7 +1792,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_ciescope.xml:50
 #, kde-format
-msgid "<![CDATA[Fill with CIE colors. By default is enabled.]]>"
+msgid "Fill with CIE colors. By default is enabled."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
@@ -1848,6 +1861,7 @@ msgstr "Pik'lər vurğulansın"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
+#: data/effects/avfilter/avfilter_huesaturation.xml:31
 #, fuzzy, kde-format
 #| msgid "Preserve alpha"
 msgid "Preserve lightness"
@@ -2677,7 +2691,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, fuzzy, kde-format
 #| msgid "Set the shape color of the second detected face."
-msgid "<![CDATA[Sets the angle for the direction]]>"
+msgid "Sets the angle for the direction"
 msgstr "İkinci aşkarlanan üzün formalarının rəngini təyin etmək."
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
@@ -2692,7 +2706,7 @@ msgstr "Radius"
 #: data/effects/avfilter/avfilter_dblur.xml:13
 #, fuzzy, kde-format
 #| msgid "Set the shape color of the second detected face."
-msgid "<![CDATA[Sets the radius for the direction]]>"
+msgid "Sets the radius for the direction"
 msgstr "İkinci aşkarlanan üzün formalarının rəngini təyin etmək."
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
@@ -2706,7 +2720,7 @@ msgstr "Kənarların parlaması filtri"
 #: data/effects/avfilter/avfilter_scharr.xml:9
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
+msgid "Sets the color space plane the effect is applied to"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
@@ -2776,6 +2790,7 @@ msgstr "Sigma"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
+#: data/effects/hsl_primaries.xml:8
 #, fuzzy, kde-format
 #| msgid "Overlay:"
 msgid "Overlap"
@@ -2812,9 +2827,9 @@ msgstr "Həddi dəyişin"
 #: data/effects/avfilter/avfilter_deband.xml:25
 #, kde-format
 msgid ""
-"<![CDATA[Sets banding detection threshold for each plane.<br>\n"
+"Sets banding detection threshold for each plane.<br>\n"
 "        If difference between current pixel and reference pixel is less than "
-"threshold, it will be considered as banded.]]>"
+"threshold, it will be considered as banded."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:13
@@ -2838,10 +2853,10 @@ msgstr "Həddi dəyişin"
 #: data/effects/avfilter/avfilter_deband.xml:30
 #, kde-format
 msgid ""
-"<![CDATA[Banding detection range in pixels. Default is 16.<br>\n"
+"Banding detection range in pixels. Default is 16.<br>\n"
 "        If positive, random number in range 0 to set value will be used. If "
 "negative, exact absolute value will be used. The range defines square of "
-"four pixels around current pixel.]]>"
+"four pixels around current pixel."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:33
@@ -2855,12 +2870,11 @@ msgstr "İstiqamət"
 #: data/effects/avfilter/avfilter_deband.xml:35
 #, kde-format
 msgid ""
-"<![CDATA[Sets direction in degrees from which four pixel will be compared."
-"<br>\n"
+"Sets direction in degrees from which four pixel will be compared.<br>\n"
 "        If positive, random direction from 0 to set direction will be "
 "picked. If negative, exact of absolute value will be picked. For example "
 "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
-"will pick only pixels on same column]]>"
+"will pick only pixels on same column"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:38
@@ -2875,11 +2889,11 @@ msgstr "Bulanıqlıq"
 #: data/effects/avfilter/avfilter_deband.xml:40
 #, kde-format
 msgid ""
-"<![CDATA[If enabled, current pixel is compared with average value of all "
-"four surrounding pixels.<br>\n"
+"If enabled, current pixel is compared with average value of all four "
+"surrounding pixels.<br>\n"
 "        The default is enabled. If disabled, current pixel is compared with "
 "all four surrounding pixels. The pixel is considered banded if only all four "
-"differences with surrounding pixels are less than threshold.]]>"
+"differences with surrounding pixels are less than threshold."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:43
@@ -2890,9 +2904,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deband.xml:45
 #, kde-format
 msgid ""
-"<![CDATA[If enabled, current pixel is changed if and only if<br>\n"
+"If enabled, current pixel is changed if and only if<br>\n"
 "        all pixel components are banded, e.g. banding detection threshold is "
-"triggered for all color components. The default is disabled.]]>"
+"triggered for all color components. The default is disabled."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
@@ -3239,9 +3253,9 @@ msgstr "Müddət"
 #: data/effects/avfilter/avfilter_dilation.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[Apply dilation effect.<br>\n"
+"Apply dilation effect.<br>\n"
 "    Simulates image dilation, an effect which will enlarge the lightest "
-"pixels in the image by replacing the pixel by the local (3x3) maximum.]]>"
+"pixels in the image by replacing the pixel by the local (3x3) maximum."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dilation.xml:9
@@ -3261,8 +3275,8 @@ msgstr "Hüduddan istifadə etmək"
 #: data/effects/avfilter/avfilter_erosion.xml:26
 #, kde-format
 msgid ""
-"<![CDATA[Limit the maximum change for each plane.<br>\n"
-"        Default is 65535. If 0, plane will remain unchanged.]]>"
+"Limit the maximum change for each plane.<br>\n"
+"        Default is 65535. If 0, plane will remain unchanged."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
@@ -3296,9 +3310,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_erosion.xml:31
 #, kde-format
 msgid ""
-"<![CDATA[Flag which specifies the pixel to refer to.<br>\n"
+"Flag which specifies the pixel to refer to.<br>\n"
 "        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
-"coordinates maps like this: 1 2 3 4 5 6 7 8]]>"
+"coordinates maps like this: 1 2 3 4 5 6 7 8"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
@@ -3348,7 +3362,7 @@ msgstr "Yuxarı sol"
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, fuzzy, kde-format
 #| msgid "Create  new profile"
-msgid "<![CDATA[X coordinate of top-left corner]]>"
+msgid "X coordinate of top-left corner"
 msgstr "Yeni profil  yaradın"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
@@ -3361,7 +3375,7 @@ msgstr "Yuxarı sol"
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, fuzzy, kde-format
 #| msgid "Create  new profile"
-msgid "<![CDATA[Y coordinate of top-left corner]]>"
+msgid "Y coordinate of top-left corner"
 msgstr "Yeni profil  yaradın"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
@@ -3373,8 +3387,8 @@ msgstr "Eni"
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format
 msgid ""
-"<![CDATA[Width of the box in pixel.<br>\n"
-"    \tA width of <em>1</em> does not draw a line]]>"
+"Width of the box in pixel.<br>\n"
+"    \tA width of <em>1</em> does not draw a line"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
@@ -3386,8 +3400,8 @@ msgstr "Hündürlüyü"
 #: data/effects/avfilter/avfilter_drawbox.xml:23
 #, kde-format
 msgid ""
-"<![CDATA[Height of the box in pixel.<br>\n"
-"    \tA height of <em>1</em> does not draw a line]]>"
+"Height of the box in pixel.<br>\n"
+"    \tA height of <em>1</em> does not draw a line"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
@@ -3403,8 +3417,8 @@ msgstr "Rəng"
 #: data/effects/avfilter/avfilter_drawbox.xml:28
 #, kde-format
 msgid ""
-"<![CDATA[Select a color for the line.<br>\n"
-"    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
+"Select a color for the line.<br>\n"
+"    \tUse the <em>Alpha</em> value to make the line semi-transparent."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
@@ -3417,7 +3431,7 @@ msgstr "Xəttin qalınlığı"
 #: data/effects/avfilter/avfilter_drawbox.xml:32
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
+msgid "Sets the thickness for the line in pixels"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
@@ -3430,11 +3444,11 @@ msgstr "Klipi əvəzləyin"
 #: data/effects/avfilter/avfilter_drawbox.xml:38
 #, kde-format
 msgid ""
-"<![CDATA[If the input has alpha, checking this<br>\n"
+"If the input has alpha, checking this<br>\n"
 "    \twill overwrite the video's color and alpha pixels with the pixels of "
 "the painted box.<br>\n"
 "    \tBy default, the box will be composited onto the input, leaving the "
-"video's alpha intact.]]>"
+"video's alpha intact."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
@@ -3458,7 +3472,7 @@ msgstr "Sürüşmə"
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Distance from the left edge in pixel]]>"
+msgid "Distance from the left edge in pixel"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
@@ -3471,7 +3485,7 @@ msgstr "Sürüşmə"
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Distance from the top edge in pixel]]>"
+msgid "Distance from the top edge in pixel"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
@@ -3490,7 +3504,7 @@ msgstr "Eni"
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+msgid "Distance between vertical lines in pixel"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
@@ -3507,30 +3521,30 @@ msgstr "Hündürlüyü"
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
+msgid "Distance between horizontal lines in pixel"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
 #, kde-format
 msgid ""
-"<![CDATA[Select a color for the grid lines.<br>\n"
-"    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
+"Select a color for the grid lines.<br>\n"
+"    \tUse the <em>Alpha</em> value to make the grid semi-transparent."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
+msgid "Sets the thickness for the grid lines in pixels"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, kde-format
 msgid ""
-"<![CDATA[If the input has alpha, checking this<br>\n"
+"If the input has alpha, checking this<br>\n"
 "    \twill overwrite the video's color and alpha pixels with the pixels of "
 "the grid lines.<br>\n"
 "    \tBy default, the grid lines will be composited onto the input, leaving "
-"the video's alpha intact.]]>"
+"the video's alpha intact."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
@@ -3715,9 +3729,9 @@ msgstr "Farsca"
 #: data/effects/avfilter/avfilter_erosion.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[Apply erosion effect.<br>\n"
+"Apply erosion effect.<br>\n"
 "    Simulates image erosion, an effect which will enlarge the darkest pixels "
-"in the image by replacing the pixel by the local (3x3) minimum.]]>"
+"in the image by replacing the pixel by the local (3x3) minimum."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
@@ -3768,9 +3782,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:10
 #, kde-format
 msgid ""
-"<![CDATA[Set the noise sigma constant.<br>\n"
+"Set the noise sigma constant.<br>\n"
 "       \tThis sets denoising strength. Using very high sigma with low "
-"overlap may give blocking artifacts.]]>"
+"overlap may give blocking artifacts."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:13
@@ -3785,8 +3799,8 @@ msgstr "Miqdar"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:15
 #, kde-format
 msgid ""
-"<![CDATA[Set the amount of denoising.<br>\n"
-"       \tBy default all detected noise is reduced.]]>"
+"Set the amount of denoising.<br>\n"
+"       \tBy default all detected noise is reduced."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
@@ -3799,19 +3813,19 @@ msgstr "Saat"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
 #, fuzzy, kde-format
 #| msgid "Vertical"
-msgid "<![CDATA[Set size of block in pixels]]>"
+msgid "Set size of block in pixels"
 msgstr "Şaquli"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set block overlap]]>"
+msgid "Set block overlap"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #, fuzzy, kde-format
 #| msgid "High quality 3D denoiser"
-msgid "<![CDATA[Set denoising method]]>"
+msgid "Set denoising method"
 msgstr "Yüksən keyfiyyətli, 3D küy boğucu"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
@@ -3822,15 +3836,15 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
 msgid ""
-"<![CDATA[Add <em>previous</em> frame<br>\n"
-"        for temporal denoising]]>"
+"Add <em>previous</em> frame<br>\n"
+"        for temporal denoising"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
 #, kde-format
 msgid ""
-"<![CDATA[Add <em>next</em> frame<br>\n"
-"        for temporal denoising]]>"
+"Add <em>next</em> frame<br>\n"
+"        for temporal denoising"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:40
@@ -4183,15 +4197,15 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gblur.xml:15
 #, kde-format
 msgid ""
-"<![CDATA[Set which planes to filter.<br>\n"
-"        By default all planes are filtered (YUV).]]>"
+"Set which planes to filter.<br>\n"
+"        By default all planes are filtered (YUV)."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
 #, kde-format
 msgid ""
-"<![CDATA[Set sigma, the standard deviation of Gaussian blur.<br>\n"
-"        Determines the strength of the horizontal blur. Default is 10.]]>"
+"Set sigma, the standard deviation of Gaussian blur.<br>\n"
+"        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
@@ -4203,8 +4217,8 @@ msgstr "Şaquli başlanğıc"
 #: data/effects/avfilter/avfilter_gblur.xml:26
 #, kde-format
 msgid ""
-"<![CDATA[Set vertical sigma.<br>\n"
-"        Determines the strength of the vertical blur. Default is 10.]]>"
+"Set vertical sigma.<br>\n"
+"        Determines the strength of the vertical blur. Default is 10."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
@@ -4215,7 +4229,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:9
 #, kde-format
 msgid ""
-"<![CDATA[<b>-= Deprecated =-</b><br>\n"
+"<b>-= Deprecated =-</b><br>\n"
 "    Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
 "regions by truncation to 8-bit color depth.<br>\n"
@@ -4223,23 +4237,22 @@ msgid ""
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands</b>.]]>"
+"bands</b>."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:14
 #, kde-format
 msgid ""
-"<![CDATA[The maximum amount by which the filter will change any one pixel."
-"<br>\n"
-"       \tThis is also the threshold for detecting nearly flat regions.]]>"
+"The maximum amount by which the filter will change any one pixel.<br>\n"
+"       \tThis is also the threshold for detecting nearly flat regions."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[The neighborhood to fit the gradient to.<br>\n"
+"The neighborhood to fit the gradient to.<br>\n"
 "       \tA larger radius makes for smoother gradients, but also prevents the "
-"filter from modifying the pixels near detailed regions.]]>"
+"filter from modifying the pixels near detailed regions."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
@@ -4590,16 +4603,16 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
 #, kde-format
 msgid ""
-"<![CDATA[Set the hue value which<br>\n"
-"        will be used in color difference calculation]]>"
+"Set the hue value which<br>\n"
+"        will be used in color difference calculation"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
 #, kde-format
 msgid ""
-"<![CDATA[Set the saturation value<br>\n"
-"        which will be used in color difference calculation]]>"
+"Set the saturation value<br>\n"
+"        which will be used in color difference calculation"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
@@ -4615,22 +4628,22 @@ msgstr "Dəyər:"
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
 #, kde-format
 msgid ""
-"<![CDATA[Set the value which will<br>\n"
-"        be used in color difference calculation]]>"
+"Set the value which will<br>\n"
+"        be used in color difference calculation"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set similarity percentage with the key color]]>"
+msgid "Set similarity percentage with the key color"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Blend percentage]]>"
+msgid "Blend percentage"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
@@ -4664,8 +4677,8 @@ msgstr "Rəng seçimi"
 #: data/effects/avfilter/avfilter_huesaturation.xml:10
 #, kde-format
 msgid ""
-"<![CDATA[Set which primary and<br>\n"
-"        complementary colors are going to be adjusted]]>"
+"Set which primary and<br>\n"
+"        complementary colors are going to be adjusted"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
@@ -4683,7 +4696,7 @@ msgstr "Çaların dəyişməsi"
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
+msgid "Set the hue shift in degrees to apply"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
@@ -4695,7 +4708,7 @@ msgstr "Rəng doyumu"
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[Set the saturation shift]]>"
+msgid "Set the saturation shift"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
@@ -4707,25 +4720,19 @@ msgstr "Sıxlığı"
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set the intensity shift]]>"
+msgid "Set the intensity shift"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set strength of filtering]]>"
+msgid "Set strength of filtering"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
 #, fuzzy, kde-format
 #| msgid "Preserve alpha"
 msgid "Preserve Lightness"
-msgstr "Alfanı qorumaq"
-
-#: data/effects/avfilter/avfilter_huesaturation.xml:31
-#, fuzzy, kde-format
-#| msgid "Preserve alpha"
-msgid "<![CDATA[Preserve lightness]]>"
 msgstr "Alfanı qorumaq"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
@@ -4737,8 +4744,8 @@ msgstr "Genişləndirin"
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
 #, kde-format
 msgid ""
-"<![CDATA[Set weight for RED component.<br>\n"
-"        Is used in saturation and lightness processing.]]>"
+"Set weight for RED component.<br>\n"
+"        Is used in saturation and lightness processing."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
@@ -4750,8 +4757,8 @@ msgstr "Genişləndirin"
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
 #, kde-format
 msgid ""
-"<![CDATA[Set weight for GREEN component.<br>\n"
-"        Is used in saturation and lightness processing.]]>"
+"Set weight for GREEN component.<br>\n"
+"        Is used in saturation and lightness processing."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
@@ -4763,8 +4770,8 @@ msgstr "Uzunluq"
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
 #, kde-format
 msgid ""
-"<![CDATA[Set weight for BLUE component.<br>\n"
-"        Is used in saturation and lightness processing.]]>"
+"Set weight for BLUE component.<br>\n"
+"        Is used in saturation and lightness processing."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_il.xml:4
@@ -4984,31 +4991,31 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lenscorrection.xml:16
 #, kde-format
 msgid ""
-"<![CDATA[Focal Point Relative<br>\n"
-"        X-Coordinate]]>"
+"Focal Point Relative<br>\n"
+"        X-Coordinate"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
 #, kde-format
 msgid ""
-"<![CDATA[Focal Point Relative<br>\n"
-"        Y-Coordinate]]>"
+"Focal Point Relative<br>\n"
+"        Y-Coordinate"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
 #, fuzzy, kde-format
 #| msgid "Edge brightness upscaling multiplier"
 msgid ""
-"<![CDATA[Quadratic<br>\n"
-"        Correction Coefficient]]>"
+"Quadratic<br>\n"
+"        Correction Coefficient"
 msgstr "Kənarların parlaqlığının artması əmsalı"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
 #, fuzzy, kde-format
 #| msgid "Edge brightness upscaling multiplier"
 msgid ""
-"<![CDATA[Double Quadratic<br>\n"
-"        Correction Coefficient]]>"
+"Double Quadratic<br>\n"
+"        Correction Coefficient"
 msgstr "Kənarların parlaqlığının artması əmsalı"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
@@ -5191,10 +5198,9 @@ msgstr "P"
 #: data/effects/avfilter/avfilter_mcdeint.xml:18
 #, kde-format
 msgid ""
-"<![CDATA[Set per-block quantization parameter (QP) used by the internal "
-"encoder.<br>\n"
+"Set per-block quantization parameter (QP) used by the internal encoder.<br>\n"
 "            Higher values should result in a smoother motion vector field "
-"but less optimal individual vectors. Default value is 1.]]>"
+"but less optimal individual vectors. Default value is 1."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:4
@@ -5218,7 +5224,7 @@ msgstr "Üfüqi son"
 #: data/effects/avfilter/avfilter_median.xml:9
 #, fuzzy, kde-format
 #| msgid "Vertical End"
-msgid "<![CDATA[Set median radius]]>"
+msgid "Set median radius"
 msgstr "Şaquli son"
 
 #: data/effects/avfilter/avfilter_median.xml:12
@@ -5230,9 +5236,9 @@ msgstr "Şaquli son"
 #: data/effects/avfilter/avfilter_median.xml:14
 #, kde-format
 msgid ""
-"<![CDATA[Set median vertical radius.<br>\n"
+"Set median vertical radius.<br>\n"
 "       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
-"parameter.]]>"
+"parameter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:17
@@ -5243,14 +5249,14 @@ msgstr ""
 #: data/effects/avfilter/avfilter_median.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[Default value of 50 will pick always median values,<br>\n"
-"       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
+"Default value of 50 will pick always median values,<br>\n"
+"       \twhile 0 will pick minimum values, and 100 maximum values."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:23
 #, fuzzy, kde-format
 #| msgid "Select some timecodes to reassign"
-msgid "<![CDATA[Select which planes to process]]>"
+msgid "Select which planes to process"
 msgstr "Yenidən təyin etmək üçün bəzi vaxt kodlarını seçin"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
@@ -5313,13 +5319,13 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
-msgid "<![CDATA[Add noise on video input frame]]>"
+msgid "Add noise on video input frame"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+msgid "<b><u>All Components</u></b> Noise Seed"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_noise.xml:18
@@ -5329,11 +5335,10 @@ msgstr "Fon qeyri-şəffaflığı"
 #: data/effects/avfilter/avfilter_noise.xml:74
 #, kde-format
 msgid ""
-"<![CDATA[Available noise types:<ul><li>Averaged temporal noise (smoother)</"
-"li>\n"
+"Available noise types:<ul><li>Averaged temporal noise (smoother)</li>\n"
 "        <li>Mix random noise with a (semi)regular pattern</li>\n"
 "        <li>Temporal noise (noise pattern changes between frames)</li>\n"
-"        <li>Uniform noise (Gaussian otherwise)</li></ul>]]>"
+"        <li>Uniform noise (Gaussian otherwise)</li></ul>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:19
@@ -5348,7 +5353,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_noise.xml:22
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+msgid "<b><u>Component #0</u></b> Noise Seed"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
@@ -5360,19 +5365,19 @@ msgstr "Genişləndirin"
 #: data/effects/avfilter/avfilter_noise.xml:36
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+msgid "<b><u>Component #1</u></b> Noise Seed"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+msgid "<b><u>Component #2</u></b> Noise Seed"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_noise.xml:64
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+msgid "<b><u>Component #3</u></b> Noise Seed"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
@@ -5461,7 +5466,7 @@ msgstr "X-mövqe"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[X position of the trace profile]]>"
+msgid "X position of the trace profile"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
@@ -5473,13 +5478,13 @@ msgstr "Y-mövqe"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Y position of the trace profile]]>"
+msgid "Y position of the trace profile"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
+msgid "Size/length of the trace profile in pixel"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
@@ -5496,13 +5501,13 @@ msgstr "Meyillk"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Tilting of the trace profile]]>"
+msgid "Tilting of the trace profile"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Opacity of the scope display]]>"
+msgid "Opacity of the scope display"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
@@ -5514,7 +5519,7 @@ msgstr "X-mövqe"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[X position of the scope display]]>"
+msgid "X position of the scope display"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
@@ -5526,7 +5531,7 @@ msgstr "Y-mövqe"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Y position of the scope display]]>"
+msgid "Y position of the scope display"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
@@ -5538,7 +5543,7 @@ msgstr "Çərçivənin eni"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Width of the scope display]]>"
+msgid "Width of the scope display"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
@@ -5550,13 +5555,13 @@ msgstr "Relyefin hündürlüyü"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Height of the scope display]]>"
+msgid "Height of the scope display"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #, fuzzy, kde-format
 #| msgid "Select tracks to be deleted :"
-msgid "<![CDATA[Select the components to be traced]]>"
+msgid "Select the components to be traced"
 msgstr "Silmək üçün cığırları seçin"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
@@ -5568,7 +5573,7 @@ msgstr "Tor göstərilsin"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, fuzzy, kde-format
 #| msgid "Switch Monitor"
-msgid "<![CDATA[Switch grid on or off]]>"
+msgid "Switch grid on or off"
 msgstr "Monitoru dəyişin"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
@@ -5580,7 +5585,7 @@ msgstr "Parlaqlıq statistikalarını göstərmək"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[switch statistics on or off]]>"
+msgid "switch statistics on or off"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
@@ -5590,7 +5595,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
-msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
+msgid "Switch drawing the trace profile line on or off"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_phase.xml:5
@@ -5886,13 +5891,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
 #, kde-format
-msgid ""
-"<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
+msgid "Sets the value which the filtered result will be multiplied with "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
 #, kde-format
-msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+msgid "Sets the value which will be added to filtered result"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
@@ -6121,9 +6125,9 @@ msgstr "radius"
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
 msgid ""
-"<![CDATA[Set the luma radius.<br>\n"
+"Set the luma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
-"blur the image (slower if larger).]]>"
+"blur the image (slower if larger)."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
@@ -6136,9 +6140,9 @@ msgstr "Parlama gücü"
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
 msgid ""
-"<![CDATA[Set the luma strength.<br>\n"
+"Set the luma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
-"the image, whereas a negative value will sharpen the image.]]>"
+"the image, whereas a negative value will sharpen the image."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
@@ -6150,10 +6154,10 @@ msgstr "Həddi dəyişin"
 #: data/effects/avfilter/avfilter_smartblur.xml:20
 #, kde-format
 msgid ""
-"<![CDATA[Set the luma threshold used as a coefficient<br>\n"
+"Set the luma threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
 "of 0 will filter all the image, positive values will filter flat areas, "
-"negative values will filter edges.]]>"
+"negative values will filter edges."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
@@ -6165,10 +6169,10 @@ msgstr "Çevrənin radiusu"
 #: data/effects/avfilter/avfilter_smartblur.xml:25
 #, kde-format
 msgid ""
-"<![CDATA[Set the chroma radius.<br>\n"
+"Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
-"value set for <em>Luma radius</em>]]>"
+"value set for <em>Luma radius</em>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
@@ -6181,10 +6185,10 @@ msgstr "Parlama gücü"
 #: data/effects/avfilter/avfilter_smartblur.xml:30
 #, kde-format
 msgid ""
-"<![CDATA[Set the chroma strength.<br>\n"
+"Set the chroma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image. If not "
-"specified, it defaults to the value set for <em>Luma strength</em>.]]>"
+"specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
@@ -6196,11 +6200,11 @@ msgstr "Həddi dəyişin"
 #: data/effects/avfilter/avfilter_smartblur.xml:35
 #, kde-format
 msgid ""
-"<![CDATA[Set the chroma threshold used as a coefficient<br>\n"
+"Set the chroma threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges. If not specified, it defaults to the "
-"value set for <em>Luma threshold</em>]]>"
+"value set for <em>Luma threshold</em>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
@@ -6212,10 +6216,10 @@ msgstr "Alfa əməliyattları"
 #: data/effects/avfilter/avfilter_smartblur.xml:40
 #, kde-format
 msgid ""
-"<![CDATA[Set the alpha radius.<br>\n"
+"Set the alpha radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
-"value set for <em>Luma radius</em>]]>"
+"value set for <em>Luma radius</em>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
@@ -6228,20 +6232,20 @@ msgstr "Alfa qradiyenti"
 #: data/effects/avfilter/avfilter_smartblur.xml:45
 #, kde-format
 msgid ""
-"<![CDATA[Set the alpha strength.<br>\n"
+"Set the alpha strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image. If not "
-"specified, it defaults to the value set for <em>Luma strength</em>.]]>"
+"specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
 msgid ""
-"<![CDATA[Set the alpha threshold used as a coefficient<br>\n"
+"Set the alpha threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges. If not specified, it defaults to the "
-"value set for <em>Luma threshold</em>]]>"
+"value set for <em>Luma threshold</em>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
@@ -6756,7 +6760,7 @@ msgstr "Üfüqi (X) yayılma"
 #: data/effects/avfilter/avfilter_unsharp.xml:10
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Set the luma matrix horizontal size]]>"
+msgid "Set the luma matrix horizontal size"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
@@ -6766,17 +6770,18 @@ msgid "Luma vertical matrix"
 msgstr "Şaquli başlanğıc"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
-#, kde-format
-msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "The thickness of the bar or segments."
+msgid "Set the luma matrix vertical size"
+msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[Set the luma effect strength.<br>\n"
+"Set the luma effect strength.<br>\n"
 "            Reasonable values are between -1.5 and 1.5. Negative values will "
 "blur the input video, while positive values will sharpen it, a value of 0 "
-"will disable the effect. ]]>"
+"will disable the effect. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
@@ -6788,7 +6793,7 @@ msgstr "Üfüqi mərkəzləşdirmə"
 #: data/effects/avfilter/avfilter_unsharp.xml:23
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
+msgid "Set the chroma matrix horizontal size"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
@@ -6800,16 +6805,16 @@ msgstr "Şaquli mərkəzləşdirmə"
 #: data/effects/avfilter/avfilter_unsharp.xml:27
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Set the chroma matrix vertical size]]>"
+msgid "Set the chroma matrix vertical size"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
 msgid ""
-"<![CDATA[Set the chroma effect strength.<br>\n"
+"Set the chroma effect strength.<br>\n"
 "            Reasonable values are between -1.5 and 1.5. Negative values will "
 "blur the input video, while positive values will sharpen it, a value of zero "
-"will disable the effect. ]]>"
+"will disable the effect. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
@@ -6819,9 +6824,10 @@ msgid "Alpha horizontal matrix"
 msgstr "Üfüqi (X) yayılma"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
-#, kde-format
-msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "The thickness of the bar or segments."
+msgid "Set the alpha matrix horizontal size"
+msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
 #, fuzzy, kde-format
@@ -6830,17 +6836,18 @@ msgid "Alpha vertical matrix"
 msgstr "Şaquli başlanğıc"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
-#, kde-format
-msgid "<![CDATA[Set the alpha matrix vertical size]]>"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "The thickness of the bar or segments."
+msgid "Set the alpha matrix vertical size"
+msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/avfilter/avfilter_unsharp.xml:45
 #, kde-format
 msgid ""
-"<![CDATA[Set the alpha effect strength.<br>\n"
+"Set the alpha effect strength.<br>\n"
 "            Reasonable values are between -1.5 and 1.5. Negative values will "
 "blur the input video, while positive values will sharpen it, a value of zero "
-"will disable the effect. ]]>"
+"will disable the effect. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
@@ -6852,9 +6859,9 @@ msgstr "Küy boğucu"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[Wavelet based denoiser.<br>\n"
+"Wavelet based denoiser.<br>\n"
 "    It transforms each frame from the video input into the wavelet domain, "
-"using Cohen-Daubechies-Feauveau 9/7.]]>"
+"using Cohen-Daubechies-Feauveau 9/7."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:10
@@ -7109,11 +7116,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:11
 #, kde-format
 msgid ""
-"<![CDATA[In row mode, the graph on the left side represents<br>\n"
+"In row mode, the graph on the left side represents<br>\n"
 "       \tcolor component value 0 and the right side represents value = 255."
 "<br>\n"
 "       \tIn column mode, the top side represents color component value = 0 "
-"and bottom side represents value = 255.]]>"
+"and bottom side represents value = 255."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:12
@@ -7125,27 +7132,27 @@ msgstr "Sütunlar"
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[Smaller values are useful to find out how many values<br>\n"
-"       \tof the same luminance are distributed across input rows/columns]]>"
+"Smaller values are useful to find out how many values<br>\n"
+"       \tof the same luminance are distributed across input rows/columns"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
 #, kde-format
 msgid ""
-"<![CDATA[In mirrored mode, higher values will be represented<br>\n"
+"In mirrored mode, higher values will be represented<br>\n"
 "       \ton the left side for <em>row</em> mode and at the top for "
-"<em>column</em> mode.]]>"
+"<em>column</em> mode."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:26
 #, kde-format
-msgid "<![CDATA[Set the display mode]]>"
+msgid "Set the display mode"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:31
 #, fuzzy, kde-format
 #| msgid "Components:"
-msgid "<![CDATA[Select the components to be displayed]]>"
+msgid "Select the components to be displayed"
 msgstr "Tərkib hissələri:"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
@@ -7156,7 +7163,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, fuzzy, kde-format
 #| msgid "Delete the selected speech model"
-msgid "<![CDATA[Set the envelope mode]]>"
+msgid "Set the envelope mode"
 msgstr "Seçilmiş nitq modulunu silin"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
@@ -7172,7 +7179,7 @@ msgstr "Süzgəc"
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #, fuzzy, kde-format
 #| msgid "Failed to filter source."
-msgid "<![CDATA[Set the filter mode]]>"
+msgid "Set the filter mode"
 msgstr "Qaynaqların filtrlənməsi alınmadı."
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
@@ -7182,7 +7189,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
-msgid "<![CDATA[Set which graticule to display]]>"
+msgid "Set which graticule to display"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
@@ -7193,13 +7200,13 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set the opacity of the graticule]]>"
+msgid "Set the opacity of the graticule"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, fuzzy, kde-format
 #| msgid "Start Opacity"
-msgid "<![CDATA[Set graticule flags]]>"
+msgid "Set graticule flags"
 msgstr "Başlanğıc qeyri-şəffaflıq"
 
 #: data/effects/avfilter/avfilter_waveform.xml:56
@@ -7209,7 +7216,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:60
 #, kde-format
-msgid "<![CDATA[Set scale used for displaying graticule]]>"
+msgid "Set scale used for displaying graticule"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
@@ -7220,7 +7227,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[Set the background opacity]]>"
+msgid "Set the background opacity"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
@@ -7234,8 +7241,8 @@ msgstr "Rəng çaları"
 #: data/effects/avfilter/avfilter_waveform.xml:75
 #, kde-format
 msgid ""
-"<![CDATA[Only used with lowpass filter and when display<br>\n"
-"       \tis not overlay and input pixel formats are not RGB]]>"
+"Only used with lowpass filter and when display<br>\n"
+"       \tis not overlay and input pixel formats are not RGB"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
@@ -7247,7 +7254,7 @@ msgstr "Rəsm rejimi:"
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, fuzzy, kde-format
 #| msgid "Show/Hide edit mode"
-msgid "<![CDATA[Set the fit mode]]>"
+msgid "Set the fit mode"
 msgstr "Düzəliş rejimini göstərin/gizlədin"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
@@ -7265,7 +7272,7 @@ msgstr "Çəkiliş formatı"
 #: data/effects/avfilter/avfilter_waveform.xml:84
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Set input formats for filter to pick from]]>"
+msgid "Set input formats for filter to pick from"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
@@ -7390,7 +7397,7 @@ msgstr "Müddət"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1094 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1102 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -7578,9 +7585,9 @@ msgstr "Seçilmiş rəng istisna olmaqla şəkilə boz çalar vermək"
 #: data/effects/chroma_hold.xml:13
 #, kde-format
 msgid ""
-"<![CDATA[Percentage of deviation from the selected color value.<br>\n"
+"Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
-"values include more colors.]]>"
+"values include more colors."
 msgstr ""
 
 #: data/effects/copychannelstostereo.xml:4
@@ -7859,8 +7866,8 @@ msgstr "Mətn"
 #: data/effects/dynamictext.xml:44
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[You can also enter <i>strftime</i> parameters to customize the "
-"output, like: #createdate %H:%M %D#]]>"
+"You can also enter <i>strftime</i> parameters to customize the output, like: "
+"#createdate %H:%M %D#"
 msgstr ""
 
 #: data/effects/dynamictext.xml:45
@@ -8065,13 +8072,13 @@ msgstr "Əmsal"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
 #, kde-format
-msgid "<![CDATA[Disappearance Rate of the echo]]>"
+msgid "Disappearance Rate of the echo"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, fuzzy, kde-format
 #| msgid "Preserve alpha"
-msgid "<![CDATA[Darker or Brighter echo]]>"
+msgid "Darker or Brighter echo"
 msgstr "Alfanı qorumaq"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
@@ -8082,7 +8089,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_aech0r.xml:17
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgid "<![CDATA[Influence on Red channel]]>"
+msgid "Influence on Red channel"
 msgstr "<![CDATA[Orta puksel dəyərinin təsiri > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
@@ -8093,7 +8100,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_aech0r.xml:21
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgid "<![CDATA[Influence on Green channel]]>"
+msgid "Influence on Green channel"
 msgstr "<![CDATA[Orta puksel dəyərinin təsiri > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
@@ -8104,7 +8111,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_aech0r.xml:25
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgid "<![CDATA[Influence on Blue channel]]>"
+msgid "Influence on Blue channel"
 msgstr "<![CDATA[Orta puksel dəyərinin təsiri > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
@@ -8115,7 +8122,7 @@ msgstr "Konturun qalınlığı"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
-msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
+msgid "Rate of the stroboscope (from 0 to 8 frames)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
@@ -8128,9 +8135,8 @@ msgstr "ALfa-kanal əməliyyatı"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:7
 #, kde-format
 msgid ""
-"<![CDATA[Display and manipulation of the alpha channel.<br>\n"
-"        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</"
-"em>.]]>"
+"Display and manipulation of the alpha channel.<br>\n"
+"        This effect has been replaced by <em>frei0r.alpha0ps_alpha0ps</em>."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:11
@@ -8181,9 +8187,8 @@ msgstr "Sıxılma/genişlənmə kəmiyyəti"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:33
 #, kde-format
 msgid ""
-"<![CDATA[Display and manipulation of the alpha channel.<br>\n"
-"        This effect has been replaced by <em>frei0r.alphaops_alphaops</"
-"em>.]]>"
+"Display and manipulation of the alpha channel.<br>\n"
+"        This effect has been replaced by <em>frei0r.alphaops_alphaops</em>."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:44
@@ -8245,7 +8250,7 @@ msgstr "Mövqe"
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:9
 #: data/effects/frei0r/frei0r_alphagrad.xml:10
 #, kde-format
-msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "Define where the gradient starts."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
@@ -8259,14 +8264,14 @@ msgstr "Keçid eni"
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:13
 #: data/effects/frei0r/frei0r_alphagrad.xml:14
 #, kde-format
-msgid "<![CDATA[Define the width of the transition between the densities.]]>"
+msgid "Define the width of the transition between the densities."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:18
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Angle for the gradient.]]>"
+msgid "Angle for the gradient."
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
@@ -8280,7 +8285,7 @@ msgstr "Şəffaflıq:"
 #: data/effects/frei0r/frei0r_alphagrad.xml:22
 #, fuzzy, kde-format
 #| msgid "Defines the rectangle that the waveform(s) should be drawn in."
-msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
+msgid "Define the transparency at the top of the gradient."
 msgstr "Səs spektr(lər)i təsvir olunmalı olan düzbucaqlını təyin edir."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
@@ -8294,14 +8299,14 @@ msgstr "Şəffaflıq:"
 #: data/effects/frei0r/frei0r_alphagrad.xml:26
 #, fuzzy, kde-format
 #| msgid "Defines the rectangle that the waveform(s) should be drawn in."
-msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
+msgid "Define the transparency at the bottom of the gradient."
 msgstr "Səs spektr(lər)i təsvir olunmalı olan düzbucaqlını təyin edir."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, fuzzy, kde-format
 #| msgid "Perform an affine transform on for compositing."
-msgid "<![CDATA[Define the alpha operation for compositing.]]>"
+msgid "Define the alpha operation for compositing."
 msgstr "Birləşdirmək üçün affin dönüşümünü icra etmək"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
@@ -8385,8 +8390,8 @@ msgstr "Alfa-kanal izi"
 #: data/effects/frei0r/frei0r_alphagrad.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[Fill the alpha channel with a specified gradient.<br>\n"
-"    This effect has been replaced by frei0r.alphaops_alphagrad.]]>"
+"Fill the alpha channel with a specified gradient.<br>\n"
+"    This effect has been replaced by frei0r.alphaops_alphagrad."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
@@ -8398,8 +8403,8 @@ msgstr "Alfa fiqurlar (Maska)"
 #: data/effects/frei0r/frei0r_alphaspot.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[Draws simple shapes into the alpha channel.<br>\n"
-"    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>.]]>"
+"Draws simple shapes into the alpha channel.<br>\n"
+"    This effect has been replaced by <em>frei0r.alphaops_alphaspot</em>."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_B.xml:4
@@ -8525,7 +8530,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Determines the sampling method.]]>"
+msgid "Determines the sampling method."
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
@@ -8549,19 +8554,19 @@ msgstr "Aktiv edildi"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Enables parameters for top portion]]>"
+msgid "Enables parameters for top portion"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
 #, kde-format
-msgid "<![CDATA[<b>--Top--</b> Start]]>"
+msgid "<b>--Top--</b> Start"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[Degrees from the horizon<br>\n"
-"    \twhere we start to fill in]]>"
+"Degrees from the horizon<br>\n"
+"    \twhere we start to fill in"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -8577,8 +8582,8 @@ msgstr "Son"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:24
 #, kde-format
 msgid ""
-"<![CDATA[Degrees from the horizon<br>\n"
-"    \twhere we reach maximum blur]]>"
+"Degrees from the horizon<br>\n"
+"    \twhere we reach maximum blur"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
@@ -8591,7 +8596,7 @@ msgstr "Qarışdırma rejimi"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
 #, kde-format
-msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+msgid "Degrees towards the horizon to sample from"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
@@ -8604,7 +8609,7 @@ msgstr "Qarışdırma rejimi"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
 #, kde-format
-msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+msgid "Degrees away from the horizon to sample to"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
@@ -8619,58 +8624,58 @@ msgstr "Tədricən artma"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Degrees to fade the effect in over]]>"
+msgid "Degrees to fade the effect in over"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Blur width at start]]>"
+msgid "Blur width at start"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
 #, kde-format
-msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
+msgid "Horizontal angle to blur over at the start of the fill-in"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Blur width at end]]>"
+msgid "Blur width at end"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
 #, kde-format
-msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
+msgid "Horizontal angle to blur over\tat the end of the fill-in"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
 #, fuzzy, kde-format
 #| msgid "Crop start:"
-msgid "<![CDATA[Blur height at start]]>"
+msgid "Blur height at start"
 msgstr "Kəsiyin başlanğıcı:"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
 #, kde-format
-msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
+msgid "Vertical angle to blur over at the start of the fill-in"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Blur height at end]]>"
+msgid "Blur height at end"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
 #, kde-format
-msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
+msgid "Vertical angle to blur over at the end of the fill-in"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
@@ -8681,28 +8686,28 @@ msgstr "Aşağı sol"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
 #, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[comment]]>"
-msgstr "X oxu ətrafında döndərmək"
+#| msgid "Comment"
+msgid "comment"
+msgstr "Şərh"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, kde-format
-msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgid "<b>--Bottom--</b> Start"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
-msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
+msgid "Degrees from the horizon where we start to fill in"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
 #, kde-format
-msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
+msgid "Degrees from the horizon where we reach maximum blur"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
 #, kde-format
-msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
+msgid "Horizontal angle to blur over\tat the start of the fill-in"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
@@ -8731,9 +8736,8 @@ msgstr "Şaquli başlanğıc"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:9
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[The <b>Start</b> is half the height in degrees of the un-matted "
-"area. The <b>End</b> is the half the height in degrees where the matte is at "
-"100%.]]>"
+"The <b>Start</b> is half the height in degrees of the un-matted area. The "
+"<b>End</b> is the half the height in degrees where the matte is at 100%."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
@@ -8745,8 +8749,8 @@ msgstr "Şaquli son"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:13
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[The Start is half the height in degrees of the un-matted area. The "
-"End is the half the height in degrees where the matte is at 100%.]]>"
+"The Start is half the height in degrees of the un-matted area. The End is "
+"the half the height in degrees where the matte is at 100%."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
@@ -8759,8 +8763,8 @@ msgstr "Üfüqi başlanğıc"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:21
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The "
-"<b>End</b> is the width in degrees where the matte is at 100%.]]>"
+"The <b>Start</b> is the width in degrees of the un-matted area. The <b>End</"
+"b> is the width in degrees where the matte is at 100%."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
@@ -8798,8 +8802,8 @@ msgstr "yayınma"
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:10
 #, kde-format
 msgid ""
-"<![CDATA[The amount to rotate the image<br>\n"
-"    \t(nose moves from side to side).]]>"
+"The amount to rotate the image<br>\n"
+"    \t(nose moves from side to side)."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
@@ -8814,8 +8818,8 @@ msgstr "tanqaj"
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:15
 #, kde-format
 msgid ""
-"<![CDATA[The amount to rotate the image<br>\n"
-"    \t(nose up or down).]]>"
+"The amount to rotate the image<br>\n"
+"    \t(nose up or down)."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
@@ -8829,8 +8833,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:20
 #, kde-format
 msgid ""
-"<![CDATA[The amount to rotate the image<br>\n"
-"    \t(clockwise or anticlockwise rotation along the axis of movement).]]>"
+"The amount to rotate the image<br>\n"
+"    \t(clockwise or anticlockwise rotation along the axis of movement)."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
@@ -8842,9 +8846,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:25
 #, kde-format
 msgid ""
-"<![CDATA[The horizontal field of view, in degrees, of the resulting frame."
-"<br>\n"
-"    \tAny value over 179 results in a fisheye projection.]]>"
+"The horizontal field of view, in degrees, of the resulting frame.<br>\n"
+"    \tAny value over 179 results in a fisheye projection."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:28
@@ -8856,8 +8859,8 @@ msgstr "balıq gözü"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:30
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[The amount of fisheye to mix in.<br>\n"
-"    \t100 means that you get a 100% fisheye lens.]]>"
+"The amount of fisheye to mix in.<br>\n"
+"    \t100 means that you get a 100% fisheye lens."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
@@ -8895,7 +8898,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines the sampling method]]>"
+msgid "Determines the sampling method"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
@@ -8903,7 +8906,7 @@ msgstr "ZOlağın və bölmələrin nazikliyi."
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
 #, kde-format
-msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+msgid "Degrees from the center of the image to keep unchanged"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
@@ -8915,8 +8918,7 @@ msgstr "Kəsiyin başlanğıcı:"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
 #, kde-format
 msgid ""
-"<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
-"equator band]]>"
+"Horizontal fraction of the unchanged area to blur over in the equator band"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
@@ -8927,9 +8929,7 @@ msgstr "Bulanıqlıq növü"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
 #, kde-format
-msgid ""
-"<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
-"poles]]>"
+msgid "Horizontal fraction of the unchanged area to blur over at the poles"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
@@ -8958,9 +8958,9 @@ msgstr "Yayınmanın nizamlanması"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:20
 #, kde-format
 msgid ""
-"<![CDATA[The two fisheye cameras of a 360 camera are rarely perfectly 180 "
-"degrees apart.<br>\n"
-"    \tThese parameters adds a rotation to both lenses to correct for this.]]>"
+"The two fisheye cameras of a 360 camera are rarely perfectly 180 degrees "
+"apart.<br>\n"
+"    \tThese parameters adds a rotation to both lenses to correct for this."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:13
@@ -8983,8 +8983,8 @@ msgstr "Proyeksiya"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, kde-format
 msgid ""
-"<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
-"like the Ricoh Theta and Garmin Virb360 are supported.]]>"
+"The fisheye projection type. Currently only equidistant fisheyes, like the "
+"Ricoh Theta and Garmin Virb360 are supported."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
@@ -9000,8 +9000,8 @@ msgstr "Linzanın baxış sahəsi"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:29
 #, kde-format
 msgid ""
-"<![CDATA[The field of view of a single hemisphere in degrees, expressed as a "
-"fraction of the frame width.]]>"
+"The field of view of a single hemisphere in degrees, expressed as a fraction "
+"of the frame width."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
@@ -9013,8 +9013,7 @@ msgstr "Linzanın radiusu"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
 #, kde-format
 msgid ""
-"<![CDATA[The radius of the image circle, expressed as a fraction of the "
-"frame width.]]>"
+"The radius of the image circle, expressed as a fraction of the frame width."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
@@ -9025,9 +9024,8 @@ msgstr "X üzrə qabağa"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:38
 #, kde-format
 msgid ""
-"<![CDATA[The image center and image orientation for the front-facing camera."
-"<br>\n"
-"    \tThe X parameter is a fraction of the image width.]]>"
+"The image center and image orientation for the front-facing camera.<br>\n"
+"    \tThe X parameter is a fraction of the image width."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:41
@@ -9038,9 +9036,8 @@ msgstr "Y üzrə qabağa"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:43
 #, kde-format
 msgid ""
-"<![CDATA[The image center and image orientation for the front-facing camera."
-"<br>\n"
-"    \tThe Y parameter a fraction of the image height.]]>"
+"The image center and image orientation for the front-facing camera.<br>\n"
+"    \tThe Y parameter a fraction of the image height."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:46
@@ -9052,10 +9049,9 @@ msgstr "Yuxarı qabağa"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:48
 #, kde-format
 msgid ""
-"<![CDATA[The image center and image orientation for the front-facing camera."
-"<br>\n"
+"The image center and image orientation for the front-facing camera.<br>\n"
 "    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
-"direction towards the frame top edge.]]>"
+"direction towards the frame top edge."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
@@ -9066,9 +9062,8 @@ msgstr "X üzrə geri"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:53
 #, kde-format
 msgid ""
-"<![CDATA[The image center and image orientation for the back-facing camera."
-"<br>\n"
-"    \tThe X parameter is a fraction of the image width..]]>"
+"The image center and image orientation for the back-facing camera.<br>\n"
+"    \tThe X parameter is a fraction of the image width.."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:56
@@ -9079,9 +9074,8 @@ msgstr "Y üzrə geri"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:58
 #, kde-format
 msgid ""
-"<![CDATA[The image center and image orientation for the back-facing camera."
-"<br>\n"
-"    \tThe Y parameter a fraction of the image height.]]>"
+"The image center and image orientation for the back-facing camera.<br>\n"
+"    \tThe Y parameter a fraction of the image height."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:61
@@ -9093,10 +9087,9 @@ msgstr "Yuxarı geri"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:63
 #, kde-format
 msgid ""
-"<![CDATA[The image center and image orientation for the back-facing camera."
-"<br>\n"
+"The image center and image orientation for the back-facing camera.<br>\n"
 "    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
-"direction towards the frame top edge.]]>"
+"direction towards the frame top edge."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:66
@@ -9109,11 +9102,10 @@ msgstr "Son hədd (nadir) radiusu"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:73
 #, kde-format
 msgid ""
-"<![CDATA[360 cameras like the Theta have a problem with the nadir direction "
-"where, no matter what, you will have a little of the camera in the image."
-"<br>\n"
+"360 cameras like the Theta have a problem with the nadir direction where, no "
+"matter what, you will have a little of the camera in the image.<br>\n"
 "    \tThis parameter \"stretches\" the image near nadir to cover up the "
-"missing parts.]]>"
+"missing parts."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
@@ -9133,8 +9125,8 @@ msgstr "Təhriflərin düzəldilməsi"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:88
 #, kde-format
 msgid ""
-"<![CDATA[Lens distortion correction parameters.<br>\n"
-"    \tThe first three parameters are the same as in Hugin.]]>"
+"Lens distortion correction parameters.<br>\n"
+"    \tThe first three parameters are the same as in Hugin."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
@@ -9158,10 +9150,10 @@ msgstr "Üfüqi son"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:93
 #, kde-format
 msgid ""
-"<![CDATA[Lens distortion correction parameters.<br>\n"
+"Lens distortion correction parameters.<br>\n"
 "    \tIf you use Hugin parameters, the Radius should be set to the value of "
 "(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
-"hemispherical image, that would be 0.25.]]>"
+"hemispherical image, that would be 0.25."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
@@ -9176,9 +9168,9 @@ msgstr "Vinetkalamanın təbii effekti"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:113
 #, kde-format
 msgid ""
-"<![CDATA[Lens vignetting correction parameters.<br>\n"
+"Lens vignetting correction parameters.<br>\n"
 "    \tThe first four parameters are the same as in Hugin, corresponding to "
-"the Va, Vb, Vc and Vd image parameters.]]>"
+"the Va, Vb, Vc and Vd image parameters."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
@@ -9208,10 +9200,10 @@ msgstr "Linzanın radiusu"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:118
 #, kde-format
 msgid ""
-"<![CDATA[If you use Hugin parameters, the radius should be set to the value "
-"of (0.5 * image diagonal / image width).<br>\n"
+"If you use Hugin parameters, the radius should be set to the value of (0.5 * "
+"image diagonal / image width).<br>\n"
 "    \tFor a 2:1 aspect dual hemispherical image, that would be 0.5590. Use "
-"the A parameter to scale the effect and avoid overexposing highlights]]>"
+"the A parameter to scale the effect and avoid overexposing highlights"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
@@ -9221,7 +9213,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
 #, kde-format
-msgid "<![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]>"
+msgid "Switch on to use sensor response parameters (EMoR h(x))"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
@@ -9236,11 +9228,11 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:147
 #, kde-format
 msgid ""
-"<![CDATA[Sensor response parameters.<br>\n"
+"Sensor response parameters.<br>\n"
 "    \tThe EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens "
 "parameters. If you use Hugin-derived values for vignetting correction, you "
 "should also use these parameters, as Hugin's vignetting correction assumes "
-"that the sensor response has been corrected.]]>"
+"that the sensor response has been corrected."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
@@ -9292,10 +9284,10 @@ msgstr "VR360 Sabitləşdirmə"
 #| "rotation, and when stabilizing it tries to correct high-frequency motion "
 #| "(shake)."
 msgid ""
-"<![CDATA[Stabilizes 360 footage.<br>\n"
+"Stabilizes 360 footage.<br>\n"
 "    The plugin works in two phases - analysis and stabilization. When "
 "analyzing footage, it detects frame-to-frame rotation, and when stabilizing "
-"it tries to correct high-frequency motion (shake).]]>"
+"it tries to correct high-frequency motion (shake)."
 msgstr ""
 "360 dərəcəli görüntünü sabitləşdirir. Modul iki mərhələdə işləyir - analiz "
 "və sabitləşdirmə. Çəkilmiş görüntülərin analizi edərkən kadrın dəyişməsi "
@@ -9309,8 +9301,7 @@ msgstr "Analiz"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:10
 #, kde-format
-msgid ""
-"<![CDATA[Switch on for analysis phase; switch off for stabilization phase.]]>"
+msgid "Switch on for analysis phase; switch off for stabilization phase."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
@@ -9322,7 +9313,7 @@ msgstr "Hərəkətin analizi faylı"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Select the file to store stabilization data in]]>"
+msgid "Select the file to store stabilization data in"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
@@ -9334,11 +9325,11 @@ msgstr "Sürüşmə"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[The offset into the stabilization file that corresponds to the "
-"start of this clip.<br>\n"
+"The offset into the stabilization file that corresponds to the start of this "
+"clip.<br>\n"
 "    \tFor example, if you have a 30 second clip, analyze it all, and then "
 "split it into three clips of 10 seconds each, then the start offsets should "
-"be 0s, 10s, and 20s.]]>"
+"be 0s, 10s, and 20s."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
@@ -9349,7 +9340,7 @@ msgstr "Analiz üçün nümunə radiusu"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
-msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
+msgid "The radius of the square that the stabilizer will sample"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
@@ -9360,7 +9351,7 @@ msgstr "Analiz zamanı axtarış radiusu"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:27
 #, kde-format
-msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
+msgid "The maximum amount of motion the stabilizer will detect"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
@@ -9372,7 +9363,7 @@ msgstr "Sürüşməni analiz edir"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The distance between the track points]]>"
+msgid "The distance between the track points"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
@@ -9383,9 +9374,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:36
 #, kde-format
 msgid ""
-"<![CDATA[If set, six backwards-facing track points will also be used to "
-"detect pitch and yaw motion.<br>\n"
-"    \tDisable if, for example, you show up holding the camera there]]>"
+"If set, six backwards-facing track points will also be used to detect pitch "
+"and yaw motion.<br>\n"
+"    \tDisable if, for example, you show up holding the camera there"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
@@ -9398,9 +9389,9 @@ msgstr "Yayınma əmsalı"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:69
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[The amount of stabilization to apply.<br>\n"
+"The amount of stabilization to apply.<br>\n"
 "    \t100% means that the stabilizer will make the camera as steady as it "
-"can. Smaller values reduce the amount of stabilization.]]>"
+"can. Smaller values reduce the amount of stabilization."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
@@ -9412,8 +9403,8 @@ msgstr "Yayınma hamarlanması"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:45
 #, kde-format
 msgid ""
-"<![CDATA[The number of frames to use to smooth out the shakes. The higher "
-"the value, the slower the camera will follow any intended motion.]]>"
+"The number of frames to use to smooth out the shakes. The higher the value, "
+"the slower the camera will follow any intended motion."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
@@ -9427,13 +9418,13 @@ msgstr "Yayınma vaxtı sürüşməsi"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:79
 #, kde-format
 msgid ""
-"<![CDATA[Shift the frames used to smooth out the shakes relative to the "
-"stabilized frame.<br>\n"
+"Shift the frames used to smooth out the shakes relative to the stabilized "
+"frame.<br>\n"
 "    \tA value less than zero will give more weight to past frames, and the "
 "camera will seem to lag behind intended movement. A value greater than zero "
 "will give more weight to future frames, and the camera will appear to move "
 "ahead of the intended camera movement. A value of zero should make the "
-"camera follow the intended path.]]>"
+"camera follow the intended path."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
@@ -9445,9 +9436,9 @@ msgstr "Rəng çaları miqdarı"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[The amount of stabilization to apply. 100% means that the "
-"stabilizer will make the camera as steady as it can. Smaller values reduce "
-"the amount of stabilization.]]>"
+"The amount of stabilization to apply. 100% means that the stabilizer will "
+"make the camera as steady as it can. Smaller values reduce the amount of "
+"stabilization."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
@@ -9460,9 +9451,9 @@ msgstr "Tanqaj hamarlanması"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:74
 #, kde-format
 msgid ""
-"<![CDATA[The number of frames to use to smooth out the shakes.<br>\n"
+"The number of frames to use to smooth out the shakes.<br>\n"
 "    \tThe higher the value, the slower the camera will follow any intended "
-"motion.]]>"
+"motion."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
@@ -9508,7 +9499,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
 #, fuzzy, kde-format
 #| msgid "Make selected color transparent"
-msgid "<![CDATA[Turns the selected color into alpha making it transparent.]]>"
+msgid "Turns the selected color into alpha making it transparent."
 msgstr "Seçilmiş rəngləri şəffaflaşdırmaq"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:14
@@ -9788,8 +9779,8 @@ msgstr "K-Orta qruplaşma"
 #, fuzzy, kde-format
 #| msgid "Clusters of a source image by color and spatial distance"
 msgid ""
-"<![CDATA[<b>Abandoned due to heavy CPU workload.</b><br>\n"
-"    Clusters of a source image by color and spatial distance]]>"
+"<b>Abandoned due to heavy CPU workload.</b><br>\n"
+"    Clusters of a source image by color and spatial distance"
 msgstr "Orijinal şəklin boşluq məsafəsinə və rənginə görə qruplaşması"
 
 #: data/effects/frei0r/frei0r_cluster.xml:9
@@ -10117,23 +10108,23 @@ msgstr "Doldurma,Mərkəzləşmə,Yerləşmə,Əl ilə"
 #: data/effects/frei0r/frei0r_defish0r.xml:23
 #, kde-format
 msgid ""
-"<![CDATA[Straighten all Edges<br>\n"
-"        of Video Frame]]>"
+"Straighten all Edges<br>\n"
+"        of Video Frame"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
 #, kde-format
 msgid ""
-"<![CDATA[Fix Camera Scaling<br>\n"
-"        Between 4:3 and 16:9]]>"
+"Fix Camera Scaling<br>\n"
+"        Between 4:3 and 16:9"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
 #, fuzzy, kde-format
 #| msgid "Keep aspect ratio"
 msgid ""
-"<![CDATA[Scale Y to Affect<br>\n"
-"        Aspect Ratio]]>"
+"Scale Y to Affect<br>\n"
+"        Aspect Ratio"
 msgstr "Tərəflərin nisbəti saxlanılsın"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:34
@@ -10196,7 +10187,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
 #, fuzzy, kde-format
 #| msgid "High quality 3D denoiser"
-msgid "<![CDATA[High quality 3D denoiser]]>"
+msgid "High quality 3D denoiser"
 msgstr "Yüksən keyfiyyətli, 3D küy boğucu"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
@@ -10307,16 +10298,16 @@ msgstr "Kənarların parlaması astanası"
 #, fuzzy, kde-format
 #| msgid "Edge brightness upscaling multiplier"
 msgid ""
-"<![CDATA[Edge brightness<br>\n"
-"        upscaling multiplier]]>"
+"Edge brightness<br>\n"
+"        upscaling multiplier"
 msgstr "Kənarların parlaqlığının artması əmsalı"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:16
 #, fuzzy, kde-format
 #| msgid "Non-edge brightness downscaling multiplier"
 msgid ""
-"<![CDATA[Non-edge brightness<br>\n"
-"        downscaling multiplier]]>"
+"Non-edge brightness<br>\n"
+"        downscaling multiplier"
 msgstr "Fonun parlaqlığının azalması əmsalı"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
@@ -10342,8 +10333,8 @@ msgstr "Mərkəz"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:10
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Horizontal center position<br>\n"
-"        of the linear area (% of total width)]]>"
+"Horizontal center position<br>\n"
+"        of the linear area (% of total width)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:13
@@ -10355,7 +10346,7 @@ msgstr "Çevrəsinin eni"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Width of the linear area]]>"
+msgid "Width of the linear area"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
@@ -10367,7 +10358,7 @@ msgstr "Bulanıqlıq əmsalı"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Amount how much the linear area is scaled]]>"
+msgid "Amount how much the linear area is scaled"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
@@ -10379,8 +10370,8 @@ msgstr "Xətti olmayan miqyas"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:23
 #, kde-format
 msgid ""
-"<![CDATA[Amount how much the<br>\n"
-"        outer left and outer right areas are scaled non linearly]]>"
+"Amount how much the<br>\n"
+"        outer left and outer right areas are scaled non linearly"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
@@ -10402,8 +10393,8 @@ msgstr "İşıqlanmanın istiqaməti"
 #: data/effects/frei0r/frei0r_emboss.xml:11
 #, kde-format
 msgid ""
-"<![CDATA[The direction of the<br>\n"
-"            embossing (practically simulating a light source)]]>"
+"The direction of the<br>\n"
+"            embossing (practically simulating a light source)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
@@ -10414,9 +10405,8 @@ msgstr "Arxa fon parlaqlığı"
 #: data/effects/frei0r/frei0r_emboss.xml:16
 #, kde-format
 msgid ""
-"<![CDATA[Defines the lightness/brightness of the areas that are not embossed."
-"<br>\n"
-"            Range is 0 to 90.]]>"
+"Defines the lightness/brightness of the areas that are not embossed.<br>\n"
+"            Range is 0 to 90."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_emboss.xml:19
@@ -10427,9 +10417,9 @@ msgstr "Relyefin hündürlüyü"
 #: data/effects/frei0r/frei0r_emboss.xml:21
 #, kde-format
 msgid ""
-"<![CDATA[Defines the thickness of the edges increasing/decreasing the "
-"perceived depth of the embossed areas.<br>\n"
-"            Range is 0 to 40.]]>"
+"Defines the thickness of the edges increasing/decreasing the perceived depth "
+"of the embossed areas.<br>\n"
+"            Range is 0 to 40."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
@@ -10660,7 +10650,7 @@ msgstr "Rəng çaları miqdarı"
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The intensity of the grain]]>"
+msgid "The intensity of the grain"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
@@ -10672,7 +10662,7 @@ msgstr "Mərkəz tarazlığı"
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+msgid "The percentage of grain applied to the red channel"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
@@ -10684,7 +10674,7 @@ msgstr "Yaşıl çalar"
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+msgid "The percentage of grain applied to the green channel"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
@@ -10696,7 +10686,7 @@ msgstr "Balans"
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+msgid "The percentage of grain applied to the blue channel"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
@@ -10708,7 +10698,7 @@ msgstr "Qarışma əmsalı"
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The intensity of the blur]]>"
+msgid "The intensity of the blur"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
@@ -10720,7 +10710,7 @@ msgstr "Rəng çaları miqdarı"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The amount of dust particles added to the image]]>"
+msgid "The amount of dust particles added to the image"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
@@ -10731,7 +10721,7 @@ msgstr "Qarışma əmsalı"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
-msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+msgid "The amount of variation in brightness between frames"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
@@ -10785,8 +10775,7 @@ msgstr "Mülayimlik"
 #: data/effects/frei0r/frei0r_gateweave.xml:9
 #, kde-format
 msgid ""
-"<![CDATA[Factor used to blend between positions. A lower number means a "
-"faster effect]]>"
+"Factor used to blend between positions. A lower number means a faster effect"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_gateweave.xml:12
@@ -10798,7 +10787,7 @@ msgstr "Üfüqi düzləndirmə"
 #: data/effects/frei0r/frei0r_gateweave.xml:13
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The maximum distance the picture could move left or right]]>"
+msgid "The maximum distance the picture could move left or right"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
@@ -10810,7 +10799,7 @@ msgstr "Makimal diametr"
 #: data/effects/frei0r/frei0r_gateweave.xml:17
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+msgid "The maximum distance the picture could move up or down"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
@@ -10863,8 +10852,8 @@ msgstr "Alfa fiqurlar (Maska)"
 #: data/effects/frei0r/frei0r_hqdn3d.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
-"    High quality 3D denoiser]]>"
+"<b>Replaced by frei0r.denoise_hqdn3d</b><br>\n"
+"    High quality 3D denoiser"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
@@ -10958,8 +10947,8 @@ msgstr "Dirçəliş"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
 #, kde-format
 msgid ""
-"<![CDATA[Kaleidoscope segmentation / 128;<br>\n"
-"        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
+"Kaleidoscope segmentation / 128;<br>\n"
+"        segmentations of 1, 2, or multiples of 4 work best. Default is 16"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
@@ -10971,9 +10960,9 @@ msgstr "Mənbənin vaxtı"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
 msgid ""
-"<![CDATA[If checked, the source angle<br>\n"
+"If checked, the source angle<br>\n"
 "        is read from the <em>source segment</em>, otherwise it is auto "
-"calculated]]>"
+"calculated"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
@@ -10985,9 +10974,9 @@ msgstr "Mənbənin vaxtı"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
 msgid ""
-"<![CDATA[Center of the source segment. Only used if <em>Specify Source "
-"Segment</em> is checked.<br>\n"
-"        0 is in +x and rotates counter clockwise.]]>"
+"Center of the source segment. Only used if <em>Specify Source Segment</em> "
+"is checked.<br>\n"
+"        0 is in +x and rotates counter clockwise."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
@@ -11017,9 +11006,9 @@ msgstr "Seçilmiş elementlər"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
 #, kde-format
 msgid ""
-"<![CDATA[If checked, reflections that end up outside the source reflect back "
-"into it.<br>\n"
-"        Otherwise the specified background color is used.]]>"
+"If checked, reflections that end up outside the source reflect back into it."
+"<br>\n"
+"        Otherwise the specified background color is used."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
@@ -11031,8 +11020,8 @@ msgstr "Həddi dəyişin"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:43
 #, kde-format
 msgid ""
-"<![CDATA[Edge threshold / 4, reflections <br>\n"
-"        outside the image but within this distance clamp to the edge.]]>"
+"Edge threshold / 4, reflections <br>\n"
+"        outside the image but within this distance clamp to the edge."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
@@ -11043,8 +11032,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:48
 #, kde-format
 msgid ""
-"<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
-"        this parameter defines the preferred corner.]]>"
+"If <em>Reflect Edges</em> is not checked, <br>\n"
+"        this parameter defines the preferred corner."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
@@ -11062,15 +11051,15 @@ msgstr "Konteynerdə axtarın"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:54
 #, kde-format
 msgid ""
-"<![CDATA[If checked, search clockwise for furthest corner.<br>\n"
-"        Otherwise search counter clockwise.]]>"
+"If checked, search clockwise for furthest corner.<br>\n"
+"        Otherwise search counter clockwise."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:59
 #, kde-format
 msgid ""
-"<![CDATA[Color to use if reflection<br>\n"
-"        lies outside of the source image and not reflecting back in.]]>"
+"Color to use if reflection<br>\n"
+"        lies outside of the source image and not reflecting back in."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
@@ -11082,9 +11071,9 @@ msgstr "Arxa fon qeyri-şəffaflığı"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:64
 #, kde-format
 msgid ""
-"<![CDATA[If checked, the selected<br>\n"
+"If checked, the selected<br>\n"
 "        color will be used, if reflection lies outside of the source image "
-"and not reflecting back in.]]>"
+"and not reflecting back in."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
@@ -11240,9 +11229,9 @@ msgstr "Çərçivənin eni"
 #: data/effects/frei0r/frei0r_letterb0xed.xml:10
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Specify the width of the border<br>\n"
+"Specify the width of the border<br>\n"
 "        as % of half the vertical resolution (100% means both the top and "
-"bottom half of the frame are black, i.e. there is no room for the picture)]]>"
+"bottom half of the frame are black, i.e. there is no room for the picture)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:13
@@ -11311,29 +11300,29 @@ msgstr "Histoqram səviyyəsi"
 #: data/effects/frei0r/frei0r_levels.xml:84
 #, kde-format
 msgid ""
-"<![CDATA[Moves the black point to the right: all pixels with that value or "
-"less will be black.<br>\n"
+"Moves the black point to the right: all pixels with that value or less will "
+"be black.<br>\n"
 "                This makes the dark areas even darker, influences the mid-"
-"tones a little and the highlights not at all. Increases contrast.]]>"
+"tones a little and the highlights not at all. Increases contrast."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_levels.xml:89
 #, kde-format
 msgid ""
-"<![CDATA[Moves the white point to the left: all pixels with that value or "
-"higher will be white.<br>\n"
+"Moves the white point to the left: all pixels with that value or higher will "
+"be white.<br>\n"
 "                This makes bright areas even brighter, influences the mid-"
-"tones a little and the dark areas not at all. Increases contrast.]]>"
+"tones a little and the dark areas not at all. Increases contrast."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_levels.xml:94
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Changes the overall brightness of the image.<br>\n"
+"Changes the overall brightness of the image.<br>\n"
 "                Affects only the mid-tones, black and white are not "
 "influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
 "the bar to the left) make the image darker, higher values (moving the bar to "
-"the right) make it brighter.]]>"
+"the right) make it brighter."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_levels.xml:98
@@ -11390,12 +11379,12 @@ msgstr "Parlaqlıq həddi"
 #| "a lot compared to the background, are incorrectly recognized as light "
 #| "source.]]>"
 msgid ""
-"<![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to "
-"be recognized as a light source?<br/>\n"
+"How bright (<code>R+G+B</code>) does a pixel need to be in order to be "
+"recognized as a light source?<br/>\n"
 "            Increasing this threshold requires brighter light sources (i.e. "
 "more white or less color, respectively) but prevents some «false alarms» "
 "where semi-bright parts, e.g. hands where colors can change quite a lot "
-"compared to the background, are incorrectly recognized as light source.]]>"
+"compared to the background, are incorrectly recognized as light source."
 msgstr ""
 "<![CDATA[Bir işıq mənbəyi kimi qəbul ediləcək piksel nə nə qədər parlaq "
 "(<code>R+G+B</code>) olmlıdır?<br/>\n"
@@ -11422,12 +11411,12 @@ msgstr "Fərq həddi"
 #| "to be accepted on bright backgrounds, but decreases the danger of noise "
 #| "or generally bright spots counting as light source.]]>"
 msgid ""
-"<![CDATA[How much does the strongest color channel of a pixel have to "
-"change, compared to the background image (<code>max(dR, dG, dB)</code>), in "
-"order to be recognized as light source? <br/>\n"
+"How much does the strongest color channel of a pixel have to change, "
+"compared to the background image (<code>max(dR, dG, dB)</code>), in order to "
+"be recognized as light source? <br/>\n"
 "            Increasing this threshold makes it harder for light sources to "
 "be accepted on bright backgrounds, but decreases the danger of noise or "
-"generally bright spots counting as light source.]]>"
+"generally bright spots counting as light source."
 msgstr ""
 "<![CDATA[Arxa plan şəkili ilə müqayisə edildiyində bir pikdelin işıq mənbəyi "
 "olaraq qəbul edilməsi üçün ən güclü rəng kanalın (<code>max(dR, dG, dB)</"
@@ -11452,11 +11441,11 @@ msgstr "Fərq cəmi həddi"
 #| "            Raising this value might, in some cases, avoid that some "
 #| "light objects lit by the light source are added to the light mask.]]>"
 msgid ""
-"<![CDATA[How much does the sum of all color channels <em>relative to the "
-"background image</em> (<code>dR + dG + dB</code>) have to change until a "
-"pixel is recognized as a light source?<br/>\n"
+"How much does the sum of all color channels <em>relative to the background "
+"image</em> (<code>dR + dG + dB</code>) have to change until a pixel is "
+"recognized as a light source?<br/>\n"
 "            Raising this value might, in some cases, avoid that some light "
-"objects lit by the light source are added to the light mask.]]>"
+"objects lit by the light source are added to the light mask."
 msgstr ""
 "<![CDATA[Piksel işıq mənbəyi mənbəyi olaraq qəbul edilənədık <em>arxa fon "
 "şəkli ilə əlaqəli</em> (<code>dR + dG + dB</code>) bütün rəng kanallarının "
@@ -11479,9 +11468,9 @@ msgstr "Həsaslıq"
 #| "            For slowly moving light source try to use a lower sensitivity "
 #| "to obtain a better exposure.]]>"
 msgid ""
-"<![CDATA[Light sensitivity.<br/>\n"
+"Light sensitivity.<br/>\n"
 "            For slowly moving light source try to use a lower sensitivity to "
-"obtain a better exposure.]]>"
+"obtain a better exposure."
 msgstr ""
 "<![CDATA[İşığa həssaslıq.<br/>\n"
 "            Daha yaxşı ekspozisiya əldə etmək üçün, yavaş hərəkət edən işıq "
@@ -11501,9 +11490,9 @@ msgstr "Həddən artıq ekspozisiyanı azlatmaq"
 #| "            The light mask does not get white immediately when the light "
 #| "source is moving slowly or staying steady.]]>"
 msgid ""
-"<![CDATA[Lowers overexposure.<br/>\n"
+"Lowers overexposure.<br/>\n"
 "            The light mask does not get white immediately when the light "
-"source is moving slowly or staying steady.]]>"
+"source is moving slowly or staying steady."
 msgstr ""
 "<![CDATA[Həddən artıq ekspozisiyanı azaldır.<br/>\n"
 "            Əgər işıq mənbəyi yavaş hərəkət edirsə və ya tərpənməz qalırsa, "
@@ -11562,12 +11551,11 @@ msgstr "α"
 #| "painter outside of the video. If the background constantly changes, e.g. "
 #| "on a street, try to set α > 0 to calculate an average background image.]]>"
 msgid ""
-"<![CDATA[Determines how the effect tries to adapt to background changes. <br/"
-">\n"
+"Determines how the effect tries to adapt to background changes. <br/>\n"
 "            The Light Graffiti effect remembers the first frame of the clip "
 "it is applied to, so the clip should <em>always</em> start with the painter "
 "outside of the video. If the background constantly changes, e.g. on a "
-"street, try to set α > 0 to calculate an average background image.]]>"
+"street, try to set α > 0 to calculate an average background image."
 msgstr ""
 "<![CDATA[Effektin arxa fon dəyişikliyinə uyğunlaşmasını aşkar edir. <br/>\n"
 "İşıq qrafiti effekti tətbiq edilən klipin ilk kadrını yaddaşda saxlayır və "
@@ -11598,12 +11586,12 @@ msgstr "Parlaqlıq statistikalarını göstərmək"
 #| "Repeat the same with the other parameters. Only parts that are "
 #| "highlighted in <em>all</em> thresholds will count as light source.]]>"
 msgid ""
-"<![CDATA[The stats switches allow easy and accurate adjustment of the "
-"threshold parameters.<br/>\n"
+"The stats switches allow easy and accurate adjustment of the threshold "
+"parameters.<br/>\n"
 "            Example: To adjust the brightness threshold, check this box and "
 "adjust the threshold until the whole light source is highlighted. Repeat the "
 "same with the other parameters. Only parts that are highlighted in <em>all</"
-"em> thresholds will count as light source.]]>"
+"em> thresholds will count as light source."
 msgstr ""
 "<![CDATA[Statistik parametrlər tənzimləyicisi, hədd dəyərlərini sadə və "
 "dəqiq üsul ilə tənzimləməyə imkan verir.<br/>\n"
@@ -11649,8 +11637,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:591
-#: src/dialogs/Splash.qml:957 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:595
+#: src/dialogs/Splash.qml:961 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -11806,7 +11794,7 @@ msgstr "X-mövqe"
 #: data/effects/frei0r/frei0r_pr0file.xml:10
 #, fuzzy, kde-format
 #| msgid "Create  new profile"
-msgid "<![CDATA[X coordinate of the profile]]>"
+msgid "X coordinate of the profile"
 msgstr "Yeni profil  yaradın"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:12
@@ -11820,7 +11808,7 @@ msgstr "Y-mövqe"
 #: data/effects/frei0r/frei0r_pr0file.xml:14
 #, fuzzy, kde-format
 #| msgid "Create  new profile"
-msgid "<![CDATA[Y coordinate of the profile]]>"
+msgid "Y coordinate of the profile"
 msgstr "Yeni profil  yaradın"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
@@ -11834,7 +11822,7 @@ msgstr "Profil"
 #: data/effects/frei0r/frei0r_pr0file.xml:18
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Tilting of the profile]]>"
+msgid "Tilting of the profile"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
@@ -11848,13 +11836,13 @@ msgstr "Profilin adı"
 #: data/effects/frei0r/frei0r_pr0file.xml:22
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "Length of the profile in pixel"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:25
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
-msgid "<![CDATA[Channel to numerically display]]>"
+msgid "Channel to numerically display"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
@@ -11874,7 +11862,7 @@ msgstr "Marker 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:31
 #, fuzzy, kde-format
 #| msgid "Position: %1"
-msgid "<![CDATA[Position of marker 1]]>"
+msgid "Position of marker 1"
 msgstr "Mövqe: %1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
@@ -11887,7 +11875,7 @@ msgstr "Marker 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:35
 #, fuzzy, kde-format
 #| msgid "Position X"
-msgid "<![CDATA[Position of marker 2]]>"
+msgid "Position of marker 2"
 msgstr "X mövqeyi"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
@@ -11899,9 +11887,10 @@ msgstr "R izi"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:38
 #: data/effects/frei0r/frei0r_pr0file.xml:39
-#, kde-format
-msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "Show R trace (red) on scope"
+msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:41
 #: data/effects/frei0r/frei0r_pr0file.xml:42
@@ -11913,7 +11902,7 @@ msgstr "G izi"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:42
 #: data/effects/frei0r/frei0r_pr0file.xml:43
 #, kde-format
-msgid "<![CDATA[Show G trace (green) on scope]]>"
+msgid "Show G trace (green) on scope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:45
@@ -11926,7 +11915,7 @@ msgstr "B izi"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:46
 #: data/effects/frei0r/frei0r_pr0file.xml:47
 #, kde-format
-msgid "<![CDATA[Show B trace (blue) on scope]]>"
+msgid "Show B trace (blue) on scope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:49
@@ -11939,7 +11928,7 @@ msgstr "Y izi"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:50
 #: data/effects/frei0r/frei0r_pr0file.xml:51
 #, kde-format
-msgid "<![CDATA[Show Y trace (luma) on scope]]>"
+msgid "Show Y trace (luma) on scope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:53
@@ -11952,7 +11941,7 @@ msgstr "Pr izi"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:54
 #: data/effects/frei0r/frei0r_pr0file.xml:55
 #, kde-format
-msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
+msgid "Show Pr trace (red-difference) on scope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
@@ -11965,7 +11954,7 @@ msgstr "Pb izi"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:58
 #: data/effects/frei0r/frei0r_pr0file.xml:59
 #, kde-format
-msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
+msgid "Show Pb trace (blue_difference) on scope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
@@ -11977,9 +11966,10 @@ msgstr "Alfa-kanal izi"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:62
 #: data/effects/frei0r/frei0r_pr0file.xml:63
-#, kde-format
-msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "Show Alpha trace on scope"
+msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:65
 #: data/effects/frei0r/frei0r_pr0file.xml:66
@@ -11991,7 +11981,7 @@ msgstr "Orta dəyəri göstərmək"
 #: data/effects/frei0r/frei0r_pr0file.xml:67
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Show average on scope]]>"
+msgid "Show average on scope"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:69
@@ -12003,7 +11993,7 @@ msgstr "Kök orta kvadrat dəyərini göstərmək"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:70
 #: data/effects/frei0r/frei0r_pr0file.xml:71
 #, kde-format
-msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
+msgid "Show RMS (root mean square) on scope"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
@@ -12017,7 +12007,7 @@ msgstr "Minimum dəyəri göstərmək"
 #: data/effects/frei0r/frei0r_pr0file.xml:75
 #, fuzzy, kde-format
 #| msgid "Show maximum"
-msgid "<![CDATA[Show minimum on scope]]>"
+msgid "Show minimum on scope"
 msgstr "Maksimumu göztərmək"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:77
@@ -12031,13 +12021,13 @@ msgstr "Maksimum dəyəri göstərmək"
 #: data/effects/frei0r/frei0r_pr0file.xml:79
 #, fuzzy, kde-format
 #| msgid "Show maximum"
-msgid "<![CDATA[Show maximum on scope]]>"
+msgid "Show maximum on scope"
 msgstr "Maksimumu göztərmək"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
 #, kde-format
-msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
+msgid "Use a scale of 0-255 instead of 0.0-1.0"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
@@ -12050,7 +12040,7 @@ msgstr "PCM kodlaması"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
-msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+msgid "Select between interlaced (601) or progressive (709)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
@@ -12069,7 +12059,7 @@ msgstr "Nişangah rəngi"
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:91
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
-msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgid "Choose a color for the crosshair/profile line"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_medians.xml:4
@@ -12267,8 +12257,8 @@ msgstr "Makroblok hündürlüyü"
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
-"minimum block height.]]>"
+"If <em>Block height</em> is 0 (random), <br>this determines the minimum "
+"block height."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
@@ -12280,8 +12270,8 @@ msgstr "Makroblok hündürlüyü"
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
 #, kde-format
 msgid ""
-"<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
-"maximum block height.]]>"
+"If <em>Block height</em> is 0 (random), <br>this determines the maximum "
+"block height."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
@@ -12310,8 +12300,8 @@ msgstr "Video dəyərləri"
 #: data/effects/frei0r/frei0r_pr0be.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[Measure video values.<br>\n"
-"    This effect has been superseded by <em>frei0r.measure_pr0be</em>]]>"
+"Measure video values.<br>\n"
+"    This effect has been superseded by <em>frei0r.measure_pr0be</em>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
@@ -12323,8 +12313,8 @@ msgstr "Osiloqraf"
 #: data/effects/frei0r/frei0r_pr0file.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[2D video oscilloscope.<br>\n"
-"    This effect has been superseded by <em>frei0r.measure_pr0file</em>]]>"
+"2D video oscilloscope.<br>\n"
+"    This effect has been superseded by <em>frei0r.measure_pr0file</em>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
@@ -12347,7 +12337,7 @@ msgstr "Əmsal"
 #: data/effects/frei0r/frei0r_primaries.xml:9
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgid "<![CDATA[Influence of mean pixel value]]>"
+msgid "Influence of mean pixel value"
 msgstr "<![CDATA[Orta puksel dəyərinin təsiri > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
@@ -12415,7 +12405,7 @@ msgstr "Üfüqi yayılma məsafəsi"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
-msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
+msgid "Values < 0.500 move right, values > 0.500 move left."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
@@ -12426,7 +12416,7 @@ msgstr "Şaquli yayılma məsafəsi"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
-msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
+msgid "Values < 0.5002 move down, values > 0.500 move up."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
@@ -12737,11 +12727,10 @@ msgstr "Yamac qırmızısı"
 #| "                All effects can be observed well when applied on a "
 #| "greyscale gradient and looking at the RGB Parade monitor.]]>"
 msgid ""
-"<![CDATA[Changing the slope means multiplying the pixel value with a "
-"constant value. Black pixels will remain black, whileas brighter ones will "
-"be changed.<br/>\n"
+"Changing the slope means multiplying the pixel value with a constant value. "
+"Black pixels will remain black, whileas brighter ones will be changed.<br/>\n"
 "                All effects can be observed well when applied on a greyscale "
-"gradient and looking at the RGB Parade monitor.]]>"
+"gradient and looking at the RGB Parade monitor."
 msgstr ""
 "<![CDATA[Kanalın yamacının dəyişdirilməsi - piksel dəyəri ilə sabit bir "
 "dəyərin hasili deməkdir. Qara piksellər, qara qalır, halbuki ağ piksellər "
@@ -12816,10 +12805,10 @@ msgstr "Qırmızı kanalın gücü"
 #| "                Mathematically, what happens is an exponentiation of the "
 #| "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgid ""
-"<![CDATA[Changes the Gamma value for the selected channel. Black and white "
-"pixel values will not be affected, but everything between.<br/>\n"
+"Changes the Gamma value for the selected channel. Black and white pixel "
+"values will not be affected, but everything between.<br/>\n"
 "                Mathematically, what happens is an exponentiation of the "
-"pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
+"pixel brightness on <code>[0,1]</code> by the gamma value."
 msgstr ""
 "<![CDATA[Seçilmiş kanalın qamma dəyərini dəyişir. Qara və ağ piksellərin "
 "dəyərləri dəyişmir.<br/>\n"
@@ -13152,12 +13141,12 @@ msgstr "Saniyələrlə vaxt sürüşməsi"
 #: data/effects/gpsgraphic.xml:14
 #, kde-format
 msgid ""
-"<![CDATA[An offset (in seconds) to be added to the video file to match it to "
-"the GPS track.<br>\n"
+"An offset (in seconds) to be added to the video file to match it to the GPS "
+"track.<br>\n"
 "    \tMost of the time this will at least need to be set to the timezone "
 "difference between the 2 files plus some seconds if the video recording "
 "device isn't precisely set to correct time. GPS time is always exact and in "
-"UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
+"UTC. Use positive values if GPS is ahead of video and negative otherwise."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
@@ -13168,11 +13157,10 @@ msgstr "Hamarlanma səviyyəsi"
 #: data/effects/gpsgraphic.xml:19
 #, kde-format
 msgid ""
-"<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
-"<br>\n"
+"How many GPS points to smooth in order to eliminate GPS errors.<br>\n"
 "    \tA value of 1 does not smooth locations, it only calculates the extra "
 "fields (speed, distance, etc), it also interpolates missing values for heart "
-"rate and altitude.]]>"
+"rate and altitude."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:22
@@ -13184,10 +13172,9 @@ msgstr "Bir neçə marker əlavə edin"
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
 msgid ""
-"<![CDATA[If the video file is a timelapse (or slow motion), use this value "
-"to set the speed up/slow down ratio.<br>\n"
-"        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-"footage.]]>"
+"If the video file is a timelapse (or slow motion), use this value to set the "
+"speed up/slow down ratio.<br>\n"
+"        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:27
@@ -13208,9 +13195,9 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:40
 #, kde-format
 msgid ""
-"<![CDATA[<b>Speedometer</b> is available for all data sources but "
-"recommended only for speed; for the map type it represents the \"percentage "
-"done\" from trimmed start - end).<br>\n"
+"<b>Speedometer</b> is available for all data sources but recommended only "
+"for speed; for the map type it represents the \"percentage done\" from "
+"trimmed start - end).<br>\n"
 "Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
 "* crop values are only valid as a percentage and only the bottom (resp left) "
 "values\n"
@@ -13221,7 +13208,7 @@ msgid ""
 "horizontal axis\n"
 "(time), vertical axis crop will behave just like for the basic 2D map line "
 "(it will statically keep\n"
-"the same min/max limit allowing the Now dot to move up and down).]]>"
+"the same min/max limit allowing the Now dot to move up and down)."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:41
@@ -13239,11 +13226,10 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Trim data from the start of the GPS file (as a percentage of "
-"total). <br>\n"
+"Trim data from the start of the GPS file (as a percentage of total). <br>\n"
 "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
 "the total file, so trimming 50% start and 50% end will result in trimming "
-"the entire file.]]>"
+"the entire file."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:49
@@ -13254,11 +13240,10 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Trim data from the end of the gps file (as a percentage of total). "
-"<br>\n"
+"Trim data from the end of the gps file (as a percentage of total). <br>\n"
 "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
 "the total file, so trimming 50% start and 50% end will result in trimming "
-"the entire file.]]>"
+"the entire file."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:54
@@ -13270,12 +13255,12 @@ msgstr "Üfüqi mərkəzləşdirmə"
 #: data/effects/gpsgraphic.xml:57
 #, kde-format
 msgid ""
-"<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</"
-"em> values.<br>\n"
+"Decides how to interpret the <em>Crop left</em> and <em>Crop right</em> "
+"values.<br>\n"
 "    \tNote: for the horizontal type, absolute values are the longitude (for "
 "the location\n"
 "source type) and time (in milliseconds since epoch) for the rest of the data "
-"source types)]]>"
+"source types)"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:58 data/effects/gpsgraphic.xml:78
@@ -13291,15 +13276,14 @@ msgstr "Sola kəsmək"
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Crops data from the left side of the graph (effectively zooming "
-"in). <br>\n"
+"Crops data from the left side of the graph (effectively zooming in). <br>\n"
 "    \tThe value is interpreted either as a percentage of total or an "
 "absolute value depending on crop_mode_h. In percentage mode, the values are "
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 left will add an extra half of the total horizontal distance). Values "
 "over 100 (in % mode) will effectively not display anything. If <em>Graph "
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
-"ignored.]]>"
+"ignored."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:66
@@ -13310,9 +13294,9 @@ msgstr "Sağa kəsmək"
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
 msgid ""
-"<![CDATA[Same as <em>Crop left</em> but for the right side, and percentage "
-"type is interpreted as an inverse percentage (ie: 100 = do not crop "
-"anything). Values under 0 will effectively not display anything.]]>"
+"Same as <em>Crop left</em> but for the right side, and percentage type is "
+"interpreted as an inverse percentage (ie: 100 = do not crop anything). "
+"Values under 0 will effectively not display anything."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:70
@@ -13324,8 +13308,8 @@ msgstr "Şaquli mərkəzləşdirmə"
 #: data/effects/gpsgraphic.xml:77
 #, kde-format
 msgid ""
-"<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</"
-"em> values.<br/>\n"
+"Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</em> "
+"values.<br/>\n"
 "    \tWith an absolute value, it can zoom in to between 100 and 150m of "
 "altitude to show\n"
 "small changes in altitude between those 2 values better.<br/>\n"
@@ -13335,7 +13319,7 @@ msgid ""
 "the <em>Legend unit</em>\n"
 "type where applicable (ie: a value of 10 for altitude will be considered "
 "meters by default\n"
-"but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
+"but if changing <em>Legend unit</em> to feet it will mean 10 feet)."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
@@ -13347,15 +13331,14 @@ msgstr "Aşağı kəsmək"
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Crops data from the bottom side of the graph (effectively zooming "
-"in). <br>\n"
+"Crops data from the bottom side of the graph (effectively zooming in). <br>\n"
 "    \tThe value is interpreted either as a percentage of total or an "
 "absolute value depending on crop_mode_v. In percentage mode the values are "
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 bot will add an extra half of the total vertical distance to the "
 "bottom). Values over 100 (in % mode) will effectively not display anything. "
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
-"needle position which will clamp all values that are lower.]]>"
+"needle position which will clamp all values that are lower."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
@@ -13367,10 +13350,9 @@ msgstr "Sola kəsmək"
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
 msgid ""
-"<![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage "
-"type is interpreted as an inverse percentage (ie: 100 = do not crop "
-"anything).<br>\n"
-"    \tValues under 0 will effectively not display anything.]]>"
+"Same as <em>Crop bottom</em> but for the top side, and percentage type is "
+"interpreted as an inverse percentage (ie: 100 = do not crop anything).<br>\n"
+"    \tValues under 0 will effectively not display anything."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:91
@@ -13427,9 +13409,9 @@ msgstr "Üslub seçimləri göstərilsin"
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
 msgid ""
-"<![CDATA[Enable it to draw a disc at the current location/time over the "
-"graph line.<br>\n"
-"    \tIf graph type is speedometer, this affects the needle.]]>"
+"Enable it to draw a disc at the current location/time over the graph line."
+"<br>\n"
+"    \tIf graph type is speedometer, this affects the needle."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
@@ -13453,11 +13435,11 @@ msgstr "Nitqdən-Mətnə"
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
 msgid ""
-"<![CDATA[Enable it to draw the current value in big white bold letters on "
-"the bottom right side of the rect.<br>\n"
+"Enable it to draw the current value in big white bold letters on the bottom "
+"right side of the rect.<br>\n"
 "    \tThe <em>Legend unit</em> value will be appended at the end and it will "
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
-"\" is found anywhere in the <em>Legend unit</em> string).]]>"
+"\" is found anywhere in the <em>Legend unit</em> string)."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:131
@@ -13488,13 +13470,12 @@ msgstr "Tor göstərilsin"
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
-"<br>\n"
+"If enabled it will draw 5 horizontal (and vertical for map type) <br>\n"
 "    \tlines with small values each corresponding to the current data source "
 "value at 0%, 25%, 50%, 75% and 100% of current graph shown, affected by the "
 "<em>Legend unit</em> type if applicable, and with the string appended to the "
 "value. For speedometer type this shows division values (but without "
-"appending unit).]]>"
+"appending unit)."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:143
@@ -13505,10 +13486,10 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:145
 #, kde-format
 msgid ""
-"<![CDATA[Sets the unit to be used for displaying values of type altitude and "
-"speed.<br>\n"
+"Sets the unit to be used for displaying values of type altitude and speed."
+"<br>\n"
 "        Default is meters and km/h respectively. The unit is matched "
-"anywhere in the string so extra spaces can be used to tweak displaying.]]>"
+"anywhere in the string so extra spaces can be used to tweak displaying."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:146
@@ -13528,12 +13509,12 @@ msgstr "Yalnız keçidləri göstərmək"
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
 msgid ""
-"<![CDATA[If enabled, the graph will be drawn using individual dots instead "
-"of lines.<br>\n"
+"If enabled, the graph will be drawn using individual dots instead of lines."
+"<br>\n"
 "    \tThis will effectively show the individual data points as affected by "
 "smoothing (ie: for location data it will display each GPS fix if smoothing "
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
-"debug unexpected line jumps.]]>"
+"debug unexpected line jumps."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
@@ -13545,9 +13526,9 @@ msgstr "Düzbucaqlı"
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Defines the rectangle that the graph should be drawn in.<br>\n"
+"Defines the rectangle that the graph should be drawn in.<br>\n"
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
-"unless they have the suffix '%'.]]>"
+"unless they have the suffix '%'."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
@@ -13559,10 +13540,10 @@ msgstr "Arxa plan qeyri-şəffaflığı"
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
 msgid ""
-"<![CDATA[If a valid image file is selected, it will be used as a background "
-"for the rectangle area.<br>\n"
+"If a valid image file is selected, it will be used as a background for the "
+"rectangle area.<br>\n"
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
-"image to add context to the GPS track.]]>"
+"image to add context to the GPS track."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
@@ -13574,10 +13555,10 @@ msgstr "Arxa fon"
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
 msgid ""
-"<![CDATA[Scale the background image (relative to center) to match it to the "
-"above GPS track.<br>\n"
+"Scale the background image (relative to center) to match it to the above GPS "
+"track.<br>\n"
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
-"zoom out. 0 hides it.]]>"
+"zoom out. 0 hides it."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
@@ -13588,7 +13569,7 @@ msgstr "Fon qeyri-şəffaflığı"
 #: data/effects/gpsgraphic.xml:170
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "Sets the opacity for the background image"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/gpsgraphic.xml:173
@@ -13705,15 +13686,6 @@ msgstr "Qradient"
 msgid "Apply a gradient map to the video"
 msgstr "Videonun üzərinə GPS ilə əlaqəli mətni yerləşdirin."
 
-#: data/effects/gradientmap.xml:9 data/effects/gradientmap.xml:13
-#: data/effects/greyedge.xml:9 data/effects/greyedge.xml:13
-#: data/effects/greyedge.xml:17 data/effects/ladspa/ladspa_2156.xml:20
-#: data/effects/ladspa/ladspa_2156.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[]]>"
-msgstr "X oxu ətrafında döndərmək"
-
 #: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
@@ -13775,12 +13747,6 @@ msgid ""
 "colors."
 msgstr ""
 
-#: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[Overlap]]>"
-msgstr "X oxu ətrafında döndərmək"
-
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
 msgid "The amount of overlap or blending between primaries"
@@ -13789,7 +13755,7 @@ msgstr ""
 #: data/effects/hsl_primaries.xml:12
 #, fuzzy, kde-format
 #| msgid "Hue shift"
-msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "Çaların dəyişməsi"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
@@ -13815,13 +13781,13 @@ msgstr "Tünd cəhrayı"
 #: data/effects/hsl_primaries.xml:30
 #, fuzzy, kde-format
 #| msgid "Background opacity"
-msgid "<![CDATA[<b><u>Saturation</u></b> Red]]>"
+msgid "<b><u>Saturation</u></b> Red"
 msgstr "Fon qeyri-şəffaflığı"
 
 #: data/effects/hsl_primaries.xml:48
 #, fuzzy, kde-format
 #| msgid "Hue shift"
-msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
+msgid "<b><u>Lightness</u></b> Red"
 msgstr "Çaların dəyişməsi"
 
 #: data/effects/hsl_range.xml:4
@@ -13911,88 +13877,86 @@ msgstr "Ekvalayzer"
 #: data/effects/ladspa/ladspa_2141.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Equalizer (LADSPA 2141)<br>\n"
-"    8-band equalizer with adjustable band center frequencies.]]>"
+"TAP Equalizer (LADSPA 2141)<br>\n"
+"    8-band equalizer with adjustable band center frequencies."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
 #, kde-format
-msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
+msgid "<u><b>Band 1</b></u> Freq"
 msgstr ""
-
-#: data/effects/ladspa/ladspa_2141.xml:12
-#: data/effects/ladspa/ladspa_2141.xml:18
-#: data/effects/ladspa/ladspa_2141.xml:30
-#: data/effects/ladspa/ladspa_2141.xml:36
-#: data/effects/ladspa/ladspa_2141.xml:42
-#: data/effects/ladspa/ladspa_2141.xml:48
-#: data/effects/ladspa/ladspa_2141.xml:54
-#: data/effects/ladspa/ladspa_2151.xml:12
-#: data/effects/ladspa/ladspa_2151.xml:21
-#: data/effects/ladspa/ladspa_2151.xml:39
-#: data/effects/ladspa/ladspa_2151.xml:48
-#: data/effects/ladspa/ladspa_2151.xml:57
-#: data/effects/ladspa/ladspa_2151.xml:66
-#: data/effects/ladspa/ladspa_2151.xml:75
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[Gain]]>"
-msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
 #, kde-format
-msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
+msgid "<u><b>Band 2</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
 #, kde-format
-msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
+msgid "<u><b>Band 3</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2151.xml:30
 #, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[<Gain]]>"
-msgstr "X oxu ətrafında döndərmək"
+#| msgid "Gain"
+msgid "<Gain"
+msgstr "Gücləndirmə"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
 #, kde-format
-msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
+msgid "<u><b>Band 4</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
 #, kde-format
-msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
+msgid "<u><b>Band 5</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
 #, kde-format
-msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
+msgid "<u><b>Band 6</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
 #, kde-format
-msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
+msgid "<u><b>Band 7</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
 #, kde-format
-msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
+msgid "<u><b>Band 8</b></u> Freq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:57
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[Dry/Wet]]>"
-msgstr "X oxu ətrafında döndərmək"
+#: data/effects/ladspa/ladspa_2142.xml:36
+#: data/effects/ladspa/ladspa_2143.xml:39
+#: data/effects/ladspa/ladspa_2144.xml:18
+#: data/effects/ladspa/ladspa_2145.xml:15
+#: data/effects/ladspa/ladspa_2146.xml:20
+#: data/effects/ladspa/ladspa_2147.xml:24
+#: data/effects/ladspa/ladspa_2148.xml:23
+#: data/effects/ladspa/ladspa_2149.xml:21
+#: data/effects/ladspa/ladspa_2150.xml:25
+#: data/effects/ladspa/ladspa_2151.xml:81
+#: data/effects/ladspa/ladspa_2152.xml:25
+#: data/effects/ladspa/ladspa_2153.xml:31
+#: data/effects/ladspa/ladspa_2154.xml:20
+#: data/effects/ladspa/ladspa_2155.xml:18
+#: data/effects/ladspa/ladspa_2156.xml:47
+#: data/effects/ladspa/ladspa_2157.xml:17
+#: data/effects/ladspa/ladspa_2158.xml:17
+#: data/effects/ladspa/ladspa_2159.xml:44
+#, kde-format
+msgid "Dry/Wet"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:4
 #, fuzzy, kde-format
@@ -14003,10 +13967,10 @@ msgstr "Əks-səda dərinliyi"
 #: data/effects/ladspa/ladspa_2142.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Reverberator (LADSPA 2142)<br>\n"
+"TAP Reverberator (LADSPA 2142)<br>\n"
 "   Versatile reverb filter based on the comb/allpass filter model. For "
 "recommended decay times for reverb types refer to the effect documentation "
-"linked below.]]>"
+"linked below."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:12
@@ -14065,9 +14029,9 @@ msgstr "Əks-səda müddəti"
 #: data/effects/ladspa/ladspa_2142.xml:32
 #, kde-format
 msgid ""
-"<![CDATA[HD stands for <i>High Density</i>.<br>\n"
+"HD stands for <i>High Density</i>.<br>\n"
 "      Reverb types with HD are enhanced versions of the other types and "
-"usually result in an even smoother reverb effect.]]>"
+"usually result in an even smoother reverb effect."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:33
@@ -14085,28 +14049,6 @@ msgid ""
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
 
-#: data/effects/ladspa/ladspa_2142.xml:36
-#: data/effects/ladspa/ladspa_2143.xml:39
-#: data/effects/ladspa/ladspa_2144.xml:18
-#: data/effects/ladspa/ladspa_2145.xml:15
-#: data/effects/ladspa/ladspa_2146.xml:20
-#: data/effects/ladspa/ladspa_2147.xml:24
-#: data/effects/ladspa/ladspa_2148.xml:23
-#: data/effects/ladspa/ladspa_2149.xml:21
-#: data/effects/ladspa/ladspa_2150.xml:25
-#: data/effects/ladspa/ladspa_2151.xml:81
-#: data/effects/ladspa/ladspa_2152.xml:25
-#: data/effects/ladspa/ladspa_2153.xml:31
-#: data/effects/ladspa/ladspa_2154.xml:20
-#: data/effects/ladspa/ladspa_2155.xml:18
-#: data/effects/ladspa/ladspa_2156.xml:47
-#: data/effects/ladspa/ladspa_2157.xml:17
-#: data/effects/ladspa/ladspa_2158.xml:17
-#: data/effects/ladspa/ladspa_2159.xml:44
-#, kde-format
-msgid "Dry/Wet"
-msgstr ""
-
 #: data/effects/ladspa/ladspa_2143.xml:4
 #, fuzzy, kde-format
 #| msgid "Stereo "
@@ -14116,9 +14058,9 @@ msgstr "Stereo "
 #: data/effects/ladspa/ladspa_2143.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Stereo Echo (LADSPA 2143)<br>\n"
+"TAP Stereo Echo (LADSPA 2143)<br>\n"
 "   Supports conventional mono and stereo delays, ping-pong delays and the "
-"Haas effect (also known as Cross Delay Stereo).]]>"
+"Haas effect (also known as Cross Delay Stereo)."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:9
@@ -14181,8 +14123,8 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2144.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
-"   Sounds good mainly on acoustic or electric guitar tracks.]]>"
+"TAP Tremolo (LADSPA 2144)<br>\n"
+"   Sounds good mainly on acoustic or electric guitar tracks."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:4
@@ -14194,8 +14136,8 @@ msgstr "Xətt gərginliyi"
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>\n"
-"   Achieves signal level limiting without audible artifacts.]]>"
+"TAP Scaling Limiter (LADSPA 2145)<br>\n"
+"   Achieves signal level limiting without audible artifacts."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:9
@@ -14218,16 +14160,16 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2146.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
-"   Main use is to liven up synth tracks in the mix]]>"
+"TAP AutoPanner (LADSPA 2146)<br>\n"
+"   Main use is to liven up synth tracks in the mix"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
 msgid ""
-"<![CDATA[Sets the wideness of panning.<br>\n"
+"Sets the wideness of panning.<br>\n"
 "      A setting of 100% means that mono input signal is panned between the "
-"extreme left and right positions]]>"
+"extreme left and right positions"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:4
@@ -14238,9 +14180,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2147.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP DeEsser (LADSPA 2147)<br>\n"
+"TAP DeEsser (LADSPA 2147)<br>\n"
 "   Used for attenuating higher pitched frequencies in vocals such as those "
-"found in 'ess', 'shh' and 'chh' sounds.]]>"
+"found in 'ess', 'shh' and 'chh' sounds."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:9
@@ -14258,8 +14200,8 @@ msgstr "Sidechain əlavələri"
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[The chosen filter's frequency<br>\n"
-"      is set by the <b>Frequency</b> parameter]]>"
+"The chosen filter's frequency<br>\n"
+"      is set by the <b>Frequency</b> parameter"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:18
@@ -14282,22 +14224,22 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2148.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Vibrato (LADSPA 2148)<br>\n"
+"TAP Vibrato (LADSPA 2148)<br>\n"
 "   Modulates the pitch of its input signal with a low-frequency sinusoidal "
 "signal. It is useful for guitar and synth tracks, and it can also come handy "
-"if a strange effect is needed.]]>"
+"if a strange effect is needed."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:10
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
+msgid "Determines how fast the pitch is modulated up-down"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/ladspa/ladspa_2148.xml:14
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Sets the amount of pitch modulation]]>"
+msgid "Sets the amount of pitch modulation"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
@@ -14308,8 +14250,8 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2149.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
-"   Simulates the sound of rotating speakers.]]>"
+"TAP Rotary Speaker (LADSPA 2149)<br>\n"
+"   Simulates the sound of rotating speakers."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:9
@@ -14344,8 +14286,8 @@ msgstr "SoX pitç sürüşməsi"
 #: data/effects/ladspa/ladspa_2150.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Pitch Shifter (LADSPA 2150)<br>\n"
-"   Change the pitch in the range of plus/minus one octave.]]>"
+"TAP Pitch Shifter (LADSPA 2150)<br>\n"
+"   Change the pitch in the range of plus/minus one octave."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:9
@@ -14357,8 +14299,8 @@ msgstr "Rəng doyumu"
 #: data/effects/ladspa/ladspa_2150.xml:11
 #, kde-format
 msgid ""
-"<![CDATA[Does the same thing as <b>Rate Shift</b></br>\n"
-"      but allows to set musically sensible pitch shift rates.]]>"
+"Does the same thing as <b>Rate Shift</b></br>\n"
+"      but allows to set musically sensible pitch shift rates."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:14
@@ -14370,9 +14312,9 @@ msgstr "Çaların dəyişməsi"
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
 msgid ""
-"<![CDATA[Does the same thing as <b>Semitone Shift</b><br>\n"
+"Does the same thing as <b>Semitone Shift</b><br>\n"
 "      but in percentage of the original pitch, so that is closer to a "
-"\"physical\", non-musical approach]]>"
+"\"physical\", non-musical approach"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:4
@@ -14384,9 +14326,8 @@ msgstr "Ekvalayzer"
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Equalizer (LADSPA (2151)<br>\n"
-"    8-band equalizer with adjustable band center frequencies and "
-"bandwidth.]]>"
+"TAP Equalizer (LADSPA (2151)<br>\n"
+"    8-band equalizer with adjustable band center frequencies and bandwidth."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:15
@@ -14398,9 +14339,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
 #, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
-msgid "<![CDATA[BW]]>"
-msgstr "X oxu ətrafında döndərmək"
+#| msgid "B"
+msgid "BW"
+msgstr "B"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -14410,8 +14351,8 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2152.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Dynamics Mono (LADSPA 2152)<br>\n"
-"   Allows changing the dynamic content of the audio stream]]>"
+"TAP Dynamics Mono (LADSPA 2152)<br>\n"
+"   Allows changing the dynamic content of the audio stream"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:15
@@ -14453,15 +14394,15 @@ msgstr "Dinamik mətn"
 #: data/effects/ladspa/ladspa_2153.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Dynamics Stereo (LADSPA 2153)<br>\n"
-"   Allows changing the dynamic content of the audio stream]]>"
+"TAP Dynamics Stereo (LADSPA 2153)<br>\n"
+"   Allows changing the dynamic content of the audio stream"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:23
 #, kde-format
 msgid ""
-"<![CDATA[Controls how the envelope levels<br>\n"
-"      are used to determine the needed gain adjustment]]>"
+"Controls how the envelope levels<br>\n"
+"      are used to determine the needed gain adjustment"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:24
@@ -14478,8 +14419,8 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2154.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
-"    Creates a psychedelic reverse audio effect.]]>"
+"TAP Reflector (LADSPA 2154)<br>\n"
+"    Creates a psychedelic reverse audio effect."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2154.xml:9
@@ -14491,9 +14432,9 @@ msgstr "Profilin adı"
 #: data/effects/ladspa/ladspa_2154.xml:11
 #, kde-format
 msgid ""
-"<![CDATA[It is best to set it to<br>\n"
+"It is best to set it to<br>\n"
 "      approximately match the tempo of the track, so the Fragment Length is "
-"equal to the time of one measure.]]>"
+"equal to the time of one measure."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2155.xml:4
@@ -14504,9 +14445,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2155.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Pink/Fractal Noise (LADSPA 2155)<br>\n"
+"TAP Pink/Fractal Noise (LADSPA 2155)<br>\n"
 "    Adds pink noise to the incoming signal using a one-dimensional random "
-"fractal line generated by the Midpoint Displacement Method.]]>"
+"fractal line generated by the Midpoint Displacement Method."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2155.xml:9
@@ -14535,9 +14476,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2156.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Fractal Doubler (LADSPA 2156)<br>\n"
+"TAP Fractal Doubler (LADSPA 2156)<br>\n"
 "    Suitable for doubling tracks with vocals, acoustic/electric guitars, "
-"bass and just about any other instrument on them.]]>"
+"bass and just about any other instrument on them."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:9
@@ -14550,10 +14491,10 @@ msgstr "Cığırı gizlədin"
 #: data/effects/ladspa/ladspa_2156.xml:16
 #, kde-format
 msgid ""
-"<![CDATA[Determines how \"rough\" and how big<br>\n"
+"Determines how \"rough\" and how big<br>\n"
 "      these changes are. When set to 0, changes are bigger and more chaotic "
 "(\"bad backup singer\"). When set to 1, changes are smaller and smoother "
-"(\"better tracking of the original\").]]>"
+"(\"better tracking of the original\")."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:14
@@ -14574,8 +14515,8 @@ msgstr "Başlama mövqeyi"
 #: data/effects/ladspa/ladspa_2156.xml:44
 #, kde-format
 msgid ""
-"<![CDATA[These controls range between 0 and 1,<br>\n"
-"      0 meaning hard left and 1 meaning hard right position.]]>"
+"These controls range between 0 and 1,<br>\n"
+"      0 meaning hard left and 1 meaning hard right position."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:28
@@ -14604,9 +14545,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2157.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Sigmoid Booster (LADSPA 2157)<br>\n"
+"TAP Sigmoid Booster (LADSPA 2157)<br>\n"
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
-"signal.]]>"
+"signal."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:9
@@ -14639,10 +14580,10 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2158.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP TubeWarmth (LADSPA 2158)<br>\n"
+"TAP TubeWarmth (LADSPA 2158)<br>\n"
 "   Adds the character of vacuum tube amplification by emulating the "
 "sonically desirable nonlinear characteristics of triodes. It also supports "
-"emulating analog tape saturation.]]>"
+"emulating analog tape saturation."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2158.xml:9
@@ -14674,17 +14615,17 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2159.xml:6
 #, kde-format
 msgid ""
-"<![CDATA[TAP Chorus/Flange (LADSPA 2159)<br>\n"
+"TAP Chorus/Flange (LADSPA 2159)<br>\n"
 "    Creates traditional Chorus and Flanger effects, spiced up a bit to make "
-"use of stereo processing. It sounds best on guitar and synth tracks.]]>"
+"use of stereo processing. It sounds best on guitar and synth tracks."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:11
 #, kde-format
 msgid ""
-"<![CDATA[Determines the LFO frequency<br>\n"
+"Determines the LFO frequency<br>\n"
 "      with which the time-varying delay is modulated. The higher the "
-"frequency, the more intense the effect will be.]]>"
+"frequency, the more intense the effect will be."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:14
@@ -14696,30 +14637,30 @@ msgstr "Faza"
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
 msgid ""
-"<![CDATA[Controls the phase shift between the two<br>\n"
+"Controls the phase shift between the two<br>\n"
 "      LFOs. The higher this setting, the stronger the \"stereo-ness\" of the "
 "effect will be. When set to 0, processing of the two channels will be in-"
 "phase; when set to 180 degrees, the two LFO's are is counter-phase to create "
-"the widest stereo effect.]]>"
+"the widest stereo effect."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:21
 #, kde-format
 msgid ""
-"<![CDATA[Adjusts the modulation depth of the delay.<br>\n"
+"Adjusts the modulation depth of the delay.<br>\n"
 "      Increasing it will result in stronger modulation using the same LFO "
-"frequency.]]>"
+"frequency."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:26
 #, kde-format
 msgid ""
-"<![CDATA[Determines the fixed amount of time with<br>\n"
+"Determines the fixed amount of time with<br>\n"
 "      which the signal is delayed after the time-varying delay has been "
 "applied. The setting of this control distinguishes between the Chorus and "
 "Flanger effects. Delays smaller than 10 ms can be labeled Flanger, delays "
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
-"blend between Chorus and Flanger.]]>"
+"blend between Chorus and Flanger."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:29
@@ -14731,18 +14672,18 @@ msgstr "Kontrast"
 #: data/effects/ladspa/ladspa_2159.xml:31
 #, kde-format
 msgid ""
-"<![CDATA[The cutoff frequency of a high-pass<br>\n"
-"      filter applied to the now twice-delayed signal.]]>"
+"The cutoff frequency of a high-pass<br>\n"
+"      filter applied to the now twice-delayed signal."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:36
 #: data/effects/ladspa/ladspa_2159.xml:41
 #, kde-format
 msgid ""
-"<![CDATA[Allows for a final tuning of the sound.<br>\n"
+"Allows for a final tuning of the sound.<br>\n"
 "      The strongest effect is achieved if the two settings are about the "
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
-"unwanted side effects) results in a subtler effect.]]>"
+"unwanted side effects) results in a subtler effect."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_declipper.xml:4
@@ -15500,7 +15441,7 @@ msgstr ""
 #: data/effects/oldfilm.xml:9
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
+msgid "Determines the maximum vertical movement in pixels"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/oldfilm.xml:12
@@ -15512,7 +15453,7 @@ msgstr "Kadrlar addımı"
 #: data/effects/oldfilm.xml:13
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
+msgid "Determines percentage of frames with vertical movement"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/oldfilm.xml:16
@@ -15524,7 +15465,7 @@ msgstr "Parlaqlığın artırılması"
 #: data/effects/oldfilm.xml:17
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines the value in brightness change up]]>"
+msgid "Determines the value in brightness change up"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/oldfilm.xml:20
@@ -15536,7 +15477,7 @@ msgstr "Parlaqlığın azaldılması"
 #: data/effects/oldfilm.xml:21
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines the value in brightness change down]]>"
+msgid "Determines the value in brightness change down"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/oldfilm.xml:24
@@ -15548,7 +15489,7 @@ msgstr "Hər sahədə parlaqlıq"
 #: data/effects/oldfilm.xml:25
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
+msgid "Determines percentage of frames with brightness changes"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/oldfilm.xml:28
@@ -15560,7 +15501,7 @@ msgstr "Qeyri-bərabər inkişafın artırılması"
 #: data/effects/oldfilm.xml:29
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines the value in lightness change up]]>"
+msgid "Determines the value in lightness change up"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/oldfilm.xml:32
@@ -15572,7 +15513,7 @@ msgstr "Qeyri-bərabər inkişafın zəiflədilməsi"
 #: data/effects/oldfilm.xml:33
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Determines the value in lightness change down]]>"
+msgid "Determines the value in lightness change down"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/oldfilm.xml:36
@@ -15583,7 +15524,7 @@ msgstr "Qeyri-bərabər inkişafın müddəti"
 
 #: data/effects/oldfilm.xml:37
 #, kde-format
-msgid "<![CDATA[Time (in frames) of an uneven development up/down cycle]]>"
+msgid "Time (in frames) of an uneven development up/down cycle"
 msgstr ""
 
 #: data/effects/pan_zoom.xml:4
@@ -15803,8 +15744,8 @@ msgstr "Təkrarı söndürün"
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
 #, kde-format
 msgid ""
-"<![CDATA[When animating properties with keyframes,<br>\n"
-"\t    whether to repeat the animation after it reaches the last key frame.]]>"
+"When animating properties with keyframes,<br>\n"
+"\t    whether to repeat the animation after it reaches the last key frame."
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:15
@@ -15816,10 +15757,10 @@ msgstr "Əksolunmanı söndürün"
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
-"em> is off,<br>\n"
+"When animating properties with keyframes and <em>Disable repeat</em> is off,"
+"<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
-"each repetition.]]>"
+"each repetition."
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:20
@@ -15831,10 +15772,9 @@ msgstr "Boşluq əlavə edin"
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
 msgid ""
-"<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values."
-"<br>\n"
+"Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values.<br>\n"
 "        This is helpful to make animation interpolation sane because "
-"otherwise the scale values do not animate linearly.]]>"
+"otherwise the scale values do not animate linearly."
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:28 data/effects/rotation.xml:8
@@ -15846,7 +15786,7 @@ msgstr "Döndərmək (X)"
 #: data/effects/rotate-3-way.xml:29
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Angle of rotation along the X axis]]>"
+msgid "Angle of rotation along the X axis"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/rotate-3-way.xml:32 data/effects/rotation.xml:11
@@ -15858,7 +15798,7 @@ msgstr "Döndərmək (Y)"
 #: data/effects/rotate-3-way.xml:33
 #, fuzzy, kde-format
 #| msgid "Rotation around the Y axis"
-msgid "<![CDATA[Angle of rotation along the Y axis]]>"
+msgid "Angle of rotation along the Y axis"
 msgstr "Y oxu ətrafında döndərmək"
 
 #: data/effects/rotate-3-way.xml:36 data/effects/rotation.xml:14
@@ -15870,7 +15810,7 @@ msgstr "Döndərmək (Z)"
 #: data/effects/rotate-3-way.xml:37
 #, fuzzy, kde-format
 #| msgid "Rotation around the Z axis"
-msgid "<![CDATA[Angle of rotation along the Z axis]]>"
+msgid "Angle of rotation along the Z axis"
 msgstr "Z oxu ətrafında döndərmək"
 
 #: data/effects/rotate-3-way.xml:40 data/effects/rotation_keyframable.xml:17
@@ -15882,7 +15822,7 @@ msgstr "X üzrə sürüşmə"
 #: data/effects/rotate-3-way.xml:41 data/effects/shear.xml:38
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Offset along the X axis]]>"
+msgid "Offset along the X axis"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/rotate-3-way.xml:44 data/effects/rotation_keyframable.xml:20
@@ -15894,19 +15834,19 @@ msgstr "Y üzrə sürüşmə"
 #: data/effects/rotate-3-way.xml:45
 #, fuzzy, kde-format
 #| msgid "Rotation around the Y axis"
-msgid "<![CDATA[Offset along the Y axis]]>"
+msgid "Offset along the Y axis"
 msgstr "Y oxu ətrafında döndərmək"
 
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, fuzzy, kde-format
 #| msgid "Select a clip to apply the mix"
-msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "Scale factor applied to the X axis"
 msgstr "Birləşdirmək üçün klipi seçin"
 
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, fuzzy, kde-format
 #| msgid "Select a clip to apply the mix"
-msgid "<![CDATA[Scale factor applied to the Y axis]]>"
+msgid "Scale factor applied to the Y axis"
 msgstr "Birləşdirmək üçün klipi seçin"
 
 #: data/effects/rotation.xml:4
@@ -15992,7 +15932,7 @@ msgstr "Czginin eni"
 #: data/effects/scratchlines.xml:9
 #, fuzzy, kde-format
 #| msgid "The thickness of the bar or segments."
-msgid "<![CDATA[Width on the line in the clip]]>"
+msgid "Width on the line in the clip"
 msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #: data/effects/scratchlines.xml:12
@@ -16004,7 +15944,7 @@ msgstr "Cizgilərin maksimum sayı"
 #: data/effects/scratchlines.xml:13
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Maximum number of lines in the clip]]>"
+msgid "Maximum number of lines in the clip"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/scratchlines.xml:16
@@ -16015,7 +15955,7 @@ msgstr "Maksimum tündlük"
 
 #: data/effects/scratchlines.xml:17
 #, kde-format
-msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
+msgid "Make image up to <em>n</em> values darker behind line"
 msgstr ""
 
 #: data/effects/scratchlines.xml:20
@@ -16026,7 +15966,7 @@ msgstr "Maksimum parlama"
 
 #: data/effects/scratchlines.xml:21
 #, kde-format
-msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
+msgid "Make image up to <em>n</em> values lighter behind line"
 msgstr ""
 
 #: data/effects/sepia.xml:4
@@ -16082,13 +16022,13 @@ msgstr "Boşluq əlavə edin"
 #: data/effects/shear.xml:26
 #, fuzzy, kde-format
 #| msgid "Rotation around the X axis"
-msgid "<![CDATA[Shear angle around the X axis]]>"
+msgid "Shear angle around the X axis"
 msgstr "X oxu ətrafında döndərmək"
 
 #: data/effects/shear.xml:30
 #, fuzzy, kde-format
 #| msgid "Rotation around the Y axis"
-msgid "<![CDATA[Shear angle around the Y axis]]>"
+msgid "Shear angle around the Y axis"
 msgstr "Y oxu ətrafında döndərmək"
 
 #: data/effects/shear.xml:33
@@ -16100,13 +16040,13 @@ msgstr "Kəsmək (X)"
 #: data/effects/shear.xml:34
 #, fuzzy, kde-format
 #| msgid "Rotation around the Z axis"
-msgid "<![CDATA[Shear angle around the Z axis]]>"
+msgid "Shear angle around the Z axis"
 msgstr "Z oxu ətrafında döndərmək"
 
 #: data/effects/shear.xml:42
 #, fuzzy, kde-format
 #| msgid "Offset gain"
-msgid "<![CDATA[Offset along Y axis]]>"
+msgid "Offset along Y axis"
 msgstr "Güclənmənin sürüşdürülməsi"
 
 #: data/effects/sox/sox.xml:4
@@ -16437,9 +16377,9 @@ msgstr "Başlanğıc"
 #| "The text will be frozen at 00:00:00.000 from the start of the filter "
 #| "until the start time has elapsed.]]>"
 msgid ""
-"<![CDATA[The time that the timer will start counting up or down.\n"
+"The time that the timer will start counting up or down.\n"
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
-"the start time has elapsed.]]>"
+"the start time has elapsed."
 msgstr ""
 "<![CDATA[Vaxtölçənin yuxarı və ya aşağı doğru saymağa başlayacağı vaxt.\n"
 "Mətn, 00:00:00.000-da süzgəcin başlanğıcından başlama vaxtı bitənədək "
@@ -16453,10 +16393,8 @@ msgstr ""
 #| "The text will be frozen at the duration time after the duration has "
 #| "elapsed.]]>"
 msgid ""
-"<![CDATA[The maximum elapsed duration of the timer after the start time has "
-"elapsed.\n"
-"The text will be frozen at the duration time after the duration has "
-"elapsed.]]>"
+"The maximum elapsed duration of the timer after the start time has elapsed.\n"
+"The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
 "<![CDATA[Başlama vaxtı başa çatdıqdan sonra vaxtölçənin maksimum "
 "davametməmüddəti.\n"
@@ -16471,11 +16409,10 @@ msgstr ""
 #| "When the direction is up, the timer will count up starting from \"offset"
 #| "\".]]>"
 msgid ""
-"<![CDATA[An offset to be added to the timer value.\n"
+"An offset to be added to the timer value.\n"
 "When the direction is \"down\", the timer will count down to \"offset\" "
 "instead of 00:00:00.000.\n"
-"When the direction is up, the timer will count up starting from \"offset"
-"\".]]>"
+"When the direction is up, the timer will count up starting from \"offset\"."
 msgstr ""
 "<![CDATA[Vaxtölçən dəyərinə əlavə olunacaq sürüşmə.\n"
 "İstiqamət \"aşağı\" olduqda vaxtölçən, 00:00:00.000 əvəzinə \"sürüşmə\"yə "
@@ -16491,8 +16428,8 @@ msgstr ""
 #| "        "
 msgid ""
 "\n"
-"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
-"or down from the duration time.]]>\n"
+"            Whether the counter should count up from 00:00:00.000 or down "
+"from the duration time.\n"
 "        "
 msgstr ""
 "\n"
@@ -16804,12 +16741,12 @@ msgstr "Son amplituda"
 msgid "Wave Amplitude"
 msgstr "Dalğa amplitudası"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:775
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:779
 #, kde-format
 msgid "Horizontal"
 msgstr "Üfüqi"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:822
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:826
 #, kde-format
 msgid "Vertical"
 msgstr "Şaquli"
@@ -19981,7 +19918,7 @@ msgstr "Audi redaktorunuz üçün yolu daxil edin"
 msgid "Please set a default application to open audio files"
 msgstr "Audio fayllarını açmaq üçün standrt tətbiqi təyin edin"
 
-#: src/bin/bin.cpp:5015 src/core.cpp:657 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5015 src/core.cpp:665 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20881,7 +20818,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "GPU işləməsini söndürün"
 
-#: src/core.cpp:460
+#: src/core.cpp:468
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20890,19 +20827,19 @@ msgstr ""
 "Standar Kdenlive profili təyin edilməyib və ya səhvdir. Düzgün dəyəri təyin "
 "etmək üçün OK düyməsinə vurun."
 
-#: src/core.cpp:472
+#: src/core.cpp:480
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Standart profil seçin"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:472 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:480 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profil:"
 
-#: src/core.cpp:485
+#: src/core.cpp:493
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20911,268 +20848,268 @@ msgstr ""
 "Verilmiş profil səhvdir. Standart olaraq \"dv_pal\" profili istifadə edirik, "
 "lakin siz bunu Kdenlive ayarları panelində dəyişə bilərsiniz"
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:884
+#: src/core.cpp:508 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Loading project…"
 msgstr "Layihə yüklənir…"
 
-#: src/core.cpp:709
+#: src/core.cpp:717
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Kvadrat 2 zolaq"
 
-#: src/core.cpp:710
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Kiçik dama taxtası"
 
-#: src/core.cpp:711
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Üfüqi pərdələr"
 
-#: src/core.cpp:712
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:713
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Xətti X"
 
-#: src/core.cpp:714
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "İki xəttli X"
 
-#: src/core.cpp:715
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Xətti Y"
 
-#: src/core.cpp:716
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "İki xəttli Y"
 
-#: src/core.cpp:717
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Kvadrat"
 
-#: src/core.cpp:718
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Kvadrat 2"
 
-#: src/core.cpp:719
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Bulud"
 
-#: src/core.cpp:720
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Simmetrik saat"
 
-#: src/core.cpp:721
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial zolaqlar"
 
-#: src/core.cpp:722
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral"
 
-#: src/core.cpp:723
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2"
 
-#: src/core.cpp:724
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Pərdə"
 
-#: src/core.cpp:725
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Köpük partlayışı"
 
-#: src/core.cpp:726
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Saat"
 
-#: src/core.cpp:728
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Üfüqi zolaq"
 
-#: src/core.cpp:729
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Şaquli zolaq"
 
-#: src/core.cpp:730
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Üfüqi saray qapısı"
 
-#: src/core.cpp:731
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Şaquli saray qapısı"
 
-#: src/core.cpp:732
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Sioqnal Cən.Q-Şim.Ş saray qapısı"
 
-#: src/core.cpp:733
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Dioqnal Şim.Q-Çən.Ş saray qapısı"
 
-#: src/core.cpp:734
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Dioqnal yuxarı sol"
 
-#: src/core.cpp:735
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Dioqnal yuxarı sağ"
 
-#: src/core.cpp:736
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Üfüqi Matrix şəlaləsi"
 
-#: src/core.cpp:737
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Şaquli Matrix şəlaləsi"
 
-#: src/core.cpp:738
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Üfüqi Matrix ilanvari"
 
-#: src/core.cpp:739
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Üfüqi paralel Matrix ilanvari"
 
-#: src/core.cpp:740
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Şaquli Matrix ilanvari"
 
-#: src/core.cpp:741
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Şaquli paralel Matrix ilanvari"
 
-#: src/core.cpp:742
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Yuxarı genişlənən -V şüalanma"
 
-#: src/core.cpp:743
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "İris dairəsi"
 
-#: src/core.cpp:744
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "İkili İris"
 
-#: src/core.cpp:745
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "İris qutusu"
 
-#: src/core.cpp:746
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Qutu aşağı sağda"
 
-#: src/core.cpp:747
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Qutu aşağı solda"
 
-#: src/core.cpp:748
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Qutu sağ mərkəzdə"
 
-#: src/core.cpp:749
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Saat yuxarı"
 
-#: src/core.cpp:1040
+#: src/core.cpp:1048
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Sizin layihə profiliniz səhvdir, render uğursuz ola bilər."
 
-#: src/core.cpp:1404
+#: src/core.cpp:1412
 #, kde-format
 msgid "Loading clips"
 msgstr "Kliplər yüklənir"
 
-#: src/core.cpp:1860
+#: src/core.cpp:1868
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Marker 2"
 
-#: src/core.cpp:2214
+#: src/core.cpp:2222
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21180,13 +21117,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2215 src/core.cpp:2226
+#: src/core.cpp:2223 src/core.cpp:2234
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
 msgstr "Media bələdçisi"
 
-#: src/core.cpp:2225
+#: src/core.cpp:2233
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -22992,7 +22929,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "KDE tərəfindən hazırlanıb"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:559 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:563 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -23015,7 +22952,7 @@ msgstr "Tənzimləmələri sıfırlayın"
 msgid "Start Normally"
 msgstr "1-ci rəng"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:617
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:621
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -23023,7 +22960,7 @@ msgid ""
 "org/fund/\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:631
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:635
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -23783,65 +23720,65 @@ msgstr ""
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:168
+#: src/dialogs/Splash.qml:171
 #, kde-format
 msgid "Made by KDE"
 msgstr "KDE tərəfindən hazırlanıb"
 
-#: src/dialogs/Splash.qml:224
+#: src/dialogs/Splash.qml:227
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "Open Project…"
 msgstr "Layihəni arxivləyin..."
 
-#: src/dialogs/Splash.qml:251
+#: src/dialogs/Splash.qml:254
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "Sənədi açın"
 
-#: src/dialogs/Splash.qml:259
+#: src/dialogs/Splash.qml:262
 #, fuzzy, kde-format
 #| msgid "Recent Projects"
 msgid "Clear History of Recent Projects"
 msgstr "Əvvəlki layihələr"
 
-#: src/dialogs/Splash.qml:360
+#: src/dialogs/Splash.qml:364
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove file from list"
 msgstr "Faylı silin"
 
-#: src/dialogs/Splash.qml:389
+#: src/dialogs/Splash.qml:393
 #, fuzzy, kde-format
 #| msgid "Archive Project…"
 msgid "New Project…"
 msgstr "Layihəni arxivləyin..."
 
-#: src/dialogs/Splash.qml:416
+#: src/dialogs/Splash.qml:420
 #, fuzzy, kde-format
 #| msgid "Test Proxy Profiles"
 msgid "New From Profile"
 msgstr "Proksi profillərini yoxlayın"
 
-#: src/dialogs/Splash.qml:424
+#: src/dialogs/Splash.qml:428
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:510
+#: src/dialogs/Splash.qml:514
 #, fuzzy, kde-format
 #| msgid "Request option from list"
 msgid "Remove profile from list"
 msgstr "Seçimi siyahıdan tələb edin"
 
-#: src/dialogs/Splash.qml:549
+#: src/dialogs/Splash.qml:553
 #, fuzzy, kde-format
 #| msgid "Hide on startup"
 msgid "Show on Startup"
 msgstr "Başlanğıcda gizlədilsin"
 
-#: src/dialogs/Splash.qml:582 src/dialogs/Splash.qml:948
+#: src/dialogs/Splash.qml:586 src/dialogs/Splash.qml:952
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive crashed on last startup.\n"
@@ -23851,46 +23788,46 @@ msgstr ""
 "Kdenlive son başladılmada çökdü.\n"
 "Tənzimləmə fayllarını sıfırlamaq istəyirsiniz?"
 
-#: src/dialogs/Splash.qml:660
+#: src/dialogs/Splash.qml:664
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:665
+#: src/dialogs/Splash.qml:669
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:670
+#: src/dialogs/Splash.qml:674
 #, fuzzy, kde-format
 #| msgid "Donate"
 msgid "Donate…"
 msgstr "Maddi Dəstək"
 
-#: src/dialogs/Splash.qml:700
+#: src/dialogs/Splash.qml:704
 #, fuzzy, kde-format
 #| msgid "Welcome to Kdenlive %1"
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "Kdenlive %1 tətbiqinə xoş gəldiniz"
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:710
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:718
+#: src/dialogs/Splash.qml:722
 #, fuzzy, kde-format
 #| msgid "Change default project profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "Standart layihə profilini dəyişin"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:835 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:839 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Təsvir imkanları"
 
-#: src/dialogs/Splash.qml:862
+#: src/dialogs/Splash.qml:866
 #, fuzzy, kde-format
 #| msgid "Frame Rate:"
 msgid "Frame Rate"
@@ -23898,7 +23835,7 @@ msgstr "Kadrın tezliyi:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:888
+#: src/dialogs/Splash.qml:892
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23907,30 +23844,30 @@ msgstr "Kadrın tezliyi:"
 msgid "Interlaced"
 msgstr "İç-içə keçmiş"
 
-#: src/dialogs/Splash.qml:907
+#: src/dialogs/Splash.qml:911
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video Tracks"
 msgstr "Video cığırlar"
 
-#: src/dialogs/Splash.qml:916
+#: src/dialogs/Splash.qml:920
 #, fuzzy, kde-format
 #| msgid "Audio tracks:"
 msgid "Audio Tracks"
 msgstr "Səs cığırları:"
 
-#: src/dialogs/Splash.qml:929
+#: src/dialogs/Splash.qml:933
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:974
+#: src/dialogs/Splash.qml:978
 #, fuzzy, kde-format
 #| msgid "Kdenlive document to open."
 msgid "Check Online Documentation"
 msgstr "Açılacaq Kdenlive sənədi."
 
-#: src/dialogs/Splash.qml:982
+#: src/dialogs/Splash.qml:986
 #, fuzzy, kde-format
 #| msgid "Start Position"
 msgid "Start Editing"
@@ -34915,13 +34852,13 @@ msgstr "Ölçüsünü dəyişmək"
 msgid "Close %1"
 msgstr "%1 bağlayın"
 
-#: src/timeline2/view/timelinetabs.cpp:373
+#: src/timeline2/view/timelinetabs.cpp:376
 #, fuzzy, kde-format
 #| msgid "Align Audio to Reference"
 msgid "Align to Reference"
 msgstr "Səsi bağlantıya görə düzənləyin"
 
-#: src/timeline2/view/timelinetabs.cpp:449
+#: src/timeline2/view/timelinetabs.cpp:452
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Ardıcıllığa yeni ad verin"
@@ -40358,33 +40295,63 @@ msgstr "%1s"
 
 #, fuzzy
 #~| msgid "The thickness of the bar or segments."
-#~ msgid "Sets the thickness for the line in pixels"
+#~ msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
 #~ msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #, fuzzy
 #~| msgid "The thickness of the bar or segments."
-#~ msgid "Sets the thickness for the grid lines in pixels"
+#~ msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
 #~ msgstr "ZOlağın və bölmələrin nazikliyi."
 
 #, fuzzy
-#~| msgid "Comment"
-#~ msgid "comment"
-#~ msgstr "Şərh"
+#~| msgid "Preserve alpha"
+#~ msgid "<![CDATA[Preserve lightness]]>"
+#~ msgstr "Alfanı qorumaq"
+
+#, fuzzy
+#~| msgid "Start Opacity"
+#~ msgid "<![CDATA[Set graticule flags]]>"
+#~ msgstr "Başlanğıc qeyri-şəffaflıq"
+
+#, fuzzy
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[comment]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
 
 #, fuzzy
 #~| msgid "High quality 3D denoiser"
-#~ msgid "High quality 3D denoiser"
+#~ msgid "<![CDATA[High quality 3D denoiser]]>"
 #~ msgstr "Yüksən keyfiyyətli, 3D küy boğucu"
 
 #, fuzzy
-#~| msgid "Gain"
-#~ msgid "<Gain"
-#~ msgstr "Gücləndirmə"
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
 
 #, fuzzy
-#~| msgid "B"
-#~ msgid "BW"
-#~ msgstr "B"
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[Overlap]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
+
+#, fuzzy
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[Gain]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
+
+#, fuzzy
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[<Gain]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
+
+#, fuzzy
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[Dry/Wet]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
+
+#, fuzzy
+#~| msgid "Rotation around the X axis"
+#~ msgid "<![CDATA[BW]]>"
+#~ msgstr "X oxu ətrafında döndərmək"
 
 #, fuzzy
 #~| msgid "Amount of noise added."
