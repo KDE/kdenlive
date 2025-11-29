@@ -88,6 +88,7 @@ parts:
       - libxkbcommon-dev
       - libvulkan-dev
       - python3-srp
+      - libkddockwidgets-qt6-dev
     stage-packages:
       - on amd64:
         - libpsm-infinipath1
@@ -106,6 +107,7 @@ parts:
       - opentimelineio
       - libxkbcommon0
       - lsp-plugins-ladspa
+      - libkddockwidgets-qt6
     stage-snaps:
       - on amd64:
         - glaxnimate
