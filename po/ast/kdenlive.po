@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-28 02:33+0000\n"
+"POT-Creation-Date: 2025-11-29 02:35+0000\n"
 "PO-Revision-Date: 2024-03-27 23:13+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -6819,7 +6819,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1094 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1102 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -10704,8 +10704,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:591
-#: src/dialogs/Splash.qml:957 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:595
+#: src/dialogs/Splash.qml:961 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -15426,12 +15426,12 @@ msgstr ""
 msgid "Wave Amplitude"
 msgstr ""
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:775
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:779
 #, kde-format
 msgid "Horizontal"
 msgstr ""
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:822
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:826
 #, kde-format
 msgid "Vertical"
 msgstr ""
@@ -18401,7 +18401,7 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:5015 src/core.cpp:657 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5015 src/core.cpp:665 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -19240,293 +19240,293 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr ""
 
-#: src/core.cpp:460
+#: src/core.cpp:468
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:472
+#: src/core.cpp:480
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:472 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:480 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr ""
 
-#: src/core.cpp:485
+#: src/core.cpp:493
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:500 src/project/projectmanager.cpp:884
+#: src/core.cpp:508 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Loading project…"
-msgstr ""
-
-#: src/core.cpp:709
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Square 2 Bars"
-msgstr ""
-
-#: src/core.cpp:710
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Checkerboard Small"
-msgstr ""
-
-#: src/core.cpp:711
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Horizontal Blinds"
-msgstr ""
-
-#: src/core.cpp:712
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Radial"
-msgstr ""
-
-#: src/core.cpp:713
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Linear X"
-msgstr ""
-
-#: src/core.cpp:714
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Bi-Linear X"
-msgstr ""
-
-#: src/core.cpp:715
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Linear Y"
-msgstr ""
-
-#: src/core.cpp:716
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Bi-Linear Y"
 msgstr ""
 
 #: src/core.cpp:717
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Square"
+msgid "Square 2 Bars"
 msgstr ""
 
 #: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Square 2"
+msgid "Checkerboard Small"
 msgstr ""
 
 #: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Cloud"
+msgid "Horizontal Blinds"
 msgstr ""
 
 #: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Symmetric Clock"
+msgid "Radial"
 msgstr ""
 
 #: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Radial Bars"
+msgid "Linear X"
 msgstr ""
 
 #: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Spiral"
+msgid "Bi-Linear X"
 msgstr ""
 
 #: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Spiral 2"
+msgid "Linear Y"
 msgstr ""
 
 #: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Curtain"
+msgid "Bi-Linear Y"
 msgstr ""
 
 #: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Burst"
+msgid "Square"
 msgstr ""
 
 #: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Clock"
+msgid "Square 2"
+msgstr ""
+
+#: src/core.cpp:727
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Cloud"
 msgstr ""
 
 #: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Bar Horizontal"
+msgid "Symmetric Clock"
 msgstr ""
 
 #: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Bar Vertical"
+msgid "Radial Bars"
 msgstr ""
 
 #: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Barn Door Horizontal"
+msgid "Spiral"
 msgstr ""
 
 #: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Barn Door Vertical"
+msgid "Spiral 2"
 msgstr ""
 
 #: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Barn Door Diagonal SW-NE"
+msgid "Curtain"
 msgstr ""
 
 #: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Barn Door Diagonal NW-SE"
+msgid "Burst"
 msgstr ""
 
 #: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Diagonal Top Left"
-msgstr ""
-
-#: src/core.cpp:735
-#, kde-format
-msgctxt "Luma transition name"
-msgid "Diagonal Top Right"
+msgid "Clock"
 msgstr ""
 
 #: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Matrix Waterfall Horizontal"
+msgid "Bar Horizontal"
 msgstr ""
 
 #: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Matrix Waterfall Vertical"
+msgid "Bar Vertical"
 msgstr ""
 
 #: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Matrix Snake Horizontal"
+msgid "Barn Door Horizontal"
 msgstr ""
 
 #: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Matrix Snake Parallel Horizontal"
+msgid "Barn Door Vertical"
 msgstr ""
 
 #: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Matrix Snake Vertical"
+msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
 #: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Matrix Snake Parallel Vertical"
+msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
 #: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Barn V Up"
+msgid "Diagonal Top Left"
 msgstr ""
 
 #: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Iris Circle"
+msgid "Diagonal Top Right"
 msgstr ""
 
 #: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Double Iris"
+msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
 #: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Iris Box"
+msgid "Matrix Waterfall Vertical"
 msgstr ""
 
 #: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Box Bottom Right"
+msgid "Matrix Snake Horizontal"
 msgstr ""
 
 #: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Box Bottom Left"
+msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
 #: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
-msgid "Box Right Center"
+msgid "Matrix Snake Vertical"
 msgstr ""
 
 #: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
+msgid "Matrix Snake Parallel Vertical"
+msgstr ""
+
+#: src/core.cpp:750
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Barn V Up"
+msgstr ""
+
+#: src/core.cpp:751
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Iris Circle"
+msgstr ""
+
+#: src/core.cpp:752
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Double Iris"
+msgstr ""
+
+#: src/core.cpp:753
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Iris Box"
+msgstr ""
+
+#: src/core.cpp:754
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Box Bottom Right"
+msgstr ""
+
+#: src/core.cpp:755
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Box Bottom Left"
+msgstr ""
+
+#: src/core.cpp:756
+#, kde-format
+msgctxt "Luma transition name"
+msgid "Box Right Center"
+msgstr ""
+
+#: src/core.cpp:757
+#, kde-format
+msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:1040
+#: src/core.cpp:1048
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
-#: src/core.cpp:1404
+#: src/core.cpp:1412
 #, kde-format
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1860
+#: src/core.cpp:1868
 #, kde-format
 msgid "Marker %1"
 msgstr ""
 
-#: src/core.cpp:2214
+#: src/core.cpp:2222
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19534,12 +19534,12 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2215 src/core.cpp:2226
+#: src/core.cpp:2223 src/core.cpp:2234
 #, kde-format
 msgid "Open Browser"
 msgstr ""
 
-#: src/core.cpp:2225
+#: src/core.cpp:2233
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21205,7 +21205,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:559 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:563 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr ""
@@ -21225,7 +21225,7 @@ msgstr ""
 msgid "Start Normally"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:617
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:621
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -21233,7 +21233,7 @@ msgid ""
 "org/fund/\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:631
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:635
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -21970,105 +21970,105 @@ msgstr ""
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:168
+#: src/dialogs/Splash.qml:171
 #, kde-format
 msgid "Made by KDE"
 msgstr ""
 
-#: src/dialogs/Splash.qml:224
+#: src/dialogs/Splash.qml:227
 #, kde-format
 msgid "Open Project…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:251
+#: src/dialogs/Splash.qml:254
 #, kde-format
 msgid "Open Recent"
 msgstr ""
 
-#: src/dialogs/Splash.qml:259
+#: src/dialogs/Splash.qml:262
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr ""
 
-#: src/dialogs/Splash.qml:360
+#: src/dialogs/Splash.qml:364
 #, kde-format
 msgid "Remove file from list"
 msgstr ""
 
-#: src/dialogs/Splash.qml:389
+#: src/dialogs/Splash.qml:393
 #, kde-format
 msgid "New Project…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:416
+#: src/dialogs/Splash.qml:420
 #, kde-format
 msgid "New From Profile"
 msgstr ""
 
-#: src/dialogs/Splash.qml:424
+#: src/dialogs/Splash.qml:428
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:510
+#: src/dialogs/Splash.qml:514
 #, kde-format
 msgid "Remove profile from list"
 msgstr ""
 
-#: src/dialogs/Splash.qml:549
+#: src/dialogs/Splash.qml:553
 #, kde-format
 msgid "Show on Startup"
 msgstr ""
 
-#: src/dialogs/Splash.qml:582 src/dialogs/Splash.qml:948
+#: src/dialogs/Splash.qml:586 src/dialogs/Splash.qml:952
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 
-#: src/dialogs/Splash.qml:660
+#: src/dialogs/Splash.qml:664
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:665
+#: src/dialogs/Splash.qml:669
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:670
+#: src/dialogs/Splash.qml:674
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:700
+#: src/dialogs/Splash.qml:704
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr ""
 
-#: src/dialogs/Splash.qml:706
+#: src/dialogs/Splash.qml:710
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:718
+#: src/dialogs/Splash.qml:722
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:835 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:839 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr ""
 
-#: src/dialogs/Splash.qml:862
+#: src/dialogs/Splash.qml:866
 #, kde-format
 msgid "Frame Rate"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:888
+#: src/dialogs/Splash.qml:892
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -22077,27 +22077,27 @@ msgstr ""
 msgid "Interlaced"
 msgstr ""
 
-#: src/dialogs/Splash.qml:907
+#: src/dialogs/Splash.qml:911
 #, kde-format
 msgid "Video Tracks"
 msgstr ""
 
-#: src/dialogs/Splash.qml:916
+#: src/dialogs/Splash.qml:920
 #, kde-format
 msgid "Audio Tracks"
 msgstr ""
 
-#: src/dialogs/Splash.qml:929
+#: src/dialogs/Splash.qml:933
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:974
+#: src/dialogs/Splash.qml:978
 #, kde-format
 msgid "Check Online Documentation"
 msgstr ""
 
-#: src/dialogs/Splash.qml:982
+#: src/dialogs/Splash.qml:986
 #, kde-format
 msgid "Start Editing"
 msgstr ""
@@ -32276,12 +32276,12 @@ msgstr ""
 msgid "Close %1"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:373
+#: src/timeline2/view/timelinetabs.cpp:376
 #, kde-format
 msgid "Align to Reference"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:449
+#: src/timeline2/view/timelinetabs.cpp:452
 #, kde-format
 msgid "Rename Sequence"
 msgstr ""
