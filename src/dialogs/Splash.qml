@@ -616,7 +616,9 @@ Window {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     anchors.right: notesButton.left
-                    text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive.org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive.org/fund/\">funding</a>.")
+                    text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
+                               "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
+                               "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                     wrapMode: Text.Wrap
                     onLinkActivated: (link)=> openLink(link)
                     textFormat: Text.RichText
