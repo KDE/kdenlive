@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="239" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="240" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -280,6 +280,7 @@
       <Menu name="monitor_scaling">
         <text>Preview Resolution</text>
         <Action name="scale_no_preview"/>
+        <Action name="scale_1_preview"/>
         <Action name="scale_2_preview"/>
         <Action name="scale_4_preview"/>
         <Action name="scale_8_preview"/>
