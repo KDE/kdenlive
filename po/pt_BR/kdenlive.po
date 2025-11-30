@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-29 02:35+0000\n"
+"POT-Creation-Date: 2025-11-30 02:39+0000\n"
 "PO-Revision-Date: 2025-11-28 07:10-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -11546,8 +11546,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:595
-#: src/dialogs/Splash.qml:961 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:593
+#: src/dialogs/Splash.qml:959 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16714,12 +16714,12 @@ msgstr "Amplitude do final"
 msgid "Wave Amplitude"
 msgstr "Amplitude da onda"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:779
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:777
 #, kde-format
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:826
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:824
 #, kde-format
 msgid "Vertical"
 msgstr "Vertical"
@@ -22756,7 +22756,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "Feito pelo KDE"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:563 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:561 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22776,7 +22776,7 @@ msgstr "Redefinir configuração"
 msgid "Start Normally"
 msgstr "Iniciar normalmente"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:621
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:619
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -22787,7 +22787,7 @@ msgstr ""
 "kdenlive.org/get-involved/\">participar do projeto</a> ou ajudar <a href="
 "\"https://kdenlive.org/fund/\">financeiramente</a>."
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:635
+#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:633
 #, kde-format
 msgid "What's New"
 msgstr "O que há de novo"
@@ -23526,107 +23526,107 @@ msgstr "59.94 fps"
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:171
+#: src/dialogs/Splash.qml:169
 #, kde-format
 msgid "Made by KDE"
 msgstr "Feito pelo time do KDE"
 
-#: src/dialogs/Splash.qml:227
+#: src/dialogs/Splash.qml:225
 #, kde-format
 msgid "Open Project…"
 msgstr "Abrir projeto…"
 
-#: src/dialogs/Splash.qml:254
+#: src/dialogs/Splash.qml:252
 #, kde-format
 msgid "Open Recent"
 msgstr "Abrir recente"
 
-#: src/dialogs/Splash.qml:262
+#: src/dialogs/Splash.qml:260
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Limpar histórico de projetos recentes"
 
-#: src/dialogs/Splash.qml:364
+#: src/dialogs/Splash.qml:362
 #, kde-format
 msgid "Remove file from list"
 msgstr "Remover arquivo da lista"
 
-#: src/dialogs/Splash.qml:393
+#: src/dialogs/Splash.qml:391
 #, kde-format
 msgid "New Project…"
 msgstr "Novo projeto…"
 
-#: src/dialogs/Splash.qml:420
+#: src/dialogs/Splash.qml:418
 #, kde-format
 msgid "New From Profile"
 msgstr "Novo a partir do perfil"
 
-#: src/dialogs/Splash.qml:428
+#: src/dialogs/Splash.qml:426
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Limpar histórico de perfis recentes"
 
-#: src/dialogs/Splash.qml:514
+#: src/dialogs/Splash.qml:512
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Remover perfil da lista"
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, kde-format
 msgid "Show on Startup"
 msgstr "Mostrar na inicialização"
 
-#: src/dialogs/Splash.qml:586 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:950
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "Kdenlive travou durante a última inicialização. Redefinir configuração e "
 "reiniciar?"
 
-#: src/dialogs/Splash.qml:664
+#: src/dialogs/Splash.qml:662
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "Ajude-nos a tornar o Kdenlive ainda melhor"
 
-#: src/dialogs/Splash.qml:669
+#: src/dialogs/Splash.qml:667
 #, kde-format
 msgid "Contribute…"
 msgstr "Contribuir..."
 
-#: src/dialogs/Splash.qml:674
+#: src/dialogs/Splash.qml:672
 #, kde-format
 msgid "Donate…"
 msgstr "Doar..."
 
-#: src/dialogs/Splash.qml:704
+#: src/dialogs/Splash.qml:702
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>Bem-vindo à configuração rápida do Kdenlive</b>"
 
-#: src/dialogs/Splash.qml:710
+#: src/dialogs/Splash.qml:708
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "Usar sempre o tema de cores escuras"
 
-#: src/dialogs/Splash.qml:722
+#: src/dialogs/Splash.qml:720
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Perfil de projeto padrão</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:839 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:837 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Resolução"
 
-#: src/dialogs/Splash.qml:866
+#: src/dialogs/Splash.qml:864
 #, kde-format
 msgid "Frame Rate"
 msgstr "Taxa de quadros"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:892
+#: src/dialogs/Splash.qml:890
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23635,27 +23635,27 @@ msgstr "Taxa de quadros"
 msgid "Interlaced"
 msgstr "Entrelaçado"
 
-#: src/dialogs/Splash.qml:911
+#: src/dialogs/Splash.qml:909
 #, kde-format
 msgid "Video Tracks"
 msgstr "Faixas de vídeo"
 
-#: src/dialogs/Splash.qml:920
+#: src/dialogs/Splash.qml:918
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Faixas de áudio"
 
-#: src/dialogs/Splash.qml:933
+#: src/dialogs/Splash.qml:931
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Isso sempre poderá ser alterado posteriormente nas Configurações."
 
-#: src/dialogs/Splash.qml:978
+#: src/dialogs/Splash.qml:976
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Verificar documentação online"
 
-#: src/dialogs/Splash.qml:986
+#: src/dialogs/Splash.qml:984
 #, kde-format
 msgid "Start Editing"
 msgstr "Iniciar edição"
