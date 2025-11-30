@@ -1787,14 +1787,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("mlt_realtime"), dropFrames);
     connect(dropFrames, &QAction::toggled, this, &MainWindow::slotSwitchDropFrames);
 
-    KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
-    monitorGamma->addAction(i18n("sRGB (computer)"));
-    monitorGamma->addAction(i18n("Rec. 709 (TV)"));
-    addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
-    monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-    connect(monitorGamma, &KSelectAction::indexTriggered, this, &MainWindow::slotSetMonitorGamma);
-    actionCollection()->setShortcutsConfigurable(monitorGamma, false);
-
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
                                        QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
     insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
@@ -4447,13 +4439,6 @@ void MainWindow::slotSwitchDropFrames(bool drop)
     m_projectMonitor->restart();
 }
 
-void MainWindow::slotSetMonitorGamma(int gamma)
-{
-    KdenliveSettings::setMonitor_gamma(gamma);
-    m_clipMonitor->restart();
-    m_projectMonitor->restart();
-}
-
 void MainWindow::slotInsertZoneToTree()
 {
     if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == nullptr) {
@@ -5387,7 +5372,8 @@ void MainWindow::checkMaxCacheSize()
                             QAction *updateAction = new QAction(i18n("Go to download page"), this);
                             connect(updateAction, &QAction::triggered, this, []() {
                                 QDesktopServices::openUrl(
-                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder")));
+                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder&mtm_content=%1")
+                                             .arg(KAboutData::applicationData().version())));
                             });
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
                             connect(abortAction, &QAction::triggered, this, []() { KdenliveSettings::setCheckForUpdate(false); });
@@ -5666,6 +5652,8 @@ void MainWindow::appHelpActivated()
 {
     // Don't use default help, show our website
     // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
+    const QString helpUrl =
+        QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action&mtm_content=%1").arg(KAboutData::applicationData().version());
     if (pCore->packageType() == LinuxPackageType::AppImage) {
         qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
         QProcessEnvironment env = getCleanEnvironement();
@@ -5674,10 +5662,10 @@ void MainWindow::appHelpActivated()
         QString openPath = QStandardPaths::findExecutable(QStringLiteral("xdg-open"));
         qDebug() << "------------\nFOUND OPEN PATH: " << openPath;
         process.setProgram(openPath.isEmpty() ? QStringLiteral("xdg-open") : openPath);
-        process.setArguments({QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")});
+        process.setArguments({helpUrl});
         process.startDetached();
     } else {
-        QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")));
+        QDesktopServices::openUrl(QUrl(helpUrl));
     }
 }
 

@@ -597,11 +597,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="monitor_gamma" type="Int">
-      <label>Monitor gamma (rbg / rec 709).</label>
-      <default>1</default>
-    </entry>
-
     <entry name="external_display" type="Bool">
       <label>Use Blackmagic device for video out.</label>
       <default>false</default>
