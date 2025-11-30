@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-29 00:42+0000\n"
-"PO-Revision-Date: 2025-11-28 05:24+0100\n"
+"PO-Revision-Date: 2025-11-29 05:06+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1432,18 +1432,14 @@ msgid "Similarity"
 msgstr "მსგავსება"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Similarity percentage with the select color<br>\n"
-#| "        0.01 matches only the exact key color, while 1.0 matches "
-#| "everything.]]>"
+#, kde-format
 msgid ""
 "Similarity percentage with the select color<br>\n"
 "        0.01 matches only the exact key color, while 1.0 matches everything."
 msgstr ""
-"<![CDATA[არჩეულ ფერთან მსგავსების პროცენტულობა<br>\n"
+"არჩეულ ფერთან მსგავსების პროცენტულობა<br>\n"
 "        0.01 ემთხვევა, მხოლოდ ზუსტად ძირითად ფერს, როცა 1.0 ყველაფერს "
-"ემთხვევა.]]>"
+"ემთხვევა."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1467,10 +1463,9 @@ msgid "YUV color"
 msgstr "YUV ფერი"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
+#, kde-format
 msgid "Select this if the clip has YUV data instead of RGB."
-msgstr "<![CDATA[მონიშნეთ ეს, თუ კლიპს აქვს YUV მონაცემები RGB-ის გარეშე.]]>"
+msgstr "მონიშნეთ ეს, თუ კლიპს აქვს YUV მონაცემები RGB-ის გარეშე."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1588,10 +1583,9 @@ msgid "Color System"
 msgstr "ფერის სისტემა"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the color system]]>"
+#, kde-format
 msgid "Select the color system"
-msgstr "<![CDATA[აირჩიეთ ფერის სისტემა]]>"
+msgstr "აირჩიეთ ფერის სისტემა"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #: data/effects/avfilter/avfilter_ciescope.xml:20
@@ -1609,10 +1603,9 @@ msgid "CIE System"
 msgstr "CIE სისტემა"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the CIE color space]]>"
+#, kde-format
 msgid "Select the CIE color space"
-msgstr "<![CDATA[აირჩიეთ CIE ფერის სივრცე]]>"
+msgstr "აირჩიეთ CIE ფერის სივრცე"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
@@ -1625,10 +1618,9 @@ msgid "Gamuts to Draw"
 msgstr "გამა დასახატად"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set what gamuts to draw]]>"
+#, kde-format
 msgid "Set what gamuts to draw"
-msgstr "<![CDATA[რომელი გამა დაიხატება]]>"
+msgstr "რომელი გამა დაიხატება"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -1646,10 +1638,9 @@ msgid "Size"
 msgstr "ზომა"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the size of the scope on screen]]>"
+#, kde-format
 msgid "Set the size of the scope on screen"
-msgstr "<![CDATA[ეკრანზე არსებული დიაპაზონის ზომის დაყენება]]>"
+msgstr "[ეკრანზე არსებული დიაპაზონის ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -1683,10 +1674,9 @@ msgid "Display Correct Gamma"
 msgstr "ეკრანის ასპექტის ფარდობა"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:38
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Correct gamma displayed on scope, by default enabled]]>"
+#, kde-format
 msgid "Correct gamma displayed on scope, by default enabled"
-msgstr "<![CDATA[ფარგლებზე ნაჩვენები გამას კორექცია, ნაგულისხმევად ჩართულია]]>"
+msgstr "ფარგლებზე ნაჩვენები გამას კორექცია, ნაგულისხმევად ჩართულია"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
 #, kde-format
@@ -1694,11 +1684,9 @@ msgid "Show White Point"
 msgstr "თეთრი წერტილის ჩვენება"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:42
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show white point on CIE diagram, by default disabled]]>"
+#, kde-format
 msgid "Show white point on CIE diagram, by default disabled"
-msgstr ""
-"<![CDATA[თეთრი წერტილის ჩვენება CIE დიაგრამაზე, ნაგულისხმევად გამორთულია]]>"
+msgstr "თეთრი წერტილის ჩვენება CIE დიაგრამაზე, ნაგულისხმევად გამორთულია"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
@@ -1706,12 +1694,11 @@ msgid "Input Gamma"
 msgstr "შეყვანის გამა"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
+#, kde-format
 msgid "Set input gamma. Used only with XYZ input color space."
 msgstr ""
-"<![CDATA[შეყვანის გამის დაყენება. გამოიყენება, მხოლოდ, XYZ შეყვანის ფერის "
-"სივრცესთან ერთად.]]>"
+"შეყვანის გამის დაყენება. გამოიყენება, მხოლოდ, XYZ შეყვანის ფერის სივრცესთან "
+"ერთად."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
@@ -1719,10 +1706,9 @@ msgid "Fill with CIE Colors"
 msgstr "შევსება CIE ფერებით"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Fill with CIE colors. By default is enabled.]]>"
+#, kde-format
 msgid "Fill with CIE colors. By default is enabled."
-msgstr "<![CDATA[შევსება CIE ფერებით. ჩართულია ნაგულისხმევად.]]>"
+msgstr "შევსება CIE ფერებით. ჩართულია ნაგულისხმევად."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
@@ -2564,10 +2550,9 @@ msgid "Apply directional blur filter"
 msgstr "მიმართული გაუმჭვირვალობის ფილტრის გადატარება"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "Sets the angle for the direction"
-msgstr "<![CDATA[აყენებს კუთხეს მიმართულებისთვის]]>"
+msgstr "აყენებს კუთხეს მიმართულებისთვის"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2579,10 +2564,9 @@ msgid "Radius"
 msgstr "რადიუსი"
 
 #: data/effects/avfilter/avfilter_dblur.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "Sets the radius for the direction"
-msgstr "<![CDATA[აყენებს რადიუსს მიმართულებისთვის]]>"
+msgstr "აყენებს რადიუსს მიმართულებისთვის"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
@@ -2592,12 +2576,10 @@ msgstr "გასაფილტრი სიბრტყეები"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #: data/effects/avfilter/avfilter_scharr.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
+#, kde-format
 msgid "Sets the color space plane the effect is applied to"
 msgstr ""
-"<![CDATA[აყენებს ფერების სივრცის სიბრტყეს, რომელზედაც ეფექტის გადატარება "
-"მოხდება]]>"
+"აყენებს ფერების სივრცის სიბრტყეს, რომელზედაც ეფექტის გადატარება მოხდება"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
@@ -3192,10 +3174,9 @@ msgid "Top-left X"
 msgstr "ზედა მარცხენა X"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X coordinate of top-left corner]]>"
+#, kde-format
 msgid "X coordinate of top-left corner"
-msgstr "<![CDATA[ზედა მარცხენა კუთხის X კოორდინატი]]>"
+msgstr "ზედა მარცხენა კუთხის X კოორდინატი"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
@@ -3204,10 +3185,9 @@ msgid "Top-left Y"
 msgstr "ზედა მარცხენა Y"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y coordinate of top-left corner]]>"
+#, kde-format
 msgid "Y coordinate of top-left corner"
-msgstr "<![CDATA[ზედა მარცხენა კუთხის Y კოორდინატი]]>"
+msgstr "ზედა მარცხენა კუთხის Y კოორდინატი"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
@@ -3215,16 +3195,13 @@ msgid "Width (px)"
 msgstr "სიგანე (პქს)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Width of the box in pixel.<br>\n"
-#| "    \tA width of <em>1</em> does not draw a line]]>"
+#, kde-format
 msgid ""
 "Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line"
 msgstr ""
-"<![CDATA[ყუთის ზომა პიქსელებშიl.<br>\n"
-"    \tსიგანე <em>1</em> ხაზს არ დახატავს]]>"
+"ყუთის ზომა პიქსელებშიl.<br>\n"
+"    \tსიგანე <em>1</em> ხაზს არ დახატავს"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
@@ -3232,16 +3209,13 @@ msgid "Height (px)"
 msgstr "სიმაღლე (პქს)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Height of the box in pixel.<br>\n"
-#| "    \tA height of <em>1</em> does not draw a line]]>"
+#, kde-format
 msgid ""
 "Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line"
 msgstr ""
-"<![CDATA[ყუთის სიმაღლე პიქსელებშიl.<br>\n"
-"    \tსიმაღლე <em>1</em> ხაზს არ დახატავს]]>"
+"ყუთის სიმაღლე პიქსელებშიl.<br>\n"
+"    \tსიმაღლე <em>1</em> ხაზს არ დახატავს"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
@@ -3254,17 +3228,13 @@ msgid "Color"
 msgstr "ფერი"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Select a color for the line.<br>\n"
-#| "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
+#, kde-format
 msgid ""
 "Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent."
 msgstr ""
-"<![CDATA[აირჩიეთ ფერი ხაზისთვის.<br>\n"
-"    \tგამოიყენეთ <em>ალფას</em> მნიშვნელობა ხაზის "
-"ნახევრადგამჭვირვალობისთვის.]]>"
+"აირჩიეთ ფერი ხაზისთვის.<br>\n"
+"    \tგამოიყენეთ <em>ალფას</em> მნიშვნელობა ხაზის ნახევრადგამჭვირვალობისთვის."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3310,10 +3280,9 @@ msgid "X Offset"
 msgstr "X წანაცვლება"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance from the left edge in pixel]]>"
+#, kde-format
 msgid "Distance from the left edge in pixel"
-msgstr "<![CDATA[მანძილი მარცხენა წიბოდან პიქსელებში]]>"
+msgstr "მანძილი მარცხენა წიბოდან პიქსელებში"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16 data/effects/frei0r/frei0r_mirr0r.xml:11
@@ -3322,10 +3291,9 @@ msgid "Y Offset"
 msgstr "Y წანაცვლება"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance from the top edge in pixel]]>"
+#, kde-format
 msgid "Distance from the top edge in pixel"
-msgstr "<![CDATA[მანძილი ზედა წიბოდან პიქსელებში]]>"
+msgstr "მანძილი ზედა წიბოდან პიქსელებში"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3341,10 +3309,9 @@ msgid "Width"
 msgstr "სიგანე"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "Distance between vertical lines in pixel"
-msgstr "<![CDATA[მანძილი ვერტიკალურ ხაზებს შორის პიქსელებში]]>"
+msgstr "მანძილი ვერტიკალურ ხაზებს შორის პიქსელებში"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
@@ -3358,23 +3325,18 @@ msgid "Height"
 msgstr "სიმაღლე"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
+#, kde-format
 msgid "Distance between horizontal lines in pixel"
-msgstr "<![CDATA[მანძილი ჰორიზონტალურ ხაზებს შორის პიქსელებში]]>"
+msgstr "მანძილი ჰორიზონტალურ ხაზებს შორის პიქსელებში"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Select a color for the grid lines.<br>\n"
-#| "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
+#, kde-format
 msgid ""
 "Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent."
 msgstr ""
-"<![CDATA[აირჩიეთ ფერი ხაზისთვის.<br>\n"
-"    \tგამოიყენეთ <em>ალფას</em> მნიშვნელობა ხაზის "
-"ნახევრადგამჭვირვალობისთვის.]]>"
+"აირჩიეთ ფერი ბადის ხაზისთვის.<br>\n"
+"    \tგამოიყენეთ <em>ალფას</em> მნიშვნელობა ხაზის ნახევრადგამჭვირვალობისთვის."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, kde-format
@@ -3633,10 +3595,9 @@ msgid "Block"
 msgstr "ბლოკი"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set size of block in pixels]]>"
+#, kde-format
 msgid "Set size of block in pixels"
-msgstr "<![CDATA[ბლოკის ზომის დაყენება პიქსელებში]]>"
+msgstr "ბლოკის ზომის დაყენება პიქსელებში"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
 #, kde-format
@@ -3644,10 +3605,9 @@ msgid "Set block overlap"
 msgstr "ბლოკის გადაფარვის დაყენება"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "Set denoising method"
-msgstr "<![CDATA[ხმაურის მოცილების მეთოდის დაყენება]]>"
+msgstr "ხმაურის მოცილების მეთოდის დაყენება"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
@@ -3655,28 +3615,22 @@ msgid "Wiener,Hard"
 msgstr "ვინერი, მაგარი"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Add <em>previous</em> frame<br>\n"
-#| "        for temporal denoising]]>"
+#, kde-format
 msgid ""
 "Add <em>previous</em> frame<br>\n"
 "        for temporal denoising"
 msgstr ""
-"<![CDATA[<em>წინა</em> კადრის დამატება<br>\n"
-"        სივრცითი ხმაურის მოცილებისთვის]]>"
+"<em>შემდეგი</em> კადრის დამატება<br>\n"
+"        სივრცითი ხმაურის მოცილებისთვის"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Add <em>next</em> frame<br>\n"
-#| "        for temporal denoising]]>"
+#, kde-format
 msgid ""
 "Add <em>next</em> frame<br>\n"
 "        for temporal denoising"
 msgstr ""
-"<![CDATA[<em>შემდეგი</em> კადრის დამატება<br>\n"
-"        სივრცითი ხმაურის მოცილებისთვის]]>"
+"<em>შემდეგი</em> კადრის დამატება<br>\n"
+"        სივრცითი ხმაურის მოცილებისთვის"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:40
 #: data/effects/avfilter/avfilter_median.xml:24
@@ -3885,7 +3839,7 @@ msgstr "სიჩქარე"
 #: data/effects/avfilter/avfilter_flanger.xml:25
 #, kde-format
 msgid "Set sweeps per second (Hz). Range from 0.1 to 10."
-msgstr ""
+msgstr "დააყენეთ სკანირების წამში (ჰც) შუალედი 0.1-დან 10-მდე."
 
 #: data/effects/avfilter/avfilter_flanger.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
@@ -4058,18 +4012,13 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The maximum amount by which the filter will change any one pixel."
-#| "<br>\n"
-#| "       \tThis is also the threshold for detecting nearly flat regions.]]>"
+#, kde-format
 msgid ""
 "The maximum amount by which the filter will change any one pixel.<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions."
 msgstr ""
-"<![CDATA[მაქსიმალური რაოდენობა, რომლითაც ფილტრი ერთ ნებისმიერ პიქსელს "
-"შეცვლის.<br>\n"
-"       \tეს ასევე გამოიყენება თითქმის ბრტყელი რეგიონების გამოსავლენად.]]>"
+"მაქსიმალური რაოდენობა, რომლითაც ფილტრი ერთ ნებისმიერ პიქსელს შეცვლის.<br>\n"
+"       \tეს ასევე გამოიყენება თითქმის ბრტყელი რეგიონების გამოსავლენად."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:19
 #, kde-format
@@ -4411,29 +4360,23 @@ msgstr "აქცევს გარკვეულ HSV დიაპაზონ
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:10
 #: data/effects/avfilter/avfilter_hsvkey.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the hue value which<br>\n"
-#| "        will be used in color difference calculation]]>"
+#, kde-format
 msgid ""
 "Set the hue value which<br>\n"
 "        will be used in color difference calculation"
 msgstr ""
-"<![CDATA[დააყენეთ ტონის მნიშვნელობა,<br>\n"
-"        რომელიც ფერების სხვაობის გამოსათვლელად იქნება გამოყენებული]]>"
+"დააყენეთ ტონის მნიშვნელობა,<br>\n"
+"        რომელიც ფერების სხვაობის გამოსათვლელად იქნება გამოყენებული"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:15
 #: data/effects/avfilter/avfilter_hsvkey.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the saturation value<br>\n"
-#| "        which will be used in color difference calculation]]>"
+#, kde-format
 msgid ""
 "Set the saturation value<br>\n"
 "        which will be used in color difference calculation"
 msgstr ""
-"<![CDATA[დააყენეთ გაჯერებულობის მნიშვნელობა,<br>\n"
-"        რომელიც ფერების სხვაობის გამოსათვლელად იქნება გამოყენებული]]>"
+"დააყენეთ გაჯერებულობის მნიშვნელობა,<br>\n"
+"        რომელიც ფერების სხვაობის გამოსათვლელად იქნება გამოყენებული"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/effects/avfilter/avfilter_hsvhold.xml:18
@@ -4445,30 +4388,25 @@ msgstr "მნიშვნელობა"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:20
 #: data/effects/avfilter/avfilter_hsvkey.xml:20
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the value which will<br>\n"
-#| "        be used in color difference calculation]]>"
+#, kde-format
 msgid ""
 "Set the value which will<br>\n"
 "        be used in color difference calculation"
 msgstr ""
-"<![CDATA[დააყენეთ მნიშვნელობა,<br>\n"
-"        რომელიც ფერების სხვაობის გამოსათვლელად იქნება გამოყენებული]]>"
+"დააყენეთ მნიშვნელობა,<br>\n"
+"        რომელიც ფერების სხვაობის გამოსათვლელად იქნება გამოყენებული"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:24
 #: data/effects/avfilter/avfilter_hsvkey.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set similarity percentage with the key color]]>"
+#, kde-format
 msgid "Set similarity percentage with the key color"
-msgstr "<![CDATA[მსგავსების პროცენტულობის დაყენება ძირითად ფერთან]]>"
+msgstr "მსგავსების პროცენტულობის დაყენება ძირითად ფერთან"
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blend percentage]]>"
+#, kde-format
 msgid "Blend percentage"
-msgstr "<![CDATA[შერევის პროცენტულობა]]>"
+msgstr "შერევის პროცენტულობა"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
 #, kde-format
@@ -4496,16 +4434,13 @@ msgid "Colors to Adjust"
 msgstr "გასასწორებელი ფერები"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set which primary and<br>\n"
-#| "        complementary colors are going to be adjusted]]>"
+#, kde-format
 msgid ""
 "Set which primary and<br>\n"
 "        complementary colors are going to be adjusted"
 msgstr ""
-"<![CDATA[დააყენეთ, რომელი ძირითადი<br>\n"
-"        და დამხმარე ფერების გასწორება მოხდება]]>"
+"დააყენეთ, რომელი ძირითადი<br>\n"
+"        და დამხმარე ფერების გასწორება მოხდება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:11
 #, kde-format
@@ -4519,10 +4454,9 @@ msgid "Hue Shift"
 msgstr "ტონის წანაცვლება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
+#, kde-format
 msgid "Set the hue shift in degrees to apply"
-msgstr "<![CDATA[გადასატარებელი ტონის წანაცვლების დაყენება გრადუსებში]]>"
+msgstr "გადასატარებელი ტონის წანაცვლების დაყენება გრადუსებში"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
@@ -4530,10 +4464,9 @@ msgid "Saturation Shift"
 msgstr "გაჯერებულობის წანაცვლება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "Set the saturation shift"
-msgstr "<![CDATA[გაჯერებულობის წანაცვლების დაყენება]]>"
+msgstr "გაჯერებულობის წანაცვლების დაყენება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
 #, kde-format
@@ -4541,16 +4474,14 @@ msgid "Intensity Shift"
 msgstr "ინტენსივობის წანაცვლება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the intensity shift]]>"
+#, kde-format
 msgid "Set the intensity shift"
-msgstr "<![CDATA[დააყენეთ ინტენსივობის წანაცვლება]]>"
+msgstr "დააყენეთ ინტენსივობის წანაცვლება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set strength of filtering]]>"
+#, kde-format
 msgid "Set strength of filtering"
-msgstr "<![CDATA[ფილტრის სიძლიერის დაყენება]]>"
+msgstr "ფილტრის სიძლიერის დაყენება"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
 #, kde-format
@@ -4563,16 +4494,13 @@ msgid "Red Strength"
 msgstr "წითლის სიძლიერე"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for RED component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[დააყენეთ სიმძიმე წითელი კომპონენტისთვის.<br>\n"
-"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის.]]>"
+"დააყენეთ სიმძიმე წითელი კომპონენტისთვის.<br>\n"
+"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
 #, kde-format
@@ -4580,16 +4508,13 @@ msgid "Green Strength"
 msgstr "მწვანის სიძლიერე"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for GREEN component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for GREEN component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[დააყენეთ სიმძიმე მწვანე კომპონენტისთვის.<br>\n"
-"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის.]]>"
+"დააყენეთ სიმძიმე მწვანე კომპონენტისთვის.<br>\n"
+"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
 #, kde-format
@@ -4597,16 +4522,13 @@ msgid "Blue Strength"
 msgstr "ლურჯის სიძლიერე"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for BLUE component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for BLUE component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[დააყენეთ სიმძიმე ლურჯი კომპონენტისთვის.<br>\n"
-"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის.]]>"
+"დააყენეთ სიმძიმე ლურჯი კომპონენტისთვის.<br>\n"
+"        გამოიყენება გაჯერებულობისა და განათებულობის დამუშავებისთვის."
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -4807,52 +4729,40 @@ msgid "Unmapped Pixel Color"
 msgstr "აუსახავი პიქსელის ფერი"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:16
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Focal Point Relative<br>\n"
-#| "        X-Coordinate]]>"
+#, kde-format
 msgid ""
 "Focal Point Relative<br>\n"
 "        X-Coordinate"
 msgstr ""
-"<![CDATA[ფოკალური წერტილი<br>\n"
-"        X-კოორდინატთან შედარებით]]>"
+"ფოკალური წერტილი<br>\n"
+"        X-კოორდინატთან შედარებით"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:20
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Focal Point Relative<br>\n"
-#| "        Y-Coordinate]]>"
+#, kde-format
 msgid ""
 "Focal Point Relative<br>\n"
 "        Y-Coordinate"
 msgstr ""
-"<![CDATA[ფოკალური წერტილი<br>\n"
-"        Y-კოორდინატთან შედარებით]]>"
+"ფოკალური წერტილი<br>\n"
+"        Y-კოორდინატთან შედარებით"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Quadratic<br>\n"
-#| "        Correction Coefficient]]>"
+#, kde-format
 msgid ""
 "Quadratic<br>\n"
 "        Correction Coefficient"
 msgstr ""
-"<![CDATA[კვადრატული<br>\n"
-"        კორექციის კოეფიციენტი]]>"
+"კვადრატული<br>\n"
+"        კორექციის კოეფიციენტი"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Double Quadratic<br>\n"
-#| "        Correction Coefficient]]>"
+#, kde-format
 msgid ""
 "Double Quadratic<br>\n"
 "        Correction Coefficient"
 msgstr ""
-"<![CDATA[გასწორების ორმაგი<br>\n"
-"        კვადრატული კოეფიციენტი]]>"
+"გასწორების ორმაგი<br>\n"
+"        კვადრატული კოეფიციენტი"
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -5053,10 +4963,9 @@ msgid "Horizontal radius"
 msgstr "ჰორიზონტალური რადიუსი"
 
 #: data/effects/avfilter/avfilter_median.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set median radius]]>"
+#, kde-format
 msgid "Set median radius"
-msgstr "<![CDATA[მედიანური რადიუსის დაყენება]]>"
+msgstr "მედიანური რადიუსის დაყენება"
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, kde-format
@@ -5084,10 +4993,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid "Select which planes to process"
-msgstr "<![CDATA[აირჩიეთ, რომელი სიბრტყე დამუშავდება]]>"
+msgstr "აირჩიეთ, რომელი სიბრტყე დამუშავდება"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -5140,16 +5048,14 @@ msgid "Video Noise Generator"
 msgstr "ვიდეოს ხმაურის გენერატორი"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Add noise on video input frame]]>"
+#, kde-format
 msgid "Add noise on video input frame"
-msgstr "<![CDATA[ხმაურის დამატება ვიდეოს შეყვანის კადრზე]]>"
+msgstr "ხმაურის დამატება ვიდეოს შეყვანის კადრზე"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>All Components</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>All Components</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>ყველა კომპონენტის</u></b> ხმაურის თესლი]]>"
+msgstr "<b><u>ყველა კომპონენტის</u></b> ხმაურის თესლი"
 
 #: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
@@ -5176,10 +5082,9 @@ msgstr ""
 "ერთგვაროვანი ხმაური"
 
 #: data/effects/avfilter/avfilter_noise.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #0</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #0</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>#0 კომპონენტის</u></b> ხმაურის თესლი]]>"
+msgstr "<b><u>#0 კომპონენტის</u></b> ხმაურის თესლი"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
 #, kde-format
@@ -5187,22 +5092,19 @@ msgid " Strength"
 msgstr " სიძლიერე"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #1</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #1</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>#1 კომპონენტის</u></b> ხმაურის თესლი]]>"
+msgstr "<b><u>#1 კომპონენტის</u></b> ხმაურის თესლი"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #2</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #2</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>#2 კომპონენტის</u></b> ხმაურის თესლი]]>"
+msgstr "<b><u>#2 კომპონენტის</u></b> ხმაურის თესლი"
 
 #: data/effects/avfilter/avfilter_noise.xml:64
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Component #3</u></b> Noise Seed]]>"
+#, kde-format
 msgid "<b><u>Component #3</u></b> Noise Seed"
-msgstr "<![CDATA[<b><u>#3 კომპონენტის</u></b> ხმაურის თესლი]]>"
+msgstr "<b><u>#3 კომპონენტის</u></b> ხმაურის თესლი"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -5295,10 +5197,9 @@ msgid "Trace X Position"
 msgstr "ტრეისის X მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X position of the trace profile]]>"
+#, kde-format
 msgid "X position of the trace profile"
-msgstr "<![CDATA[დასატრეისებელი პროფილის X მდებარეობა]]>"
+msgstr "დასატრეისებელი პროფილის X მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, kde-format
@@ -5306,16 +5207,14 @@ msgid "Trace Y Position"
 msgstr "ტრეისის Y მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y position of the trace profile]]>"
+#, kde-format
 msgid "Y position of the trace profile"
-msgstr "<![CDATA[დასატრეისებელი პროფილის Y მდებარეობა]]>"
+msgstr "დასატრეისებელი პროფილის Y მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
+#, kde-format
 msgid "Size/length of the trace profile in pixel"
-msgstr "<![CDATA[ტრეისის პროფილის ზომა/სიგრძე პიქსელებში]]>"
+msgstr "ტრეისის პროფილის ზომა/სიგრძე პიქსელებში"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
@@ -5329,16 +5228,14 @@ msgid "Tilt"
 msgstr "მოხრა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the trace profile]]>"
+#, kde-format
 msgid "Tilting of the trace profile"
-msgstr "<![CDATA[ტრეისის პროფილის დახრა]]>"
+msgstr "ტრეისის პროფილის დახრა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Opacity of the scope display]]>"
+#, kde-format
 msgid "Opacity of the scope display"
-msgstr "<![CDATA[შუალედის ჩვენების გაუმჭვირვალობა]]>"
+msgstr "შუალედის ჩვენების გაუმჭვირვალობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, kde-format
@@ -5346,10 +5243,9 @@ msgid "Scope X Position"
 msgstr "შუალედის X მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X position of the scope display]]>"
+#, kde-format
 msgid "X position of the scope display"
-msgstr "<![CDATA[შუალედის ჩვენების X მდებარეობა]]>"
+msgstr "შუალედის ჩვენების X მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, kde-format
@@ -5357,10 +5253,9 @@ msgid "Scope Y Position"
 msgstr "შუალედის Y მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y position of the scope display]]>"
+#, kde-format
 msgid "Y position of the scope display"
-msgstr "<![CDATA[შუალედის ჩვენების Y მდებარეობა]]>"
+msgstr "შუალედის ჩვენების Y მდებარეობა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, kde-format
@@ -5368,10 +5263,9 @@ msgid "Scope Width"
 msgstr "შუალედის სიგანე"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the scope display]]>"
+#, kde-format
 msgid "Width of the scope display"
-msgstr "<![CDATA[შუალედის ჩვენების სიგანე]]>"
+msgstr "შუალედის ჩვენების სიგანე"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
 #, kde-format
@@ -5379,16 +5273,14 @@ msgid "Scope Height"
 msgstr "შუალედის სიმაღლე"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Height of the scope display]]>"
+#, kde-format
 msgid "Height of the scope display"
-msgstr "<![CDATA[შუალედის ჩვენების სიმაღლე]]>"
+msgstr "შუალედის ჩვენების სიმაღლე"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be traced]]>"
+#, kde-format
 msgid "Select the components to be traced"
-msgstr "<![CDATA[აირჩიეთ კომპონენტები, რომლების ტრეისიც გნებავთ]]>"
+msgstr "აირჩიეთ კომპონენტები, რომლების ტრეისიც გნებავთ"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, kde-format
@@ -5396,10 +5288,9 @@ msgid "Draw Scope Grid"
 msgstr "ბადის შუალედის დახატვა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Switch grid on or off]]>"
+#, kde-format
 msgid "Switch grid on or off"
-msgstr "<![CDATA[ბადის ჩართვა, ან გამორთვა]]>"
+msgstr "ბადის ჩართვა, ან გამორთვა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
@@ -5407,10 +5298,9 @@ msgid "Print Statistics"
 msgstr "სტატისტიკის გამოტანა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[switch statistics on or off]]>"
+#, kde-format
 msgid "switch statistics on or off"
-msgstr "<![CDATA[სტატისტიკის ჩართვა, ან გამორთვა]]>"
+msgstr "სტატისტიკის ჩართვა, ან გამორთვა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
@@ -5418,10 +5308,9 @@ msgid "Draw Trace Profile Line"
 msgstr "ტრეისის პროფილის ხაზის დახატვა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
+#, kde-format
 msgid "Switch drawing the trace profile line on or off"
-msgstr "<![CDATA[ტრეისის პროფილსი ხაზის დახატვის ჩართვა ან გამორთვა]]>"
+msgstr "ტრეისის პროფილსი ხაზის დახატვის ჩართვა ან გამორთვა"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
@@ -5687,13 +5576,9 @@ msgid "Apply Scharr operators for edge detection"
 msgstr "Scharr ოპერატორების გადატარება წიბოების დასადგენად"
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets the value which the filtered result will be multiplied "
-#| "with ]]>"
+#, kde-format
 msgid "Sets the value which the filtered result will be multiplied with "
-msgstr ""
-"<![CDATA[აყენებს მნიშვნელობას, რომელზეც გამრავლდება გაფილტრული შედეგი ]]>"
+msgstr "აყენებს მნიშვნელობას, რომელზეც გამრავლდება გაფილტრული შედეგი "
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
 #, kde-format
@@ -5895,19 +5780,15 @@ msgid "Luma radius"
 msgstr "განათებულობის რადიუსი"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the luma radius.<br>\n"
-#| "            The value specifies the variance of the gaussian filter used "
-#| "to blur the image (slower if larger).]]>"
+#, kde-format
 msgid ""
 "Set the luma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger)."
 msgstr ""
-"<![CDATA[განათებულობის რადიუსის დაყენება.<br>\n"
+"განათებულობის რადიუსის დაყენება.<br>\n"
 "                მნიშვნელობები უთითებს გაუსის ფილტრის დისპერსიას, რომელიც "
-"გამოსახულების დასაბინდად გამოიყენება (რაც დიდია, მით ნელია).]]>"
+"გამოსახულების დასაბინდად გამოიყენება (რაც დიდია, მით ნელია)."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
@@ -5916,19 +5797,15 @@ msgid "Luma strength"
 msgstr "ლუმას სიძლიერე"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the luma strength.<br>\n"
-#| "            The value configures the blurring. A positive value will blur "
-#| "the image, whereas a negative value will sharpen the image.]]>"
+#, kde-format
 msgid ""
 "Set the luma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image."
 msgstr ""
-"<![CDATA[განათებულობის სიძლიერის დაყენება.<br>\n"
+"განათებულობის სიძლიერის დაყენება.<br>\n"
 "                მნიშვნელობა აყენებს დაბინდვას. დადებითი მნიშვნელობა "
-"დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს.]]>"
+"დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, kde-format
@@ -5936,24 +5813,17 @@ msgid "Luma threshold"
 msgstr "ლუმას ზღვარი"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha threshold used as a coefficient<br>\n"
-#| "            to determine whether a pixel should be blurred or not. A "
-#| "value of 0 will filter all the image, positive values will filter flat "
-#| "areas, negative values will filter edges. If not specified, it defaults "
-#| "to the value set for <em>Luma threshold</em>]]>"
+#, kde-format
 msgid ""
 "Set the luma threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges."
 msgstr ""
-"<![CDATA[ალფა ზღვრის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
+"განათებულობის ზღვრის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
 "           დასადგენად, იქნება პიქსელი ბუნდოვანი, თუ არა. მნიშვნელობა 0 მთელ "
 "გამოსახულებას გაფილტრავს, დადებითი მნიშვნელობა ბრტყელ ადგილებს, უარყოფითი - "
-"წიბოებს. თუ მითითებული არაა, ნაგულისხმევად ის <em>განათებულობის ზღვარს</em> "
-"უდრის]]>"
+"წიბოებს."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, kde-format
@@ -5961,22 +5831,17 @@ msgid "Chroma radius"
 msgstr "ბუნდოვნების რადიუსი"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma radius.<br>\n"
-#| "            The value specifies the variance of the gaussian filter used "
-#| "to blur the image (slower if larger). If not specified, it defaults to "
-#| "the value set for <em>Luma radius</em>]]>"
+#, kde-format
 msgid ""
 "Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>"
 msgstr ""
-"<![CDATA[ინტენსივობის რადიუსის დაყენება.<br>\n"
+"ინტენსივობის რადიუსის დაყენება.<br>\n"
 "             მნიშვნელობა უთითებს გაუსის ფილტრის დისპერსიას, რომელიც "
 "გამოსახულების დასაბინდად გამოიყენება (რაც მეტია, მით ნელია). თუ მითითებული "
-"არაა, მისი მნიშვნელობა ნაგულისხმევად <em>ინტენსივობის რადიუსს</em> უდრის]]>"
+"არაა, მისი მნიშვნელობა ნაგულისხმევად <em>ინტენსივობის რადიუსს</em> უდრის"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5985,22 +5850,17 @@ msgid "Chroma strength"
 msgstr "ბუნდოვნების ძალა"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma strength.<br>\n"
-#| "            The value configures the blurring. A positive value will blur "
-#| "the image, whereas a negative value will sharpen the image. If not "
-#| "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
+#, kde-format
 msgid ""
 "Set the chroma strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
-"<![CDATA[ფერის ინტენსივობის სიძლიერის დაყენება.<br>\n"
+"ფერის ინტენსივობის სიძლიერის დაყენება.<br>\n"
 "                მნიშვნელობა აყენებს დაბინდვას. დადებითი მნიშვნელობა "
 "დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს. თუ მითითებული არაა, მისი "
-"ნაგულისხმევი მნიშვნელობა <em>განათებულობის სიძლიერეს</em> უდრის]]>"
+"ნაგულისხმევი მნიშვნელობა <em>განათებულობის სიძლიერეს</em>."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -6008,13 +5868,7 @@ msgid "Chroma threshold"
 msgstr "ბუნდოვნების ზღვარი"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:35
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma threshold used as a coefficient<br>\n"
-#| "            to determine whether a pixel should be blurred or not. A "
-#| "value of 0 will filter all the image, positive values will filter flat "
-#| "areas, negative values will filter edges. If not specified, it defaults "
-#| "to the value set for <em>Luma threshold</em>]]>"
+#, kde-format
 msgid ""
 "Set the chroma threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
@@ -6022,11 +5876,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>"
 msgstr ""
-"<![CDATA[ფერის ინტენსივობის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
+"ფერის ინტენსივობის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
 "           დასადგენად, იქნება პიქსელი ბუნდოვანი, თუ არა. მნიშვნელობა 0 მთელ "
 "გამოსახულებას გაფილტრავს, დადებითი მნიშვნელობა ბრტყელ ადგილებს, უარყოფითი - "
 "წიბოებს. თუ მითითებული არაა, ნაგულისხმევად ის <em>განათებულობის ზღვარს</em> "
-"უდრის]]>"
+"უდრის"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -6034,22 +5888,17 @@ msgid "Alpha radius"
 msgstr "ალფას რადიუსი"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha radius.<br>\n"
-#| "            The value specifies the variance of the gaussian filter used "
-#| "to blur the image (slower if larger). If not specified, it defaults to "
-#| "the value set for <em>Luma radius</em>]]>"
+#, kde-format
 msgid ""
 "Set the alpha radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>"
 msgstr ""
-"<![CDATA[ალფას რადიუსის დაყენება.<br>\n"
+"ალფას რადიუსის დაყენება.<br>\n"
 "             მნიშვნელობა უთითებს გაუსის ფილტრის დისპერსიას, რომელიც "
 "გამოსახულების დასაბინდად გამოიყენება (რაც მეტია, მით ნელია). თუ მითითებული "
-"არაა, მისი მნიშვნელობა ნაგულისხმევად <em>ინტენსივობის რადიუსს</em> უდრის]]>"
+"არაა, მისი მნიშვნელობა ნაგულისხმევად <em>ინტენსივობის რადიუსს</em> უდრის"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -6058,31 +5907,20 @@ msgid "Alpha strength"
 msgstr "ალფას სიძლიერე"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha strength.<br>\n"
-#| "            The value configures the blurring. A positive value will blur "
-#| "the image, whereas a negative value will sharpen the image. If not "
-#| "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
+#, kde-format
 msgid ""
 "Set the alpha strength.<br>\n"
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>."
 msgstr ""
-"<![CDATA[ალფას სიძლიერის დაყენება.<br>\n"
+"ალფას სიძლიერის დაყენება.<br>\n"
 "                მნიშვნელობა აყენებს დაბინდვას. დადებითი მნიშვნელობა "
 "დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს. თუ მითითებული არაა, მისი "
-"ნაგულისხმევი მნიშვნელობა <em>განათებულობის სიძლიერეს</em> უდრის.]]>"
+"ნაგულისხმევი მნიშვნელობა <em>განათებულობის სიძლიერეს</em> უდრის."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha threshold used as a coefficient<br>\n"
-#| "            to determine whether a pixel should be blurred or not. A "
-#| "value of 0 will filter all the image, positive values will filter flat "
-#| "areas, negative values will filter edges. If not specified, it defaults "
-#| "to the value set for <em>Luma threshold</em>]]>"
+#, kde-format
 msgid ""
 "Set the alpha threshold used as a coefficient<br>\n"
 "            to determine whether a pixel should be blurred or not. A value "
@@ -6090,11 +5928,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>"
 msgstr ""
-"<![CDATA[ალფა ზღვრის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
+"ალფა ზღვრის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
 "           დასადგენად, იქნება პიქსელი ბუნდოვანი, თუ არა. მნიშვნელობა 0 მთელ "
 "გამოსახულებას გაფილტრავს, დადებითი მნიშვნელობა ბრტყელ ადგილებს, უარყოფითი - "
 "წიბოებს. თუ მითითებული არაა, ნაგულისხმევად ის <em>განათებულობის ზღვარს</em> "
-"უდრის]]>"
+"უდრის"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -6592,10 +6430,9 @@ msgid "Luma horizontal matrix"
 msgstr "კაშეს ჰორიზონტალური მატრიცა"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the luma matrix horizontal size]]>"
+#, kde-format
 msgid "Set the luma matrix horizontal size"
-msgstr "<![CDATA[განათებულობის მატრიცის ჰორიზონტალური ზომის დაყენება]]>"
+msgstr "განათებულობის მატრიცის ჰორიზონტალური ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
 #, kde-format
@@ -6603,28 +6440,22 @@ msgid "Luma vertical matrix"
 msgstr "ლუმას ვერტიკალური მატრიცა"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the luma matrix vertical size]]>"
+#, kde-format
 msgid "Set the luma matrix vertical size"
-msgstr "<![CDATA[განათებულობის მატრიცის ვერტიკალური ზომის დაყენება]]>"
+msgstr "განათებულობის მატრიცის ვერტიკალური ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the luma effect strength.<br>\n"
-#| "            Reasonable values are between -1.5 and 1.5. Negative values "
-#| "will blur the input video, while positive values will sharpen it, a value "
-#| "of 0 will disable the effect. ]]>"
+#, kde-format
 msgid ""
 "Set the luma effect strength.<br>\n"
 "            Reasonable values are between -1.5 and 1.5. Negative values will "
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. "
 msgstr ""
-"<![CDATA[განათებულობის ეფექტის სიძლიერის დაყენება.<br>\n"
+"განათებულობის ეფექტის სიძლიერის დაყენება.<br>\n"
 "                მნიშვნელობებია -1.5-დან 1.5-მდე. დადებითი მნიშვნელობა "
 "დაბინდავს შეყვანილ ვიდეოს, უარყოფითი კი გაამკვეთრებს. ნულოვანი მნიშვნელობა "
-"გამორთავს ეფექტს. ]]>"
+"გამორთავს ეფექტს. "
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, kde-format
@@ -6632,10 +6463,9 @@ msgid "Chroma horizontal matrix"
 msgstr "ბუნდოვნების ჰორიზონტალური მატრიცა"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
+#, kde-format
 msgid "Set the chroma matrix horizontal size"
-msgstr "<![CDATA[ბუნდოვნების მატრიცის ჰორიზონტალური ზომის დაყენება]]>"
+msgstr "ბუნდოვნების მატრიცის ჰორიზონტალური ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
 #, kde-format
@@ -6643,28 +6473,22 @@ msgid "Chroma vertical matrix"
 msgstr "ბუნდოვნების ვერტიკალური მატრიცა"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the chroma matrix vertical size]]>"
+#, kde-format
 msgid "Set the chroma matrix vertical size"
-msgstr "<![CDATA[ბუნდოვნების მატრიცის ვერტიკალური ზომის დაყენება]]>"
+msgstr "ბუნდოვნების მატრიცის ვერტიკალური ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the chroma effect strength.<br>\n"
-#| "            Reasonable values are between -1.5 and 1.5. Negative values "
-#| "will blur the input video, while positive values will sharpen it, a value "
-#| "of zero will disable the effect. ]]>"
+#, kde-format
 msgid ""
 "Set the chroma effect strength.<br>\n"
 "            Reasonable values are between -1.5 and 1.5. Negative values will "
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. "
 msgstr ""
-"<![CDATA[ფერის ინტენსივობის სიძლიერის დაყენება.<br>\n"
+"ფერის ინტენსივობის სიძლიერის დაყენება.<br>\n"
 "                მნიშვნელობებია -1.5-დან 1.5-მდე. დადებითი მნიშვნელობა "
 "დაბინდავს შეყვანილ ვიდეოს, უარყოფითი კი გაამკვეთრებს. ნულოვანი მნიშვნელობა "
-"გამორთავს ეფექტს. ]]>"
+"გამორთავს ეფექტს. "
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
 #, kde-format
@@ -6672,10 +6496,9 @@ msgid "Alpha horizontal matrix"
 msgstr "ალფას ჰორიზონტალური მატრიცა"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
+#, kde-format
 msgid "Set the alpha matrix horizontal size"
-msgstr "<![CDATA[ალფა მატრიცის ჰორიზონტალური ზომის დაყენება]]>"
+msgstr "ალფა მატრიცის ჰორიზონტალური ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
 #, kde-format
@@ -6683,28 +6506,22 @@ msgid "Alpha vertical matrix"
 msgstr "ალფას ვერტიკალური მატრიცა"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the alpha matrix vertical size]]>"
+#, kde-format
 msgid "Set the alpha matrix vertical size"
-msgstr "<![CDATA[ალფა მატრიცის ვერტიკალური ზომის დაყენება]]>"
+msgstr "ალფა მატრიცის ვერტიკალური ზომის დაყენება"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the alpha effect strength.<br>\n"
-#| "            Reasonable values are between -1.5 and 1.5. Negative values "
-#| "will blur the input video, while positive values will sharpen it, a value "
-#| "of zero will disable the effect. ]]>"
+#, kde-format
 msgid ""
 "Set the alpha effect strength.<br>\n"
 "            Reasonable values are between -1.5 and 1.5. Negative values will "
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. "
 msgstr ""
-"<![CDATA[ალფას ეფექტის სიძლიერის დაყენება.<br>\n"
+"ალფას ეფექტის სიძლიერის დაყენება.<br>\n"
 "                მნიშვნელობებია -1.5-დან 1.5-მდე. დადებითი მნიშვნელობა "
 "დაბინდავს შეყვანილ ვიდეოს, უარყოფითი კი გაამკვეთრებს. ნულოვანი მნიშვნელობა "
-"გამორთავს ეფექტს. ]]>"
+"გამორთავს ეფექტს. "
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
@@ -6814,7 +6631,7 @@ msgstr "გრადაციის ალმები"
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, kde-format
 msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
+msgstr "თეთრი წერტილის დახატვა,შავი წერტილის დახატვა, წერტილის სახელის დახატვა"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
@@ -6981,10 +6798,9 @@ msgid "Set the display mode"
 msgstr "ჩვენების რეჟიმის დაყენება"
 
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be displayed]]>"
+#, kde-format
 msgid "Select the components to be displayed"
-msgstr "<![CDATA[აირჩიეთ საჩვენებელი კომპონენტები]]>"
+msgstr "აირჩიეთ საჩვენებელი კომპონენტები"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -7018,10 +6834,9 @@ msgstr ""
 "დაბალსიხშირეული,ბრტყელი,Aბრტყელი,Xბრტყელი,Yბრტყელი,განათებულობა,ფერი,Aფერი"
 
 #: data/effects/avfilter/avfilter_waveform.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set which graticule to display]]>"
+#, kde-format
 msgid "Set which graticule to display"
-msgstr "<![CDATA[დააყენეთ, რომელი გრადუირებული ბადეა ნაჩვენები]]>"
+msgstr "დააყენეთ, რომელი გრადუირებული ბადეა ნაჩვენები"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
@@ -7029,10 +6844,9 @@ msgid "None,Green,Orange,Invert"
 msgstr "არცერთი,მწვანე,ნარინჯისფერი,ინვერსია"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the opacity of the graticule]]>"
+#, kde-format
 msgid "Set the opacity of the graticule"
-msgstr "<![CDATA[გრადუირებული ბადის გაუმჭირვალობის დაყენება]]>"
+msgstr "გრადუირებული ბადის გაუმჭირვალობის დაყენება"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
@@ -7045,10 +6859,9 @@ msgid "Show numbers,Draw dots"
 msgstr "რიცხვების ჩვენება, წერტილების დახატვა"
 
 #: data/effects/avfilter/avfilter_waveform.xml:60
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set scale used for displaying graticule]]>"
+#, kde-format
 msgid "Set scale used for displaying graticule"
-msgstr "<![CDATA[დააყენეთ მასშტაბი გრადუირებული ბადის საჩვენებლად]]>"
+msgstr "დააყენეთ მასშტაბი გრადუირებული ბადის საჩვენებლად"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
@@ -7056,10 +6869,9 @@ msgid "Digital,Millivolts,IRE"
 msgstr "ციფრული,მილივოლტი,IRE"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the background opacity]]>"
+#, kde-format
 msgid "Set the background opacity"
-msgstr "<![CDATA[ფონის გაუმჭვირვალობის დაყენება]]>"
+msgstr "ფონის გაუმჭვირვალობის დაყენება"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
@@ -7095,10 +6907,9 @@ msgid "Input Format"
 msgstr "შეყვანის ფორმატი"
 
 #: data/effects/avfilter/avfilter_waveform.xml:84
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set input formats for filter to pick from]]>"
+#, kde-format
 msgid "Set input formats for filter to pick from"
-msgstr "<![CDATA[დააყენეთ შემოყვანის ფორმატები ფილტრისთვის]]>"
+msgstr "დააყენეთ შემოყვანის ფორმატები ფილტრისთვის"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
 #, kde-format
@@ -7397,19 +7208,15 @@ msgid "Make image greyscale except for chosen color"
 msgstr "გამოსახულებაზე მონიშნული ფერისგარდა ყველას განაცრისფრება"
 
 #: data/effects/chroma_hold.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
-#| "        Lower values keep the colors closer to the selected one; higher "
-#| "values include more colors.]]>"
+#, kde-format
 msgid ""
 "Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors."
 msgstr ""
-"<![CDATA[პროცენტული აცდენა არჩეული ფერის მნიშვნელობიდან.<br>\n"
+"პროცენტული აცდენა არჩეული ფერის მნიშვნელობიდან.<br>\n"
 "        რაც დაბალია მნიშვნელობა, მით ახლოსაა ფერები არჩეულთან. რაც მაღალია "
-"მნიშვნელობა, მით მეტ ფერს შეიცავს ის.]]>"
+"მნიშვნელობა, მით მეტ ფერს შეიცავს ის."
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -7674,16 +7481,13 @@ msgid "Text"
 msgstr "ტექსტი"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[You can also enter <i>strftime</i> parameters to customize the "
-#| "output, like: #createdate %H:%M %D#]]>"
+#, no-c-format, kde-format
 msgid ""
 "You can also enter <i>strftime</i> parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
-"<![CDATA[გამოტანის მოსარგებად strftime პარამეტრის შეყვანაც შეგიძლიათ. მაგ: "
-"#createdate %H:%M %D#]]>"
+"გამოტანის მოსარგებად <i>strftime</i> პარამეტრის შეყვანაც შეგიძლიათ. მაგ: "
+"#createdate %H:%M %D#"
 
 #: data/effects/dynamictext.xml:45
 #, kde-format
@@ -7880,16 +7684,14 @@ msgid "Fade factor"
 msgstr "მინავლების კოეფიციენტი"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Disappearance Rate of the echo]]>"
+#, kde-format
 msgid "Disappearance Rate of the echo"
-msgstr "<![CDATA[ექოს ჩაქრობის სიჩქარე]]>"
+msgstr "ექოს ჩაქრობის სიჩქარე"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Darker or Brighter echo]]>"
+#, kde-format
 msgid "Darker or Brighter echo"
-msgstr "<![CDATA[ბნელი ან ნათელი ექო]]>"
+msgstr "ბნელი ან ნათელი ექო"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
@@ -7897,10 +7699,9 @@ msgid "Keep RED"
 msgstr "წითლის შენარჩუნება"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence on Red channel]]>"
+#, kde-format
 msgid "Influence on Red channel"
-msgstr "<![CDATA[გავლენა წითლის არხზე]]>"
+msgstr "გავლენა წითლის არხზე"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
 #, kde-format
@@ -7908,10 +7709,9 @@ msgid "Keep GREEN"
 msgstr "მწვანის შენარჩუნება"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence on Green channel]]>"
+#, kde-format
 msgid "Influence on Green channel"
-msgstr "<![CDATA[გავლენა მწვანის არხზე]]>"
+msgstr "გავლენა მწვანის არხზე"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
@@ -7919,10 +7719,9 @@ msgid "Keep BLUE"
 msgstr "ლურჯის შენარჩუნება"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence on Blue channel]]>"
+#, kde-format
 msgid "Influence on Blue channel"
-msgstr "<![CDATA[გავლენა ლურჯის არხზე]]>"
+msgstr "გავლენა ლურჯის არხზე"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, kde-format
@@ -7930,10 +7729,9 @@ msgid "Strobe period"
 msgstr "სტრობოსკოპის პერიოდი"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
+#, kde-format
 msgid "Rate of the stroboscope (from 0 to 8 frames)"
-msgstr "<![CDATA[სტრობოსკოპის სიხშირე (0-დან 8 კადრამდე)]]>"
+msgstr "სტრობოსკოპის სიხშირე (0-დან 8 კადრამდე)"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
@@ -8048,10 +7846,9 @@ msgstr "თანამდებობა"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:9
 #: data/effects/frei0r/frei0r_alphagrad.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define where the gradient starts.]]>"
+#, kde-format
 msgid "Define where the gradient starts."
-msgstr "<![CDATA[აღწერეთ, სად იწყება გრადიენტი.]]>"
+msgstr "აღწერეთ, სად იწყება გრადიენტი."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
@@ -8062,18 +7859,15 @@ msgstr "გადასვლის სიგანე"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:13
 #: data/effects/frei0r/frei0r_alphagrad.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Define the width of the transition between the densities.]]>"
+#, kde-format
 msgid "Define the width of the transition between the densities."
-msgstr "<![CDATA[აღწერეთ სიმკვრივეებს შორის გადასვლის სიგანე.]]>"
+msgstr "აღწერეთ სიმკვრივეებს შორის გადასვლის სიგანე."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle for the gradient.]]>"
+#, kde-format
 msgid "Angle for the gradient."
-msgstr "<![CDATA[გრადიენტის კუთხე]]>"
+msgstr "კუთხე გრადიენტისთვის."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
@@ -8083,10 +7877,9 @@ msgstr "გამჭვირვალობის მაქს"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
 #: data/effects/frei0r/frei0r_alphagrad.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
+#, kde-format
 msgid "Define the transparency at the top of the gradient."
-msgstr "<![CDATA[გამჭვირვალობის აღწერა გრადიენტის თავში.]]>"
+msgstr "გამჭვირვალობის აღწერა გრადიენტის თავში."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
@@ -8096,17 +7889,15 @@ msgstr "გამჭვირვალობის მინ"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
 #: data/effects/frei0r/frei0r_alphagrad.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
+#, kde-format
 msgid "Define the transparency at the bottom of the gradient."
-msgstr "<![CDATA[გამჭვირვალობის აღწერა გრადიენტის ბოლოში.]]>"
+msgstr "გამჭვირვალობის აღწერა გრადიენტის ბოლოში."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the alpha operation for compositing.]]>"
+#, kde-format
 msgid "Define the alpha operation for compositing."
-msgstr "<![CDATA[აღწერეთ ალფა ოპერაცია კომპოზიტორისთვის.]]>"
+msgstr "აღწერეთ ალფა ოპერაცია კომპოზიტორისთვის."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
@@ -8250,7 +8041,7 @@ msgstr "Baltan"
 #: data/effects/frei0r/frei0r_baltan.xml:5
 #, kde-format
 msgid "Delayed alpha smoothed blit of time"
-msgstr ""
+msgstr "დაყოვნებული დროებითი ბლიტინგი ალფა-მოგლუვებით"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -8309,7 +8100,7 @@ msgstr "ხმაურის მოცილება"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
 #, kde-format
 msgid "VR360 Cap Top and Bottom"
-msgstr ""
+msgstr "VR360 ზედა და ქვედა"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
 #, kde-format
@@ -8322,10 +8113,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method.]]>"
+#, kde-format
 msgid "Determines the sampling method."
-msgstr "<![CDATA[განსაზღვრავს სემპლინგის მეთოდს.]]>"
+msgstr "განსაზღვრავს სემპლინგის მეთოდს."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
@@ -8345,28 +8135,23 @@ msgid "Top Enabled"
 msgstr "ზედა ჩართულია"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Enables parameters for top portion]]>"
+#, kde-format
 msgid "Enables parameters for top portion"
-msgstr "<![CDATA[ჩართავს პარამეტრებს ზედა ნაწილისთვის]]>"
+msgstr "ჩართავს პარამეტრებს ზედა ნაწილისთვის"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Top--</b> Start]]>"
+#, kde-format
 msgid "<b>--Top--</b> Start"
-msgstr "<![CDATA[<b>--ზედა--</b> დაწყება]]>"
+msgstr "<b>--ზედა--</b> დაწყება"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Degrees from the horizon<br>\n"
-#| "    \twhere we start to fill in]]>"
+#, kde-format
 msgid ""
 "Degrees from the horizon<br>\n"
 "    \twhere we start to fill in"
 msgstr ""
-"<![CDATA[გრადუსი ჰორიზონტიდან<br>\n"
-"    \tსადაც ჩვენ შევსებას ვიწყებთ]]>"
+"გრადუსი ჰორიზონტიდან<br>\n"
+"    \tსადაც ჩვენ შევსებას ვიწყებთ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -8379,16 +8164,13 @@ msgid "End"
 msgstr "End"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Degrees from the horizon<br>\n"
-#| "    \twhere we reach maximum blur]]>"
+#, kde-format
 msgid ""
 "Degrees from the horizon<br>\n"
 "    \twhere we reach maximum blur"
 msgstr ""
-"<![CDATA[გრადუსი ჰორიზონტიდან<br>\n"
-"    \tსადაც მაქსიმალურ ბუნდოვნებას ვაღწევთ]]>"
+"გრადუსი ჰორიზონტიდან<br>\n"
+"    \tსადაც მაქსიმალურ ბუნდოვნებას ვაღწევთ"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
@@ -8398,10 +8180,9 @@ msgstr "შერევა შიგნით"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+#, kde-format
 msgid "Degrees towards the horizon to sample from"
-msgstr "<![CDATA[გრადუსი ჰორიზონტის მიმართულებით ნიმუშიდან]]>"
+msgstr "გრადუსი ჰორიზონტის მიმართულებით ნიმუშიდან"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
@@ -8411,10 +8192,9 @@ msgstr "შერევა გარეთ"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+#, kde-format
 msgid "Degrees away from the horizon to sample to"
-msgstr "<![CDATA[გრადუსით შორს ჰორიზონტიდან ნიმუშამდე]]>"
+msgstr "გრადუსით შორს ჰორიზონტიდან ნიმუშამდე"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
@@ -8424,67 +8204,56 @@ msgstr "გამოჩენა"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees to fade the effect in over]]>"
+#, kde-format
 msgid "Degrees to fade the effect in over"
-msgstr "<![CDATA[ეფექტის მინავლების დონე დასრულებისას]]>"
+msgstr "ეფექტის მინავლების დონე დასრულებისას"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur width at start]]>"
+#, kde-format
 msgid "Blur width at start"
-msgstr "<![CDATA[ბუნდოვნების სიგანე დასაწყისში]]>"
+msgstr "ბუნდოვნების სიგანე დასაწყისში"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
+#, kde-format
 msgid "Horizontal angle to blur over at the start of the fill-in"
-msgstr "<![CDATA[ჰორიზონტალური კუთხე შევსების დასაწყისთან გაბუნდოვნებისთვის]]>"
+msgstr "ჰორიზონტალური კუთხე შევსების დასაწყისთან გაბუნდოვნებისთვის"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur width at end]]>"
+#, kde-format
 msgid "Blur width at end"
-msgstr "<![CDATA[ბუნდოვნების სიგანე ბოლოში]]>"
+msgstr "ბუნდოვნების სიგანე ბოლოში"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
+#, kde-format
 msgid "Horizontal angle to blur over\tat the end of the fill-in"
-msgstr ""
-"<![CDATA[ჰორიზონტალური კუთხე შევსების\tდასასრულთან გაბუნდოვნებისთვის]]>"
+msgstr "ჰორიზონტალური კუთხე შევსების\tდასასრულთან გაბუნდოვნებისთვის"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur height at start]]>"
+#, kde-format
 msgid "Blur height at start"
-msgstr "<![CDATA[ბუნდოვნების სიმაღლე დასაწყისში]]>"
+msgstr "ბუნდოვნების სიმაღლე დასაწყისში"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
+#, kde-format
 msgid "Vertical angle to blur over at the start of the fill-in"
-msgstr "<![CDATA[შევსების დასაწყისში ბუნდოვნების ვერტიკალური კუთხე]]>"
+msgstr "შევსების დასაწყისში ბუნდოვნების ვერტიკალური კუთხე"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur height at end]]>"
+#, kde-format
 msgid "Blur height at end"
-msgstr "<![CDATA[ბუნდოვნების სიმაღლე ბოლოში]]>"
+msgstr "ბუნდოვნების სიმაღლე ბოლოში"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
+#, kde-format
 msgid "Vertical angle to blur over at the end of the fill-in"
-msgstr "<![CDATA[შევსების ბოლოში ბუნდოვნების ვერტიკალური კუთხე]]>"
+msgstr "შევსების ბოლოში ბუნდოვნების ვერტიკალური კუთხე"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
 #, kde-format
@@ -8497,30 +8266,24 @@ msgid "comment"
 msgstr "კომენტარი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<b>--Bottom--</b> Start"
-msgstr "<![CDATA[<b>--ქვედა--</b> დაწყება]]>"
+msgstr "<b>--ქვედა--</b> დაწყება"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
+#, kde-format
 msgid "Degrees from the horizon where we start to fill in"
-msgstr "<![CDATA[კუთხე ჰორიზონტიდან, სადაც შევსებას ვიწყებთ]]>"
+msgstr "კუთხე ჰორიზონტიდან, სადაც შევსებას ვიწყებთ"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
+#, kde-format
 msgid "Degrees from the horizon where we reach maximum blur"
-msgstr "<![CDATA[კუთხე ჰორიზონტიდან, სადაც მაქსიმალურ ბუნდოვნებას ვაღწევთ]]>"
+msgstr "კუთხე ჰორიზონტიდან, სადაც მაქსიმალურ ბუნდოვნებას ვაღწევთ"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
+#, kde-format
 msgid "Horizontal angle to blur over\tat the start of the fill-in"
-msgstr ""
-"<![CDATA[ჰორიზონტალური კუთხე შევსების \tდასაწყისთან გაბუნდოვნებისთვის]]>"
+msgstr "ჰორიზონტალური კუთხე შევსების დასაწყისთან გაბუნდოვნებისთვის"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
@@ -8690,21 +8453,17 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "Determines the sampling method"
-msgstr "<![CDATA[განსაზღვრავს სემპლინგის მეთოდს]]>"
+msgstr "განსაზღვრავს სემპლინგის მეთოდს"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+#, kde-format
 msgid "Degrees from the center of the image to keep unchanged"
-msgstr ""
-"<![CDATA[შეუცვლელად დასატოვებელი გრადუსების რაოდენობა გამოსახულების "
-"ცენტრიდან]]>"
+msgstr "შეუცვლელად დასატოვებელი გრადუსების რაოდენობა გამოსახულების ცენტრიდან"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
 #, kde-format
@@ -8988,11 +8747,9 @@ msgid "Use sensor response parameters"
 msgstr "სენსორის პასუხის პარამეტრების გამოყენება"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]>"
+#, kde-format
 msgid "Switch on to use sensor response parameters (EMoR h(x))"
-msgstr ""
-"<![CDATA[ჩართეთ სენსორის პასუხის პარამეტრების გამოსაყენებლად (EMoR h(x))]]>"
+msgstr "ჩართეთ სენსორის პასუხის პარამეტრების გამოსაყენებლად (EMoR h(x))"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
 #, kde-format
@@ -9076,10 +8833,9 @@ msgid "Motion analysis file"
 msgstr "მოძრაობის ანალიზის ფაილი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the file to store stabilization data in]]>"
+#, kde-format
 msgid "Select the file to store stabilization data in"
-msgstr "<![CDATA[აირჩიეთ ფაილი სტაბილიზაციის მონაცემების შესანახად]]>"
+msgstr "აირჩიეთ ფაილი სტაბილიზაციის მონაცემების შესანახად"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
@@ -9102,11 +8858,9 @@ msgid "Analysis sample radius"
 msgstr "ანალიზის ნიმუშის რადიუსი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
+#, kde-format
 msgid "The radius of the square that the stabilizer will sample"
-msgstr ""
-"<![CDATA[კვადრატის რადიუსი, რომლის ზონდირებასაც სტაბილიზატორი მოახდენს]]>"
+msgstr "კვადრატის რადიუსი, რომლის ზონდირებასაც სტაბილიზატორი მოახდენს"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #, kde-format
@@ -9114,11 +8868,9 @@ msgid "Analysis search radius"
 msgstr "ძებნის ანალიზის რადიუსი"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
+#, kde-format
 msgid "The maximum amount of motion the stabilizer will detect"
-msgstr ""
-"<![CDATA[მოძრაობის მაქსიმალური რაოდენობა, რომელსაც სტაბილიზატორი აღმოაჩენს]]>"
+msgstr "მოძრაობის მაქსიმალური რაოდენობა, რომელსაც სტაბილიზატორი აღმოაჩენს"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, kde-format
@@ -9126,10 +8878,9 @@ msgid "Analysis offset"
 msgstr "ანალიზის წანაცვლება"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "The distance between the track points"
-msgstr "<![CDATA[დაშორება ტრეკინგის წერტილებს შორის]]>"
+msgstr "დაშორება ტრეკინგის წერტილებს შორის"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -9252,11 +9003,9 @@ msgid "Blue Screen (Color to Alpha)"
 msgstr "ლურჯი ეკრანი (ფერიდან ალფამდე)"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Turns the selected color into alpha making it transparent.]]>"
+#, kde-format
 msgid "Turns the selected color into alpha making it transparent."
-msgstr "<![CDATA[გადაიყვანს არჩეულ ფერს ალფაში და მას გამჭვირვალეს ხდის.]]>"
+msgstr "გადაიყვანს არჩეულ ფერს ალფაში და მას გამჭვირვალეს ხდის."
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:14
 #, kde-format
@@ -9826,40 +9575,31 @@ msgid "Fill,Center,Fit,Manual"
 msgstr "შევსება,ცენტრში,ჩატევა,ხელით"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Straighten all Edges<br>\n"
-#| "        of Video Frame]]>"
+#, kde-format
 msgid ""
 "Straighten all Edges<br>\n"
 "        of Video Frame"
 msgstr ""
-"<![CDATA[ვიდეოკადრის ყველა<br>\n"
-"        წიბოს გასწორება]]>"
+"ვიდეოკადრის ყველა<br>\n"
+"        წიბოს გასწორება"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Fix Camera Scaling<br>\n"
-#| "        Between 4:3 and 16:9]]>"
+#, kde-format
 msgid ""
 "Fix Camera Scaling<br>\n"
 "        Between 4:3 and 16:9"
 msgstr ""
-"<![CDATA[კამერის მასშტაბის<br>\n"
-"        დაფიქსირება 4:3-სა და 16:9-ს შორის]]>"
+"კამერის მასშტაბის<br>\n"
+"        დაფიქსირება 4:3-სა და 16:9-ს შორის"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Scale Y to Affect<br>\n"
-#| "        Aspect Ratio]]>"
+#, kde-format
 msgid ""
 "Scale Y to Affect<br>\n"
 "        Aspect Ratio"
 msgstr ""
-"<![CDATA[Y-ის მასშტაბი საწყისი<br>\n"
-"        ფარდობის შესაცვლელად]]>"
+"Y-ის მასშტაბი საწყისი<br>\n"
+"        ფარდობის შესაცვლელად"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
@@ -10022,28 +9762,22 @@ msgid "Edge lightening threshold"
 msgstr "წიბოს განათებულობის ზღვარი"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:12
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Edge brightness<br>\n"
-#| "        upscaling multiplier]]>"
+#, kde-format
 msgid ""
 "Edge brightness<br>\n"
 "        upscaling multiplier"
 msgstr ""
-"<![CDATA[წიბოს სიკაშკაშის<br>\n"
-"        მასშტაბის მამრავლი]]>"
+"წიბოს სიკაშკაშის<br>\n"
+"        მასშტაბის მამრავლი"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:16
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Non-edge brightness<br>\n"
-#| "        downscaling multiplier]]>"
+#, kde-format
 msgid ""
 "Non-edge brightness<br>\n"
 "        downscaling multiplier"
 msgstr ""
-"<![CDATA[არა-წიბოს სიკაშკაშის<br>\n"
-"        მასშტაბის მამრავლი]]>"
+"არა-წიბოს სიკაშკაშის<br>\n"
+"        მასშტაბის მამრავლი"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
 #, kde-format
@@ -10077,10 +9811,9 @@ msgid "Linear Width"
 msgstr "წრფივი სიგანე"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the linear area]]>"
+#, kde-format
 msgid "Width of the linear area"
-msgstr "<![CDATA[წრფივი არეს სიგანე]]>"
+msgstr "წრფივი არეს სიგანე"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
 #, kde-format
@@ -10088,10 +9821,9 @@ msgid "Linear Scale Factor"
 msgstr "წრფივი გადიდების კოეფიციენტი"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Amount how much the linear area is scaled]]>"
+#, kde-format
 msgid "Amount how much the linear area is scaled"
-msgstr "<![CDATA[რაოდენობა, რამდენჯერ ხდება წრფივი არეს მასშტაბი]]>"
+msgstr "რაოდენობა, რამდენჯერ ხდება წრფივი არეს მასშტაბი"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
 #, kde-format
@@ -10371,10 +10103,9 @@ msgid "Grain Amount"
 msgstr "მარცვლების რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The intensity of the grain]]>"
+#, kde-format
 msgid "The intensity of the grain"
-msgstr "<![CDATA[მარცვლის ინტენსივობა]]>"
+msgstr "მარცვლის ინტენსივობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
@@ -10382,10 +10113,9 @@ msgid "Red Grain"
 msgstr "წითელი მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+#, kde-format
 msgid "The percentage of grain applied to the red channel"
-msgstr "<![CDATA[წითელ არხზე გადატარებული მარცვლების პროცენტულობა]]>"
+msgstr "წითელ არხზე გადატარებული მარცვლების პროცენტულობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -10393,10 +10123,9 @@ msgid "Green Grain"
 msgstr "მწვანე მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+#, kde-format
 msgid "The percentage of grain applied to the green channel"
-msgstr "<![CDATA[მწვანე არხზე გადატარებული მარცვლების პროცენტულობა]]>"
+msgstr "მწვანე არხზე გადატარებული მარცვლების პროცენტულობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, kde-format
@@ -10404,10 +10133,9 @@ msgid "Blue Grain"
 msgstr "ლურჯი მარცვალი"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+#, kde-format
 msgid "The percentage of grain applied to the blue channel"
-msgstr "<![CDATA[ლურჯ არხზე გადატარებული მარცვლების პროცენტულობა]]>"
+msgstr "ლურჯ არხზე გადატარებული მარცვლების პროცენტულობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
@@ -10415,10 +10143,9 @@ msgid "Blur Amount"
 msgstr "დაბინდვის რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The intensity of the blur]]>"
+#, kde-format
 msgid "The intensity of the blur"
-msgstr "<![CDATA[ბუნდოვნების ინტენსივობა]]>"
+msgstr "ბუნდოვნების ინტენსივობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
@@ -10426,10 +10153,9 @@ msgid "Dust Amount"
 msgstr "მტვრის რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles added to the image]]>"
+#, kde-format
 msgid "The amount of dust particles added to the image"
-msgstr "<![CDATA[გამოსახულებაზე დამატებული მტვრის ნაწილაკების რაოდენობა]]>"
+msgstr "გამოსახულებაზე დამატებული მტვრის ნაწილაკების რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10437,10 +10163,9 @@ msgid "Flicker Amount"
 msgstr "ციალის რაოდენობა"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+#, kde-format
 msgid "The amount of variation in brightness between frames"
-msgstr "<![CDATA[კადრებს შორის სიკაშკაშის ცვალებადობის რაოდენობა]]>"
+msgstr "კადრებს შორის სიკაშკაშის ცვალებადობის რაოდენობა"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -10499,13 +10224,10 @@ msgid "Maximum Horizontal Movement"
 msgstr "მაქსიმალური ჰორიზონტალური მოძრაობა"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The maximum distance the picture could move left or right]]>"
+#, kde-format
 msgid "The maximum distance the picture could move left or right"
 msgstr ""
-"<![CDATA[მაქსიმალური დაშორება, რომლითაც სურათი მარცხნივ, ან მარჯვნივ "
-"შეიძლება, გაიწიოს]]>"
+"მაქსიმალური დაშორება, რომლითაც სურათი მარცხნივ, ან მარჯვნივ შეიძლება, გაიწიოს"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
 #, kde-format
@@ -10513,12 +10235,10 @@ msgid "Maximum Vertical Movement"
 msgstr "მაქსიმალური ვერტიკალური მოძრაობა"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+#, kde-format
 msgid "The maximum distance the picture could move up or down"
 msgstr ""
-"<![CDATA[მაქსიმალური დაშორება, რომლითაც სურათი ზემოთ, ან ქვემოთ შეიძლება, "
-"გამოძრავდეს]]>"
+"მაქსიმალური დაშორება, რომლითაც სურათი ზემოთ, ან ქვემოთ შეიძლება, გამოძრავდეს"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -10738,7 +10458,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
 msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr ""
+msgstr "ზედა მარჯვენა,ზედა მარცხენა,ქვედა მარცხენა,ქვედა მარჯვენა"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, kde-format
@@ -11344,10 +11064,9 @@ msgstr "პროფილის X მდებარეობა"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:9
 #: data/effects/frei0r/frei0r_pr0file.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X coordinate of the profile]]>"
+#, kde-format
 msgid "X coordinate of the profile"
-msgstr "<![CDATA[პროფილის X კოორდინატი]]>"
+msgstr "პროფილის X კოორდინატი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:12
 #: data/effects/frei0r/frei0r_pr0file.xml:13
@@ -11357,10 +11076,9 @@ msgstr "პროფილის Y მდებარეობა"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:13
 #: data/effects/frei0r/frei0r_pr0file.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y coordinate of the profile]]>"
+#, kde-format
 msgid "Y coordinate of the profile"
-msgstr "<![CDATA[პროფილის Y კოორდინატი]]>"
+msgstr "პროფილის Y კოორდინატი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
@@ -11370,10 +11088,9 @@ msgstr "პროფილის დახრა"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:17
 #: data/effects/frei0r/frei0r_pr0file.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the profile]]>"
+#, kde-format
 msgid "Tilting of the profile"
-msgstr "<![CDATA[პროფილის დახრა]]>"
+msgstr "პროფილის დახრა"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
 #: data/effects/frei0r/frei0r_pr0file.xml:21
@@ -11383,17 +11100,15 @@ msgstr "პროფილის სიგრძე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:21
 #: data/effects/frei0r/frei0r_pr0file.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "Length of the profile in pixel"
-msgstr "<![CDATA[პროფილის სიგრძე პიქსელებში]]>"
+msgstr "პროფილის სიგრძე პიქსელებში"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:25
 #: data/effects/frei0r/frei0r_pr0file.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Channel to numerically display]]>"
+#, kde-format
 msgid "Channel to numerically display"
-msgstr "<![CDATA[არხი რიცხვითი ჩვენებისთვის]]>"
+msgstr "არხი რიცხვითი ჩვენებისთვის"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
 #: data/effects/frei0r/frei0r_pr0file.xml:27
@@ -11409,10 +11124,9 @@ msgstr "მარკერი 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:30
 #: data/effects/frei0r/frei0r_pr0file.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Position of marker 1]]>"
+#, kde-format
 msgid "Position of marker 1"
-msgstr "<![CDATA[მარკერი 1-ის მდებარეობა]]>"
+msgstr "მარკერი 1-ის მდებარეობა"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -11422,10 +11136,9 @@ msgstr "მარკერი 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:34
 #: data/effects/frei0r/frei0r_pr0file.xml:35
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Position of marker 2]]>"
+#, kde-format
 msgid "Position of marker 2"
-msgstr "<![CDATA[მარკერი 2-ის მდებარეობა]]>"
+msgstr "მარკერი 2-ის მდებარეობა"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -11435,10 +11148,9 @@ msgstr "R ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:38
 #: data/effects/frei0r/frei0r_pr0file.xml:39
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show R trace (red) on scope]]>"
+#, kde-format
 msgid "Show R trace (red) on scope"
-msgstr "<![CDATA[R ტრეისის (წითლის) ჩვენება პანელზე]]>"
+msgstr "R ტრეისის (წითლის) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:41
 #: data/effects/frei0r/frei0r_pr0file.xml:42
@@ -11448,10 +11160,9 @@ msgstr "G ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:42
 #: data/effects/frei0r/frei0r_pr0file.xml:43
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show G trace (green) on scope]]>"
+#, kde-format
 msgid "Show G trace (green) on scope"
-msgstr "<![CDATA[G ტრეისის (მწვანის) ჩვენება პანელზე]]>"
+msgstr "G ტრეისის (მწვანის) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:45
 #: data/effects/frei0r/frei0r_pr0file.xml:46
@@ -11461,10 +11172,9 @@ msgstr "B ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:46
 #: data/effects/frei0r/frei0r_pr0file.xml:47
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show B trace (blue) on scope]]>"
+#, kde-format
 msgid "Show B trace (blue) on scope"
-msgstr "<![CDATA[B ტრეისის (ლურჯის) ჩვენება პანელზე]]>"
+msgstr "B ტრეისის (ლურჯის) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:49
 #: data/effects/frei0r/frei0r_pr0file.xml:50
@@ -11474,10 +11184,9 @@ msgstr "Y ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:50
 #: data/effects/frei0r/frei0r_pr0file.xml:51
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show Y trace (luma) on scope]]>"
+#, kde-format
 msgid "Show Y trace (luma) on scope"
-msgstr "<![CDATA[Y ტრეისის (განათებულობის) ჩვენება პანელზე]]>"
+msgstr "Y ტრეისის (განათებულობის) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:53
 #: data/effects/frei0r/frei0r_pr0file.xml:54
@@ -11487,10 +11196,9 @@ msgstr "Pr ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:54
 #: data/effects/frei0r/frei0r_pr0file.xml:55
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
+#, kde-format
 msgid "Show Pr trace (red-difference) on scope"
-msgstr "<![CDATA[Pr ტრეისის (წითლის სხვაობის) ჩვენება პანელზე]]>"
+msgstr "Pr ტრეისის (წითლის სხვაობის) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
 #: data/effects/frei0r/frei0r_pr0file.xml:58
@@ -11500,10 +11208,9 @@ msgstr "Pb ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:58
 #: data/effects/frei0r/frei0r_pr0file.xml:59
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
+#, kde-format
 msgid "Show Pb trace (blue_difference) on scope"
-msgstr "<![CDATA[Pb ტრეისის (ლურჯის სხვაობის) ჩვენება პანელზე]]>"
+msgstr "Pb ტრეისის (ლურჯის სხვაობის) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
 #: data/effects/frei0r/frei0r_pr0file.xml:62
@@ -11513,10 +11220,9 @@ msgstr "ალფას ტრეისი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:62
 #: data/effects/frei0r/frei0r_pr0file.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show Alpha trace on scope]]>"
+#, kde-format
 msgid "Show Alpha trace on scope"
-msgstr "<![CDATA[ალფას ტრეისის ჩვენება პანელზე]]>"
+msgstr "ალფას ტრეისის ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:65
 #: data/effects/frei0r/frei0r_pr0file.xml:66
@@ -11526,10 +11232,9 @@ msgstr "საშუალოს ჩვენება"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:66
 #: data/effects/frei0r/frei0r_pr0file.xml:67
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show average on scope]]>"
+#, kde-format
 msgid "Show average on scope"
-msgstr "<![CDATA[საშუალოს ჩვენება შუალედზე]]>"
+msgstr "საშუალოს ჩვენება შუალედზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:69
 #: data/effects/frei0r/frei0r_pr0file.xml:70
@@ -11539,10 +11244,9 @@ msgstr "RMS-ის ჩვენება"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:70
 #: data/effects/frei0r/frei0r_pr0file.xml:71
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
+#, kde-format
 msgid "Show RMS (root mean square) on scope"
-msgstr "<![CDATA[RMS-ის (საშუალო კვადრატული) ჩვენება პანელზე]]>"
+msgstr "RMS-ის (საშუალო კვადრატული) ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
 #: data/effects/frei0r/frei0r_pr0file.xml:74
@@ -11552,10 +11256,9 @@ msgstr "მინიმუმის ჩვენება"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:74
 #: data/effects/frei0r/frei0r_pr0file.xml:75
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show minimum on scope]]>"
+#, kde-format
 msgid "Show minimum on scope"
-msgstr "<![CDATA[მინიმუმის ჩვენება პანელზე]]>"
+msgstr "მინიმუმის ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:77
 #: data/effects/frei0r/frei0r_pr0file.xml:78
@@ -11565,17 +11268,15 @@ msgstr "მაქსიმუმის ჩვენება"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:78
 #: data/effects/frei0r/frei0r_pr0file.xml:79
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Show maximum on scope]]>"
+#, kde-format
 msgid "Show maximum on scope"
-msgstr "<![CDATA[მაქსიმუმის ჩვენება პანელზე]]>"
+msgstr "მაქსიმუმის ჩვენება პანელზე"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
+#, kde-format
 msgid "Use a scale of 0-255 instead of 0.0-1.0"
-msgstr "<![CDATA[0-255 მასშტაბის გამოყენება 0.0-1.0-ის მაგიერ]]>"
+msgstr "0-255 მასშტაბის გამოყენება 0.0-1.0-ის მაგიერ"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
@@ -11585,10 +11286,9 @@ msgstr "ფერის კოდირება"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+#, kde-format
 msgid "Select between interlaced (601) or progressive (709)"
-msgstr "<![CDATA[აირჩიეთ ხაზგამოტოვებითსა (601) და პროგრესულს (709) შორის]]>"
+msgstr "აირჩიეთ ხაზგამოტოვებითსა (601) და პროგრესიულს (709) შორის"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
@@ -11604,10 +11304,9 @@ msgstr "კვეთის ფერი"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:91
 #: data/effects/frei0r/frei0r_pr0file.xml:92
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+#, kde-format
 msgid "Choose a color for the crosshair/profile line"
-msgstr "<! [CDATA[აირჩიეთ ფერი ჯვარედინი/პროფილის ხაზისთვის]]>"
+msgstr "აირჩიეთ ფერი კვეთის/პროფილის ხაზისთვის"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
@@ -11676,12 +11375,16 @@ msgstr "თეთრი წერტილი"
 msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
 msgstr ""
+"დამოუკიდებელი არხის პროპორცია მიბმული არხის ნორმალიზაციასთან შედარებით "
+"(ნაგულისხმევი 1000)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
+"ფილტრის სიძლიერე. მნიშვნელობა ეფექტის გარეშედან (0) სრულ ნორმალიზაციამდე "
+"(ნაგულისხმევია 1000)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -11862,10 +11565,9 @@ msgid "Factor"
 msgstr "ფაქტორი"
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean pixel value]]>"
+#, kde-format
 msgid "Influence of mean pixel value"
-msgstr "<![CDATA[საშუალო პიქსელის მნიშვნელობის გავლენა]]>"
+msgstr "საშუალო პიქსელის მნიშვნელობის გავლენა"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -11929,12 +11631,10 @@ msgid "Horizontal Split Distance"
 msgstr "ჰორიზონტალური გაყოფის მანძილი"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
+#, kde-format
 msgid "Values < 0.500 move right, values > 0.500 move left."
 msgstr ""
-"<![CDATA[მნიშვნელობები < 0.500 გაწევა მარჯვნივ, მნიშვნელობები > 0.500 გაწევა "
-"მარცხნივ.]]>"
+"მნიშვნელობები < 0.500 გაწევა მარჯვნივ, მნიშვნელობები > 0.500 გაწევა მარცხნივ."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, kde-format
@@ -11942,11 +11642,9 @@ msgid "Vertical Split Distance."
 msgstr "ვერტიკალური გაყოფის მანძილი."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
+#, kde-format
 msgid "Values < 0.5002 move down, values > 0.500 move up."
-msgstr ""
-"<![CDATA[მნიშვნელობები < 0.5002 ჩამოწევა, მნიშვნელობები > 0.500 აწევა.]]>"
+msgstr "მნიშვნელობები < 0.5002 ჩამოწევა, მნიშვნელობები > 0.500 აწევა."
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -12609,15 +12307,7 @@ msgid "Time offset in seconds"
 msgstr "დროის წანაცვლება წამებში"
 
 #: data/effects/gpsgraphic.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[An offset (in seconds) to be added to the video file to match it "
-#| "to the GPS track.<br>\n"
-#| "    \tMost of the time this will at least need to be set to the timezone "
-#| "difference between the 2 files plus some seconds if the video recording "
-#| "device isn't precisely set to correct time. GPS time is always exact and "
-#| "in UTC. Use positive values if GPS is ahead of video and negative "
-#| "otherwise.]]>"
+#, kde-format
 msgid ""
 "An offset (in seconds) to be added to the video file to match it to the GPS "
 "track.<br>\n"
@@ -12626,12 +12316,12 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise."
 msgstr ""
-"<![CDATA[An offset (in seconds) to be added to the video file to match it to "
-"the GPS track.<br>უმეტესად ეს მინიმუმ უნდა იყოს დაყენებული დროის სარტყელზე "
+"An offset (in seconds) to be added to the video file to match it to the GPS "
+"track.<br>უმეტესად ეს მინიმუმ უნდა იყოს დაყენებული დროის სარტყელზე "
 "განსხვავება 2 ფაილს შორის პლუს რამდენიმე წამი, თუ ვიდეო ჩაწერის მოწყობილობა "
 "ზუსტად არ არის მითითებული დროის გამოსასწორებლად. GPS დრო ყოველთვის ზუსტი და "
 "UTC-შია. გამოიყენეთ პოზიტიური მნიშვნელობები, თუ GPS წინ უსწრებს ვიდეოს და "
-"უარყოფითად.]]>"
+"უარყოფითად."
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -12639,24 +12329,17 @@ msgid "Smoothing level"
 msgstr "მოგლუვების დონე"
 
 #: data/effects/gpsgraphic.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
-#| "<br>\n"
-#| "    \tA value of 1 does not smooth locations, it only calculates the "
-#| "extra fields (speed, distance, etc), it also interpolates missing values "
-#| "for heart rate and altitude.]]>"
+#, kde-format
 msgid ""
 "How many GPS points to smooth in order to eliminate GPS errors.<br>\n"
 "    \tA value of 1 does not smooth locations, it only calculates the extra "
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude."
 msgstr ""
-"<![CDATA[რამდენი GPS წერტილის მოგლუვება მოხდება GPS შეცდომების მოსაცილებლად."
-"<br>\n"
+"რამდენი GPS წერტილის მოგლუვება მოხდება GPS შეცდომების მოსაცილებლად.<br>\n"
 "       \t1 მნიშვნელობა არ არის გლუვი ადგილები, ის მხოლოდ ითვლის დამატებით "
 "ველებს (სიჩქარე, მანძილი და ა.შ.), ის ასევე ინტერპოლაციას უწევს გულისცემისა "
-"და სიმაღლის დაკარგულ მნიშვნელობებს.]]>"
+"და სიმაღლის დაკარგულ მნიშვნელობებს."
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -12664,21 +12347,15 @@ msgid "Speed multiplier"
 msgstr "სიჩქარის მამრავლი"
 
 #: data/effects/gpsgraphic.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If the video file is a timelapse (or slow motion), use this "
-#| "value to set the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage.]]>"
+#, kde-format
 msgid ""
 "If the video file is a timelapse (or slow motion), use this value to set the "
 "speed up/slow down ratio.<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"<![CDATA[თუ ვიდეოფაილი დროის ხაზია (ან შენელებული), ამ მნიშვნელობის "
-"გამოყენება სიჩქარის მოსამატებლად/შესანელებლად.<br>\n"
-"       მაგ: გამოიყენეთ 30 30x ასაჩქარებლად ან 0.25 4x შენელებული "
-"ვიდეოსთვის.]]>"
+"თუ ვიდეოფაილი დროის ხაზია (ან შენელებული), ამ მნიშვნელობის გამოყენება "
+"სიჩქარის მოსამატებლად/შესანელებლად.<br>\n"
+"       მაგ: გამოიყენეთ 30 30x ასაჩქარებლად ან 0.25 4x შენელებული ვიდეოსთვის."
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
@@ -12698,22 +12375,7 @@ msgstr ""
 "სიმაღლე, გულისცემა, სიჩქარე"
 
 #: data/effects/gpsgraphic.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[<b>Speedometer</b> is available for all data sources but "
-#| "recommended only for speed; for the map type it represents the "
-#| "\"percentage done\" from trimmed start - end).<br>\n"
-#| "Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
-#| "* crop values are only valid as a percentage and only the bottom (resp "
-#| "left) values\n"
-#| "will be taken into consideration as both values (ie: bottom/top) will "
-#| "need to be equal to\n"
-#| "keep the dot centered)<br>\n"
-#| "* if data source is not GPS location, the centering will only be done for "
-#| "horizontal axis\n"
-#| "(time), vertical axis crop will behave just like for the basic 2D map "
-#| "line (it will statically keep\n"
-#| "the same min/max limit allowing the Now dot to move up and down).]]>"
+#, kde-format
 msgid ""
 "<b>Speedometer</b> is available for all data sources but recommended only "
 "for speed; for the map type it represents the \"percentage done\" from "
@@ -12730,21 +12392,20 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down)."
 msgstr ""
-"<![CDATA[<b>Speedometer ხელმისაწვდომია მონაცემთა ყველა წყაროსთვის, მაგრამ "
+"<b>Speedometer ხელმისაწვდომია მონაცემთა ყველა წყაროსთვის, მაგრამ "
 "რეკომენდებულია მხოლოდ სიჩქარისთვის; რუკის ტიპისთვის იგი წარმოადგენს "
 "\"პროცენტულ შესრულებას\" დამსხვრეული დასაწყისიდან - დასასრული).<br>შენიშვნა: "
-"ტიპი 1 (მასშტაბირება და ცენტრი, aka \"მიჰყევით წერტილს\"):<br>\n"
-"* მოსავლის მნიშვნელობები მოქმედებს მხოლოდ პროცენტულად და მხოლოდ ქვედა "
-"(მარცხენა) მნიშვნელობები\n"
+"ტიპი 1 (მასშტაბირება და ცენტრი, aka \"მიჰყევით წერტილს\"):<br>* მოსავლის "
+"მნიშვნელობები მოქმედებს მხოლოდ პროცენტულად და მხოლოდ ქვედა (მარცხენა) "
+"მნიშვნელობები\n"
 "გათვალისწინებული იქნება, რადგან ორივე მნიშვნელობა (ანუ ქვედა / ზედა) უნდა "
 "იყოს ტოლი\n"
-"შეინახეთ წერტილზე ორიენტირებული)<br>\n"
-"* თუ მონაცემთა წყარო არ არის GPS ადგილმდებარეობა, ცენტრირება მოხდება მხოლოდ "
-"ჰორიზონტალური ღერძისთვის\n"
+"შეინახეთ წერტილზე ორიენტირებული)<br>* თუ მონაცემთა წყარო არ არის GPS "
+"ადგილმდებარეობა, ცენტრირება მოხდება მხოლოდ ჰორიზონტალური ღერძისთვის\n"
 "(დრო), ვერტიკალური ღერძის მოსავალი იქცევა ისევე, როგორც ძირითადი 2D რუკის "
 "ხაზისთვის (ის სტატისტიკურად შეინარჩუნებს\n"
 "იგივე მინ / მაქსიმალური ლიმიტი, რომელიც საშუალებას აძლევს ახლა წერტილს "
-"გადაადგილდეს ზემოთ და ქვემოთ).]]>"
+"გადაადგილდეს ზემოთ და ქვემოთ)."
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -12762,23 +12423,17 @@ msgid "Trim start (%)"
 msgstr "წაკვეთს დასაწყისი (%)"
 
 #: data/effects/gpsgraphic.xml:46
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Trim data from the start of the GPS file (as a percentage of "
-#| "total). <br>\n"
-#| "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed "
-#| "from the total file, so trimming 50% start and 50% end will result in "
-#| "trimming the entire file.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Trim data from the start of the GPS file (as a percentage of total). <br>\n"
 "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file."
 msgstr ""
-"<![CDATA[მონაცემების წაკვეთა gps ფაილის თავში (პროცენტულად სრულიდან). <br>\n"
+"მონაცემების წაკვეთა gps ფაილის თავში (პროცენტულად სრულიდან). <br>\n"
 "        \tშენიშვნა: ორივე, <em>წაკვეთის დასაწყისი</em> და <em>წაკვეთის "
 "დასასრული</em> სრული ფაილიდან ითვლება, ასე რომ წაკვეთა 50% თავიდან და 50% "
-"ბოლოდან ფაილს სრულად წაკვეთს.]]>"
+"ბოლოდან ფაილს სრულად წაკვეთს."
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -12786,23 +12441,17 @@ msgid "Trim end (%)"
 msgstr "წაკვეთის დასასრული (%)"
 
 #: data/effects/gpsgraphic.xml:51
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Trim data from the end of the gps file (as a percentage of "
-#| "total). <br>\n"
-#| "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed "
-#| "from the total file, so trimming 50% start and 50% end will result in "
-#| "trimming the entire file.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Trim data from the end of the gps file (as a percentage of total). <br>\n"
 "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file."
 msgstr ""
-"<![CDATA[მონაცემების წაკვეთა gps ფაილის ბოლოში (პროცენტულად სრულიდან). <br>\n"
+"მონაცემების წაკვეთა gps ფაილის ბოლოში (პროცენტულად სრულიდან). <br>\n"
 "        \tშენიშვნა: ორივე, <em>წაკვეთის დასაწყისი</em> და <em>წაკვეთის "
 "დასასრული</em> სრული ფაილიდან ითვლება, ასე რომ წაკვეთა 50% თავიდან და 50% "
-"ბოლოდან ფაილს სრულად წაკვეთს.]]>"
+"ბოლოდან ფაილს სრულად წაკვეთს."
 
 #: data/effects/gpsgraphic.xml:54
 #, kde-format
@@ -12810,14 +12459,7 @@ msgid "Crop mode horizontal"
 msgstr "ამოჭრის ჰორიზონტალური რეჟიმი"
 
 #: data/effects/gpsgraphic.xml:57
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop "
-#| "right</em> values.<br>\n"
-#| "    \tNote: for the horizontal type, absolute values are the longitude "
-#| "(for the location\n"
-#| "source type) and time (in milliseconds since epoch) for the rest of the "
-#| "data source types)]]>"
+#, kde-format
 msgid ""
 "Decides how to interpret the <em>Crop left</em> and <em>Crop right</em> "
 "values.<br>\n"
@@ -12826,12 +12468,12 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)"
 msgstr ""
-"<![CDATA[წყვეტს, როგორ მოხდება <em>მარცხენა და <em>მარჯვენა</em> ამოჭრის "
+"წყვეტს, როგორ მოხდება <em>მარცხენა და <em>მარჯვენა</em> ამოჭრის "
 "მნიშვნელობების ინტერპრეტაცია.<br>\n"
 "    \tშენიშვნა: ჰორიზონტალური ტიპისთვის აბსოლუტური მნიშვნელობებია გრძედი "
 "(მდებარეობისთვის\n"
 "წყაროს ტიპი) და დრო (მილიწამებში ეპოქიდან) მონაცემთა წყაროს დანარჩენი "
-"ტიპებისთვის)]]>"
+"ტიპებისთვის)"
 
 #: data/effects/gpsgraphic.xml:58 data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -12844,17 +12486,7 @@ msgid "Crop left"
 msgstr "მარცხნივ ამოჭრა"
 
 #: data/effects/gpsgraphic.xml:63
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Crops data from the left side of the graph (effectively zooming "
-#| "in). <br>\n"
-#| "    \tThe value is interpreted either as a percentage of total or an "
-#| "absolute value depending on crop_mode_h. In percentage mode, the values "
-#| "are not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: "
-#| "cropping -50 left will add an extra half of the total horizontal "
-#| "distance). Values over 100 (in % mode) will effectively not display "
-#| "anything. If <em>Graph Type</em> is set to <b>Speedometer</b>, all crop "
-#| "left/right values are ignored.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Crops data from the left side of the graph (effectively zooming in). <br>\n"
 "    \tThe value is interpreted either as a percentage of total or an "
@@ -12865,7 +12497,7 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored."
 msgstr ""
-"<![CDATA[ამოჭრის მონაცემებს გრაფიკის მარცხენა მხრიდან (ანუ გაადიდებს). <br>\n"
+"ამოჭრის მონაცემებს გრაფიკის მარცხენა მხრიდან (ანუ გაადიდებს). <br>\n"
 "    \tმნიშვნელობა განიმარტება, როგორც მთლიანი ან აბსოლუტური მნიშვნელობის "
 "პროცენტული მაჩვენებელი, crop_mode_h მიხედვით. პროცენტული რეჟიმში, "
 "მნიშვნელობები არ შემოიფარგლება მხოლოდ 0-100-ით, რათა შესაძლებელი იყოს ქცევის "
@@ -12873,7 +12505,7 @@ msgstr ""
 "მანძილის დამატებით ნახევარს). 100-ზე მეტი მნიშვნელობები (% რეჟიმში) "
 "ეფექტურად არაფერს აჩვენებს. თუ <em>გრაფიკის ტიპი</em> დაყენებულია "
 "<b>სპიდომეტრისთვის</b>, ყველა მოსავლის მარცხენა / მარჯვენა მნიშვნელობა "
-"იგნორირებულია.]]>"
+"იგნორირებულია."
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -12881,19 +12513,15 @@ msgid "Crop right"
 msgstr "მარჯვნივ ამოჭრა"
 
 #: data/effects/gpsgraphic.xml:67
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Same as <em>Crop left</em> but for the right side, and "
-#| "percentage type is interpreted as an inverse percentage (ie: 100 = do not "
-#| "crop anything). Values under 0 will effectively not display anything.]]>"
+#, kde-format
 msgid ""
 "Same as <em>Crop left</em> but for the right side, and percentage type is "
 "interpreted as an inverse percentage (ie: 100 = do not crop anything). "
 "Values under 0 will effectively not display anything."
 msgstr ""
-"<![CDATA[იგივე, რაც <em>მარცხნივ ამოჭრა</em> მაგრამ მარჯვენა მხრისთვის და "
+"იგივე, რაც <em>მარცხნივ ამოჭრა</em> მაგრამ მარჯვენა მხრისთვის და "
 "პროცენტულობის ტიპი ინტერპრეტირებულია როგორც ინვერსული პროცენტულობა (ანუ: 100 "
-"= არაფერი ამოჭრა). 0-ის ქვემოთ მნიშვნელობები არაფერს გაჩვენებთ.]]>"
+"= არაფერი ამოჭრა). 0-ის ქვემოთ მნიშვნელობები არაფერს გაჩვენებთ."
 
 #: data/effects/gpsgraphic.xml:70
 #, kde-format
@@ -12901,20 +12529,7 @@ msgid "Crop mode vertical"
 msgstr "ამოჭრის ვერტიკალური რეჟიმი"
 
 #: data/effects/gpsgraphic.xml:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop "
-#| "top</em> values.<br/>\n"
-#| "    \tWith an absolute value, it can zoom in to between 100 and 150m of "
-#| "altitude to show\n"
-#| "small changes in altitude between those 2 values better.<br/>\n"
-#| "Note: for the vertical type, absolute values are latitude degrees (for "
-#| "the location\n"
-#| "source type) and altitude, heart rate, speed for the others interpreted "
-#| "as the <em>Legend unit</em>\n"
-#| "type where applicable (ie: a value of 10 for altitude will be considered "
-#| "meters by default\n"
-#| "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
+#, kde-format
 msgid ""
 "Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</em> "
 "values.<br/>\n"
@@ -12929,8 +12544,8 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet)."
 msgstr ""
-"<![CDATA[წყვეტს, როგორ მოხდება <em>ქვედა<em>ზედა</em> მნიშვნელობების "
-"ინტერპრეტაცია.<br/>\n"
+"წყვეტს, როგორ მოხდება <em>ქვედა<em>ზედა</em> მნიშვნელობების ინტერპრეტაცია."
+"<br/>\n"
 "    \tაბსოლუტური მნიშვნელობით, მას შეუძლია მასშტაბირება 100-დან 150 მ-მდე "
 "სიმაღლეზე, რათა აჩვენოს\n"
 "ამ 2 მნიშვნელობას შორის სიმაღლის მცირე ცვლილებები უკეთესია.<br/>შენიშვნა: "
@@ -12940,7 +12555,7 @@ msgstr ""
 "განიმარტება, როგორც <em>ლეგენდის განყოფილება</em>\n"
 "ტიპი, სადაც შესაძლებელია (ანუ სიმაღლეზე 10 მნიშვნელობა ჩაითვლება "
 "მრიცხველებად ნაგულისხმევად\n"
-"მაგრამ თუ <em>ლეგენდის ერთეულის</em> ფეხებზე შეცვლა ნიშნავს 10 ფუტს).]]>"
+"მაგრამ თუ <em>ლეგენდის ერთეულის</em> ფეხებზე შეცვლა ნიშნავს 10 ფუტს)."
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -12948,17 +12563,7 @@ msgid "Crop bottom"
 msgstr "ქვემოთ ამოჭრა"
 
 #: data/effects/gpsgraphic.xml:83
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Crops data from the bottom side of the graph (effectively "
-#| "zooming in). <br>\n"
-#| "    \tThe value is interpreted either as a percentage of total or an "
-#| "absolute value depending on crop_mode_v. In percentage mode the values "
-#| "are not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: "
-#| "cropping -50 bot will add an extra half of the total vertical distance to "
-#| "the bottom). Values over 100 (in % mode) will effectively not display "
-#| "anything. If <em>Graph type</em> is <b>Speedometer</b>, this will set the "
-#| "minimum needle position which will clamp all values that are lower.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Crops data from the bottom side of the graph (effectively zooming in). <br>\n"
 "    \tThe value is interpreted either as a percentage of total or an "
@@ -12969,7 +12574,7 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower."
 msgstr ""
-"<![CDATA[ამოჭრის მონაცემებს გრაფიკის ქვედა მხრიდან (ანუ, გაადიდებს). <br>\n"
+"ამოჭრის მონაცემებს გრაფიკის ქვედა მხრიდან (ანუ, გაადიდებს). <br>\n"
 "   \tმნიშვნელობა განიმარტება, როგორც მთლიანი ან აბსოლუტური მნიშვნელობის "
 "პროცენტული მაჩვენებელი, crop_mode_v მიხედვით. პროცენტულ რეჟიმში "
 "მნიშვნელობები არ შემოიფარგლება მხოლოდ 0-100-ით, რათა შესაძლებელი იყოს ქცევის "
@@ -12977,7 +12582,7 @@ msgstr ""
 "დამატებით ნახევარს ბოლოში). 100-ზე მეტი მნიშვნელობები (% რეჟიმში) ეფექტურად "
 "არაფერს აჩვენებს. თუ <em>გრაფიკის ტიპი</em> არის <b>სპიდომეტრი</b>, ეს "
 "დააყენებს ნემსის მინიმალურ პოზიციას, რომელიც დამაგრებს ყველა მნიშვნელობას, "
-"რომელიც უფრო დაბალია.]]>"
+"რომელიც უფრო დაბალია."
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -12985,21 +12590,16 @@ msgid "Crop top"
 msgstr "ზედას ამოჭრა"
 
 #: data/effects/gpsgraphic.xml:88
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Same as <em>Crop bottom</em> but for the top side, and "
-#| "percentage type is interpreted as an inverse percentage (ie: 100 = do not "
-#| "crop anything).<br>\n"
-#| "    \tValues under 0 will effectively not display anything.]]>"
+#, kde-format
 msgid ""
 "Same as <em>Crop bottom</em> but for the top side, and percentage type is "
 "interpreted as an inverse percentage (ie: 100 = do not crop anything).<br>\n"
 "    \tValues under 0 will effectively not display anything."
 msgstr ""
-"<![CDATA[იგივე, რაც <em>ამოჭრა ბოლოში</em>, მაგრამ ზედა მხარეს, და "
-"პროცენტული ტიპის განიმარტება, როგორც ინვერსიული პროცენტული (ანუ: 100 = არ "
-"მოსავალს არაფერი).<br>\n"
-"    \t0-ის ქვემოთ მნიშვნელობები არაფერს აჩვენებს.]]>"
+"იგივე, რაც <em>ამოჭრა ბოლოში</em>, მაგრამ ზედა მხარეს, და პროცენტული ტიპის "
+"განიმარტება, როგორც ინვერსიული პროცენტული (ანუ: 100 = არ მოსავალს არაფერი)."
+"<br>\n"
+"    \t0-ის ქვემოთ მნიშვნელობები არაფერს აჩვენებს."
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -13054,19 +12654,15 @@ msgid "Show Now dot"
 msgstr "ახლა-წერტილის ჩვენება"
 
 #: data/effects/gpsgraphic.xml:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Enable it to draw a disc at the current location/time over the "
-#| "graph line.<br>\n"
-#| "    \tIf graph type is speedometer, this affects the needle.]]>"
+#, kde-format
 msgid ""
 "Enable it to draw a disc at the current location/time over the graph line."
 "<br>\n"
 "    \tIf graph type is speedometer, this affects the needle."
 msgstr ""
-"<![CDATA[ჩართეთ, რომ დაიხატოს დისკი მიმდინარე მდებარეობაზე/დროზე გრაფიკის "
-"ხაზის ზემოდან.<br>\n"
-"    \tთუ გრაფიკის ტიპი სპიდომეტრია, ეს ნემსზე ახდენს გავლენას.]]>"
+"ჩართეთ, რომ დაიხატოს დისკი მიმდინარე მდებარეობაზე/დროზე გრაფიკის ხაზის "
+"ზემოდან.<br>\n"
+"    \tთუ გრაფიკის ტიპი სპიდომეტრია, ეს ნემსზე ახდენს გავლენას."
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
@@ -13084,13 +12680,7 @@ msgid "Show Now text"
 msgstr "ახლა ტექსტის ჩვენება"
 
 #: data/effects/gpsgraphic.xml:127
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Enable it to draw the current value in big white bold letters on "
-#| "the bottom right side of the rect.<br>\n"
-#| "    \tThe <em>Legend unit</em> value will be appended at the end and it "
-#| "will be used as the current unit (if a valid unit is found ie: kilometers "
-#| "if \"km\" is found anywhere in the <em>Legend unit</em> string).]]>"
+#, kde-format
 msgid ""
 "Enable it to draw the current value in big white bold letters on the bottom "
 "right side of the rect.<br>\n"
@@ -13098,12 +12688,12 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string)."
 msgstr ""
-"<![CDATA[ჩართეთ მიმდინარე მნიშვნელობის დიდი თეთრი ასოებით დასახატად "
-"ოთხკუთხედის ქვედა მარჯვენა კუთხეში.<br>\n"
+"ჩართეთ მიმდინარე მნიშვნელობის დიდი თეთრი ასოებით დასახატად ოთხკუთხედის ქვედა "
+"მარჯვენა კუთხეში.<br>\n"
 "        \t<em>ლეგენდის ერთეულის</em> მნიშვნელობა ბოლოს დაბრუნდება და ის "
 "გამოყენებული იქნება როგორც მიმდინარე ერთეული (თუ ნაპოვნია მოქმედი ერთეული, "
 "ანუ კილომეტრები, თუ \"კმ\" გვხვდება <em>სადმე ლეგენდის ერთეულის</em> "
-"სტრიქონში).]]>"
+"სტრიქონში)."
 
 #: data/effects/gpsgraphic.xml:131
 #, kde-format
@@ -13130,15 +12720,7 @@ msgid "Draw legend"
 msgstr "ახსნის დახატვა"
 
 #: data/effects/gpsgraphic.xml:140
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
-#| "<br>\n"
-#| "    \tlines with small values each corresponding to the current data "
-#| "source value at 0%, 25%, 50%, 75% and 100% of current graph shown, "
-#| "affected by the <em>Legend unit</em> type if applicable, and with the "
-#| "string appended to the value. For speedometer type this shows division "
-#| "values (but without appending unit).]]>"
+#, no-c-format, kde-format
 msgid ""
 "If enabled it will draw 5 horizontal (and vertical for map type) <br>\n"
 "    \tlines with small values each corresponding to the current data source "
@@ -13147,13 +12729,13 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit)."
 msgstr ""
-"<![CDATA[თუ ჩართულია, ის 5 ჰორიზონტალურ (და ვერტიკალურს რუკის ტიპისთვის) "
-"ხაზს დახატავს <br>\n"
+"თუ ჩართულია, ის 5 ჰორიზონტალურ (და ვერტიკალურს რუკის ტიპისთვის) ხაზს "
+"დახატავს <br>\n"
 "      \tხაზები მცირე მნიშვნელობებით, რომლებიც შეესაბამება მონაცემთა "
 "მიმდინარე წყაროს მნიშვნელობას 0%, 25%, 50%, 75% and 100% of მიმდინარე "
 "გრაფიკი, რომელიც გავლენას ახდენს <em>ლეგენდის ერთეულის</em> ტიპზე, თუ ეს "
 "შესაძლებელია, და სტრიქონით, რომელიც დამატებულია მნიშვნელობაზე. სპიდომეტრის "
-"ტიპისთვის ეს გვიჩვენებს გაყოფის მნიშვნელობებს (მაგრამ დანამატის გარეშე).]]>"
+"ტიპისთვის ეს გვიჩვენებს გაყოფის მნიშვნელობებს (მაგრამ დანამატის გარეშე)."
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -13161,23 +12743,18 @@ msgid "Legend unit"
 msgstr "ახსნის ერთეული"
 
 #: data/effects/gpsgraphic.xml:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets the unit to be used for displaying values of type altitude "
-#| "and speed.<br>\n"
-#| "        Default is meters and km/h respectively. The unit is matched "
-#| "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
+#, kde-format
 msgid ""
 "Sets the unit to be used for displaying values of type altitude and speed."
 "<br>\n"
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying."
 msgstr ""
-"<![CDATA[აყენებს ერთეულს, რომელიც ტიპის სიმაღლის და სიჩქარის მნიშვნელობების "
+"აყენებს ერთეულს, რომელიც ტიპის სიმაღლის და სიჩქარის მნიშვნელობების "
 "საჩვენებლად გამოიყენება.<br>\n"
 "         ნაგულისხმევია შესაბამისად მეტრები და კმ/სთ. ერთეული იცვლება ყველგან "
 "სტრიქონში, ასე რომ გამოტანის შესაცვლელად ზედმეტი ჰარეებიც შეგიძლიათ, "
-"გამოიყენოთ.]]>"
+"გამოიყენოთ."
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -13196,14 +12773,7 @@ msgid "Show dots only"
 msgstr "მხოლოდ წერტილების ჩვენება"
 
 #: data/effects/gpsgraphic.xml:151
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, the graph will be drawn using individual dots "
-#| "instead of lines.<br>\n"
-#| "    \tThis will effectively show the individual data points as affected "
-#| "by smoothing (ie: for location data it will display each GPS fix if "
-#| "smoothing is 1) and can either be used as a cool effect when zoomed in "
-#| "enough or to debug unexpected line jumps.]]>"
+#, kde-format
 msgid ""
 "If enabled, the graph will be drawn using individual dots instead of lines."
 "<br>\n"
@@ -13212,12 +12782,11 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps."
 msgstr ""
-"<![CDATA[თუ ჩართულია, გრაფიკი ინდივიდუალური წერტილებით დაიხატება ხაზების "
-"მაგიერ.<br>\n"
+"თუ ჩართულია, გრაფიკი ინდივიდუალური წერტილებით დაიხატება ხაზების მაგიერ.<br>\n"
 "          \tეს გაჩვენებთ ინდივიდუალურ მონაცემების წერტილებს, როგორ იცვლება "
 "ისინი მოგლუვებით (ანუ მდებარეობის მონაცემებისთვის ის გაჩვენებთ, არის თუ არა "
 "მოგლუვება 1) და შეგიძლიათ გამოიყენოთ, როგორც კარგი ეფექტი გადიდებისას, ან "
-"რომ გაასწოროთ მოულოდნელი ხაზის ნახტომები.]]>"
+"რომ გაასწოროთ მოულოდნელი ხაზის ნახტომები."
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -13225,19 +12794,15 @@ msgid "Graph rectangle"
 msgstr "გრაფიკის მართკუთხედი"
 
 #: data/effects/gpsgraphic.xml:156
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Defines the rectangle that the graph should be drawn in.<br>\n"
-#| "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
-#| "unless they have the suffix '%'.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Defines the rectangle that the graph should be drawn in.<br>\n"
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'."
 msgstr ""
-"<![CDATA[აღწერს მართკუთხედს, რომელშიც გრაფიკი დაიხატება.<br>\n"
+"აღწერს მართკუთხედს, რომელშიც გრაფიკი დაიხატება.<br>\n"
 "       ფორმატია: \"X Y W H\". X, Y, W, H ითვლება პიქსელის ერთეულებად, თუ მათ "
-"არ აქვთ სუფიქსი '%'.]]>"
+"არ აქვთ სუფიქსი '%'."
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -13245,22 +12810,17 @@ msgid "Background image"
 msgstr "ფონის სურათი"
 
 #: data/effects/gpsgraphic.xml:161
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If a valid image file is selected, it will be used as a "
-#| "background for the rectangle area.<br>\n"
-#| "      \tPaths starting with the \"!\" character are ignored. TIP: use a "
-#| "map image to add context to the GPS track.]]>"
+#, kde-format
 msgid ""
 "If a valid image file is selected, it will be used as a background for the "
 "rectangle area.<br>\n"
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track."
 msgstr ""
-"<![CDATA[თუ არჩეულია სწორი გამოსახულების ფაილი, ის ოთხკუთხედი ადგილის ფონად "
-"იქნება გამოყენებული.\n"
+"თუ არჩეულია სწორი გამოსახულების ფაილი, ის ოთხკუთხედი ადგილის ფონად იქნება "
+"გამოყენებული.\n"
 "     \t<br>ბილიკები დაწყებული \"!\" სიმბოლოთი იგნორირებულია. რჩევა: "
-"გამოიყენეთ რუკის სურათი GPS ტრეკზე კონტექსტის დასამატებლად.]]>"
+"გამოიყენეთ რუკის სურათი GPS ტრეკზე კონტექსტის დასამატებლად."
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -13268,22 +12828,17 @@ msgid "Background scale"
 msgstr "ფონის მასშტაბი"
 
 #: data/effects/gpsgraphic.xml:166
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Scale the background image (relative to center) to match it to "
-#| "the above GPS track.<br>\n"
-#| "    \tValues smaller than 100 zoom into the image, values larger than 100 "
-#| "zoom out. 0 hides it.]]>"
+#, kde-format
 msgid ""
 "Scale the background image (relative to center) to match it to the above GPS "
 "track.<br>\n"
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it."
 msgstr ""
-"<![CDATA[ფონური გამოსახულების მასშტაბი (ცენტრთან მიმართებაში), რომ ის ზედა "
-"GPS ტრეკს დაემთხვეს.<br>\n"
+"ფონური გამოსახულების მასშტაბი (ცენტრთან მიმართებაში), რომ ის ზედა GPS ტრეკს "
+"დაემთხვეს.<br>\n"
 "        \t100-ზე მცირე მნიშვნელობები ადიდებს გამოსახულებები, 100-ზე დიდი კი "
-"აპატარავებს. 0 დამალავს მას.]]>"
+"აპატარავებს. 0 დამალავს მას."
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
 #, kde-format
@@ -13291,10 +12846,9 @@ msgid "Background opacity"
 msgstr "ფონის გაუმჭვირვალობა"
 
 #: data/effects/gpsgraphic.xml:170
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "Sets the opacity for the background image"
-msgstr "<![CDATA[აყენებს ფონის სურათის გაუმჭვირვალობის დონეს]]>"
+msgstr "აყენებს ფონის სურათის გაუმჭვირვალობის დონეს"
 
 #: data/effects/gpsgraphic.xml:173
 #, kde-format
@@ -13468,10 +13022,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr "გადაფარვის ან შერევის რაოდენობა ძირითადებს შორის"
 
 #: data/effects/hsl_primaries.xml:12
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
+#, kde-format
 msgid "<b><u>Hue Shift</u></b> Red"
-msgstr "<![CDATA[<b><u>ტონის წანაცვლება</u></b> წითელი]]>"
+msgstr "<b><u>ტონის წანაცვლება</u></b> წითელი"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2528
@@ -13493,16 +13046,14 @@ msgid "Magenta"
 msgstr "ფუქსინი"
 
 #: data/effects/hsl_primaries.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Saturation</u></b> Red]]>"
+#, kde-format
 msgid "<b><u>Saturation</u></b> Red"
-msgstr "<![CDATA[<b><u>გაჯერება</u></b> წითელი]]>"
+msgstr "<b><u>გაჯერება</u></b> წითელი"
 
 #: data/effects/hsl_primaries.xml:48
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
+#, kde-format
 msgid "<b><u>Lightness</u></b> Red"
-msgstr "<![CDATA[<b><u>განათებულობა</u></b> წითელი]]>"
+msgstr "<b><u>განათებულობა</u></b> წითელი"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -13590,24 +13141,21 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 1</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 1</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 1</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 2</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 2</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 2</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 3</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 3</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 3</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2151.xml:30
@@ -13617,38 +13165,33 @@ msgstr "<გაძლიერება"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 4</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 4</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 4</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 5</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 5</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 5</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 6</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 6</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 6</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 7</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 7</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 7</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 8</b></u> Freq"
-msgstr "<![CDATA[<u><b>ზოლი 8</b></u> სიხშ]]>"
+msgstr "<u><b>ზოლი 8</b></u> სიხშ"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
 #: data/effects/ladspa/ladspa_2142.xml:36
@@ -13820,16 +13363,13 @@ msgid "TAP Tremolo"
 msgstr "TAP ტრემოლო"
 
 #: data/effects/ladspa/ladspa_2144.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
-#| "   Sounds good mainly on acoustic or electric guitar tracks.]]>"
+#, kde-format
 msgid ""
 "TAP Tremolo (LADSPA 2144)<br>\n"
 "   Sounds good mainly on acoustic or electric guitar tracks."
 msgstr ""
-"<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
-"      კარგად ჟღერს ძირითადად აკუსტიკური ან ელექტრო გიტარის ტრეკებზე.]]>"
+"TAP Tremolo (LADSPA 2144)<br>\n"
+"      კარგად ჟღერს ძირითადად აკუსტიკური ან ელექტრო გიტარის ტრეკებზე."
 
 #: data/effects/ladspa/ladspa_2145.xml:4
 #, kde-format
@@ -13837,16 +13377,13 @@ msgid "TAP Scaling Limiter"
 msgstr "TAP მასშტაბის შემზღუდავი"
 
 #: data/effects/ladspa/ladspa_2145.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>\n"
-#| "   Achieves signal level limiting without audible artifacts.]]>"
+#, kde-format
 msgid ""
 "TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts."
 msgstr ""
-"<![CDATA[TAP მასშტაბის შემზღუდველი (LADSPA 2145)<br>\n"
-"      აღწევს სიგნალის დონის შეზღუდვას ხმოვანი არტეფაქტების გარეშე.]]>"
+"TAP მასშტაბის შემზღუდველი (LADSPA 2145)<br>\n"
+"      აღწევს სიგნალის დონის შეზღუდვას ხმოვანი არტეფაქტების გარეშე."
 
 #: data/effects/ladspa/ladspa_2145.xml:9
 #, kde-format
@@ -13864,17 +13401,13 @@ msgid "TAP AutoPanner"
 msgstr "TAP ავტოპანერი"
 
 #: data/effects/ladspa/ladspa_2146.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
-#| "   Main use is to liven up synth tracks in the mix]]>"
+#, kde-format
 msgid ""
 "TAP AutoPanner (LADSPA 2146)<br>\n"
 "   Main use is to liven up synth tracks in the mix"
 msgstr ""
-"<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
-"      ძირითადად გამოიყენება არის მიქსში სინთეზური ტრეკების "
-"გამოსაცოცხლებლად]]>"
+"TAP AutoPanner (LADSPA 2146)<br>\n"
+"      ძირითადად გამოიყენება არის მიქსში სინთეზური ტრეკების გამოსაცოცხლებლად"
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
@@ -13908,16 +13441,13 @@ msgid "Sidechain Filter"
 msgstr "გვერდითი ჯაჭვის ფილტრი"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The chosen filter's frequency<br>\n"
-#| "      is set by the <b>Frequency</b> parameter]]>"
+#, kde-format
 msgid ""
 "The chosen filter's frequency<br>\n"
 "      is set by the <b>Frequency</b> parameter"
 msgstr ""
-"<![CDATA[არჩეული ფილტრის სიხშირე<br>\n"
-"      დაყენებულია <b>სიხშირის</b> პარამეტრით]]>"
+"არჩეული ფილტრის სიხშირე<br>\n"
+"      დაყენებულია <b>სიხშირის</b> პარამეტრით"
 
 #: data/effects/ladspa/ladspa_2147.xml:18
 #, kde-format
@@ -13944,18 +13474,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
+#, kde-format
 msgid "Determines how fast the pitch is modulated up-down"
 msgstr ""
-"<![CDATA[განსაზღვრავს რამდენად სწრაფად ხდება გაძლიერების მოდულაციის აწევა/"
-"დაწევა]]>"
+"განსაზღვრავს რამდენად სწრაფად ხდება გაძლიერების მოდულაციის აწევა/დაწევა"
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the amount of pitch modulation]]>"
+#, kde-format
 msgid "Sets the amount of pitch modulation"
-msgstr "<![CDATA[აყენებს გაძლიერების მოდულაციის რაოდენობას]]>"
+msgstr "აყენებს გაძლიერების მოდულაციის რაოდენობას"
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
@@ -13963,16 +13490,13 @@ msgid "TAP Rotary Speaker"
 msgstr "TAP ლესლის დინამიკი"
 
 #: data/effects/ladspa/ladspa_2149.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
-#| "   Simulates the sound of rotating speakers.]]>"
+#, kde-format
 msgid ""
 "TAP Rotary Speaker (LADSPA 2149)<br>\n"
 "   Simulates the sound of rotating speakers."
 msgstr ""
-"<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
-"   ახდენს მბრუნავი დინამიკის ხმის სიმულაციას.]]>"
+"TAP Rotary Speaker (LADSPA 2149)<br>\n"
+"   ახდენს მბრუნავი დინამიკის ხმის სიმულაციას."
 
 #: data/effects/ladspa/ladspa_2149.xml:9
 #, kde-format
@@ -14125,16 +13649,13 @@ msgid "TAP Reflector"
 msgstr "TAP ამრეკლი"
 
 #: data/effects/ladspa/ladspa_2154.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect.]]>"
+#, kde-format
 msgid ""
 "TAP Reflector (LADSPA 2154)<br>\n"
 "    Creates a psychedelic reverse audio effect."
 msgstr ""
-"<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
-"    ქმნის ფსიქოდელიურ რევერსულ აუდიოეფექტს.]]>"
+"TAP Reflector (LADSPA 2154)<br>\n"
+"    ქმნის ფსიქოდელიურ რევერსულ აუდიოეფექტს."
 
 #: data/effects/ladspa/ladspa_2154.xml:9
 #, kde-format
@@ -15116,11 +14637,9 @@ msgid "Maximum Up/Down Move"
 msgstr "მაქსიმალური აწევა/დაწევა"
 
 #: data/effects/oldfilm.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the maximum vertical movement in pixels]]>"
+#, kde-format
 msgid "Determines the maximum vertical movement in pixels"
-msgstr ""
-"<![CDATA[განსაზღვრავს ვერტიკალური გადაადგილების მაქსიმუმს პიქსელებში]]>"
+msgstr "განსაზღვრავს ვერტიკალური გადაადგილების მაქსიმუმს პიქსელებში"
 
 #: data/effects/oldfilm.xml:12
 #, kde-format
@@ -15128,12 +14647,9 @@ msgid "Frames With Movement"
 msgstr "კადრები მოძრაობით"
 
 #: data/effects/oldfilm.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines percentage of frames with vertical movement]]>"
+#, kde-format
 msgid "Determines percentage of frames with vertical movement"
-msgstr ""
-"<![CDATA[განსაზღვრავს ვერტიკალური გადაადგილების მქონე კადრების "
-"პროცენტულობას]]>"
+msgstr "განსაზღვრავს ვერტიკალური გადაადგილების მქონე კადრების პროცენტულობას"
 
 #: data/effects/oldfilm.xml:16
 #, kde-format
@@ -15141,10 +14657,9 @@ msgid "Brightness Up"
 msgstr "სიკაშკაშის აწევა"
 
 #: data/effects/oldfilm.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in brightness change up]]>"
+#, kde-format
 msgid "Determines the value in brightness change up"
-msgstr "<![CDATA[განსაზღვრავს სიკაშკაშის აწევის ცვლილების მნიშვნელობას]]>"
+msgstr "განსაზღვრავს სიკაშკაშის აწევის ცვლილების მნიშვნელობას"
 
 #: data/effects/oldfilm.xml:20
 #, kde-format
@@ -15152,10 +14667,9 @@ msgid "Brightness Down"
 msgstr "სიკაშკაშის დაწევა"
 
 #: data/effects/oldfilm.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in brightness change down]]>"
+#, kde-format
 msgid "Determines the value in brightness change down"
-msgstr "<![CDATA[განსაზღვრავს სიკაშკაშის დაწევის ცვლილების მნიშვნელობას]]>"
+msgstr "განსაზღვრავს სიკაშკაშის დაწევის ცვლილების მნიშვნელობას"
 
 #: data/effects/oldfilm.xml:24
 #, kde-format
@@ -15163,11 +14677,9 @@ msgid "Brightness Every"
 msgstr "სიკაშკაშის ხანგრძლივობა"
 
 #: data/effects/oldfilm.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines percentage of frames with brightness changes]]>"
+#, kde-format
 msgid "Determines percentage of frames with brightness changes"
-msgstr ""
-"<![CDATA[განსაზღვრავს სიკაშკაშის ცვლილებების მქონე კადრების პროცენტულობას]]>"
+msgstr "განსაზღვრავს სიკაშკაშის ცვლილებების მქონე კადრების პროცენტულობას"
 
 #: data/effects/oldfilm.xml:28
 #, kde-format
@@ -15175,10 +14687,9 @@ msgid "Uneven Develop Up"
 msgstr "არათანაბარი განვითარების აწევა"
 
 #: data/effects/oldfilm.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change up]]>"
+#, kde-format
 msgid "Determines the value in lightness change up"
-msgstr "<![CDATA[განსაზღვრავს განათებულობის აწევის ცვლილების მნიშვნელობას]]>"
+msgstr "განსაზღვრავს განათებულობის აწევის ცვლილების მნიშვნელობას"
 
 #: data/effects/oldfilm.xml:32
 #, kde-format
@@ -15186,10 +14697,9 @@ msgid "Uneven Develop Down"
 msgstr "არათანაბარი განვითარების დაწევა"
 
 #: data/effects/oldfilm.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change down]]>"
+#, kde-format
 msgid "Determines the value in lightness change down"
-msgstr "<![CDATA[განსაზღვრავს განათებულობის დაწევის ცვლილების მნიშვნელობას]]>"
+msgstr "განსაზღვრავს განათებულობის დაწევის ცვლილების მნიშვნელობას"
 
 #: data/effects/oldfilm.xml:36
 #, kde-format
@@ -15413,18 +14923,14 @@ msgid "Disable Repeat"
 msgstr "გამეორების გამორთვა"
 
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[When animating properties with keyframes,<br>\n"
-#| "\t    whether to repeat the animation after it reaches the last key "
-#| "frame.]]>"
+#, kde-format
 msgid ""
 "When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame."
 msgstr ""
-"<![CDATA[როცა ანიმაცია საკვანძო კადრებით ხდება,<br>\n"
+"როცა ანიმაცია საკვანძო კადრებით ხდება,<br>\n"
 "\t    მოხდება თუ არა ანიმაციის გამეორება, როცა მიღწეული იქნება ბოლო საკვანძო "
-"კადრი.]]>"
+"კადრი."
 
 #: data/effects/rotate-3-way.xml:15
 #, kde-format
@@ -15432,21 +14938,16 @@ msgid "Disable Mirror"
 msgstr "სარკის გამორთვა"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
-#| "em> is off,<br>\n"
-#| "\t    whether the animation alternates between reverses and forwards for "
-#| "each repetition.]]>"
+#, kde-format
 msgid ""
 "When animating properties with keyframes and <em>Disable repeat</em> is off,"
 "<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition."
 msgstr ""
-"<![CDATA[როცა ანიმაცია საკვანძო კადრებით ხდება და <em>გამეორების "
-"გამორთვა<em> გათიშულია,<br>\n"
-"\t    შეიცვლება თუ არა ანიმაციის მიმართულება თითოეული გამეორების დროს.]]>"
+"როცა ანიმაცია საკვანძო კადრებით ხდება და <em>გამეორების გამორთვა<em> "
+"გათიშულია,<br>\n"
+"\t    შეიცვლება თუ არა ანიმაციის მიმართულება თითოეული გამეორების დროს."
 
 #: data/effects/rotate-3-way.xml:20
 #, kde-format
@@ -15454,21 +14955,15 @@ msgid "Invert Scale"
 msgstr "მასშტაბის ინვერსია"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> "
-#| "values.<br>\n"
-#| "        This is helpful to make animation interpolation sane because "
-#| "otherwise the scale values do not animate linearly.]]>"
+#, kde-format
 msgid ""
 "Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values.<br>\n"
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly."
 msgstr ""
-"<![CDATA[მოხდება, თუ არა <em>X<en> და <em>Y<em> მასშტაბის მნიშნელობების "
-"ინვერსია.<br>\n"
+"მოხდება ტუ არა <em>X<en> და <em>Y<em> მასშტაბის მნიშნელობების ინვერსია.<br>\n"
 "        ეს სასარგებლოა ანიმაციის ინტერპოლაციის გასაძლებად, რადგან სხვა "
-"შემთხვევაში დამასშტაბებული მნიშვნელობის ანიმაცია წრფივად არ ხდება.]]>"
+"შემთხვევაში დამასშტაბებული მნიშვნელობის ანიმაცია წრფივად არ ხდება."
 
 #: data/effects/rotate-3-way.xml:28 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -15477,10 +14972,9 @@ msgid "Rotate X"
 msgstr "შებრუნება X"
 
 #: data/effects/rotate-3-way.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "Angle of rotation along the X axis"
-msgstr "<![CDATA[X ღერძის გარშემო ბრუნვის კუთხე]]>"
+msgstr "X ღერძის გარშემო ბრუნვის კუთხე"
 
 #: data/effects/rotate-3-way.xml:32 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -15489,10 +14983,9 @@ msgid "Rotate Y"
 msgstr "შებრუნება Y"
 
 #: data/effects/rotate-3-way.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the Y axis]]>"
+#, kde-format
 msgid "Angle of rotation along the Y axis"
-msgstr "<![CDATA[Y ღერძის გარშემო ბრუნვის კუთხე]]>"
+msgstr "Y ღერძის გარშემო ბრუნვის კუთხე"
 
 #: data/effects/rotate-3-way.xml:36 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -15501,10 +14994,9 @@ msgid "Rotate Z"
 msgstr "შებრუნება Z"
 
 #: data/effects/rotate-3-way.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the Z axis]]>"
+#, kde-format
 msgid "Angle of rotation along the Z axis"
-msgstr "<![CDATA[Z ღერძის გარშემო ბრუნვის კუთხე]]>"
+msgstr "Z ღერძის გარშემო ბრუნვის კუთხე"
 
 #: data/effects/rotate-3-way.xml:40 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -15513,10 +15005,9 @@ msgid "Offset X"
 msgstr "გადაწევა X-ით"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/shear.xml:38
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "Offset along the X axis"
-msgstr "<![CDATA[წანაცვლება X ღერძის გასწვრივ]]>"
+msgstr "წანაცვლება X ღერძის გასწვრივ"
 
 #: data/effects/rotate-3-way.xml:44 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -15525,22 +15016,19 @@ msgid "Offset Y"
 msgstr "გადაწევა Y-ით"
 
 #: data/effects/rotate-3-way.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the Y axis]]>"
+#, kde-format
 msgid "Offset along the Y axis"
-msgstr "<![CDATA[წანაცვლება Y ღერძის გასწვრივ]]>"
+msgstr "წანაცვლება Y ღერძის გასწვრივ"
 
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "Scale factor applied to the X axis"
-msgstr "<![CDATA[X ღერძზე გამოყენებული მასშტაბის კოეფიციენტი]]>"
+msgstr "X ღერძზე გამოყენებული მასშტაბის კოეფიციენტი"
 
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the Y axis]]>"
+#, kde-format
 msgid "Scale factor applied to the Y axis"
-msgstr "<![CDATA[Y ღერძზე გამოყენებული მასშტაბის კოეფიციენტი]]>"
+msgstr "Y ღერძზე გამოყენებული მასშტაბის კოეფიციენტი"
 
 #: data/effects/rotation.xml:4
 #, kde-format
@@ -15618,10 +15106,9 @@ msgid "Width of Line"
 msgstr "ხაზის სიგანე"
 
 #: data/effects/scratchlines.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width on the line in the clip]]>"
+#, kde-format
 msgid "Width on the line in the clip"
-msgstr "<![CDATA[კლიპში არსებული ხაზის სიგანე]]>"
+msgstr "კლიპში არსებული ხაზის სიგანე"
 
 #: data/effects/scratchlines.xml:12
 #, kde-format
@@ -15629,10 +15116,9 @@ msgid "Max Number of Lines"
 msgstr "ხაზების მაქს. რაოდენობა"
 
 #: data/effects/scratchlines.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Maximum number of lines in the clip]]>"
+#, kde-format
 msgid "Maximum number of lines in the clip"
-msgstr "<![CDATA[ხაზების მაქსიმალური რაოდენობა კლიპტში]]>"
+msgstr "ხაზების მაქსიმალური რაოდენობა კლიპტში"
 
 #: data/effects/scratchlines.xml:16
 #, kde-format
@@ -15640,10 +15126,9 @@ msgid "Max Darker"
 msgstr "მაქს. გამუქება"
 
 #: data/effects/scratchlines.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
+#, kde-format
 msgid "Make image up to <em>n</em> values darker behind line"
-msgstr "<![CDATA[გამოსახულების მაქს <em>n</em>-ჯერ გამუქება ხაზს მიღმა]]>"
+msgstr "გამოსახულების მაქს <em>n</em>-ჯერ გამუქება ხაზს მიღმა"
 
 #: data/effects/scratchlines.xml:20
 #, kde-format
@@ -15651,10 +15136,9 @@ msgid "Max Lighter"
 msgstr "მაქს. გაღიავება"
 
 #: data/effects/scratchlines.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
+#, kde-format
 msgid "Make image up to <em>n</em> values lighter behind line"
-msgstr "<![CDATA[გამოსახულების მაქს <em>n</em>-ჯერ გაღიავება ხაზს მიღმა]]>"
+msgstr "გამოსახულების მაქს <em>n</em>-ჯერ გაღიავება ხაზს მიღმა"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -15704,16 +15188,14 @@ msgid "Invert scale"
 msgstr "მასშტაბის ინვერსია"
 
 #: data/effects/shear.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "Shear angle around the X axis"
-msgstr "<![CDATA[დახრის კუთხე X ღერძის გარშემო]]>"
+msgstr "დახრის კუთხე X ღერძის გარშემო"
 
 #: data/effects/shear.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the Y axis]]>"
+#, kde-format
 msgid "Shear angle around the Y axis"
-msgstr "<![CDATA[დახრის კუთხე Y ღერძის გარშემო]]>"
+msgstr "დახრის კუთხე Y ღერძის გარშემო"
 
 #: data/effects/shear.xml:33
 #, kde-format
@@ -15721,16 +15203,14 @@ msgid "Shear Z"
 msgstr "დახრის Z"
 
 #: data/effects/shear.xml:34
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the Z axis]]>"
+#, kde-format
 msgid "Shear angle around the Z axis"
-msgstr "<![CDATA[დახრის კუთხე Z ღერძის გარშემო]]>"
+msgstr "დახრის კუთხე Z ღერძის გარშემო"
 
 #: data/effects/shear.xml:42
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "Offset along Y axis"
-msgstr "<![CDATA[წანაცვლება Y ღერძის გასწვრივ]]>"
+msgstr "წანაცვლება Y ღერძის გასწვრივ"
 
 #: data/effects/sox/sox.xml:4
 #, kde-format
@@ -16043,62 +15523,40 @@ msgid "Start"
 msgstr "გაშვება"
 
 #: data/effects/timer.xml:52
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The time that the timer will start counting up or down.\n"
-#| "The text will be frozen at 00:00:00.000 from the start of the filter "
-#| "until the start time has elapsed.]]>"
+#, kde-format
 msgid ""
 "The time that the timer will start counting up or down.\n"
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed."
 msgstr ""
-"<![CDATA[დრო, საიდანაც ტაიმერმა თვლა ზრდადობით ან კლებადობით დაიწყებს.\n"
+"დრო, საიდანაც ტაიმერმა თვლა ზრდადობით ან კლებადობით დაიწყებს.\n"
 "ტექსტი გაყინული იქნება 00:00:00.000 ფილტრის დასაწყისიდან, სანამ დაწყების დრო "
-"არ გავა.]]>"
+"არ გავა."
 
 #: data/effects/timer.xml:57
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The maximum elapsed duration of the timer after the start time "
-#| "has elapsed.\n"
-#| "The text will be frozen at the duration time after the duration has "
-#| "elapsed.]]>"
+#, kde-format
 msgid ""
 "The maximum elapsed duration of the timer after the start time has elapsed.\n"
 "The text will be frozen at the duration time after the duration has elapsed."
 msgstr ""
-"<![CDATA[მაქსიმალური გასული ხანგრძლივობა ტაიმერისთვის, როცა დაწყების დრო "
-"ამოიწურება.\n"
-"ტექსტ გაიყინება ხანგრძლივობის დროით, როცა ეს ხანგრძლივობა ამოიწურება.]]>"
+"მაქსიმალური გასული ხანგრძლივობა ტაიმერისთვის, როცა დაწყების დრო ამოიწურება.\n"
+"ტექსტი გაიყინება ხანგრძლივობის დროით, როცა ეს ხანგრძლივობა ამოიწურება."
 
 #: data/effects/timer.xml:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[An offset to be added to the timer value.\n"
-#| "When the direction is \"down\", the timer will count down to \"offset\" "
-#| "instead of 00:00:00.000.\n"
-#| "When the direction is up, the timer will count up starting from \"offset"
-#| "\".]]>"
+#, kde-format
 msgid ""
 "An offset to be added to the timer value.\n"
 "When the direction is \"down\", the timer will count down to \"offset\" "
 "instead of 00:00:00.000.\n"
 "When the direction is up, the timer will count up starting from \"offset\"."
 msgstr ""
-"<![CDATA[წანაცვლება ტაიმერის მნიშვნელობაზე მისამამატებლად.\n"
+"წანაცვლება ტაიმერის მნიშვნელობაზე მისამამატებლად.\n"
 "როცა მიმართულებაა \"ქვემოთ\", ტაიმერი 00:00:00.000-ის მაგიერ \"წანაცვლებამდე"
 "\" ათვლას დაწყებს.\n"
-"როცა მიმართულებაა \"მაღლა\", ტაიმერი \"წანაცვლებიდან\" ზემოთ ათვლას "
-"დაიწყებს.]]>"
+"როცა მიმართულებაა \"მაღლა\", ტაიმერი \"წანაცვლებიდან\" ზემოთ ათვლას დაიწყებს."
 
 #: data/effects/timer.xml:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "            <![CDATA[Whether the counter should count up from "
-#| "00:00:00.000 or down from the duration time.]]>\n"
-#| "        "
+#, kde-format
 msgid ""
 "\n"
 "            Whether the counter should count up from 00:00:00.000 or down "
@@ -16106,8 +15564,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            <![CDATA[ათვლა 00:00:00.000-დან უნდა დაიწყოს და ზრდადობით თუ "
-"კლიპის ხანგრძლივობიდან, კლებადობით]]>\n"
+"            ათვლა 00:00:00.000-დან უნდა დაიწყოს და ზრდადობით თუ კლიპის "
+"ხანგრძლივობიდან, კლებადობით.\n"
 "        "
 
 #: data/effects/tracker.xml:4

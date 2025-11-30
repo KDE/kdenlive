@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-29 00:42+0000\n"
-"PO-Revision-Date: 2025-11-23 11:43+0100\n"
+"PO-Revision-Date: 2025-11-28 11:50+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -5552,8 +5552,7 @@ msgid "Video Noise Generator"
 msgstr "Générateur de bruit vidéo"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "Add noise on video input frame"
+#, kde-format
 msgid "Add noise on video input frame"
 msgstr "Ajouter du bruit sur la trame d'entrée vidéo"
 
