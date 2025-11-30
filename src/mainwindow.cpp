@@ -1787,14 +1787,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("mlt_realtime"), dropFrames);
     connect(dropFrames, &QAction::toggled, this, &MainWindow::slotSwitchDropFrames);
 
-    KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
-    monitorGamma->addAction(i18n("sRGB (computer)"));
-    monitorGamma->addAction(i18n("Rec. 709 (TV)"));
-    addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
-    monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-    connect(monitorGamma, &KSelectAction::indexTriggered, this, &MainWindow::slotSetMonitorGamma);
-    actionCollection()->setShortcutsConfigurable(monitorGamma, false);
-
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
                                        QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
     insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
@@ -4443,13 +4435,6 @@ void MainWindow::slotSwitchMonitorOverlay(QAction *action)
 void MainWindow::slotSwitchDropFrames(bool drop)
 {
     KdenliveSettings::setMonitor_dropframes(drop);
-    m_clipMonitor->restart();
-    m_projectMonitor->restart();
-}
-
-void MainWindow::slotSetMonitorGamma(int gamma)
-{
-    KdenliveSettings::setMonitor_gamma(gamma);
     m_clipMonitor->restart();
     m_projectMonitor->restart();
 }

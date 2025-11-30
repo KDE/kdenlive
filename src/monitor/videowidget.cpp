@@ -819,10 +819,25 @@ int VideoWidget::reconfigure()
         m_consumer->set("prefill", 6);
         m_consumer->set("drop_max", fps / 4);
         m_consumer->set("scrub_audio", KdenliveSettings::audio_scrub());
-        if (KdenliveSettings::monitor_gamma() == 0) {
-            m_consumer->set("color_trc", "iec61966_2_1");
-        } else {
+        switch (pCore->getProjectProfile().colorspace()) {
+        case 601:
+        case 170:
+            m_consumer->set("color_trc", "smpte170m");
+            break;
+        case 240:
+            m_consumer->set("color_trc", "smpte240m");
+            break;
+        case 470:
+            m_consumer->set("color_trc", "bt470bg");
+            break;
+        case 2020:
+            // if (isDeckLinkHLG) {
+            //     m_consumer->set("color_trc", "arib-std-b67");
+            m_consumer->clear("color_trc");
+            break;
+        default:
             m_consumer->set("color_trc", "bt709");
+            break;
         }
     } else {
         // Cleanup on error

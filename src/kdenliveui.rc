@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="240" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="241" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -291,7 +291,6 @@
         <Action name="mlt_interlace"/>
         <Action name="mlt_progressive"/>
         <Action name="mlt_interpolation"/>
-        <Action name="mlt_gamma"/>
         <Action name="mlt_realtime"/>
         <Action name="mlt_scrub"/>
         <Action name="mlt_mute"/>
