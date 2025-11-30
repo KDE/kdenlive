@@ -49,9 +49,8 @@ Window {
 
     visible: true
     color: "transparent"
-    title: "Splash Window"
     modality: Qt.WindowModal
-    flags: Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
     x: (Screen.width - width) / 2
     y: (Screen.height - height) / 2
     width: splashContent.width
@@ -65,7 +64,6 @@ Window {
         } else {
             listView.forceActiveFocus();
         }
-
         visible = true;
     }
 
