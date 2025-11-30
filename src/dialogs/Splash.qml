@@ -632,7 +632,7 @@ Window {
                     anchors.rightMargin: 10
                     text: i18n("What's New")
                     icon.name: "help-contents"
-                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgradedone")
+                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
                     KeyNavigation.tab: listView
                 }
             }
@@ -665,13 +665,13 @@ Window {
                     ToolButton {
                         icon.name: "user-group-new"
                         text: i18n("Contribute…")
-                        onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar")
+                        onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_contribute&mtm_content=" + splash.version)
                     }
 
                     ToolButton {
                         text: i18n("Donate…")
                         icon.name: "donate"
-                        onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar")
+                        onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_donate&mtm_content=" + splash.version)
                         KeyNavigation.tab: listView
                     }
 
