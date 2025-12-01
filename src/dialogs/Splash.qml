@@ -129,7 +129,12 @@ Window {
             }
         }
         Keys.onEscapePressed: {
-            openBlank()
+            if (firstRun) {
+                firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                splash.hide()
+            } else {
+                openBlank()
+            }
         }
 
         Item {
