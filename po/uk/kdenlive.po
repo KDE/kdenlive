@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-29 00:42+0000\n"
+"POT-Creation-Date: 2025-12-01 00:42+0000\n"
 "PO-Revision-Date: 2025-11-29 18:32+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -7117,7 +7117,7 @@ msgstr "Встановити режим обгортки"
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8
-#: src/assets/assetlist/view/assetlistwidget.cpp:147 src/bin/bin.cpp:1606
+#: src/assets/assetlist/view/assetlistwidget.cpp:148 src/bin/bin.cpp:1606
 #: src/bin/bin.cpp:1611 src/bin/bin.cpp:2608
 #, kde-format
 msgid "Filter"
@@ -11499,7 +11499,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:595
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:593
 #: src/dialogs/Splash.qml:961 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
@@ -17794,68 +17794,68 @@ msgstr ""
 msgid "Generator Failed"
 msgstr "Помилка під час створення"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:59
-#: src/assets/assetlist/view/assetlistwidget.cpp:480
+#: src/assets/assetlist/view/assetlistwidget.cpp:60
+#: src/assets/assetlist/view/assetlistwidget.cpp:481
 #, kde-format
 msgid "Add to favorites"
 msgstr "Додати до улюблених"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:65
+#: src/assets/assetlist/view/assetlistwidget.cpp:66
 #, kde-format
 msgid "Delete custom effect"
 msgstr "Вилучити нетиповий ефект"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:70
+#: src/assets/assetlist/view/assetlistwidget.cpp:71
 #, kde-format
 msgid "Reload custom effect"
 msgstr "Перезавантажити нетиповий ефект"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:75
+#: src/assets/assetlist/view/assetlistwidget.cpp:76
 #, kde-format
 msgid "Edit Info…"
 msgstr "Змінити відомості…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:80
+#: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
 msgid "Export XML…"
 msgstr "Експортувати XML…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:93
+#: src/assets/assetlist/view/assetlistwidget.cpp:94
 #, kde-format
 msgid "Main effects"
 msgstr "Основні ефекти"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:93
+#: src/assets/assetlist/view/assetlistwidget.cpp:94
 #, kde-format
 msgid "Main compositions"
 msgstr "Основні композиції"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:102
+#: src/assets/assetlist/view/assetlistwidget.cpp:103
 #, kde-format
 msgid "Show all video effects"
 msgstr "Показати усі відеоефекти"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:109
+#: src/assets/assetlist/view/assetlistwidget.cpp:110
 #, kde-format
 msgid "Show all audio effects"
 msgstr "Показати усі звукові ефекти"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:116
+#: src/assets/assetlist/view/assetlistwidget.cpp:117
 #, kde-format
 msgid "Show all custom effects"
 msgstr "Показати усі нетипові ефекти"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:124
+#: src/assets/assetlist/view/assetlistwidget.cpp:125
 #, kde-format
 msgid "Show transitions only"
 msgstr "Показувати лише переходи"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:132
+#: src/assets/assetlist/view/assetlistwidget.cpp:133
 #, kde-format
 msgid "Show favorite items"
 msgstr "Показати улюблені пункти"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:148
+#: src/assets/assetlist/view/assetlistwidget.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17866,45 +17866,45 @@ msgstr ""
 "увімкнути або вимкнути показ фільтрування. Натисніть піктограму зі "
 "стрілочкою, щоб відкрити список можливих параметрів фільтрування."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:201
+#: src/assets/assetlist/view/assetlistwidget.cpp:202
 #, kde-format
 msgid "Download New Effects..."
 msgstr "Отримати нові ефекти…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:221
+#: src/assets/assetlist/view/assetlistwidget.cpp:222
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "Отримати нові ефекти витирання…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:235
+#: src/assets/assetlist/view/assetlistwidget.cpp:236
 #, kde-format
 msgid "Show/hide description of the effects"
 msgstr "Показати або сховати опис ефектів"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:235
+#: src/assets/assetlist/view/assetlistwidget.cpp:236
 #, kde-format
 msgid "Show/hide description of the compositions"
 msgstr "Показати або сховати опис композицій"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:243 src/bin/bin.cpp:1404
+#: src/assets/assetlist/view/assetlistwidget.cpp:244 src/bin/bin.cpp:1404
 #: src/dialogs/renderwidget.cpp:564 src/project/dialogs/profilewidget.cpp:35
 #: src/project/notesplugin.cpp:179
 #, kde-format
 msgid "Search…"
 msgstr "Шукати…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:284
+#: src/assets/assetlist/view/assetlistwidget.cpp:285
 #, kde-format
 msgid "You have enabled unsupported assets"
 msgstr "Вами увімкнено непідтримувані ресурси"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:480
+#: src/assets/assetlist/view/assetlistwidget.cpp:481
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Вилучити з улюбленого"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:502
-#: src/assets/assetlist/view/assetlistwidget.cpp:504
+#: src/assets/assetlist/view/assetlistwidget.cpp:503
+#: src/assets/assetlist/view/assetlistwidget.cpp:505
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -18375,13 +18375,13 @@ msgid "Switch to curve editor view"
 msgstr "Перемкнутися на панель перегляду редактора кривої"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:101
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2063
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2055
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Перейти до попереднього ключового кадру"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:105
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2061
+#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2053
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Перейти до наступного ключового кадру"
@@ -19821,7 +19821,7 @@ msgstr ""
 "Вашому проєкту потрібно більше звукових доріжок, щоб можна було обробляти "
 "усі потоки звукових даних. Додати %1 звукові доріжки?"
 
-#: src/bin/bin.cpp:5725 src/mainwindow.cpp:3009
+#: src/bin/bin.cpp:5725 src/mainwindow.cpp:3001
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
@@ -19922,7 +19922,7 @@ msgstr "Вилучити ефект %1"
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:6663 src/bin/bin.cpp:6666 src/mainwindow.cpp:5219
+#: src/bin/bin.cpp:6663 src/bin/bin.cpp:6666 src/mainwindow.cpp:5204
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Контейнер проєкту %1"
@@ -22683,7 +22683,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "Створено KDE"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:563 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:561 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22703,24 +22703,27 @@ msgstr "Скинути налаштування"
 msgid "Start Normally"
 msgstr "Запустити у звичному режимі"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:621
-#, kde-format
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:619
+#, fuzzy, kde-format
+#| msgid ""
+#| "Kdenlive was upgraded. If you like it, consider <a href=\"https://"
+#| "kdenlive.org/get-involved/\">getting involved</a> or help <a href="
+#| "\"https://kdenlive.org/fund/\">funding</a>."
 msgid ""
-"Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
-"org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive."
-"org/fund/\">funding</a>."
+"Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
+"involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 "Kdenlive оновлено. Якщо вам подобається програма, вам варто <a href="
 "\"https://kdenlive.org/get-involved/\">взяти участь у її розробці</a> або "
 "допомогти з <a href=\"https://kdenlive.org/fund/\">фінансуванням розробки</"
 "a>."
 
-#: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:635
+#: src/dialogs/Simplesplash.qml:230 src/dialogs/Splash.qml:635
 #, kde-format
 msgid "What's New"
 msgstr "Що нового?"
 
-#: src/dialogs/Simplesplash.qml:237
+#: src/dialogs/Simplesplash.qml:239
 #, kde-format
 msgid "Continue"
 msgstr "Продовжити"
@@ -23454,57 +23457,57 @@ msgstr "59.94 кд/с"
 msgid "60 fps"
 msgstr "60 кд/с"
 
-#: src/dialogs/Splash.qml:171
+#: src/dialogs/Splash.qml:169
 #, kde-format
 msgid "Made by KDE"
 msgstr "Створено KDE"
 
-#: src/dialogs/Splash.qml:227
+#: src/dialogs/Splash.qml:225
 #, kde-format
 msgid "Open Project…"
 msgstr "Відкрити проєкт…"
 
-#: src/dialogs/Splash.qml:254
+#: src/dialogs/Splash.qml:252
 #, kde-format
 msgid "Open Recent"
 msgstr "Відкрити недавні"
 
-#: src/dialogs/Splash.qml:262
+#: src/dialogs/Splash.qml:260
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Спорожнити журнал нещодавніх проєктів"
 
-#: src/dialogs/Splash.qml:364
+#: src/dialogs/Splash.qml:362
 #, kde-format
 msgid "Remove file from list"
 msgstr "Вилучити файл зі списку"
 
-#: src/dialogs/Splash.qml:393
+#: src/dialogs/Splash.qml:391
 #, kde-format
 msgid "New Project…"
 msgstr "Створити проєкт…"
 
-#: src/dialogs/Splash.qml:420
+#: src/dialogs/Splash.qml:418
 #, kde-format
 msgid "New From Profile"
 msgstr "Створити з профілю"
 
-#: src/dialogs/Splash.qml:428
+#: src/dialogs/Splash.qml:426
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Спорожнити журнал нещодавніх профілів"
 
-#: src/dialogs/Splash.qml:514
+#: src/dialogs/Splash.qml:512
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Вилучити профіль зі списку"
 
-#: src/dialogs/Splash.qml:553
+#: src/dialogs/Splash.qml:551
 #, kde-format
 msgid "Show on Startup"
 msgstr "Показувати при запуску"
 
-#: src/dialogs/Splash.qml:586 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:952
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
@@ -24729,7 +24732,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Файл субтитрів:<br/>%1<br/>вже існує. Хочете перезаписати його?"
 
-#: src/doc/documentvalidator.cpp:2200 src/mainwindow.cpp:3762
+#: src/doc/documentvalidator.cpp:2200 src/mainwindow.cpp:3754
 #, kde-format
 msgid "Overwrite"
 msgstr "Перезаписати"
@@ -25890,7 +25893,7 @@ msgid "Generators"
 msgstr "Засоби створення"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:63 src/mainwindow.cpp:4141
+#: src/kdenliveui.rc:63 src/mainwindow.cpp:4133
 #, kde-format
 msgid "Extract Audio"
 msgstr "Видобути звук"
@@ -25957,7 +25960,7 @@ msgstr "&Поточна доріжка"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:160 src/mainwindow.cpp:2074
+#: src/kdenliveui.rc:160 src/mainwindow.cpp:2066
 #: src/ui/configtimeline_ui.ui:251
 #, kde-format
 msgid "Tracks"
@@ -26000,7 +26003,7 @@ msgid "Preview Resolution"
 msgstr "Роздільна здатність перегляду"
 
 #. i18n: ectx: Menu (monitor_config)
-#: src/kdenliveui.rc:289
+#: src/kdenliveui.rc:290
 #, kde-format
 msgid "Monitor Config"
 msgstr "Налаштування монітора"
@@ -26862,7 +26865,7 @@ msgstr "Додати ефект"
 msgid "Add Transition"
 msgstr "Додати перехід"
 
-#: src/mainwindow.cpp:552 src/mainwindow.cpp:2244
+#: src/mainwindow.cpp:552 src/mainwindow.cpp:2236
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #, kde-format
 msgid "Transitions"
@@ -27355,7 +27358,7 @@ msgstr ""
 "Увімкнено експериментальну обробку на графічному процесорі — не для "
 "промислового використання"
 
-#: src/mainwindow.cpp:1564 src/mainwindow.cpp:3745
+#: src/mainwindow.cpp:1564 src/mainwindow.cpp:3737
 #, kde-format
 msgid "Multicam"
 msgstr "Мультикам"
@@ -27531,76 +27534,61 @@ msgstr "Режим реального часу (викидати кадри)"
 
 #: src/mainwindow.cpp:1790
 #, kde-format
-msgid "Monitor Gamma"
-msgstr "Гама монітора"
-
-#: src/mainwindow.cpp:1791
-#, kde-format
-msgid "sRGB (computer)"
-msgstr "sRGB (комп’ютер)"
-
-#: src/mainwindow.cpp:1792
-#, kde-format
-msgid "Rec. 709 (TV)"
-msgstr "Rec. 709 (ТБ)"
-
-#: src/mainwindow.cpp:1798
-#, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Вставити ділянку до пункту проєкту"
 
-#: src/mainwindow.cpp:1800
+#: src/mainwindow.cpp:1792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Створює кліп у контейнері проєкту на основі визначеної зони."
 
-#: src/mainwindow.cpp:1803
+#: src/mainwindow.cpp:1795
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Перейти до попередньої точки прив’язки"
 
-#: src/mainwindow.cpp:1805
+#: src/mainwindow.cpp:1797
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Перейти до наступної точки прив’язки"
 
-#: src/mainwindow.cpp:1808
+#: src/mainwindow.cpp:1800
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Перейти до початку кліпу"
 
-#: src/mainwindow.cpp:1810
+#: src/mainwindow.cpp:1802
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Перейти до кінця кліпу"
 
-#: src/mainwindow.cpp:1812
+#: src/mainwindow.cpp:1804
 #, kde-format
 msgid "Go to Previous Marker"
 msgstr "Перейти до попередньої позначки"
 
-#: src/mainwindow.cpp:1814
+#: src/mainwindow.cpp:1806
 #, kde-format
 msgid "Go to Next Marker"
 msgstr "Перейти до наступної позначки"
 
-#: src/mainwindow.cpp:1816
+#: src/mainwindow.cpp:1808
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Вирівнювати позицію відтворення за розташуванням вказівника"
 
-#: src/mainwindow.cpp:1819
+#: src/mainwindow.cpp:1811
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Захопити поточний пункт"
 
-#: src/mainwindow.cpp:1822
+#: src/mainwindow.cpp:1814
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Перезаписати ділянку кліпу на монтажному столі"
 
-#: src/mainwindow.cpp:1824
+#: src/mainwindow.cpp:1816
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27612,12 +27600,12 @@ msgstr ""
 "вставлено у позиції відтворення активного монтажного столу. Кліпи у позиції "
 "вставлення буде обрізано і перезаписано."
 
-#: src/mainwindow.cpp:1826
+#: src/mainwindow.cpp:1818
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Вставити ділянку кліпу на монтажний стіл"
 
-#: src/mainwindow.cpp:1828
+#: src/mainwindow.cpp:1820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27629,12 +27617,12 @@ msgstr ""
 "вставлено у позиції відтворення активного монтажного столу. Кліпи у позиції "
 "вставлення буде посунуто праворуч."
 
-#: src/mainwindow.cpp:1830
+#: src/mainwindow.cpp:1822
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Видобути ділянку даних монтажного столу"
 
-#: src/mainwindow.cpp:1832
+#: src/mainwindow.cpp:1824
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27644,12 +27632,12 @@ msgstr ""
 "Клацніть, щоб вилучити зону монтажного столу зі столу. Усі кліпи праворуч "
 "буде посунуто ліворуч."
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1825
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Підняти ділянку даних монтажного столу"
 
-#: src/mainwindow.cpp:1835
+#: src/mainwindow.cpp:1827
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27659,12 +27647,12 @@ msgstr ""
 "Клацніть, щоб вилучити зону монтажного столу зі столу. Усі кліпи праворуч "
 "лишаться на своїх місцях."
 
-#: src/mainwindow.cpp:1836
+#: src/mainwindow.cpp:1828
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Додати зону перегляду"
 
-#: src/mainwindow.cpp:1838
+#: src/mainwindow.cpp:1830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27673,12 +27661,12 @@ msgstr ""
 "Додати поточну визначену на монтажному столі або позначену зону як зону "
 "обробки попереднього перегляду"
 
-#: src/mainwindow.cpp:1839 src/timeline2/view/previewmanager.cpp:580
+#: src/mainwindow.cpp:1831 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Вилучити зону перегляду"
 
-#: src/mainwindow.cpp:1843
+#: src/mainwindow.cpp:1835
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27689,23 +27677,23 @@ msgstr ""
 "обробки попереднього перегляду. Зауважте, що це може призвести до появи "
 "прогалин у зонах обробки попереднього перегляду."
 
-#: src/mainwindow.cpp:1844 src/timeline2/view/previewmanager.cpp:506
+#: src/mainwindow.cpp:1836 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Вилучити усі зони перегляду"
 
-#: src/mainwindow.cpp:1846
+#: src/mainwindow.cpp:1838
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Вилучити усі зони обробки попереднього перегляду."
 
-#: src/mainwindow.cpp:1847
+#: src/mainwindow.cpp:1839
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Почати обробку перегляду"
 
-#: src/mainwindow.cpp:1850
+#: src/mainwindow.cpp:1842
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27719,243 +27707,243 @@ msgstr ""
 "варіантів (наприклад, додати зону обробки попереднього перегляду, вилучити "
 "усі зони)."
 
-#: src/mainwindow.cpp:1852
+#: src/mainwindow.cpp:1844
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Припинити обробку перегляду"
 
-#: src/mainwindow.cpp:1855
+#: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Скоригувати зону монтажного столу до позначеного"
 
-#: src/mainwindow.cpp:1857
+#: src/mainwindow.cpp:1849
 #, kde-format
 msgid "Select Clip"
 msgstr "Позначити кліп"
 
-#: src/mainwindow.cpp:1859
+#: src/mainwindow.cpp:1851
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Зняти позначення з кліпу"
 
-#: src/mainwindow.cpp:1861
+#: src/mainwindow.cpp:1853
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Додати до позначеного кліп"
 
-#: src/mainwindow.cpp:1863
+#: src/mainwindow.cpp:1855
 #, kde-format
 msgid "Select Transition"
 msgstr "Позначити перехід"
 
-#: src/mainwindow.cpp:1865
+#: src/mainwindow.cpp:1857
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Зняти позначення з переходу"
 
-#: src/mainwindow.cpp:1867
+#: src/mainwindow.cpp:1859
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Додати до позначеного перехід"
 
-#: src/mainwindow.cpp:1870
+#: src/mainwindow.cpp:1862
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Вилучити всі позначки"
 
-#: src/mainwindow.cpp:1872
+#: src/mainwindow.cpp:1864
 #, kde-format
 msgid "Add Marker Quickly"
 msgstr "Швидко додати позначку"
 
-#: src/mainwindow.cpp:1876
+#: src/mainwindow.cpp:1868
 #, kde-format
 msgid "Add Marker Category 1"
 msgstr "Додати категорію позначки 1"
 
-#: src/mainwindow.cpp:1880
+#: src/mainwindow.cpp:1872
 #, kde-format
 msgid "Add Marker Category 2"
 msgstr "Додати категорію позначки 2"
 
-#: src/mainwindow.cpp:1884
+#: src/mainwindow.cpp:1876
 #, kde-format
 msgid "Add Marker Category 3"
 msgstr "Додати категорію позначки 3"
 
-#: src/mainwindow.cpp:1888
+#: src/mainwindow.cpp:1880
 #, kde-format
 msgid "Add Marker Category 4"
 msgstr "Додати категорію позначки 4"
 
-#: src/mainwindow.cpp:1892
+#: src/mainwindow.cpp:1884
 #, kde-format
 msgid "Add Marker Category 5"
 msgstr "Додати категорію позначки 5"
 
-#: src/mainwindow.cpp:1896
+#: src/mainwindow.cpp:1888
 #, kde-format
 msgid "Add Marker Category 6"
 msgstr "Додати категорію позначки 6"
 
-#: src/mainwindow.cpp:1900
+#: src/mainwindow.cpp:1892
 #, kde-format
 msgid "Add Marker Category 7"
 msgstr "Додати категорію позначки 7"
 
-#: src/mainwindow.cpp:1904
+#: src/mainwindow.cpp:1896
 #, kde-format
 msgid "Add Marker Category 8"
 msgstr "Додати категорію позначки 8"
 
-#: src/mainwindow.cpp:1908
+#: src/mainwindow.cpp:1900
 #, kde-format
 msgid "Add Marker Category 9"
 msgstr "Додати категорію позначки 9"
 
-#: src/mainwindow.cpp:1912
+#: src/mainwindow.cpp:1904
 #, kde-format
 msgid "Add Marker Category 10"
 msgstr "Додати категорію позначки 10"
 
-#: src/mainwindow.cpp:1917
+#: src/mainwindow.cpp:1909
 #, kde-format
 msgid "Current Selection"
 msgstr "Поточне позначене"
 
-#: src/mainwindow.cpp:1919
+#: src/mainwindow.cpp:1911
 #, kde-format
 msgid "Add Marker"
 msgstr "Додати позначку"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Delete Marker"
 msgstr "Вилучити позначку"
 
-#: src/mainwindow.cpp:1927
+#: src/mainwindow.cpp:1919
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Змінити позначку…"
 
-#: src/mainwindow.cpp:1932 src/timeline2/model/timelinefunctions.cpp:1233
+#: src/mainwindow.cpp:1924 src/timeline2/model/timelinefunctions.cpp:1233
 #, kde-format
 msgid "Restore Audio"
 msgstr "Відновити звук"
 
-#: src/mainwindow.cpp:1938
+#: src/mainwindow.cpp:1930
 #, kde-format
 msgid "Extract Clip"
 msgstr "Видобути кліп"
 
-#: src/mainwindow.cpp:1944
+#: src/mainwindow.cpp:1936
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Зберегти ділянку кліпу на панелі контейнера"
 
-#: src/mainwindow.cpp:1949
+#: src/mainwindow.cpp:1941
 #, kde-format
 msgid "Disable Clip"
 msgstr "Вимкнути кліп"
 
-#: src/mainwindow.cpp:1955
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Встановити еталон звукових даних"
 
-#: src/mainwindow.cpp:1962
+#: src/mainwindow.cpp:1954
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Вирівнювання звукових даних за еталоном"
 
-#: src/mainwindow.cpp:1968
+#: src/mainwindow.cpp:1960
 #, kde-format
 msgid "Set Timecode Reference"
 msgstr "Встановити еталон часової позначки"
 
-#: src/mainwindow.cpp:1971
+#: src/mainwindow.cpp:1963
 #, kde-format
 msgid "Align Timecode to Reference"
 msgstr "Вирівнювання часової позначки за еталоном"
 
-#: src/mainwindow.cpp:1975
+#: src/mainwindow.cpp:1967
 #, kde-format
 msgid "Edit Duration"
 msgstr "Змінити тривалість"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1971
 #, kde-format
 msgid "Change Speed"
 msgstr "Зміна швидкості"
 
-#: src/mainwindow.cpp:1985
+#: src/mainwindow.cpp:1977
 #, kde-format
 msgid "Time Remap"
 msgstr "Переприв'язування за часом"
 
-#: src/mainwindow.cpp:1992
+#: src/mainwindow.cpp:1984
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Кліп у ієрархії проєкту"
 
-#: src/mainwindow.cpp:1997
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Search Bin Clip…"
 msgstr "Шукати кліп у контейнері…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1999 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1991 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Розрізати кліп"
 
-#: src/mainwindow.cpp:2002
+#: src/mainwindow.cpp:1994
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Розрізати усі кліпи"
 
-#: src/mainwindow.cpp:2005
+#: src/mainwindow.cpp:1997
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Вилучити позначений елемент"
 
-#: src/mainwindow.cpp:2008
+#: src/mainwindow.cpp:2000
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Змінити позицію початку елемента"
 
-#: src/mainwindow.cpp:2012
+#: src/mainwindow.cpp:2004
 #, kde-format
 msgid "Resize Item End"
 msgstr "Змінити позицію кінця елемента"
 
-#: src/mainwindow.cpp:2016
+#: src/mainwindow.cpp:2008
 #, kde-format
 msgid "Paste Effects"
 msgstr "Вставити ефекти"
 
-#: src/mainwindow.cpp:2022
+#: src/mainwindow.cpp:2014
 #, kde-format
 msgid "Remove Effects"
 msgstr "Вилучити ефекти"
 
-#: src/mainwindow.cpp:2029
+#: src/mainwindow.cpp:2021
 #, kde-format
 msgid "Group Clips"
 msgstr "Згрупувати кліпи"
 
-#: src/mainwindow.cpp:2035
+#: src/mainwindow.cpp:2027
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Розгрупувати кліпи"
 
-#: src/mainwindow.cpp:2041
+#: src/mainwindow.cpp:2033
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Створити послідовність з позначеного"
 
-#: src/mainwindow.cpp:2044
+#: src/mainwindow.cpp:2036
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27965,123 +27953,123 @@ msgstr ""
 "Додає поточні позначені на монтажному столі кліпи до нового кліпу "
 "послідовності, який можна буде відкрити у іншій вкладці монтажного столу."
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2050
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Ключові кадри ефекту"
 
-#: src/mainwindow.cpp:2059 src/monitor/view/EffectToolBar.qml:116
+#: src/mainwindow.cpp:2051 src/monitor/view/EffectToolBar.qml:116
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Додати/Вилучити ключовий кадр"
 
-#: src/mainwindow.cpp:2068
+#: src/mainwindow.cpp:2060
 #, kde-format
 msgid "Insert Space…"
 msgstr "Вставити розпірку…"
 
-#: src/mainwindow.cpp:2069
+#: src/mainwindow.cpp:2061
 #, kde-format
 msgid "Remove Space"
 msgstr "Вилучити розпірку"
 
-#: src/mainwindow.cpp:2070
+#: src/mainwindow.cpp:2062
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Вилучити усі розпірки після курсора"
 
-#: src/mainwindow.cpp:2071
+#: src/mainwindow.cpp:2063
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Вилучити усі кліпи після курсора"
 
-#: src/mainwindow.cpp:2072
+#: src/mainwindow.cpp:2064
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Вилучити розпірки в усіх доріжках"
 
-#: src/mainwindow.cpp:2075
+#: src/mainwindow.cpp:2067
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Вставити доріжку…"
 
-#: src/mainwindow.cpp:2079
+#: src/mainwindow.cpp:2071
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Підібрати розміри для усіх доріжок перегляду"
 
-#: src/mainwindow.cpp:2085 src/timeline2/view/timelinecontroller.cpp:4970
+#: src/mainwindow.cpp:2077 src/timeline2/view/timelinecontroller.cpp:4970
 #, kde-format
 msgid "Sequence effects"
 msgstr "Ефекти послідовності"
 
-#: src/mainwindow.cpp:2092
+#: src/mainwindow.cpp:2084
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Перемкнути звуковий потік призначення доріжки"
 
-#: src/mainwindow.cpp:2097
+#: src/mainwindow.cpp:2089
 #, kde-format
 msgid "Delete Track…"
 msgstr "Вилучити доріжку…"
 
-#: src/mainwindow.cpp:2102
+#: src/mainwindow.cpp:2094
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Показати керування записом"
 
-#: src/mainwindow.cpp:2108
+#: src/mainwindow.cpp:2100
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Позначити все на поточній доріжці"
 
-#: src/mainwindow.cpp:2125
+#: src/mainwindow.cpp:2117
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Керування кешованими даними…"
 
-#: src/mainwindow.cpp:2128
+#: src/mainwindow.cpp:2120
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Вимкнути перегляд на монтажному столі"
 
-#: src/mainwindow.cpp:2132
+#: src/mainwindow.cpp:2124
 #, kde-format
 msgid "Add/Remove Timeline Marker"
 msgstr "Вилучити або вилучити позначку на монтажному столі"
 
-#: src/mainwindow.cpp:2134
+#: src/mainwindow.cpp:2126
 #, kde-format
 msgid "Delete Timeline Marker"
 msgstr "Вилучити позначку на монтажному столі"
 
-#: src/mainwindow.cpp:2136
+#: src/mainwindow.cpp:2128
 #, kde-format
 msgid "Edit Timeline Marker…"
 msgstr "Редагувати позначку на монтажному столі…"
 
-#: src/mainwindow.cpp:2139
+#: src/mainwindow.cpp:2131
 #, kde-format
 msgid "Export Markers…"
 msgstr "Експортувати позначки…"
 
-#: src/mainwindow.cpp:2140
+#: src/mainwindow.cpp:2132
 #, kde-format
 msgid "Search Marker…"
 msgstr "Шукати позначку…"
 
-#: src/mainwindow.cpp:2143
+#: src/mainwindow.cpp:2135
 #, kde-format
 msgid "Timeline Markers Locked"
 msgstr "Позначки на монтажному столі заблоковано"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2138
 #, kde-format
 msgid "Lock Timeline Markers"
 msgstr "Заблокувати позначки на монтажному столі"
 
-#: src/mainwindow.cpp:2148
+#: src/mainwindow.cpp:2140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28092,47 +28080,47 @@ msgstr ""
 "пересуватиметься при використанні інструмента інтервалів або вставлянні чи "
 "вилучанні розпірок на доріжках."
 
-#: src/mainwindow.cpp:2150
+#: src/mainwindow.cpp:2142
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Додати субтитри"
 
-#: src/mainwindow.cpp:2152
+#: src/mainwindow.cpp:2144
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Вимкнути субтитри"
 
-#: src/mainwindow.cpp:2153
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Заблокувати субтитри"
 
-#: src/mainwindow.cpp:2155
+#: src/mainwindow.cpp:2147
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "Керування субтитрами"
 
-#: src/mainwindow.cpp:2157
+#: src/mainwindow.cpp:2149
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Імпортування файла субтитрів…"
 
-#: src/mainwindow.cpp:2159
+#: src/mainwindow.cpp:2151
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Експортування файла субтитрів…"
 
-#: src/mainwindow.cpp:2161 src/timeline2/model/timelinemodel.cpp:2231
+#: src/mainwindow.cpp:2153 src/timeline2/model/timelinemodel.cpp:2231
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Вилучення субтитрів"
 
-#: src/mainwindow.cpp:2162
+#: src/mainwindow.cpp:2154
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Розпізнавання мовлення…"
 
-#: src/mainwindow.cpp:2169
+#: src/mainwindow.cpp:2161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28143,97 +28131,97 @@ msgstr ""
 "режимом використання кнопки <interface>меню-гамбургера</interface> на "
 "головній панелі інструментів."
 
-#: src/mainwindow.cpp:2197
+#: src/mainwindow.cpp:2189
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Копіювати діагностичні дані"
 
-#: src/mainwindow.cpp:2199
+#: src/mainwindow.cpp:2191
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Вимкнути ефекти монтажного столу"
 
-#: src/mainwindow.cpp:2205
+#: src/mainwindow.cpp:2197
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Перемкнути стан вимикання доріжки"
 
-#: src/mainwindow.cpp:2207
+#: src/mainwindow.cpp:2199
 #, kde-format
 msgid "Toggle All Tracks Disabled"
 msgstr "Перемкнути стан вимикання для усіх доріжок"
 
-#: src/mainwindow.cpp:2209
+#: src/mainwindow.cpp:2201
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Увімкнути або вимкнути блокування доріжки"
 
-#: src/mainwindow.cpp:2211
+#: src/mainwindow.cpp:2203
 #, kde-format
 msgid "Toggle All Tracks Lock"
 msgstr "Перемкнути стан блокування для усіх доріжок"
 
-#: src/mainwindow.cpp:2213
+#: src/mainwindow.cpp:2205
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Перемкнути призначення доріжки"
 
-#: src/mainwindow.cpp:2215
+#: src/mainwindow.cpp:2207
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Перемкнути активацію доріжки"
 
-#: src/mainwindow.cpp:2217
+#: src/mainwindow.cpp:2209
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Перемкнути активацію усіх доріжок"
 
-#: src/mainwindow.cpp:2219
+#: src/mainwindow.cpp:2211
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Зробити усі доріжки активними"
 
-#: src/mainwindow.cpp:2221
+#: src/mainwindow.cpp:2213
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Відновити доріжки призначення поточного кліпу"
 
-#: src/mainwindow.cpp:2223
+#: src/mainwindow.cpp:2215
 #, kde-format
 msgid "Add Project Note"
 msgstr "Додати нотатку щодо проєкту"
 
-#: src/mainwindow.cpp:2229
+#: src/mainwindow.cpp:2221
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Вибір звукової доріжки %1"
 
-#: src/mainwindow.cpp:2233
+#: src/mainwindow.cpp:2225
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Вибір відеодоріжки %1"
 
-#: src/mainwindow.cpp:2237
+#: src/mainwindow.cpp:2229
 #, kde-format
 msgid "Select Target %1"
 msgstr "Вибір цілі %1"
 
-#: src/mainwindow.cpp:2254
+#: src/mainwindow.cpp:2246
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Видобути кадр…"
 
-#: src/mainwindow.cpp:2257
+#: src/mainwindow.cpp:2249
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Видобути кадр до проєкту…"
 
-#: src/mainwindow.cpp:2260
+#: src/mainwindow.cpp:2252
 #, kde-format
 msgid "Extract Frame to Clipboard"
 msgstr "Видобути кадр до буфера обміну даними"
 
-#: src/mainwindow.cpp:2395
+#: src/mainwindow.cpp:2387
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -28242,13 +28230,13 @@ msgstr ""
 "Вами було змінено параметри створення проміжних кліпів. Бажаєте повторно "
 "створити всі проміжні кліпи цього проєкту?"
 
-#: src/mainwindow.cpp:2396
+#: src/mainwindow.cpp:2388
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Створити заново"
 
-#: src/mainwindow.cpp:2397 src/onlineresources/resourcewidget.cpp:705
+#: src/mainwindow.cpp:2389 src/onlineresources/resourcewidget.cpp:705
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -28256,7 +28244,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Продовжити без нього"
 
-#: src/mainwindow.cpp:2453
+#: src/mainwindow.cpp:2445
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -28267,7 +28255,7 @@ msgstr ""
 "буде збережено проєкт, а потім усі тимчасові файли буде пересунуто з<br/><b>"
 "%1</b> до <b>%2</b>.<br>Після цього файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2461
+#: src/mainwindow.cpp:2453
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -28276,38 +28264,38 @@ msgstr ""
 "У результаті усі тимчасові файли буде пересунуто з<br/><b>%1</b> до <b>%2</"
 "b>,<br/>потім файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2470 src/project/projectmanager.cpp:623
+#: src/mainwindow.cpp:2462 src/project/projectmanager.cpp:623
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Не вдалося виконати дію, некоректний ідентифікатор документа: %1"
 
-#: src/mainwindow.cpp:2475 src/project/projectmanager.cpp:629
+#: src/mainwindow.cpp:2467 src/project/projectmanager.cpp:629
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не вдалося виконати дію, каталог призначення вже існує: %1"
 
-#: src/mainwindow.cpp:2625
+#: src/mainwindow.cpp:2617
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Буде вилучено всі невикористані у вашому проєкті кліпи."
 
-#: src/mainwindow.cpp:2625
+#: src/mainwindow.cpp:2617
 #, kde-format
 msgid "Clean up project"
 msgstr "Очистити проєкт"
 
-#: src/mainwindow.cpp:2768
+#: src/mainwindow.cpp:2760
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Отримати нові схеми клавіатурних скорочень…"
 
-#: src/mainwindow.cpp:2812
+#: src/mainwindow.cpp:2804
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Загальні"
 
-#: src/mainwindow.cpp:2885
+#: src/mainwindow.cpp:2877
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -28316,28 +28304,28 @@ msgstr ""
 "Це призведе до вилучення файла налаштувань Kdenlive і перезапуску програми. "
 "Хочете виконати цю дію?"
 
-#: src/mainwindow.cpp:2886
+#: src/mainwindow.cpp:2878
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Скидання налаштувань"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3054
+#: src/mainwindow.cpp:3019 src/mainwindow.cpp:3046
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Не вдалося знайти кліп для вилучення позначки"
 
-#: src/mainwindow.cpp:3037 src/mainwindow.cpp:3083
+#: src/mainwindow.cpp:3029 src/mainwindow.cpp:3075
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Позначки у часовій позиції курсора не знайдено"
 
-#: src/mainwindow.cpp:3059
+#: src/mainwindow.cpp:3051
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Під час вилучення позначок сталася помилка"
 
-#: src/mainwindow.cpp:3076 src/timeline2/view/timelinecontroller.cpp:1316
+#: src/mainwindow.cpp:3068 src/timeline2/view/timelinecontroller.cpp:1316
 #: src/timeline2/view/timelinecontroller.cpp:1324
 #: src/timeline2/view/timelinecontroller.cpp:1345
 #: src/timeline2/view/timelinecontroller.cpp:1385
@@ -28347,46 +28335,46 @@ msgstr "Під час вилучення позначок сталася пом�
 msgid "Cannot find clip to edit marker"
 msgstr "Не вдалося знайти кліп для зміни позначки"
 
-#: src/mainwindow.cpp:3128
+#: src/mainwindow.cpp:3120
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "Категорії позначок не існує"
 
-#: src/mainwindow.cpp:3316 src/timeline2/model/timelinefunctions.cpp:798
+#: src/mainwindow.cpp:3308 src/timeline2/model/timelinefunctions.cpp:798
 #: src/timeline2/view/timelinecontroller.cpp:3218
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Перезаписати ділянку"
 
-#: src/mainwindow.cpp:3318 src/mainwindow.cpp:3337
+#: src/mainwindow.cpp:3310 src/mainwindow.cpp:3329
 #: src/timeline2/model/timelinefunctions.cpp:800
 #: src/timeline2/view/timelinecontroller.cpp:3220
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Не вдалося вставити ділянку"
 
-#: src/mainwindow.cpp:3328
+#: src/mainwindow.cpp:3320
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "У ієрархії проєкту не вибрано жодного кліпу"
 
-#: src/mainwindow.cpp:3335 src/timeline2/model/timelinefunctions.cpp:798
+#: src/mainwindow.cpp:3327 src/timeline2/model/timelinefunctions.cpp:798
 #: src/timeline2/view/timelinecontroller.cpp:3218
 #, kde-format
 msgid "Insert zone"
 msgstr "Вставити ділянку"
 
-#: src/mainwindow.cpp:3502
+#: src/mainwindow.cpp:3494
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Неможливо додати ефект до активного запису"
 
-#: src/mainwindow.cpp:3564
+#: src/mainwindow.cpp:3556
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Масштаб: %1/%2"
 
-#: src/mainwindow.cpp:3713
+#: src/mainwindow.cpp:3705
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28399,7 +28387,7 @@ msgstr ""
 "<shortcut>Meta + перетягування</shortcut> — пересування згрупованого кліпу "
 "на іншу доріжку,<shortcut>Ctrl + перетягування</shortcut> — панорамування"
 
-#: src/mainwindow.cpp:3717
+#: src/mainwindow.cpp:3709
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28414,24 +28402,24 @@ msgstr ""
 "кліпу на іншу доріжку,<shortcut>Ctrl + перетягування</shortcut> — "
 "панорамування"
 
-#: src/mainwindow.cpp:3720
+#: src/mainwindow.cpp:3712
 #, kde-format
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/mainwindow.cpp:3722
+#: src/mainwindow.cpp:3714
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> для перегляду кадру розрізу"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3723 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3715 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Лезо"
 
-#: src/mainwindow.cpp:3727
+#: src/mainwindow.cpp:3719
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28442,12 +28430,12 @@ msgstr ""
 "<shortcut>Shift</shortcut>, щоб також посунути напрямні. Ви можете "
 "поєднувати клавіші-модифікатори."
 
-#: src/mainwindow.cpp:3728
+#: src/mainwindow.cpp:3720
 #, kde-format
 msgid "Spacer"
 msgstr "Розпірка"
 
-#: src/mainwindow.cpp:3730
+#: src/mainwindow.cpp:3722
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28457,13 +28445,13 @@ msgstr ""
 "<shortcut>Клацніть</shortcut> на пункті для зсування, <shortcut>Shift + "
 "клацання</shortcut> — позначення декількох пунктів"
 
-#: src/mainwindow.cpp:3731
+#: src/mainwindow.cpp:3723
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Зсув"
 
-#: src/mainwindow.cpp:3736
+#: src/mainwindow.cpp:3728
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28476,13 +28464,13 @@ msgstr ""
 "<shortcut>Alt + перетягування</shortcut> — позначення елемента у групі,"
 "<shortcut>Ctrl + перетягування</shortcut> — панорамування"
 
-#: src/mainwindow.cpp:3738
+#: src/mainwindow.cpp:3730
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Брижі"
 
-#: src/mainwindow.cpp:3744
+#: src/mainwindow.cpp:3736
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28492,99 +28480,99 @@ msgstr ""
 "<shortcut>Клацніть</shortcut> на панелі доріжок монітора проєкту для "
 "виконання підняття усіх доріжок, окрім активної"
 
-#: src/mainwindow.cpp:3760
+#: src/mainwindow.cpp:3752
 #, kde-format
 msgid "Insert"
 msgstr "Вставити"
 
-#: src/mainwindow.cpp:4031 src/mainwindow.cpp:4033
+#: src/mainwindow.cpp:4023 src/mainwindow.cpp:4025
 #, kde-format
 msgid "Scopes"
 msgstr "Області"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4030
 #, kde-format
 msgid "Project Bins"
 msgstr "Контейнери проєктів"
 
-#: src/mainwindow.cpp:4115
+#: src/mainwindow.cpp:4107
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Обробка кліпів"
 
-#: src/mainwindow.cpp:4134
+#: src/mainwindow.cpp:4126
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Налаштувати завдання кліпів…"
 
-#: src/mainwindow.cpp:4140
+#: src/mainwindow.cpp:4132
 #, kde-format
 msgid "Transcoders"
 msgstr "Перекодувальники"
 
-#: src/mainwindow.cpp:4207
+#: src/mainwindow.cpp:4199
 #, kde-format
 msgid "-merged"
 msgstr "-об'єднано"
 
-#: src/mainwindow.cpp:4210
+#: src/mainwindow.cpp:4202
 #, kde-format
 msgid "-stream-%1"
 msgstr "-потік-%1"
 
-#: src/mainwindow.cpp:4244 src/mainwindow.cpp:4576
+#: src/mainwindow.cpp:4236 src/mainwindow.cpp:4561
 #, kde-format
 msgid "Interface"
 msgstr "Інтерфейс"
 
-#: src/mainwindow.cpp:4315
+#: src/mainwindow.cpp:4307
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Файли для перекодування"
 
-#: src/mainwindow.cpp:4486
+#: src/mainwindow.cpp:4471
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Не вдалося зберегти файл проєкту для архівування."
 
-#: src/mainwindow.cpp:4494
+#: src/mainwindow.cpp:4479
 #, kde-format
 msgid "Archiving project"
 msgstr "Архівування проєкту"
 
-#: src/mainwindow.cpp:4628
+#: src/mainwindow.cpp:4613
 #, kde-format
 msgid "Icon Size"
 msgstr "Розмір піктограм"
 
-#: src/mainwindow.cpp:4632
+#: src/mainwindow.cpp:4617
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Типовий"
 
-#: src/mainwindow.cpp:4653 src/mainwindow.cpp:4681
+#: src/mainwindow.cpp:4638 src/mainwindow.cpp:4666
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Малий (%1⨯%2)"
 
-#: src/mainwindow.cpp:4655 src/mainwindow.cpp:4683
+#: src/mainwindow.cpp:4640 src/mainwindow.cpp:4668
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Середній (%1⨯%2)"
 
-#: src/mainwindow.cpp:4657 src/mainwindow.cpp:4685
+#: src/mainwindow.cpp:4642 src/mainwindow.cpp:4670
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Великий (%1⨯%2)"
 
-#: src/mainwindow.cpp:4659 src/mainwindow.cpp:4687
+#: src/mainwindow.cpp:4644 src/mainwindow.cpp:4672
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Величезний (%1⨯%2)"
 
-#: src/mainwindow.cpp:4743
+#: src/mainwindow.cpp:4728
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -28593,27 +28581,27 @@ msgstr ""
 "За допомогою цього пункту можна повністю сховати смужку меню. Наказати "
 "програмі знову показувати цю смужку можна клавіатурним скороченням Ctrl+M."
 
-#: src/mainwindow.cpp:4743
+#: src/mainwindow.cpp:4728
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Приховати смужку меню"
 
-#: src/mainwindow.cpp:5085 src/timeline2/view/timelinecontroller.cpp:5201
+#: src/mainwindow.cpp:5070 src/timeline2/view/timelinecontroller.cpp:5201
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "У поточному проєкті немає субтитрів"
 
-#: src/mainwindow.cpp:5387
+#: src/mainwindow.cpp:5372
 #, kde-format
 msgid "Go to download page"
 msgstr "Перейти до сторінки отримання"
 
-#: src/mainwindow.cpp:5392
+#: src/mainwindow.cpp:5378
 #, kde-format
 msgid "Never check again"
 msgstr "Більше не перевіряти"
 
-#: src/mainwindow.cpp:5395
+#: src/mainwindow.cpp:5381
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -28622,7 +28610,7 @@ msgstr ""
 "Ваша версія Kdenlive застаріла на понад 1 рік. Ми наполегливо рекомендуємо "
 "її оновити."
 
-#: src/mainwindow.cpp:5399
+#: src/mainwindow.cpp:5385
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -28630,7 +28618,7 @@ msgstr ""
 "Ваша версія Kdenlive застаріла на понад 6 місяців. Ми рекомендуємо її "
 "оновити."
 
-#: src/mainwindow.cpp:5441
+#: src/mainwindow.cpp:5427
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Визначаємо розмір кешованих даних"
@@ -29606,17 +29594,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Увімкнути звуковий спектр"
 
-#: src/monitor/videowidget.cpp:1125
+#: src/monitor/videowidget.cpp:1140
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Виберіть ділянку для відтворення"
 
-#: src/monitor/videowidget.cpp:1134
+#: src/monitor/videowidget.cpp:1149
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Виберіть кліп для відтворення"
 
-#: src/monitor/videowidget.cpp:1239
+#: src/monitor/videowidget.cpp:1254
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -39779,6 +39767,15 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Monitor Gamma"
+#~ msgstr "Гама монітора"
+
+#~ msgid "sRGB (computer)"
+#~ msgstr "sRGB (комп’ютер)"
+
+#~ msgid "Rec. 709 (TV)"
+#~ msgstr "Rec. 709 (ТБ)"
 
 #~ msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
 #~ msgstr "<![CDATA[Встановлює товщину лінії у пікселях]]>"
