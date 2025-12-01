@@ -2938,7 +2938,12 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
         if (clip == nullptr) {
             return;
         }
+        // We can only set zone after the clip is loaded
+        m_activateClipZoneInfo.clipId = clip->clipId();
+        m_activateClipZoneInfo.zone = zone;
+        m_activateClipZoneInfo.seekFrame = frame;
         selectClip(clip);
+        return;
     }
     Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
     if (!zone.isNull()) {
@@ -3809,7 +3814,20 @@ void Bin::slotOpenCurrent()
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &sequenceUuid)
 {
-    Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
+    if (!m_activateClipZoneInfo.clipId.isEmpty()) {
+        int in = -1;
+        int out = -1;
+        int seekFrame = -1;
+        if (controller->clipId() == m_activateClipZoneInfo.clipId) {
+            in = m_activateClipZoneInfo.zone.x();
+            out = m_activateClipZoneInfo.zone.y();
+            seekFrame = m_activateClipZoneInfo.seekFrame;
+        }
+        m_activateClipZoneInfo.clipId.clear();
+        Q_EMIT openClip(std::move(controller), in, out, sequenceUuid, seekFrame);
+    } else {
+        Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
+    }
 }
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, int in, int out)
@@ -3905,12 +3923,16 @@ void Bin::setupGeneratorMenu()
     connect(this, &Bin::openClip, this, &Bin::openClipInMonitor, Qt::QueuedConnection);
 }
 
-void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid)
+void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid, int seekFrame)
 {
     if (pCore->getMonitor(Kdenlive::ClipMonitor)->slotOpenClip(clip, in, out, uuid) && clip) {
         Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
         if (clip->hasLimitedDuration()) {
             clip->refreshBounds();
+        }
+        if (seekFrame > -1) {
+            Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
+            monitor->slotSeek(seekFrame);
         }
     }
     pCore->textEditWidget()->openClip(clip);
