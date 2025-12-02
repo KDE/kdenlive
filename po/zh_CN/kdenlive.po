@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-01 00:42+0000\n"
+"POT-Creation-Date: 2025-12-02 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1437,6 +1437,7 @@ msgid ""
 "Similarity percentage with the select color<br>\n"
 "        0.01 matches only the exact key color, while 1.0 matches everything."
 msgstr ""
+"与所选颜色的相似度百分比<br>0.01 仅匹配完全相同的颜色，1.0 匹配任意颜色。"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1453,6 +1454,8 @@ msgid ""
 "<br>\n"
 "        Higher values result in more preserved color."
 msgstr ""
+"色彩混合比例。当设为0.0时，像素将完全灰度化或完全保留原色<br>\n"
+"        设置较高的数值将保留更多的色彩信息"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1462,7 +1465,7 @@ msgstr "YUV 颜色"
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
 msgid "Select this if the clip has YUV data instead of RGB."
-msgstr ""
+msgstr "请当片段使用 YUV 数据而非 RGB 时勾选此项。"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1581,7 +1584,7 @@ msgstr "色彩系统"
 #: data/effects/avfilter/avfilter_ciescope.xml:9
 #, kde-format
 msgid "Select the color system"
-msgstr ""
+msgstr "选择色彩系统"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #: data/effects/avfilter/avfilter_ciescope.xml:20
@@ -1601,7 +1604,7 @@ msgstr "CIE 系统"
 #: data/effects/avfilter/avfilter_ciescope.xml:14
 #, kde-format
 msgid "Select the CIE color space"
-msgstr ""
+msgstr "选择 CIE 色彩空间"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:15
 #, kde-format
@@ -1616,7 +1619,7 @@ msgstr "绘制色域"
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, kde-format
 msgid "Set what gamuts to draw"
-msgstr ""
+msgstr "设置要绘制的色域"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -1636,7 +1639,7 @@ msgstr "大小"
 #: data/effects/avfilter/avfilter_ciescope.xml:24
 #, kde-format
 msgid "Set the size of the scope on screen"
-msgstr ""
+msgstr "设置示波器在屏幕上的尺寸"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -1655,14 +1658,14 @@ msgstr "亮度"
 msgid ""
 "Set the intensity used to<br>\n"
 "       \tmap input pixel values to CIE diagram"
-msgstr ""
+msgstr "设置输入像素到 CIE 色度图的映射强度"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:34
 #, kde-format
 msgid ""
 "Set contrast used to draw<br>\n"
 "       \ttongue colors that are out of active color system gamut"
-msgstr ""
+msgstr "设置色域溢出颜色对比度"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:37
 #, kde-format
@@ -1672,7 +1675,7 @@ msgstr "显示矫正的伽马值"
 #: data/effects/avfilter/avfilter_ciescope.xml:38
 #, kde-format
 msgid "Correct gamma displayed on scope, by default enabled"
-msgstr ""
+msgstr "在示波器上校正伽马显示，默认启用"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
 #, kde-format
@@ -1682,7 +1685,7 @@ msgstr "显示白点"
 #: data/effects/avfilter/avfilter_ciescope.xml:42
 #, kde-format
 msgid "Show white point on CIE diagram, by default disabled"
-msgstr ""
+msgstr "在 CIE 色度图上显示白点，默认禁用"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
@@ -1692,7 +1695,7 @@ msgstr "输入伽马"
 #: data/effects/avfilter/avfilter_ciescope.xml:46
 #, kde-format
 msgid "Set input gamma. Used only with XYZ input color space."
-msgstr ""
+msgstr "设置输入伽马值。仅在使用 XYZ 输入色彩空间时生效。"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
@@ -1702,7 +1705,7 @@ msgstr "使用 CIE 颜色填充"
 #: data/effects/avfilter/avfilter_ciescope.xml:50
 #, kde-format
 msgid "Fill with CIE colors. By default is enabled."
-msgstr ""
+msgstr "使用 CIE 色彩填充。默认启用。"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
@@ -2575,7 +2578,7 @@ msgstr "应用方向模糊滤镜。"
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, kde-format
 msgid "Sets the angle for the direction"
-msgstr ""
+msgstr "设置方向角"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2589,7 +2592,7 @@ msgstr "半径"
 #: data/effects/avfilter/avfilter_dblur.xml:13
 #, kde-format
 msgid "Sets the radius for the direction"
-msgstr ""
+msgstr "设置方向的半径"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
@@ -2601,7 +2604,7 @@ msgstr "应用滤镜于平面"
 #: data/effects/avfilter/avfilter_scharr.xml:9
 #, kde-format
 msgid "Sets the color space plane the effect is applied to"
-msgstr ""
+msgstr "设置效果指向的色彩空间平面"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
@@ -2710,6 +2713,8 @@ msgid ""
 "        If difference between current pixel and reference pixel is less than "
 "threshold, it will be considered as banded."
 msgstr ""
+"为每个平面设置色带检测阈值。<br>\n"
+"如果当前像素与参考像素的差异小于该阈值，则会被视为色带。"
 
 #: data/effects/avfilter/avfilter_deband.xml:13
 #, kde-format
@@ -2734,6 +2739,10 @@ msgid ""
 "negative, exact absolute value will be used. The range defines square of "
 "four pixels around current pixel."
 msgstr ""
+"色带检测范围（单位：像素），默认 16。<br>\n"
+"正数：在 0～设定值 之间对每个像素随机取值（可减少固定图案）。\n"
+"负数：固定使用 |range| 的精确值。\n"
+"实际构成一个边长为 (2×|range|+1) 的正方形检测窗口（例如 range=16 → 33×33）。"
 
 #: data/effects/avfilter/avfilter_deband.xml:33
 #: data/effects/avfilter/avfilter_transpose.xml:8
@@ -2752,6 +2761,10 @@ msgid ""
 "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
 "will pick only pixels on same column"
 msgstr ""
+"设置用于比较四个像素的方向（角度）。<br>\n"
+"        正值表示从 0° 到设定值之间随机选取方向，负值则使用其绝对值的精确方"
+"向。例如，方向设为 0°、-180° 或 -360° 时仅选取同行像素，设为 -90° 时仅选取同"
+"列像素。"
 
 #: data/effects/avfilter/avfilter_deband.xml:38
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:14
@@ -2771,6 +2784,9 @@ msgid ""
 "all four surrounding pixels. The pixel is considered banded if only all four "
 "differences with surrounding pixels are less than threshold."
 msgstr ""
+"若启用，使用窗口平均值与当前像素进行比较。<br>\n"
+"        默认启用。若禁用，则逐一比较基准像素，仅当与所有像素的差值均小于阈值"
+"时，该像素才被视为色带。"
 
 #: data/effects/avfilter/avfilter_deband.xml:43
 #, kde-format
@@ -2784,6 +2800,8 @@ msgid ""
 "        all pixel components are banded, e.g. banding detection threshold is "
 "triggered for all color components. The default is disabled."
 msgstr ""
+"若启用，则仅当所有像素分量均被判定为色带时<br>\n"
+"        (即所有颜色分量均触发色带检测阈值) ，当前像素才会被修改。默认禁用。"
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
@@ -3099,6 +3117,9 @@ msgid ""
 "    Simulates image dilation, an effect which will enlarge the lightest "
 "pixels in the image by replacing the pixel by the local (3x3) maximum."
 msgstr ""
+"应用膨胀效果。<br>\n"
+"模拟图像膨胀操作，该效果会通过将每个像素替换为其局部（3×3 邻域）的最大值，从"
+"而扩大图像中最亮的像素。"
 
 #: data/effects/avfilter/avfilter_dilation.xml:9
 #: data/effects/avfilter/avfilter_erosion.xml:9
@@ -3119,6 +3140,8 @@ msgid ""
 "Limit the maximum change for each plane.<br>\n"
 "        Default is 65535. If 0, plane will remain unchanged."
 msgstr ""
+"限制每个平面的最大变化量。<br>\n"
+"        默认值 65535。若设为 0，平面将保持不变。"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
@@ -3152,6 +3175,9 @@ msgid ""
 "        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
 "coordinates maps like this: 1 2 3 4 5 6 7 8"
 msgstr ""
+"指定参考像素的标志位。<br>\n"
+"        默认值 255，即使用全部八个邻近像素。标志位对应局部 3×3 邻域坐标如下："
+"1 2 3 4 5 6 7 8"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3196,7 +3222,7 @@ msgstr "左上 X"
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, kde-format
 msgid "X coordinate of top-left corner"
-msgstr ""
+msgstr "左上角 X 坐标"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
@@ -3207,7 +3233,7 @@ msgstr "左上 Y"
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, kde-format
 msgid "Y coordinate of top-left corner"
-msgstr ""
+msgstr "左上角 Y 坐标"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
@@ -3220,6 +3246,8 @@ msgid ""
 "Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line"
 msgstr ""
+"方框宽度 (像素) 。<br>\n"
+"    宽度设为 <em>1</em> 不代表绘制线条。"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
@@ -3232,6 +3260,8 @@ msgid ""
 "Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line"
 msgstr ""
+"方框高度 (像素) 。<br>\n"
+"    高度设为 <em>1</em> 不代表绘制线条。"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
@@ -3249,6 +3279,8 @@ msgid ""
 "Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent."
 msgstr ""
+"选择线条颜色。<br>\n"
+"调节 <em>Alpha</em> 通道可使线条实现半透明效果。"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3259,7 +3291,7 @@ msgstr "线条粗细 (px)"
 #: data/effects/avfilter/avfilter_drawbox.xml:32
 #, kde-format
 msgid "Sets the thickness for the line in pixels"
-msgstr ""
+msgstr "设置线条粗细 (像素)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
@@ -3276,6 +3308,9 @@ msgid ""
 "    \tBy default, the box will be composited onto the input, leaving the "
 "video's alpha intact."
 msgstr ""
+"如果输入包含 Alpha，勾选此项<br>\n"
+"    该选项将使用所绘制方框的像素直接覆盖视频的颜色和 Alpha。<br>\n"
+"    默认情况下，方框会合成到输入画面上，保留原始视频的 Alpha 通道不变。"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
 #, kde-format
@@ -3296,7 +3331,7 @@ msgstr "X 偏移"
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
 #, kde-format
 msgid "Distance from the left edge in pixel"
-msgstr ""
+msgstr "距离左边缘的距离 (像素)"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16 data/effects/frei0r/frei0r_mirr0r.xml:11
@@ -3307,7 +3342,7 @@ msgstr "Y 偏移"
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
 #, kde-format
 msgid "Distance from the top edge in pixel"
-msgstr ""
+msgstr "距离上边缘的距离 (像素)"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3325,7 +3360,7 @@ msgstr "宽度"
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
 #, kde-format
 msgid "Distance between vertical lines in pixel"
-msgstr ""
+msgstr "垂直线之间的距离（像素）"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
@@ -3341,7 +3376,7 @@ msgstr "高度"
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
 #, kde-format
 msgid "Distance between horizontal lines in pixel"
-msgstr ""
+msgstr "水平线之间的距离（像素）"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
 #, kde-format
@@ -3349,11 +3384,13 @@ msgid ""
 "Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent."
 msgstr ""
+"选择网格线颜色。<br>\n"
+"调节 <em>Alpha</em> 通道可使网格呈现半透明效果。"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, kde-format
 msgid "Sets the thickness for the grid lines in pixels"
-msgstr ""
+msgstr "设置网格线粗细（像素）"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, kde-format
@@ -3364,6 +3401,9 @@ msgid ""
 "    \tBy default, the grid lines will be composited onto the input, leaving "
 "the video's alpha intact."
 msgstr ""
+"如果输入包含 Alpha，勾选此项<br>\n"
+"    该选项将使用网格线的像素直接覆盖视频的颜色和 Alpha 通道。<br>\n"
+"    默认情况下，网格线会合成到输入画面上，保留原始视频的 Alpha 通道不变。"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, kde-format
@@ -3533,6 +3573,9 @@ msgid ""
 "    Simulates image erosion, an effect which will enlarge the darkest pixels "
 "in the image by replacing the pixel by the local (3x3) minimum."
 msgstr ""
+"应用腐蚀效果。<br>\n"
+"    模拟图像腐蚀操作，该效果会通过将每个像素替换为其局部（3×3 邻域）的最小"
+"值，从而扩大图像中最暗的像素。"
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
@@ -3586,6 +3629,9 @@ msgid ""
 "       \tThis sets denoising strength. Using very high sigma with low "
 "overlap may give blocking artifacts."
 msgstr ""
+"设置噪声标准差 (Sigma) 常量。<br>\n"
+"        此值控制降噪强度。若使用过高的 Sigma 值而重叠区域 (overlap) 较低，可"
+"能会产生块状伪影。"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:13
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:20
@@ -6949,7 +6995,7 @@ msgstr "持续时间"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1102 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1104 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -10844,8 +10890,8 @@ msgstr "如果正常变暗参数效果不够自然，可以尝试使用非线性
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:593
-#: src/dialogs/Splash.qml:961 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:598
+#: src/dialogs/Splash.qml:966 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -15592,12 +15638,12 @@ msgstr "结尾振幅"
 msgid "Wave Amplitude"
 msgstr "波浪振幅"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:779
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:784
 #, kde-format
 msgid "Horizontal"
 msgstr "水平"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:826
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:831
 #, kde-format
 msgid "Vertical"
 msgstr "垂直"
@@ -16990,7 +17036,7 @@ msgstr "轨道 %1 效果"
 msgid "Bin %1 effects"
 msgstr "项目素材箱 %1 效果"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4100
+#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4122
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -16998,7 +17044,7 @@ msgstr "项目素材箱 %1 效果"
 msgid "Show log"
 msgstr "显示日志"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4103
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4125
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -18219,7 +18265,7 @@ msgstr "您无法将剪辑替换为不同类型的剪辑 (音频/视频不匹配
 msgid "Replace in timeline"
 msgstr "替换时间轴中的剪辑"
 
-#: src/bin/bin.cpp:2383 src/bin/bin.cpp:6073 src/bin/clipcreator.cpp:329
+#: src/bin/bin.cpp:2383 src/bin/bin.cpp:6095 src/bin/clipcreator.cpp:329
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -18372,13 +18418,13 @@ msgstr "文件夹"
 msgid "Create bin folder"
 msgstr "创建项目素材箱文件夹"
 
-#: src/bin/bin.cpp:2979 src/bin/bin.cpp:2992 src/bin/bin.cpp:4004
+#: src/bin/bin.cpp:2984 src/bin/bin.cpp:2997 src/bin/bin.cpp:4026
 #: src/timeline2/model/timelinemodel.cpp:2227
 #, kde-format
 msgid "Delete Clip"
 msgstr "删除剪辑"
 
-#: src/bin/bin.cpp:2981 src/bin/bin.cpp:2994
+#: src/bin/bin.cpp:2986 src/bin/bin.cpp:2999
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18386,37 +18432,37 @@ msgid ""
 "timeline."
 msgstr "删除项目素材箱和时间轴中的当前选中剪辑。"
 
-#: src/bin/bin.cpp:2982 src/bin/bin.cpp:2995 src/bin/bin.cpp:3980
+#: src/bin/bin.cpp:2987 src/bin/bin.cpp:3000 src/bin/bin.cpp:4002
 #, kde-format
 msgid "Proxy Clip"
 msgstr "代理剪辑"
 
-#: src/bin/bin.cpp:2986
+#: src/bin/bin.cpp:2991
 #, kde-format
 msgid "Delete Folder"
 msgstr "删除文件夹"
 
-#: src/bin/bin.cpp:2987
+#: src/bin/bin.cpp:2992
 #, kde-format
 msgid "Proxy Folder"
 msgstr "代理文件夹"
 
-#: src/bin/bin.cpp:3260
+#: src/bin/bin.cpp:3265
 #, kde-format
 msgid "Edit rating"
 msgstr "编辑评分"
 
-#: src/bin/bin.cpp:3262
+#: src/bin/bin.cpp:3267
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "无法设置此项目的评分"
 
-#: src/bin/bin.cpp:3924
+#: src/bin/bin.cpp:3946
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "添加剪辑或文件夹…"
 
-#: src/bin/bin.cpp:3925
+#: src/bin/bin.cpp:3947
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18429,97 +18475,97 @@ msgstr ""
 ">点击下箭头图标可以打开用于选择来源类型的列表。<nl/>点击媒体图标可以打开用于"
 "选择来源文件的窗口。"
 
-#: src/bin/bin.cpp:3931
+#: src/bin/bin.cpp:3953
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "添加颜色剪辑…"
 
-#: src/bin/bin.cpp:3933
+#: src/bin/bin.cpp:3955
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "添加图像序列…"
 
-#: src/bin/bin.cpp:3935
+#: src/bin/bin.cpp:3957
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "添加标题剪辑…"
 
-#: src/bin/bin.cpp:3937
+#: src/bin/bin.cpp:3959
 #, kde-format
 msgid "Add Template Title…"
 msgstr "添加模板标题…"
 
-#: src/bin/bin.cpp:3939
+#: src/bin/bin.cpp:3961
 #, kde-format
 msgid "Create Animation…"
 msgstr "创建动画…"
 
-#: src/bin/bin.cpp:3941
+#: src/bin/bin.cpp:3963
 #, kde-format
 msgid "Add Sequence…"
 msgstr "添加序列…"
 
-#: src/bin/bin.cpp:3944 src/mainwindow.cpp:363
+#: src/bin/bin.cpp:3966 src/mainwindow.cpp:363
 #, kde-format
 msgid "Online Resources"
 msgstr "在线资源"
 
-#: src/bin/bin.cpp:3948
+#: src/bin/bin.cpp:3970
 #, kde-format
 msgid "Locate Clip…"
 msgstr "定位剪辑…"
 
-#: src/bin/bin.cpp:3953
+#: src/bin/bin.cpp:3975
 #, kde-format
 msgid "Reload Clip"
 msgstr "重新加载剪辑"
 
-#: src/bin/bin.cpp:3959
+#: src/bin/bin.cpp:3981
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "转码为便于编辑的格式…"
 
-#: src/bin/bin.cpp:3964
+#: src/bin/bin.cpp:3986
 #, kde-format
 msgid "Replace Clip…"
 msgstr "替换剪辑…"
 
-#: src/bin/bin.cpp:3970
+#: src/bin/bin.cpp:3992
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "替换时间轴中的剪辑…"
 
-#: src/bin/bin.cpp:3975
+#: src/bin/bin.cpp:3997
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "创建剪辑副本"
 
-#: src/bin/bin.cpp:3987 src/bin/bin.cpp:4047
+#: src/bin/bin.cpp:4009 src/bin/bin.cpp:4069
 #, kde-format
 msgid "Clip Properties"
 msgstr "剪辑属性"
 
-#: src/bin/bin.cpp:3992 src/mltcontroller/clippropertiescontroller.cpp:638
+#: src/bin/bin.cpp:4014 src/mltcontroller/clippropertiescontroller.cpp:638
 #, kde-format
 msgid "Edit Clip"
 msgstr "编辑剪辑"
 
-#: src/bin/bin.cpp:4010
+#: src/bin/bin.cpp:4032
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "序列的默认目标文件夹"
 
-#: src/bin/bin.cpp:4015
+#: src/bin/bin.cpp:4037
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "音频捕获的默认目标文件夹"
 
-#: src/bin/bin.cpp:4019
+#: src/bin/bin.cpp:4041
 #, kde-format
 msgid "Create Folder"
 msgstr "创建文件夹"
 
-#: src/bin/bin.cpp:4022
+#: src/bin/bin.cpp:4044
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18529,57 +18575,57 @@ msgstr ""
 "创建一个文件夹到项目素材箱中的当前位置。您可以通过文件夹来整理来源文件。文件"
 "夹可以嵌套。"
 
-#: src/bin/bin.cpp:4163 src/bin/bin.cpp:4196
+#: src/bin/bin.cpp:4185 src/bin/bin.cpp:4218
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "创建新序列"
 
-#: src/bin/bin.cpp:4166 src/bin/bin.cpp:4169 src/bin/bin.cpp:4199
+#: src/bin/bin.cpp:4188 src/bin/bin.cpp:4191 src/bin/bin.cpp:4221
 #, kde-format
 msgid "Sequence %1"
 msgstr "序列 %1"
 
-#: src/bin/bin.cpp:4230
+#: src/bin/bin.cpp:4252
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "移动剪辑"
 
-#: src/bin/bin.cpp:4272
+#: src/bin/bin.cpp:4294
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "无可供插入的有效剪辑"
 
-#: src/bin/bin.cpp:4285 src/timeline2/view/timelinecontroller.cpp:1616
+#: src/bin/bin.cpp:4307 src/timeline2/view/timelinecontroller.cpp:1616
 #: src/timeline2/view/timelinecontroller.cpp:3506
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "选择要应用效果的剪辑"
 
-#: src/bin/bin.cpp:4319 src/effects/effectstack/model/effectstackmodel.cpp:742
+#: src/bin/bin.cpp:4341 src/effects/effectstack/model/effectstackmodel.cpp:742
 #: src/effects/effectstack/model/effectstackmodel.cpp:748
 #: src/timeline2/model/timelineitemmodel.cpp:738
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "无法添加效果到剪辑"
 
-#: src/bin/bin.cpp:4393 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4415 src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Paste effect"
 msgstr "粘贴效果"
 
-#: src/bin/bin.cpp:4430 src/bin/bin.cpp:4437
+#: src/bin/bin.cpp:4452 src/bin/bin.cpp:4459
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "选择要添加标签的剪辑"
 
-#: src/bin/bin.cpp:4576
+#: src/bin/bin.cpp:4598
 #, kde-format
 msgid "Edit Tags"
 msgstr "编辑标签"
 
-#: src/bin/bin.cpp:4912 src/bin/projectclip.cpp:196
+#: src/bin/bin.cpp:4934 src/bin/projectclip.cpp:196
 #: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
@@ -18587,27 +18633,27 @@ msgstr "编辑标签"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/bin/bin.cpp:4976
+#: src/bin/bin.cpp:4998
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "输入图像编辑应用程序的路径"
 
-#: src/bin/bin.cpp:4988
+#: src/bin/bin.cpp:5010
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "请设置用于打开图像文件的默认程序"
 
-#: src/bin/bin.cpp:4993
+#: src/bin/bin.cpp:5015
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "输入音频编辑应用程序的路径"
 
-#: src/bin/bin.cpp:5005
+#: src/bin/bin.cpp:5027
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "请设置用于打开音频文件的默认程序"
 
-#: src/bin/bin.cpp:5015 src/core.cpp:665 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5037 src/core.cpp:667 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -18617,12 +18663,12 @@ msgstr "请设置用于打开音频文件的默认程序"
 msgid "Cannot open file %1"
 msgstr "无法打开文件 %1"
 
-#: src/bin/bin.cpp:5052 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5074 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(副本)"
 
-#: src/bin/bin.cpp:5062
+#: src/bin/bin.cpp:5084
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -18631,82 +18677,82 @@ msgstr ""
 "您正在编辑外部标题剪辑 (%1)。您想要保存更改到该标题文件，还是仅保存更改到此项"
 "目？"
 
-#: src/bin/bin.cpp:5065 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:5087 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "保存标题"
 
-#: src/bin/bin.cpp:5065
+#: src/bin/bin.cpp:5087
 #, kde-format
 msgid "Save to title file"
 msgstr "保存到标题文件"
 
-#: src/bin/bin.cpp:5066
+#: src/bin/bin.cpp:5088
 #, kde-format
 msgid "Save in project only"
 msgstr "仅保存到项目"
 
-#: src/bin/bin.cpp:5089 src/dialogs/clipcreationdialog.cpp:327
+#: src/bin/bin.cpp:5111 src/dialogs/clipcreationdialog.cpp:327
 #, kde-format
 msgid "Title clip"
 msgstr "标题剪辑"
 
-#: src/bin/bin.cpp:5139
+#: src/bin/bin.cpp:5161
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "剪辑无效，它将被从项目中移除。"
 
-#: src/bin/bin.cpp:5143
+#: src/bin/bin.cpp:5165
 #, kde-format
 msgid "Invalid clip"
 msgstr "无效剪辑"
 
-#: src/bin/bin.cpp:5257
+#: src/bin/bin.cpp:5279
 #, kde-format
 msgid "Enable proxies"
 msgstr "启用代理"
 
-#: src/bin/bin.cpp:5257
+#: src/bin/bin.cpp:5279
 #, kde-format
 msgid "Disable proxies"
 msgstr "禁用代理"
 
-#: src/bin/bin.cpp:5438
+#: src/bin/bin.cpp:5460
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "重建代理"
 
-#: src/bin/bin.cpp:5672
+#: src/bin/bin.cpp:5694
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:5688
+#: src/bin/bin.cpp:5710
 #, kde-format
 msgid "Add Tracks"
 msgstr "添加轨道"
 
-#: src/bin/bin.cpp:5690
+#: src/bin/bin.cpp:5712
 #, kde-format
 msgid "Edit Streams"
 msgstr "编辑流"
 
-#: src/bin/bin.cpp:5709
+#: src/bin/bin.cpp:5731
 #, kde-format
 msgid "Don't ask again"
 msgstr "不再询问"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5713
+#: src/bin/bin.cpp:5735
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr "此项目需要更多音频轨道来处理所有流。添加 %1 条音频轨道吗？"
 
-#: src/bin/bin.cpp:5725 src/mainwindow.cpp:3001
+#: src/bin/bin.cpp:5747 src/mainwindow.cpp:3001
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "无法找到要添加标记的剪辑"
@@ -18714,7 +18760,7 @@ msgstr "无法找到要添加标记的剪辑"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5739 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5761 src/bin/model/markerlistmodel.cpp:848
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -18724,33 +18770,33 @@ msgstr "无法找到要添加标记的剪辑"
 msgid "Marker"
 msgstr "标记"
 
-#: src/bin/bin.cpp:5829
+#: src/bin/bin.cpp:5851
 #, kde-format
 msgid "Could not find master clip"
 msgstr "无法找到主剪辑"
 
-#: src/bin/bin.cpp:6095
+#: src/bin/bin.cpp:6117
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 条剪辑 | "
 
-#: src/bin/bin.cpp:6097
+#: src/bin/bin.cpp:6119
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 条剪辑 (已选择 %2 条) | "
 
-#: src/bin/bin.cpp:6166 src/bin/bin.cpp:6243
+#: src/bin/bin.cpp:6188 src/bin/bin.cpp:6265
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "添加额外流到剪辑"
 
-#: src/bin/bin.cpp:6187
+#: src/bin/bin.cpp:6209
 #, kde-format
 msgid "Import selected clips"
 msgstr "导入所选剪辑"
 
-#: src/bin/bin.cpp:6189
+#: src/bin/bin.cpp:6211
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -18759,51 +18805,51 @@ msgstr ""
 "剪辑的额外流\n"
 " %1"
 
-#: src/bin/bin.cpp:6202 src/mltcontroller/clippropertiescontroller.cpp:754
+#: src/bin/bin.cpp:6224 src/mltcontroller/clippropertiescontroller.cpp:754
 #, kde-format
 msgid "Video stream %1"
 msgstr "视频流 %1"
 
-#: src/bin/bin.cpp:6217
+#: src/bin/bin.cpp:6239
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音频流 %1"
 
-#: src/bin/bin.cpp:6270
+#: src/bin/bin.cpp:6292
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除剪辑标记"
 
-#: src/bin/bin.cpp:6434
+#: src/bin/bin.cpp:6456
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我们建议您在进行转码操作之前保存项目"
 
-#: src/bin/bin.cpp:6435
+#: src/bin/bin.cpp:6457
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "保存项目"
 
-#: src/bin/bin.cpp:6436
+#: src/bin/bin.cpp:6458
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "转码但不保存"
 
-#: src/bin/bin.cpp:6594 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6616 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1121
 #, kde-format
 msgid "Delete effect %1"
 msgstr "删除效果 %1"
 
-#: src/bin/bin.cpp:6660 src/mainwindow.cpp:263
+#: src/bin/bin.cpp:6682 src/mainwindow.cpp:263
 #, kde-format
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:6663 src/bin/bin.cpp:6666 src/mainwindow.cpp:5204
+#: src/bin/bin.cpp:6685 src/bin/bin.cpp:6688 src/mainwindow.cpp:5204
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -19460,7 +19506,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "禁用 GPU 处理功能"
 
-#: src/core.cpp:468
+#: src/core.cpp:470
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -19468,19 +19514,19 @@ msgid ""
 msgstr ""
 "Kdenlive 的默认编码方案尚未设定或者无效，请点击确定将其设置为正确的值。"
 
-#: src/core.cpp:480
+#: src/core.cpp:482
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "选择默认编码方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:480 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:482 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "编码方案："
 
-#: src/core.cpp:493
+#: src/core.cpp:495
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -19489,267 +19535,267 @@ msgstr ""
 "指定的编码方案无效。默认的编码方案为“dv_pal”，您也可以在 Kdenlive 的设置对话"
 "框对此进行更改。"
 
-#: src/core.cpp:508 src/project/projectmanager.cpp:884
+#: src/core.cpp:510 src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
 
-#: src/core.cpp:717
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars - 正方形 2 条纹"
 
-#: src/core.cpp:718
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small - 棋盘 (小)"
 
-#: src/core.cpp:719
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds - 百叶窗 (水平)"
 
-#: src/core.cpp:720
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial - 径向"
 
-#: src/core.cpp:721
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X - 线性 (X 轴)"
 
-#: src/core.cpp:722
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X - 对称线性 (X 轴)"
 
-#: src/core.cpp:723
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y - 线性 (Y 轴)"
 
-#: src/core.cpp:724
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y - 对称线性 (Y 轴)"
 
-#: src/core.cpp:725
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Square - 正方形"
 
-#: src/core.cpp:726
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Square 2 - 正方形 2"
 
-#: src/core.cpp:727
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Cloud - 云朵"
 
-#: src/core.cpp:728
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetric Clock - 时钟扫描 (对称)"
 
-#: src/core.cpp:729
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial Bars - 径向条纹"
 
-#: src/core.cpp:730
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral - 螺旋"
 
-#: src/core.cpp:731
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2 - 螺旋 2"
 
-#: src/core.cpp:732
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Curtain - 窗帘"
 
-#: src/core.cpp:733
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Burst - 爆炸"
 
-#: src/core.cpp:734
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clock - 时钟扫描"
 
-#: src/core.cpp:736
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Bar Horizontal - 条纹 (水平)"
 
-#: src/core.cpp:737
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bar Vertical - 条纹 (垂直)"
 
-#: src/core.cpp:738
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Barn Door Horizontal - 挡光板 (水平)"
 
-#: src/core.cpp:739
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Barn Door Vertical - 挡光板 (垂直)"
 
-#: src/core.cpp:740
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Barn Door Diagonal SW-NE 挡光板 (对角线-西南-东北)"
 
-#: src/core.cpp:741
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Barn Door Diagonal NW-SE - 挡光板 (对角线-东北-西南)"
 
-#: src/core.cpp:742
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Top Left - 对角线左上"
 
-#: src/core.cpp:743
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Top Right - 对角线右上"
 
-#: src/core.cpp:744
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal - 黑客帝国瀑布 (水平)"
 
-#: src/core.cpp:745
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical - 黑客帝国瀑布 (垂直)"
 
-#: src/core.cpp:746
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal - 黑客帝国蛇形 (水平)"
 
-#: src/core.cpp:747
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Parallel Horizontal - 黑客帝国蛇形 (水平平行)"
 
-#: src/core.cpp:748
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical - 黑客帝国蛇形 (垂直)"
 
-#: src/core.cpp:749
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Parallel Vertical - 黑客帝国蛇形 (垂直平行)"
 
-#: src/core.cpp:750
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Up - 挡光板 V 字打开"
 
-#: src/core.cpp:751
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris Circle - 瞳孔圆圈"
 
-#: src/core.cpp:752
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double Iris - 双重瞳孔"
 
-#: src/core.cpp:753
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris Box 瞳孔边框"
 
-#: src/core.cpp:754
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Box Bottom Right -边框 (右)"
 
-#: src/core.cpp:755
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Box Bottom Left - 边框 (左)"
 
-#: src/core.cpp:756
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Box Right Center - 边框 (中心)"
 
-#: src/core.cpp:757
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Clock Top - 时钟扫描 (顶部)"
 
-#: src/core.cpp:1048
+#: src/core.cpp:1050
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的项目编码方案无效，导出可能失败。"
 
-#: src/core.cpp:1412
+#: src/core.cpp:1414
 #, kde-format
 msgid "Loading clips"
 msgstr "加载剪辑"
 
-#: src/core.cpp:1868
+#: src/core.cpp:1870
 #, kde-format
 msgid "Marker %1"
 msgstr "标记 %1"
 
-#: src/core.cpp:2222
+#: src/core.cpp:2224
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -19759,12 +19805,12 @@ msgstr ""
 "这将打开浏览器以显示 Kdenlive 的在线文档，网址如下：\n"
 " %1"
 
-#: src/core.cpp:2223 src/core.cpp:2234
+#: src/core.cpp:2225 src/core.cpp:2236
 #, kde-format
 msgid "Open Browser"
 msgstr "打开浏览器"
 
-#: src/core.cpp:2233
+#: src/core.cpp:2235
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21494,7 +21540,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "KDE 社区项目"
 
-#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:561 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:136 src/dialogs/Splash.qml:566 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -21514,21 +21560,14 @@ msgstr "重置配置"
 msgid "Start Normally"
 msgstr "正常启动"
 
-#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:619
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive was upgraded. If you like it, consider <a href=\"https://"
-#| "kdenlive.org/get-involved/\">getting involved</a> or help <a href="
-#| "\"https://kdenlive.org/fund/\">funding</a>."
+#: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:624
+#, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
-"Kdenlive 已升级。如果您愿意，请考虑前往<a href=\"https://kdenlive.org/get-"
-"involved/\">参与贡献</a>或前往<a href=\"https://kdenlive.org/fund/\">进行捐赠"
-"</a>。"
 
-#: src/dialogs/Simplesplash.qml:230 src/dialogs/Splash.qml:635
+#: src/dialogs/Simplesplash.qml:230 src/dialogs/Splash.qml:640
 #, kde-format
 msgid "What's New"
 msgstr "更新内容"
@@ -22267,105 +22306,105 @@ msgstr "59.94 fps"
 msgid "60 fps"
 msgstr "60 fps"
 
-#: src/dialogs/Splash.qml:169
+#: src/dialogs/Splash.qml:174
 #, kde-format
 msgid "Made by KDE"
 msgstr "KDE 社区项目"
 
-#: src/dialogs/Splash.qml:225
+#: src/dialogs/Splash.qml:230
 #, kde-format
 msgid "Open Project…"
 msgstr "打开项目…"
 
-#: src/dialogs/Splash.qml:252
+#: src/dialogs/Splash.qml:257
 #, kde-format
 msgid "Open Recent"
 msgstr "打开最近项目"
 
-#: src/dialogs/Splash.qml:260
+#: src/dialogs/Splash.qml:265
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "清除最近项目历史"
 
-#: src/dialogs/Splash.qml:362
+#: src/dialogs/Splash.qml:367
 #, kde-format
 msgid "Remove file from list"
 msgstr "从列表中移除文件"
 
-#: src/dialogs/Splash.qml:391
+#: src/dialogs/Splash.qml:396
 #, kde-format
 msgid "New Project…"
 msgstr "新建项目…"
 
-#: src/dialogs/Splash.qml:418
+#: src/dialogs/Splash.qml:423
 #, kde-format
 msgid "New From Profile"
 msgstr "从配置文件新建项目"
 
-#: src/dialogs/Splash.qml:426
+#: src/dialogs/Splash.qml:431
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "清除最近配置文件历史"
 
-#: src/dialogs/Splash.qml:512
+#: src/dialogs/Splash.qml:517
 #, kde-format
 msgid "Remove profile from list"
 msgstr "从列表中移除配置文件"
 
-#: src/dialogs/Splash.qml:551
+#: src/dialogs/Splash.qml:556
 #, kde-format
 msgid "Show on Startup"
 msgstr "启动时显示"
 
-#: src/dialogs/Splash.qml:584 src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:589 src/dialogs/Splash.qml:957
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr "Kdenlive 在上次启动时崩溃。是否重置配置并重新启动？"
 
-#: src/dialogs/Splash.qml:664
+#: src/dialogs/Splash.qml:669
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "帮助我们让 Kdenlive 变得更好"
 
-#: src/dialogs/Splash.qml:669
+#: src/dialogs/Splash.qml:674
 #, kde-format
 msgid "Contribute…"
 msgstr "参与贡献…"
 
-#: src/dialogs/Splash.qml:674
+#: src/dialogs/Splash.qml:679
 #, kde-format
 msgid "Donate…"
 msgstr "捐赠…"
 
-#: src/dialogs/Splash.qml:704
+#: src/dialogs/Splash.qml:709
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>欢迎使用 Kdenlive 快速设置</b>"
 
-#: src/dialogs/Splash.qml:710
+#: src/dialogs/Splash.qml:715
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "始终使用深色主题"
 
-#: src/dialogs/Splash.qml:722
+#: src/dialogs/Splash.qml:727
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>默认项目配置</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:839 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:844 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "分辨率"
 
-#: src/dialogs/Splash.qml:866
+#: src/dialogs/Splash.qml:871
 #, kde-format
 msgid "Frame Rate"
 msgstr "帧速率"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:892
+#: src/dialogs/Splash.qml:897
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -22374,27 +22413,27 @@ msgstr "帧速率"
 msgid "Interlaced"
 msgstr "隔行扫描"
 
-#: src/dialogs/Splash.qml:911
+#: src/dialogs/Splash.qml:916
 #, kde-format
 msgid "Video Tracks"
 msgstr "视频轨道"
 
-#: src/dialogs/Splash.qml:920
+#: src/dialogs/Splash.qml:925
 #, kde-format
 msgid "Audio Tracks"
 msgstr "音频轨道"
 
-#: src/dialogs/Splash.qml:933
+#: src/dialogs/Splash.qml:938
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "此设置可以在设置中更改。"
 
-#: src/dialogs/Splash.qml:978
+#: src/dialogs/Splash.qml:983
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "查看在线文档"
 
-#: src/dialogs/Splash.qml:986
+#: src/dialogs/Splash.qml:991
 #, kde-format
 msgid "Start Editing"
 msgstr "开始编辑"
@@ -38098,12 +38137,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Monitor Gamma"
-#~ msgstr "监视器伽马"
-
-#~ msgid "sRGB (computer)"
-#~ msgstr "sRGB (计算机)"
-
-#~ msgid "Rec. 709 (TV)"
-#~ msgstr "Rec. 709 (电视)"
