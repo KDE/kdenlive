@@ -299,7 +299,9 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setVisible(true);
-    m_showMaskPanel->setVisible(true);
+    auto avStack = pCore->assetHasAV(id);
+    // Only show on item with video
+    m_showMaskPanel->setVisible(avStack.second);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {

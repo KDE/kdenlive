@@ -157,12 +157,6 @@ void Splash::fadeOut()
     QMetaObject::invokeMethod(m_rootObject, "fade");
 }
 
-void Splash::hideAndDelete()
-{
-    QMetaObject::invokeMethod(m_rootObject, "hide");
-    deleteLater();
-}
-
 void Splash::showProgressMessage(const QString &message, int)
 {
     QMetaObject::invokeMethod(m_rootObject, "displayProgress", Qt::DirectConnection, Q_ARG(QVariant, message));

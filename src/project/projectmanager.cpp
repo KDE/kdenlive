@@ -280,7 +280,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     if (mainClip) {
         mainClip->reloadTimeline(m_activeTimelineModel->getMasterEffectStackModel());
     }
-    Q_EMIT docOpened(m_project);
+    finalizeDocumentOpening(m_project);
     Q_EMIT pCore->gotMissingClipsCount(0, 0);
     m_project->loading = false;
     m_lastSave.start();
@@ -303,33 +303,12 @@ void ProjectManager::setActiveTimeline(const QUuid &uuid)
 void ProjectManager::activateDocument(const QUuid &uuid)
 {
     qDebug() << "===== ACTIVATING DOCUMENT: " << uuid << "\n::::::::::::::::::::::";
-    /*if (m_project && (m_project->uuid() == uuid)) {
-        auto match = m_timelineModels.find(uuid.toString());
-        if (match == m_timelineModels.end()) {
-            qDebug()<<"=== ERROR";
-            return;
-        }
-        m_mainTimelineModel = match->second;
-        pCore->window()->raiseTimeline(uuid);
-        qDebug()<<"=== ERROR 2";
-        return;
-    }*/
-    // Q_ASSERT(m_openedDocuments.contains(uuid));
-    /*m_project = m_openedDocuments.value(uuid);
-    m_fileRevert->setEnabled(m_project->isModified());
-    m_notesPlugin->clear();
-    Q_EMIT docOpened(m_project);*/
 
     m_activeTimelineModel = m_project->getTimeline(uuid);
     m_project->activeUuid = uuid;
-
-    /*pCore->bin()->setDocument(m_project);
-    pCore->window()->connectDocument();*/
     pCore->window()->raiseTimeline(uuid);
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
     pCore->window()->slotSetZoom(m_project->zoom(uuid).x());
-    // Q_EMIT pCore->monitorManager()->updatePreviewScaling();
-    // pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
 }
 
 void ProjectManager::testSetDocument(KdenliveDoc *doc)
@@ -872,6 +851,12 @@ void ProjectManager::abortLoading()
     newFile(false);
 }
 
+void ProjectManager::finalizeDocumentOpening(KdenliveDoc *document)
+{
+    m_notesPlugin->setProject(document);
+    Q_EMIT pCore->closeSplash();
+}
+
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup)
 {
     Q_ASSERT(m_project == nullptr);
@@ -1111,7 +1096,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
     pCore->window()->connectDocument();
 
-    Q_EMIT docOpened(m_project);
+    finalizeDocumentOpening(m_project);
     if (pCore->monitorManager()) {
         Q_EMIT pCore->monitorManager()->updatePreviewScaling();
         pCore->monitorManager()->projectMonitor()->slotActivateMonitor();

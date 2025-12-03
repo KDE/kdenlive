@@ -55,12 +55,12 @@ static bool m_inhibitHideBarTimer{false};
 
 std::unique_ptr<Core> Core::m_self;
 Core::Core(LinuxPackageType packageType, bool debugMode)
-    : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    : debugMode(debugMode)
+    , audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
     , sessionId(QUuid::createUuid().toString())
-    , debugMode(debugMode)
 {
     m_hideTimer.setInterval(5000);
     m_hideTimer.setSingleShot(true);
@@ -276,7 +276,11 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
 
         // Check if welcome screen is displayed
         if (m_splash->welcomeDisplayed()) {
-            connect(this, &Core::closeSplash, m_splash, &Splash::hideAndDelete, Qt::QueuedConnection);
+            connect(this, &Core::closeSplash, this, [this]() {
+                disconnect(this, &Core::loadingMessageNewStage, m_splash, nullptr);
+                disconnect(this, &Core::closeSplash, this, nullptr);
+                m_splash->deleteLater();
+            });
             connect(m_splash, &Splash::openFile, this, [this](QString url) {
                 // Ensure this can only be called once
                 disconnect(m_splash, &Splash::openFile, this, nullptr);
@@ -581,7 +585,6 @@ void Core::startFromGuessedProfile(QString descriptiveString, QString fps, bool 
 
     KdenliveSettings::setVideotracks(vTracks);
     KdenliveSettings::setAudiotracks(aTracks);
-    m_splash->deleteLater();
     m_mainWindow->show();
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
 }
