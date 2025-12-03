@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 02:32+0000\n"
+"POT-Creation-Date: 2025-12-03 02:40+0000\n"
 "PO-Revision-Date: 2025-11-20 21:53+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -13561,6 +13561,7 @@ msgstr "<![CDATA[تردّد <u><b>النطاق 1</b></u>]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13588,12 +13589,6 @@ msgstr "<![CDATA[تردّد <u><b>النطاق 2</b></u>]]>"
 #, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
 msgstr "<![CDATA[تردّد <u><b>لنطاق 3</b></u>]]>"
-
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, kde-format
-msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[كسب]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
@@ -14051,6 +14046,11 @@ msgstr ""
 #, kde-format
 msgid "<![CDATA[BW]]>"
 msgstr "<![CDATA[BW]]>"
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, kde-format
+msgid "<![CDATA[<Gain]]>"
+msgstr "<![CDATA[كسب]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -17788,7 +17788,7 @@ msgstr "تأثيرات مسار %1"
 msgid "Bin %1 effects"
 msgstr "تأثيرات سلة %1"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4122
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4122
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -17796,19 +17796,19 @@ msgstr "تأثيرات سلة %1"
 msgid "Show log"
 msgstr "أظهر السجل"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4125
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4125
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
 msgstr "سجل مفصل"
 
-#: src/assets/assetpanel.cpp:579
+#: src/assets/assetpanel.cpp:581
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "لديك مهمة قناع قيد التشغيل. هل تريد إلغاء المهمة؟"
 
-#: src/assets/assetpanel.cpp:580
+#: src/assets/assetpanel.cpp:582
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"

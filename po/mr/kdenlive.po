@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 02:32+0000\n"
+"POT-Creation-Date: 2025-12-03 02:40+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -13289,6 +13289,7 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13316,12 +13317,6 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:27
 #, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
-msgstr ""
-
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, kde-format
-msgid "<![CDATA[<Gain]]>"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:27
@@ -13744,6 +13739,11 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:78
 #, kde-format
 msgid "<![CDATA[BW]]>"
+msgstr ""
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, kde-format
+msgid "<![CDATA[<Gain]]>"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:4
@@ -17464,7 +17464,7 @@ msgstr ""
 msgid "Bin %1 effects"
 msgstr "परिणाम :"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4122
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4122
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -17472,19 +17472,19 @@ msgstr "परिणाम :"
 msgid "Show log"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4125
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4125
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:579
+#: src/assets/assetpanel.cpp:581
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:580
+#: src/assets/assetpanel.cpp:582
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"

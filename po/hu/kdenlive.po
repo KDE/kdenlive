@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 02:32+0000\n"
+"POT-Creation-Date: 2025-12-03 02:40+0000\n"
 "PO-Revision-Date: 2025-11-24 22:03+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -13859,6 +13859,7 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13887,13 +13888,6 @@ msgstr ""
 #, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
 msgstr ""
-
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "Change the opacity of the image"
-msgid "<![CDATA[<Gain]]>"
-msgstr "A kép átlátszatlanságának módosítása"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
@@ -14338,6 +14332,12 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Change the opacity of the image"
 msgid "<![CDATA[BW]]>"
+msgstr "A kép átlátszatlanságának módosítása"
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, fuzzy, kde-format
+#| msgid "Change the opacity of the image"
+msgid "<![CDATA[<Gain]]>"
 msgstr "A kép átlátszatlanságának módosítása"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
@@ -18202,7 +18202,7 @@ msgstr "Takaró effekt"
 msgid "Bin %1 effects"
 msgstr "%1 effektusai"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4122
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4122
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -18210,7 +18210,7 @@ msgstr "%1 effektusai"
 msgid "Show log"
 msgstr "Napló megjelenítése"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4125
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4125
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, fuzzy, kde-format
@@ -18218,12 +18218,12 @@ msgstr "Napló megjelenítése"
 msgid "Detailed log"
 msgstr "Részletek"
 
-#: src/assets/assetpanel.cpp:579
+#: src/assets/assetpanel.cpp:581
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:580
+#: src/assets/assetpanel.cpp:582
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"

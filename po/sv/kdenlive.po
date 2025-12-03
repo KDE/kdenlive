@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 02:32+0000\n"
-"PO-Revision-Date: 2025-10-26 20:50+0100\n"
+"POT-Creation-Date: 2025-12-03 02:40+0000\n"
+"PO-Revision-Date: 2025-12-02 18:21+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4619,7 +4619,7 @@ msgstr "Färgtonsändring"
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
 #, kde-format
 msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
-msgstr "<![CDATA[Ställ in färgtonsskifte i grader som ska göras]]>"
+msgstr "<![CDATA[Ställ in färgtonsändring i grader som ska göras]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
@@ -13646,10 +13646,9 @@ msgstr ""
 "sekundära färgerna."
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Overlap]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Överlappning]]>"
 
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
@@ -13659,7 +13658,7 @@ msgstr "Mängden överlappning eller blandning mellan grundfärger"
 #: data/effects/hsl_primaries.xml:12
 #, kde-format
 msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>Färgtonsändring</u></b> Röd]]>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2528
@@ -13676,21 +13675,19 @@ msgstr "Turkos"
 
 #: data/effects/hsl_primaries.xml:27 data/effects/hsl_primaries.xml:45
 #: data/effects/hsl_primaries.xml:63
-#, fuzzy, kde-format
-#| msgid "Magentas"
+#, kde-format
 msgid "Magenta"
-msgstr "Magenta-färger"
+msgstr "Magenta"
 
 #: data/effects/hsl_primaries.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<b><u>Saturation</u></b> Red]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<b><u>Färgmättnad</u></b> Röd]]>"
 
 #: data/effects/hsl_primaries.xml:48
 #, kde-format
 msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
-msgstr ""
+msgstr "<![CDATA[<b><u>Ljushet</u></b> Röd]]>"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -13768,10 +13765,9 @@ msgid "Invert colors"
 msgstr "Invertera färger"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer"
-msgstr "Equalizer"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:6
 #, kde-format
@@ -13781,13 +13777,13 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 1</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13800,78 +13796,61 @@ msgstr "<![CDATA[<b>--Botten--</b> början]]>"
 #: data/effects/ladspa/ladspa_2151.xml:57
 #: data/effects/ladspa/ladspa_2151.xml:66
 #: data/effects/ladspa/ladspa_2151.xml:75
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Förstärkning]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 2</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
-
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
-msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[<u><b>Band 3</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 4</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 5</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 6</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 7</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+#, kde-format
 msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
-msgstr "<![CDATA[<b>--Botten--</b> början]]>"
+msgstr "<![CDATA[<u><b>Band 8</b></u> Frekvens]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[Dry/Wet]]>"
-msgstr "<![CDATA[]]>"
+msgstr "<![CDATA[Torr/våt]]>"
 
 #: data/effects/ladspa/ladspa_2142.xml:4
-#, fuzzy, kde-format
-#| msgid "Reverberance"
+#, kde-format
 msgid "TAP Reverberator"
-msgstr "Efterklang"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:6
 #, kde-format
@@ -13889,10 +13868,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2154.xml:14
 #: data/effects/ladspa/ladspa_2156.xml:19
 #: data/effects/ladspa/ladspa_2159.xml:34
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Dry Level"
-msgstr "Mellannivå"
+msgstr "Torr nivå"
 
 #: data/effects/ladspa/ladspa_2142.xml:15
 #: data/effects/ladspa/ladspa_2148.xml:20
@@ -13900,40 +13878,34 @@ msgstr "Mellannivå"
 #: data/effects/ladspa/ladspa_2154.xml:17
 #: data/effects/ladspa/ladspa_2156.xml:33
 #: data/effects/ladspa/ladspa_2159.xml:39
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Wet Level"
-msgstr "Sidonivå"
+msgstr "Våt nivå"
 
 #: data/effects/ladspa/ladspa_2142.xml:18
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "Comb Filters"
-msgstr "Rensa filter"
+msgstr "Kamfilter"
 
 #: data/effects/ladspa/ladspa_2142.xml:21
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Allpass Filters"
-msgstr "Alla filer"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:24
-#, fuzzy, kde-format
-#| msgid "EQ and Filters"
+#, kde-format
 msgid "Bandpass Filter"
-msgstr "Equalizer och filter"
+msgstr "Bandpassfilter"
 
 #: data/effects/ladspa/ladspa_2142.xml:27
-#, fuzzy, kde-format
-#| msgid "2 Channels (Stereo)"
+#, kde-format
 msgid "Enhanced Stereo"
-msgstr "2 kanaler (stereo)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:30
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb Type"
-msgstr "Reverbtid"
+msgstr "Reverbtyp"
 
 #: data/effects/ladspa/ladspa_2142.xml:32
 #, kde-format
@@ -13981,10 +13953,9 @@ msgid "Dry/Wet"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "TAP Stereo Echo"
-msgstr "Stereo"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:6
 #, kde-format
@@ -13995,34 +13966,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:9
-#, fuzzy, kde-format
-#| msgid "Colors Mode"
+#, kde-format
 msgid "Cross Mode"
-msgstr "Färgläge"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:12
-#, fuzzy, kde-format
-#| msgid "Paste Effects"
+#, kde-format
 msgid "Haas Effect"
-msgstr "Klistra in effekter"
+msgstr "Haas-effekt"
 
 #: data/effects/ladspa/ladspa_2143.xml:15
-#, fuzzy, kde-format
-#| msgid "Pal8 Output"
+#, kde-format
 msgid "Swap Outputs"
-msgstr "Pal8-utdata"
+msgstr "Byt utgångar"
 
 #: data/effects/ladspa/ladspa_2143.xml:18
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "L Delay"
-msgstr "Fördröjning"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:21
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "L Feedback"
-msgstr "Återmatning"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:24
 #, kde-format
@@ -14030,16 +13996,14 @@ msgid "R/Haas Delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:27
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "R/Haas Feedback"
-msgstr "Återmatning"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:30
-#, fuzzy, kde-format
-#| msgid "MLT log level"
+#, kde-format
 msgid "L Echo Level"
-msgstr "MLT-loggnivå"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2143.xml:33
 #, kde-format
@@ -14059,10 +14023,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:4
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "TAP Scaling Limiter"
-msgstr "Skalningsdimensioner"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
@@ -14072,16 +14035,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:9
-#, fuzzy, kde-format
-#| msgid "Mid Level"
+#, kde-format
 msgid "Limit Level"
-msgstr "Mellannivå"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2145.xml:12
-#, fuzzy, kde-format
-#| msgid "Output mode"
+#, kde-format
 msgid "Output Volume"
-msgstr "Utdataläge"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2146.xml:4
 #, kde-format
@@ -14104,10 +14065,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:4
-#, fuzzy, kde-format
-#| msgid "Deesser"
+#, kde-format
 msgid "TAP DeEsser"
-msgstr "S-borttagning"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:6
 #, kde-format
@@ -14118,16 +14078,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:9
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold Level"
-msgstr "Tröskelvärde"
+msgstr "Tröskelnivå"
 
 #: data/effects/ladspa/ladspa_2147.xml:15
-#, fuzzy, kde-format
-#| msgid "Sidechain Gain"
+#, kde-format
 msgid "Sidechain Filter"
-msgstr "Sidokanalförstärkning"
+msgstr "Sidokanalsfilter"
 
 #: data/effects/ladspa/ladspa_2147.xml:17
 #, kde-format
@@ -14137,22 +14095,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:18
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "Highpass,Bandpass"
-msgstr "Bandpass"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2147.xml:21
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor On"
-msgstr "Bildskärm"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:4
-#, fuzzy, kde-format
-#| msgid "Vibrato"
+#, kde-format
 msgid "TAP Vibrato"
-msgstr "Vibrato"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:6
 #, kde-format
@@ -14164,16 +14119,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the value in lightness change down]]>"
+#, kde-format
 msgid "<![CDATA[Determines how fast the pitch is modulated up-down]]>"
-msgstr "<![CDATA[Bestämmer värdet på ljushetsändringen neråt]]>"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2148.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the angle for the direction]]>"
+#, kde-format
 msgid "<![CDATA[Sets the amount of pitch modulation]]>"
-msgstr "<![CDATA[Ställer in riktningens vinkel]]>"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:4
 #, kde-format
@@ -14188,22 +14141,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:9
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Rotor Frequency"
-msgstr "Låg frekvens"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "Låg frekvens"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2149.xml:15
-#, fuzzy, kde-format
-#| msgid "Distance"
+#, kde-format
 msgid "Mic Distance"
-msgstr "Avstånd"
+msgstr "Mikrofonavstånd"
 
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format
@@ -14211,10 +14161,9 @@ msgid "Rotor/Horn Mix"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "TAP Pitch Shifter"
-msgstr "Tonhöjdsändring"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:6
 #, kde-format
@@ -14224,10 +14173,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation Shift"
+#, kde-format
 msgid "Semitone Shift"
-msgstr "Färgmättnadsskifte"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:11
 #, kde-format
@@ -14237,10 +14185,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:14
-#, fuzzy, kde-format
-#| msgid "Hue Shift"
+#, kde-format
 msgid "Rate Shift"
-msgstr "Färgtonsändring"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2150.xml:16
 #, kde-format
@@ -14251,10 +14198,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "TAP Equalizer/BW"
-msgstr "Equalizer"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:6
 #, kde-format
@@ -14272,10 +14218,14 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:60
 #: data/effects/ladspa/ladspa_2151.xml:69
 #: data/effects/ladspa/ladspa_2151.xml:78
-#, fuzzy, kde-format
-#| msgid "<![CDATA[]]>"
+#, kde-format
 msgid "<![CDATA[BW]]>"
-msgstr "<![CDATA[]]>"
+msgstr ""
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, kde-format
+msgid "<![CDATA[<Gain]]>"
+msgstr "<![CDATA[<Förstärkning]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -14291,17 +14241,15 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
-#, fuzzy, kde-format
-#| msgid "Offset gain"
+#, kde-format
 msgid "Offset Gain"
-msgstr "Förstärkningsposition"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Make Up Gain"
+#, kde-format
 msgid "Makeup Gain"
-msgstr "Kompenseringsförstärkning"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:21
 #: data/effects/ladspa/ladspa_2153.xml:27
@@ -14320,10 +14268,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:4
-#, fuzzy, kde-format
-#| msgid "Dynamic Text"
+#, kde-format
 msgid "TAP Dynamics (St)"
-msgstr "Dynamisk text"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:6
 #, kde-format
@@ -14340,10 +14287,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:24
-#, fuzzy, kde-format
-#| msgid "Independence"
+#, kde-format
 msgid "Independent,Average,Peak"
-msgstr "Oberoende"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2154.xml:4
 #, kde-format
@@ -14358,10 +14304,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2154.xml:9
-#, fuzzy, kde-format
-#| msgid "Profile Length"
+#, kde-format
 msgid "Fragment Length"
-msgstr "Profilens längd"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2154.xml:11
 #, kde-format
@@ -14385,22 +14330,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2155.xml:9
-#, fuzzy, kde-format
-#| msgid "Scaling dimension"
+#, kde-format
 msgid "Fractal Dimension"
-msgstr "Skalningsdimensioner"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2155.xml:12
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Signal Level"
-msgstr "Sidonivå"
+msgstr "Signalnivå"
 
 #: data/effects/ladspa/ladspa_2155.xml:15
-#, fuzzy, kde-format
-#| msgid "Side Level"
+#, kde-format
 msgid "Noise Level"
-msgstr "Sidonivå"
+msgstr "Brusnivå"
 
 #: data/effects/ladspa/ladspa_2156.xml:4
 #, kde-format
@@ -14416,10 +14358,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "Dölj spår"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -14432,16 +14373,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:14
-#, fuzzy, kde-format
-#| msgid "Pitch smoothing"
+#, kde-format
 msgid "Pitch Tracking"
-msgstr "Tipputjämning"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:23
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Dry Left Position"
-msgstr "Ange position"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:25
 #: data/effects/ladspa/ladspa_2156.xml:30
@@ -14454,22 +14393,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:28
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Dry Right Position"
-msgstr "Startposition"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:37
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Left Position"
-msgstr "Ange position"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:42
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Wet Right Position"
-msgstr "Ange position"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
@@ -14485,10 +14421,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "Vänster förstärkning"
+msgstr "Förförstärkning"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
@@ -14496,10 +14431,9 @@ msgid "Scales the input signal before the transfer function is applied to it."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "Sox förstärkning"
+msgstr "Efterförstärkning"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
@@ -14526,10 +14460,9 @@ msgid "Drive"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2158.xml:10
-#, fuzzy, kde-format
-#| msgid "Adjusts the contrast of a source image"
+#, kde-format
 msgid "Adjusts the amount of the effect"
-msgstr "Justerar kontrasten hos en källbild"
+msgstr "Justerar effektens värde"
 
 #: data/effects/ladspa/ladspa_2158.xml:13
 #, kde-format
@@ -14563,10 +14496,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:14
-#, fuzzy, kde-format
-#| msgid "Phase Left"
+#, kde-format
 msgid "L/R Phase Shift"
-msgstr "Fas vänster"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:16
 #, kde-format
@@ -14598,10 +14530,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:29
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Contour"
-msgstr "Kontrast"
+msgstr "Kontur"
 
 #: data/effects/ladspa/ladspa_2159.xml:31
 #, kde-format
@@ -18026,7 +17957,7 @@ msgstr "Spår %1 effekter"
 msgid "Bin %1 effects"
 msgstr "Korg %1 effekter"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4122
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4122
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -18034,19 +17965,19 @@ msgstr "Korg %1 effekter"
 msgid "Show log"
 msgstr "Visa logg"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4125
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4125
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
 msgstr "Detaljerad logg"
 
-#: src/assets/assetpanel.cpp:579
+#: src/assets/assetpanel.cpp:581
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Ett maskeringsjobb kör. Avbryt uppgiften?"
 
-#: src/assets/assetpanel.cpp:580
+#: src/assets/assetpanel.cpp:582
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -18670,10 +18601,9 @@ msgid "Import keyframes from clipboard"
 msgstr "Importera nyckelbilder från klippbordet"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Insert Space…"
+#, kde-format
 msgid "Insert a Keyword…"
-msgstr "Infoga mellanrum…"
+msgstr "Infoga ett nyckelord…"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:162
 #: src/assets/view/widgets/listparamwidget.cpp:93
@@ -20849,17 +20779,12 @@ msgid "Open Browser"
 msgstr "Öppna webbläsare"
 
 #: src/core.cpp:2235
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will open a browser to display Kdenlive's online documentation at "
-#| "the following url:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
 " %1"
 msgstr ""
-"Det öppnar en webbläsare för att visa Kdenlives dokumentation på nätet med "
-"följande webbadress:\n"
+"Det öppnar en webbläsare för att visa en länk:\n"
 "%1"
 
 #: src/dialogs/clipcreationdialog.cpp:59
@@ -22609,8 +22534,7 @@ msgstr ""
 "identifieras korrekt eller inte fungerar med insticksprogrammet."
 
 #: src/dialogs/Simplesplash.qml:108
-#, fuzzy, kde-format
-#| msgid "Made by KDE"
+#, kde-format
 msgid "Make by KDE"
 msgstr "Tillverkat av KDE"
 
@@ -22625,17 +22549,14 @@ msgid "Kdenlive crashed on last start."
 msgstr ""
 
 #: src/dialogs/Simplesplash.qml:176
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Reset Configuration"
+#, kde-format
 msgid "Reset Configuration"
-msgstr "Nollställ inställning"
+msgstr "Återställ inställning"
 
 #: src/dialogs/Simplesplash.qml:185
-#, fuzzy, kde-format
-#| msgid "Start Color"
+#, kde-format
 msgid "Start Normally"
-msgstr "Startfärg"
+msgstr "Starta normalt"
 
 #: src/dialogs/Simplesplash.qml:215 src/dialogs/Splash.qml:624
 #, kde-format
@@ -22648,13 +22569,12 @@ msgstr ""
 #: src/dialogs/Simplesplash.qml:228 src/dialogs/Splash.qml:638
 #, kde-format
 msgid "What's New"
-msgstr ""
+msgstr "Vad är nytt"
 
 #: src/dialogs/Simplesplash.qml:237
-#, fuzzy, kde-format
-#| msgid "Container:"
+#, kde-format
 msgid "Continue"
-msgstr "Behållare:"
+msgstr "Fortsätt"
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -23291,38 +23211,34 @@ msgid "Zulu"
 msgstr "Zulu"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K UHD 2160"
+#, kde-format
 msgid "4K UHD 3840x2160"
-msgstr "4K UHD 2160"
+msgstr "4K UHD 3840 x 2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "4K DCI 2160"
+#, kde-format
 msgid "4K DCI 4096x2160"
-msgstr "4K DCI 2160"
+msgstr "4K DCI 4096 x 2160"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "2.5K QHD 1440"
+#, kde-format
 msgid "2.5K QHD 2560x1440"
-msgstr "2.5K QHD 1440"
+msgstr "2.5K QHD 2560 x 1440"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1920x1080"
-msgstr "Full HD 1080"
+msgstr "Full HD 1920 x 1080"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "HD 1280x720"
-msgstr ""
+msgstr "HD 1280 x 720"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "SD NTSC bred 720 x 480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
@@ -23332,70 +23248,62 @@ msgstr ""
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "SD PAL bred 720 x 576"
 
 #: src/dialogs/Splash.qml:23
-#, fuzzy, kde-format
-#| msgid "720x576"
+#, kde-format
 msgid "SD PAL 720x576"
-msgstr "720 x 576"
+msgstr "SD PAL 720 x 576"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "Full HD 1080"
+#, kde-format
 msgid "Full HD 1080x1920"
-msgstr "Full HD 1080"
+msgstr "Full HD 1080 x 1920"
 
 #: src/dialogs/Splash.qml:24
-#, fuzzy, kde-format
-#| msgid "HD 720"
+#, kde-format
 msgid "HD 720x1280"
-msgstr "HD 720"
+msgstr "HD 720 x 1280"
 
 #: src/dialogs/Splash.qml:25
 #, kde-format
 msgid "23.98 fps"
-msgstr ""
+msgstr "23,98 b/s"
 
 #: src/dialogs/Splash.qml:26
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "24 fps"
-msgstr "%1 b/s"
+msgstr "24 b/s"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "25 fps"
-msgstr "%1 b/s"
+msgstr "25 b/s"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "29.97 fps"
-msgstr ""
+msgstr "29,97 b/s"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "30 fps"
-msgstr "%1 b/s"
+msgstr "30 b/s"
 
 #: src/dialogs/Splash.qml:26
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "50 fps"
-msgstr "%1 b/s"
+msgstr "50 b/s"
 
 #: src/dialogs/Splash.qml:26
 #, kde-format
 msgid "59.94 fps"
-msgstr ""
+msgstr "59,94 b/s"
 
 #: src/dialogs/Splash.qml:26 src/dialogs/Splash.qml:27
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgid "60 fps"
-msgstr "%1 b/s"
+msgstr "60 b/s"
 
 #: src/dialogs/Splash.qml:174
 #, kde-format
@@ -23403,100 +23311,85 @@ msgid "Made by KDE"
 msgstr "Tillverkat av KDE"
 
 #: src/dialogs/Splash.qml:230
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "Open Project…"
-msgstr "Arkivera projekt…"
+msgstr "Öppna projekt…"
 
 #: src/dialogs/Splash.qml:257
-#, fuzzy, kde-format
-#| msgid "Open Document"
+#, kde-format
 msgid "Open Recent"
-msgstr "Öppna dokument"
+msgstr "Öppna senaste"
 
 #: src/dialogs/Splash.qml:265
-#, fuzzy, kde-format
-#| msgid "Recent Projects"
+#, kde-format
 msgid "Clear History of Recent Projects"
-msgstr "Senaste projekt"
+msgstr "Rensa historik över senaste projekt"
 
 #: src/dialogs/Splash.qml:367
-#, fuzzy, kde-format
-#| msgid "Remove file"
+#, kde-format
 msgid "Remove file from list"
-msgstr "Ta bort fil"
+msgstr "Ta bort fil från lista"
 
 #: src/dialogs/Splash.qml:396
-#, fuzzy, kde-format
-#| msgid "Archive Project…"
+#, kde-format
 msgid "New Project…"
-msgstr "Arkivera projekt…"
+msgstr "Nytt projekt…"
 
 #: src/dialogs/Splash.qml:423
-#, fuzzy, kde-format
-#| msgid "Video Profile"
+#, kde-format
 msgid "New From Profile"
-msgstr "Videoprofil"
+msgstr "Nytt från profil"
 
 #: src/dialogs/Splash.qml:431
 #, kde-format
 msgid "Clear History of Recent Profiles"
-msgstr ""
+msgstr "Rensa historiken över senaste profiler"
 
 #: src/dialogs/Splash.qml:517
-#, fuzzy, kde-format
-#| msgid "Request option from list"
+#, kde-format
 msgid "Remove profile from list"
-msgstr "Begärd alternativ från lista"
+msgstr "Ta bort profil från lista"
 
 #: src/dialogs/Splash.qml:556
-#, fuzzy, kde-format
-#| msgid "Hide on startup"
+#, kde-format
 msgid "Show on Startup"
-msgstr "Dölj vid start"
+msgstr "Visa vid start"
 
 #: src/dialogs/Splash.qml:589 src/dialogs/Splash.qml:955
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
-"Kdenlive kraschade vid senaste start.\n"
-"Vill du nollställa inställningsfilerna?"
+"Kdenlive kraschade vid senaste start. Återställ inställning och starta om?"
 
 #: src/dialogs/Splash.qml:667
 #, kde-format
 msgid "Help us make Kdenlive even better"
-msgstr ""
+msgstr "Hjälp oss göra Kdenlive ännu bättre"
 
 #: src/dialogs/Splash.qml:672
 #, kde-format
 msgid "Contribute…"
-msgstr ""
+msgstr "Medverka…"
 
 #: src/dialogs/Splash.qml:677
-#, fuzzy, kde-format
-#| msgid "Donate"
+#, kde-format
 msgid "Donate…"
-msgstr "Ge bidrag"
+msgstr "Ge ett bidrag…"
 
 #: src/dialogs/Splash.qml:707
-#, fuzzy, kde-format
-#| msgid "Welcome to Kdenlive %1"
+#, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
-msgstr "Välkommen till Kdenlive %1"
+msgstr "<b>Välkommen till Kdenlives snabbinställning</b>"
 
 #: src/dialogs/Splash.qml:713
 #, kde-format
 msgid "Always Use Dark Color Theme"
-msgstr ""
+msgstr "Använd alltid mörkt färgtema"
 
 #: src/dialogs/Splash.qml:725
-#, fuzzy, kde-format
-#| msgid "Default Profile"
+#, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "Förvald profil"
+msgstr "<b>Förvald projektprofil</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:842 src/ui/colorplaneexport_ui.ui:105
@@ -23505,10 +23398,9 @@ msgid "Resolution"
 msgstr "Upplösning"
 
 #: src/dialogs/Splash.qml:869
-#, fuzzy, kde-format
-#| msgid "Frame Rate:"
+#, kde-format
 msgid "Frame Rate"
-msgstr "Bildhastighet:"
+msgstr "Bildfrekvens"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
@@ -23522,34 +23414,29 @@ msgid "Interlaced"
 msgstr "Inflätad"
 
 #: src/dialogs/Splash.qml:914
-#, fuzzy, kde-format
-#| msgid "Video tracks"
+#, kde-format
 msgid "Video Tracks"
 msgstr "Videospår"
 
 #: src/dialogs/Splash.qml:923
-#, fuzzy, kde-format
-#| msgid "Audio tracks"
+#, kde-format
 msgid "Audio Tracks"
 msgstr "Ljudspår"
 
 #: src/dialogs/Splash.qml:936
 #, kde-format
 msgid "This can always be changed later in the Settings."
-msgstr ""
+msgstr "Det kan alltid ändras senare i inställningarna."
 
 #: src/dialogs/Splash.qml:981
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Check Online Documentation"
-msgstr "Dokumentation på nätet"
+msgstr "Kontrollera dokumentation på nätet"
 
 #: src/dialogs/Splash.qml:989
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Start Editing"
-msgstr "Startposition"
+msgstr "Börja redigera"
 
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
@@ -25961,36 +25848,31 @@ msgid "Extra Toolbar"
 msgstr "Extra verktygsrad"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "Loggning"
 
 #: src/layouts/layoutcollection.cpp:26
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "Redigering"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "Ljud"
 
 #: src/layouts/layoutcollection.cpp:27
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "Effekter"
 
 #: src/layouts/layoutcollection.cpp:28
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
 msgstr "Färg"
@@ -26029,13 +25911,12 @@ msgstr "Layout %1: %2"
 #: src/layouts/layoutmanagement.cpp:235
 #, kde-format
 msgid "The layout %1 could not be restored, should be removed and recreated."
-msgstr ""
+msgstr "Layouten %1 kunde inte återställas, bör tas bort och skapas om."
 
 #: src/layouts/layoutmanagement.cpp:267
-#, fuzzy, kde-format
-#| msgid "Project file could not be saved for export."
+#, kde-format
 msgid "The layout from the project file could not be restored."
-msgstr "Projektfilen kunde inte sparas för export."
+msgstr "Layouten från projektfilen kunde inte återställas."
 
 #: src/layouts/layoutmanagement.cpp:285
 #, kde-format
@@ -26054,10 +25935,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "Layouten %1 finns redan. Vill du ersätta den?"
 
 #: src/layouts/layoutmanagement.cpp:340
-#, fuzzy, kde-format
-#| msgid "Could not create temporary file in %1"
+#, kde-format
 msgid "Could not save layout to file: %1"
-msgstr "Kunde inte skapa tillfällig fil i %1"
+msgstr "Kunde inte spara layout i filen: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -26086,15 +25966,14 @@ msgid "Export selected"
 msgstr "Exportera markerade"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "Delete the layout."
+#, kde-format
 msgid "Delete Layout"
 msgstr "Ta bort layout"
 
 #: src/layouts/layoutmanagerdialog.cpp:134
 #, kde-format
 msgid "Are you sure you want to delete the layout %1?"
-msgstr ""
+msgstr "Är du säker på att du vill ta bort layouten %1? "
 
 #: src/layouts/layoutmanagerdialog.cpp:189
 #, kde-format
@@ -26119,31 +25998,24 @@ msgstr "Importera layout"
 
 #: src/layouts/layoutmanagerdialog.cpp:206
 #: src/layouts/layoutmanagerdialog.cpp:284
-#, fuzzy, kde-format
-#| msgid "Kdenlive Layout (*.kdenlivelayout)"
+#, kde-format
 msgid "Kdenlive Layout (*.json)"
-msgstr "Kdenlive-layout (*.kdenlivelayout)"
+msgstr "Kdenlive-layout (*.json)"
 
 #: src/layouts/layoutmanagerdialog.cpp:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not create assets folder:\n"
-#| " %1"
+#, kde-format
 msgid "Could not write in the layouts folder %1"
-msgstr ""
-"Kan inte skapa resurskatalog:\n"
-" %1"
+msgstr "Kunde inte skriva i layoutkatalogen %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:234
 #, kde-format
 msgid "Selected layout is already imported"
-msgstr ""
+msgstr "Vald layout är redan importerad"
 
 #: src/layouts/layoutmanagerdialog.cpp:241
-#, fuzzy, kde-format
-#| msgid "Invalid LUT file %1"
+#, kde-format
 msgid "Invalid file selected: %1"
-msgstr "Ogiltig LUT-fil %1"
+msgstr "Ogiltig fil markerad: %1"
 
 #: src/layouts/layoutmanagerdialog.cpp:274
 #: src/layouts/layoutmanagerdialog.cpp:281
@@ -26161,21 +26033,19 @@ msgid "No layout selected."
 msgstr "Ingen layout markerad."
 
 #: src/layouts/layoutmanagerdialog.cpp:281
-#, fuzzy, kde-format
-#| msgid "Cannot find layout data for %1."
+#, kde-format
 msgid "Cannot find layout file for %1."
-msgstr "Kan inte hitta layout data för %1"
+msgstr "Kan inte hitta layoutfil för %1."
 
 #: src/layouts/layoutmanagerdialog.cpp:302
 #, kde-format
 msgid "Overwrite existing file for vertical layout %1?"
-msgstr ""
+msgstr "Skriv över befintlig fil för vertikal layout %1?"
 
 #: src/layouts/layoutmanagerdialog.cpp:304
-#, fuzzy, kde-format
-#| msgid "Layout exported successfully."
+#, kde-format
 msgid "Horizontal layout exported successfully."
-msgstr "Layout exporterad med lyckat resultat."
+msgstr "Horisontell layout exporterad med lyckat resultat."
 
 #: src/layouts/layoutmanagerdialog.cpp:318
 #, kde-format
@@ -26183,23 +26053,22 @@ msgid "Layout exported successfully."
 msgstr "Layout exporterad med lyckat resultat."
 
 #: src/layouts/layoutmanagerdialog.cpp:332
-#, fuzzy, kde-format
-#| msgid "Shift chroma pixels horizontally and/or vertically. "
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains horizontal and vertical profiles"
-msgstr "Skifta krominansbildpunkter horisontellt och/eller vertikalt."
+msgstr "Layouten innehåller horisontella och vertikala profiler"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an horizontal profile"
-msgstr ""
+msgstr "Layouten innehåller en horisontell profil"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains an vertical profile"
-msgstr ""
+msgstr "Layouten innehåller en vertikal profil"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -26605,7 +26474,7 @@ msgstr ""
 #: src/main.cpp:341
 #, kde-format
 msgid "Do not show any welcome screen."
-msgstr ""
+msgstr "Visa inte någon välkomstskärm."
 
 #: src/main.cpp:344
 #, kde-format
@@ -27914,10 +27783,9 @@ msgid "Fit all Tracks in View"
 msgstr "Anpassa alla spår till visningen"
 
 #: src/mainwindow.cpp:2077 src/timeline2/view/timelinecontroller.cpp:4970
-#, fuzzy, kde-format
-#| msgid "Sequence count"
+#, kde-format
 msgid "Sequence effects"
-msgstr "Sekvensräkning"
+msgstr "Sekvenseffekter"
 
 #: src/mainwindow.cpp:2084
 #, kde-format
@@ -27950,22 +27818,19 @@ msgid "Disable Timeline Preview"
 msgstr "Inaktivera förhandsgranskning av tidslinje"
 
 #: src/mainwindow.cpp:2124
-#, fuzzy, kde-format
-#| msgid "Add/Remove Marker"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Lägg till eller ta bort markör"
+msgstr "Lägg till eller ta bort tidslinjemarkör"
 
 #: src/mainwindow.cpp:2126
-#, fuzzy, kde-format
-#| msgid "Search Timeline Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Sök efter tidslinjemarkörer"
+msgstr "Ta bort tidslinjemarkör"
 
 #: src/mainwindow.cpp:2128
-#, fuzzy, kde-format
-#| msgid "Go to Timeline Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Gå till tidslinjemarkör…"
+msgstr "Redigera tidslinjemarkör…"
 
 #: src/mainwindow.cpp:2131
 #, kde-format
@@ -29321,10 +29186,9 @@ msgid "Zoom Out Monitor"
 msgstr "Zooma ut bildskärm"
 
 #: src/monitor/monitormanager.cpp:566
-#, fuzzy, kde-format
-#| msgid "Reset Zoom"
+#, kde-format
 msgid "Reset Monitor Zoom"
-msgstr "Återställ zoom"
+msgstr "Återställ bildskärmens zoomning"
 
 #: src/monitor/monitormanager.cpp:575
 #, kde-format
@@ -29566,16 +29430,14 @@ msgid "Show Grid"
 msgstr "Visa rutnät"
 
 #: src/monitor/view/EffectToolBar.qml:78 src/monitor/view/SceneToolBar.qml:68
-#, fuzzy, kde-format
-#| msgid "Save Zone"
+#, kde-format
 msgid "Show Safe Areas"
-msgstr "Spara zon"
+msgstr "Visa säkra områden"
 
 #: src/monitor/view/EffectToolBar.qml:91 src/monitor/view/SceneToolBar.qml:81
-#, fuzzy, kde-format
-#| msgid "Compositions"
+#, kde-format
 msgid "Composition Guides"
-msgstr "Kompositioner"
+msgstr "Kompositionsguider"
 
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
@@ -29802,10 +29664,9 @@ msgid "Enable Transform"
 msgstr "Aktivera transformering"
 
 #: src/monitor/view/SceneToolBar.qml:97
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Ta bort markör"
+msgstr "Lägg till eller ta bort markör"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -31528,16 +31389,14 @@ msgid "Select a clip to create sequence"
 msgstr "Markera ett klipp för att skapa sekvens"
 
 #: src/project/projectmanager.cpp:2411
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Sequence creation failed"
-msgstr "Skapa mask"
+msgstr "Misslyckades skapa sekvens"
 
 #: src/project/projectmanager.cpp:2438
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Cannot insert sequence in current timeline"
-msgstr "Det går inte att infoga en sekvens som innehåller sig själv"
+msgstr "Kan inte infoga sekvens i aktuell tidslinje"
 
 #: src/project/projectmanager.cpp:2442
 #, kde-format
@@ -33776,10 +33635,9 @@ msgid "Hide"
 msgstr "Dölj"
 
 #: src/timeline2/view/qml/Timeline.qml:1005
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Show sequence effects"
-msgstr "Visa mastereffekter"
+msgstr "Visa sekvenseffekter"
 
 #: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
@@ -33935,10 +33793,9 @@ msgid "No range marker found at position"
 msgstr "Ingen intervallmarkör hittades på positionen"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "No menu entry for %1"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "Inget menyalternativ för %1"
+msgstr "Ingen markör  på bildruta %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -35681,10 +35538,9 @@ msgstr "Ljudminiatyrfärger:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Main compositions"
+#, kde-format
 msgid "Monitor composition guides:"
-msgstr "Huvudkompositioner"
+msgstr "Skärmens kompositionsguider:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
@@ -35700,10 +35556,9 @@ msgstr "Skärmens rutnät"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Monitor audio"
+#, kde-format
 msgid "Monitor safe zone:"
-msgstr "Övervaka ljud"
+msgstr "Skärmens säkra zon:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -35756,7 +35611,7 @@ msgstr "Varna om cachedata överskrider:"
 #: src/ui/configenv_ui.ui:111
 #, kde-format
 msgid "Show Welcome screen at startup"
-msgstr ""
+msgstr "Visa välkomstskärm vid start"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:118
@@ -38812,10 +38667,9 @@ msgstr "Bildtyp:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "Första bildruta"
+msgstr "Första bildruta:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267

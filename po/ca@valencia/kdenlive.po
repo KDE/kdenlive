@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 02:32+0000\n"
-"PO-Revision-Date: 2025-11-19 10:11+0100\n"
+"POT-Creation-Date: 2025-12-03 02:40+0000\n"
+"PO-Revision-Date: 2025-12-02 09:48+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1638,7 +1638,7 @@ msgstr "xyY,UCS,LUV"
 #: data/effects/avfilter/avfilter_ciescope.xml:18
 #, kde-format
 msgid "Gamuts to Draw"
-msgstr "Gamma a dibuixar"
+msgstr "Gammes a dibuixar"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:19
 #, kde-format
@@ -8708,9 +8708,9 @@ msgid ""
 "but only want to use part of the 360 image - for example if you and the film "
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
-"Afig un mat negre al fotograma. Utilitzeu-lo si filmeu amb una càmera de 360 "
-"però només voleu utilitzar part de la imatge de 360. Per exemple, si vós i "
-"l'equip de filmació ocupeu els 90 graus al darrere de la càmera."
+"Afig un matte negre al fotograma. Utilitzeu-lo si filmeu amb una càmera de "
+"360 però només voleu utilitzar part de la imatge de 360. Per exemple, si vós "
+"i l'equip de filmació ocupeu els 90 graus al darrere de la càmera."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
 #, kde-format
@@ -9333,8 +9333,8 @@ msgid ""
 "it tries to correct high-frequency motion (shake).]]>"
 msgstr ""
 "<![CDATA[Estabilitza el metratge de 360.<br>\n"
-"    El connector funcionarà en dues fases: anàlisi i estabilització. En "
-"analitzar el metratge, detectarà el gir fotograma a fotograma i, en "
+"    El connector funcionarà en dues fases: anàlisi i estabilització. Mentre "
+"s'analitza el metratge, detectarà el gir fotograma a fotograma i, en "
 "estabilitzar, intentarà corregir el moviment d'alta freqüència "
 "(sacsament).]]>"
 
@@ -11522,7 +11522,7 @@ msgid ""
 "image if the video starts with a «clean» background image. (See the α "
 "parameter.)"
 msgstr ""
-"Intensitat de la imatge de fons (calculada). En establir-lo a 100, es pinta "
+"Intensitat de la imatge de fons (calculada). En establir-la a 100, es pinta "
 "la màscara de llum directament sobre el fons, sense la persona que pinta a "
 "la imatge si el vídeo comença amb una imatge de fons «neta». (Vegeu el "
 "paràmetre α.)"
@@ -13917,6 +13917,7 @@ msgstr "<![CDATA[<u>Freqüència de la <b>banda 1</b></u>]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13944,12 +13945,6 @@ msgstr "<![CDATA[<u>Freqüència de la <b>banda 2</b></u>]]>"
 #, kde-format
 msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
 msgstr "<![CDATA[<u>Freqüència de la <b>banda 3</b></u>]]>"
-
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, kde-format
-msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[Guany]]>"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
@@ -14414,6 +14409,11 @@ msgstr ""
 #, kde-format
 msgid "<![CDATA[BW]]>"
 msgstr "<![CDATA[BW]]>"
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, kde-format
+msgid "<![CDATA[<Gain]]>"
+msgstr "<![CDATA[Guany]]>"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -17413,12 +17413,12 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
 #, kde-format
 msgid "Euclid Eraser"
-msgstr ""
+msgstr "Esborrador euclidià"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
 #, kde-format
 msgid "Erasing backgrounds with euclidean distance."
-msgstr ""
+msgstr "Esborra els fons utilitzant una distància euclidiana."
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
@@ -17979,7 +17979,7 @@ msgid ""
 "Failed to generate clip:\n"
 "%1"
 msgstr ""
-"No s'ha pogut generar el clip:\n"
+"Ha fallat mentre es generava el clip:\n"
 "%1"
 
 #: plugins/sampleplugin/sampleplugin.cpp:87
@@ -18241,7 +18241,7 @@ msgstr "Efectes de la pista %1"
 msgid "Bin %1 effects"
 msgstr "Safata d'efectes de %1"
 
-#: src/assets/assetpanel.cpp:492 src/bin/bin.cpp:4122
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4122
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -18249,19 +18249,19 @@ msgstr "Safata d'efectes de %1"
 msgid "Show log"
 msgstr "Mostra el registre"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4125
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4125
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
 msgstr "Registre detallat"
 
-#: src/assets/assetpanel.cpp:579
+#: src/assets/assetpanel.cpp:581
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Hi ha un treball de màscara en execució. Voleu interrompre el treball?"
 
-#: src/assets/assetpanel.cpp:580
+#: src/assets/assetpanel.cpp:582
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -18500,7 +18500,7 @@ msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "No s'ha pogut carregar la predefinició %1"
+msgstr "Ha fallat mentre es carregava la predefinició %1"
 
 #: src/assets/view/assetparameterview.cpp:51
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:307
@@ -22121,7 +22121,7 @@ msgstr "Només funciona amb el format Matroska (mkv)"
 #: src/dialogs/renderwidget.cpp:598
 #, kde-format
 msgid "There was a problem sharing the document: %1"
-msgstr "S'ha produït un problema en compartir el document: %1"
+msgstr "S'ha produït un problema mentre es compartia el document: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
 #: src/dialogs/renderwidget.cpp:598 src/dialogs/renderwidget.cpp:606
@@ -23697,7 +23697,7 @@ msgstr "Col·laboreu…"
 #: src/dialogs/Splash.qml:677
 #, kde-format
 msgid "Donate…"
-msgstr "Donatius…"
+msgstr "Donació…"
 
 #: src/dialogs/Splash.qml:707
 #, kde-format
@@ -24215,7 +24215,7 @@ msgstr "S'està extraent l'àudio per a %1."
 #: src/dialogs/textbasededit.cpp:1161
 #, kde-format
 msgid "Audio extract failed."
-msgstr "No s'ha pogut extraure l'àudio."
+msgstr "Ha fallat mentre s'extragué l'àudio."
 
 #: src/dialogs/textbasededit.cpp:1167 src/dialogs/textbasededit.cpp:1233
 #, kde-format
@@ -25007,7 +25007,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid "Error moving project folder: %1"
-msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
+msgstr "S'ha produït un error mentre es movia la carpeta del projecte: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
 #: src/project/dialogs/archivewidget.cpp:247
@@ -25715,7 +25715,7 @@ msgstr ""
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
 #, kde-format
 msgid "Failed to launch Glaxnimate application"
-msgstr "No s'ha pogut iniciar l'aplicació Glaxnimate"
+msgstr "Ha fallat mentre es llançava l'aplicació Glaxnimate"
 
 #: src/glaxnimatelauncher.cpp:82
 #, kde-format
@@ -25772,7 +25772,7 @@ msgstr "No s'ha trobat l'aplicació %1, actualitzeu els paràmetres del treball"
 #: src/jobs/transcodetask.cpp:279
 #, kde-format
 msgid "Failed to create file."
-msgstr "No s'ha pogut crear el fitxer."
+msgstr "Ha fallat mentre es creava el fitxer."
 
 #: src/jobs/cuttask.cpp:40
 #, kde-format
@@ -25889,12 +25889,12 @@ msgstr "No hi ha cap fotograma d'origen a processar"
 #: src/jobs/masktask.cpp:69
 #, kde-format
 msgid "Failed to render mask %1"
-msgstr "No s'ha pogut renderitzar la màscara %1"
+msgstr "Ha fallat mentre es renderitzava la màscara %1"
 
 #: src/jobs/melttask.cpp:62
 #, kde-format
 msgid "Failed to process playlist."
-msgstr "No s'ha pogut processar la llista de reproducció."
+msgstr "Ha fallat mentre es processava la llista de reproducció."
 
 #: src/jobs/proxytask.cpp:29
 #, kde-format
@@ -25956,7 +25956,7 @@ msgstr "Escena %1"
 #: src/jobs/scenesplittask.cpp:248
 #, kde-format
 msgid "Failed to analyse clip."
-msgstr "No s'ha pogut analitzar el clip."
+msgstr "Ha fallat durant l'anàlisi del clip."
 
 #: src/jobs/speedtask.cpp:35
 #, kde-format
@@ -25995,7 +25995,7 @@ msgstr "Compensació del to"
 #: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
-msgstr "No s'ha pogut crear la velocitat del clip."
+msgstr "Ha fallat mentre es creava la velocitat del clip."
 
 #: src/jobs/stabilizetask.cpp:36
 #, kde-format
@@ -26559,7 +26559,7 @@ msgstr ""
 #: src/library/librarywidget.cpp:358
 #, kde-format
 msgid "Error removing %1"
-msgstr "S'ha produït un error en eliminar %1"
+msgstr "S'ha produït un error mentre s'eliminava %1"
 
 #: src/library/librarywidget.cpp:375
 #, kde-format
@@ -26580,7 +26580,7 @@ msgstr "La carpeta %1 ja existix"
 #: src/library/librarywidget.cpp:401
 #, kde-format
 msgid "Error creating folder %1"
-msgstr "S'ha produït un error en crear la carpeta %1"
+msgstr "S'ha produït un error mentre es creava la carpeta %1"
 
 #: src/library/librarywidget.cpp:501
 #, kde-format
@@ -28472,7 +28472,7 @@ msgstr "No s'ha trobat cap marcador al temps del cursor"
 #: src/mainwindow.cpp:3051
 #, kde-format
 msgid "An error occurred while deleting markers"
-msgstr "S'ha produït un error en suprimir marcadors"
+msgstr "S'ha produït un error mentre se suprimien marcadors"
 
 #: src/mainwindow.cpp:3068 src/timeline2/view/timelinecontroller.cpp:1316
 #: src/timeline2/view/timelinecontroller.cpp:1324
@@ -29525,7 +29525,7 @@ msgstr "Marcador d'interval creat a partir d'una zona"
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "No s'ha pogut crear un marcador d'interval a partir d'una zona"
+msgstr "Ha fallat mentre es creava un marcador d'interval a partir d'una zona"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -29714,7 +29714,7 @@ msgid ""
 "Failed to start the capture application:\n"
 "%1"
 msgstr ""
-"No s'ha pogut iniciar l'aplicació de captura:\n"
+"Ha fallat mentre s'iniciava l'aplicació de captura:\n"
 "%1"
 
 #: src/monitor/recmanager.cpp:299 src/monitor/recmanager.cpp:302
@@ -29752,7 +29752,7 @@ msgid ""
 "please fix it."
 msgstr ""
 "No es pot crear la finestra de visualització de vídeo.\n"
-"Hi ha algun error en la instal·lació de Kdenlive o als paràmetres del "
+"Hi ha algun error durant la instal·lació de Kdenlive o als paràmetres del "
 "controlador. Per favor, solucioneu-ho."
 
 #: src/monitor/view/ClipMonitor.qml:165
@@ -30060,7 +30060,7 @@ msgstr "Afig/Elimina un marcador"
 #, kde-format
 msgctxt "@title:window"
 msgid "Error Loading Data"
-msgstr "S'ha produït un error en carregar les dades"
+msgstr "S'ha produït un error mentre es carregaven les dades"
 
 #: src/onlineresources/resourcewidget.cpp:87
 #, kde-format
@@ -30321,7 +30321,7 @@ msgstr "%1 Torneu-ho a provar."
 #: src/onlineresources/resourcewidget.cpp:751
 #, kde-format
 msgid "Error Loading Data"
-msgstr "S'ha produït un error en carregar les dades"
+msgstr "S'ha produït un error mentre es carregaven les dades"
 
 #: src/onlineresources/resourcewidget.cpp:760
 #, kde-format
@@ -30341,7 +30341,7 @@ msgstr "Torna a intentar la importació per a obtindre una connexió nova"
 #: src/onlineresources/resourcewidget.cpp:789
 #, kde-format
 msgid "Error Getting Access Token from %1."
-msgstr "S'ha produït un error en obtindre el testimoni d'accés des de %1."
+msgstr "S'ha produït un error mentre s'obtenia el testimoni d'accés des de %1."
 
 #: src/otio/otioexport.cpp:45
 #, kde-format
@@ -30362,7 +30362,7 @@ msgstr "Projecte OpenTimelineIO"
 #: src/otio/otioexport.cpp:112
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "S'ha produït un error en exportar un fitxer OpenTimelineIO"
+msgstr "S'ha produït un error mentre s'exportava un fitxer OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:48
 #, kde-format
@@ -30373,7 +30373,7 @@ msgstr "Importeu OpenTimelineIO"
 #: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "S'ha produït un error en importar un fitxer OpenTimelineIO"
+msgstr "S'ha produït un error mentre s'importava un fitxer OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:238
 #, kde-format
@@ -30586,7 +30586,7 @@ msgstr "Arxiu"
 #: src/project/dialogs/archivewidget.cpp:810
 #, kde-format
 msgid "There was an error processing project file"
-msgstr "S'ha produït un error en processar el fitxer de projecte"
+msgstr "S'ha produït un error mentre es processava el fitxer de projecte"
 
 #: src/project/dialogs/archivewidget.cpp:268
 #, kde-format
@@ -30696,7 +30696,7 @@ msgstr "El projecte s'ha arxivat correctament."
 #: src/project/dialogs/archivewidget.cpp:818
 #, kde-format
 msgid "There was an error while copying the files: %1"
-msgstr "S'ha produït un error en copiar els fitxers: %1"
+msgstr "S'ha produït un error mentre es copiaven els fitxers: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1130
 #, kde-format
@@ -30730,7 +30730,7 @@ msgstr "S'ha produït un error desconegut"
 #: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "S'ha produït un error en arxivar el projecte: %1"
+msgstr "S'ha produït un error mentre s'arxivava el projecte: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1215
 #, kde-format
@@ -31591,7 +31591,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:565
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr "No s'ha pogut guardar el fitxer <br><b>%1</b>"
+msgstr "Ha fallat mentre es guardava el fitxer <br><b>%1</b>"
 
 #: src/project/projectmanager.cpp:598
 #, kde-format
@@ -31660,7 +31660,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Error opening file"
-msgstr "S'ha produït un error en obrir el fitxer"
+msgstr "S'ha produït un error mentre s'obria el fitxer"
 
 #: src/project/projectmanager.cpp:899 src/project/projectmanager.cpp:1144
 #, kde-format
@@ -31734,7 +31734,7 @@ msgstr ""
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
-"S'ha produït un error en moure la carpeta del projecte, no s'ha pogut "
+"S'ha produït un error mentre es movia la carpeta del projecte, no s'ha pogut "
 "accedir a la carpeta de memòria cau"
 
 #: src/project/projectmanager.cpp:1567
@@ -31980,7 +31980,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:649
 #, kde-format
 msgid "Error while checking version of module %1"
-msgstr "S'ha produït un error en comprovar la versió del mòdul %1"
+msgstr "S'ha produït un error mentre es comprovava la versió del mòdul %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:653
 #, kde-format
@@ -32020,7 +32020,7 @@ msgstr "No s'ha trobat l'executable de Python"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:808
 #, kde-format
 msgid "Failed to find script file %1"
-msgstr "No s'ha pogut trobar el fitxer de script %1"
+msgstr "Ha fallat mentre es trobava el fitxer de script %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:847
 #, kde-format
@@ -32029,7 +32029,7 @@ msgid ""
 " %1\n"
 "%2"
 msgstr ""
-"S'ha produït un error en executar l'script de «python3»:\n"
+"S'ha produït un error mentre s'executava l'script de «python3»:\n"
 " %1\n"
 "%2"
 
@@ -32045,7 +32045,7 @@ msgid ""
 " %1\n"
 "%2"
 msgstr ""
-"S'ha produït un error en baixar el model:\n"
+"S'ha produït un error mentre es baixava el model:\n"
 " %1\n"
 "%2"
 
@@ -33625,7 +33625,7 @@ msgstr "Elimina la mescla"
 #: src/timeline2/model/timelinemodel.cpp:3750
 #, kde-format
 msgid "Removing mix failed"
-msgstr "No s'ha pogut eliminar la mescla"
+msgstr "Ha fallat mentre s'eliminava la mescla"
 
 #: src/timeline2/model/timelinemodel.cpp:4070
 #, kde-format
@@ -33792,7 +33792,8 @@ msgstr "Redimensiona la mescla"
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
-"S'ha produït un error en restablir la vista prèvia de la línia de temps"
+"S'ha produït un error mentre es restablia la vista prèvia de la línia de "
+"temps"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, kde-format
@@ -39894,12 +39895,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Monitor Gamma"
-#~ msgstr "Gamma del monitor"
-
-#~ msgid "sRGB (computer)"
-#~ msgstr "sRGB (ordinador)"
-
-#~ msgid "Rec. 709 (TV)"
-#~ msgstr "Rec. 709 (TV)"
