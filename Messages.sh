@@ -7,7 +7,7 @@ kdenlive_subdirs="plugins renderer data src src/ui"
 # Extract displayed strings from JSON layouts
 for file in data/layouts/*.json; do
     if [ -f "$file" ]; then
-        name_string=$(jq '.kdenliveInfo.[] | .displayName' $file)
+        name_string=$(jq '.kdenliveInfo[] | .displayName' $file)
         # Use the same syntax as extractrc
         if [ $name_string == "null" ]; then
             echo "Layout without name: $file"
