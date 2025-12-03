@@ -75,7 +75,6 @@ void RotatedRectHelper::slotUpdateFromMonitorRect(const QRectF &rect)
     }
 
     // Update the model
-    m_model->setParameter(QLatin1String(""), newValue, true, rectIndex);
     Q_EMIT updateKeyframeData(rectIndex, QVariant(newValue));
 }
 
