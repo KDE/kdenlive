@@ -853,7 +853,6 @@ void MainWindow::init()
 
 void MainWindow::finishUiSetup()
 {
-    Q_EMIT pCore->closeSplash();
     pCore->restoreLayout();
     setAutoSaveSettings();
     QObject::disconnect(pCore.get(), &Core::GUISetupDone, this, nullptr);

@@ -50,11 +50,16 @@ Window {
     visible: true
     color: "transparent"
     modality: Qt.WindowModal
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: Qt.FramelessWindowHint
     x: (Screen.width - width) / 2
     y: (Screen.height - height) / 2
     width: splashContent.width
     height: splashContent.height
+
+    function fade()
+    {
+        fadeAnimation.start()
+    }
 
     Component.onCompleted: {
         if (splash.firstRun)
@@ -81,6 +86,14 @@ Window {
         color: activePalette.window
         clip: true
         focus: true
+        NumberAnimation on opacity {
+            id: fadeAnimation
+            running: false
+            duration: 1000
+            easing.type: Easing.OutCubic
+            from: 1
+            to: 0
+        }
         Keys.onDownPressed: {
             if (listView.activeFocus) {
                 if (listView.currentIndex < splash.urls.length)
@@ -106,8 +119,9 @@ Window {
         Keys.onReturnPressed: {
             if (listView.activeFocus) {
                 if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
+                    splashContent.enabled = false
+                    splash.fade()
                     openFile(splash.urls[listView.currentIndex]);
-                    splash.hide()
                 }
 
             } else if (tlistView.activeFocus) {
@@ -118,8 +132,9 @@ Window {
         Keys.onEnterPressed: {
             if (listView.activeFocus) {
                 if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
+                    splashContent.enabled = false
+                    splash.fade()
                     openFile(splash.urls[listView.currentIndex]);
-                    splash.hide()
                 }
 
             } else if (tlistView.activeFocus) {
@@ -345,8 +360,9 @@ Window {
                                             listView.hoveredIndex = -1;
                                         }
                                         onClicked: {
+                                            splashContent.enabled = false
+                                            splash.fade()
                                             splash.openFile(modelData);
-                                            splash.hide()
                                         }
                                     }
                                     Rectangle {
