@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 00:41+0000\n"
+"POT-Creation-Date: 2025-12-03 00:43+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -1197,6 +1197,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sofalizer.xml:11 data/effects/gain.xml:8
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13605,13 +13606,6 @@ msgstr ""
 msgid "<u><b>Band 3</b></u> Freq"
 msgstr ""
 
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-#| msgid "Gain"
-msgid "<Gain"
-msgstr "پايدا"
-
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
 #, kde-format
@@ -14044,6 +14038,12 @@ msgstr ""
 #| msgid "B"
 msgid "BW"
 msgstr "B"
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, fuzzy, kde-format
+#| msgid "Gain"
+msgid "<Gain"
+msgstr "پايدا"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format

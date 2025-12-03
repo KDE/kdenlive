@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 00:41+0000\n"
+"POT-Creation-Date: 2025-12-03 00:43+0000\n"
 "PO-Revision-Date: 2025-11-29 21:41+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1156,6 +1156,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sofalizer.xml:11 data/effects/gain.xml:8
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13506,12 +13507,6 @@ msgstr "تردّد <u><b>النطاق 2</b></u>"
 msgid "<u><b>Band 3</b></u> Freq"
 msgstr "تردّد <u><b>لنطاق 3</b></u>"
 
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, kde-format
-msgid "<Gain"
-msgstr "<الكسب"
-
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
 #, kde-format
@@ -13962,6 +13957,11 @@ msgstr ""
 #, kde-format
 msgid "BW"
 msgstr "أسود أبيض"
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, kde-format
+msgid "<Gain"
+msgstr "<الكسب"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format

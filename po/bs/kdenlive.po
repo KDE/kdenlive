@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-02 00:41+0000\n"
+"POT-Creation-Date: 2025-12-03 00:43+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -1189,6 +1189,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sofalizer.xml:11 data/effects/gain.xml:8
 #: data/effects/ladspa/ladspa_2141.xml:12
 #: data/effects/ladspa/ladspa_2141.xml:18
+#: data/effects/ladspa/ladspa_2141.xml:24
 #: data/effects/ladspa/ladspa_2141.xml:30
 #: data/effects/ladspa/ladspa_2141.xml:36
 #: data/effects/ladspa/ladspa_2141.xml:42
@@ -13289,12 +13290,6 @@ msgstr ""
 msgid "<u><b>Band 3</b></u> Freq"
 msgstr ""
 
-#: data/effects/ladspa/ladspa_2141.xml:24
-#: data/effects/ladspa/ladspa_2151.xml:30
-#, fuzzy, kde-format
-msgid "<Gain"
-msgstr "Zelena"
-
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
 #, kde-format
@@ -13719,6 +13714,11 @@ msgstr ""
 #| msgid "B"
 msgid "BW"
 msgstr "B"
+
+#: data/effects/ladspa/ladspa_2151.xml:30
+#, fuzzy, kde-format
+msgid "<Gain"
+msgstr "Zelena"
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
