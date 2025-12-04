@@ -195,7 +195,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
         propertyList.append({"subtitleModel", QVariant()});
     }
     rootContext()->setContextProperties(propertyList);
-
     setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Timeline.qml")));
 
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
