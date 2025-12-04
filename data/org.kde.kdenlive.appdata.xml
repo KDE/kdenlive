@@ -346,7 +346,9 @@
     </ul>
   </description>
   <releases>
-    <release version="25.12.0" date="2025-12-11"/>
+    <release version="25.12.0" date="2025-12-11">
+      <url>https://kdenlive.org/news/releases/25.12.0/</url>
+    </release>
     <release version="25.08.3" date="2025-11-06">
       <url>https://kdenlive.org/news/releases/25.08.3/</url>
     </release>
