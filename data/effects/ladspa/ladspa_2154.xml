@@ -16,7 +16,7 @@
    <parameter name="2" type="animated" decimals="1" default="0.0" max="20.0" min="-90.0" suffix="dB">
       <name>Wet Level</name>
    </parameter>
-   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
       <name>Dry/Wet</name>
    </parameter>
 </effect>

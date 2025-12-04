@@ -2330,10 +2330,13 @@ void Monitor::enableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
     MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
-    slotShowEffectScene(sceneType, true);
     if (enable) {
-        Q_EMIT updateScene();
+        connect(this, &Monitor::sceneChanged, this, [this]() {
+            Q_EMIT updateScene();
+            disconnect(this, &Monitor::sceneChanged, this, nullptr);
+        });
     }
+    slotShowEffectScene(sceneType, true);
 }
 
 void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, const QVariant &sceneData)
@@ -2356,7 +2359,9 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     if (!temporary) {
         m_lastMonitorSceneType = sceneType;
     }
-    loadQmlScene(sceneType, sceneData);
+    if (sceneType == MonitorSceneDefault || KdenliveSettings::showOnMonitorScene()) {
+        loadQmlScene(sceneType, sceneData);
+    }
 }
 
 void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &types, const QVariantList &keyframes, const QRect &box)
@@ -2374,7 +2379,7 @@ void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &
         }
         QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, boxPoints));
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, types), Q_ARG(QVariant, list));
-    } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
+    } else if (m_qmlManager->sceneType() != MonitorSceneDefault && (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto)) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
 }
