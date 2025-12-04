@@ -1830,7 +1830,7 @@ void KdenliveDoc::loadDocumentProperties()
     QString name;
     QDomElement e;
     const QString bins = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:extraBins"));
-    if (!bins.isEmpty()) {
+    if (pCore->window() && !bins.isEmpty()) {
         pCore->window()->loadBins(bins.split(QLatin1Char(';')));
     }
     for (int i = 0; i < props.count(); i++) {
