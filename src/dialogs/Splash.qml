@@ -160,35 +160,33 @@ Window {
 
             Image {
                 id: background
-
                 anchors.fill: parent
                 anchors.margins: 5
                 anchors.bottomMargin: 10
-                source: "qrc:/pics/splash-background.png"
-                fillMode: Image.TileVertically
+                source: "qrc:/pics/splash-background.webp"
+                verticalAlignment: Image.AlignTop
+                fillMode: Image.PreserveAspectCrop
+
+                Text {
+                    id: kdelabel
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    anchors.margins: 10
+                    color: "#FFFFFF"
+                    text: i18n("Made by KDE")
+                }
 
                 // Made By KDE
                 Image {
                     id: kdelogo
-
                     asynchronous: true
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.margins: 10
+                    anchors.verticalCenter: kdelabel.verticalCenter
+                    anchors.right: kdelabel.left
                     height: kdelabel.height
                     width: height
                     source: "qrc:/pics/kde-logo.png"
                     fillMode: Image.PreserveAspectFit
                 }
-
-                Text {
-                    id: kdelabel
-                    anchors.verticalCenter: kdelogo.verticalCenter
-                    anchors.left: kdelogo.right
-                    color: "#FFFFFF"
-                    text: i18n("Made by KDE")
-                }
-
             }
             // rounded corners for image
 

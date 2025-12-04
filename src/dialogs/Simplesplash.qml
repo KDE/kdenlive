@@ -52,8 +52,8 @@ Window {
 
     Rectangle {
         id: splashContent
-        height: splash.crashRecovery || splash.wasUpgraded ? kdenliveid.height * 17 : kdenliveid.height * 15
-        width: height * 1.78
+        height: splash.crashRecovery || splash.wasUpgraded ? kdenliveid.height * 15 : kdenliveid.height * 13
+        width: height * 2
         radius: 8
         border.width: 2
         border.color:"#f38577"
@@ -87,8 +87,9 @@ Window {
                 id: background
                 anchors.fill: parent
                 anchors.margins: 5
-                source: "qrc:/pics/splash-background.png"
-                fillMode: Image.TileVertically
+                source: "qrc:/pics/splash-background.webp"
+                verticalAlignment: Image.AlignTop
+                fillMode: Image.PreserveAspectCrop
                 // Make By KDE
                 Image {
                     id: kdelogo
