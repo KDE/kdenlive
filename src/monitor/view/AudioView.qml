@@ -244,6 +244,7 @@ Item {
                 return
             }
             root.seeking = true
+            root.captureRightClick = true
             var pos = Math.max(mouseX, 0)
             root.mouseRulerPos = mouseX
             pos += audioThumb.width / root.zoomFactor * root.zoomStart
@@ -263,6 +264,7 @@ Item {
         }
         onReleased: {
             root.seeking = false
+            root.captureRightClick = false
         }
 
         onWheel: wheel => {
