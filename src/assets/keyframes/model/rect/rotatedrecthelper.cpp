@@ -52,7 +52,7 @@ void RotatedRectHelper::refreshParams(int pos)
     }
 
     if (m_monitor) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("rotation"), rotation);
+        m_monitor->setEffectSceneProperty(QStringLiteral("rect_rotation"), rotation);
     }
 }
 
