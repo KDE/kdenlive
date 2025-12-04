@@ -594,16 +594,8 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     // according to the user-selected language, so they do not appear in random order.
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
-    QList<QString>::Iterator iter = action_names.begin();
-    while (iter != action_names.end()) {
-        ++iter;
-    }
 
     std::sort(action_names.begin(), action_names.end());
-    iter = action_names.begin();
-    while (iter != action_names.end()) {
-        ++iter;
-    }
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
