@@ -3821,6 +3821,10 @@ void Bin::openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &seq
         if (controller->clipId() == m_activateClipZoneInfo.clipId) {
             in = m_activateClipZoneInfo.zone.x();
             out = m_activateClipZoneInfo.zone.y();
+            if (in == out) {
+                in = -1;
+                out = -1;
+            }
             seekFrame = m_activateClipZoneInfo.seekFrame;
         }
         m_activateClipZoneInfo.clipId.clear();
