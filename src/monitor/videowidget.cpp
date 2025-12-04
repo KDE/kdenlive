@@ -655,14 +655,14 @@ bool VideoWidget::isPaused() const
     return m_producer && qAbs(m_producer->get_speed()) < 0.1;
 }
 
-void VideoWidget::pause(int position)
+void VideoWidget::pause()
 {
-    if (m_producer && !isPaused()) {
+    int position = m_consumer ? m_consumer->position() + 1 : -1;
+    if (m_producer && (!isPaused() || (m_maxProducerPosition - position < 25))) {
         Q_EMIT paused();
         m_producer->set_speed(0);
         if (m_consumer && m_consumer->is_valid()) {
             m_consumer->set("volume", 0);
-            position = position > -1 ? position : m_consumer->position() + 1;
             m_producer->seek(position);
             m_consumer->purge();
             m_consumer->start();
