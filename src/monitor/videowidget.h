@@ -254,7 +254,7 @@ private:
      */
     bool playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode);
     bool isPaused() const;
-    void pause(int position = -1);
+    void pause();
 
 private Q_SLOTS:
     void resizeVideo(int width, int height);
