@@ -32,7 +32,7 @@
       Reverb types with HD are enhanced versions of the other types and usually result in an even smoother reverb effect.]]></comment>
       <paramlistdisplay>AfterBurn,AfterBurn (Long),Ambience,Ambience (Thick),Ambience (Thick) - HD,Cathedral,Cathedral - HD,Drum Chamber,Garage,Garage (Bright),Gymnasium,Gymnasium (Bright),Gymnasium (Bright) - HD,Hall (Small),Hall (Medium),Hall (Large),Hall (Large) - HD,Plate (Small),Plate (Medium),Plate (Large),Plate (Large) - HD,Pulse Chamber,Pulse Chamber (Reverse),Resonator (96 ms),Resonator (152 ms),Resonator (208 ms),Room (Small),Room (Medium),Room (Large),Room (Large) - HD,Slap Chamber,Slap Chamber - HD,Slap Chamber (Bright),Slap Chamber (Bright) - HD,Smooth Hall (Small),Smooth Hall (Medium),Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,Warble Chamber,Warehouse,Warehouse - HD</paramlistdisplay>
    </parameter>
-   <parameter name="wetness" type="constant" decimals="0" default="100" max="100" min="0" factor="100">
+   <parameter name="wetness" type="constant" decimals="0" default="1" max="100" min="0" factor="100">
       <name>Dry/Wet</name>
    </parameter>
 </effect>

@@ -13,7 +13,7 @@
       <name>Tape--Tube Blend</name>
       <comment>Controls the color of the TubeWarmth sound</comment>
    </parameter>
-   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
       <name>Dry/Wet</name>
    </parameter>
 </effect>
