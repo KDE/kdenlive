@@ -167,7 +167,7 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
 
 AbstractPythonInterface::~AbstractPythonInterface()
 {
-    qDebug() << ":::: DELETING ABSTRACT PYTHONN INMTERRFACE.....";
+    qDebug() << ":::: DELETING ABSTRACT PYTHON INTERFACE.....";
     if (m_watcher.isRunning()) {
         m_watcher.waitForFinished();
     }
@@ -798,7 +798,7 @@ const QStringList AbstractPythonInterface::listDependencies()
 QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent, bool packageFeedback)
 {
     const QString scriptpath = m_scripts.value(script);
-    qDebug() << "=== CHECKING RUNNING SCTIPR: " << scriptpath;
+    qDebug() << "=== CHECKING RUNNING SCRIPT: " << scriptpath;
     const QString pythonExe = venvPythonExecs().python;
     if (pythonExe.isEmpty()) {
         Q_EMIT setupError(i18n("Python exec not found"));
@@ -839,7 +839,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
 
     scriptJob.start(pythonExe, args);
     // Don't timeout
-    qDebug() << "::: RUNNONG SCRIPT: " << pythonExe << " = " << args;
+    qDebug() << "::: RUNNING SCRIPT: " << pythonExe << " = " << args;
     scriptJob.waitForFinished(-1);
 
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
