@@ -69,6 +69,9 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         } else {
             m_controlUuid = QUuid::createUuid();
         }
+        if (description.elementsByTagName(QStringLiteral("filter")).count() > 0) {
+            m_effectsToLoad = description;
+        }
     }
 }
 
@@ -123,56 +126,61 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = std::shared_ptr<Mlt::Producer>(pCore->mediaUnavailable->cut());
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
-    } else {
-        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
-        if (!m_properties->property_exists("kdenlive:control_uuid")) {
-            m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
-        }
-        getInfoForProducer();
-        checkAudioVideo();
-        if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
-            // Check if clip has multiple video streams
-            QList<int> videoStreams;
-            QList<int> audioStreams;
-            int aStreams = m_properties->get_int("meta.media.nb_streams");
-            for (int ix = 0; ix < aStreams; ++ix) {
-                char property[200];
-                snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-                QString type = m_properties->get(property);
-                if (type == QLatin1String("video")) {
-                    QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
-                    QString codec_name = m_properties->get(key.toLatin1().constData());
-                    if (codec_name == QLatin1String("png")) {
+        connectEffectStack();
+        return;
+    }
+    setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
+    if (!m_properties->property_exists("kdenlive:control_uuid")) {
+        m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+    }
+    getInfoForProducer();
+    checkAudioVideo();
+    if (!m_effectsToLoad.isNull()) {
+        m_effectStack->fromMltXml(m_effectsToLoad);
+        m_effectsToLoad.clear();
+    }
+    if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
+        // Check if clip has multiple video streams
+        QList<int> videoStreams;
+        QList<int> audioStreams;
+        int aStreams = m_properties->get_int("meta.media.nb_streams");
+        for (int ix = 0; ix < aStreams; ++ix) {
+            char property[200];
+            snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+            QString type = m_properties->get(property);
+            if (type == QLatin1String("video")) {
+                QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
+                QString codec_name = m_properties->get(key.toLatin1().constData());
+                if (codec_name == QLatin1String("png")) {
+                    // This is a cover image, skip
+                    qDebug() << "=== FOUND PNG COVER ART STREAM: " << ix;
+                    setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
+                    continue;
+                }
+                if (codec_name == QLatin1String("mjpeg")) {
+                    key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
+                    QString fps = m_properties->get(key.toLatin1().constData());
+                    if (fps.isEmpty()) {
+                        key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
+                        fps = m_properties->get(key.toLatin1().constData());
+                    }
+                    if (fps == QLatin1String("90000")) {
                         // This is a cover image, skip
-                        qDebug() << "=== FOUND PNG COVER ART STREAM: " << ix;
+                        qDebug() << "=== FOUND MJPEG COVER ART STREAM: " << ix;
                         setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
                         continue;
                     }
-                    if (codec_name == QLatin1String("mjpeg")) {
-                        key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
-                        QString fps = m_properties->get(key.toLatin1().constData());
-                        if (fps.isEmpty()) {
-                            key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
-                            fps = m_properties->get(key.toLatin1().constData());
-                        }
-                        if (fps == QLatin1String("90000")) {
-                            // This is a cover image, skip
-                            qDebug() << "=== FOUND MJPEG COVER ART STREAM: " << ix;
-                            setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
-                            continue;
-                        }
-                    }
-                    videoStreams << ix;
-                } else if (type == QLatin1String("audio")) {
-                    audioStreams << ix;
                 }
+                videoStreams << ix;
+            } else if (type == QLatin1String("audio")) {
+                audioStreams << ix;
             }
-            if (videoStreams.count() > 1) {
-                setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
-                m_hasMultipleVideoStreams = true;
-                QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(QString, m_controllerBinId),
-                                          Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams));
-            }
+        }
+        if (videoStreams.count() > 1) {
+            setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
+            m_hasMultipleVideoStreams = true;
+            QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(QString, m_controllerBinId),
+                                      Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams));
         }
     }
     connectEffectStack();

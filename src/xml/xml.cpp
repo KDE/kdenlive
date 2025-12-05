@@ -218,7 +218,7 @@ QMap<QString, QString> Xml::getXmlPropertyByWildcard(const QDomElement &element,
     QDomNodeList params = element.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (e.attribute(QStringLiteral("name")).startsWith(propertyName)) {
+        if (propertyName.isEmpty() || e.attribute(QStringLiteral("name")).startsWith(propertyName)) {
             props.insert(e.attribute(QStringLiteral("name")), e.text());
         }
     }
