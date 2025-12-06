@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 02:32+0000\n"
-"PO-Revision-Date: 2025-12-04 00:53+0100\n"
+"PO-Revision-Date: 2025-12-05 19:11+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -31,16 +31,12 @@ msgstr "gabcorreo@gmail.com"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Edición"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Registro"
 
@@ -18428,7 +18424,7 @@ msgstr "Mostrar claves del clip en la línea de tiempo"
 #: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "%1 effects"
-msgstr "Efectos de %1"
+msgstr "Efectos (clip) %1"
 
 #: src/assets/assetpanel.cpp:281 src/jobs/customjobtask.cpp:72
 #, kde-format
@@ -18438,12 +18434,12 @@ msgstr "Parámetros de %1"
 #: src/assets/assetpanel.cpp:285
 #, kde-format
 msgid "Track %1 effects"
-msgstr "Efectos de pista %1"
+msgstr "Efectos (pista) %1"
 
 #: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Bin %1 effects"
-msgstr "Efectos del medio %1"
+msgstr "Efectos (medio) %1"
 
 #: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4126
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
@@ -19373,7 +19369,7 @@ msgstr[1] "%1 tareas pendientes"
 #: src/bin/bin.cpp:1406
 #, kde-format
 msgid "Bin Search"
-msgstr "Buscar en bandeja"
+msgstr "Buscar medios"
 
 #: src/bin/bin.cpp:1452
 #, kde-format
@@ -19548,7 +19544,7 @@ msgstr ""
 #: src/bin/bin.cpp:2075
 #, kde-format
 msgid "Delete bin Clips"
-msgstr "Borrar medios en la bandeja"
+msgstr "Borrar medios"
 
 #: src/bin/bin.cpp:2100 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
@@ -20185,7 +20181,7 @@ msgstr "Reconstruir reemplazos"
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
-msgstr "Medios del proyecto"
+msgstr "Medios"
 
 #: src/bin/bin.cpp:5714
 #, kde-format
@@ -20311,12 +20307,12 @@ msgstr "Borrar efecto %1"
 #: src/bin/bin.cpp:6686 src/mainwindow.cpp:263
 #, kde-format
 msgid "Project Bin"
-msgstr "Medios del proyecto"
+msgstr "Medios"
 
 #: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5203
 #, kde-format
 msgid "Project Bin %1"
-msgstr "Medios del proyecto %1"
+msgstr "Medios %1"
 
 #: src/bin/bincommands.cpp:19 src/bin/bincommands.cpp:39
 #, kde-format
@@ -20878,7 +20874,7 @@ msgstr "Zona"
 #: src/bin/projectitemmodel.cpp:1017
 #, kde-format
 msgid "Add bin clip"
-msgstr "Agregar medio en bandeja"
+msgstr "Agregar medio"
 
 #: src/bin/projectitemmodel.cpp:1135
 #, kde-format
@@ -21827,7 +21823,7 @@ msgstr "Se detectó codificación %1"
 #: src/dialogs/importsubtitle.cpp:115
 #, kde-format
 msgid "Import Subtitle"
-msgstr "Importar subtítulo"
+msgstr "Importar subtítulos"
 
 #: src/dialogs/managesubtitles.cpp:52
 #, kde-format
@@ -25213,7 +25209,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid "Error moving project folder: %1"
-msgstr "Error al mover la carpeta del proyecto: %1"
+msgstr "Error al mover la carpeta de trabajo: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
 #: src/project/dialogs/archivewidget.cpp:247
@@ -25235,7 +25231,7 @@ msgstr "Los siguientes efectos fueron importados desde el proyecto:"
 #: src/doc/kdenlivedoc.cpp:1384 src/doc/kdenlivedoc.cpp:1398
 #, kde-format
 msgid "Project Folder"
-msgstr "Carpeta del proyecto"
+msgstr "Carpeta de trabajo"
 
 #: src/doc/kdenlivedoc.cpp:1442 src/doc/kdenlivedoc.cpp:1459
 #, kde-format
@@ -25983,7 +25979,7 @@ msgstr "No fue posible crear archivo."
 #: src/jobs/cuttask.cpp:40
 #, kde-format
 msgid "Extracting zone"
-msgstr "Extrayendo zona"
+msgstr "Extrayendo zona a nuevo archivo"
 
 #: src/jobs/cuttask.cpp:80
 #, kde-format
@@ -26003,27 +25999,27 @@ msgstr "no contiene"
 #: src/jobs/cuttask.cpp:107 src/jobs/cuttask.cpp:116
 #, kde-format
 msgid "Copy stream"
-msgstr "Copiar fuente original"
+msgstr "Preservar fuente original"
 
 #: src/jobs/cuttask.cpp:108
 #, kde-format
 msgid "X264 encoding"
-msgstr "Comprimir usando x264"
+msgstr "Recomprimir usando x264"
 
 #: src/jobs/cuttask.cpp:109 src/jobs/cuttask.cpp:119
 #, kde-format
 msgid "Disable stream"
-msgstr "Deshabilitar fuente"
+msgstr "Descartar fuente"
 
 #: src/jobs/cuttask.cpp:117
 #, kde-format
 msgid "PCM encoding"
-msgstr "Comprimir usando PCM"
+msgstr "Recomprimir usando PCM"
 
 #: src/jobs/cuttask.cpp:118
 #, kde-format
 msgid "AAC encoding"
-msgstr "Comprimir usando AAC"
+msgstr "Recomprimir usando AAC"
 
 #: src/jobs/cuttask.cpp:155
 #, kde-format
@@ -26270,7 +26266,7 @@ msgstr "Tareas de medios"
 #: src/kdenliveui.rc:84
 #, kde-format
 msgid "Clip in Timeline"
-msgstr "Localizar en línea de tiempo"
+msgstr "Localizar en secuencia"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
@@ -26356,7 +26352,7 @@ msgstr "Saltar"
 #: src/kdenliveui.rc:272
 #, kde-format
 msgid "Current Monitor Overlay"
-msgstr "Sobreimpresiones (monitor activo)"
+msgstr "Sobreimpresos (monitor activo)"
 
 #. i18n: ectx: Menu (monitor_scaling)
 #: src/kdenliveui.rc:281 src/mainwindow.cpp:1725
@@ -27786,7 +27782,7 @@ msgstr "Repetir clip seleccionado"
 #: src/mainwindow.cpp:1670
 #, kde-format
 msgid "Transcode Clips…"
-msgstr "Transcodificar medios…"
+msgstr "Transcodificar archivos…"
 
 #: src/mainwindow.cpp:1671
 #, kde-format
@@ -27821,7 +27817,7 @@ msgstr "Expandir clip"
 #: src/mainwindow.cpp:1686
 #, kde-format
 msgid "Monitor Info Overlay"
-msgstr "Sobreimprimir"
+msgstr "Sobreimpresos"
 
 #: src/mainwindow.cpp:1691
 #, kde-format
@@ -28489,7 +28485,7 @@ msgstr "Copiar información de depuración"
 #: src/mainwindow.cpp:2190
 #, kde-format
 msgid "Disable Timeline Effects"
-msgstr "Deshabilitar efectos en línea de tiempo"
+msgstr "Deshabilitar efectos en secuencia"
 
 #: src/mainwindow.cpp:2196
 #, kde-format
@@ -29581,7 +29577,7 @@ msgstr "+5"
 #: src/monitor/monitor.cpp:703
 #, kde-format
 msgid "Extract Zone"
-msgstr "Extraer zona…"
+msgstr "Extraer zona a nuevo archivo…"
 
 #: src/monitor/monitor.cpp:730
 #, kde-format
@@ -31425,17 +31421,17 @@ msgstr "Guardar como"
 #: src/project/dialogs/projectsettings.cpp:817
 #, kde-format
 msgid "Project folder: %1"
-msgstr "Carpeta del proyecto: %1"
+msgstr "Carpeta de trabajo: %1"
 
 #: src/project/dialogs/projectsettings.cpp:818
 #, kde-format
 msgid "Project profile: %1"
-msgstr "Perfil de proyecto: %1"
+msgstr "Perfil del proyecto: %1"
 
 #: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
-msgstr "Nº total de medios: %1 (%2 usados en la línea de tiempo)."
+msgstr "Total de medios: %1 (%2 usados en la línea de tiempo)."
 
 #: src/project/dialogs/projectsettings.cpp:873
 #, kde-format
@@ -31917,13 +31913,13 @@ msgstr ""
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
-"Error al mover la carpeta del proyecto, no es posible acceder a la carpeta "
-"de cachés"
+"Error al mover la carpeta de trabajo, no es posible acceder a la carpeta de "
+"cachés"
 
 #: src/project/projectmanager.cpp:1552
 #, kde-format
 msgid "Moving project folder"
-msgstr "Moviendo la carpeta del proyecto"
+msgstr "Moviendo la carpeta de trabajo"
 
 #: src/project/projectmanager.cpp:1643 src/project/projectmanager.cpp:1698
 #: src/project/projectmanager.cpp:1702
@@ -34620,7 +34616,7 @@ msgstr[1] "Insertar pistas"
 #: src/timeline2/view/timelinecontroller.cpp:5208
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Exportar subtítulo"
+msgstr "Exportar subtítulos"
 
 #: src/timeline2/view/timelinecontroller.cpp:5209
 #, kde-format
@@ -36019,7 +36015,7 @@ msgstr "Perfil"
 #: src/ui/cliptranscode_ui.ui:164 src/ui/cutjobdialog_ui.ui:100
 #, kde-format
 msgid "Add clip to project"
-msgstr "Agregar medio al proyecto"
+msgstr "Agregar como medio al proyecto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_color)
 #: src/ui/colorclip_ui.ui:34
@@ -36748,7 +36744,7 @@ msgstr ""
 #: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
 #, kde-format
 msgid "Project folder:"
-msgstr "Carpeta del proyecto:"
+msgstr "Carpeta de trabajo:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:58
@@ -36760,7 +36756,7 @@ msgstr "Carpeta del archivo de proyecto"
 #: src/ui/configproject_ui.ui:67
 #, kde-format
 msgid "Custom project folder:"
-msgstr "Carpeta de proyecto personalizada:"
+msgstr "Personalizada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_tracks)
 #: src/ui/configproject_ui.ui:97 src/ui/newtimeline_ui.ui:67
@@ -37762,7 +37758,7 @@ msgstr "Límite superior"
 #: src/ui/editsub_ui.ui:540 src/ui/editsubstyle_ui.ui:259
 #, kde-format
 msgid "Vertical margin"
-msgstr "Margen vertical"
+msgstr "Margen inferior"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:587
@@ -38316,25 +38312,25 @@ msgstr "Tamaño"
 #: src/ui/managesubtitles_ui.ui:384
 #, kde-format
 msgid "PrimaryColor"
-msgstr "ColorPrimario"
+msgstr "Color Primario"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
 #, kde-format
 msgid "SecondaryColor"
-msgstr "ColorSecundario"
+msgstr "Color Secundario"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
 #, kde-format
 msgid "OutlineColor"
-msgstr "ColorContorno"
+msgstr "Color Contorno"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
 #, kde-format
 msgid "BackColor"
-msgstr "ColorSombra"
+msgstr "Color Sombra"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:419
@@ -38364,19 +38360,19 @@ msgstr "Fondo"
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr "MargenIzq"
+msgstr "Margen Izq"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr "MargenDer"
+msgstr "Margen Der"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr "MargenVert"
+msgstr "Margen Inf"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
@@ -38656,8 +38652,8 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-" La carpeta del proyecto, es el lugar donde se almacenarán recursos tales "
-"como medios de reemplazo, miniaturas, gráficas y previsualizaciones."
+"La carpeta de trabajo, es el lugar donde se almacenarán recursos tales como "
+"medios de reemplazo, miniaturas, gráficas y previsualizaciones."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
