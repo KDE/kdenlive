@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 00:42+0000\n"
+"POT-Creation-Date: 2025-12-06 00:42+0000\n"
 "PO-Revision-Date: 2025-12-04 04:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -18895,14 +18895,14 @@ msgstr "ჩასასმელად სწორი კლიპი ვერ
 msgid "Select a clip to apply an effect"
 msgstr "აირჩიეთ კლიპი ეფექტის გადასატარებლად"
 
-#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:742
-#: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:764
+#: src/effects/effectstack/model/effectstackmodel.cpp:770
 #: src/timeline2/model/timelineitemmodel.cpp:738
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "ეფექტის კლიპზე დამატება შეუძლებელია"
 
-#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:720
 #, kde-format
 msgid "Paste effect"
 msgstr "ეფექტის ჩასმა"
@@ -19687,7 +19687,7 @@ msgstr "გამოყენება"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:529 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:537 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -24255,27 +24255,27 @@ msgstr "%1-სთვის ზონის განახლება"
 msgid "Copy effect"
 msgstr "ეფექტის კოპირება"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:410
-#: src/effects/effectstack/model/effectstackmodel.cpp:601
-#: src/effects/effectstack/model/effectstackmodel.cpp:728
-#: src/effects/effectstack/model/effectstackmodel.cpp:1500
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:623
+#: src/effects/effectstack/model/effectstackmodel.cpp:750
+#: src/effects/effectstack/model/effectstackmodel.cpp:1522
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "ეფექტს %1 ორჯერ ვერ დაამატებთ."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:736
 #: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
 msgstr "ეფექტის დამატება: %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/effects/effectstack/model/effectstackmodel.cpp:746
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "ეფექტი %1, მხოლოდ, მთავარზე შეგიძლიათ, დაამატოთ"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1284
+#: src/effects/effectstack/model/effectstackmodel.cpp:1306
 #, kde-format
 msgid "Move effect %1"
 msgstr "ეფექტის გადატანა %1"

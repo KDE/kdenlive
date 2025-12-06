@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 00:42+0000\n"
+"POT-Creation-Date: 2025-12-06 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -37,18 +37,14 @@ msgstr ""
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
-msgstr "编辑"
+msgstr ""
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
-msgstr "日志"
+msgstr ""
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
@@ -18677,14 +18673,14 @@ msgstr "无可供插入的有效剪辑"
 msgid "Select a clip to apply an effect"
 msgstr "选择要应用效果的剪辑"
 
-#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:742
-#: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:764
+#: src/effects/effectstack/model/effectstackmodel.cpp:770
 #: src/timeline2/model/timelineitemmodel.cpp:738
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "无法添加效果到剪辑"
 
-#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:720
 #, kde-format
 msgid "Paste effect"
 msgstr "粘贴效果"
@@ -19463,7 +19459,7 @@ msgstr "使用情况"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:529 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:537 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -23937,27 +23933,27 @@ msgstr "更新 %1 的区段"
 msgid "Copy effect"
 msgstr "复制效果"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:410
-#: src/effects/effectstack/model/effectstackmodel.cpp:601
-#: src/effects/effectstack/model/effectstackmodel.cpp:728
-#: src/effects/effectstack/model/effectstackmodel.cpp:1500
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:623
+#: src/effects/effectstack/model/effectstackmodel.cpp:750
+#: src/effects/effectstack/model/effectstackmodel.cpp:1522
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:736
 #: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/effects/effectstack/model/effectstackmodel.cpp:746
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "效果 %1 只能添加到主通道。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1284
+#: src/effects/effectstack/model/effectstackmodel.cpp:1306
 #, kde-format
 msgid "Move effect %1"
 msgstr "移动效果 %1"

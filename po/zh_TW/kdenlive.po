@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 00:42+0000\n"
+"POT-Creation-Date: 2025-12-06 00:42+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -18997,14 +18997,14 @@ msgstr "沒有可插入的有效素材"
 msgid "Select a clip to apply an effect"
 msgstr "選取素材來套用效果"
 
-#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:742
-#: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:764
+#: src/effects/effectstack/model/effectstackmodel.cpp:770
 #: src/timeline2/model/timelineitemmodel.cpp:738
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "無法新增效果到素材上"
 
-#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:720
 #, kde-format
 msgid "Paste effect"
 msgstr "貼上效果"
@@ -19785,7 +19785,7 @@ msgstr "用量"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:529 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:537 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -24292,27 +24292,27 @@ msgstr "為 %1 更新區段"
 msgid "Copy effect"
 msgstr "複製效果"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:410
-#: src/effects/effectstack/model/effectstackmodel.cpp:601
-#: src/effects/effectstack/model/effectstackmodel.cpp:728
-#: src/effects/effectstack/model/effectstackmodel.cpp:1500
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:623
+#: src/effects/effectstack/model/effectstackmodel.cpp:750
+#: src/effects/effectstack/model/effectstackmodel.cpp:1522
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 無法加入兩次。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:736
 #: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/effects/effectstack/model/effectstackmodel.cpp:746
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "效果 %1 只能加入 master 軌道"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1284
+#: src/effects/effectstack/model/effectstackmodel.cpp:1306
 #, kde-format
 msgid "Move effect %1"
 msgstr "移動效果 %1"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 00:42+0000\n"
+"POT-Creation-Date: 2025-12-06 00:42+0000\n"
 "PO-Revision-Date: 2025-12-04 10:53+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -19761,14 +19761,14 @@ msgstr "No s'ha trobat cap clip vàlid que s'haja d'inserir"
 msgid "Select a clip to apply an effect"
 msgstr "Trieu un clip per a aplicar-hi un efecte"
 
-#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:742
-#: src/effects/effectstack/model/effectstackmodel.cpp:748
+#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:764
+#: src/effects/effectstack/model/effectstackmodel.cpp:770
 #: src/timeline2/model/timelineitemmodel.cpp:738
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "No s'ha pogut afegir un efecte al clip"
 
-#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:698
+#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:720
 #, kde-format
 msgid "Paste effect"
 msgstr "Apega l'efecte"
@@ -20558,7 +20558,7 @@ msgstr "Ús"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1877
 #: src/doc/documentchecker.cpp:1907 src/doc/documentchecker.cpp:1927
-#: src/mltcontroller/clipcontroller.cpp:529 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:537 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:116
 #, kde-format
 msgid "Unknown"
@@ -25164,27 +25164,27 @@ msgstr "Actualitza la zona per a %1"
 msgid "Copy effect"
 msgstr "Copia l'efecte"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:410
-#: src/effects/effectstack/model/effectstackmodel.cpp:601
-#: src/effects/effectstack/model/effectstackmodel.cpp:728
-#: src/effects/effectstack/model/effectstackmodel.cpp:1500
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:623
+#: src/effects/effectstack/model/effectstackmodel.cpp:750
+#: src/effects/effectstack/model/effectstackmodel.cpp:1522
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:736
 #: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
 msgstr "Afig l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/effects/effectstack/model/effectstackmodel.cpp:746
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "L'efecte %1 només es pot afegir al mestre"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1284
+#: src/effects/effectstack/model/effectstackmodel.cpp:1306
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
