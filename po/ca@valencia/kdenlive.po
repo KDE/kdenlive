@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 02:32+0000\n"
-"PO-Revision-Date: 2025-12-02 09:48+0100\n"
+"PO-Revision-Date: 2025-12-05 08:48+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -33,16 +33,12 @@ msgstr "txemaq@gmail.com,orestes@tsc.upc.edu"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Edició"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Registre"
 
@@ -3235,7 +3231,7 @@ msgstr "Establix l'escala del blau"
 #: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
-msgstr "Brillantor"
+msgstr "Lluminositat"
 
 #: data/effects/avfilter/avfilter_dilation.xml:4
 #, kde-format
@@ -9586,7 +9582,7 @@ msgstr "Distància al color"
 #, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
-msgstr "Brillantor"
+msgstr "Lluminositat"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
 #, kde-format
