@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-06 00:42+0000\n"
-"PO-Revision-Date: 2025-12-04 14:46+0400\n"
+"PO-Revision-Date: 2025-12-06 16:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -32,18 +32,14 @@ msgstr "safa1996alfulaij@gmail.com,zayed.alsaidi@gmail.com"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
-msgstr "تحرير"
+msgstr "التحرير"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
-msgstr "سجلّ"
+msgstr "السجل"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223

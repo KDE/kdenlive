@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-06 00:42+0000\n"
-"PO-Revision-Date: 2025-12-01 17:47+0100\n"
+"PO-Revision-Date: 2025-12-06 19:57+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -33,16 +33,12 @@ msgstr "feus73@gmail.com,"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Modifica"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Registrazione"
 
@@ -13943,7 +13939,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2144.xml:4
 #, kde-format
 msgid "TAP Tremolo"
-msgstr ""
+msgstr "Tremolo TAP"
 
 #: data/effects/ladspa/ladspa_2144.xml:6
 #, kde-format
@@ -13951,6 +13947,8 @@ msgid ""
 "TAP Tremolo (LADSPA 2144)<br>\n"
 "   Sounds good mainly on acoustic or electric guitar tracks."
 msgstr ""
+"Tremolo TAP (LADSPA 2144)<br>\n"
+"   Suona bene soprattutto su tracce di chitarra acustica o elettrica."
 
 #: data/effects/ladspa/ladspa_2145.xml:4
 #, fuzzy, kde-format

@@ -3246,7 +3246,7 @@ msgstr "Establix l'escala del blau"
 #: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/avfilter/avfilter_dilation.xml:4
 #, kde-format
@@ -9535,7 +9535,7 @@ msgstr "Distància al color"
 #, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
 #, kde-format
@@ -10067,8 +10067,8 @@ msgstr ""
 "Elimina els defectes d'esglaons dels vídeos a 720p de la Nikon D90.\n"
 "        Les línies aguditzades en els vídeos de la Nikon D90 mostren passos "
 "cada 8a o 9a línia,\n"
-"        suposadament a causa d'un mostreig roín. Es poden suavitzar amb este "
-"filtre si es tornen massa molestes.\n"
+"        suposadament a causa d'un submostratge roín. Es poden suavitzar amb "
+"este filtre si es tornen massa molestes.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
@@ -10307,7 +10307,7 @@ msgid ""
 "        downscaling multiplier"
 msgstr ""
 "Multiplicador de reducció d'escalat<br>\n"
-"        de la lluminositat de les no vores"
+"        de la brillantor de les no vores"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:4
 #, kde-format
@@ -10710,7 +10710,7 @@ msgstr "Quantitat de parpelleig"
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "The amount of variation in brightness between frames"
-msgstr "La quantitat de variació de la lluminositat entre fotogrames"
+msgstr "La quantitat de variació de la brillantor entre els fotogrames"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -13751,7 +13751,7 @@ msgstr "<b><u>Saturació</u></b> del roig"
 #: data/effects/hsl_primaries.xml:48
 #, kde-format
 msgid "<b><u>Lightness</u></b> Red"
-msgstr "<b><u>Lluminositat</u></b> del roig"
+msgstr "<b><u>Claredat</u></b> del roig"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -15463,7 +15463,7 @@ msgstr "Determina el percentatge de fotogrames amb moviment vertical"
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la lluminositat"
+msgstr "Augmenta la brillantor"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
@@ -24113,7 +24113,7 @@ msgstr "S'està extraent l'àudio per a %1."
 #: src/dialogs/textbasededit.cpp:1161
 #, kde-format
 msgid "Audio extract failed."
-msgstr "Ha fallat mentre s'extragué l'àudio."
+msgstr "Ha fallat mentre s'extreia l'àudio."
 
 #: src/dialogs/textbasededit.cpp:1167 src/dialogs/textbasededit.cpp:1233
 #, kde-format
@@ -31216,10 +31216,10 @@ msgstr ""
 "tornar a crear totes les dades en obrir el projecte.<br/>Les <b>dades de "
 "còpia de seguretat</b> són un arxiu de versions anteriors dels fitxers del "
 "projecte. Útil si necessiteu recuperar una versió anterior d'un projecte. "
-"Estes dades no es poden recuperar.<br/>Els <b>clips de servidor "
-"intermediari</b> són fitxers de vídeo de menor resolució utilitzats per a "
-"una edició més ràpida. La supressió és segura, es poden tornar a crear clips "
-"intermediaris si teniu els clips d'origen originals."
+"Estes dades no es poden recuperar.<br/>Els <b>clips d'amfitrió intermediari</"
+"b> són fitxers de vídeo de menor resolució utilitzats per a una edició més "
+"ràpida. La supressió és segura, es poden tornar a crear clips intermediaris "
+"si teniu els clips d'origen originals."
 
 #: src/project/dialogs/temporarydata.cpp:187
 #, kde-format
@@ -35920,7 +35920,7 @@ msgstr "Zona segura del monitor:"
 #: src/ui/configenv_ui.ui:33
 #, kde-format
 msgid "Proxy and Transcode Jobs"
-msgstr "Tasques de servidor intermediari i transcodificació"
+msgstr "Tasques d'amfitrió intermediari i transcodificació"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_nice_tasks)
 #: src/ui/configenv_ui.ui:39
