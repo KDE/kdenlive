@@ -56,7 +56,7 @@ Window {
         width: height * 2
         radius: 8
         border.width: 2
-        border.color:"#f38577"
+        border.color: "#d7566e"
         color: activePalette.window
         clip: true
         focus: true

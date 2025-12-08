@@ -82,7 +82,7 @@ Window {
         width: newProjectButton.height * 17
         radius: 5
         border.width: 2
-        border.color: "#f38577"
+        border.color: "#d7566e"
         color: activePalette.window
         clip: true
         focus: true
