@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDirIterator>
 #include <QFile>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QStandardPaths>
 
 LayoutCollection::LayoutCollection()
