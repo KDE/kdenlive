@@ -357,24 +357,22 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                     // Open project settings
                     if (m_splash->hasEventLoop()) {
                         connect(this, &Core::mainWindowReady, this, [&]() {
-                            m_splash->deleteLater();
                             m_mainWindow->show();
+                            m_splash->fadeOut();
                             QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(bool, true));
                         });
                     } else {
-                        m_splash->deleteLater();
                         m_mainWindow->show();
+                        m_splash->fadeOut();
                         m_projectManager->newFile(true);
                     }
                 } else {
                     if (m_splash->hasEventLoop()) {
                         connect(this, &Core::mainWindowReady, this, [&, url]() {
-                            m_splash->deleteLater();
                             m_mainWindow->show();
                             QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(QString, url), Q_ARG(bool, false));
                         });
                     } else {
-                        m_splash->deleteLater();
                         m_mainWindow->show();
                         m_projectManager->newFile(url, false);
                     }
