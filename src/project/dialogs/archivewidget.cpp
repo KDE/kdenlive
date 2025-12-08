@@ -111,7 +111,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     for (auto &path : subtitlePath) {
         QFileInfo info(path);
         m_subtitlesSize += static_cast<KIO::filesize_t>(info.size());
-        new QTreeWidgetItem(subtitles, QStringList() << path);
+        auto sub = new QTreeWidgetItem(subtitles, QStringList() << path);
+        sub->setData(0, IsInTimelineRole, 1);
     }
 
     // process all files
