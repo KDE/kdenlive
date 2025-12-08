@@ -10,7 +10,7 @@
     <parameter type="animated" name="av.shy" default="0" min="-2" max="2" decimals="3">
         <name>Y-axis Shear Factor</name>
     </parameter>
-    <parameter type="fixedcolor" name="av.c" default="0x000000" alpha="0">
+    <parameter type="fixedcolor" name="av.c" default="0x00000000" alpha="1">
         <name>Background Fill Color</name>
     </parameter>
     <parameter type="list" name="av.interp" default="nearest" paramlist="nearest;bilinear">

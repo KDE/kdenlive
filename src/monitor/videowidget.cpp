@@ -1110,7 +1110,6 @@ bool VideoWidget::switchPlay(bool play, double speed)
                 return false;
             }
         }
-        qDebug() << "pos: " << m_consumer->position() << "out: " << m_producer->get_playtime() - 1;
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
         m_proxy->setSpeed(speed);
@@ -1120,6 +1119,11 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_consumer->set("scrub_audio", 1);
         }
         if (qFuzzyIsNull(current_speed)) {
+            if (m_maxProducerPosition - m_consumer->position() < 6) {
+                m_consumer->set("prefill", 1);
+            } else {
+                m_consumer->set("prefill", 6);
+            }
             m_consumer->start();
             m_consumer->set("refresh", 1);
             m_consumer->set("volume", KdenliveSettings::volume() / 100.);
