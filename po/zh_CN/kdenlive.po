@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 02:32+0000\n"
+"POT-Creation-Date: 2025-12-09 02:33+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7108,7 +7108,7 @@ msgstr "持续时间"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1107 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1105 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -17849,7 +17849,7 @@ msgid "Enter the name of this preset:"
 msgstr "输入此预设的名称："
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:404
+#: src/project/dialogs/archivewidget.cpp:405
 #, kde-format
 msgid "Abort processing"
 msgstr "中止处理"
@@ -18410,12 +18410,12 @@ msgid ""
 "or click %1 to import media"
 msgstr "双击、拖放或点击%1以导入媒体"
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:576
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "拖动以向时间轴中添加纯音频"
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:541
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:551
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "拖动以向时间轴中添加纯视频"
@@ -19162,7 +19162,7 @@ msgstr "输入音频编辑应用程序的路径"
 msgid "Please set a default application to open audio files"
 msgstr "请设置用于打开音频文件的默认程序"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:670 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:668 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -19703,8 +19703,8 @@ msgstr "移动字幕"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
+#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -20015,7 +20015,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "禁用 GPU 处理功能"
 
-#: src/core.cpp:474
+#: src/core.cpp:472
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20023,19 +20023,19 @@ msgid ""
 msgstr ""
 "Kdenlive 的默认编码方案尚未设定或者无效，请点击确定将其设置为正确的值。"
 
-#: src/core.cpp:486
+#: src/core.cpp:484
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "选择默认编码方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:486 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:484 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "编码方案："
 
-#: src/core.cpp:499
+#: src/core.cpp:497
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20044,267 +20044,267 @@ msgstr ""
 "指定的编码方案无效。默认的编码方案为“dv_pal”，您也可以在 Kdenlive 的设置对话"
 "框对此进行更改。"
 
-#: src/core.cpp:514 src/project/projectmanager.cpp:869
+#: src/core.cpp:512 src/project/projectmanager.cpp:869
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
 
-#: src/core.cpp:722
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars - 正方形 2 条纹"
 
-#: src/core.cpp:723
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small - 棋盘 (小)"
 
-#: src/core.cpp:724
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds - 百叶窗 (水平)"
 
-#: src/core.cpp:725
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial - 径向"
 
-#: src/core.cpp:726
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X - 线性 (X 轴)"
 
-#: src/core.cpp:727
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X - 对称线性 (X 轴)"
 
-#: src/core.cpp:728
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y - 线性 (Y 轴)"
 
-#: src/core.cpp:729
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y - 对称线性 (Y 轴)"
 
-#: src/core.cpp:730
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Square - 正方形"
 
-#: src/core.cpp:731
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Square 2 - 正方形 2"
 
-#: src/core.cpp:732
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Cloud - 云朵"
 
-#: src/core.cpp:733
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetric Clock - 时钟扫描 (对称)"
 
-#: src/core.cpp:734
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial Bars - 径向条纹"
 
-#: src/core.cpp:735
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral - 螺旋"
 
-#: src/core.cpp:736
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2 - 螺旋 2"
 
-#: src/core.cpp:737
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Curtain - 窗帘"
 
-#: src/core.cpp:738
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Burst - 爆炸"
 
-#: src/core.cpp:739
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clock - 时钟扫描"
 
-#: src/core.cpp:741
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Bar Horizontal - 条纹 (水平)"
 
-#: src/core.cpp:742
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bar Vertical - 条纹 (垂直)"
 
-#: src/core.cpp:743
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Barn Door Horizontal - 挡光板 (水平)"
 
-#: src/core.cpp:744
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Barn Door Vertical - 挡光板 (垂直)"
 
-#: src/core.cpp:745
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Barn Door Diagonal SW-NE 挡光板 (对角线-西南-东北)"
 
-#: src/core.cpp:746
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Barn Door Diagonal NW-SE - 挡光板 (对角线-东北-西南)"
 
-#: src/core.cpp:747
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Top Left - 对角线左上"
 
-#: src/core.cpp:748
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Top Right - 对角线右上"
 
-#: src/core.cpp:749
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal - 黑客帝国瀑布 (水平)"
 
-#: src/core.cpp:750
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical - 黑客帝国瀑布 (垂直)"
 
-#: src/core.cpp:751
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal - 黑客帝国蛇形 (水平)"
 
-#: src/core.cpp:752
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Parallel Horizontal - 黑客帝国蛇形 (水平平行)"
 
-#: src/core.cpp:753
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical - 黑客帝国蛇形 (垂直)"
 
-#: src/core.cpp:754
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Parallel Vertical - 黑客帝国蛇形 (垂直平行)"
 
-#: src/core.cpp:755
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Up - 挡光板 V 字打开"
 
-#: src/core.cpp:756
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris Circle - 瞳孔圆圈"
 
-#: src/core.cpp:757
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double Iris - 双重瞳孔"
 
-#: src/core.cpp:758
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris Box 瞳孔边框"
 
-#: src/core.cpp:759
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Box Bottom Right -边框 (右)"
 
-#: src/core.cpp:760
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Box Bottom Left - 边框 (左)"
 
-#: src/core.cpp:761
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Box Right Center - 边框 (中心)"
 
-#: src/core.cpp:762
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Clock Top - 时钟扫描 (顶部)"
 
-#: src/core.cpp:1053
+#: src/core.cpp:1051
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的项目编码方案无效，导出可能失败。"
 
-#: src/core.cpp:1417
+#: src/core.cpp:1415
 #, kde-format
 msgid "Loading clips"
 msgstr "加载剪辑"
 
-#: src/core.cpp:1873
+#: src/core.cpp:1871
 #, kde-format
 msgid "Marker %1"
 msgstr "标记 %1"
 
-#: src/core.cpp:2227
+#: src/core.cpp:2225
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20314,12 +20314,12 @@ msgstr ""
 "这将打开浏览器以显示 Kdenlive 的在线文档，网址如下：\n"
 " %1"
 
-#: src/core.cpp:2228 src/core.cpp:2239
+#: src/core.cpp:2226 src/core.cpp:2237
 #, kde-format
 msgid "Open Browser"
 msgstr "打开浏览器"
 
-#: src/core.cpp:2238
+#: src/core.cpp:2236
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -20724,11 +20724,11 @@ msgstr "导出标记数据"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
-#: src/project/dialogs/archivewidget.cpp:701
-#: src/project/dialogs/archivewidget.cpp:705
-#: src/project/dialogs/archivewidget.cpp:889
-#: src/project/dialogs/archivewidget.cpp:901
-#: src/project/dialogs/archivewidget.cpp:907
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:706
+#: src/project/dialogs/archivewidget.cpp:890
+#: src/project/dialogs/archivewidget.cpp:902
+#: src/project/dialogs/archivewidget.cpp:908
 #: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
@@ -21390,7 +21390,7 @@ msgid "Transcode"
 msgstr "转码"
 
 #: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1975
-#: src/project/dialogs/archivewidget.cpp:895
+#: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "输出文件已经存在。您想要覆盖它吗？"
@@ -23507,8 +23507,8 @@ msgstr "正在运行 MLT 媒体框架程序 %1"
 
 #: src/dialogs/wizard.cpp:82 src/onlineresources/resourcewidget.cpp:49
 #: src/project/cliptranscode.cpp:192 src/project/cliptranscode.cpp:226
-#: src/project/dialogs/archivewidget.cpp:791
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:792
+#: src/project/dialogs/archivewidget.cpp:1217
 #, kde-format
 msgid "Abort"
 msgstr "中止"
@@ -24128,7 +24128,7 @@ msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
-#: src/project/dialogs/archivewidget.cpp:247
+#: src/project/dialogs/archivewidget.cpp:248
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -25154,7 +25154,7 @@ msgid "Clip in Timeline"
 msgstr "时间轴中的剪辑"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1012
 #, kde-format
 msgid "Sequence"
 msgstr "序列"
@@ -25277,31 +25277,31 @@ msgstr "时间轴工具栏"
 msgid "Extra Toolbar"
 msgstr "额外工具栏"
 
-#: src/layouts/layoutcollection.cpp:26
+#: src/layouts/layoutcollection.cpp:27
 #, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "日志"
 
-#: src/layouts/layoutcollection.cpp:26
+#: src/layouts/layoutcollection.cpp:27
 #, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "编辑"
 
-#: src/layouts/layoutcollection.cpp:27
+#: src/layouts/layoutcollection.cpp:28
 #, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "音频"
 
-#: src/layouts/layoutcollection.cpp:27
+#: src/layouts/layoutcollection.cpp:28
 #, kde-format
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "效果"
 
-#: src/layouts/layoutcollection.cpp:28
+#: src/layouts/layoutcollection.cpp:29
 #, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
@@ -28722,17 +28722,17 @@ msgstr "MLT 必须使用 libfftw3 构建才能启用音频频谱图"
 msgid "Enable Audio Spectrum"
 msgstr "启用音频频谱图"
 
-#: src/monitor/videowidget.cpp:1140
+#: src/monitor/videowidget.cpp:1144
 #, kde-format
 msgid "Select a zone to play"
 msgstr "选择要播放的区段"
 
-#: src/monitor/videowidget.cpp:1149
+#: src/monitor/videowidget.cpp:1153
 #, kde-format
 msgid "Select a clip to play"
 msgstr "选择要播放的剪辑"
 
-#: src/monitor/videowidget.cpp:1254
+#: src/monitor/videowidget.cpp:1258
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -28755,27 +28755,27 @@ msgstr ""
 "悬停</shortcut>显示工具栏，<shortcut>鼠标滚轮</shortcut>或<shortcut>方向键</"
 "shortcut>进行时移，<shortcut>Ctrl 鼠标滚轮</shortcut>进行缩放"
 
-#: src/monitor/view/ClipMonitor.qml:362 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/ClipMonitor.qml:401 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "入点"
 
-#: src/monitor/view/ClipMonitor.qml:401
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "入/出点"
 
-#: src/monitor/view/ClipMonitor.qml:424 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "出点"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:643
 #, kde-format
 msgid "Terminate Job"
 msgstr "终止任务"
@@ -29518,67 +29518,67 @@ msgstr "其他剪辑"
 msgid "Luma Files"
 msgstr "亮度文件"
 
-#: src/project/dialogs/archivewidget.cpp:219
+#: src/project/dialogs/archivewidget.cpp:220
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "您的项目中包含 %1 段缺失剪辑。"
 
-#: src/project/dialogs/archivewidget.cpp:243
-#: src/project/dialogs/archivewidget.cpp:1354
-#: src/project/dialogs/archivewidget.cpp:1419
+#: src/project/dialogs/archivewidget.cpp:244
+#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1420
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 项)"
 
-#: src/project/dialogs/archivewidget.cpp:249
-#: src/project/dialogs/archivewidget.cpp:1357
-#: src/project/dialogs/archivewidget.cpp:1422
+#: src/project/dialogs/archivewidget.cpp:250
+#: src/project/dialogs/archivewidget.cpp:1358
+#: src/project/dialogs/archivewidget.cpp:1423
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "要归档 %1 个文件，需要 %2"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:337
+#: src/project/dialogs/archivewidget.cpp:251
+#: src/project/dialogs/archivewidget.cpp:338
 #, kde-format
 msgid "Archive"
 msgstr "归档"
 
-#: src/project/dialogs/archivewidget.cpp:261
-#: src/project/dialogs/archivewidget.cpp:810
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:811
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "处理项目文件时出错"
 
-#: src/project/dialogs/archivewidget.cpp:268
+#: src/project/dialogs/archivewidget.cpp:269
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "请在归档前保存您的项目"
 
-#: src/project/dialogs/archivewidget.cpp:304
+#: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgid "Extract to"
 msgstr "解压到"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:306
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "打开归档项目"
 
-#: src/project/dialogs/archivewidget.cpp:307
+#: src/project/dialogs/archivewidget.cpp:308
 #, kde-format
 msgid "Extract"
 msgstr "解压"
 
-#: src/project/dialogs/archivewidget.cpp:342
+#: src/project/dialogs/archivewidget.cpp:343
 #, kde-format
 msgid "Opening archive…"
 msgstr "正在打开归档项目…"
 
-#: src/project/dialogs/archivewidget.cpp:352
+#: src/project/dialogs/archivewidget.cpp:353
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -29587,7 +29587,7 @@ msgstr ""
 "无法打开归档文件：\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:369
+#: src/project/dialogs/archivewidget.cpp:370
 #, kde-format
 msgid ""
 "File %1\n"
@@ -29596,88 +29596,88 @@ msgstr ""
 "文件 %1\n"
 "不是一个 Kdenlive 归档项目文件"
 
-#: src/project/dialogs/archivewidget.cpp:375
+#: src/project/dialogs/archivewidget.cpp:376
 #, kde-format
 msgid "Ready"
 msgstr "准备就绪"
 
-#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "正在进行压缩，您想要停止压缩吗？"
 
-#: src/project/dialogs/archivewidget.cpp:399
 #: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:401
 #, kde-format
 msgid "Stop Archiving"
 msgstr "停止压缩"
 
-#: src/project/dialogs/archivewidget.cpp:589
+#: src/project/dialogs/archivewidget.cpp:590
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "可用存储设备空间：%1"
 
-#: src/project/dialogs/archivewidget.cpp:592
+#: src/project/dialogs/archivewidget.cpp:593
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "存储设备空间不足，剩余空间：%1"
 
-#: src/project/dialogs/archivewidget.cpp:607
+#: src/project/dialogs/archivewidget.cpp:608
 #, kde-format
 msgid "Starting archive job"
 msgstr "正在开始归档任务"
 
-#: src/project/dialogs/archivewidget.cpp:628
+#: src/project/dialogs/archivewidget.cpp:629
 #, kde-format
 msgid "Archiving…"
 msgstr "正在压缩…"
 
-#: src/project/dialogs/archivewidget.cpp:658
-#: src/project/dialogs/archivewidget.cpp:696
-#: src/project/dialogs/archivewidget.cpp:783
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/dialogs/archivewidget.cpp:659
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:784
+#: src/project/dialogs/archivewidget.cpp:1214
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "无法创建文件夹 %1"
 
-#: src/project/dialogs/archivewidget.cpp:684
-#: src/project/dialogs/archivewidget.cpp:763
+#: src/project/dialogs/archivewidget.cpp:685
+#: src/project/dialogs/archivewidget.cpp:764
 #, kde-format
 msgid "Copying %1"
 msgstr "正在复制 %1"
 
-#: src/project/dialogs/archivewidget.cpp:689
-#: src/project/dialogs/archivewidget.cpp:860
+#: src/project/dialogs/archivewidget.cpp:690
+#: src/project/dialogs/archivewidget.cpp:861
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "无法创建临时文件"
 
-#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:809
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "项目已成功归档。"
 
-#: src/project/dialogs/archivewidget.cpp:818
+#: src/project/dialogs/archivewidget.cpp:819
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "复制文件时出错：%1"
 
-#: src/project/dialogs/archivewidget.cpp:1130
+#: src/project/dialogs/archivewidget.cpp:1131
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "无法打开归档文件 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1147
+#: src/project/dialogs/archivewidget.cpp:1148
 #, kde-format
 msgid "Archiving %1"
 msgstr "正在压缩 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1154
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "无法复制文件 %1 到 %2。"
 
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1184
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -29686,27 +29686,27 @@ msgstr ""
 "项目已成功归档。\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1186
+#: src/project/dialogs/archivewidget.cpp:1187
 #, kde-format
 msgid "Unknown Error"
 msgstr "未知错误"
 
-#: src/project/dialogs/archivewidget.cpp:1186
+#: src/project/dialogs/archivewidget.cpp:1187
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "归档项目时出错：%1"
 
-#: src/project/dialogs/archivewidget.cpp:1215
+#: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Extracting…"
 msgstr "正在解压…"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "无法打开项目文件 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open file"
 msgstr "无法打开文件"
@@ -32759,7 +32759,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Paused"
 msgstr "已暂停"
@@ -32916,28 +32916,28 @@ msgstr "显示"
 msgid "Hide"
 msgstr "隐藏"
 
-#: src/timeline2/view/qml/Timeline.qml:1005
+#: src/timeline2/view/qml/Timeline.qml:1006
 #, kde-format
 msgid "Show sequence effects"
 msgstr "显示序列效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1664
+#: src/timeline2/view/qml/Timeline.qml:1665
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>双击</b> 以添加字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:1827
+#: src/timeline2/view/qml/Timeline.qml:1828
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:1987
-#: src/timeline2/view/qml/Timeline.qml:1996
+#: src/timeline2/view/qml/Timeline.qml:1988
+#: src/timeline2/view/qml/Timeline.qml:1997
 #, kde-format
 msgid "Recording"
 msgstr "正在录制"
 
-#: src/timeline2/view/qml/Timeline.qml:2090
+#: src/timeline2/view/qml/Timeline.qml:2091
 #, kde-format
 msgid "Multicam In"
 msgstr "多机位入点"

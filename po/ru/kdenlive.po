@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 02:32+0000\n"
+"POT-Creation-Date: 2025-12-09 02:33+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -7320,7 +7320,7 @@ msgstr "Длительность"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1107 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1105 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -18369,7 +18369,7 @@ msgid "Enter the name of this preset:"
 msgstr "Введите имя текущей предустановки:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:404
+#: src/project/dialogs/archivewidget.cpp:405
 #, kde-format
 msgid "Abort processing"
 msgstr "Прервать обработку"
@@ -18945,13 +18945,13 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:576
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
 #, fuzzy, kde-format
 #| msgid "Cannot add an audio effect to this clip"
 msgid "Drag to add only audio to timeline"
 msgstr "Нельзя применить звуковой эффект к текущему клипу"
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:541
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:551
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
@@ -19737,7 +19737,7 @@ msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "звуковых файлов"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:670 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:668 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20298,8 +20298,8 @@ msgstr "Переместить субтитр"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
+#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -20629,7 +20629,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Отключить обработку с применением графического процессора"
 
-#: src/core.cpp:474
+#: src/core.cpp:472
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20638,19 +20638,19 @@ msgstr ""
 "Профиль Kdenlive по умолчанию не настроен или недействителен, нажмите OK "
 "чтобы установить допустимые значения его параметров."
 
-#: src/core.cpp:486
+#: src/core.cpp:484
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Выбор профиля по умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:486 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:484 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Профиль:"
 
-#: src/core.cpp:499
+#: src/core.cpp:497
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20659,267 +20659,267 @@ msgstr ""
 "Указан недопустимый профиль. По умолчанию используется профиль «dv_pal», но "
 "его можно изменить в окне настройки параметров Kdenlive"
 
-#: src/core.cpp:514 src/project/projectmanager.cpp:869
+#: src/core.cpp:512 src/project/projectmanager.cpp:869
 #, kde-format
 msgid "Loading project…"
 msgstr "Загрузка проекта…"
 
-#: src/core.cpp:722
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Квадрат 2, полосы"
 
-#: src/core.cpp:723
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "В мелкую клетку"
 
-#: src/core.cpp:724
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Горизонтальные жалюзи"
 
-#: src/core.cpp:725
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Радиальный"
 
-#: src/core.cpp:726
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Линейный по X"
 
-#: src/core.cpp:727
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Билинейный по X"
 
-#: src/core.cpp:728
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Линейный по Y"
 
-#: src/core.cpp:729
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Билинейный по Y"
 
-#: src/core.cpp:730
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Квадрат"
 
-#: src/core.cpp:731
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Квадрат 2"
 
-#: src/core.cpp:732
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Облако"
 
-#: src/core.cpp:733
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Симметричные часы"
 
-#: src/core.cpp:734
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Радиальные полосы"
 
-#: src/core.cpp:735
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Спираль"
 
-#: src/core.cpp:736
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Спираль 2"
 
-#: src/core.cpp:737
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Завеса"
 
-#: src/core.cpp:738
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Разрыв"
 
-#: src/core.cpp:739
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Часы"
 
-#: src/core.cpp:741
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Линейный, по горизонтали"
 
-#: src/core.cpp:742
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Линейный, по вертикали"
 
-#: src/core.cpp:743
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Ворота по горизонтали"
 
-#: src/core.cpp:744
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Ворота по вертикали"
 
-#: src/core.cpp:745
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Ворота по диагонали с юго-запада на северо-восток"
 
-#: src/core.cpp:746
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Ворота по диагонали с северо-запада на юго-восток"
 
-#: src/core.cpp:747
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "По диагонали, сверху слева"
 
-#: src/core.cpp:748
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "По диагонали, сверху справа"
 
-#: src/core.cpp:749
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Матричный водопад, по горизонтали"
 
-#: src/core.cpp:750
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Матричный водопад, по вертикали"
 
-#: src/core.cpp:751
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Матричная змея, по горизонтали"
 
-#: src/core.cpp:752
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Матричная змея, параллельно по горизонтали"
 
-#: src/core.cpp:753
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Матричная змея, по вертикали"
 
-#: src/core.cpp:754
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Матричная змея, параллельно по вертикали"
 
-#: src/core.cpp:755
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Билинейный V сверху"
 
-#: src/core.cpp:756
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Ирисовая диафрагма"
 
-#: src/core.cpp:757
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Двойная ирисовая диафрагма"
 
-#: src/core.cpp:758
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Прямоугольная ирисовая диафрагма"
 
-#: src/core.cpp:759
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Прямоугольник снизу справа"
 
-#: src/core.cpp:760
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Прямоугольник снизу слева"
 
-#: src/core.cpp:761
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Прямоугольник справа от центра"
 
-#: src/core.cpp:762
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Часы"
 
-#: src/core.cpp:1053
+#: src/core.cpp:1051
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Недопустимый профиль проекта, возможен сбой во время сборки."
 
-#: src/core.cpp:1417
+#: src/core.cpp:1415
 #, kde-format
 msgid "Loading clips"
 msgstr "Загрузка клипов"
 
-#: src/core.cpp:1873
+#: src/core.cpp:1871
 #, fuzzy, kde-format
 msgid "Marker %1"
 msgstr "Маркер 2"
 
-#: src/core.cpp:2227
+#: src/core.cpp:2225
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20930,12 +20930,12 @@ msgstr ""
 "по следующему адресу:\n"
 " %1"
 
-#: src/core.cpp:2228 src/core.cpp:2239
+#: src/core.cpp:2226 src/core.cpp:2237
 #, kde-format
 msgid "Open Browser"
 msgstr "Открыть браузер"
 
-#: src/core.cpp:2238
+#: src/core.cpp:2236
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will open a browser to display Kdenlive's online documentation at "
@@ -21364,11 +21364,11 @@ msgstr "Экспорт данных направляющих"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
-#: src/project/dialogs/archivewidget.cpp:701
-#: src/project/dialogs/archivewidget.cpp:705
-#: src/project/dialogs/archivewidget.cpp:889
-#: src/project/dialogs/archivewidget.cpp:901
-#: src/project/dialogs/archivewidget.cpp:907
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:706
+#: src/project/dialogs/archivewidget.cpp:890
+#: src/project/dialogs/archivewidget.cpp:902
+#: src/project/dialogs/archivewidget.cpp:908
 #: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
@@ -22047,7 +22047,7 @@ msgid "Transcode"
 msgstr "Перекодировать"
 
 #: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1975
-#: src/project/dialogs/archivewidget.cpp:895
+#: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Выходной файл уже существует. Перезаписать его?"
@@ -24243,8 +24243,8 @@ msgstr "Используется MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/onlineresources/resourcewidget.cpp:49
 #: src/project/cliptranscode.cpp:192 src/project/cliptranscode.cpp:226
-#: src/project/dialogs/archivewidget.cpp:791
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:792
+#: src/project/dialogs/archivewidget.cpp:1217
 #, kde-format
 msgid "Abort"
 msgstr "Остановить"
@@ -24923,7 +24923,7 @@ msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
-#: src/project/dialogs/archivewidget.cpp:247
+#: src/project/dialogs/archivewidget.cpp:248
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
@@ -25993,7 +25993,7 @@ msgid "Clip in Timeline"
 msgstr "Клип на монтажном столе"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1012
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -26120,35 +26120,35 @@ msgstr "Панель инструментов монтажного стола"
 msgid "Extra Toolbar"
 msgstr "Дополнительная панель инструментов"
 
-#: src/layouts/layoutcollection.cpp:26
+#: src/layouts/layoutcollection.cpp:27
 #, fuzzy, kde-format
 #| msgid "Logging"
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "Журналирование"
 
-#: src/layouts/layoutcollection.cpp:26
+#: src/layouts/layoutcollection.cpp:27
 #, fuzzy, kde-format
 #| msgid "Editing"
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "Правка"
 
-#: src/layouts/layoutcollection.cpp:27
+#: src/layouts/layoutcollection.cpp:28
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "Звук"
 
-#: src/layouts/layoutcollection.cpp:27
+#: src/layouts/layoutcollection.cpp:28
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "Эффекты"
 
-#: src/layouts/layoutcollection.cpp:28
+#: src/layouts/layoutcollection.cpp:29
 #, fuzzy, kde-format
 #| msgid "Color"
 msgctxt "Short layout name for color grading interface"
@@ -29736,17 +29736,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Включить спектр звуковых частот"
 
-#: src/monitor/videowidget.cpp:1140
+#: src/monitor/videowidget.cpp:1144
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Выберите участок для воспроизведения"
 
-#: src/monitor/videowidget.cpp:1149
+#: src/monitor/videowidget.cpp:1153
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Выберите клип для воспроизведения"
 
-#: src/monitor/videowidget.cpp:1254
+#: src/monitor/videowidget.cpp:1258
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -29772,27 +29772,27 @@ msgstr ""
 "<shortcut>стрелки</shortcut>: переход, <shortcut>Ctrl + колесо мыши</"
 "shortcut>: масштаб."
 
-#: src/monitor/view/ClipMonitor.qml:362 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1 кадров/с"
 
-#: src/monitor/view/ClipMonitor.qml:401 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Точка входа"
 
-#: src/monitor/view/ClipMonitor.qml:401
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "Точка входа/выхода"
 
-#: src/monitor/view/ClipMonitor.qml:424 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Точка выхода"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:643
 #, kde-format
 msgid "Terminate Job"
 msgstr "Завершить задание"
@@ -30554,7 +30554,7 @@ msgstr "Прочие клипы"
 msgid "Luma Files"
 msgstr "Файлы каше"
 
-#: src/project/dialogs/archivewidget.cpp:219
+#: src/project/dialogs/archivewidget.cpp:220
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
@@ -30563,9 +30563,9 @@ msgstr[1] "В проекте отсутствуют %1 клипа."
 msgstr[2] "В проекте отсутствуют %1 клипов."
 msgstr[3] "В проекте отсутствует %1 клип."
 
-#: src/project/dialogs/archivewidget.cpp:243
-#: src/project/dialogs/archivewidget.cpp:1354
-#: src/project/dialogs/archivewidget.cpp:1419
+#: src/project/dialogs/archivewidget.cpp:244
+#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1420
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -30574,9 +30574,9 @@ msgstr[1] "(%1 элемента)"
 msgstr[2] "(%1 элементов)"
 msgstr[3] "(%1 элемент)"
 
-#: src/project/dialogs/archivewidget.cpp:249
-#: src/project/dialogs/archivewidget.cpp:1357
-#: src/project/dialogs/archivewidget.cpp:1422
+#: src/project/dialogs/archivewidget.cpp:250
+#: src/project/dialogs/archivewidget.cpp:1358
+#: src/project/dialogs/archivewidget.cpp:1423
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -30585,45 +30585,45 @@ msgstr[1] "В архив будет добавлено %1 файла, требу
 msgstr[2] "В архив будет добавлено %1 файлов, требуется %2"
 msgstr[3] "В архив будет добавлен %1 файл, требуется %2"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:337
+#: src/project/dialogs/archivewidget.cpp:251
+#: src/project/dialogs/archivewidget.cpp:338
 #, kde-format
 msgid "Archive"
 msgstr "Создать"
 
-#: src/project/dialogs/archivewidget.cpp:261
-#: src/project/dialogs/archivewidget.cpp:810
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:811
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Во время обработки файла проекта произошла ошибка"
 
-#: src/project/dialogs/archivewidget.cpp:268
+#: src/project/dialogs/archivewidget.cpp:269
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Сохраните проект перед проведением архивации"
 
-#: src/project/dialogs/archivewidget.cpp:304
+#: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgid "Extract to"
 msgstr "Извлечь в"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:306
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Открытие архивного проекта"
 
-#: src/project/dialogs/archivewidget.cpp:307
+#: src/project/dialogs/archivewidget.cpp:308
 #, kde-format
 msgid "Extract"
 msgstr "Извлечь"
 
-#: src/project/dialogs/archivewidget.cpp:342
+#: src/project/dialogs/archivewidget.cpp:343
 #, kde-format
 msgid "Opening archive…"
 msgstr "Открывается архив…"
 
-#: src/project/dialogs/archivewidget.cpp:352
+#: src/project/dialogs/archivewidget.cpp:353
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -30632,7 +30632,7 @@ msgstr ""
 "Не удалось открыть архивный файл:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:369
+#: src/project/dialogs/archivewidget.cpp:370
 #, kde-format
 msgid ""
 "File %1\n"
@@ -30641,88 +30641,88 @@ msgstr ""
 "Файл «%1»\n"
 " не является архивным проектом Kdenlive"
 
-#: src/project/dialogs/archivewidget.cpp:375
+#: src/project/dialogs/archivewidget.cpp:376
 #, kde-format
 msgid "Ready"
 msgstr "Выполнено"
 
-#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Выполняется архивирование. Остановить?"
 
-#: src/project/dialogs/archivewidget.cpp:399
 #: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:401
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Остановить архивирование"
 
-#: src/project/dialogs/archivewidget.cpp:589
+#: src/project/dialogs/archivewidget.cpp:590
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Свободного места на диске: %1"
 
-#: src/project/dialogs/archivewidget.cpp:592
+#: src/project/dialogs/archivewidget.cpp:593
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Недостаточно свободного места на диске, свободно: %1"
 
-#: src/project/dialogs/archivewidget.cpp:607
+#: src/project/dialogs/archivewidget.cpp:608
 #, kde-format
 msgid "Starting archive job"
 msgstr "Запуск архивного задания"
 
-#: src/project/dialogs/archivewidget.cpp:628
+#: src/project/dialogs/archivewidget.cpp:629
 #, kde-format
 msgid "Archiving…"
 msgstr "Архивирование…"
 
-#: src/project/dialogs/archivewidget.cpp:658
-#: src/project/dialogs/archivewidget.cpp:696
-#: src/project/dialogs/archivewidget.cpp:783
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/dialogs/archivewidget.cpp:659
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:784
+#: src/project/dialogs/archivewidget.cpp:1214
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Не удалось создать папку «%1»"
 
-#: src/project/dialogs/archivewidget.cpp:684
-#: src/project/dialogs/archivewidget.cpp:763
+#: src/project/dialogs/archivewidget.cpp:685
+#: src/project/dialogs/archivewidget.cpp:764
 #, kde-format
 msgid "Copying %1"
 msgstr "Копирование %1"
 
-#: src/project/dialogs/archivewidget.cpp:689
-#: src/project/dialogs/archivewidget.cpp:860
+#: src/project/dialogs/archivewidget.cpp:690
+#: src/project/dialogs/archivewidget.cpp:861
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Не удалось создать временный файл"
 
-#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:809
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Архивная копия проекта успешно создана."
 
-#: src/project/dialogs/archivewidget.cpp:818
+#: src/project/dialogs/archivewidget.cpp:819
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Во время копирования файлов произошла ошибка: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1130
+#: src/project/dialogs/archivewidget.cpp:1131
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Не удалось открыть архивный файл %1"
 
-#: src/project/dialogs/archivewidget.cpp:1147
+#: src/project/dialogs/archivewidget.cpp:1148
 #, kde-format
 msgid "Archiving %1"
 msgstr "Архивирование %1"
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1154
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Не удалось скопировать файл %1 в %2."
 
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1184
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -30731,27 +30731,27 @@ msgstr ""
 "Архивная копия проекта успешно создана.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1186
+#: src/project/dialogs/archivewidget.cpp:1187
 #, kde-format
 msgid "Unknown Error"
 msgstr "Неизвестная ошибка"
 
-#: src/project/dialogs/archivewidget.cpp:1186
+#: src/project/dialogs/archivewidget.cpp:1187
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Во время архивации проекта произошла ошибка: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1215
+#: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Extracting…"
 msgstr "Извлечение…"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Не удалось открыть файл проекта %1"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open file"
 msgstr "Не удалось открыть файл"
@@ -33932,7 +33932,7 @@ msgid "Stop"
 msgstr "Остановить"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Paused"
 msgstr "Приостановлено"
@@ -34094,29 +34094,29 @@ msgstr "Показать"
 msgid "Hide"
 msgstr "Скрыть"
 
-#: src/timeline2/view/qml/Timeline.qml:1005
+#: src/timeline2/view/qml/Timeline.qml:1006
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "Показать мастер-эффекты"
 
-#: src/timeline2/view/qml/Timeline.qml:1664
+#: src/timeline2/view/qml/Timeline.qml:1665
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Двойной щелчок</b>: добавление субтитра"
 
-#: src/timeline2/view/qml/Timeline.qml:1827
+#: src/timeline2/view/qml/Timeline.qml:1828
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Смещение: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1987
-#: src/timeline2/view/qml/Timeline.qml:1996
+#: src/timeline2/view/qml/Timeline.qml:1988
+#: src/timeline2/view/qml/Timeline.qml:1997
 #, kde-format
 msgid "Recording"
 msgstr "Запись"
 
-#: src/timeline2/view/qml/Timeline.qml:2090
+#: src/timeline2/view/qml/Timeline.qml:2091
 #, kde-format
 msgid "Multicam In"
 msgstr "Вход многокамерного монтажа"

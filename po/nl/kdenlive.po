@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 02:32+0000\n"
+"POT-Creation-Date: 2025-12-09 02:33+0000\n"
 "PO-Revision-Date: 2025-12-05 11:55+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -7381,7 +7381,7 @@ msgstr "Tijdsduur"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1107 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1105 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -18523,7 +18523,7 @@ msgid "Enter the name of this preset:"
 msgstr "De naam van deze voor-instelling invoeren:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:404
+#: src/project/dialogs/archivewidget.cpp:405
 #, kde-format
 msgid "Abort processing"
 msgstr "Verwerken afbreken"
@@ -19098,12 +19098,12 @@ msgstr ""
 "Dubbelklik, laat bestanden los\n"
 "of klik op %1 om media te importeren"
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:576
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Sleep om alleen audio aan de tijdlijn toe te voegen"
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:541
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:551
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Sleep om alleen video aan de tijdlijn toe te voegen"
@@ -19878,7 +19878,7 @@ msgstr "Pad naar uw toepassing voor audio bewerken invoeren"
 msgid "Please set a default application to open audio files"
 msgstr "Stel een standaard toepassing in om audiobestanden te openen"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:670 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:668 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20428,8 +20428,8 @@ msgstr "Ondertitel verplaatsen"
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:384
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
+#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -20743,7 +20743,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Verwerking door GPU uitschakelen"
 
-#: src/core.cpp:474
+#: src/core.cpp:472
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20752,19 +20752,19 @@ msgstr ""
 "Het standaard profiel van Kdenlive is niet ingesteld of ongeldig, druk op OK "
 "om een juiste waarde in te stellen."
 
-#: src/core.cpp:486
+#: src/core.cpp:484
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Standaard profiel selecteren"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:486 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:484 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profiel:"
 
-#: src/core.cpp:499
+#: src/core.cpp:497
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20773,267 +20773,267 @@ msgstr ""
 "Het gegeven profiel is ongeldig. De standaard zal zijn het profiel \"dv_pal"
 "\", maar u kunt dit wijzigen in het paneel voor instellingen van Kdenlive"
 
-#: src/core.cpp:514 src/project/projectmanager.cpp:869
+#: src/core.cpp:512 src/project/projectmanager.cpp:869
 #, kde-format
 msgid "Loading project…"
 msgstr "Project wordt geladen…"
 
-#: src/core.cpp:722
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Vierkant 2 balken"
 
-#: src/core.cpp:723
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Klein schaakbord"
 
-#: src/core.cpp:724
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontale strepen"
 
-#: src/core.cpp:725
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radiaal"
 
-#: src/core.cpp:726
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineair X"
 
-#: src/core.cpp:727
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-lineair X"
 
-#: src/core.cpp:728
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineair Y"
 
-#: src/core.cpp:729
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-lineair Y"
 
-#: src/core.cpp:730
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Vierkant"
 
-#: src/core.cpp:731
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Vierkant 2"
 
-#: src/core.cpp:732
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Wolk"
 
-#: src/core.cpp:733
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetrische klok"
 
-#: src/core.cpp:734
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radiale balken"
 
-#: src/core.cpp:735
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiraal"
 
-#: src/core.cpp:736
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiraal 2"
 
-#: src/core.cpp:737
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Gordijn"
 
-#: src/core.cpp:738
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Uitbarsting"
 
-#: src/core.cpp:739
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Klok"
 
-#: src/core.cpp:741
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Balk horizontaal"
 
-#: src/core.cpp:742
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Balk verticaal"
 
-#: src/core.cpp:743
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Schuurdeur horizontaal"
 
-#: src/core.cpp:744
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Schuurdeur verticaal"
 
-#: src/core.cpp:745
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Schuurdeur diagonaal ZW-NO"
 
-#: src/core.cpp:746
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Schuurdeur diagonaal NW-ZO"
 
-#: src/core.cpp:747
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonaal linksboven"
 
-#: src/core.cpp:748
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonaal rechtsboven"
 
-#: src/core.cpp:749
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix waterval horizontaal"
 
-#: src/core.cpp:750
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix waterval verticaal"
 
-#: src/core.cpp:751
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix slang horizontaal"
 
-#: src/core.cpp:752
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix slang parallel horizontaal"
 
-#: src/core.cpp:753
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix slang verticaal"
 
-#: src/core.cpp:754
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix slang parallel verticaal"
 
-#: src/core.cpp:755
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Schuur V omhoog"
 
-#: src/core.cpp:756
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iriscirkel"
 
-#: src/core.cpp:757
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Dubbele iris"
 
-#: src/core.cpp:758
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Irisvak"
 
-#: src/core.cpp:759
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Vak rechtsonder"
 
-#: src/core.cpp:760
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Vak linksonder"
 
-#: src/core.cpp:761
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Vak rechts midden"
 
-#: src/core.cpp:762
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Klok bovenaan"
 
-#: src/core.cpp:1053
+#: src/core.cpp:1051
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Uw projectprofiel is ongeldig, renderen kan mislukken."
 
-#: src/core.cpp:1417
+#: src/core.cpp:1415
 #, kde-format
 msgid "Loading clips"
 msgstr "Bezig met laden van clips"
 
-#: src/core.cpp:1873
+#: src/core.cpp:1871
 #, kde-format
 msgid "Marker %1"
 msgstr "Markering %1"
 
-#: src/core.cpp:2227
+#: src/core.cpp:2225
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21044,12 +21044,12 @@ msgstr ""
 "op de volgende url:\n"
 " %1"
 
-#: src/core.cpp:2228 src/core.cpp:2239
+#: src/core.cpp:2226 src/core.cpp:2237
 #, kde-format
 msgid "Open Browser"
 msgstr "Browser openen"
 
-#: src/core.cpp:2238
+#: src/core.cpp:2236
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21474,11 +21474,11 @@ msgstr "Markeringsgegevens exporteren"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
-#: src/project/dialogs/archivewidget.cpp:701
-#: src/project/dialogs/archivewidget.cpp:705
-#: src/project/dialogs/archivewidget.cpp:889
-#: src/project/dialogs/archivewidget.cpp:901
-#: src/project/dialogs/archivewidget.cpp:907
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:706
+#: src/project/dialogs/archivewidget.cpp:890
+#: src/project/dialogs/archivewidget.cpp:902
+#: src/project/dialogs/archivewidget.cpp:908
 #: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
@@ -22151,7 +22151,7 @@ msgid "Transcode"
 msgstr "Codering overzetten"
 
 #: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1975
-#: src/project/dialogs/archivewidget.cpp:895
+#: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
@@ -24313,8 +24313,8 @@ msgstr "MLT %1 wordt gebruikt"
 
 #: src/dialogs/wizard.cpp:82 src/onlineresources/resourcewidget.cpp:49
 #: src/project/cliptranscode.cpp:192 src/project/cliptranscode.cpp:226
-#: src/project/dialogs/archivewidget.cpp:791
-#: src/project/dialogs/archivewidget.cpp:1216
+#: src/project/dialogs/archivewidget.cpp:792
+#: src/project/dialogs/archivewidget.cpp:1217
 #, kde-format
 msgid "Abort"
 msgstr "Afbreken"
@@ -24974,7 +24974,7 @@ msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
-#: src/project/dialogs/archivewidget.cpp:247
+#: src/project/dialogs/archivewidget.cpp:248
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
@@ -26020,7 +26020,7 @@ msgid "Clip in Timeline"
 msgstr "Clip in de tijdlijn"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1011
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1012
 #, kde-format
 msgid "Sequence"
 msgstr "Sequentie"
@@ -26143,31 +26143,31 @@ msgstr "Tijdlijnwerkbalk"
 msgid "Extra Toolbar"
 msgstr "Extra werkbalk"
 
-#: src/layouts/layoutcollection.cpp:26
+#: src/layouts/layoutcollection.cpp:27
 #, kde-format
 msgctxt "Short layout name for logging interface"
 msgid "Logging"
 msgstr "Loggen"
 
-#: src/layouts/layoutcollection.cpp:26
+#: src/layouts/layoutcollection.cpp:27
 #, kde-format
 msgctxt "Short layout name for editing interface"
 msgid "Editing"
 msgstr "Bewerken"
 
-#: src/layouts/layoutcollection.cpp:27
+#: src/layouts/layoutcollection.cpp:28
 #, kde-format
 msgctxt "Short layout name for audio interface"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/layouts/layoutcollection.cpp:27
+#: src/layouts/layoutcollection.cpp:28
 #, kde-format
 msgctxt "Short layout name for effects interface"
 msgid "Effects"
 msgstr "Effecten"
 
-#: src/layouts/layoutcollection.cpp:28
+#: src/layouts/layoutcollection.cpp:29
 #, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
@@ -29671,17 +29671,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Audiospectrum inschakelen"
 
-#: src/monitor/videowidget.cpp:1140
+#: src/monitor/videowidget.cpp:1144
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Een af te spelen zone selecteren"
 
-#: src/monitor/videowidget.cpp:1149
+#: src/monitor/videowidget.cpp:1153
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Een af te spelen clip selecteren"
 
-#: src/monitor/videowidget.cpp:1254
+#: src/monitor/videowidget.cpp:1258
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -29706,27 +29706,27 @@ msgstr ""
 "<shortcut>Wiel</shortcut> of <shortcut>pijltjestoetsen</shortcut> om te "
 "zoeken, <shortcut>Ctrl wiel</shortcut> om te zoomen"
 
-#: src/monitor/view/ClipMonitor.qml:362 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/ClipMonitor.qml:401 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Beginpunt"
 
-#: src/monitor/view/ClipMonitor.qml:401
+#: src/monitor/view/ClipMonitor.qml:402
 #, kde-format
 msgid "In/Out Point"
 msgstr "In/uitpunt"
 
-#: src/monitor/view/ClipMonitor.qml:424 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Eindpunt"
 
-#: src/monitor/view/ClipMonitor.qml:622
+#: src/monitor/view/ClipMonitor.qml:643
 #, kde-format
 msgid "Terminate Job"
 msgstr "Taak beëindigen"
@@ -30478,70 +30478,70 @@ msgstr "Andere clips"
 msgid "Luma Files"
 msgstr "Luma-bestanden"
 
-#: src/project/dialogs/archivewidget.cpp:219
+#: src/project/dialogs/archivewidget.cpp:220
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Er ontbreekt %1 clip in het project."
 msgstr[1] "Er ontbreken %1 clips in het project."
 
-#: src/project/dialogs/archivewidget.cpp:243
-#: src/project/dialogs/archivewidget.cpp:1354
-#: src/project/dialogs/archivewidget.cpp:1419
+#: src/project/dialogs/archivewidget.cpp:244
+#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1420
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 item)"
 msgstr[1] "(%1 items)"
 
-#: src/project/dialogs/archivewidget.cpp:249
-#: src/project/dialogs/archivewidget.cpp:1357
-#: src/project/dialogs/archivewidget.cpp:1422
+#: src/project/dialogs/archivewidget.cpp:250
+#: src/project/dialogs/archivewidget.cpp:1358
+#: src/project/dialogs/archivewidget.cpp:1423
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 bestand naar archief, %2 is nodig"
 msgstr[1] "%1 bestanden naar archief, %2 zijn nodig"
 
-#: src/project/dialogs/archivewidget.cpp:250
-#: src/project/dialogs/archivewidget.cpp:337
+#: src/project/dialogs/archivewidget.cpp:251
+#: src/project/dialogs/archivewidget.cpp:338
 #, kde-format
 msgid "Archive"
 msgstr "Archief"
 
-#: src/project/dialogs/archivewidget.cpp:261
-#: src/project/dialogs/archivewidget.cpp:810
+#: src/project/dialogs/archivewidget.cpp:262
+#: src/project/dialogs/archivewidget.cpp:811
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Er is een fout opgetreden bij het bewerken van het project-bestand."
 
-#: src/project/dialogs/archivewidget.cpp:268
+#: src/project/dialogs/archivewidget.cpp:269
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Sla uw project op alvorens het te archiveren"
 
-#: src/project/dialogs/archivewidget.cpp:304
+#: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgid "Extract to"
 msgstr "Uitpakken naar"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:306
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Gearchiveerd project openen"
 
-#: src/project/dialogs/archivewidget.cpp:307
+#: src/project/dialogs/archivewidget.cpp:308
 #, kde-format
 msgid "Extract"
 msgstr "Uitpakken"
 
-#: src/project/dialogs/archivewidget.cpp:342
+#: src/project/dialogs/archivewidget.cpp:343
 #, kde-format
 msgid "Opening archive…"
 msgstr "Archief wordt geopend…"
 
-#: src/project/dialogs/archivewidget.cpp:352
+#: src/project/dialogs/archivewidget.cpp:353
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -30550,7 +30550,7 @@ msgstr ""
 "Kan het archief-bestand:\n"
 " %1 niet openen"
 
-#: src/project/dialogs/archivewidget.cpp:369
+#: src/project/dialogs/archivewidget.cpp:370
 #, kde-format
 msgid ""
 "File %1\n"
@@ -30559,88 +30559,88 @@ msgstr ""
 "Bestand %1\n"
 " is geen gearchiveerd Kdenlive-project"
 
-#: src/project/dialogs/archivewidget.cpp:375
+#: src/project/dialogs/archivewidget.cpp:376
 #, kde-format
 msgid "Ready"
 msgstr "Klaar"
 
-#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Bezig met archivering, wilt u stoppen?"
 
-#: src/project/dialogs/archivewidget.cpp:399
 #: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:401
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Archivering stoppen"
 
-#: src/project/dialogs/archivewidget.cpp:589
+#: src/project/dialogs/archivewidget.cpp:590
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Vrije ruimte op schijf: %1"
 
-#: src/project/dialogs/archivewidget.cpp:592
+#: src/project/dialogs/archivewidget.cpp:593
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Niet genoeg vrije ruimte op de harde schijf, vrije ruimte: %1"
 
-#: src/project/dialogs/archivewidget.cpp:607
+#: src/project/dialogs/archivewidget.cpp:608
 #, kde-format
 msgid "Starting archive job"
 msgstr "Archiveringstaak wordt gestart"
 
-#: src/project/dialogs/archivewidget.cpp:628
+#: src/project/dialogs/archivewidget.cpp:629
 #, kde-format
 msgid "Archiving…"
 msgstr "Archiveren…"
 
-#: src/project/dialogs/archivewidget.cpp:658
-#: src/project/dialogs/archivewidget.cpp:696
-#: src/project/dialogs/archivewidget.cpp:783
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/dialogs/archivewidget.cpp:659
+#: src/project/dialogs/archivewidget.cpp:697
+#: src/project/dialogs/archivewidget.cpp:784
+#: src/project/dialogs/archivewidget.cpp:1214
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Aanmaken van map %1 is mislukt"
 
-#: src/project/dialogs/archivewidget.cpp:684
-#: src/project/dialogs/archivewidget.cpp:763
+#: src/project/dialogs/archivewidget.cpp:685
+#: src/project/dialogs/archivewidget.cpp:764
 #, kde-format
 msgid "Copying %1"
 msgstr "%1 wordt gekopieerd"
 
-#: src/project/dialogs/archivewidget.cpp:689
-#: src/project/dialogs/archivewidget.cpp:860
+#: src/project/dialogs/archivewidget.cpp:690
+#: src/project/dialogs/archivewidget.cpp:861
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Kan geen tijdelijk bestand maken"
 
-#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:809
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Project is met succes gearchiveerd."
 
-#: src/project/dialogs/archivewidget.cpp:818
+#: src/project/dialogs/archivewidget.cpp:819
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Er is een fout opgetreden bij het kopieren van de bestanden: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1130
+#: src/project/dialogs/archivewidget.cpp:1131
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Kan archief-bestand %1 niet openen"
 
-#: src/project/dialogs/archivewidget.cpp:1147
+#: src/project/dialogs/archivewidget.cpp:1148
 #, kde-format
 msgid "Archiving %1"
 msgstr "%1 wordt gearchiveerd"
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1154
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Kan bestand %1 niet kopiëren naar %2."
 
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1184
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -30649,27 +30649,27 @@ msgstr ""
 "Project is met succes gearchiveerd.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1186
+#: src/project/dialogs/archivewidget.cpp:1187
 #, kde-format
 msgid "Unknown Error"
 msgstr "Onbekende fout"
 
-#: src/project/dialogs/archivewidget.cpp:1186
+#: src/project/dialogs/archivewidget.cpp:1187
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Er is een fout opgetreden bij het archiveren van het project: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1215
+#: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Extracting…"
 msgstr "Extraheren…"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Kan het project-bestand %1 niet openen"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open file"
 msgstr "Kan het bestand niet openen"
@@ -33809,7 +33809,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Paused"
 msgstr "Gepauzeerd"
@@ -33971,28 +33971,28 @@ msgstr "Tonen"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/timeline2/view/qml/Timeline.qml:1005
+#: src/timeline2/view/qml/Timeline.qml:1006
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Sequentie-effecten tonen"
 
-#: src/timeline2/view/qml/Timeline.qml:1664
+#: src/timeline2/view/qml/Timeline.qml:1665
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 
-#: src/timeline2/view/qml/Timeline.qml:1827
+#: src/timeline2/view/qml/Timeline.qml:1828
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Verschuiving: %1, positie: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1987
-#: src/timeline2/view/qml/Timeline.qml:1996
+#: src/timeline2/view/qml/Timeline.qml:1988
+#: src/timeline2/view/qml/Timeline.qml:1997
 #, kde-format
 msgid "Recording"
 msgstr "Opname"
 
-#: src/timeline2/view/qml/Timeline.qml:2090
+#: src/timeline2/view/qml/Timeline.qml:2091
 #, kde-format
 msgid "Multicam In"
 msgstr "Multi-camera in"
