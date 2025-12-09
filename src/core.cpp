@@ -408,6 +408,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             connect(m_splash, &Splash::releaseLock, this, [&]() {
                 qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
                 m_loop.exit();
+                disconnect(m_splash, &Splash::releaseLock, this, nullptr);
             });
             m_loop.exec();
             if (m_abortInitAndRestart) {
@@ -594,13 +595,13 @@ void Core::restoreLayout()
     }
     if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
         // No existing layout, probably first run
-        Q_EMIT loadLayoutById(QStringLiteral("editing"));
+        Q_EMIT loadLayoutById(QStringLiteral("editing"), true);
     } else {
-        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toUtf8());
+        Q_EMIT loadLayoutFromData(KdenliveSettings::kdockLayout().toUtf8(), true);
     }
+    m_mainWindow->show();
     if (!KdenliveSettings::showtitlebars()) {
-        Q_EMIT hideBars(!KdenliveSettings::showtitlebars());
+        Q_EMIT pCore->hideBars(true);
     }
 }
 

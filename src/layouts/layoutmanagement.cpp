@@ -211,9 +211,9 @@ bool LayoutManagement::slotLoadLayoutById(const QString &layoutId)
     return slotLoadLayout(layout);
 }
 
-bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
+bool LayoutManagement::slotLoadLayout(LayoutInfo layout, bool onlyIfNoPrevious)
 {
-    if (!layout.isValid()) {
+    if (!layout.isValid() || (onlyIfNoPrevious && m_firstLayoutLoaded)) {
         // Layout not found or has no data
         return false;
     }
@@ -235,6 +235,7 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
         pCore->displayBinMessage(i18n("The layout %1 could not be restored, should be removed and recreated.", layout.displayName), KMessageWidget::Warning);
         return false;
     }
+    m_firstLayoutLoaded = true;
     m_layoutSwitcher->setCurrentLayout(layout.internalId);
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
@@ -254,9 +255,9 @@ void LayoutManagement::adjustLayoutToDar()
     }
 }
 
-bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData)
+bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData, bool onlyIfNoPrevious)
 {
-    if (layoutData.isEmpty()) {
+    if (layoutData.isEmpty() || (onlyIfNoPrevious && m_firstLayoutLoaded)) {
         // Layout not found or has no data
         return false;
     }
@@ -270,9 +271,10 @@ bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData)
     // Loaded a layout from Kdenlive settings or document
     m_currentLayoutId.clear();
     m_layoutSwitcher->setCurrentLayout(QString());
-    if (!KdenliveSettings::showtitlebars()) {
+    if (!KdenliveSettings::showtitlebars() && m_firstLayoutLoaded) {
         Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
     }
+    m_firstLayoutLoaded = true;
     return true;
 }
 
