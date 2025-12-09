@@ -90,7 +90,7 @@ Window {
                 source: "qrc:/pics/splash-background.webp"
                 verticalAlignment: Image.AlignTop
                 fillMode: Image.PreserveAspectCrop
-                // Make By KDE
+                // Made By KDE
                 Image {
                     id: kdelogo
                     asynchronous: true
@@ -106,7 +106,7 @@ Window {
                     id: kdelabel
                     anchors.verticalCenter: kdelogo.verticalCenter
                     anchors.left: kdelogo.right
-                    text: i18n("Make by KDE")
+                    text: i18n("Made by KDE")
                     color: "#ffffff"
                 }
             }
