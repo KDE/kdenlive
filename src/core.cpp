@@ -408,6 +408,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             connect(m_splash, &Splash::releaseLock, this, [&]() {
                 qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
                 m_loop.exit();
+                disconnect(m_splash, &Splash::releaseLock, this, nullptr);
             });
             m_loop.exec();
             if (m_abortInitAndRestart) {

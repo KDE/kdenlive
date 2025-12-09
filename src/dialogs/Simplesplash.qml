@@ -16,7 +16,7 @@ Window {
     title: "Splash Screen"
     SystemPalette { id: activePalette }
     modality: Qt.WindowModal
-    flags: Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: crashRecovery ? Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint : Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
     property int timeoutInterval: 5000
     property string version
     property bool crashRecovery: false
