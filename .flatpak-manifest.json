@@ -23,12 +23,12 @@
     "--share=network",
     "--socket=fallback-x11",
     "--socket=pulseaudio",
-    "--socket=wayland",
+    "--socket=wayland"
   ],
   "add-extensions": {
     "org.freedesktop.LinuxAudio.Plugins": {
       "directory": "extensions/Plugins",
-      "version": "24.08",
+      "version": "25.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "subdirectories": true,
@@ -36,7 +36,7 @@
     },
     "org.freedesktop.LinuxAudio.Plugins.swh": {
       "directory": "extensions/Plugins/swh",
-      "version": "24.08",
+      "version": "25.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "autodelete": false,
@@ -44,7 +44,7 @@
     },
     "org.freedesktop.LinuxAudio.Plugins.TAP": {
       "directory": "extensions/Plugins/TAP",
-      "version": "24.08",
+      "version": "25.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "autodelete": false,
