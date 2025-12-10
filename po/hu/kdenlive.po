@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-09 02:33+0000\n"
+"POT-Creation-Date: 2025-12-10 02:46+0000\n"
 "PO-Revision-Date: 2025-11-24 22:03+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -7400,7 +7400,7 @@ msgstr "Időtartam"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1105 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1106 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, fuzzy, kde-format
@@ -9842,7 +9842,7 @@ msgstr "RGB színbeállítás"
 msgid "Simple color adjustment"
 msgstr "Egyszerű színbeállítás"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2525
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2527
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -9851,7 +9851,7 @@ msgstr "Vörös"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2526
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2528
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -9862,7 +9862,7 @@ msgstr "Zöld"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2527
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2529
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -13744,14 +13744,14 @@ msgid "<![CDATA[<b><u>Hue Shift</u></b> Red]]>"
 msgstr ""
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2528
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2530
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Sárga"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2529
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2531
 #, kde-format
 msgid "Cyan"
 msgstr ""
@@ -20024,7 +20024,7 @@ msgstr ""
 "Állítsa be a „Beállítások” ablakban azt az alapértelmezett alkalmazást, "
 "amellyel a hangfájlokat kívánja megnyitni"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:668 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20987,14 +20987,14 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Proxyk törlése"
 
-#: src/core.cpp:472
+#: src/core.cpp:473
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:484
+#: src/core.cpp:485
 #, fuzzy, kde-format
 #| msgid "Default Profile"
 msgctxt "@title:window"
@@ -21002,284 +21002,284 @@ msgid "Select Default Profile"
 msgstr "Alapértelmezett profil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:484 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile:"
 msgstr "Profil"
 
-#: src/core.cpp:497
+#: src/core.cpp:498
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:512 src/project/projectmanager.cpp:869
+#: src/core.cpp:513 src/project/projectmanager.cpp:869
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
 msgstr "Projekt betöltése"
 
-#: src/core.cpp:720
+#: src/core.cpp:721
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Szögletes elmosás"
 
-#: src/core.cpp:721
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:722
+#: src/core.cpp:723
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Vízszintes"
 
-#: src/core.cpp:723
+#: src/core.cpp:724
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Sugár"
 
-#: src/core.cpp:724
+#: src/core.cpp:725
 #, fuzzy, kde-format
 #| msgid "Shear X"
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Nyírás X"
 
-#: src/core.cpp:725
+#: src/core.cpp:726
 #, fuzzy, kde-format
 #| msgid "Bilinear (good)"
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilineáris (jó)"
 
-#: src/core.cpp:726
+#: src/core.cpp:727
 #, fuzzy, kde-format
 #| msgid "Shear Y"
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Nyírás Y"
 
-#: src/core.cpp:727
+#: src/core.cpp:728
 #, fuzzy, kde-format
 #| msgid "Bilinear (good)"
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilineáris (jó)"
 
-#: src/core.cpp:728
+#: src/core.cpp:729
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Szögletes elmosás"
 
-#: src/core.cpp:729
+#: src/core.cpp:730
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Szögletes elmosás"
 
-#: src/core.cpp:730
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:731
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:732
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:733
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:734
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:735
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:736
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:737
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:739
+#: src/core.cpp:740
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Vízszintes"
 
-#: src/core.cpp:740
+#: src/core.cpp:741
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Függőleges"
 
-#: src/core.cpp:741
+#: src/core.cpp:742
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Vízszintes"
 
-#: src/core.cpp:742
+#: src/core.cpp:743
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Függőleges"
 
-#: src/core.cpp:743
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:744
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:745
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:746
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:747
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:748
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:749
+#: src/core.cpp:750
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Vízszintes"
 
-#: src/core.cpp:750
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:751
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:752
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:753
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:754
+#: src/core.cpp:755
 #, fuzzy, kde-format
 #| msgid "Circle radius"
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Kör sugár"
 
-#: src/core.cpp:755
+#: src/core.cpp:756
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Proxyk törlése"
 
-#: src/core.cpp:756
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:757
+#: src/core.cpp:758
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Először az alsó"
 
-#: src/core.cpp:758
+#: src/core.cpp:759
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Először az alsó"
 
-#: src/core.cpp:759
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:760
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:1051
+#: src/core.cpp:1052
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -21288,18 +21288,18 @@ msgstr ""
 "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett mappa "
 "lesz használatba véve: %1"
 
-#: src/core.cpp:1415
+#: src/core.cpp:1416
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipek betöltése"
 
-#: src/core.cpp:1871
+#: src/core.cpp:1872
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "2. jelölő"
 
-#: src/core.cpp:2225
+#: src/core.cpp:2226
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -21307,13 +21307,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2226 src/core.cpp:2237
+#: src/core.cpp:2227 src/core.cpp:2238
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Médialejátszók"
 
-#: src/core.cpp:2236
+#: src/core.cpp:2237
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -25382,7 +25382,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Projektmappa: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2486
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2488
 #: src/project/dialogs/archivewidget.cpp:248
 #, kde-format
 msgid "Untitled"
@@ -25465,7 +25465,7 @@ msgstr[1] "Proxyklipek eltávolítása"
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1901
+#: src/doc/kdenlivedoc.cpp:1903
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -25473,68 +25473,68 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2019
+#: src/doc/kdenlivedoc.cpp:2021
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2037
+#: src/doc/kdenlivedoc.cpp:2039
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2041
 #, fuzzy, kde-format
 #| msgid "Change project profile"
 msgid "Change default project profile"
 msgstr "Projekt profiljának megváltoztatása"
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2041
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2040
+#: src/doc/kdenlivedoc.cpp:2042
 #, fuzzy, kde-format
 #| msgid "Delete current file"
 msgid "Keep current default %1"
 msgstr "Aktuális fájl törlése"
 
-#: src/doc/kdenlivedoc.cpp:2040
+#: src/doc/kdenlivedoc.cpp:2042
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2060
+#: src/doc/kdenlivedoc.cpp:2062
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgid "Switch"
 msgstr "Monitor váltása"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2062 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2064 src/ui/titlewidget_ui.ui:186
 #, fuzzy, kde-format
 #| msgid "Cancel job"
 #| msgid_plural "Cancel jobs"
 msgid "Cancel"
 msgstr "Feladat megszakítása"
 
-#: src/doc/kdenlivedoc.cpp:2064
+#: src/doc/kdenlivedoc.cpp:2066
 #, fuzzy, kde-format
 #| msgid "Failed to open project %1"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "A(z) %1 projekt nem nyitható meg"
 
-#: src/doc/kdenlivedoc.cpp:2069
+#: src/doc/kdenlivedoc.cpp:2071
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2073
+#: src/doc/kdenlivedoc.cpp:2075
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -25542,7 +25542,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2883 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:2885 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -26725,24 +26725,24 @@ msgstr "%1 elrendezés"
 msgid "The layout %1 could not be restored, should be removed and recreated."
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:267
+#: src/layouts/layoutmanagement.cpp:268
 #, kde-format
 msgid "The layout from the project file could not be restored."
 msgstr ""
 
-#: src/layouts/layoutmanagement.cpp:285
+#: src/layouts/layoutmanagement.cpp:287
 #, fuzzy, kde-format
 #| msgid "Save Layout"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Elrendezés mentése"
 
-#: src/layouts/layoutmanagement.cpp:285 src/layouts/layoutmanagerdialog.cpp:223
+#: src/layouts/layoutmanagement.cpp:287 src/layouts/layoutmanagerdialog.cpp:223
 #, kde-format
 msgid "Layout name:"
 msgstr "Elrendezés neve:"
 
-#: src/layouts/layoutmanagement.cpp:303 src/layouts/layoutmanagerdialog.cpp:245
+#: src/layouts/layoutmanagement.cpp:305 src/layouts/layoutmanagerdialog.cpp:245
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -26752,7 +26752,7 @@ msgstr ""
 "A(z) „%1” fájl már létezik.\n"
 "Felül kívánja írni a létező fájlt?"
 
-#: src/layouts/layoutmanagement.cpp:340
+#: src/layouts/layoutmanagement.cpp:342
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not save layout to file: %1"
