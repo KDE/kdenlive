@@ -4,7 +4,7 @@
   "runtime": "org.kde.Platform",
   "runtime-version": "6.10",
   "sdk": "org.kde.Sdk",
-  "sdk-extensions" : [ "org.freedesktop.Sdk.Extension.llvm19" ],
+  "sdk-extensions" : [ "org.freedesktop.Sdk.Extension.llvm21" ],
   "command": "kdenlive",
   "rename-icon": "kdenlive",
   "desktop-file-name-suffix": " (Nightly)",
