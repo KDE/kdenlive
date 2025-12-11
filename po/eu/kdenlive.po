@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-10 00:43+0000\n"
-"PO-Revision-Date: 2025-11-30 15:09+0100\n"
+"PO-Revision-Date: 2025-12-10 22:06+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -34,16 +34,14 @@ msgstr "igebara@disroot.org,xalba@ni.eus"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Edizioa"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
-msgstr "Egunkaria"
+msgstr "Erregistroa"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
@@ -11857,30 +11855,27 @@ msgstr "R,G,B,Y',Pr,Pb,Alfa"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:29
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "Marker 1"
-msgstr "2 Markatzailea"
+msgstr "1 Marka"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:30
 #: data/effects/frei0r/frei0r_pr0file.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "Position of marker 1"
-msgstr "<![CDATA[Y ardatzean zehar desplazamendua]]>"
+msgstr "1 markaren kokapena"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
 #, kde-format
 msgid "Marker 2"
-msgstr "2 Markatzailea"
+msgstr "2 Marka"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:34
 #: data/effects/frei0r/frei0r_pr0file.xml:35
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "Position of marker 2"
-msgstr "<![CDATA[Y ardatzean zehar desplazamendua]]>"
+msgstr "2 markaren kokapena"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -20236,7 +20231,7 @@ msgstr ""
 #: src/bin/bin.cpp:5751 src/mainwindow.cpp:3000
 #, kde-format
 msgid "Cannot find clip to add marker"
-msgstr "Ezin izan da klipa aurkitu markatzailea gehitzeko"
+msgstr "Ezin da klipa aurkitu marka gehitzeko"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
@@ -20249,7 +20244,7 @@ msgstr "Ezin izan da klipa aurkitu markatzailea gehitzeko"
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
-msgstr "Markatzailea"
+msgstr "Marka"
 
 #: src/bin/bin.cpp:5855
 #, kde-format
@@ -20300,7 +20295,7 @@ msgstr "%1 audio korrontea"
 #: src/bin/bin.cpp:6296
 #, kde-format
 msgid "Remove clip markers"
-msgstr "Kendu klip-markatzaileak"
+msgstr "Kendu klip-markak"
 
 #: src/bin/bin.cpp:6460
 #, kde-format
@@ -20543,48 +20538,45 @@ msgstr ""
 "sekuentzia gisa inportatuko ditu."
 
 #: src/bin/model/markerlistmodel.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update guides categories"
+#, kde-format
 msgid "Update timeline markers categories"
-msgstr "Eguneratu gidalerroen kategoriak"
+msgstr "Eguneratu denbora-lerroko marken kategoriak"
 
 #: src/bin/model/markerlistmodel.cpp:265 src/bin/model/markerlistmodel.cpp:283
 #, kde-format
 msgid "Rename marker"
-msgstr "Berrizendatu markatzailea"
+msgstr "Berrizendatu marka"
 
 #: src/bin/model/markerlistmodel.cpp:267 src/bin/model/markerlistmodel.cpp:285
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
 msgid "Add marker"
-msgstr "Gehitu markatzailea"
+msgstr "Gehitu marka"
 
 #: src/bin/model/markerlistmodel.cpp:315
 #, kde-format
 msgid "Delete marker"
-msgstr "Ezabatu markatzailea"
+msgstr "Ezabatu marka"
 
 #: src/bin/model/markerlistmodel.cpp:408
-#, fuzzy, kde-format
-#| msgid "Move Layer"
+#, kde-format
 msgid "Move marker"
-msgstr "Mugitu Geruza"
+msgstr "Mugitu marka"
 
 #: src/bin/model/markerlistmodel.cpp:410
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Resize marker"
-msgstr "Berrizendatu markatzailea"
+msgstr "Aldatu markaren neurria"
 
 #: src/bin/model/markerlistmodel.cpp:412
 #, kde-format
 msgid "Edit marker"
-msgstr "Editatu markatzailea"
+msgstr "Editatu marka"
 
 #: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
 #, kde-format
 msgid "Import markers"
-msgstr "Inportatu markatzaileak"
+msgstr "Inportatu markak"
 
 #: src/bin/model/markerlistmodel.cpp:857
 #, kde-format
@@ -20594,64 +20586,60 @@ msgstr "%1 berreskuratua"
 #: src/bin/model/markerlistmodel.cpp:1006
 #, kde-format
 msgid "Delete all markers"
-msgstr "Ezabatu markatzaile guztiak"
+msgstr "Ezabatu marka guztiak"
 
 #: src/bin/model/markerlistmodel.cpp:1015
 #: src/bin/model/markerlistmodel.cpp:1057
 #: src/bin/model/markerlistmodel.cpp:1087
 #: src/timeline2/view/timelinecontroller.cpp:1570
-#, fuzzy, kde-format
-#| msgid "No guide found at current position"
+#, kde-format
 msgid "No marker found at current position"
-msgstr "Ez da gidalerrorik topatu uneko posizioan"
+msgstr "Uneko kokapenean ez da markarik aurkitu"
 
 #: src/bin/model/markerlistmodel.cpp:1018
 #, kde-format
 msgid "Edit Markers Category"
-msgstr "Editatu markatzaileen kategoria"
+msgstr "Editatu marken kategoria"
 
 #: src/bin/model/markerlistmodel.cpp:1024
 #, kde-format
 msgid "Markers Category"
-msgstr "Markatzaileen kategoria"
+msgstr "Marken kategoria"
 
 #: src/bin/model/markerlistmodel.cpp:1046
 #, kde-format
 msgid "Edit markers"
-msgstr "Editatu markatzaileak"
+msgstr "Editatu markak"
 
 #: src/bin/model/markerlistmodel.cpp:1064
 #, kde-format
 msgid "Edit Marker"
-msgstr "Editatu markatzailea"
+msgstr "Editatu marka"
 
 #: src/bin/model/markerlistmodel.cpp:1094
 #, kde-format
 msgid "Add Markers"
-msgstr "Gehitu markatzaileak"
+msgstr "Gehitu markak"
 
 #: src/bin/model/markerlistmodel.cpp:1114
 #, kde-format
 msgid "Add markers"
-msgstr "Gehitu markatzaileak"
+msgstr "Gehitu markak"
 
 #: src/bin/model/markerlistmodel.cpp:1133
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update range marker"
-msgstr "Eguneratu gako-fotograma"
+msgstr "Eguneratu tarte-marka"
 
 #: src/bin/model/markerlistmodel.cpp:1135
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Convert to range marker"
-msgstr "Alderantzikatu koloreak"
+msgstr "Bihurtu tarte-marka"
 
 #: src/bin/model/markerlistmodel.cpp:1137
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add range marker"
-msgstr "Gehitu markatzailea"
+msgstr "Gehitu tarte-marka"
 
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
@@ -21302,7 +21290,7 @@ msgstr "Klipak kargatzen"
 #: src/core.cpp:1872
 #, kde-format
 msgid "Marker %1"
-msgstr "%1 markatzailea"
+msgstr "%1 marka"
 
 #: src/core.cpp:2226
 #, kde-format
@@ -21692,10 +21680,9 @@ msgstr ""
 "Automatikora bueltatzen."
 
 #: src/dialogs/exportguidesdialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export markers"
-msgstr "Esportatu markatzaileak…"
+msgstr "Esportatu markak"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -21733,12 +21720,10 @@ msgid "JSON File"
 msgstr "JSON fitxategia"
 
 #: src/dialogs/exportguidesdialog.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Guides Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Markers Data"
-msgstr "Esportatu Gidalerroen datuak"
+msgstr "Esportatu marken datuak"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2180
 #: src/dialogs/renderwidget.cpp:2204 src/doc/kdenlivedoc.cpp:767
@@ -21767,10 +21752,9 @@ msgid "Cannot write to file %1"
 msgstr "Ezin da %1 fitxategian idatzi"
 
 #: src/dialogs/exportguidesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Guides saved to %1"
+#, kde-format
 msgid "Markers saved to %1"
-msgstr "Gidalerroak %1(e)ra gorde dira"
+msgstr "Markak %1(e)n gorde dira"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -21778,75 +21762,64 @@ msgid "Category name"
 msgstr "Kategoriaren izena"
 
 #: src/dialogs/exportguidesdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "Marker number"
-msgstr "2 Markatzailea"
+msgstr "Marka zenbakia"
 
 #: src/dialogs/exportguidesdialog.cpp:113
-#, fuzzy, kde-format
-#| msgid "Guide position in HH:MM:SS:FF"
+#, kde-format
 msgid "Marker position in HH:MM:SS:FF"
-msgstr "Gidaren posizioa OO:MM:SS:FF -an"
+msgstr "Marka kokapena HH:MM:SS:FF formatuan"
 
 #: src/dialogs/exportguidesdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Marker position in (HH:)MM.SS"
-msgstr "Gidaren posizioa (OO)MM:SS:FF -an"
+msgstr "Marka kokapena ((HH:)MM.SS formatuan"
 
 #: src/dialogs/exportguidesdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Next guide position in (HH:)MM.SS"
+#, kde-format
 msgid "Next marker position in (HH:)MM.SS"
-msgstr "Hurrengo gidaren posizioa (OO)MM:SS:FF -an"
+msgstr "Hurrengo markaren kokapena (HH:)MM.SS formatuan"
 
 #: src/dialogs/exportguidesdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker position in frames"
-msgstr "Gidaren posizioa fotogrametan"
+msgstr "Markaren kokapena fotogramatan"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Next marker position in frames"
-msgstr "Gidaren hurrengo kokalekua fotogrametan"
+msgstr "Hurrengo markaren kokapena fotogramatan"
 
 #: src/dialogs/exportguidesdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "Show Markers Comments"
+#, kde-format
 msgid "Marker comment"
-msgstr "Erakutsi Markatzaileen iruzkinak"
+msgstr "Markaren iruzkina"
 
 #: src/dialogs/exportguidesdialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Marker duration in frames"
-msgstr "Gidaren posizioa fotogrametan"
+msgstr "Markaren iraupena fotogramatan"
 
 #: src/dialogs/exportguidesdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Insert current timecode"
+#, kde-format
 msgid "Marker duration in timecode"
-msgstr "Sartu uneko denbora-kodea"
+msgstr "Marka iraupena denbora-kode formatuan"
 
 #: src/dialogs/exportguidesdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in timecode"
-msgstr "Gidaren hurrengo kokalekua fotogrametan"
+msgstr "Markaren bukaerako kokapena denbora-kode formatuan"
 
 #: src/dialogs/exportguidesdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Next guide position in frames"
+#, kde-format
 msgid "Marker end position in frames"
-msgstr "Gidaren hurrengo kokalekua fotogrametan"
+msgstr "Markaren bukaerako kokapena fotogramatan"
 
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr ""
+msgstr "Markak tartean duen ala ez (egia/gezurra)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -22647,10 +22620,9 @@ msgid "Timeline"
 msgstr "Denbora-lerroa"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:89
-#, fuzzy, kde-format
-#| msgid "Colors and Guides"
+#, kde-format
 msgid "Colors and Markers"
-msgstr "Koloreak eta gidalerroak"
+msgstr "Koloreak eta markak"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:96
 #, kde-format
@@ -24438,7 +24410,7 @@ msgstr "Ezabatu hautatutako testua"
 #: src/dialogs/textbasededit.cpp:778
 #, kde-format
 msgid "Add marker for current selection"
-msgstr "Gehitu markatzailea uneko hautapenerako"
+msgstr "Gehitu marka uneko hautapenerako"
 
 #: src/dialogs/textbasededit.cpp:782
 #, kde-format
@@ -26442,13 +26414,13 @@ msgstr "Monitorearen Konfigurazioa"
 #: src/ui/projectsettings_ui.ui:540
 #, kde-format
 msgid "Markers"
-msgstr "Markatzaileak"
+msgstr "Markak"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:314
 #, kde-format
 msgid "Add Markers by Category"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu markak kategoriaren arabera"
 
 #. i18n: ectx: ToolBar (timelineToolBar)
 #: src/kdenliveui.rc:341
@@ -27133,10 +27105,9 @@ msgid "Add Clip"
 msgstr "Gehitu Klipa"
 
 #: src/mainwindow.cpp:148
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide by Category Number"
+#, kde-format
 msgid "Add Marker by Category Number"
-msgstr "Gehitu markatzailea/gidalerroa kategoria-zenbakiaren arabera"
+msgstr "Gehitu marka kategoria-zenbakiaren arabera"
 
 #: src/mainwindow.cpp:150
 #, kde-format
@@ -27345,21 +27316,18 @@ msgstr "Errendatzearen aurrebista"
 #: src/mainwindow.cpp:651
 #, kde-format
 msgid "Go to Marker…"
-msgstr "Joan Markatzailera…"
+msgstr "Joan Markara…"
 
 #: src/mainwindow.cpp:665 src/monitor/monitor.cpp:710
-#, fuzzy, kde-format
-#| msgid "Create marker"
-#| msgid_plural "create markers"
+#, kde-format
 msgid "Create Marker from Zone"
-msgstr "Sortu markatzailea"
+msgstr "Sortu eremurako marka"
 
 #: src/mainwindow.cpp:669 src/monitor/monitor.cpp:715
 #: src/monitor/monitor.cpp:740
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone Quickly"
-msgstr "Sortu markagailuak hautatutako denbora-kodeak erabiliz"
+msgstr "Sortu marka eremutik azkar"
 
 #: src/mainwindow.cpp:688
 #, kde-format
@@ -27599,7 +27567,7 @@ msgstr "Ebakitze-Tresna"
 #: src/mainwindow.cpp:1332
 #, kde-format
 msgid "Spacer Tool"
-msgstr "Tresna Bereizgailua"
+msgstr "Hutsune tresna"
 
 #: src/mainwindow.cpp:1335
 #, kde-kuit-format
@@ -27733,7 +27701,7 @@ msgstr "Audio koadro-txikiak:"
 #: src/mainwindow.cpp:1502
 #, kde-format
 msgid "Show Markers Comments"
-msgstr "Erakutsi Markatzaileen iruzkinak"
+msgstr "Erakutsi Marken iruzkinak"
 
 #: src/mainwindow.cpp:1508
 #, kde-format
@@ -27748,7 +27716,7 @@ msgid ""
 "and others)."
 msgstr ""
 "Atxikitze funtzioa txandakatzen du (klipak erreprodukzio-kurtsore, ertz, "
-"markatzaile, gida eta beste batzuetara atxikitzen zaizkio)."
+"marka, gida eta beste batzuetara atxikitzen zaizkio)."
 
 #: src/mainwindow.cpp:1514
 #, fuzzy, kde-format
@@ -27925,7 +27893,7 @@ msgstr "Monitorean gainjarri atzera-jotze FPS"
 #: src/mainwindow.cpp:1701
 #, kde-format
 msgid "Monitor Overlay Markers"
-msgstr "Monitorean gainjarri markatzaileak"
+msgstr "Monitoreko marka gainjarriak"
 
 #: src/mainwindow.cpp:1706
 #, kde-format
@@ -28004,16 +27972,14 @@ msgid "Go to Clip End"
 msgstr "Joan kliparen amaierara"
 
 #: src/mainwindow.cpp:1803
-#, fuzzy, kde-format
-#| msgid "Go to Previous Guide"
+#, kde-format
 msgid "Go to Previous Marker"
-msgstr "Joan aurreko gidalerrora"
+msgstr "Joan aurreko markara"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Next Marker"
-msgstr "Joan Markatzailera…"
+msgstr "Joan hurrengo markara"
 
 #: src/mainwindow.cpp:1807
 #, kde-format
@@ -28191,73 +28157,62 @@ msgstr "Gehitu Trantsizioa Hautapenari"
 #: src/mainwindow.cpp:1861
 #, kde-format
 msgid "Delete All Markers"
-msgstr "Ezabatu markatzaile guztiak"
+msgstr "Ezabatu marka guztiak"
 
 #: src/mainwindow.cpp:1863
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide Quickly"
+#, kde-format
 msgid "Add Marker Quickly"
-msgstr "Gehitu markatzailea/gidalerroa azkar"
+msgstr "Gehitu marka azkar"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 1"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 1 Kategoriako marka"
 
 #: src/mainwindow.cpp:1871
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 2"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 2 Kategoriako marka"
 
 #: src/mainwindow.cpp:1875
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 3"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 3 Kategoriako marka"
 
 #: src/mainwindow.cpp:1879
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 4"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 4 Kategoriako marka"
 
 #: src/mainwindow.cpp:1883
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 5"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 5 Kategoriako marka"
 
 #: src/mainwindow.cpp:1887
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 6"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 6 Kategoriako marka"
 
 #: src/mainwindow.cpp:1891
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 7"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 7 Kategoriako marka"
 
 #: src/mainwindow.cpp:1895
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 8"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 8 Kategoriako marka"
 
 #: src/mainwindow.cpp:1899
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 9"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 9 Kategoriako marka"
 
 #: src/mainwindow.cpp:1903
-#, fuzzy, kde-format
-#| msgid "Add Markers by Category"
+#, kde-format
 msgid "Add Marker Category 10"
-msgstr "Gehitu markatzaileak kategoriaren arabera"
+msgstr "Gehitu 10 Kategoriako marka"
 
 #: src/mainwindow.cpp:1908
 #, kde-format
@@ -28267,17 +28222,17 @@ msgstr "Uneko hautapena"
 #: src/mainwindow.cpp:1910
 #, kde-format
 msgid "Add Marker"
-msgstr "Gehitu markatzailea"
+msgstr "Gehitu marka"
 
 #: src/mainwindow.cpp:1914
 #, kde-format
 msgid "Delete Marker"
-msgstr "Ezabatu markatzailea"
+msgstr "Ezabatu marka"
 
 #: src/mainwindow.cpp:1918
 #, kde-format
 msgid "Edit Marker…"
-msgstr "Editatu Markatzailea…"
+msgstr "Editatu Marka…"
 
 #: src/mainwindow.cpp:1923 src/timeline2/model/timelinefunctions.cpp:1233
 #, kde-format
@@ -28489,61 +28444,50 @@ msgid "Disable Timeline Preview"
 msgstr "Desgaitu denbora-lerroko aurrebista"
 
 #: src/mainwindow.cpp:2123
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Ezabatu markatzailea"
+msgstr "Gehitu/Kendu denbora-lerroko marka"
 
 #: src/mainwindow.cpp:2125
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Delete Timeline Marker"
-msgstr "Bilatu markatzaileak"
+msgstr "Ezabatu denbora-lerroko marka"
 
 #: src/mainwindow.cpp:2127
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Edit Timeline Marker…"
-msgstr "Joan Markatzailera…"
+msgstr "Editatu denbora-lerroko marka…"
 
 #: src/mainwindow.cpp:2130
-#, fuzzy, kde-format
-#| msgid "Export markers…"
+#, kde-format
 msgid "Export Markers…"
-msgstr "Esportatu markatzaileak…"
+msgstr "Esportatu marka…"
 
 #: src/mainwindow.cpp:2131
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Marker…"
-msgstr "Bilatu markatzaileak"
+msgstr "Bilatu marka…"
 
 #: src/mainwindow.cpp:2134
-#, fuzzy, kde-format
-#| msgid "Timeline"
+#, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Denbora-lerroa"
+msgstr "Denbora-lerroko markak giltzatuta"
 
 #: src/mainwindow.cpp:2137
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Clip Markers"
+#, kde-format
 msgid "Lock Timeline Markers"
-msgstr "Kargatu Kliparen Markatzaileak"
+msgstr "Giltzatu denbora-lerroko markak"
 
 #: src/mainwindow.cpp:2139
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Lock guides. When locked, the guides won't move when using the spacer "
-#| "tool or inserting/removing blank in tracks."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Lock Timeline Markers. When locked, the markers won't move when using the "
 "spacer tool or inserting/removing blank in tracks."
 msgstr ""
-"Giltzatu gidak. Giltzatuta daudenean, gidalerroak ez dira mugituko "
-"bereizgailu-tresna erabiltzean edo pistetan zuria txertatzean/kentzean."
+"Giltzatu denbora-lerroko markak. Giltzatuta daudenean, markak ez dira "
+"mugituko hutsune-tresna erabiltzean edo pistetan hutsuneak txertatzean/"
+"kentzean."
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -28778,17 +28722,17 @@ msgstr "Berrezarri konfigurazioa"
 #: src/mainwindow.cpp:3018 src/mainwindow.cpp:3045
 #, kde-format
 msgid "Cannot find clip to remove marker"
-msgstr "Ezin izan da klipa aurkitu markatzailea ezabatzeko"
+msgstr "Ezin da aurkitu marka kentzeko klipa"
 
 #: src/mainwindow.cpp:3028 src/mainwindow.cpp:3074
 #, kde-format
 msgid "No marker found at cursor time"
-msgstr "Ez da markatzailerik topatu kurtsorearen denboran"
+msgstr "Ez da markarik aurkitu kurtsorearen unean"
 
 #: src/mainwindow.cpp:3050
 #, kde-format
 msgid "An error occurred while deleting markers"
-msgstr "Errorea gertatu da markatzaileak ezabatzean"
+msgstr "Errore bat gertatu da markak ezabatzean"
 
 #: src/mainwindow.cpp:3067 src/timeline2/view/timelinecontroller.cpp:1316
 #: src/timeline2/view/timelinecontroller.cpp:1324
@@ -28798,12 +28742,12 @@ msgstr "Errorea gertatu da markatzaileak ezabatzean"
 #: src/timeline2/view/timelinecontroller.cpp:1430
 #, kde-format
 msgid "Cannot find clip to edit marker"
-msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
+msgstr "Ezin da aurkitu marka editatzeko klipa"
 
 #: src/mainwindow.cpp:3119
 #, kde-format
 msgid "Marker category does not exist"
-msgstr "Markatzaile-kategoria ez da existitzen"
+msgstr "Marka-kategoria ez da existitzen"
 
 #: src/mainwindow.cpp:3307 src/timeline2/model/timelinefunctions.cpp:798
 #: src/timeline2/view/timelinecontroller.cpp:3218
@@ -29618,16 +29562,14 @@ msgstr ""
 "monitorearen neurria)."
 
 #: src/monitor/monitor.cpp:438
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Clip Marker…"
-msgstr "Joan Markatzailera…"
+msgstr "Joan klip-markara…"
 
 #: src/monitor/monitor.cpp:438
-#, fuzzy, kde-format
-#| msgid "Go to Marker…"
+#, kde-format
 msgid "Go to Timeline Marker…"
-msgstr "Joan Markatzailera…"
+msgstr "Joan denbora-lerroko markara…"
 
 #: src/monitor/monitor.cpp:442
 #, kde-format
@@ -29706,10 +29648,9 @@ msgid "Set current image as thumbnail"
 msgstr "Ezarri uneko irudia koadro txiki moduan"
 
 #: src/monitor/monitor.cpp:735
-#, fuzzy, kde-format
-#| msgid "Create markers from selected timecodes"
+#, kde-format
 msgid "Create Marker from Zone..."
-msgstr "Sortu markagailuak hautatutako denbora-kodeak erabiliz"
+msgstr "Sortu marka eremutik..."
 
 #: src/monitor/monitor.cpp:747
 #, kde-format
@@ -29830,20 +29771,19 @@ msgstr ""
 #: src/monitor/monitor.cpp:3334
 #, kde-format
 msgid "Create Range Marker from Zone"
-msgstr ""
+msgstr "Sortu tarte-marka eremutik"
 
 #: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
-msgstr ""
+msgstr "Eremutik tarte-marka sortu da"
 
 #: src/monitor/monitor.cpp:3342 src/monitor/monitor.cpp:3363
 #: src/timeline2/view/timelinecontroller.cpp:5772
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to create range marker from zone"
-msgstr "Fitxategia sortzeak huts egin du."
+msgstr "Eremutik tarte-marka sortzea huts egin du"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -29989,10 +29929,9 @@ msgstr "Joan eskualdearen amaierara"
 
 #: src/monitor/monitorproxy.cpp:740
 #: src/timeline2/view/timelinecontroller.cpp:5761
-#, fuzzy, kde-format
-#| msgid "Rename marker"
+#, kde-format
 msgid "Zone marker"
-msgstr "Berrizendatu markatzailea"
+msgstr "Eremu marka"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -30318,10 +30257,10 @@ msgid ""
 "seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go "
 "to first / last frame"
 msgstr ""
-"<shortcut>Gurpiltxoa</shortcut> edo <shortcut>geziak</shortcut> fotograma 1 "
-"mugitzeko, <shortcut>Maius</shortcut> segundo 1 mugitzeko,  <shortcut>Alt</"
-"shortcut> markatzailera mugitzeko, <shortcut>Home</shortcut> / "
-"<shortcut>End</shortcut> lehenengo/azkeneko fotogramara joateko"
+"<shortcut>Gurpila</shortcut> edo <shortcut>geziak</shortcut> fotograma 1 "
+"aurrera/atzera joateko; <shortcut>Maius</shortcut> segundo 1 aurrera/atzera "
+"joateko; <shortcut>Alt</shortcut> markara joateko, <shortcut>Hasiera</"
+"shortcut>  / <shortcut>Bukaera</shortcut> lehen/azken fotogramara joateko"
 
 #: src/monitor/view/MonitorRuler.qml:309
 #, kde-kuit-format
@@ -30368,10 +30307,9 @@ msgid "Enable Transform"
 msgstr "Gaitu eraldatu"
 
 #: src/monitor/view/SceneToolBar.qml:97
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Add/Remove Marker"
-msgstr "Ezabatu markatzailea"
+msgstr "Gehitu/Ezabatu marka"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -31081,10 +31019,9 @@ msgid "Showing backup files for %1"
 msgstr "Babes-kopia fitxategiak erakusten %1entzako"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Edit Marker Category"
-msgstr "Editatu markatzaileen kategoria"
+msgstr "Editatu marka kategoria"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -31097,20 +31034,19 @@ msgid "Category %1"
 msgstr "%1 Kategoria"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Edit Markers Category"
+#, kde-format
 msgid "Delete Marker Category"
-msgstr "Editatu markatzaileen kategoria"
+msgstr "Ezabatu marka kategoria"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr "Ezabatu %1 markatzaileak kategoria hau erabiliz"
+msgstr "Ezabatu kategoria hau erabiltzen duten %1 markak"
 
 #: src/project/dialogs/guidecategories.cpp:158
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr "Markatzaileak honi berresleitu:"
+msgstr "Berresleitu markak hona:"
 
 #: src/project/dialogs/guideslist.cpp:184
 #, kde-format
@@ -31118,10 +31054,9 @@ msgid "Show Thumbnails"
 msgstr "Erakutsi koadro-txikiak"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Select Zone For Range Markers"
-msgstr "Eguneratu gako-fotograma"
+msgstr "Hautatu tarte-marketarako eremua"
 
 #: src/project/dialogs/guideslist.cpp:198
 #, kde-format
@@ -31141,7 +31076,7 @@ msgstr "Konfiguratu kategoriak"
 #: src/project/dialogs/guideslist.cpp:209
 #, kde-format
 msgid "Show markers for all clips in the project"
-msgstr "Erakutsi proiektuko klip guztien markatzaileak"
+msgstr "Erakutsi proiektuko klip guztien markak"
 
 #: src/project/dialogs/guideslist.cpp:218
 #, kde-format
@@ -31164,134 +31099,110 @@ msgid "Refresh All Thumbnails"
 msgstr "Berritu Koadro-txiki guztiak"
 
 #: src/project/dialogs/guideslist.cpp:259
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add new marker."
-msgstr "Gehitu markatzailea"
+msgstr "Gehitu marka berria."
 
 #: src/project/dialogs/guideslist.cpp:260
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Add new guide. This will add a guide at the current frame position."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new marker. This will add a marker at the current frame position."
 msgstr ""
-"Gehitu gidalerro berria. Horrek gidalerro bat gehituko du uneko gako-"
-"fotogramaren posizioan."
+"Gehitu marka berria. Horrek marka bat gehituko du uneko fotogramaren "
+"kokapenean."
 
 #: src/project/dialogs/guideslist.cpp:261
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete marker."
-msgstr "Ezabatu markatzailea"
+msgstr "Ezabatu marka."
 
 #: src/project/dialogs/guideslist.cpp:262
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete marker. This will erase all selected markers."
-msgstr "Ezabatu gidalerroa. Horrek hautatutako gidalerro guztiak kenduko ditu."
+msgstr "Ezabatu marka. Honek hautatutako marka guztiak kenduko ditu."
 
 #: src/project/dialogs/guideslist.cpp:263
-#, fuzzy, kde-format
-#| msgid "Edit selected guide."
+#, kde-format
 msgid "Edit selected marker."
-msgstr "Editatu hautatutako gidalerroa."
+msgstr "Editatu hautatutako marka."
 
 #: src/project/dialogs/guideslist.cpp:264
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Edit selected guide. Selecting multiple guides allows changing their "
-#| "category."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Edit selected marker. Selecting multiple markers allows changing their "
 "category."
 msgstr ""
-"Editatu hautatutako gidalerroa. Hainbat gidalerro hautatuz gero, haien "
-"kategoria alda daiteke."
+"Editatu hautatutako marka. Hainbat marka hautatuz gero, haien kategoria alda "
+"daiteke."
 
 #: src/project/dialogs/guideslist.cpp:265
-#, fuzzy, kde-format
-#| msgid "Filter guide categories."
+#, kde-format
 msgid "Filter marker categories."
-msgstr "Gidalerro-kategoriak iragazten ditu."
+msgstr "Iragazi marka-kategoriak."
 
 #: src/project/dialogs/guideslist.cpp:267
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter guide categories. This allows you to show or hide selected guide "
-#| "categories in this dialog and in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter marker categories. This allows you to show or hide selected marker "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Gidalerro-kategoriak iragazten ditu. Horri esker, hautatutako gida-"
-"kategoriak erakutsi edo ezkutatu ditzakezu elkarrizketa-koadro honetan eta "
-"denbora-lerroan."
+"Iragazi marka-kategoriak. Horri esker, hautatutako marka-kategoriak, "
+"elkarrizketa-koadro honetan eta denbora-lerroan erakutsi edo ezkutatu "
+"ditzakezu."
 
 #: src/project/dialogs/guideslist.cpp:268
-#, fuzzy, kde-format
-#| msgid "Default guide category."
+#, kde-format
 msgid "Default marker category."
-msgstr "Gidalerro-kategoria lehenetsia."
+msgstr "Marka-kategoria lehenetsia."
 
 #: src/project/dialogs/guideslist.cpp:269
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Default guide category. The category used for newly created guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
-"Gidalerro-kategoria lehenetsia. Berriki sortutako gidalerroetarako "
-"erabilitako kategoria."
+"Marka-kategoria lehenetsia. Marka sortu berrietarako erabiltzen den "
+"kategoria."
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search All Markers"
-msgstr "Bilatu markatzaileak"
+msgstr "Bilatu marka guztiak"
 
 #: src/project/dialogs/guideslist.cpp:309
 #, kde-format
 msgid "All Project Markers"
-msgstr "Proiektuaren markatzaile guztiak"
+msgstr "Proiektuaren marka guztiak"
 
 #: src/project/dialogs/guideslist.cpp:385
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
-msgstr "Kargatu Kliparen Markatzaileak"
+msgstr "Zamatu Klip-markak"
 
 #: src/project/dialogs/guideslist.cpp:401
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
-"Markatzailearen fitxategia 1MB baina handiagoa da, ziur zaude inportatu nahi "
-"duzula?"
+"Marka-fitxategia 1MB baina handiagoa da, ziur zaude inportatu nahi duzula?"
 
 #: src/project/dialogs/guideslist.cpp:503
 #: src/project/dialogs/guideslist.cpp:514
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Remove markers"
-msgstr "Ezabatu markatzailea"
+msgstr "Kendu markak"
 
 #: src/project/dialogs/guideslist.cpp:610
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Clip Markers"
-msgstr "Bilatu markatzaileak"
+msgstr "Bilatu klip-markak"
 
 #: src/project/dialogs/guideslist.cpp:650
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search Timeline Markers"
-msgstr "Bilatu markatzaileak"
+msgstr "Bilatu denbora-lerro markak"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -31302,8 +31213,8 @@ msgstr "Sartu uneko denbora-kodea"
 #, kde-format
 msgid "Create marker"
 msgid_plural "create markers"
-msgstr[0] "Sortu markatzailea"
-msgstr[1] "Sortu markatzaileak"
+msgstr[0] "Sortu marka"
+msgstr[1] "Sortu markak"
 
 #: src/project/dialogs/noteswidget.cpp:51
 #, kde-format
@@ -31329,7 +31240,7 @@ msgstr "Denbora-lerroan ez da klipik hautatu"
 #: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
-msgstr "Hautatu denbora-kode batzuk markagailuak sortzeko"
+msgstr "Hautatu denbora-kode batzuk markak sortzeko"
 
 #: src/project/dialogs/profilewidget.cpp:39
 #, kde-format
@@ -31868,7 +31779,7 @@ msgstr "Berresleitu hautatutako denbora-kodeak denbora-lerroko uneko klipari"
 #: src/project/notesplugin.cpp:166
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr "Sortu markagailuak hautatutako denbora-kodeak erabiliz"
+msgstr "Sortu markak hautatutako denbora-kodeetatik"
 
 #: src/project/notesplugin.cpp:168
 #, kde-kuit-format
@@ -31877,8 +31788,8 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
-"Hautatutako denbora-kodeetatik markatzaileak sortzen ditu denbora-lerroan "
-"(berdin dio beste testu bat ere hautatuta dagoen)."
+"Denbora-lerroan hautatutako denbora-kodeetatik markak sortzen ditu (berdin "
+"dio beste testu bat ere hautatuta dagoen)."
 
 #: src/project/notesplugin.cpp:213
 #, kde-format
@@ -34542,16 +34453,14 @@ msgid "Select at least 2 items to group"
 msgstr "Hautatu gutxienez bi klip taldekatzea egiteko"
 
 #: src/timeline2/view/timelinecontroller.cpp:1440
-#, fuzzy, kde-format
-#| msgid "No marker found at cursor time"
+#, kde-format
 msgid "No range marker found at position"
-msgstr "Ez da markatzailerik topatu kurtsorearen denboran"
+msgstr "Kokapenean ez da tarte-markarik aurkitu"
 
 #: src/timeline2/view/timelinecontroller.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Markers for %1"
+#, kde-format
 msgid "No marker at frame %1"
-msgstr "%1(e)rako markatzaileak"
+msgstr "Markarik ez %1 fotograman"
 
 #: src/timeline2/view/timelinecontroller.cpp:1857
 #, kde-format
@@ -37336,7 +37245,7 @@ msgstr ""
 #: src/ui/configtimeline_ui.ui:136
 #, kde-format
 msgid "Display clip markers comments"
-msgstr "Bistaratu klip markatzaileen iruzkinak"
+msgstr "Azaldu klip marken iruzkinak"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:143
@@ -38005,7 +37914,7 @@ msgstr "Lerrokatzea"
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Formateatutako kapitulu markagailuaren testua sortuko da hemen."
+msgstr "Hemen kapitulu-markaren testu formatuduna sortuko da."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
@@ -38042,7 +37951,7 @@ msgstr "Gehitu"
 #: src/ui/exportguidesdialog_ui.ui:159
 #, kde-format
 msgid "Marker Type:"
-msgstr "Markatzaile mota:"
+msgstr "Marka mota:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:189
@@ -38088,16 +37997,15 @@ msgstr "Editatu kategoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Markers Categories"
-msgstr "Markatzaileen kategoria"
+msgstr "Marken kategoriak"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:21
 #, kde-format
 msgid "Search Markers"
-msgstr "Bilatu markatzaileak"
+msgstr "Bilatu markak"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:40
@@ -38529,7 +38437,7 @@ msgstr "Gakoa"
 #: src/ui/markerdialog_ui.ui:40
 #, kde-format
 msgid "Add multiple markers"
-msgstr "Gehitu markatzaile anizkoitzak"
+msgstr "Gehitu hainbat marka"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:51 src/ui/multiplemarkerdialog_ui.ui:54
@@ -38541,21 +38449,19 @@ msgstr "Kopurua"
 #: src/ui/markerdialog_ui.ui:102
 #, kde-format
 msgid "Image preview"
-msgstr "Irudia aurreikusi"
+msgstr "Irudiaren aurreikuspegia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "End Time"
-msgstr "Errendatze-denbora"
+msgstr "Bukaerako ordua"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_marker_checkbox)
 #: src/ui/markerdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Remove Marker"
+#, kde-format
 msgid "Range Marker"
-msgstr "Ezabatu markatzailea"
+msgstr "Tarte-marka"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -39079,24 +38985,21 @@ msgstr "Hautatutako es&kualdea"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:390
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "&Marker zone"
-msgstr "2 Markatzailea"
+msgstr "&Marka-eremua"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:412
-#, fuzzy, kde-format
-#| msgid "Guide Multi-Export"
+#, kde-format
 msgid "Markers Multi-Export"
-msgstr "Gida-lerroen Esportazio Anitza"
+msgstr "Maken esportazio anizkoitza"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Guides to use as separator:"
+#, kde-format
 msgid "Markers to use as separator:"
-msgstr "Banatzaile moduan erabiltzeko gida-lerroa:"
+msgstr "Bereizle gisa erabiltzeko markak:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:495
@@ -39377,10 +39280,9 @@ msgstr "Aldatu atalasea"
 
 #. i18n: ectx: property (text), widget (QCheckBox, range_markers)
 #: src/ui/scenecutdialog_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Create range markers"
-msgstr "Eguneratu gako-fotograma"
+msgstr "Sortu tarte-markak"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:18
@@ -39450,10 +39352,9 @@ msgstr "Irudi mota:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First frame:"
-msgstr "Aurreneko fotograma"
+msgstr "Aurreneko fotograma:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
