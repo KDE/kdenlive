@@ -828,13 +828,26 @@ void KeyframeContainer::connectMonitor(bool active)
 void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
     Q_EMIT activateEffect();
+    QVariant result = res;
     if (m_keyframes->isEmpty()) {
+        QStringList updated = res.toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (updated.count() == 4) {
+            // Check if we need to add opacity
+            const QString currentValue = m_model->getKeyframeModel()->getInterpolatedValue(0, index).toString();
+            const QStringList parts = currentValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            if (parts.count() == 5) {
+                // Add missing opacity
+                updated << parts.at(4);
+                result = updated.join(QLatin1Char(' '));
+            }
+        }
+
         GenTime pos(((m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()))) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {
             // First add keyframe at start of the clip
             GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
             m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
-            m_keyframes->updateKeyframe(pos0, res, -1, index);
+            m_keyframes->updateKeyframe(pos0, result, -1, index);
             // For rotoscoping, don't add a second keyframe at cursor pos
             auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
             if (type == ParamType::Roto_spline) {
@@ -847,7 +860,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         }
         // Next add keyframe at playhead position
         m_keyframes->addKeyframe(pos, KeyframeType::Linear);
-        m_keyframes->updateKeyframe(pos, res, -1, index);
+        m_keyframes->updateKeyframe(pos, result, -1, index);
         return;
     }
     int framePos = getPosition();
@@ -862,7 +875,18 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         }
     }
     if (m_keyframes->hasKeyframe(framePos) || m_keyframes->singleKeyframe()) {
-        m_keyframes->updateKeyframe(pos, res, -1, index);
+        QStringList updated = res.toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (updated.count() == 4) {
+            // Check if we need to add opacity
+            const QString currentValue = m_model->getKeyframeModel()->getInterpolatedValue(framePos, index).toString();
+            const QStringList parts = currentValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            if (parts.count() == 5) {
+                // Add missing opacity
+                updated << parts.at(4);
+                result = updated.join(QLatin1Char(' '));
+            }
+        }
+        m_keyframes->updateKeyframe(pos, result, -1, index);
     } else {
         qDebug() << "==== NO KFR AT: " << framePos;
     }
