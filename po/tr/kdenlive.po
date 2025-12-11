@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-10 02:46+0000\n"
+"POT-Creation-Date: 2025-12-11 02:37+0000\n"
 "PO-Revision-Date: 2025-11-30 21:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -18430,7 +18430,7 @@ msgstr ""
 "kareyi veya geçerli parametreleri kopyalayın."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:997
+#: src/assets/view/widgets/keyframecontainer.cpp:1021
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Anahtar kareyi yapıştır"
@@ -18521,40 +18521,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Kopyalanacak parametreleri seçin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:902
+#: src/assets/view/widgets/keyframecontainer.cpp:926
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Anahtar kareler kopyalandı"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:913
-#: src/assets/view/widgets/keyframecontainer.cpp:954
-#: src/assets/view/widgets/keyframecontainer.cpp:961
+#: src/assets/view/widgets/keyframecontainer.cpp:937
+#: src/assets/view/widgets/keyframecontainer.cpp:978
+#: src/assets/view/widgets/keyframecontainer.cpp:985
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Panoda geçerli anahtar kare verisi yok"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1005
+#: src/assets/view/widgets/keyframecontainer.cpp:1029
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Geçerli parametre değerleri kopyalanamıyor"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1010
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1045
 #, kde-format
 msgid "Current values copied"
 msgstr "Geçerli değerler kopyalandı"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1033
+#: src/assets/view/widgets/keyframecontainer.cpp:1057
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Panoda anahtar kare verisi yok"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1114
+#: src/assets/view/widgets/keyframecontainer.cpp:1138
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Son anahtar kare kaldırılamıyor"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1126
+#: src/assets/view/widgets/keyframecontainer.cpp:1150
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -22119,57 +22119,57 @@ msgstr "İşi İptal Et"
 msgid "Remove Job"
 msgstr "İşi Kaldır"
 
-#: src/dialogs/renderwidget.cpp:2313
+#: src/dialogs/renderwidget.cpp:2318
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Sunum öncesi klipleri zaman akışına ekle"
 
-#: src/dialogs/renderwidget.cpp:2320
+#: src/dialogs/renderwidget.cpp:2325
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "Çıktı konumu yazılabilir değil, lütfen başka bir tane seçin"
 
-#: src/dialogs/renderwidget.cpp:2323
+#: src/dialogs/renderwidget.cpp:2328
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Diskiniz neredeyse dolu, sunum başarısız olabilir"
 
-#: src/dialogs/renderwidget.cpp:2326
+#: src/dialogs/renderwidget.cpp:2331
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "Disk alanınız sınırlı (%1)"
 
-#: src/dialogs/renderwidget.cpp:2336
+#: src/dialogs/renderwidget.cpp:2341
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Sunulan dosya uzunluğu: %1"
 
-#: src/dialogs/renderwidget.cpp:2339
+#: src/dialogs/renderwidget.cpp:2344
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Zaman kodu ofseti:"
 
-#: src/dialogs/renderwidget.cpp:2344
+#: src/dialogs/renderwidget.cpp:2349
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Projede kullanılan 1 eksik klip var.</b>"
 msgstr[1] "<b>Projede kullanılan %1 eksik klip var.</b>"
 
-#: src/dialogs/renderwidget.cpp:2346
+#: src/dialogs/renderwidget.cpp:2351
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "1 eksik klip (kullanılmayan)."
 msgstr[1] "%1 eksik klip (kullanılmayan)."
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2353
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 eksik klip (<b>%2 projede kullanılıyor</b>)."
 
-#: src/dialogs/renderwidget.cpp:2478
+#: src/dialogs/renderwidget.cpp:2483
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22178,12 +22178,12 @@ msgstr ""
 "Kod çözücü hız parametreleri:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2498
+#: src/dialogs/renderwidget.cpp:2503
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Geçerli Projeye Ekle"
 
-#: src/dialogs/renderwidget.cpp:2507
+#: src/dialogs/renderwidget.cpp:2512
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format

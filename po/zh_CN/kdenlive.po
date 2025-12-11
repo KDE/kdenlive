@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-10 02:46+0000\n"
+"POT-Creation-Date: 2025-12-11 02:37+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17902,7 +17902,7 @@ msgid ""
 msgstr "复制关键帧。复制选定的关键帧，如果未选择关键帧，则复制当前参数值。"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:997
+#: src/assets/view/widgets/keyframecontainer.cpp:1021
 #, kde-format
 msgid "Paste keyframe"
 msgstr "粘贴关键帧"
@@ -17989,40 +17989,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "选择要复制的参数"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:902
+#: src/assets/view/widgets/keyframecontainer.cpp:926
 #, kde-format
 msgid "Keyframes copied"
 msgstr "关键帧已复制"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:913
-#: src/assets/view/widgets/keyframecontainer.cpp:954
-#: src/assets/view/widgets/keyframecontainer.cpp:961
+#: src/assets/view/widgets/keyframecontainer.cpp:937
+#: src/assets/view/widgets/keyframecontainer.cpp:978
+#: src/assets/view/widgets/keyframecontainer.cpp:985
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "剪贴板中没有有效的关键帧数据"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1005
+#: src/assets/view/widgets/keyframecontainer.cpp:1029
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "无法复制当前参数值"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1010
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1045
 #, kde-format
 msgid "Current values copied"
 msgstr "当前值已复制"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1033
+#: src/assets/view/widgets/keyframecontainer.cpp:1057
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "剪贴板中没有关键帧数据"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1114
+#: src/assets/view/widgets/keyframecontainer.cpp:1138
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "无法移除最后一个关键帧"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1126
+#: src/assets/view/widgets/keyframecontainer.cpp:1150
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -21522,55 +21522,55 @@ msgstr "中止任务"
 msgid "Remove Job"
 msgstr "移除任务"
 
-#: src/dialogs/renderwidget.cpp:2313
+#: src/dialogs/renderwidget.cpp:2318
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "请在进行渲染前添加剪辑到时间轴"
 
-#: src/dialogs/renderwidget.cpp:2320
+#: src/dialogs/renderwidget.cpp:2325
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "输出位置不可写，请选择另一个位置"
 
-#: src/dialogs/renderwidget.cpp:2323
+#: src/dialogs/renderwidget.cpp:2328
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "您的磁盘空间即将耗尽，渲染可能会失败"
 
-#: src/dialogs/renderwidget.cpp:2326
+#: src/dialogs/renderwidget.cpp:2331
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "您的磁盘空间有限（%1）"
 
-#: src/dialogs/renderwidget.cpp:2336
+#: src/dialogs/renderwidget.cpp:2341
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "已导出的文件长度：%1"
 
-#: src/dialogs/renderwidget.cpp:2339
+#: src/dialogs/renderwidget.cpp:2344
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "时区偏移："
 
-#: src/dialogs/renderwidget.cpp:2344
+#: src/dialogs/renderwidget.cpp:2349
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>%1 个缺失的剪辑已在项目中使用。</b>"
 
-#: src/dialogs/renderwidget.cpp:2346
+#: src/dialogs/renderwidget.cpp:2351
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "%1 个缺失的剪辑 (未被使用)。"
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2353
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 个缺失的剪辑 (<b>%2 个已在项目中使用</b>)。"
 
-#: src/dialogs/renderwidget.cpp:2478
+#: src/dialogs/renderwidget.cpp:2483
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -21579,12 +21579,12 @@ msgstr ""
 "编解码器速度参数：\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2498
+#: src/dialogs/renderwidget.cpp:2503
 #, kde-format
 msgid "Add to Current Project"
 msgstr "添加到当前项目"
 
-#: src/dialogs/renderwidget.cpp:2507
+#: src/dialogs/renderwidget.cpp:2512
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-10 02:46+0000\n"
+"POT-Creation-Date: 2025-12-11 02:37+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -18522,7 +18522,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:997
+#: src/assets/view/widgets/keyframecontainer.cpp:1021
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -18617,46 +18617,46 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Parameetrid"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:902
+#: src/assets/view/widgets/keyframecontainer.cpp:926
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Keyframes copied"
 msgstr "Võtmekaadrite vahe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:913
-#: src/assets/view/widgets/keyframecontainer.cpp:954
-#: src/assets/view/widgets/keyframecontainer.cpp:961
+#: src/assets/view/widgets/keyframecontainer.cpp:937
+#: src/assets/view/widgets/keyframecontainer.cpp:978
+#: src/assets/view/widgets/keyframecontainer.cpp:985
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Lõikepuhvris teavet ei leidu"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1005
+#: src/assets/view/widgets/keyframecontainer.cpp:1029
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Ajutise faili loomine nurjus"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1010
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1045
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Current values copied"
 msgstr "Võtmekaadrite vahe"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1033
+#: src/assets/view/widgets/keyframecontainer.cpp:1057
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Lõikepuhvris teavet ei leidu"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1114
+#: src/assets/view/widgets/keyframecontainer.cpp:1138
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to frame %1."
 msgid "Cannot remove the last keyframe"
 msgstr "Klippi ei saa liigutada kaadrisse %1."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1126
+#: src/assets/view/widgets/keyframecontainer.cpp:1150
 #, fuzzy, kde-format
 #| msgid "Remove keyframe"
 msgid "Remove keyframe"
@@ -22430,42 +22430,42 @@ msgstr "Katkesta töö "
 msgid "Remove Job"
 msgstr "Eemalda töö"
 
-#: src/dialogs/renderwidget.cpp:2313
+#: src/dialogs/renderwidget.cpp:2318
 #, fuzzy, kde-format
 #| msgid "Add Clip To Selection"
 msgid "Add clips in timeline before rendering"
 msgstr "Lisa klipp valikusse"
 
-#: src/dialogs/renderwidget.cpp:2320
+#: src/dialogs/renderwidget.cpp:2325
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2323
+#: src/dialogs/renderwidget.cpp:2328
 #, fuzzy, kde-format
 #| msgid "Your project profile is invalid, rendering might fail."
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Projekti profiil on vigane, renderdamine võib nurjuda."
 
-#: src/dialogs/renderwidget.cpp:2326
+#: src/dialogs/renderwidget.cpp:2331
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2336
+#: src/dialogs/renderwidget.cpp:2341
 #, fuzzy, kde-format
 #| msgid "Zone duration: %1"
 msgid "Rendered File Length: %1"
 msgstr "Tsooni kestus: %1"
 
-#: src/dialogs/renderwidget.cpp:2339
+#: src/dialogs/renderwidget.cpp:2344
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, fuzzy, kde-format
 #| msgid "Timecode overlay"
 msgid "Timecode Offset:"
 msgstr "Ajakoodi ülekate"
 
-#: src/dialogs/renderwidget.cpp:2344
+#: src/dialogs/renderwidget.cpp:2349
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -22474,7 +22474,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "Projektis on %1 puuduv klipp."
 msgstr[1] "Projektis on %1 puuduvat klippi."
 
-#: src/dialogs/renderwidget.cpp:2346
+#: src/dialogs/renderwidget.cpp:2351
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
@@ -22482,14 +22482,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Märgista puuduvad klipid"
 msgstr[1] "Märgista puuduvad klipid"
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2353
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Projektis on %1 puuduv klipp."
 
-#: src/dialogs/renderwidget.cpp:2478
+#: src/dialogs/renderwidget.cpp:2483
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22498,13 +22498,13 @@ msgstr ""
 "Koodeki kiiruse parameetrid:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2498
+#: src/dialogs/renderwidget.cpp:2503
 #, fuzzy, kde-format
 #| msgid "Add to current project"
 msgid "Add to Current Project"
 msgstr "Lisa aktiivsesse projekti"
 
-#: src/dialogs/renderwidget.cpp:2507
+#: src/dialogs/renderwidget.cpp:2512
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, fuzzy, kde-format
