@@ -127,9 +127,17 @@ void LayoutCollection::loadLayouts()
         while (it.hasNext()) {
             const QFileInfo fInfo(dir.absoluteFilePath(it.next()));
             QString layoutId = fInfo.baseName();
-            if (foundlayouts.contains(fInfo.baseName()) && !fInfo.isWritable()) {
+            if (foundlayouts.contains(layoutId) && !fInfo.isWritable()) {
                 // Only overwrite if the folder is writable
-                continue;
+                auto layout = foundlayouts.value(layoutId);
+                if (layoutId.endsWith(QLatin1String("_vertical"))) {
+                    // We are processing a vertical layout, ensure we have none yet
+                    if (layout.hasVerticalData()) {
+                        continue;
+                    }
+                } else if (layout.hasHorizontalData()) {
+                    continue;
+                }
             }
             // Read layout info
             QFile loadFile(fInfo.absoluteFilePath());
@@ -156,6 +164,7 @@ void LayoutCollection::loadLayouts()
                 // Allow overriding id based on file name
                 layoutId = insideId;
             }
+            qDebug() << ":::: LOADING LAYOUT: " << layoutId << ", VERTICAL: " << isVertical;
             LayoutInfo layout;
             if (foundlayouts.contains(layoutId)) {
                 layout = foundlayouts.value(layoutId);
