@@ -63,16 +63,9 @@ void RotatedRectHelper::slotUpdateFromMonitorRect(const QRectF &rect)
         return;
     }
 
-    // Get current value to preserve opacity if it exists
-    QString currentValue = m_model->getKeyframeModel()->getInterpolatedValue(0, rectIndex).toString();
-    QStringList parts = currentValue.split(QLatin1Char(' '));
-
     // Create new rect value with updated coordinates
     // Format of AnimatedRect string: "x y width height opacity" (opacity is optional)
     QString newValue = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x())).arg(int(rect.y())).arg(int(rect.width())).arg(int(rect.height()));
-    if (parts.size() > 4) {
-        newValue.append(QStringLiteral(" %1").arg(parts.at(4)));
-    }
 
     // Update the model
     Q_EMIT updateKeyframeData(rectIndex, QVariant(newValue));
