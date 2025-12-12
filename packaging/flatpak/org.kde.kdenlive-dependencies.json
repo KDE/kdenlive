@@ -113,15 +113,9 @@
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/georgmartius/vid.stab/archive/v1.1.1.tar.gz",
-                    "sha256": "9001b6df73933555e56deac19a0f225aae152abbc0e97dc70034814a1943f3d4",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 15959,
-                        "stable-only": true,
-                        "url-template": "https://github.com/georgmartius/vid.stab/archive/v$version.tar.gz"
-                    }
+                    "type": "git",
+                    "url": "https://github.com/georgmartius/vid.stab.git",
+                    "commit": "4bd81e3cdd778e2e0edc591f14bba158ec40cfa1"
                 }
             ]
         },
