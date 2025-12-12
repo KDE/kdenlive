@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-10 00:43+0000\n"
+"POT-Creation-Date: 2025-12-12 00:42+0000\n"
 "PO-Revision-Date: 2025-10-26 20:50+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2645,9 +2645,9 @@ msgstr "Visa axel"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:278
-#: src/assets/view/widgets/keyframecontainer.cpp:325
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:334
+#: src/assets/view/widgets/keyframecontainer.cpp:381
+#: src/assets/view/widgets/keyframecontainer.cpp:687
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3538,9 +3538,9 @@ msgstr "<![CDATA[Avstånd från överkanten i bildpunkter]]>"
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
-#: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:337
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:393
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3555,9 +3555,9 @@ msgstr "<![CDATA[Avstånd mellan vertikala linjer i bildpunkter]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:280
-#: src/assets/view/widgets/keyframecontainer.cpp:331
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:336
+#: src/assets/view/widgets/keyframecontainer.cpp:387
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -17937,17 +17937,17 @@ msgstr ""
 "ogenomskinlighet och blandningsläge."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:283
-#: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:339
+#: src/assets/view/widgets/keyframecontainer.cpp:399
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "X position"
 msgstr "X-position"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:282
-#: src/assets/view/widgets/keyframecontainer.cpp:349
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:338
+#: src/assets/view/widgets/keyframecontainer.cpp:405
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "Y position"
 msgstr "Y-position"
@@ -18992,7 +18992,7 @@ msgstr "Utjämna (föråldrad)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframecontainer.cpp:94
+#: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
 #, kde-format
 msgid "Add keyframe"
@@ -19007,7 +19007,7 @@ msgstr "Ändra nyckelbildtyp"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframecontainer.cpp:96
+#: src/assets/view/widgets/keyframecontainer.cpp:152
 #: src/dialogs/timeremap.cpp:1633
 #, kde-format
 msgid "Delete keyframe"
@@ -19034,23 +19034,23 @@ msgstr "Flytta nyckelbild"
 msgid "Update keyframe"
 msgstr "Uppdatera nyckelbild"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:886
+#: src/assets/keyframes/model/keyframemodel.cpp:887
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Ta bort alla nyckelbilder"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1099
+#: src/assets/keyframes/model/keyframemodel.cpp:1100
 #, kde-format
 msgid "effect"
 msgstr "effekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1108
+#: src/assets/keyframes/model/keyframemodel.cpp:1109
 #, kde-format
 msgid "Reset %1"
 msgstr "Återställ %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1381
+#: src/assets/keyframes/model/keyframemodel.cpp:1382
 #, kde-format
 msgid "Reset effect"
 msgstr "Återställ effekt"
@@ -19149,7 +19149,7 @@ msgid "Failed to load preset %1"
 msgstr "Misslyckades läsa in förinställning %1"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:307
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
 #, kde-format
 msgid "Reset Effect"
 msgstr "Återställ effekt"
@@ -19207,41 +19207,41 @@ msgstr "Avbryt behandling"
 msgid "Move Keyframe"
 msgstr "Flytta nyckelbild"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:78
+#: src/assets/view/widgets/keyframecontainer.cpp:134
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "Byt till tidslinjevisning"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:80
+#: src/assets/view/widgets/keyframecontainer.cpp:136
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "Byt till kurvredigeringsvisning"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:101
+#: src/assets/view/widgets/keyframecontainer.cpp:157
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2054
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Gå till föregående nyckelbild"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:105
+#: src/assets/view/widgets/keyframecontainer.cpp:161
 #: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2052
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Gå till nästa nyckelbild"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:110
+#: src/assets/view/widgets/keyframecontainer.cpp:166
 #: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Flytta markerad nyckelbild till markören"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:113
-#: src/assets/view/widgets/keyframecontainer.cpp:115
+#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:171
 #, kde-format
 msgid "Copy keyframes"
 msgstr "Kopiera nyckelbilder"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:117
+#: src/assets/view/widgets/keyframecontainer.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19251,18 +19251,18 @@ msgstr ""
 "Kopiera nyckelbilder. Kopiera de markerade nyckelbilderna, eller nuvarande "
 "parametervärden om inga nyckelbilder är markerade."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:997
+#: src/assets/view/widgets/keyframecontainer.cpp:175
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Klistra in nyckelbild"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:121
+#: src/assets/view/widgets/keyframecontainer.cpp:177
 #, kde-format
 msgid "Paste keyframes"
 msgstr "Klistra in nyckelbilder"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:122
+#: src/assets/view/widgets/keyframecontainer.cpp:178
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
@@ -19270,18 +19270,18 @@ msgstr ""
 "Klistra in nyckelbilder. Klistra in klippbordets data som nyckelbilder på "
 "nuvarande position."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:124
+#: src/assets/view/widgets/keyframecontainer.cpp:180
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Tilldela aktuellt positionsvärde till markerade nyckelbilder"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:127
-#: src/assets/view/widgets/keyframecontainer.cpp:140
+#: src/assets/view/widgets/keyframecontainer.cpp:183
+#: src/assets/view/widgets/keyframecontainer.cpp:196
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Interpolering av nyckelbild"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:141
+#: src/assets/view/widgets/keyframecontainer.cpp:197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19291,44 +19291,44 @@ msgstr ""
 "Interpolering av nyckelbild. Definierar vilken interpolation som används för "
 "den nuvarande nyckelbilden."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:162
+#: src/assets/view/widgets/keyframecontainer.cpp:218
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Sök till nyckelbild vid markering"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:167
+#: src/assets/view/widgets/keyframecontainer.cpp:223
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Kopiera alla nyckelbilder till klippbordet"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:225
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Importera nyckelbilder från klippbordet…"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:178
+#: src/assets/view/widgets/keyframecontainer.cpp:234
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Ta bort alla nyckelbilder efter markören"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:182
+#: src/assets/view/widgets/keyframecontainer.cpp:238
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Standardtyp för nyckelbild"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:221
+#: src/assets/view/widgets/keyframecontainer.cpp:277
 #, kde-format
 msgid "Limit automatic keyframes"
 msgstr "Begränsa automatiska nyckelbilder"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1558
+#: src/assets/view/widgets/keyframecontainer.cpp:289 src/bin/bin.cpp:1558
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Alternativ"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:235
+#: src/assets/view/widgets/keyframecontainer.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19338,45 +19338,45 @@ msgstr ""
 "Visar en lista med ytterligare åtgärder för att hantera nyckelbilder (till "
 "exempel kopiera till och klistra in nyckelbilder från klippbordet)."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:302
+#: src/assets/view/widgets/keyframecontainer.cpp:358
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Välj parametrar att kopiera"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:902
+#: src/assets/view/widgets/keyframecontainer.cpp:982
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Nyckelbilder kopierade"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:913
-#: src/assets/view/widgets/keyframecontainer.cpp:954
-#: src/assets/view/widgets/keyframecontainer.cpp:961
+#: src/assets/view/widgets/keyframecontainer.cpp:993
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1041
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Ingen giltig nyckelbildsdata på klippbordet"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1005
+#: src/assets/view/widgets/keyframecontainer.cpp:1093
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Kan inte kopiera nuvarande parametervärden"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1010
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:1098
+#: src/assets/view/widgets/keyframecontainer.cpp:1109
 #, kde-format
 msgid "Current values copied"
 msgstr "Nuvarande värden kopierade"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1033
+#: src/assets/view/widgets/keyframecontainer.cpp:1121
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Ingen nyckelbildsdata på klippbordet"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1114
+#: src/assets/view/widgets/keyframecontainer.cpp:1202
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Kan inte ta bort den sista nyckelbilden"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1126
+#: src/assets/view/widgets/keyframecontainer.cpp:1214
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -20901,7 +20901,7 @@ msgstr "Visa förhandsgranskningspanel"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:661
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -21090,7 +21090,7 @@ msgid "Move subtitle"
 msgstr "Flytta textning"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:688
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -22127,7 +22127,7 @@ msgstr "Exportera markördata"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:767
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
@@ -22939,57 +22939,57 @@ msgstr "Avbryt jobb"
 msgid "Remove Job"
 msgstr "Ta bort jobb"
 
-#: src/dialogs/renderwidget.cpp:2313
+#: src/dialogs/renderwidget.cpp:2318
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Lägg till klipp i tidslinje innan återgivning"
 
-#: src/dialogs/renderwidget.cpp:2320
+#: src/dialogs/renderwidget.cpp:2325
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "Utdataplatsen är inte skrivbar, välj en annan plats"
 
-#: src/dialogs/renderwidget.cpp:2323
+#: src/dialogs/renderwidget.cpp:2328
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Disken är nästan full, återgivning kan misslyckas"
 
-#: src/dialogs/renderwidget.cpp:2326
+#: src/dialogs/renderwidget.cpp:2331
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "Diskutrymmet är begränsat (%1)"
 
-#: src/dialogs/renderwidget.cpp:2336
+#: src/dialogs/renderwidget.cpp:2341
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Återgiven fillängd: %1"
 
-#: src/dialogs/renderwidget.cpp:2339
+#: src/dialogs/renderwidget.cpp:2344
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Tidskodsposition:"
 
-#: src/dialogs/renderwidget.cpp:2344
+#: src/dialogs/renderwidget.cpp:2349
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Ett saknat klipp används i projektet.</b>"
 msgstr[1] "<b>%1 saknade klipp används i projektet.</b>"
 
-#: src/dialogs/renderwidget.cpp:2346
+#: src/dialogs/renderwidget.cpp:2351
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Ett saknat klipp (oanvänt)."
 msgstr[1] "%1 saknade klipp (oanvända)."
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2353
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 saknade klipp (<b>%2 använda i projektet</b>)."
 
-#: src/dialogs/renderwidget.cpp:2478
+#: src/dialogs/renderwidget.cpp:2483
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22998,12 +22998,12 @@ msgstr ""
 "Hastighetsparametrar för kodare:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2498
+#: src/dialogs/renderwidget.cpp:2503
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Lägg till i aktuellt projekt"
 
-#: src/dialogs/renderwidget.cpp:2507
+#: src/dialogs/renderwidget.cpp:2512
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -23234,6 +23234,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive måste startas om för att ändra inställningen"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "En profil med samma namn finns redan"
@@ -25926,12 +25927,12 @@ msgstr "Effekten %1 kan bara läggas till på master"
 msgid "Move effect %1"
 msgstr "Flytta effekt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Move effect up"
 msgstr "Flytta upp effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25941,12 +25942,12 @@ msgstr ""
 "Flyttar effekten ovanför den precis ovan. Effekter hanteras i följd uppifrån "
 "och ner, så sekvensen är viktig."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
 #, kde-format
 msgid "Move effect down"
 msgstr "Flytta ner effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:65
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25956,53 +25957,53 @@ msgstr ""
 "Flyttar effekten nedanför den precis under. Effekter hanteras i följd "
 "uppifrån och ner, så sekvensen är viktig."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Dra ihop effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Expand Effect"
 msgstr "Expandera effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:102
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Öppna effektdokumentation i webbläsare"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:128
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Aktivera nyckelbilder"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Dölj nyckelbilder"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Visa nyckelbilder"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Sätter på visning av nyckelbildslinjal."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Disable Effect"
 msgstr "Inaktivera effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Enable Effect"
 msgstr "Aktivera effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -26010,7 +26011,7 @@ msgstr ""
 "Inaktiverar effekten. Användbart för att jämföra inställningarna före och "
 "efter."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -26018,51 +26019,51 @@ msgstr ""
 "Aktiverar effekten. Användbart för att jämföra inställningarna före och "
 "efter."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:170
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Create Group"
 msgstr "Skapa grupp"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
 #, kde-format
 msgid "In:"
 msgstr "In:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "Set zone in"
 msgstr "Ange zon in"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Ställer in nuvarande bildruta/uppspelningsposition till början av zonen."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:189
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Out:"
 msgstr "Ut:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Set zone out"
 msgstr "Ange zon ut"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:196
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 "Ställer in nuvarande bildruta/uppspelningsposition till slutet av zonen."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-format
 msgid "Use effect zone"
 msgstr "Använd effektzon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:233
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -26070,13 +26071,13 @@ msgstr "Visar eller döljer effektzonen."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Förinställningar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:297
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -26084,23 +26085,23 @@ msgstr ""
 "Visar en lista med avancerade alternativ för att hantera förinställningar "
 "för effekten."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
 #, kde-format
 msgid "Delete effect"
 msgstr "Ta bort effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:326
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Tar bort effekten från effektstapeln."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instanser av effekten i gruppen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -26111,28 +26112,28 @@ msgstr ""
 "för att kopiera den. Håll ner <b>Alt</b> och dra för att kopiera det till "
 "ett enda objekt i en grupp."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Disable %1"
 msgstr "Inaktivera %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Enable %1"
 msgstr "Aktivera %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Spara effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:662
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
 #, kde-format
 msgid "Comments:"
 msgstr "Kommentarer:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:677
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Inget namn angivet, effekt har inte sparats."

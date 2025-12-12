@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-10 00:43+0000\n"
+"POT-Creation-Date: 2025-12-12 00:42+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -2665,9 +2665,9 @@ msgstr "Montri Akson"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:278
-#: src/assets/view/widgets/keyframecontainer.cpp:325
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:334
+#: src/assets/view/widgets/keyframecontainer.cpp:381
+#: src/assets/view/widgets/keyframecontainer.cpp:687
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3486,9 +3486,9 @@ msgstr "<![CDATA[Distanco de la supra rando en rastrumero]]>"
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
-#: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:337
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:393
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3503,9 +3503,9 @@ msgstr "<![CDATA[Distanco inter vertikalaj linioj en rastrumero]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:280
-#: src/assets/view/widgets/keyframecontainer.cpp:331
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:336
+#: src/assets/view/widgets/keyframecontainer.cpp:387
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -17699,17 +17699,17 @@ msgstr ""
 "opakecon kaj miksan reĝimon."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:283
-#: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:339
+#: src/assets/view/widgets/keyframecontainer.cpp:399
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "X position"
 msgstr "X-pozicio"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:282
-#: src/assets/view/widgets/keyframecontainer.cpp:349
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:338
+#: src/assets/view/widgets/keyframecontainer.cpp:405
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "Y position"
 msgstr "Y pozicio"
@@ -18755,7 +18755,7 @@ msgstr "Glata (malrekomendita)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframecontainer.cpp:94
+#: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
 #, kde-format
 msgid "Add keyframe"
@@ -18770,7 +18770,7 @@ msgstr "Ŝanĝi tipon de ŝlosilkadro"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframecontainer.cpp:96
+#: src/assets/view/widgets/keyframecontainer.cpp:152
 #: src/dialogs/timeremap.cpp:1633
 #, kde-format
 msgid "Delete keyframe"
@@ -18797,23 +18797,23 @@ msgstr "Movi ŝlosilkadron"
 msgid "Update keyframe"
 msgstr "Ĝisdatigi ŝlosilkadron"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:886
+#: src/assets/keyframes/model/keyframemodel.cpp:887
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Forigi ĉiujn ŝlosilkadrojn"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1099
+#: src/assets/keyframes/model/keyframemodel.cpp:1100
 #, kde-format
 msgid "effect"
 msgstr "efiko"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1108
+#: src/assets/keyframes/model/keyframemodel.cpp:1109
 #, kde-format
 msgid "Reset %1"
 msgstr "Restarigi %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1381
+#: src/assets/keyframes/model/keyframemodel.cpp:1382
 #, kde-format
 msgid "Reset effect"
 msgstr "Restarigi efekton"
@@ -18912,7 +18912,7 @@ msgid "Failed to load preset %1"
 msgstr "Malsukcesis trovi antaŭmeton %1"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:307
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restarigi Efekton"
@@ -18970,41 +18970,41 @@ msgstr "Ĉesigi prilaboradon"
 msgid "Move Keyframe"
 msgstr "Movi Ŝlosilkadron"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:78
+#: src/assets/view/widgets/keyframecontainer.cpp:134
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "Ŝanĝi al templinia vido"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:80
+#: src/assets/view/widgets/keyframecontainer.cpp:136
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "Ŝanĝi al kurboredaktila vido"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:101
+#: src/assets/view/widgets/keyframecontainer.cpp:157
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2054
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Iri al antaŭa ŝlosilkadro"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:105
+#: src/assets/view/widgets/keyframecontainer.cpp:161
 #: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2052
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Iri al la sekva ŝlosilkadro"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:110
+#: src/assets/view/widgets/keyframecontainer.cpp:166
 #: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Movi elektitan ŝlosilkadron al kursoro"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:113
-#: src/assets/view/widgets/keyframecontainer.cpp:115
+#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:171
 #, kde-format
 msgid "Copy keyframes"
 msgstr "Kopii ŝlosilkadrojn"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:117
+#: src/assets/view/widgets/keyframecontainer.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19014,18 +19014,18 @@ msgstr ""
 "Kopiu ŝlosilkadrojn. Kopiu la elektitajn ŝlosilkadrojn, aŭ aktualajn "
 "parametrajn valorojn se neniu ŝlosilkadro estas elektita."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:997
+#: src/assets/view/widgets/keyframecontainer.cpp:175
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Alglui ŝlosilkadron"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:121
+#: src/assets/view/widgets/keyframecontainer.cpp:177
 #, kde-format
 msgid "Paste keyframes"
 msgstr "Alglui ŝlosilkadrojn"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:122
+#: src/assets/view/widgets/keyframecontainer.cpp:178
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
@@ -19033,18 +19033,18 @@ msgstr ""
 "Algluu ŝlosilkadrojn. Algluu datumojn de la tondujo kiel ŝlosilkadrojn ĉe la "
 "nuna pozicio."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:124
+#: src/assets/view/widgets/keyframecontainer.cpp:180
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Apliki aktualan poziciovaloron al elektitaj ŝlosilkadroj"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:127
-#: src/assets/view/widgets/keyframecontainer.cpp:140
+#: src/assets/view/widgets/keyframecontainer.cpp:183
+#: src/assets/view/widgets/keyframecontainer.cpp:196
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Ŝlosilkadra interpolado"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:141
+#: src/assets/view/widgets/keyframecontainer.cpp:197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19054,44 +19054,44 @@ msgstr ""
 "Ŝlosilkadra interpolado. Ĉi tio difinas kiu interpolado estos uzata por la "
 "nuna ŝlosilkadro."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:162
+#: src/assets/view/widgets/keyframecontainer.cpp:218
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Serĉi Ŝlosilkadron sur Elekto"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:167
+#: src/assets/view/widgets/keyframecontainer.cpp:223
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Kopii Ĉiuj Ŝlosilkadroj al Tondujo"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:225
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Importi ŝlosilkadrojn el tondujo…"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:178
+#: src/assets/view/widgets/keyframecontainer.cpp:234
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Forigi ĉiujn Ŝlosilkadrojn Post Kursoro"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:182
+#: src/assets/view/widgets/keyframecontainer.cpp:238
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Defaŭlta Ŝlosilkadra Tipo"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:221
+#: src/assets/view/widgets/keyframecontainer.cpp:277
 #, kde-format
 msgid "Limit automatic keyframes"
 msgstr "Limigi aŭtomatajn ŝlosilkadrojn"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1558
+#: src/assets/view/widgets/keyframecontainer.cpp:289 src/bin/bin.cpp:1558
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Elektebloj"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:235
+#: src/assets/view/widgets/keyframecontainer.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19101,45 +19101,45 @@ msgstr ""
 "Malfermas liston de pliaj agoj por administri ŝlosilkadrojn (ekzemple: kopii "
 "al kaj alglui ŝlosilkadrojn el tondujo)."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:302
+#: src/assets/view/widgets/keyframecontainer.cpp:358
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Elekti parametrojn por kopii"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:902
+#: src/assets/view/widgets/keyframecontainer.cpp:982
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ŝlosilkadroj kopiitaj"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:913
-#: src/assets/view/widgets/keyframecontainer.cpp:954
-#: src/assets/view/widgets/keyframecontainer.cpp:961
+#: src/assets/view/widgets/keyframecontainer.cpp:993
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1041
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Neniuj validaj ŝlosilkadraj datumoj en la tondujo"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1005
+#: src/assets/view/widgets/keyframecontainer.cpp:1093
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ne povas kopii aktualajn parametrajn valorojn"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1010
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:1098
+#: src/assets/view/widgets/keyframecontainer.cpp:1109
 #, kde-format
 msgid "Current values copied"
 msgstr "Nunaj valoroj kopiitaj"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1033
+#: src/assets/view/widgets/keyframecontainer.cpp:1121
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Neniuj ŝlosilkadraj datumoj en tondujo"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1114
+#: src/assets/view/widgets/keyframecontainer.cpp:1202
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Ne povas forigi la lastan ŝlosilkadron"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1126
+#: src/assets/view/widgets/keyframecontainer.cpp:1214
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -20686,7 +20686,7 @@ msgstr "Haltigi Antaŭrigardan bildigon"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:661
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -20882,7 +20882,7 @@ msgid "Move subtitle"
 msgstr "Movi subtitolon"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:688
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -21935,7 +21935,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:767
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
@@ -22757,59 +22757,59 @@ msgstr "Ĉesigi prilaboron"
 msgid "Remove Job"
 msgstr "Forigi prilaboron"
 
-#: src/dialogs/renderwidget.cpp:2313
+#: src/dialogs/renderwidget.cpp:2318
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Aldoni aŭdvidaĵojn en templinio antaŭ bildigo"
 
-#: src/dialogs/renderwidget.cpp:2320
+#: src/dialogs/renderwidget.cpp:2325
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2323
+#: src/dialogs/renderwidget.cpp:2328
 #, fuzzy, kde-format
 #| msgid "Your project profile is invalid, rendering might fail."
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Via projektoprofilo estas nevalida, bildigo eble malsukcesas."
 
-#: src/dialogs/renderwidget.cpp:2326
+#: src/dialogs/renderwidget.cpp:2331
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2336
+#: src/dialogs/renderwidget.cpp:2341
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Redondaŭro: %1"
 
-#: src/dialogs/renderwidget.cpp:2339
+#: src/dialogs/renderwidget.cpp:2344
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, fuzzy, kde-format
 #| msgid "Time offset:"
 msgid "Timecode Offset:"
 msgstr "Tempo-kompenso:"
 
-#: src/dialogs/renderwidget.cpp:2344
+#: src/dialogs/renderwidget.cpp:2349
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Unu mankanta tondaĵo uzita en la projekto.</b>"
 msgstr[1] "<b>%1 mankantaj tondaĵoj uzitaj en la projekto.</b>"
 
-#: src/dialogs/renderwidget.cpp:2346
+#: src/dialogs/renderwidget.cpp:2351
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Unu mankanta tondaĵo (neuzita)."
 msgstr[1] "%1 mankantaj tondaĵoj (neuzitaj)."
 
-#: src/dialogs/renderwidget.cpp:2348
+#: src/dialogs/renderwidget.cpp:2353
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 mankantaj tondaĵoj (<b>%2 uzitaj en la projekto</b>)."
 
-#: src/dialogs/renderwidget.cpp:2478
+#: src/dialogs/renderwidget.cpp:2483
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22818,12 +22818,12 @@ msgstr ""
 "Parametroj de rapideco de kodeko:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2498
+#: src/dialogs/renderwidget.cpp:2503
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Aldoni al Aktuala Projekto"
 
-#: src/dialogs/renderwidget.cpp:2507
+#: src/dialogs/renderwidget.cpp:2512
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -23057,6 +23057,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive devas esti rekomencita por ŝanĝi ĉi tiun agordon"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profilo kun tiu nomo jam ekzistas"
@@ -25742,12 +25743,12 @@ msgstr "Efekto %1 nur povas esti aldonita al majstro"
 msgid "Move effect %1"
 msgstr "Movi efekton %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Move effect up"
 msgstr "Movi efekton supren"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25757,12 +25758,12 @@ msgstr ""
 "Movas la efekton super tiu ĝuste super ĝi. Efektoj estas traktataj sinsekve "
 "de supre ĝis malsupre do sekvenco estas grava."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
 #, kde-format
 msgid "Move effect down"
 msgstr "Movi efekton malsupren"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:65
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25772,107 +25773,107 @@ msgstr ""
 "Movas la efekton sub tiu ĝuste sub ĝi. Efektoj estas traktataj sinsekve de "
 "supre ĝis malsupre do sekvenco estas grava."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Kolapsa Efiko"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Expand Effect"
 msgstr "Vastigi Efekton"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:102
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Malfermi efikan dokumentaron en foliumilo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:128
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Ebligi Ŝlosilkadrojn"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Kaŝi Ŝlosilkadrojn"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Montri Ŝlosilkadrojn"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Enŝaltas la ekranon de la ŝlosilframa mezurilo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Disable Effect"
 msgstr "Malebligi Efekton"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Enable Effect"
 msgstr "Ebligi Efekton"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "Malebligas la efekton. Utila por kompari antaŭ kaj post agordoj."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Ebligas la efekton. Utila por kompari antaŭ kaj post agordoj."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:170
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Create Group"
 msgstr "Krei Grupon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
 #, kde-format
 msgid "In:"
 msgstr "En:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "Set zone in"
 msgstr "Meti enzonon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "Fiksas la nunan kadron/ludkapon pozicion kiel komencon de la zono."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:189
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Out:"
 msgstr "Ekstere:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Set zone out"
 msgstr "Meti elzonon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:196
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Fiksas la nunan kadron/ludkapon pozicion kiel finon de la zono."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-format
 msgid "Use effect zone"
 msgstr "Uzi efektan zonon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:233
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -25880,13 +25881,13 @@ msgstr "Ŝaltas la montradon de la efikzono."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Antaŭagordoj"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:297
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -25894,23 +25895,23 @@ msgstr ""
 "Malfermas liston de altnivelaj elektebloj por administri antaŭgordojn por la "
 "efiko."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
 #, kde-format
 msgid "Delete effect"
 msgstr "Forigi efekton"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:326
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Forigas la efekton el la efikstako."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instancoj de ĉi tiu efekto en la grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -25920,28 +25921,28 @@ msgstr ""
 "<b>Trenu</b> efekton al alia templinia tondaĵo, trako aŭ projekta tondaĵo "
 "por kopii ĝin. <b>Alt-Trenu</b> por kopii ĝin al unuopa ero en grupo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Disable %1"
 msgstr "Malebligi %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Enable %1"
 msgstr "Ebligi %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Konservi Efekton"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:662
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
 #, kde-format
 msgid "Comments:"
 msgstr "Komentoj:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:677
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Neniu nomo provizita, efiko ne konservita."
