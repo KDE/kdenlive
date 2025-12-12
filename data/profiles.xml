@@ -101,10 +101,10 @@
   <profile name="Quick Sync Intel H265" extension="mp4" bitrates="30000,1000" defaultbitrate="20000"
            audiobitrates="256,64" defaultaudiobitrate="192"
            args="f=mp4 load_plugin=hevc_hw vcodec=hevc_qsv vbr=off vtag=hvc1 qscale=29 acodec=aac ab=%audiobitrate+'k'"/>
-  <profile name="VAAPI Intel H264" extension="mp4"
-   args="f=mp4 vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
-  <profile name="VAAPI AMD H264" extension="mp4"
-   args="f=mp4 hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
+  <profile name="VAAPI H264" extension="mp4" qualities="15,45" defaultquality="23"
+   args="f=mp4 vcodec=h264_vaapi vq=%quality video_global_quality=%quality acodec=aac ab=192k"/>
+  <profile name="AMF H264" extension="mp4" qualities="15,45" defaultquality="23"
+           args="f=mp4 vcodec=h264_amf vq=%quality video_global_quality=%quality acodec=aac ab=192k"/>
  </group>
  <group name="Audio only" renderer="avformat" type="audio">
   <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k' vn=1 video_off=1"/>
