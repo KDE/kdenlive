@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-11 02:37+0000\n"
+"POT-Creation-Date: 2025-12-12 02:37+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -2616,9 +2616,9 @@ msgstr "Показать ось"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:278
-#: src/assets/view/widgets/keyframecontainer.cpp:325
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:334
+#: src/assets/view/widgets/keyframecontainer.cpp:381
+#: src/assets/view/widgets/keyframecontainer.cpp:687
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3445,9 +3445,9 @@ msgstr "<![CDATA[Расстояние от верхнего края в пикс
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
-#: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:337
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:393
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3461,9 +3461,9 @@ msgstr "<![CDATA[Расстояние между вертикальными ли
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:280
-#: src/assets/view/widgets/keyframecontainer.cpp:331
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:336
+#: src/assets/view/widgets/keyframecontainer.cpp:387
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -17092,17 +17092,17 @@ msgstr ""
 "пользователем трансформации, непрозрачности и режима смешивания."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:283
-#: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:339
+#: src/assets/view/widgets/keyframecontainer.cpp:399
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "X position"
 msgstr "Позиция по X"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:282
-#: src/assets/view/widgets/keyframecontainer.cpp:349
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:338
+#: src/assets/view/widgets/keyframecontainer.cpp:405
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "Y position"
 msgstr "Позиция по Y"
@@ -18161,7 +18161,7 @@ msgstr "Плавная (устарел)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframecontainer.cpp:94
+#: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
 #, kde-format
 msgid "Add keyframe"
@@ -18176,7 +18176,7 @@ msgstr "Изменить тип ключевого кадра"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframecontainer.cpp:96
+#: src/assets/view/widgets/keyframecontainer.cpp:152
 #: src/dialogs/timeremap.cpp:1633
 #, kde-format
 msgid "Delete keyframe"
@@ -18203,23 +18203,23 @@ msgstr "Переместить ключевой кадр"
 msgid "Update keyframe"
 msgstr "Обновить ключевой кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:886
+#: src/assets/keyframes/model/keyframemodel.cpp:887
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Удалить все ключевые кадры"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1099
+#: src/assets/keyframes/model/keyframemodel.cpp:1100
 #, kde-format
 msgid "effect"
 msgstr "эффект"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1108
+#: src/assets/keyframes/model/keyframemodel.cpp:1109
 #, kde-format
 msgid "Reset %1"
 msgstr "Сбросить %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1381
+#: src/assets/keyframes/model/keyframemodel.cpp:1382
 #, kde-format
 msgid "Reset effect"
 msgstr "Сбросить эффект"
@@ -18321,7 +18321,7 @@ msgid "Failed to load preset %1"
 msgstr "Не удалось загрузить предустановку %1"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:307
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
 #, kde-format
 msgid "Reset Effect"
 msgstr "Сбросить эффект"
@@ -18379,41 +18379,41 @@ msgstr "Прервать обработку"
 msgid "Move Keyframe"
 msgstr "Переместить ключевой кадр"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:78
+#: src/assets/view/widgets/keyframecontainer.cpp:134
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "Переключиться на панель монтажного стола"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:80
+#: src/assets/view/widgets/keyframecontainer.cpp:136
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "Переключиться на панель редактора кривой"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:101
+#: src/assets/view/widgets/keyframecontainer.cpp:157
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2054
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "К предыдущему ключевому кадру"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:105
+#: src/assets/view/widgets/keyframecontainer.cpp:161
 #: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2052
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "К следующему ключевому кадру"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:110
+#: src/assets/view/widgets/keyframecontainer.cpp:166
 #: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Подвинуть выбранный ключевой кадр к курсору"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:113
-#: src/assets/view/widgets/keyframecontainer.cpp:115
+#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:171
 #, kde-format
 msgid "Copy keyframes"
 msgstr "Копировать ключевые кадры"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:117
+#: src/assets/view/widgets/keyframecontainer.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18423,18 +18423,18 @@ msgstr ""
 "Копировать ключевые кадры. Копирует выбранные ключевые кадры или текущие "
 "значения параметров, если ключевые кадры не выбраны."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:175
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Вставить ключевой кадр"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:121
+#: src/assets/view/widgets/keyframecontainer.cpp:177
 #, kde-format
 msgid "Paste keyframes"
 msgstr "Вставить ключевые кадры"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:122
+#: src/assets/view/widgets/keyframecontainer.cpp:178
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
@@ -18442,18 +18442,18 @@ msgstr ""
 "Вставить ключевые кадры. Вставляет данные буфера обмена в виде ключевых "
 "кадров на текущую позицию."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:124
+#: src/assets/view/widgets/keyframecontainer.cpp:180
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Применить значение текущей позиции к выбранным ключевым кадрам"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:127
-#: src/assets/view/widgets/keyframecontainer.cpp:140
+#: src/assets/view/widgets/keyframecontainer.cpp:183
+#: src/assets/view/widgets/keyframecontainer.cpp:196
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Интерполяция ключевых кадров"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:141
+#: src/assets/view/widgets/keyframecontainer.cpp:197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18463,44 +18463,44 @@ msgstr ""
 "Интерполяция ключевых кадров. Определяет вариант интерполяции, который будет "
 "использоваться для текущего ключевого кадра."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:162
+#: src/assets/view/widgets/keyframecontainer.cpp:218
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Перейти к ключевому кадру при выборе"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:167
+#: src/assets/view/widgets/keyframecontainer.cpp:223
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Копировать все ключевые кадры в буфер обмена"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:225
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Вставить ключевые кадры из буфера обмена…"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:178
+#: src/assets/view/widgets/keyframecontainer.cpp:234
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Удалить все ключевые кадры за курсором"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:182
+#: src/assets/view/widgets/keyframecontainer.cpp:238
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Интерполяция по умолчанию"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:221
+#: src/assets/view/widgets/keyframecontainer.cpp:277
 #, kde-format
 msgid "Limit automatic keyframes"
 msgstr "Ограничить автоматические ключевые кадры"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1558
+#: src/assets/view/widgets/keyframecontainer.cpp:289 src/bin/bin.cpp:1558
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Параметры"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:235
+#: src/assets/view/widgets/keyframecontainer.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18510,45 +18510,45 @@ msgstr ""
 "Открывает список дальнейших действий по управлению ключевыми кадрами "
 "(например: копирование и вставка ключевых кадров с помощью буфера обмена)."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:302
+#: src/assets/view/widgets/keyframecontainer.cpp:358
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Выбор параметров для копирования"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:926
+#: src/assets/view/widgets/keyframecontainer.cpp:982
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ключевые кадры скопированы"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:937
-#: src/assets/view/widgets/keyframecontainer.cpp:978
-#: src/assets/view/widgets/keyframecontainer.cpp:985
+#: src/assets/view/widgets/keyframecontainer.cpp:993
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1041
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "В буфере обмена отсутствуют допустимые ключевые кадры"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1029
+#: src/assets/view/widgets/keyframecontainer.cpp:1093
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Не удалось скопировать текущие значения параметров"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1034
-#: src/assets/view/widgets/keyframecontainer.cpp:1045
+#: src/assets/view/widgets/keyframecontainer.cpp:1098
+#: src/assets/view/widgets/keyframecontainer.cpp:1109
 #, kde-format
 msgid "Current values copied"
 msgstr "Текущие значения параметров скопированы"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1057
+#: src/assets/view/widgets/keyframecontainer.cpp:1121
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "В буфере обмена отсутствуют ключевые кадры"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1202
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Не удалось удалить последний ключевой кадр"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1150
+#: src/assets/view/widgets/keyframecontainer.cpp:1214
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -20099,7 +20099,7 @@ msgstr "Предпросмотр >>>"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:661
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -20296,7 +20296,7 @@ msgid "Move subtitle"
 msgstr "Переместить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:688
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -21360,7 +21360,7 @@ msgstr "Экспорт данных направляющих"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:767
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
@@ -22484,6 +22484,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "Для изменения этого параметра необходимо перезагрузить Kdenlive"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Профиль с этим именем уже существует"
@@ -25213,12 +25214,12 @@ msgstr "Эффект %1 можно добавить только в мастер
 msgid "Move effect %1"
 msgstr "Переместить эффект %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Move effect up"
 msgstr "Переместить эффект вверх"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25229,12 +25230,12 @@ msgstr ""
 "обрабатываются последовательно от верхнего к нижнему, поэтому "
 "последовательность расположения имеет значение."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
 #, kde-format
 msgid "Move effect down"
 msgstr "Переместить эффект вниз"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:65
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25245,53 +25246,53 @@ msgstr ""
 "обрабатываются последовательно от верхнего к нижнему, поэтому "
 "последовательность расположения имеет значение."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Свернуть эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Expand Effect"
 msgstr "Развернуть эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:102
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Открыть документацию по эффекту в браузере"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:128
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Включить ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Скрыть ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Показать ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Показать ключевые кадры на монтажном столе."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Disable Effect"
 msgstr "Отключить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Enable Effect"
 msgstr "Включить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -25299,7 +25300,7 @@ msgstr ""
 "Отключает эффект. Позволяет сравнить результаты до и после применения "
 "параметров настройки."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -25307,22 +25308,22 @@ msgstr ""
 "Включает эффект. Позволяет сравнить результаты до и после применения "
 "параметров настройки."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:170
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Create Group"
 msgstr "Создать группу"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
 #, kde-format
 msgid "In:"
 msgstr "Вход:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "Set zone in"
 msgstr "Установить точку входа участка"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
@@ -25330,17 +25331,17 @@ msgstr ""
 "Устанавливает текущую позицию кадра/указателя воспроизведения в качестве "
 "точки входа."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:189
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Out:"
 msgstr "Выход: "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Set zone out"
 msgstr "Установить точку выхода участка"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:196
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
@@ -25348,12 +25349,12 @@ msgstr ""
 "Устанавливает текущую позицию кадра/указателя воспроизведения в качестве "
 "точки выхода."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-format
 msgid "Use effect zone"
 msgstr "Использовать участок эффекта"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:233
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -25361,13 +25362,13 @@ msgstr "Переключает отображение участка эффек�
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Предустановки"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:297
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -25375,23 +25376,23 @@ msgstr ""
 "Открывает список дополнительных параметров для настройки предустановок "
 "эффекта."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
 #, kde-format
 msgid "Delete effect"
 msgstr "Удалить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:326
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Удаляет эффект из стека эффектов."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "Экземпляров этого эффекта в группе: %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -25402,28 +25403,28 @@ msgstr ""
 "стола, дорожку или клип проекта. Чтобы скопировать эффект в один элемент из "
 "группы: <b>Alt + перемещение</b>."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Disable %1"
 msgstr "Отключить %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Enable %1"
 msgstr "Включить %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Сохранение эффекта"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:662
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
 #, kde-format
 msgid "Comments:"
 msgstr "Комментарии:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:677
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Имя не указано, эффект не был сохранён."

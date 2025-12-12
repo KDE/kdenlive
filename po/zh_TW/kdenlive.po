@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-11 02:37+0000\n"
+"POT-Creation-Date: 2025-12-12 02:37+0000\n"
 "PO-Revision-Date: 2025-09-27 03:51+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -2513,9 +2513,9 @@ msgstr "顯示軸線"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:278
-#: src/assets/view/widgets/keyframecontainer.cpp:325
-#: src/assets/view/widgets/keyframecontainer.cpp:631
+#: src/assets/view/widgets/keyframecontainer.cpp:334
+#: src/assets/view/widgets/keyframecontainer.cpp:381
+#: src/assets/view/widgets/keyframecontainer.cpp:687
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3308,9 +3308,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
-#: src/assets/view/widgets/keyframecontainer.cpp:281
 #: src/assets/view/widgets/keyframecontainer.cpp:337
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:393
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3324,9 +3324,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:280
-#: src/assets/view/widgets/keyframecontainer.cpp:331
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:336
+#: src/assets/view/widgets/keyframecontainer.cpp:387
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -16434,17 +16434,17 @@ msgstr ""
 "用使用者定義的混合模式、不透明度和比例來將第二個輸入與第一個輸入進行合成。"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframecontainer.cpp:283
-#: src/assets/view/widgets/keyframecontainer.cpp:343
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:339
+#: src/assets/view/widgets/keyframecontainer.cpp:399
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "X position"
 msgstr "X 位置"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframecontainer.cpp:282
-#: src/assets/view/widgets/keyframecontainer.cpp:349
-#: src/assets/view/widgets/keyframecontainer.cpp:629
+#: src/assets/view/widgets/keyframecontainer.cpp:338
+#: src/assets/view/widgets/keyframecontainer.cpp:405
+#: src/assets/view/widgets/keyframecontainer.cpp:685
 #, kde-format
 msgid "Y position"
 msgstr "Y 位置"
@@ -17471,7 +17471,7 @@ msgstr "平滑（已棄用）"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframecontainer.cpp:94
+#: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
 #, kde-format
 msgid "Add keyframe"
@@ -17486,7 +17486,7 @@ msgstr "修改關鍵幀類型"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframecontainer.cpp:96
+#: src/assets/view/widgets/keyframecontainer.cpp:152
 #: src/dialogs/timeremap.cpp:1633
 #, kde-format
 msgid "Delete keyframe"
@@ -17513,23 +17513,23 @@ msgstr "移動關鍵幀"
 msgid "Update keyframe"
 msgstr "更新關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:886
+#: src/assets/keyframes/model/keyframemodel.cpp:887
 #: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "刪除所有關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1099
+#: src/assets/keyframes/model/keyframemodel.cpp:1100
 #, kde-format
 msgid "effect"
 msgstr "效果"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1108
+#: src/assets/keyframes/model/keyframemodel.cpp:1109
 #, kde-format
 msgid "Reset %1"
 msgstr "重設 %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1381
+#: src/assets/keyframes/model/keyframemodel.cpp:1382
 #, kde-format
 msgid "Reset effect"
 msgstr "重設效果"
@@ -17627,7 +17627,7 @@ msgid "Failed to load preset %1"
 msgstr "載入預設檔 %1 失敗"
 
 #: src/assets/view/assetparameterview.cpp:51
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:307
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:309
 #, kde-format
 msgid "Reset Effect"
 msgstr "重設效果"
@@ -17685,41 +17685,41 @@ msgstr "中止處理"
 msgid "Move Keyframe"
 msgstr "移動關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:78
+#: src/assets/view/widgets/keyframecontainer.cpp:134
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "切換至時間軸檢視"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:80
+#: src/assets/view/widgets/keyframecontainer.cpp:136
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "切換至曲線編輯器檢視"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:101
+#: src/assets/view/widgets/keyframecontainer.cpp:157
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:2054
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "跳到上一個關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:105
+#: src/assets/view/widgets/keyframecontainer.cpp:161
 #: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:2052
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "跳到下一個關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:110
+#: src/assets/view/widgets/keyframecontainer.cpp:166
 #: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "將選取關鍵幀移動到游標"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:113
-#: src/assets/view/widgets/keyframecontainer.cpp:115
+#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:171
 #, kde-format
 msgid "Copy keyframes"
 msgstr "複製關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:117
+#: src/assets/view/widgets/keyframecontainer.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17727,35 +17727,35 @@ msgid ""
 "no keyframe is selected."
 msgstr "複製關鍵幀。複製選取的關鍵幀；若沒有選取關鍵幀則複製目前參數的數值。"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:119
-#: src/assets/view/widgets/keyframecontainer.cpp:1021
+#: src/assets/view/widgets/keyframecontainer.cpp:175
+#: src/assets/view/widgets/keyframecontainer.cpp:1085
 #, kde-format
 msgid "Paste keyframe"
 msgstr "貼上關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:121
+#: src/assets/view/widgets/keyframecontainer.cpp:177
 #, kde-format
 msgid "Paste keyframes"
 msgstr "貼上關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:122
+#: src/assets/view/widgets/keyframecontainer.cpp:178
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr "貼上關鍵幀。將剪貼簿資料作為關鍵幀貼上於目前位置。"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:124
+#: src/assets/view/widgets/keyframecontainer.cpp:180
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "向目前位置數值套用到所選關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:127
-#: src/assets/view/widgets/keyframecontainer.cpp:140
+#: src/assets/view/widgets/keyframecontainer.cpp:183
+#: src/assets/view/widgets/keyframecontainer.cpp:196
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "關鍵幀動態曲線"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:141
+#: src/assets/view/widgets/keyframecontainer.cpp:197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17763,45 +17763,45 @@ msgid ""
 "the current keyframe."
 msgstr "關鍵幀內插補點。這會定義目前關鍵幀要使用哪一種內插補點法。"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:162
+#: src/assets/view/widgets/keyframecontainer.cpp:218
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "選取時跳到關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:167
+#: src/assets/view/widgets/keyframecontainer.cpp:223
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "複製所有關鍵幀到剪貼簿"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:169
+#: src/assets/view/widgets/keyframecontainer.cpp:225
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "從剪貼簿匯入關鍵幀…"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:178
+#: src/assets/view/widgets/keyframecontainer.cpp:234
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "移除游標後的所有關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:182
+#: src/assets/view/widgets/keyframecontainer.cpp:238
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "預設關鍵幀類型"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:221
+#: src/assets/view/widgets/keyframecontainer.cpp:277
 #, fuzzy, kde-format
 #| msgid "Automatic Keyframes"
 msgid "Limit automatic keyframes"
 msgstr "自動關鍵幀"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:233 src/bin/bin.cpp:1558
+#: src/assets/view/widgets/keyframecontainer.cpp:289 src/bin/bin.cpp:1558
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "選項"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:235
+#: src/assets/view/widgets/keyframecontainer.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17809,46 +17809,46 @@ msgid ""
 "and pasting keyframes from clipboard)."
 msgstr "開啟管理關鍵幀用的更多動作的列表（例如：關鍵幀的複製或貼上）。"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:302
+#: src/assets/view/widgets/keyframecontainer.cpp:358
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "選擇要複製的參數"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:926
+#: src/assets/view/widgets/keyframecontainer.cpp:982
 #, kde-format
 msgid "Keyframes copied"
 msgstr "關鍵幀已複製"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:937
-#: src/assets/view/widgets/keyframecontainer.cpp:978
-#: src/assets/view/widgets/keyframecontainer.cpp:985
+#: src/assets/view/widgets/keyframecontainer.cpp:993
+#: src/assets/view/widgets/keyframecontainer.cpp:1034
+#: src/assets/view/widgets/keyframecontainer.cpp:1041
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "剪貼簿中沒有有效的關鍵幀資料"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1029
+#: src/assets/view/widgets/keyframecontainer.cpp:1093
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "無法複製目前的參數值"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1034
-#: src/assets/view/widgets/keyframecontainer.cpp:1045
+#: src/assets/view/widgets/keyframecontainer.cpp:1098
+#: src/assets/view/widgets/keyframecontainer.cpp:1109
 #, kde-format
 msgid "Current values copied"
 msgstr "已複製目前的值"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1057
+#: src/assets/view/widgets/keyframecontainer.cpp:1121
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "剪貼簿中沒有有效的關鍵幀資料"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1202
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "無法移除最後一個關鍵幀"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1150
+#: src/assets/view/widgets/keyframecontainer.cpp:1214
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -19346,7 +19346,7 @@ msgstr "顯示預覽 >>>"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:205
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:661
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:663
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -19534,7 +19534,7 @@ msgid "Move subtitle"
 msgstr "移動字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:688
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:707
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:872
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:384
@@ -20559,7 +20559,7 @@ msgstr "匯出標記資料"
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:767
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
 #: src/profiles/profilerepository.cpp:189
@@ -21654,6 +21654,7 @@ msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive 需要重新啟動才能變更此設定"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "已經存在使用該名稱的編碼方案"
@@ -24266,12 +24267,12 @@ msgstr "效果 %1 只能加入 master 軌道"
 msgid "Move effect %1"
 msgstr "移動效果 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Move effect up"
 msgstr "上移一層"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24279,12 +24280,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr "將效果與上一個效果交換位置。效果由上而下套用，因此順序是重要的。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
 #, kde-format
 msgid "Move effect down"
 msgstr "下移一層"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:65
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24292,107 +24293,107 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr "將效果與下一個效果交換位置。效果由上而下套用，因此順序是重要的。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Collapse Effect"
 msgstr "折疊效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:95
 #, kde-format
 msgid "Expand Effect"
 msgstr "展開效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:102
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "在瀏覽器中開啟效果說明文件"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:128
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "啟用關鍵幀"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "隱藏關鍵幀"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:132
 #, kde-format
 msgid "Show Keyframes"
 msgstr "顯示關鍵幀"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "顯示關鍵幀量尺。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Disable Effect"
 msgstr "停用效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Enable Effect"
 msgstr "啟用效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "會停用效果。可以用來比對套用前和套用後的設定。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "會啟用效果。可以用來比對套用前和套用後的設定。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:170
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Create Group"
 msgstr "建立群組"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:179
 #, kde-format
 msgid "In:"
 msgstr "起點："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-format
 msgid "Set zone in"
 msgstr "設定區段起點"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "將目前影格/播放頭位置設為區段起點。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:189
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:191
 #, kde-format
 msgid "Out:"
 msgstr "終點："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:197
 #, kde-format
 msgid "Set zone out"
 msgstr "設定區段終點"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:196
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "將目前影格/播放頭位置設為區段終點。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-format
 msgid "Use effect zone"
 msgstr "使用效果區段"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:233
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -24400,35 +24401,35 @@ msgstr "切換效果區段的顯示。"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:298
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "預設檔"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:297
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "開啟進階選項列表來管理效果的預設集。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
 #, kde-format
 msgid "Delete effect"
 msgstr "刪除效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:326
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "從效果堆疊刪除效果。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:384
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "此效果在群組中有 %1 個實體"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -24438,28 +24439,28 @@ msgstr ""
 "<b>拖曳</b>效果到另一個時間軸素材、軌道或專案素材來複製它。<b>Alt-拖曳</b>來"
 "將它複製到群組中的單一項目。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Disable %1"
 msgstr "關閉 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:621
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:623
 #, kde-format
 msgid "Enable %1"
 msgstr "啟用 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "儲存效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:662
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:664
 #, kde-format
 msgid "Comments:"
 msgstr "註解："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:677
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "未提供名稱，因此未儲存效果。"
