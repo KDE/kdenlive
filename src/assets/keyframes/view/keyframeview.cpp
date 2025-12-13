@@ -147,11 +147,20 @@ const QString KeyframeView::getAssetId()
     return m_model->getAssetId();
 }
 
-void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
+void KeyframeView::slotEditFramesType(QList<int> frames, int type, const QPersistentModelIndex &index)
 {
-    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
-    if (m_model->hasKeyframe(m_position + offset)) {
-        m_model->updateKeyframeType(GenTime(m_position + offset, pCore->getCurrentFps()), type, index);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool updated = false;
+    for (auto &f : frames) {
+        if (m_model->hasKeyframe(f)) {
+            if (m_model->updateKeyframeType(GenTime(f, pCore->getCurrentFps()), type, index, undo, redo)) {
+                updated = true;
+            }
+        }
+    }
+    if (updated) {
+        pCore->pushUndo(undo, redo, i18n("Update keyframe"));
     }
 }
 

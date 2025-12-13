@@ -40,7 +40,7 @@ public Q_SLOTS:
     void slotModelDisplayChanged();
     void slotOnFocus();
     void slotLoseFocus();
-    void slotEditType(int type, const QPersistentModelIndex &index);
+    void slotEditFramesType(QList<int> frames, int type, const QPersistentModelIndex &index);
     /** @brief Emit initial info for monitor. */
     void initKeyframePos();
     /** @brief Move selected keyframe to cursor position. */
