@@ -8399,6 +8399,8 @@ msgid ""
 "The Start is half the height in degrees of the un-matted area. The End is "
 "the half the height in degrees where the matte is at 100%."
 msgstr ""
+"起点为无遮罩区域高度的一半 (以角度计) 。终点为遮罩达到 100% 时高度的一半 (以"
+"角度计) 。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
 #, kde-format
@@ -8744,6 +8746,8 @@ msgid ""
 "    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
 "direction towards the frame top edge."
 msgstr ""
+"后置摄像头的图像中心和图像方向。<br>\n"
+"    “上”方向指图像中朝向画面上边缘的方向，以顺时针角度 (度) 表示。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:66
 #, kde-format
@@ -8759,6 +8763,9 @@ msgid ""
 "    \tThis parameter \"stretches\" the image near nadir to cover up the "
 "missing parts."
 msgstr ""
+"360 相机（例如 Theta）在天底方向存在一个问题，无论怎样调整，摄像机都会拍到少"
+"许相机本体。<br>\n"
+"    \t「此参数」会\"拉伸\"最低点附近的图像以遮盖缺失部分。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
 #, kde-format
@@ -8778,6 +8785,8 @@ msgid ""
 "Lens distortion correction parameters.<br>\n"
 "    \tThe first three parameters are the same as in Hugin."
 msgstr ""
+"镜头畸变校正参数。<br>\n"
+"    \t前三个参数与 Hugin 中的相同。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
 #, kde-format
@@ -8802,6 +8811,9 @@ msgid ""
 "(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
 "hemispherical image, that would be 0.25."
 msgstr ""
+"镜头畸变校正参数。<br>\n"
+"    若使用 Hugin 参数，半径应设为 (0.5 * min (图像宽度，图像高度)  / 图像宽"
+"度) 的值。对于 2:1 宽高比的双半球图像，该值应为 0.25。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
 #, kde-format
@@ -8818,6 +8830,8 @@ msgid ""
 "    \tThe first four parameters are the same as in Hugin, corresponding to "
 "the Va, Vb, Vc and Vd image parameters."
 msgstr ""
+"镜头暗角校正参数。<br>\n"
+"    \t前四个参数与 Hugin 中的相同，对应图像的 Va、Vb、Vc 和 Vd 参数。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
 #, kde-format
@@ -8847,6 +8861,9 @@ msgid ""
 "    \tFor a 2:1 aspect dual hemispherical image, that would be 0.5590. Use "
 "the A parameter to scale the effect and avoid overexposing highlights"
 msgstr ""
+"若使用 Hugin 参数，半径应设为 (0.5 * 图像对角线 / 图像宽度) 的值。<br>\n"
+"对于 2:1 宽高比的双半球图像，该值应为 0.5590。请使用 A 参数调节效果强度，以避"
+"免高光过曝。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
 #, kde-format
@@ -8856,7 +8873,7 @@ msgstr "使用传感器响应参数"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
 #, kde-format
 msgid "Switch on to use sensor response parameters (EMoR h(x))"
-msgstr ""
+msgstr "开启以使用传感器响应参数 (EMoR h(x))"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
 #, kde-format
@@ -8876,6 +8893,10 @@ msgid ""
 "should also use these parameters, as Hugin's vignetting correction assumes "
 "that the sensor response has been corrected."
 msgstr ""
+"传感器响应参数。<br>\n"
+"    EMoR h(x) 参数与 Hugin 镜头参数中的 Ra - Re 相同。如果您使用从 Hugin 导出"
+"的暗角校正值，则也应使用这些参数，因为 Hugin 的暗角校正假定传感器响应已得到校"
+"正。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
 #, kde-format
@@ -8925,6 +8946,9 @@ msgid ""
 "analyzing footage, it detects frame-to-frame rotation, and when stabilizing "
 "it tries to correct high-frequency motion (shake)."
 msgstr ""
+"稳定 360° 视频。<br>\n"
+"    该插件有两个工作模式：分析与稳定。在分析模式，它检测帧与帧之间的旋转；在"
+"稳定模式，则尝试校正高频运动 (抖动) 。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:9
 #, kde-format
@@ -8934,7 +8958,7 @@ msgstr "分析"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:10
 #, kde-format
 msgid "Switch on for analysis phase; switch off for stabilization phase."
-msgstr ""
+msgstr "开启以进行分析；关闭以进行稳定。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
 #, kde-format
@@ -8944,7 +8968,7 @@ msgstr "运动分析文件"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
 #, kde-format
 msgid "Select the file to store stabilization data in"
-msgstr ""
+msgstr "选择稳定数据保存的文件"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
@@ -8960,6 +8984,9 @@ msgid ""
 "split it into three clips of 10 seconds each, then the start offsets should "
 "be 0s, 10s, and 20s."
 msgstr ""
+"此片段在稳定数据文件中的起始偏移量。<br>\n"
+"    例如，若您有一个 30 秒的片段，先完整分析，再将其拆分为三个各 10 秒的片"
+"段，则各片段的起始偏移量应分别为 0 秒、10 秒和 20 秒。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
 #, kde-format
@@ -8969,7 +8996,7 @@ msgstr "分析采样半径"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
 msgid "The radius of the square that the stabilizer will sample"
-msgstr ""
+msgstr "稳定器方形采样区域半径"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #, kde-format
@@ -8979,7 +9006,7 @@ msgstr "分析搜索半径"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:27
 #, kde-format
 msgid "The maximum amount of motion the stabilizer will detect"
-msgstr ""
+msgstr "稳定器最大检测运动量"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
 #, kde-format
@@ -38313,6 +38340,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Make by KDE"
-#~ msgstr "KDE 社区项目"

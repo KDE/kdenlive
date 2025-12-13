@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-12 00:42+0000\n"
-"PO-Revision-Date: 2025-12-09 19:20+0100\n"
+"PO-Revision-Date: 2025-12-11 13:27+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2901,14 +2901,7 @@ msgid "Direction"
 msgstr "Direction"
 
 #: data/effects/avfilter/avfilter_deband.xml:35
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets direction in degrees from which four pixel will be compared."
-#| "<br>\n"
-#| "        If positive, random direction from 0 to set direction will be "
-#| "picked. If negative, exact of absolute value will be picked. For example "
-#| "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
-#| "will pick only pixels on same column]]>"
+#, kde-format
 msgid ""
 "Sets direction in degrees from which four pixel will be compared.<br>\n"
 "        If positive, random direction from 0 to set direction will be "
@@ -2916,12 +2909,13 @@ msgid ""
 "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
 "will pick only pixels on same column"
 msgstr ""
-"<![CDATA[CDATA[Définit la direction en degrés à partir de laquelle quatre "
-"pixels seront comparés.<br>\n"
-"        Si positif, la direction aléatoire à partir de 0 vers la direction "
-"définie sera choisie. Si négatif, la valeur exacte absolue sera choisie. Par "
-"exemple, la direction 0 °, -180 ° ou -360 ° ne choisira que des pixels sur "
-"la même ligne et -90 ° ne choisira que des pixels sur la même colonne]]>"
+"Définit la direction en degrés à partir de laquelle les quatre pixels seront "
+"comparés.<br>\n"
+"        Si la valeur est positive, une direction aléatoire à partir de 0 "
+"vers la direction définie sera sélectionnée. Si la valeur est négative, la "
+"valeur exacte absolue sera sélectionnée. Par exemple, la direction 0 °, - "
+"180 ° ou - 360 ° ne sélectionnera que les pixels sur la même ligne et -la "
+"direction  90 ° ne sélectionnera que les pixels sur la même colonne."
 
 #: data/effects/avfilter/avfilter_deband.xml:38
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:14
@@ -11504,13 +11498,7 @@ msgstr "Seuil de l'écart de somme"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:23
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[How much does the sum of all color channels <em>relative to the "
-#| "background image</em> (<code>dR + dG + dB</code>) have to change until a "
-#| "pixel is recognized as a light source?<br/>\n"
-#| "            Raising this value might, in some cases, avoid that some "
-#| "light objects lit by the light source are added to the light mask.]]>"
+#, kde-format
 msgid ""
 "How much does the sum of all color channels <em>relative to the background "
 "image</em> (<code>dR + dG + dB</code>) have to change until a pixel is "
@@ -11518,11 +11506,13 @@ msgid ""
 "            Raising this value might, in some cases, avoid that some light "
 "objects lit by the light source are added to the light mask."
 msgstr ""
-"<![CDATA[De combien la somme de tous les canaux de couleur <em>par rapport à "
-"l'arrière-plan</em> (<code>d R+d G+d B</code>) doit-elle changer pour être "
-"reconnu comme une source de lumière ?<br/>\n"
-" \t Augmenter cette valeur peut dans certains cas éviter que des objets "
-"clairs pointés par la source soient inclus au masque de lumière.]]>"
+"De combien la somme de tous les canaux de couleurs <em>par rapport à "
+"l'arrière-plan</em> (<code>dR + dG + dB</code>) doit-elle être corrigée pour "
+"être reconnu jusqu'à ce qu'un pixel soit reconnu comme source de lumière ?"
+"<br/>\n"
+" \t L'augmentation de cette valeur peut dans certains cas éviter que des "
+"objets clairs éclairés par la source de lumière soient inclus au masque de "
+"lumière."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
@@ -11603,14 +11593,7 @@ msgstr "α"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:46
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Determines how the effect tries to adapt to background changes. "
-#| "<br/>\n"
-#| "            The Light Graffiti effect remembers the first frame of the "
-#| "clip it is applied to, so the clip should <em>always</em> start with the "
-#| "painter outside of the video. If the background constantly changes, e.g. "
-#| "on a street, try to set α > 0 to calculate an average background image.]]>"
+#, kde-format
 msgid ""
 "Determines how the effect tries to adapt to background changes. <br/>\n"
 "            The Light Graffiti effect remembers the first frame of the clip "
@@ -11618,13 +11601,13 @@ msgid ""
 "outside of the video. If the background constantly changes, e.g. on a "
 "street, try to set α > 0 to calculate an average background image."
 msgstr ""
-"<![CDATA[Détermine comment l'effet essaye de s'adapter aux changements "
-"d'arrière-plan.<br/>\n"
-"\t L'effet de lumière « Graffiti » mémorise la première image du clip auquel "
-"il est appliqué, aussi le clip devrait <em>toujours</em> commencer avec le "
-"peintre hors de la vidéo. Si l'arrière-plan change constamment, par exemple "
-"dans une rue, essayez de régler α > 0 pour calculer une image d'arrière-plan "
-"moyennée.]]>"
+"Détermine comment l'effet essaye de s'adapter aux modifications d'arrière-"
+"plan.<br/>\n"
+"\t L'effet de lumière « Graffiti » mémorise la première trame de la séquence "
+"à laquelle il est appliqué. Ainsi, la séquence devrait <em>toujours</em> "
+"commencer avec le peintre hors de la vidéo. Si l'arrière-plan change "
+"constamment, par exemple dans une rue, veuillez essayer de régler la valeur "
+"α > 0 pour calculer une image d'arrière-plan moyennée."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:50
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:122
@@ -13668,14 +13651,7 @@ msgid "Show dots only"
 msgstr "Afficher uniquement les points"
 
 #: data/effects/gpsgraphic.xml:151
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, the graph will be drawn using individual dots "
-#| "instead of lines.<br>\n"
-#| "    \tThis will effectively show the individual data points as affected "
-#| "by smoothing (ie: for location data it will display each GPS fix if "
-#| "smoothing is 1) and can either be used as a cool effect when zoomed in "
-#| "enough or to debug unexpected line jumps.]]>"
+#, kde-format
 msgid ""
 "If enabled, the graph will be drawn using individual dots instead of lines."
 "<br>\n"
@@ -13684,13 +13660,13 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps."
 msgstr ""
-"<![CDATA[Si cette option est activée, le graphique sera dessiné en utilisant "
-"des points individuels au lieu de lignes.<br>\n"
+"Si cette option est activée, le graphique sera dessiné en utilisant des "
+"points individuels au lieu de lignes.<br>\n"
 "        Cela affichera efficacement les points de données individuels "
 "affectés par le lissage (C'est-à-dire que pour les données de localisation, "
 "il affichera chaque correction GPS si le lissage est à 1). Il peut être "
 "utilisé comme un effet agréable lorsque le zoom avant est suffisant ou pour "
-"déboguer les sauts de ligne inattendus.]]>"
+"déboguer les sauts de ligne inattendus."
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
