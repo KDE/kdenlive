@@ -221,6 +221,9 @@ public:
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
     */
     bool isIncludedInTimeline() override;
+    /** @brief Returns true if a clip corresponding to this bin is inserted in the timeline with UUid uuid.
+     */
+    bool isIncludedInSequence(const QUuid &seqUuid);
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList<int> timelineInstances(QUuid activeUuid = QUuid()) const;
     QMap<QUuid, QList<int>> getAllTimelineInstances() const;

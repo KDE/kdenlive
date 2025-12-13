@@ -318,7 +318,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonGenerateScript->setEnabled(false);
 
     connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index) {
-        if (m_treeModel->parent(index) == QModelIndex()) {
+        if (!index.isValid() || index.parent() == QModelIndex()) {
             // This is a top level item - group - don't edit
             return;
         }
@@ -2275,7 +2275,12 @@ void RenderWidget::checkDriveSpace()
     QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
     m_lastCheckedDevice = info.device();
     DriveSpaceStatus previousState = m_freeSpaceStatus;
+#ifdef Q_OS_MAC
+    // Device always returns readonly on Mac
+    if (!info.isReady() || !info.isValid()) {
+#else
     if (!info.isReady() || !info.isValid() || info.isReadOnly()) {
+#endif
         m_freeSpaceStatus = SpaceNotWritable;
         if (!info.isReady()) {
             // Drive may be mounting, check again in a few seconds

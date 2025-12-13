@@ -28,10 +28,14 @@ TimelineWaveform::TimelineWaveform(QQuickItem *parent)
     // setMipmap(true);
     // setTextureSize(QSize(1, 1));
     connect(this, &TimelineWaveform::needRecompute, [this] {
-        if (m_normalize) {
-            m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
+        if (m_outPoint <= m_inPoint) {
+            // Waveform not initialized
+            return;
         }
         m_needRecompute = true;
+        if (m_normalize && m_normalizeFactor == 1.) {
+            m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
+        }
         update();
     });
     connect(this, &TimelineWaveform::needRedraw, &QQuickItem::update);
@@ -103,16 +107,11 @@ void TimelineWaveform::compute()
     }
 
     const auto inPoint = static_cast<int>(m_inPoint);
-    auto outPoint = static_cast<int>(m_outPoint);
     const auto clipLength = levels.size() / AUDIOLEVELS_POINTS_PER_FRAME / m_channels;
+    const auto outPoint = qMin(clipLength, static_cast<int>(m_outPoint));
 
     if (inPoint < 0 || outPoint < 0 || outPoint <= inPoint || inPoint >= clipLength) {
         return;
-    }
-
-    if (outPoint > clipLength) {
-        qWarning() << "Waveform render outPoint=" << outPoint << " is higher than clipLength=" << clipLength << ", truncating.";
-        outPoint = clipLength;
     }
 
     const double timescale = m_scale / std::abs(m_speed);

@@ -30,6 +30,7 @@ Item {
     property double scalex
     property double scaley
     property bool captureRightClick: false
+    property bool seeking: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -44,7 +45,7 @@ Item {
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int mouseRulerPos: 0
     property bool rotatable: false
-    property double rotation: _rotation
+    property double rect_rotation: _rotation
     // private property used to prevent circular updates when frame is transformed via Monitor, the change is signaled to cpp, 
     // it updates its model and calls us back to update the Monitor
     property double _rotation: 0
@@ -53,9 +54,9 @@ Item {
     onScaleyChanged: canvas.requestPaint()
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
-    onRotationChanged: {
+    onRect_rotationChanged: {
         if (!transformedFrame.isRotating) {
-            _rotation = rotation
+            _rotation = rect_rotation
             canvas.requestPaint()
         }
     }
@@ -559,7 +560,7 @@ Item {
             
             onRotationEnd: {
                 root._rotation = root.pendingRotation
-                root.rotation = root._rotation
+                root.rect_rotation = root._rotation
                 transformedFrame.isRotating = false
             }
             

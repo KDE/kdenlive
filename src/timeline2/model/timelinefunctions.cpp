@@ -1756,6 +1756,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
             allIds.insert(siblings.begin(), siblings.end());
         }
     }
+
     // Avoid using a subtitle item as reference since it doesn't work with track offset
     if (timeline->isSubTitle(mainId)) {
         for (const auto &id : allIds) {
@@ -1814,6 +1815,19 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     }
     QDomElement container2 = copiedItems.createElement(QStringLiteral("bin"));
     container.appendChild(container2);
+
+    QStringList includedItems;
+    QList<QUuid> processedUuids;
+    // If a sequence is included, ensure we add all its clips
+    for (const QString &id : std::as_const(binIds)) {
+        std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+        if (clip->clipType() == ClipType::Timeline) {
+            includedItems << pCore->projectItemModel()->getAllSequenceBinIds(clip->getSequenceUuid(), &processedUuids);
+        }
+    }
+    includedItems.removeDuplicates();
+    binIds << includedItems;
+
     for (const QString &id : std::as_const(binIds)) {
         std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
         QDomDocument tmp;
@@ -2169,16 +2183,21 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     int pasteDuration = copiedItems.documentElement().attribute(QStringLiteral("duration")).toInt();
     if (docId == pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // Check that the bin clips exists in case we try to paste in a copy of original project
-        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
+        QDomNode binNode = copiedItems.documentElement().firstChildElement(QStringLiteral("bin"));
+        // Ensure we only list producers that are direct children of the bin, and not producers that might be embedded in a sequence
+        QDomNodeList binClips = binNode.toElement().childNodes();
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
+            if (currentProd.tagName() != QStringLiteral("producer")) {
+                continue;
+            }
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
             if (clipId.isEmpty()) {
                 // Invalid clip, maybe black track from a sequence, ignore
                 continue;
             }
-            QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
+            const QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
             if (!pCore->projectItemModel()->validateClip(clipId, clipHash)) {
                 // This clip is different in project and in paste data, create a copy
                 QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
@@ -2254,6 +2273,18 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                                                                                   QStringList &importedUuids, Fun &undo, Fun &redo) {
             for (int i = 0; i < clips.count(); ++i) {
                 QDomElement currentProd = clips.item(i).toElement();
+                if (currentProd.tagName() != QLatin1String("producer") && currentProd.tagName() != QLatin1String("chain")) {
+                    // Check if this is a playlist item
+                    if (currentProd.tagName() != QLatin1String("mlt")) {
+                        continue;
+                    }
+                    if (currentProd.hasAttribute(QStringLiteral("kdenlive:producer_type"))) {
+                        // This is a sequence producer, processed before calling this
+                        continue;
+                    } else {
+                        currentProd = currentProd.lastChildElement(QLatin1String("producer"));
+                    }
+                }
                 QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
                 if (clipId.isEmpty()) {
                     // Not a bin clip
@@ -2281,6 +2312,16 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                     Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), mappedIds.value(clipId));
                 }
 
+                if (Xml::hasXmlProperty(currentProd, QStringLiteral("warp_resource"))) {
+                    // This is a timewarp producer, change it into a normal one
+                    const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+                    Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
+                    Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+                    // Reset AV settings as it might be a timeline producer
+                    Xml::removeXmlProperty(currentProd, QStringLiteral("set.test_audio"));
+                    Xml::removeXmlProperty(currentProd, QStringLiteral("set.test_image"));
+                }
+
                 const QString ctrlUuid = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:control_uuid"));
                 if (importedUuids.contains(ctrlUuid)) {
                     // already imported
@@ -2292,7 +2333,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
                 // Check if we already have a clip with same hash in pasted clips folder
                 const QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
-                const QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash);
+                const QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash, ctrlUuid);
                 if (!existingId.isEmpty()) {
                     mappedIds.insert(clipId, existingId);
                     continue;
@@ -2317,16 +2358,10 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         };
 
         QStringList importedUuids;
-        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
+        QDomNode binNode = copiedItems.documentElement().firstChildElement(QStringLiteral("bin"));
+        // Ensure we only list producers that are direct children of the bin, and not producers that might be embedded in a sequence
+        QDomNodeList binClips = binNode.toElement().childNodes();
         if (!pasteClip(binClips, folderId, clipsImported, importedUuids, undo, redo)) {
-            pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
-            undo();
-            semaphore.release(1);
-            return false;
-        }
-
-        QDomNodeList chainClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("chain"));
-        if (!pasteClip(chainClips, folderId, clipsImported, importedUuids, undo, redo)) {
             pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
             undo();
             semaphore.release(1);

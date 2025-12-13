@@ -55,12 +55,12 @@ static bool m_inhibitHideBarTimer{false};
 
 std::unique_ptr<Core> Core::m_self;
 Core::Core(LinuxPackageType packageType, bool debugMode)
-    : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    : debugMode(debugMode)
+    , audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
     , sessionId(QUuid::createUuid().toString())
-    , debugMode(debugMode)
 {
     m_hideTimer.setInterval(5000);
     m_hideTimer.setSingleShot(true);
@@ -276,8 +276,14 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
 
         // Check if welcome screen is displayed
         if (m_splash->welcomeDisplayed()) {
-            connect(this, &Core::closeSplash, m_splash, &Splash::hideAndDelete);
+            connect(this, &Core::closeSplash, this, [this]() {
+                disconnect(this, &Core::loadingMessageNewStage, m_splash, nullptr);
+                disconnect(this, &Core::closeSplash, this, nullptr);
+                m_splash->deleteLater();
+            });
             connect(m_splash, &Splash::openFile, this, [this](QString url) {
+                // Ensure this can only be called once
+                disconnect(m_splash, &Splash::openFile, this, nullptr);
                 if (m_splash->hasEventLoop()) {
                     connect(this, &Core::mainWindowReady, this, [&, url]() {
                         QMetaObject::invokeMethod(m_projectManager, "openFile", Qt::QueuedConnection, Q_ARG(QUrl, QUrl::fromLocalFile(url)));
@@ -351,24 +357,22 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                     // Open project settings
                     if (m_splash->hasEventLoop()) {
                         connect(this, &Core::mainWindowReady, this, [&]() {
-                            m_splash->deleteLater();
                             m_mainWindow->show();
+                            m_splash->fadeOut();
                             QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(bool, true));
                         });
                     } else {
-                        m_splash->deleteLater();
                         m_mainWindow->show();
+                        m_splash->fadeOut();
                         m_projectManager->newFile(true);
                     }
                 } else {
                     if (m_splash->hasEventLoop()) {
                         connect(this, &Core::mainWindowReady, this, [&, url]() {
-                            m_splash->deleteLater();
                             m_mainWindow->show();
                             QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(QString, url), Q_ARG(bool, false));
                         });
                     } else {
-                        m_splash->deleteLater();
                         m_mainWindow->show();
                         m_projectManager->newFile(url, false);
                     }
@@ -381,11 +385,19 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                     });
                 });
             } else {
-                connect(m_splash, &Splash::firstStart, this, &Core::startFromGuessedProfile);
+                connect(m_splash, &Splash::firstStart, this, [&](QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks) {
+                    if (!guiReady()) {
+                        connect(this, &Core::mainWindowReady, this, [&, descriptiveString, fps, interlaced, vTracks, aTracks]() {
+                            startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                        });
+                    } else {
+                        startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                    }
+                });
             }
         } else {
             // Simple splash
-            connect(this, &Core::closeSplash, m_splash, &Splash::fadeOutAndDelete);
+            connect(this, &Core::closeSplash, m_splash, &Splash::fadeOutAndDelete, Qt::QueuedConnection);
             connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
             /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
             QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
@@ -396,6 +408,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             connect(m_splash, &Splash::releaseLock, this, [&]() {
                 qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
                 m_loop.exit();
+                disconnect(m_splash, &Splash::releaseLock, this, nullptr);
             });
             m_loop.exec();
             if (m_abortInitAndRestart) {
@@ -502,7 +515,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     connect(this, &Core::displayBinMessage, this, &Core::displayBinMessagePrivate);
     connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
 
-    if (m_splash && m_splash->hasEventLoop()) {
+    if (m_splash && (m_splash->hasEventLoop() || m_splash->welcomeDisplayed())) {
         Q_EMIT mainWindowReady();
     } else if (m_splash == nullptr || !m_splash->welcomeDisplayed()) {
         QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
@@ -571,7 +584,6 @@ void Core::startFromGuessedProfile(QString descriptiveString, QString fps, bool 
 
     KdenliveSettings::setVideotracks(vTracks);
     KdenliveSettings::setAudiotracks(aTracks);
-    m_splash->deleteLater();
     m_mainWindow->show();
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
 }
@@ -583,13 +595,13 @@ void Core::restoreLayout()
     }
     if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
         // No existing layout, probably first run
-        Q_EMIT loadLayoutById(QStringLiteral("editing"));
+        Q_EMIT loadLayoutById(QStringLiteral("editing"), true);
     } else {
-        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toUtf8());
+        Q_EMIT loadLayoutFromData(KdenliveSettings::kdockLayout().toUtf8(), true);
     }
+    m_mainWindow->show();
     if (!KdenliveSettings::showtitlebars()) {
-        Q_EMIT hideBars(!KdenliveSettings::showtitlebars());
+        Q_EMIT pCore->hideBars(true);
     }
 }
 

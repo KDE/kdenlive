@@ -21,7 +21,7 @@
       <name>Dynamics Transfer Function</name>
       <paramlistdisplay>2:1 comp at -6dB,2:1 comp at -9dB,2:1 comp at -12dB,2:1 comp at -18dB,2.5 comp at -18dB,3:1 comp at -12dB,3:1 comp at -15dB,Compressor/Gate,Expander,Hard limiter at -6dB;Hard limiter at -12dB;Hard gate at -35dB;Soft limiter;Soft knee comp/gate;Softgate below -36dB</paramlistdisplay>
    </parameter>
-   <parameter name="wetness" type="animated" decimals="0" default="100" max="100" min="0" factor="100">
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
       <name>Dry/Wet</name>
    </parameter>
 </effect>

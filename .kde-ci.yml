@@ -39,11 +39,6 @@ RuntimeDependencies:
   'require':
     'sdk/selenium-webdriver-at-spi': '@latest-kf6'
 
-RuntimeDependencies:
-- 'on': ['Linux']
-  'require':
-    'sdk/selenium-webdriver-at-spi': '@latest-kf6'
-
 Options:
   require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
   cppcheck-arguments: ['--suppress=*:tests/fakeit.hpp', '--suppress=*:tests/catch.hpp', '--suppress=*:fuzzer/fakeit_standalone.hpp']

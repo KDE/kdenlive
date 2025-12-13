@@ -97,6 +97,8 @@ public:
 
     /** @brief Returns the id of all the clips (excluding folders) */
     std::vector<QString> getAllClipIds() const;
+    /** @brief Returns the list of all bin clips used in a sequence */
+    QStringList getAllSequenceBinIds(const QUuid uuid, QList<QUuid> *processedUuids);
 
     /** @brief Updates the list of all created bin thumbnails */
     void updateCacheThumbnail(std::unordered_map<QString, std::vector<int>> &thumbData);
@@ -228,7 +230,7 @@ public:
     /** @brief Returns true if current project has a clip with id \@clipId and a hash of \@clipHash */
     bool validateClip(const QString &binId, const QString &clipHash);
     /** @brief Returns clip id if folder "folderId" has a clip with hash of "clipHash" or empty if not found */
-    QString validateClipInFolder(const QString &folderId, const QString &clipHash);
+    QString validateClipInFolder(const QString &folderId, const QString &clipHash, const QString &clipUuid);
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;

@@ -554,10 +554,10 @@ Q_SIGNALS:
     void updateRenderOffset();
     void hideBars(bool);
     void switchTitleBars();
-    void loadLayoutById(QString layoutId);
+    void loadLayoutById(QString layoutId, bool onlyIfNoPrevious = false);
     void switchDarkPalette(bool dark);
     void mainWindowReady();
-    void loadLayoutFromData(const QString layout);
+    void loadLayoutFromData(const QString layout, bool onlyIfNoPrevious = false);
     /** The project profile changed, check if we have a more appropriate layout (horizontal/vertical) */
     void adjustLayoutToDar();
     /** Should be called when the mainwindow has been constructed and before any dialog is shown to hide the splash screen */

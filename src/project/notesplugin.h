@@ -33,9 +33,9 @@ public:
     NotesWidget *widget();
     void clear();
     void showDock();
+    void setProject(KdenliveDoc *document);
 
 private Q_SLOTS:
-    void setProject(KdenliveDoc *document);
     /** @brief Insert current timecode/cursor position into the widget. */
     void slotInsertTimecode();
     /** @brief Re-assign timestamps to current Bin Clip. */

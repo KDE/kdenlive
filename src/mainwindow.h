@@ -589,7 +589,6 @@ private Q_SLOTS:
     void slotSwitchMonitors();
     void slotSwitchMonitorOverlay(QAction *);
     void slotSwitchDropFrames(bool drop);
-    void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
     /** @brief Focus the timecode widget of current monitor. */

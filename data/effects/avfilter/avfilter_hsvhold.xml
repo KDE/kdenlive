@@ -19,7 +19,7 @@
         <comment><![CDATA[Set the value which will<br>
         be used in color difference calculation]]></comment>
     </parameter>
-    <parameter type="animated" name="av.similarity" min="0" max="100" default="0" factor="100" decimals="3" suffix="%">
+    <parameter type="animated" name="av.similarity" min="0.1" max="100" default="0.001" factor="100" decimals="3" suffix="%">
         <name>Similarity</name>
         <comment><![CDATA[Set similarity percentage with the key color]]></comment>
     </parameter>

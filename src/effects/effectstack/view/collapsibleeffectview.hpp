@@ -152,7 +152,6 @@ protected:
     void enterEvent(QEnterEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
 
 Q_SIGNALS:
     void parameterChanged(const QDomElement &, const QDomElement &, int);

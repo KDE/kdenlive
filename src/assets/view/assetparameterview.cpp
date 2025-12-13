@@ -30,9 +30,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 
 {
     m_lay = new QFormLayout(this);
-    m_lay->setContentsMargins(0, 0, 0, 2);
     m_lay->setVerticalSpacing(2);
-    m_lay->setHorizontalSpacing(m_lay->horizontalSpacing() * 3);
     // Presets Combo
     m_presetMenu = new QMenu(this);
 }

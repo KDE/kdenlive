@@ -210,7 +210,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!quickSwitch) {
                 // Set guides list to show guides
                 m_clipMonitor->updateGuidesList();
-                if (!m_clipMonitor->isVisible()) {
+                if (pCore->window()->isVisible() && !m_clipMonitor->isVisible()) {
                     pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_projectMonitor;
@@ -242,7 +242,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_projectMonitor->fixFocus();
             }
             if (!quickSwitch) {
-                if (!m_projectMonitor->isVisible()) {
+                if (pCore->window()->isVisible() && !m_projectMonitor->isVisible()) {
                     pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_clipMonitor;

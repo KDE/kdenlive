@@ -15,9 +15,24 @@ Item {
     property bool stateVisible: false
     property int audioZoomHeightRef: isAudioClip ? height / 5 : height / 3.5
     property bool displayAudioZoom: true
+    property bool dragButtonsVisible: false
     property bool containsMouse: thumbMouseArea.containsMouse || audioZoom.containsMouse || clipMonitorRuler.containsMouse || thumbMouseArea.pressed
     property int clipId: controller.clipId
     state: stateVisible ? "showAudio" : "hideAudio"
+    onDragButtonsVisibleChanged: {
+        if (containsMouse) {
+            return
+        }
+
+        if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
+            if (dragButtonsVisible) {
+               zoomCollapseTimer.stop()
+                state = "showAudio"
+            } else if (controller.clipHasAV) {
+                zoomCollapseTimer.start()
+            }
+        }
+    }
 
     Timer {
         id: zoomCollapseTimer
@@ -35,9 +50,12 @@ Item {
     }
 
     onContainsMouseChanged: {
+        if (dragButtonsVisible) {
+            return
+        }
         if (!K.KdenliveSettings.alwaysShowMonitorAudio) {
             if (containsMouse) {
-               zoomCollapseTimer.stop()
+                zoomCollapseTimer.stop()
                 state = "showAudio"
             } else if (controller.clipHasAV) {
                 zoomCollapseTimer.start()
@@ -244,6 +262,7 @@ Item {
                 return
             }
             root.seeking = true
+            root.captureRightClick = true
             var pos = Math.max(mouseX, 0)
             root.mouseRulerPos = mouseX
             pos += audioThumb.width / root.zoomFactor * root.zoomStart
@@ -263,6 +282,7 @@ Item {
         }
         onReleased: {
             root.seeking = false
+            root.captureRightClick = false
         }
 
         onWheel: wheel => {

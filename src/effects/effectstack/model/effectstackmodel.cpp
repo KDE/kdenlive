@@ -386,6 +386,28 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
     return container;
 }
 
+bool EffectStackModel::fromMltXml(const QDomElement &effectsXml)
+{
+    QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("filter"));
+    for (int i = 0; i < nodeList.count(); ++i) {
+        QDomElement node = nodeList.item(i).toElement();
+        if (!Xml::hasXmlProperty(node, QStringLiteral("kdenlive_id")) || Xml::hasXmlProperty(node, QStringLiteral("internal_added"))) {
+            // Internal effect, ignore
+            continue;
+        }
+        if (Xml::hasXmlProperty(node, QStringLiteral("kdenlive:builtin")) && Xml::getXmlProperty(node, QStringLiteral("disable")) == QLatin1String("1")) {
+            // Disabled built-in effect, ignore
+            continue;
+        }
+        const QString effectId = Xml::getXmlProperty(node, QStringLiteral("kdenlive_id"));
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        stringMap params = Xml::getXmlPropertyByWildcard(node, QString());
+        doAppendEffect(effectId, false, params, undo, redo);
+    }
+    return true;
+}
+
 bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
 {
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));

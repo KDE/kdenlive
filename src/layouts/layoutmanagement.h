@@ -30,10 +30,10 @@ public:
 
 public Q_SLOTS:
     /** @brief Loads a layout by LayoutInfo. */
-    bool slotLoadLayout(LayoutInfo layout);
+    bool slotLoadLayout(LayoutInfo layout, bool onlyIfNoPrevious = false);
     /** @brief Load a layout by its name. */
     bool slotLoadLayoutById(const QString &layoutId);
-    bool slotLoadLayoutFromData(const QString &layoutData);
+    bool slotLoadLayoutFromData(const QString &layoutData, bool onlyIfNoPrevious = false);
     /** @brief Load a layout by its name. */
     void adjustLayoutToDar();
 
@@ -67,4 +67,5 @@ private:
     LayoutCollection m_layoutCollection;
     KActionCategory *m_layoutCategory;
     QString m_currentLayoutId;
+    bool m_firstLayoutLoaded{false};
 };

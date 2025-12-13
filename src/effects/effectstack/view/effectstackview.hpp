@@ -36,7 +36,6 @@ public:
     void setHeight(const QModelIndex &index, int height);
     int height(const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
     QMap<QPersistentModelIndex, int> m_height;
@@ -100,6 +99,7 @@ protected:
 private:
     QMutex m_mutex;
     QVBoxLayout *m_lay;
+    bool m_effectsLoaded{false};
 
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;

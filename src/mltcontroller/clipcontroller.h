@@ -251,6 +251,7 @@ private:
     /** @brief Temporarily store clip properties until producer is available */
     QMap <QString, QVariant> m_tempProps;
     QString m_controllerBinId;
+    QDomElement m_effectsToLoad;
     /** @brief Build the audio info object */
     void buildAudioInfo(int audioIndex);
 };

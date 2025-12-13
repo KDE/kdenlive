@@ -48,9 +48,9 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
     if (debugMode) {
-        m_args = {QStringLiteral("-loglevel"), QStringLiteral("debug"), QStringLiteral("-progress2"), scenelist};
+        m_args = {QStringLiteral("-loglevel"), QStringLiteral("debug"), QStringLiteral("-progress2"), QUrl::toPercentEncoding(scenelist)};
     } else {
-        m_args = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("-progress2"), scenelist};
+        m_args = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("-progress2"), QUrl::toPercentEncoding(scenelist)};
     }
 
     // Create a log of every render process.

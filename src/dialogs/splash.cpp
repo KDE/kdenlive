@@ -105,6 +105,7 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         if (m_hasCrashRecovery || m_wasUpgraded) {
             connect(m_rootObject, SIGNAL(resetConfig()), this, SIGNAL(resetConfig()));
             connect(m_rootObject, SIGNAL(openLink(QString)), this, SIGNAL(openLink(QString)));
+            connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(openBlank()));
             connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(releaseLock()));
         }
     }
@@ -155,12 +156,6 @@ void Splash::fadeOutAndDelete()
 void Splash::fadeOut()
 {
     QMetaObject::invokeMethod(m_rootObject, "fade");
-}
-
-void Splash::hideAndDelete()
-{
-    QMetaObject::invokeMethod(m_rootObject, "hide");
-    deleteLater();
 }
 
 void Splash::showProgressMessage(const QString &message, int)

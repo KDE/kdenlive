@@ -16,7 +16,7 @@ Window {
     title: "Splash Screen"
     SystemPalette { id: activePalette }
     modality: Qt.WindowModal
-    flags: Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: crashRecovery ? Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint : Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
     property int timeoutInterval: 5000
     property string version
     property bool crashRecovery: false
@@ -52,11 +52,11 @@ Window {
 
     Rectangle {
         id: splashContent
-        height: splash.crashRecovery || splash.wasUpgraded ? kdenliveid.height * 17 : kdenliveid.height * 15
-        width: height * 1.78
+        height: splash.crashRecovery || splash.wasUpgraded ? kdenliveid.height * 15 : kdenliveid.height * 13
+        width: height * 2
         radius: 8
         border.width: 2
-        border.color:"#f38577"
+        border.color: "#d7566e"
         color: activePalette.window
         clip: true
         focus: true
@@ -87,9 +87,10 @@ Window {
                 id: background
                 anchors.fill: parent
                 anchors.margins: 5
-                source: "qrc:/pics/splash-background.png"
-                fillMode: Image.TileVertically
-                // Make By KDE
+                source: "qrc:/pics/splash-background.webp"
+                verticalAlignment: Image.AlignTop
+                fillMode: Image.PreserveAspectCrop
+                // Made By KDE
                 Image {
                     id: kdelogo
                     asynchronous: true
@@ -105,7 +106,7 @@ Window {
                     id: kdelabel
                     anchors.verticalCenter: kdelogo.verticalCenter
                     anchors.left: kdelogo.right
-                    text: i18n("Make by KDE")
+                    text: i18n("Made by KDE")
                     color: "#ffffff"
                 }
             }
@@ -212,7 +213,9 @@ Window {
                 anchors.leftMargin: 10
                 anchors.right: notesButton.left
                 textFormat: Text.RichText
-                text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive.org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive.org/fund/\">funding</a>.")
+                text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
+                           "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
+                           "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                 wrapMode: Text.Wrap
                 HoverHandler {
                     enabled: upgradedLabel.hoveredLink
@@ -227,7 +230,7 @@ Window {
                 anchors.rightMargin: 10
                 text: i18n("What's New")
                 icon.name: "help-contents"
-                onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version)
+                onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes")
             }
             Button {
                 id: notesStartButton

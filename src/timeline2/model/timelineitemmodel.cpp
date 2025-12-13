@@ -807,6 +807,9 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     QString composite;
     if (pCore->currentDoc()->getSequenceProperty(m_uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0) {
         composite = TransitionsRepository::get()->getCompositingTransition();
+        if (composite.isEmpty()) {
+            pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
+        }
     }
     int videoTracks = 0;
     int audioTracks = 0;
@@ -849,9 +852,6 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     pCore->updateSequenceAVType(m_uuid, audioTracks + videoTracks);
     if (isMultiTrack) {
         pCore->enableMultiTrack(true);
-    }
-    if (composite.isEmpty()) {
-        pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
     }
 }
 

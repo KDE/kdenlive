@@ -78,7 +78,7 @@ public:
     */
     bool updateMultiKeyframe(GenTime pos, const QStringList &sourceValues, const QStringList &values, const QList<QModelIndex> &indexes,
                              QUndoCommand *parentCommand = nullptr);
-    bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
+    bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo = true);
     KeyframeType::KeyframeEnum keyframeType(GenTime pos) const;
     /** @brief Returns a keyframe data at given pos

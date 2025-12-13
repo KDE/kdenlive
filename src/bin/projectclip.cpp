@@ -2556,6 +2556,14 @@ bool ProjectClip::isIncludedInTimeline()
     return !m_registeredClipsByUuid.isEmpty();
 }
 
+bool ProjectClip::isIncludedInSequence(const QUuid &seqUuid)
+{
+    if (m_registeredClipsByUuid.isEmpty()) {
+        return false;
+    }
+    return m_registeredClipsByUuid.contains(seqUuid);
+}
+
 void ProjectClip::replaceInTimeline()
 {
     int updatedDuration = m_resetTimelineOccurences ? getFramePlaytime() : -1;

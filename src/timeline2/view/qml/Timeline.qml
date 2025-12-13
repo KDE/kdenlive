@@ -803,8 +803,10 @@ function getTrackColor(audio, header) {
         {
             // Process the drop event, useful if drop event happens outside of drop area
             if (clipBeingDroppedId != -1) {
-                var frame = controller.getClipPosition(clipBeingDroppedId)
-                var track = controller.getClipTrackId(clipBeingDroppedId)
+                var cid = clipBeingDroppedId
+                clearDropData()
+                var frame = controller.getClipPosition(cid)
+                var track = controller.getClipTrackId(cid)
                 if (!controller.normalEdit()) {
                     frame = fakeFrame
                     track = fakeTrack
@@ -813,7 +815,7 @@ function getTrackColor(audio, header) {
                  * NOTE: even if dropping multiple clips, requesting the deletion of the first one is
                  * enough as internally it will request the group deletion
                  */
-                controller.requestItemDeletion(clipBeingDroppedId, false)
+                controller.requestItemDeletion(cid, false)
 
                 var binIds = clipBeingDroppedData.split(";")
                 if (binIds.length == 1) {
@@ -832,7 +834,6 @@ function getTrackColor(audio, header) {
                 }
                 fakeTrack = -1
                 fakeFrame = -1
-                clearDropData()
                 if (clipDropArea.containsDrag) {
                     regainFocus(clipDropArea.mapToItem(root, drag.x, drag.y))
                 }

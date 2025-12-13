@@ -49,13 +49,17 @@ Window {
 
     visible: true
     color: "transparent"
-    title: "Splash Window"
     modality: Qt.WindowModal
-    flags: Qt.SplashScreen | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
-    x: (Screen.width - splashContent.width) / 2
-    y: (Screen.height - splashContent.height) / 2
+    flags: Qt.FramelessWindowHint
+    x: (Screen.width - width) / 2
+    y: (Screen.height - height) / 2
     width: splashContent.width
     height: splashContent.height
+
+    function fade()
+    {
+        fadeAnimation.start()
+    }
 
     Component.onCompleted: {
         if (splash.firstRun)
@@ -65,7 +69,6 @@ Window {
         } else {
             listView.forceActiveFocus();
         }
-
         visible = true;
     }
 
@@ -75,15 +78,22 @@ Window {
 
     Rectangle {
         id: splashContent
-
         height: splash.crashRecovery || splash.wasUpgraded  ? newProjectButton.height * 18 : newProjectButton.height * 16
-        width: newProjectButton.height * 16
+        width: newProjectButton.height * 17
         radius: 5
         border.width: 2
-        border.color: "#f38577"
+        border.color: "#d7566e"
         color: activePalette.window
         clip: true
         focus: true
+        NumberAnimation on opacity {
+            id: fadeAnimation
+            running: false
+            duration: 1000
+            easing.type: Easing.OutCubic
+            from: 1
+            to: 0
+        }
         Keys.onDownPressed: {
             if (listView.activeFocus) {
                 if (listView.currentIndex < splash.urls.length)
@@ -108,19 +118,24 @@ Window {
         }
         Keys.onReturnPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length)
+                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
+                    splashContent.enabled = false
+                    splash.fade()
                     openFile(splash.urls[listView.currentIndex]);
+                }
 
             } else if (tlistView.activeFocus) {
                 if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.templates.length)
                     openTemplate(splash.templates[tlistView.currentIndex]);
-
             }
         }
         Keys.onEnterPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length)
+                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
+                    splashContent.enabled = false
+                    splash.fade()
                     openFile(splash.urls[listView.currentIndex]);
+                }
 
             } else if (tlistView.activeFocus) {
                 if (tlistView.currentIndex >= 0 && tlistView.currentIndex < splash.templates.length)
@@ -129,7 +144,12 @@ Window {
             }
         }
         Keys.onEscapePressed: {
-            openBlank()
+            if (firstRun) {
+                firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                splash.hide()
+            } else {
+                openBlank()
+            }
         }
 
         Item {
@@ -140,35 +160,33 @@ Window {
 
             Image {
                 id: background
-
                 anchors.fill: parent
                 anchors.margins: 5
                 anchors.bottomMargin: 10
-                source: "qrc:/pics/splash-background.png"
-                fillMode: Image.TileVertically
+                source: "qrc:/pics/splash-background.webp"
+                verticalAlignment: Image.AlignTop
+                fillMode: Image.PreserveAspectCrop
+
+                Text {
+                    id: kdelabel
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    anchors.margins: 10
+                    color: "#FFFFFF"
+                    text: i18n("Made by KDE")
+                }
 
                 // Made By KDE
                 Image {
                     id: kdelogo
-
                     asynchronous: true
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.margins: 10
+                    anchors.verticalCenter: kdelabel.verticalCenter
+                    anchors.right: kdelabel.left
                     height: kdelabel.height
                     width: height
                     source: "qrc:/pics/kde-logo.png"
                     fillMode: Image.PreserveAspectFit
                 }
-
-                Text {
-                    id: kdelabel
-                    anchors.verticalCenter: kdelogo.verticalCenter
-                    anchors.left: kdelogo.right
-                    color: "#FFFFFF"
-                    text: i18n("Made by KDE")
-                }
-
             }
             // rounded corners for image
 
@@ -340,6 +358,8 @@ Window {
                                             listView.hoveredIndex = -1;
                                         }
                                         onClicked: {
+                                            splashContent.enabled = false
+                                            splash.fade()
                                             splash.openFile(modelData);
                                         }
                                     }
@@ -407,7 +427,7 @@ Window {
                             anchors.top: parent.top
                             anchors.margins: 10
                             height: templatesLabel.height + 6
-                            width: templatesLabel.width + 2.5 * templatesClearButton.width
+                            width: templatesLabel.width + 1.5 * templatesClearButton.width
                             radius: height / 4
                             color: Qt.darker(splashContent.color, 1.5)
                             Label {
@@ -574,25 +594,25 @@ Window {
                     color: "#22FF0000"
                     radius: 5
                 }
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    spacing: 10
-                    height: vTracks.height
-                    Label {
-                        id: restartLabel
-                        text: i18n("Kdenlive crashed on last start. Reset config and restart?")
-                        Layout.alignment: Qt.AlignVCenter
-                        wrapMode: Text.Wrap
-
-                    }
-                    Button {
-                        id: restartButton
-                        text: i18n("Reset")
-                        icon.name: "view-refresh"
-                        onClicked: resetConfig()
-                        KeyNavigation.tab: listView
-                    }
+                Label {
+                    id: restartLabel
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.right: restartButton.left
+                    text: i18n("Kdenlive crashed on last start. Reset config and restart?")
+                    Layout.alignment: Qt.AlignVCenter
+                    wrapMode: Text.Wrap
+                }
+                Button {
+                    id: restartButton
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    text: i18n("Reset")
+                    icon.name: "view-refresh"
+                    onClicked: resetConfig()
+                    KeyNavigation.tab: listView
                 }
             }
             Item {
@@ -615,7 +635,9 @@ Window {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     anchors.right: notesButton.left
-                    text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive.org/get-involved/\">getting involved</a> or help <a href=\"https://kdenlive.org/fund/\">funding</a>.")
+                    text: i18n("Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting involved</a> or help <a href=\"%2\">funding</a>.",
+                               "https://kdenlive.org/get-involved/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_contribute&mtm_content=" + splash.version,
+                               "https://kdenlive.org/fund/?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_donate&mtm_content=" + splash.version)
                     wrapMode: Text.Wrap
                     onLinkActivated: (link)=> openLink(link)
                     textFormat: Text.RichText
@@ -631,7 +653,7 @@ Window {
                     anchors.rightMargin: 10
                     text: i18n("What's New")
                     icon.name: "help-contents"
-                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version)
+                    onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
                     KeyNavigation.tab: listView
                 }
             }
@@ -656,23 +678,21 @@ Window {
 
                     Label {
                         id: donateText
-
                         Layout.fillWidth: true
                         leftPadding: 10
                         text: i18n("Help us make Kdenlive even better")
                         wrapMode: Text.WordWrap
                     }
-
                     ToolButton {
                         icon.name: "user-group-new"
                         text: i18n("Contribute…")
-                        onClicked: splash.openLink("https://kdenlive.org/get-involved")
+                        onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_contribute&mtm_content=" + splash.version)
                     }
 
                     ToolButton {
                         text: i18n("Donate…")
                         icon.name: "donate"
-                        onClicked: splash.openLink("https://kdenlive.org/fund")
+                        onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_donate&mtm_content=" + splash.version)
                         KeyNavigation.tab: listView
                     }
 
@@ -942,24 +962,24 @@ Window {
                         color: "#22FF0000"
                         radius: 5
                     }
-                    RowLayout {
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        spacing: 10
-                        height: vTracks.height
-                        Label {
-                            id: restartWelcomeLabel
-                            text: i18n("Kdenlive crashed on last start. Reset config and restart?")
-                            Layout.alignment: Qt.AlignVCenter
-                            wrapMode: Text.Wrap
-
-                        }
-                        Button {
-                            id: restartWelcomeButton
-                            text: i18n("Reset")
-                            icon.name: "view-refresh"
-                            onClicked: resetConfig()
-                        }
+                    Label {
+                        id: restartWelcomeLabel
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        anchors.right: restartWelcomeButton.left
+                        text: i18n("Kdenlive crashed on last start. Reset config and restart?")
+                        Layout.alignment: Qt.AlignVCenter
+                        wrapMode: Text.Wrap
+                    }
+                    Button {
+                        id: restartWelcomeButton
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 10
+                        text: i18n("Reset")
+                        icon.name: "view-refresh"
+                        onClicked: resetConfig()
                     }
                 }
 
@@ -976,14 +996,17 @@ Window {
                     icon.name: "help-browser"
                     text: i18n("Check Online Documentation")
                     Layout.alignment: Qt.AlignLeft
-                    onClicked: openLink("https://docs.kdenlive.org")
+                    onClicked: openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
                 }
 
                 Button {
                     id: buttonNext
                     icon.name: "go-next"
                     text: i18n("Start Editing")
-                    onClicked: firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                    onClicked: {
+                        firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
+                        splash.hide()
+                    }
                     Layout.alignment: Qt.AlignRight
                 }
 

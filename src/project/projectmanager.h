@@ -265,9 +265,6 @@ private Q_SLOTS:
     /** @brief Collect MLT's warning logs. */
     void handleLog(const QString &message);
 
-Q_SIGNALS:
-    void docOpened(KdenliveDoc *document);
-
 protected:
     /** @brief Update the timeline according to the MLT XML */
     bool updateTimeline(bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
@@ -306,4 +303,6 @@ private:
     void abortProjectLoad(const QUrl &url);
     /** @brief Remove startup lock file */
     void clearLockFile();
+    /** @brief Process a few last things once a document is fully loaded */
+    void finalizeDocumentOpening(KdenliveDoc *document);
 };
