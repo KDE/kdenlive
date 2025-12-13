@@ -471,7 +471,18 @@ void KeyframeContainer::monitorSeek(int pos)
 void KeyframeContainer::slotEditKeyframeType(QAction *action)
 {
     int type = action->data().toInt();
-    m_keyframeview->slotEditType(type, m_index);
+    QList<int> frames;
+    if (m_keyframes->selectedKeyframes().count() > 0) {
+        for (auto &p : m_keyframes->selectedKeyframes()) {
+            frames << m_keyframes->getPosAtIndex(p).frames(pCore->getCurrentFps());
+        }
+    } else {
+        frames << getPosition();
+    }
+    if (frames.isEmpty()) {
+        return;
+    }
+    m_keyframeview->slotEditFramesType(frames, type, m_index);
     m_selectType->setIcon(action->icon());
     Q_EMIT activateEffect();
 }
