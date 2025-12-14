@@ -266,7 +266,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             QMetaObject::invokeMethod(this, "cleanRestart", Qt::QueuedConnection, Q_ARG(bool, true));
         });
         connect(m_splash, &Splash::openBlank, this, [this]() {
-            if (m_splash->hasEventLoop()) {
+            if (m_splash->hasEventLoop() || !m_guiConstructed) {
                 connect(this, &Core::mainWindowReady, m_projectManager, &ProjectManager::slotLoadOnOpen, Qt::QueuedConnection);
             } else {
                 QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
@@ -284,7 +284,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             connect(m_splash, &Splash::openFile, this, [this](QString url) {
                 // Ensure this can only be called once
                 disconnect(m_splash, &Splash::openFile, this, nullptr);
-                if (m_splash->hasEventLoop()) {
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     connect(this, &Core::mainWindowReady, this, [&, url]() {
                         QMetaObject::invokeMethod(m_projectManager, "openFile", Qt::QueuedConnection, Q_ARG(QUrl, QUrl::fromLocalFile(url)));
                     });
@@ -293,14 +293,14 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                 }
             });
             connect(m_splash, &Splash::openOtherFile, this, [this]() {
-                if (m_splash->hasEventLoop()) {
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     connect(this, &Core::mainWindowReady, [this]() { QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection); });
                 } else {
                     QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection);
                 }
             });
             connect(m_splash, &Splash::closeApp, this, [this]() {
-                if (m_splash->hasEventLoop()) {
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     QMetaObject::invokeMethod(this, "cleanRestart", Qt::QueuedConnection, Q_ARG(bool, false));
                 } else {
                     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
@@ -315,7 +315,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
 
             // History
             connect(m_splash, &Splash::clearHistory, this, [&]() {
-                if (m_splash->hasEventLoop()) {
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     connect(this, &Core::mainWindowReady, this, [&]() {
                         m_projectManager->recentFilesAction()->clear();
                         m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
@@ -326,7 +326,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                 }
             });
             connect(m_splash, &Splash::forgetFile, this, [&](const QString path) {
-                if (m_splash->hasEventLoop()) {
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
                     connect(this, &Core::mainWindowReady, this, [&, path]() {
                         m_projectManager->recentFilesAction()->removeUrl(QUrl::fromLocalFile(path));
                         m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
@@ -355,7 +355,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             connect(m_splash, &Splash::openTemplate, this, [this](QString url) {
                 if (url.isEmpty()) {
                     // Open project settings
-                    if (m_splash->hasEventLoop()) {
+                    if (m_splash->hasEventLoop() || !m_guiConstructed) {
                         connect(this, &Core::mainWindowReady, this, [&]() {
                             m_mainWindow->show();
                             m_splash->fadeOut();
@@ -367,7 +367,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
                         m_projectManager->newFile(true);
                     }
                 } else {
-                    if (m_splash->hasEventLoop()) {
+                    if (m_splash->hasEventLoop() || !m_guiConstructed) {
                         connect(this, &Core::mainWindowReady, this, [&, url]() {
                             m_mainWindow->show();
                             QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(QString, url), Q_ARG(bool, false));
