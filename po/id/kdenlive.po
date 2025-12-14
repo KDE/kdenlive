@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-12 00:42+0000\n"
+"POT-Creation-Date: 2025-12-14 00:41+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -2661,7 +2661,7 @@ msgstr "Tampilkan Semua"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:334
 #: src/assets/view/widgets/keyframecontainer.cpp:381
-#: src/assets/view/widgets/keyframecontainer.cpp:687
+#: src/assets/view/widgets/keyframecontainer.cpp:698
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3489,7 +3489,7 @@ msgstr "Ketebalan bilah atau segmen."
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:337
 #: src/assets/view/widgets/keyframecontainer.cpp:393
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3506,7 +3506,7 @@ msgstr "Ketebalan bilah atau segmen."
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:336
 #: src/assets/view/widgets/keyframecontainer.cpp:387
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -17152,7 +17152,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:339
 #: src/assets/view/widgets/keyframecontainer.cpp:399
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #, kde-format
 msgid "X position"
 msgstr "Posisi X"
@@ -17160,7 +17160,7 @@ msgstr "Posisi X"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:338
 #: src/assets/view/widgets/keyframecontainer.cpp:405
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #, kde-format
 msgid "Y position"
 msgstr "Posisi Y"
@@ -18252,14 +18252,14 @@ msgstr "Pindah keyframes"
 #: src/assets/keyframes/model/keyframemodel.cpp:456
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
-#: src/assets/keyframes/view/keyframeview.cpp:201
+#: src/assets/keyframes/view/keyframeview.cpp:210
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Pindah keyframe"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:527
-#: src/assets/keyframes/model/keyframemodellist.cpp:591
+#: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Perbarui keyframe"
@@ -18290,13 +18290,13 @@ msgstr "Set ulang efek"
 msgid "Delete keyframes"
 msgstr "Hapus keyframe"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:699
+#: src/assets/keyframes/model/keyframemodellist.cpp:694
 #: src/assets/model/assetparametermodel.cpp:1589
 #, kde-format
 msgid "Update effect"
 msgstr "Perbarui efek"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:920
+#: src/assets/keyframes/model/keyframemodellist.cpp:915
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Keyframe hilang terdeteksi di %1, secara otomatis ditambahkan ulang"
@@ -18306,45 +18306,45 @@ msgstr "Keyframe hilang terdeteksi di %1, secara otomatis ditambahkan ulang"
 msgid "Duplicate keyframe"
 msgstr "Duplikatkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:499
+#: src/assets/keyframes/view/keyframeview.cpp:508
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Pindahkan keyframe"
 msgstr[1] "Pindahkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:751
+#: src/assets/keyframes/view/keyframeview.cpp:760
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Perbarui posisi X keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:759
+#: src/assets/keyframes/view/keyframeview.cpp:768
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Perbarui posisi Y keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:767
+#: src/assets/keyframes/view/keyframeview.cpp:776
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Perbarui lebar keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:775
+#: src/assets/keyframes/view/keyframeview.cpp:784
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Perbarui tinggi keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:783
+#: src/assets/keyframes/view/keyframeview.cpp:792
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Perbarui opasitas keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:788
-#: src/assets/keyframes/view/keyframeview.cpp:790
+#: src/assets/keyframes/view/keyframeview.cpp:797
+#: src/assets/keyframes/view/keyframeview.cpp:799
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Perbarui nilai keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:794
+#: src/assets/keyframes/view/keyframeview.cpp:803
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Nilai keyframe disalin"
@@ -18486,7 +18486,7 @@ msgstr ""
 "jika tidak ada keyframe yang dipilih."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:175
-#: src/assets/view/widgets/keyframecontainer.cpp:1085
+#: src/assets/view/widgets/keyframecontainer.cpp:1096
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Tempel keyframe"
@@ -18576,41 +18576,41 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Pilih parameter untuk salin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:982
+#: src/assets/view/widgets/keyframecontainer.cpp:993
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Keyframe disalin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:993
-#: src/assets/view/widgets/keyframecontainer.cpp:1034
-#: src/assets/view/widgets/keyframecontainer.cpp:1041
+#: src/assets/view/widgets/keyframecontainer.cpp:1004
+#: src/assets/view/widgets/keyframecontainer.cpp:1045
+#: src/assets/view/widgets/keyframecontainer.cpp:1052
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Tidak ada data keyframe yang valid dalam papan klip"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1093
+#: src/assets/view/widgets/keyframecontainer.cpp:1104
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Tidak dapat menyalin nilai parameter saat ini"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1098
 #: src/assets/view/widgets/keyframecontainer.cpp:1109
+#: src/assets/view/widgets/keyframecontainer.cpp:1120
 #, kde-format
 msgid "Current values copied"
 msgstr "Nilai saat ini disalin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1121
+#: src/assets/view/widgets/keyframecontainer.cpp:1132
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Tidak ada data keyframe yang valid dalam papan klip"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1202
+#: src/assets/view/widgets/keyframecontainer.cpp:1213
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Tidak bisa menghapus keyframe yang terakhir"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1214
+#: src/assets/view/widgets/keyframecontainer.cpp:1225
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"

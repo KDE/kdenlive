@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-12 00:42+0000\n"
+"POT-Creation-Date: 2025-12-14 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -2646,7 +2646,7 @@ msgstr "क्षेत्राणि दर्शयतु"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:334
 #: src/assets/view/widgets/keyframecontainer.cpp:381
-#: src/assets/view/widgets/keyframecontainer.cpp:687
+#: src/assets/view/widgets/keyframecontainer.cpp:698
 #: src/widgets/geometrywidget.cpp:148
 #, kde-format
 msgid "Opacity"
@@ -3475,7 +3475,7 @@ msgstr "रेखालेखस्य स्थूलतां पिक्स�
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:337
 #: src/assets/view/widgets/keyframecontainer.cpp:393
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #, kde-format
@@ -3492,7 +3492,7 @@ msgstr "रेखालेखस्य स्थूलतां पिक्स�
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:336
 #: src/assets/view/widgets/keyframecontainer.cpp:387
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #, kde-format
@@ -17311,7 +17311,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
 #: src/assets/view/widgets/keyframecontainer.cpp:339
 #: src/assets/view/widgets/keyframecontainer.cpp:399
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #, kde-format
 msgid "X position"
 msgstr "X स्थितिः"
@@ -17319,7 +17319,7 @@ msgstr "X स्थितिः"
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:338
 #: src/assets/view/widgets/keyframecontainer.cpp:405
-#: src/assets/view/widgets/keyframecontainer.cpp:685
+#: src/assets/view/widgets/keyframecontainer.cpp:696
 #, kde-format
 msgid "Y position"
 msgstr "य् पदम्"
@@ -18424,14 +18424,14 @@ msgstr "कीफ्रेम्स् चालयन्तु"
 #: src/assets/keyframes/model/keyframemodel.cpp:456
 #: src/assets/keyframes/model/keyframemodellist.cpp:391
 #: src/assets/keyframes/model/keyframemodellist.cpp:487
-#: src/assets/keyframes/view/keyframeview.cpp:201
+#: src/assets/keyframes/view/keyframeview.cpp:210
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
 msgstr "कीफ्रेम् चालयन्तु"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:527
-#: src/assets/keyframes/model/keyframemodellist.cpp:591
+#: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "कीफ्रेम् अद्यतनं कुर्वन्तु"
@@ -18462,13 +18462,13 @@ msgstr "प्रभावं पुनः सेट् कुर्वन्त
 msgid "Delete keyframes"
 msgstr "कीफ्रेम्स् विलोपयन्तु"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:699
+#: src/assets/keyframes/model/keyframemodellist.cpp:694
 #: src/assets/model/assetparametermodel.cpp:1589
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:920
+#: src/assets/keyframes/model/keyframemodellist.cpp:915
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "%1 इत्यत्र लुप्तं कीफ्रेम् ज्ञातम्, स्वयमेव पुनः योजितम्"
@@ -18478,45 +18478,45 @@ msgstr "%1 इत्यत्र लुप्तं कीफ्रेम् ज
 msgid "Duplicate keyframe"
 msgstr "कीफ्रेम डुप्लिकेट् कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:499
+#: src/assets/keyframes/view/keyframeview.cpp:508
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "कीफ्रेम् चालयन्तु"
 msgstr[1] "कीफ्रेम्स् चालयन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:751
+#: src/assets/keyframes/view/keyframeview.cpp:760
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "कीफ्रेम्स् X स्थानं अद्यतनं कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:759
+#: src/assets/keyframes/view/keyframeview.cpp:768
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "कीफ्रेम्स् Y स्थितिं अद्यतनं कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:767
+#: src/assets/keyframes/view/keyframeview.cpp:776
 #, kde-format
 msgid "Update keyframes width"
 msgstr "कीफ्रेम्स् विस्तारं अद्यतनं कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:775
+#: src/assets/keyframes/view/keyframeview.cpp:784
 #, kde-format
 msgid "Update keyframes height"
 msgstr "कीफ्रेम्स् ऊर्ध्वतां अद्यतनं कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:783
+#: src/assets/keyframes/view/keyframeview.cpp:792
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "कीफ्रेम्स् अपारदर्शिता अद्यतनं कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:788
-#: src/assets/keyframes/view/keyframeview.cpp:790
+#: src/assets/keyframes/view/keyframeview.cpp:797
+#: src/assets/keyframes/view/keyframeview.cpp:799
 #, kde-format
 msgid "Update keyframes value"
 msgstr "कीफ्रेम्स् मूल्यं अद्यतनं कुर्वन्तु"
 
-#: src/assets/keyframes/view/keyframeview.cpp:794
+#: src/assets/keyframes/view/keyframeview.cpp:803
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "कीफ्रेम मूल्यं प्रतिलिपिकृतम्"
@@ -18654,7 +18654,7 @@ msgstr ""
 "यदि कोऽपि कीफ्रेम् चयनितः नास्ति ।"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:175
-#: src/assets/view/widgets/keyframecontainer.cpp:1085
+#: src/assets/view/widgets/keyframecontainer.cpp:1096
 #, kde-format
 msgid "Paste keyframe"
 msgstr "कीफ्रेम् चिनोतु"
@@ -18744,41 +18744,41 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "प्रतिलिपिं कर्तुं पैरामीटर्स् चिनोतु"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:982
+#: src/assets/view/widgets/keyframecontainer.cpp:993
 #, kde-format
 msgid "Keyframes copied"
 msgstr "कीफ्रेम्स् प्रतिलिपिकृतम्"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:993
-#: src/assets/view/widgets/keyframecontainer.cpp:1034
-#: src/assets/view/widgets/keyframecontainer.cpp:1041
+#: src/assets/view/widgets/keyframecontainer.cpp:1004
+#: src/assets/view/widgets/keyframecontainer.cpp:1045
+#: src/assets/view/widgets/keyframecontainer.cpp:1052
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "क्लिप्बोर्ड् मध्ये वैधः कीफ्रेम् दत्तांशः नास्ति"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1093
+#: src/assets/view/widgets/keyframecontainer.cpp:1104
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "वर्तमान पैरामीटर् मूल्यानां प्रतिलिपिं कर्तुं न शक्यते"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1098
 #: src/assets/view/widgets/keyframecontainer.cpp:1109
+#: src/assets/view/widgets/keyframecontainer.cpp:1120
 #, kde-format
 msgid "Current values copied"
 msgstr "वर्तमानमूल्यानि प्रतिलिपिकृतानि"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1121
+#: src/assets/view/widgets/keyframecontainer.cpp:1132
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "क्लिप्बोर्ड् मध्ये वैधः कीफ्रेम् दत्तांशः नास्ति"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1202
+#: src/assets/view/widgets/keyframecontainer.cpp:1213
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "अन्तिमं कीफ्रेम् अपसारयितुं न शक्यते"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1214
+#: src/assets/view/widgets/keyframecontainer.cpp:1225
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
