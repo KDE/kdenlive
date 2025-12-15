@@ -813,7 +813,6 @@ void ProjectManager::openFile(const QUrl &url)
     if ((m_project != nullptr) && m_project->url() == url) {
         return;
     }
-
     if (!closeCurrentDocument()) {
         return;
     }
