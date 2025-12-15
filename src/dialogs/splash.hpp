@@ -20,6 +20,7 @@ public:
     bool hasCrashRecovery() const;
     bool wasUpgraded() const;
     bool hasEventLoop() const;
+    void setReady();
 
 private:
     QQmlApplicationEngine *m_engine;
