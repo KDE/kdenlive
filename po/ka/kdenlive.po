@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-14 02:31+0000\n"
-"PO-Revision-Date: 2025-11-14 09:59+0100\n"
+"POT-Creation-Date: 2025-12-16 08:38+0000\n"
+"PO-Revision-Date: 2025-12-16 06:41+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -30,18 +30,14 @@ msgstr "Temuri.doghonadze@gmail.com"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "ჩასწორება"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
-msgstr "ჩაწერა"
+msgstr "ჟურნალში ჩაწერა"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:197 src/audiomixer/mixerwidget.cpp:223
@@ -3200,6 +3196,8 @@ msgid ""
 "<![CDATA[Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[ყუთის ზომა პიქსელებშიl.<br>\n"
+"    \tსიგანე <em>1</em> ხაზს არ დახატავს]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
@@ -3212,6 +3210,8 @@ msgid ""
 "<![CDATA[Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[ყუთის სიმაღლე პიქსელებშიl.<br>\n"
+"    \tსიმაღლე <em>1</em> ხაზს არ დახატავს]]>"
 
 #. i18n: file: data/layouts/color.json
 #: data/effects/avfilter/avfilter_drawbox.xml:26
@@ -3230,6 +3230,9 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[აირჩიეთ ფერი ხაზისთვის.<br>\n"
+"    \tგამოიყენეთ <em>ალფას</em> მნიშვნელობა ხაზის "
+"ნახევრადგამჭვირვალობისთვის.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3330,6 +3333,9 @@ msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
+"<![CDATA[აირჩიეთ ფერი ხაზისთვის.<br>\n"
+"    \tგამოიყენეთ <em>ალფას</em> მნიშვნელობა ხაზის "
+"ნახევრადგამჭვირვალობისთვის.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, kde-format
@@ -3613,6 +3619,8 @@ msgid ""
 "<![CDATA[Add <em>previous</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[<em>წინა</em> კადრის დამატება<br>\n"
+"        სივრცითი ხმაურის მოცილებისთვის]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
 #, kde-format
@@ -3830,7 +3838,7 @@ msgstr "სიჩქარე"
 #: data/effects/avfilter/avfilter_flanger.xml:25
 #, kde-format
 msgid "Set sweeps per second (Hz). Range from 0.1 to 10."
-msgstr ""
+msgstr "დააყენეთ სკანირების წამში (ჰც) შუალედი 0.1-დან 10-მდე."
 
 #: data/effects/avfilter/avfilter_flanger.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
@@ -4069,6 +4077,10 @@ msgid ""
 "applied to mono signals it give some directionality and stretches its stereo "
 "image."
 msgstr ""
+"ჰაასის ეფექტის გადატარება აუდიოზე.\n"
+"დაიმახსოვრეთ, რომ ამის გამოყენებას აზრი, ძირითად შემთხვევაში, მონო "
+"სიგნალებზე აქვს. მონო სიგნალზე ამ ეფექტის გამოყენება მას გარკვეულ "
+"მიმართულებას და სტერეო გამოსახულებას აძლევს."
 
 #: data/effects/avfilter/avfilter_haas.xml:9
 #, kde-format
@@ -4195,6 +4207,7 @@ msgid ""
 "This filter applies a global color histogram equalization on a per-frame "
 "basis"
 msgstr ""
+"ეს ფილტრი გადაატარებს გლობალური ფერის ჰისტოგრამის ეკვალიზაციას თითოეულ კადრზე"
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
@@ -4576,6 +4589,8 @@ msgid ""
 "Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
 msgstr ""
+"ჩაანაცვლებს პიქსელს ლოკალური(3x3) საშუალოთი, მხოლოდ, პიქსელზე მაღალი "
+"მნიშვნელობების გათვალისწინებით. "
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -5824,6 +5839,9 @@ msgid ""
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image.]]>"
 msgstr ""
+"<![CDATA[განათებულობის სიძლიერის დაყენება.<br>\n"
+"                მნიშვნელობა აყენებს დაბინდვას. დადებითი მნიშვნელობა "
+"დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, kde-format
@@ -5852,6 +5870,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[ინტენსივობის რადიუსის დაყენება.<br>\n"
+"             მნიშვნელობა უთითებს გაუსის ფილტრის დისპერსიას, რომელიც "
+"გამოსახულების დასაბინდად გამოიყენება (რაც მეტია, მით ნელია). თუ მითითებული "
+"არაა, მისი მნიშვნელობა ნაგულისხმევად <em>ინტენსივობის რადიუსს</em> უდრის]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5867,6 +5889,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[ფერის ინტენსივობის სიძლიერის დაყენება.<br>\n"
+"                მნიშვნელობა აყენებს დაბინდვას. დადებითი მნიშვნელობა "
+"დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს. თუ მითითებული არაა, მისი "
+"ნაგულისხმევი მნიშვნელობა <em>განათებულობის სიძლიერეს</em> უდრის]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -5882,6 +5908,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[ფერის ინტენსივობის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
+"           დასადგენად, იქნება პიქსელი ბუნდოვანი, თუ არა. მნიშვნელობა 0 მთელ "
+"გამოსახულებას გაფილტრავს, დადებითი მნიშვნელობა ბრტყელ ადგილებს, უარყოფითი - "
+"წიბოებს. თუ მითითებული არაა, ნაგულისხმევად ის <em>განათებულობის ზღვარს</em> "
+"უდრის]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -5896,6 +5927,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[ალფას რადიუსის დაყენება.<br>\n"
+"             მნიშვნელობა უთითებს გაუსის ფილტრის დისპერსიას, რომელიც "
+"გამოსახულების დასაბინდად გამოიყენება (რაც მეტია, მით ნელია). თუ მითითებული "
+"არაა, მისი მნიშვნელობა ნაგულისხმევად <em>ინტენსივობის რადიუსს</em> უდრის]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -5911,6 +5946,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[ალფას სიძლიერის დაყენება.<br>\n"
+"                მნიშვნელობა აყენებს დაბინდვას. დადებითი მნიშვნელობა "
+"დაბინდავს გამოსახულებას, უარყოფითი კი გაამკვეთრებს. თუ მითითებული არაა, მისი "
+"ნაგულისხმევი მნიშვნელობა <em>განათებულობის სიძლიერეს</em> უდრის.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5921,6 +5960,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[ალფა ზღვრის დაყენება, რომელიც კოეფიციენტად გამოიყენება<br>\n"
+"           დასადგენად, იქნება პიქსელი ბუნდოვანი, თუ არა. მნიშვნელობა 0 მთელ "
+"გამოსახულებას გაფილტრავს, დადებითი მნიშვნელობა ბრტყელ ადგილებს, უარყოფითი - "
+"წიბოებს. თუ მითითებული არაა, ნაგულისხმევად ის <em>განათებულობის ზღვარს</em> "
+"უდრის]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -6440,6 +6484,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[განათებულობის ეფექტის სიძლიერის დაყენება.<br>\n"
+"                მნიშვნელობებია -1.5-დან 1.5-მდე. დადებითი მნიშვნელობა "
+"დაბინდავს შეყვანილ ვიდეოს, უარყოფითი კი გაამკვეთრებს. ნულოვანი მნიშვნელობა "
+"გამორთავს ეფექტს. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, kde-format
@@ -6469,6 +6517,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[ფერის ინტენსივობის სიძლიერის დაყენება.<br>\n"
+"                მნიშვნელობებია -1.5-დან 1.5-მდე. დადებითი მნიშვნელობა "
+"დაბინდავს შეყვანილ ვიდეოს, უარყოფითი კი გაამკვეთრებს. ნულოვანი მნიშვნელობა "
+"გამორთავს ეფექტს. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
 #, kde-format
@@ -6498,6 +6550,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[ალფას ეფექტის სიძლიერის დაყენება.<br>\n"
+"                მნიშვნელობებია -1.5-დან 1.5-მდე. დადებითი მნიშვნელობა "
+"დაბინდავს შეყვანილ ვიდეოს, უარყოფითი კი გაამკვეთრებს. ნულოვანი მნიშვნელობა "
+"გამორთავს ეფექტს. ]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
@@ -6607,7 +6663,7 @@ msgstr "გრადაციის ალმები"
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, kde-format
 msgid "Draw White Point,Draw Black Point,Draw Point Name"
-msgstr ""
+msgstr "თეთრი წერტილის დახატვა,შავი წერტილის დახატვა, წერტილის სახელის დახატვა"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
@@ -7003,7 +7059,7 @@ msgstr "ხანგრძლოვობა"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1106 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1103 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -8018,7 +8074,7 @@ msgstr "Baltan"
 #: data/effects/frei0r/frei0r_baltan.xml:5
 #, kde-format
 msgid "Delayed alpha smoothed blit of time"
-msgstr ""
+msgstr "დაყოვნებული დროებითი ბლიტინგი ალფა-მოგლუვებით"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -8077,7 +8133,7 @@ msgstr "ხმაურის მოცილება"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
 #, kde-format
 msgid "VR360 Cap Top and Bottom"
-msgstr ""
+msgstr "VR360 ზედა და ქვედა"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
 #, kde-format
@@ -8262,6 +8318,7 @@ msgstr "<![CDATA[კუთხე ჰორიზონტიდან, სად
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
 msgstr ""
+"<![CDATA[ჰორიზონტალური კუთხე შევსების \tდასაწყისთან გაბუნდოვნებისთვის]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
@@ -10459,7 +10516,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
 msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr ""
+msgstr "ზედა მარჯვენა,ზედა მარცხენა,ქვედა მარცხენა,ქვედა მარჯვენა"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, kde-format
@@ -10934,11 +10991,12 @@ msgstr "არახაზოვანი მინავლება"
 #, kde-format
 msgid "If normal dimming does not look natural enough, try this one."
 msgstr ""
+"თუ ნორმალური დაბნელება საკმარისად ბუნებრივად არ გამოიყურება, სცადეთ ეს."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:612
-#: src/dialogs/Splash.qml:978 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
+#: src/dialogs/Splash.qml:995 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -11247,7 +11305,7 @@ msgstr "RMS-ის ჩვენება"
 #: data/effects/frei0r/frei0r_pr0file.xml:71
 #, kde-format
 msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[RMS-ის (საშუალო კვადრატული) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
 #: data/effects/frei0r/frei0r_pr0file.xml:74
@@ -11376,12 +11434,16 @@ msgstr "თეთრი წერტილი"
 msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
 msgstr ""
+"დამოუკიდებელი არხის პროპორცია მიბმული არხის ნორმალიზაციასთან შედარებით "
+"(ნაგულისხმევი 1000)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
+"ფილტრის სიძლიერე. მნიშვნელობა ეფექტის გარეშედან (0) სრულ ნორმალიზაციამდე "
+"(ნაგულისხმევია 1000)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -11456,7 +11518,7 @@ msgstr "გამჭოლი ალფა"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:17
 #, kde-format
 msgid "Do not average the alpha channel over each block"
-msgstr ""
+msgstr "არ მოხდება ალფა არხის გასაშუალოება თითოეული ბლოკისთვის"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -11477,6 +11539,7 @@ msgstr "მწკრივების/სვეტების წანაც�
 #, kde-format
 msgid "Height of each block whose shift is invariant (0 = random)"
 msgstr ""
+"თითოეული ბლოკის სიმაღლე, რომლების წანაცვლებაც უცვლელია (0 = შემთხვევითი)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
 #, kde-format
@@ -13397,6 +13460,8 @@ msgid ""
 "<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
 "   Sounds good mainly on acoustic or electric guitar tracks.]]>"
 msgstr ""
+"<![CDATA[TAP Tremolo (LADSPA 2144)<br>\n"
+"      კარგად ჟღერს ძირითადად აკუსტიკური ან ელექტრო გიტარის ტრეკებზე.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:4
 #, kde-format
@@ -13409,6 +13474,8 @@ msgid ""
 "<![CDATA[TAP Scaling Limiter (LADSPA 2145)<br>\n"
 "   Achieves signal level limiting without audible artifacts.]]>"
 msgstr ""
+"<![CDATA[TAP მასშტაბის შემზღუდველი (LADSPA 2145)<br>\n"
+"      აღწევს სიგნალის დონის შეზღუდვას ხმოვანი არტეფაქტების გარეშე.]]>"
 
 #: data/effects/ladspa/ladspa_2145.xml:9
 #, kde-format
@@ -13431,6 +13498,9 @@ msgid ""
 "<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
 "   Main use is to liven up synth tracks in the mix]]>"
 msgstr ""
+"<![CDATA[TAP AutoPanner (LADSPA 2146)<br>\n"
+"      ძირითადად გამოიყენება არის მიქსში სინთეზური ტრეკების "
+"გამოსაცოცხლებლად]]>"
 
 #: data/effects/ladspa/ladspa_2146.xml:14
 #, no-c-format, kde-format
@@ -13469,6 +13539,8 @@ msgid ""
 "<![CDATA[The chosen filter's frequency<br>\n"
 "      is set by the <b>Frequency</b> parameter]]>"
 msgstr ""
+"<![CDATA[არჩეული ფილტრის სიხშირე<br>\n"
+"      დაყენებულია <b>სიხშირის</b> პარამეტრით]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:18
 #, kde-format
@@ -13517,6 +13589,8 @@ msgid ""
 "<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
 "   Simulates the sound of rotating speakers.]]>"
 msgstr ""
+"<![CDATA[TAP Rotary Speaker (LADSPA 2149)<br>\n"
+"   ახდენს მბრუნავი დინამიკის ხმის სიმულაციას.]]>"
 
 #: data/effects/ladspa/ladspa_2149.xml:9
 #, kde-format
@@ -13680,6 +13754,8 @@ msgid ""
 "<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
 "    Creates a psychedelic reverse audio effect.]]>"
 msgstr ""
+"<![CDATA[TAP Reflector (LADSPA 2154)<br>\n"
+"    ქმნის ფსიქოდელიურ რევერსულ აუდიოეფექტს.]]>"
 
 #: data/effects/ladspa/ladspa_2154.xml:9
 #, kde-format
@@ -15158,7 +15234,7 @@ msgstr "მაქს. გამუქება"
 #: data/effects/scratchlines.xml:17
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values darker behind line]]>"
-msgstr ""
+msgstr "<![CDATA[გამოსახულების მაქს <em>n</em>-ჯერ გამუქება ხაზს მიღმა]]>"
 
 #: data/effects/scratchlines.xml:20
 #, kde-format
@@ -15168,7 +15244,7 @@ msgstr "მაქს. გაღიავება"
 #: data/effects/scratchlines.xml:21
 #, kde-format
 msgid "<![CDATA[Make image up to <em>n</em> values lighter behind line]]>"
-msgstr ""
+msgstr "<![CDATA[გამოსახულების მაქს <em>n</em>-ჯერ გაღიავება ხაზს მიღმა]]>"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -15904,12 +15980,12 @@ msgstr "დასასრულის ამპლიტუდა"
 msgid "Wave Amplitude"
 msgstr "ტალღის ამპლტუდა"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:796
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:812
 #, kde-format
 msgid "Horizontal"
 msgstr "ჰორიზონტალური"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:843
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:859
 #, kde-format
 msgid "Vertical"
 msgstr "ვერტიკალური"
@@ -16503,7 +16579,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
 #, kde-format
 msgid "Euclid Eraser"
-msgstr ""
+msgstr "ევკლიდური საშლელი"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:5
 #, kde-format
@@ -16545,7 +16621,7 @@ msgstr "ჩაატარებს RGB[A] hardlight ოპერაციას
 msgid ""
 "Perform a conversion to hue only of the source input1 using the hue of "
 "input2."
-msgstr ""
+msgstr "გადაიყვანს ტონს მხოლოდ წყარო1-ის, წყარო2-ის ტონის გამოყენებით."
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
 #, kde-format
@@ -18693,7 +18769,7 @@ msgstr "დასაკრავი სია"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1664 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1663 src/project/projectmanager.cpp:1665
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -18963,7 +19039,7 @@ msgstr "შეიყვანეთ ბილიკი თქვენს ხმ
 msgid "Please set a default application to open audio files"
 msgstr "დააყენეთ ნაგულისხმევი აპლიკაცია აუდიოფაილების გასახსნელად"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:666 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -19823,7 +19899,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "GPU-ით დამუშავების გამორთვა"
 
-#: src/core.cpp:473
+#: src/core.cpp:470
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -19832,19 +19908,19 @@ msgstr ""
 "Kdenlive-ის ნაგულისხმევი პროფილი დაყენებული არაა, ან არასწორია. მის სწორ "
 "მნიშვნელობაზე დასაყენებლად დააწექით ღილაკს 'დიახ'."
 
-#: src/core.cpp:485
+#: src/core.cpp:482
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "ნაგულისხმევი პროფილის არჩევა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:482 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "პროფილი:"
 
-#: src/core.cpp:498
+#: src/core.cpp:495
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -19853,267 +19929,267 @@ msgstr ""
 "მითითებული პროფილი არასწორია. ჩვენი ნაგულისხმევია პროფილი \"dv_pal\", მაგრამ "
 "მისი შეცვლა ყოველთვის შეგიძლიათ Kdenlive-ის მორგების პანელიდან"
 
-#: src/core.cpp:513 src/project/projectmanager.cpp:869
+#: src/core.cpp:510 src/project/projectmanager.cpp:868
 #, kde-format
 msgid "Loading project…"
 msgstr "პროექტის ჩატვირთვა…"
 
-#: src/core.cpp:721
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "კვადრატი 2 ზოლი"
 
-#: src/core.cpp:722
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "პატარა უჯრედში"
 
-#: src/core.cpp:723
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "ჰორიზონტალური ჟალუზი"
 
-#: src/core.cpp:724
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "რადიალური"
 
-#: src/core.cpp:725
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "წრფივი X"
 
-#: src/core.cpp:726
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "ორხაზოვანი X"
 
-#: src/core.cpp:727
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "წრფივი Y"
 
-#: src/core.cpp:728
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "ორხაზოვანი Y"
 
-#: src/core.cpp:729
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "კვადრატი"
 
-#: src/core.cpp:730
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "კვადრატი 2"
 
-#: src/core.cpp:731
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ღრუბელი"
 
-#: src/core.cpp:732
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "სიმეტრიული საათი"
 
-#: src/core.cpp:733
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "რადიალური ზოლები"
 
-#: src/core.cpp:734
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "სპირალური"
 
-#: src/core.cpp:735
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "სპირალი 2"
 
-#: src/core.cpp:736
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "ფარდა"
 
-#: src/core.cpp:737
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "იმპულსი"
 
-#: src/core.cpp:738
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "საათი"
 
-#: src/core.cpp:740
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "წრფივი, ჰორიზონტალურად"
 
-#: src/core.cpp:741
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "წრფივი, ვერტიკალურად"
 
-#: src/core.cpp:742
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "ორხაზოვანი, ჰორიზონტალურად"
 
-#: src/core.cpp:743
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "ორხაზოვანი, ვერტიკალურად"
 
-#: src/core.cpp:744
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "ორხაზოვანი დიაგონალურად ქვედა მარცხნიდან ზედა მარჯვენამდე"
 
-#: src/core.cpp:745
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "ორხაზოვანი დიაგონალურად ქვედა მარჯვნიდან ზედა მარცხენამდე"
 
-#: src/core.cpp:746
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "დიაგონალურად ზედა მარცხენა"
 
-#: src/core.cpp:747
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "დიაგონალურად ზედა მარჯვენა"
 
-#: src/core.cpp:748
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "მატრიცული ჩანჩქერი, ჰორიზონტალურად"
 
-#: src/core.cpp:749
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "მატრიცული ჩანჩქერი, ვერტიკალურად"
 
-#: src/core.cpp:750
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "მატრიცული გველი, ჰორიზონტალურად"
 
-#: src/core.cpp:751
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "მატრიცული გველი, პარალელური ჰორიზონტალურად"
 
-#: src/core.cpp:752
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "მატრიცული გველი, ვერტიკალურად"
 
-#: src/core.cpp:753
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "მატრიცული გველი, პარალელური ვერტიკალურად"
 
-#: src/core.cpp:754
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "ორხაზოვანი V ზემოთ"
 
-#: src/core.cpp:755
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "ირისული დიაფრაგმა"
 
-#: src/core.cpp:756
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "ორმაგი ირისული დიაფრაგმა"
 
-#: src/core.cpp:757
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "მართკუთხედი ირისული დიაფრაგმა"
 
-#: src/core.cpp:758
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "მართკუთხედი ქვემოთ მარჯვნივ"
 
-#: src/core.cpp:759
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "მართკუთხედი ქვემოთ მარცხნივ"
 
-#: src/core.cpp:760
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "მართკუთხედი მარჯვნივ ცენტრში"
 
-#: src/core.cpp:761
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "საათი ზემოთ"
 
-#: src/core.cpp:1052
+#: src/core.cpp:1049
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "თქვენი პროექტის ფაილი არასწორია. რენდერი, შეიძლება, ჩავარდეს."
 
-#: src/core.cpp:1416
+#: src/core.cpp:1413
 #, kde-format
 msgid "Loading clips"
 msgstr "კლიპების ჩატვირთვა"
 
-#: src/core.cpp:1872
+#: src/core.cpp:1869
 #, kde-format
 msgid "Marker %1"
 msgstr "მარკერი %1"
 
-#: src/core.cpp:2226
+#: src/core.cpp:2223
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20124,12 +20200,12 @@ msgstr ""
 "მისამართიდან:\n"
 "%1"
 
-#: src/core.cpp:2227 src/core.cpp:2238
+#: src/core.cpp:2224 src/core.cpp:2235
 #, kde-format
 msgid "Open Browser"
 msgstr "ბრაუზერის გახსნა"
 
-#: src/core.cpp:2237
+#: src/core.cpp:2234
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -20547,7 +20623,7 @@ msgstr "მარკერის მონაცემების გატა�
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
+#: src/project/projectmanager.cpp:1974 src/project/projectmanager.cpp:1980
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -20640,7 +20716,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "თუ დარწმუნებული არ ბრძანდებით, სცადეთ :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1864
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1863
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -21881,7 +21957,7 @@ msgstr ""
 msgid "Make by KDE"
 msgstr "შეიქმნა KDE-ის მიერ"
 
-#: src/dialogs/Simplesplash.qml:137 src/dialogs/Splash.qml:580 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:137 src/dialogs/Splash.qml:592 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -21901,7 +21977,7 @@ msgstr "კონფიგურაციის ჩამოყრა"
 msgid "Start Normally"
 msgstr "ნორმალურად დაწყება"
 
-#: src/dialogs/Simplesplash.qml:216 src/dialogs/Splash.qml:638
+#: src/dialogs/Simplesplash.qml:216 src/dialogs/Splash.qml:651
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"https://kdenlive."
@@ -21912,7 +21988,7 @@ msgstr ""
 "\">ჩაერიოთ</a> ან დაგვეხმაროთ <a href=\"https://kdenlive.org/fund/"
 "\">დაფინანსებაში</a>."
 
-#: src/dialogs/Simplesplash.qml:229 src/dialogs/Splash.qml:652
+#: src/dialogs/Simplesplash.qml:229 src/dialogs/Splash.qml:666
 #, kde-format
 msgid "What's New"
 msgstr "რა არის ახალი"
@@ -22651,107 +22727,107 @@ msgstr "59.94 კადრი/წმ"
 msgid "60 fps"
 msgstr "60 კადრი/წმ"
 
-#: src/dialogs/Splash.qml:176
+#: src/dialogs/Splash.qml:183
 #, kde-format
 msgid "Made by KDE"
 msgstr "შეიქმნა KDE-ის მიერ"
 
-#: src/dialogs/Splash.qml:243
+#: src/dialogs/Splash.qml:250
 #, kde-format
 msgid "Open Project…"
 msgstr "პროექტის გახსნა…"
 
-#: src/dialogs/Splash.qml:270
+#: src/dialogs/Splash.qml:277
 #, kde-format
 msgid "Open Recent"
 msgstr "ბოლოს გახსნილი ფაილების გახსნა"
 
-#: src/dialogs/Splash.qml:278
+#: src/dialogs/Splash.qml:285
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "უახლოესი პროექტების ისტორიის გაწმენდა"
 
-#: src/dialogs/Splash.qml:381
+#: src/dialogs/Splash.qml:390
 #, kde-format
 msgid "Remove file from list"
 msgstr "სიიდან წაშლა"
 
-#: src/dialogs/Splash.qml:410
+#: src/dialogs/Splash.qml:418
 #, kde-format
 msgid "New Project…"
 msgstr "ახალი პროექტი…"
 
-#: src/dialogs/Splash.qml:437
+#: src/dialogs/Splash.qml:446
 #, kde-format
 msgid "New From Profile"
 msgstr "ახალი პროფილიდან"
 
-#: src/dialogs/Splash.qml:445
+#: src/dialogs/Splash.qml:455
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "უახლოესი პროფილების ისტორიის გაწმენდა"
 
-#: src/dialogs/Splash.qml:531
+#: src/dialogs/Splash.qml:543
 #, kde-format
 msgid "Remove profile from list"
 msgstr "პროფილის წაშლა სიიდან"
 
-#: src/dialogs/Splash.qml:570
+#: src/dialogs/Splash.qml:582
 #, kde-format
 msgid "Show on Startup"
 msgstr "გაშვებისას ჩვენება"
 
-#: src/dialogs/Splash.qml:603 src/dialogs/Splash.qml:969
+#: src/dialogs/Splash.qml:615 src/dialogs/Splash.qml:985
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "Kdenlive ბოლო გაშვებისას ავარიულად დასრულდა. გნებავთ ჩამოყაროთ კონფიგურაციის "
 "ფაილები და გადატვირთოთ პროგრამა?"
 
-#: src/dialogs/Splash.qml:681
+#: src/dialogs/Splash.qml:695
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "დაგვეხმარეთ, Kdenlive უკეთესი გავხადოთ"
 
-#: src/dialogs/Splash.qml:686
+#: src/dialogs/Splash.qml:700
 #, kde-format
 msgid "Contribute…"
 msgstr "შემოწირულობა…"
 
-#: src/dialogs/Splash.qml:691
+#: src/dialogs/Splash.qml:706
 #, kde-format
 msgid "Donate…"
 msgstr "შეწირვა…"
 
-#: src/dialogs/Splash.qml:721
+#: src/dialogs/Splash.qml:737
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>მოგესალმებათ Kdenlive-ის სწრაფი მორგება</b>"
 
-#: src/dialogs/Splash.qml:727
+#: src/dialogs/Splash.qml:743
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "მუქი თემის გამოყენება ყოველთვის"
 
-#: src/dialogs/Splash.qml:739
+#: src/dialogs/Splash.qml:755
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>ნაგულისხმევი პროექტის პროფილის</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:856 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:872 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "გარჩევადობა"
 
-#: src/dialogs/Splash.qml:883
+#: src/dialogs/Splash.qml:899
 #, kde-format
 msgid "Frame Rate"
 msgstr "კადრების სიხშირე"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:909
+#: src/dialogs/Splash.qml:925
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -22760,27 +22836,27 @@ msgstr "კადრების სიხშირე"
 msgid "Interlaced"
 msgstr "ხაზგამოტოვებით"
 
-#: src/dialogs/Splash.qml:928
+#: src/dialogs/Splash.qml:944
 #, kde-format
 msgid "Video Tracks"
 msgstr "ვიდეობილიკები"
 
-#: src/dialogs/Splash.qml:937
+#: src/dialogs/Splash.qml:953
 #, kde-format
 msgid "Audio Tracks"
 msgstr "აუდიობილიკები"
 
-#: src/dialogs/Splash.qml:950
+#: src/dialogs/Splash.qml:966
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "ამისი შეცვლა გარეგნობის პარამეტრებში ყოველთვის შეგიძლიათ."
 
-#: src/dialogs/Splash.qml:995
+#: src/dialogs/Splash.qml:1012
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "ონლაინ-დოკუმენტაციის შემოწმება"
 
-#: src/dialogs/Splash.qml:1003
+#: src/dialogs/Splash.qml:1021
 #, kde-format
 msgid "Start Editing"
 msgstr "ჩასწორების დაწყება"
@@ -23931,8 +24007,8 @@ msgstr "პროექტიდან წაიშალა შემდეგ�
 msgid "Invalid file path"
 msgstr "ფაილის არასწორი ბილიკი"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:896
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:845
+#: src/project/projectmanager.cpp:895
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "დაზიანებული ფაილი ვერ აღვადგინე."
@@ -24012,8 +24088,8 @@ msgstr ""
 "თქვენი პროექტის ფაილი განახლდა უკანასკნელ Kdenlive-ის დოკუმენტის ვერსიამდე, "
 "მაგრამ მარქაფის ასლის, %1, შექმნა ვერ მოხერხდა."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1574
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1537
+#: src/project/projectmanager.cpp:1573
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
@@ -30515,7 +30591,7 @@ msgstr "მარქაფის ფაილის გახსნა…"
 msgid "Save changes to document?"
 msgstr "შევინახო დოკუმენტის ცვლილებები?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1801
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1800
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -30561,7 +30637,7 @@ msgstr "არსებობს ავტოშენახული ფაი�
 msgid "File Recovery"
 msgstr "ფაილის აღდგენა"
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:883
 #, kde-format
 msgid "Recover"
 msgstr "აღდგენა"
@@ -30576,12 +30652,12 @@ msgstr "არ აღადგინო"
 msgid "File %1 does not exist"
 msgstr "ფაილი არ არსებობს: %1"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Opening file %1"
 msgstr "ფაილის გახსნა: %1"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:882
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -30592,44 +30668,44 @@ msgstr ""
 "%1\n"
 "გავხსნა მარქაფის ფაილი?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1128
+#: src/project/projectmanager.cpp:883 src/project/projectmanager.cpp:1127
 #, kde-format
 msgid "Error opening file"
 msgstr "შეცდომა ფაილის გახსნისას"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:883 src/project/projectmanager.cpp:1128
 #, kde-format
 msgid "Open Backup"
 msgstr "მარქაფის გასნა"
 
-#: src/project/projectmanager.cpp:900
+#: src/project/projectmanager.cpp:899
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "მარქაფი პროექტის ფაილის გახსნა შეუძლებელია."
 
-#: src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:914
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "თქვენი პროექტის ვერსია აწეულია. მარქაფი შემდეგი შენახვისას შეიქმნება"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:916
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "თქვენი პროექტი შეიცვალა გახსნისას. მარქაფი შემდეგი შენახვისას შეიქმნება"
 
-#: src/project/projectmanager.cpp:988
+#: src/project/projectmanager.cpp:987
 #, kde-format
 msgid "Loading timeline…"
 msgstr "დროის ხაზის ჩატვირთვა…"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1010
 #, kde-format
 msgid "Building sequences…"
 msgstr "მიმდევრობების აგება…"
 
-#: src/project/projectmanager.cpp:1155
+#: src/project/projectmanager.cpp:1154
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -30638,7 +30714,7 @@ msgstr ""
 "პროექტის ფაილის გახსნა შეუძლებელია. შეცდომა:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1194
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -30647,12 +30723,12 @@ msgstr ""
 "ეს წაშლის ყველა ცვლილებას, რომელიც თქვენს პროექტში ბოლო შენახვის შემდეგ "
 "შეიტანეთ. დარწმუნებული ბრძანდებით, რომ გნებავთ, გააგრძელოთ?"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "ბოლო შენახულ ვერსიაზე დაბრუნება"
 
-#: src/project/projectmanager.cpp:1295
+#: src/project/projectmanager.cpp:1294
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -30661,24 +30737,24 @@ msgstr ""
 "პროექტის დაზიანებულია. მარქაფი შეუძლებელია. დახურეთ და თავიდან გახსენით "
 "პროექტი, რათა ბოლო ბოლო მარქაფზე აღადგინოთ"
 
-#: src/project/projectmanager.cpp:1516
+#: src/project/projectmanager.cpp:1515
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "პროექტის საქაღალდის გადატანის შეცდომა. კეშის საქაღლდესთან წვდომა აკრძალულია"
 
-#: src/project/projectmanager.cpp:1552
+#: src/project/projectmanager.cpp:1551
 #, kde-format
 msgid "Moving project folder"
 msgstr "პროექტის საქაღალდის გადატანა"
 
-#: src/project/projectmanager.cpp:1643 src/project/projectmanager.cpp:1698
-#: src/project/projectmanager.cpp:1702
+#: src/project/projectmanager.cpp:1642 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1701
 #, kde-format
 msgid "Sequence 1"
 msgstr "მიმდევრობა 1"
 
-#: src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:1653
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -30686,13 +30762,13 @@ msgstr ""
 "პროექტის ფაილი დაზიანებულია - ტრეკების ჩატვირთვა ჩავარდა. ვცადო მარქაფის "
 "ფაილის პოვნა?"
 
-#: src/project/projectmanager.cpp:1793 src/project/projectmanager.cpp:1806
-#: src/project/projectmanager.cpp:1830 src/project/projectmanager.cpp:1839
+#: src/project/projectmanager.cpp:1792 src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:1829 src/project/projectmanager.cpp:1838
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "პროექტის პროფილის შეცვლა გაუქმდა"
 
-#: src/project/projectmanager.cpp:1969
+#: src/project/projectmanager.cpp:1968
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -30701,12 +30777,12 @@ msgstr ""
 "გამოტანის ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ თავზე?"
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1993
 #, kde-format
 msgid "Project profile changed"
 msgstr "პროექტის პროფილი შეიცვალა"
 
-#: src/project/projectmanager.cpp:2058
+#: src/project/projectmanager.cpp:2057
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -30715,27 +30791,27 @@ msgstr ""
 "დროის ხაზი ვერ შევქმენი კლიპიდან:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2141
+#: src/project/projectmanager.cpp:2140
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "მიმდევრობის კლიპის შემოტანა. ეს ფუნქცია ჯერჯერობით ექსპერიმენტულია"
 
-#: src/project/projectmanager.cpp:2386
+#: src/project/projectmanager.cpp:2385
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
-#: src/project/projectmanager.cpp:2396
+#: src/project/projectmanager.cpp:2395
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "მიმდევრობის შექმნა ჩავარდა"
 
-#: src/project/projectmanager.cpp:2423
+#: src/project/projectmanager.cpp:2422
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "მიმდევრობის ჩასმა მიმდინარე დროის ხაზში შეუძლებელია"
 
-#: src/project/projectmanager.cpp:2427
+#: src/project/projectmanager.cpp:2426
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
