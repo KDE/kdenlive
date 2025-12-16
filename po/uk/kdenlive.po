@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-14 00:41+0000\n"
+"POT-Creation-Date: 2025-12-16 06:50+0000\n"
 "PO-Revision-Date: 2025-12-04 16:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -7349,7 +7349,7 @@ msgstr "Тривалість"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1106 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1103 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
@@ -11512,8 +11512,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:612
-#: src/dialogs/Splash.qml:980 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
+#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16620,12 +16620,12 @@ msgstr "Кінцева амплітуда"
 msgid "Wave Amplitude"
 msgstr "Амплітуда хвилі"
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:798
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:814
 #, kde-format
 msgid "Horizontal"
 msgstr "Горизонтально"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:845
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:861
 #, kde-format
 msgid "Vertical"
 msgstr "Вертикально"
@@ -19459,7 +19459,7 @@ msgstr "Список відтворення"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1664 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1663 src/project/projectmanager.cpp:1665
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -19733,7 +19733,7 @@ msgstr "Введіть шлях до вашої програми для реда
 msgid "Please set a default application to open audio files"
 msgstr "Будь ласка, вкажіть типову програму для відкриття звукових файлів"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:666 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20606,7 +20606,7 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "Вимкнути обробку на графічному процесорі"
 
-#: src/core.cpp:473
+#: src/core.cpp:470
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -20615,19 +20615,19 @@ msgstr ""
 "Типовий профіль Kdenlive не встановлено або встановлено некоректний профіль. "
 "Натисніть «Гаразд», щоб встановити для профілю коректне значення."
 
-#: src/core.cpp:485
+#: src/core.cpp:482
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Виберіть типовий профіль"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:482 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Профіль:"
 
-#: src/core.cpp:498
+#: src/core.cpp:495
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -20636,268 +20636,268 @@ msgstr ""
 "Вказаний профіль є некоректним. Повертаємося до типового профілю «dv_pal». "
 "Ви можете змінити цей профіль за допомогою панелі параметрів Kdenlive."
 
-#: src/core.cpp:513 src/project/projectmanager.cpp:869
+#: src/core.cpp:510 src/project/projectmanager.cpp:868
 #, kde-format
 msgid "Loading project…"
 msgstr "Завантаження проєкту…"
 
-#: src/core.cpp:721
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Квадрат, дві панелі"
 
-#: src/core.cpp:722
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Дрібна шахівниця"
 
-#: src/core.cpp:723
+#: src/core.cpp:720
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Горизонтальна завіса"
 
-#: src/core.cpp:724
+#: src/core.cpp:721
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Радіальний"
 
-#: src/core.cpp:725
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Лінійний за X"
 
-#: src/core.cpp:726
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Білінійний за X"
 
-#: src/core.cpp:727
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Лінійний за Y"
 
-#: src/core.cpp:728
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Білінійний за Y"
 
-#: src/core.cpp:729
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Квадрат"
 
-#: src/core.cpp:730
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Квадрат 2"
 
-#: src/core.cpp:731
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Хмара"
 
-#: src/core.cpp:732
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Симетричний годинник"
 
-#: src/core.cpp:733
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Радіальні смужки"
 
-#: src/core.cpp:734
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Спіраль"
 
-#: src/core.cpp:735
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Спіраль 2"
 
-#: src/core.cpp:736
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Завіса"
 
-#: src/core.cpp:737
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Розрив"
 
-#: src/core.cpp:738
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Годинник"
 
-#: src/core.cpp:740
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Панель, горизонтально"
 
-#: src/core.cpp:741
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Панель, вертикально"
 
-#: src/core.cpp:742
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Двері комори, горизонтально"
 
-#: src/core.cpp:743
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Двері комори, вертикально"
 
-#: src/core.cpp:744
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Двері комори, діагонально знизу ліворуч праворуч вгору"
 
-#: src/core.cpp:745
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Двері комори, діагонально згори ліворуч праворуч вниз"
 
-#: src/core.cpp:746
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Діагонально згори ліворуч"
 
-#: src/core.cpp:747
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Діагонально згори праворуч"
 
-#: src/core.cpp:748
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Матричний водоспад, горизонтально"
 
-#: src/core.cpp:749
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Матричний водоспад, вертикально"
 
-#: src/core.cpp:750
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Матрична змія, горизонтально"
 
-#: src/core.cpp:751
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Матрична змія, паралельно горизонтально"
 
-#: src/core.cpp:752
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Матрична змія, вертикально"
 
-#: src/core.cpp:753
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Матрична змія, паралельно вертикально"
 
-#: src/core.cpp:754
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Комора V згори"
 
-#: src/core.cpp:755
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Ірисове коло"
 
-#: src/core.cpp:756
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Подвійна ірисова діафрагма"
 
-#: src/core.cpp:757
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Ірисова діафрагма"
 
-#: src/core.cpp:758
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Скринька внизу праворуч"
 
-#: src/core.cpp:759
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Скринька внизу ліворуч"
 
-#: src/core.cpp:760
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Скринька праворуч у центрі"
 
-#: src/core.cpp:761
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Годинник"
 
-#: src/core.cpp:1052
+#: src/core.cpp:1049
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Профіль вашого проєкту є некоректним. Можливі помилки під час його обробки."
 
-#: src/core.cpp:1416
+#: src/core.cpp:1413
 #, kde-format
 msgid "Loading clips"
 msgstr "Завантаження кліпів"
 
-#: src/core.cpp:1872
+#: src/core.cpp:1869
 #, kde-format
 msgid "Marker %1"
 msgstr "Позначка %1"
 
-#: src/core.cpp:2226
+#: src/core.cpp:2223
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20908,12 +20908,12 @@ msgstr ""
 "такою адресою:\n"
 " %1"
 
-#: src/core.cpp:2227 src/core.cpp:2238
+#: src/core.cpp:2224 src/core.cpp:2235
 #, kde-format
 msgid "Open Browser"
 msgstr "Відкрити браузер"
 
-#: src/core.cpp:2237
+#: src/core.cpp:2234
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21340,7 +21340,7 @@ msgstr "Експортування даних позначок"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
+#: src/project/projectmanager.cpp:1974 src/project/projectmanager.cpp:1980
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21433,7 +21433,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1864
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1863
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, kde-format
 msgid "Cannot read file %1"
@@ -22692,12 +22692,12 @@ msgstr ""
 "Користуйтеся цим варіантом встановлення, лише якщо ваш\n"
 "графічний процесор визначено неправильно або він не працює з цим додатком."
 
-#: src/dialogs/Simplesplash.qml:109 src/dialogs/Splash.qml:176
+#: src/dialogs/Simplesplash.qml:109 src/dialogs/Splash.qml:183
 #, kde-format
 msgid "Made by KDE"
 msgstr "Створено KDE"
 
-#: src/dialogs/Simplesplash.qml:137 src/dialogs/Splash.qml:580 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:137 src/dialogs/Splash.qml:592 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22717,7 +22717,7 @@ msgstr "Скинути налаштування"
 msgid "Start Normally"
 msgstr "Запустити у звичному режимі"
 
-#: src/dialogs/Simplesplash.qml:216 src/dialogs/Splash.qml:638
+#: src/dialogs/Simplesplash.qml:216 src/dialogs/Splash.qml:651
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
@@ -22727,7 +22727,7 @@ msgstr ""
 "\"%1\">взяти участь у її розробці</a> або допомогти з <a href="
 "\"%2\">фінансуванням розробки</a>."
 
-#: src/dialogs/Simplesplash.qml:231 src/dialogs/Splash.qml:654
+#: src/dialogs/Simplesplash.qml:231 src/dialogs/Splash.qml:668
 #, kde-format
 msgid "What's New"
 msgstr "Що нового?"
@@ -23466,102 +23466,102 @@ msgstr "59.94 кд/с"
 msgid "60 fps"
 msgstr "60 кд/с"
 
-#: src/dialogs/Splash.qml:243
+#: src/dialogs/Splash.qml:250
 #, kde-format
 msgid "Open Project…"
 msgstr "Відкрити проєкт…"
 
-#: src/dialogs/Splash.qml:270
+#: src/dialogs/Splash.qml:277
 #, kde-format
 msgid "Open Recent"
 msgstr "Відкрити недавні"
 
-#: src/dialogs/Splash.qml:278
+#: src/dialogs/Splash.qml:285
 #, kde-format
 msgid "Clear History of Recent Projects"
 msgstr "Спорожнити журнал нещодавніх проєктів"
 
-#: src/dialogs/Splash.qml:381
+#: src/dialogs/Splash.qml:390
 #, kde-format
 msgid "Remove file from list"
 msgstr "Вилучити файл зі списку"
 
-#: src/dialogs/Splash.qml:410
+#: src/dialogs/Splash.qml:418
 #, kde-format
 msgid "New Project…"
 msgstr "Створити проєкт…"
 
-#: src/dialogs/Splash.qml:437
+#: src/dialogs/Splash.qml:446
 #, kde-format
 msgid "New From Profile"
 msgstr "Створити з профілю"
 
-#: src/dialogs/Splash.qml:445
+#: src/dialogs/Splash.qml:455
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr "Спорожнити журнал нещодавніх профілів"
 
-#: src/dialogs/Splash.qml:531
+#: src/dialogs/Splash.qml:543
 #, kde-format
 msgid "Remove profile from list"
 msgstr "Вилучити профіль зі списку"
 
-#: src/dialogs/Splash.qml:570
+#: src/dialogs/Splash.qml:582
 #, kde-format
 msgid "Show on Startup"
 msgstr "Показувати при запуску"
 
-#: src/dialogs/Splash.qml:603 src/dialogs/Splash.qml:971
+#: src/dialogs/Splash.qml:615 src/dialogs/Splash.qml:987
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 "Під час останнього запуску роботу Kdenlive було завершено аварійно. "
 "Відновити типові налаштування і перезапустити?"
 
-#: src/dialogs/Splash.qml:683
+#: src/dialogs/Splash.qml:697
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr "Допоможіть нам покращити Kdenlive"
 
-#: src/dialogs/Splash.qml:688
+#: src/dialogs/Splash.qml:702
 #, kde-format
 msgid "Contribute…"
 msgstr "Взяти участь…"
 
-#: src/dialogs/Splash.qml:693
+#: src/dialogs/Splash.qml:708
 #, kde-format
 msgid "Donate…"
 msgstr "Підтримати фінансово…"
 
-#: src/dialogs/Splash.qml:723
+#: src/dialogs/Splash.qml:739
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr "<b>Вітаємо у початковому налаштовуванні Kdenlive</b>"
 
-#: src/dialogs/Splash.qml:729
+#: src/dialogs/Splash.qml:745
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr "Завжди використовувати темну схему кольорів"
 
-#: src/dialogs/Splash.qml:741
+#: src/dialogs/Splash.qml:757
 #, kde-format
 msgid "<b>Default Project Profile</b>"
 msgstr "<b>Типовий профіль проєкту</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:858 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:874 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "Роздільна здатність"
 
-#: src/dialogs/Splash.qml:885
+#: src/dialogs/Splash.qml:901
 #, kde-format
 msgid "Frame Rate"
 msgstr "Частота кадрів"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:911
+#: src/dialogs/Splash.qml:927
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23570,27 +23570,27 @@ msgstr "Частота кадрів"
 msgid "Interlaced"
 msgstr "Черезрядкове"
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:946
 #, kde-format
 msgid "Video Tracks"
 msgstr "Відеодоріжки"
 
-#: src/dialogs/Splash.qml:939
+#: src/dialogs/Splash.qml:955
 #, kde-format
 msgid "Audio Tracks"
 msgstr "Звукові доріжки"
 
-#: src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:968
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr "Це завжди можна потім змінити у параметрах роботи програми."
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:1014
 #, kde-format
 msgid "Check Online Documentation"
 msgstr "Ознайомитися із документацією в інтернеті"
 
-#: src/dialogs/Splash.qml:1005
+#: src/dialogs/Splash.qml:1023
 #, kde-format
 msgid "Start Editing"
 msgstr "Почати редагування"
@@ -24772,8 +24772,8 @@ msgstr "З проєкту було вилучено такі фільтри і �
 msgid "Invalid file path"
 msgstr "Некоректний шлях до файла"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:896
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:845
+#: src/project/projectmanager.cpp:895
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не вдалося відновити пошкоджений файл."
@@ -24851,8 +24851,8 @@ msgstr ""
 "Файл вашого проєкту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії %1 було неможливим."
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1574
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1537
+#: src/project/projectmanager.cpp:1573
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
@@ -31453,7 +31453,7 @@ msgstr "Відкриття файла резервної копії…"
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1801
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1800
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31501,7 +31501,7 @@ msgstr ""
 msgid "File Recovery"
 msgstr "Відновлення файлів"
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:883
 #, kde-format
 msgid "Recover"
 msgstr "Відновити"
@@ -31516,12 +31516,12 @@ msgstr "Не відновлювати"
 msgid "File %1 does not exist"
 msgstr "Файла %1 не існує"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Opening file %1"
 msgstr "Відкривається файл %1"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:882
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31532,29 +31532,29 @@ msgstr ""
 "%1\n"
 "Хочете відкрити файл резервної копії?"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1128
+#: src/project/projectmanager.cpp:883 src/project/projectmanager.cpp:1127
 #, kde-format
 msgid "Error opening file"
 msgstr "Помилка під час відкриття файла"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:883 src/project/projectmanager.cpp:1128
 #, kde-format
 msgid "Open Backup"
 msgstr "Відкрити резервну копію"
 
-#: src/project/projectmanager.cpp:900
+#: src/project/projectmanager.cpp:899
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не вдалося відкрити резервну копію файла проєкту."
 
-#: src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:914
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Ваш проєкт оновлено, резервну копію буде створено під час наступного "
 "збереження"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:916
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -31562,17 +31562,17 @@ msgstr ""
 "Ваш проєкт було змінено при відкритті, резервну копію буде створено під час "
 "наступного збереження"
 
-#: src/project/projectmanager.cpp:988
+#: src/project/projectmanager.cpp:987
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Завантаження монтажного столу…"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1010
 #, kde-format
 msgid "Building sequences…"
 msgstr "Побудова послідовностей…"
 
-#: src/project/projectmanager.cpp:1155
+#: src/project/projectmanager.cpp:1154
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31581,7 +31581,7 @@ msgstr ""
 "Не вдалося відкрити файл проєкту. Помилка:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1194
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -31590,12 +31590,12 @@ msgstr ""
 "Буде вилучено всі зміни, внесені з часу останнього зберігання вашого "
 "проєкту. Ви справді бажаєте виконати цю дію?"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Повернутися до останньої збереженої версії"
 
-#: src/project/projectmanager.cpp:1295
+#: src/project/projectmanager.cpp:1294
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -31605,25 +31605,25 @@ msgstr ""
 "знову відкрийте ваш файл проєкту, щоб відновити дані з останньої резервної "
 "копії."
 
-#: src/project/projectmanager.cpp:1516
+#: src/project/projectmanager.cpp:1515
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Помилка під час спроби пересунути теку проєкту, не вдалося отримати доступ "
 "до теки кешу"
 
-#: src/project/projectmanager.cpp:1552
+#: src/project/projectmanager.cpp:1551
 #, kde-format
 msgid "Moving project folder"
 msgstr "Пересуваємо теку проєкту"
 
-#: src/project/projectmanager.cpp:1643 src/project/projectmanager.cpp:1698
-#: src/project/projectmanager.cpp:1702
+#: src/project/projectmanager.cpp:1642 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1701
 #, kde-format
 msgid "Sequence 1"
 msgstr "Послідовність 1"
 
-#: src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:1653
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -31631,13 +31631,13 @@ msgstr ""
 "Файл проєкту пошкоджено — не вдалося завантажити доріжки. Спробувати знайти "
 "резервний файл?"
 
-#: src/project/projectmanager.cpp:1793 src/project/projectmanager.cpp:1806
-#: src/project/projectmanager.cpp:1830 src/project/projectmanager.cpp:1839
+#: src/project/projectmanager.cpp:1792 src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:1829 src/project/projectmanager.cpp:1838
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1969
+#: src/project/projectmanager.cpp:1968
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31646,12 +31646,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1993
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:2058
+#: src/project/projectmanager.cpp:2057
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31660,27 +31660,27 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2141
+#: src/project/projectmanager.cpp:2140
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
 
-#: src/project/projectmanager.cpp:2386
+#: src/project/projectmanager.cpp:2385
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:2396
+#: src/project/projectmanager.cpp:2395
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Не вдалося створити послідовність"
 
-#: src/project/projectmanager.cpp:2423
+#: src/project/projectmanager.cpp:2422
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Не можна вставляти послідовності на поточний монтажний стіл"
 
-#: src/project/projectmanager.cpp:2427
+#: src/project/projectmanager.cpp:2426
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"

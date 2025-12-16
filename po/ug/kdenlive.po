@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-14 00:41+0000\n"
+"POT-Creation-Date: 2025-12-16 06:50+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -7275,7 +7275,7 @@ msgstr "ۋاقتى"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:1106 src/kdenliveui.rc:184 src/mainwindow.cpp:268
+#: src/core.cpp:1103 src/kdenliveui.rc:184 src/mainwindow.cpp:268
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:433
 #, fuzzy, kde-format
@@ -11403,8 +11403,8 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
-#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:612
-#: src/dialogs/Splash.qml:980 src/layouts/layoutmanagerdialog.cpp:98
+#: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:624
+#: src/dialogs/Splash.qml:997 src/layouts/layoutmanagerdialog.cpp:98
 #: src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
@@ -16422,12 +16422,12 @@ msgstr ""
 msgid "Wave Amplitude"
 msgstr ""
 
-#: data/effects/wave.xml:25 src/dialogs/Splash.qml:798
+#: data/effects/wave.xml:25 src/dialogs/Splash.qml:814
 #, kde-format
 msgid "Horizontal"
 msgstr "توغرا"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:845
+#: data/effects/wave.xml:28 src/dialogs/Splash.qml:861
 #, kde-format
 msgid "Vertical"
 msgstr "تىك"
@@ -19380,7 +19380,7 @@ msgstr "قويۇش تىزىمى"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1664 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1663 src/project/projectmanager.cpp:1665
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image size"
@@ -19665,7 +19665,7 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:5041 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5041 src/core.cpp:666 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -20589,14 +20589,14 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "ئۈنۈم يوق"
 
-#: src/core.cpp:473
+#: src/core.cpp:470
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:485
+#: src/core.cpp:482
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgctxt "@title:window"
@@ -20604,292 +20604,292 @@ msgid "Select Default Profile"
 msgstr "سەپلەك ئۆچۈر"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:485 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:482 src/ui/profiledialog_ui.ui:37
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile:"
 msgstr "سەپلىمە ھۆججەت"
 
-#: src/core.cpp:498
+#: src/core.cpp:495
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:513 src/project/projectmanager.cpp:869
+#: src/core.cpp:510 src/project/projectmanager.cpp:868
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading project…"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/core.cpp:721
+#: src/core.cpp:718
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr ""
 
-#: src/core.cpp:722
+#: src/core.cpp:719
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:723
+#: src/core.cpp:720
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "توغرا"
 
-#: src/core.cpp:724
+#: src/core.cpp:721
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "رادىئۇس"
 
-#: src/core.cpp:725
+#: src/core.cpp:722
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr ""
 
-#: src/core.cpp:726
+#: src/core.cpp:723
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr ""
 
-#: src/core.cpp:727
+#: src/core.cpp:724
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr ""
 
-#: src/core.cpp:728
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr ""
 
-#: src/core.cpp:729
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr ""
 
-#: src/core.cpp:730
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr ""
 
-#: src/core.cpp:731
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:732
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:733
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:734
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:735
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:736
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:737
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:738
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:740
+#: src/core.cpp:737
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "توغرا"
 
-#: src/core.cpp:741
+#: src/core.cpp:738
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "تىك"
 
-#: src/core.cpp:742
+#: src/core.cpp:739
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "توغرا"
 
-#: src/core.cpp:743
+#: src/core.cpp:740
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "تىك"
 
-#: src/core.cpp:744
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:745
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:746
+#: src/core.cpp:743
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:747
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:748
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:749
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:750
+#: src/core.cpp:747
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "توغرا"
 
-#: src/core.cpp:751
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:752
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:753
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:754
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:755
+#: src/core.cpp:752
 #, fuzzy, kde-format
 #| msgid "radius"
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "رادىئۇس"
 
-#: src/core.cpp:756
+#: src/core.cpp:753
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "ئۈنۈم يوق"
 
-#: src/core.cpp:757
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:758
+#: src/core.cpp:755
 #, fuzzy, kde-format
 #| msgid "Align right"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "ئوڭغا توغرىلا"
 
-#: src/core.cpp:759
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr ""
 
-#: src/core.cpp:760
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:761
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:1052
+#: src/core.cpp:1049
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
-#: src/core.cpp:1416
+#: src/core.cpp:1413
 #, kde-format
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1872
+#: src/core.cpp:1869
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Marker %1"
 msgstr "بەلگە قەلىمى"
 
-#: src/core.cpp:2226
+#: src/core.cpp:2223
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -20897,13 +20897,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2227 src/core.cpp:2238
+#: src/core.cpp:2224 src/core.cpp:2235
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "ۋاسىتە قويغۇچ"
 
-#: src/core.cpp:2237
+#: src/core.cpp:2234
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -21325,7 +21325,7 @@ msgstr "ئىمپورت قىل"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
+#: src/project/projectmanager.cpp:1974 src/project/projectmanager.cpp:1980
 #: src/render/renderrequest.cpp:324
 #: src/renderpresets/renderpresetrepository.cpp:389
 #: src/renderpresets/renderpresetrepository.cpp:445
@@ -21424,7 +21424,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1864
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1863
 #: src/renderpresets/renderpresetrepository.cpp:322
 #, fuzzy, kde-format
 #| msgid "Error opening file"
@@ -22672,12 +22672,12 @@ msgid ""
 "is not correctly detected or not working with this plugin."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:109 src/dialogs/Splash.qml:176
+#: src/dialogs/Simplesplash.qml:109 src/dialogs/Splash.qml:183
 #, kde-format
 msgid "Made by KDE"
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:137 src/dialogs/Splash.qml:580 src/main.cpp:274
+#: src/dialogs/Simplesplash.qml:137 src/dialogs/Splash.qml:592 src/main.cpp:274
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
@@ -22699,14 +22699,14 @@ msgstr "سەپلە"
 msgid "Start Normally"
 msgstr "رەڭ"
 
-#: src/dialogs/Simplesplash.qml:216 src/dialogs/Splash.qml:638
+#: src/dialogs/Simplesplash.qml:216 src/dialogs/Splash.qml:651
 #, kde-format
 msgid ""
 "Kdenlive was upgraded. If you like it, consider <a href=\"%1\">getting "
 "involved</a> or help <a href=\"%2\">funding</a>."
 msgstr ""
 
-#: src/dialogs/Simplesplash.qml:231 src/dialogs/Splash.qml:654
+#: src/dialogs/Simplesplash.qml:231 src/dialogs/Splash.qml:668
 #, kde-format
 msgid "What's New"
 msgstr ""
@@ -23463,102 +23463,102 @@ msgstr ""
 msgid "60 fps"
 msgstr ""
 
-#: src/dialogs/Splash.qml:243
+#: src/dialogs/Splash.qml:250
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Open Project…"
 msgstr "ئۈنسىز"
 
-#: src/dialogs/Splash.qml:270
+#: src/dialogs/Splash.qml:277
 #, fuzzy, kde-format
 #| msgid "Open Document"
 msgid "Open Recent"
 msgstr "پۈتۈك ئېچىش"
 
-#: src/dialogs/Splash.qml:278
+#: src/dialogs/Splash.qml:285
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Clear History of Recent Projects"
 msgstr "ئۈنسىز"
 
-#: src/dialogs/Splash.qml:381
+#: src/dialogs/Splash.qml:390
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove file from list"
 msgstr " كاندۇك"
 
-#: src/dialogs/Splash.qml:410
+#: src/dialogs/Splash.qml:418
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "New Project…"
 msgstr "ئۈنسىز"
 
-#: src/dialogs/Splash.qml:437
+#: src/dialogs/Splash.qml:446
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "New From Profile"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/dialogs/Splash.qml:445
+#: src/dialogs/Splash.qml:455
 #, kde-format
 msgid "Clear History of Recent Profiles"
 msgstr ""
 
-#: src/dialogs/Splash.qml:531
+#: src/dialogs/Splash.qml:543
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove profile from list"
 msgstr " كاندۇك"
 
-#: src/dialogs/Splash.qml:570
+#: src/dialogs/Splash.qml:582
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Show on Startup"
 msgstr "رەڭ تاللاش"
 
-#: src/dialogs/Splash.qml:603 src/dialogs/Splash.qml:971
+#: src/dialogs/Splash.qml:615 src/dialogs/Splash.qml:987
 #, kde-format
 msgid "Kdenlive crashed on last start. Reset config and restart?"
 msgstr ""
 
-#: src/dialogs/Splash.qml:683
+#: src/dialogs/Splash.qml:697
 #, kde-format
 msgid "Help us make Kdenlive even better"
 msgstr ""
 
-#: src/dialogs/Splash.qml:688
+#: src/dialogs/Splash.qml:702
 #, kde-format
 msgid "Contribute…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:693
+#: src/dialogs/Splash.qml:708
 #, kde-format
 msgid "Donate…"
 msgstr ""
 
-#: src/dialogs/Splash.qml:723
+#: src/dialogs/Splash.qml:739
 #, kde-format
 msgid "<b>Welcome to Kdenlive Quick Setup</b>"
 msgstr ""
 
-#: src/dialogs/Splash.qml:729
+#: src/dialogs/Splash.qml:745
 #, kde-format
 msgid "Always Use Dark Color Theme"
 msgstr ""
 
-#: src/dialogs/Splash.qml:741
+#: src/dialogs/Splash.qml:757
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "<b>Default Project Profile</b>"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
-#: src/dialogs/Splash.qml:858 src/ui/colorplaneexport_ui.ui:105
+#: src/dialogs/Splash.qml:874 src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
 msgstr "ئېنىقلىق"
 
-#: src/dialogs/Splash.qml:885
+#: src/dialogs/Splash.qml:901
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Frame Rate"
@@ -23566,7 +23566,7 @@ msgstr "كاندۇك تېزلىكى"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/Splash.qml:911
+#: src/dialogs/Splash.qml:927
 #: src/mltcontroller/clippropertiescontroller.cpp:711
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/project/dialogs/profilewidget.cpp:127 src/ui/editrenderpreset_ui.ui:215
@@ -23575,30 +23575,30 @@ msgstr "كاندۇك تېزلىكى"
 msgid "Interlaced"
 msgstr ""
 
-#: src/dialogs/Splash.qml:930
+#: src/dialogs/Splash.qml:946
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Video Tracks"
 msgstr "بايت نىسبىتى"
 
-#: src/dialogs/Splash.qml:939
+#: src/dialogs/Splash.qml:955
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio Tracks"
 msgstr "بايت نىسبىتى"
 
-#: src/dialogs/Splash.qml:952
+#: src/dialogs/Splash.qml:968
 #, kde-format
 msgid "This can always be changed later in the Settings."
 msgstr ""
 
-#: src/dialogs/Splash.qml:997
+#: src/dialogs/Splash.qml:1014
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Check Online Documentation"
 msgstr "ئاچىدىغان پۈتۈك"
 
-#: src/dialogs/Splash.qml:1005
+#: src/dialogs/Splash.qml:1023
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Start Editing"
@@ -24757,8 +24757,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:846
-#: src/project/projectmanager.cpp:896
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:845
+#: src/project/projectmanager.cpp:895
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -24825,8 +24825,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1574
+#: src/doc/kdenlivedoc.cpp:937 src/project/projectmanager.cpp:1537
+#: src/project/projectmanager.cpp:1573
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
@@ -31536,7 +31536,7 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1801
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1800
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31578,7 +31578,7 @@ msgstr ""
 msgid "File Recovery"
 msgstr ""
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:883
 #, kde-format
 msgid "Recover"
 msgstr "ئەسلىگە كەلتۈر"
@@ -31594,12 +31594,12 @@ msgstr ""
 msgid "File %1 does not exist"
 msgstr "كاتېگورىيە"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Opening file %1"
 msgstr ""
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:882
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -31607,46 +31607,46 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1128
+#: src/project/projectmanager.cpp:883 src/project/projectmanager.cpp:1127
 #, kde-format
 msgid "Error opening file"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/projectmanager.cpp:884 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:883 src/project/projectmanager.cpp:1128
 #, kde-format
 msgid "Open Backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:900
+#: src/project/projectmanager.cpp:899
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Could not open the backup project file."
 msgstr "سەپلەك ئۆچۈر"
 
-#: src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:914
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:916
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:988
+#: src/project/projectmanager.cpp:987
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading timeline…"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Building sequences…"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/project/projectmanager.cpp:1155
+#: src/project/projectmanager.cpp:1154
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid ""
@@ -31654,70 +31654,70 @@ msgid ""
 "%1\n"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1194
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1295
+#: src/project/projectmanager.cpp:1294
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1516
+#: src/project/projectmanager.cpp:1515
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/projectmanager.cpp:1552
+#: src/project/projectmanager.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Moving project folder"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/project/projectmanager.cpp:1643 src/project/projectmanager.cpp:1698
-#: src/project/projectmanager.cpp:1702
+#: src/project/projectmanager.cpp:1642 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequence 1"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:1653
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1793 src/project/projectmanager.cpp:1806
-#: src/project/projectmanager.cpp:1830 src/project/projectmanager.cpp:1839
+#: src/project/projectmanager.cpp:1792 src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:1829 src/project/projectmanager.cpp:1838
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1969
+#: src/project/projectmanager.cpp:1968
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:1993
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Project profile changed"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/project/projectmanager.cpp:2058
+#: src/project/projectmanager.cpp:2057
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid ""
@@ -31725,30 +31725,30 @@ msgid ""
 "%1"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/projectmanager.cpp:2141
+#: src/project/projectmanager.cpp:2140
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2386
+#: src/project/projectmanager.cpp:2385
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select a clip to create sequence"
 msgstr "تاللاش"
 
-#: src/project/projectmanager.cpp:2396
+#: src/project/projectmanager.cpp:2395
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Sequence creation failed"
 msgstr "رەڭ تاللاش"
 
-#: src/project/projectmanager.cpp:2423
+#: src/project/projectmanager.cpp:2422
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Cannot insert sequence in current timeline"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/project/projectmanager.cpp:2427
+#: src/project/projectmanager.cpp:2426
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Create Sequence Clip"
