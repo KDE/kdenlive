@@ -73,6 +73,17 @@ Window {
                 activate()
             }
         }
+        Keys.onReturnPressed: {
+            if (splash.wasUpgraded || splash.crashRecovery) {
+                openBlank()
+            }
+        }
+
+        Keys.onEnterPressed: {
+            if (splash.wasUpgraded || splash.crashRecovery) {
+                openBlank()
+            }
+        }
         Keys.onEscapePressed: {
             console.log('ESC PRESSED!!!')
             if (splash.wasUpgraded || splash.crashRecovery) {
