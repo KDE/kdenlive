@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect xmlns="https://www.kdenlive.org" tag="avfilter.equalizer" type="audio">
+<effect xmlns="https://www.kdenlive.org" tag="avfilter.equalizer" id="avfilter.equalizer" type="audio">
     <name>Audio Equalizer (avfilter)</name>
-    <description>Apply two-pole peaking equalization (EQ) filter</description>
+    <description>Apply two-pole peaking equalization (EQ) filter. With this filter, the signal-level at and around a selected frequency can be increased or decreased, whilst (unlike bandpass and bandreject filters) that at all other frequencies is unchanged.</description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.f" max="24000" min="0" default="500">
         <name>Central Frequency</name>
     </parameter>
     <parameter type="list" name="av.t" default="q" paramlist="h;q;o;s;k">
         <name>Width Type</name>
-        <paramlistdisplay>Hertz,Q-Factor,Octave,Slope,None</paramlistdisplay>
+        <paramlistdisplay>Hertz,Q-Factor,Octave,Slope,kHz</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.w" max="24000" min="1" default="100">
         <name>Band Width</name>
@@ -19,5 +19,16 @@
     </parameter>
     <parameter type="constant" name="av.m" max="1" min="0" default="1" decimals="2">
         <name>Mix</name>
+    </parameter>
+    <parameter type="bool" name="av.n" default="0">
+        <name>Normalize</name>
+    </parameter>
+    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt;svf;zdf">
+        <name>Transform Type</name>
+        <paramlistdisplay>DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
+        <name>Filter Precision</name>
+        <paramlistdisplay>Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit</paramlistdisplay>
     </parameter>
 </effect>
