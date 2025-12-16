@@ -239,7 +239,10 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
     });
     connect(m_splash, &Splash::openBlank, this, [this]() {
         if (m_splash->hasEventLoop() || !m_guiConstructed) {
-            connect(this, &Core::mainWindowReady, m_projectManager, &ProjectManager::slotLoadOnOpen, Qt::QueuedConnection);
+            connect(this, &Core::mainWindowReady, this, [&]() {
+                // Ensure the slot is called once project manager is build.
+                QMetaObject::invokeMethod(m_projectManager, "slotLoadOnOpen", Qt::QueuedConnection);
+            });
         } else {
             QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
         }
