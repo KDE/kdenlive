@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 14:57+0000\n"
+"POT-Creation-Date: 2025-12-17 02:32+0000\n"
 "PO-Revision-Date: 2025-11-24 22:03+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -20138,7 +20138,7 @@ msgstr "Nem találom a klipet, amihez a jelölőt kellene adni"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -20514,80 +20514,80 @@ msgstr "Jelző törlése"
 msgid "Edit marker"
 msgstr "Jelölő szerkesztése"
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import markers"
 msgstr "Jelölők betöltése"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered %1"
 msgstr "Klip újratöltése"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, fuzzy, kde-format
 #| msgid "Delete All Markers"
 msgid "Delete all markers"
 msgstr "Összes jelölő törlése"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, fuzzy, kde-format
 #| msgid "Edit guide at cursor position"
 msgid "No marker found at current position"
 msgstr "A kurzornál található segédpont szerkesztése"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "Jelölő szerkesztése"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "Kategória"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "Jelölő szerkesztése"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr "Jelölő szerkesztése"
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, kde-format
 msgid "Add Markers"
 msgstr "Jelölők hozzáadása"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add markers"
 msgstr "Jelölő hozzáadása"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update range marker"
 msgstr "Kulcskép szerkesztés"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Invert colors"
 msgid "Convert to range marker"
 msgstr "Színek megfordítása"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add range marker"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Stable\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 14:57+0000\n"
+"POT-Creation-Date: 2025-12-17 02:32+0000\n"
 "PO-Revision-Date: 2025-12-10 16:34+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -19856,7 +19856,7 @@ msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -20193,70 +20193,70 @@ msgstr "Spremeni velikost označevalnika"
 msgid "Edit marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, kde-format
 msgid "Import markers"
 msgstr "Uvozi označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, kde-format
 msgid "Recovered %1"
 msgstr "Obnovljeno: %1"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, kde-format
 msgid "Delete all markers"
 msgstr "Izbriši vse označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Na trenutnem položaju ni označevalnika"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Uredi kategorijo označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, kde-format
 msgid "Markers Category"
 msgstr "Kategorija označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, kde-format
 msgid "Edit markers"
 msgstr "Uredite označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, kde-format
 msgid "Add Markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, kde-format
 msgid "Add markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, kde-format
 msgid "Update range marker"
 msgstr "Posodobi označevalnik obsega"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Pretvori v označevalnik obsega"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, kde-format
 msgid "Add range marker"
 msgstr "Dodaj označevalnik obsega"

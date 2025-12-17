@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 14:57+0000\n"
+"POT-Creation-Date: 2025-12-17 02:32+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -19846,7 +19846,7 @@ msgstr "Не удалось найти клип для добавления ма
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -20191,73 +20191,73 @@ msgstr "Переименовать маркер"
 msgid "Edit marker"
 msgstr "Изменить маркер"
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, kde-format
 msgid "Import markers"
 msgstr "Импорт маркеров"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, kde-format
 msgid "Recovered %1"
 msgstr "Восстановлено %1"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, kde-format
 msgid "Delete all markers"
 msgstr "Удалить все маркеры"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No marker found at current position"
 msgstr "В текущей позиции нет направляющей"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Изменить категорию маркеров"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, kde-format
 msgid "Markers Category"
 msgstr "Категория маркеров"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, kde-format
 msgid "Edit markers"
 msgstr "Изменить маркеры"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr "Изменить маркер"
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, kde-format
 msgid "Add Markers"
 msgstr "Добавить маркеры"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, kde-format
 msgid "Add markers"
 msgstr "Добавить маркеры"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update range marker"
 msgstr "Обновить ключевой кадр"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Convert color matrix."
 msgid "Convert to range marker"
 msgstr "Преобразование цветовой матрицы"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add range marker"

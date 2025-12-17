@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 14:57+0000\n"
+"POT-Creation-Date: 2025-12-17 02:32+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -19947,7 +19947,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -20313,80 +20313,80 @@ msgstr "Șterge marcajul"
 msgid "Edit marker"
 msgstr "Modifică marcajul"
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import markers"
 msgstr "Încarcă marcaje"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered %1"
 msgstr "Reîncarcă clipul"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Delete all markers"
 msgstr "Șterge marcajul"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No marker found at current position"
 msgstr "Niciun ghidaj la poziția cursorului"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "Modifică marcatorul"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "Categorie"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "Modifică marcajul"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr "Modifică marcatorul"
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, fuzzy, kde-format
 msgid "Add Markers"
 msgstr "Adaugă marcaje"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add markers"
 msgstr "Adaugă marcaj"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update range marker"
 msgstr "Adaugă cadru-cheie"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Invert colors"
 msgid "Convert to range marker"
 msgstr "Inversează culorile"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add range marker"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 14:57+0000\n"
+"POT-Creation-Date: 2025-12-17 02:32+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -19266,7 +19266,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -19608,74 +19608,74 @@ msgstr "संचयीका बनवा"
 msgid "Edit marker"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, fuzzy, kde-format
 msgid "Import markers"
 msgstr "आयात"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, fuzzy, kde-format
 msgid "Recovered %1"
 msgstr "प्रतिमेचा आकार"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, fuzzy, kde-format
 msgid "Delete all markers"
 msgstr "संचयीका काढून टाका (&D)"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "No marker found at current position"
 msgstr "ट्रॅक"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, kde-format
 msgid "Edit Markers Category"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, fuzzy, kde-format
 msgid "Markers Category"
 msgstr "विभाग"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, fuzzy, kde-format
 msgid "Edit markers"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Markers"
 msgstr "प्रतिमा जोडा"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add markers"
 msgstr "प्रतिमा जोडा"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Update range marker"
 msgstr "संचयीका बनवा"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, fuzzy, kde-format
 msgid "Convert to range marker"
 msgstr "रंग उलट करा (&I)"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add range marker"
