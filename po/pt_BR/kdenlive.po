@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 13:24+0000\n"
-"PO-Revision-Date: 2025-12-04 07:13-0300\n"
+"POT-Creation-Date: 2025-12-17 00:42+0000\n"
+"PO-Revision-Date: 2025-12-16 16:36-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -816,19 +816,14 @@ msgid "Allpass"
 msgstr "Passa-tudo"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Aplica um filtro passa-tudo bipolar com frequência central (em Hz) e largura "
-"de filtro. Um filtro passa-tudo altera a relação entre frequência e fase do "
+"Aplica um filtro passa-tudo bipolar com frequência central e largura de "
+"filtro. Um filtro passa-tudo altera a relação entre frequência e fase do "
 "áudio sem alterar sua relação entre frequência e amplitude."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
@@ -861,10 +856,9 @@ msgstr "Método"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Octave,Slope,KHz"
+msgstr "Hz,Q-Factor,Octave,Slope,kHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -918,8 +912,7 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
 msgstr "Tipo de transformação"
 
@@ -935,6 +928,7 @@ msgstr "Tipo de transformação"
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 msgstr ""
+"DI,DII,TDII,LATT,Filtro de Estado Variável (SVF),Filtro de Atraso Zero (ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -945,10 +939,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
-msgstr "Precisão de filtro"
+msgstr "Precisão do filtro"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -962,6 +955,8 @@ msgstr "Precisão de filtro"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"Automática,16-bit com sinal,32-bit com sinal,Flutuante 32-bit,Flutuante 64-"
+"bit"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1148,26 +1143,20 @@ msgid "Band-pass"
 msgstr "Passa-banda"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
 "gain = Q) instead of the default: constant 0dB peak gain. The filter roll "
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
-"Aplique um filtro passa-banda Butterworth bipolar com frequência central e "
-"largura de banda (ponto de 3 dB). A opção csg seleciona um ganho de saia "
+"Aplica um filtro passa-banda Butterworth bipolar com frequência central e "
+"largura de banda (ponto de 3 dB). A opção CSG seleciona um ganho de saia "
 "constante (ganho de pico = Q) em vez do padrão: ganho de pico constante de 0 "
 "dB. O filtro atenua a 6 dB por oitava (20 dB por década)."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
 msgstr "Ganho de saia constante"
 
@@ -1177,11 +1166,7 @@ msgid "Band-Reject"
 msgstr "Rejeição de banda"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
@@ -1203,6 +1188,10 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Aumenta ou atenua as frequências graves (mais baixas) do áudio usando um "
+"filtro shelving de dois polos com uma resposta semelhante à dos controles de "
+"tom de um sistema hi-fi padrão. Isso também é conhecido como equalização "
+"shelving (EQ)."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3695,6 +3684,10 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Aplica um filtro de equalização de pico de dois polos (EQ). Com este filtro, "
+"o nível do sinal em uma frequência selecionada e em torno dela pode ser "
+"aumentado ou diminuído, enquanto (ao contrário dos filtros passa-banda e "
+"rejeita-banda) o nível em todas as outras frequências permanece inalterado."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3702,10 +3695,9 @@ msgid "Width Type"
 msgstr "Tipo de largura"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Octave,Slope,KHz"
+msgstr "Hertz,Q-Factor,Octave,Slope,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -4408,19 +4400,15 @@ msgid "High-pass"
 msgstr "Passa-alto"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Aplica um filtro de rejeição de banda Butterworth bipolar com frequência "
-"central e largura de banda (ponto de 3 dB). A atenuação do filtro é de 6 dB "
-"por oitava (20 dB por década)."
+"Aplica um filtro passa-alta com frequência de corte de 3dB. O filtro pode "
+"ser de polo único ou de polo duplo (o padrão). O filtro atenua em 6dB por "
+"polo por oitava (20dB por polo por década)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4447,8 +4435,7 @@ msgid "High-shelf"
 msgstr "Prateleira alta"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Aplica um filtro de prateleira alta."
 
@@ -5121,25 +5108,20 @@ msgid "Low-pass"
 msgstr "Passa-baixo"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Aplica um filtro de rejeição de banda Butterworth bipolar com frequência "
-"central e largura de banda (ponto de 3 dB). A atenuação do filtro é de 6 dB "
-"por oitava (20 dB por década)."
+"Aplica um filtro passa-baixa com frequência de corte de 3dB. O filtro pode "
+"ser de polo único ou de polo duplo (o padrão). O filtro atenua em 6dB por "
+"polo por oitava (20dB por polo por década)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr "Hz,Fator-Q,Oitava,Declive,KHz"
+msgstr "Hz,Fator-Q,Oitava,Declive,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
@@ -19862,7 +19844,7 @@ msgstr "Não foi encontrado clipe para adicionar marcador"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -20198,70 +20180,70 @@ msgstr "Redimensionar marcador"
 msgid "Edit marker"
 msgstr "Editar marcador"
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, kde-format
 msgid "Import markers"
 msgstr "Importar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, kde-format
 msgid "Recovered %1"
 msgstr "%1 recuperado"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, kde-format
 msgid "Delete all markers"
 msgstr "Excluir todos os marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Nenhum marcador encontrado na posição atual"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Editar categoria de marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, kde-format
 msgid "Markers Category"
 msgstr "Categoria de marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, kde-format
 msgid "Edit markers"
 msgstr "Editar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr "Editar Marcador"
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, kde-format
 msgid "Add Markers"
 msgstr "Adicionar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, kde-format
 msgid "Add markers"
 msgstr "Adicionar marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, kde-format
 msgid "Update range marker"
 msgstr "Atualizar marcador de intervalo"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Converter para marcador de intervalo"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, kde-format
 msgid "Add range marker"
 msgstr "Adicionar marcador de intervalo"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-16 13:24+0000\n"
-"PO-Revision-Date: 2025-12-07 22:40+0100\n"
+"POT-Creation-Date: 2025-12-17 00:42+0000\n"
+"PO-Revision-Date: 2025-12-16 19:55+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -805,20 +805,15 @@ msgid "Allpass"
 msgstr "Vseprepustno"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Uporabite dvopolni vseprepustni filter s centralno frekvenco (v Hz) in "
-"širino širine filtra. Vseprehodni filter spremeni razmerje med frekvenco in "
-"fazo zvoka, ne da bi spremenil razmerja med frekvenco in amplitudo."
+"Uporabite dvopolni vseprepustni filter s centralno frekvenco in širino "
+"filtra. Vseprehodni filter spremeni razmerje med frekvenco in fazo zvoka, ne "
+"da bi spremenil razmerja med frekvenco in amplitudo."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -850,10 +845,9 @@ msgstr "Metoda"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-faktor,Oktava,Naklon,KHz"
+msgstr "Hz,Q-faktor,oktava,naklon,kHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -907,8 +901,7 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
 msgstr "Vrsta preoblikovanja"
 
@@ -924,6 +917,8 @@ msgstr "Vrsta preoblikovanja"
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 msgstr ""
+"DI,DII,TDII,LATT,od stanja odvisni filter (State Variable Filter - SVF),"
+"filter ničelne zakasnitve (Zero Delay Filter - ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -934,8 +929,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
 msgstr "Natančnost filtra"
 
@@ -951,6 +945,8 @@ msgstr "Natančnost filtra"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"samodejno,16-bitno predznačeno,32-bitno predznačeno,32-bitno s plavajočo "
+"vejico, 64-bitno s plavajočo vejico"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1138,26 +1134,20 @@ msgid "Band-pass"
 msgstr "Dvopolni pasovni filter"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
 "gain = Q) instead of the default: constant 0dB peak gain. The filter roll "
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
-"Uveljavite dvopolni pasovni filter s srednjo frekvenco in (3dB-točko) širino "
-"pasu. Možnost csg izbere konstantno ojačitev krila (najvišja ojačitev = Q) "
-"namesto privzetega: konstantne najvišje ojačitve 0 dB. Filter se izklopi pri "
-"6 dB na oktavo (20 dB na dekado). "
+"Uveljavite dvopolni pasovni filter s srednjo frekvenco in (3 dB-točko) "
+"širino pasu. Možnost CSG izbere konstantno ojačitev krila (najvišja ojačitev "
+"= Q) namesto privzetega: konstantne najvišje ojačitve 0 dB. Filter se "
+"izklopi pri 6 dB na oktavo (20 dB na dekado). "
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
 msgstr "Konstantno ojačitev krila"
 
@@ -1167,18 +1157,14 @@ msgid "Band-Reject"
 msgstr "Zavrnitveni pasovni filter"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
 "decade)."
 msgstr ""
 "Uporabite dvopolni Butterworthov zavrnilni pasovni filter s centralno "
-"frekvenco in širino pasu (3dB-točka). Filter se izklopi pri 6 dB na oktavo "
+"frekvenco in širino pasu (3 dB-točka). Filter se izklopi pri 6 dB na oktavo "
 "(20 dB na dekado)."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
@@ -1193,6 +1179,9 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Ojačajte ali odrežite nizke (nižje) frekvence zvoka z uporabo dvopolnega "
+"filtra police z odzivom, podobnim standardnim tonskim kontrolnikom hi-fi. To "
+"je znano tudi kot izenačevanje polic (EQ)"
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3679,6 +3668,10 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Uporabite dvopolni filter za izenačevanje vrhov (EQ). S tem filtrom se lahko "
+"raven signala na in okoli izbrane frekvence poveča ali zmanjša, medtem ko "
+"(za razliko od pasovnih in pasovno zavrnilnih filtrov) pri vseh drugih "
+"frekvencah ostaja nespremenjena."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3686,10 +3679,9 @@ msgid "Width Type"
 msgstr "Vrsta širine"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-faktor,Oktava,Naklon,KHz"
+msgstr "Hz,Q-faktor,Oktava,Naklon,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -4388,19 +4380,15 @@ msgid "High-pass"
 msgstr "Visokopasovni"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Uporabite dvopolni Butterworthov zavrnilni pasovni filter s centralno "
-"frekvenco in širino pasu (3dB-točka). Filter se izklopi pri 6 dB na oktavo "
-"(20 dB na dekado)."
+"Uporabite visoko-prepustni pasovni filter s frekvenco 3dB-točke. Filter je "
+"lahko enopolni ali dvopolni (privzeto). Filter se izklopi pri 6 dB na pol na "
+"oktavo (20 dB na pol na dekado)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4427,8 +4415,7 @@ msgid "High-shelf"
 msgstr "Filter visoke police"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Uveljavite filter z visoko polico."
 
@@ -5098,25 +5085,20 @@ msgid "Low-pass"
 msgstr "Nizkopasovni filter"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Uporabite dvopolni Butterworthov zavrnilni pasovni filter s centralno "
-"frekvenco in širino pasu (3dB-točka). Filter se izklopi pri 6 dB na oktavo "
-"(20 dB na dekado)."
+"Uporabite nizko-prepustni pasovni filter s frekvenco 3dB-točke. Filter je "
+"lahko enopolni ali dvopolni (privzeto). Filter se izklopi pri 6 dB na pol na "
+"oktavo (20 dB na pol na dekado)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr "Hz,Q-faktor,oktava,naklon,KHz"
+msgstr "Hz,Q-faktor,oktava,naklon,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
@@ -19782,7 +19764,7 @@ msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:848
+#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -20119,70 +20101,70 @@ msgstr "Spremeni velikost označevalnika"
 msgid "Edit marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:809 src/bin/model/markerlistmodel.cpp:820
+#: src/bin/model/markerlistmodel.cpp:815 src/bin/model/markerlistmodel.cpp:826
 #, kde-format
 msgid "Import markers"
 msgstr "Uvozi označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:857
+#: src/bin/model/markerlistmodel.cpp:863
 #, kde-format
 msgid "Recovered %1"
 msgstr "Obnovljeno: %1"
 
-#: src/bin/model/markerlistmodel.cpp:1006
+#: src/bin/model/markerlistmodel.cpp:1012
 #, kde-format
 msgid "Delete all markers"
 msgstr "Izbriši vse označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1015
-#: src/bin/model/markerlistmodel.cpp:1057
-#: src/bin/model/markerlistmodel.cpp:1087
+#: src/bin/model/markerlistmodel.cpp:1021
+#: src/bin/model/markerlistmodel.cpp:1063
+#: src/bin/model/markerlistmodel.cpp:1093
 #: src/timeline2/view/timelinecontroller.cpp:1570
 #, kde-format
 msgid "No marker found at current position"
 msgstr "Na trenutnem položaju ni označevalnika"
 
-#: src/bin/model/markerlistmodel.cpp:1018
+#: src/bin/model/markerlistmodel.cpp:1024
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Uredi kategorijo označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:1024
+#: src/bin/model/markerlistmodel.cpp:1030
 #, kde-format
 msgid "Markers Category"
 msgstr "Kategorija označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:1046
+#: src/bin/model/markerlistmodel.cpp:1052
 #, kde-format
 msgid "Edit markers"
 msgstr "Uredite označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1064
+#: src/bin/model/markerlistmodel.cpp:1070
 #, kde-format
 msgid "Edit Marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:1094
+#: src/bin/model/markerlistmodel.cpp:1100
 #, kde-format
 msgid "Add Markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1114
+#: src/bin/model/markerlistmodel.cpp:1120
 #, kde-format
 msgid "Add markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:1133
+#: src/bin/model/markerlistmodel.cpp:1139
 #, kde-format
 msgid "Update range marker"
 msgstr "Posodobi označevalnik obsega"
 
-#: src/bin/model/markerlistmodel.cpp:1135
+#: src/bin/model/markerlistmodel.cpp:1141
 #, kde-format
 msgid "Convert to range marker"
 msgstr "Pretvori v označevalnik obsega"
 
-#: src/bin/model/markerlistmodel.cpp:1137
+#: src/bin/model/markerlistmodel.cpp:1143
 #, kde-format
 msgid "Add range marker"
 msgstr "Dodaj označevalnik obsega"
@@ -39569,34 +39551,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Central frequency"
-#~ msgstr "Osrednja frekvenca"
-
-#~ msgid "di,dii,tdii,latt"
-#~ msgstr "di,dii,tdii,latt"
-
-#~ msgid "Auto,s16,s32,f32,f64"
-#~ msgstr "Samodejno,s16,s32,f32,f64"
-
-#~ msgid ""
-#~ "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#~ "frequency, and filter-width width. Boost or cut lower frequencies."
-#~ msgstr ""
-#~ "Uporabite dvopolni vseprepustni filter s frekvenco centralne frekvence (v "
-#~ "Hz) in širino širine filtra. Okrepite ali porežite nižje frekvence."
-
-#~ msgid "Apply two-pole peaking equalization (EQ) filter"
-#~ msgstr "Uveljavite filter za izenačitev (EQ) vrhov dveh polov"
-
-#~ msgid "Hertz,Q-Factor,Octave,Slope,None"
-#~ msgstr "Hz,Q-Faktor,Oktava,Naklon,Brez"
-
-#~ msgid "Apply a high-pass filter with 3dB point frequency."
-#~ msgstr "Uveljavite visokoprepustni filter s točkovno frekvenco 3 dB."
-
-#~ msgid "Apply a low-pass filter with 3dB point frequency."
-#~ msgstr "Uporaba nizkoprepustnega filtra s točkovno frekvenco 3 dB."
-
-#~ msgid "Make by KDE"
-#~ msgstr "Narejeno s KDE"
