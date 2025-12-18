@@ -126,13 +126,14 @@
                 "--without-doxygen",
                 "--disable-static",
                 "--enable-shared",
-                "--with-cpuflags=none"
+                "--with-cpuflags=none",
+                "--disable-libpng"
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://salsa.debian.org/multimedia-team/gavl/-/archive/debian/2.0.0_svn6298-2/gavl-debian-2.0.0_svn6298-2.tar.gz",
-                    "sha256": "daa8f90a6c66652a451e4701bd2c4c76ecd9ee7c5c10dc047916b14146aab7a5"
+                    "type": "git",
+                    "url": "https://github.com/bplaum/gavl.git",
+                    "commit": "59dd12a812141828538e045697148b7a66359181"
                 },
                 {
                     "type": "shell",
