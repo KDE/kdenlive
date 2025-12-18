@@ -133,7 +133,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/bplaum/gavl.git",
-                    "commit": "59dd12a812141828538e045697148b7a66359181"
+                    "commit": "59f4f9c52da1eb68de4b00f172c95fbd0105ff4c"
                 },
                 {
                     "type": "shell",
