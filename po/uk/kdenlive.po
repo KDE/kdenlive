@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-16 22:03+0200\n"
+"PO-Revision-Date: 2025-12-17 08:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1176,6 +1176,10 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Підсилення або зменшення басових (нижніх) частот звукових даних за допомогою "
+"двополюсного полицевого фільтра з характеристиками, подібними до "
+"характеристик стандартних регуляторів тембру Hi-Fi. Це також відоме як "
+"полицевий еквалайзер (EQ)."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3674,6 +3678,10 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Застосувати двополюсний фільтр пікового вирівнювання (EQ). За допомогою "
+"цього фільтра рівень сигналу на вибраній частоті та навколо неї можна "
+"збільшувати або зменшувати, водночас (на відміну від фільтрів пропускання та "
+"затримання смуги) на всіх інших частотах він залишається незмінним."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -4393,6 +4401,9 @@ msgid ""
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
+"Застосуйте фільтр високих частот з відхиленням 3 дБ до частоти. Фільтр може "
+"бути однополюсним або двополюсним (типовий варіант). Спадання фільтра "
+"становить 6 дБ на полюс на октаву (20 дБ на полюс на декаду)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -5099,6 +5110,9 @@ msgid ""
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
+"Застосуйте фільтр низьких частот з відхиленням 3 дБ до частоти. Фільтр може "
+"бути однополюсним або двополюсним (типовий варіант). Спадання фільтра "
+"становить 6 дБ на полюс на октаву (20 дБ на полюс на декаду)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
 #, kde-format

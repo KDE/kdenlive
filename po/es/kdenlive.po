@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-13 11:27+0100\n"
+"PO-Revision-Date: 2025-12-18 00:35+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -810,21 +810,16 @@ msgid "Allpass"
 msgstr "Paso completo"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Aplica un filtro de paso completo de dos polos con una frecuencia central "
-"(en Hz) y un ancho de filtrado. . Un filtro de paso completo cambia la "
-"relación entre la frecuencia y la fase del audio sin cambiar su relación "
-"entre la frecuencia y la amplitud."
+"Permite aplicar un filtro de paso completo de dos polos al audio de un clip, "
+"usando una frecuencia central (en Hz) y un ancho para el filtrado. Un filtro "
+"de paso completo cambia la relación entre la frecuencia y la fase del audio, "
+"sin cambiar la relación entre la frecuencia y la amplitud."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -856,8 +851,7 @@ msgstr "Método"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
 msgstr "Hz,Factor-Q,Octava,Pendiente,KHz"
 
@@ -913,8 +907,7 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
 msgstr "Tipo transformación"
 
@@ -930,6 +923,8 @@ msgstr "Tipo transformación"
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 msgstr ""
+"DI,DII,TDII,LATT,Filtro de variable de estado (SVF),Filtro de retardo nulo "
+"(ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -940,10 +935,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
-msgstr "Precisión filtro"
+msgstr "Precisión filtrado"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -957,6 +951,7 @@ msgstr "Precisión filtro"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"Auto,16 bits con signo,32 bits con signo,32 bits decimal,64 bits decimal"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1143,12 +1138,7 @@ msgid "Band-pass"
 msgstr "Paso de banda"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
@@ -1156,14 +1146,14 @@ msgid ""
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
 "Permite aplicar al audio de un clip un filtro de paso de banda Butterworth "
-"de dos polos con una frecuencia central y un ancho de banda de 3dB. La "
-"opción csg permite seleccionar una ganancia de falda constante (ganancia "
-"pico = Q) en vez de la ganancia predeterminada de pico constante de 0dB. El "
-"filtro se desvanecerá a un ritmo de 6dB por octava (y 20dB por década). "
+"de dos polos, usando una frecuencia central y un ancho de banda de punto de "
+"3dB. La opción 'Ganancia de falda constante' permite seleccionar una "
+"ganancia de falda constante (ganancia pico = Q) en vez de la predeterminada: "
+"ganancia pico constante de 0dB. El filtro se desvanecerá a un ritmo de 6dB "
+"por octava (y 20dB por década). "
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
 msgstr "Ganancia de falda constante"
 
@@ -1173,19 +1163,15 @@ msgid "Band-Reject"
 msgstr "Rechazo de banda"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
 "decade)."
 msgstr ""
-"Permite aplicar un filtro de rechazo de banda Butterworth de dos polos con "
-"una frecuencia central y un ancho de banda de 3dB. El filtro se desvanecerá "
-"a un ritmo de 6dB por octava (y 20dB por década)."
+"Permite aplicar un filtro de rechazo de banda Butterworth de dos polos, "
+"usando una frecuencia central y un ancho de banda de 3dB. El filtro se "
+"desvanecerá a un ritmo de 6dB por octava (y 20dB por década)."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
@@ -1199,6 +1185,10 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Permite acentuar o atenuar los bajos (frecuencias bajas) del audio de un "
+"clip. usando un filtro de meseta de dos polos con una respuesta similar a la "
+"de los controles de tono estándar de los equipos de alta fidelidad. Es "
+"también conocido como ecualización (EQ) de meseta"
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3732,6 +3722,11 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Permite aplicar un filtro de ecualización (EQ) de picos de dos polos al "
+"audio de un clip. Mediante este filtro, el nivel de la señal en la "
+"frecuencia seleccionada y sus alrededores podrá ser aumentado o disminuido, "
+"mientras que el resto de las frecuencias permanecerán sin cambios (a "
+"diferencia de lo que sucede con los filtros Paso de banda y Rechazo de banda)"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3739,8 +3734,7 @@ msgid "Width Type"
 msgstr "Tipo de ancho"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
 msgstr "Hz,Factor-Q,Octava,Pendiente,KHz"
 
@@ -4461,19 +4455,16 @@ msgid "High-pass"
 msgstr "Paso alto"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Permite aplicar un filtro de rechazo de banda Butterworth de dos polos con "
-"una frecuencia central y un ancho de banda de 3dB. El filtro se desvanecerá "
-"a un ritmo de 6dB por octava (y 20dB por década)."
+"Permite aplicar un filtro de paso alto al audio de un clip, con una "
+"frecuencia de punto de 3dB. El filtro podrá ser de uno o dos polos "
+"(predeterminado). El filtro se desvanecerá a un ritmo de 6dB por polo y por "
+"octava (y 20dB por polo y por década)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4500,8 +4491,7 @@ msgid "High-shelf"
 msgstr "Meseta de agudos"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Permite aplicar un filtro de meseta de agudos al audio de un clip."
 
@@ -5180,23 +5170,19 @@ msgid "Low-pass"
 msgstr "Paso bajo"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Permite aplicar un filtro de rechazo de banda Butterworth de dos polos con "
-"una frecuencia central y un ancho de banda de 3dB. El filtro se desvanecerá "
-"a un ritmo de 6dB por octava (y 20dB por década)."
+"Permite aplicar un filtro de paso bajo al audio de un clip, con una "
+"frecuencia de punto de 3dB. El filtro podrá ser de uno o dos polos "
+"(predeterminado). El filtro se desvanecerá a un ritmo de 6dB por polo y por "
+"octava (y 20dB por polo y por década)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
 msgstr "Hz,Factor-Q,Octava,Pendiente,KHz"
 
@@ -16240,12 +16226,12 @@ msgstr "Tamaño ventana suavizado "
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
 msgid "Sox Band"
-msgstr "Sox: Bandas"
+msgstr "Sox: Banda"
 
 #: data/effects/sox/sox_band.xml:5
 #, kde-format
 msgid "Sox band audio effect"
-msgstr "Efecto de audio Sox: Bandas"
+msgstr "Efecto de audio Sox: Banda"
 
 #: data/effects/sox/sox_band.xml:8
 #, kde-format
@@ -16626,14 +16612,12 @@ msgstr ""
 #: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "Máquina de escribir (para medios de título)"
+msgstr "Máquina de escribir (para títulos)"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
-msgstr ""
-"Efecto de máquina de escribir v0.3.3 Para ser aplicado solo a medios de "
-"título."
+msgstr "Efecto de máquina de escribir v0.3.3 Para ser aplicado solo a títulos."
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -16643,18 +16627,17 @@ msgstr "Intervalo de fotogramas"
 #: data/effects/typewriter.xml:14
 #, kde-format
 msgid "Random Seed"
-msgstr "Semilla aleatoria"
+msgstr "Semilla"
 
 #: data/effects/typewriter.xml:17
 #, kde-format
 msgid "Macro type"
-msgstr "Tipo de macro"
+msgstr "Modo de escritura"
 
 #: data/effects/typewriter.xml:18
 #, kde-format
 msgid "Char by char,Word by word,Line by line,Custom macro"
-msgstr ""
-"Caracter a caracter,Palabra a palabra,Línea a línea,Macro personalizado"
+msgstr "Por caracter,Por palabra,Por línea,Personalizado"
 
 #: data/effects/vidstab.xml:4
 #, kde-format
@@ -17049,7 +17032,7 @@ msgstr "Reverberación, eco y retardo"
 #: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "EQ and Filters"
-msgstr "Ecualización y filtros"
+msgstr "Ecualización y filtrado"
 
 #: data/kdenliveeffectscategory.rc:82
 #, kde-format
@@ -34916,7 +34899,7 @@ msgstr "Descargar nuevas plantillas de título…"
 #: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Save and add to project"
-msgstr "Guardar y agregar al proyecto"
+msgstr "Guardar como archivo y agregar al proyecto"
 
 #: src/titler/titlewidget.cpp:562
 #, kde-format
@@ -35917,7 +35900,7 @@ msgstr "Agregar medio al proyecto"
 #: src/ui/colorclip_ui.ui:34
 #, kde-format
 msgid "Clip color:"
-msgstr "Color del medio:"
+msgstr "Color:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ColorPlaneExport_UI)
 #: src/ui/colorplaneexport_ui.ui:18
@@ -39600,7 +39583,7 @@ msgstr "Variación:"
 #: src/ui/titlewidget_ui.ui:1053
 #, kde-format
 msgid "Expansion Mode"
-msgstr "Modo de expansión"
+msgstr "Modo de escritura"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1065
@@ -39968,38 +39951,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Central frequency"
-#~ msgstr "Frecuencia central"
-
-#~ msgid "di,dii,tdii,latt"
-#~ msgstr "di,dii,tdii,latt"
-
-#~ msgid "Auto,s16,s32,f32,f64"
-#~ msgstr "Auto,16s,32s,32f,64f"
-
-#~ msgid ""
-#~ "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#~ "frequency, and filter-width width. Boost or cut lower frequencies."
-#~ msgstr ""
-#~ "Permite aplicar al audio de un clip un filtro de dos polos con una "
-#~ "frecuencia central (expresada en Hz) y un cierto ancho de banda. "
-#~ "Potenciará o atenuará las frecuencias bajas."
-
-#~ msgid "Apply two-pole peaking equalization (EQ) filter"
-#~ msgstr ""
-#~ "Permite aplicar un filtro de ecualización de picos de dos polos al audio "
-#~ "de un clip"
-
-#~ msgid "Hertz,Q-Factor,Octave,Slope,None"
-#~ msgstr "Hertz,Factor-Q,Octava,Pendiente,Ninguno"
-
-#~ msgid "Apply a high-pass filter with 3dB point frequency."
-#~ msgstr ""
-#~ "Permite aplicar un filtro de paso alto con punto de 3dB al audio de un "
-#~ "clip."
-
-#~ msgid "Apply a low-pass filter with 3dB point frequency."
-#~ msgstr ""
-#~ "Permite aplicar un filtro de paso bajo con punto de 3dB al audio de un "
-#~ "clip."
