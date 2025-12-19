@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-06 16:47+0400\n"
+"PO-Revision-Date: 2025-12-18 10:31+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -792,20 +792,14 @@ msgid "Allpass"
 msgstr "مرر الكل"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"طبق مرشح ثنائي القطب يمرر الكل مع تردد مركزي (بالهرتز) وتردد، وعرض المرشح. "
-"يغير مرشح تمرير الكل علاقة تردد الصوت إلى الطور دون تغيير علاقته بالتردد إلى "
-"السعة."
+"طبّق مرشح تمرير كامل ثنائي القطب مع تردد مركزي وعرض مرشح. يغير مرشح التمرير "
+"الكامل علاقة التردد بالطور الصوتي دون تغيير علاقة التردد بالسعة."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -837,8 +831,7 @@ msgstr "الطريقة"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
 msgstr "هرتز,معامل-كيو,أوكتاف,ميل,كيلوهرتز"
 
@@ -894,8 +887,7 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
 msgstr "نوع التحويل"
 
@@ -910,7 +902,7 @@ msgstr "نوع التحويل"
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
-msgstr ""
+msgstr "DI,DII,TDII,LATT,مرشح متغير الحالة (SVF),مرشح تأخير صفر (ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -921,8 +913,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
 msgstr "دقة المرشح"
 
@@ -937,7 +928,7 @@ msgstr "دقة المرشح"
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
-msgstr ""
+msgstr "آلي,16 بت موقّع,32 بت موقّع,32 بت عائم,64 بت عائم"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1123,25 +1114,19 @@ msgid "Band-pass"
 msgstr "يمرر-شريط"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
 "gain = Q) instead of the default: constant 0dB peak gain. The filter roll "
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
-"طبق مرشح Butterworth يمرر-شريط ثنائي القطب مع تردد مركزي، وعرض النطاق (3dB). "
-"يختار خيار csg كسب حافة ثابت (كسب ذروة = Q) بدلا من المبدئي: كسب ذروة ثابت "
-"0dB. يقل المرشح بمعدل 6dB لكل أوكتاف (20dB لكل عقد)."
+"طبّق مرشح تمرير النطاق Butterworth ثنائي القطب مع تردد مركزي وعرض نطاق (نقطة "
+"3dB). تختار خيار CSG كسب ثابت (كسب الذروة = Q) بدلاً من الإعداد الافتراضي: "
+"كسب ذروة ثابت 0dB. ينخفض المرشح بمعدل 6dB لكل أوكتاف (20dB لكل عقد). "
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
 msgstr "كسب حافة ثابت"
 
@@ -1151,18 +1136,14 @@ msgid "Band-Reject"
 msgstr "يرفض-شريط"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
 "decade)."
 msgstr ""
-"طبق مرشح Butterworth يرفض-شريط ثنائي القطب مع تردد مركزي وتردد، وعرض النطاق "
-"(3dB). يقل المرشح بمعدل 6dB لكل أوكتاف (20dB لكل عقد)."
+"طبّق مرشح Butterworth ثنائي القطب لرفض النطاق الترددي مع تردد مركزي وعرض نطاق "
+"(نقطة 3 ديسيبل). ينخفض المرشح بمعدل 6 ديسيبل لكل أوكتاف (20 ديسيبل لكل عقد)."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
@@ -1176,6 +1157,9 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"عزز أو خفض الترددات المنخفضة (الباس) للصوت باستخدام مرشح رفوف ثنائي القطب مع "
+"استجابة مشابهة لتلك الخاصة بأدوات التحكم في النغمة في أجهزة الستيريو "
+"القياسية. يُعرف هذا أيضًا باسم معادلة الرفوف (EQ)."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3617,6 +3601,9 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"طبّق مرشح معادلة الذروة ثنائي القطب (EQ). باستخدام هذا المرشح، يمكن زيادة أو "
+"تقليل مستوى الإشارة عند التردد المحدد وحوله، بينما (على عكس مرشحات تمرير "
+"النطاق ورفض النطاق) يظل مستوى الإشارة عند جميع الترددات الأخرى دون تغيير."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3624,8 +3611,7 @@ msgid "Width Type"
 msgstr "نوع العرض"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
 msgstr "هرتز,معامل-كيو,أوكتاف,ميل,كيلوهرتز"
 
@@ -4321,18 +4307,15 @@ msgid "High-pass"
 msgstr "عالي التردد"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"طبق مرشح Butterworth يرفض-شريط ثنائي القطب مع تردد مركزي وتردد، وعرض النطاق "
-"(3dB). يقل المرشح بمعدل 6dB لكل أوكتاف (20dB لكل عقد)."
+"طبّق مرشح تمرير عالي مع تردد نقطة 3 ديسيبل. يمكن أن يكون المرشح أحادي القطب "
+"أو ثنائي القطب (الافتراضي). ينخفض المرشح بمعدل 6 ديسيبل لكل قطب لكل أوكتاف "
+"(20 ديسيبل لكل قطب لكل عقد)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4359,8 +4342,7 @@ msgid "High-shelf"
 msgstr "رف عالي"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "تطبيق مرشح رف عالي."
 
@@ -5025,24 +5007,20 @@ msgid "Low-pass"
 msgstr "منخفض التردد"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"طبق مرشح Butterworth يرفض-شريط ثنائي القطب مع تردد مركزي وتردد، وعرض النطاق "
-"(3dB). يقل المرشح بمعدل 6dB لكل أوكتاف (20dB لكل عقد)."
+"طبّق مرشح تمرير منخفض بتردد نقطة 3 ديسيبل. يمكن أن يكون المرشح أحادي القطب أو "
+"ثنائي القطب (الافتراضي). ينخفض المرشح بمعدل 6 ديسيبل لكل قطب لكل أوكتاف (20 "
+"ديسيبل لكل قطب لكل عقد)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr "هرتز,عامل-Q,أوكتاف,انحدار,كيلو هرتز"
+msgstr "هرتز,عاملQ-F,أوكتاف,انحدار,كيلو هرتز"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format

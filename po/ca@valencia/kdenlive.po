@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-04 10:53+0100\n"
+"PO-Revision-Date: 2025-12-16 17:34+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -808,21 +808,15 @@ msgid "Allpass"
 msgstr "Passa tot"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Aplica un filtre de passa tot de dos pols amb freqüència central (en Hz) i "
-"amplària de filtre d'amplària. Un filtre passa tot canvia la freqüència de "
-"l'àudio a la relació de fase sense canviar la seua freqüència a la relació "
-"d'amplitud."
+"Aplica un filtre de passa tot de dos pols amb freqüència central i amplària "
+"de filtre. Un filtre passa tot canvia la freqüència de l'àudio a la relació "
+"de fase sense canviar la seua freqüència a la relació d'amplitud."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -854,10 +848,9 @@ msgstr "Mètode"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Octava,Desnivell,KHz"
+msgstr "Hz,Q-Factor,Octava,Desnivell,kHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -911,8 +904,7 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
 msgstr "Tipus de transformació"
 
@@ -928,6 +920,8 @@ msgstr "Tipus de transformació"
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 msgstr ""
+"DI,DII,TDII,LATT,Filtre de variable d'estat (State Variable Filter o SVF),"
+"Filtre de retard zero (Zero Delay Filter o ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -938,8 +932,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
 msgstr "Precisió del filtre"
 
@@ -955,6 +948,8 @@ msgstr "Precisió del filtre"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"Auto,16 bits amb signe,32 bits amb signe,Flotant de 32 bits,Flotant de 64 "
+"bits"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1142,12 +1137,7 @@ msgid "Band-pass"
 msgstr "Passabanda"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
@@ -1155,14 +1145,12 @@ msgid ""
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
 "Aplica un filtre de passabanda Butterworth de dos pols amb freqüència "
-"central, i amplada de banda (punt de 3 dB). L'opció «csg» selecciona un "
-"guany de falda constant (guany de pic = Q) en lloc del guany predeterminat: "
-"guany de pic constant 0 dB. El filtre decau a 6 dB per octava (20 dB per "
-"dècada)."
+"central, i amplada de banda (punt de 3 dB). L'opció CSG selecciona un guany "
+"de falda constant (guany de pic = Q) en lloc del guany predeterminat: guany "
+"de pic constant 0 dB. El filtre decau a 6 dB per octava (20 dB per dècada)."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
 msgstr "Guany de falda constant"
 
@@ -1172,11 +1160,7 @@ msgid "Band-Reject"
 msgstr "Rebuig de banda"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
@@ -1198,6 +1182,10 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"Incrementa o retalla les freqüències baixes (inferiors) de l'àudio "
+"utilitzant un filtre de limitació de dos pols amb una resposta similar a la "
+"d'un control de to estàndard d'hi-fi. Açò també es coneix com a equalització "
+"de limitació (EQ)"
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3720,6 +3708,10 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"Aplica el filtre d'equalització de pics de dos pols (EQ). Amb este filtre, "
+"el nivell de senyal al voltant d'una freqüència seleccionada es pot "
+"augmentar o disminuir, mentre que (a diferència del passabanda i dels "
+"filtres de rebuig de banda) que en totes les altres freqüències no canvia."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3727,10 +3719,9 @@ msgid "Width Type"
 msgstr "Tipus d'amplària"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Octava,Desnivell,KHz"
+msgstr "Hertz,Q-Factor,Octava,Desnivell,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -4439,19 +4430,15 @@ msgid "High-pass"
 msgstr "Passaalt"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Aplica un filtre de rebuig de banda Butterworth de dos pols amb freqüència "
-"central, i amplada de banda (punt de 3 dB). El filtre decau a 6 dB per "
-"octava (20 dB per dècada)."
+"Aplica un filtre passaalt amb freqüència de punt de 3dB. El filtre pot ser "
+"un pol únic, o un pol doble (predeterminat). El filtre decau a 6dB per pol "
+"per octava (20dB per pol per dècada)."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4478,8 +4465,7 @@ msgid "High-shelf"
 msgstr "Limitació alta"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Aplica un filtre de limitació alta."
 
@@ -5161,25 +5147,20 @@ msgid "Low-pass"
 msgstr "Passabaix"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Aplica un filtre de rebuig de banda Butterworth de dos pols amb freqüència "
-"central, i amplada de banda (punt de 3 dB). El filtre decau a 6 dB per "
-"octava (20 dB per dècada)."
+"Aplica un filtre passabaix amb freqüència de punt de 3dB. El filtre pot ser "
+"un pol únic, o un pol doble (predeterminat). El filtre decau a 6dB per pol "
+"per octava (20dB per pol per dècada)."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Octava,Desnivell,KHz"
+msgstr "Hz,Q-Factor,Octava,Desnivell,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
@@ -22144,7 +22125,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid "The following errors occurred while trying to render"
-msgstr "S'han detectat els errors següents en intentar la renderització"
+msgstr "S'han detectat els errors següents mentre s'intentava la renderització"
 
 #: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1988
 #, kde-format
@@ -32969,7 +32950,7 @@ msgstr "S'ha trobat i eliminat la composició no vàlida %1."
 #: src/timeline2/model/builders/meltBuilder.cpp:623
 #, kde-format
 msgid "Errors found when opening project file (%1)"
-msgstr "S'han trobat errors en obrir el fitxer de projecte (%1)"
+msgstr "S'han trobat errors mentre s'obria el fitxer de projecte (%1)"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
@@ -39834,35 +39815,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Central frequency"
-#~ msgstr "Freqüència central"
-
-#~ msgid "di,dii,tdii,latt"
-#~ msgstr "di,dii,tdii,latt"
-
-#~ msgid "Auto,s16,s32,f32,f64"
-#~ msgstr "Auto,s16,s32,f32,f64"
-
-#~ msgid ""
-#~ "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#~ "frequency, and filter-width width. Boost or cut lower frequencies."
-#~ msgstr ""
-#~ "Aplica un filtre de passa tot de dos pols amb freqüència central (en Hz) "
-#~ "i amplària de filtre d'amplària. Potencia o retalla les freqüències més "
-#~ "baixes."
-
-#~ msgid "Apply two-pole peaking equalization (EQ) filter"
-#~ msgstr "Aplica el filtre d'equalització de pics de dos pols (EQ)"
-
-#~ msgid "Hertz,Q-Factor,Octave,Slope,None"
-#~ msgstr "Hertz,Q-Factor,Octava,Desnivell,Cap"
-
-#~ msgid "Apply a high-pass filter with 3dB point frequency."
-#~ msgstr "Aplica un filtre de passaalt amb freqüència de punt en 3 dB."
-
-#~ msgid "Apply a low-pass filter with 3dB point frequency."
-#~ msgstr "Aplica un filtre de passabaix amb freqüència de punt en 3 dB."
-
-#~ msgid "Make by KDE"
-#~ msgstr "Creat per KDE"
