@@ -32,6 +32,10 @@ enum class ParamType {
     AnimatedRect,     // Animated rects have X, Y, width, height, and opacity (in [0,1])
     AnimatedFakeRect, // Contains 4 parameters that make a rect, animated
     FakeRect,         // Contains 4 parameters that make a rect
+    AnimatedPoint,
+    Point,
+    AnimatedFakePoint,
+    FakePoint,
     Geometry,
     KeyframeParam,
     Color,
@@ -51,6 +55,36 @@ enum class ParamType {
     Unknown
 };
 Q_DECLARE_METATYPE(ParamType)
+
+struct AssetPointInfo
+{
+    QString destNameX;
+    QString destNameY;
+    QPointF defaultValue;
+    QPointF minimum;
+    QPointF maximum;
+    double factor{1};
+    explicit AssetPointInfo(const QString &nameX, const QString &nameY, const QString &value, const QPointF &min, const QPointF &max)
+        : destNameX(nameX)
+        , destNameY(nameY)
+        , minimum(min)
+        , maximum(max)
+    {
+        QStringList vals = value.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (vals.count() == 2) {
+            defaultValue = QPointF(vals.at(0).toDouble(), vals.at(1).toDouble());
+        }
+    }
+    explicit AssetPointInfo() {}
+    QPointF value(const QString &stringValue)
+    {
+        const QStringList splitValue = stringValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (splitValue.count() == 2) {
+            return QPointF(splitValue.at(0).toDouble(), splitValue.at(1).toDouble());
+        }
+        return QPointF();
+    }
+};
 
 struct AssetRectInfo
 {
@@ -249,6 +283,7 @@ public:
         HideKeyframesFirstRole,
         // Obtain the real (distinct) parameters for a fake rect (x, y, w, h)
         FakeRectRole,
+        FakePointRole,
         List1Role,
         List2Role,
         Enum1Role,
