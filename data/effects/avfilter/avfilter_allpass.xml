@@ -2,14 +2,14 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="avfilter.allpass" id="avfilter.allpass" type="audio">
     <name>Allpass</name>
-    <description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. An all-pass filter changes the audio’s frequency to phase relationship without changing its frequency to amplitude relationship.</description>
+    <description>Apply a two-pole all-pass filter with central frequency and filter-width. An all-pass filter changes the audio’s frequency to phase relationship without changing its frequency to amplitude relationship.</description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.f" default="3000" min="20" max="20000" suffix="Hz">
-        <name>Central frequency</name>
+        <name>Central Frequency</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
         <name>Method</name>
-        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
+        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,kHz</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.w" default="707.1" min="1" max="9999" decimals="2">
         <name>Filter-width</name>
@@ -24,12 +24,12 @@
         <name>Order</name>
         <paramlistdisplay>1,2</paramlistdisplay>
     </parameter>
-    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
-        <name>Transform type</name>
-        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
+    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt;svf;zdf">
+        <name>Transform Type</name>
+        <paramlistdisplay>DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
-        <name>Filter precision</name>
-        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
+        <name>Filter Precision</name>
+        <paramlistdisplay>Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit</paramlistdisplay>
     </parameter>
 </effect>

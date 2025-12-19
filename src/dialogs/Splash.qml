@@ -27,6 +27,7 @@ Window {
     property var verticalFpsModel: [{value: "25", text: i18n("25 fps")}, {value: "30", text: i18n("30 fps")}, {value: "60", text: i18n("60 fps")}]
     property bool firstRun: true
     property bool crashRecovery: false
+    property bool actionsEnabled: false
     property bool wasUpgraded: false
     property bool palFps: true
     property int border: 10
@@ -59,6 +60,11 @@ Window {
     function fade()
     {
         fadeAnimation.start()
+    }
+
+    function enableActions()
+    {
+        actionsEnabled = true
     }
 
     Component.onCompleted: {
@@ -94,6 +100,7 @@ Window {
             from: 1
             to: 0
         }
+        Keys.enabled: splash.actionsEnabled
         Keys.onDownPressed: {
             if (listView.activeFocus) {
                 if (listView.currentIndex < splash.urls.length)
@@ -349,6 +356,7 @@ Window {
                                         id: labelArea
                                         anchors.fill: parent
                                         hoverEnabled: true
+                                        enabled: splash.actionsEnabled
                                         cursorShape: Qt.PointingHandCursor
                                         onPositionChanged: {
                                             if (index != listView.hoveredIndex)
@@ -377,6 +385,7 @@ Window {
                                         height: listLabel.height
                                         width: height
                                         icon.name: "list-remove"
+                                        enabled: splash.actionsEnabled
                                         hoverEnabled: true
                                         ToolTip.text: i18n("Remove file from list")
                                         ToolTip.delay: 1000
@@ -406,8 +415,8 @@ Window {
 
                     Button {
                         id: newProjectButton
-
                         text: i18n("New Project…")
+                        enabled: splash.actionsEnabled
                         icon.name: "document-new"
                         onClicked: splash.openTemplate("")
                         anchors.top: parent.top
@@ -441,6 +450,7 @@ Window {
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 icon.name: "edit-clear-history"
+                                enabled: splash.actionsEnabled
                                 hoverEnabled: true
                                 ToolTip.text: i18n("Clear History of Recent Profiles")
                                 ToolTip.delay: 1000
@@ -505,6 +515,7 @@ Window {
 
                                         anchors.fill: parent
                                         hoverEnabled: true
+                                        enabled: splash.actionsEnabled
                                         cursorShape: Qt.PointingHandCursor
                                         onClicked: {
                                             tlistView.currentIndex = index;
@@ -527,6 +538,7 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         height: tlistLabel.height
                                         width: height
+                                        enabled: splash.actionsEnabled
                                         icon.name: "list-remove"
                                         ToolTip.text: i18n("Remove profile from list")
                                         ToolTip.delay: 1000
@@ -611,6 +623,7 @@ Window {
                     anchors.rightMargin: 10
                     text: i18n("Reset")
                     icon.name: "view-refresh"
+                    enabled: splash.actionsEnabled
                     onClicked: resetConfig()
                     KeyNavigation.tab: listView
                 }
@@ -651,6 +664,7 @@ Window {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 10
+                    enabled: splash.actionsEnabled
                     text: i18n("What's New")
                     icon.name: "help-contents"
                     onClicked: openLink("https://kdenlive.org/news/releases/" + splash.version + "?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_upgraded_notes&mtm_content=" + splash.version)
@@ -686,12 +700,14 @@ Window {
                     ToolButton {
                         icon.name: "user-group-new"
                         text: i18n("Contribute…")
+                        enabled: splash.actionsEnabled
                         onClicked: splash.openLink("https://kdenlive.org/get-involved?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_contribute&mtm_content=" + splash.version)
                     }
 
                     ToolButton {
                         text: i18n("Donate…")
                         icon.name: "donate"
+                        enabled: splash.actionsEnabled
                         onClicked: splash.openLink("https://kdenlive.org/fund?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_donatebar_donate&mtm_content=" + splash.version)
                         KeyNavigation.tab: listView
                     }
@@ -977,6 +993,7 @@ Window {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
+                        enabled: splash.actionsEnabled
                         text: i18n("Reset")
                         icon.name: "view-refresh"
                         onClicked: resetConfig()
@@ -995,6 +1012,7 @@ Window {
                     id: buttonHelp
                     icon.name: "help-browser"
                     text: i18n("Check Online Documentation")
+                    enabled: splash.actionsEnabled
                     Layout.alignment: Qt.AlignLeft
                     onClicked: openLink("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=splash_dcumentation")
                 }
@@ -1003,6 +1021,7 @@ Window {
                     id: buttonNext
                     icon.name: "go-next"
                     text: i18n("Start Editing")
+                    enabled: splash.actionsEnabled
                     onClicked: {
                         firstStart(profileCombo.currentValue, fpsCombo.currentValue, verticalFrame.checked ? false : interlacedSwitch.enabled ? interlacedSwitch.checked : true, vTracks.value, aTracks.value)
                         splash.hide()
@@ -1020,6 +1039,7 @@ Window {
             anchors.topMargin: 8
             anchors.rightMargin: 8
             icon.name: "window-close"
+            enabled: splash.actionsEnabled
             onClicked: splash.closeApp()
             opacity: 0.6
         }

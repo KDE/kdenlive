@@ -91,15 +91,14 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         connect(m_rootObject, SIGNAL(clearProfiles()), this, SIGNAL(clearProfiles()));
         connect(m_rootObject, SIGNAL(forgetFile(QString)), this, SIGNAL(forgetFile(QString)));
         connect(m_rootObject, SIGNAL(forgetProfile(QString)), this, SIGNAL(forgetProfile(QString)));
-        if (m_hasCrashRecovery) {
-            // All signals should also trigger a release lock
-            connect(m_rootObject, SIGNAL(resetConfig()), this, SIGNAL(resetConfig()));
-            connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(releaseLock()));
-            connect(m_rootObject, SIGNAL(openOtherFile()), this, SIGNAL(releaseLock()));
-            connect(m_rootObject, SIGNAL(openFile(QString)), this, SIGNAL(releaseLock()));
-            connect(m_rootObject, SIGNAL(openTemplate(QString)), this, SIGNAL(releaseLock()));
-            connect(m_rootObject, SIGNAL(firstStart(QString, QString, bool, int, int)), this, SIGNAL(releaseLock()));
-        }
+
+        // All signals should also trigger a release lock
+        connect(m_rootObject, SIGNAL(resetConfig()), this, SIGNAL(resetConfig()));
+        connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(releaseLock()));
+        connect(m_rootObject, SIGNAL(openOtherFile()), this, SIGNAL(releaseLock()));
+        connect(m_rootObject, SIGNAL(openFile(QString)), this, SIGNAL(releaseLock()));
+        connect(m_rootObject, SIGNAL(openTemplate(QString)), this, SIGNAL(releaseLock()));
+        connect(m_rootObject, SIGNAL(firstStart(QString, QString, bool, int, int)), this, SIGNAL(releaseLock()));
         connect(m_rootObject, SIGNAL(firstStart(QString, QString, bool, int, int)), this, SIGNAL(firstStart(QString, QString, bool, int, int)));
     } else {
         if (m_hasCrashRecovery || m_wasUpgraded) {
@@ -133,7 +132,7 @@ bool Splash::hasCrashRecovery() const
 
 bool Splash::hasEventLoop() const
 {
-    return m_hasCrashRecovery || (!m_showWelcome && m_wasUpgraded);
+    return m_hasCrashRecovery || m_showWelcome || (!m_showWelcome && m_wasUpgraded);
 }
 
 bool Splash::wasUpgraded() const
@@ -156,6 +155,11 @@ void Splash::fadeOutAndDelete()
 void Splash::fadeOut()
 {
     QMetaObject::invokeMethod(m_rootObject, "fade");
+}
+
+void Splash::setReady()
+{
+    QMetaObject::invokeMethod(m_rootObject, "enableActions");
 }
 
 void Splash::showProgressMessage(const QString &message, int)

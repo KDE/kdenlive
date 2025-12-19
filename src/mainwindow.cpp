@@ -854,6 +854,7 @@ void MainWindow::init()
 void MainWindow::finishUiSetup()
 {
     pCore->restoreLayout();
+    Q_EMIT pCore->closeSplash();
     setAutoSaveSettings();
     QObject::disconnect(pCore.get(), &Core::GUISetupDone, this, nullptr);
     // This should connect only after splash is done

@@ -2,14 +2,14 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="avfilter.highshelf" id="avfilter.highshelf" type="audio">
     <name>High-shelf</name>
-    <description>Apply a high shelf filter.</description>
+    <description>Apply a high-shelf filter.</description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.f" default="3000" min="20" max="20000" suffix="Hz">
-        <name>Central frequency</name>
+        <name>Central Frequency</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
         <name>Type</name>
-        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
+        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,kHz</paramlistdisplay>
     </parameter>
     <parameter type="constant" name="av.w" default="0.5" min="0.1" max="9999" decimals="1">
         <name>Filter-width</name>
@@ -27,12 +27,12 @@
     <parameter type="bool" name="av.n" default="0">
         <name>Normalize</name>
     </parameter>
-    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
-        <name>Transform type</name>
-        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
+    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt;svf;zdf">
+        <name>Transform Type</name>
+        <paramlistdisplay>DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
-        <name>Filter precision</name>
-        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
+        <name>Filter Precision</name>
+        <paramlistdisplay>Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit</paramlistdisplay>
     </parameter>
 </effect>

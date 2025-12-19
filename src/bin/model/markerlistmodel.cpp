@@ -506,11 +506,17 @@ bool MarkerListModel::moveMarkers(const QList<CommentedTime> &markers, GenTime f
         GenTime oldPos = marker.time();
         QString oldComment = marker.comment();
         int oldType = marker.markerType();
+        bool oldRanged = marker.hasRange();
+        GenTime oldDuration = marker.duration();
         GenTime newPos = oldPos.operator+(toPos.operator-(fromPos));
 
         res = removeMarker(oldPos, undo, redo);
         if (res) {
-            res = addMarker(newPos, oldComment, oldType, undo, redo);
+            if (oldRanged) {
+                res = addRangeMarker(newPos, oldDuration, oldComment, oldType, undo, redo);
+            } else {
+                res = addMarker(newPos, oldComment, oldType, undo, redo);
+            }
         } else {
             break;
         }
