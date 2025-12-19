@@ -183,6 +183,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 value.replace(posRegexp, "\\1.\\2");
                 break;
             }
+            case ParamType::AnimatedFakePoint:
+            case ParamType::AnimatedPoint:
             case ParamType::AnimatedRect:
             case ParamType::AnimatedFakeRect: {
                 // Fix values like <position>=50 20 1920 1080 0,75
@@ -193,6 +195,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             case ParamType::ColorWheel:
                 // Color wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
             case ParamType::Double:
+            case ParamType::FakePoint:
+            case ParamType::Point:
             case ParamType::Hidden:
             case ParamType::List:
             case ParamType::ListWithDependency:
@@ -453,9 +457,8 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                             rect.h *= profile->height;
                         }
                         const QString separator = getSeparatorForKeyframeType(type);
-                        qDebug() << ":::: SEPATATOR FOR TYPE: " << type << " = " << separator;
-                        for (auto i = mappedParams.cbegin(), end = mappedParams.cend(); i != end; ++i) {
-                            const AssetRectInfo paramInfo = i.value().value<AssetRectInfo>();
+                        for (auto j = mappedParams.cbegin(), end = mappedParams.cend(); j != end; ++j) {
+                            const AssetRectInfo paramInfo = j.value().value<AssetRectInfo>();
                             double val = paramInfo.getValue(rect);
                             switch (paramInfo.position) {
                             case 0:
@@ -496,6 +499,27 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                             qDebug() << "::: UNEXPECTED FAKE RECT INDEX: " << paramInfo.position;
                         }
                     }
+                } else if (type == ParamType::AnimatedFakePoint) {
+                    mlt_profile profile = (mlt_profile)m_asset->get_data("_profile");
+                    Mlt::Animation anim = m_asset->get_animation(name.toLatin1().constData());
+                    AssetPointInfo paramInfo = data(paramIndex, FakePointRole).value<AssetPointInfo>();
+                    QStringList xAnim;
+                    QStringList yAnim;
+                    for (int i = 0; i < anim.key_count(); ++i) {
+                        int frame;
+                        mlt_keyframe_type type;
+                        anim.key_get(i, frame, type);
+                        mlt_rect rect = m_asset->anim_get_rect(name.toLatin1().constData(), frame);
+                        if (paramValue.contains(QLatin1Char('%'))) {
+                            rect.x *= profile->width;
+                            rect.y *= profile->height;
+                        }
+                        const QString separator = getSeparatorForKeyframeType(type);
+                        xAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.x);
+                        yAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.y);
+                    }
+                    m_asset->set(paramInfo.destNameX.toUtf8().constData(), xAnim.join(QLatin1Char(';')).toUtf8().constData());
+                    m_asset->set(paramInfo.destNameY.toUtf8().constData(), yAnim.join(QLatin1Char(';')).toUtf8().constData());
                 }
                 km->refresh();
             } else {
@@ -514,6 +538,12 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                         val = paramInfo.getValue(splitValue);
                         m_asset->set(paramInfo.destName.toUtf8().constData(), val);
                     }
+                } else if (type == ParamType::FakePoint) {
+                    // Pass the values to the real MLT params
+                    AssetPointInfo paramInfo = data(paramIndex, FakePointRole).value<AssetPointInfo>();
+                    QPointF value = paramInfo.value(paramValue);
+                    m_asset->set(paramInfo.destNameX.toUtf8().constData(), value.x());
+                    m_asset->set(paramInfo.destNameY.toUtf8().constData(), value.y());
                 }
             }
         } else {
@@ -748,6 +778,14 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return !element.hasAttribute(QStringLiteral("notintimeline"));
     case AlphaRole:
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
+    case FakePointRole: {
+        AssetPointInfo paramInfo(element.attribute(QStringLiteral("nameX")), element.attribute(QStringLiteral("nameY")),
+                                 element.attribute(QStringLiteral("default")),
+                                 QPointF(element.attribute(QStringLiteral("minX")).toDouble(), element.attribute(QStringLiteral("minY")).toDouble()),
+                                 QPointF(element.attribute(QStringLiteral("maxX")).toDouble(), element.attribute(QStringLiteral("maxY")).toDouble()));
+        return QVariant::fromValue(paramInfo);
+        break;
+    }
     case FakeRectRole: {
         QVariantMap mappedParams;
         QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
@@ -900,6 +938,14 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::AnimatedFakeRect;
     } else if (type == QLatin1String("fakerect")) {
         return ParamType::FakeRect;
+    } else if (type == QLatin1String("animatedpoint")) {
+        return ParamType::AnimatedPoint;
+    } else if (type == QLatin1String("animatedfakepoint")) {
+        return ParamType::AnimatedFakePoint;
+    } else if (type == QLatin1String("point")) {
+        return ParamType::Point;
+    } else if (type == QLatin1String("fakepoint")) {
+        return ParamType::FakePoint;
     } else if (type == QLatin1String("geometry")) {
         return ParamType::Geometry;
     } else if (type == QLatin1String("keyframe") || type == QLatin1String("animated")) {
@@ -940,8 +986,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 // static
 bool AssetParameterModel::isAnimated(ParamType type)
 {
-    return type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::ColorWheel ||
-           type == ParamType::Roto_spline || type == ParamType::Color;
+    static QList<ParamType> animatedTypes = {ParamType::KeyframeParam,    ParamType::AnimatedFakePoint, ParamType::AnimatedPoint, ParamType::AnimatedRect,
+                                             ParamType::AnimatedFakeRect, ParamType::ColorWheel,        ParamType::Color};
+    return animatedTypes.contains(type);
 }
 
 // static
@@ -1073,7 +1120,8 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
             .replace(QLatin1String("%fittedContentHeight"), QString::number(frameSize.height() * fitScale))
             .replace(QLatin1String("%out"), QString::number(out))
             .replace(QLatin1String("%fade"), QString::number(frame_duration));
-        if ((type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect || type == ParamType::Geometry) &&
+        if ((type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect || type == ParamType::Geometry ||
+             type == ParamType::AnimatedFakePoint || type == ParamType::AnimatedPoint || type == ParamType::Point || type == ParamType::FakePoint) &&
             attribute == QLatin1String("default")) {
             if (content.contains(QLatin1Char('%'))) {
                 // This is a generic default like: "25% 0% 50% 100%". Parse values
@@ -1278,7 +1326,9 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             ParamType type = data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-            if (percentageExport && (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect)) {
+            if (percentageExport &&
+                (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect ||
+                 type == ParamType::AnimatedFakePoint || type == ParamType::AnimatedPoint || type == ParamType::FakePoint || type == ParamType::Point)) {
                 // Convert values to percents
                 const QString percentVal = animationToPercentage(fixed.second.toString());
                 if (percentVal.isEmpty()) {
@@ -1339,7 +1389,9 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
         } else {
             QString resultValue = param.second.value.toString();
             ParamType type = data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-            if (percentageExport && (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect)) {
+            if (percentageExport &&
+                (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect ||
+                 type == ParamType::AnimatedFakePoint || type == ParamType::AnimatedPoint || type == ParamType::FakePoint || type == ParamType::Point)) {
                 // Convert values to percents
                 const QString percentVal = animationToPercentage(resultValue);
                 if (!percentVal.isEmpty()) {

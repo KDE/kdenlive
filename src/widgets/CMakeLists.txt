@@ -11,6 +11,7 @@ set(kdenlive_SRCS
   widgets/geometrywidget.cpp
   widgets/markercategorychooser.cpp
   widgets/markercategorybutton.cpp
+  widgets/pointwidget.cpp
   widgets/positionwidget.cpp
   widgets/precisionspinbox.cpp
   widgets/progressbutton.cpp
