@@ -7,7 +7,7 @@
     <parameter type="bool" name="mode" default="0">
         <name>Use cos instead of linear</name>
     </parameter>
-    <parameter type="animatedfakepoint" nameX="x" nameY="y" min="-%width -%height" max="%width %height" default="0=0.5 0.5" factor="%width %height">
+    <parameter type="animatedfakepoint" name="kdenlive:point" nameX="x" nameY="y" min="-%width -%height" max="%width %height" default="0=0.5 0.5" factor="%width %height">
         <name>Center</name>
     </parameter>
     <!-- <parameter type="animated" name="x" min="0" max="%width" default="0.5" factor="%width">
