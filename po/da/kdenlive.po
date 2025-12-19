@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 02:32+0000\n"
+"POT-Creation-Date: 2025-12-19 02:42+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -33836,24 +33836,24 @@ msgstr "Tilføj klip"
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kunne ikke indsætte elementer i tidslinje"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Indsæt tidslinjeklip"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove space on track"
 msgstr "Fjern tomrum i alle spor"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 02:32+0000\n"
+"POT-Creation-Date: 2025-12-19 02:42+0000\n"
 "PO-Revision-Date: 2025-12-17 00:46+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -33606,23 +33606,23 @@ msgstr "No fue posible agregar medio en el panel Medios"
 msgid "All clips were not successfully copied"
 msgstr "No todos los medios fueron copiados exitosamente"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "No fue posible pegar los elementos en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Pegar clips de la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "Eliminar espacio en la pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Borrar clips en la pista"

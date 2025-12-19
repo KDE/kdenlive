@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 02:32+0000\n"
+"POT-Creation-Date: 2025-12-19 02:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -33358,23 +33358,23 @@ msgstr "बिन् क्लिप् योजयितुं न शक्�
 msgid "All clips were not successfully copied"
 msgstr "सर्वाणि क्लिप्स् सफलतया प्रतिलिपितानि न अभवन्"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "समयरेखायां वस्तूनि चिनोतु न शक्तवान्"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "समयरेखा क्लिप्स् चिनोतु"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "पटले स्थानं निष्कासयन्तु"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "पटले क्लिप्स् विलोपयन्तु"

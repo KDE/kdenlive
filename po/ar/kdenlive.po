@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 02:32+0000\n"
+"POT-Creation-Date: 2025-12-19 02:42+0000\n"
 "PO-Revision-Date: 2025-12-06 16:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -32818,23 +32818,23 @@ msgstr "لا يمكن إضافة سلة المقاطع"
 msgid "All clips were not successfully copied"
 msgstr "لم ينسخ كل المقاطع بنجاح"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "تعذر إلصاق العناصر في الخطّ الزّمنيّ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "ألصق مقاطع الخط الزمني"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "أزل فضاء في مسار"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "احذف مقاطع في المسار"

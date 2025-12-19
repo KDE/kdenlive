@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 02:32+0000\n"
+"POT-Creation-Date: 2025-12-19 02:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -33385,27 +33385,27 @@ msgstr "Dodavanje isječaka"
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "ažuriraj vrijednosti na vremenskoj osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Paste timeline clips"
 msgstr "Obriši snimak vremenske skale"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "Izbaci prostor"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"

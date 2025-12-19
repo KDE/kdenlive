@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 02:32+0000\n"
+"POT-Creation-Date: 2025-12-19 02:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -33393,23 +33393,23 @@ msgstr "बिन क्लिप नहीं जोड़ा जा सका"
 msgid "All clips were not successfully copied"
 msgstr "सभी क्लिप सफलतापूर्वक कॉपी नहीं की गईं"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "टाइमलाइन में आइटम चिपकाए नहीं जा सके"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "टाइमलाइन क्लिप चिपकाएँ"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "ट्रैक पर जगह हटाएं"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "ट्रैक पर मौजूद क्लिप हटाएँ"
