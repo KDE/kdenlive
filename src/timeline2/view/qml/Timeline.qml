@@ -3,6 +3,7 @@
     SPDX-FileCopyrightText: 2017 Nicolas Carion
     SPDX-FileCopyrightText: 2020 Sashmita Raghav
     SPDX-FileCopyrightText: 2021 Julius Künzel <julius.kuenzel@kde.org>
+    SPDX-FileCopyrightText: 2025 Abdias J
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -33,6 +34,50 @@ Rectangle {
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
+
+    function screenForGlobalPos(globalPos) {
+        const screens = Qt.application.screens
+        if (!screens || screens.length === 0) {
+            return null
+        }
+        for (let i = 0; i < screens.length; ++i) {
+            const s = screens[i]
+            const left = s.virtualX
+            const right = s.virtualX + s.width
+            const top = s.virtualY
+            const bottom = s.virtualY + s.height
+            if (globalPos.x >= left && globalPos.x < right && globalPos.y >= top && globalPos.y < bottom) {
+                return s
+            }
+        }
+        // Fallback to nearest screen center if the point is slightly outside
+        let best = screens[0]
+        let bestDist = Number.MAX_VALUE
+        for (let i = 0; i < screens.length; ++i) {
+            const s = screens[i]
+            const cx = s.virtualX + s.width / 2
+            const cy = s.virtualY + s.height / 2
+            const dist = Math.pow(globalPos.x - cx, 2) + Math.pow(globalPos.y - cy, 2)
+            if (dist < bestDist) {
+                bestDist = dist
+                best = s
+            }
+        }
+        return best
+    }
+
+    function screenEdges(globalPos) {
+        const s = screenForGlobalPos(globalPos)
+        if (!s) {
+            return null
+        }
+        return {
+            left: s.virtualX,
+            right: s.virtualX + s.width,
+            top: s.virtualY,
+            bottom: s.virtualY + s.height
+        }
+    }
 
     Timer {
         id: doubleClickTimer
@@ -1358,6 +1403,9 @@ function getTrackColor(audio, header) {
                     let globalPos = mapToGlobal(mouse.x, mouse.y)
                     
                     if (isWarping) {
+                        // After warp, skip this frame and reset tracking to current position
+                        // This avoids the bad delta from cursor-in-flight, but immediately
+                        // resumes responsive tracking from the user's actual position
                         isWarping = false
                         lastGlobalPos = globalPos
                         clickX = mouse.x
@@ -1371,7 +1419,7 @@ function getTrackColor(audio, header) {
                     if (deltaX === 0 && deltaY === 0) {
                         return
                     }
-
+                    
                     var maxScrollX = timeline.fullDuration * root.timeScale - scrollView.width
                     var maxScrollY = trackHeaders.height + subtitleTrackHeader.height - scrollView.height + horZoomBar.height
                     
@@ -1382,11 +1430,17 @@ function getTrackColor(audio, header) {
                     clickX = mouse.x
                     clickY = mouse.y
 
-                    // Check for screen edge and warp to center of window
-                    if (globalPos.x <= 0 || globalPos.x >= Screen.width - 1 || globalPos.y <= 0 || globalPos.y >= Screen.height - 1) {
+                    // Check for screen or window edge and warp to center of tracks area
+                    let margin = 20
+                    let edges = screenEdges(globalPos)
+                    let atScreenEdge = edges && (globalPos.x <= edges.left + margin || globalPos.x >= edges.right - margin
+                                                || globalPos.y <= edges.top + margin || globalPos.y >= edges.bottom - margin)
+                    let atWindowEdge = mouse.x <= margin || mouse.x >= tracksArea.width - margin
+                                    || mouse.y <= margin || mouse.y >= tracksArea.height - margin
+
+                    if (atScreenEdge || atWindowEdge) {
                         let center = mapToGlobal(tracksArea.width / 2, tracksArea.height / 2)
                         isWarping = true
-                        console.log("Timeline: Edge reached, warping cursor to center:", center.x, center.y)
                         timeline.warpCursor(Qt.point(center.x, center.y))
                     }
                     return
@@ -1859,6 +1913,7 @@ function getTrackColor(audio, header) {
                                         
                                         let globalPos = mapToGlobal(mouse.x, mouse.y)
                                         if (tracksArea.isWarping) {
+                                            // After warp, skip this frame and reset tracking to current position
                                             tracksArea.isWarping = false
                                             tracksArea.lastGlobalPos = globalPos
                                             return
@@ -1876,13 +1931,20 @@ function getTrackColor(audio, header) {
                                                 
                                                 tracksArea.lastGlobalPos = globalPos
 
-                                                // Check for screen edge and warp
-                                                if (globalPos.x <= 0 || globalPos.x >= Screen.width - 1 || globalPos.y <= 0 || globalPos.y >= Screen.height - 1) {
+                                                // Check for screen or window edge and warp
+                                                let margin = 20
+                                                let edges = screenEdges(globalPos)
+                                                let posInTracksArea = dragProxyArea.mapToItem(tracksArea, mouse.x, mouse.y)
+                                                let atScreenEdge = edges && (globalPos.x <= edges.left + margin || globalPos.x >= edges.right - margin
+                                                                || globalPos.y <= edges.top + margin || globalPos.y >= edges.bottom - margin)
+                                                let atWindowEdge = posInTracksArea.x <= margin || posInTracksArea.x >= tracksArea.width - margin
+                                                                || posInTracksArea.y <= margin || posInTracksArea.y >= tracksArea.height - margin
+
+                                                if (atScreenEdge || atWindowEdge) {
                                                     let center = mapToGlobal(dragProxyArea.width / 2, dragProxyArea.height / 2)
                                                     let warpDeltaX = center.x - globalPos.x
                                                     let warpDeltaY = center.y - globalPos.y
                                                     tracksArea.isWarping = true
-                                                    console.log("Timeline: Item Drag Edge reached, warping cursor. Item pos before:", parent.x, parent.y)
                                                     timeline.warpCursor(Qt.point(center.x, center.y))
                                                     // Adjust item position to compensate for mouse warp
                                                     parent.x += warpDeltaX
