@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-01 10:56+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"PO-Revision-Date: 2025-12-19 12:17+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.11.80\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -33,16 +33,12 @@ msgstr ""
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Düzenleme"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Günlükleme"
 
@@ -805,20 +801,15 @@ msgid "Allpass"
 msgstr "Faz Geçişi"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"Merkezi frekans (Hz türünden) frekansı ve süzgeç genişliği genişliğine sahip "
-"iki kutuplu bir tüm geçiş süzgeci uygulayın. Tüm geçiş süzgeci, sesin "
-"frekansını genlik ilişkisini değiştirmeden frekans–faz ilişkisini değiştirir."
+"Merkezi frekans ve süzgeç genişliğine sahip iki kutuplu bir tüm geçiş "
+"süzgeci uygulayın. Tüm geçiş süzgeci, sesin frekansını genlik ilişkisini "
+"değiştirmeden frekans–faz ilişkisini değiştirir."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -850,10 +841,9 @@ msgstr "Yöntem"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Oktav,Eğim,KHz"
+msgstr "Hz,Q-Factor,Oktav,Eğim,kHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -907,10 +897,9 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
-msgstr "Dönüşüm türü"
+msgstr "Dönüşüm Türü"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -924,6 +913,7 @@ msgstr "Dönüşüm türü"
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 msgstr ""
+"DI,DII,TDII,LATT,Durum Değişkenli Süzgeç (SVF),Sıfır Gecikmeli Süzgeç (ZDF)"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -934,10 +924,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
-msgstr "Süzgeç kesinliği"
+msgstr "Süzgeç Kesinliği"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -951,6 +940,8 @@ msgstr "Süzgeç kesinliği"
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 msgstr ""
+"Otomatik,İmzalı 16 bit,İmzalı 32 bit,Kayan Noktalı 32 bit,Kayan Noktalı 64 "
+"bit"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1138,28 +1129,22 @@ msgid "Band-pass"
 msgstr "Bant Geçişi"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
 "gain = Q) instead of the default: constant 0dB peak gain. The filter roll "
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
-"Merkezi frekans ve (3 dB noktalı) bant genişliği genişliğine sahip iki "
-"kutuplu bir Butterworth bant geçişli süzgeç uygulayın. csg seçeneği, "
-"öntanımlı sabit 0 dB tepe kazancı yerine sabit bir etek kazancı (tepe "
-"kazancı = Q) seçer. Süzgeç, oktav başına 6dB (on yıl başına 20 dB) düşer."
+"Merkezi frekans ve (3 dB noktalı) bant genişliğine sahip iki kutuplu bir "
+"Butterworth bant geçişli süzgeç uygulayın. CSG seçeneği, öntanımlı sabit 0 "
+"dB tepe kazancı yerine sabit bir etek kazancı (tepe kazancı = Q) seçer. "
+"Süzgeç, oktav başına 6dB (on yıl başına 20 dB) düşer."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
-msgstr "Sabit etek kazancı"
+msgstr "Sabit Etek Kazancı"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
@@ -1167,19 +1152,15 @@ msgid "Band-Reject"
 msgstr "Bant Reddi"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
 "decade)."
 msgstr ""
-"Merkezi frekans frekansına ve (3 dB noktalı) bant genişliği genişliğine "
-"sahip iki kutuplu bir Butterworth bant reddetme süzgeci uygulayın. Süzgeç "
-"oktav başına 6 dB (on yıl başına 20 dB) düşer."
+"Merkezi frekansa ve (3 dB noktalı) bant genişliğine sahip iki kutuplu bir "
+"Butterworth bant reddetme süzgeci uygulayın. Süzgeç oktav başına 6 dB (on "
+"yıl başına 20 dB) düşer."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
@@ -1193,6 +1174,10 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"İki kutuplu bir raf süzgeci kullanarak sesin bas (düşük) frekanslarını "
+"artırın veya azaltın; bu süzgeç, standart bir Hi-Fi sisteminin ton "
+"denetimine benzer bir tepki verir. Bu işlem aynı zamanda raf eşitlemesi (EQ) "
+"olarak da bilinir."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3674,6 +3659,10 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"İki kutuplu tepe eşitleme (EQ) süzgeci uygulayın. Bu süzgeç ile, seçilen bir "
+"frekanstaki ve çevresindeki sinyal düzeyi artırılabilir veya "
+"azaltılabilirken (bant geçiren ve bant reddeden süzgeçlerin aksine) diğer "
+"tüm frekanslardaki sinyal düzeyi değişmez."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3681,10 +3670,9 @@ msgid "Width Type"
 msgstr "Genişlik türü"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Oktav,Eğim,KHz"
+msgstr "Hertz,Hz,Q-Factor,Oktav,Eğim,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -4389,19 +4377,15 @@ msgid "High-pass"
 msgstr "Yüksek Geçiş"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Merkezi frekans frekansına ve (3 dB noktalı) bant genişliği genişliğine "
-"sahip iki kutuplu bir Butterworth bant reddetme süzgeci uygulayın. Süzgeç "
-"oktav başına 6 dB (on yıl başına 20 dB) düşer."
+"3 dB nokta frekansına sahip bir yüksek geçişli süzgeç uygulayın. Süzgeç tek "
+"kutuplu veya çift kutuplu (öntanımlı) olabilir. Süzgeç, oktav başına kutup "
+"başına 6 dB (onluk başına kutup başına 20 dB) düşüş gösterir."
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4428,8 +4412,7 @@ msgid "High-shelf"
 msgstr "Yüksek Raf"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Bir yüksek raf süzgeci uygulayın."
 
@@ -5098,25 +5081,20 @@ msgid "Low-pass"
 msgstr "Düşük Geçiş"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"Merkezi frekans frekansına ve (3 dB noktalı) bant genişliği genişliğine "
-"sahip iki kutuplu bir Butterworth bant reddetme süzgeci uygulayın. Süzgeç "
-"oktav başına 6 dB (on yıl başına 20 dB) düşer."
+"3 dB nokta frekansına sahip bir alçak geçişli süzgeç uygulayın. Süzgeç, tek "
+"kutuplu veya çift kutuplu (öntanımlı) olabilir. Süzgeç, oktav başına kutup "
+"başına 6 dB (onluk başına kutup başına 20 dB) düşüş gösterir."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Oktav,Eğim,KHz"
+msgstr "Hz,Q-Factor,Oktav,Eğim,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
