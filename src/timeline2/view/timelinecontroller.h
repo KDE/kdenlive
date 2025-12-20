@@ -560,6 +560,11 @@ public:
     /** @brief Get the x,y position of the mouse in the timeline widget
      */
     Q_INVOKABLE const QPoint getMousePosInTimeline() const;
+    /** @brief Warp the mouse cursor to a new position */
+    Q_INVOKABLE void warpCursor(const QPoint &pos);
+    /** @brief Hide or show the mouse cursor */
+    Q_INVOKABLE void hideCursor(bool hide);
+    int m_cursorHidden{0};
     /** @brief Get the frame where mouse is positioned
      */
     Q_INVOKABLE int getMousePos();
