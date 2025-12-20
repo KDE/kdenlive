@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-19 02:42+0000\n"
-"PO-Revision-Date: 2025-12-08 10:11+0200\n"
+"PO-Revision-Date: 2025-12-18 13:28+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2535,7 +2535,7 @@ msgstr "עיצוב"
 #: data/effects/avfilter/avfilter_datascope.xml:33
 #, kde-format
 msgid "Hex,Dec"
-msgstr ""
+msgstr "הקסדצימלי,עשרוני"
 
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, kde-format
@@ -2976,7 +2976,7 @@ msgstr "הצגת מסגרות"
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, kde-format
 msgid "Off,On"
-msgstr ""
+msgstr "כבוי,פעיל"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
 #, kde-format
@@ -2989,6 +2989,8 @@ msgid ""
 "Remove the rain in the input image/video by applying the derain methods "
 "based on convolutional neural networks"
 msgstr ""
+"הסרת הגשם בתמונת/סרטון הקלט על ידי החלת שיטות הסרת גשם לפי רשתות עצביות "
+"מתקפלות"
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
@@ -3000,7 +3002,7 @@ msgstr "מנגנון DNN"
 #: data/effects/avfilter/avfilter_sr.xml:9
 #, kde-format
 msgid "Native,Tensorflow"
-msgstr ""
+msgstr "טבעי,Tensorflow"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
@@ -3271,7 +3273,7 @@ msgstr "ציור טבלה"
 #: data/effects/avfilter/avfilter_drawgrid.xml:5
 #, kde-format
 msgid "Draw a colored grid on the input video"
-msgstr ""
+msgstr "לצייר רשת צבעונית בסרטון הקלט"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:8 data/effects/dropshadow.xml:12
 #: data/effects/frei0r/frei0r_mirr0r.xml:8
@@ -3531,7 +3533,7 @@ msgstr "חשיפה"
 #: data/effects/avfilter/avfilter_exposure.xml:5
 #, kde-format
 msgid "Adjust exposure of the video stream."
-msgstr ""
+msgstr "התאמת חשיפת תזרים הווידאו."
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
 #, fuzzy, kde-format
@@ -4684,7 +4686,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:5
 #, kde-format
 msgid "Slowly update darker pixels."
-msgstr ""
+msgstr "לעדכן פיקסלים כהים יותר לאט."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
