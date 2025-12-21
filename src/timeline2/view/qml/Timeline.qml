@@ -1403,14 +1403,14 @@ function getTrackColor(audio, header) {
                     let globalPos = mapToGlobal(mouse.x, mouse.y)
                     
                     if (isWarping) {
-                        // After warp, skip this frame and reset tracking to current position
-                        // This avoids the bad delta from cursor-in-flight, but immediately
-                        // resumes responsive tracking from the user's actual position
+                        // After warp, skip frames until the mouse has reached the center area.
+                        // This handles cases where multiple "old" mouse events are in flight
+                        // from before the warp was processed by the windowing system.
+                        let dist = Math.abs(globalPos.x - lastGlobalPos.x) + Math.abs(globalPos.y - lastGlobalPos.y)
+                        if (dist > 100) {
+                            return
+                        }
                         isWarping = false
-                        lastGlobalPos = globalPos
-                        clickX = mouse.x
-                        clickY = mouse.y
-                        return
                     }
 
                     let deltaX = globalPos.x - lastGlobalPos.x
@@ -1441,6 +1441,7 @@ function getTrackColor(audio, header) {
                     if (atScreenEdge || atWindowEdge) {
                         let center = mapToGlobal(tracksArea.width / 2, tracksArea.height / 2)
                         isWarping = true
+                        lastGlobalPos = center
                         timeline.warpCursor(Qt.point(center.x, center.y))
                     }
                     return
