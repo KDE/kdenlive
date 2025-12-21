@@ -793,19 +793,14 @@ msgid "Allpass"
 msgstr "全通"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#| "frequency, and filter-width width. An all-pass filter changes the audio’s "
-#| "frequency to phase relationship without changing its frequency to "
-#| "amplitude relationship."
+#, kde-format
 msgid ""
 "Apply a two-pole all-pass filter with central frequency and filter-width. An "
 "all-pass filter changes the audio’s frequency to phase relationship without "
 "changing its frequency to amplitude relationship."
 msgstr ""
-"应用一个具有中心频率(Hz)和滤波宽度的双极全通滤波器。 全通滤波器会将音频的频率"
-"更改为相关系而不是振幅关系。"
+"应用一个具有中心频率和滤波带宽的双极全通滤波器。全通滤波器会改变音频的频率-相"
+"位关系，但不会改变其频率-幅度关系。"
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandpass.xml:8
@@ -837,8 +832,7 @@ msgstr "方法"
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
 #: data/effects/avfilter/avfilter_lowshelf.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,kHz"
 msgstr "Hz,Q-Factor,Octave,Slope,KHz"
 
@@ -894,8 +888,7 @@ msgstr "1,2"
 #: data/effects/avfilter/avfilter_highshelf.xml:31
 #: data/effects/avfilter/avfilter_lowpass.xml:28
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
-#, fuzzy, kde-format
-#| msgid "Transform type"
+#, kde-format
 msgid "Transform Type"
 msgstr "变换类型"
 
@@ -910,7 +903,7 @@ msgstr "变换类型"
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
 #, kde-format
 msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
-msgstr ""
+msgstr "DI,DII,TDII,LATT,状态变量滤波器 (SVF) ,零延迟滤波器 (ZDF) "
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -921,10 +914,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
-msgstr "过滤器精度"
+msgstr "滤波器精度"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -937,7 +929,7 @@ msgstr "过滤器精度"
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
 #, kde-format
 msgid "Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
-msgstr ""
+msgstr "自动,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1123,12 +1115,7 @@ msgid "Band-pass"
 msgstr "带通滤波"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-pass filter with central frequency, and "
-#| "(3dB-point) band-width width. The csg option selects a constant skirt "
-#| "gain (peak gain = Q) instead of the default: constant 0dB peak gain. The "
-#| "filter roll off at 6dB per octave (20dB per decade). "
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-pass filter with central frequency and "
 "(3dB-point) band-width. The CSG option selects a constant skirt gain (peak "
@@ -1140,10 +1127,9 @@ msgstr ""
 "八度6分贝 (即每十倍频程20分贝)。"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Constant skirt gain"
+#, kde-format
 msgid "Constant Skirt Gain"
-msgstr "固定的小幅增益"
+msgstr "恒定Q值"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
@@ -1151,11 +1137,7 @@ msgid "Band-Reject"
 msgstr "带阻滤波器"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a two-pole Butterworth band-reject filter with central frequency and "
 "(3dB-point) band-width. The filter roll off at 6dB per octave (20dB per "
@@ -1176,6 +1158,8 @@ msgid ""
 "shelving filter with a response similar to that of a standard hi-fi’s tone-"
 "controls. This is also known as shelving equalisation (EQ)"
 msgstr ""
+"使用双极搁架式滤波器提升或削减音频的低频 (低音) 部分，其频率响应类似于标准高"
+"保真音响的音调控制。这也被称为搁架式均衡 (EQ) 。"
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3580,6 +3564,8 @@ msgid ""
 "decreased, whilst (unlike bandpass and bandreject filters) that at all other "
 "frequencies is unchanged."
 msgstr ""
+"应用双极峰值均衡 (EQ) 滤波器。使用此滤波器可提升或降低选定频率及其附近频段的"
+"信号电平，而其他所有频率的信号电平则保持不变 (与带通和带阻滤波器不同) 。"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3587,10 +3573,9 @@ msgid "Width Type"
 msgstr "宽度类型"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-Factor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-msgstr "Hz,Q-Factor,Octave,Slope,KHz"
+msgstr "Hertz,Q-Factor,Octave,Slope,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -4274,18 +4259,14 @@ msgid "High-pass"
 msgstr "高通滤镜"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a high-pass filter with 3dB point frequency. The filter can be either "
 "single-pole, or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"应用一个具有中心频率的双极Butterworth带阻滤波器(3dB-point 带宽)。滤波器衰减率"
-"为每八度6分贝 (即每十倍频程20分贝)。"
+"应用一个高通滤波器，其截止频率为 -3dB 点。该滤波器可以是单极点也可以是双极点 "
+"(默认) 。每个极点的衰减率为每八度 6dB (即每十倍频程 20dB) 。"
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4312,10 +4293,9 @@ msgid "High-shelf"
 msgstr "高架滤波器"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
-msgstr "应用高架滤波器."
+msgstr "应用高架式滤波器。"
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
 #, kde-format
@@ -4968,24 +4948,19 @@ msgid "Low-pass"
 msgstr "低通滤波器"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a two-pole Butterworth band-reject filter with central frequency "
-#| "frequency, and (3dB-point) band-width width. The filter roll off at 6dB "
-#| "per octave (20dB per decade)."
+#, kde-format
 msgid ""
 "Apply a low-pass filter with 3dB point frequency. The filter can be either "
 "single-pole or double-pole (the default). The filter roll off at 6dB per "
 "pole per octave (20dB per pole per decade)."
 msgstr ""
-"应用一个具有中心频率的双极Butterworth带阻滤波器(3dB-point 带宽)。滤波器衰减率"
-"为每八度6分贝 (即每十倍频程20分贝)。"
+"应用一个低通滤波器，其截止频率为 -3dB 点。该滤波器可以是单极点也可以是双极点 "
+"(默认) 。每个极点的衰减率为每八度 6dB (即每十倍频程 20dB) 。"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,kHz"
-msgstr "Hz,Q值,倍频程,斜率,KHz"
+msgstr "Hz,Q-FActor,Octave,Slope,kHz"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
@@ -10676,7 +10651,7 @@ msgstr ""
 msgid ""
 "Color to use if reflection<br>\n"
 "        lies outside of the source image and not reflecting back in."
-msgstr ""
+msgstr "当反射区域超出源图像范围且未反射回图像内部时所使用的颜色。"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
 #, kde-format
@@ -10690,6 +10665,7 @@ msgid ""
 "        color will be used, if reflection lies outside of the source image "
 "and not reflecting back in."
 msgstr ""
+"如果勾选，当反射区域超出源图像范围且未反射回图像内部时，将使用所选颜色。"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -10830,6 +10806,9 @@ msgid ""
 "        as % of half the vertical resolution (100% means both the top and "
 "bottom half of the frame are black, i.e. there is no room for the picture)"
 msgstr ""
+"指定边框宽度<br>\n"
+"        边框宽度占垂直分辨率一半的百分比 (100% 表示上下半部均为黑色，即没有空"
+"间显示图像) "
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:13
 #: data/effects/frei0r/frei0r_timeout.xml:14
@@ -10901,6 +10880,9 @@ msgid ""
 "                This makes the dark areas even darker, influences the mid-"
 "tones a little and the highlights not at all. Increases contrast."
 msgstr ""
+"将黑点向右移动：该值或更低的所有像素将变为黑色。<br>\n"
+"                这会使暗部更暗，中间色调略微受到影响，而高光部分不受任何影"
+"响。用于提高对比度。"
 
 #: data/effects/frei0r/frei0r_levels.xml:89
 #, kde-format
@@ -10910,6 +10892,9 @@ msgid ""
 "                This makes bright areas even brighter, influences the mid-"
 "tones a little and the dark areas not at all. Increases contrast."
 msgstr ""
+"将白点向左移动：该值或更高的所有像素将变为白色。<br>\n"
+"                这会使亮部更亮，中间色调略微受到影响，而暗部不受任何影响。用"
+"于提高对比度。"
 
 #: data/effects/frei0r/frei0r_levels.xml:94
 #, no-c-format, kde-format
@@ -10920,6 +10905,10 @@ msgid ""
 "the bar to the left) make the image darker, higher values (moving the bar to "
 "the right) make it brighter."
 msgstr ""
+"调整图像的整体亮度。<br>\n"
+"                仅影响中间色调，黑色和白色不受影响。默认值为 25% (相当于 "
+"Gamma 1.0) 。降低该值 (向左拖动滑块) 会使图像变暗，提高该值 (向右拖动滑块) 会"
+"使图像变亮。"
 
 #: data/effects/frei0r/frei0r_levels.xml:98
 #, kde-format
@@ -10966,6 +10955,9 @@ msgid ""
 "where semi-bright parts, e.g. hands where colors can change quite a lot "
 "compared to the background, are incorrectly recognized as light source."
 msgstr ""
+"设置像素被视为光源的亮度阈值 (<code>R+G+B</code>) <br/>\n"
+"            提高此阈值要求光源的像素更亮 (即更接近白色) ，可避免将某些区域 "
+"(例如手部，其颜色相对于背景变化较大) 误判为光源。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:16
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:88
@@ -10984,6 +10976,10 @@ msgid ""
 "be accepted on bright backgrounds, but decreases the danger of noise or "
 "generally bright spots counting as light source."
 msgstr ""
+"设置像素被视作光源的最强颜色通道相对于背景图像的阈值 (<code>max(dR, dG, dB)</"
+"code>) <br/>\n"
+"            提高此阈值会导致明亮背景更难识别出光源，但可降低将噪点或普通亮斑"
+"误判为光源的概率。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:21
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:93
@@ -11001,6 +10997,9 @@ msgid ""
 "            Raising this value might, in some cases, avoid that some light "
 "objects lit by the light source are added to the light mask."
 msgstr ""
+"设置像素被视作光源的所有颜色通道之和<em>相对于背景图像</em>的阈值 (<code>dR "
+"+ dG + dB</code>) <br/>\n"
+"            在某些情况下，提高此值可避免将被光源照亮的物体误加入光影蒙版。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
@@ -11016,6 +11015,8 @@ msgid ""
 "            For slowly moving light source try to use a lower sensitivity to "
 "obtain a better exposure."
 msgstr ""
+"感光度<br/>\n"
+"            对于缓慢移动的光源，建议使用较低的感光度以获得更好的曝光效果。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:31
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:103
@@ -11031,6 +11032,8 @@ msgid ""
 "            The light mask does not get white immediately when the light "
 "source is moving slowly or staying steady."
 msgstr ""
+"降低过曝<br/>\n"
+"            当光源移动缓慢或保持静止时，光影蒙版不会立即变为纯白色。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:36
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:108
@@ -11081,6 +11084,10 @@ msgid ""
 "outside of the video. If the background constantly changes, e.g. on a "
 "street, try to set α > 0 to calculate an average background image."
 msgstr ""
+"设置背景自适应<br/>\n"
+"“光影涂鸦”效果会记住应用该效果的剪辑的第一帧，因此剪辑<em>必须始终</em>以绘制"
+"者位于画面外开始。如果背景持续变化（例如在街道上），请尝试将 α 设为大于 0 的"
+"值，以计算平均背景图像。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:50
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:122
@@ -11105,6 +11112,10 @@ msgid ""
 "same with the other parameters. Only parts that are highlighted in <em>all</"
 "em> thresholds will count as light source."
 msgstr ""
+"亮度统计信息可以辅助您方便而精确地调整阈值参数。<br/>\n"
+"            例如：要调整亮度阈值，显示亮度信息后调整阈值，直至整个光源高亮。"
+"重复此操作调整其他阈值。只有在<em>所有</em>阈值中均为高亮的区域才会被识别为光"
+"源。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:58
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:130
@@ -11277,7 +11288,7 @@ msgstr "曲线 X 位置"
 #: data/effects/frei0r/frei0r_pr0file.xml:10
 #, kde-format
 msgid "X coordinate of the profile"
-msgstr ""
+msgstr "波形的 X 坐标"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:12
 #: data/effects/frei0r/frei0r_pr0file.xml:13
@@ -11289,7 +11300,7 @@ msgstr "曲线 Y 位置"
 #: data/effects/frei0r/frei0r_pr0file.xml:14
 #, kde-format
 msgid "Y coordinate of the profile"
-msgstr ""
+msgstr "波形的 Y 坐标"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
@@ -11301,7 +11312,7 @@ msgstr "曲线倾斜"
 #: data/effects/frei0r/frei0r_pr0file.xml:18
 #, kde-format
 msgid "Tilting of the profile"
-msgstr ""
+msgstr "波形的倾斜角度"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
 #: data/effects/frei0r/frei0r_pr0file.xml:21
@@ -11313,13 +11324,13 @@ msgstr "曲线长度"
 #: data/effects/frei0r/frei0r_pr0file.xml:22
 #, kde-format
 msgid "Length of the profile in pixel"
-msgstr ""
+msgstr "波形长度 (像素)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:25
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "Channel to numerically display"
-msgstr ""
+msgstr "显示通道的数值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
 #: data/effects/frei0r/frei0r_pr0file.xml:27
@@ -11337,7 +11348,7 @@ msgstr "标记 1"
 #: data/effects/frei0r/frei0r_pr0file.xml:31
 #, kde-format
 msgid "Position of marker 1"
-msgstr ""
+msgstr "标记 1 的位置"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -11349,7 +11360,7 @@ msgstr "标记 2"
 #: data/effects/frei0r/frei0r_pr0file.xml:35
 #, kde-format
 msgid "Position of marker 2"
-msgstr ""
+msgstr "标记 2 的位置"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -11361,7 +11372,7 @@ msgstr "红轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:39
 #, kde-format
 msgid "Show R trace (red) on scope"
-msgstr ""
+msgstr "在示波器上显示 R 轨迹 (红色) "
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:41
 #: data/effects/frei0r/frei0r_pr0file.xml:42
@@ -11373,7 +11384,7 @@ msgstr "绿轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:43
 #, kde-format
 msgid "Show G trace (green) on scope"
-msgstr ""
+msgstr "在示波器上显示 G 轨迹 (绿色) "
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:45
 #: data/effects/frei0r/frei0r_pr0file.xml:46
@@ -11385,7 +11396,7 @@ msgstr "蓝轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:47
 #, kde-format
 msgid "Show B trace (blue) on scope"
-msgstr ""
+msgstr "在示波器上显示 B 轨迹 (蓝色)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:49
 #: data/effects/frei0r/frei0r_pr0file.xml:50
@@ -11397,7 +11408,7 @@ msgstr "Y 轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:51
 #, kde-format
 msgid "Show Y trace (luma) on scope"
-msgstr ""
+msgstr "在示波器上显示 Y 轨迹 (亮度) "
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:53
 #: data/effects/frei0r/frei0r_pr0file.xml:54
@@ -11409,7 +11420,7 @@ msgstr "Pr 轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:55
 #, kde-format
 msgid "Show Pr trace (red-difference) on scope"
-msgstr ""
+msgstr "在示波器上显示 Pr 轨迹 (red-difference) "
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:57
 #: data/effects/frei0r/frei0r_pr0file.xml:58
@@ -11421,7 +11432,7 @@ msgstr "Pb 轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:59
 #, kde-format
 msgid "Show Pb trace (blue_difference) on scope"
-msgstr ""
+msgstr "在示波器上显示 Pb 轨迹 (blue_difference)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:61
 #: data/effects/frei0r/frei0r_pr0file.xml:62
@@ -11433,7 +11444,7 @@ msgstr "透明度轨迹"
 #: data/effects/frei0r/frei0r_pr0file.xml:63
 #, kde-format
 msgid "Show Alpha trace on scope"
-msgstr ""
+msgstr "在示波器上显示 Alpha 轨迹"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:65
 #: data/effects/frei0r/frei0r_pr0file.xml:66
@@ -11445,7 +11456,7 @@ msgstr "显示平均值"
 #: data/effects/frei0r/frei0r_pr0file.xml:67
 #, kde-format
 msgid "Show average on scope"
-msgstr ""
+msgstr "在示波器上显示平均值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:69
 #: data/effects/frei0r/frei0r_pr0file.xml:70
@@ -11457,7 +11468,7 @@ msgstr "显示有效值"
 #: data/effects/frei0r/frei0r_pr0file.xml:71
 #, kde-format
 msgid "Show RMS (root mean square) on scope"
-msgstr ""
+msgstr "在示波器上显示 RMS (均方根) 值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:73
 #: data/effects/frei0r/frei0r_pr0file.xml:74
@@ -11469,7 +11480,7 @@ msgstr "显示最小值"
 #: data/effects/frei0r/frei0r_pr0file.xml:75
 #, kde-format
 msgid "Show minimum on scope"
-msgstr ""
+msgstr "在示波器上显示最小值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:77
 #: data/effects/frei0r/frei0r_pr0file.xml:78
@@ -11481,13 +11492,13 @@ msgstr "显示最大值"
 #: data/effects/frei0r/frei0r_pr0file.xml:79
 #, kde-format
 msgid "Show maximum on scope"
-msgstr ""
+msgstr "在示波器上显示最大值"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
 #, kde-format
 msgid "Use a scale of 0-255 instead of 0.0-1.0"
-msgstr ""
+msgstr "使用 0-255 范围而非 0.0-1.0 范围"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
@@ -11499,7 +11510,7 @@ msgstr "颜色编码"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "Select between interlaced (601) or progressive (709)"
-msgstr ""
+msgstr "选择扫描方式：隔行扫描 (601)/逐行扫描 (709)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
@@ -11517,7 +11528,7 @@ msgstr "准星颜色"
 #: data/effects/frei0r/frei0r_pr0file.xml:92
 #, kde-format
 msgid "Choose a color for the crosshair/profile line"
-msgstr ""
+msgstr "选择十字准星/波形线的颜色"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
@@ -11698,7 +11709,7 @@ msgstr "最小马赛克高度"
 msgid ""
 "If <em>Block height</em> is 0 (random), <br>this determines the minimum "
 "block height."
-msgstr ""
+msgstr "如果<em>块高度</em>设为 0 (随机) ，<br>此项将决定最小块高度。"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, kde-format
@@ -11710,7 +11721,7 @@ msgstr "最大马赛克高度"
 msgid ""
 "If <em>Block height</em> is 0 (random), <br>this determines the maximum "
 "block height."
-msgstr ""
+msgstr "如果<em>块高度</em>设为 0 (随机) ，<br>此项将决定最大块高度。"
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
 #, kde-format
@@ -11738,6 +11749,8 @@ msgid ""
 "Measure video values.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0be</em>"
 msgstr ""
+"测量视频数值。<br>\n"
+"    此效果已被 <em>frei0r.measure_pr0be</em> 取代。"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, kde-format
@@ -11750,6 +11763,8 @@ msgid ""
 "2D video oscilloscope.<br>\n"
 "    This effect has been superseded by <em>frei0r.measure_pr0file</em>"
 msgstr ""
+"2D 视频示波器。<br>\n"
+"    此效果已被 <em>frei0r.measure_pr0file</em> 取代。"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -11771,7 +11786,7 @@ msgstr "因子"
 #: data/effects/frei0r/frei0r_primaries.xml:9
 #, kde-format
 msgid "Influence of mean pixel value"
-msgstr ""
+msgstr "平均像素值影响"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -11837,7 +11852,7 @@ msgstr "水平分离距离"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
 #, kde-format
 msgid "Values < 0.500 move right, values > 0.500 move left."
-msgstr ""
+msgstr "数值 < 0.500 向右移动，数值 > 0.500 向左移动"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, kde-format
@@ -11847,7 +11862,7 @@ msgstr "垂直分离距离"
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
 #, kde-format
 msgid "Values < 0.5002 move down, values > 0.500 move up."
-msgstr ""
+msgstr "数值 < 0.5002 时向下移动，数值 > 0.500 时向上移动"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -12135,6 +12150,10 @@ msgid ""
 "                All effects can be observed well when applied on a greyscale "
 "gradient and looking at the RGB Parade monitor."
 msgstr ""
+"更改斜率等效于将像素值乘以一个常数K。黑色像素将保持不变，而较亮的像素则会发生"
+"变化。<br/>\n"
+"                在灰度渐变图像上应用此效果并通过 RGB 波形监视器观察，可以清晰"
+"地看到所有效果。"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:14
 #: data/effects/frei0r/frei0r_sopsat.xml:64
@@ -12201,6 +12220,10 @@ msgid ""
 "                Mathematically, what happens is an exponentiation of the "
 "pixel brightness on <code>[0,1]</code> by the gamma value."
 msgstr ""
+"更改所选通道的伽马值。黑色像素和白色像素将不受影响，但在黑白之间的所有颜色将"
+"受到影响。<br/>\n"
+"                从数学角度来说，这是在像素的颜色数值在 <code>[0,1]</code> 范"
+"围时与伽马值的乘幂所得的数值。"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
@@ -12518,6 +12541,10 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise."
 msgstr ""
+"将视频文件与 GPS 轨迹匹配时需要添加的偏移量 (以秒为单位)。<br>\n"
+"    \t通常情况下，如果视频录制设备未被精确设置为正确时间，至少需要将此设置为"
+"两个文件之间的时区差加上一定秒数。GPS 时间总是精确的，并且以UTC (协调世界时) "
+"表示。如果 GPS 时间比视频时间早，则使用正值；否则使用负值。"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -38383,31 +38410,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Central frequency"
-#~ msgstr "中央频率"
-
-#~ msgid "di,dii,tdii,latt"
-#~ msgstr "di,dii,tdii,latt"
-
-#~ msgid "Auto,s16,s32,f32,f64"
-#~ msgstr "自动,s16,s32,f32,f64"
-
-#~ msgid ""
-#~ "Apply a two-pole all-pass filter with central frequency (in Hz) "
-#~ "frequency, and filter-width width. Boost or cut lower frequencies."
-#~ msgstr ""
-#~ "应用一个具有中心频率(Hz)和滤波宽度的双极全通滤波器，该滤波器可提升或衰减低"
-#~ "频信号。"
-
-#~ msgid "Apply two-pole peaking equalization (EQ) filter"
-#~ msgstr "应用双极峰值均衡（EQ）滤波器"
-
-#~ msgid "Hertz,Q-Factor,Octave,Slope,None"
-#~ msgstr "Hz,Q值,倍频程,斜率,None"
-
-#~ msgid "Apply a high-pass filter with 3dB point frequency."
-#~ msgstr "应用3dB点频率的高通滤波器."
-
-#~ msgid "Apply a low-pass filter with 3dB point frequency."
-#~ msgstr "应用3dB点频率的低通滤波器."
