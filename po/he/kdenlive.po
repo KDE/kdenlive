@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-19 02:42+0000\n"
-"PO-Revision-Date: 2025-12-18 13:28+0200\n"
+"PO-Revision-Date: 2025-12-24 18:26+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -782,16 +782,14 @@ msgid "Audio lookahead limiter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable ASC"
-msgstr "הפעלה"
+msgstr "הפעלת ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "ASC level"
-msgstr "רמות שמע"
+msgstr "רמת ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
 #, fuzzy, kde-format
@@ -853,10 +851,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:15
 #: data/effects/avfilter/avfilter_lowpass.xml:15
 #: data/effects/avfilter/avfilter_lowshelf.xml:15
-#, fuzzy, kde-format
-#| msgid "Feather width"
+#, kde-format
 msgid "Filter-width"
-msgstr "רוחב נוצה"
+msgstr "רוחב מסנן"
 
 #: data/effects/avfilter/avfilter_allpass.xml:21
 #: data/effects/avfilter/avfilter_bandpass.xml:24
