@@ -702,7 +702,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git/",
-                    "tag": "v0.17.0"
+                    "tag": "v0.18.1"
                 }
             ]
         },
