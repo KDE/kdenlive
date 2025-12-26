@@ -217,54 +217,6 @@
             ]
         },
         {
-            "name": "frei0r-plugins",
-            "buildsystem": "cmake-ninja",
-            "builddir": true,
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
-                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/dyne/frei0r/archive/v2.3.3.tar.gz",
-                    "sha256": "aeeefe3a9b44761b2cf110017d2b1dfa2ceeb873da96d283ba5157380c5d0ce5",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 10670,
-                        "stable-only": true,
-                        "url-template": "https://github.com/dyne/frei0r/archive/v$version.tar.gz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "bigsh0t",
-            "buildsystem": "cmake-ninja",
-            "builddir": true,
-            "no-make-install": true,
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-DBUILD_TESTING=OFF"
-            ],
-            "post-install": [
-                "cp -v bigsh0t-*-linux/lib/frei0r-1/*.so /app/lib/frei0r-1"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://bitbucket.org/leo_sutic/bigsh0t/get/2.7.tar.bz2",
-                    "sha256": "3eb77b3ca239cc780427f8b99ed9c80837f7c970b1e8cab75a084992f22ea6b0",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 288153,
-                        "stable-only": true,
-                        "url-template": "https://bitbucket.org/leo_sutic/bigsh0t/get/$version.tar.bz2"
-                    }
-                }
-            ]
-        },
-        {
             "name": "ladspa-sdk",
             "no-autogen": true,
             "subdir": "src",
@@ -606,7 +558,7 @@
             "config-opts": [
                 "-DCMAKE_BUILD_TYPE=Release",
                 "-DOPENCV_GENERATE_PKGCONFIG=ON",
-                "-DBUILD_LIST=tracking,dnn"
+                "-DBUILD_LIST=tracking,dnn,objdetect"
             ],
             "cleanup": [
                 "/bin"
@@ -632,6 +584,53 @@
                         "project-id": 6615,
                         "stable-only": true,
                         "url-template": "https://github.com/opencv/opencv_contrib/archive/$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "frei0r-plugins",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/dyne/frei0r/archive/v2.5.1.tar.gz",
+                    "sha256": "318ec4a3042c94a00a58fccdc1eb0d911f36a22beb3504d27aefcca4598f40b0",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 10670,
+                        "stable-only": true,
+                        "url-template": "https://github.com/dyne/frei0r/archive/v$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "bigsh0t",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "no-make-install": true,
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DBUILD_TESTING=OFF"
+            ],
+            "post-install": [
+                "cp -v bigsh0t-*-linux/lib/frei0r-1/*.so /app/lib/frei0r-1"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://bitbucket.org/leo_sutic/bigsh0t/get/2.7.tar.bz2",
+                    "sha256": "3eb77b3ca239cc780427f8b99ed9c80837f7c970b1e8cab75a084992f22ea6b0",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 288153,
+                        "stable-only": true,
+                        "url-template": "https://bitbucket.org/leo_sutic/bigsh0t/get/$version.tar.bz2"
                     }
                 }
             ]
