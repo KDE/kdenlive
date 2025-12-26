@@ -288,6 +288,11 @@ void VideoWidget::slotZoom(bool zoomIn)
     }
 }
 
+void VideoWidget::slotZoomReset()
+{
+    setZoom(1.);
+}
+
 void VideoWidget::refreshRect()
 {
     resizeVideo(width(), height());
@@ -416,6 +421,8 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     if (rootObject() != nullptr && rootObject()->property("captureRightClick").toBool()) {
         // The event has been handled in qml
         m_swallowDrop = true;
+    } else {
+        m_swallowDrop = false;
     }
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
@@ -648,14 +655,14 @@ bool VideoWidget::isPaused() const
     return m_producer && qAbs(m_producer->get_speed()) < 0.1;
 }
 
-void VideoWidget::pause(int position)
+void VideoWidget::pause()
 {
-    if (m_producer && !isPaused()) {
+    int position = m_consumer ? m_consumer->position() + 1 : -1;
+    if (m_producer && (!isPaused() || (m_maxProducerPosition - position < 25))) {
         Q_EMIT paused();
         m_producer->set_speed(0);
         if (m_consumer && m_consumer->is_valid()) {
             m_consumer->set("volume", 0);
-            position = position > -1 ? position : m_consumer->position() + 1;
             m_producer->seek(position);
             m_consumer->purge();
             m_consumer->start();
@@ -812,10 +819,25 @@ int VideoWidget::reconfigure()
         m_consumer->set("prefill", 6);
         m_consumer->set("drop_max", fps / 4);
         m_consumer->set("scrub_audio", KdenliveSettings::audio_scrub());
-        if (KdenliveSettings::monitor_gamma() == 0) {
-            m_consumer->set("color_trc", "iec61966_2_1");
-        } else {
+        switch (pCore->getProjectProfile().colorspace()) {
+        case 601:
+        case 170:
+            m_consumer->set("color_trc", "smpte170m");
+            break;
+        case 240:
+            m_consumer->set("color_trc", "smpte240m");
+            break;
+        case 470:
+            m_consumer->set("color_trc", "bt470bg");
+            break;
+        case 2020:
+            // if (isDeckLinkHLG) {
+            //     m_consumer->set("color_trc", "arib-std-b67");
+            m_consumer->clear("color_trc");
+            break;
+        default:
             m_consumer->set("color_trc", "bt709");
+            break;
         }
     } else {
         // Cleanup on error
@@ -1088,7 +1110,6 @@ bool VideoWidget::switchPlay(bool play, double speed)
                 return false;
             }
         }
-        qDebug() << "pos: " << m_consumer->position() << "out: " << m_producer->get_playtime() - 1;
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
         m_proxy->setSpeed(speed);
@@ -1098,6 +1119,11 @@ bool VideoWidget::switchPlay(bool play, double speed)
             m_consumer->set("scrub_audio", 1);
         }
         if (qFuzzyIsNull(current_speed)) {
+            if (m_maxProducerPosition - m_consumer->position() < 6) {
+                m_consumer->set("prefill", 1);
+            } else {
+                m_consumer->set("prefill", 6);
+            }
             m_consumer->start();
             m_consumer->set("refresh", 1);
             m_consumer->set("volume", KdenliveSettings::volume() / 100.);

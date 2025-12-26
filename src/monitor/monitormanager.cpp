@@ -210,7 +210,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!quickSwitch) {
                 // Set guides list to show guides
                 m_clipMonitor->updateGuidesList();
-                if (!m_clipMonitor->isVisible()) {
+                if (pCore->window()->isVisible() && !m_clipMonitor->isVisible()) {
                     pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_projectMonitor;
@@ -242,7 +242,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_projectMonitor->fixFocus();
             }
             if (!quickSwitch) {
-                if (!m_projectMonitor->isVisible()) {
+                if (pCore->window()->isVisible() && !m_projectMonitor->isVisible()) {
                     pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_clipMonitor;
@@ -563,6 +563,11 @@ void MonitorManager::setupActions()
     connect(monitorZoomOut, &QAction::triggered, this, &MonitorManager::slotZoomOut);
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
 
+    QAction *monitorZoomReset = new QAction(i18n("Reset Monitor Zoom"), this);
+    monitorZoomReset->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
+    connect(monitorZoomReset, &QAction::triggered, this, &MonitorManager::slotZoomReset);
+    pCore->window()->addAction(QStringLiteral("monitor_zoomreset"), monitorZoomReset, {}, QStringLiteral("monitor"));
+
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     connect(monitorSeekBackward, &QAction::triggered, this, [&](bool) { MonitorManager::slotRewind(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J, QStringLiteral("navandplayback"));
@@ -855,6 +860,13 @@ void MonitorManager::slotZoomOut()
 {
     if (m_activeMonitor) {
         static_cast<Monitor *>(m_activeMonitor)->slotZoomOut();
+    }
+}
+
+void MonitorManager::slotZoomReset()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotZoomReset();
     }
 }
 

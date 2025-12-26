@@ -10,7 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/mediabrowser.h"
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
+#include "config-kdenlive.h"
 #include "dialogs/proxytest.h"
+#include "dialogs/splash.hpp"
 #include "dialogs/subtitleedit.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
@@ -43,6 +45,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QImageReader>
 #include <QInputDialog>
 #include <QQuickStyle>
+
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -52,12 +55,12 @@ static bool m_inhibitHideBarTimer{false};
 
 std::unique_ptr<Core> Core::m_self;
 Core::Core(LinuxPackageType packageType, bool debugMode)
-    : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    : debugMode(debugMode)
+    , audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
     , sessionId(QUuid::createUuid().toString())
-    , debugMode(debugMode)
 {
     m_hideTimer.setInterval(5000);
     m_hideTimer.setSingleShot(true);
@@ -102,12 +105,12 @@ void Core::finishShutdown()
     if (m_projectManager) {
         delete m_projectManager;
     }
-    ClipController::mediaUnavailable.reset();
+    mediaUnavailable.reset();
 }
 
 Core::~Core() {}
 
-bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode)
+bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode, bool showWelcome)
 {
     if (m_self) {
         return true;
@@ -134,9 +137,26 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode)
 
     // Increase memory limit allowed per image
     QImageReader::setAllocationLimit(1024);
+    bool showRecovery = false;
+    bool firstRun = false;
+    // TODO: implement logic for upgrade detection
+    bool wasUpgraded = false;
+    // dev versions are like 25.11.70
+    const QStringList currentVersion = QString(KDENLIVE_VERSION).split(QLatin1Char('.'));
+    if (currentVersion.length() == 3 && currentVersion.last().toInt() < 10) {
+        // Not a dev version so process with check
+        if (QT_VERSION_CHECK(currentVersion.at(0).toInt(), currentVersion.at(1).toInt(), currentVersion.at(2).toInt()) <
+            QT_VERSION_CHECK(KdenliveSettings::lastSeenVersionMajor(), KdenliveSettings::lastSeenVersionMinor(), KdenliveSettings::lastSeenVersionMicro())) {
+            wasUpgraded = true;
+        }
+    }
 
     if (!testMode) {
         // Check if we had a crash
+        KConfigGroup initialGroup(KSharedConfig::openConfig(), "version");
+        firstRun = !initialGroup.exists();
+        // TODO: Check for upgrades
+
         QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
         if (lockFile.exists()) {
             // a previous instance crashed, propose some actions
@@ -148,14 +168,13 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode)
                     KdenliveSettings::setGpu_accel(false);
                 }
             } else {
-                // propose to delete config files
-                if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
-                                                    i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?"), {},
-                                                    KStandardGuiItem::reset(), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
-                    // Release startup crash lock file
-                    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-                    lockFile.remove();
-                    return false;
+                // if first run, no need to reset config, keep lock file
+                if (firstRun) {
+                    const QString configFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kxmlgui5/kdenlive/kdenliveui.rc"));
+                    // Check if a previous kdenliveui.rc file exists, so propose to erase
+                    showRecovery = !configFile.isEmpty();
+                } else {
+                    showRecovery = true;
                 }
             }
         } else {
@@ -164,11 +183,215 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode)
             lockFile.write(QByteArray());
             lockFile.close();
         }
+        if (currentVersion.length() == 3 && (firstRun || KdenliveSettings::lastSeenVersionMajor() == 0)) {
+            // Store current Kdenlive version
+            KdenliveSettings::setLastSeenVersionMajor(currentVersion.at(0).toInt());
+            KdenliveSettings::setLastSeenVersionMinor(currentVersion.at(1).toInt());
+            KdenliveSettings::setLastSeenVersionMicro(currentVersion.at(2).toInt());
+        }
+        m_self->buildSplash(firstRun, showWelcome && KdenliveSettings::showWelcome() && !KdenliveSettings::openlastproject(), showRecovery, wasUpgraded);
     }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
     m_self->m_projectManager = new ProjectManager(m_self.get());
     return true;
+}
+
+void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, bool wasUpgraded)
+{
+    // Get info for the Welcome Screen
+    if (showWelcome) {
+        qDebug() << "::::: SHOWING WELCOME!!!!!!";
+        QMap<int, QString> urls;
+        KConfigGroup recent(KSharedConfig::openConfig(), "Recent Files");
+        if (recent.exists()) {
+            auto entries = recent.entryMap();
+            bool ok;
+            for (auto i = entries.cbegin(), end = entries.cend(); i != end; ++i) {
+                if (i.key().startsWith(QLatin1String("File"))) {
+                    // Ensure proper sorting
+                    int ix = 100 - i.key().mid(4).toInt(&ok);
+                    if (ok) {
+                        urls.insert(ix, QUrl::fromLocalFile(i.value()).toLocalFile());
+                    }
+                }
+            }
+        }
+        QStringList profileIds = KdenliveSettings::recentProfiles();
+        QStringList profileNames = KdenliveSettings::recentProfileNames();
+        if (profileIds.isEmpty()) {
+            // Insert default profile
+            if (!KdenliveSettings::default_profile().isEmpty()) {
+                profileIds = {KdenliveSettings::default_profile()};
+                profileNames = {KdenliveSettings::default_profile()};
+            } else {
+                profileIds = {QStringLiteral("atsc_1080p_25")};
+                profileNames = {QStringLiteral("HD 1080p 25 fps")};
+            }
+        }
+        m_splash = new Splash(QString(KDENLIVE_VERSION), urls.values(), profileIds, profileNames, true, firstRun, showCrashRecovery, wasUpgraded);
+    } else {
+        m_splash = new Splash(QString(KDENLIVE_VERSION), {}, {}, {}, false, firstRun, showCrashRecovery, wasUpgraded);
+    }
+    connect(m_splash, &Splash::resetConfig, this, [this]() {
+        m_abortInitAndRestart = true;
+        QMetaObject::invokeMethod(this, "cleanRestart", Qt::QueuedConnection, Q_ARG(bool, true));
+    });
+    connect(m_splash, &Splash::openBlank, this, [this]() {
+        if (m_splash->hasEventLoop() || !m_guiConstructed) {
+            connect(this, &Core::mainWindowReady, this, [&]() {
+                // Ensure the slot is called once project manager is build.
+                QMetaObject::invokeMethod(m_projectManager, "slotLoadOnOpen", Qt::QueuedConnection);
+            });
+        } else {
+            QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
+        }
+    });
+    connect(m_splash, &Splash::openLink, this, [this](QString url) { openLink(QUrl(url)); });
+
+    // Check if welcome screen is displayed
+    if (m_splash->welcomeDisplayed()) {
+        connect(this, &Core::closeSplash, this, [this]() {
+            disconnect(this, &Core::loadingMessageNewStage, m_splash, nullptr);
+            disconnect(this, &Core::closeSplash, this, nullptr);
+            m_splash->deleteLater();
+        });
+        connect(m_splash, &Splash::openFile, this, [this](QString url) {
+            // Ensure this can only be called once
+            disconnect(m_splash, &Splash::openFile, this, nullptr);
+            if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                connect(this, &Core::mainWindowReady, this,
+                        [&, url]() { QMetaObject::invokeMethod(m_projectManager, "openFile", Qt::QueuedConnection, Q_ARG(QUrl, QUrl::fromLocalFile(url))); });
+            } else {
+                QMetaObject::invokeMethod(m_projectManager, "openFile", Q_ARG(QUrl, QUrl::fromLocalFile(url)));
+            }
+        });
+        connect(m_splash, &Splash::openOtherFile, this, [this]() {
+            if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                connect(this, &Core::mainWindowReady, [this]() { QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection); });
+            } else {
+                QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection);
+            }
+        });
+        connect(m_splash, &Splash::closeApp, this, [this]() {
+            if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                QMetaObject::invokeMethod(this, "cleanRestart", Qt::QueuedConnection, Q_ARG(bool, false));
+            } else {
+                QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+                lockFile.remove();
+                m_splash->deleteLater();
+                delete m_mainWindow;
+                qApp->quit();
+            }
+        });
+        // Switch palette is disabled in crash recovery
+        connect(m_splash, &Splash::switchPalette, this, &Core::switchDarkPalette);
+
+        // History
+        connect(m_splash, &Splash::clearHistory, this, [&]() {
+            if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                connect(this, &Core::mainWindowReady, this, [&]() {
+                    m_projectManager->recentFilesAction()->clear();
+                    m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
+                });
+            } else {
+                m_projectManager->recentFilesAction()->clear();
+                m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
+            }
+        });
+        connect(m_splash, &Splash::forgetFile, this, [&](const QString path) {
+            if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                connect(this, &Core::mainWindowReady, this, [&, path]() {
+                    m_projectManager->recentFilesAction()->removeUrl(QUrl::fromLocalFile(path));
+                    m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
+                });
+            } else {
+                m_projectManager->recentFilesAction()->removeUrl(QUrl::fromLocalFile(path));
+                m_projectManager->recentFilesAction()->saveEntries(KConfigGroup(KSharedConfig::openConfig(), "Recent Files"));
+            }
+        });
+        connect(m_splash, &Splash::clearProfiles, this, [&]() {
+            KdenliveSettings::setRecentProfiles({});
+            KdenliveSettings::setRecentProfileNames({});
+        });
+        connect(m_splash, &Splash::forgetProfile, this, [&](const QString path) {
+            QStringList profileIds = KdenliveSettings::recentProfiles();
+            QStringList profileNames = KdenliveSettings::recentProfileNames();
+            int ix = profileIds.indexOf(path);
+            if (ix > -1) {
+                profileIds.removeAt(ix);
+                profileNames.removeAt(ix);
+                KdenliveSettings::setRecentProfiles(profileIds);
+                KdenliveSettings::setRecentProfileNames(profileNames);
+            }
+        });
+
+        connect(m_splash, &Splash::openTemplate, this, [this](QString url) {
+            if (url.isEmpty()) {
+                // Open project settings
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                    connect(this, &Core::mainWindowReady, this, [&]() {
+                        m_mainWindow->show();
+                        m_splash->fadeOut();
+                        QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(bool, true));
+                    });
+                } else {
+                    m_mainWindow->show();
+                    m_splash->fadeOut();
+                    m_projectManager->newFile(true);
+                }
+            } else {
+                if (m_splash->hasEventLoop() || !m_guiConstructed) {
+                    connect(this, &Core::mainWindowReady, this, [&, url]() {
+                        m_mainWindow->show();
+                        QMetaObject::invokeMethod(m_projectManager, "newFile", Qt::QueuedConnection, Q_ARG(QString, url), Q_ARG(bool, false));
+                    });
+                } else {
+                    m_mainWindow->show();
+                    m_projectManager->newFile(url, false);
+                }
+            }
+        });
+        if (m_splash->hasCrashRecovery()) {
+            connect(m_splash, &Splash::firstStart, this, [&](QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks) {
+                connect(this, &Core::mainWindowReady, this, [&, descriptiveString, fps, interlaced, vTracks, aTracks]() {
+                    startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                });
+            });
+        } else {
+            connect(m_splash, &Splash::firstStart, this, [&](QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks) {
+                if (!guiReady()) {
+                    connect(this, &Core::mainWindowReady, this, [&, descriptiveString, fps, interlaced, vTracks, aTracks]() {
+                        startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                    });
+                } else {
+                    startFromGuessedProfile(descriptiveString, fps, interlaced, vTracks, aTracks);
+                }
+            });
+        }
+        m_splash->setReady();
+    } else {
+        // Simple splash
+        connect(this, &Core::closeSplash, m_splash, &Splash::fadeOutAndDelete, Qt::QueuedConnection);
+        connect(this, &Core::loadingMessageNewStage, m_splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        /*QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);*/
+    }
+    if (m_splash->hasEventLoop()) {
+        // Last startup crashed, so stop here until we have a change to reset the config file
+        connect(m_splash, &Splash::releaseLock, this, [&]() {
+            qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
+            m_loop.exit();
+            disconnect(m_splash, &Splash::releaseLock, this, nullptr);
+        });
+        m_loop.exec();
+        if (m_abortInitAndRestart) {
+            // We want to restart, no need to continue
+            return;
+        }
+    }
+    qApp->processEvents(QEventLoop::AllEvents);
 }
 
 void Core::initHeadless(const QUrl &url)
@@ -183,7 +406,6 @@ void Core::initHeadless(const QUrl &url)
 
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &clipsToLoad)
 {
-    m_mainWindow = new MainWindow();
     KDDockWidgets::Config::self().setDragAboutToStartFunc([](KDDockWidgets::Core::Draggable *) -> bool {
         if (!KdenliveSettings::showtitlebars()) {
             pCore->updateHideBarsTimer(true);
@@ -195,6 +417,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
         // cleanup
         pCore->updateHideBarsTimer(false);
     });
+    m_mainWindow = new MainWindow();
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
     bool inSandbox = m_packageType == LinuxPackageType::AppImage || m_packageType == LinuxPackageType::Flatpak || m_packageType == LinuxPackageType::Snap;
@@ -214,7 +437,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     // TODO Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
-
+    // Build main bin
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow);
     connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties, Qt::QueuedConnection);
     m_mainWindow->addBin(bin, QString(), false);
@@ -245,9 +468,6 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
         m_profile = ProjectManager::getDefaultProjectFormat();
         KdenliveSettings::setDefault_profile(m_profile);
     }
-    setCurrentProfile(m_profile);
-    profileChanged();
-    resetThumbProfile();
 
     if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::error(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
@@ -279,12 +499,11 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
             m_profile = QStringLiteral("dv_pal");
         }
         KdenliveSettings::setDefault_profile(m_profile);
-        profileChanged();
     }
-    // Init producer shown for unavailable media
-    // TODO make it a more proper image, it currently causes a crash on exit
-    ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
-    ClipController::mediaUnavailable->set("length", 99999999);
+    setCurrentProfile(m_profile);
+    profileChanged();
+    resetThumbProfile();
+
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
@@ -296,6 +515,76 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QStringList &c
     connect(this, &Core::displayBinMessage, this, &Core::displayBinMessagePrivate);
     connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
 
+    if (m_splash && (m_splash->hasEventLoop() || m_splash->welcomeDisplayed())) {
+        Q_EMIT mainWindowReady();
+    } else if (m_splash == nullptr || !m_splash->welcomeDisplayed()) {
+        QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
+    }
+}
+
+void Core::cleanRestart(bool cleanAndRestart)
+{
+    qDebug() << "::: STARTING CLEAN RESTART...";
+    delete m_splash;
+    m_loop.exit();
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.remove();
+    QTimer::singleShot(1000, this, [&, cleanAndRestart]() {
+        QApplication::closeAllWindows();
+        qApp->exit(cleanAndRestart ? EXIT_CLEAN_RESTART : 1);
+    });
+}
+
+void Core::startFromGuessedProfile(QString descriptiveString, QString fps, bool interlaced, int vTracks, int aTracks)
+{
+    // Find matching profile
+    int fpsNum;
+    int fpsDen = 1;
+    if (fps.contains(QLatin1Char('/'))) {
+        fpsNum = fps.section(QLatin1Char('/'), 0, 0).toInt();
+        fpsDen = fps.section(QLatin1Char('/'), 1, 1).toInt();
+    } else {
+        fpsNum = fps.toInt();
+    }
+    if (fpsNum == 0 || fpsDen == 0) {
+        // safety check
+        fpsNum = 25;
+        fpsDen = 1;
+    }
+    int width = 1920;
+    int height = 1080;
+    int colorSpace = 709;
+    // Sample ratio
+    int sarNum = 1;
+    int sarDen = 1;
+    // Display ratio
+    int darNum = 16;
+    int darDen = 9;
+    const QStringList profileParams = descriptiveString.split(QLatin1Char('x'));
+    if (profileParams.size() == 7) {
+        // Descriptive string passed from qml is:
+        // width x height x colorspace x sarNum x sarDen x darNum x darDen
+        width = profileParams.at(0).toInt();
+        height = profileParams.at(1).toInt();
+        colorSpace = profileParams.at(2).toInt();
+        sarNum = profileParams.at(3).toInt();
+        sarDen = profileParams.at(4).toInt();
+        darNum = profileParams.at(5).toInt();
+        darDen = profileParams.at(6).toInt();
+    }
+    ProfileParam guessProfile(width, height, fpsNum, fpsDen, darNum, darDen, sarNum, sarDen, colorSpace, interlaced);
+    const QString matchingProfile = ProfileRepository::get()->findMatchingProfile(&guessProfile);
+    if (!matchingProfile.isEmpty()) {
+        qDebug() << "=============\n\nFOUND MATCHING PROFILE: " << matchingProfile << "FROM DATA: " << descriptiveString << ", " << fps;
+        KdenliveSettings::setDefault_profile(matchingProfile);
+    } else {
+        qDebug() << "=================\n\nCOULD NOT FIND PROFILE BASED ON STRING: " << descriptiveString << ", FRAME RATE: " << fps
+                 << ", INTERLACED: " << interlaced;
+    }
+
+    KdenliveSettings::setVideotracks(vTracks);
+    KdenliveSettings::setAudiotracks(aTracks);
+    m_mainWindow->show();
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
 }
 
@@ -306,13 +595,13 @@ void Core::restoreLayout()
     }
     if (KdenliveSettings::kdockLayout().isEmpty() || !KdenliveSettings::kdockLayout().contains(QStringLiteral("KdenliveKDDock"))) {
         // No existing layout, probably first run
-        m_mainWindow->show();
+        Q_EMIT loadLayoutById(QStringLiteral("editing"), true);
     } else {
-        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
-        dockLayout.restoreLayout(KdenliveSettings::kdockLayout().toLatin1());
+        Q_EMIT loadLayoutFromData(KdenliveSettings::kdockLayout().toUtf8(), true);
     }
+    m_mainWindow->show();
     if (!KdenliveSettings::showtitlebars()) {
-        Q_EMIT hideBars(!KdenliveSettings::showtitlebars());
+        Q_EMIT pCore->hideBars(true);
     }
 }
 
@@ -675,8 +964,16 @@ bool Core::setCurrentProfile(const QString profilePath)
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
         // Ensure all running tasks are stopped before attempting a global profile change
+        bool wasVertical = false;
+        if (!m_currentProfile.isEmpty()) {
+            wasVertical = isVertical();
+        }
         taskManager.slotCancelJobs();
         m_currentProfile = profilePath;
+        // Init producer shown for unavailable media
+        // TODO make it a more proper image, it currently causes a crash on exit
+        mediaUnavailable.reset(new Mlt::Producer(ProfileRepository::get()->getProfile(m_profile)->profile(), "color:blue"));
+        mediaUnavailable->set("length", 99999999);
         std::unique_ptr<ProfileModel> &currentProfile = getCurrentProfile();
         m_projectProfile.set_colorspace(currentProfile->colorspace());
         m_projectProfile.set_frame_rate(currentProfile->frame_rate_num(), currentProfile->frame_rate_den());
@@ -693,6 +990,39 @@ bool Core::setCurrentProfile(const QString profilePath)
         resetThumbProfile();
         // inform render widget
         m_timecode.setFormat(currentProfile->fps());
+
+        // Store profile in history
+        QStringList profiles = KdenliveSettings::recentProfiles();
+        QStringList profileNames = KdenliveSettings::recentProfileNames();
+        int ix = profiles.indexOf(profilePath);
+        bool profileInserted = false;
+        if (ix > -1) {
+            // Remove profile to make it first
+            if (profiles.size() > 1) {
+                profiles.removeAt(ix);
+                profileNames.removeAt(ix);
+            } else {
+                profileInserted = true;
+            }
+        }
+        if (!profileInserted) {
+            profiles.prepend(profilePath);
+            while (profiles.size() > 8) {
+                profiles.removeLast();
+            }
+            KdenliveSettings::setRecentProfiles(profiles);
+
+            QString desc = currentProfile->description();
+            if (desc.isEmpty()) {
+                desc = currentProfile->descriptiveString();
+            }
+            profileNames.prepend(desc);
+            while (profileNames.size() > 8) {
+                profileNames.removeLast();
+            }
+            KdenliveSettings::setRecentProfileNames(profileNames);
+        }
+
         profileChanged();
         if (m_guiConstructed) {
             m_monitorManager->resetProfiles();
@@ -705,6 +1035,9 @@ bool Core::setCurrentProfile(const QString profilePath)
                 Q_EMIT m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
             }
             Q_EMIT updateProjectTimecode();
+            if (wasVertical != isVertical()) {
+                Q_EMIT adjustLayoutToDar();
+            }
         }
         return true;
     }
@@ -1898,6 +2231,18 @@ void Core::openDocumentationLink(const QUrl &link)
     QDesktopServices::openUrl(link);
 }
 
+void Core::openLink(const QUrl &link)
+{
+    if (link.host() != QLatin1String("kdenlive.org") && link.host() != QLatin1String("docs.kdenlive.org") &&
+        KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("This will open a browser to display a link:\n %1", link.toDisplayString()), {},
+                                        KGuiItem(i18n("Open Browser")), KStandardGuiItem::cancel(),
+                                        QStringLiteral("allow_browser_help")) == KMessageBox::SecondaryAction) {
+        // Stop
+        return;
+    }
+    QDesktopServices::openUrl(link);
+}
+
 std::pair<QString, int> Core::getSelectedClipAndOffset()
 {
     if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline()->controller()) {
@@ -1922,4 +2267,13 @@ int Core::currentTimelineOffset()
 void Core::updateHwDecoding()
 {
     qputenv("MLT_AVFORMAT_HWACCEL", KdenliveSettings::hwDecoding().toUtf8());
+}
+
+void Core::closeApp()
+{
+    if (m_splash) {
+        delete m_splash;
+    }
+    QApplication::closeAllWindows();
+    QApplication::exit(EXIT_SUCCESS);
 }

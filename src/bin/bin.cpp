@@ -1702,6 +1702,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         m_propertiesPanel = new QScrollArea(this);
         m_propertiesPanel->setFrameShape(QFrame::NoFrame);
         m_propertiesPanel->setAccessibleName(i18n("Bin Clip Properties"));
+        m_propertiesPanel->setMinimumWidth(m_toolbar->sizeHint().width());
     }
     // Insert listview
     m_itemView = new MyTreeView(this);
@@ -2591,7 +2592,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     }
     m_doc = project;
     QString folderName;
-    if (m_isMainBin) {
+    if (m_isMainBin && m_infoLabel) {
         m_infoLabel->slotSetJobCount(0);
     }
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
@@ -2937,7 +2938,12 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
         if (clip == nullptr) {
             return;
         }
+        // We can only set zone after the clip is loaded
+        m_activateClipZoneInfo.clipId = clip->clipId();
+        m_activateClipZoneInfo.zone = zone;
+        m_activateClipZoneInfo.seekFrame = frame;
         selectClip(clip);
+        return;
     }
     Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
     if (!zone.isNull()) {
@@ -3808,7 +3814,24 @@ void Bin::slotOpenCurrent()
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &sequenceUuid)
 {
-    Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
+    if (!m_activateClipZoneInfo.clipId.isEmpty()) {
+        int in = -1;
+        int out = -1;
+        int seekFrame = -1;
+        if (controller->clipId() == m_activateClipZoneInfo.clipId) {
+            in = m_activateClipZoneInfo.zone.x();
+            out = m_activateClipZoneInfo.zone.y();
+            if (in == out) {
+                in = -1;
+                out = -1;
+            }
+            seekFrame = m_activateClipZoneInfo.seekFrame;
+        }
+        m_activateClipZoneInfo.clipId.clear();
+        Q_EMIT openClip(std::move(controller), in, out, sequenceUuid, seekFrame);
+    } else {
+        Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
+    }
 }
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, int in, int out)
@@ -3904,12 +3927,16 @@ void Bin::setupGeneratorMenu()
     connect(this, &Bin::openClip, this, &Bin::openClipInMonitor, Qt::QueuedConnection);
 }
 
-void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid)
+void Bin::openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid, int seekFrame)
 {
     if (pCore->getMonitor(Kdenlive::ClipMonitor)->slotOpenClip(clip, in, out, uuid) && clip) {
         Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
         if (clip->hasLimitedDuration()) {
             clip->refreshBounds();
+        }
+        if (seekFrame > -1) {
+            Monitor *monitor = pCore->getMonitor(Kdenlive::ClipMonitor);
+            monitor->slotSeek(seekFrame);
         }
     }
     pCore->textEditWidget()->openClip(clip);
@@ -4037,12 +4064,14 @@ void Bin::setupMenu()
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
-    if (m_isMainBin) {
-        m_propertiesDock =
-            pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnRight);
-        m_propertiesDock->close();
-    }
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
+}
+
+void Bin::buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock)
+{
+    m_propertiesDock =
+        pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel, KDDockWidgets::Location_OnLeft, parentDock);
+    m_propertiesDock->close();
 }
 
 const QString Bin::getDocumentProperty(const QString &key)

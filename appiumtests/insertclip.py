@@ -20,6 +20,8 @@ class SimpleKdenliveTests(unittest.TestCase):
         options = AppiumOptions()
         # The app capability may be a command line or a desktop file id.
         options.set_capability("app", "org.kde.kdenlive.desktop")
+        options.set_capability("args", "--no-welcome")
+
         # Boilerplate, always the same
         self.driver = webdriver.Remote(command_executor='http://127.0.0.1:4723', options=options)
         # Set a timeout for waiting to find elements. If elements cannot be found
@@ -35,10 +37,12 @@ class SimpleKdenliveTests(unittest.TestCase):
 
     def setUp(self):
         wait = WebDriverWait(self.driver, 20)
+
         #wait.until(lambda x: self.getresults() == '0')
 
     def getStatusText(self):
-        displaytext = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.MainWindow#1.QStatusBar.StatusBarMessageLabel.QLabel").text
+        displaytext = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
+        value="QApplication.MainWindow#1.QStatusBar.StatusBarMessageLabel.FlashLabel.QLabel").text
         return displaytext
 
     def assertResult(self, actual, expected):
@@ -50,8 +54,10 @@ class SimpleKdenliveTests(unittest.TestCase):
         self.assertEqual(self.getStatusText(), expected)
 
     def test_initialize(self):
-        self.driver.find_element(by=AppiumBy.NAME, value="Add Color Clip…").click()
+        # Close welcome screen
+        self.driver.find_element(by=AppiumBy.NAME, value="Start Editing").click()
 
+        self.driver.find_element(by=AppiumBy.NAME, value="Add Color Clip…").click()
         self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="QApplication.ColorClip_UI.buttonBox.QPushButton").click()
         # insert clip in timeline
         self.driver.find_element(by=AppiumBy.NAME, value="Insert Clip Zone in Timeline").click()
@@ -60,7 +66,7 @@ class SimpleKdenliveTests(unittest.TestCase):
         # select all in Bin
         self.driver.find_element(by=AppiumBy.NAME, value="Select All").click()
         #wait = WebDriverWait(self.driver, 2)
-        self.assertResult(self.getStatusText(), "2 clips (2 selected) | ")
+        self.assertResult(self.getStatusText(), "2 items selected (00:10:00) |")
 
 
 if __name__ == '__main__':

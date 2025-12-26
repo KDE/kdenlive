@@ -185,6 +185,12 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_effectStackWidget, &EffectStackView::abortSam, m_maskManager, &MaskManager::abortPreviewByMonitor);
+    connect(m_effectStackWidget, &EffectStackView::effectsCountChanged, this, [&]() {
+        if (m_effectStackWidget->isEmpty()) {
+            m_splitButton->setActive(false);
+        }
+        m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
+    });
     connect(m_maskManager, &MaskManager::progressUpdate, m_effectStackWidget, &EffectStackView::updateSamProgress);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -293,17 +299,13 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setVisible(true);
-    m_showMaskPanel->setVisible(true);
+    auto avStack = pCore->assetHasAV(id);
+    // Only show on item with video
+    m_showMaskPanel->setVisible(avStack.second);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
-        QObject::connect(effectsModel.get(), &EffectStackModel::customDataChanged, this, [&]() {
-            if (m_effectStackWidget->isEmpty()) {
-                m_splitButton->setActive(false);
-            }
-            m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
-        });
     }
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setActive(showKeyframes);

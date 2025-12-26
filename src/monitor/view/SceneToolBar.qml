@@ -4,6 +4,7 @@
 */
 
 import QtQuick 2.15
+import QtQuick.Controls
 
 import org.kde.kdenlive as Kdenlive
 
@@ -19,7 +20,9 @@ MouseArea {
         scenetoolbar.opacity = 1
     }
     onExited: {
-        scenetoolbar.opacity = 0
+        if (!zoomButton.menuVisible) {
+            scenetoolbar.opacity = 0
+        }
     }
 
     Rectangle {
@@ -60,9 +63,22 @@ MouseArea {
                 }
             }
             Kdenlive.MonitorToolButton {
-                objectName: "switchOverlay"
+                objectName: "showSafeZone"
+                iconName: "select-rectangular"
+                toolTipText: i18n("Show Safe Areas")
+                checkable: true
+                checked: false
+                onCheckedChanged: {
+                    controller.showSafezone = checked
+                }
+                Component.onCompleted: {
+                    checked = controller.showSafezone
+                }
+            }
+            Kdenlive.MonitorToolButton {
+                id: switchOverlay
                 iconName: "view-grid"
-                toolTipText: i18n("Change Overlay")
+                toolTipText: i18n("Composition Guides")
                 onClicked: {
                     if (controller.overlayType >= 5) {
                         controller.overlayType = 0
@@ -72,38 +88,16 @@ MouseArea {
                     root.overlayType = controller.overlayType
                 }
             }
-            Kdenlive.MonitorToolButton {
-                iconName: "zoom-in"
-                toolTipText: i18n("Zoom in")
-                onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomin')
-                }
-            }
-            Kdenlive.MonitorToolButton {
-                iconName: "zoom-out"
-                toolTipText: i18n("Zoom out")
-                onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    controller.triggerAction('monitor_zoomout')
-                }
+            Kdenlive.MonitorZoomButton {
+                id: zoomButton
             }
             Kdenlive.MonitorToolButton {
                 objectName: "addMarker"
                 iconName: "bookmark-new"
-                toolTipText: root.isClipMonitor ? i18n("Add Marker") : i18n("Add Guide")
+                toolTipText: i18n("Add/Remove Marker")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
                     controller.triggerAction('add_marker_guide_quickly')
-                }
-            }
-            Kdenlive.MonitorToolButton {
-                objectName: "removeMarker"
-                iconName: "bookmark-remove"
-                toolTipText: root.isClipMonitor ? i18n("Remove Marker") : i18n("Remove Guide")
-                onClicked: {
-                    controller.activateClipMonitor(root.isClipMonitor)
-                    root.isClipMonitor ? controller.triggerAction('delete_clip_marker') : controller.triggerAction('delete_guide')
                 }
             }
             Kdenlive.MonitorToolButton {

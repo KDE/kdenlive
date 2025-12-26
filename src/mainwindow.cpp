@@ -178,6 +178,7 @@ void MainWindow::init()
     auto themeManager = new ThemeManager(actionCollection());
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged, Qt::QueuedConnection);
+    connect(pCore.get(), &Core::switchDarkPalette, themeManager, &ThemeManager::switchDarkPalette);
 
     // Handle communication with the renderer app
     new RenderServer(this);
@@ -224,7 +225,9 @@ void MainWindow::init()
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
-    connect(pCore.get(), &Core::loadLayout, layoutManager, &LayoutManagement::slotLoadLayout, Qt::DirectConnection);
+    connect(pCore.get(), &Core::loadLayoutById, layoutManager, &LayoutManagement::slotLoadLayoutById, Qt::DirectConnection);
+    connect(pCore.get(), &Core::loadLayoutFromData, layoutManager, &LayoutManagement::slotLoadLayoutFromData, Qt::DirectConnection);
+    connect(pCore.get(), &Core::adjustLayoutToDar, layoutManager, &LayoutManagement::adjustLayoutToDar, Qt::DirectConnection);
     pCore->buildDocks();
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
@@ -338,12 +341,12 @@ void MainWindow::init()
     spectrumDock->close();
 
     // Add monitors here to keep them at the right of the window
-    const QSize monitorSize(firstWindowSize.width() * 0.2, 0);
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clipmonitor"), m_clipMonitor, KDDockWidgets::Location_OnRight, m_projectBinDock);
     m_projectMonitorDock =
         addDock(i18n("Project Monitor"), QStringLiteral("projectmonitor"), m_projectMonitor, KDDockWidgets::Location_OnRight, m_clipMonitorDock);
 
     m_clipMonitorDock->addDockWidgetAsTab(dockLib);
+    pCore->bin()->buildPropertiesDock(m_clipMonitorDock);
     m_projectMonitorDock->addDockWidgetAsTab(dockText);
     // Notes widget
     pCore->projectManager()->buildNotesWidget(m_projectMonitorDock);
@@ -612,7 +615,7 @@ void MainWindow::init()
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar /*| KXmlGuiWindow::Save*/ | KXmlGuiWindow::Create);
 
     // Only start saving config once all GUI setup is done.
-    connect(this, &MainWindow::GUISetupDone, this, [&]() { setAutoSaveSettings(); });
+    connect(pCore.get(), &Core::GUISetupDone, this, &MainWindow::finishUiSetup, Qt::DirectConnection);
 
     LocaleHandling::resetLocale();
 
@@ -797,11 +800,6 @@ void MainWindow::init()
     if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
-    if (firstRun) {
-        // Load editing layout
-        layoutManager->slotLoadLayoutById(QStringLiteral("kdenlive_editing"));
-    }
-
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
@@ -848,6 +846,18 @@ void MainWindow::init()
     m_loadingDialog->setAutoReset(false);
     m_loadingDialog->setModal(true);
     m_loadingDialog->close();
+    if (!KdenliveSettings::showtitlebars()) {
+        Q_EMIT pCore->hideBars(true);
+    }
+}
+
+void MainWindow::finishUiSetup()
+{
+    pCore->restoreLayout();
+    Q_EMIT pCore->closeSplash();
+    setAutoSaveSettings();
+    QObject::disconnect(pCore.get(), &Core::GUISetupDone, this, nullptr);
+    // This should connect only after splash is done
     connect(pCore.get(), &Core::loadingMessageNewStage, this, [&](const QString &message, int max = -1) {
         if (max > -1) {
             m_loadingDialog->reset();
@@ -864,9 +874,6 @@ void MainWindow::init()
         m_loadingDialog->setMaximum(0);
         m_loadingDialog->close();
     });
-    if (!KdenliveSettings::showtitlebars()) {
-        Q_EMIT pCore->hideBars(true);
-    }
 }
 
 void MainWindow::loadBins(QStringList binInfo)
@@ -977,7 +984,9 @@ void MainWindow::slotThemeChanged(const QString &name)
     }
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
-        getCurrentTimeline()->controller()->resetView();
+        if (getCurrentTimeline() && getCurrentTimeline()->controller()) {
+            getCurrentTimeline()->controller()->resetView();
+        }
     }
     applyToolMessageStyling();
     applyZoomLevelButtonStyling();
@@ -989,14 +998,16 @@ MainWindow::~MainWindow()
 {
     pCore->prepareShutdown();
     delete m_timelineTabs;
-    delete m_audioSpectrum;
+    if (m_audioSpectrum) {
+        delete m_audioSpectrum;
+    }
     if (m_projectMonitor) {
         m_projectMonitor->stop();
     }
     if (m_clipMonitor) {
         m_clipMonitor->stop();
     }
-    ClipController::mediaUnavailable.reset();
+    // Core::mediaUnavailable.reset();
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
@@ -1056,7 +1067,7 @@ bool MainWindow::queryClose()
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
     KdenliveSettings::setKdockLayout(QString(dockLayout.serializeLayout()));
-    setAutoSaveSettings(QStringLiteral("MainWindow"), false);
+    // setAutoSaveSettings(QStringLiteral("MainWindow"), false);
     if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
         return false;
     }
@@ -1776,14 +1787,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("mlt_realtime"), dropFrames);
     connect(dropFrames, &QAction::toggled, this, &MainWindow::slotSwitchDropFrames);
 
-    KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
-    monitorGamma->addAction(i18n("sRGB (computer)"));
-    monitorGamma->addAction(i18n("Rec. 709 (TV)"));
-    addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
-    monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-    connect(monitorGamma, &KSelectAction::indexTriggered, this, &MainWindow::slotSetMonitorGamma);
-    actionCollection()->setShortcutsConfigurable(monitorGamma, false);
-
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
                                        QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
     insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
@@ -2071,7 +2074,7 @@ void MainWindow::setupActions()
     connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
     timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
 
-    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Master effects"), this);
+    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Sequence effects"), this);
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();
@@ -2281,6 +2284,7 @@ bool MainWindow::readOptions()
         firstRun = true;
         // Define default video location for first run
         KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+        KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
 
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true);
@@ -2875,17 +2879,22 @@ void MainWindow::slotRestart(bool clean)
             return;
         }
     }
-    cleanRestart(clean);
+    cleanRestart(clean, false);
 }
 
-void MainWindow::cleanRestart(bool clean)
+void MainWindow::cleanRestart(bool clean, bool forceQuit)
 {
     m_exitCode = clean ? EXIT_CLEAN_RESTART : EXIT_RESTART;
     QApplication::closeAllWindows();
+    if (forceQuit) {
+        // qApp->quit();
+        qApp->exit(m_exitCode);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug() << ":::: CLOSE EVENT REQUESTED....";
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
         QApplication::exit(m_exitCode);
@@ -4430,13 +4439,6 @@ void MainWindow::slotSwitchDropFrames(bool drop)
     m_projectMonitor->restart();
 }
 
-void MainWindow::slotSetMonitorGamma(int gamma)
-{
-    KdenliveSettings::setMonitor_gamma(gamma);
-    m_clipMonitor->restart();
-    m_projectMonitor->restart();
-}
-
 void MainWindow::slotInsertZoneToTree()
 {
     if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == nullptr) {
@@ -5370,7 +5372,8 @@ void MainWindow::checkMaxCacheSize()
                             QAction *updateAction = new QAction(i18n("Go to download page"), this);
                             connect(updateAction, &QAction::triggered, this, []() {
                                 QDesktopServices::openUrl(
-                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder")));
+                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder&mtm_content=%1")
+                                             .arg(KAboutData::applicationData().version())));
                             });
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
                             connect(abortAction, &QAction::triggered, this, []() { KdenliveSettings::setCheckForUpdate(false); });
@@ -5425,9 +5428,7 @@ void MainWindow::checkMaxCacheSize()
     while (!toAdd.isEmpty()) {
         QDir dir = toAdd.takeFirst();
         m_totalCacheJobs++;
-        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             m_totalCacheSize += size;
@@ -5437,13 +5438,13 @@ void MainWindow::checkMaxCacheSize()
                 slotManageCache();
             }
         });
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        watcher->setFuture(future);
     }
     while (!toRemove.isEmpty()) {
         QDir dir = toRemove.takeFirst();
         m_totalCacheJobs++;
-        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             m_totalCacheSize -= size;
@@ -5453,6 +5454,8 @@ void MainWindow::checkMaxCacheSize()
                 slotManageCache();
             }
         });
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        watcher->setFuture(future);
     }
 }
 
@@ -5649,6 +5652,8 @@ void MainWindow::appHelpActivated()
 {
     // Don't use default help, show our website
     // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
+    const QString helpUrl =
+        QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action&mtm_content=%1").arg(KAboutData::applicationData().version());
     if (pCore->packageType() == LinuxPackageType::AppImage) {
         qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
         QProcessEnvironment env = getCleanEnvironement();
@@ -5657,10 +5662,10 @@ void MainWindow::appHelpActivated()
         QString openPath = QStandardPaths::findExecutable(QStringLiteral("xdg-open"));
         qDebug() << "------------\nFOUND OPEN PATH: " << openPath;
         process.setProgram(openPath.isEmpty() ? QStringLiteral("xdg-open") : openPath);
-        process.setArguments({QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")});
+        process.setArguments({helpUrl});
         process.startDetached();
     } else {
-        QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")));
+        QDesktopServices::openUrl(QUrl(helpUrl));
     }
 }
 

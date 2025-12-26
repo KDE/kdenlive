@@ -150,20 +150,19 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         if (currentNode.isNull()) {
             continue;
         }
-        Info result;
+
         QDomElement currentEffect = currentNode.toElement();
-        // First get asset type
-        // Video effect by default
-        result.type = AssetListType::AssetType::Video;
+        // First get asset type, Video effect by default
+        AssetListType::AssetType assetType = AssetListType::AssetType::Video;
         const QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
-            result.type = AssetListType::AssetType::Audio;
+            assetType = AssetListType::AssetType::Audio;
         } else if (type == QLatin1String("customVideo")) {
-            result.type = AssetListType::AssetType::Custom;
+            assetType = AssetListType::AssetType::Custom;
         } else if (type == QLatin1String("customAudio")) {
-            result.type = AssetListType::AssetType::CustomAudio;
+            assetType = AssetListType::AssetType::CustomAudio;
         } else if (type == QLatin1String("hidden")) {
-            result.type = AssetListType::AssetType::Hidden;
+            assetType = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("custom")) {
             // Old type effect, update to customVideo / customAudio
             const QString effectTag = currentEffect.attribute(QStringLiteral("tag"));
@@ -171,21 +170,23 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             if (metadata && metadata->is_valid()) {
                 Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
                 if (QString(tags.get(0)) == QLatin1String("Audio")) {
-                    result.type = AssetListType::AssetType::CustomAudio;
+                    assetType = AssetListType::AssetType::CustomAudio;
                     currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
                 } else {
-                    result.type = AssetListType::AssetType::Custom;
+                    assetType = AssetListType::AssetType::Custom;
                     currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customVideo"));
                 }
                 Xml::docContentToFile(doc, file_name);
             }
         } else if (type == QLatin1String("text")) {
-            result.type = AssetListType::AssetType::Text;
+            assetType = AssetListType::AssetType::Text;
         }
+        Info result;
         bool ok = parseInfoFromXml(currentEffect, result);
         if (!ok) {
             continue;
         }
+        result.type = assetType;
 
         if (customAssets.count(result.id) > 0) {
             if (result.version < customAssets.at(result.id).version) {

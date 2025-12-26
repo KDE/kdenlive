@@ -137,6 +137,8 @@ public:
     QDomElement rowToXml(int row, QDomDocument &document);
     /** @brief Load an effect stack from an XML representation */
     bool fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
+    /** @brief Load an effect stack from an MLT XML representation */
+    bool fromMltXml(const QDomElement &effectsXml);
     /** @brief Delete active effect from stack */
     void removeCurrentEffect();
 

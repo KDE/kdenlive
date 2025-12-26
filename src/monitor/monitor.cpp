@@ -151,10 +151,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 #elif defined(Q_OS_MACOS)
     m_glMonitor = new MetalVideoWidget(id, this);
 #else
-    if (QQuickWindow::graphicsApi() == QSGRendererInterface::Vulkan) {
-        qWarning() << "::: Detected QML VULKAN backend, switching to OpenGL...";
-        QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-    }
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
     //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
@@ -462,20 +458,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         whiteAction->setData("white");
         QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
         pinkAction->setData("#ff00ff");
-#if LIBMLT_VERSION_INT > QT_VERSION_CHECK(7, 30, 0)
         QAction *checkerboardAction = m_background->addAction(QIcon(), i18n("Checkerboard"));
         checkerboardAction->setData("checkerboard");
-#endif
 
         m_configMenuAction->addAction(m_background);
         if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
             m_background->setCurrentAction(whiteAction);
         } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
             m_background->setCurrentAction(pinkAction);
-#if LIBMLT_VERSION_INT > QT_VERSION_CHECK(7, 30, 0)
         } else if (KdenliveSettings::monitor_background() == checkerboardAction->data().toString()) {
             m_background->setCurrentAction(checkerboardAction);
-#endif
         } else {
             m_background->setCurrentAction(blackAction);
         }
@@ -710,6 +702,8 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         // m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
         auto *extractZone = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Extract Zone"), this);
         connect(extractZone, &QAction::triggered, this, &Monitor::slotExtractCurrentZone);
+        // Ensure the action can have a shortcut
+        pCore->window()->addAction(QStringLiteral("extract_zone"), extractZone, {}, QStringLiteral("monitor"));
         m_configMenuAction->addAction(extractZone);
         m_contextMenu->addAction(extractZone);
 
@@ -2336,10 +2330,13 @@ void Monitor::enableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
     MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
-    slotShowEffectScene(sceneType, true);
     if (enable) {
-        Q_EMIT updateScene();
+        connect(this, &Monitor::sceneChanged, this, [this]() {
+            Q_EMIT updateScene();
+            disconnect(this, &Monitor::sceneChanged, this, nullptr);
+        });
     }
+    slotShowEffectScene(sceneType, true);
 }
 
 void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, const QVariant &sceneData)
@@ -2362,7 +2359,9 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     if (!temporary) {
         m_lastMonitorSceneType = sceneType;
     }
-    loadQmlScene(sceneType, sceneData);
+    if (sceneType == MonitorSceneDefault || KdenliveSettings::showOnMonitorScene()) {
+        loadQmlScene(sceneType, sceneData);
+    }
 }
 
 void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &types, const QVariantList &keyframes, const QRect &box)
@@ -2380,7 +2379,7 @@ void Monitor::setUpEffectGeometry(const QVariantList &list, const QVariantList &
         }
         QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, boxPoints));
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, types), Q_ARG(QVariant, list));
-    } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
+    } else if (m_qmlManager->sceneType() != MonitorSceneDefault && (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto)) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
 }
@@ -2906,6 +2905,9 @@ void Monitor::displayAudioMonitor(bool isActive)
 
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
+    if (!m_glMonitor->rootObject()) {
+        return;
+    }
     m_glMonitor->rootObject()->setVisible((currentOverlay & Monitor::InfoOverlay) != 0);
     m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & Monitor::MarkersOverlay);
     bool showDropped = currentOverlay & Monitor::PlaybackFpsOverlay;
@@ -3079,6 +3081,11 @@ void Monitor::slotZoomIn()
 void Monitor::slotZoomOut()
 {
     m_glMonitor->slotZoom(false);
+}
+
+void Monitor::slotZoomReset()
+{
+    m_glMonitor->slotZoomReset();
 }
 
 void Monitor::setConsumerProperty(const QString &name, const QString &value)

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2154" tag="ladspa.2154" ladspaid="2154" type="audio">
+   <name>TAP Reflector</name>
+   <description><![CDATA[TAP Reflector (LADSPA 2154)<br>
+    Creates a psychedelic reverse audio effect.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" decimals="0" default="415" max="1600" min="20" suffix="ms">
+      <name>Fragment Length</name>
+      <comment><![CDATA[It is best to set it to<br>
+      approximately match the tempo of the track, so the Fragment Length is equal to the time of one measure.]]></comment>
+   </parameter>
+   <parameter name="1" type="animated" decimals="1" default="-90.0" max="20.0" min="-90.0" suffix="dB">
+      <name>Dry Level</name>
+   </parameter>
+   <parameter name="2" type="animated" decimals="1" default="0.0" max="20.0" min="-90.0" suffix="dB">
+      <name>Wet Level</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

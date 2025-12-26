@@ -300,22 +300,19 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_labelText(label)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
 
     auto *l = new QHBoxLayout;
     l->setSpacing(2);
     l->setContentsMargins(0, 0, 0, 0);
-    int minWidth = 0;
-    if (showSlider) {
+    if (showSlider && m_maximum != m_minimum) {
         m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
         m_label->setObjectName("draggLabel");
         l->addWidget(m_label, 0, Qt::AlignVCenter);
         // setMinimumHeight(m_label->sizeHint().height());
         connect(m_label, &CustomLabel::customValueChanged, this, &DragValue::setValueFromProgress);
         connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
-        minWidth += m_label->sizeHint().width();
     } else if (!isInGroup) {
         l->addStretch(10);
     }
@@ -346,7 +343,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         // Try to have all spin boxes of the same size
         m_intEdit->setMinimumWidth(charWidth * 9);
         setMinimumHeight(m_intEdit->minimumHeight());
-        minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
         }
@@ -379,7 +375,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         double steps = (m_maximum - m_minimum) / factor;
         m_doubleEdit->setSingleStep(steps);
-        minWidth += m_doubleEdit->sizeHint().width();
         if (m_label) {
             m_label->setStep(steps);
         }
@@ -433,7 +428,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_menu->addAction(timeline);
     }
 
-    setMinimumWidth(minWidth);
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
     connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
@@ -455,7 +449,7 @@ DragValue::~DragValue()
 
 QLabel *DragValue::createLabel()
 {
-    return new QLabel(m_labelText);
+    return new QLabel(m_labelText, this);
 }
 
 bool DragValue::eventFilter(QObject *watched, QEvent *event)
@@ -753,7 +747,6 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     // setFormat(QLatin1Char(' ') + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     if (m_showSlider) {
         setToolTip(xi18n("Shift + Drag to adjust value one by one."));
     }

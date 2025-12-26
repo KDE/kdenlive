@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "layouts/layoutmanagement.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "layouts/layoutmanagerdialog.h"
 #include "layouts/layoutswitcher.h"
@@ -145,8 +146,7 @@ void LayoutManagement::initializeLayouts()
     MainWindow *main = pCore->window();
 
     // Load layouts from config
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"), KConfig::NoCascade);
-    m_layoutCollection.loadFromConfig(config);
+    m_layoutCollection.loadLayouts();
 
     // Get all layouts and use the first 5 for the switcher
     QList<LayoutInfo> allLayouts = m_layoutCollection.getAllLayouts();
@@ -199,7 +199,7 @@ void LayoutManagement::initializeLayouts()
 void LayoutManagement::slotLoadLayoutFromAction(QAction *action)
 {
     if (!action) return;
-    QString layoutId = action->data().toString();
+    const QString layoutId = action->data().toString();
     if (layoutId.isEmpty()) return;
     slotLoadLayoutById(layoutId);
 }
@@ -211,17 +211,10 @@ bool LayoutManagement::slotLoadLayoutById(const QString &layoutId)
     return slotLoadLayout(layout);
 }
 
-bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
+bool LayoutManagement::slotLoadLayout(LayoutInfo layout, bool onlyIfNoPrevious)
 {
-    if (!layout.isValid() || layout.data.isEmpty()) {
+    if (!layout.isValid() || (onlyIfNoPrevious && m_firstLayoutLoaded)) {
         // Layout not found or has no data
-        return false;
-    }
-    // Check if this is a KDDockWidgets Layout (and not an old QDockWidgets layout
-    if (!layout.isKDDockWidgetsLayout()) {
-        pCore->displayBinMessage(i18n("The layout %1 uses an old and unsupported format, should be removed and recreated.", layout.displayName),
-                                 KMessageWidget::Warning);
-        qDebug() << "BROKEN LAYOUT DATA: " << layout.data;
         return false;
     }
 
@@ -230,11 +223,19 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
 
     // Parse layout data
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
-    if (pCore->isVertical() && !layout.verticalData.isEmpty()) {
-        dockLayout.restoreLayout(layout.verticalData.toLatin1());
+    bool restore = false;
+    if (pCore->isVertical() && !layout.verticalPath.isEmpty()) {
+        restore = dockLayout.restoreFromFile(layout.verticalPath);
+    } else if (!layout.path.isEmpty()) {
+        restore = dockLayout.restoreFromFile(layout.path);
     } else {
-        dockLayout.restoreLayout(layout.data.toLatin1());
+        restore = dockLayout.restoreFromFile(layout.verticalPath);
     }
+    if (!restore) {
+        pCore->displayBinMessage(i18n("The layout %1 could not be restored, should be removed and recreated.", layout.displayName), KMessageWidget::Warning);
+        return false;
+    }
+    m_firstLayoutLoaded = true;
     m_layoutSwitcher->setCurrentLayout(layout.internalId);
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
@@ -242,86 +243,130 @@ bool LayoutManagement::slotLoadLayout(LayoutInfo layout)
     return true;
 }
 
-std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, const QString &suggestedName)
+void LayoutManagement::adjustLayoutToDar()
 {
-    // Get a suggested name for the layout
-    QString visibleName = m_layoutCollection.getTranslatedName(suggestedName);
-
-    // Ask user for a name
-    QString layoutName = QInputDialog::getText(pCore->window(), i18nc("@title:window", "Save Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
-    if (layoutName.isEmpty()) {
-        return {nullptr, nullptr};
-    }
-
-    // See if this is a default layout with translation
-    QString internalId = layoutName;
-
-    // Check if this layout already exists
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"));
-
-    // Create or update the layout
-    LayoutInfo newLayout(internalId, layoutName);
-
-    if (m_layoutCollection.hasLayout(internalId)) {
-        // Layout already exists, confirm overwrite
-        int res = KMessageBox::questionTwoActions(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName), {},
-                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel());
-        if (res != KMessageBox::PrimaryAction) {
-            return {nullptr, nullptr};
+    if (!m_currentLayoutId.isEmpty()) {
+        LayoutInfo lay = m_layoutCollection.getLayout(m_currentLayoutId);
+        if (lay.isValid()) {
+            if (lay.hasHorizontalData() && lay.hasVerticalData()) {
+                slotLoadLayoutById(lay.internalId);
+            }
         }
-        LayoutInfo existingLayout = m_layoutCollection.getLayout(layoutName);
-        newLayout.data = existingLayout.data;
-        newLayout.verticalData = existingLayout.verticalData;
+    }
+}
+
+bool LayoutManagement::slotLoadLayoutFromData(const QString &layoutData, bool onlyIfNoPrevious)
+{
+    if (layoutData.isEmpty() || (onlyIfNoPrevious && m_firstLayoutLoaded)) {
+        // Layout not found or has no data
+        return false;
     }
 
-    if (pCore->isVertical()) {
-        newLayout.verticalData = layout;
-    } else {
-        newLayout.data = layout;
+    KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
+    bool restore = dockLayout.restoreLayout(layoutData.toUtf8());
+    if (!restore) {
+        pCore->displayBinMessage(i18n("The layout from the project file could not be restored."), KMessageWidget::Warning);
+        return false;
     }
-    m_layoutCollection.addLayout(newLayout);
-
-    // Save to config
-    m_layoutCollection.saveToConfig(config);
-
-    // Return the created layout names
-    return {layoutName, internalId};
+    // Loaded a layout from Kdenlive settings or document
+    m_currentLayoutId.clear();
+    m_layoutSwitcher->setCurrentLayout(QString());
+    if (!KdenliveSettings::showtitlebars() && m_firstLayoutLoaded) {
+        Q_EMIT pCore->hideBars(!KdenliveSettings::showtitlebars());
+    }
+    m_firstLayoutLoaded = true;
+    return true;
 }
 
 void LayoutManagement::slotSaveLayout()
 {
-    // Get current layout name if any
-    QString saveName = m_layoutSwitcher->currentLayout();
+    // Get a suggested name for the layout
+    QString saveName = m_layoutCollection.getTranslatedName(m_layoutSwitcher->currentLayout());
 
+    // Ask user for a name
+    saveName = QInputDialog::getText(pCore->window(), i18nc("@title:window", "Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
+    if (saveName.isEmpty()) {
+        return;
+    }
+    // Ensure the layout directory exists
+    QDir layoutsFolder(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    layoutsFolder.mkdir(QStringLiteral("layouts"));
+    if (!layoutsFolder.cd(QStringLiteral("layouts"))) {
+        return;
+    }
+    LayoutInfo layout(saveName, saveName);
     // Get current window state
+    QString fileName = saveName;
+    if (pCore->isVertical()) {
+        fileName.append(QStringLiteral("_vertical"));
+    }
+    fileName = layoutsFolder.absoluteFilePath(fileName + QStringLiteral(".json"));
+    if (QFile::exists(fileName)) {
+        if (KMessageBox::questionTwoActions(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", saveName), {},
+                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+            return;
+        }
+    }
     KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_RelativeToMainWindow);
-    const QString state(dockLayout.serializeLayout());
-
-    // Save the layout
-    std::pair<QString, QString> names = saveLayout(state, saveName);
+    if (pCore->isVertical()) {
+        layout.verticalPath = fileName;
+    } else {
+        layout.path = fileName;
+    }
+    const QByteArray layoutData = dockLayout.serializeLayout();
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(layoutData, &jsonError);
+    QJsonArray info;
+    QJsonObject kdenliveData;
+    kdenliveData.insert(QLatin1String("displayName"), QJsonValue(saveName));
+    kdenliveData.insert(QLatin1String("layoutVersion"), QJsonValue(1));
+    kdenliveData.insert(QLatin1String("vertical"), QJsonValue(pCore->isVertical()));
+    info.push_back(kdenliveData);
+    bool ok;
+    if (doc.isObject()) {
+        QJsonObject updatedObject = doc.object();
+        qDebug() << ":::: JSON INSERTED INFO: " << info.toVariantList();
+        updatedObject.insert(QStringLiteral("kdenliveInfo"), info);
+        QJsonDocument updatedDoc(updatedObject);
+        QFile jsonFile(fileName);
+        ok = jsonFile.open(QFile::WriteOnly);
+        if (ok) {
+            ok = jsonFile.write(updatedDoc.toJson());
+            jsonFile.close();
+        }
+    } else {
+        ok = false;
+        qDebug() << ":::: JSON IS NOT AN OBJECT. IS ARRAY: " << doc.isArray();
+    }
+    if (!ok) {
+        KMessageBox::error(QApplication::activeWindow(), i18n("Could not save layout to file: %1", fileName));
+    }
 
     // Update UI if saved successfully
-    if (names.first != nullptr) {
-        m_currentLayoutId = names.second;
-        m_layoutSwitcher->setCurrentLayout(names.second);
-        initializeLayouts();
+    m_currentLayoutId = layout.internalId;
+    if (m_layoutCollection.hasLayout(layout.internalId)) {
+        LayoutInfo currentLayout = m_layoutCollection.getLayout(layout.internalId);
+        if (pCore->isVertical()) {
+            currentLayout.verticalPath = fileName;
+        } else {
+            currentLayout.path = fileName;
+        }
+        m_layoutCollection.addLayout(currentLayout);
+    } else {
+        m_layoutCollection.addLayout(layout);
     }
+    m_layoutSwitcher->setCurrentLayout(m_currentLayoutId);
+    initializeLayouts();
 }
 
 void LayoutManagement::slotManageLayouts()
 {
-    // Save current layouts
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-kddlayoutsrc"));
     QString currentLayoutId = m_layoutSwitcher->currentLayout();
 
     // Use the new dialog
-    LayoutManagerDialog dlg(pCore->window(), LayoutCollection(m_layoutCollection), currentLayoutId);
-    if (dlg.exec() != QDialog::Accepted) {
-        return;
-    }
-    // Get the updated collection and selected layout
-    m_layoutCollection = dlg.getUpdatedCollection();
-    m_layoutCollection.saveToConfig(config);
+    LayoutManagerDialog dlg(pCore->window(), m_layoutCollection, currentLayoutId);
+    dlg.exec();
+    dlg.updateOrder();
     initializeLayouts();
 }
 

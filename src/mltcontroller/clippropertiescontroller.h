@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFutureWatcher>
 #include <QLabel>
 #include <QString>
+#include <QStyledItemDelegate>
 #include <QTreeWidget>
 
 #include <mlt++/Mlt.h>
@@ -32,6 +33,17 @@ class QSpinBox;
 class QSortFilterProxyModel;
 class QHBoxLayout;
 class QVBoxLayout;
+
+class PropertiesDelegate : public QStyledItemDelegate
+{
+
+public:
+    PropertiesDelegate(QObject *parent);
+
+protected:
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+};
 
 class AnalysisTree : public QTreeWidget
 {

@@ -81,7 +81,7 @@ bool loadProjectBin(Mlt::Tractor tractor, const QUuid &activeUuid)
         }
     }
 
-    if (pCore->window()) {
+    if (pCore->window() && !pCore->closing) {
         pCore->bin()->checkMissingProxies();
         pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
         pCore->window()->loadExtraBins(binsToOpen);

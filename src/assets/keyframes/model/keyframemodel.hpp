@@ -50,6 +50,7 @@ public:
     friend class KeyframeContainer;
     friend class KeyframeImport;
     friend class AssetMultiKeyframeCommand;
+    static KeyframeType::KeyframeEnum convertFromMltType(mlt_keyframe_type type);
 
 protected:
     /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation

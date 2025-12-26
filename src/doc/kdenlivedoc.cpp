@@ -1830,7 +1830,7 @@ void KdenliveDoc::loadDocumentProperties()
     QString name;
     QDomElement e;
     const QString bins = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:extraBins"));
-    if (!bins.isEmpty()) {
+    if (pCore->window() && !bins.isEmpty()) {
         pCore->window()->loadBins(bins.split(QLatin1Char(';')));
     }
     for (int i = 0; i < props.count(); i++) {
@@ -1841,8 +1841,9 @@ void KdenliveDoc::loadDocumentProperties()
             // Restore Layout
             if (name == QLatin1String("layout")) {
                 const QString layoutData = e.firstChild().nodeValue();
-                LayoutInfo docLayout(QStringLiteral("current_doc"), QString(), layoutData);
-                Q_EMIT pCore->loadLayout(docLayout);
+                Q_EMIT pCore->loadLayoutFromData(layoutData);
+                // clear layout
+                e.firstChild().clear();
                 continue;
             }
             if (name == QLatin1String("storagefolder")) {
@@ -1864,10 +1865,6 @@ void KdenliveDoc::loadDocumentProperties()
             name = name.section(QLatin1Char('.'), 1);
             m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
-    }
-    if (pCore->window() && !pCore->window()->isVisible()) {
-        // The project file did not contain a layout, ensure we show our window
-        pCore->restoreLayout();
     }
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     if (!path.isEmpty()) {

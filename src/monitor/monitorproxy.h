@@ -41,6 +41,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(bool showSafezone READ showSafezone WRITE setShowSafezone NOTIFY showSafezoneChanged)
     Q_PROPERTY(int maskOpacity READ maskOpacity WRITE setMaskOpacity NOTIFY maskOpacityChanged)
     Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
     Q_PROPERTY(MaskModeType::MaskCreationMode maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
@@ -71,7 +72,9 @@ public:
      * */
     int rulerHeight() const;
     int overlayType() const;
+    bool showSafezone() const;
     void setOverlayType(int ix);
+    void setShowSafezone(bool display);
     int maskOpacity() const;
     void setMaskOpacity(int opacity);
     bool maskInverted() const;
@@ -169,6 +172,7 @@ Q_SIGNALS:
     void removeSnap(int);
     void triggerAction(const QString &name);
     void overlayTypeChanged();
+    void showSafezoneChanged();
     void maskOpacityChanged();
     void maskModeChanged();
     void builtinEffectsEnabledChanged();

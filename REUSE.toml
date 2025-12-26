@@ -31,6 +31,12 @@ SPDX-FileCopyrightText = "Massimo Stella"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "data/layouts/**.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "data/luts/**.cube"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "None"
@@ -103,7 +109,7 @@ SPDX-FileCopyrightText = "Nara Oliveira and Farid Abdelnour"
 SPDX-License-Identifier = "LGPL-3.0-or-later"
 
 [[annotations]]
-path = "data/pics/splash-background.png"
+path = "data/pics/splash-background.webp"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Farid Abdelnour"
 SPDX-License-Identifier = "LGPL-3.0-or-later"

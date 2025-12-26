@@ -50,6 +50,62 @@
 #include <QVBoxLayout>
 #include <utility>
 
+struct
+{
+    mlt_keyframe_type t;
+    const QChar s;
+} keyframe_type_map[] = {
+    // Map keyframe type to any single character except numeric values.
+    {mlt_keyframe_discrete, QChar('|')},
+    {mlt_keyframe_discrete, QChar('!')},
+    {mlt_keyframe_linear, QChar()},
+    {mlt_keyframe_smooth, QChar('~')},
+    {mlt_keyframe_smooth_loose, QChar('~')},
+    {mlt_keyframe_smooth_natural, QChar('$')},
+    {mlt_keyframe_smooth_tight, QChar('-')},
+    {mlt_keyframe_sinusoidal_in, QChar('a')},
+    {mlt_keyframe_sinusoidal_out, QChar('b')},
+    {mlt_keyframe_sinusoidal_in_out, QChar('c')},
+    {mlt_keyframe_quadratic_in, QChar('d')},
+    {mlt_keyframe_quadratic_out, QChar('e')},
+    {mlt_keyframe_quadratic_in_out, QChar('f')},
+    {mlt_keyframe_cubic_in, QChar('g')},
+    {mlt_keyframe_cubic_out, QChar('h')},
+    {mlt_keyframe_cubic_in_out, QChar('i')},
+    {mlt_keyframe_quartic_in, QChar('j')},
+    {mlt_keyframe_quartic_out, QChar('k')},
+    {mlt_keyframe_quartic_in_out, QChar('l')},
+    {mlt_keyframe_quintic_in, QChar('m')},
+    {mlt_keyframe_quintic_out, QChar('n')},
+    {mlt_keyframe_quintic_in_out, QChar('o')},
+    {mlt_keyframe_exponential_in, QChar('p')},
+    {mlt_keyframe_exponential_out, QChar('q')},
+    {mlt_keyframe_exponential_in_out, QChar('r')},
+    {mlt_keyframe_circular_in, QChar('s')},
+    {mlt_keyframe_circular_out, QChar('t')},
+    {mlt_keyframe_circular_in_out, QChar('u')},
+    {mlt_keyframe_back_in, QChar('v')},
+    {mlt_keyframe_back_out, QChar('w')},
+    {mlt_keyframe_back_in_out, QChar('x')},
+    {mlt_keyframe_elastic_in, QChar('y')},
+    {mlt_keyframe_elastic_out, QChar('z')},
+    {mlt_keyframe_elastic_in_out, QChar('A')},
+    {mlt_keyframe_bounce_in, QChar('B')},
+    {mlt_keyframe_bounce_out, QChar('C')},
+    {mlt_keyframe_bounce_in_out, QChar('D')},
+};
+
+static mlt_keyframe_type str_to_keyframe_type(const QChar s)
+{
+    int map_count = sizeof(keyframe_type_map) / sizeof(*keyframe_type_map);
+    for (int i = 0; i < map_count; i++) {
+        if (s == keyframe_type_map[i].s) {
+            return keyframe_type_map[i].t;
+        }
+    }
+    return mlt_keyframe_linear;
+}
+
 KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
     : QObject(parent)
     , m_model(model)
@@ -415,7 +471,18 @@ void KeyframeContainer::monitorSeek(int pos)
 void KeyframeContainer::slotEditKeyframeType(QAction *action)
 {
     int type = action->data().toInt();
-    m_keyframeview->slotEditType(type, m_index);
+    QList<int> frames;
+    if (m_keyframes->selectedKeyframes().count() > 0) {
+        for (auto &p : m_keyframes->selectedKeyframes()) {
+            frames << m_keyframes->getPosAtIndex(p).frames(pCore->getCurrentFps());
+        }
+    } else {
+        frames << getPosition();
+    }
+    if (frames.isEmpty()) {
+        return;
+    }
+    m_keyframeview->slotEditFramesType(frames, type, m_index);
     m_selectType->setIcon(action->icon());
     Q_EMIT activateEffect();
 }
@@ -828,13 +895,26 @@ void KeyframeContainer::connectMonitor(bool active)
 void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
     Q_EMIT activateEffect();
+    QVariant result = res;
     if (m_keyframes->isEmpty()) {
+        QStringList updated = res.toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (updated.count() == 4) {
+            // Check if we need to add opacity
+            const QString currentValue = m_model->getKeyframeModel()->getInterpolatedValue(0, index).toString();
+            const QStringList parts = currentValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            if (parts.count() == 5) {
+                // Add missing opacity
+                updated << parts.at(4);
+                result = updated.join(QLatin1Char(' '));
+            }
+        }
+
         GenTime pos(((m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()))) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {
             // First add keyframe at start of the clip
             GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
             m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
-            m_keyframes->updateKeyframe(pos0, res, -1, index);
+            m_keyframes->updateKeyframe(pos0, result, -1, index);
             // For rotoscoping, don't add a second keyframe at cursor pos
             auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
             if (type == ParamType::Roto_spline) {
@@ -847,7 +927,7 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         }
         // Next add keyframe at playhead position
         m_keyframes->addKeyframe(pos, KeyframeType::Linear);
-        m_keyframes->updateKeyframe(pos, res, -1, index);
+        m_keyframes->updateKeyframe(pos, result, -1, index);
         return;
     }
     int framePos = getPosition();
@@ -862,7 +942,18 @@ void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelInd
         }
     }
     if (m_keyframes->hasKeyframe(framePos) || m_keyframes->singleKeyframe()) {
-        m_keyframes->updateKeyframe(pos, res, -1, index);
+        QStringList updated = res.toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (updated.count() == 4) {
+            // Check if we need to add opacity
+            const QString currentValue = m_model->getKeyframeModel()->getInterpolatedValue(framePos, index).toString();
+            const QStringList parts = currentValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            if (parts.count() == 5) {
+                // Add missing opacity
+                updated << parts.at(4);
+                result = updated.join(QLatin1Char(' '));
+            }
+        }
+        m_keyframes->updateKeyframe(pos, result, -1, index);
     } else {
         qDebug() << "==== NO KFR AT: " << framePos;
     }
@@ -914,7 +1005,7 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
         return;
     }
     auto list = json.array();
-    QMap<QString, QMap<int, QVariant>> storedValues;
+    QMap<QString, QMap<std::pair<int, QChar>, QVariant>> storedValues;
     for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
@@ -928,14 +1019,14 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
 
         ParamType kfrType = entryObj[QLatin1String("type")].toVariant().value<ParamType>();
         if (m_model->isAnimated(kfrType)) {
-            QMap<int, QVariant> values;
+            QMap<std::pair<int, QChar>, QVariant> values;
             if (kfrType == ParamType::Roto_spline) {
                 auto value = entryObj.value(QLatin1String("value"));
                 if (value.isObject()) {
                     QJsonObject obj = value.toObject();
                     QStringList keys = obj.keys();
                     for (auto &k : keys) {
-                        values.insert(k.toInt(), obj.value(k));
+                        values.insert({k.toInt(), QChar()}, obj.value(k));
                     }
                 } else if (value.isArray()) {
                     auto list = value.toArray();
@@ -947,7 +1038,7 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
                         QJsonObject obj = entry.toObject();
                         QStringList keys = obj.keys();
                         for (auto &k : keys) {
-                            values.insert(k.toInt(), obj.value(k));
+                            values.insert({k.toInt(), QChar()}, obj.value(k));
                         }
                     }
                 } else {
@@ -964,15 +1055,21 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
                 }
                 const QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
                 for (auto &val : stringVals) {
-                    int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
-                    values.insert(position, val.section(QLatin1Char('='), 1));
+                    QChar separator;
+                    QString timeVal = val.section(QLatin1Char('='), 0, 0);
+                    if (!timeVal.isEmpty() && !timeVal.back().isDigit()) {
+                        separator = timeVal.back();
+                        timeVal.chop(1);
+                    }
+                    int position = m_model->time_to_frames(timeVal);
+                    values.insert({position, separator}, val.section(QLatin1Char('='), 1));
                 }
             }
             storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
         } else {
             const QString value = entryObj.value(QLatin1String("value")).toString();
-            QMap<int, QVariant> values;
-            values.insert(0, value);
+            QMap<std::pair<int, QChar>, QVariant> values;
+            values.insert({0, QChar()}, value);
             storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
         }
     }
@@ -983,12 +1080,14 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
         auto paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
         if (storedValues.contains(paramName)) {
             KeyframeModel *km = m_keyframes->getKeyModel(ix);
-            const QMap<int, QVariant> values = storedValues.value(paramName);
-            int offset = values.firstKey();
-            QMapIterator<int, QVariant> i(values);
+            const QMap<std::pair<int, QChar>, QVariant> values = storedValues.value(paramName);
+            int offset = values.firstKey().first;
+            QMapIterator<std::pair<int, QChar>, QVariant> i(values);
             while (i.hasNext()) {
                 i.next();
-                km->addKeyframe(GenTime(destPos + i.key() - offset, pCore->getCurrentFps()), KeyframeType::Linear, i.value(), true, undo, redo);
+                mlt_keyframe_type type = str_to_keyframe_type(i.key().second);
+                km->addKeyframe(GenTime(destPos + i.key().first - offset, pCore->getCurrentFps()), KeyframeModel::convertFromMltType(type), i.value(), true,
+                                undo, redo);
             }
         } else {
             qDebug() << "::: NOT FOUND PARAM: " << paramName << " in list: " << storedValues.keys();

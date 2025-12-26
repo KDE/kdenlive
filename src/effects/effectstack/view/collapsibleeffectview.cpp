@@ -31,6 +31,7 @@
 #include <QMimeData>
 #include <QPointer>
 #include <QProgressBar>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QStandardPaths>
 #include <QTextEdit>
@@ -42,6 +43,7 @@
 #include <KDualAction>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KMessageWidget>
 #include <KRecentDirs>
 #include <KSqueezedTextLabel>
 
@@ -398,6 +400,9 @@ void CollapsibleEffectView::slotCreateRegion()
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
+    if (!QFileInfo::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
     QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
@@ -660,6 +665,11 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
 
     effectName->setText(title);
     descriptionBox->setText(description);
+    KMessageWidget mw;
+    mw.setMessageType(KMessageWidget::Warning);
+    mw.setText(i18n("A profile with that name already exists"));
+    mw.setVisible(false);
+    form.addRow(&mw);
 
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
@@ -667,6 +677,18 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
 
     QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
     QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    connect(effectName, &QLineEdit::textChanged, this, [&buttonBox, &mw](QString name) {
+        if (name.isEmpty()) {
+            buttonBox.button(QDialogButtonBox::Ok)->setEnabled(false);
+            mw.setVisible(false);
+        } else if (EffectsRepository::get()->exists(name)) {
+            buttonBox.button(QDialogButtonBox::Ok)->setEnabled(false);
+            mw.setVisible(true);
+        } else {
+            buttonBox.button(QDialogButtonBox::Ok)->setEnabled(true);
+            mw.setVisible(false);
+        }
+    });
 
     if (dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text().simplified();
@@ -913,13 +935,6 @@ void CollapsibleEffectView::dragEnterEvent(QDragEnterEvent *event)
         QWidget::dragEnterEvent(event);
     }
     */
-}
-
-void CollapsibleEffectView::resizeEvent(QResizeEvent *event)
-{
-    QWidget::resizeEvent(event);
-    m_view->adjustSize();
-    m_view->updateGeometry();
 }
 
 void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)

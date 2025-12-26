@@ -2,14 +2,14 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="avfilter.lowpass" id="avfilter.lowpass" type="audio">
     <name>Low-pass</name>
-    <description>Apply a low-pass filter with 3dB point frequency.</description>
+    <description>Apply a low-pass filter with 3dB point frequency. The filter can be either single-pole or double-pole (the default). The filter roll off at 6dB per pole per octave (20dB per pole per decade).</description>
     <author>libavfilter</author>
     <parameter type="animated" name="av.f" default="500" min="20" max="20000" suffix="Hz">
-        <name>Central frequency</name>
+        <name>Central Frequency</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
         <name>Type</name>
-        <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
+        <paramlistdisplay>Hz,Q-FActor,Octave,Slope,kHz</paramlistdisplay>
     </parameter>
     <parameter type="animated" name="av.w" default="0.707" min="0.001" max="9999" decimals="3">
         <name>Filter-width</name>
@@ -24,12 +24,12 @@
     <parameter type="bool" name="av.n" default="0">
         <name>Normalize</name>
     </parameter>
-    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
-        <name>Transform type</name>
-        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
+    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt;svf;zdf">
+        <name>Transform Type</name>
+        <paramlistdisplay>DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)</paramlistdisplay>
     </parameter>
     <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
-        <name>Filter precision</name>
-        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
+        <name>Filter Precision</name>
+        <paramlistdisplay>Auto,Signed 16-bit,Signed 32-bit,Float 32-bit,Float 64-bit</paramlistdisplay>
     </parameter>
 </effect>

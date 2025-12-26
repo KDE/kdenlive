@@ -70,7 +70,7 @@ QList<std::shared_ptr<ProjectClip>> ProjectFolder::childClips()
     return allChildren;
 }
 
-QString ProjectFolder::childByHash(const QString &hash)
+QString ProjectFolder::childByHash(const QString &hash, const QString &uuid)
 {
     QList<std::shared_ptr<ProjectClip>> allChildren;
     for (int i = 0; i < childCount(); ++i) {
@@ -82,7 +82,7 @@ QString ProjectFolder::childByHash(const QString &hash)
         }
     }
     for (auto &clip : allChildren) {
-        if (clip->statusReady() && clip->hash() == hash) {
+        if ((!uuid.isEmpty() && clip->getControlUuid() == uuid) || (clip->statusReady() && clip->hash() == hash)) {
             return clip->clipId();
         }
     }

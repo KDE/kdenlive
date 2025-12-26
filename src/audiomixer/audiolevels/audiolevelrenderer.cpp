@@ -282,24 +282,24 @@ void AudioLevelRenderer::drawDbScale(QPainter &painter, const RenderData &data) 
         for (int i = 0; i < dbLabelCount; i++) {
             int value = dbscale[i];
             x = dBToPrimaryOffset(value, data.maxDb, data.primaryAxisLength, data.orientation);
-            // Draw tick mark
-            painter.drawLine(PainterUtils::adjustedVerticalLine(x, y, y + TICK_MARK_LENGTH, pen.widthF()));
 
             if (drawLabels) {
                 const QString label = QString::asprintf("%d", value);
                 int labelWidth = data.fontMetrics.horizontalAdvance(label);
                 // Center the label relative to the tick mark
-                x -= qRound(labelWidth / 2.0);
+                int labelX = x - qRound(labelWidth / 2.0);
                 // Ensure the label is not drawn off the widget
-                if (x + labelWidth > data.layoutState.getWidgetSize().width()) {
-                    x = data.layoutState.getWidgetSize().width() - labelWidth;
-                } else if (x < 0) {
-                    x = 0;
+                if (labelX + labelWidth > data.layoutState.getWidgetSize().width()) {
+                    labelX = data.layoutState.getWidgetSize().width() - labelWidth;
+                } else if (labelX < 0) {
+                    labelX = 0;
                 }
                 // Draw the label if it is not overlapping with the previous label
-                if (prevX < 0 || prevX - (x + labelWidth) > labelMargin) {
-                    painter.drawText(x, y + MARGIN_BETWEEN_LABEL_AND_LEVELS + labelHeight, label);
-                    prevX = x;
+                if (prevX < 0 || prevX - (labelX + labelWidth) > labelMargin) {
+                    painter.drawText(labelX, y + MARGIN_BETWEEN_LABEL_AND_LEVELS + labelHeight, label);
+                    prevX = labelX;
+                    // Draw tick mark
+                    painter.drawLine(PainterUtils::adjustedVerticalLine(x, y, y + TICK_MARK_LENGTH, pen.widthF()));
                 }
             }
         }
@@ -315,23 +315,24 @@ void AudioLevelRenderer::drawDbScale(QPainter &painter, const RenderData &data) 
             int value = dbscale.at(i);
             qreal verticalOffset = data.showClippingIndicator ? CLIPPING_INDICATOR_SIZE + CLIPPING_INDICATOR_SPACING : 0;
             y = dBToPrimaryOffset(value, data.maxDb, data.primaryAxisLength, data.orientation) + verticalOffset;
-            // Draw tick mark
-            painter.drawLine(PainterUtils::adjustedHorizontalLine(y, x, x + TICK_MARK_LENGTH, pen.widthF()));
 
             if (drawLabels) {
                 // Center the label relative to the tick mark
-                y -= qRound(labelHeight / 2.0);
+                int labelY = y - qRound(labelHeight / 2.0);
                 // Ensure the label is not drawn off the widget
-                if (y + labelHeight > data.layoutState.getWidgetSize().height()) {
-                    y = data.layoutState.getWidgetSize().height() - labelHeight;
-                } else if (y < 0) {
-                    y = 0;
+                if (labelY + labelHeight > data.layoutState.getWidgetSize().height()) {
+                    labelY = data.layoutState.getWidgetSize().height() - labelHeight;
+                } else if (labelY < 0) {
+                    labelY = 0;
                 }
                 // Draw the label if it is not overlapping with the previous label
-                if (prevY < 0 || y - (prevY + labelHeight) > labelMargin) {
+                if (prevY < 0 || labelY - (prevY + labelHeight) > labelMargin) {
                     const QString label = QString::asprintf("%d", value);
-                    painter.drawText(QRectF(0, y, effectiveBorderOffset - MARGIN_BETWEEN_LABEL_AND_LEVELS, labelHeight), label, QTextOption(Qt::AlignRight));
-                    prevY = y;
+                    painter.drawText(QRectF(0, labelY, effectiveBorderOffset - MARGIN_BETWEEN_LABEL_AND_LEVELS, labelHeight), label,
+                                     QTextOption(Qt::AlignRight));
+                    prevY = labelY;
+                    // Draw tick mark
+                    painter.drawLine(PainterUtils::adjustedHorizontalLine(y, x, x + TICK_MARK_LENGTH, pen.widthF()));
                 }
             }
         }

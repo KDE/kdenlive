@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2152" tag="ladspa.2152" ladspaid="2152" type="audio">
+   <name>TAP Dynamics (M)</name>
+   <description><![CDATA[TAP Dynamics Mono (LADSPA 2152)<br>
+   Allows changing the dynamic content of the audio stream]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="animated" max="500" min="4" decimals="0" default="128" suffix="ms">
+      <name>Attack</name>
+   </parameter>
+   <parameter name="1" type="animated" max="1000" min="4" decimals="0" default="502" suffix="ms">
+      <name>Release</name>
+   </parameter>
+   <parameter name="2" type="animated" max="20.0" min="-20.0" decimals="1" default="0.0" suffix="dB">
+      <name>Offset Gain</name>
+   </parameter>
+   <parameter name="3" type="animated" max="20.0" min="-20.0" decimals="1" default="0.0" suffix="dB">
+      <name>Makeup Gain</name>
+   </parameter>
+   <parameter name="6" type="animated" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14" default="0">
+      <name>Dynamics Transfer Function</name>
+      <paramlistdisplay>2:1 comp at -6dB,2:1 comp at -9dB,2:1 comp at -12dB,2:1 comp at -18dB,2.5 comp at -18dB,3:1 comp at -12dB,3:1 comp at -15dB,Compressor/Gate,Expander,Hard limiter at -6dB;Hard limiter at -12dB;Hard gate at -35dB;Soft limiter;Soft knee comp/gate;Softgate below -36dB</paramlistdisplay>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

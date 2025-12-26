@@ -25,6 +25,7 @@ Item {
     property double scalex : 1
     property double scaley : 1
     property bool captureRightClick: true
+    property bool seeking: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -414,6 +415,12 @@ Item {
             anchors.fill: frame
             color: K.KdenliveSettings.overlayColor
             overlayType: root.overlayType
+        }
+        K.MonitorSafeZone {
+            id: safeZone
+            anchors.fill: frame
+            color: K.KdenliveSettings.safeColor
+            showSafeZone: controller.showSafezone
         }
     }
 

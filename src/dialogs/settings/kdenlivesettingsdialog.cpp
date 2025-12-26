@@ -36,6 +36,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KOpenWithDialog>
 #include <KService>
 #include <KUrlRequesterDialog>
+#include <kddockwidgets/Config.h>
 
 #include <QAction>
 #include <QButtonGroup>
@@ -181,23 +182,32 @@ void KdenliveSettingsDialog::initMiscPage()
 
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
-    static const QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
+    static const QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2,3})");
     QValidator *validator = new QRegularExpressionValidator(reg, this);
-    m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
+    const QString inputMask = pCore->timecode().mask();
+    QSignalBlocker bk1(m_configMisc.kcfg_color_duration);
+    QSignalBlocker bk2(m_configMisc.kcfg_title_duration);
+    QSignalBlocker bk3(m_configMisc.kcfg_transition_duration);
+    QSignalBlocker bk4(m_configMisc.kcfg_mix_duration);
+    QSignalBlocker bk5(m_configMisc.kcfg_image_duration);
+    QSignalBlocker bk6(m_configMisc.kcfg_sequence_duration);
+    QSignalBlocker bk7(m_configMisc.kcfg_fade_duration);
+    QSignalBlocker bk8(m_configMisc.kcfg_subtitle_duration);
+    m_configMisc.kcfg_color_duration->setInputMask(inputMask);
     m_configMisc.kcfg_color_duration->setValidator(validator);
-    m_configMisc.kcfg_title_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_title_duration->setInputMask(inputMask);
     m_configMisc.kcfg_title_duration->setValidator(validator);
-    m_configMisc.kcfg_transition_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_transition_duration->setInputMask(inputMask);
     m_configMisc.kcfg_transition_duration->setValidator(validator);
-    m_configMisc.kcfg_mix_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_mix_duration->setInputMask(inputMask);
     m_configMisc.kcfg_mix_duration->setValidator(validator);
-    m_configMisc.kcfg_image_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_image_duration->setInputMask(inputMask);
     m_configMisc.kcfg_image_duration->setValidator(validator);
-    m_configMisc.kcfg_sequence_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_sequence_duration->setInputMask(inputMask);
     m_configMisc.kcfg_sequence_duration->setValidator(validator);
-    m_configMisc.kcfg_fade_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_fade_duration->setInputMask(inputMask);
     m_configMisc.kcfg_fade_duration->setValidator(validator);
-    m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_subtitle_duration->setInputMask(inputMask);
     m_configMisc.kcfg_subtitle_duration->setValidator(validator);
 
     m_configMisc.preferredcomposite->clear();
@@ -584,16 +594,8 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     // according to the user-selected language, so they do not appear in random order.
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
-    QList<QString>::Iterator iter = action_names.begin();
-    while (iter != action_names.end()) {
-        ++iter;
-    }
 
     std::sort(action_names.begin(), action_names.end());
-    iter = action_names.begin();
-    while (iter != action_names.end()) {
-        ++iter;
-    }
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
@@ -1215,6 +1217,15 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
         KdenliveSettings::setTabposition(m_configMisc.kcfg_tabposition->currentIndex());
+        // Reload layout to make it happen
+        KDDockWidgets::LayoutSaver dockLayout(KDDockWidgets::RestoreOption_AbsoluteFloatingDockWindows);
+        const QByteArray layoutData = dockLayout.serializeLayout();
+        if (KdenliveSettings::tabposition() == 1) {
+            KDDockWidgets::Config::self().setTabsAtBottom(true);
+        } else {
+            KDDockWidgets::Config::self().setTabsAtBottom(false);
+        }
+        dockLayout.restoreLayout(layoutData);
     }
 
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {

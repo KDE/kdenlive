@@ -149,6 +149,7 @@ public Q_SLOTS:
     void setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth);
     void setOffsetY(int verticalScrollValue, int verticalScrollMaximum, int horizontalScrollBarHeight);
     void slotZoom(bool zoomIn);
+    void slotZoomReset();
     void releaseAnalyse();
     bool switchPlay(bool play, double speed = 1.0);
     void reloadProfile();
@@ -253,7 +254,7 @@ private:
      */
     bool playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode);
     bool isPaused() const;
-    void pause(int position = -1);
+    void pause();
 
 private Q_SLOTS:
     void resizeVideo(int width, int height);

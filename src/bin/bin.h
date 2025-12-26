@@ -200,6 +200,13 @@ public:
     explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr, bool isMainBin = true, BinViewType type = BinUnknownView);
     ~Bin() override;
 
+    struct ClipZoneInfo
+    {
+        QString clipId;
+        QPoint zone;
+        int seekFrame;
+    };
+
     bool isLoading;
     /** @brief Sets the document for the bin and initialize some stuff  */
     const QString setDocument(KdenliveDoc *project, const QString &id = QString());
@@ -398,6 +405,7 @@ public:
     /** @brief Expand / collapse all items */
     void expandAll();
     bool isMainBin() const;
+    void buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock);
 
 private Q_SLOTS:
     void slotAddClip();
@@ -468,7 +476,7 @@ private Q_SLOTS:
     /** @brief Open a new Bin widget */
     void slotOpenNewBin();
     /** @brief Open clip in monitor */
-    void openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1, const QUuid &uuid = QUuid());
+    void openClipInMonitor(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1, const QUuid &uuid = QUuid(), int seekFrame = -1);
     /** @brief Perform the drag */
     bool performDrag(const QModelIndexList indexes);
 
@@ -601,7 +609,7 @@ private:
     QAction *m_upAction{nullptr};
     QAction *m_tagAction{nullptr};
     QActionGroup *m_sortGroup{nullptr};
-    SmallJobLabel *m_infoLabel;
+    SmallJobLabel *m_infoLabel{nullptr};
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu{nullptr};
     QActionGroup m_filterTagGroup;
@@ -642,6 +650,7 @@ private:
     int wheelAccumulatedDelta;
     QString m_keyBindingMessage;
     QString m_clipsCountMessage;
+    ClipZoneInfo m_activateClipZoneInfo;
     /** @brief Show the clip count and key binfing info in status bar. */
     void showBinInfo();
     /** @brief Find all clip Ids that have a specific tag. */
@@ -662,7 +671,7 @@ Q_SIGNALS:
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
-    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1, const QUuid sequenceUuid = QUuid());
+    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1, const QUuid sequenceUuid = QUuid(), int seekFrame = -1);
     /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &, QList<int> ids = QList<int>());
     void clipNameChanged(int, const QString);

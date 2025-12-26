@@ -179,11 +179,8 @@ Rectangle {
     onFakeTidChanged: {
         if (clipRoot.fakeTid > -1 && parentTrack) {
             if (clipRoot.parent != dragContainer) {
-                var pos = clipRoot.mapToGlobal(clipRoot.x, clipRoot.y);
+                // Clip is parented to a track, reparent to allow moving outside of the track
                 clipRoot.parent = dragContainer
-                pos = clipRoot.mapFromGlobal(pos.x, pos.y)
-                clipRoot.x = pos.x
-                clipRoot.y = pos.y
             }
             clipRoot.y = Logic.getTrackById(clipRoot.fakeTid).y
             clipRoot.height = Logic.getTrackById(clipRoot.fakeTid).height

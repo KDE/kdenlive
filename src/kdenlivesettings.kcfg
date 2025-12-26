@@ -597,11 +597,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="monitor_gamma" type="Int">
-      <label>Monitor gamma (rbg / rec 709).</label>
-      <default>1</default>
-    </entry>
-
     <entry name="external_display" type="Bool">
       <label>Use Blackmagic device for video out.</label>
       <default>false</default>
@@ -983,6 +978,16 @@
        </entry>
    </group>
 
+  <group name="Recent Profiles">
+    <entry name="recentProfiles" type="StringList">
+         <label>List of recently used profile ids</label>
+         <default></default>
+    </entry>
+    <entry name="recentProfileNames" type="StringList">
+         <label>List of recently used profile display names</label>
+         <default></default>
+    </entry>
+  </group>
 
   <group name="unmanaged">
     <entry name="properties_panel_page" type="Int">
@@ -1000,6 +1005,10 @@
     <entry name="kdockLayout" type="String">
       <label>Default project layout.</label>
       <default></default>
+    </entry>
+    <entry name="layoutsOrder" type="StringList">
+      <label>Project layout order</label>
+      <default>logging,editing,audio,effects,color</default>
     </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">
@@ -1094,6 +1103,14 @@
     <entry name="displayClipMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x55</default>
+    </entry>
+    <entry name="showClipMonitorSafeZone" type="Bool">
+      <label>Show monitor safe zones.</label>
+      <default>false</default>
+    </entry>
+    <entry name="showProjectMonitorSafeZone" type="Bool">
+      <label>Show monitor safe zones.</label>
+      <default>false</default>
     </entry>
 
     <entry name="displayProjectMonitorInfo" type="Int">
@@ -1216,6 +1233,11 @@
     <entry name="overlayColor" type="Color">
       <label>Color to draw the monitor overlay guides.</label>
       <default>#00ffff</default>
+    </entry>
+
+    <entry name="safeColor" type="Color">
+      <label>Color to draw the safe zone.</label>
+      <default>#ffcc00</default>
     </entry>
 
     <entry name="defaultrescalewidth" type="Int">
@@ -1363,6 +1385,8 @@
       <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
+    </group>
+  <group name="startup">
     <entry name="force_breeze" type="Bool">
       <label>Force breeze icon theme for consistent look.</label>
       <default>false</default>
@@ -1371,6 +1395,24 @@
       <label>Force breeze icon color theme for consistent look.</label>
       <default>false</default>
     </entry>
+    <entry name="showWelcome" type="Bool">
+      <label>Show Welcome page on Start.</label>
+      <default>true</default>
+    </entry>
+    <entry name="lastSeenVersionMajor" type="Int">
+      <label>Last used version of Kdenlive - major.</label>
+      <default>0</default>
+    </entry>
+    <entry name="lastSeenVersionMinor" type="Int">
+      <label>Last used version of Kdenlive - minor.</label>
+      <default>0</default>
+    </entry>
+    <entry name="lastSeenVersionMicro" type="Int">
+      <label>Last used version of Kdenlive - micro.</label>
+      <default>0</default>
+    </entry>
+
+
     </group>
   <group name="effects">
       <entry name="lock_ratio" type="Bool">

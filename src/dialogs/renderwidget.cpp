@@ -318,7 +318,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonGenerateScript->setEnabled(false);
 
     connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index) {
-        if (m_treeModel->parent(index) == QModelIndex()) {
+        if (!index.isValid() || index.parent() == QModelIndex()) {
             // This is a top level item - group - don't edit
             return;
         }
@@ -735,7 +735,6 @@ void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 
 void RenderWidget::reloadGuides()
 {
-    double projectDuration = GenTime(pCore->projectDuration() - 1, pCore->getCurrentFps()).ms() / 1000;
     QVariant startData = m_view.guide_start->currentData();
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
@@ -774,7 +773,7 @@ void RenderWidget::reloadGuides()
                     m_view.guide_end->addItem(zoneOut, displayText, pos.seconds());
                 }
             }
-            m_view.guide_end->addItem(zoneOut, i18n("End"), projectDuration);
+            m_view.guide_end->addItem(zoneOut, i18n("End"), -1);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);
@@ -2276,7 +2275,12 @@ void RenderWidget::checkDriveSpace()
     QStorageInfo info(QFileInfo(m_view.out_file->url().toLocalFile()).absolutePath());
     m_lastCheckedDevice = info.device();
     DriveSpaceStatus previousState = m_freeSpaceStatus;
+#ifdef Q_OS_MAC
+    // Device always returns readonly on Mac
+    if (!info.isReady() || !info.isValid()) {
+#else
     if (!info.isReady() || !info.isValid() || info.isReadOnly()) {
+#endif
         m_freeSpaceStatus = SpaceNotWritable;
         if (!info.isReady()) {
             // Drive may be mounting, check again in a few seconds
@@ -2378,19 +2382,34 @@ void RenderWidget::showRenderDuration(int projectLength)
                 } else {
                     double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                     double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-                    int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    int out;
+                    if (guideEnd == -1) {
+                        out = pCore->projectDuration() - 1;
+                    } else {
+                        out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                    }
                     m_renderDuration = out - int(GenTime(guideStart).frames(fps));
                 }
             } else {
                 double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                 double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-                int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                int out;
+                if (guideEnd == -1) {
+                    out = pCore->projectDuration() - 1;
+                } else {
+                    out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+                }
                 m_renderDuration = out - int(GenTime(guideStart).frames(fps));
             }
         } else {
             double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
             double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-            int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            int out;
+            if (guideEnd == -1) {
+                out = pCore->projectDuration() - 1;
+            } else {
+                out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+            }
             m_renderDuration = out - int(GenTime(guideStart).frames(fps));
         }
     } else {

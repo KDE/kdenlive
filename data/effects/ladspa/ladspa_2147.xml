@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="ladspa.2147" tag="ladspa.2147" ladspaid="2147" type="audio">
+   <name>TAP DeEsser</name>
+   <description><![CDATA[TAP DeEsser (LADSPA 2147)<br>
+   Used for attenuating higher pitched frequencies in vocals such as those found in 'ess', 'shh' and 'chh' sounds.]]></description>
+   <author>http://www.ladspa.org</author>
+   <parameter name="0" type="constant" decimals="12" default="0.0" max="10.0" min="-50.0" suffix="dB">
+      <name>Threshold Level</name>
+   </parameter>
+   <parameter name="1" type="constant" decimals="0" default="5500" max="16000" min="2000" suffix="Hz">
+      <name>Frequency</name>
+   </parameter>
+   <parameter name="2" type="list" default="0" paramlist="0;1">
+      <name>Sidechain Filter</name>
+      <comment><![CDATA[The chosen filter's frequency<br>
+      is set by the <b>Frequency</b> parameter]]></comment>
+      <paramlistdisplay>Highpass,Bandpass</paramlistdisplay>
+   </parameter>
+   <parameter name="3" type="bool" default="0" max="1" min="0">
+      <name>Monitor On</name>
+   </parameter>
+   <parameter name="wetness" type="animated" decimals="0" default="1" max="100" min="0" factor="100">
+      <name>Dry/Wet</name>
+   </parameter>
+</effect>

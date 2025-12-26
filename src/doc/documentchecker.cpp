@@ -116,7 +116,7 @@ bool DocumentChecker::resolveProblemsWithGUI()
     if (onlySilent) {
         return true;
     }
-
+    Q_EMIT pCore->GUISetupDone();
     DCResolveDialog *d = new DCResolveDialog(m_items, m_url);
     // d->show(getInfoMessages());
     if (d->exec() == QDialog::Rejected) {

@@ -483,7 +483,7 @@ void TimelineController::selectItems(const QList<int> &ids)
 
 void TimelineController::setScrollPos(int pos)
 {
-    if (pos > 0 && m_root) {
+    if (pos >= 0 && m_root) {
         QMetaObject::invokeMethod(m_root, "setScrollPos", Qt::QueuedConnection, Q_ARG(QVariant, pos));
     }
 }
@@ -4967,7 +4967,7 @@ QString TimelineController::audioZoomText() const
 
 void TimelineController::showMasterEffects()
 {
-    Q_EMIT showItemEffectStack(i18n("Master effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
+    Q_EMIT showItemEffectStack(i18n("Sequence effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
 }
 
 bool TimelineController::refreshIfVisible(int cid)

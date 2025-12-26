@@ -529,7 +529,8 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
     return res;
 }
 
-KeyframeType::KeyframeEnum convertFromMltType(mlt_keyframe_type type)
+// static
+KeyframeType::KeyframeEnum KeyframeModel::convertFromMltType(mlt_keyframe_type type)
 {
     switch (type) {
     case mlt_keyframe_linear:

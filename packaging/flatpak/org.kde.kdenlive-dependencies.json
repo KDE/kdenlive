@@ -109,19 +109,14 @@
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "config-opts": [
-                "-DCMAKE_BUILD_TYPE=Release"
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/georgmartius/vid.stab/archive/v1.1.1.tar.gz",
-                    "sha256": "9001b6df73933555e56deac19a0f225aae152abbc0e97dc70034814a1943f3d4",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 15959,
-                        "stable-only": true,
-                        "url-template": "https://github.com/georgmartius/vid.stab/archive/v$version.tar.gz"
-                    }
+                    "type": "git",
+                    "url": "https://github.com/georgmartius/vid.stab.git",
+                    "commit": "4bd81e3cdd778e2e0edc591f14bba158ec40cfa1"
                 }
             ]
         },
@@ -131,13 +126,14 @@
                 "--without-doxygen",
                 "--disable-static",
                 "--enable-shared",
-                "--with-cpuflags=none"
+                "--with-cpuflags=none",
+                "--disable-libpng"
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://salsa.debian.org/multimedia-team/gavl/-/archive/upstream/2.0.0_svngit.20240111.a5dd20c/gavl-upstream-2.0.0_svngit.20240111.a5dd20c.tar.gz",
-                    "sha256": "2d9c62f09d97ef74da5390bec86517549fe0b80c6549e1f2af9312d4c386a099"
+                    "type": "git",
+                    "url": "https://github.com/bplaum/gavl.git",
+                    "commit": "59f4f9c52da1eb68de4b00f172c95fbd0105ff4c"
                 },
                 {
                     "type": "shell",

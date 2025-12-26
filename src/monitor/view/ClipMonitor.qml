@@ -3,10 +3,10 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Window 2.15
-import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
+import QtQuick
 
 import org.kde.kdenlive as K
 import 'Utils.js' as Utils
@@ -45,7 +45,6 @@ Item {
     property bool showMarkers: false
     property bool showTimecode: false
     property bool showFps: false
-    property bool showSafezone: false
     // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
     property bool showClipJobs: false
@@ -61,7 +60,7 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: (audioView.stateVisible && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
+    property int overlayMargin: (audioView.state === 'showAudio' && !audioView.isAudioClip && audioView.visible) ? (audioView.height + root.zoomOffset) : root.zoomOffset
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
         if (K.KdenliveSettings.alwaysShowMonitorAudio && audioView.visible) {
@@ -189,13 +188,18 @@ Item {
             objectName: "referenceframe"
             width: root.profile.x * root.scalex
             height: root.profile.y * root.scaley
-            x: root.center.x - width / 2 - root.offsetx;
-            y: root.center.y - height / 2 - root.offsety;
+            x: root.center.x - width / 2 - root.offsetx
+            y: root.center.y - height / 2 - root.offsety
 
             K.MonitorOverlay {
                 anchors.fill: frame
                 color: K.KdenliveSettings.overlayColor
                 overlayType: root.overlayType
+            }
+            K.MonitorSafeZone {
+                id: safeZone
+                anchors.fill: frame
+                showSafeZone: controller.showSafezone
             }
         }
         DropArea { //Drop area for effects
@@ -227,7 +231,8 @@ Item {
                 }
                 height: isAudioClip ? parent.height : parent.height / 5
                 width: parent.width
-                visible: (K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (isAudioClip || controller.clipType === K.ClipType.AV || controller.clipHasAV)
+                dragButtonsVisible: dragZone.opacity > 0
+                visible: isAudioClip || ((K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (controller.clipType === K.ClipType.AV || controller.clipHasAV))
             }
             Menu {
                 id: contextMenu
@@ -502,12 +507,11 @@ Item {
                 id: dragRow
                 ToolButton {
                     id: videoDragButton
-                    property bool isDragging
+                    property bool isDragging: false
                     hoverEnabled: true
                     visible: controller.clipHasAV || !audioView.isAudioClip
                     icon.name: "kdenlive-show-video"
                     focusPolicy: Qt.NoFocus
-                    Drag.active: dragVideoArea.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
                         "text/producerslist": "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
@@ -517,20 +521,30 @@ Item {
                         videoDragButton.isDragging = true
                         dragZone.uuid = controller.getUuid()
                     }
-                    Drag.onDragFinished: dropAction => {
+                    Drag.onDragFinished: {
+                        root.captureRightClick = false
                         videoDragButton.isDragging = false
+                    }
+                    onReleased: {
                         root.captureRightClick = false
                     }
+
                     onPressed: {
-                        videoDragButton.grabToImage(function(result) {
-                            videoDragButton.Drag.imageSource = result.url
-                        })
+                        root.captureRightClick = true
                     }
                     DragHandler {
                         id: dragVideoArea
                         acceptedButtons: Qt.LeftButton
                         target: null
                         enabled: true
+                        onActiveChanged: {
+                            if (active) {
+                                videoDragButton.grabToImage(function(result) {
+                                    videoDragButton.Drag.imageSource = result.url
+                                }, Qt.size(videoDragButton.width, videoDragButton.height))
+                            }
+                            videoDragButton.Drag.active = active
+                        }
                     }
                     ToolTip {
                         visible: videoDragButton.hovered
@@ -539,33 +553,44 @@ Item {
                 }
                 ToolButton {
                     id: audioDragButton
-                    property bool isDragging
+                    property bool isDragging: false
                     hoverEnabled: true
                     icon.name: "audio-volume-medium"
                     focusPolicy: Qt.NoFocus
-                    Drag.active: dragAudioArea.active
+                    checkable: false
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
                         "text/producerslist": "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
                         "text/dragid": dragZone.uuid
                     }
+
                     Drag.onDragStarted: {
                         audioDragButton.isDragging = true
                         dragZone.uuid = controller.getUuid()
                     }
                     Drag.onDragFinished: {
-                        audioDragButton.isDragging = false
                         root.captureRightClick = false
+                        audioDragButton.isDragging = false
+                    }
+                    onReleased: {
+                        root.captureRightClick = false
+                        audioDragButton.down = false
                     }
                     onPressed: {
-                        audioDragButton.grabToImage(function(result) {
-                            audioDragButton.Drag.imageSource = result.url
-                        })
+                        root.captureRightClick = true
                     }
                     DragHandler {
                         id: dragAudioArea
                         acceptedButtons: Qt.LeftButton
                         target: null
+                        onActiveChanged: {
+                            if (active) {
+                                audioDragButton.grabToImage(function(result) {
+                                    audioDragButton.Drag.imageSource = result.url
+                                }, Qt.size(audioDragButton.width, audioDragButton.height))
+                            }
+                            audioDragButton.Drag.active = active
+                        }
                     }
                     ToolTip {
                         visible: audioDragButton.hovered

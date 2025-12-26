@@ -516,6 +516,33 @@ const QVector<MaskInfo> ProjectItemModel::getClipMasks(const QString &binId) con
     return {};
 }
 
+QStringList ProjectItemModel::getAllSequenceBinIds(const QUuid uuid, QList<QUuid> *processedUuids)
+{
+    READ_LOCK();
+    QStringList result;
+    if ((*processedUuids).contains(uuid)) {
+        return result;
+    }
+    (*processedUuids) << uuid;
+    for (const auto &clip : m_allItems) {
+        // auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        auto c = std::static_pointer_cast<ProjectClip>(clip.second.lock());
+        if (c && c->clipType() != ClipType::Timeline) {
+            if (c->isIncludedInSequence(uuid)) {
+                result.push_back(c->clipId());
+            }
+        } else {
+            const QUuid seqUuid = c->getSequenceUuid();
+            if (!(*processedUuids).contains(seqUuid)) {
+                result << getAllSequenceBinIds(seqUuid, processedUuids);
+                (*processedUuids) << seqUuid;
+            }
+        }
+    }
+    result.removeDuplicates();
+    return result;
+}
+
 const QVector<int16_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
 {
     READ_LOCK();
@@ -1441,6 +1468,9 @@ QMap<QUuid, QString> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTra
                         foundSequences << uuid;
                         Mlt::Properties sequenceProps;
                         sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
+                        if (pCore->closing) {
+                            return {};
+                        }
                         pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
 
                         std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
@@ -1600,13 +1630,17 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
                         for (const auto &clipLoop : m_allItems) {
                             auto c = std::static_pointer_cast<AbstractProjectItem>(clipLoop.second.lock());
                             if (c->itemType() == AbstractProjectItem::ClipItem) {
-                                if (c->clipType() == matchType) {
+                                if (c->clipType() == matchType || matchType == ClipType::Unknown) {
                                     std::shared_ptr<ProjectClip> pClip = std::static_pointer_cast<ProjectClip>(c);
                                     qDebug() << "::::::\nTRYING TO MATCH: " << pClip->getProducerProperty(QStringLiteral("resource")) << " = " << resource;
                                     if (pClip->getProducerProperty(QStringLiteral("kdenlive:file_hash")) == hash) {
                                         // Found a match
                                         // binIdCorresp[QString::number(cid)] = pClip->clipId();
                                         clip->parent().set("kdenlive:uuid", pClip->getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8().constData());
+                                        found = true;
+                                        break;
+                                    }
+                                    if (!uuid.isEmpty() && pClip->getControlUuid() == uuid) {
                                         found = true;
                                         break;
                                     }
@@ -1941,12 +1975,12 @@ bool ProjectItemModel::validateClip(const QString &binId, const QString &clipHas
     return false;
 }
 
-QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QString &clipHash)
+QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QString &clipHash, const QString &clipUuid)
 {
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectFolder> folder = getFolderByBinId(folderId);
     if (folder) {
-        return folder->childByHash(clipHash);
+        return folder->childByHash(clipHash, clipUuid);
     }
     return QString();
 }

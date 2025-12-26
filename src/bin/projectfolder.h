@@ -72,5 +72,5 @@ public:
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;
     /** @brief Returns a clip id if folder contains clip with matching at \@hash, empty if not found. */
-    QString childByHash(const QString &hash);
+    QString childByHash(const QString &hash, const QString &uuid);
 };

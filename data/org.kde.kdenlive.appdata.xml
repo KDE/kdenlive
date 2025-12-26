@@ -346,26 +346,69 @@
     </ul>
   </description>
   <releases>
-    <release version="25.08.3" date="2025-11-06"/>
-    <release version="25.08.2" date="2025-10-09"/>
-    <release version="25.08.1" date="2025-09-11"/>
-    <release version="25.08.0" date="2025-08-14"/>
-    <release version="25.04.3" date="2025-07-03"/>
-    <release version="25.04.2" date="2025-06-05"/>
-    <release version="25.04.1" date="2025-05-08"/>
-    <release version="25.04.0" date="2025-04-17"/>
-    <release version="24.12.3" date="2025-03-06"/>
-    <release version="24.12.2" date="2025-02-06"/>
-    <release version="24.12.1" date="2025-01-09"/>
-    <release version="24.12.0" date="2024-12-12"/>
-    <release version="24.08.3" date="2024-11-07"/>
-    <release version="24.08.2" date="2024-10-10"/>
-    <release version="24.08.1" date="2024-09-12"/>
-    <release version="24.08.0" date="2024-08-22"/>
-    <release version="24.05.2" date="2024-07-04"/>
-    <release version="24.05.1" date="2024-06-13"/>
-    <release version="24.05.0" date="2024-05-23"/>
-    <release version="24.02.2" date="2024-04-11"/>
+    <release version="25.12.0" date="2025-12-11">
+      <url>https://kdenlive.org/news/releases/25.12.0/</url>
+    </release>
+    <release version="25.08.3" date="2025-11-06">
+      <url>https://kdenlive.org/news/releases/25.08.3/</url>
+    </release>
+    <release version="25.08.2" date="2025-10-09">
+      <url>https://kdenlive.org/news/releases/25.08.2/</url>
+    </release>
+    <release version="25.08.1" date="2025-09-11">
+      <url>https://kdenlive.org/news/releases/25.08.1/</url>
+    </release>
+    <release version="25.08.0" date="2025-08-14">
+      <url>https://kdenlive.org/news/releases/25.08.0/</url>
+    </release>
+    <release version="25.04.3" date="2025-07-03">
+      <url>https://kdenlive.org/news/releases/25.04.3/</url>
+    </release>
+    <release version="25.04.2" date="2025-06-05">
+      <url>https://kdenlive.org/news/releases/25.04.2/</url>
+    </release>
+    <release version="25.04.1" date="2025-05-08">
+      <url>https://kdenlive.org/news/releases/25.04.1/</url>
+    </release>
+    <release version="25.04.0" date="2025-04-17">
+      <url>https://kdenlive.org/news/releases/25.04.0/</url>
+    </release>
+    <release version="24.12.3" date="2025-03-06">
+      <url>https://kdenlive.org/news/releases/24.12.3/</url>
+    </release>
+    <release version="24.12.2" date="2025-02-06">
+      <url>https://kdenlive.org/news/releases/24.12.2/</url>
+    </release>
+    <release version="24.12.1" date="2025-01-09">
+      <url>https://kdenlive.org/news/releases/24.12.1/</url>
+    </release>
+    <release version="24.12.0" date="2024-12-12">
+      <url>https://kdenlive.org/news/releases/24.12.0/</url>
+    </release>
+    <release version="24.08.3" date="2024-11-07">
+      <url>https://kdenlive.org/news/releases/24.08.3/</url>
+    </release>
+    <release version="24.08.2" date="2024-10-10">
+      <url>https://kdenlive.org/news/releases/24.08.2/</url>
+    </release>
+    <release version="24.08.1" date="2024-09-12">
+      <url>https://kdenlive.org/news/releases/24.08.1/</url>
+    </release>
+    <release version="24.08.0" date="2024-08-22">
+      <url>https://kdenlive.org/news/releases/24.08.0/</url>
+    </release>
+    <release version="24.05.2" date="2024-07-04">
+      <url>https://kdenlive.org/news/releases/24.05.2/</url>
+    </release>
+    <release version="24.05.1" date="2024-06-13">
+      <url>https://kdenlive.org/news/releases/24.05.1/</url>
+    </release>
+    <release version="24.05.0" date="2024-05-23">
+      <url>https://kdenlive.org/news/releases/24.05.0/</url>
+    </release>
+    <release version="24.02.2" date="2024-04-11">
+      <url>https://kdenlive.org/news/releases/24.02.2/</url>
+    </release>
     <release version="24.02.1" date="2024-03-21">
       <description>
         <p>This is the first bugfix release for the 24.02 version. Some of the most noteworthy fixes:</p>
@@ -379,14 +422,19 @@
           <li>Fix multiple issues with subtitles (multiple subtitles tracks not correctly saved or displayed)</li>
         </ul>
       </description>
+      <url>https://kdenlive.org/news/releases/24.02.1/</url>
     </release>
-    <release version="24.02.0" date="2024-02-28"/>
-    <release version="23.08.5" date="2024-02-15"/>
+    <release version="24.02.0" date="2024-02-28">
+      <url>https://kdenlive.org/news/releases/24.02.0/</url>
+    </release>
+    <release version="23.08.5" date="2024-02-15">
+      <url>https://kdenlive.org/news/releases/23.08.5/</url>
+    </release>
   </releases>
   <url type="homepage">https://kdenlive.org/?mtm_campaign=appstream_data&amp;mtm_kwd=homepage</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?product=kdenlive</url>
   <url type="help">https://docs.kdenlive.org/?mtm_campaign=appstream_data&amp;mtm_kwd=help</url>
-  <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
+  <url type="donation">https://kdenlive.org/fund/?mtm_campaign=appstream_data&amp;mtm_kwd=donation</url>
   <url type="contact">https://kdenlive.org/support/?mtm_campaign=appstream_data&amp;mtm_kwd=contact</url>
   <url type="contribute">https://kdenlive.org/get-involved/?mtm_campaign=appstream_data&amp;mtm_kwd=contribute</url>
   <url type="translate">https://l10n.kde.org/</url>
