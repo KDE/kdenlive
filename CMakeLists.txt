@@ -26,8 +26,6 @@ option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" OFF)
-
 # shall we use DBus?
 # enabled per default on Linux & BSD systems
 set(USE_DBUS_DEFAULT OFF)
@@ -54,13 +52,6 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 6)
 endif()
-
-# The dependencies (currently only OpenTimelineIO) are located in a
-# subdirectory so their CMake variables are not exposed to the main project.
-#
-# Note that this needs to come before the KDECompilerSettings. OTIO is not
-# compatible with the KDE compiler flag "-fno-operator-names".
-add_subdirectory(deps)
 
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -161,28 +152,21 @@ find_package(FFmpeg REQUIRED COMPONENTS
 )
 
 # OpenTimelineIO
-if(FETCH_OTIO)
-    include_directories(${otio_SOURCE_DIR}/src)
-    # Enable exceptions for OTIO and dependencies.
-    kde_target_enable_exceptions(opentime PUBLIC)
-    kde_target_enable_exceptions(opentimelineio PUBLIC)
-    kde_target_enable_exceptions(Imath PUBLIC)
-else()
-    # It is highly recommended to use OTIO 0.18.0 or newer!
-    # Unfortunately we can not enforce this at the moment because OTIO does not install
-    # a VersionConfig.cmake file. This should be adjusted once fixed upstream.
-    # See https://github.com/AcademySoftwareFoundation/OpenTimelineIO/pull/1981
-    find_package(OpenTimelineIO REQUIRED)
-    # Work around for header oddity with OTIO and Imath, this is fixed in OTIO 0.18.0
-    find_package(Imath REQUIRED)
-    get_target_property(IMATH_INCLUDE_DIRS Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
-    include_directories("${IMATH_INCLUDE_DIRS}/Imath")
-    # < workaround end
-    set_package_properties(OpenTimelineIO PROPERTIES
-        DESCRIPTION "API and interchange format for editorial timeline information"
-        URL "http://opentimeline.io/"
-        PURPOSE "Required for OpenTimelineIO import and export, at least version 0.18.0 is highly recommended")
-endif()
+
+# It is highly recommended to use OTIO 0.18.0 or newer!
+# Unfortunately we can not enforce this at the moment because OTIO does not install
+# a VersionConfig.cmake file. This should be adjusted once fixed upstream.
+# See https://github.com/AcademySoftwareFoundation/OpenTimelineIO/pull/1981
+find_package(OpenTimelineIO REQUIRED)
+# Work around for header oddity with OTIO and Imath, this is fixed in OTIO 0.18.0
+find_package(Imath REQUIRED)
+get_target_property(IMATH_INCLUDE_DIRS Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
+include_directories("${IMATH_INCLUDE_DIRS}/Imath")
+# < workaround end
+set_package_properties(OpenTimelineIO PROPERTIES
+    DESCRIPTION "API and interchange format for editorial timeline information"
+    URL "http://opentimeline.io/"
+    PURPOSE "Required for OpenTimelineIO import and export, at least version 0.18.0 is highly recommended")
 
 # Windows
 include(CheckIncludeFiles)

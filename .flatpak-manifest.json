@@ -73,8 +73,7 @@
       "config-opts": [
         "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
         "-DRELEASE_BUILD=OFF",
-        "-DBUILD_TESTING=OFF",
-        "-DFETCH_OTIO=OFF"
+        "-DBUILD_TESTING=OFF"
       ],
       "post-install": [
         "install -d /app/extensions/Plugins"
