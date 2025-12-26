@@ -600,57 +600,6 @@
             ]
         },
         {
-            "name": "libmediainfo",
-            "subdir": "Project/GNU/Library",
-            "config-opts": [
-                "--enable-shared",
-                "--disable-static",
-                "--with-libcurl"
-            ],
-            "cleanup": [
-                "/bin",
-                "/include",
-                "/lib/pkgconfig",
-                "/lib/*.la"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://mediaarea.net/download/source/libmediainfo/24.12/libmediainfo_24.12.tar.xz",
-                    "sha256": "1f4986207f75deb290915e6bf0b33e3e455774305dd266ffe8997c01aad65b27",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 16249,
-                        "stable-only": true,
-                        "url-template": "https://mediaarea.net/download/source/libmediainfo/$version/libmediainfo_$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "mediainfo-cli",
-            "subdir": "Project/GNU/CLI",
-            "cleanup": [
-                "share/pixmaps",
-                "/share/apps",
-                "/share/kde4",
-                "/share/kservices5"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://mediaarea.net/download/source/mediainfo/24.12/mediainfo_24.12.tar.xz",
-                    "sha256": "3699ae650ce71893a932ce2eaa2a35f8da47e6f721f93d695b0beb0aad4e9997",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 8240,
-                        "stable-only": true,
-                        "url-template": "https://mediaarea.net/download/source/mediainfo/$version/mediainfo_$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
             "name": "opencv",
             "buildsystem": "cmake-ninja",
             "builddir": true,
