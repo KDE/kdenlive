@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 00:42+0000\n"
+"POT-Creation-Date: 2025-12-27 00:42+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -30357,7 +30357,7 @@ msgstr "E&kspor OpenTimelineIO..."
 msgid "OpenTimelineIO Project"
 msgstr "E&kspor OpenTimelineIO..."
 
-#: src/otio/otioexport.cpp:112
+#: src/otio/otioexport.cpp:109
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"

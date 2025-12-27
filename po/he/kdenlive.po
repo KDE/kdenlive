@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-24 18:26+0200\n"
+"POT-Creation-Date: 2025-12-27 00:42+0000\n"
+"PO-Revision-Date: 2025-12-26 10:55+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1613,7 +1613,7 @@ msgstr "מערכת צבע"
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Select the color system]]>"
 msgid "Select the color system"
-msgstr "<![CDATA[נא לבחור את מערכת הצבע]]>"
+msgstr "נא לבחור את מערכת הצבע"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:10
 #: data/effects/avfilter/avfilter_ciescope.xml:20
@@ -2569,7 +2569,7 @@ msgstr "הפעלת מסנן טשטוש מוכוון"
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the angle for the direction]]>"
 msgid "Sets the angle for the direction"
-msgstr "<![CDATA[הגדרת זווית הכיוון]]>"
+msgstr "הגדרת זווית הכיוון"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2584,7 +2584,7 @@ msgstr "רדיוס"
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the radius for the direction]]>"
 msgid "Sets the radius for the direction"
-msgstr "<![CDATA[הגדרת הרדיוס לכיוון]]>"
+msgstr "הגדרת הרדיוס לכיוון"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #: data/effects/avfilter/avfilter_scharr.xml:8
@@ -2919,12 +2919,12 @@ msgstr "מצב פלט"
 #: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
 msgid "Set the output mode."
-msgstr ""
+msgstr "הגדרת מצב הפלט."
 
 #: data/effects/avfilter/avfilter_deesser.xml:22
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr ""
+msgstr "קלט,פלט,Ess בלבד"
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
 #, fuzzy, kde-format
@@ -3193,29 +3193,25 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left X"
-msgstr "שמאל למעלה"
+msgstr "X שמאל למעלה"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X coordinate of the profile]]>"
+#, kde-format
 msgid "X coordinate of top-left corner"
-msgstr "<![CDATA[נקודת ציון ב־X של הפרופיל]]>"
+msgstr "נקודת ציון ב־X של הפינה השמאלית העליונה"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left Y"
-msgstr "שמאל למעלה"
+msgstr "Y שמאל למעלה"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y coordinate of the profile]]>"
+#, kde-format
 msgid "Y coordinate of top-left corner"
-msgstr "<![CDATA[נקודת ציון ב־Y של הפרופיל]]>"
+msgstr "נקודת ציון ב־Y של הפרופיל הפינה השמאלית העליונה"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
@@ -3272,10 +3268,9 @@ msgid "Thickness (px)"
 msgstr "עובי (פיקסלים)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
-#, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
+#, kde-format
 msgid "Sets the thickness for the line in pixels"
-msgstr "הגדרת עובי קו התרשים בפיקסלים."
+msgstr "הגדרת עובי הקו בפיקסלים"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
@@ -3310,10 +3305,9 @@ msgid "X Offset"
 msgstr "היסט ב־X"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe from center to edge in a circle."
+#, kde-format
 msgid "Distance from the left edge in pixel"
-msgstr "ניגוב מהמרכז לקצה בצורת עיגול."
+msgstr "מרחק מהקצה השמאלי בפיקסלים"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16 data/effects/frei0r/frei0r_mirr0r.xml:11
@@ -3322,10 +3316,9 @@ msgid "Y Offset"
 msgstr "היסט ב־Y"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
-#, fuzzy, kde-format
-#| msgid "Wipe from center to edge in a circle."
+#, kde-format
 msgid "Distance from the top edge in pixel"
-msgstr "ניגוב מהמרכז לקצה בצורת עיגול."
+msgstr "מרחק מהקצה העליון בפיקסלים"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3819,7 +3812,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:9
 #, kde-format
 msgid "Set base delay in milliseconds. Range from 0 to 30."
-msgstr ""
+msgstr "הגדרת השהיה בסיסית במילישניות. בטווח שבין 0 ל־30."
 
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
@@ -3833,9 +3826,9 @@ msgid "Depth"
 msgstr "עומק"
 
 #: data/effects/avfilter/avfilter_flanger.xml:13
-#, kde-format
+#, fuzzy, kde-format
 msgid "Set added sweep delay in milliseconds. Range from 0 to 10."
-msgstr ""
+msgstr "הגדרת השהיית במילישניות. בטווח שבין 0 ל־10."
 
 #: data/effects/avfilter/avfilter_flanger.xml:16
 #: data/effects/sox/sox_flanger.xml:14
@@ -4439,10 +4432,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_hsvhold.xml:28
 #: data/effects/avfilter/avfilter_hsvkey.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blend percentage]]>"
+#, kde-format
 msgid "Blend percentage"
-msgstr "<![CDATA[אחוז ערבול]]>"
+msgstr "אחוז ערבול"
 
 #: data/effects/avfilter/avfilter_hsvkey.xml:4
 #, kde-format
@@ -4516,10 +4508,9 @@ msgid "Set the intensity shift"
 msgstr "<![CDATA[הגדרת הזחת החוזק]]>"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set strength of filtering]]>"
+#, kde-format
 msgid "Set strength of filtering"
-msgstr "<![CDATA[הגדרת עוצמת הסינון]]>"
+msgstr "הגדרת עוצמת הסינון"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:30
 #, kde-format
@@ -5072,10 +5063,9 @@ msgid "Color filter size"
 msgstr "גודל מסנן צבע"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:17
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Highlights strength"
-msgstr "הדגשת פסגות"
+msgstr "עוצמת הדגשת"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
 #, kde-format
@@ -5099,16 +5089,14 @@ msgid "Video Noise Generator"
 msgstr "מחולל רעש וידאו"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
-#, fuzzy, kde-format
-#| msgid "Add noise on video input frame"
+#, kde-format
 msgid "Add noise on video input frame"
 msgstr "הוספת רעש על תמונית קלט וידאו"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "<b><u>All Components</u></b> Noise Seed"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "גרעין רעש <b><u>כל הרכיבים</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:18
 #: data/effects/avfilter/avfilter_noise.xml:32
@@ -5133,34 +5121,29 @@ msgid "Averaged temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "<b><u>Component #0</u></b> Noise Seed"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "גרעין רעש <b><u>רכיב מס׳ 0</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:25
-#, fuzzy, kde-format
-#| msgid "Strength"
+#, kde-format
 msgid " Strength"
 msgstr "עוצמה"
 
 #: data/effects/avfilter/avfilter_noise.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "<b><u>Component #1</u></b> Noise Seed"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "גרעין רעש <b><u>רכיב מס׳ 1</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "<b><u>Component #2</u></b> Noise Seed"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "גרעין רעש <b><u>רכיב מס׳ 2</u></b>"
 
 #: data/effects/avfilter/avfilter_noise.xml:64
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "<b><u>Component #3</u></b> Noise Seed"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "גרעין רעש <b><u>רכיב מס׳ 3</u></b>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, fuzzy, kde-format
@@ -9334,12 +9317,12 @@ msgstr "ללא,1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
 msgid "Cartoon"
-msgstr ""
+msgstr "מצוירים"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:5
 #, kde-format
 msgid "Cartoonify video, do a form of edge detect"
-msgstr ""
+msgstr "הפיכת סרטון לסרט מצויר, ביצוע סוג של זיהוי קצוות"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:8
 #, kde-format
@@ -9608,7 +9591,7 @@ msgstr "מיקום גרף"
 #: data/effects/frei0r/frei0r_levels.xml:79
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-msgstr ""
+msgstr "שמאל למעלה,ימין למעלה,שמאל למטה,ימין למטה"
 
 #: data/effects/frei0r/frei0r_curves.xml:60
 #, kde-format
@@ -11674,10 +11657,9 @@ msgid "Factor"
 msgstr "גורם"
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean pixel value]]>"
+#, kde-format
 msgid "Influence of mean pixel value"
-msgstr "<![CDATA[השפעת ערך פיקסל ממוצע]]>"
+msgstr "השפעת ערך פיקסל ממוצע"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -11742,10 +11724,9 @@ msgid "Horizontal Split Distance"
 msgstr "מרחק פיצול אופקי"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Values < 0.500 move right, values > 0.500 move left.]]>"
+#, kde-format
 msgid "Values < 0.500 move right, values > 0.500 move left."
-msgstr "<![CDATA[ערכים < 0.500 מזיזים ימינה, ערכים > 0.500 מזיזים שמאלה.]]>"
+msgstr "ערכים < 0.500 מזיזים ימינה, ערכים > 0.500 מזיזים שמאלה."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:12
 #, kde-format
@@ -11753,10 +11734,9 @@ msgid "Vertical Split Distance."
 msgstr "מרחק פיצול אנכי."
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Values < 0.5002 move down, values > 0.500 move up.]]>"
+#, kde-format
 msgid "Values < 0.5002 move down, values > 0.500 move up."
-msgstr "<![CDATA[ערכים < 0.5002 מזיזים למטה, ערכים > 0.500 מזיזים למעלה.]]>"
+msgstr "ערכים < 0.5002 מזיזים למטה, ערכים > 0.500 מזיזים למעלה."
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
 #, kde-format
@@ -12419,15 +12399,7 @@ msgid "Time offset in seconds"
 msgstr "היסט זמן בשניות"
 
 #: data/effects/gpsgraphic.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[An offset (in seconds) to be added to the video file to match it "
-#| "to the GPS track.<br>\n"
-#| "    \tMost of the time this will at least need to be set to the timezone "
-#| "difference between the 2 files plus some seconds if the video recording "
-#| "device isn't precisely set to correct time. GPS time is always exact and "
-#| "in UTC. Use positive values if GPS is ahead of video and negative "
-#| "otherwise.]]>"
+#, kde-format
 msgid ""
 "An offset (in seconds) to be added to the video file to match it to the GPS "
 "track.<br>\n"
@@ -12436,12 +12408,11 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise."
 msgstr ""
-"<![CDATA[היסט (בשניות) שיתווסף לקובץ הווידאו כדי שיתואם מול מסלול ה־GPS."
-"<br>\n"
+"היסט (בשניות) שיתווסף לקובץ הווידאו כדי שיתואם מול מסלול ה־GPS.<br>\n"
 "    \tבדרך כלל יש להגדיר את זה לפחות להפרש אזורי הזמן בין שני הקבצים בתוספת "
 "כמה שניות אם מכשיר ההקלטה לא מוגדר לשעה הנכונה בדיוק. שעון ה־GPS הוא תמיד "
 "מדויק וב־UTC. יש להשתמש בערכים שליליים אם ה־GPS מקדים את הווידאו וערכים "
-"שליליים במקרה ההפוך.]]>"
+"שליליים במקרה ההפוך."
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -12449,22 +12420,16 @@ msgid "Smoothing level"
 msgstr "רמת החלקה"
 
 #: data/effects/gpsgraphic.xml:19
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
-#| "<br>\n"
-#| "    \tA value of 1 does not smooth locations, it only calculates the "
-#| "extra fields (speed, distance, etc), it also interpolates missing values "
-#| "for heart rate and altitude.]]>"
+#, kde-format
 msgid ""
 "How many GPS points to smooth in order to eliminate GPS errors.<br>\n"
 "    \tA value of 1 does not smooth locations, it only calculates the extra "
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude."
 msgstr ""
-"<![CDATA[כמה נקודות GPS להחליק כדי להימנע משגיאות GPS.<br>\n"
+"כמה נקודות GPS להחליק כדי להימנע משגיאות GPS.<br>\n"
 "    \tערך של 1 לא מחליק מקומות, הוא רק מחשב את השדות הנוספים  (מהירות, מרחק, "
-"ועוד), הוא גם משלב בהסקה ערכים חסרים  של דופק וגובה.]]>"
+"ועוד), הוא גם משלב בהסקה ערכים חסרים  של דופק וגובה."
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -12472,20 +12437,15 @@ msgid "Speed multiplier"
 msgstr "מכפיל מהירות"
 
 #: data/effects/gpsgraphic.xml:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If the video file is a timelapse (or slow motion), use this "
-#| "value to set the speed up/slow down ratio.<br>\n"
-#| "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
-#| "footage.]]>"
+#, kde-format
 msgid ""
 "If the video file is a timelapse (or slow motion), use this value to set the "
 "speed up/slow down ratio.<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
-"<![CDATA[אם קובץ הסרטון הוא בהילוך מהיר (או איטי), יש להשתמש בערך הזה כדי "
-"להגדיר את קצב ההאצה/האטה.<br>\n"
-"        ערכים לדוגמה: 30 להילוך מהיר פי 30, 0.25 הילוך איטי פי 4.]]>"
+"אם קובץ הסרטון הוא בהילוך מהיר (או איטי), יש להשתמש בערך הזה כדי להגדיר את "
+"קצב ההאצה/האטה.<br>\n"
+"        ערכים לדוגמה: 30 להילוך מהיר פי 30, 0.25 הילוך איטי פי 4."
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
@@ -12503,22 +12463,7 @@ msgid "GPS location/track,Altitude,Heart rate,Speed"
 msgstr "מקום/מסלול GPS,גובה,דופק,מהירות"
 
 #: data/effects/gpsgraphic.xml:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[<b>Speedometer</b> is available for all data sources but "
-#| "recommended only for speed; for the map type it represents the "
-#| "\"percentage done\" from trimmed start - end).<br>\n"
-#| "Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
-#| "* crop values are only valid as a percentage and only the bottom (resp "
-#| "left) values\n"
-#| "will be taken into consideration as both values (ie: bottom/top) will "
-#| "need to be equal to\n"
-#| "keep the dot centered)<br>\n"
-#| "* if data source is not GPS location, the centering will only be done for "
-#| "horizontal axis\n"
-#| "(time), vertical axis crop will behave just like for the basic 2D map "
-#| "line (it will statically keep\n"
-#| "the same min/max limit allowing the Now dot to move up and down).]]>"
+#, kde-format
 msgid ""
 "<b>Speedometer</b> is available for all data sources but recommended only "
 "for speed; for the map type it represents the \"percentage done\" from "
@@ -12535,15 +12480,15 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down)."
 msgstr ""
-"<![CDATA[<b>מד אוץ</b> זמין לכל מקורות הנתונים אבל מומלץ רק למהירות, לסוג "
-"המפה הוא מייצג את „האחוז שהסתיים” מהתחלה - סיום לאחר קיצוץ).<br>\n"
+"<b>מד אוץ</b> זמין לכל מקורות הנתונים אבל מומלץ רק למהירות, לסוג המפה הוא "
+"מייצג את „האחוז שהסתיים” מהתחלה - סיום לאחר קיצוץ).<br>\n"
 "לתשומת ליבך: לסוג 1 (תקריב ומירכוז, כלומר „לעקוב אחר הנקודה”):<br>\n"
 "* ערכי הקיצוץ תקפים רק כאחוזים ורק הערכים התחתונים (כלומר מימין)\n"
 "ילקחו בחשבון כיוון ששני הערכים (כלומר: למטה/למעלה) יצטרכו להיות שווים כדי "
 "שהנקודה תישאר במרכז)<br>\n"
 "* אם מקור הנתונים הוא לא מקום GPS/נווטן המירכוז יבוצע רק לציר האופקי\n"
 "(זמן), קיצוץ בציר האנכי יתנהג כמו קו במפה דו־ממדית (ישמור באופן יציב\n"
-"על אותה מגבלת מזערי/מרבי שמאפשר לנקודת העכשיו לעלות ולרדת).]]>"
+"על אותה מגבלת מזערי/מרבי שמאפשר לנקודת העכשיו לעלות ולרדת."
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -12560,22 +12505,16 @@ msgid "Trim start (%)"
 msgstr "חיתוך ההתחלה (%)"
 
 #: data/effects/gpsgraphic.xml:46
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Trim data from the start of the GPS file (as a percentage of "
-#| "total). <br>\n"
-#| "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed "
-#| "from the total file, so trimming 50% start and 50% end will result in "
-#| "trimming the entire file.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Trim data from the start of the GPS file (as a percentage of total). <br>\n"
 "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file."
 msgstr ""
-"<![CDATA[חיתוך נתונים מתחילת קובץ ה־GPS (כאחוז מהכלל). <br>\n"
+"חיתוך נתונים מתחילת קובץ ה־GPS (כאחוז מהכלל). <br>\n"
 "    \tלתשומת ליבך: גם <em>חיתוך התחלה</em> וגם <em>חיתוך סוף</em> מחושבים "
-"מכלל הקובץ, לכן חיתוך של 50% מההתחלה ו־50% מהסוף יחתוך את כל הקובץ.]]>"
+"מכלל הקובץ, לכן חיתוך של 50% מההתחלה ו־50% מהסוף יחתוך את כל הקובץ."
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -12583,22 +12522,16 @@ msgid "Trim end (%)"
 msgstr "חיתוך סוף (%)"
 
 #: data/effects/gpsgraphic.xml:51
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Trim data from the end of the gps file (as a percentage of "
-#| "total). <br>\n"
-#| "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed "
-#| "from the total file, so trimming 50% start and 50% end will result in "
-#| "trimming the entire file.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Trim data from the end of the gps file (as a percentage of total). <br>\n"
 "    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file."
 msgstr ""
-"<![CDATA[חיתוך נתונים מסוף קובץ ה־GPS (כאחוז מהכלל). <br>\n"
+"חיתוך נתונים מסוף קובץ ה־GPS (כאחוז מהכלל). <br>\n"
 "    \tלתשומת ליבך: גם <em>חיתוך התחלה</em> וגם <em>חיתוך סוף</em> מחושבים "
-"מכלל הקובץ, לכן חיתוך של 50% מההתחלה ו־50% מהסוף יחתוך את כל הקובץ.]]>"
+"מכלל הקובץ, לכן חיתוך של 50% מההתחלה ו־50% מהסוף יחתוך את כל הקובץ."
 
 #: data/effects/gpsgraphic.xml:54
 #, kde-format
@@ -12606,14 +12539,7 @@ msgid "Crop mode horizontal"
 msgstr "מצב חיתוך אופקי"
 
 #: data/effects/gpsgraphic.xml:57
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop "
-#| "right</em> values.<br>\n"
-#| "    \tNote: for the horizontal type, absolute values are the longitude "
-#| "(for the location\n"
-#| "source type) and time (in milliseconds since epoch) for the rest of the "
-#| "data source types)]]>"
+#, kde-format
 msgid ""
 "Decides how to interpret the <em>Crop left</em> and <em>Crop right</em> "
 "values.<br>\n"
@@ -12622,10 +12548,9 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)"
 msgstr ""
-"<![CDATA[החלטה איך לפענח את הערכים <em>חיתוך משמאל</em> ו<em>חיתוך מימין</"
-"em>.<br>\n"
+"החלטה איך לפענח את הערכים <em>חיתוך משמאל</em> ו<em>חיתוך מימין</em>.<br>\n"
 "    \tנא לשים לב: לסוג האופקי, ערכים מוחלטים הם האורך (לסוג מקור מקום)\n"
-"והזמן (במילישניות מאז Epoch) לשאר סוגי מקורות הנתונים)]]>"
+"והזמן (במילישניות מאז Epoch) לשאר סוגי מקורות הנתונים)"
 
 #: data/effects/gpsgraphic.xml:58 data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -12638,17 +12563,7 @@ msgid "Crop left"
 msgstr "חיתוך משמאל"
 
 #: data/effects/gpsgraphic.xml:63
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Crops data from the left side of the graph (effectively zooming "
-#| "in). <br>\n"
-#| "    \tThe value is interpreted either as a percentage of total or an "
-#| "absolute value depending on crop_mode_h. In percentage mode, the values "
-#| "are not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: "
-#| "cropping -50 left will add an extra half of the total horizontal "
-#| "distance). Values over 100 (in % mode) will effectively not display "
-#| "anything. If <em>Graph Type</em> is set to <b>Speedometer</b>, all crop "
-#| "left/right values are ignored.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Crops data from the left side of the graph (effectively zooming in). <br>\n"
 "    \tThe value is interpreted either as a percentage of total or an "
@@ -12659,12 +12574,12 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored."
 msgstr ""
-"<![CDATA[חיתוך נתונים מהצד השמאלי של התרשים (בפועל מקרב). <br>\n"
+"חיתוך נתונים מהצד השמאלי של התרשים (בפועל מקרב). <br>\n"
 "    \tהערך מפוענח כאחוז מסך הכול או ערך מוחלט כתלות ב־crop_mode_h. במצב "
 "אחוזים, הערכים לא מוגבלים ל־0‏-100 כדי לאפשר התנהגות „התרחקות” (כלומר: חיתוך "
 "של -50 משמאל יוסיף עוד חצי מהמרחק האופקי הכולל). ערכים מעל 100 (במצב אחוזים) "
 "לא יציג כלום בפועל. אם <em>סוג התרשים</em> מוגדר ל<b>מד־אוץ</b>, כל ערכי "
-"חיתוך שמאל/ימין נפסחים.]]>"
+"חיתוך שמאל/ימין נפסחים."
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -12672,18 +12587,14 @@ msgid "Crop right"
 msgstr "חיתוך מימין"
 
 #: data/effects/gpsgraphic.xml:67
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Same as <em>Crop left</em> but for the right side, and "
-#| "percentage type is interpreted as an inverse percentage (ie: 100 = do not "
-#| "crop anything). Values under 0 will effectively not display anything.]]>"
+#, kde-format
 msgid ""
 "Same as <em>Crop left</em> but for the right side, and percentage type is "
 "interpreted as an inverse percentage (ie: 100 = do not crop anything). "
 "Values under 0 will effectively not display anything."
 msgstr ""
-"<![CDATA[כמו <em>חיתוך משמאל</em> אבל לצד הימני, וסוג האחוזים מפוענח כאחוזים "
-"הפוכים (כלומר: 100 = לא לחתוך כלום). ערכים מתחת ל־100 לא יציגו כלום בפועל.]]>"
+"כמו <em>חיתוך משמאל</em> אבל לצד הימני, וסוג האחוזים מפוענח כאחוזים הפוכים "
+"(כלומר: 100 = לא לחתוך כלום). ערכים מתחת ל־100 לא יציגו כלום בפועל."
 
 #: data/effects/gpsgraphic.xml:70
 #, kde-format
@@ -12970,14 +12881,7 @@ msgid "Show dots only"
 msgstr "הצגת נקודות בלבד"
 
 #: data/effects/gpsgraphic.xml:151
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled, the graph will be drawn using individual dots "
-#| "instead of lines.<br>\n"
-#| "    \tThis will effectively show the individual data points as affected "
-#| "by smoothing (ie: for location data it will display each GPS fix if "
-#| "smoothing is 1) and can either be used as a cool effect when zoomed in "
-#| "enough or to debug unexpected line jumps.]]>"
+#, kde-format
 msgid ""
 "If enabled, the graph will be drawn using individual dots instead of lines."
 "<br>\n"
@@ -12986,10 +12890,10 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps."
 msgstr ""
-"<![CDATA[אם האפשרות פעילה, התרשים יצויר בנקודות נפרדות במקום בקווים..<br>\n"
+"אם האפשרות פעילה, התרשים יצויר בנקודות נפרדות במקום בקווים..<br>\n"
 "    \tבפועל, נקודות הנתונים הבודדים תוצגנה בהתאם לאיך שמשפיעה עליהם ההחלקה "
 "(כלומר: לנתוני מקום יוצג כל קיבוע GPS אם ההחלקה היא 1)ויכול לשמש כאפקט מגניב "
-"בעת תקריב קרוב מספיק או כדי לנסות לפענח קפיצות מוזרות בקווים.]]>"
+"בעת תקריב קרוב מספיק או כדי לנסות לפענח קפיצות מוזרות בקווים."
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -12997,19 +12901,15 @@ msgid "Graph rectangle"
 msgstr "מרובע בתרשים"
 
 #: data/effects/gpsgraphic.xml:156
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Defines the rectangle that the graph should be drawn in.<br>\n"
-#| "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
-#| "unless they have the suffix '%'.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Defines the rectangle that the graph should be drawn in.<br>\n"
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'."
 msgstr ""
-"<![CDATA[הגדרת המרובע שבו יצויר התרשים.<br>\n"
+"הגדרת המרובע שבו יצויר התרשים.<br>\n"
 "        התבנית היא: „X Y W H”. כאשר X, Y, W, H הן בפיקסלים אלא אם כן יש להם "
-"את הסיומת ‚%’.]]>"
+"את הסיומת ‚%’."
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -13017,21 +12917,16 @@ msgid "Background image"
 msgstr "תמונת רקע"
 
 #: data/effects/gpsgraphic.xml:161
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[If a valid image file is selected, it will be used as a "
-#| "background for the rectangle area.<br>\n"
-#| "      \tPaths starting with the \"!\" character are ignored. TIP: use a "
-#| "map image to add context to the GPS track.]]>"
+#, kde-format
 msgid ""
 "If a valid image file is selected, it will be used as a background for the "
 "rectangle area.<br>\n"
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track."
 msgstr ""
-"<![CDATA[אם נבחר קובץ תמונה תקני, הוא ישמש כרקע לאזור המרובע.<br>\n"
+"אם נבחר קובץ תמונה תקני, הוא ישמש כרקע לאזור המרובע.<br>\n"
 "      \tנתיבים שמתחילים בתו „!” זוכים להתעלמות. עצה: אפשר להשתמש בתמונת מפה "
-"כדי להוסיף הקשר למסלול ה־GPS/נווטן.]]>"
+"כדי להוסיף הקשר למסלול ה־GPS/נווטן."
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -13039,22 +12934,17 @@ msgid "Background scale"
 msgstr "קנה מידה רקע"
 
 #: data/effects/gpsgraphic.xml:166
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Scale the background image (relative to center) to match it to "
-#| "the above GPS track.<br>\n"
-#| "    \tValues smaller than 100 zoom into the image, values larger than 100 "
-#| "zoom out. 0 hides it.]]>"
+#, kde-format
 msgid ""
 "Scale the background image (relative to center) to match it to the above GPS "
 "track.<br>\n"
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it."
 msgstr ""
-"<![CDATA[לשנות את קנה המידה של תמונת הרקע (ביחס למרכז) כדי שיתאים למסלול ה־"
-"GPS/נווטן שלהלן.<br>\n"
+"לשנות את קנה המידה של תמונת הרקע (ביחס למרכז) כדי שיתאים למסלול ה־GPS/נווטן "
+"שלהלן.<br>\n"
 "    \tערכים קטנים מ־100 יקרבו את התמונה, גודלים מ־100 ירחיקו אותה. 0 יסתיר "
-"אותה.]]>"
+"אותה."
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
 #, kde-format
@@ -13062,10 +12952,9 @@ msgid "Background opacity"
 msgstr "אטימות רקע"
 
 #: data/effects/gpsgraphic.xml:170
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "Sets the opacity for the background image"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "הגדרת אטימות תמונת הרקע"
 
 #: data/effects/gpsgraphic.xml:173
 #, kde-format
@@ -13235,10 +13124,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr ""
 
 #: data/effects/hsl_primaries.xml:12
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "<b><u>Hue Shift</u></b> Red"
-msgstr "הזחת גוון"
+msgstr "אדום <b><u>הזחת גוון</u></b>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
 #: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2530
@@ -13260,16 +13148,14 @@ msgid "Magenta"
 msgstr "ארגמן"
 
 #: data/effects/hsl_primaries.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "<b><u>Saturation</u></b> Red"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "אדום <b><u>רוויה</u></b>"
 
 #: data/effects/hsl_primaries.xml:48
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "<b><u>Lightness</u></b> Red"
-msgstr "הזחת גוון"
+msgstr "אדום <b><u>בהירות</u></b>"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -13360,59 +13246,51 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:9 data/effects/ladspa/ladspa_2151.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 1</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 1</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 1</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 1</b></u>"
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 2</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 2</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 2</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 2</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:21
 #: data/effects/ladspa/ladspa_2151.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 3</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 3</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 3</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 3</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:27
 #: data/effects/ladspa/ladspa_2151.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 4</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 4</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 4</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 4</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:33
 #: data/effects/ladspa/ladspa_2151.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 5</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 5</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 5</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 5</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:39
 #: data/effects/ladspa/ladspa_2151.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 6</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 6</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 6</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 6</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:45
 #: data/effects/ladspa/ladspa_2151.xml:63
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 7</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 7</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 7</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 7</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:51
 #: data/effects/ladspa/ladspa_2151.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<u><b>Band 8</b></u> Freq]]>"
+#, kde-format
 msgid "<u><b>Band 8</b></u> Freq"
-msgstr "<![CDATA[תדירות <u><b>רצועה 8</b></u>]]>"
+msgstr "תדירות <u><b>רצועה 8</b></u"
 
 #: data/effects/ladspa/ladspa_2141.xml:57
 #: data/effects/ladspa/ladspa_2142.xml:36
@@ -29418,7 +29296,7 @@ msgstr "ייצוא OpenTimelineIO"
 msgid "OpenTimelineIO Project"
 msgstr "מיזם OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:112
+#: src/otio/otioexport.cpp:109
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "שגיאה בייצוא קובץ OpenTimelineIO"

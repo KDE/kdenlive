@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 00:42+0000\n"
+"POT-Creation-Date: 2025-12-27 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18176,7 +18176,9 @@ msgctxt ""
 msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
-msgstr "双击、拖放或点击%1以导入媒体"
+msgstr ""
+"双击、拖放\n"
+"或点击%1以导入媒体"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
 #, kde-format
@@ -29087,7 +29089,7 @@ msgstr "OpenTimelineIO 导出"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO 项目"
 
-#: src/otio/otioexport.cpp:112
+#: src/otio/otioexport.cpp:109
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "导出 OpenTimelineIO 文件出错"
