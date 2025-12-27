@@ -18408,7 +18408,9 @@ msgctxt ""
 msgid ""
 "Double click, drop files\n"
 "or click %1 to import media"
-msgstr "双击、拖放或点击%1以导入媒体"
+msgstr ""
+"双击、拖放\n"
+"或点击%1以导入媒体"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
 #, kde-format
