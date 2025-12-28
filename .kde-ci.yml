@@ -30,6 +30,7 @@ Dependencies:
     'frameworks/kxmlgui' : '@latest-kf6'
     'frameworks/kfilemetadata' : '@latest-kf6'
     'frameworks/purpose' : '@latest-kf6'
+    'third-party/kddockwidgets': '@stable-kf6'
 
 #- 'on': ['Linux', 'FreeBSD']
   #'require':
