@@ -76,52 +76,13 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
         const int numSamples = len / sampleBytes;
 
         const unsigned char *ptr = reinterpret_cast<const unsigned char *>(data);
-        QVector<quint32> levels;
+        QVector<double> levels;
         for (int j = 0; j < m_format.channelCount(); ++j) {
             levels << 0;
         }
         for (int i = 0; i < numSamples; ++i) {
             for (int j = 0; j < m_format.channelCount(); ++j) {
-                quint32 value = 0;
-                switch (m_format.bytesPerSample() * 8) {
-                case 8:
-                    switch (m_format.sampleFormat()) {
-                    case QAudioFormat::UInt8:
-                        value = *reinterpret_cast<const quint8 *>(ptr);
-                        break;
-                    default:
-                        value = qAbs(*reinterpret_cast<const qint8 *>(ptr));
-                        break;
-                    }
-                    break;
-                case 16:
-                    switch (m_format.sampleFormat()) {
-                    case QAudioFormat::UInt8:
-                        value = *reinterpret_cast<const quint16 *>(ptr);
-                        break;
-                    default:
-                        value = qAbs(*reinterpret_cast<const qint16 *>(ptr));
-                        break;
-                    }
-                    break;
-                case 32:
-                    switch (m_format.sampleFormat()) {
-                    case QAudioFormat::UInt8:
-                        value = *reinterpret_cast<const quint32 *>(ptr);
-                        break;
-                    case QAudioFormat::Int16:
-                    case QAudioFormat::Int32:
-                        value = qAbs(*reinterpret_cast<const qint32 *>(ptr));
-                        break;
-                    case QAudioFormat::Float:
-                        value = qAbs(*reinterpret_cast<const float *>(ptr) * 0x7fffffff);
-                    default:
-                        break;
-                    }
-                    break;
-                default:
-                    break;
-                }
+                float value = qAbs(m_format.normalizedSampleValue(ptr));
                 levels[j] = qMax(value, levels.at(j));
                 ptr += channelBytes;
             }
@@ -129,8 +90,7 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
         QVector<qreal> dbLevels;
         QVector<qreal> recLevels;
         for (int j = 0; j < m_format.channelCount(); ++j) {
-            qreal val = qMin(levels.at(j), maxAmplitude);
-            val = 20. * log10(val / maxAmplitude);
+            qreal val = 20. * log10(levels.at(j));
             recLevels << val;
             dbLevels << IEC_ScaleMax(val, 0);
         }
@@ -164,7 +124,7 @@ void MediaCapture::switchMonitorState(int tid, bool run)
 
 void MediaCapture::initializeAudioSetup()
 {
-    if (m_audioSource) {
+    if (m_audioSource && m_audioInfo) {
         return;
     }
     setAudioCaptureDevice();
