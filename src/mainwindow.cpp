@@ -612,7 +612,7 @@ void MainWindow::init()
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     // Since not all widgets are added yet, don't use the Save flag now
-    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar /*| KXmlGuiWindow::Save*/ | KXmlGuiWindow::Create);
+    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Create);
 
     // Only start saving config once all GUI setup is done.
     connect(pCore.get(), &Core::GUISetupDone, this, &MainWindow::finishUiSetup, Qt::DirectConnection);

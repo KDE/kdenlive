@@ -368,4 +368,6 @@
     <text>Extra Toolbar</text>
     <Action name="project_render_button"/>
   </ToolBar>
+  <!-- keep this for compatibility with Kdenlive < 25.08.3 -->
+  <Menu name="marker_menu" />
 </kpartgui>

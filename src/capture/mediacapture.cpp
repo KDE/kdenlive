@@ -249,6 +249,7 @@ void MediaCapture::switchMonitorState(bool run)
         }
         m_audioInput.reset();
         m_audioSource->reset();
+        m_audioSource.reset(nullptr);
     }
 }
 
