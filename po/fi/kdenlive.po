@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-27 00:42+0000\n"
+"POT-Creation-Date: 2025-12-29 00:42+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -20930,7 +20930,7 @@ msgstr "Lisää luokitus"
 msgid "New tag"
 msgstr "Uusi luokitus"
 
-#: src/capture/mediacapture.cpp:296
+#: src/capture/mediacapture.cpp:257
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20939,7 +20939,7 @@ msgstr ""
 "Äänen valvonta. Painamalla  <b>välilyöntiä</b> tallennus alkaa/pysähtyy "
 "<b>Esc</b> lopettaa."
 
-#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:392 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -33705,23 +33705,23 @@ msgstr "Leikettä ei voitu lisätä"
 msgid "All clips were not successfully copied"
 msgstr "Kaikki leikkeitä ei onnistuttu kopioimaan"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kohteita ei voitu liittää aikajanalle"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Liitä aikajanan leikkeet"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "Poista välit raidalta"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Poista leikkeet raidalta"

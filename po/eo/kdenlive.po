@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-27 00:42+0000\n"
+"POT-Creation-Date: 2025-12-29 00:42+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -21223,7 +21223,7 @@ msgstr "Aldoni Etikedon"
 msgid "New tag"
 msgstr "Nova etikedo"
 
-#: src/capture/mediacapture.cpp:296
+#: src/capture/mediacapture.cpp:257
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -21232,7 +21232,7 @@ msgstr ""
 "Monitorado de audio. Premu <b>Spaco</b> por komenci/paŭzi registradon, "
 "<b>Esk</b> por fini."
 
-#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:392 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -33976,23 +33976,23 @@ msgstr "Ne eblis aldoni bin-tondaĵon"
 msgid "All clips were not successfully copied"
 msgstr "Ĉiuj tondaĵoj ne estis sukcese kopiitaj"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ne eblis alglui erojn en templinio"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Alglui templiniajn tondaĵojn"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "Forigi spacon survoje"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Forigi tondaĵojn sur trako"

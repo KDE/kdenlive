@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-27 00:42+0000\n"
+"POT-Creation-Date: 2025-12-29 00:42+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -20655,7 +20655,7 @@ msgstr "Tambahkan Tag"
 msgid "New tag"
 msgstr "Tag baru"
 
-#: src/capture/mediacapture.cpp:296
+#: src/capture/mediacapture.cpp:257
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -20664,7 +20664,7 @@ msgstr ""
 "Memantau audio. Tekan <b>Space</b> untuk memulai/menjeda perekaman, <b>Esc</"
 "b> untuk membatalkan."
 
-#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:392 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -33464,24 +33464,24 @@ msgstr "Tidak bisa menambahkan klip bin"
 msgid "All clips were not successfully copied"
 msgstr "Semua klip tidak berhasil disalin"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Tidak bisa menempelkan item di linimasa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Tempel klip linimasa"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, fuzzy, kde-format
 #| msgid "Remove Space in All Tracks"
 msgid "Remove space on track"
 msgstr "Singkirkan Spasi di Semua Trek"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Hapus klip di trek"

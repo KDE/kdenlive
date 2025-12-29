@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-27 00:42+0000\n"
-"PO-Revision-Date: 2025-12-26 10:55+0200\n"
+"POT-Creation-Date: 2025-12-29 00:42+0000\n"
+"PO-Revision-Date: 2025-12-27 16:39+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -35,16 +35,12 @@ msgstr "kde-l10n-he@kde.org"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for editing interface"
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "עריכה"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgctxt "Short layout name for logging interface"
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "תיעוד ביומן"
 
@@ -746,9 +742,9 @@ msgid "Anti-aliasing"
 msgstr "החלקת קצוות"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sample reduction"
-msgstr "בחירה"
+msgstr "הפחתת דגימה"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
 #, fuzzy, kde-format
@@ -769,10 +765,9 @@ msgstr "קצב מסגרות"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
-#, fuzzy, kde-format
-#| msgid "Limiter"
+#, kde-format
 msgid "Limiter"
-msgstr "מגבל"
+msgstr "מגביל"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:5
 #: data/effects/avfilter/avfilter_aphaser.xml:5
@@ -791,10 +786,9 @@ msgid "ASC level"
 msgstr "רמת ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalize to 0dB"
-msgstr "נרמול"
+msgstr "נרמול ל־0 דציבל"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
 #, fuzzy, kde-format
@@ -3992,16 +3986,13 @@ msgid "1,2,3,4,5,6"
 msgstr "1,2,3,4,5,6"
 
 #: data/effects/avfilter/avfilter_gblur.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set which planes to filter.<br>\n"
-#| "        By default all planes are filtered (YUV).]]>"
+#, kde-format
 msgid ""
 "Set which planes to filter.<br>\n"
 "        By default all planes are filtered (YUV)."
 msgstr ""
-"<![CDATA[נא להגדיר אילו מישורים לסנן.<br>\n"
-"        כברירת מחדל כל המישורים מסוננים (YUV).]]>"
+"נא להגדיר אילו מישורים לסנן.<br>\n"
+"        כברירת מחדל כל המישורים מסוננים (YUV)."
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
 #, kde-format
@@ -4480,10 +4471,9 @@ msgid "Hue Shift"
 msgstr "הזחת גוון"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:15
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the hue shift in degrees to apply]]>"
+#, kde-format
 msgid "Set the hue shift in degrees to apply"
-msgstr "<![CDATA[הגדרת הזחת הגוון במעלות להחלה]]>"
+msgstr "הגדרת הזחת הגוון במעלות להחלה"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:18
 #, kde-format
@@ -4491,10 +4481,9 @@ msgid "Saturation Shift"
 msgstr "הזחת רוויה"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the saturation shift]]>"
+#, kde-format
 msgid "Set the saturation shift"
-msgstr "<![CDATA[הגדרת הזחת הרוויה]]>"
+msgstr "הגדרת הזחת הרוויה"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:22
 #, kde-format
@@ -4502,10 +4491,9 @@ msgid "Intensity Shift"
 msgstr "הזחת חוזק"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the intensity shift]]>"
+#, kde-format
 msgid "Set the intensity shift"
-msgstr "<![CDATA[הגדרת הזחת החוזק]]>"
+msgstr "הגדרת הזחת החוזק"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:27
 #, kde-format
@@ -4523,16 +4511,13 @@ msgid "Red Strength"
 msgstr "עוצמת אדום"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for RED component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[הגדרת משקל לרכיב האדום.<br>\n"
-"        משמש לעיבוד רוויה ובהירות.]]>"
+"הגדרת משקל לרכיב האדום.<br>\n"
+"        משמש לעיבוד רוויה ובהירות."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
 #, kde-format
@@ -4540,16 +4525,13 @@ msgid "Green Strength"
 msgstr "עוצמת ירוק"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:41
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for GREEN component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for GREEN component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[הגדרת משקל לרכיב הירוק.<br>\n"
-"        משמש לעיבוד רוויה ובהירות.]]>"
+"הגדרת משקל לרכיב הירוק.<br>\n"
+"        משמש לעיבוד רוויה ובהירות."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:44
 #, kde-format
@@ -4557,16 +4539,13 @@ msgid "Blue Strength"
 msgstr "עוצמת כחול"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set weight for BLUE component.<br>\n"
-#| "        Is used in saturation and lightness processing.]]>"
+#, kde-format
 msgid ""
 "Set weight for BLUE component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"<![CDATA[הגדרת משקל לרכיב הכחול.<br>\n"
-"        משמש לעיבוד רוויה ובהירות.]]>"
+"הגדרת משקל לרכיב הכחול.<br>\n"
+"        משמש לעיבוד רוויה ובהירות."
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -4982,10 +4961,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:4
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Median"
-msgstr "פרטי מדיה:"
+msgstr "חציוני"
 
 #: data/effects/avfilter/avfilter_median.xml:5
 #: data/effects/avfilter/avfilter_scroll.xml:5
@@ -4999,10 +4977,9 @@ msgid "Horizontal radius"
 msgstr "רדיוס אופקי"
 
 #: data/effects/avfilter/avfilter_median.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "Set median radius"
-msgstr "<![CDATA[היסט לאורך ציר Y]]>"
+msgstr "הגדרת רדיוס חציוני"
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, kde-format
@@ -5030,10 +5007,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select which planes to process]]>"
+#, kde-format
 msgid "Select which planes to process"
-msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
+msgstr "בחירת מישורים לעיבוד"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -5146,10 +5122,9 @@ msgid "<b><u>Component #3</u></b> Noise Seed"
 msgstr "גרעין רעש <b><u>רכיב מס׳ 3</u></b>"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
-#, fuzzy, kde-format
-#| msgid "Normal view"
+#, kde-format
 msgid "Normalize RGB video"
-msgstr "תצוגה רגילה"
+msgstr "נרמול סרטון RGB"
 
 #: data/effects/avfilter/avfilter_normalize.xml:5
 #, kde-format
@@ -5226,10 +5201,9 @@ msgid "Trace X Position"
 msgstr "מעקב אחר מקום ב־Y"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[X position of the trace profile]]>"
+#, kde-format
 msgid "X position of the trace profile"
-msgstr "<![CDATA[מקום ב־X של פרופיל המעקב]]>"
+msgstr "מקום ב־X של פרופיל המעקב"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, kde-format
@@ -5237,16 +5211,14 @@ msgid "Trace Y Position"
 msgstr "מעקב אחר מקום ב־X"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Y position of the trace profile]]>"
+#, kde-format
 msgid "Y position of the trace profile"
-msgstr "<![CDATA[מקום ב־Y של פרופיל המעקב]]>"
+msgstr "מקום ב־Y של פרופיל המעקב"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
+#, kde-format
 msgid "Size/length of the trace profile in pixel"
-msgstr "<![CDATA[גודל/אורך של פרופיל המעקב בפיקסלים]]>"
+msgstr "גודל/אורך של פרופיל המעקב בפיקסלים"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
@@ -5320,22 +5292,19 @@ msgid "Height of the scope display"
 msgstr "<![CDATA[היסט לאורך ציר X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be traced]]>"
+#, kde-format
 msgid "Select the components to be traced"
-msgstr "<![CDATA[נא לבחור את הרכיבים למעקב]]>"
+msgstr "נא לבחור את הרכיבים למעקב"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw Scope Grid"
-msgstr "ציור טבלה"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
-#, fuzzy, kde-format
-#| msgid "Switch Monitor"
+#, kde-format
 msgid "Switch grid on or off"
-msgstr "החלפת צג"
+msgstr "כיבוי/הפעלה של הרשת"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
@@ -5624,13 +5593,13 @@ msgstr ""
 #| "<![CDATA[Sets the value which the filtered result will be multiplied "
 #| "with ]]>"
 msgid "Sets the value which the filtered result will be multiplied with "
-msgstr "<![CDATA[הגדרת הערך להכפלת התוצאות המסוננות]]>"
+msgstr "הגדרת הערך להכפלת התוצאות המסוננות"
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
 #, fuzzy, kde-format
 #| msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
 msgid "Sets the value which will be added to filtered result"
-msgstr "<![CDATA[הגדרת הערך שיתווסף לתוצאות שסוננו]]>"
+msgstr "הגדרת הערך שיתווסף לתוצאות שסוננו"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
@@ -6803,16 +6772,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the display mode]]>"
+#, kde-format
 msgid "Set the display mode"
-msgstr "<![CDATA[הגדרת מצב התצוגה]]>"
+msgstr "הגדרת מצב התצוגה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the components to be displayed]]>"
+#, kde-format
 msgid "Select the components to be displayed"
-msgstr "<![CDATA[בחירת הרכיבים לתצוגה]]>"
+msgstr "בחירת הרכיבים לתצוגה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -6820,10 +6787,9 @@ msgid "Y,U,YU,V,YV,UV,All"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the envelope mode]]>"
+#, kde-format
 msgid "Set the envelope mode"
-msgstr "<![CDATA[הגדרת מצב המעטפה]]>"
+msgstr "הגדרת מצב המעטפה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -6836,10 +6802,9 @@ msgid "Filter"
 msgstr "מסנן"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the filter mode]]>"
+#, kde-format
 msgid "Set the filter mode"
-msgstr "<![CDATA[הגדרת מצב המסנן]]>"
+msgstr "הגדרת מצב המסנן"
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
 #, kde-format
@@ -6875,10 +6840,9 @@ msgid "Show numbers,Draw dots"
 msgstr "הצגת מספרים,ציור נקודות"
 
 #: data/effects/avfilter/avfilter_waveform.xml:60
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "Set scale used for displaying graticule"
-msgstr "<![CDATA[היסט לאורך ציר Y]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
@@ -6886,10 +6850,9 @@ msgid "Digital,Millivolts,IRE"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the background opacity]]>"
+#, kde-format
 msgid "Set the background opacity"
-msgstr "<![CDATA[הגדרת אטימות הרקע]]>"
+msgstr "הגדרת אטימות הרקע"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
@@ -6910,10 +6873,9 @@ msgid "Fit Mode"
 msgstr "מצב התאמה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the fit mode]]>"
+#, kde-format
 msgid "Set the fit mode"
-msgstr "<![CDATA[הגדרת מצב ההתאמה]]>"
+msgstr "הגדרת מצב ההתאמה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
@@ -6926,10 +6888,9 @@ msgid "Input Format"
 msgstr "תסדיר קלט"
 
 #: data/effects/avfilter/avfilter_waveform.xml:84
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the radius for the direction]]>"
+#, kde-format
 msgid "Set input formats for filter to pick from"
-msgstr "<![CDATA[הגדרת הרדיוס לכיוון]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
 #, kde-format
@@ -6956,9 +6917,9 @@ msgid "Top,Bottom"
 msgstr "למעלה,למטה"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "xBR Interpolator"
-msgstr "בין"
+msgstr "מביין xBR"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6968,10 +6929,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
-#, fuzzy, kde-format
-#| msgid "Line Tension"
+#, kde-format
 msgid "Scaling dimension"
-msgstr "מתח קו"
+msgstr "ממד שינוי קנה מידה"
 
 #: data/effects/avfilter/avfilter_xbr.xml:9
 #, kde-format
@@ -7056,10 +7016,9 @@ msgid "Subtitles"
 msgstr "כתוביות"
 
 #: data/effects/avfilter/subtitles.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Render subtitles onto the video"
-msgstr "הוספת שעון תזמון על גבי הסרטון"
+msgstr "תיצוג כתוביות לתוך הסרטון"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, kde-format
@@ -7229,19 +7188,15 @@ msgid "Make image greyscale except for chosen color"
 msgstr "הפיכת תמונה לגווני אפור למעט צבע נבחר"
 
 #: data/effects/chroma_hold.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
-#| "        Lower values keep the colors closer to the selected one; higher "
-#| "values include more colors.]]>"
+#, kde-format
 msgid ""
 "Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors."
 msgstr ""
-"<![CDATA[אחוז הסטייה מערך הצבע הנבחר.<br>\n"
+"אחוז הסטייה מערך הצבע הנבחר.<br>\n"
 "        ערכים קטנים יותר משאירים את הצבעים דומים לאלו שנבחרו, ערכים גדולים "
-"כוללים מנעד רחב יותר של צבעים.]]>"
+"כוללים מנעד רחב יותר של צבעים."
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -7503,15 +7458,13 @@ msgid "Text"
 msgstr "טקסט"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "You can also enter strftime parameters to customize the output, like: "
-#| "#createdate %H:%M %D#"
+#, no-c-format, kde-format
 msgid ""
 "You can also enter <i>strftime</i> parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
-"אפשר גם למלא משתני strftime כדי לכוון את הפלט, למשל: #תאריך_יצירה %H:%M %D#"
+"אפשר גם למלא משתני <i>strftime</i> כדי לכוון את הפלט, למשל: #תאריך_יצירה %H:"
+"%M %D#"
 
 #: data/effects/dynamictext.xml:45
 #, fuzzy, kde-format
@@ -7711,16 +7664,14 @@ msgid "Fade factor"
 msgstr "מקדם עמעום"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Disappearance Rate of the echo]]>"
+#, kde-format
 msgid "Disappearance Rate of the echo"
-msgstr "<![CDATA[קצב התפוגגות ההד]]>"
+msgstr "קצב התפוגגות ההד"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Darker or Brighter echo]]>"
+#, kde-format
 msgid "Darker or Brighter echo"
-msgstr "<![CDATA[הד כהה או בהיר יותר]]>"
+msgstr "הד כהה או בהיר יותר"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
@@ -7728,10 +7679,9 @@ msgid "Keep RED"
 msgstr "להשאיר את האדום"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence on Red channel]]>"
+#, kde-format
 msgid "Influence on Red channel"
-msgstr "<![CDATA[השפעה על הערוץ האדום]]>"
+msgstr "השפעה על הערוץ האדום"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
 #, kde-format
@@ -7739,10 +7689,9 @@ msgid "Keep GREEN"
 msgstr "להשאיר את הירוק"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence on Green channel]]>"
+#, kde-format
 msgid "Influence on Green channel"
-msgstr "<![CDATA[השפעה על הערוץ הירוק]]>"
+msgstr "[השפעה על הערוץ הירוק"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
@@ -7750,10 +7699,9 @@ msgid "Keep BLUE"
 msgstr "להשאיר כחול"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence on Blue channel]]>"
+#, kde-format
 msgid "Influence on Blue channel"
-msgstr "<![CDATA[השפעה על הערוץ הכחול]]>"
+msgstr "השפעה על הערוץ הכחול"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, fuzzy, kde-format
@@ -7761,10 +7709,9 @@ msgid "Strobe period"
 msgstr "רוחב מעבר"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
+#, kde-format
 msgid "Rate of the stroboscope (from 0 to 8 frames)"
-msgstr "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
@@ -7881,10 +7828,9 @@ msgstr "מקום"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:9
 #: data/effects/frei0r/frei0r_alphagrad.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define where the gradient starts.]]>"
+#, kde-format
 msgid "Define where the gradient starts."
-msgstr "<![CDATA[הגדרה איפה מתחיל המדרג.]]>"
+msgstr "הגדרה איפה מתחיל המדרג."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
@@ -7901,10 +7847,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle for the gradient.]]>"
+#, kde-format
 msgid "Angle for the gradient."
-msgstr "<![CDATA[זווית למדרג.]]>"
+msgstr "זווית למדרג."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:20
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
@@ -7914,10 +7859,9 @@ msgstr "ראש שקיפות"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
 #: data/effects/frei0r/frei0r_alphagrad.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
+#, kde-format
 msgid "Define the transparency at the top of the gradient."
-msgstr "<![CDATA[הגדרת השקיפות בראש המדרג.]]>"
+msgstr "הגדרת השקיפות בראש המדרג."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
@@ -7927,10 +7871,9 @@ msgstr "תחתית שקיפות"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
 #: data/effects/frei0r/frei0r_alphagrad.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
+#, kde-format
 msgid "Define the transparency at the bottom of the gradient."
-msgstr "<![CDATA[הגדרת השקיפות בתחתית המדרג.]]>"
+msgstr "הגדרת השקיפות בתחתית המדרג."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:29
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
@@ -8153,10 +8096,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "Determines the sampling method."
-msgstr "<![CDATA[היסט לאורך ציר X]]>"
+msgstr "קביעת שיטת הדגימה."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
@@ -8176,16 +8118,14 @@ msgid "Top Enabled"
 msgstr "עליון פעיל"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Enables parameters for top portion]]>"
+#, kde-format
 msgid "Enables parameters for top portion"
-msgstr "<![CDATA[הפעלת משתנים לחלק העליון]]>"
+msgstr "הפעלת משתנים לחלק העליון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Top--</b> Start]]>"
+#, kde-format
 msgid "<b>--Top--</b> Start"
-msgstr "<![CDATA[<b>--למעלה--</b> התחלה]]>"
+msgstr "<b>--למעלה--</b> התחלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
 #, kde-format
@@ -8219,10 +8159,9 @@ msgstr "מיזוג פנימה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+#, kde-format
 msgid "Degrees towards the horizon to sample from"
-msgstr "<![CDATA[מעלות לעבר האופק לדגימה]]>"
+msgstr "מעלות לעבר האופק לדגימה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
@@ -8232,10 +8171,9 @@ msgstr "מיזוג החוצה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+#, kde-format
 msgid "Degrees away from the horizon to sample to"
-msgstr "<![CDATA[מעלות הרחק מהאופק לדגימה]]>"
+msgstr "מעלות הרחק מהאופק לדגימה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
@@ -8245,17 +8183,15 @@ msgstr "עמעום פנימה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees to fade the effect in over]]>"
+#, kde-format
 msgid "Degrees to fade the effect in over"
-msgstr "<![CDATA[מעלות לעמעום האפקט כלפיהן]]>"
+msgstr "מעלות לעמעום האפקט כלפיהן"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur width at start]]>"
+#, kde-format
 msgid "Blur width at start"
-msgstr "<![CDATA[רוחב טשטוש בהתחלה]]>"
+msgstr "רוחב טשטוש בהתחלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
 #, kde-format
@@ -8264,10 +8200,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur width at end]]>"
+#, kde-format
 msgid "Blur width at end"
-msgstr "<![CDATA[רוחב טשטוש בסוף]]>"
+msgstr "רוחב טשטוש בסוף"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
@@ -8277,10 +8212,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur height at start]]>"
+#, kde-format
 msgid "Blur height at start"
-msgstr "<![CDATA[גובה טשטוש בהתחלה]]>"
+msgstr "גובה טשטוש בהתחלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
@@ -8290,10 +8224,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Blur height at end]]>"
+#, kde-format
 msgid "Blur height at end"
-msgstr "<![CDATA[גובה טשטוש בסוף]]>"
+msgstr "גובה טשטוש בסוף"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
@@ -8307,16 +8240,14 @@ msgid "Bottom Enabled"
 msgstr "תחתון פעיל"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "comment"
 msgstr "הערה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
-#, fuzzy, kde-format
-#| msgid "<![CDATA[<b>--Top--</b> Start]]>"
+#, kde-format
 msgid "<b>--Bottom--</b> Start"
-msgstr "<![CDATA[<b>--למעלה--</b> התחלה]]>"
+msgstr "<b>--תחתית--</b> התחלה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
@@ -8459,17 +8390,13 @@ msgid "FOV"
 msgstr "שדה ראייה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:25
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The horizontal field of view, in degrees, of the resulting frame."
-#| "<br>\n"
-#| "    \tAny value over 179 results in a fisheye projection.]]>"
+#, kde-format
 msgid ""
 "The horizontal field of view, in degrees, of the resulting frame.<br>\n"
 "    \tAny value over 179 results in a fisheye projection."
 msgstr ""
-"<![CDATA[שדה הראייה האופקי, במעלות, של התמונית המיועדת.<br>\n"
-"    \tכל ערך מעל 179 גורם להיטל עין הדג.]]>"
+"שדה הראייה האופקי, במעלות, של התמונית המיועדת.<br>\n"
+"    \tכל ערך מעל 179 גורם להיטל עין הדג."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:28
 #, kde-format
@@ -8477,16 +8404,13 @@ msgid "Fisheye"
 msgstr "עין הדג"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:30
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[The amount of fisheye to mix in.<br>\n"
-#| "    \t100 means that you get a 100% fisheye lens.]]>"
+#, no-c-format, kde-format
 msgid ""
 "The amount of fisheye to mix in.<br>\n"
 "    \t100 means that you get a 100% fisheye lens."
 msgstr ""
-"<![CDATA[כמות עין הדג למיזוג פנימה.<br>\n"
-"    \t100 משמעו שתתקבל 100% עדשת עין הדג.]]>"
+"כמות עין הדג למיזוג פנימה.<br>\n"
+"    \t100 משמעו שתתקבל 100% עדשת עין הדג."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -8518,19 +8442,17 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Determines the sampling method]]>"
+#, kde-format
 msgid "Determines the sampling method"
-msgstr "<![CDATA[קביעת שיטת הדגימה]]>"
+msgstr "קביעת שיטת הדגימה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+#, kde-format
 msgid "Degrees from the center of the image to keep unchanged"
-msgstr "<![CDATA[מעלות ממרכז התמונה שתישארנה ללא שינוי]]>"
+msgstr "מעלות ממרכז התמונה שתישארנה ללא שינוי"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
 #, kde-format
@@ -8900,10 +8822,9 @@ msgid "Motion analysis file"
 msgstr "קובץ ניתוח תנועה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select the file to store stabilization data in]]>"
+#, kde-format
 msgid "Select the file to store stabilization data in"
-msgstr "<![CDATA[נא לבחור את הקובץ לאחסון נתוני הייצוב]]>"
+msgstr "נא לבחור את הקובץ לאחסון נתוני הייצוב"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
@@ -8946,10 +8867,9 @@ msgid "Analysis offset"
 msgstr "היסט אבחון"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The distance between the track points]]>"
+#, kde-format
 msgid "The distance between the track points"
-msgstr "<![CDATA[המרחק בין נקודות הרצועה]]>"
+msgstr "המרחק בין נקודות הרצועה"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -9072,10 +8992,9 @@ msgid "Blue Screen (Color to Alpha)"
 msgstr "מסך כחול (צבע לשקיפות)"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Turns the selected color into alpha making it transparent."
-msgstr "הפיכת הצבע הנבחר לשקוף"
+msgstr "הפיכת הצבע הנבחר לאלפא מה שיהפוך אותו לשקוף"
 
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:14
 #, kde-format
@@ -9726,8 +9645,7 @@ msgid "HQ 3D Denoiser (frei0r)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "High quality 3D denoiser"
 msgstr "מכבה רעשים תלת־ממדי באיכות גבוהה"
 
@@ -9745,15 +9663,15 @@ msgstr "כמות הסינון המרחבי"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:12
 #: data/effects/frei0r/frei0r_hqdn3d.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Temporal"
-msgstr "קבצים זמניים"
+msgstr "זמני"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:13
 #: data/effects/frei0r/frei0r_hqdn3d.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Amount of temporal filtering"
-msgstr "סכום"
+msgstr "כמות הסינון הזמני"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:4
 #, kde-format
@@ -9877,10 +9795,9 @@ msgid "Linear Width"
 msgstr "רוחב קווי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Width of the linear area]]>"
+#, kde-format
 msgid "Width of the linear area"
-msgstr "<![CDATA[רוחב האזור הקווי]]>"
+msgstr "רוחב האזור הקווי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:17
 #, kde-format
@@ -9888,16 +9805,14 @@ msgid "Linear Scale Factor"
 msgstr "מקדם קנה מידה קווי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Amount how much the linear area is scaled]]>"
+#, kde-format
 msgid "Amount how much the linear area is scaled"
-msgstr "<![CDATA[כמות לשינוי גודל האזור הקווי]]>"
+msgstr "כמות לשינוי גודל האזור הקווי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:21
-#, fuzzy, kde-format
-#| msgid "Nonlinear scale"
+#, kde-format
 msgid "Non-Linear Scale Factor"
-msgstr "קנה־מידה א־ליניארי"
+msgstr "מקדם קנה מידה א־ליניארי"
 
 #: data/effects/frei0r/frei0r_elastic_scale.xml:23
 #, kde-format
@@ -10165,10 +10080,9 @@ msgid "Grain Amount"
 msgstr "כמות גרגרים"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The intensity of the grain]]>"
+#, kde-format
 msgid "The intensity of the grain"
-msgstr "<![CDATA[חוזק הגרגרים]]>"
+msgstr "חוזק הגרגרים"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
@@ -10176,10 +10090,9 @@ msgid "Red Grain"
 msgstr "גרגר אדום"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+#, kde-format
 msgid "The percentage of grain applied to the red channel"
-msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ האדום]]>"
+msgstr "אחוז הגרגריות שחל על הערוץ הירוק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -10187,10 +10100,9 @@ msgid "Green Grain"
 msgstr "גרגר ירוק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+#, kde-format
 msgid "The percentage of grain applied to the green channel"
-msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ הירוק]]>"
+msgstr "אחוז הגרגריות שחל על הערוץ הירוק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, kde-format
@@ -10198,10 +10110,9 @@ msgid "Blue Grain"
 msgstr "גרגר כחול"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+#, kde-format
 msgid "The percentage of grain applied to the blue channel"
-msgstr "<![CDATA[אחוז הגרגר שחל על הערוץ הכחול]]>"
+msgstr "אחוז הגרגריות שחל על הערוץ הכחול"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
@@ -10209,10 +10120,9 @@ msgid "Blur Amount"
 msgstr "כמות טשטוש"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The intensity of the blur]]>"
+#, kde-format
 msgid "The intensity of the blur"
-msgstr "<![CDATA[חוזק הטשטוש]]>"
+msgstr "עוצמת הטשטוש"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
@@ -10220,10 +10130,9 @@ msgid "Dust Amount"
 msgstr "כמות אבק"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of dust particles added to the image]]>"
+#, kde-format
 msgid "The amount of dust particles added to the image"
-msgstr "<![CDATA[כמות חלקיקי האבק שנוספים לתמונה]]>"
+msgstr "כמות חלקיקי האבק שנוספים לתמונה"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10231,10 +10140,9 @@ msgid "Flicker Amount"
 msgstr "כמות הבהוב"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+#, kde-format
 msgid "The amount of variation in brightness between frames"
-msgstr "<![CDATA[כמות ]]>"
+msgstr "כמות השינוי בבהירות בין התמוניות"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, fuzzy, kde-format
@@ -10295,11 +10203,9 @@ msgid "Maximum Horizontal Movement"
 msgstr "כמות תנועה אופקית מרבית"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The maximum distance the picture could move left or right]]>"
+#, kde-format
 msgid "The maximum distance the picture could move left or right"
-msgstr "<![CDATA[המרחק המרבי שהתמונה יכולה לנוע שמאלה או ימינה]]>"
+msgstr "המרחק המרבי שהתמונה יכולה לנוע שמאלה או ימינה"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
 #, kde-format
@@ -10307,10 +10213,9 @@ msgid "Maximum Vertical Movement"
 msgstr "כמות תנועה אנכית מרבית"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[The maximum distance the picture could move up or down]]>"
+#, kde-format
 msgid "The maximum distance the picture could move up or down"
-msgstr "<![CDATA[המרחק המרבי שהתמונה יכולה לנוע למעלה או למטה]]>"
+msgstr "המרחק המרבי שהתמונה יכולה לנוע למעלה או למטה"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
@@ -10334,10 +10239,9 @@ msgid "Shift Intensity"
 msgstr "עוצמת הזחה"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:17
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Color Glitching Intensity"
-msgstr "עוצמה"
+msgstr "עוצמת גלישת צבעים"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
 #, kde-format
@@ -11056,10 +10960,9 @@ msgid "Rectangular Alpha mask"
 msgstr "מסכת אלפא מרובעת"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:5
-#, fuzzy, kde-format
-#| msgid "Create a shadow effect from the alpha channel"
+#, kde-format
 msgid "Creates an square alpha-channel mask"
-msgstr "יצירת אפקט צל מערוץ השקיפות"
+msgstr "יוצר מסכת ערוץ אלפא מרובעת"
 
 #: data/effects/frei0r/frei0r_measure_pr0be.xml:4
 #, kde-format
@@ -11160,17 +11063,15 @@ msgstr "<![CDATA[נקודת ציון ב־Y של הפרופיל]]>"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:16
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Tilt"
-msgstr "פרופיל"
+msgstr "הטיית פרופיל"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:17
 #: data/effects/frei0r/frei0r_pr0file.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the profile]]>"
+#, kde-format
 msgid "Tilting of the profile"
-msgstr "<![CDATA[הטיית הפרופיל]]>"
+msgstr "הטיית הפרופיל"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:20
 #: data/effects/frei0r/frei0r_pr0file.xml:21
@@ -11180,17 +11081,15 @@ msgstr "אורך פרופיל"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:21
 #: data/effects/frei0r/frei0r_pr0file.xml:22
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "Length of the profile in pixel"
-msgstr "<![CDATA[אורך הפרופיל בפיקסלים]]>"
+msgstr "אורך הפרופיל בפיקסלים"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:25
 #: data/effects/frei0r/frei0r_pr0file.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Channel to numerically display]]>"
+#, kde-format
 msgid "Channel to numerically display"
-msgstr "<![CDATA[ערוץ להצגה מספרית]]>"
+msgstr "ערוץ להצגה מספרית"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
 #: data/effects/frei0r/frei0r_pr0file.xml:27
@@ -11206,10 +11105,9 @@ msgstr "סמן 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:30
 #: data/effects/frei0r/frei0r_pr0file.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Position of marker 1]]>"
+#, kde-format
 msgid "Position of marker 1"
-msgstr "<![CDATA[מקום סמן 1]]>"
+msgstr "מקום סמן 1"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:33
 #: data/effects/frei0r/frei0r_pr0file.xml:34
@@ -11219,10 +11117,9 @@ msgstr "סמן 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:34
 #: data/effects/frei0r/frei0r_pr0file.xml:35
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Position of marker 2]]>"
+#, kde-format
 msgid "Position of marker 2"
-msgstr "<![CDATA[מקום סמן 2]]>"
+msgstr "מקום סמן 2"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:37
 #: data/effects/frei0r/frei0r_pr0file.xml:38
@@ -11368,10 +11265,9 @@ msgstr "הצגת הערך המרבי"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:82
 #: data/effects/frei0r/frei0r_pr0file.xml:83
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
+#, kde-format
 msgid "Use a scale of 0-255 instead of 0.0-1.0"
-msgstr "<![CDATA[להשתמש בטווח של 0-255 במקום 0.0-1.0]]>"
+msgstr "להשתמש בטווח של 0-255 במקום 0.0-1.0"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:85
 #: data/effects/frei0r/frei0r_pr0file.xml:86
@@ -11381,10 +11277,9 @@ msgstr "קידוד צבע"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:86
 #: data/effects/frei0r/frei0r_pr0file.xml:87
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
+#, kde-format
 msgid "Select between interlaced (601) or progressive (709)"
-msgstr "<![CDATA[נא לבחור בין שלוב (601) למדורג (709)]]>"
+msgstr "נא לבחור בין שזור (601) למדורג (709)"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:87
 #: data/effects/frei0r/frei0r_pr0file.xml:88
@@ -11400,10 +11295,9 @@ msgstr "צבע צלב"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:91
 #: data/effects/frei0r/frei0r_pr0file.xml:92
-#, fuzzy, kde-format
-#| msgid "Sets the color #1 for the graph line"
+#, kde-format
 msgid "Choose a color for the crosshair/profile line"
-msgstr "הגדרת צבע מס׳ 1 לתרשים"
+msgstr "בחירת צבע לקו סמן צלב/פרופיל"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, fuzzy, kde-format
@@ -12602,20 +12496,7 @@ msgid "Crop mode vertical"
 msgstr "מצב חיתוך אנכי"
 
 #: data/effects/gpsgraphic.xml:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop "
-#| "top</em> values.<br/>\n"
-#| "    \tWith an absolute value, it can zoom in to between 100 and 150m of "
-#| "altitude to show\n"
-#| "small changes in altitude between those 2 values better.<br/>\n"
-#| "Note: for the vertical type, absolute values are latitude degrees (for "
-#| "the location\n"
-#| "source type) and altitude, heart rate, speed for the others interpreted "
-#| "as the <em>Legend unit</em>\n"
-#| "type where applicable (ie: a value of 10 for altitude will be considered "
-#| "meters by default\n"
-#| "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
+#, kde-format
 msgid ""
 "Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</em> "
 "values.<br/>\n"
@@ -12630,14 +12511,13 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet)."
 msgstr ""
-"<![CDATA[מחליט איך לפענח את ערכי<em>חיתוך מלמטה</em> ו<em>חיתוך מלמעלה</em>."
-"<br/>\n"
+"מחליט איך לפענח את ערכי<em>חיתוך מלמטה</em> ו<em>חיתוך מלמעלה</em>.<br/>\n"
 "    \tעם ערך מוחלט, אפשר להתקרב לגובה של בין 100 ל־150 מטר כדי להציג שינויים "
 "קטנים בגובה בין שני הערכים האלה בצורה טובה יותר.<br/>\n"
 "לשימת ליבך: לסוג האנכי, ערכים מוחלטים עם מעולה קו גובה (לסוג מקור המקום)\n"
 "וגובה, דופק ומהירות לאחרים שמפוענחים בתור סוג <em>יחידת מקרא</em>\n"
 "איפה שנחוץ (למשל: ערך של גובה 10 ייחשב למטרים כברירת מחדל אבל <em>יחידת "
-"המקרא</em> לרגל אז זה יהיה 10 מטרים).]]>"
+"המקרא</em> לרגל אז זה יהיה 10 מטרים)."
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -12645,17 +12525,7 @@ msgid "Crop bottom"
 msgstr "חיתוך מלמטה"
 
 #: data/effects/gpsgraphic.xml:83
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[Crops data from the bottom side of the graph (effectively "
-#| "zooming in). <br>\n"
-#| "    \tThe value is interpreted either as a percentage of total or an "
-#| "absolute value depending on crop_mode_v. In percentage mode the values "
-#| "are not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: "
-#| "cropping -50 bot will add an extra half of the total vertical distance to "
-#| "the bottom). Values over 100 (in % mode) will effectively not display "
-#| "anything. If <em>Graph type</em> is <b>Speedometer</b>, this will set the "
-#| "minimum needle position which will clamp all values that are lower.]]>"
+#, no-c-format, kde-format
 msgid ""
 "Crops data from the bottom side of the graph (effectively zooming in). <br>\n"
 "    \tThe value is interpreted either as a percentage of total or an "
@@ -12666,12 +12536,12 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower."
 msgstr ""
-"<![CDATA[חיתוך הנתונים מתחתית התרשים (בפועל זאת התקרבות). <br>\n"
+"חיתוך הנתונים מתחתית התרשים (בפועל זאת התקרבות). <br>\n"
 "    \tהערך מפוענח כאחוז מסך הכול או ערך מוחלט כתלות ב־crop_mode_v. במצב אחוז "
 "הערכים לא מוגבלים ל־0-100 כדי לאפשר התנהגות „התרחקות” (כלומר: חיתוך ‎-50 גם "
 "יוסיף עוד חצי מסך כל המרחק האנכי לתחתית. ערכים מעל 100 (במצב %) לא יציג כלום "
 "בפועל. אם <em>סוג התרשים</em> הוא <b>מד אוץ</b>, זה יגדיר את מקום הנעץ הקטן "
-"ביותר שיקבץ תחתיו את כל הערכים הקטנים ממנו.]]>"
+"ביותר שיקבץ תחתיו את כל הערכים הקטנים ממנו."
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -12679,20 +12549,15 @@ msgid "Crop top"
 msgstr "חיתוך מלמעלה"
 
 #: data/effects/gpsgraphic.xml:88
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Same as <em>Crop bottom</em> but for the top side, and "
-#| "percentage type is interpreted as an inverse percentage (ie: 100 = do not "
-#| "crop anything).<br>\n"
-#| "    \tValues under 0 will effectively not display anything.]]>"
+#, kde-format
 msgid ""
 "Same as <em>Crop bottom</em> but for the top side, and percentage type is "
 "interpreted as an inverse percentage (ie: 100 = do not crop anything).<br>\n"
 "    \tValues under 0 will effectively not display anything."
 msgstr ""
-"<![CDATA[כמו <em>חיתוך מלמטה</em> אבל לחלק העליון, וסוג האחוזים מפוענח כאחוז "
-"הפוך (כלומר: 100 = לא לחתוך כלום).<br>\n"
-"    \tערכים קטנים מאפס 0 בפועל לא יציגו שום דבר.]]>"
+"כמו <em>חיתוך מלמטה</em> אבל לחלק העליון, וסוג האחוזים מפוענח כאחוז הפוך "
+"(כלומר: 100 = לא לחתוך כלום).<br>\n"
+"    \tערכים קטנים מאפס 0 בפועל לא יציגו שום דבר."
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -12747,18 +12612,14 @@ msgid "Show Now dot"
 msgstr "הצגת נקודת עכשיו"
 
 #: data/effects/gpsgraphic.xml:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Enable it to draw a disc at the current location/time over the "
-#| "graph line.<br>\n"
-#| "    \tIf graph type is speedometer, this affects the needle.]]>"
+#, kde-format
 msgid ""
 "Enable it to draw a disc at the current location/time over the graph line."
 "<br>\n"
 "    \tIf graph type is speedometer, this affects the needle."
 msgstr ""
-"<![CDATA[יש להפעיל כדי לצייר טבעת במקום הנוכחי על גבי קו התרשים.<br>\n"
-"    \tאם סוג התרשים הוא מד־אוץ, ההגדרה תשפיע על המחט.]]>"
+"יש להפעיל כדי לצייר טבעת במקום הנוכחי על גבי קו התרשים.<br>\n"
+"    \tאם סוג התרשים הוא מד־אוץ, ההגדרה תשפיע על המחט."
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
@@ -12776,13 +12637,7 @@ msgid "Show Now text"
 msgstr "הצגת טקסט עכשיו"
 
 #: data/effects/gpsgraphic.xml:127
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Enable it to draw the current value in big white bold letters on "
-#| "the bottom right side of the rect.<br>\n"
-#| "    \tThe <em>Legend unit</em> value will be appended at the end and it "
-#| "will be used as the current unit (if a valid unit is found ie: kilometers "
-#| "if \"km\" is found anywhere in the <em>Legend unit</em> string).]]>"
+#, kde-format
 msgid ""
 "Enable it to draw the current value in big white bold letters on the bottom "
 "right side of the rect.<br>\n"
@@ -12790,11 +12645,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string)."
 msgstr ""
-"<![CDATA[יש להפעיל כדי לצייר את הערך הנוכחי באותיות לבנות גדולות בצד השמאלי "
-"של המרובע.<br>\n"
+"יש להפעיל כדי לצייר את הערך הנוכחי באותיות לבנות גדולות בצד השמאלי של המרובע."
+"<br>\n"
 "    \tערך <em>יחידת המקרא</em> יתווסף בסוף והוא ישמש בתור היחידה הנוכחית (אם "
 "נמצאה יחידה תקינה, כלומר: קילומטרים אם „ק״מ” נמצא איפשהו במחרוזת <em>יחידת "
-"המקרא</em>).]]>"
+"המקרא</em>)."
 
 #: data/effects/gpsgraphic.xml:131
 #, kde-format
@@ -12819,15 +12674,7 @@ msgid "Draw legend"
 msgstr "ציור מקרא"
 
 #: data/effects/gpsgraphic.xml:140
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
-#| "<br>\n"
-#| "    \tlines with small values each corresponding to the current data "
-#| "source value at 0%, 25%, 50%, 75% and 100% of current graph shown, "
-#| "affected by the <em>Legend unit</em> type if applicable, and with the "
-#| "string appended to the value. For speedometer type this shows division "
-#| "values (but without appending unit).]]>"
+#, no-c-format, kde-format
 msgid ""
 "If enabled it will draw 5 horizontal (and vertical for map type) <br>\n"
 "    \tlines with small values each corresponding to the current data source "
@@ -12836,11 +12683,11 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit)."
 msgstr ""
-"<![CDATA[אם האפשרות פעולה יצוירו 5 קווים אופקיים (ואנכיים לסוג המפה) <br>\n"
+"אם האפשרות פעולה יצוירו 5 קווים אופקיים (ואנכיים לסוג המפה) <br>\n"
 "    \tעם ערכים קטנים שכל אחד תואם לערך מקור הנתונים הנוכחי על סך 0%, 25%, "
 "50%, 75% ו־100% של התרשים הנוכחי שמוצג, בהשפעת סוג <em>יחידת המקרא</em> אם "
 "תקף, ועם המחרוזת שנוספת לערך. לסוג מד־אוץ יופיעו ערכי חלוקה (אבל בלי היחידה "
-"כתוספת).]]>"
+"כתוספת)."
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -12848,21 +12695,16 @@ msgid "Legend unit"
 msgstr "יחידת מקרא"
 
 #: data/effects/gpsgraphic.xml:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Sets the unit to be used for displaying values of type altitude "
-#| "and speed.<br>\n"
-#| "        Default is meters and km/h respectively. The unit is matched "
-#| "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
+#, kde-format
 msgid ""
 "Sets the unit to be used for displaying values of type altitude and speed."
 "<br>\n"
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying."
 msgstr ""
-"<![CDATA[הגדרת היחידה לשימוש להצגת ערכים של גובה ומהירות.<br>\n"
+"הגדרת היחידה לשימוש להצגת ערכים של גובה ומהירות.<br>\n"
 "        ברירת המחדל היא מטרים וקמ״ש בהתאמה. היחידה נתפסת בכל מקום במחרוזת כך "
-"שניתן להשתמש ברווחים נוספים כדי לשפר את ההצגה.]]>"
+"שניתן להשתמש ברווחים נוספים כדי לשפר את ההצגה."
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -13711,16 +13553,15 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:15
 #: data/effects/ladspa/ladspa_2153.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Offset Gain"
-msgstr "הסט"
+msgstr "שבח היסט"
 
 #: data/effects/ladspa/ladspa_2152.xml:18
 #: data/effects/ladspa/ladspa_2153.xml:18
-#, fuzzy, kde-format
-#| msgid "Output Gain"
+#, kde-format
 msgid "Makeup Gain"
-msgstr "שבח פלט"
+msgstr "שבח פיצוי"
 
 #: data/effects/ladspa/ladspa_2152.xml:21
 #: data/effects/ladspa/ladspa_2153.xml:27
@@ -13759,10 +13600,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2153.xml:24
-#, fuzzy, kde-format
-#| msgid "Independence"
+#, kde-format
 msgid "Independent,Average,Peak"
-msgstr "עצמאות"
+msgstr "עצמאי,ממוצע,שיא"
 
 #: data/effects/ladspa/ladspa_2154.xml:4
 #, kde-format
@@ -13898,10 +13738,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:9
-#, fuzzy, kde-format
-#| msgid "Left Gain"
+#, kde-format
 msgid "Pre Gain"
-msgstr "שבח שמאלי"
+msgstr "שבח מקדים"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
@@ -13909,10 +13748,9 @@ msgid "Scales the input signal before the transfer function is applied to it."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2157.xml:13
-#, fuzzy, kde-format
-#| msgid "Sox Gain"
+#, kde-format
 msgid "Post Gain"
-msgstr "אפקט שבח"
+msgstr "שבח מאוחר"
 
 #: data/effects/ladspa/ladspa_2157.xml:14
 #, kde-format
@@ -19861,7 +19699,7 @@ msgstr "הוספת תגית"
 msgid "New tag"
 msgstr "תגית חדשה"
 
-#: src/capture/mediacapture.cpp:296
+#: src/capture/mediacapture.cpp:257
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -19869,7 +19707,7 @@ msgid ""
 msgstr ""
 "שמע במעקב. לחיצה על <b>רווח</b> תתחיל/תשהה את ההקלטה, <b>Esc</b> לסיום."
 
-#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:392 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -32296,23 +32134,23 @@ msgstr "לא ניתן להוסיף סרטון מהסל"
 msgid "All clips were not successfully copied"
 msgstr "לא כל הסרטונים הועתקו בהצלחה"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "לא ניתן להדביק פריטים בציר הזמן"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "הדבקת סרטונים בציר הזמן"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "הסרת מרווח ברצועה"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "מחיקת סרטונים מהרצועה"
