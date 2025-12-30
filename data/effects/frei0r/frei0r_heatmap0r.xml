@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.heatmap0r" id="frei0r.heatmap0r" type="video">
+    <name>Heatmap0r</name>
+    <description>Performs a continuous trichromatic tinting based on luminance</description>
+    <author>Cynthia</author>
+    <parameter type="color" name="0" default="0x45007fff">
+        <name>Map black to</name>
+        <comment><![CDATA[The color to map source color with zero luminance]]></comment>
+    </parameter>
+    <parameter type="color" name="1" default="0xff007fff">
+        <name>Map grey to</name>
+        <comment><![CDATA[The color to map source color with mid luminance]]></comment>
+    </parameter>
+    <parameter type="color" name="2" default="0xffff00ff">
+        <name>Map white to</name>
+        <comment><![CDATA[The color to map source color with full luminance]]></comment>
+    </parameter>
+    <parameter type="constant" name="3" default="0.5" min="0.0" max="1.0" decimals="3">
+        <name>Grey point</name>
+        <comment><![CDATA[Point in the luminance axis grey color is located]]></comment>
+    </parameter>
+</effect>
