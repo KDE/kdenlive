@@ -321,10 +321,7 @@ void MediaBrowser::connectView()
 void MediaBrowser::slotViewDoubleClicked()
 {
     KFileItemList files = m_op->selectedItems();
-    if (files.isEmpty()) {
-        return;
-    }
-    if (files.first().isDir()) {
+    if (files.isEmpty() || files.first().isDir()) {
         return;
     }
     if (KdenliveSettings::mediaDoubleClickImport()) {
