@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-29 00:42+0000\n"
-"PO-Revision-Date: 2025-12-18 04:57+0100\n"
+"PO-Revision-Date: 2025-12-29 06:49+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7006,6 +7006,8 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"შეყვანილი ვიდეოს ხაზგამოტოვების გაუქმება (\"yadif\" ნიშნავს \"yet another "
+"deinterlacing filter\")"
 
 #: data/effects/avfilter/avfilter_yadif.xml:9
 #, kde-format
@@ -7820,6 +7822,8 @@ msgstr "ოეპრაცია"
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
 msgstr ""
+"NO OP,გაპარსვა,მაგრად დაპატარავება,რბილად დაპატარავება,მაგარი ზრდა,რბილი "
+"ზრდა,ზღვარი"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:24
 #, kde-format
@@ -7838,6 +7842,8 @@ msgstr ""
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
+"NO OP,გაპარსვა,მაგრად დაპატარავება,რბილად დაპატარავება,მაგარი ზრდა,რბილი "
+"ზრდა,ზღვარი, დაბინდვა"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:50
 #, kde-format
