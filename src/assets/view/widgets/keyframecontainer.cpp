@@ -12,12 +12,14 @@
 #include "assets/keyframes/model/rect/rotatedrecthelper.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
+#include "assets/model/assetcommand.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/keyframeimport.h"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "lumaliftgainparam.hpp"
+#include "macros.hpp"
 #include "monitor/monitor.h"
 #include "utils/timecode.h"
 #include "widgets/choosecolorwidget.h"
@@ -37,6 +39,7 @@
 #include <QClipboard>
 #include <QDialogButtonBox>
 #include <QFormLayout>
+#include <QHBoxLayout>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -492,6 +495,7 @@ void KeyframeContainer::slotRefreshParams()
     int pos = getPosition();
     KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
+    Q_EMIT updateAnimCheckBox();
     while (auto ac = m_selectType->action(i)) {
         if (ac->data().toInt() == int(keyType)) {
             m_selectType->setCurrentItem(i);
@@ -803,9 +807,75 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
         double factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
         factor = qFuzzyIsNull(factor) ? 1 : factor;
+        QWidget *container = new QWidget(m_parent);
+        auto lay = new QHBoxLayout(container);
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(),
                                              m_model->data(index, AssetParameterModel::CompactRole).toBool(), m_parent);
+
+        QCheckBox *cb = new QCheckBox(m_parent);
+        cb->setToolTip(i18n("Enable keyframes"));
+        cb->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
+                            .toStringList()
+                            .contains(m_model->data(index, AssetParameterModel::NameRole).toString()));
+        // Update status on change
+        connect(this, &KeyframeContainer::updateAnimCheckBox, this, [this, cb, index]() {
+            QSignalBlocker bk(cb);
+            cb->setChecked(!m_model->data(index, AssetParameterModel::BlockedKeyframesRole)
+                                .toStringList()
+                                .contains(m_model->data(index, AssetParameterModel::NameRole).toString()));
+        });
+
+        // React on user toggle
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(cb, &QCheckBox::checkStateChanged, this, [this, index](Qt::CheckState state) {
+            bool checked = state == Qt::Checked;
+#else
+        connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this, index](int state) {
+            bool checked = state == 2;
+#endif
+            if (checked) {
+                // Re-enable keyframes, we only need to discard the blocking flag
+                QStringList currentBlocked = m_model->data(index, AssetParameterModel::BlockedKeyframesRole).toStringList();
+                currentBlocked.removeAll(m_model->data(index, AssetParameterModel::NameRole).toString());
+                currentBlocked.removeDuplicates();
+                const QVector<QPair<QString, QVariant>> values = {
+                    {QStringLiteral("kdenlive:block_keyframes"), QVariant(currentBlocked.join(QLatin1Char(';')))}};
+                auto *command = new AssetUpdateCommand(m_model, values);
+                pCore->pushUndo(command);
+            } else {
+                // Remove all keyframes and flag
+                const QStringList initialBlockState = m_model->data(index, AssetParameterModel::BlockedKeyframesRole).toStringList();
+                QStringList updatedBlockState = initialBlockState;
+                updatedBlockState.append(m_model->data(index, AssetParameterModel::NameRole).toString());
+                updatedBlockState.removeDuplicates();
+                Fun undo = []() { return true; };
+                Fun redo = []() { return true; };
+                Fun local_undo = [this, initialBlockState]() {
+                    const QVector<QPair<QString, QVariant>> values = {
+                        {QStringLiteral("kdenlive:block_keyframes"), QVariant(initialBlockState.join(QLatin1Char(';')))}};
+                    m_model->setParameters(values);
+                    return true;
+                };
+                Fun local_redo = [this, updatedBlockState]() {
+                    const QVector<QPair<QString, QVariant>> values = {
+                        {QStringLiteral("kdenlive:block_keyframes"), QVariant(updatedBlockState.join(QLatin1Char(';')))}};
+                    m_model->setParameters(values);
+                    return true;
+                };
+                local_redo();
+                auto km = m_keyframes->getKeyModel(index);
+                if (km) {
+                    km->removeAllKeyframes(undo, redo);
+                }
+                PUSH_LAMBDA(local_redo, redo);
+                PUSH_LAMBDA(local_undo, undo);
+                pCore->pushUndo(undo, redo, i18n("Remove and Disable Keyframes"));
+            }
+        });
+        lay->addWidget(doubleWidget);
+        lay->addWidget(cb);
+
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);
@@ -818,8 +888,10 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
             });
         }
         doubleWidget->setDragObjectName(QString::number(index.row()));
-        paramWidget = doubleWidget;
+        m_parameters[index] = doubleWidget;
         labelWidget = doubleWidget->createLabel();
+        m_layout->addRow(labelWidget, container);
+        return;
     }
     if (paramWidget) {
         m_parameters[index] = paramWidget;

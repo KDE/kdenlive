@@ -600,6 +600,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseSubAttributes(QStringLiteral("jobparam"), element);
     case FilterProgressRole:
         return m_filterProgress;
+    case BlockedKeyframesRole: {
+        const QString vals = m_asset->get("kdenlive:block_keyframes");
+        return vals.split(QLatin1Char(';'));
+    }
     case AlternateNameRole: {
         QDomNode child = element.firstChildElement(QStringLiteral("name"));
         if (child.toElement().hasAttribute(QStringLiteral("conditional"))) {
@@ -619,6 +623,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return !element.hasAttribute(QStringLiteral("notintimeline"));
     case AlphaRole:
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
+    case SupportsAnimationRole: {
+        auto type = m_params.at(paramName).type;
+        return type == ParamType::AnimatedRect || type == ParamType::KeyframeParam || type == ParamType::KeyframeParam || type == ParamType::Roto_spline;
+    }
     case ValueRole: {
         if (m_params.at(paramName).type == ParamType::MultiSwitch) {
             // Multi params concatenate param names with a '\n' and param values with a space

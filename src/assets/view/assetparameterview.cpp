@@ -123,6 +123,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                     Q_EMIT updateHeight();
                 });
                 if (type == ParamType::Curve || type == ParamType::Bezier_spline || type == ParamType::Keywords) {
+                    // Use full width for these param types
                     m_lay->insertRow(nonKeyframeRow, w);
                     nonKeyframeRow++;
                 } else if (type != ParamType::Hidden) {

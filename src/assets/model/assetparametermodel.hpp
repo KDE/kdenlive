@@ -80,6 +80,7 @@ public:
         TypeRole,
         CommentRole,
         AlternateNameRole,
+        BlockedKeyframesRole,
         MinRole,
         VisualMinRole,
         VisualMaxRole,
@@ -103,6 +104,7 @@ public:
         FilterParamsRole,
         FilterConsumerParamsRole,
         ScaleRole,
+        SupportsAnimationRole,
         OpacityRole,
         RelativePosRole,
         // The filter in/out should always be 0 - full length

@@ -823,8 +823,6 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
 bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
     int kfrCount = int(m_keyframeList.size()) - 1;
     // Clear selection
     if (auto ptr = m_model.lock()) {
@@ -832,7 +830,6 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     }
     if (kfrCount <= 0) {
         // Nothing to do
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
     // we trigger only one global remove/insertrow event
@@ -852,8 +849,8 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
         endInsertRows();
         return true;
     };
-    PUSH_LAMBDA(update_redo_start, local_redo);
-    PUSH_LAMBDA(update_undo_start, local_undo);
+    PUSH_LAMBDA(update_redo_start, redo);
+    PUSH_LAMBDA(update_undo_start, undo);
     QList<GenTime> all_pos = getKeyframePos();
     update_redo_start();
     bool res = true;
@@ -863,17 +860,16 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
             first = false;
             continue;
         }
-        res = removeKeyframe(p, local_undo, local_redo, false);
+        res = removeKeyframe(p, undo, redo, false);
         if (!res) {
-            bool undone = local_undo();
+            bool undone = undo();
             Q_ASSERT(undone);
             return false;
         }
     }
     update_redo_end();
-    PUSH_LAMBDA(update_redo_end, local_redo);
-    PUSH_LAMBDA(update_undo_end, local_undo);
-    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    PUSH_LAMBDA(update_redo_end, redo);
+    PUSH_LAMBDA(update_undo_end, undo);
     return true;
 }
 

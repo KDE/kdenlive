@@ -296,11 +296,13 @@ AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel
 void AssetUpdateCommand::undo()
 {
     m_model->setParameters(m_oldValue);
+    QUndoCommand::undo();
 }
 // virtual
 void AssetUpdateCommand::redo()
 {
     m_model->setParameters(m_value);
+    QUndoCommand::redo();
 }
 
 // virtual

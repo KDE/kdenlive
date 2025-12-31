@@ -149,4 +149,5 @@ Q_SIGNALS:
     void seekToPos(int);
     void activateEffect();
     void updateHeight();
+    void updateAnimCheckBox();
 };

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "assetparametermodel.hpp"
+#include "undohelper.hpp"
 #include <QPersistentModelIndex>
 #include <QTime>
 #include <QUndoCommand>
