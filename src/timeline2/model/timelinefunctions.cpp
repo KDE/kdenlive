@@ -2613,9 +2613,15 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             warp_pitch = prod.attribute(QStringLiteral("warp_pitch")).toInt();
         }
         int audioStream = prod.attribute(QStringLiteral("audioStream")).toInt();
+        PlaylistState::ClipState state = static_cast<PlaylistState::ClipState>(prod.attribute(QStringLiteral("state")).toInt());
+        if (state != PlaylistState::Disabled) {
+            PlaylistState::ClipState trackState = timeline->getTrackById_const(curTrackId)->trackType();
+            if (state != trackState) {
+                state = trackState;
+            }
+        }
         int newId;
-        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), audioStream, speed, warp_pitch,
-                                                     timeline_undo, timeline_redo);
+        bool created = timeline->requestClipCreation(originalId, newId, state, audioStream, speed, warp_pitch, timeline_undo, timeline_redo);
         if (!created) {
             // Something is broken
             pCore->displayMessage(i18n("Could not paste items in timeline"), ErrorMessage, 500);

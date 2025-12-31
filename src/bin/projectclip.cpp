@@ -2558,7 +2558,7 @@ bool ProjectClip::isIncludedInTimeline()
 
 bool ProjectClip::isIncludedInSequence(const QUuid &seqUuid)
 {
-    if (m_registeredClipsByUuid.isEmpty()) {
+    if (m_registeredClipsByUuid.size() == 0) {
         return false;
     }
     return m_registeredClipsByUuid.contains(seqUuid);

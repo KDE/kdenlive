@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-17 00:42+0000\n"
-"PO-Revision-Date: 2025-12-18 04:57+0100\n"
+"POT-Creation-Date: 2025-12-29 00:42+0000\n"
+"PO-Revision-Date: 2025-12-29 06:49+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7006,6 +7006,8 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"შეყვანილი ვიდეოს ხაზგამოტოვების გაუქმება (\"yadif\" ნიშნავს \"yet another "
+"deinterlacing filter\")"
 
 #: data/effects/avfilter/avfilter_yadif.xml:9
 #, kde-format
@@ -7820,6 +7822,8 @@ msgstr "ოეპრაცია"
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
 msgstr ""
+"NO OP,გაპარსვა,მაგრად დაპატარავება,რბილად დაპატარავება,მაგარი ზრდა,რბილი "
+"ზრდა,ზღვარი"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:24
 #, kde-format
@@ -7838,6 +7842,8 @@ msgstr ""
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
+"NO OP,გაპარსვა,მაგრად დაპატარავება,რბილად დაპატარავება,მაგარი ზრდა,რბილი "
+"ზრდა,ზღვარი, დაბინდვა"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:50
 #, kde-format
@@ -19818,7 +19824,7 @@ msgstr "ჭდის დამატება"
 msgid "New tag"
 msgstr "ახალი ჭდე"
 
-#: src/capture/mediacapture.cpp:296
+#: src/capture/mediacapture.cpp:257
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -19827,7 +19833,7 @@ msgstr ""
 "ხმის მონიტორინგი. დააწექით ღილაკს <b>Space</b> ჩაწერის გასაშვებად/"
 "შესაჩერებლად, <b>Esc</b> კი - დასასრულებლად."
 
-#: src/capture/mediacapture.cpp:431 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:392 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
@@ -29323,7 +29329,7 @@ msgstr "გატანა OpenTimelineIO-ში"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO-ის პროექტი"
 
-#: src/otio/otioexport.cpp:112
+#: src/otio/otioexport.cpp:109
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "OpenTimelineIO ფაილის გატანის შეცდომა"
@@ -32349,23 +32355,23 @@ msgstr "კლიპის დამატება კალათიდან 
 msgid "All clips were not successfully copied"
 msgstr "ყველა კლიპი წარმატებით არ დაკოპირებულა"
 
-#: src/timeline2/model/timelinefunctions.cpp:2621
-#: src/timeline2/model/timelinefunctions.cpp:2802
+#: src/timeline2/model/timelinefunctions.cpp:2627
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "ელემენტის დროის ხაზზე ვერ ჩავსვი"
 
-#: src/timeline2/model/timelinefunctions.cpp:2822
+#: src/timeline2/model/timelinefunctions.cpp:2828
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "დროის ხაზის კლიპების ჩასმა"
 
-#: src/timeline2/model/timelinefunctions.cpp:3042
+#: src/timeline2/model/timelinefunctions.cpp:3048
 #, kde-format
 msgid "Remove space on track"
 msgstr "ტრეკზე ადგილის გამოტოვება"
 
-#: src/timeline2/model/timelinefunctions.cpp:3069
+#: src/timeline2/model/timelinefunctions.cpp:3075
 #, kde-format
 msgid "Delete clips on track"
 msgstr "ტრეკზე კლიპები წაშლა"

@@ -746,6 +746,9 @@ void MonitorManager::slotSetInterpolation(int ix)
     }
     KdenliveSettings::setMltinterpolation(value);
     setConsumerProperty(QStringLiteral("rescale"), value);
+    if (m_activeMonitor) {
+        m_activeMonitor->refreshMonitorIfActive(true);
+    }
 }
 
 void MonitorManager::slotMuteCurrentMonitor(bool active)
