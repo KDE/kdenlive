@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-05 08:48+0100\n"
+"PO-Revision-Date: 2025-12-31 08:38+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.12.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -3231,7 +3231,7 @@ msgstr "Establix l'escala del blau"
 #: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/avfilter/avfilter_dilation.xml:4
 #, kde-format
@@ -9582,7 +9582,7 @@ msgstr "Distància al color"
 #, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
 #, kde-format
@@ -10114,8 +10114,8 @@ msgstr ""
 "Elimina els defectes d'esglaons dels vídeos a 720p de la Nikon D90.\n"
 "        Les línies aguditzades en els vídeos de la Nikon D90 mostren passos "
 "cada 8a o 9a línia,\n"
-"        suposadament a causa d'un mostreig roín. Es poden suavitzar amb este "
-"filtre si es tornen massa molestes.\n"
+"        suposadament a causa d'un submostratge roín. Es poden suavitzar amb "
+"este filtre si es tornen massa molestes.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
@@ -13830,7 +13830,7 @@ msgstr "<![CDATA[<b><u>Saturació</u></b> del roig]]>"
 #: data/effects/hsl_primaries.xml:48
 #, kde-format
 msgid "<![CDATA[<b><u>Lightness</u></b> Red]]>"
-msgstr "<![CDATA[<b><u>Lluminositat</u></b> del roig]]>"
+msgstr "<![CDATA[<b><u>Claredat</u></b> del roig]]>"
 
 #: data/effects/hsl_range.xml:4
 #, kde-format
@@ -14082,10 +14082,10 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
-"AfterBurn,AfterBurn (Llarg),Ambient,Ambient (Dens),Ambient (Dens) - HD,"
-"Catedral,Catedral - HD,Càmera de tambor,Garage,Garage (Animat),Gimnàs,Gimnàs "
-"(Animat),Gimnàs (Animat) - HD,Sala (Xicoteta),Sala (Mitjana),Sala (Gran),"
-"Sala (Gran) - HD,Plat (Xicotet),Plat (Mitjà),Plat (Gran),Plat (Gran) - HD,"
+"AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) - HD,"
+"Catedral,Catedral - HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
+"(animat),Gimnàs (animat) - HD,Sala (Xicoteta),Sala (Mitjana),Sala (Gran),"
+"Sala (Gran) - HD,Plat (Xicotet),Plat (mitjà),Plat (Gran),Plat (Gran) - HD,"
 "Càmera de polsos,Càmera de polsos (Inversa),Ressonador (96 ms),Ressonador "
 "(152 ms),Ressonador (208 ms),Habitació (Xicoteta),Habitació (Mitjana),"
 "Habitació (Gran),Habitació (Gran) - HD,Cambra de manotades - HD,Cambra de "
@@ -15570,7 +15570,7 @@ msgstr ""
 #: data/effects/oldfilm.xml:16
 #, kde-format
 msgid "Brightness Up"
-msgstr "Augmenta la lluminositat"
+msgstr "Augmenta la brillantor"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
@@ -20763,7 +20763,7 @@ msgstr "Etiqueta nova"
 #: src/capture/mediacapture.cpp:114
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "Format de gravació ajustat a %1 canals, %2 Hz."
 
 #: src/capture/mediacapture.cpp:221
 #, kde-format
@@ -22217,7 +22217,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid "The following errors occurred while trying to render"
-msgstr "S'han detectat els errors següents en intentar la renderització"
+msgstr "S'han detectat els errors següents mentre s'intentava la renderització"
 
 #: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1988
 #, kde-format
@@ -24234,7 +24234,7 @@ msgstr "S'està extraent l'àudio per a %1."
 #: src/dialogs/textbasededit.cpp:1161
 #, kde-format
 msgid "Audio extract failed."
-msgstr "Ha fallat mentre s'extragué l'àudio."
+msgstr "Ha fallat mentre s'extreia l'àudio."
 
 #: src/dialogs/textbasededit.cpp:1167 src/dialogs/textbasededit.cpp:1233
 #, kde-format
@@ -31337,10 +31337,10 @@ msgstr ""
 "tornar a crear totes les dades en obrir el projecte.<br/>Les <b>dades de "
 "còpia de seguretat</b> són un arxiu de versions anteriors dels fitxers del "
 "projecte. Útil si necessiteu recuperar una versió anterior d'un projecte. "
-"Estes dades no es poden recuperar.<br/>Els <b>clips de servidor "
-"intermediari</b> són fitxers de vídeo de menor resolució utilitzats per a "
-"una edició més ràpida. La supressió és segura, es poden tornar a crear clips "
-"intermediaris si teniu els clips d'origen originals."
+"Estes dades no es poden recuperar.<br/>Els <b>clips d'amfitrió intermediari</"
+"b> són fitxers de vídeo de menor resolució utilitzats per a una edició més "
+"ràpida. La supressió és segura, es poden tornar a crear clips intermediaris "
+"si teniu els clips d'origen originals."
 
 #: src/project/dialogs/temporarydata.cpp:187
 #, kde-format
@@ -33049,7 +33049,7 @@ msgstr "S'ha trobat i eliminat la composició no vàlida %1."
 #: src/timeline2/model/builders/meltBuilder.cpp:623
 #, kde-format
 msgid "Errors found when opening project file (%1)"
-msgstr "S'han trobat errors en obrir el fitxer de projecte (%1)"
+msgstr "S'han trobat errors mentre s'obria el fitxer de projecte (%1)"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
@@ -36041,7 +36041,7 @@ msgstr "Zona segura del monitor:"
 #: src/ui/configenv_ui.ui:33
 #, kde-format
 msgid "Proxy and Transcode Jobs"
-msgstr "Tasques de servidor intermediari i transcodificació"
+msgstr "Tasques d'amfitrió intermediari i transcodificació"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_nice_tasks)
 #: src/ui/configenv_ui.ui:39

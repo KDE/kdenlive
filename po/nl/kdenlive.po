@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-05 11:55+0100\n"
+"PO-Revision-Date: 2025-12-31 15:45+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -20717,7 +20717,7 @@ msgstr "Nieuwe tag"
 #: src/capture/mediacapture.cpp:114
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "Opnameformaat aangepast tot %1 kanalen, %2 Hz."
 
 #: src/capture/mediacapture.cpp:221
 #, kde-format

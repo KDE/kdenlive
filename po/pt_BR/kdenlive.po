@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-05 08:55-0300\n"
+"PO-Revision-Date: 2025-12-31 08:22-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -20664,7 +20664,7 @@ msgstr "Nova etiqueta"
 #: src/capture/mediacapture.cpp:114
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "Formato de gravação ajustado para %1 canais, %2 Hz."
 
 #: src/capture/mediacapture.cpp:221
 #, kde-format
