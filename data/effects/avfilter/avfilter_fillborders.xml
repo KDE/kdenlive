@@ -13,9 +13,9 @@
     </parameter>
     <parameter type="animatedfakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
         <name>Rectangle</name>
-        <parammap position="0" src="av.left" max="%width" min="0" default="0" />
-        <parammap position="1" src="av.top" max="%height" min="0" default="0" />
-        <parammap position="2" src="av.right" max="%width" min="0" default="0" from="%width" fromborder="1"/>
-        <parammap position="3" src="av.bottom" max="%height" min="0" default="0" from="%height" fromborder="1"/>
+        <parammap target="x" source="av.left" max="%width" min="0" default="0" />
+        <parammap target="y" source="av.top" max="%height" min="0" default="0" />
+        <parammap target="right" source="av.right" max="%width" min="0" default="0" />
+        <parammap target="bottom" source="av.bottom" max="%height" min="0" default="0" />
     </parameter>
 </effect>
