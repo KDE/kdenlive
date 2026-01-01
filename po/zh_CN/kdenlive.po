@@ -10457,10 +10457,9 @@ msgid "The color to map source color with zero luminance"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map grey to"
-msgstr "映射白色到"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:13
 #, kde-format
@@ -10479,10 +10478,9 @@ msgid "The color to map source color with full luminance"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:20
-#, fuzzy, kde-format
-#| msgid "White point"
+#, kde-format
 msgid "Grey point"
-msgstr "白点"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:21
 #, kde-format
