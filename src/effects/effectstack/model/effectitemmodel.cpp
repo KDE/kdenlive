@@ -86,82 +86,71 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             qDebug() << ":::: FOUND FAKE RECT PARAM WITH EMPTY VALUES: " << paramName;
             QMap<int, QRectF> rectValues;
             QMap<int, mlt_keyframe_type> keyframeMap;
-            QMap<QString, std::pair<bool, int>> paramsFrom;
             // Sort parameters
-            QMap<int, QString> sortedParams;
+            QMap<QString, QString> sortedParams;
             for (int c = 0; c < children.count(); ++c) {
                 QDomElement currentParameter = children.item(c).toElement();
-                int position = currentParameter.attribute(QStringLiteral("position")).toInt();
-                const QString childName = currentParameter.attribute(QStringLiteral("src"));
-                bool fromBorder = currentParameter.attribute(QStringLiteral("fromborder")).toInt() == 1;
-                int from = 0;
-                if (currentParameter.hasAttribute(QStringLiteral("from"))) {
-                    const QString fromString = currentParameter.attribute(QStringLiteral("from"));
-                    if (fromString == QLatin1String("%width")) {
-                        from = pCore->getCurrentFrameSize().width();
-                    } else if (fromString == QLatin1String("%height")) {
-                        from = pCore->getCurrentFrameSize().height();
-                    }
-                }
-                paramsFrom.insert(childName, {fromBorder, from});
-                sortedParams.insert(position, childName);
+                const QString target = currentParameter.attribute(QStringLiteral("target"));
+                const QString childName = currentParameter.attribute(QStringLiteral("source"));
+                sortedParams.insert(target, childName);
             }
-
+            // Define order: x and y must always be processed first as width will need x, ...
+            QStringList paramOrder;
+            if (sortedParams.contains(QStringLiteral("x"))) {
+                paramOrder << QStringLiteral("x");
+            }
+            if (sortedParams.contains(QStringLiteral("y"))) {
+                paramOrder << QStringLiteral("y");
+            }
             for (auto param = sortedParams.cbegin(), end = sortedParams.cend(); param != end; ++param) {
-                if (!effect->property_exists(param.value().toUtf8().constData())) {
-                    // Missing parameter, use default values
-                    break;
+                if (!paramOrder.contains(param.key())) {
+                    paramOrder << param.key();
                 }
-                // Force animation parsing
-                (void)effect->anim_get_double(param.value().toUtf8().constData(), 0);
-                Mlt::Animation anim = effect->get_animation(param.value().toUtf8().constData());
-                qDebug() << "Found" << anim.key_count() << " Keyframes in " << param.value();
-                int frame;
-                if (param.key() == 0) {
-                    // First param, parse keyframes
-                    for (int j = 0; j < anim.key_count(); ++j) {
-                        mlt_keyframe_type type;
-                        anim.key_get(j, frame, type);
-                        keyframeMap.insert(frame, type);
+            }
+            bool animationParsed = false;
+            for (auto &pName : paramOrder) {
+                const QString paramMltName = sortedParams.value(pName);
+                // Now process the param
+                if (effect->property_exists(paramMltName.toUtf8().constData())) {
+                    // Found parameter, process
+                    // Force animation parsing
+                    (void)effect->anim_get_double(paramMltName.toUtf8().constData(), 0);
+                    Mlt::Animation anim = effect->get_animation(paramMltName.toUtf8().constData());
+                    qDebug() << "Found" << anim.key_count() << " Keyframes in " << paramMltName;
+                    int frame;
+                    if (!animationParsed) {
+                        // First param, parse keyframes
+                        for (int j = 0; j < anim.key_count(); ++j) {
+                            mlt_keyframe_type type;
+                            anim.key_get(j, frame, type);
+                            keyframeMap.insert(frame, type);
+                            rectValues.insert(frame, QRectF());
+                        }
+                        if (keyframeMap.isEmpty()) {
+                            // No keyframes found, use default value
+                            break;
+                        }
+                        animationParsed = true;
                     }
-                    if (keyframeMap.isEmpty()) {
-                        // No keyframes found, use default value
-                        break;
-                    }
-                    for (auto &k : keyframeMap.keys()) {
-                        QRectF rect(effect->anim_get_double(param.value().toUtf8().constData(), k), 0, 0, 0);
-                        rectValues.insert(k, rect);
-                    }
-                } else {
+                    // Now process properties
+                    QSize frameSize = pCore->getCurrentFrameSize();
                     for (auto &k : keyframeMap.keys()) {
                         QRectF rect = rectValues.value(k);
-                        bool fromBorder = paramsFrom.value(param.value()).first;
-                        int from = paramsFrom.value(param.value()).second;
-                        double value = effect->anim_get_double(param.value().toUtf8().constData(), k);
-                        switch (param.key()) {
-                        case 1:
+                        double value = effect->anim_get_double(paramMltName.toUtf8().constData(), k);
+                        if (pName == QStringLiteral("x")) {
+                            rect.setX(value);
+                        } else if (pName == QStringLiteral("y")) {
                             rect.setY(value);
-                            break;
-                        case 2:
-                            if (fromBorder) {
-                                value += rect.x();
-                            }
-                            if (from > 0) {
-                                value = from - value;
-                            }
+                        } else if (pName == QStringLiteral("width")) {
                             rect.setWidth(value);
-                            break;
-                        case 3:
-                            if (fromBorder) {
-                                value += rect.y();
-                            }
-                            if (from > 0) {
-                                value = from - value;
-                            }
+                        } else if (pName == QStringLiteral("right")) {
+                            rect.setWidth(frameSize.width() - value - rect.x());
+                        } else if (pName == QStringLiteral("bottom")) {
+                            rect.setHeight(frameSize.height() - value - rect.y());
+                        } else if (pName == QStringLiteral("height")) {
                             rect.setHeight(value);
-                            break;
-                        default:
-                            qDebug() << ":::::: UNEXPECTED FAKERECT POSITION: " << param.key();
+                        } else {
+                            qWarning() << "Unhandled fakerect parameter: " << pName;
                             break;
                         }
                         rectValues.insert(k, rect);

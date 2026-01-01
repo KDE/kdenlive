@@ -17,11 +17,22 @@ PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, Q
     lay->setContentsMargins(0, 0, 0, 0);
     // Retrieve parameters from the model. Points are stored in MLT as rectangle, using only the first 2 coordinates. So for example a point (50, 100) might be
     // represented as this string: "50 100 0 0".
-    const QPointF value = dataToPoint(m_model->data(m_index, AssetParameterModel::ValueRole));
-    const QPointF min = dataToPoint(m_model->data(m_index, AssetParameterModel::MinRole));
-    const QPointF max = dataToPoint(m_model->data(m_index, AssetParameterModel::MaxRole));
-    const QPointF defaultValue = dataToPoint(m_model->data(m_index, AssetParameterModel::DefaultRole));
-    const QPointF factor = dataToPoint(m_model->data(m_index, AssetParameterModel::FactorRole), QPointF(1, 1));
+    QPointF value;
+    QPointF min;
+    QPointF max;
+    QPointF defaultValue;
+    QPointF factor;
+    auto paramType = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+    if (paramType == ParamType::FakePoint || paramType == ParamType::AnimatedFakePoint) {
+        AssetPointInfo paramInfo = m_model->data(m_index, AssetParameterModel::FakePointRole).value<AssetPointInfo>();
+        // TODO
+    } else {
+        value = dataToPoint(m_model->data(m_index, AssetParameterModel::ValueRole));
+        min = dataToPoint(m_model->data(m_index, AssetParameterModel::MinRole));
+        max = dataToPoint(m_model->data(m_index, AssetParameterModel::MaxRole));
+        defaultValue = dataToPoint(m_model->data(m_index, AssetParameterModel::DefaultRole));
+        factor = dataToPoint(m_model->data(m_index, AssetParameterModel::FactorRole), QPointF(1, 1));
+    }
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
     const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     m_pointWidget =
