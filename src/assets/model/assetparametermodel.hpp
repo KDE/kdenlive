@@ -63,16 +63,71 @@ struct AssetPointInfo
     QPointF defaultValue;
     QPointF minimum;
     QPointF maximum;
-    double factor{1};
-    explicit AssetPointInfo(const QString &nameX, const QString &nameY, const QString &value, const QPointF &min, const QPointF &max)
-        : destNameX(nameX)
-        , destNameY(nameY)
-        , minimum(min)
-        , maximum(max)
+    QPointF factors;
+    explicit AssetPointInfo(const QPair<QString, QString> &names, const QPair<QString, QString> &def, const QPair<QString, QString> &min,
+                            const QPair<QString, QString> &max, const QPair<QString, QString> &fac)
+        : destNameX(names.first)
+        , destNameY(names.second)
     {
-        QStringList vals = value.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-        if (vals.count() == 2) {
-            defaultValue = QPointF(vals.at(0).toDouble(), vals.at(1).toDouble());
+        // Default
+        if (def.first == QLatin1String("%width")) {
+            defaultValue.setX(pCore->getCurrentFrameSize().width());
+        } else if (def.first == QLatin1String("%height")) {
+            defaultValue.setX(pCore->getCurrentFrameSize().height());
+        } else {
+            defaultValue.setX(def.first.toDouble());
+        }
+        if (def.second == QLatin1String("%width")) {
+            defaultValue.setY(pCore->getCurrentFrameSize().width());
+        } else if (def.second == QLatin1String("%height")) {
+            defaultValue.setY(pCore->getCurrentFrameSize().height());
+        } else {
+            defaultValue.setY(def.second.toDouble());
+        }
+        // Min
+        if (min.first == QLatin1String("%width")) {
+            minimum.setX(pCore->getCurrentFrameSize().width());
+        } else if (min.first == QLatin1String("%height")) {
+            minimum.setX(pCore->getCurrentFrameSize().height());
+        } else {
+            minimum.setX(min.first.toDouble());
+        }
+        if (min.second == QLatin1String("%width")) {
+            minimum.setY(pCore->getCurrentFrameSize().width());
+        } else if (min.second == QLatin1String("%height")) {
+            minimum.setY(pCore->getCurrentFrameSize().height());
+        } else {
+            minimum.setY(min.second.toDouble());
+        }
+        // Max
+        if (max.first == QLatin1String("%width")) {
+            maximum.setX(pCore->getCurrentFrameSize().width());
+        } else if (max.first == QLatin1String("%height")) {
+            maximum.setX(pCore->getCurrentFrameSize().height());
+        } else {
+            maximum.setX(max.first.toDouble());
+        }
+        if (max.second == QLatin1String("%width")) {
+            maximum.setY(pCore->getCurrentFrameSize().width());
+        } else if (max.second == QLatin1String("%height")) {
+            maximum.setY(pCore->getCurrentFrameSize().height());
+        } else {
+            maximum.setY(max.second.toDouble());
+        }
+        // Factor
+        if (fac.first == QLatin1String("%width")) {
+            factors.setX(pCore->getCurrentFrameSize().width());
+        } else if (fac.first == QLatin1String("%height")) {
+            factors.setX(pCore->getCurrentFrameSize().height());
+        } else {
+            factors.setX(fac.first.toDouble());
+        }
+        if (fac.second == QLatin1String("%width")) {
+            factors.setY(pCore->getCurrentFrameSize().width());
+        } else if (fac.second == QLatin1String("%height")) {
+            factors.setY(pCore->getCurrentFrameSize().height());
+        } else {
+            factors.setY(fac.second.toDouble());
         }
     }
     explicit AssetPointInfo() {}
@@ -89,18 +144,15 @@ struct AssetPointInfo
 struct AssetRectInfo
 {
     QString destName;
-    int position{0};
+    QString target;
     double defaultValue;
     double minimum;
     double maximum;
     double factor{1};
-    double from{0};
-    bool fromBorder;
-    explicit AssetRectInfo(const QString &name, int pos, const QString &value, const QString &min, const QString &max, const QString &fac = QString(),
-                           bool border = false, const QString &fr = QString())
+    explicit AssetRectInfo(const QString &name, const QString &tar, const QString &value, const QString &min, const QString &max,
+                           const QString &fac = QString())
         : destName(name)
-        , position(pos)
-        , fromBorder(border)
+        , target(tar)
     {
         if (value == QLatin1String("%width")) {
             defaultValue = pCore->getCurrentFrameSize().width();
@@ -134,41 +186,33 @@ struct AssetRectInfo
                 factor = fac.toDouble();
             }
         }
-        if (fr == QLatin1String("%width")) {
-            from = pCore->getCurrentFrameSize().width();
-        } else if (fr == QLatin1String("%height")) {
-            from = pCore->getCurrentFrameSize().height();
-        } else {
-            from = fr.toDouble();
-        }
     }
     explicit AssetRectInfo() {}
     double getValue(double val) const
     {
-        if (from != 0) {
-            val = from - val;
-        }
         if (factor != 1.) {
             val /= factor;
         }
         return val;
     }
+    int positionForTarget() const
+    {
+        int index = -1;
+        if (target == QStringLiteral("x")) {
+            index = 0;
+        } else if (target == QStringLiteral("y")) {
+            index = 1;
+        } else if (target == QStringLiteral("width") || target == QStringLiteral("right")) {
+            index = 2;
+        } else if (target == QStringLiteral("height") || target == QStringLiteral("bottom")) {
+            index = 3;
+        }
+        return index;
+    }
     double getValue(const QStringList &vals) const
     {
-        double val = vals.at(position).toDouble();
-        if (fromBorder) {
-            if (position == 2) {
-                // Width
-                val += vals.at(0).toDouble();
-            } else if (position == 3) {
-                // Width
-                val += vals.at(1).toDouble();
-            }
-        }
-
-        if (from != 0) {
-            val = from - val;
-        }
+        int index = positionForTarget();
+        double val = vals.at(index).toDouble();
         if (factor != 1.) {
             val /= factor;
         }
@@ -177,35 +221,20 @@ struct AssetRectInfo
     double getValue(const mlt_rect rect) const
     {
         double val = 0.;
-        switch (position) {
-        case 0:
+        if (target == QLatin1String("x")) {
             val = rect.x;
-            break;
-        case 1:
+        } else if (target == QLatin1String("y")) {
             val = rect.y;
-            break;
-        case 2:
+        } else if (target == QLatin1String("width")) {
             val = rect.w;
-            break;
-        case 3:
+        } else if (target == QLatin1String("height")) {
             val = rect.h;
-            break;
-        default:
-            break;
-        }
-        if (fromBorder) {
-            if (position == 2) {
-                // Width
-                val += rect.x;
-            } else if (position == 3) {
-                // Width
-                val += rect.y;
-            }
+        } else if (target == QLatin1String("right")) {
+            val = pCore->getCurrentFrameSize().width() - (rect.x + rect.w);
+        } else if (target == QLatin1String("height")) {
+            val = pCore->getCurrentFrameSize().height() - (rect.y + rect.h);
         }
 
-        if (from != 0) {
-            val = from - val;
-        }
         if (factor != 1.) {
             val /= factor;
         }

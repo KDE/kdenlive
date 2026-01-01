@@ -460,7 +460,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                         for (auto j = mappedParams.cbegin(), end = mappedParams.cend(); j != end; ++j) {
                             const AssetRectInfo paramInfo = j.value().value<AssetRectInfo>();
                             double val = paramInfo.getValue(rect);
-                            switch (paramInfo.position) {
+                            switch (paramInfo.positionForTarget()) {
                             case 0:
                                 xAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(val);
                                 break;
@@ -474,7 +474,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                                 hAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(val);
                                 break;
                             default:
-                                qDebug() << "::: UNEXPECTED FAKE RECT INDEX: " << paramInfo.position;
+                                qWarning() << "::: UNEXPECTED FAKE RECT INDEX: " << paramInfo.positionForTarget();
                             }
                         }
                     }
@@ -482,7 +482,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                              << "\n\n:::::::::::::::::::";
                     for (auto i = mappedParams.cbegin(), end = mappedParams.cend(); i != end; ++i) {
                         const AssetRectInfo paramInfo = i.value().value<AssetRectInfo>();
-                        switch (paramInfo.position) {
+                        switch (paramInfo.positionForTarget()) {
                         case 0:
                             m_asset->set(paramInfo.destName.toUtf8().constData(), xAnim.join(QLatin1Char(';')).toUtf8().constData());
                             break;
@@ -496,7 +496,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                             m_asset->set(paramInfo.destName.toUtf8().constData(), hAnim.join(QLatin1Char(';')).toUtf8().constData());
                             break;
                         default:
-                            qDebug() << "::: UNEXPECTED FAKE RECT INDEX: " << paramInfo.position;
+                            qWarning() << "::: UNEXPECTED FAKE RECT INDEX: " << paramInfo.positionForTarget();
                         }
                     }
                 } else if (type == ParamType::AnimatedFakePoint) {
@@ -532,7 +532,8 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                     for (auto i = mappedParams.cbegin(), end = mappedParams.cend(); i != end; ++i) {
                         const AssetRectInfo paramInfo = i.value().value<AssetRectInfo>();
                         double val = 0;
-                        if (paramInfo.position >= splitValue.count()) {
+                        int index = paramInfo.positionForTarget();
+                        if (index >= splitValue.count()) {
                             continue;
                         }
                         val = paramInfo.getValue(splitValue);
@@ -779,10 +780,30 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case AlphaRole:
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case FakePointRole: {
-        AssetPointInfo paramInfo(element.attribute(QStringLiteral("nameX")), element.attribute(QStringLiteral("nameY")),
-                                 element.attribute(QStringLiteral("default")),
-                                 QPointF(element.attribute(QStringLiteral("minX")).toDouble(), element.attribute(QStringLiteral("minY")).toDouble()),
-                                 QPointF(element.attribute(QStringLiteral("maxX")).toDouble(), element.attribute(QStringLiteral("maxY")).toDouble()));
+        QPair<QString, QString> names;
+        QPair<QString, QString> defaults;
+        QPair<QString, QString> minimas;
+        QPair<QString, QString> maximas;
+        QPair<QString, QString> factors;
+        QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
+        for (int i = 0; i < children.count(); ++i) {
+            QDomElement currentParameter = children.item(i).toElement();
+            const QString target = currentParameter.attribute(QStringLiteral("target"));
+            if (target == QLatin1String("x")) {
+                names.first = currentParameter.attribute(QStringLiteral("source"));
+                defaults.first = currentParameter.attribute(QStringLiteral("default"));
+                minimas.first = currentParameter.attribute(QStringLiteral("min"));
+                maximas.first = currentParameter.attribute(QStringLiteral("max"));
+                factors.first = currentParameter.attribute(QStringLiteral("factor"));
+            } else {
+                names.second = currentParameter.attribute(QStringLiteral("source"));
+                defaults.second = currentParameter.attribute(QStringLiteral("default"));
+                minimas.second = currentParameter.attribute(QStringLiteral("min"));
+                maximas.second = currentParameter.attribute(QStringLiteral("max"));
+                factors.second = currentParameter.attribute(QStringLiteral("factor"));
+            }
+        }
+        AssetPointInfo paramInfo(names, defaults, minimas, maximas, factors);
         return QVariant::fromValue(paramInfo);
         break;
     }
@@ -791,13 +812,11 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
         for (int i = 0; i < children.count(); ++i) {
             QDomElement currentParameter = children.item(i).toElement();
-            const QString position = currentParameter.attribute(QStringLiteral("position"));
-            AssetRectInfo paramInfo(currentParameter.attribute(QStringLiteral("src")), position.toInt(), currentParameter.attribute(QStringLiteral("default")),
+            const QString target = currentParameter.attribute(QStringLiteral("target"));
+            AssetRectInfo paramInfo(currentParameter.attribute(QStringLiteral("source")), target, currentParameter.attribute(QStringLiteral("default")),
                                     currentParameter.attribute(QStringLiteral("min")), currentParameter.attribute(QStringLiteral("max")),
-                                    currentParameter.attribute(QStringLiteral("factor")),
-                                    currentParameter.attribute(QStringLiteral("fromborder")) == QLatin1String("1"),
-                                    currentParameter.attribute(QStringLiteral("from")));
-            mappedParams.insert(position, QVariant::fromValue(paramInfo));
+                                    currentParameter.attribute(QStringLiteral("factor")));
+            mappedParams.insert(target, QVariant::fromValue(paramInfo));
         }
         return mappedParams;
     }

@@ -6,10 +6,10 @@
     <author>Richard Spindler</author>
     <parameter type="fakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
         <name>Rectangle</name>
-        <parammap position="0" src="Left" max="%width" min="0" default="0" factor="%width"/>
-        <parammap position="1" src="Top" max="%height" min="0" default="0" factor="%height"/>
-        <parammap position="2" src="Right" max="%width" min="0" default="0" factor="%width" from="%width" fromborder="1"/>
-        <parammap position="3" src="Bottom" max="%height" min="0" default="0" factor="%height" from="%height" fromborder="1"/>
+        <parammap target="x" source="Left" max="%width" min="0" default="0" factor="%width"/>
+        <parammap target="y" source="Top" max="%height" min="0" default="0" factor="%height"/>
+        <parammap target="right" source="Right" max="%width" min="0" default="0" factor="%width"/>
+        <parammap target="bottom" source="Bottom" max="%height" min="0" default="0" factor="%height"/>
     </parameter>
     <parameter type="bool" name="Invert" default="1">
         <name>Invert</name>
