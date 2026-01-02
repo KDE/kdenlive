@@ -212,6 +212,8 @@ protected:
     void updateBgColor();
 
 private:
+    const QScreen *getScreenForFullscreen();
+
     std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
     VideoWidget *m_glMonitor;
