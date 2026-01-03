@@ -1,16 +1,16 @@
 # Translation of kdenlive.po to Catalan
-# Copyright (C) 2009-2025 This_file_is_part_of_KDE
+# Copyright (C) 2009-2026 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdenlive package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2009, 2011, 2012, 2015 Orestes Mas <orestes@tsc.upc.edu>
-# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-31 08:38+0100\n"
+"PO-Revision-Date: 2026-01-02 09:19+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -28247,7 +28247,7 @@ msgstr "Cerca un marcador…"
 #: src/mainwindow.cpp:2135
 #, kde-format
 msgid "Timeline Markers Locked"
-msgstr "Marcadors bloquejats de la línia de temps"
+msgstr "Marcadors de la línia de temps bloquejats"
 
 #: src/mainwindow.cpp:2138
 #, kde-format
