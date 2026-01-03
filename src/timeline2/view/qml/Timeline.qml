@@ -288,7 +288,7 @@ Rectangle {
         var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
-        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3 && x < scrollView.contentX + scrollView.width) {
+        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = root.baseUnit
             scrollTimer.start()
         } else if (x < 50) {
@@ -1205,6 +1205,7 @@ function getTrackColor(audio, header) {
             property real clickX
             property real clickY
             property point lastGlobalPos
+            property point panStartGlobalPos
             property bool isWarping: false
             property bool isCursorHidden: false
             width: root.width - root.headerWidth
@@ -1246,7 +1247,8 @@ function getTrackColor(audio, header) {
                 if (mouse.buttons === Qt.MiddleButton || (selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
-                    lastGlobalPos = mapToGlobal(mouse.x, mouse.y)
+                    panStartGlobalPos = mapToGlobal(mouse.x, mouse.y)
+                    lastGlobalPos = panStartGlobalPos
                     isWarping = false
                     timeline.hideCursor(true)
                     isCursorHidden = true
@@ -1525,6 +1527,7 @@ function getTrackColor(audio, header) {
                 if (isCursorHidden) {
                     timeline.hideCursor(false)
                     isCursorHidden = false
+                    timeline.warpCursor(panStartGlobalPos)
                 }
             }
             onReleased: mouse => {
@@ -1532,6 +1535,7 @@ function getTrackColor(audio, header) {
                 if (isCursorHidden) {
                     timeline.hideCursor(false)
                     isCursorHidden = false
+                    timeline.warpCursor(panStartGlobalPos)
                 }
                 if((mouse.button & Qt.LeftButton) && root.activeTool === K.ToolType.SlipTool) {
                     // slip tool
@@ -1818,6 +1822,7 @@ function getTrackColor(audio, header) {
                                     property int dragFrame
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
+                                    property point dragStartGlobalPos
                                     cursorShape: {
                                         if (tracksArea.isCursorHidden) {
                                             return Qt.BlankCursor
@@ -1833,9 +1838,8 @@ function getTrackColor(audio, header) {
                                             mouse.accepted = false
                                             return
                                         }
-                                        timeline.hideCursor(true)
-                                        tracksArea.isCursorHidden = true
-                                        tracksArea.lastGlobalPos = mapToGlobal(mouse.x, mouse.y)
+                                        dragStartGlobalPos = mapToGlobal(mouse.x, mouse.y)
+                                        tracksArea.lastGlobalPos = dragStartGlobalPos
                                         if (!timeline.exists(dragProxy.draggedItem)) {
                                             endDrag()
                                             mouse.accepted = false
@@ -1926,31 +1930,14 @@ function getTrackColor(audio, header) {
                                             
                                             if (deltaX !== 0 || deltaY !== 0) {
                                                 // If we have movement, process it
-                                                continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset)
+                                                let posInTracks = mapToItem(tracksArea, mouse.x, mouse.y)
+                                                // Clamp y to tracks area height to avoid jumping tracks when mouse is far outside
+                                                let clampedY = Math.max(0, Math.min(posInTracks.y, tracksArea.height))
+                                                continuousScrolling(mouse.x + parent.x, clampedY + scrollView.contentY - ruler.height)
                                                 snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
                                                 moveItem()
                                                 
                                                 tracksArea.lastGlobalPos = globalPos
-
-                                                // Check for screen or window edge and warp
-                                                let margin = 20
-                                                let edges = screenEdges(globalPos)
-                                                let posInTracksArea = dragProxyArea.mapToItem(tracksArea, mouse.x, mouse.y)
-                                                let atScreenEdge = edges && (globalPos.x <= edges.left + margin || globalPos.x >= edges.right - margin
-                                                                || globalPos.y <= edges.top + margin || globalPos.y >= edges.bottom - margin)
-                                                let atWindowEdge = posInTracksArea.x <= margin || posInTracksArea.x >= tracksArea.width - margin
-                                                                || posInTracksArea.y <= margin || posInTracksArea.y >= tracksArea.height - margin
-
-                                                if (atScreenEdge || atWindowEdge) {
-                                                    let center = mapToGlobal(dragProxyArea.width / 2, dragProxyArea.height / 2)
-                                                    let warpDeltaX = center.x - globalPos.x
-                                                    let warpDeltaY = center.y - globalPos.y
-                                                    tracksArea.isWarping = true
-                                                    timeline.warpCursor(Qt.point(center.x, center.y))
-                                                    // Adjust item position to compensate for mouse warp
-                                                    parent.x += warpDeltaX
-                                                    parent.y += warpDeltaY
-                                                }
                                             }
                                         }
                                     }
@@ -1958,7 +1945,8 @@ function getTrackColor(audio, header) {
                                     function moveItem() {
                                         if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
                                             var posx = Math.round((parent.x)/ root.timeScale)
-                                            var posy = Math.min(Math.max(0, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
+                                            let posInTracks = dragProxyArea.mapToItem(tracksArea, mouse.x, mouse.y)
+                                            var posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)
                                             if (dragProxy.masterObject && tId === dragProxy.masterObject.trackId) {
                                                 if (posx == dragProxyArea.dragFrame && controller.normalEdit()) {
@@ -1990,16 +1978,8 @@ function getTrackColor(audio, header) {
                                         }
                                     }
                                     onCanceled: {
-                                        if (tracksArea.isCursorHidden) {
-                                            timeline.hideCursor(false)
-                                            tracksArea.isCursorHidden = false
-                                        }
                                     }
                                     onReleased: {
-                                        if (tracksArea.isCursorHidden) {
-                                            timeline.hideCursor(false)
-                                            tracksArea.isCursorHidden = false
-                                        }
                                         clipBeingMovedId = -1
                                         root.blockAutoScroll = false
                                         var itemId = dragProxy.draggedItem
@@ -2039,6 +2019,11 @@ function getTrackColor(audio, header) {
                                             tracksArea.focus = true
                                             if (!dragProxyArea.containsMouse) {
                                                 regainFocus(dragProxyArea.mapToItem(root,mouseX, mouseY))
+                                                // If we are outside, restore cursor to where we started the drag
+                                                let posInTracks = mapToItem(tracksArea, mouse.x, mouse.y)
+                                                if (posInTracks.x < 0 || posInTracks.x > tracksArea.width || posInTracks.y < 0 || posInTracks.y > tracksArea.height) {
+                                                    timeline.warpCursor(dragStartGlobalPos)
+                                                }
                                             }
                                         }
                                     }
