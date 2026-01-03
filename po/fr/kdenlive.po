@@ -1,6 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Xavier Besnard <xavier.besnard@kde.org>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.
@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 00:43+0000\n"
-"PO-Revision-Date: 2025-12-17 10:51+0100\n"
+"PO-Revision-Date: 2026-01-01 20:15+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
-"Language-Team: French <French <kde-francophone@kde.org>>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10902,12 +10902,13 @@ msgstr "Crée une lueur brillante"
 #: data/effects/frei0r/frei0r_heatmap0r.xml:4
 #, kde-format
 msgid "Heatmap0r"
-msgstr ""
+msgstr "Heatmap0r"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:5
 #, kde-format
 msgid "Performs a continuous trichromatic tinting based on luminance"
 msgstr ""
+"Effectue une teinture trichromatique continue reposant sur la luminance"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:8
 #: data/effects/frei0r/frei0r_tint0r.xml:8
@@ -10919,17 +10920,20 @@ msgstr "Envoyer les zones noires vers"
 #, kde-format
 msgid "The color to map source color with zero luminance"
 msgstr ""
+"La couleur à utiliser pour faire correspondre la couleur source avec une "
+"luminance nulle"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map grey to"
-msgstr "Faire correspondre le blanc avec "
+msgstr "Faire correspondre le gris avec"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:13
 #, kde-format
 msgid "The color to map source color with mid luminance"
 msgstr ""
+"La couleur pour faire correspondre la couleur source avec une luminance "
+"moyenne"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:16
 #: data/effects/frei0r/frei0r_tint0r.xml:11
@@ -10941,17 +10945,18 @@ msgstr "Faire correspondre le blanc avec "
 #, kde-format
 msgid "The color to map source color with full luminance"
 msgstr ""
+"La couleur pour faire correspondre la couleur source avec une luminance "
+"complète"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:20
-#, fuzzy, kde-format
-#| msgid "White point"
+#, kde-format
 msgid "Grey point"
-msgstr "Bruit blanc"
+msgstr "Point gris"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:21
 #, kde-format
 msgid "Point in the luminance axis grey color is located"
-msgstr ""
+msgstr "Le point sur l'axe de luminance où se trouve la couleur grise"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
@@ -20850,7 +20855,7 @@ msgstr "Nouvelle étiquette"
 #: src/capture/mediacapture.cpp:114
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "Format d'enregistrement ajusté à %1 canaux, %2 Hz."
 
 #: src/capture/mediacapture.cpp:221
 #, kde-format
