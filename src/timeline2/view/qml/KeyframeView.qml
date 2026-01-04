@@ -128,9 +128,9 @@ Rectangle
                     anchors.fill: parent
                     anchors.leftMargin: - root.baseUnit/3
                     anchors.rightMargin: - root.baseUnit/3
-                    hoverEnabled: true
+                    hoverEnabled: !root.isPanning
                     cursorShape: Qt.SizeHorCursor
-                    enabled: parent.x > root.baseUnit / 2 && parent.x < keyframeContainer.width - root.baseUnit / 2
+                    enabled: !root.isPanning && parent.x > root.baseUnit / 2 && parent.x < keyframeContainer.width - root.baseUnit / 2
                     drag.target: parent
                     drag.smoothed: false
                     drag.axis: Drag.XAxis
@@ -187,7 +187,8 @@ Rectangle
                     MouseArea {
                         id: kf1MouseArea
                         anchors.fill: parent
-                        hoverEnabled: true
+                        hoverEnabled: !root.isPanning
+                        enabled: !root.isPanning
                         cursorShape: shiftPressed ? Qt.SizeVerCursor : Qt.PointingHandCursor
                         drag.target: parent
                         drag.smoothed: false
@@ -196,9 +197,17 @@ Rectangle
                         property double newVal: NaN
                         property bool shiftPressed: false
                         onPressed: mouse => {
+                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                                mouse.accepted = false
+                                return
+                            }
                             drag.axis = model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
                         onClicked: mouse => {
+                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                                mouse.accepted = false
+                                return
+                            }
                             keyframeContainer.focus = true
                             if (mouse.modifiers & Qt.ControlModifier && model.selected) {
                                 kfrModel.setActiveKeyframe(-1)

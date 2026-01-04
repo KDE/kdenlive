@@ -294,10 +294,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+        enabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
+        hoverEnabled: !root.isPanning && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
             root.autoScrolling = false
@@ -359,6 +359,9 @@ Rectangle {
             //focus = false
         }
         onEntered: {
+            if (root.isPanning) {
+                return
+            }
             if (clipRoot.clipId > -1) {
                 var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                 initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
@@ -367,6 +370,9 @@ Rectangle {
         }
 
         onExited: {
+            if (root.isPanning) {
+                return
+            }
             if (!dragProxyArea.pressed) {
                 root.endDragIfFocused(clipRoot.clipId)
             }
@@ -513,11 +519,15 @@ Rectangle {
                         // Mix click mouse area
                         id: mixArea
                         anchors.fill: parent
-                        hoverEnabled: true
+                        hoverEnabled: !root.isPanning
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        enabled: container.handleVisible && width > root.baseUnit * 0.8
+                        enabled: !root.isPanning && container.handleVisible && width > root.baseUnit * 0.8
                         onPressed: mouse => {
+                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                mouse.accepted = false
+                                return
+                            }
                             controller.requestMixSelection(clipRoot.clipId);
                             root.autoScrolling = false
                             if (mouse.button == Qt.RightButton) {
@@ -541,8 +551,8 @@ Rectangle {
                         width: root.baseUnit / 2
                         visible: root.activeTool === K.ToolType.SelectTool
                         property int previousMix
-                        enabled: !isLocked && mixArea.enabled && (pressed || container.handleVisible)
-                        hoverEnabled: true
+                        enabled: !root.isPanning && !isLocked && mixArea.enabled && (pressed || container.handleVisible)
+                        hoverEnabled: !root.isPanning
                         drag.target: trimInMixArea
                         drag.axis: Drag.XAxis
                         drag.smoothed: false
@@ -551,6 +561,10 @@ Rectangle {
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
+                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                mouse.accepted = false
+                                return
+                            }
                             root.trimInProgress = true;
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
@@ -708,7 +722,8 @@ Rectangle {
                             acceptedButtons: Qt.LeftButton
                             cursorShape: Qt.PointingHandCursor
                             property bool shiftTrim: false
-                            hoverEnabled: true
+                            hoverEnabled: !root.isPanning
+                            enabled: !root.isPanning
                             ToolTip.visible: containsMouse
                             ToolTip.text: markerBase.markerText
                             ToolTip.delay: 1000
@@ -718,10 +733,14 @@ Rectangle {
                                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                             }
 
-                            onClicked:  {
+                            onClicked: {
+                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                    mouse.accepted = false
+                                    return
+                                }
                                 proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                            ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
-                            : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
+                                ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
+                                : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
                                 controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
                             }
                         }
@@ -743,7 +762,8 @@ Rectangle {
                             anchors.fill: parent
                             anchors.margins: -2
                             z: 15
-                            hoverEnabled: true
+                            hoverEnabled: !root.isPanning
+                            enabled: !root.isPanning
                             cursorShape: Qt.SizeHorCursor
                             acceptedButtons: Qt.LeftButton
                             preventStealing: true
@@ -756,6 +776,10 @@ Rectangle {
                             property real originalEndPosition: 0
                             
                             onPressed: {
+                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                    mouse.accepted = false
+                                    return
+                                }
                                 isResizing = true
                                 startX = mouseX
                                 globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
@@ -818,7 +842,8 @@ Rectangle {
                             anchors.fill: parent
                             anchors.margins: -2
                             z: 15
-                            hoverEnabled: true
+                            hoverEnabled: !root.isPanning
+                            enabled: !root.isPanning
                             cursorShape: Qt.SizeHorCursor
                             acceptedButtons: Qt.LeftButton
                             preventStealing: true
@@ -830,6 +855,10 @@ Rectangle {
                             property real startPosition: 0
                             
                             onPressed: {
+                                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                                    mouse.accepted = false
+                                    return
+                                }
                                 isResizing = true
                                 startX = mouseX
                                 globalStartX = mapToGlobal(Qt.point(mouseX, 0)).x
@@ -965,6 +994,10 @@ Rectangle {
                 property bool sizeChanged: false
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
@@ -1087,6 +1120,10 @@ Rectangle {
                 drag.smoothed: false
 
                 onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration
@@ -1518,11 +1555,15 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: Math.min(root.baseUnit, container.height / 3)
             height: width
-            hoverEnabled: true
+            hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
             visible: !clipRoot.isAudio
-            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
-            onPressed: {
+            enabled: !root.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
+            onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
@@ -1555,11 +1596,15 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: Math.min(root.baseUnit, container.height / 3)
             height: width
-            hoverEnabled: true
+            hoverEnabled: !root.isPanning
             cursorShape: Qt.PointingHandCursor
-            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
+            enabled: !root.isPanning && !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
             visible: !clipRoot.isAudio
-            onPressed: {
+            onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
@@ -1611,7 +1656,11 @@ Rectangle {
                     timeline.adjustFade(clipRoot.clipId, 'fadeout', 0, -2)
                 }
             }
-            onPressed: {
+            onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = false
                 startFadeOut = clipRoot.fadeOut
                 dragStarted = startFadeOut > 0
@@ -1720,6 +1769,10 @@ Rectangle {
                 }
             }
             onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = false
                 startFadeIn = clipRoot.fadeIn
                 dragStarted = startFadeIn > 0

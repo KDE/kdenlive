@@ -92,8 +92,8 @@ Item {
             x: startFrame * root.timeScale
             height: parent.height
             width: subtitleBase.width
-            hoverEnabled: true
-            enabled: true
+            hoverEnabled: !root.isPanning
+            enabled: !root.isPanning
             property int newStart: -1
             property int diff: -1
             property int oldLayer
@@ -112,13 +112,19 @@ Item {
             drag.smoothed: false
             drag.minimumX: 0
             onEntered: {
+                if (root.isPanning) return
                 console.log('ENTERED SUBTITLE MOUSE AREA')
                 timeline.showKeyBinding(i18n("<b>Double click</b> to edit text"))
             }
             onExited: {
+                if (root.isPanning) return
                 timeline.showKeyBinding()
             }
             onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 console.log('ENTERED ITEM CLCKD:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRM: ', subtitleRoot.startFrame)
                 root.autoScrolling = false
                 oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
@@ -286,8 +292,8 @@ Item {
             // Left resize handle to change start timing
             id: startMouseArea
             anchors.fill: parent
-            hoverEnabled: true
-            enabled: true
+            hoverEnabled: !root.isPanning
+            enabled: !root.isPanning
             visible: root.activeTool === Kdenlive.ToolType.SelectTool
             property int newStart: subtitleRoot.startFrame
             property int newDuration: subtitleRoot.duration
@@ -301,6 +307,10 @@ Item {
             cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: leftstart
             onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = false
                 oldMouseX = mouseX
                 leftstart.anchors.left = undefined
@@ -383,8 +393,8 @@ Item {
             // Right resize handle to change end timing
             id: endMouseArea
             anchors.fill: parent
-            hoverEnabled: true
-            enabled: true
+            hoverEnabled: !root.isPanning
+            enabled: !root.isPanning
             visible: root.activeTool === Kdenlive.ToolType.SelectTool
             property bool sizeChanged: false
             property int oldMouseX
@@ -398,6 +408,10 @@ Item {
             drag.smoothed: false
 
             onPressed: mouse => {
+                if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = false
                 newDuration = subtitleRoot.duration
                 originalDuration = subtitleRoot.duration
