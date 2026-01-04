@@ -1930,10 +1930,10 @@ function getTrackColor(audio, header) {
                                             
                                             if (deltaX !== 0 || deltaY !== 0) {
                                                 // If we have movement, process it
-                                                let posInTracks = mapToItem(tracksArea, mouse.x, mouse.y)
+                                                let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
                                                 // Clamp y to tracks area height to avoid jumping tracks when mouse is far outside
                                                 let clampedY = Math.max(0, Math.min(posInTracks.y, tracksArea.height))
-                                                continuousScrolling(mouse.x + parent.x, clampedY + scrollView.contentY - ruler.height)
+                                                continuousScrolling(dragProxyArea.mouseX + parent.x, clampedY + scrollView.contentY - ruler.height)
                                                 snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
                                                 moveItem()
                                                 
@@ -1945,7 +1945,7 @@ function getTrackColor(audio, header) {
                                     function moveItem() {
                                         if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
                                             var posx = Math.round((parent.x)/ root.timeScale)
-                                            let posInTracks = dragProxyArea.mapToItem(tracksArea, mouse.x, mouse.y)
+                                            let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
                                             var posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)
                                             if (dragProxy.masterObject && tId === dragProxy.masterObject.trackId) {
@@ -2018,9 +2018,9 @@ function getTrackColor(audio, header) {
                                             //bubbleHelp.hide()
                                             tracksArea.focus = true
                                             if (!dragProxyArea.containsMouse) {
-                                                regainFocus(dragProxyArea.mapToItem(root,mouseX, mouseY))
+                                                regainFocus(dragProxyArea.mapToItem(root, dragProxyArea.mouseX, dragProxyArea.mouseY))
                                                 // If we are outside, restore cursor to where we started the drag
-                                                let posInTracks = mapToItem(tracksArea, mouse.x, mouse.y)
+                                                let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
                                                 if (posInTracks.x < 0 || posInTracks.x > tracksArea.width || posInTracks.y < 0 || posInTracks.y > tracksArea.height) {
                                                     timeline.warpCursor(dragStartGlobalPos)
                                                 }
