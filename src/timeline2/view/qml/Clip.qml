@@ -1895,7 +1895,7 @@ Rectangle {
             }
         }
         Text {
-            id: slipLable
+            id: slipLabel
             text: i18n("Slip Clip")
             font: miniFont
             anchors.fill: parent

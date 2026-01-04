@@ -452,7 +452,7 @@ function getTrackColor(audio, header) {
             dragProxy.sourceFrame = tentativeClip.modelStart
             dragProxy.isComposition = tentativeClip.isComposition
             dragProxy.verticalOffset = tentativeClip.isComposition ? tentativeClip.displayHeight : 0
-            //console.log('missing item', tentativeClip.clipId, ', COORDS: ', dragProxy.x, 'x', dragProxy.y,'-',dragProxy.width,'x',dragProxy.height, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRM: ', dragProxy.sourceFrame)
+            //console.log('missing item', tentativeClip.clipId, ', COORDS: ', dragProxy.x, 'x', dragProxy.y,'-',dragProxy.width,'x',dragProxy.height, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRAME: ', dragProxy.sourceFrame)
         } else {
             console.log('item not found')
             if (dragProxy.draggedItem > -1) {
