@@ -276,10 +276,14 @@ Rectangle {
     }
 
     function verticalScroll(wheel) {
+        var initialY = scrollView.contentY
         if (wheel.angleDelta.y < 0) {
             scrollView.contentY = Math.max(0, Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height))
         } else {
             scrollView.contentY = Math.max(scrollView.contentY - wheel.angleDelta.y, 0)
+        }
+        if (dragProxyArea.pressed && dragProxy.draggedItem > -1) {
+            dragProxyArea.moveItem()
         }
     }
 
@@ -1966,6 +1970,10 @@ function getTrackColor(audio, header) {
                                                     controller.requestFakeClipMove(dragProxy.draggedItem, timeline.activeTrack, dragProxyArea.dragFrame, true, false, false)
                                                 }
                                             }
+                                            var targetTrack = Logic.getTrackById(timeline.activeTrack)
+                                            if (targetTrack) {
+                                                dragProxy.y = targetTrack.y + dragProxy.verticalOffset
+                                            }
                                             var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
                                                 var s = timeline.simplifiedTC(Math.abs(delta))
@@ -2019,12 +2027,10 @@ function getTrackColor(audio, header) {
                                             tracksArea.focus = true
                                             if (!dragProxyArea.containsMouse) {
                                                 regainFocus(dragProxyArea.mapToItem(root, dragProxyArea.mouseX, dragProxyArea.mouseY))
-                                                // If we are outside, restore cursor to where we started the drag
-                                                let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
-                                                if (posInTracks.x < 0 || posInTracks.x > tracksArea.width || posInTracks.y < 0 || posInTracks.y > tracksArea.height) {
-                                                    timeline.warpCursor(dragStartGlobalPos)
-                                                }
                                             }
+                                            endDrag()
+                                        } else {
+                                            endDrag()
                                         }
                                     }
                                     onDoubleClicked: {
@@ -2379,6 +2385,9 @@ function getTrackColor(audio, header) {
         onTriggered: {
             if (vertical != 0) {
                 scrollView.contentY += vertical
+                if (dragProxyArea.pressed && dragProxy.draggedItem > -1) {
+                    dragProxyArea.moveItem()
+                }
                 if (scrollView.contentY <= 0) {
                     scrollView.contentY = 0
                     vertical = 0
