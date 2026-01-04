@@ -3,14 +3,14 @@
 #
 # Michiel Zandbelt <mmzandbelt@gmail.com>, 2008, 2009.
 # Valenstijn <Valenstyn@gmail.com>, 2010.
-# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Freek de Kruijf <freekdekruijf@kde.nl>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Freek de Kruijf <freekdekruijf@kde.nl>
 # SPDX-FileCopyrightText: 2010, 2011, 2012, 2022, 2023, 2025 Ronald Stroethoff <stroet43@zonnet.nl>
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-31 15:45+0100\n"
+"PO-Revision-Date: 2026-01-03 16:46+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -12302,7 +12302,7 @@ msgstr "Hoeveelheid ruis toegevoegd."
 #: src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
-msgstr "RGB Parade"
+msgstr "RGB-parade"
 
 #: data/effects/frei0r/frei0r_rgbparade.xml:5
 #, kde-format
