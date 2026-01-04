@@ -1824,11 +1824,11 @@ function getTrackColor(audio, header) {
                                     property bool moveMirrorTracks: true
                                     property point dragStartGlobalPos
                                     cursorShape: {
-                                        if (tracksArea.isCursorHidden) {
-                                            return Qt.BlankCursor
-                                        }
                                         if (root.activeTool === K.ToolType.SelectTool) {
                                             return dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+                                        }
+                                        if (tracksArea.isCursorHidden) {
+                                            return Qt.BlankCursor
                                         }
                                         return tracksArea.cursorShape
                                     }
@@ -2057,7 +2057,7 @@ function getTrackColor(audio, header) {
                                 anchors.fill: parent
                                 acceptedButtons: Qt.NoButton
                                 onWheel: wheel => zoomByWheel(wheel)
-                                cursorShape: tracksArea.isCursorHidden ? Qt.BlankCursor : (dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape)
+                                cursorShape: (dragProxyArea.drag.active ? Qt.ClosedHandCursor : (tracksArea.isCursorHidden ? Qt.BlankCursor : tracksArea.cursorShape))
                             }
                             Column {
                                 id: tracksContainer
