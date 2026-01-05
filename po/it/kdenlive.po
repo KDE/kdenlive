@@ -4,14 +4,14 @@
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010, 2012, 2013, 2015, 2016.
 # SPDX-FileCopyrightText: 2015, 2020, 2022, 2024 Vincenzo Reale <smart2128vr@gmail.com>
-# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Paolo Zamponi <feus73@gmail.com>
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Paolo Zamponi <feus73@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 00:43+0000\n"
-"PO-Revision-Date: 2025-12-06 19:57+0100\n"
+"PO-Revision-Date: 2026-01-04 10:52+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -943,8 +943,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:35
 #: data/effects/avfilter/avfilter_lowpass.xml:32
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
-#, fuzzy, kde-format
-#| msgid "Filter precision"
+#, kde-format
 msgid "Filter Precision"
 msgstr "Precisione del filtro"
 
@@ -4418,8 +4417,7 @@ msgid "High-shelf"
 msgstr "High shelf"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply a high shelf filter."
+#, kde-format
 msgid "Apply a high-shelf filter."
 msgstr "Applica un filtro high shelf."
 
@@ -10761,6 +10759,7 @@ msgstr "Associa il nero a"
 #, kde-format
 msgid "The color to map source color with zero luminance"
 msgstr ""
+"Il colore da associare a quello nell'immagine sorgente con luminanza zero"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:12
 #, fuzzy, kde-format
@@ -10783,6 +10782,7 @@ msgstr "Associa il bianco a"
 #, kde-format
 msgid "The color to map source color with full luminance"
 msgstr ""
+"Il colore da associare a quello nell'immagine sorgente con luminanza piena"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:20
 #, fuzzy, kde-format
@@ -14093,10 +14093,9 @@ msgid "Highpass,Bandpass"
 msgstr "Passa alto,Passa banda"
 
 #: data/effects/ladspa/ladspa_2147.xml:21
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor On"
-msgstr "Controlla"
+msgstr "Controllo attivo"
 
 #: data/effects/ladspa/ladspa_2148.xml:4
 #, kde-format
@@ -27629,7 +27628,7 @@ msgstr "Termina l'esportazione dell'anteprima"
 #: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "Aggiungi zona della linea temporale alla selezione"
+msgstr "Regola zona della linea temporale in base alla selezione"
 
 #: src/mainwindow.cpp:1849
 #, kde-format
