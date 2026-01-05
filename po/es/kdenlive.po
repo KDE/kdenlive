@@ -1,15 +1,15 @@
 # Spanish translations for kdenlive.po package.
-# Copyright (C) 2015-2025 This file is copyright:
+# Copyright (C) 2015-2026 This file is copyright:
 # This file is distributed under the same license as the kdenlive package.
 # Automatically generated, 2015.
 #
-# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Gabriel Gazzán <gabcorreo@gmail.com>
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Gabriel Gazzán <gabcorreo@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-17 00:46+0100\n"
+"PO-Revision-Date: 2026-01-05 00:35+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -3696,7 +3696,7 @@ msgstr "Intensidad gama"
 #: data/effects/avfilter/avfilter_equalizer.xml:4
 #, kde-format
 msgid "Audio Equalizer (avfilter)"
-msgstr "Ecualizador de audio"
+msgstr "Ecualizador"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
@@ -14205,7 +14205,7 @@ msgid ""
 "Smooth Hall (Large),Smooth Hall (Large) - HD,Vocal Plate,Vocal Plate - HD,"
 "Warble Chamber,Warehouse,Warehouse - HD"
 msgstr ""
-"Tobera,Tobera (larga),Ambiente,Ambiente (espeso),Ambiente (espeso) - AD,"
+"Túnel,Túnel (largo),Ambiente,Ambiente (espeso),Ambiente (espeso) - AD,"
 "Catedral,Catedral - AD,Cámara de percusión,Garage,Garage (brillante),"
 "Gimnasio,Gimnasio (brillante),Gimnasio (brillante) - AD,Salón (pequeño),"
 "Salón (medio),Salón (grande),Salón (grande) - AD,Escenario (pequeño),"
@@ -14772,7 +14772,7 @@ msgstr "Posición der procesado"
 #: data/effects/ladspa/ladspa_2157.xml:4
 #, kde-format
 msgid "TAP Sigmoid Booster"
-msgstr "TAP Impulso sigmoideo"
+msgstr "TAP Potenciador sigmoideo"
 
 #: data/effects/ladspa/ladspa_2157.xml:6
 #, kde-format
@@ -14781,7 +14781,7 @@ msgid ""
 "   Applies a time-invariant nonlinear amplitude transfer function to the "
 "signal.]]>"
 msgstr ""
-"<![CDATA[TAP Impulso sigmoideo (LADSPA 2157)<br>\n"
+"<![CDATA[TAP Potenciador sigmoideo (LADSPA 2157)<br>\n"
 "   Permite aplicar una función no lineal de transferencia de amplitud "
 "invariante en el tiempo a la señal.]]>"
 
@@ -16345,12 +16345,12 @@ msgstr "Tamaño ventana suavizado "
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
 msgid "Sox Band"
-msgstr "Sox: Bandas"
+msgstr "Sox: Banda"
 
 #: data/effects/sox/sox_band.xml:5
 #, kde-format
 msgid "Sox band audio effect"
-msgstr "Efecto de audio Sox: Bandas"
+msgstr "Efecto de audio Sox: Banda"
 
 #: data/effects/sox/sox_band.xml:8
 #, kde-format
@@ -17154,7 +17154,7 @@ msgstr "Reverberación, eco y retardo"
 #: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "EQ and Filters"
-msgstr "Ecualización y filtros"
+msgstr "Ecualización y filtrado"
 
 #: data/kdenliveeffectscategory.rc:82
 #, kde-format
@@ -19471,7 +19471,7 @@ msgstr "Abrir carpeta actual en una bandeja"
 #: src/bin/bin.cpp:1590
 #, kde-format
 msgid "Tags Panel"
-msgstr "Panel de etiquetas"
+msgstr "Barra de etiquetas"
 
 #: src/bin/bin.cpp:1612
 #, kde-kuit-format
@@ -19605,7 +19605,7 @@ msgid ""
 "timeline replacement."
 msgstr ""
 "Es necesario seleccionar 2 medios (el sustituto y el original) para una "
-"sustitución en la línea de tiempo."
+"sustitución en la secuencia activa."
 
 #: src/bin/bin.cpp:2215
 #, kde-format
@@ -19981,7 +19981,7 @@ msgstr "Sustituir medio…"
 #: src/bin/bin.cpp:3996
 #, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Sustituir medio en línea de tiempo…"
+msgstr "Sustituir medio en secuencia activa…"
 
 #: src/bin/bin.cpp:4001
 #, kde-format
@@ -20943,7 +20943,7 @@ msgstr "Nueva etiqueta"
 #: src/capture/mediacapture.cpp:114
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "Formato de grabación ajustado a %1 canales, %2Hz."
 
 #: src/capture/mediacapture.cpp:221
 #, kde-format
@@ -22231,7 +22231,7 @@ msgstr "Vertical (9:16)"
 #: src/dialogs/renderwidget.cpp:387
 #, kde-format
 msgid "Square (1:1)"
-msgstr "Cuadrado (1:1)"
+msgstr "Cuadrada (1:1)"
 
 #: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -26269,7 +26269,7 @@ msgstr "Tareas de medios"
 #: src/kdenliveui.rc:84
 #, kde-format
 msgid "Clip in Timeline"
-msgstr "Localizar en secuencia"
+msgstr "Localizar en secuencia activa"
 
 #. i18n: ectx: Menu (sequence)
 #: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1012
@@ -27692,7 +27692,7 @@ msgstr ""
 #: src/mainwindow.cpp:1528
 #, kde-format
 msgid "Fit Zoom to Project"
-msgstr "Ajustar ampliación al proyecto"
+msgstr "Ajustar ampliación al contenido"
 
 #: src/mainwindow.cpp:1529
 #, kde-kuit-format
@@ -38655,7 +38655,7 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"La carpeta de trabajo, es el lugar donde se almacenarán recursos tales como "
+" La carpeta de trabajo, es el lugar donde se almacenarán recursos tales como "
 "medios de reemplazo, miniaturas, gráficas y previsualizaciones."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
@@ -40010,7 +40010,7 @@ msgstr "Al"
 #: src/widgets/geometrywidget.cpp:90
 #, kde-format
 msgid "Adjust to original size"
-msgstr "Ajustar al tamaño original"
+msgstr "Ajustar al tamaño original del medio"
 
 #: src/widgets/geometrywidget.cpp:93
 #, kde-format
