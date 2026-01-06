@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-03 16:46+0100\n"
+"PO-Revision-Date: 2026-01-05 16:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -27557,7 +27557,7 @@ msgstr "Monitor omwisselen"
 #: src/mainwindow.cpp:1684
 #, kde-format
 msgid "Focus Timecode"
-msgstr "Tijdcode van focus"
+msgstr "Focus op tijdcode"
 
 #: src/mainwindow.cpp:1685
 #, kde-format
