@@ -645,7 +645,7 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     }
     m_consumer->set("scrub_audio", 0);
     if (position != -2) {
-        m_proxy->setPositionAdvanced(position > 0 ? position : m_producer->position(), true);
+        m_proxy->setPositionAdvanced(position >= 0 ? position : m_producer->position(), true);
     }
     return error;
 }

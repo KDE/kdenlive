@@ -57,7 +57,7 @@ void RotoHelper::refreshParams(int pos)
             controlPoints << QVariant(i.h2);
         }
     }
-    if (m_monitor) {
+    if (m_monitor && !centerPoints.isEmpty()) {
         m_monitor->setUpEffectGeometry(centerPoints, controlPoints);
     }
 }

@@ -672,12 +672,12 @@ bool ProjectManager::saveFile()
 
 void ProjectManager::slotOpenFile()
 {
-    Q_EMIT pCore->GUISetupDone();
     if (m_startUrl.isValid()) {
         openFile(m_startUrl);
         m_startUrl.clear();
         return;
     }
+    Q_EMIT pCore->GUISetupDone();
     QString projectFolder = KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"));
     if (!QFileInfo::exists(projectFolder)) {
         projectFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
