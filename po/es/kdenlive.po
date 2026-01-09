@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-05 00:35+0100\n"
+"PO-Revision-Date: 2026-01-09 01:23+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18844,7 +18844,7 @@ msgstr ""
 #: src/assets/view/widgets/keyframecontainer.cpp:218
 #, kde-format
 msgid "Seek to Keyframe on Select"
-msgstr "Al seleccionar un clave ir al fotograma"
+msgstr "Al seleccionar un clave saltar al fotograma"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:223
 #, kde-format
@@ -25958,7 +25958,7 @@ msgstr "No es posible determinar la duración del archivo <b>%1</b>."
 #: src/jobs/cliploadtask.cpp:728
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
-msgstr "No es posible saltar en el archivo <b>%1</b>."
+msgstr "No es posible recorrer el archivo <b>%1</b>."
 
 #: src/jobs/cliploadtask.cpp:759
 #, kde-format
@@ -26349,7 +26349,7 @@ msgstr "Ir a"
 #: src/kdenliveui.rc:254
 #, kde-format
 msgid "Seek"
-msgstr "Saltar"
+msgstr "Recorrer"
 
 #. i18n: ectx: Menu (monitor_config_overlay)
 #: src/kdenliveui.rc:272
@@ -29969,7 +29969,7 @@ msgstr ""
 "<shortcut>Clic</shortcut> reproducir, <shortcut>Doble clic</shortcut> "
 "pantalla completa, <shortcut>Posar a la derecha</shortcut> barra de "
 "herramientas, <shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> "
-"saltar, <shortcut>Ctrl+rueda</shortcut> ampliar"
+"recorrer, <shortcut>Ctrl+rueda</shortcut> ampliar"
 
 #: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
@@ -30206,7 +30206,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 "<shortcut>Arrastrar</shortcut> establecer punto de entrada de la zona, "
-"<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se arrastra"
+"<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se recorre"
 
 #: src/monitor/view/MonitorRuler.qml:358
 #, kde-kuit-format
@@ -30216,7 +30216,7 @@ msgid ""
 "shortcut> to seek while adjusting zone out"
 msgstr ""
 "<shortcut>Arrastrar</shortcut> establecer el punto de salida de la zona, "
-"<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se arrastra"
+"<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se recorre"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gainButton)
 #: src/monitor/view/MonitorZoomButton.qml:55 src/ui/vectorscope_ui.ui:68
@@ -30232,7 +30232,7 @@ msgid ""
 msgstr ""
 "<b>Clic</b> para reproducir, <b>Doble clic</b> para pantalla completa, "
 "<b>Posar a la derecha</b> para barra de herramientas, <b>Rueda</b> o "
-"<b>flechas</b> para saltar, <b>Ctrl+rueda</b> para ampliar"
+"<b>flechas</b> para recorrer, <b>Ctrl+rueda</b> para ampliar"
 
 #: src/monitor/view/ProjectMonitor.qml:299
 #, kde-format
