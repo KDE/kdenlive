@@ -2,7 +2,7 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="loudness" id="loudness" type="audio" condition="results">
     <name>Normalize (2 pass)</name>
-    <description>Correct audio loudness as recommended by EBU R128</description>
+    <description>Designed to analyze and apply the normalization based on an entire audio file or an entire track. Correct audio loudness as recommended by EBU R128</description>
     <author>Brian Matherly</author>
     <parameter type="double" name="program" max="-10" min="-50" default="-23.00" decimals="2" suffix="LUFS">
         <name>Target Program Loudness</name>
