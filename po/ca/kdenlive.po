@@ -39932,12 +39932,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Monitor Gamma"
-#~ msgstr "Gamma del monitor"
-
-#~ msgid "sRGB (computer)"
-#~ msgstr "sRGB (ordinador)"
-
-#~ msgid "Rec. 709 (TV)"
-#~ msgstr "Rec. 709 (TV)"

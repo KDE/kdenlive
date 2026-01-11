@@ -6,13 +6,13 @@
 # amir <amir_in@netvision.net.il>, 2010.
 # Diego Iastrubni <elcuco@kde.org>, 2012.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
-# SPDX-FileCopyrightText: 2024, 2025 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2024, 2025, 2026 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-03 16:14+0200\n"
+"PO-Revision-Date: 2026-01-10 21:18+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2349,7 +2349,7 @@ msgstr "מרחק סנטימטר"
 #, kde-format
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
-msgstr ""
+msgstr "הגדרת מרחקים בסנטימטרים. זה מרחק הפיצוי על הגדרת צמצום המרווח."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
@@ -2360,7 +2360,7 @@ msgstr "מרחק מטר"
 #, kde-format
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
-msgstr ""
+msgstr "הגדרת מרחקים במטרים. זה מרחק הפיצוי על הגדרת הקשחת המרווח."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, kde-format
@@ -2387,7 +2387,7 @@ msgstr ""
 msgid ""
 "Set temperature in degrees Celsius. This is the temperature of the "
 "environment."
-msgstr ""
+msgstr "הגדרת טמפרטורה במעלות צלזיוס. זאת טמפרטורת הסביבה."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
 #, kde-format
@@ -2464,7 +2464,7 @@ msgstr "אבחון נתוני וידאו"
 #: data/effects/avfilter/avfilter_datascope.xml:9
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
-msgstr ""
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720 HD,1080 Full HD,2K,4K"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, kde-format
@@ -4286,10 +4286,9 @@ msgid "HQ 3D Denoiser (avfilter)"
 msgstr "קנה־מידה פיקסלים"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "Apply a high quality 3D denoiser"
-msgstr "מכבה רעשים תלת־ממדי באיכות גבוהה"
+msgstr "החלת מכבה רעשים תלת־ממדי באיכות גבוהה"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -13334,12 +13333,12 @@ msgstr "משוב"
 #: data/effects/ladspa/ladspa_2143.xml:30
 #, kde-format
 msgid "L Echo Level"
-msgstr ""
+msgstr "רמת הד שמאל"
 
 #: data/effects/ladspa/ladspa_2143.xml:33
 #, kde-format
 msgid "R Echo Level"
-msgstr ""
+msgstr "רמת הד ימין"
 
 #: data/effects/ladspa/ladspa_2144.xml:4
 #, kde-format
