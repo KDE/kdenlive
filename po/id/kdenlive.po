@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 00:42+0000\n"
+"POT-Creation-Date: 2026-01-12 00:43+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -7740,8 +7740,11 @@ msgid "Normalize"
 msgstr "Normalkan"
 
 #: data/effects/dynamic_loudness.xml:5
-#, kde-format
-msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, fuzzy, kde-format
+#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed for live streams. Dynamically correct audio loudness as recommended "
+"by EBU R128"
 msgstr ""
 "Kenyaringan audio yang benar secara dinamis seperti yang direkomendasikan "
 "oleh EBU R128"
@@ -15079,9 +15082,10 @@ msgstr "Normalkan (2 lampau)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
-msgid "Correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed to analyze and apply the normalization based on an entire audio "
+"file or an entire track. Correct audio loudness as recommended by EBU R128"
 msgstr ""
-"Kenyaringan audio yang benar seperti yang direkomendasikan oleh EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format
@@ -40100,6 +40104,10 @@ msgstr "%1mnt"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1jm"
+
+#~ msgid "Correct audio loudness as recommended by EBU R128"
+#~ msgstr ""
+#~ "Kenyaringan audio yang benar seperti yang direkomendasikan oleh EBU R128"
 
 #, fuzzy
 #~| msgid "Low frequency"

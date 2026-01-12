@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 00:42+0000\n"
+"POT-Creation-Date: 2026-01-12 00:43+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7461,8 +7461,11 @@ msgid "Normalize"
 msgstr "Normalize - 标准化"
 
 #: data/effects/dynamic_loudness.xml:5
-#, kde-format
-msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, fuzzy, kde-format
+#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed for live streams. Dynamically correct audio loudness as recommended "
+"by EBU R128"
 msgstr "按照 EBU R128 规范的建议值动态校正音频响度"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
@@ -14445,8 +14448,10 @@ msgstr "Normalize (2 pass) - 标准化 (2 次处理)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
-msgid "Correct audio loudness as recommended by EBU R128"
-msgstr "按照 EBU R128 规范的建议值校正音频响度"
+msgid ""
+"Designed to analyze and apply the normalization based on an entire audio "
+"file or an entire track. Correct audio loudness as recommended by EBU R128"
+msgstr ""
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format
@@ -38459,3 +38464,6 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "Correct audio loudness as recommended by EBU R128"
+#~ msgstr "按照 EBU R128 规范的建议值校正音频响度"

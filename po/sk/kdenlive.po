@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 00:42+0000\n"
+"POT-Creation-Date: 2026-01-12 00:43+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -7772,8 +7772,11 @@ msgid "Normalize"
 msgstr "Normalizovať"
 
 #: data/effects/dynamic_loudness.xml:5
-#, kde-format
-msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, fuzzy, kde-format
+#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed for live streams. Dynamically correct audio loudness as recommended "
+"by EBU R128"
 msgstr "Dynamicky opraviť hlasitosť zvuku, ako je odporúčané s EBU R128"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
@@ -15159,8 +15162,10 @@ msgstr "Normalizovať"
 
 #: data/effects/loudness.xml:5
 #, kde-format
-msgid "Correct audio loudness as recommended by EBU R128"
-msgstr "Opraviť hlasitosť zvuku, ako je odporúčané s EBU R128"
+msgid ""
+"Designed to analyze and apply the normalization based on an entire audio "
+"file or an entire track. Correct audio loudness as recommended by EBU R128"
+msgstr ""
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, fuzzy, kde-format
@@ -40995,6 +41000,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Correct audio loudness as recommended by EBU R128"
+#~ msgstr "Opraviť hlasitosť zvuku, ako je odporúčané s EBU R128"
 
 #, fuzzy
 #~| msgid "Center Frequency"

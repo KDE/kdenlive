@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 00:42+0000\n"
+"POT-Creation-Date: 2026-01-12 00:43+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -7795,8 +7795,11 @@ msgid "Normalize"
 msgstr "균등화"
 
 #: data/effects/dynamic_loudness.xml:5
-#, kde-format
-msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, fuzzy, kde-format
+#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed for live streams. Dynamically correct audio loudness as recommended "
+"by EBU R128"
 msgstr "EBU R128에서 권장하는대로 오디오 음량을 동적으로 보정"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
@@ -15138,8 +15141,10 @@ msgstr "균등화(2패스)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
-msgid "Correct audio loudness as recommended by EBU R128"
-msgstr "EBU R128 기준에 따라 오디오 음량 교정"
+msgid ""
+"Designed to analyze and apply the normalization based on an entire audio "
+"file or an entire track. Correct audio loudness as recommended by EBU R128"
+msgstr ""
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, fuzzy, kde-format
@@ -40589,6 +40594,9 @@ msgstr "%1분"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
+
+#~ msgid "Correct audio loudness as recommended by EBU R128"
+#~ msgstr "EBU R128 기준에 따라 오디오 음량 교정"
 
 #, fuzzy
 #~| msgid "Center Frequency"

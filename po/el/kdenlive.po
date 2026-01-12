@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 00:42+0000\n"
+"POT-Creation-Date: 2026-01-12 00:43+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -7715,7 +7715,9 @@ msgstr "Κανονικό"
 
 #: data/effects/dynamic_loudness.xml:5
 #, kde-format
-msgid "Dynamically correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed for live streams. Dynamically correct audio loudness as recommended "
+"by EBU R128"
 msgstr ""
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
@@ -14902,7 +14904,9 @@ msgstr "Κανονικό"
 
 #: data/effects/loudness.xml:5
 #, kde-format
-msgid "Correct audio loudness as recommended by EBU R128"
+msgid ""
+"Designed to analyze and apply the normalization based on an entire audio "
+"file or an entire track. Correct audio loudness as recommended by EBU R128"
 msgstr ""
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
