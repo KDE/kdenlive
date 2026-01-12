@@ -14084,12 +14084,12 @@ msgid ""
 msgstr ""
 "AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) - HD,"
 "Catedral,Catedral - HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
-"(animat),Gimnàs (animat) - HD,Sala (Xicoteta),Sala (Mitjana),Sala (Gran),"
+"(animat),Gimnàs (animat) - HD,Sala (xicoteta),Sala (Mitjana),Sala (Gran),"
 "Sala (Gran) - HD,Plat (Xicotet),Plat (mitjà),Plat (Gran),Plat (Gran) - HD,"
 "Càmera de polsos,Càmera de polsos (Inversa),Ressonador (96 ms),Ressonador "
-"(152 ms),Ressonador (208 ms),Habitació (Xicoteta),Habitació (Mitjana),"
+"(152 ms),Ressonador (208 ms),Habitació (xicoteta),Habitació (Mitjana),"
 "Habitació (Gran),Habitació (Gran) - HD,Cambra de manotades - HD,Cambra de "
-"manotades (Animada),Cambra de manotades (Animada) - HD,Sala suau (Xicoteta),"
+"manotades (Animada),Cambra de manotades (Animada) - HD,Sala suau (xicoteta),"
 "Sala suau (Mitjana),Sala suau (Gran),Sala suau (Gran) - HD,Plat vocal,Plat "
 "vocal - HD,Cambra de refilets,Magatzem,Magatzem - HD"
 
@@ -31337,10 +31337,10 @@ msgstr ""
 "tornar a crear totes les dades en obrir el projecte.<br/>Les <b>dades de "
 "còpia de seguretat</b> són un arxiu de versions anteriors dels fitxers del "
 "projecte. Útil si necessiteu recuperar una versió anterior d'un projecte. "
-"Estes dades no es poden recuperar.<br/>Els <b>clips d'amfitrió intermediari</"
-"b> són fitxers de vídeo de menor resolució utilitzats per a una edició més "
-"ràpida. La supressió és segura, es poden tornar a crear clips intermediaris "
-"si teniu els clips d'origen originals."
+"Estes dades no es poden recuperar.<br/>Els <b>clips de servidor "
+"intermediari</b> són fitxers de vídeo de menor resolució utilitzats per a "
+"una edició més ràpida. La supressió és segura, es poden tornar a crear clips "
+"intermediaris si teniu els clips d'origen originals."
 
 #: src/project/dialogs/temporarydata.cpp:187
 #, kde-format
@@ -36041,7 +36041,7 @@ msgstr "Zona segura del monitor:"
 #: src/ui/configenv_ui.ui:33
 #, kde-format
 msgid "Proxy and Transcode Jobs"
-msgstr "Tasques d'amfitrió intermediari i transcodificació"
+msgstr "Tasques de servidor intermediari i transcodificació"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_nice_tasks)
 #: src/ui/configenv_ui.ui:39
