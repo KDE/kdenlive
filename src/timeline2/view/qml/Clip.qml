@@ -707,15 +707,23 @@ Rectangle {
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton
                             cursorShape: Qt.PointingHandCursor
+                            property bool shiftTrim: false
                             hoverEnabled: true
                             ToolTip.visible: containsMouse
                             ToolTip.text: markerBase.markerText
                             ToolTip.delay: 1000
                             ToolTip.timeout: 5000
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, markerBase.position)
-                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
+                            onPressed: mouse => {
+                                shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                            }
+
+                            onClicked:  {
+                                proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
                             ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
                             : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
+                                controller.requestAddToSelection(clipRoot.clipId, shiftTrim ? false : true)
+                            }
                         }
                     }
                     
