@@ -131,6 +131,58 @@ struct AssetPointInfo
         }
     }
     explicit AssetPointInfo() {}
+    static QString fetchDefaults(const QDomElement element)
+    {
+        QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
+        QPair<QString, QString> defaults;
+        for (int i = 0; i < children.count(); ++i) {
+            QDomElement currentParameter = children.item(i).toElement();
+            const QString target = currentParameter.attribute(QStringLiteral("target"));
+            if (target == QLatin1String("x")) {
+                defaults.first = currentParameter.attribute(QStringLiteral("default"));
+            } else {
+                defaults.second = currentParameter.attribute(QStringLiteral("default"));
+            }
+        }
+        return QStringLiteral("%1 %2").arg(defaults.first, defaults.second);
+    }
+    static QVariant buildPointFromXml(const QDomElement element)
+    {
+        QPair<QString, QString> names;
+        QPair<QString, QString> defaults;
+        QPair<QString, QString> minimas;
+        QPair<QString, QString> maximas;
+        QPair<QString, QString> factors;
+        QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
+        for (int i = 0; i < children.count(); ++i) {
+            QDomElement currentParameter = children.item(i).toElement();
+            const QString target = currentParameter.attribute(QStringLiteral("target"));
+            if (target == QLatin1String("x")) {
+                names.first = currentParameter.attribute(QStringLiteral("source"));
+                defaults.first = currentParameter.attribute(QStringLiteral("default"));
+                minimas.first = currentParameter.attribute(QStringLiteral("min"));
+                maximas.first = currentParameter.attribute(QStringLiteral("max"));
+                factors.first = currentParameter.attribute(QStringLiteral("factor"));
+            } else {
+                names.second = currentParameter.attribute(QStringLiteral("source"));
+                defaults.second = currentParameter.attribute(QStringLiteral("default"));
+                minimas.second = currentParameter.attribute(QStringLiteral("min"));
+                maximas.second = currentParameter.attribute(QStringLiteral("max"));
+                factors.second = currentParameter.attribute(QStringLiteral("factor"));
+            }
+        }
+        qDebug() << "........\nBUILDING DEFAULT POINT ROLES: " << names << " / " << defaults;
+        AssetPointInfo paramInfo(names, defaults, minimas, maximas, factors);
+        return QVariant::fromValue(paramInfo);
+    }
+    QPointF getMinimum() const { return minimum; }
+    QPointF getMaximum() const { return maximum; }
+    QPointF getFactor() const { return factors; }
+    QPointF getDefaultValue() const
+    {
+        return defaultValue;
+        // return QPointF(defaultValue.x() * factors.x(), defaultValue.y() * factors.y());
+    }
     QPointF value(const QString &stringValue)
     {
         const QStringList splitValue = stringValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);

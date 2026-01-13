@@ -21,8 +21,8 @@ PointWidget::PointWidget(const QString &name, QPointF value, QPointF min, QPoint
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    m_dragValX = new DragValue(name, defaultValue.x() * factor.x(), decimals, min.x(), max.x(), id, QString(), false, false, this);
-    m_dragValY = new DragValue(name, defaultValue.y() * factor.y(), decimals, min.y(), max.y(), id, QString(), false, false, this);
+    m_dragValX = new DragValue(name, defaultValue.x(), decimals, min.x(), max.x(), id, QString(), false, false, this);
+    m_dragValY = new DragValue(name, defaultValue.y(), decimals, min.y(), max.y(), id, QString(), false, false, this);
     layout->addWidget(m_dragValX);
     layout->addWidget(m_dragValY);
     layout->addStretch(10);

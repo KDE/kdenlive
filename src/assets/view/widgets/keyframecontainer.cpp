@@ -726,15 +726,17 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
     if (type == ParamType::AnimatedPoint || type == ParamType::AnimatedFakePoint) {
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
-        const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
-        QPointF point;
-        QStringList vals = value.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-        if (vals.count() > 1) {
-            point = QPointF(vals.at(0).toDouble(), vals.at(1).toDouble());
+        QPointF point = QPoint();
+        if (m_keyframes->hasKeyframes(index) > 0) {
+            const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
+            QStringList vals = value.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            if (vals.count() > 1) {
+                point = QPointF(vals.at(0).toDouble(), vals.at(1).toDouble());
+            }
         }
         Q_EMIT addIndex(index);
         labelWidget = new QLabel(name, m_parent);
-        auto pointWidget = new PointParamWidget(m_model, index, m_parent);
+        auto pointWidget = new PointParamWidget(m_model, index, m_parent, point);
         connect(pointWidget, &PointParamWidget::valueChanged, this, [this](QModelIndex ix, QString v, bool) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, ix);
