@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-12 00:43+0000\n"
-"PO-Revision-Date: 2026-01-10 21:50+0300\n"
+"PO-Revision-Date: 2026-01-12 16:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7684,13 +7684,13 @@ msgid "Normalize"
 msgstr "Normalleştir"
 
 #: data/effects/dynamic_loudness.xml:5
-#, fuzzy, kde-format
-#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, kde-format
 msgid ""
 "Designed for live streams. Dynamically correct audio loudness as recommended "
 "by EBU R128"
 msgstr ""
-"Ses yüksekliğini EBU R128 tarafından önerildiği gibi devingen olarak düzelt"
+"Canlı yayın akışları için tasarlanmıştır. Ses yüksekliğini EBU R128 "
+"tarafından tavsiye edildiği üzere devingen olarak düzeltin."
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -15045,6 +15045,9 @@ msgid ""
 "Designed to analyze and apply the normalization based on an entire audio "
 "file or an entire track. Correct audio loudness as recommended by EBU R128"
 msgstr ""
+"Bütün bir ses dosyası veya iz tabanlı olarak normalleştirmeyi çözümleme ve "
+"uygulama için tasarlanmıştır. EBU R128 tarafından tavsiye edildiği üzere ses "
+"yüksekliğini düzeltin."
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format

@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Marcelo Soares Souza <marcelo@juntadados.org>, 2008, 2010, 2011.
-# SPDX-FileCopyrightText: 2011, 2012, 2025 Marcus Gama <marcus.gama@gmail.com>
+# SPDX-FileCopyrightText: 2011, 2012, 2025, 2026 Marcus Gama <marcus.gama@gmail.com>
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2011, 2012, 2013, 2014, 2015, 2016.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Barbara <barbaratostes@gmail.com>, 2020.
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-12 00:43+0000\n"
-"PO-Revision-Date: 2025-12-31 08:24-0300\n"
+"PO-Revision-Date: 2026-01-12 08:36-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -7719,14 +7719,13 @@ msgid "Normalize"
 msgstr "Normalizar"
 
 #: data/effects/dynamic_loudness.xml:5
-#, fuzzy, kde-format
-#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, kde-format
 msgid ""
 "Designed for live streams. Dynamically correct audio loudness as recommended "
 "by EBU R128"
 msgstr ""
-"Correção dinâmica da potência do áudio, de acordo com a recomendação da EBU "
-"R128"
+"Desenhado para transmissões ao vivo. Correção dinâmica da potência do áudio, "
+"de acordo com a recomendação da EBU R128"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -15108,6 +15107,9 @@ msgid ""
 "Designed to analyze and apply the normalization based on an entire audio "
 "file or an entire track. Correct audio loudness as recommended by EBU R128"
 msgstr ""
+"Projetado para analisar e aplicar a normalização com base em um arquivo de "
+"áudio completo ou em uma faixa inteira. Corrige o volume do áudio conforme "
+"recomendado pela norma EBU R128."
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format

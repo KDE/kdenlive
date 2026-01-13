@@ -7461,12 +7461,11 @@ msgid "Normalize"
 msgstr "Normalize - 标准化"
 
 #: data/effects/dynamic_loudness.xml:5
-#, fuzzy, kde-format
-#| msgid "Dynamically correct audio loudness as recommended by EBU R128"
+#, kde-format
 msgid ""
 "Designed for live streams. Dynamically correct audio loudness as recommended "
 "by EBU R128"
-msgstr "按照 EBU R128 规范的建议值动态校正音频响度"
+msgstr ""
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -38464,6 +38463,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Correct audio loudness as recommended by EBU R128"
-#~ msgstr "按照 EBU R128 规范的建议值校正音频响度"

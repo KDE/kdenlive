@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-12 00:43+0000\n"
-"PO-Revision-Date: 2026-01-10 21:18+0200\n"
+"PO-Revision-Date: 2026-01-11 21:13+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2921,16 +2921,14 @@ msgid "Input,Output,Ess only"
 msgstr "קלט,פלט,Ess בלבד"
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
-#, fuzzy, kde-format
-#| msgid "Template"
+#, kde-format
 msgid "Deflate"
-msgstr "תדמית"
+msgstr "צמצום"
 
 #: data/effects/avfilter/avfilter_deflate.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Apply deflate effect to the video"
-msgstr "הוספת שכבת על של טקסט שקשור באיכון (GPS) לווידאו."
+msgstr "החלת אפקט צמצום על הסרטון"
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
 #, kde-format
@@ -5309,10 +5307,9 @@ msgid "Print Statistics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[switch statistics on or off]]>"
+#, kde-format
 msgid "switch statistics on or off"
-msgstr "<![CDATA[הפעלה או כיבוי סטטיסטיקה]]>"
+msgstr "הפעלה או כיבוי סטטיסטיקה"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
@@ -5954,10 +5951,9 @@ msgid "Rotation"
 msgstr "הטיה"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:17
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Elevation"
-msgstr "פעולה"
+msgstr "עילוי"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:24
 #, kde-format
@@ -10297,10 +10293,9 @@ msgid "The color to map source color with full luminance"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:20
-#, fuzzy, kde-format
-#| msgid "White point"
+#, kde-format
 msgid "Grey point"
-msgstr "נקודה לבנה"
+msgstr "נקודה אפורה"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:21
 #, kde-format

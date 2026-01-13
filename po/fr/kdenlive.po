@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-12 00:43+0000\n"
-"PO-Revision-Date: 2026-01-01 20:15+0100\n"
+"PO-Revision-Date: 2026-01-12 09:52+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.1\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -782,7 +782,7 @@ msgstr "Profondeur LFO"
 #: data/effects/avfilter/avfilter_acrusher.xml:42
 #, kde-format
 msgid "LFO rate"
-msgstr "Fréquence  LFO"
+msgstr "Fréquence LFO"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
@@ -1003,7 +1003,7 @@ msgstr "Modulation"
 #: data/effects/avfilter/avfilter_apulsator.xml:21
 #, kde-format
 msgid "Offset L"
-msgstr "Décalage  L"
+msgstr "Décalage L"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:24
 #, kde-format
@@ -1715,7 +1715,7 @@ msgstr "Taille"
 #: data/effects/avfilter/avfilter_ciescope.xml:24
 #, kde-format
 msgid "Set the size of the scope on screen"
-msgstr "[Définir la taille de l'analyseur à l’écran"
+msgstr "[Définir la taille de l'analyseur à l'écran"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:27
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
@@ -1778,8 +1778,8 @@ msgstr "Gamma d'entrée"
 #, kde-format
 msgid "Set input gamma. Used only with XYZ input color space."
 msgstr ""
-"Définir le gamma d’entrée. Utilisé uniquement avec l’espace  colorimétrique "
-"d’entrée « XYZ »."
+"Définir le gamma d'entrée. Utilisé uniquement avec l'espace colorimétrique "
+"d'entrée « XYZ »."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
 #, kde-format
@@ -1983,7 +1983,7 @@ msgstr "Tâche d'ombrage rouge"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:11
 #, kde-format
 msgid "Blue shadow spot"
-msgstr "Tâche d’ombrage bleue"
+msgstr "Tâche d'ombrage bleue"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
 #, kde-format
@@ -2311,7 +2311,7 @@ msgstr "Remplacer les couleurs primaires d'entrée"
 #: data/effects/avfilter/avfilter_colorspace.xml:55
 #, kde-format
 msgid "Override input transfer characteristics"
-msgstr "Remplacer les caractéristiques de transfert d’entrée"
+msgstr "Remplacer les caractéristiques de transfert d'entrée"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:59
 #, kde-format
@@ -2369,14 +2369,14 @@ msgid ""
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
 "Une liste de temps en secondes pour chaque canal sur lequel le niveau "
-"instantané du signal d’entrée est moyenné pour déterminer son volume. Les "
+"instantané du signal d'entrée est moyenné pour déterminer son volume. Les "
 "attaques font référence aux augmentations de volume et les décompositions "
 "font référence à la diminution du volume. Pour la plupart des situations, le "
-"temps d’attaque (Réponse audio devenant plus forte) devrait être plus court "
-"que le temps de décomposition, car l’oreille humaine est plus sensible à un "
-"son bruyant soudain que l’audio doux soudain. Une valeur typique pour les "
+"temps d'attaque (Réponse audio devenant plus forte) devrait être plus court "
+"que le temps de décomposition, car l'oreille humaine est plus sensible à un "
+"son bruyant soudain que l'audio doux soudain. Une valeur typique pour les "
 "attaques est de 0,3 seconde et une valeur typique pour la décomposition est "
-"de 0,8 seconde. Si le nombre spécifié d’attaques et de décompositions est "
+"de 0,8 seconde. Si le nombre spécifié d'attaques et de décompositions est "
 "inférieur au nombre de canaux, les dernières attaques et décompositions "
 "définies seront utilisées pour tous les canaux restants."
 
@@ -2454,13 +2454,13 @@ msgstr ""
 "métrique pour compenser les positions différentes des microphones ou des "
 "haut-parleurs.  \n"
 "Par exemple, vous avez enregistré une guitare avec deux microphones placés à "
-"des endroits différents. Parce que le front de l’onde sonore a une vitesse "
+"des endroits différents. Parce que le front de l'onde sonore a une vitesse "
 "fixe dans des conditions normales, la phase des microphones peut varier et "
 "dépend de leur emplacement et de leur interposition. Le meilleur mélange "
 "sonore peut être obtenu lorsque ces microphones sont en phase "
-"(Synchronisés). Veuillez noter qu’une distance d’environ 30 cm entre les "
+"(Synchronisés). Veuillez noter qu'une distance d'environ 30 cm entre les "
 "microphones permet à un microphone de capter le signal en phase inverse de "
-"l’autre microphone. Cela conduit à un rendu un peu mélancolique du mélange "
+"l'autre microphone. Cela conduit à un rendu un peu mélancolique du mélange "
 "final. Ce filtre aide à résoudre les problèmes de phasage en ajoutant "
 "différents retards à chaque piste de microphone et en les rendant "
 "synchronisés.  \n"
@@ -2468,8 +2468,8 @@ msgstr ""
 "Le meilleur résultat peut être atteint lorsque vous prenez une piste comme "
 "référence et synchronisez les autres pistes une par une avec elle. Veuillez "
 "ne pas oublier que la tolérance de synchronisation / de retard dépend "
-"également de la fréquence d’échantillonnage. Des fréquences "
-"d’échantillonnage plus élevées donneront une meilleure tolérance. "
+"également de la fréquence d'échantillonnage. Des fréquences "
+"d'échantillonnage plus élevées donneront une meilleure tolérance. "
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
@@ -2717,7 +2717,7 @@ msgstr "Appliquer  un filtre de flou directionnel"
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, kde-format
 msgid "Sets the angle for the direction"
-msgstr "Définit l’angle pour la direction"
+msgstr "Définit l'angle pour la direction"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2743,7 +2743,7 @@ msgstr "Plans vers le filtre"
 #: data/effects/avfilter/avfilter_scharr.xml:9
 #, kde-format
 msgid "Sets the color space plane the effect is applied to"
-msgstr "Définit le plan de l'espace colorimétrique auquel l’effet est appliqué"
+msgstr "Définit le plan de l'espace colorimétrique auquel l'effet est appliqué"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #: data/effects/avfilter/avfilter_scharr.xml:10
@@ -3125,7 +3125,7 @@ msgstr "Décompresser"
 #: data/effects/avfilter/avfilter_deflate.xml:5
 #, kde-format
 msgid "Apply deflate effect to the video"
-msgstr "Appliquer l’effet de déflation à la vidéo"
+msgstr "Appliquer l'effet de déflation à la vidéo"
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
 #, kde-format
@@ -3573,7 +3573,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, kde-format
 msgid "Sets the thickness for the grid lines in pixels"
-msgstr "Définit l’épaisseur des lignes de la grille en pixels"
+msgstr "Définit l'épaisseur des lignes de la grille en pixels"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, kde-format
@@ -3670,7 +3670,7 @@ msgstr "Échelle EPX"
 #: data/effects/avfilter/avfilter_epx.xml:5
 #, kde-format
 msgid "Scale the input using EPX algorithm."
-msgstr "Mettre à l’échelle l’entrée en utilisant un algorithme EPX."
+msgstr "Mettre à l'échelle l'entrée en utilisant un algorithme EPX."
 
 #: data/effects/avfilter/avfilter_epx.xml:8
 #: data/effects/avfilter/avfilter_hqx.xml:8
@@ -3795,7 +3795,7 @@ msgid ""
 "some sort of \"live\" effect to playback. "
 msgstr ""
 "Augmente de façon linéaire la différence entre les canaux gauche et droit ce "
-"qui permet d’obtenir un lecture avec un effet « direct »."
+"qui permet d'obtenir un lecture avec un effet « direct »."
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:11
 #, kde-format
@@ -3973,7 +3973,7 @@ msgstr "Priorité des champs"
 #: data/effects/avfilter/avfilter_fieldorder.xml:4
 #, kde-format
 msgid "Interlace field order"
-msgstr "Ordre des champs d’entrelacement"
+msgstr "Ordre des champs d'entrelacement"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:5
 #, kde-format
@@ -4643,9 +4643,9 @@ msgid ""
 "Apply a high-quality magnification filter designed for pixel art. Scaling is "
 "done by 2, 3 or 4 using the hq*x magnification algorithm."
 msgstr ""
-"Appliquez un filtre d’agrandissement de haute qualité conçu pour le pixel "
-"art. La mise à l’échelle est réalisée par 2, 3 ou 4 en utilisant "
-"l’algorithme d’agrandissement hq * x."
+"Appliquez un filtre d'agrandissement de haute qualité conçu pour le pixel "
+"art. La mise à l'échelle est réalisée par 2, 3 ou 4 en utilisant "
+"l'algorithme d'agrandissement hq * x."
 
 #: data/effects/avfilter/avfilter_hqx.xml:9
 #, kde-format
@@ -5214,7 +5214,7 @@ msgid ""
 "(Iridas), .dat (DaVinci), .m3d (Pandora)"
 msgstr ""
 "Appliquer une table de correspondance « LUT » (Look Up Table) à la vidéo. "
-"Une table « LUT » est un moyen facile de corriger la couleur d’une vidéo. "
+"Une table « LUT » est un moyen facile de corriger la couleur d'une vidéo. "
 "Formats pris en charge : . 3dl (AfterEffects), . cube (Iridas), . "
 "dat(DaVinci), . m3d (Pandora)]>"
 
@@ -5462,7 +5462,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_normalize.xml:8
 #, kde-format
 msgid "Output darkest input color"
-msgstr "Sortir la couleur d’entrée la plus foncée"
+msgstr "Sortir la couleur d'entrée la plus foncée"
 
 #: data/effects/avfilter/avfilter_normalize.xml:9
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
@@ -5475,7 +5475,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_normalize.xml:12
 #, kde-format
 msgid "Output brightest input color"
-msgstr "Sortir la couleur d’entrée la plus claire"
+msgstr "Sortir la couleur d'entrée la plus claire"
 
 #: data/effects/avfilter/avfilter_normalize.xml:13
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
@@ -5577,7 +5577,7 @@ msgstr "Inclinaison du profil de trace"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
 #, kde-format
 msgid "Opacity of the scope display"
-msgstr "Opacité de l’affichage de l'analyseur"
+msgstr "Opacité de l'affichage de l'analyseur"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, kde-format
@@ -5587,7 +5587,7 @@ msgstr "Position en X de l'analyseur"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
 #, kde-format
 msgid "X position of the scope display"
-msgstr "Position en X de l’affichage de l'analyseur"
+msgstr "Position en X de l'affichage de l'analyseur"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, kde-format
@@ -5597,7 +5597,7 @@ msgstr "Position en Y de l'analyseur"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
 #, kde-format
 msgid "Y position of the scope display"
-msgstr "Position en Y de l’affichage de l'analyseur"
+msgstr "Position en Y de l'affichage de l'analyseur"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, kde-format
@@ -5715,7 +5715,7 @@ msgstr "Ignorer"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, kde-format
 msgid "Set pixels to skip when sampling frames"
-msgstr "Définir les pixels à ignorer lors de l’échantillonnage des trames"
+msgstr "Définir les pixels à ignorer lors de l'échantillonnage des trames"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:20
 #, kde-format
@@ -6471,7 +6471,7 @@ msgstr ""
 "anaglyphe jaune / bleu mi-coloré, anaglyphe jaune / bleu coloré, anaglyphe "
 "jaune / bleu dubois, sortie mono gauche, sortie mono droite, damier avec "
 "gauche en premier, damier avec droit en premier, entrelacé colonnes à gauche "
-"d’abord, colonnes entrelacées à droite d’abord, paquet de cadre HDMI"
+"d'abord, colonnes entrelacées à droite d'abord, paquet de cadre HDMI"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, kde-format
@@ -7163,7 +7163,7 @@ msgstr "Désentrelacer toutes les trames,marqués uniquement comme entrelacés"
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, kde-format
 msgid "Video Waveform Monitor"
-msgstr "Moniteur de forme d’onde vidéo"
+msgstr "Moniteur de forme d'onde vidéo"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
 #, kde-format
@@ -7270,7 +7270,7 @@ msgstr "Aucun, Vert, Orange, Inversé"
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, kde-format
 msgid "Set the opacity of the graticule"
-msgstr "Définir l’opacité du réticule"
+msgstr "Définir l'opacité du réticule"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
@@ -7285,7 +7285,7 @@ msgstr "Afficher les nombres, points de tracé"
 #: data/effects/avfilter/avfilter_waveform.xml:60
 #, kde-format
 msgid "Set scale used for displaying graticule"
-msgstr "Définir l’échelle utilisée pour l'afficher du réticule"
+msgstr "Définir l'échelle utilisée pour l'afficher du réticule"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
@@ -7336,7 +7336,7 @@ msgstr "Format d'entrée"
 #: data/effects/avfilter/avfilter_waveform.xml:84
 #, kde-format
 msgid "Set input formats for filter to pick from"
-msgstr "Définir les formats d’entrée de filtre à sélectionner"
+msgstr "Définir les formats d'entrée de filtre à sélectionner"
 
 #: data/effects/avfilter/avfilter_waveform.xml:85
 #, kde-format
@@ -7382,7 +7382,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
 msgid "Scaling dimension"
-msgstr "Dimension de mise à l’échelle"
+msgstr "Dimension de mise à l'échelle"
 
 #: data/effects/avfilter/avfilter_xbr.xml:9
 #, kde-format
@@ -7650,7 +7650,7 @@ msgid ""
 msgstr ""
 "Écart en pourcentage par rapport à la valeur de couleur sélectionnée. <br>\n"
 "        Les valeurs inférieures permettent de maintenir les couleurs proches "
-"de la couleur sélectionnée. Les valeurs supérieures permettent d’inclure "
+"de la couleur sélectionnée. Les valeurs supérieures permettent d'inclure "
 "plus de couleurs."
 
 #: data/effects/copychannelstostereo.xml:4
@@ -8126,7 +8126,7 @@ msgstr "Facteur d'atténuation"
 #: data/effects/frei0r/frei0r_aech0r.xml:9
 #, kde-format
 msgid "Disappearance Rate of the echo"
-msgstr "Taux de disparition de l’écho"
+msgstr "Taux de disparition de l'écho"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
@@ -8347,7 +8347,7 @@ msgstr "Définir la transparence en bas du dégradé."
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, kde-format
 msgid "Define the alpha operation for compositing."
-msgstr "Définir l’opération Alpha pour la composition."
+msgstr "Définir l'opération Alpha pour la composition."
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:30
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:37
@@ -8640,7 +8640,7 @@ msgstr "Mélange"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
 #, kde-format
 msgid "Degrees towards the horizon to sample from"
-msgstr "Degrés au delà de l’horizon à partir du lequel échantillonner."
+msgstr "Degrés au delà de l'horizon à partir du lequel échantillonner."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
@@ -8652,7 +8652,7 @@ msgstr "Estomper"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
 #, kde-format
 msgid "Degrees away from the horizon to sample to"
-msgstr "Degrés au delà de l’horizon vers lequel échantillonner."
+msgstr "Degrés au delà de l'horizon vers lequel échantillonner."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
@@ -8664,7 +8664,7 @@ msgstr "Fondu"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
 #, kde-format
 msgid "Degrees to fade the effect in over"
-msgstr "Degrés pour atténuer l’effet par dessus"
+msgstr "Degrés pour atténuer l'effet par dessus"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
@@ -8731,12 +8731,12 @@ msgstr "<b>-- Bas --</b> Début"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
 msgid "Degrees from the horizon where we start to fill in"
-msgstr "Degrés de l’horizon à partir duquel nous commençons à remplir"
+msgstr "Degrés de l'horizon à partir duquel nous commençons à remplir"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
 #, kde-format
 msgid "Degrees from the horizon where we reach maximum blur"
-msgstr "Degrés de l’horizon à partir duquel nous atteignons le flou maximum"
+msgstr "Degrés de l'horizon à partir duquel nous atteignons le flou maximum"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
 #, kde-format
@@ -8955,7 +8955,7 @@ msgstr "Définit la méthode d'échantillonnage"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
 #, kde-format
 msgid "Degrees from the center of the image to keep unchanged"
-msgstr "Degrés à partir du centre de l’image devant être conservé"
+msgstr "Degrés à partir du centre de l'image devant être conservé"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
 #, kde-format
@@ -9056,7 +9056,7 @@ msgid ""
 "The field of view of a single hemisphere in degrees, expressed as a fraction "
 "of the frame width."
 msgstr ""
-"Le champ de vision d’un seul hémisphère en degrés, exprimé comme une "
+"Le champ de vision d'un seul hémisphère en degrés, exprimé comme une "
 "fraction de la largeur de trame."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
@@ -9069,7 +9069,7 @@ msgstr "Rayon de focale"
 msgid ""
 "The radius of the image circle, expressed as a fraction of the frame width."
 msgstr ""
-"Le rayon du cercle de l’image, exprimé en fraction de la largeur de la trame."
+"Le rayon du cercle de l'image, exprimé en fraction de la largeur de la trame."
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
 #, kde-format
@@ -9383,7 +9383,7 @@ msgstr "Analyser"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:10
 #, kde-format
 msgid "Switch on for analysis phase; switch off for stabilization phase."
-msgstr "Activer la phase d’analyse. Désactiver la phase de stabilisation."
+msgstr "Activer la phase d'analyse. Désactiver la phase de stabilisation."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
 #, kde-format
@@ -9870,7 +9870,7 @@ msgid ""
 msgstr ""
 "<b>Abandonné en raison de la forte charge de travail du processeur. </"
 "b><br>\n"
-"    Regroupement d’une image source par couleur et par distance spatiale"
+"    Regroupement d'une image source par couleur et par distance spatiale"
 
 #: data/effects/frei0r/frei0r_cluster.xml:9
 #, kde-format
@@ -10449,7 +10449,7 @@ msgid ""
 "        outer left and outer right areas are scaled non linearly"
 msgstr ""
 "Quantité pour la mise à <br>\n"
-"        l’échelle non linéaire des zones extérieures gauche et extérieure "
+"        l'échelle non linéaire des zones extérieures gauche et extérieure "
 "droite"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
@@ -10774,7 +10774,7 @@ msgstr "Quantité de poussière"
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
 msgid "The amount of dust particles added to the image"
-msgstr "La quantité de particules de poussière à ajouter à l’image"
+msgstr "La quantité de particules de poussière à ajouter à l'image"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10850,7 +10850,7 @@ msgstr "Mouvement maximum horizontal"
 #, kde-format
 msgid "The maximum distance the picture could move left or right"
 msgstr ""
-"La distance maximale dont l’image pourrait être déplacée vers la gauche ou "
+"La distance maximale dont l'image pourrait être déplacée vers la gauche ou "
 "la droite"
 
 #: data/effects/frei0r/frei0r_gateweave.xml:16
@@ -10862,7 +10862,7 @@ msgstr "Mouvement maximal vertical"
 #, kde-format
 msgid "The maximum distance the picture could move up or down"
 msgstr ""
-"La distance maximale dont l’image pourrait être déplacée vers le haut ou "
+"La distance maximale dont l'image pourrait être déplacée vers le haut ou "
 "vers le bas"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
@@ -11115,8 +11115,8 @@ msgstr "Direction de la segmentation."
 #, kde-format
 msgid "None,Counter Clockwise,Clockwise"
 msgstr ""
-"Aucun, Da sens inverse des aiguilles d’une montre, Dans le sens des "
-"aiguilles d’une montre"
+"Aucun, Da sens inverse des aiguilles d'une montre, Dans le sens des "
+"aiguilles d'une montre"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, kde-format
@@ -11191,7 +11191,7 @@ msgid ""
 "        lies outside of the source image and not reflecting back in."
 msgstr ""
 "Couleur à utiliser si la réflexion se trouve <br> \n"
-"        à l’extérieur de l’image source et ne se reflétant pas en retour."
+"        à l'extérieur de l'image source et ne se reflétant pas en retour."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:62
 #, kde-format
@@ -11467,12 +11467,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:98
 #, kde-format
 msgid "Opposite of Input black level"
-msgstr "Opposé du niveau de noir d’entrée"
+msgstr "Opposé du niveau de noir d'entrée"
 
 #: data/effects/frei0r/frei0r_levels.xml:102
 #, kde-format
 msgid "Opposite of Input white level"
-msgstr "Opposé du niveau de blanc d’entrée"
+msgstr "Opposé du niveau de blanc d'entrée"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -11516,7 +11516,7 @@ msgstr ""
 "dire plus de couleur blanche ou moins de couleurs respectivement). Cela "
 "évite quelques « fausses alarmes »  où les parties en demi-teintes, par "
 "exemple les mains où les couleurs peuvent changer beaucoup par rapport à "
-"l’arrière-plan, sont incorrectement reconnues comme source lumineuse."
+"l'arrière-plan, sont incorrectement reconnues comme source lumineuse."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:16
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:88
@@ -11912,7 +11912,7 @@ msgstr "Longueur du profil en pixels"
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "Channel to numerically display"
-msgstr "Canal d’affichage numérique"
+msgstr "Canal d'affichage numérique"
 
 #: data/effects/frei0r/frei0r_measure_pr0file.xml:26
 #: data/effects/frei0r/frei0r_pr0file.xml:27
@@ -12696,7 +12696,7 @@ msgstr "Fait briller les tons clairs"
 msgid "Blend mode used to blend highlight blur with input image"
 msgstr ""
 "Mode de fusion utilisé pour mélanger le floutage mis en évidence avec "
-"l’image d’entrée"
+"l'image d'entrée"
 
 #: data/effects/frei0r/frei0r_softglow.xml:11
 #, kde-format
@@ -13984,7 +13984,7 @@ msgstr "Échelle de luminosité"
 #, kde-format
 msgid "The amount to scale the lightness in the hue range"
 msgstr ""
-"La quantité pour mettre à l’échelle la luminosité dans la gamme de teintes"
+"La quantité pour mettre à l'échelle la luminosité dans la gamme de teintes"
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -14264,7 +14264,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2145.xml:4
 #, kde-format
 msgid "TAP Scaling Limiter"
-msgstr "Limiteur de mise à l’échelle TAP"
+msgstr "Limiteur de mise à l'échelle TAP"
 
 #: data/effects/ladspa/ladspa_2145.xml:6
 #, kde-format
@@ -15364,7 +15364,7 @@ msgstr ""
 "faciliter le masquage de filtre. Ce filtre crée un copie de trame avant "
 "l'application d'un filtre, généralement un qui affecte le canal Alpha "
 "définissant le masque. Ensuite, le filtre « mask_apply » utilise une "
-"transition pour combiner l’image de la trame actuelle sur la copie.  Le cas "
+"transition pour combiner l'image de la trame actuelle sur la copie.  Le cas "
 "typique d'utilisation est d'ajouter des effets dans la séquence suivante : "
 "« mask_start », zéro ou plusieurs filtres, « mask_apply »."
 
@@ -15703,7 +15703,7 @@ msgstr "Durée du développement irrégulier"
 #: data/effects/oldfilm.xml:37
 #, kde-format
 msgid "Time (in frames) of an uneven development up/down cycle"
-msgstr "Durée (En trames) d’un cycle de développement inégal haut / bas"
+msgstr "Durée (En trames) d'un cycle de développement inégal haut / bas"
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -15929,9 +15929,9 @@ msgid ""
 "When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame."
 msgstr ""
-"Lors de l’animation des propriétés avec les trames clé,<br>\n"
-"\t    définit si l’animation doit être répétée après avoir atteint la "
-"dernière trame clé."
+"Lors de l'animation des propriétés avec les trames clé,<br>\n"
+"\t définit si l'animation doit être répétée après avoir atteint la dernière "
+"trame clé."
 
 #: data/effects/rotate-3-way.xml:15
 #, kde-format
@@ -15948,7 +15948,7 @@ msgid ""
 msgstr ""
 "Lorsque les propriétés d'animation avec les trames clé et l'option "
 "<em>Désactiver la répétition</em> est désactivée,<br>\n"
-"\t définit si l’animation alterne entre les mouvements avant et arrière à "
+"\t définit si l'animation alterne entre les mouvements avant et arrière à "
 "chaque répétition."
 
 #: data/effects/rotate-3-way.xml:20
@@ -15963,10 +15963,10 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly."
 msgstr ""
-"Définit si inverser ou non les valeurs sur les paramètres  <em>Échelle en "
+"Définit si inverser ou non les valeurs sur les paramètres <em>Échelle en "
 "X<em> et <em>Échelle en Y<em>. <br>\n"
-"        Ceci est utile pour maintenir correcte l’interpolation d’animation, "
-"car sinon, les valeurs de mise à l'échelle s’animent de manière non linéaire."
+"        Ceci est utile pour maintenir correcte l'interpolation d'animation, "
+"car sinon, les valeurs de mise à l'échelle s'animent de manière non linéaire."
 
 #: data/effects/rotate-3-way.xml:28 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -16026,12 +16026,12 @@ msgstr "Décalage le long de l'axe Y"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "Scale factor applied to the X axis"
-msgstr "Facteur d’échelle appliqué à l’axe X"
+msgstr "Facteur d'échelle appliqué à l'axe X"
 
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "Scale factor applied to the Y axis"
-msgstr "Facteur d’échelle appliqué à l’axe Y"
+msgstr "Facteur d'échelle appliqué à l'axe Y"
 
 #: data/effects/rotation.xml:4
 #, kde-format
@@ -16132,7 +16132,7 @@ msgstr "Plus sombre au maximum"
 #, kde-format
 msgid "Make image up to <em>n</em> values darker behind line"
 msgstr ""
-"Rendre une image jusqu’à <em>n</em> valeurs plus sombres derrière la ligne"
+"Rendre une image jusqu'à <em>n</em> valeurs plus sombres derrière la ligne"
 
 #: data/effects/scratchlines.xml:20
 #, kde-format
@@ -16143,7 +16143,7 @@ msgstr "Plus clair au maximum"
 #, kde-format
 msgid "Make image up to <em>n</em> values lighter behind line"
 msgstr ""
-"Rendre une image jusqu’à <em>n</em> valeurs plus sombres derrière la ligne"
+"Rendre une image jusqu'à <em>n</em> valeurs plus sombres derrière la ligne"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -16226,7 +16226,7 @@ msgstr "SoX"
 #: data/effects/sox/sox.xml:5
 #, kde-format
 msgid "Process audio using a SoX effect"
-msgstr "Traiter l’audio à l’aide d’un effet SoX"
+msgstr "Traiter l'audio à l'aide d'un effet SoX"
 
 #: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1899
 #: src/monitor/view/MonitorSplit.qml:102
@@ -19223,7 +19223,7 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 "Veuillez faire un double clic, déposer des fichiers\n"
-"ou cliquer sur %1 pour importer des médias"
+"ou cliquer sur %1 pour importer des média"
 
 #: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
 #, kde-format
@@ -21524,7 +21524,7 @@ msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
 "Ouvre une boîte de dialogue pour la création, la modification et la "
-"suppression de profils d’encodage."
+"suppression de profils d'encodage."
 
 #: src/dialogs/encodingprofilesdialog.cpp:211
 #, kde-format
@@ -21710,7 +21710,7 @@ msgstr "Position du guide dans les trames"
 #: src/dialogs/exportguidesdialog.cpp:123
 #, kde-format
 msgid "Whether marker has range (true/false)"
-msgstr "Si le repère possède un intervalle (Vrai  / Faux)"
+msgstr "Si le repère possède un intervalle (Vrai / Faux)"
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-format
@@ -29608,7 +29608,7 @@ msgstr "Votre résolution d'écran est insuffisante pour cette action"
 #: src/monitor/monitor.cpp:1013
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr "Impossible de modifier une zone lors de  la création d'un masque"
+msgstr "Impossible de modifier une zone lors de la création d'un masque"
 
 #: src/monitor/monitor.cpp:970 src/monitor/monitor.cpp:1006
 #: src/timeline2/view/timelinecontroller.cpp:1896
@@ -36905,7 +36905,7 @@ msgstr "Établir un profil pour les séquences possédant un canal Alpha :"
 #: src/ui/configproxy_ui.ui:206
 #, kde-format
 msgid "Camcorder proxy clips:"
-msgstr "Séquences en cache de  caméscope :"
+msgstr "Séquences en cache de caméscope :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -38815,7 +38815,7 @@ msgstr "Taille de l'image intermédiaire"
 #: src/ui/projectsettings_ui.ui:516
 #, kde-format
 msgid "Camcorder proxy clips"
-msgstr "Séquences en cache de  caméscope"
+msgstr "Séquences en cache de caméscope"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:612
