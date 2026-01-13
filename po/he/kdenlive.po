@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-10 21:18+0200\n"
+"PO-Revision-Date: 2026-01-11 21:13+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2898,16 +2898,14 @@ msgid "Input,Output,Ess only"
 msgstr "קלט,פלט,Ess בלבד"
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
-#, fuzzy, kde-format
-#| msgid "Template"
+#, kde-format
 msgid "Deflate"
-msgstr "תדמית"
+msgstr "צמצום"
 
 #: data/effects/avfilter/avfilter_deflate.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Apply deflate effect to the video"
-msgstr "הוספת שכבת על של טקסט שקשור באיכון (GPS) לווידאו."
+msgstr "החלת אפקט צמצום על הסרטון"
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
 #, kde-format
@@ -5943,10 +5941,9 @@ msgid "Rotation"
 msgstr "הטיה"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:17
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Elevation"
-msgstr "פעולה"
+msgstr "עילוי"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:24
 #, kde-format
