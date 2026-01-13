@@ -10,29 +10,41 @@
 #include <QHBoxLayout>
 #include <QSpinBox>
 
-PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+PointParamWidget::PointParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent, QPointF currentValue)
     : AbstractParamWidget(std::move(model), index, parent)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
     // Retrieve parameters from the model. Points are stored in MLT as rectangle, using only the first 2 coordinates. So for example a point (50, 100) might be
     // represented as this string: "50 100 0 0".
-    QPointF value;
     QPointF min;
     QPointF max;
     QPointF defaultValue;
     QPointF factor;
     auto paramType = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+    const QString stringValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     if (paramType == ParamType::FakePoint || paramType == ParamType::AnimatedFakePoint) {
         AssetPointInfo paramInfo = m_model->data(m_index, AssetParameterModel::FakePointRole).value<AssetPointInfo>();
-        // TODO
+        min = paramInfo.getMinimum();
+        max = paramInfo.getMaximum();
+        defaultValue = paramInfo.getDefaultValue();
+        factor = paramInfo.getFactor();
     } else {
-        value = dataToPoint(m_model->data(m_index, AssetParameterModel::ValueRole));
         min = dataToPoint(m_model->data(m_index, AssetParameterModel::MinRole));
         max = dataToPoint(m_model->data(m_index, AssetParameterModel::MaxRole));
         defaultValue = dataToPoint(m_model->data(m_index, AssetParameterModel::DefaultRole));
         factor = dataToPoint(m_model->data(m_index, AssetParameterModel::FactorRole), QPointF(1, 1));
     }
+    QPointF value = currentValue;
+
+    if (value.isNull()) {
+        if (stringValue.isEmpty()) {
+            value = defaultValue;
+        } else {
+            value = dataToPoint(stringValue);
+        }
+    }
+    qDebug() << ":::::::\n\nUPDATED fake POINT with default value: " << defaultValue << "=" << factor << ", REAL VALUE:" << value << "\n\nGGGGGGGGGGGGGGGGG";
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
     const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     m_pointWidget =

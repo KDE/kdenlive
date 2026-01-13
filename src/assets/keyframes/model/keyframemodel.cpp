@@ -35,6 +35,16 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     qDebug() << "Construct keyframemodel. Checking model:" << m_model.expired();
     if (auto ptr = m_model.lock()) {
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (m_paramType == ParamType::AnimatedFakePoint) {
+            QString animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+            if (animData.isEmpty()) {
+                // Build default value
+                const QString defaultVal = ptr->data(m_index, AssetParameterModel::DefaultRole).toString();
+                animData = QStringLiteral("%1=%2").arg(qMax(0, in)).arg(defaultVal);
+                const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+                ptr->internalSetParameter(name, animData, index);
+            }
+        }
     }
     setup();
     refresh(in, out);
@@ -95,7 +105,7 @@ void KeyframeModel::setup()
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
-    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()); // << value << notify;
+    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << "; VAL: " << value << notify;
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };

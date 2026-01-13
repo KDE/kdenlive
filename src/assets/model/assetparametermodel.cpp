@@ -167,7 +167,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             }
         } else if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
             // Roto_spline keyframes are stored as JSON so do not apply this to roto
-            if (!value.contains(QLatin1Char('='))) {
+            if (!value.isEmpty() && !value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
         }
@@ -711,6 +711,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         }
     }
     if (index.row() < 0 || index.row() >= m_rows.size() || !index.isValid()) {
+        qDebug() << ":::: QUERYING INVALID INDEX: " << index.row();
         return QVariant();
     }
     QString paramName = m_rows[index.row()];
@@ -749,6 +750,9 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case VisualMaxRole:
         return parseAttribute(QStringLiteral("visualmax"), element);
     case DefaultRole:
+        if (m_params.at(paramName).type == ParamType::AnimatedFakePoint) {
+            return AssetPointInfo::fetchDefaults(element);
+        }
         return parseAttribute(QStringLiteral("default"), element);
     case FilterRole:
         return parseAttribute(QStringLiteral("filter"), element);
@@ -780,32 +784,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case AlphaRole:
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case FakePointRole: {
-        QPair<QString, QString> names;
-        QPair<QString, QString> defaults;
-        QPair<QString, QString> minimas;
-        QPair<QString, QString> maximas;
-        QPair<QString, QString> factors;
-        QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
-        for (int i = 0; i < children.count(); ++i) {
-            QDomElement currentParameter = children.item(i).toElement();
-            const QString target = currentParameter.attribute(QStringLiteral("target"));
-            if (target == QLatin1String("x")) {
-                names.first = currentParameter.attribute(QStringLiteral("source"));
-                defaults.first = currentParameter.attribute(QStringLiteral("default"));
-                minimas.first = currentParameter.attribute(QStringLiteral("min"));
-                maximas.first = currentParameter.attribute(QStringLiteral("max"));
-                factors.first = currentParameter.attribute(QStringLiteral("factor"));
-            } else {
-                names.second = currentParameter.attribute(QStringLiteral("source"));
-                defaults.second = currentParameter.attribute(QStringLiteral("default"));
-                minimas.second = currentParameter.attribute(QStringLiteral("min"));
-                maximas.second = currentParameter.attribute(QStringLiteral("max"));
-                factors.second = currentParameter.attribute(QStringLiteral("factor"));
-            }
-        }
-        AssetPointInfo paramInfo(names, defaults, minimas, maximas, factors);
-        return QVariant::fromValue(paramInfo);
-        break;
+        return AssetPointInfo::buildPointFromXml(element);
     }
     case FakeRectRole: {
         QVariantMap mappedParams;
@@ -1921,7 +1900,7 @@ bool AssetParameterModel::isDefault() const
         QString value = defaultValue.toString();
         if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
             // Roto_spline keyframes are stored as JSON so do not apply this to roto
-            if (!value.contains(QLatin1Char('='))) {
+            if (!value.isEmpty() && !value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
             if (currentRow.value.toString() != value && !currentRow.value.toString().contains(QLatin1Char(';'))) {
