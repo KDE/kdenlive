@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-12 00:43+0000\n"
-"PO-Revision-Date: 2026-01-12 12:26+0100\n"
+"POT-Creation-Date: 2026-01-14 00:43+0000\n"
+"PO-Revision-Date: 2026-01-12 14:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19886,7 +19886,7 @@ msgstr "Proxies herbouwen"
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
-msgstr "Project-bin"
+msgstr "Projectmap"
 
 #: src/bin/bin.cpp:5714
 #, kde-format
@@ -20012,12 +20012,12 @@ msgstr "Effect %1 verwijderen"
 #: src/bin/bin.cpp:6686 src/mainwindow.cpp:263
 #, kde-format
 msgid "Project Bin"
-msgstr "Project-bin"
+msgstr "Projectmap"
 
 #: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5204
 #, kde-format
 msgid "Project Bin %1"
-msgstr "Project-bin %1"
+msgstr "Projectmap %1"
 
 #: src/bin/bincommands.cpp:19 src/bin/bincommands.cpp:39
 #, kde-format
@@ -20192,7 +20192,7 @@ msgstr "Submapstructuur negeren"
 #: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:430
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Geen submappen aanmaken in project-bin"
+msgstr "Geen submappen aanmaken in projectmap"
 
 #: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:433
 #, kde-kuit-format
@@ -20484,7 +20484,7 @@ msgstr[1] "%1 geluidsporen"
 msgid "Timeline sequence"
 msgstr "Volgorde (sequentie) in tijdlijn"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1370
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1378
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -24097,7 +24097,7 @@ msgstr "Installeer een taalmodel."
 #: src/dialogs/textbasededit.cpp:1093
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
-msgstr "Een clip met geluid in de project-bin selecteren"
+msgstr "Een clip met geluid in de projectmap selecteren"
 
 #: src/dialogs/textbasededit.cpp:1139
 #, kde-format
@@ -26362,7 +26362,7 @@ msgstr "Clip aan project toevoegen"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
-msgstr "Voegt de geselecteerde bibliotheekclip toe aan de project-bin."
+msgstr "Voegt de geselecteerde bibliotheekclip toe aan de projectmap."
 
 #: src/library/librarywidget.cpp:224
 #, kde-format
@@ -27560,13 +27560,13 @@ msgstr "Real time (laat frames vallen)"
 #: src/mainwindow.cpp:1790
 #, kde-format
 msgid "Insert Zone in Project Bin"
-msgstr "Zone invoegen in project-bin"
+msgstr "Zone invoegen in projectmap"
 
 #: src/mainwindow.cpp:1792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
-msgstr "Maakt een nieuwe clip aan in de project-bin uit de gedefinieerde zone."
+msgstr "Maakt een nieuwe clip aan in de projectmap uit de gedefinieerde zone."
 
 #: src/mainwindow.cpp:1795
 #, kde-format
@@ -27909,7 +27909,7 @@ msgstr "Snelheid van video wijzigen (time remap)"
 #: src/mainwindow.cpp:1984
 #, kde-format
 msgid "Clip in Project Bin"
-msgstr "Clip in project-bin"
+msgstr "Clip in projectmap"
 
 #: src/mainwindow.cpp:1989
 #, kde-format
@@ -28379,7 +28379,7 @@ msgstr "Kon zone niet invoegen"
 #: src/mainwindow.cpp:3320
 #, kde-format
 msgid "No clip selected in project bin"
-msgstr "Geen clip geselecteerd in project-bin"
+msgstr "Geen clip geselecteerd in projectmap"
 
 #: src/mainwindow.cpp:3327 src/timeline2/model/timelinefunctions.cpp:798
 #: src/timeline2/view/timelinecontroller.cpp:3218
@@ -28515,7 +28515,7 @@ msgstr "Scopes"
 #: src/mainwindow.cpp:4030
 #, kde-format
 msgid "Project Bins"
-msgstr "Project-bins"
+msgstr "Projectmappen"
 
 #: src/mainwindow.cpp:4107
 #, kde-format
@@ -29350,7 +29350,7 @@ msgstr "Clip heeft geen effecten"
 #: src/monitor/monitor.cpp:2596
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
-msgstr "Selecteer een clip in de project-bin om effect te vergelijken"
+msgstr "Selecteer een clip in de projectmap om effect te vergelijken"
 
 #: src/monitor/monitor.cpp:2638
 #, kde-format
@@ -31400,7 +31400,7 @@ msgstr ""
 #: src/project/notesplugin.cpp:213
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
-msgstr "Kan geen notitie toevoegen, geen clip geselecteerd in project-bin"
+msgstr "Kan geen notitie toevoegen, geen clip geselecteerd in projectmap"
 
 #: src/project/notesplugin.cpp:243
 #, kde-format
@@ -32930,7 +32930,7 @@ msgstr "Project is corrupt. Clip %1 (%2) heeft ongeldige Id."
 #: src/timeline2/model/builders/meltBuilder.cpp:844
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
-msgstr "Project is corrupt. Clip %1 (%2) niet gevonden in project-bin."
+msgstr "Project is corrupt. Clip %1 (%2) niet gevonden in projectmap."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:840
 #, kde-format
@@ -32941,7 +32941,7 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:841
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
-msgstr "Ongeldige clip %1 (%2) niet gevonden in project-bin, hersteld."
+msgstr "Ongeldige clip %1 (%2) niet gevonden in projectmap, hersteld."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:923
 #: src/timeline2/model/builders/meltBuilder.cpp:956
@@ -33748,7 +33748,7 @@ msgstr "Stop"
 msgid "Paused"
 msgstr "Gepauzeerd"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1152
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1160
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), positie: %4, tijdsduur: %5"
@@ -33780,12 +33780,12 @@ msgstr "-%1, Mixduur: %2"
 msgid "Mix duration: %1"
 msgstr "Mixduur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1037
+#: src/timeline2/view/qml/Clip.qml:1045
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1040 src/timeline2/view/qml/Clip.qml:1142
+#: src/timeline2/view/qml/Clip.qml:1048 src/timeline2/view/qml/Clip.qml:1150
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -33794,54 +33794,54 @@ msgstr ""
 "<b>Ctrl slepen</b> om snelheid te wijzigen, <b>Dubbelklik</b> om met "
 "naastgelegen clip te mengen"
 
-#: src/timeline2/view/qml/Clip.qml:1042
+#: src/timeline2/view/qml/Clip.qml:1050
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Slepen</b> om duur van mengen te wijzigen"
 
-#: src/timeline2/view/qml/Clip.qml:1139
+#: src/timeline2/view/qml/Clip.qml:1147
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Uit:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1278
+#: src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Verschuiving: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1278
+#: src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "Offset: %1"
 msgstr "Verschuiving: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1279
+#: src/timeline2/view/qml/Clip.qml:1287
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Klik</b> om clips uit te lijnen"
 
-#: src/timeline2/view/qml/Clip.qml:1522 src/timeline2/view/qml/Clip.qml:1559
+#: src/timeline2/view/qml/Clip.qml:1530 src/timeline2/view/qml/Clip.qml:1567
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> om een compositie toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1636 src/timeline2/view/qml/Clip.qml:1643
+#: src/timeline2/view/qml/Clip.qml:1644 src/timeline2/view/qml/Clip.qml:1651
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Vervagen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1647 src/timeline2/view/qml/Clip.qml:1754
+#: src/timeline2/view/qml/Clip.qml:1655 src/timeline2/view/qml/Clip.qml:1762
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Slepen</b> om vervagen aan te passen, <b>Klik</b> om standaard duur van "
 "vervagen toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1743 src/timeline2/view/qml/Clip.qml:1750
+#: src/timeline2/view/qml/Clip.qml:1751 src/timeline2/view/qml/Clip.qml:1758
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Opkomen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1838
+#: src/timeline2/view/qml/Clip.qml:1846
 #, kde-format
 msgid "Slip Clip"
 msgstr "Clip slippen"
@@ -35552,7 +35552,7 @@ msgstr "Taakbeschrijving"
 #: src/ui/clipjobmanager_ui.ui:292
 #, kde-format
 msgid "Project Bin behavior on completion"
-msgstr "Gedrag van project-bin bij voltooiing"
+msgstr "Gedrag van projectmap bij voltooiing"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
 #: src/ui/clipjobmanager_ui.ui:298

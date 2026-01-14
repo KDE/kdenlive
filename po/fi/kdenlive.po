@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-12 00:43+0000\n"
+"POT-Creation-Date: 2026-01-14 00:43+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -20809,7 +20809,7 @@ msgstr[1] "Ää&ni"
 msgid "Timeline sequence"
 msgstr "Aikajanan kuvasarja"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1370
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1378
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -34243,7 +34243,7 @@ msgstr "Pysäytä"
 msgid "Paused"
 msgstr "Tauko"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1152
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1160
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Sijainti: %4, Kesto: %5"
@@ -34275,12 +34275,12 @@ msgstr "-%1, Sekoituksen kesto: %2"
 msgid "Mix duration: %1"
 msgstr "Sekoituksen kesto: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1037
+#: src/timeline2/view/qml/Clip.qml:1045
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Sisään:%1, Sijainti:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1040 src/timeline2/view/qml/Clip.qml:1142
+#: src/timeline2/view/qml/Clip.qml:1048 src/timeline2/view/qml/Clip.qml:1150
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34289,54 +34289,54 @@ msgstr ""
 "<b>Ctrl-vedä</b> voit muuttaa nopeutta, <b>Napsauta kahdesti</b> jos haluat "
 "yhdistää viereiseen leikkeeseen"
 
-#: src/timeline2/view/qml/Clip.qml:1042
+#: src/timeline2/view/qml/Clip.qml:1050
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Muuta sekoituksen kestoa <b>vetämällä</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1139
+#: src/timeline2/view/qml/Clip.qml:1147
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Ulos:%1, Sijainti:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1278
+#: src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Siirtymä: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1278
+#: src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "Offset: %1"
 msgstr "Siirtymä: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1279
+#: src/timeline2/view/qml/Clip.qml:1287
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "Tasaa leikkeet <b>painamalla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1522 src/timeline2/view/qml/Clip.qml:1559
+#: src/timeline2/view/qml/Clip.qml:1530 src/timeline2/view/qml/Clip.qml:1567
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Lisää koostaminen <b>napsauttamalla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1636 src/timeline2/view/qml/Clip.qml:1643
+#: src/timeline2/view/qml/Clip.qml:1644 src/timeline2/view/qml/Clip.qml:1651
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Häivytä ulos: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1647 src/timeline2/view/qml/Clip.qml:1754
+#: src/timeline2/view/qml/Clip.qml:1655 src/timeline2/view/qml/Clip.qml:1762
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Säädä häivytystä <b>vetämällä</b>, <b>napsauttamalla</b> lisää häivytystä "
 "oletuksen verran"
 
-#: src/timeline2/view/qml/Clip.qml:1743 src/timeline2/view/qml/Clip.qml:1750
+#: src/timeline2/view/qml/Clip.qml:1751 src/timeline2/view/qml/Clip.qml:1758
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Häivytä sisään: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1838
+#: src/timeline2/view/qml/Clip.qml:1846
 #, kde-format
 msgid "Slip Clip"
 msgstr "Liukuleike"

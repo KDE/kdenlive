@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-12 00:43+0000\n"
-"PO-Revision-Date: 2026-01-12 16:00+0300\n"
+"POT-Creation-Date: 2026-01-14 00:43+0000\n"
+"PO-Revision-Date: 2026-01-13 18:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2609,7 +2609,7 @@ msgstr "Bileşenler"
 msgid ""
 "None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
 "Alpha"
-msgstr "Yok,Y (Aydınlatma),U (Kırmızı farkı),YU,V (Mavi farkı),YV,UV,Tümü,Alfa"
+msgstr "Yok,Y (Aydınlık),U (Kırmızı farkı),YU,V (Mavi farkı),YV,UV,Tümü,Alfa"
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
@@ -2952,7 +2952,7 @@ msgstr "Noktaları kaldır"
 msgid ""
 "Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video"
 msgstr ""
-"Videodan çapraz parlaklığı (nokta tarama) ve çapraz rengi (gökkuşakları) "
+"Videodan çapraz aydınlığı (nokta tarama) ve çapraz rengi (gökkuşakları) "
 "azaltın."
 
 #: data/effects/avfilter/avfilter_dedot.xml:8
@@ -3850,17 +3850,17 @@ msgstr "V düzlemindeki kazanç"
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
 #, kde-format
 msgid "Luminance Y plane"
-msgstr "Y düzlemi aydınlatması"
+msgstr "Y düzlemi aydınlığı"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:20
 #, kde-format
 msgid "Luminance U plane"
-msgstr "U düzlemi aydınlatması"
+msgstr "U düzlemi aydınlığı"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:23
 #, kde-format
 msgid "Luminance V plane"
-msgstr "V düzlemi aydınlatması"
+msgstr "V düzlemi aydınlığı"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, kde-format
@@ -4905,7 +4905,7 @@ msgstr "Süzülü değere eklenecek değeri ayarlayın."
 #: data/effects/avfilter/avfilter_kirsch.xml:17
 #, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
-msgstr "Alfa,Y (Aydınlatma),U (Chroma),V (Chroma),Kırmızı,Yeşil,Mavi,Tümü"
+msgstr "Alfa,Y (Aydınlık),U (Chroma),V (Chroma),Kırmızı,Yeşil,Mavi,Tümü"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
@@ -7052,8 +7052,8 @@ msgid ""
 "source video. "
 msgstr ""
 "Dalga biçimi monitörü, renk bileşeni yoğunluğunu çizer. Öntanımlı olarak "
-"yalnızca parlaklık kullanılır. Dalga formunun her sütunu kaynak videodaki "
-"bir piksel sütununa karşılık gelir."
+"yalnızca aydınlık kullanılır. Dalga formunun her sütunu kaynak videodaki bir "
+"piksel sütununa karşılık gelir."
 
 #: data/effects/avfilter/avfilter_waveform.xml:11
 #, kde-format
@@ -7080,7 +7080,7 @@ msgid ""
 "Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns"
 msgstr ""
-"Daha küçük değerler, aynı parlaklığın kaç değerinin girdi<br>\n"
+"Daha küçük değerler, aynı aydınlığın kaç değerinin girdi<br>\n"
 "       \tsatırlarına/sütunlarına dağıldığını bulmak için yararlıdır."
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
@@ -10751,7 +10751,7 @@ msgstr "Heatmap0r"
 #: data/effects/frei0r/frei0r_heatmap0r.xml:5
 #, kde-format
 msgid "Performs a continuous trichromatic tinting based on luminance"
-msgstr "Aydınlatmaya bağlı olarak sürekli üç renkli tonlama gerçekleştirir."
+msgstr "Aydınlığa bağlı olarak sürekli üç renkli tonlama gerçekleştirir."
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:8
 #: data/effects/frei0r/frei0r_tint0r.xml:8
@@ -10762,7 +10762,7 @@ msgstr "Siyahı şuna eşlemle:"
 #: data/effects/frei0r/frei0r_heatmap0r.xml:9
 #, kde-format
 msgid "The color to map source color with zero luminance"
-msgstr "Aydınlatması sıfır olan kaynak rengi eşleştirmek için kullanılan renk"
+msgstr "Aydınlığı sıfır olan kaynak rengi eşleştirmek için kullanılan renk"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:12
 #, kde-format
@@ -10772,7 +10772,7 @@ msgstr "Griyi şuna eşlemle:"
 #: data/effects/frei0r/frei0r_heatmap0r.xml:13
 #, kde-format
 msgid "The color to map source color with mid luminance"
-msgstr "Aydınlatması orta olan kaynak rengi eşleştirmek için kullanılan renk"
+msgstr "Aydınlığı orta olan kaynak rengi eşleştirmek için kullanılan renk"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:16
 #: data/effects/frei0r/frei0r_tint0r.xml:11
@@ -10783,7 +10783,7 @@ msgstr "Beyazı şuna eşlemle:"
 #: data/effects/frei0r/frei0r_heatmap0r.xml:17
 #, kde-format
 msgid "The color to map source color with full luminance"
-msgstr "Aydınlatması tam olan kaynak rengi eşleştirmek için kullanılan renk"
+msgstr "Aydınlığı tam olan kaynak rengi eşleştirmek için kullanılan renk"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:20
 #, kde-format
@@ -10793,7 +10793,7 @@ msgstr "Gri nokta"
 #: data/effects/frei0r/frei0r_heatmap0r.xml:21
 #, kde-format
 msgid "Point in the luminance axis grey color is located"
-msgstr "Aydınlatma ekseninde gri noktanın bulunduğu nokta"
+msgstr "Aydınlık ekseninde gri noktanın bulunduğu nokta"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
 #, kde-format
@@ -11582,12 +11582,12 @@ msgstr ""
 #, kde-format
 msgctxt "Luminance Effect Name"
 msgid "Luminance"
-msgstr "Aydınlatma"
+msgstr "Aydınlık"
 
 #: data/effects/frei0r/frei0r_luminance.xml:5
 #, kde-format
 msgid "Creates a luminance map of the image"
-msgstr "Görselin bir aydınlatma haritasını oluşturur."
+msgstr "Görselin bir aydınlık haritasını oluşturur."
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:4
 #, kde-format
@@ -12772,7 +12772,7 @@ msgstr "Ton"
 #: data/effects/frei0r/frei0r_tint0r.xml:5
 #, kde-format
 msgid "Maps source image luminance between two colors specified"
-msgstr "Belirtilen iki renk arasındaki kaynak görsel aydınlatmasını eşlemler."
+msgstr "Belirtilen iki renk arasındaki kaynak görsel aydınlığını eşlemler."
 
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
@@ -20378,7 +20378,7 @@ msgstr[1] "%1 ses izi"
 msgid "Timeline sequence"
 msgstr "Zaman akışı sekansı"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1370
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1378
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -33580,7 +33580,7 @@ msgstr "Durdur"
 msgid "Paused"
 msgstr "Duraklatıldı"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1152
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1160
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), Konum: %4, Süre: %5"
@@ -33612,12 +33612,12 @@ msgstr "−%1, Karışım süresi: %2"
 msgid "Mix duration: %1"
 msgstr "Karışım süresi: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1037
+#: src/timeline2/view/qml/Clip.qml:1045
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Giriş: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1040 src/timeline2/view/qml/Clip.qml:1142
+#: src/timeline2/view/qml/Clip.qml:1048 src/timeline2/view/qml/Clip.qml:1150
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -33626,54 +33626,54 @@ msgstr ""
 "Hızı değiştirmek için <b> Kontrol ile sürükleyin </b>, bitişik kliple "
 "karıştırmak için <b> çift tıklayın </b>"
 
-#: src/timeline2/view/qml/Clip.qml:1042
+#: src/timeline2/view/qml/Clip.qml:1050
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Karışım süresini değiştirmek için <b>sürükle</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1139
+#: src/timeline2/view/qml/Clip.qml:1147
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Çıkış: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1278
+#: src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Ofset: −%1"
 
-#: src/timeline2/view/qml/Clip.qml:1278
+#: src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "Offset: %1"
 msgstr "Ofset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1279
+#: src/timeline2/view/qml/Clip.qml:1287
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " Klipleri hizalamak için <b>tıkla</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1522 src/timeline2/view/qml/Clip.qml:1559
+#: src/timeline2/view/qml/Clip.qml:1530 src/timeline2/view/qml/Clip.qml:1567
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Bileşikleştirme eklemek için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1636 src/timeline2/view/qml/Clip.qml:1643
+#: src/timeline2/view/qml/Clip.qml:1644 src/timeline2/view/qml/Clip.qml:1651
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Solarak çık: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1647 src/timeline2/view/qml/Clip.qml:1754
+#: src/timeline2/view/qml/Clip.qml:1655 src/timeline2/view/qml/Clip.qml:1762
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Solmayı ayarlamak için <b>sürükleyin</b>, varsayılan süre soldurmayı eklemek "
 "için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1743 src/timeline2/view/qml/Clip.qml:1750
+#: src/timeline2/view/qml/Clip.qml:1751 src/timeline2/view/qml/Clip.qml:1758
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Solarak gir: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1838
+#: src/timeline2/view/qml/Clip.qml:1846
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klibi Taşı"
