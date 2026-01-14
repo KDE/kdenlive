@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025, 2026 Emir SARI <emir_sari@icloud.com>
 # Volkan Gezer <volkangezer@gmail.com>, 2015, 2017, 2021.
 #
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2025-12-31 12:30+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"PO-Revision-Date: 2026-01-13 18:18+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -2588,7 +2588,7 @@ msgstr "Bileşenler"
 msgid ""
 "None,Y (Luminance),U (Chroma red-diff),YU,V (Chroma blue-diff),YV,UV,All,"
 "Alpha"
-msgstr "Yok,Y (Aydınlatma),U (Kırmızı farkı),YU,V (Mavi farkı),YV,UV,Tümü,Alfa"
+msgstr "Yok,Y (Aydınlık),U (Kırmızı farkı),YU,V (Mavi farkı),YV,UV,Tümü,Alfa"
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
@@ -2933,7 +2933,7 @@ msgstr "Noktaları kaldır"
 msgid ""
 "Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video"
 msgstr ""
-"Videodan çapraz parlaklığı (nokta tarama) ve çapraz rengi (gökkuşakları) "
+"Videodan çapraz aydınlığı (nokta tarama) ve çapraz rengi (gökkuşakları) "
 "azaltın."
 
 #: data/effects/avfilter/avfilter_dedot.xml:8
@@ -3825,17 +3825,17 @@ msgstr "V düzlemindeki kazanç"
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
 #, kde-format
 msgid "Luminance Y plane"
-msgstr "Y düzlemi aydınlatması"
+msgstr "Y düzlemi aydınlığı"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:20
 #, kde-format
 msgid "Luminance U plane"
-msgstr "U düzlemi aydınlatması"
+msgstr "U düzlemi aydınlığı"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:23
 #, kde-format
 msgid "Luminance V plane"
-msgstr "V düzlemi aydınlatması"
+msgstr "V düzlemi aydınlığı"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, kde-format
@@ -4877,7 +4877,7 @@ msgstr "Süzülü değere eklenecek değeri ayarlayın."
 #: data/effects/avfilter/avfilter_kirsch.xml:17
 #, kde-format
 msgid "Alpha,Y (Luminance),U (Chroma),V (Chroma),Red,Green,Blue,All"
-msgstr "Alfa,Y (Aydınlatma),U (Chroma),V (Chroma),Kırmızı,Yeşil,Mavi,Tümü"
+msgstr "Alfa,Y (Aydınlık),U (Chroma),V (Chroma),Kırmızı,Yeşil,Mavi,Tümü"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
@@ -7047,8 +7047,8 @@ msgid ""
 "source video. "
 msgstr ""
 "Dalga biçimi monitörü, renk bileşeni yoğunluğunu çizer. Öntanımlı olarak "
-"yalnızca parlaklık kullanılır. Dalga formunun her sütunu kaynak videodaki "
-"bir piksel sütununa karşılık gelir."
+"yalnızca aydınlık kullanılır. Dalga formunun her sütunu kaynak videodaki bir "
+"piksel sütununa karşılık gelir."
 
 #: data/effects/avfilter/avfilter_waveform.xml:11
 #, kde-format
@@ -11572,12 +11572,12 @@ msgstr ""
 #, kde-format
 msgctxt "Luminance Effect Name"
 msgid "Luminance"
-msgstr "Aydınlatma"
+msgstr "Aydınlık"
 
 #: data/effects/frei0r/frei0r_luminance.xml:5
 #, kde-format
 msgid "Creates a luminance map of the image"
-msgstr "Görselin bir aydınlatma haritasını oluşturur."
+msgstr "Görselin bir aydınlık haritasını oluşturur."
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:4
 #, kde-format
@@ -12765,7 +12765,7 @@ msgstr "Ton"
 #: data/effects/frei0r/frei0r_tint0r.xml:5
 #, kde-format
 msgid "Maps source image luminance between two colors specified"
-msgstr "Belirtilen iki renk arasındaki kaynak görsel aydınlatmasını eşlemler."
+msgstr "Belirtilen iki renk arasındaki kaynak görsel aydınlığını eşlemler."
 
 #: data/effects/frei0r/frei0r_tint0r.xml:8
 #, kde-format
