@@ -56,6 +56,18 @@ enum class ParamType {
 };
 Q_DECLARE_METATYPE(ParamType)
 
+static double convertValue(const QString &value, const QSize profileSize, double defaultValue = 0.)
+{
+    if (value.isEmpty()) {
+        return defaultValue;
+    } else if (value == QLatin1String("%width")) {
+        return profileSize.width();
+    } else if (value == QLatin1String("%height")) {
+        return profileSize.height();
+    }
+    return value.toDouble();
+}
+
 struct AssetPointInfo
 {
     QString destNameX;
@@ -69,66 +81,22 @@ struct AssetPointInfo
         : destNameX(names.first)
         , destNameY(names.second)
     {
+        const QSize profileSize = pCore->getCurrentFrameSize();
         // Default
-        if (def.first == QLatin1String("%width")) {
-            defaultValue.setX(pCore->getCurrentFrameSize().width());
-        } else if (def.first == QLatin1String("%height")) {
-            defaultValue.setX(pCore->getCurrentFrameSize().height());
-        } else {
-            defaultValue.setX(def.first.toDouble());
-        }
-        if (def.second == QLatin1String("%width")) {
-            defaultValue.setY(pCore->getCurrentFrameSize().width());
-        } else if (def.second == QLatin1String("%height")) {
-            defaultValue.setY(pCore->getCurrentFrameSize().height());
-        } else {
-            defaultValue.setY(def.second.toDouble());
-        }
+        defaultValue.setX(convertValue(def.first, profileSize));
+        defaultValue.setX(convertValue(def.second, profileSize));
+
         // Min
-        if (min.first == QLatin1String("%width")) {
-            minimum.setX(pCore->getCurrentFrameSize().width());
-        } else if (min.first == QLatin1String("%height")) {
-            minimum.setX(pCore->getCurrentFrameSize().height());
-        } else {
-            minimum.setX(min.first.toDouble());
-        }
-        if (min.second == QLatin1String("%width")) {
-            minimum.setY(pCore->getCurrentFrameSize().width());
-        } else if (min.second == QLatin1String("%height")) {
-            minimum.setY(pCore->getCurrentFrameSize().height());
-        } else {
-            minimum.setY(min.second.toDouble());
-        }
+        minimum.setX(convertValue(min.first, profileSize));
+        minimum.setY(convertValue(min.second, profileSize));
+
         // Max
-        if (max.first == QLatin1String("%width")) {
-            maximum.setX(pCore->getCurrentFrameSize().width());
-        } else if (max.first == QLatin1String("%height")) {
-            maximum.setX(pCore->getCurrentFrameSize().height());
-        } else {
-            maximum.setX(max.first.toDouble());
-        }
-        if (max.second == QLatin1String("%width")) {
-            maximum.setY(pCore->getCurrentFrameSize().width());
-        } else if (max.second == QLatin1String("%height")) {
-            maximum.setY(pCore->getCurrentFrameSize().height());
-        } else {
-            maximum.setY(max.second.toDouble());
-        }
+        maximum.setX(convertValue(max.first, profileSize));
+        maximum.setY(convertValue(max.second, profileSize));
+
         // Factor
-        if (fac.first == QLatin1String("%width")) {
-            factors.setX(pCore->getCurrentFrameSize().width());
-        } else if (fac.first == QLatin1String("%height")) {
-            factors.setX(pCore->getCurrentFrameSize().height());
-        } else {
-            factors.setX(fac.first.toDouble());
-        }
-        if (fac.second == QLatin1String("%width")) {
-            factors.setY(pCore->getCurrentFrameSize().width());
-        } else if (fac.second == QLatin1String("%height")) {
-            factors.setY(pCore->getCurrentFrameSize().height());
-        } else {
-            factors.setY(fac.second.toDouble());
-        }
+        factors.setX(convertValue(fac.first, profileSize, 1.));
+        factors.setY(convertValue(fac.second, profileSize, 1.));
     }
     explicit AssetPointInfo() {}
     static QString fetchDefaults(const QDomElement element)
@@ -206,40 +174,15 @@ struct AssetRectInfo
         : destName(name)
         , target(tar)
     {
-        if (value == QLatin1String("%width")) {
-            defaultValue = pCore->getCurrentFrameSize().width();
-        } else if (value == QLatin1String("%height")) {
-            defaultValue = pCore->getCurrentFrameSize().height();
-        } else {
-            defaultValue = value.toDouble();
-        }
-        if (min == QLatin1String("%width")) {
-            minimum = pCore->getCurrentFrameSize().width();
-        } else if (min == QLatin1String("%height")) {
-            minimum = pCore->getCurrentFrameSize().height();
-        } else {
-            minimum = min.toDouble();
-        }
-        if (max == QLatin1String("%width")) {
-            maximum = pCore->getCurrentFrameSize().width();
-        } else if (max == QLatin1String("%height")) {
-            maximum = pCore->getCurrentFrameSize().height();
-        } else {
-            maximum = max.toDouble();
-        }
-        if (fac == QLatin1String("%width")) {
-            factor = pCore->getCurrentFrameSize().width();
-        } else if (fac == QLatin1String("%height")) {
-            factor = pCore->getCurrentFrameSize().height();
-        } else {
-            if (fac.isEmpty()) {
-                factor = 1.0;
-            } else {
-                factor = fac.toDouble();
-            }
-        }
+        const QSize profileSize = pCore->getCurrentFrameSize();
+        defaultValue = convertValue(value, profileSize);
+        minimum = convertValue(min, profileSize);
+        minimum = convertValue(min, profileSize);
+        maximum = convertValue(max, profileSize);
+        factor = convertValue(fac, profileSize, 1.);
     }
     explicit AssetRectInfo() {}
+
     double getValue(double val) const
     {
         if (factor != 1.) {
@@ -286,7 +229,6 @@ struct AssetRectInfo
         } else if (target == QLatin1String("height")) {
             val = pCore->getCurrentFrameSize().height() - (rect.y + rect.h);
         }
-
         if (factor != 1.) {
             val /= factor;
         }
@@ -387,8 +329,6 @@ public:
 
     /** @brief Returns true if @param type is animated */
     static bool isAnimated(ParamType type);
-    /** @brief Returns the MLT keyframe separator for a type, like ~= or |= */
-    static const QString getSeparatorForKeyframeType(mlt_keyframe_type type);
 
     /** @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
@@ -533,6 +473,12 @@ protected:
     /** @brief Convert an animated geometry param to percentages
      */
     const QString animationToPercentage(const QString &inputValue) const;
+
+private:
+    /** @brief extract individual components for a fake rect from its animation string **/
+    void processFakeRect(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
+    /** @brief extract individual components for a fake point from its animation string **/
+    void processFakePoint(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
 
 Q_SIGNALS:
     void modelChanged();

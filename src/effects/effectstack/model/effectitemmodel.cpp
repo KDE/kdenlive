@@ -5,6 +5,7 @@
 
 #include "effectitemmodel.hpp"
 
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
@@ -159,7 +160,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             }
             for (auto vals = rectValues.cbegin(), end = rectValues.cend(); vals != end; ++vals) {
                 paramValue.append(QString::number(vals.key()));
-                paramValue.append(AssetParameterModel::getSeparatorForKeyframeType(keyframeMap.value(vals.key())));
+                paramValue.append(KeyframeModel::getSeparatorForKeyframeType(keyframeMap.value(vals.key())));
                 paramValue.append(QString("=%1 %2 %3 %4;").arg(vals.value().x()).arg(vals.value().y()).arg(vals.value().width()).arg(vals.value().height()));
             }
         }
