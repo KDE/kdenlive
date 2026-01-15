@@ -258,8 +258,7 @@ void spinBoxSetToolTip(QWidget &self)
 {
     DragValue *parent = qobject_cast<DragValue *>(self.parent());
     if (!parent || !parent->hasDataProviderCallback())
-        self.setToolTip(
-            i18n("Support basic math expression")); // FIXME: this is a placehoder text because to my english is too bad, plz replace it to a better one
+        self.setToolTip(i18n("Support basic math expression"));
     else {
         QMap<int, QPair<QString, double>> map = parent->runDataProviderCallback();
         QString str;
@@ -267,7 +266,6 @@ void spinBoxSetToolTip(QWidget &self)
             if (str != "") str += ", ";
             str += it.value().first;
         }
-        // FIXME: this is a placehoder text because to my english is too bad, plz replace it to a better one
         self.setToolTip(i18nc("", "Support basic math expression\nuse \"%1\" to reference other spinbox's value", str));
     }
 }
