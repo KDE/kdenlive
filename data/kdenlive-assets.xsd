@@ -111,6 +111,8 @@ SPDX-License-Identifier: CC0-1.0
         <xs:restriction base="xs:string">
             <xs:enumeration value="x"/>
             <xs:enumeration value="y"/>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="top"/>
             <xs:enumeration value="right"/>
             <xs:enumeration value="bottom"/>
         </xs:restriction>

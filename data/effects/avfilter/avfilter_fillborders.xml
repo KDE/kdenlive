@@ -13,8 +13,8 @@
     </parameter>
     <parameter type="animatedfakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
         <name>Rectangle</name>
-        <parammap target="x" source="av.left" max="%width" min="0" default="0" />
-        <parammap target="y" source="av.top" max="%height" min="0" default="0" />
+        <parammap target="left" source="av.left" max="%width" min="0" default="0" />
+        <parammap target="top" source="av.top" max="%height" min="0" default="0" />
         <parammap target="right" source="av.right" max="%width" min="0" default="0" />
         <parammap target="bottom" source="av.bottom" max="%height" min="0" default="0" />
     </parameter>

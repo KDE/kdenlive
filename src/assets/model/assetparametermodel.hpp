@@ -193,9 +193,9 @@ struct AssetRectInfo
     int positionForTarget() const
     {
         int index = -1;
-        if (target == QStringLiteral("x")) {
+        if (target == QStringLiteral("left")) {
             index = 0;
-        } else if (target == QStringLiteral("y")) {
+        } else if (target == QStringLiteral("top")) {
             index = 1;
         } else if (target == QStringLiteral("width") || target == QStringLiteral("right")) {
             index = 2;
@@ -216,17 +216,19 @@ struct AssetRectInfo
     double getValue(const mlt_rect rect) const
     {
         double val = 0.;
-        if (target == QLatin1String("x")) {
+        if (target == QLatin1String("left")) {
             val = rect.x;
-        } else if (target == QLatin1String("y")) {
+        } else if (target == QLatin1String("top")) {
             val = rect.y;
         } else if (target == QLatin1String("width")) {
             val = rect.w;
         } else if (target == QLatin1String("height")) {
             val = rect.h;
         } else if (target == QLatin1String("right")) {
+            // Distance from right border
             val = pCore->getCurrentFrameSize().width() - (rect.x + rect.w);
-        } else if (target == QLatin1String("height")) {
+        } else if (target == QLatin1String("bottom")) {
+            // Distance from bottom
             val = pCore->getCurrentFrameSize().height() - (rect.y + rect.h);
         }
         if (factor != 1.) {
