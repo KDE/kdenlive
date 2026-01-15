@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle
+    SPDX-FileCopyrightText: 2025 Jean-Baptiste Mardelle
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
