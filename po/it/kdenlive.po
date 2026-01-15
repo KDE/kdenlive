@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-04 10:52+0100\n"
+"PO-Revision-Date: 2026-01-05 10:55+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -28029,7 +28029,7 @@ msgstr "Disabilita l'anteprima nella linea temporale"
 #: src/mainwindow.cpp:2124
 #, kde-format
 msgid "Add/Remove Timeline Marker"
-msgstr "Aggiungi/rimuovi marcatore della Linea temporale"
+msgstr "Aggiungi/rimuovi marcatore della linea temporale"
 
 #: src/mainwindow.cpp:2126
 #, kde-format
