@@ -16,6 +16,74 @@
 
 #include <KColorScheme>
 
+PopupInput::PopupInput(QWidget *parent)
+    : QWidget(parent)
+{
+    setWindowFlags(Qt::Popup);
+    m_lineedit = new PopupLineEdit(this);
+    m_lineedit->setValidator(new QIntValidator(this));
+
+    connect(m_lineedit, &PopupLineEdit::focusOuted, this, &PopupInput::hide);
+    connect(m_lineedit, &QLineEdit::returnPressed, this, &PopupInput::handleEditingFinished);
+}
+
+void PopupInput::Popup(const QString text, QPoint pos, QPoint size)
+{
+    m_lineedit->clear();
+    move(pos);
+    m_lineedit->resize(size.x(), size.y());
+    m_lineedit->setText(text);
+    show();
+    m_lineedit->setFocus(Qt::MouseFocusReason);
+}
+
+QString PopupInput::getText()
+{
+    return m_lineedit->text();
+}
+
+void PopupInput::handleEditingFinished()
+{
+    Q_EMIT PopupInput::editingFinished();
+}
+
+void PopupLineEdit::focusOutEvent(QFocusEvent *event)
+{
+    Q_EMIT PopupLineEdit::focusOuted();
+    QLineEdit::focusOutEvent(event);
+}
+
+void PopupLineEdit::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+        event->setAccepted(true);
+        clearFocus();
+        Q_EMIT QLineEdit::returnPressed();
+        return;
+    }
+
+    QLineEdit::keyPressEvent(event);
+}
+
+void PopupLineEdit::mousePressEvent(QMouseEvent *event)
+{
+    if (!rect().contains(event->pos())) {
+        clearFocus();
+        return;
+    }
+
+    QLineEdit::mousePressEvent(event);
+}
+
+PopupLineEdit::PopupLineEdit(QWidget *parent)
+    : QLineEdit(parent)
+{
+    /*
+    setWindowFlags(Qt::Popup);
+    setMinimumWidth(parent->minimumWidth() * 0.5);
+    setValidator(new QIntValidator(this));*/
+}
+
 TimecodeValidator::TimecodeValidator(QObject *parent)
     : QValidator(parent)
 {
@@ -73,6 +141,9 @@ TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
     setAccelerated(true);
     setMinimumHeight(lineEdit()->sizeHint().height());
     connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
+
+    m_popupInput = new PopupInput(this);
+    connect(m_popupInput, &PopupInput::editingFinished, this, &TimecodeDisplay::onPopupInputFinished);
 }
 
 // virtual protected
@@ -131,6 +202,9 @@ void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         e->setAccepted(true);
         clearFocus();
+    } else if (e->key() == Qt::Key_Plus || e->key() == Qt::Key_Minus) {
+        e->setAccepted(true);
+        m_popupInput->Popup(e->text(), mapToGlobal(QPoint(width() * 0.5, height())), QPoint(width() * 0.5, height()));
     } else {
         QAbstractSpinBox::keyPressEvent(e);
     }
@@ -234,6 +308,12 @@ void TimecodeDisplay::setValue(int value)
 void TimecodeDisplay::setValue(const GenTime &value)
 {
     setValue((int)value.frames(m_timecode.fps()));
+}
+
+void TimecodeDisplay::onPopupInputFinished()
+{
+    setValue(getValue() + m_popupInput->getText().toInt());
+    Q_EMIT timeCodeEditingFinished(m_value);
 }
 
 void TimecodeDisplay::slotEditingFinished()

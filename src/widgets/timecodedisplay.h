@@ -10,6 +10,43 @@
 #include "utils/timecode.h"
 
 #include <QAbstractSpinBox>
+#include <QLineEdit>
+
+class PopupLineEdit : public QLineEdit
+{
+    Q_OBJECT
+
+public:
+    explicit PopupLineEdit(QWidget *parent = nullptr);
+
+Q_SIGNALS:
+    void focusOuted();
+
+protected:
+    void focusOutEvent(QFocusEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+};
+
+class PopupInput : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit PopupInput(QWidget *parent = nullptr);
+
+    void Popup(const QString text, QPoint pos, QPoint size);
+    QString getText();
+
+Q_SIGNALS:
+    void editingFinished();
+
+private:
+    void handleEditingFinished();
+
+private:
+    PopupLineEdit *m_lineedit;
+};
 
 /** @class TimecodeValidator
     @brief Input validator for TimecodeDisplay
@@ -99,6 +136,8 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
+    PopupInput *m_popupInput;
+
     /** timecode for widget */
     Timecode m_timecode;
     /** Should we display the timecode in frames or in format hh:mm:ss:ff */
@@ -124,6 +163,8 @@ public Q_SLOTS:
     void setValue(const GenTime &value);
 
 private Q_SLOTS:
+    void onPopupInputFinished();
+
     void slotEditingFinished();
     /** @brief Refresh timecode to match project.*/
     void refreshTimeCode();
