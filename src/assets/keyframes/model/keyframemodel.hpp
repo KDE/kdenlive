@@ -168,6 +168,8 @@ public:
     static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
                                                       ParamType paramType, bool useOpacity = true);
     static const QString getIconByKeyframeType(KeyframeType::KeyframeEnum type);
+    /** @brief Returns the MLT keyframe separator for a type, like ~= or |= */
+    static const QString getSeparatorForKeyframeType(mlt_keyframe_type type);
     static void initKeyframeTypes();
     static const QMap<KeyframeType::KeyframeEnum, QString> getKeyframeTypes();
     /** @brief Used for testing */

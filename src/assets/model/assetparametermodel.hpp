@@ -387,8 +387,6 @@ public:
 
     /** @brief Returns true if @param type is animated */
     static bool isAnimated(ParamType type);
-    /** @brief Returns the MLT keyframe separator for a type, like ~= or |= */
-    static const QString getSeparatorForKeyframeType(mlt_keyframe_type type);
 
     /** @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
@@ -533,6 +531,12 @@ protected:
     /** @brief Convert an animated geometry param to percentages
      */
     const QString animationToPercentage(const QString &inputValue) const;
+
+private:
+    /** @brief extract individual components for a fake rect from its animation string **/
+    void processFakeRect(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
+    /** @brief extract individual components for a fake point from its animation string **/
+    void processFakePoint(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
 
 Q_SIGNALS:
     void modelChanged();
