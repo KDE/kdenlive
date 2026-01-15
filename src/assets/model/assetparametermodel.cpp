@@ -22,47 +22,6 @@
 #include <QString>
 #define DEBUG_LOCALE false
 
-static QMap<mlt_keyframe_type, QString> typeMap = {
-    // Map keyframe type to any single character except numeric values.
-    {mlt_keyframe_discrete, "|"},
-    {mlt_keyframe_discrete, "!"},
-    {mlt_keyframe_linear, ""},
-    {mlt_keyframe_smooth, "~"},
-    {mlt_keyframe_smooth_loose, "~"},
-    {mlt_keyframe_smooth_natural, "$"},
-    {mlt_keyframe_smooth_tight, "-"},
-    {mlt_keyframe_sinusoidal_in, "a"},
-    {mlt_keyframe_sinusoidal_out, "b"},
-    {mlt_keyframe_sinusoidal_in_out, "c"},
-    {mlt_keyframe_quadratic_in, "d"},
-    {mlt_keyframe_quadratic_out, "e"},
-    {mlt_keyframe_quadratic_in_out, "f"},
-    {mlt_keyframe_cubic_in, "g"},
-    {mlt_keyframe_cubic_out, "h"},
-    {mlt_keyframe_cubic_in_out, "i"},
-    {mlt_keyframe_quartic_in, "j"},
-    {mlt_keyframe_quartic_out, "k"},
-    {mlt_keyframe_quartic_in_out, "l"},
-    {mlt_keyframe_quintic_in, "m"},
-    {mlt_keyframe_quintic_out, "n"},
-    {mlt_keyframe_quintic_in_out, "o"},
-    {mlt_keyframe_exponential_in, "p"},
-    {mlt_keyframe_exponential_out, "q"},
-    {mlt_keyframe_exponential_in_out, "r"},
-    {mlt_keyframe_circular_in, "s"},
-    {mlt_keyframe_circular_out, "t"},
-    {mlt_keyframe_circular_in_out, "u"},
-    {mlt_keyframe_back_in, "v"},
-    {mlt_keyframe_back_out, "w"},
-    {mlt_keyframe_back_in_out, "x"},
-    {mlt_keyframe_elastic_in, "y"},
-    {mlt_keyframe_elastic_out, "z"},
-    {mlt_keyframe_elastic_in_out, "A"},
-    {mlt_keyframe_bounce_in, "B"},
-    {mlt_keyframe_bounce_out, "C"},
-    {mlt_keyframe_bounce_in_out, "D"},
-};
-
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString &originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
@@ -232,7 +191,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 converted = false;
                 break;
             case ParamType::Unknown:
-                qDebug() << "//// WARNING UNKNOWN PARAM TYPE REQUESTED IN: " << m_assetId;
+                qWarning() << "//// WARNING UNKNOWN PARAM TYPE REQUESTED IN: " << m_assetId;
                 break;
             }
             if (converted) {
@@ -455,7 +414,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                             rect.y *= profile->height;
                             rect.h *= profile->height;
                         }
-                        const QString separator = getSeparatorForKeyframeType(type);
+                        const QString separator = KeyframeModel::getSeparatorForKeyframeType(type);
                         for (auto j = mappedParams.cbegin(), end = mappedParams.cend(); j != end; ++j) {
                             const AssetRectInfo paramInfo = j.value().value<AssetRectInfo>();
                             double val = paramInfo.getValue(rect);
@@ -513,7 +472,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                             rect.x *= profile->width;
                             rect.y *= profile->height;
                         }
-                        const QString separator = getSeparatorForKeyframeType(type);
+                        const QString separator = KeyframeModel::getSeparatorForKeyframeType(type);
                         xAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.x);
                         yAnim << QStringLiteral("%1%2=%3").arg(frame).arg(separator).arg(rect.y);
                     }
@@ -1932,9 +1891,4 @@ bool AssetParameterModel::isDefault() const
     }
     qDebug() << "YYYYYYYYYYYYY DISABLING EFFECT:\n";
     return true;
-}
-
-const QString AssetParameterModel::getSeparatorForKeyframeType(mlt_keyframe_type type)
-{
-    return typeMap.value(type);
 }
