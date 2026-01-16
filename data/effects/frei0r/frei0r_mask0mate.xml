@@ -6,8 +6,8 @@
     <author>Richard Spindler</author>
     <parameter type="fakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
         <name>Rectangle</name>
-        <parammap target="x" source="Left" max="%width" min="0" default="0" factor="%width"/>
-        <parammap target="y" source="Top" max="%height" min="0" default="0" factor="%height"/>
+        <parammap target="left" source="Left" max="%width" min="0" default="0" factor="%width"/>
+        <parammap target="top" source="Top" max="%height" min="0" default="0" factor="%height"/>
         <parammap target="right" source="Right" max="%width" min="0" default="0" factor="%width"/>
         <parammap target="bottom" source="Bottom" max="%height" min="0" default="0" factor="%height"/>
     </parameter>
