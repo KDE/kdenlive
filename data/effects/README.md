@@ -138,6 +138,44 @@ For double values these placeholders are available:
 * synonym for `"constant"`
 
 
+##### `"fakepoint"` and `"animatedfakepoint"`
+* A way to handle 2 separate MLT parameters as the x, y coordinates of a point
+* represented by 2 spin boxes
+* ###### additional required parameter attributes:
+| attribute name | description    |
+| :------------- | :------------- |
+| `name`       | a `kdenlive:` prefixed name that will be used internally and in project file to save animation |
+* ###### requires 2 additional parammap child elements with attributes:
+| attribute name | description    |
+| :------------- | :------------- |
+| `target`       | the parameter described by this element, can be `x`, `y` |
+| `source`       | the name of the parameter in MLT |
+| `min`          | smallest value possible (after multiplying with `factor`) |
+| `max`          | largest value possible (after multiplying with `factor`)  |
+| `default`      | default value on initialization
+| `factor`       | _(optional)_ the factor used to display the value (not affecting the value passed to MLT)
+
+
+##### `"fakerect"` and `"animatedfakerect"`
+* A way to handle 4 separate MLT parameters as the left, top, width, height coordinates of a point. Additional right, bottom values are supported
+* represented by a geometry widget
+* ###### additional required parameter attributes:
+| attribute name | description    |
+| :------------- | :------------- |
+| `name`         | a `kdenlive:` prefixed name that will be used internally and in project file to save animation |
+| `default`      | the default rect value |
+| `opacity`      | set to `true` to indicate we also use opacity, `false` otherwise |
+* ###### requires 2 additional parammap child elements with attributes:
+| attribute name | description    |
+| :------------- | :------------- |
+| `target`       | the parameter described by this element, can be `left`, `top`, `right`, `bottom`, `width`, `height` |
+| `source`       | the name of the parameter in MLT |
+| `min`          | smallest value possible (after multiplying with `factor`) |
+| `max`          | largest value possible (after multiplying with `factor`)  |
+| `default`      | default value on initialization
+| `factor`       | _(optional)_ the factor used to display the value (not affecting the value passed to MLT)
+
+
 ##### `"fixed"`
 * sets a (MLT filter) parameter, but does not expose it to the user (no GUI)
 
@@ -199,6 +237,11 @@ You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame s
 * 2 possible options defined by strings (max / min)
 * this special parameter type will affect 2 different parameters when changed. the `name` of this parameter will contain the name of the 2 final parameters, separated by a LF character: `&#10;`. Same thing for the `default`,  `min` and `max` which will contain the values for these 2 parameters, separated by an LF character. See for example the fade_to_black effect.
 * represented by a checkbox
+
+
+##### `"point"`
+* A point coordinate, represented in MLT by a rectangle, using only the first 2 x, y coordinates
+* represented by 2 spin boxes
 
 
 ##### `"position"`
