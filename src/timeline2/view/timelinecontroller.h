@@ -56,7 +56,6 @@ class TimelineController : public QObject
     Q_PROPERTY(bool hasVideoTarget READ hasVideoTarget NOTIFY hasVideoTargetChanged)
     Q_PROPERTY(int clipTargets READ clipTargets NOTIFY hasAudioTargetChanged)
     Q_PROPERTY(bool autoScroll READ autoScroll NOTIFY autoScrollChanged)
-    Q_PROPERTY(bool centeredPlayhead READ centeredPlayhead NOTIFY centeredPlayheadChanged)
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor titleColor READ titleColor NOTIFY colorsChanged)
@@ -184,7 +183,6 @@ public:
     Q_INVOKABLE int clipTargets() const;
     Q_INVOKABLE bool hasVideoTarget() const;
     bool autoScroll() const;
-    bool centeredPlayhead() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     Q_INVOKABLE int trimmingMainClip() const { return m_trimmingMainClip; }
     Q_INVOKABLE QColor videoColor() const;
@@ -848,7 +846,6 @@ Q_SIGNALS:
     void hasVideoTargetChanged();
     void lastAudioTargetChanged();
     void autoScrollChanged();
-    void centeredPlayheadChanged();
     void lastVideoTargetChanged();
     void timelineMouseOffsetChanged(int);
     void activeTrackChanged();

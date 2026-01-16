@@ -524,7 +524,6 @@ function getTrackColor(audio, header) {
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
     property bool autoScrolling: timeline.autoScroll
-    property bool centeredPlayhead: timeline.centeredPlayhead // If true, timeline scrolls to keep playhead centered
     property bool blockAutoScroll: false
     property int duration: timeline.duration
     property color audioColor: Utils.mixColors(activePalette.base, K.KdenliveSettings.thumbColor1, 0.3)
@@ -617,7 +616,7 @@ function getTrackColor(audio, header) {
         if (timeline.fullDuration * root.timeScale < scrollView.width) {
             scrollView.contentX = 0
             root.zoomOnMouse = -1
-        } else if (root.centeredPlayhead) {
+        } else if (K.KdenliveSettings.centeredplayhead) {
             scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
             root.zoomOnMouse = -1
         } else if (root.zoomOnMouse >= 0) {
@@ -638,7 +637,7 @@ function getTrackColor(audio, header) {
 
     onConsumerPositionChanged: {
         if (!root.blockAutoScroll && root.consumerPosition > -1) {
-            if (root.centeredPlayhead) {
+            if (K.KdenliveSettings.centeredplayhead) {
                 scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
             } else if (root.autoScrolling) {
                 Logic.scrollIfNeeded()
