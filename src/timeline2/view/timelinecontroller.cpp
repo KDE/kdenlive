@@ -76,6 +76,7 @@ TimelineController::TimelineController(QObject *parent)
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
     m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
+    connect(pCore.get(), &Core::centeredPlayheadChanged, this, &TimelineController::centeredPlayheadChanged);
     connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
     connect(pCore.get(), &Core::autoTrackHeight, this, [this](bool enable) {
         m_autotrackHeight = enable;
@@ -3742,6 +3743,11 @@ bool TimelineController::hasVideoTarget() const
 bool TimelineController::autoScroll() const
 {
     return !pCore->monitorManager()->projectMonitor()->isPlaying() || KdenliveSettings::autoscroll();
+}
+
+bool TimelineController::centeredPlayhead() const
+{
+    return KdenliveSettings::centeredplayhead();
 }
 
 void TimelineController::resetTrackHeight()

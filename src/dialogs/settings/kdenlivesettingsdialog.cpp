@@ -1273,6 +1273,11 @@ void KdenliveSettingsDialog::updateSettings()
         Q_EMIT pCore->autoScrollChanged();
     }
 
+    if (m_configTimeline.kcfg_centeredplayhead->isChecked() != KdenliveSettings::centeredplayhead()) {
+        KdenliveSettings::setCenteredplayhead(m_configTimeline.kcfg_centeredplayhead->isChecked());
+        Q_EMIT pCore->centeredPlayheadChanged();
+    }
+
     if (m_configTimeline.kcfg_pauseonseek->isChecked() != KdenliveSettings::pauseonseek()) {
         KdenliveSettings::setPauseonseek(m_configTimeline.kcfg_pauseonseek->isChecked());
     }

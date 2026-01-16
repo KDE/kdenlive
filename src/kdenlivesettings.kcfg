@@ -426,6 +426,10 @@
       <label>Auto scroll timeline while playing.</label>
       <default>true</default>
     </entry>
+    <entry name="centeredplayhead" type="Bool">
+      <label>Center timeline on playhead while playing or seeking.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="jumptostart" type="Bool">
       <label>Jump to timeline start if playback is started on last frame in timeline.</label>
