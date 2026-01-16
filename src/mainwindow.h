@@ -448,6 +448,7 @@ public Q_SLOTS:
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
+    void slotEditToolbars();
     void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();

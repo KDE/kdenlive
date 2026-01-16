@@ -37,6 +37,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layouts/layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "render/renderserver.h"
+#include <KEditToolBar>
 
 #ifndef NODBUS
 #include <QDBusConnectionInterface>
@@ -848,6 +849,16 @@ void MainWindow::init()
     m_loadingDialog->close();
     if (!KdenliveSettings::showtitlebars()) {
         Q_EMIT pCore->hideBars(true);
+    }
+
+    // fix for Bug 376053: intercept "Configure Toolbars" to prevent shortcut reset
+    QAction *tbAction = actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars));
+    if (tbAction) {
+        // disconnect EVERYTHING currently connected to it
+        disconnect(tbAction, nullptr, nullptr, nullptr);
+
+        // connect to a custom slot
+        connect(tbAction, &QAction::triggered, this, &MainWindow::slotEditToolbars);
     }
 }
 
@@ -5763,4 +5774,48 @@ QSize MainWindow::sizeHint() const
 {
     const QSize desktopSize = QGuiApplication::primaryScreen()->availableSize();
     return KXmlGuiWindow::sizeHint().expandedTo(desktopSize * 0.8);
+}
+
+void MainWindow::slotEditToolbars()
+{
+    // backup all current shortcuts
+    QMap<QString, QKeySequence> shortcutBackup;
+    for (auto *action : actionCollection()->actions()) {
+        if (!action->shortcut().isEmpty()) {
+            shortcutBackup.insert(action->objectName(), action->shortcut());
+        }
+    }
+
+    // open the standard KDE Toolbar Editor
+    KEditToolBar dlg(guiFactory(), this);
+
+    // connect dialog changes to Kdenlive's refresh/save function (Fixes visual toolbar updates)
+    connect(&dlg, &KEditToolBar::newToolBarConfig, this, &MainWindow::saveNewToolbarConfig);
+
+    dlg.exec();
+
+    // restore shortcuts
+    bool restorationHappened = false;
+
+    for (auto i = shortcutBackup.begin(); i != shortcutBackup.end(); ++i) {
+        QAction *action = actionCollection()->action(i.key());
+        if (action && action->shortcut() != i.value()) {
+            if (!i.value().isEmpty()) {
+                for (auto *otherAction : actionCollection()->actions()) {
+                    if (otherAction != action && otherAction->shortcut() == i.value()) {
+                        otherAction->setShortcut(QKeySequence());
+                    }
+                }
+            }
+            action->setShortcut(i.value());
+            actionCollection()->setShortcutsConfigurable(action, true);
+            restorationHappened = true;
+        }
+    }
+
+    // PERSISTENCE FIX: Force the action collection to write its current state (with our restored shortcuts)
+    // to the standard XML file immediately.
+    if (restorationHappened) {
+        actionCollection()->writeSettings();
+    }
 }
