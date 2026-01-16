@@ -99,8 +99,23 @@ For double values these placeholders are available:
 
 #### values for attribute `type`
 
-##### `"fixed"`
-* sets a (MLT filter) parameter, but does not expose it to the user (no GUI)
+##### `"bezier_spline"`
+* cubic Bézier spline editor for the frei0r color curves filter (new version, might be reused for other filters)
+
+
+##### `"bool"`
+* true/false
+* represented by a checkbox
+
+
+##### `"color"`
+* color value, similar to representation HTML (`"#rrggbb"`/`"#aarrggbb"` or `"0xrrggbbaa"`)
+* represented by a button opening the KDE color dialog + a color picker button
+* ###### additional attributes:
+| attribute name | description    |
+| :------------- | :------------- |
+| `alpha`       | _(default = `"0"`)_ use to enable alpha support |
+
 
 ##### `"constant"`
 * number
@@ -115,51 +130,34 @@ For double values these placeholders are available:
 | `suffix`       | _(optional)_ displayed unit of the value
 
 
+##### `"curve"`
+* cubic curve editor for the frei0r color curves filter (old version)
+
+
 ##### `"double"`
 * synonym for `"constant"`
 
 
-##### `"bool"`
-* true/false
-* represented by a checkbox
+##### `"fixed"`
+* sets a (MLT filter) parameter, but does not expose it to the user (no GUI)
 
 
-##### `"switch"`
-* 2 possible options defined by strings (max / min)
-* represented by a checkbox
+##### `"fontfamily"`
+* Font typeface entry
 
 
-##### `"multiswitch"`
-* 2 possible options defined by strings (max / min)
-* this special parameter type will affect 2 different parameters when changed. the `name` of this parameter will contain the name of the 2 final parameters, separated by a LF character: `&#10;`. Same thing for the `default`,  `min` and `max` which will contain the values for these 2 parameters, separated by an LF character. See for example the fade_to_black effect.
-* represented by a checkbox
-
-
-##### `"list"`
-* multiple choice
-* represented by a drop-down menu
-* ###### additional parameter attributes:
-| attribute name | description    |
-| :------------- | :------------- |
-| `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keyword `%lumaPaths` available to show files in the applications luma directories |
-* ###### additional tags:
-| tag name           | description    |
-| :----------------- | :------------- |
-| `paramlistdisplay` | _(optional)_ list of names to use for the values separated by comma |
-
-
-##### `"position"`
-* time stored as frame number
-* represented by a slider
-
-
-##### `"color"`
-* color value, similar to representation HTML (`"#rrggbb"`/`"#aarrggbb"` or `"0xrrggbbaa"`)
-* represented by a button opening the KDE color dialog + a color picker button
+##### `"geometry"`
+* a rectangle: position + dimension + additional value
+* works with MLT filters using mlt_geometry
+* the rect can be edited on the project monitor
 * ###### additional attributes:
 | attribute name | description    |
 | :------------- | :------------- |
-| `alpha`       | _(default = `"0"`)_ use to enable alpha support |
+| `fixed`        | _(default = `"0"`)_ use to disable keyframe support |
+| `showrotation` | _(default = `"0"`)_ use to enable support to 3 axis rotation |
+| `opacity`      | _(default = `"true"`)_ use to disable support of the opacity setting |
+
+You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame size
 
 
 ##### `"keyframe"`
@@ -175,23 +173,55 @@ For double values these placeholders are available:
 | `widget`       | _(optional)_ GUI based on the standard keyframe GUI (possible values: `"corners"`) |
 
 
+##### `"keywords"`
+* Text entry with a selection of possible keywords to be inserted in the text.
+* ###### additional tags:
+| attribute name | description    |
+| :------------- | :------------- |
+| `keywords` | list of possible keyword values separated by semicolon |
+| `keywordsdisplay` | list of names to use for the values separated by semicolon |
+
+
+##### `"list"`
+* multiple choice
+* represented by a drop-down menu
+* ###### additional parameter attributes:
+| attribute name | description    |
+| :------------- | :------------- |
+| `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keyword `%lumaPaths` available to show files in the applications luma directories |
+* ###### additional tags:
+| tag name           | description    |
+| :----------------- | :------------- |
+| `paramlistdisplay` | _(optional)_ list of names to use for the values separated by comma |
+
+
+##### `"multiswitch"`
+* 2 possible options defined by strings (max / min)
+* this special parameter type will affect 2 different parameters when changed. the `name` of this parameter will contain the name of the 2 final parameters, separated by a LF character: `&#10;`. Same thing for the `default`,  `min` and `max` which will contain the values for these 2 parameters, separated by an LF character. See for example the fade_to_black effect.
+* represented by a checkbox
+
+
+##### `"position"`
+* time stored as frame number
+* represented by a slider
+
+
+##### `"readonly"`
+* Data (usually an animated geometry) that can be pasted to clipboard or dragged/dropped on another geometry parameter. Cannot be modified directly by user.
+
+
+##### `"roto-spline"`
+* GUI for the rotoscoping filter (spline on the monitor)
+
+
 ##### `"simplekeyframe"`
 * works with MLT filters that use mlt_geometry for keyframe support (includes all frei0r filters)
 * same attributes as "keyframe"
 
 
-##### `"geometry"`
-* a rectangle: position + dimension + additional value
-* works with MLT filters using mlt_geometry
-* the rect can be edited on the project monitor
-* ###### additional attributes:
-| attribute name | description    |
-| :------------- | :------------- |
-| `fixed`        | _(default = `"0"`)_ use to disable keyframe support |
-| `showrotation` | _(default = `"0"`)_ use to enable support to 3 axis rotation |
-| `opacity`      | _(default = `"true"`)_ use to disable support of the opacity setting |
-
-You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame size
+##### `"switch"`
+* 2 possible options defined by strings (max / min)
+* represented by a checkbox
 
 
 ##### `"url"`
@@ -223,31 +253,3 @@ You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame s
 ##### `"wipe"`
 * special GUI for the wipe transition makes it possible to select a direction of a slide
 
-
-##### `"curve"`
-* cubic curve editor for the frei0r color curves filter (old version)
-
-
-##### `"bezier_spline"`
-* cubic Bézier spline editor for the frei0r color curves filter (new version, might be reused for other filters)
-
-
-##### `"roto-spline"`
-* GUI for the rotoscoping filter (spline on the monitor)
-
-
-##### `"keywords"`
-* Text entry with a selection of possible keywords to be inserted in the text.
-* ###### additional tags:
-| attribute name | description    |
-| :------------- | :------------- |
-| `keywords` | list of possible keyword values separated by semicolon |
-| `keywordsdisplay` | list of names to use for the values separated by semicolon |
-
-
-##### `"fontfamily"`
-* Font typeface entry
-
-
-##### `"readonly"`
-* Data (usually an animated geometry) that can be pasted to clipboard or dragged/dropped on another geometry parameter. Cannot be modified directly by user.
