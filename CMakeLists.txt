@@ -67,8 +67,11 @@ include(ECMAddQch)
 include(ECMDeprecationSettings)
 include(ECMQmlModule)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
-# MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
-if(NOT MSVC)
+if(MSVC)
+    # kdenliveLib.dir\Unity\unity_qmlcache_cxx.cxx : fatal error C1128: number of sections exceeded object file format limit: compile with /bigobj
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+else()
+    # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
 
