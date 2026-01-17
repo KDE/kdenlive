@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-02 09:58+0100\n"
+"PO-Revision-Date: 2026-01-17 03:25+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9172,6 +9172,8 @@ msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
+"უახლოესი მეზობელი,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline "
+"6x6,Lanczos"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
@@ -9203,6 +9205,8 @@ msgid ""
 "Draws a gradient on top of image. Filter is given gradient start and end "
 "points, colors and opacities."
 msgstr ""
+"დახატავს გრადიენტს გამოსახულებების ზემოდან. ფილტრს გადაეცემა გრადიენტის "
+"დასაწყისის და დასასრულის წერტილები, ფერები და გაუმჭვირვალობები."
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:8
 #, kde-format
@@ -9439,6 +9443,8 @@ msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
 msgstr ""
+"გამოთვლის მანძილს მონიშნულ ფერსა და მიმდინარე პიქსელს შუა და გამოიყენებს იმ "
+"მნიშვნელობას ახალი პიქსელის მნიშვნელობისთვის"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:8
 #, kde-format
