@@ -140,11 +140,10 @@ add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT
-find_package(MLT ${MLT_MIN_VERSION} REQUIRED)
-set_package_properties(MLT PROPERTIES DESCRIPTION "Multimedia framework"
+find_package(Mlt7 ${MLT_MIN_VERSION} REQUIRED COMPONENTS xml)
+set_package_properties(Mlt7 PROPERTIES DESCRIPTION "Multimedia framework"
                 URL "https://mltframework.org"
                 PURPOSE "Required to do video processing")
-message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
 # LibAV
 find_package(FFmpeg REQUIRED COMPONENTS

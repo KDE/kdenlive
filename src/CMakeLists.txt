@@ -211,8 +211,7 @@ add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
     )
-target_include_directories(kdenlive
-	SYSTEM PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
+
 target_link_libraries(kdenlive kdenliveLib kdenliveLibplugin)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
@@ -225,8 +224,7 @@ target_include_directories(kdenliveLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/utils
     ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     )
-target_include_directories(kdenliveLib
-	SYSTEM  PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
+
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
 # KDE definitions and include directories *must* always come first, Qt follows
@@ -254,8 +252,7 @@ target_link_libraries(kdenliveLib PUBLIC
     KF${KF_MAJOR}::PurposeWidgets
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
-    ${MLT_LIBRARIES}
-    ${MLTPP_LIBRARIES}
+    Mlt7::mlt++
     OTIO::opentimelineio
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
