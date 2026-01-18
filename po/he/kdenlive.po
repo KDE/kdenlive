@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-17 00:43+0000\n"
-"PO-Revision-Date: 2026-01-11 21:13+0200\n"
+"POT-Creation-Date: 2026-01-18 00:42+0000\n"
+"PO-Revision-Date: 2026-01-17 21:18+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2284,6 +2284,14 @@ msgid ""
 "specified number of attacks and decays is lower than number of channels, the "
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
+"רשימת זמנים בשניות לכל ערוץ, המשמשת לחישוב ממוצע העוצמה הרגעית של אות הקלט "
+"לצורך קביעת עוצמתו הכוללת. המונח „מתקף” (Attack) מתייחס לעלייה בעוצמה, "
+"ו„דעיכה” (Decay) מתייחסת לירידה בעוצמה.\n"
+"ברוב המקרים, רצוי שזמן המתקף (התגובה להתחזקות השמע) יהיה קצר יותר מזמן "
+"הדעיכה, מכיוון שהאוזן האנושית רגישה יותר לעלייה פתאומית בעוצמה מאשר להיחלשות "
+"פתאומית. ערך אופייני למתקף הוא 0.3 שניות, ולדעיכה 0.8 שניות. אם מספר ערכי "
+"המתקף והדעיכה שצוינו נמוך ממספר הערוצים, הערך האחרון שנקבע ישמש עבור כל שאר "
+"הערוצים."
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, fuzzy, kde-format
@@ -2349,6 +2357,18 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"קו השהיית פיצוי (Compensation Delay Line) הוא השהיה המבוססת על מרחק, שמטרתה "
+"לפצות על מקומות שונים של מיקרופונים או רמקולים.\n"
+"למשל, בעת הקלטת גיטרה עם שני מיקרופונים הממוקמים במקומות שונים. מכיוון "
+"שלחזית גל הקול מהירות קבועה בתנאים רגילים, המופע (פאזה) של המיקרופונים עשוי "
+"להשתנות בהתאם למיקום שלהם ולמרחק ביניהם. ניתן להשיג את התמהיל (מיקס) הטוב "
+"ביותר כאשר המיקרופונים נמצאים באותו מופע (מסונכרנים). יש לשים לב שמרחק של כ־"
+"30 ס״מ בין מיקרופונים גורם למיקרופון אחד לקלוט את האות במופע הפוך למיקרופון "
+"השני. דבר זה גורם לתוצאה הסופית להישמע עכורה. המסנן הזה מסייע בפתרון בעיות "
+"מופע על ידי הוספת השהיות שונות לכל ערוץ מיקרופון כדי לסנכרן ביניהם.\n"
+"התוצאה הטובה ביותר תתקבל כאשר נקבעת רצועה אחת כבסיס ושאר הרצועות מסונכרנות "
+"מולה, אחת־אחת. חשוב לזכור שדיוק הסנכרון/השהיה תלוי גם בקצב הדגימה. קצבי "
+"דגימה גבוהים יותר יאפשרו דיוק רב יותר."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
@@ -6805,10 +6825,9 @@ msgid "Lowpass,Flat,Aflat,Xflat,Yflat,Chroma,Color,Acolor"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "Set which graticule to display"
-msgstr "<![CDATA[היסט לאורך ציר Y]]>"
+msgstr "הגדרת רשת המדידה להצגה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
@@ -10981,6 +11000,11 @@ msgid ""
 "proper threshold adjusting move the timeline cursor to the beginning of the "
 "clip, check the Reset box and uncheck it again."
 msgstr ""
+"איפוס מסכת האור ותמונת הרקע. הכרחי אם למשל החלת את האפקט הזה על סרטון בציר "
+"הזמן ואז להזיז את סמן ציר הזמן מחוץ לסרטון לאמצע שלו. האפקט מקבל את התמונית "
+"הזאת באמצע בתור התמונית הראשונה ומשתמש בה כתמונת רקע. לכיוון סף מתאים יש "
+"להזיז את סמן ציר הזמן לתחילת הסרטון, יש לסמן את תיבת האיפוס ולבטל את הסימון "
+"שלה שוב."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:80
 #, kde-format
@@ -13872,7 +13896,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2159.xml:26
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Determines the fixed amount of time with<br>\n"
 "      which the signal is delayed after the time-varying delay has been "
@@ -13880,7 +13904,7 @@ msgid ""
 "Flanger effects. Delays smaller than 10 ms can be labeled Flanger, delays "
 "above 20 ms yield Chorus, and delays in the range of 10-20 ms result in a "
 "blend between Chorus and Flanger."
-msgstr ""
+msgstr "הגדרת כמות הזמן הקבועה לעיכוב האות אחרי שהמשתנה "
 
 #: data/effects/ladspa/ladspa_2159.xml:29
 #, kde-format
@@ -17544,7 +17568,7 @@ msgstr "שמירת אפקט"
 
 #: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1379
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1384
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -17552,7 +17576,7 @@ msgstr "נא למלא שם לערכה"
 
 #: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1379
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1384
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "נא למלא את שם הערכה:"
@@ -21584,7 +21608,7 @@ msgstr "נא לבחור פרופיל וידאו"
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "יש להפעיל את Kdenlive מחדש כדי לשנות את ההגדרה הזאת"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1382
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1387
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
@@ -24965,7 +24989,7 @@ msgid "Clip in Timeline"
 msgstr "סרטון בציר הזמן"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1064
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
 #, kde-format
 msgid "Sequence"
 msgstr "רצף"
@@ -25015,7 +25039,7 @@ msgstr "&רצועה נוכחית"
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
 #: src/kdenliveui.rc:160 src/mainwindow.cpp:2077
-#: src/ui/configtimeline_ui.ui:251
+#: src/ui/configtimeline_ui.ui:258
 #, kde-format
 msgid "Tracks"
 msgstr "רצועות"
@@ -25845,7 +25869,7 @@ msgstr "אפקטים"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:464
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
-#: src/ui/configtimeline_ui.ui:244
+#: src/ui/configtimeline_ui.ui:251
 #, kde-format
 msgid "Compositions"
 msgstr "תרכובות"
@@ -32659,7 +32683,7 @@ msgid "Stop"
 msgstr "עצירה"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2158
+#: src/timeline2/view/qml/Timeline.qml:2167
 #, kde-format
 msgid "Paused"
 msgstr "מושהה"
@@ -32821,28 +32845,28 @@ msgstr "הצגה"
 msgid "Hide"
 msgstr "הסתרה"
 
-#: src/timeline2/view/qml/Timeline.qml:1058
+#: src/timeline2/view/qml/Timeline.qml:1067
 #, kde-format
 msgid "Show sequence effects"
 msgstr "הצגת אפקטים על רצפים"
 
-#: src/timeline2/view/qml/Timeline.qml:1788
+#: src/timeline2/view/qml/Timeline.qml:1797
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>לחיצה כפולה</b> להוספת כתובית"
 
-#: src/timeline2/view/qml/Timeline.qml:1982
+#: src/timeline2/view/qml/Timeline.qml:1991
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "היסט: %1, מקום: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2147
 #: src/timeline2/view/qml/Timeline.qml:2156
+#: src/timeline2/view/qml/Timeline.qml:2165
 #, kde-format
 msgid "Recording"
 msgstr "הקלטה"
 
-#: src/timeline2/view/qml/Timeline.qml:2250
+#: src/timeline2/view/qml/Timeline.qml:2259
 #, kde-format
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"
@@ -35712,87 +35736,93 @@ msgstr "גלילה:"
 msgid "Autoscroll while playing"
 msgstr "גלילה אוטומטית בזמן נגינה"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_centeredplayhead)
 #: src/ui/configtimeline_ui.ui:122
+#, kde-format
+msgid "Fixed centered playhead"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
+#: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
 msgstr "אפשר לגלול אנכית עם גלגלת העכבר, אופקית עם Shift + גלגלת העכבר"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
-#: src/ui/configtimeline_ui.ui:136
+#: src/ui/configtimeline_ui.ui:143
 #, kde-format
 msgid "Display clip markers comments"
 msgstr "הצגת הערות סימון בסרטונים"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configtimeline_ui.ui:143
+#: src/ui/configtimeline_ui.ui:150
 #, kde-format
 msgid "Default track height:"
 msgstr "גובה רצועה כברירת מחדל:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/configtimeline_ui.ui:163
+#: src/ui/configtimeline_ui.ui:170
 #, kde-format
 msgid "Multi Stream Audio Clips"
 msgstr "מקטעי שמע מרובי ערוצים"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
-#: src/ui/configtimeline_ui.ui:176
+#: src/ui/configtimeline_ui.ui:183
 #, kde-format
 msgid "All Audio Streams"
 msgstr "כל תזרימי השמע"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
-#: src/ui/configtimeline_ui.ui:181
+#: src/ui/configtimeline_ui.ui:188
 #, kde-format
 msgid "First Audio Stream"
 msgstr "תזרים שמע ראשון"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
-#: src/ui/configtimeline_ui.ui:186
+#: src/ui/configtimeline_ui.ui:193
 #, kde-format
 msgid "First 2 Audio Streams"
 msgstr "2 תזרימי השמע הראשונים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configtimeline_ui.ui:194
+#: src/ui/configtimeline_ui.ui:201
 #, kde-format
 msgid "On import, enable:"
 msgstr "בעת ייבוא, להפעיל:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_multistream_checktrack)
-#: src/ui/configtimeline_ui.ui:201
+#: src/ui/configtimeline_ui.ui:208
 #, kde-format
 msgid "Check if project contains enough tracks"
 msgstr "לבדוק אם המיזם מכיל מספיק רצועות"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configtimeline_ui.ui:211
+#: src/ui/configtimeline_ui.ui:218
 #, kde-format
 msgid "Developer:"
 msgstr "פיתוח:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
-#: src/ui/configtimeline_ui.ui:218
+#: src/ui/configtimeline_ui.ui:225
 #, kde-format
 msgid "Enable debug mode"
 msgstr "הפעלת מצב ניפוי שגיאות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/configtimeline_ui.ui:238
+#: src/ui/configtimeline_ui.ui:245
 #, kde-format
 msgid "Raise Effects/Composition Stack for"
 msgstr "הגבהת ערמת אפקטים/תרכובות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
-#: src/ui/configtimeline_ui.ui:258
+#: src/ui/configtimeline_ui.ui:265
 #, kde-format
 msgid "Clips"
 msgstr "סרטונים"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
-#: src/ui/configtimeline_ui.ui:265
+#: src/ui/configtimeline_ui.ui:272
 #, kde-format
 msgid "Mixes"
 msgstr "ערבובים"

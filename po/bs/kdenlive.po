@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-17 00:43+0000\n"
+"POT-Creation-Date: 2026-01-18 00:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -17877,7 +17877,7 @@ msgstr "Sačuvaj efekat"
 
 #: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1379
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgctxt "@title:window"
@@ -17886,7 +17886,7 @@ msgstr "Unesi ime sekvence"
 
 #: src/assets/view/assetparameterview.cpp:373
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1379
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1384
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -22188,7 +22188,7 @@ msgstr "Molimo vas da odaberete standardni video profil"
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1382
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1387
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:670
 #, kde-format
 msgid "A profile with that name already exists"
@@ -25771,7 +25771,7 @@ msgid "Clip in Timeline"
 msgstr "Vremenska osa"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1064
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence"
@@ -25829,7 +25829,7 @@ msgstr "Izreži isječak"
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
 #: src/kdenliveui.rc:160 src/mainwindow.cpp:2077
-#: src/ui/configtimeline_ui.ui:251
+#: src/ui/configtimeline_ui.ui:258
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Tracks"
@@ -26722,7 +26722,7 @@ msgstr "Efekti"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
 #: src/mainwindow.cpp:464
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
-#: src/ui/configtimeline_ui.ui:244
+#: src/ui/configtimeline_ui.ui:251
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Compositions"
@@ -33937,7 +33937,7 @@ msgid "Stop"
 msgstr "Zaustavi"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2158
+#: src/timeline2/view/qml/Timeline.qml:2167
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -34107,32 +34107,32 @@ msgstr "Prikaži dnevnik"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:1058
+#: src/timeline2/view/qml/Timeline.qml:1067
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show sequence effects"
 msgstr "Prikaži sve profile"
 
-#: src/timeline2/view/qml/Timeline.qml:1788
+#: src/timeline2/view/qml/Timeline.qml:1797
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Klikni za dodavanje prelaza."
 
-#: src/timeline2/view/qml/Timeline.qml:1982
+#: src/timeline2/view/qml/Timeline.qml:1991
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija %1"
 
-#: src/timeline2/view/qml/Timeline.qml:2147
 #: src/timeline2/view/qml/Timeline.qml:2156
+#: src/timeline2/view/qml/Timeline.qml:2165
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Snimaj"
 
-#: src/timeline2/view/qml/Timeline.qml:2250
+#: src/timeline2/view/qml/Timeline.qml:2259
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -37247,73 +37247,79 @@ msgstr "Razmjera"
 msgid "Autoscroll while playing"
 msgstr "Automatsko klizanje tokom prikaza"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_centeredplayhead)
 #: src/ui/configtimeline_ui.ui:122
+#, kde-format
+msgid "Fixed centered playhead"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
+#: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
-#: src/ui/configtimeline_ui.ui:136
+#: src/ui/configtimeline_ui.ui:143
 #, kde-format
 msgid "Display clip markers comments"
 msgstr "Prikaži komentare oznaka isječka"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configtimeline_ui.ui:143
+#: src/ui/configtimeline_ui.ui:150
 #, fuzzy, kde-format
 #| msgid "Track height"
 msgid "Default track height:"
 msgstr "Traka visine"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/configtimeline_ui.ui:163
+#: src/ui/configtimeline_ui.ui:170
 #, kde-format
 msgid "Multi Stream Audio Clips"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
-#: src/ui/configtimeline_ui.ui:176
+#: src/ui/configtimeline_ui.ui:183
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "All Audio Streams"
 msgstr "Zvučni slijed %1"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
-#: src/ui/configtimeline_ui.ui:181
+#: src/ui/configtimeline_ui.ui:188
 #, fuzzy, kde-format
 #| msgid "First frame"
 msgid "First Audio Stream"
 msgstr "Prvi kadar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
-#: src/ui/configtimeline_ui.ui:186
+#: src/ui/configtimeline_ui.ui:193
 #, fuzzy, kde-format
 #| msgid "First frame"
 msgid "First 2 Audio Streams"
 msgstr "Prvi kadar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configtimeline_ui.ui:194
+#: src/ui/configtimeline_ui.ui:201
 #, kde-format
 msgid "On import, enable:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_multistream_checktrack)
-#: src/ui/configtimeline_ui.ui:201
+#: src/ui/configtimeline_ui.ui:208
 #, kde-format
 msgid "Check if project contains enough tracks"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configtimeline_ui.ui:211
+#: src/ui/configtimeline_ui.ui:218
 #, kde-format
 msgid "Developer:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
-#: src/ui/configtimeline_ui.ui:218
+#: src/ui/configtimeline_ui.ui:225
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
@@ -37321,21 +37327,21 @@ msgid "Enable debug mode"
 msgstr "Omogući efekt"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/configtimeline_ui.ui:238
+#: src/ui/configtimeline_ui.ui:245
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Raise Effects/Composition Stack for"
 msgstr "Smjesa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
-#: src/ui/configtimeline_ui.ui:258
+#: src/ui/configtimeline_ui.ui:265
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clips"
 msgstr "Snimak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
-#: src/ui/configtimeline_ui.ui:265
+#: src/ui/configtimeline_ui.ui:272
 #, kde-format
 msgid "Mixes"
 msgstr ""
