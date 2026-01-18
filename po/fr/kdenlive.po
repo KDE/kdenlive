@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-31 02:53+0000\n"
-"PO-Revision-Date: 2026-01-12 09:52+0100\n"
+"PO-Revision-Date: 2026-01-16 19:21+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -682,8 +682,7 @@ msgstr "Compresseur / décompresseur simple"
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
 msgid "Simple audio dynamic range compression/expansion filter."
-msgstr ""
-"Filtre simple de compression / décompression de plage dynamique audio ."
+msgstr "Filtre simple de compression / décompression de plage dynamique audio."
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_ciescope.xml:32
@@ -1760,7 +1759,7 @@ msgstr "Gamma d'entrée"
 #, kde-format
 msgid "<![CDATA[Set input gamma. Used only with XYZ input color space.]]>"
 msgstr ""
-"<![CDATA[Définir le gamma d'entrée. Utilisé uniquement avec l'espace  "
+"<![CDATA[Définir le gamma d'entrée. Utilisé uniquement avec l'espace "
 "colorimétrique d'entrée « XYZ ».]]>"
 
 #: data/effects/avfilter/avfilter_ciescope.xml:49
@@ -1919,7 +1918,7 @@ msgstr "Contraste Vert - Magenta"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:14
 #, kde-format
 msgid "Blue-Yellow contrast"
-msgstr "Contraste  Bleu / Jaune"
+msgstr "Contraste Bleu / Jaune"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:17
 #, kde-format
@@ -2084,7 +2083,7 @@ msgstr "Entrée Vert - Blanc"
 #: data/effects/avfilter/avfilter_colorlevels.xml:26
 #, kde-format
 msgid "Green black output"
-msgstr "Sortie  Vert - Noir"
+msgstr "Sortie Vert - Noir"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:29
 #, kde-format
@@ -2433,7 +2432,7 @@ msgid ""
 msgstr ""
 "Le paramètre de ligne de compensation de retard est un délai reposant sur la "
 "métrique pour compenser les positions différentes des microphones ou des "
-"haut-parleurs.  \n"
+"haut-parleurs. \n"
 "Par exemple, vous avez enregistré une guitare avec deux microphones placés à "
 "des endroits différents. Parce que le front de l'onde sonore a une vitesse "
 "fixe dans des conditions normales, la phase des microphones peut varier et "
@@ -2444,7 +2443,7 @@ msgstr ""
 "l'autre microphone. Cela conduit à un rendu un peu mélancolique du mélange "
 "final. Ce filtre aide à résoudre les problèmes de phasage en ajoutant "
 "différents retards à chaque piste de microphone et en les rendant "
-"synchronisés.  \n"
+"synchronisés. \n"
 "\n"
 "Le meilleur résultat peut être atteint lorsque vous prenez une piste comme "
 "référence et synchronisez les autres pistes une par une avec elle. Veuillez "
@@ -2567,8 +2566,8 @@ msgid ""
 msgstr ""
 "Définissez la largeur de la scène sonore.\n"
 "La valeur par défaut est à 0,5. La plage autorisée est comprise entre 0 et "
-"1. Cela définit la fréquence de coupure du filtre de l'étage bas.\n"
-"Avec la valeur par défaut, la  fréquence de coupure est réglée aux alentours "
+"1. Cela définit la fréquence de coupure du filtre de l'étage bas. \n"
+"Avec la valeur par défaut, la fréquence de coupure est réglée aux alentours "
 "de 1550 Hz. Avec la plage réglée sur 1, la fréquence de coupure est réglée "
 "sur 2100 Hz."
 
@@ -2693,7 +2692,7 @@ msgstr "Flou directionnel"
 #: data/effects/avfilter/avfilter_dblur.xml:5
 #, kde-format
 msgid "Apply directional blur filter"
-msgstr "Appliquer  un filtre de flou directionnel"
+msgstr "Appliquer un filtre de flou directionnel"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, kde-format
@@ -2818,7 +2817,7 @@ msgstr "Taille de bloc"
 #: data/effects/avfilter/avfilter_deband.xml:4
 #, kde-format
 msgid "Deband"
-msgstr "Supprimer  les bandes"
+msgstr "Supprimer les bandes"
 
 #: data/effects/avfilter/avfilter_deband.xml:5
 #, kde-format
@@ -4694,7 +4693,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_huesaturation.xml:4
 #, kde-format
 msgid "Hue Saturation Intensity"
-msgstr "Intensité de saturation de la  teinte"
+msgstr "Intensité de saturation de la teinte"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:5
 #, kde-format
@@ -5453,7 +5452,7 @@ msgstr "Normaliser la vidéo en RVB"
 #, kde-format
 msgid "Normalize RGB video (aka histogram stretching, contrast stretching)"
 msgstr ""
-"Normaliser la vidéo « RVB » (C'est à dire l'étirement de l'histogramme, "
+"Normaliser la vidéo « RVB » (C'est-à-dire l'étirement de l'histogramme, "
 "l'étirement du contraste)."
 
 #: data/effects/avfilter/avfilter_normalize.xml:8
@@ -5879,7 +5878,7 @@ msgstr "Décalage vertical du canal Alpha"
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Edge Operation"
-msgstr "Opération sur les  bords"
+msgstr "Opération sur les bords"
 
 #: data/effects/avfilter/avfilter_roberts.xml:4
 #, kde-format
@@ -9446,8 +9445,8 @@ msgstr ""
 "<![CDATA[Le décalage dans le fichier de stabilisation qui correspond au "
 "début de cette séquence.<br>\n"
 "        Par exemple, si vous avez une séquence de 30 secondes, Veuillez tout "
-"analyser, puis la diviser en trois séquences de 10 secondes chacune.Ensuite, "
-"les décalages de départ doivent être de 0, 10 et 20 secondes.]]>"
+"analyser, puis la diviser en trois séquences de 10 secondes chacune. "
+"Ensuite, les décalages de départ doivent être de 0, 10 et 20 secondes.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
 #, kde-format
@@ -12892,7 +12891,7 @@ msgstr "Couleur noire"
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
 #, kde-format
 msgid "Gray color"
-msgstr "Couleur de  gris"
+msgstr "Couleur de gris"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
 #, kde-format
@@ -15395,7 +15394,7 @@ msgstr ""
 "faciliter le masquage de filtre. Ce filtre crée un copie de trame avant "
 "l'application d'un filtre, généralement un qui affecte le canal Alpha "
 "définissant le masque. Ensuite, le filtre « mask_apply » utilise une "
-"transition pour combiner l'image de la trame actuelle sur la copie.  Le cas "
+"transition pour combiner l'image de la trame actuelle sur la copie. Le cas "
 "typique d'utilisation est d'ajouter des effets dans la séquence suivante : "
 "« mask_start », zéro ou plusieurs filtres, « mask_apply »."
 
@@ -16621,7 +16620,7 @@ msgstr ""
 "\n"
 "            <![CDATA[Détermine si le chronomètre doit compter à partir de "
 "00:00:00.000 ou jusqu'à l'heure fixée.]]>\n"
-"       "
+"      "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -25026,7 +25025,7 @@ msgid ""
 "Please consider upgrading your Kdenlive version."
 msgstr ""
 "Ce projet n'est pas pris en charge. En effet, sa version de documentation "
-"(%1) est plus récente que  ce que la version de Kdenlive prend en charge "
+"(%1) est plus récente que ce que la version de Kdenlive prend en charge "
 "(Version %2 et supérieure).\n"
 "Veuillez envisager une mis à niveau de votre version de Kdenlive."
 
@@ -28453,7 +28452,7 @@ msgid ""
 msgstr ""
 "Verrouiller des repères de la frise chronologique. Si les repères sont "
 "verrouillés, ils ne pourront être déplacés lors de l'utilisation de l'outil "
-"d'espacement ou lors de l'insertion ou de la suppression de zones vides dans "
+"séparateur ou lors de l'insertion ou de la suppression de zones vides dans "
 "les pistes."
 
 #: src/mainwindow.cpp:2142
