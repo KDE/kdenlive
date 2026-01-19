@@ -26,6 +26,7 @@
   <name xml:lang="eu">Kdenlive</name>
   <name xml:lang="fi">Kdenlive</name>
   <name xml:lang="fr">Kdenlive</name>
+  <name xml:lang="ga">Kdenlive</name>
   <name xml:lang="gl">Kdenlive</name>
   <name xml:lang="he">Kdenlive</name>
   <name xml:lang="hi">केडेनलाइव</name>
@@ -61,6 +62,7 @@
   <summary xml:lang="eu">Bideo editorea</summary>
   <summary xml:lang="fi">Videomuokkain</summary>
   <summary xml:lang="fr">Éditeur vidéo</summary>
+  <summary xml:lang="ga">Eagarthóir físe</summary>
   <summary xml:lang="gl">Editor de vídeo</summary>
   <summary xml:lang="he">עורך וידאו</summary>
   <summary xml:lang="hi">वीडियो संपादक</summary>
@@ -90,6 +92,7 @@
     <p xml:lang="eu">Kdenlive, audio- eta bideo-formatu askorako euskarria duen bideoa editatzeko tresna bat da. Edizio-funtzio aurreratuak eskaintzen ditu, efektu eta trantsizio ezberdinak, kolore-zuzenketa, audio post-produkzioa eta azpidatzietarako tresnak. Gainera, aukeratzen duzun ia edozein formatutan errendatzeko malgutasuna ematen du.</p>
     <p xml:lang="fi">Kdenlive on videomuokkaussovellus, joka tukee monia ääni- ja videomuotoja. Se työkalut tarjoavat edistyneet muokkausominaisuudet, joukon tehosteita ja siirtymiä, värinkorjauksen, äänen jälkituotannon sekä tekstityksen. Lisäksi se tarjoaa joustoa hahmontaa tuloksen lähes mihin tahansa haluamaasi muotoon.</p>
     <p xml:lang="fr">Kdenlive est une application de montage vidéo prenant en charge de nombreux formats audio et vidéo. Il offre des fonctionnalités d'édition avancées, une variété d'effets et de transitions, une correction des couleurs, une post-production audio et des outils de sous-titrage. En outre, il offre la flexibilité de faire un rendu dans pratiquement n'importe quel format de votre choix.</p>
+    <p xml:lang="ga">Is feidhmchlár eagarthóireachta físe é Kdenlive a thacaíonn le go leor formáidí fuaime agus físe. Cuireann sé gnéithe eagarthóireachta chun cinn, réimse éifeachtaí agus aistrithe, ceartú datha, iarléiriú fuaime agus uirlisí fotheidealaithe ar fáil. Ina theannta sin, cuireann sé an tsolúbthacht ar fáil chun rindreáil i mbeagnach aon fhormáid is rogha leat.</p>
     <p xml:lang="gl">Kdenlive é unha aplicación de edición de vídeo para moitos formatos de son e de vídeo. Fornece funcionalidades avanzadas de edición, varios efectos e transicións, corrección de cor, post-produción de son e ferramentas de subtítulos. Ademais, fornece a flexibilidade de renderizar en calquera formato da súa escolla.</p>
     <p xml:lang="he">Kdenlive הוא יישום לעריכת וידאו עם תמיכה במגוון סוגים של וידאו ושמע. הוא מציע יכולות עריכה מתקדמות, שלל אפקטים ומעברונים, תיקון צבע, הפקת פוסט של שמע וכלי כתוביות. בנוסף, הוא מספק את הגמישות לעבד לכמעט כל סוג אפשרי שיש לבחירתך.</p>
     <p xml:lang="hi">Kdenlive एक वीडियो संपादन एप्लिकेशन है जो कई ऑडियो और वीडियो प्रारूपों के लिए समर्थन प्रदान करता है। यह उन्नत संपादन सुविधाएँ, विभिन्न प्रकार के प्रभाव और संक्रमण, रंग सुधार, ऑडियो पोस्ट-प्रोडक्शन और उपशीर्षक उपकरण प्रदान करता है। इसके अतिरिक्त, यह आपकी पसंद के व्यावहारिक रूप से किसी भी प्रारूप में रेंडर करने की सुविधा प्रदान करता है।</p>
@@ -125,6 +128,7 @@
     <p xml:lang="eu">Ezaugarriak:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
+    <p xml:lang="ga">Gnéithe:</p>
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="he">יכולות:</p>
     <p xml:lang="hi">विशेषताएँ:</p>
@@ -159,6 +163,7 @@
       <li xml:lang="eu">Habiaratutako sekuentziak</li>
       <li xml:lang="fi">Sisäkkäiset sekvenssit</li>
       <li xml:lang="fr">Séquences imbriquées</li>
+      <li xml:lang="ga">Seichimh Neadaithe</li>
       <li xml:lang="gl">Secuencias aniñadas.</li>
       <li xml:lang="he">רצפים מקוננים</li>
       <li xml:lang="hi">नेस्टेड अनुक्रम</li>
@@ -187,6 +192,7 @@
       <li xml:lang="eu">Interfaze eta lasterbide konfiguragarriak</li>
       <li xml:lang="fi">Mukautettava käyttöliittymä ja pikanäppäimet</li>
       <li xml:lang="fr">Interface et raccourcis configurables</li>
+      <li xml:lang="ga">Comhéadan agus aicearraí inchumraithe</li>
       <li xml:lang="gl">Interface e atallos configurábeis.</li>
       <li xml:lang="he">ממשק וקיצורי דרך גמישים</li>
       <li xml:lang="hi">कॉन्फ़िगर करने योग्य इंटरफ़ेस और शॉर्टकट</li>
@@ -214,6 +220,7 @@
       <li xml:lang="es">Instrumentos: Histograma, Vectorscopio, Presentación RVA, Medidores de forma de onda y volumen</li>
       <li xml:lang="eu">Eskopioak: Histograma, Bektoreskopioa, RGB parada, Uhin-forma eta Audio-neurgailua</li>
       <li xml:lang="fr">Oscilloscopes : histogramme, oscilloscope vectoriel, défilé RVB, mesure de signaux et audiomètre</li>
+      <li xml:lang="ga">Scóipeanna: Histogram, Veicteoirscóp, Paráid RGB, Tonnfhoirm agus Méadar Fuaime</li>
       <li xml:lang="gl">Ámbitos: histograma, vectorscopio, desfile RGB, forma de onda e medidor de son.</li>
       <li xml:lang="he">טווחים: היסטוגרמה, וקטורסקופ, צורת גל ומד עוצמת שמע</li>
       <li xml:lang="hi">कार्यक्षेत्र: हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, वेवफॉर्म और ऑडियो मीटर</li>
@@ -242,6 +249,7 @@
       <li xml:lang="es">Edición usando reemplazos</li>
       <li xml:lang="eu">Ordezkaria editatzea</li>
       <li xml:lang="fr">Modification du serveur mandataire</li>
+      <li xml:lang="ga">Eagarthóireacht seachfhreastalaí</li>
       <li xml:lang="gl">Edición intermediaria.</li>
       <li xml:lang="he">עריכת תיווך</li>
       <li xml:lang="hi">प्रॉक्सी संपादन</li>
@@ -269,6 +277,7 @@
       <li xml:lang="es">Recursos y plantillas libres en línea</li>
       <li xml:lang="eu">Lerroan doako aktiboak eta txantiloiak</li>
       <li xml:lang="fr">Produits et modèles en ligne gratuits</li>
+      <li xml:lang="ga">Sócmhainní agus teimpléid ar líne saor in aisce</li>
       <li xml:lang="gl">Recursos e modelos libres por Internet.</li>
       <li xml:lang="he">משאבים ותבניות מקוונים בחינם</li>
       <li xml:lang="hi">निःशुल्क ऑनलाइन परिसंपत्तियाँ और टेम्पलेट्स</li>
@@ -297,6 +306,7 @@
       <li xml:lang="eu">Higiduraren jarraipena</li>
       <li xml:lang="fi">Liikkeen jäljitys</li>
       <li xml:lang="fr">Suivi de déplacement</li>
+      <li xml:lang="ga">Rianú gluaisne</li>
       <li xml:lang="gl">Seguimento de movemento.</li>
       <li xml:lang="he">מעקב אחר תנועה</li>
       <li xml:lang="hi">मोशन ट्रेकिंग</li>
@@ -325,6 +335,7 @@
       <li xml:lang="eu">AAk bultzatutako tresnak</li>
       <li xml:lang="fi">Tekoälytehosteiset työkalut</li>
       <li xml:lang="fr">Outils alimentés par l'intelligence artificielle</li>
+      <li xml:lang="ga">Uirlisí faoi thiomáint AI</li>
       <li xml:lang="gl">Ferramentas que usan intelixencia artificial.</li>
       <li xml:lang="he">כלים מחוזקי בינה מלאכותית</li>
       <li xml:lang="hi">एआई संचालित उपकरण</li>
@@ -453,6 +464,7 @@
       <caption xml:lang="eu">Gai iluna</caption>
       <caption xml:lang="fi">Tumma teema</caption>
       <caption xml:lang="fr">Thème sombre</caption>
+      <caption xml:lang="ga">Téama dorcha</caption>
       <caption xml:lang="gl">Tema escuro.</caption>
       <caption xml:lang="he">ערכת צבעים כהה</caption>
       <caption xml:lang="hi">डार्क थीम</caption>
@@ -484,6 +496,7 @@
       <caption xml:lang="eu">Interfaze lehenetsia</caption>
       <caption xml:lang="fi">Oletuskäyttöliittymä</caption>
       <caption xml:lang="fr">Interface par défaut</caption>
+      <caption xml:lang="ga">Comhéadan réamhshocraithe</caption>
       <caption xml:lang="gl">Interface predeterminada.</caption>
       <caption xml:lang="he">ממשק ברירת מחדל</caption>
       <caption xml:lang="hi">डिफ़ॉल्ट इंटरफ़ेस</caption>
@@ -516,6 +529,7 @@
       <caption xml:lang="eu">Kolore zuzenketa</caption>
       <caption xml:lang="fi">Värinkorjaus</caption>
       <caption xml:lang="fr">Correction de couleurs</caption>
+      <caption xml:lang="ga">Ceartú datha</caption>
       <caption xml:lang="gl">Corrección de cor.</caption>
       <caption xml:lang="he">תיקון צבע</caption>
       <caption xml:lang="hi">रंग सुधार</caption>
@@ -547,6 +561,7 @@
       <caption xml:lang="eu">Interfaze konfiguragarria</caption>
       <caption xml:lang="fi">Mukautettava käyttöliittymä</caption>
       <caption xml:lang="fr">Interface configurable</caption>
+      <caption xml:lang="ga">Comhéadan inchumraithe</caption>
       <caption xml:lang="gl">Interface configurábel.</caption>
       <caption xml:lang="he">ממשק גמיש</caption>
       <caption xml:lang="hi">कॉन्फ़िगर करने योग्य इंटरफ़ेस</caption>
@@ -578,6 +593,7 @@
       <caption xml:lang="eu">Tituluak ipintzea</caption>
       <caption xml:lang="fi">Väliotsikot</caption>
       <caption xml:lang="fr">Titrage</caption>
+      <caption xml:lang="ga">Teidealú</caption>
       <caption xml:lang="gl">Titulación.</caption>
       <caption xml:lang="he">מתן כותרות</caption>
       <caption xml:lang="hi">शीर्षक</caption>
@@ -608,6 +624,7 @@
       <caption xml:lang="es">Remapeo de tiempo y transiciones en una misma pista</caption>
       <caption xml:lang="eu">Denboraren mapa berregitea eta pista bereko trantsizioak</caption>
       <caption xml:lang="fr">Nouvelle cartographie du temps et transitions sur la même piste</caption>
+      <caption xml:lang="ga">Athmhapáil ama agus aistrithe ar an rian céanna</caption>
       <caption xml:lang="gl">Cambio de asociación de tempos e transicións nunha mesma pista.</caption>
       <caption xml:lang="he">מיפוי זמן מחדש ומעברונים באותה הרצועה</caption>
       <caption xml:lang="hi">समय पुनर्निर्धारण और समान-ट्रैक संक्रमण</caption>
