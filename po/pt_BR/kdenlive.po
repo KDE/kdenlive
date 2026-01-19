@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:42+0000\n"
-"PO-Revision-Date: 2026-01-16 07:31-0300\n"
+"PO-Revision-Date: 2026-01-18 11:43-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -36827,7 +36827,7 @@ msgstr "Auto-rolagem enquanto reproduz"
 #: src/ui/configtimeline_ui.ui:122
 #, kde-format
 msgid "Fixed centered playhead"
-msgstr ""
+msgstr "Indicador de reprodução centralizado fixo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
 #: src/ui/configtimeline_ui.ui:129

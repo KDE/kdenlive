@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:42+0000\n"
-"PO-Revision-Date: 2026-01-14 07:15+0400\n"
+"PO-Revision-Date: 2026-01-18 18:30+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -36341,7 +36341,7 @@ msgstr "مرّر آليًّا أثناء التّشغيل"
 #: src/ui/configtimeline_ui.ui:122
 #, kde-format
 msgid "Fixed centered playhead"
-msgstr ""
+msgstr "رأس تشغيل ثابت في المنتصف"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_scrollvertically)
 #: src/ui/configtimeline_ui.ui:129
@@ -39084,7 +39084,7 @@ msgstr "أدر بخطوات 90°"
 #: src/widgets/dragvalue.cpp:261
 #, kde-format
 msgid "Support basic math expression"
-msgstr ""
+msgstr "يتيح  التعبيرات الحسابية الأساسية"
 
 #: src/widgets/dragvalue.cpp:269
 #, kde-format
@@ -39093,6 +39093,8 @@ msgid ""
 "Support basic math expression\n"
 "use \"%1\" to reference other spinbox's value"
 msgstr ""
+"يتيح  التعبيرات الحسابية الأساسية\n"
+"استخدم ”%1“ للإشارة إلى قيمة مربع الدوران الآخر"
 
 #: src/widgets/dragvalue.cpp:711
 #, kde-format

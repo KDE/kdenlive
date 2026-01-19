@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:42+0000\n"
-"PO-Revision-Date: 2026-01-16 19:21+0100\n"
+"PO-Revision-Date: 2026-01-17 07:05+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -40022,7 +40022,7 @@ msgstr "Faire une rotation par pas de 90 °"
 #: src/widgets/dragvalue.cpp:261
 #, kde-format
 msgid "Support basic math expression"
-msgstr ""
+msgstr "Prendre en charge les expressions mathématiques standards"
 
 #: src/widgets/dragvalue.cpp:269
 #, kde-format
@@ -40031,6 +40031,9 @@ msgid ""
 "Support basic math expression\n"
 "use \"%1\" to reference other spinbox's value"
 msgstr ""
+"Prendre en charge les expressions mathématiques standards \n"
+"Veuillez utiliser « %1 » pour faire référence à la valeur d'une autre zone "
+"de sélection"
 
 #: src/widgets/dragvalue.cpp:711
 #, kde-format
