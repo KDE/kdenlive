@@ -65,6 +65,7 @@ class Transition;
 class TimelineItemModel;
 class MonitorProxy;
 class KDualAction;
+class QQuickWidget;
 
 class MltErrorEvent : public QEvent
 {
@@ -151,6 +152,7 @@ public:
     void closeTimelineTab(const QUuid uuid, bool onDeletion);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
+    QQuickWidget *m_dopeWidget;
 
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;

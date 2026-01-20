@@ -1151,7 +1151,7 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
     for (const auto &ix : indexes) {
         auto paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
         if (storedValues.contains(paramName)) {
-            KeyframeModel *km = m_keyframes->getKeyModel(ix);
+            auto km = m_keyframes->getKeyModel(ix);
             const QMap<std::pair<int, QChar>, QVariant> values = storedValues.value(paramName);
             int offset = values.firstKey().first;
             QMapIterator<std::pair<int, QChar>, QVariant> i(values);

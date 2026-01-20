@@ -75,7 +75,6 @@ QVariant AbstractTreeModel::headerData(int section, Qt::Orientation orientation,
 QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
     std::shared_ptr<TreeItem> parentItem;
-
     if (!parent.isValid())
         parentItem = rootItem;
     else

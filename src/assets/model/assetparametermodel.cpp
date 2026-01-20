@@ -380,7 +380,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             if (m_keyframes) {
                 // This is a fake query to force the animation to be parsed
                 (void)m_asset->anim_get_int(name.toLatin1().constData(), 0, -1);
-                KeyframeModel *km = m_keyframes->getKeyModel(paramIndex);
+                auto km = m_keyframes->getKeyModel(paramIndex);
                 if (km) {
                     km->refresh();
                 } else {
@@ -1610,7 +1610,7 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         setParameter(param.first, param.second.toString(), false, ix, true);
         if (m_keyframes) {
-            KeyframeModel *km = m_keyframes->getKeyModel(ix);
+            auto km = m_keyframes->getKeyModel(ix);
             if (km) {
                 km->refresh();
             }

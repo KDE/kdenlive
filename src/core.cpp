@@ -4,6 +4,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
@@ -194,6 +195,7 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode, bo
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
     m_self->m_projectManager = new ProjectManager(m_self.get());
+    m_self->m_dopeSheetModel = DopeSheetModel::construct(m_self.get());
     return true;
 }
 
@@ -397,7 +399,6 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
 void Core::initHeadless(const QUrl &url)
 {
     MltConnection::construct(QString());
-    m_projectManager = new ProjectManager(this);
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
     connect(this, &Core::displayBinMessage, this,
             [](QString text, int, QList<QAction *>, bool, BinMessage::BinCategory) { qInfo() << QStringLiteral("Bin message: ") << text; });
@@ -779,6 +780,11 @@ MainWindow *Core::window()
 ProjectManager *Core::projectManager()
 {
     return m_projectManager;
+}
+
+std::shared_ptr<DopeSheetModel> Core::dopeSheetModel()
+{
+    return m_dopeSheetModel;
 }
 
 MonitorManager *Core::monitorManager()

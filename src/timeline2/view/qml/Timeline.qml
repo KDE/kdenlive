@@ -1505,6 +1505,7 @@ function getTrackColor(audio, header) {
             }
 
             Item {
+                // Dope Sheet
                 // Guide zone delimiter
                 Rectangle {
                     width: rulercontainer.width
@@ -1515,7 +1516,7 @@ function getTrackColor(audio, header) {
                     visible: ruler.guideLabelHeight > 0
                 }
 
-                // monitor zone
+                // timeline zone
                 Rectangle {
                     width: rulercontainer.width
                     height: 1
@@ -1532,6 +1533,7 @@ function getTrackColor(audio, header) {
                 Flickable {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
+                    anchors.top: parent.top
                     width: root.width - root.headerWidth
                     height: Math.round(root.baseUnit * 2.5) + ruler.guideLabelHeight
                     contentX: scrollView.contentX

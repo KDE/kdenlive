@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 class Bin;
 class DocUndoStack;
+class DopeSheetModel;
 class EffectStackModel;
 class KdenliveDoc;
 class LibraryWidget;
@@ -120,6 +121,8 @@ public:
 
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
+    /** @brief Returns a pointer to the dopesheet model. */
+    std::shared_ptr<DopeSheetModel> dopeSheetModel();
     /** @brief Returns a pointer to the current project. */
     KdenliveDoc *currentDoc();
     /** @brief Returns project's timecode. */
@@ -388,6 +391,7 @@ private:
     TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
     MediaBrowser *m_mediaBrowser{nullptr};
+    std::shared_ptr<DopeSheetModel> m_dopeSheetModel{nullptr};
 
     /** @brief Current project's profile path */
     QString m_currentProfile;

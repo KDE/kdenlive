@@ -133,7 +133,7 @@ public:
     /** @brief Reset all keyframes and add a default one */
     void reset();
     Q_INVOKABLE KeyframeModel *getKeyModel();
-    KeyframeModel *getKeyModel(const QPersistentModelIndex &index);
+    std::shared_ptr<KeyframeModel> getKeyModel(const QPersistentModelIndex &index);
     /** @brief Returns parent asset owner id*/
     ObjectId getOwnerId() const;
     /** @brief Returns parent asset id*/
@@ -175,6 +175,8 @@ public:
     std::shared_ptr<KeyframeModel> modelInTimeline() const;
     /** @brief Returns true if this is the first keyframable model in the list */
     bool isFirstParameter(std::shared_ptr<KeyframeModel> param) const;
+    /** @brief Get a "fake" keyframe model that recaps all keyframes */
+    std::shared_ptr<KeyframeModel> getRecap();
 
 protected:
     /** @brief Helper function to apply a given operation on all parameters */
@@ -187,6 +189,8 @@ Q_SIGNALS:
 private:
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
+    /** @brief "Fake" keyframe model to keep track kf all keyframes positions */
+    std::shared_ptr<KeyframeModel> m_kfrRecap{nullptr};
     std::unordered_map<QPersistentModelIndex, std::shared_ptr<KeyframeModel>> m_parameters;
     /** @brief Index of the parameter that is displayed in timeline */
     QModelIndex m_inTimelineIndex;
@@ -194,6 +198,7 @@ private:
 
 private Q_SLOTS:
     void slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
+    void updateRecap();
 
 public:
     // this is to enable for range loops

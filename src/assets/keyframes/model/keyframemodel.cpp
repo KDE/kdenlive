@@ -33,10 +33,13 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     , m_lock(QReadWriteLock::Recursive)
 {
     qDebug() << "Construct keyframemodel. Checking model:" << m_model.expired();
+    setup();
+    if (!m_index.isValid()) {
+        return;
+    }
     if (auto ptr = m_model.lock()) {
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
     }
-    setup();
     refresh(in, out);
 }
 
@@ -406,6 +409,23 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     return res;
 }
 
+bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
+{
+    if (auto ptr = m_model.lock()) {
+        qDebug() << "::: MOVING KEYFRAME TO POSITION PERCENT: " << percentPos;
+        int startFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
+        int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        int targetFrame = startFrame + (percentPos * duration);
+        GenTime nPos(targetFrame, pCore->getCurrentFps());
+        GenTime oPos = getPosAtIndex(index);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, false);
+        // return moveKeyframe(oPos, nPos, QVariant(), false);
+    }
+    return false;
+}
+
 bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
@@ -645,6 +665,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[ValueRole] = "value";
     roles[SelectedRole] = "selected";
     roles[ActiveRole] = "active";
+    roles[PercentPositionRole] = "percentPosition";
     roles[NormalizedValueRole] = "normalizedValue";
     roles[MoveOnlyRole] = "moveOnly";
     return roles;
@@ -731,6 +752,14 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         if (auto ptr = m_model.lock()) {
             return ptr->m_activeKeyframe == index.row();
         }
+        break;
+    case PercentPositionRole:
+        if (auto ptr = m_model.lock()) {
+            return double(it->first.frames(pCore->getCurrentFps())) / ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        }
+        return 0;
+    default:
+        qWarning() << "==== REQUESTING INCORRECT DATA TYPE FOR KEYFRAMEMODEL: " << role;
         break;
     }
     return QVariant();
@@ -1271,8 +1300,10 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
 
 void KeyframeModel::sendModification()
 {
+    if (!m_index.isValid()) {
+        return;
+    }
     if (auto ptr = m_model.lock()) {
-        Q_ASSERT(m_index.isValid());
         const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         if (AssetParameterModel::isAnimated(m_paramType)) {
             m_lastData = getAnimProperty();
@@ -1538,6 +1569,16 @@ QList<GenTime> KeyframeModel::getKeyframePos() const
         all_pos.push_back(m.first);
     }
     return all_pos;
+}
+
+void KeyframeModel::loadKeyframePos(QList<GenTime> all_pos)
+{
+    m_keyframeList.clear();
+    beginInsertRows(QModelIndex(), all_pos.count(), all_pos.count());
+    for (const auto &p : all_pos) {
+        m_keyframeList[p].first = KeyframeType::Linear;
+    }
+    endInsertRows();
 }
 
 bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)

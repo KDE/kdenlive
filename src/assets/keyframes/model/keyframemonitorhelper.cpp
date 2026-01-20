@@ -81,7 +81,7 @@ void KeyframeMonitorHelper::refreshParams(int pos)
             continue;
         }
 
-        KeyframeModel *kfr = keyframes->getKeyModel(ix);
+        auto kfr = keyframes->getKeyModel(ix);
         bool ok;
         rectAtPosData = kfr->getInterpolatedValue(pos).toString();
         Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
@@ -125,7 +125,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
             continue;
         }
 
-        KeyframeModel *kfr = keyframes->getKeyModel(ix);
+        auto kfr = keyframes->getKeyModel(ix);
         bool ok;
         Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
         int i = 0;

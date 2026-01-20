@@ -45,7 +45,7 @@ public:
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in = -1,
                            int out = -1, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole };
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole, PercentPositionRole };
     friend class KeyframeModelList;
     friend class KeyframeContainer;
     friend class KeyframeImport;
@@ -173,6 +173,11 @@ public:
     /** @brief Used for testing */
     int keyframesCount() const;
     QList<QVariant> testSerializeKeyframes() const;
+    /** @brief Load all keyframes from a list of position, used for recap */
+    void loadKeyframePos(QList<GenTime> all_pos);
+
+public Q_SLOTS:
+    Q_INVOKABLE bool movePercentKeyframe(int index, double percentPos);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */

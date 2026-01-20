@@ -16,6 +16,7 @@
 
 class QAction;
 class QQuickItem;
+class DopeSheetModel;
 
 // see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class TimelineController : public QObject
@@ -610,6 +611,7 @@ public:
     void startPreviewRender();
     void stopPreviewRender();
     QVariantList dirtyChunks() const;
+    Q_INVOKABLE DopeSheetModel *dopeSheetModel();
     QVariantList renderedChunks() const;
     /** @brief returns the frame currently processed by timeline preview, -1 if none
      */

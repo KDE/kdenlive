@@ -94,6 +94,25 @@ void KeyframeModelList::addParameter(const QModelIndex &index, int in, int out)
     connect(parameter.get(), &KeyframeModel::refreshModel, this, &KeyframeModelList::modelChanged);
     connect(parameter.get(), &KeyframeModel::requestModelUpdate, this, &KeyframeModelList::slotUpdateModels);
     m_parameters.insert({index, std::move(parameter)});
+    if (!m_kfrRecap) {
+        m_kfrRecap = std::shared_ptr<KeyframeModel>(new KeyframeModel(m_model, QModelIndex(), m_undoStack, in, out));
+        updateRecap();
+    }
+    connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::updateRecap);
+}
+
+void KeyframeModelList::updateRecap()
+{
+    QList<GenTime> kfrList;
+    for (const auto &param : m_parameters) {
+        kfrList << param.second->getKeyframePos();
+    }
+    m_kfrRecap->loadKeyframePos(kfrList);
+}
+
+std::shared_ptr<KeyframeModel> KeyframeModelList::getRecap()
+{
+    return m_kfrRecap;
 }
 
 void KeyframeModelList::slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
@@ -740,16 +759,16 @@ KeyframeModel *KeyframeModelList::getKeyModel()
     return nullptr;
 }
 
-KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index)
+std::shared_ptr<KeyframeModel> KeyframeModelList::getKeyModel(const QPersistentModelIndex &index)
 {
     if (m_parameters.size() > 0) {
         if (m_parameters.find(index) != m_parameters.end()) {
-            return m_parameters.at(index).get();
+            return m_parameters.at(index);
         }
         if (auto ptr = m_model.lock()) {
             auto ix = ptr->index(index.row(), 0);
             if (m_parameters.find(ix) != m_parameters.end()) {
-                return m_parameters.at(ix).get();
+                return m_parameters.at(ix);
             }
         }
     }

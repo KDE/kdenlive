@@ -6,6 +6,7 @@
 #include "effectstackview.hpp"
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "assets/assetpanel.hpp"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "assets/view/assetparameterview.hpp"
 #include "collapsibleeffectview.hpp"
 #include "core.h"
@@ -430,6 +431,7 @@ void EffectStackView::loadEffects()
             del->setHeight(ix, 0);
             continue;
         }
+        pCore->dopeSheetModel()->registerAsset(effectModel);
         QString assetId = effectModel->getAssetId();
         // Safety check in case a custom effect was deleted
         if (!EffectsRepository::get()->exists(assetId)) {

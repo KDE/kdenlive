@@ -4,6 +4,7 @@
 */
 
 #include "timelinecontroller.h"
+#include "assets/keyframes/model/dopesheetmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
@@ -5773,4 +5774,9 @@ bool TimelineController::createRangeMarkerFromZone(const QString &comment, int t
     }
 
     return success;
+}
+
+DopeSheetModel *TimelineController::dopeSheetModel()
+{
+    return pCore->dopeSheetModel().get();
 }

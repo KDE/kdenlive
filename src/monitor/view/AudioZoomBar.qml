@@ -192,7 +192,6 @@ Rectangle {
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var updatedPos = Math.max(0, x + mouseX - clickPos)
-                updatedPos = Math.max(0, updatedPos)
                 updatedPos = Math.min(audioSeekZone.width - mainHandleArea.width, updatedPos)
                 var zs = updatedPos / audioSeekZone.width
                 root.zoomStart = zs

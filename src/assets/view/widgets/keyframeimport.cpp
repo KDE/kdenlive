@@ -912,7 +912,7 @@ void KeyframeImport::importSelectedData()
     bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
     for (const auto &ix : std::as_const(m_indexes)) {
         // update keyframes in other indexes
-        KeyframeModel *km = kfrModel->getKeyModel(ix);
+        auto km = kfrModel->getKeyModel(ix);
         qDebug() << "== " << ix << " = " << m_targetCombo->currentData().toModelIndex();
         if (ix == m_targetCombo->currentData().toModelIndex() || fakeRect) {
             // Import our keyframes

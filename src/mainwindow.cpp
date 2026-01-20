@@ -481,6 +481,13 @@ void MainWindow::init()
     m_undoView->setContextMenuPolicy(Qt::ActionsContextMenu);
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
+    // DopeSheet
+    m_dopeWidget = new QQuickWidget(this);
+    m_dopeWidget->setClearColor(KdenliveSettings::window_background());
+    m_dopeWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    m_dopeWidget->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/DopeSheetView.qml")));
+    addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
+
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
 
@@ -5570,6 +5577,8 @@ void MainWindow::connectTimeline()
         getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});
         slotShowSubtitles(showSubs);
     }
+    // Dopesheet
+    m_dopeWidget->rootContext()->setContextProperty(QStringLiteral("timeline"), getCurrentTimeline()->controller());
     // Display timeline guides in the guides list
     pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
     if (m_renderWidget) {
