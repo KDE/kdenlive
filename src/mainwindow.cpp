@@ -4587,13 +4587,17 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     }
 }
 
-void MainWindow::raiseMonitor(bool clipMonitor)
+void MainWindow::raiseMonitor(bool clipMonitor, bool raise)
 {
     if (clipMonitor) {
-        m_clipMonitorDock->open();
+        if (raise) {
+            m_clipMonitorDock->open();
+        }
         m_clipMonitorDock->setAsCurrentTab();
     } else {
-        m_projectMonitorDock->open();
+        if (raise) {
+            m_projectMonitorDock->open();
+        }
         m_projectMonitorDock->setAsCurrentTab();
     }
 }
