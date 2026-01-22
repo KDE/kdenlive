@@ -147,7 +147,7 @@ void Splash::updateWelcomeDisplay(bool show)
 
 void Splash::fadeOutAndDelete()
 {
-    QMetaObject::invokeMethod(m_rootObject, "fade");
+    QMetaObject::invokeMethod(m_rootObject, "close");
     // Plan deletion
     QTimer::singleShot(100, this, &Splash::deleteLater);
 }
