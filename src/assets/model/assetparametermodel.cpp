@@ -11,6 +11,7 @@
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
+#include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QDebug>
@@ -1605,6 +1606,12 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
             KeyframeModel *km = m_keyframes->getKeyModel(ix);
             if (km) {
                 km->refresh();
+                ParamRow currentRow = m_params.at(param.first);
+                if (currentRow.type == ParamType::Roto_spline) {
+                    // Reset monitor view
+                    auto monitor = pCore->getMonitor(monitorId);
+                    monitor->setUpEffectGeometry(QVariantList());
+                }
             }
         }
     }

@@ -159,7 +159,7 @@ public:
     bool timelineVisible() const;
 
     /** @brief Raise (show) the clip or project monitor */
-    void raiseMonitor(bool clipMonitor);
+    void raiseMonitor(bool clipMonitor, bool raise = false);
 
     /** @brief Raise (show) the project bin
      * @param unconditionally if false, we won't raise the bin if docked with the project monitor */

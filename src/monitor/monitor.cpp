@@ -2677,6 +2677,10 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
 {
     if (type == m_qmlManager->sceneType()) {
         if (sceneData.isNull() && !resetProperties) {
+            if (type == MonitorSceneRoto) {
+                // Reset defined state when switching to a new undefined rotoscoping
+                setUpEffectGeometry(QVariantList());
+            }
             return;
         }
     } else {
