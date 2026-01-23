@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:45+0000\n"
+"POT-Creation-Date: 2026-01-23 02:40+0000\n"
 "PO-Revision-Date: 2025-07-25 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -18230,7 +18230,7 @@ msgid "Delete keyframes"
 msgstr "Удалить ключевые кадры"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:694
-#: src/assets/model/assetparametermodel.cpp:1589
+#: src/assets/model/assetparametermodel.cpp:1590
 #, kde-format
 msgid "Update effect"
 msgstr "Обновить эффект"
@@ -18308,13 +18308,13 @@ msgstr "Изменить ключевой кадр %1"
 msgid "Update %1"
 msgstr "Обновлено %1"
 
-#: src/assets/model/assetparametermodel.cpp:1426
-#: src/assets/model/assetparametermodel.cpp:1473
+#: src/assets/model/assetparametermodel.cpp:1427
+#: src/assets/model/assetparametermodel.cpp:1474
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не удалось открыть файл предустановок «%1»"
 
-#: src/assets/model/assetparametermodel.cpp:1563
+#: src/assets/model/assetparametermodel.cpp:1564
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -29492,39 +29492,39 @@ msgstr ""
 "Для данной функции требуется переход cairoblend. Установите frei0r и "
 "перезапустите Kdenlive"
 
-#: src/monitor/monitor.cpp:2714
+#: src/monitor/monitor.cpp:2718
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Для изменения эффекта включите в мониторе режим редактирования"
 
-#: src/monitor/monitor.cpp:3221
+#: src/monitor/monitor.cpp:3225
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "В мониторе клипов не выбран клип"
 
-#: src/monitor/monitor.cpp:3242
+#: src/monitor/monitor.cpp:3246
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Не удалось получить средство создания для монитора клипов"
 
-#: src/monitor/monitor.cpp:3324 src/monitor/monitor.cpp:3355
+#: src/monitor/monitor.cpp:3328 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3334
+#: src/monitor/monitor.cpp:3338
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
+#: src/monitor/monitor.cpp:3344 src/monitor/monitor.cpp:3365
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3342 src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3346 src/monitor/monitor.cpp:3367
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."

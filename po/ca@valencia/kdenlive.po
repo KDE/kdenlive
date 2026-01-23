@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:45+0000\n"
+"POT-Creation-Date: 2026-01-23 02:40+0000\n"
 "PO-Revision-Date: 2026-01-13 10:06+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -14087,13 +14087,13 @@ msgid ""
 msgstr ""
 "AfterBurn,AfterBurn (llarg),Ambient,Ambient (dens),Ambient (dens) - HD,"
 "Catedral,Catedral - HD,Càmera de tambor,Garage,Garage (animat),Gimnàs,Gimnàs "
-"(animat),Gimnàs (animat) - HD,Sala (xicoteta),Sala (Mitjana),Sala (Gran),"
-"Sala (Gran) - HD,Plat (Xicotet),Plat (mitjà),Plat (Gran),Plat (Gran) - HD,"
-"Càmera de polsos,Càmera de polsos (Inversa),Ressonador (96 ms),Ressonador "
-"(152 ms),Ressonador (208 ms),Habitació (xicoteta),Habitació (Mitjana),"
-"Habitació (Gran),Habitació (Gran) - HD,Cambra de manotades - HD,Cambra de "
-"manotades (Animada),Cambra de manotades (Animada) - HD,Sala suau (xicoteta),"
-"Sala suau (Mitjana),Sala suau (Gran),Sala suau (Gran) - HD,Plat vocal,Plat "
+"(animat),Gimnàs (animat) - HD,Sala (xicoteta),Sala (mitjana),Sala (gran),"
+"Sala (gran) - HD,Plat (xicotet),Plat (mitjà),Plat (gran),Plat (gran) - HD,"
+"Càmera de polsos,Càmera de polsos (inversa),Ressonador (96 ms),Ressonador "
+"(152 ms),Ressonador (208 ms),Habitació (xicoteta),Habitació (mitjana),"
+"Habitació (gran),Habitació (gran) - HD,Cambra de manotades - HD,Cambra de "
+"manotades (animada),Cambra de manotades (animada) - HD,Sala suau (xicoteta),"
+"Sala suau (mitjana),Sala suau (gran),Sala suau (gran) - HD,Plat vocal,Plat "
 "vocal - HD,Cambra de refilets,Magatzem,Magatzem - HD"
 
 #: data/effects/ladspa/ladspa_2142.xml:36
@@ -18428,7 +18428,7 @@ msgid "Delete keyframes"
 msgstr "Suprimix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:694
-#: src/assets/model/assetparametermodel.cpp:1589
+#: src/assets/model/assetparametermodel.cpp:1590
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -18505,13 +18505,13 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza %1"
 
-#: src/assets/model/assetparametermodel.cpp:1426
-#: src/assets/model/assetparametermodel.cpp:1473
+#: src/assets/model/assetparametermodel.cpp:1427
+#: src/assets/model/assetparametermodel.cpp:1474
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
 
-#: src/assets/model/assetparametermodel.cpp:1563
+#: src/assets/model/assetparametermodel.cpp:1564
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -29511,40 +29511,40 @@ msgstr ""
 "Es requerix la transició «cairoblend» per a esta característica. Instal·leu "
 "«frei0r» i reinicieu Kdenlive"
 
-#: src/monitor/monitor.cpp:2714
+#: src/monitor/monitor.cpp:2718
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activa el mode edició al monitor per a editar un efecte"
 
-#: src/monitor/monitor.cpp:3221
+#: src/monitor/monitor.cpp:3225
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "No s'ha seleccionat cap clip en el monitor de clips"
 
-#: src/monitor/monitor.cpp:3242
+#: src/monitor/monitor.cpp:3246
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "No s'ha pogut aconseguir el productor per al monitor de clips"
 
-#: src/monitor/monitor.cpp:3324 src/monitor/monitor.cpp:3355
+#: src/monitor/monitor.cpp:3328 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 "No s'ha definit cap zona vàlida. Primer establiu els punts d'entrada/eixida."
 
-#: src/monitor/monitor.cpp:3334
+#: src/monitor/monitor.cpp:3338
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Crea un marcador d'interval a partir d'una zona"
 
-#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
+#: src/monitor/monitor.cpp:3344 src/monitor/monitor.cpp:3365
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Marcador d'interval creat a partir d'una zona"
 
-#: src/monitor/monitor.cpp:3342 src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3346 src/monitor/monitor.cpp:3367
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, kde-format
 msgid "Failed to create range marker from zone"

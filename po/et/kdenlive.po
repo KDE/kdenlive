@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:45+0000\n"
+"POT-Creation-Date: 2026-01-23 02:40+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -18313,7 +18313,7 @@ msgid "Delete keyframes"
 msgstr "Kustuta võtmekaadrid"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:694
-#: src/assets/model/assetparametermodel.cpp:1589
+#: src/assets/model/assetparametermodel.cpp:1590
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -18398,13 +18398,13 @@ msgstr "Muuda %1 võtmekaadrit"
 msgid "Update %1"
 msgstr "Uuenda %1"
 
-#: src/assets/model/assetparametermodel.cpp:1426
-#: src/assets/model/assetparametermodel.cpp:1473
+#: src/assets/model/assetparametermodel.cpp:1427
+#: src/assets/model/assetparametermodel.cpp:1474
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Valmisseadistuse faili %1 avamine nurjus"
 
-#: src/assets/model/assetparametermodel.cpp:1563
+#: src/assets/model/assetparametermodel.cpp:1564
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -29938,41 +29938,41 @@ msgstr ""
 "Selleks on vajalik cairoblend'i üleminek, nii et palun paigalda frei0r ja "
 "käivita Kdenlive uuesti"
 
-#: src/monitor/monitor.cpp:2714
+#: src/monitor/monitor.cpp:2718
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3221
+#: src/monitor/monitor.cpp:3225
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "Projektipuus pole ühtegi klippi valitud"
 
-#: src/monitor/monitor.cpp:3242
+#: src/monitor/monitor.cpp:3246
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Faili %1 kirjutamine nurjus"
 
-#: src/monitor/monitor.cpp:3324 src/monitor/monitor.cpp:3355
+#: src/monitor/monitor.cpp:3328 src/monitor/monitor.cpp:3359
 #: src/timeline2/view/timelinecontroller.cpp:5754
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
 
-#: src/monitor/monitor.cpp:3334
+#: src/monitor/monitor.cpp:3338
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3340 src/monitor/monitor.cpp:3361
+#: src/monitor/monitor.cpp:3344 src/monitor/monitor.cpp:3365
 #: src/timeline2/view/timelinecontroller.cpp:5769
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3342 src/monitor/monitor.cpp:3363
+#: src/monitor/monitor.cpp:3346 src/monitor/monitor.cpp:3367
 #: src/timeline2/view/timelinecontroller.cpp:5772
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
