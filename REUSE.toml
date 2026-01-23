@@ -133,7 +133,7 @@ SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["data/excluded_effects.txt", "data/excluded_transitions.txt", "data/included_effects.txt", "data/included_transitions.txt", "data/tenbit_transitions.txt", "data/tenbit_effects.txt"]
+path = ["data/excluded_effects.txt", "data/excluded_transitions.txt", "data/hidden_effects.txt", "data/hidden_transitions.txt", "data/included_effects.txt", "data/included_transitions.txt", "data/tenbit_transitions.txt", "data/tenbit_effects.txt"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Massimo Stella"
 SPDX-License-Identifier = "CC0-1.0"
