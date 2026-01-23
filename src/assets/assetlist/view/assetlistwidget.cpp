@@ -266,14 +266,14 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     connect(m_effectsTree, &QTreeView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
     auto *viewSplitter = new QSplitter(Qt::Vertical, this);
     viewSplitter->insertWidget(0, m_effectsTree);
-    QTextBrowser *textEdit = new QTextBrowser(this);
-    textEdit->setReadOnly(true);
-    textEdit->setAcceptRichText(true);
-    textEdit->setOpenLinks(false);
-    connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
+    m_textEdit = new QTextBrowser(this);
+    m_textEdit->setReadOnly(true);
+    m_textEdit->setAcceptRichText(true);
+    m_textEdit->setOpenLinks(false);
+    connect(m_textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
-    textEdit->setDocument(m_infoDocument);
-    viewSplitter->insertWidget(1, textEdit);
+    m_textEdit->setDocument(m_infoDocument);
+    viewSplitter->insertWidget(1, m_textEdit);
     m_lay->addWidget(viewSplitter);
     viewSplitter->setSizes({50, 0});
 
@@ -528,4 +528,14 @@ const QString AssetListWidget::buildLink(const QString &id, AssetListType::Asset
     }
     return QStringLiteral("https://docs.kdenlive.org/%1/%2?mtm_campaign=inapp_asset_link&mtm_kwd=%3&mtm_campaign=%4")
         .arg(prefix, id, id, KAboutData::applicationData().version());
+}
+
+bool AssetListWidget::infoPanelIsFocused()
+{
+    return m_textEdit->hasFocus();
+}
+
+void AssetListWidget::processCopy()
+{
+    m_textEdit->copy();
 }

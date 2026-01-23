@@ -90,6 +90,9 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (customAssets.count(result.id) > 0) {
             // qDebug() << "duplicate transition" << result.id;
         }
+        if (m_hiddenList.contains(result.mltId)) {
+            result.type = AssetListType::AssetType::Hidden;
+        }
         customAssets[result.id] = result;
     }
 }
@@ -144,6 +147,11 @@ QStringList TransitionsRepository::assetIncludedPath() const
 QStringList TransitionsRepository::assetExcludedPath() const
 {
     return {QStringLiteral(":data/excluded_transitions.txt")};
+}
+
+QStringList TransitionsRepository::assetHiddenPath() const
+{
+    return {QStringLiteral(":data/hidden_transitions.txt")};
 }
 
 QString TransitionsRepository::assetPreferredListPath() const

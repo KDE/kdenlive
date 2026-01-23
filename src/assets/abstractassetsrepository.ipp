@@ -25,6 +25,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {
     // Parse include/exclude lists
     if (!pCore->debugMode) {
+        parseAssetList(assetHiddenPath(), m_hiddenList);
         parseAssetList(assetExcludedPath(), m_excludedList);
         parseAssetList(assetIncludedPath(), m_includedList);
     }
@@ -50,6 +51,9 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
             if (parseInfoFromMlt(name, info)) {
                 if (m_includedList.contains(name)) {
                     info.included = true;
+                }
+                if (m_hiddenList.contains(name)) {
+                    info.type = AssetListType::AssetType::Hidden;
                 }
                 if (info.xml.isNull()) {
                     // Metadata was invalid
@@ -445,6 +449,9 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     }
     if (m_includedList.contains(res.mltId)) {
         res.included = true;
+    }
+    if (m_hiddenList.contains(res.mltId)) {
+        res.type = AssetListType::AssetType::Hidden;
     }
     return true;
 }
