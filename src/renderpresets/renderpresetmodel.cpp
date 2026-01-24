@@ -187,14 +187,16 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
     , m_note()
     , m_standard(preset.attribute(QStringLiteral("standard")))
     , m_params()
-    , m_groupName(preset.attribute(QStringLiteral("category"), groupName))
     , m_renderer(renderer)
     , m_url(preset.attribute(QStringLiteral("url")))
     , m_speeds(preset.attribute(QStringLiteral("speeds")))
     , m_defaultSpeedIndex(preset.attribute(QStringLiteral("defaultspeedindex"), QStringLiteral("-1")).toInt())
     , m_topFieldFirst(preset.attribute(QStringLiteral("top_field_first")))
 {
-    if (m_groupName.isEmpty()) {
+    const QString category = preset.attribute(QStringLiteral("category"), groupName);
+    if (!category.isEmpty()) {
+        m_groupName = i18n(category.toUtf8().constData());
+    } else {
         m_groupName = i18nc("Category Name", "Custom");
     }
 

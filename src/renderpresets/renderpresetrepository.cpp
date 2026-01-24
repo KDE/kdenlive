@@ -188,7 +188,7 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
 
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
-        QString groupName = documentElement.attribute(QStringLiteral("name"));
+        QString groupName = Xml::getSubTagContent(documentElement, QStringLiteral("name"));
         if (groupName.isEmpty()) {
             groupName = i18nc("Attribute Name", "Custom");
         } else {
