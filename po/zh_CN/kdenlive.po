@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 02:40+0000\n"
+"POT-Creation-Date: 2026-01-24 02:37+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -19360,7 +19360,7 @@ msgstr "删除效果 %1"
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5208
+#: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5214
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -20726,7 +20726,7 @@ msgstr "导出标记数据"
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:422
+#: src/effects/effectsrepository.cpp:429
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -21632,7 +21632,7 @@ msgstr "常规"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:214
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:185
+#: src/transitions/transitionsrepository.cpp:193
 #, kde-format
 msgid "auto"
 msgstr "自动"
@@ -25144,7 +25144,7 @@ msgid "Generators"
 msgstr "生成器"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:63 src/mainwindow.cpp:4133
+#: src/kdenliveui.rc:63 src/mainwindow.cpp:4139
 #, kde-format
 msgid "Extract Audio"
 msgstr "提取音频"
@@ -27655,134 +27655,134 @@ msgstr ""
 msgid "Insert"
 msgstr "插入"
 
-#: src/mainwindow.cpp:4023 src/mainwindow.cpp:4025
+#: src/mainwindow.cpp:4029 src/mainwindow.cpp:4031
 #, kde-format
 msgid "Scopes"
 msgstr "范围"
 
-#: src/mainwindow.cpp:4030
+#: src/mainwindow.cpp:4036
 #, kde-format
 msgid "Project Bins"
 msgstr "项目素材箱"
 
-#: src/mainwindow.cpp:4107
+#: src/mainwindow.cpp:4113
 #, kde-format
 msgid "Clip Jobs"
 msgstr "剪辑任务"
 
-#: src/mainwindow.cpp:4126
+#: src/mainwindow.cpp:4132
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "配置剪辑任务…"
 
-#: src/mainwindow.cpp:4132
+#: src/mainwindow.cpp:4138
 #, kde-format
 msgid "Transcoders"
 msgstr "转码器"
 
-#: src/mainwindow.cpp:4199
+#: src/mainwindow.cpp:4205
 #, kde-format
 msgid "-merged"
 msgstr "-merged"
 
-#: src/mainwindow.cpp:4202
+#: src/mainwindow.cpp:4208
 #, kde-format
 msgid "-stream-%1"
 msgstr "-stream-%1"
 
-#: src/mainwindow.cpp:4236 src/mainwindow.cpp:4561
+#: src/mainwindow.cpp:4242 src/mainwindow.cpp:4567
 #, kde-format
 msgid "Interface"
 msgstr "接口"
 
-#: src/mainwindow.cpp:4307
+#: src/mainwindow.cpp:4313
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "要转码的文件"
 
-#: src/mainwindow.cpp:4471
+#: src/mainwindow.cpp:4477
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "无法为压缩任务保存项目文件。"
 
-#: src/mainwindow.cpp:4479
+#: src/mainwindow.cpp:4485
 #, kde-format
 msgid "Archiving project"
 msgstr "正在压缩项目"
 
-#: src/mainwindow.cpp:4617
+#: src/mainwindow.cpp:4623
 #, kde-format
 msgid "Icon Size"
 msgstr "图标大小"
 
-#: src/mainwindow.cpp:4621
+#: src/mainwindow.cpp:4627
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "默认"
 
-#: src/mainwindow.cpp:4642 src/mainwindow.cpp:4670
+#: src/mainwindow.cpp:4648 src/mainwindow.cpp:4676
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小 (%1x%2)"
 
-#: src/mainwindow.cpp:4644 src/mainwindow.cpp:4672
+#: src/mainwindow.cpp:4650 src/mainwindow.cpp:4678
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中 (%1x%2)"
 
-#: src/mainwindow.cpp:4646 src/mainwindow.cpp:4674
+#: src/mainwindow.cpp:4652 src/mainwindow.cpp:4680
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大 (%1x%2)"
 
-#: src/mainwindow.cpp:4648 src/mainwindow.cpp:4676
+#: src/mainwindow.cpp:4654 src/mainwindow.cpp:4682
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "特大 (%1x%2)"
 
-#: src/mainwindow.cpp:4732
+#: src/mainwindow.cpp:4738
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "这将完全隐藏菜单栏。按 Ctrl+M 可以重新显示。"
 
-#: src/mainwindow.cpp:4732
+#: src/mainwindow.cpp:4738
 #, kde-format
 msgid "Hide menu bar"
 msgstr "隐藏菜单栏"
 
-#: src/mainwindow.cpp:5074 src/timeline2/view/timelinecontroller.cpp:5201
+#: src/mainwindow.cpp:5080 src/timeline2/view/timelinecontroller.cpp:5201
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "当前项目不含字幕"
 
-#: src/mainwindow.cpp:5376
+#: src/mainwindow.cpp:5382
 #, kde-format
 msgid "Go to download page"
 msgstr "访问下载页面"
 
-#: src/mainwindow.cpp:5382
+#: src/mainwindow.cpp:5388
 #, kde-format
 msgid "Never check again"
 msgstr "不再检查"
 
-#: src/mainwindow.cpp:5385
+#: src/mainwindow.cpp:5391
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "此 Kdenlive 已经是 1 年前的版本了，我们强烈建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5389
+#: src/mainwindow.cpp:5395
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "此 Kdenlive 已经是 6 个月前的版本了，我们建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5431
+#: src/mainwindow.cpp:5437
 #, kde-format
 msgid "Checking cached data size"
 msgstr "检查缓存的数据大小"
