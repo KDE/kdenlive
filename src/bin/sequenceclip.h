@@ -64,6 +64,7 @@ protected:
     SequenceClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);
     void createDisabledMasterProducer() override;
     const QString getSequenceResource() override;
+    QTemporaryFile *getSequenceTmpResource() override;
     const QString getFileHash() override;
     /** @brief Remove temporary warp producer resource files */
     void removeSequenceWarpResources() override;

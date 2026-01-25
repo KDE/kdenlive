@@ -6325,7 +6325,6 @@ void Bin::updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, i
         if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;
-
             int duration = durations.second > 0 ? durations.second : durations.first;
             properties.insert(QStringLiteral("length"), QString::number(duration));
             properties.insert(QStringLiteral("out"), QString::number(duration - 1));
