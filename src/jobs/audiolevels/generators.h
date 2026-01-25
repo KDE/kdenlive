@@ -33,10 +33,12 @@ void computePeaks(const int16_t *in, int16_t *out, size_t nChannels, size_t nSam
  * @param channels number of channels in this stream
  * @param progressCallback process callback function
  * @param isCanceled task cancelled semaphore, 0 = not cancelled, 1 = cancelled
+ * @param duration override playlist duration in case we have a lengthy black track (like sequence clips)
  * @return the computed audio levels
  */
 QVector<int16_t> generateMLT(size_t streamIdx, const QString &service, const QString &resource, int channels,
-                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled);
+                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled,
+                             int duration = -1);
 
 /** @brief Computes the audio levels using libav.
  *

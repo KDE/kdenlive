@@ -68,7 +68,8 @@ void computePeaks(const int16_t *in, int16_t *out, const size_t nChannels, const
 }
 
 QVector<int16_t> generateMLT(const size_t streamIdx, const QString &service, const QString &resource, int channels,
-                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled)
+                             const std::function<void(int progress, const QVector<int16_t> &levels)> &progressCallback, const QAtomicInt &isCanceled,
+                             int duration)
 {
     qDebug() << "Generating audio levels for stream" << streamIdx << "of" << resource << "using MLT";
     QElapsedTimer timer;
@@ -83,6 +84,9 @@ QVector<int16_t> generateMLT(const size_t streamIdx, const QString &service, con
     aProd->set("video_index", -1); // disable video
     aProd->set("audio_index", static_cast<int>(streamIdx));
     aProd->set("cache", 0); // disable caching, should help with performance
+    if (duration > 0) {
+        aProd->set("length", duration);
+    }
 
     int sampleRate = 44100;                                                // Request this sample rate (MLT will resample under the hood)
     Mlt::Filter convertFilter(pCore->getProjectProfile(), "audioconvert"); // add a filter to convert the sample format

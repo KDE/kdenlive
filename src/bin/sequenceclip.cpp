@@ -6,35 +6,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "sequenceclip.h"
-#include "audio/audioInfo.h"
 #include "bin.h"
 #include "clipcreator.hpp"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
+#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
-#include "jobs/proxytask.h"
 #include "kdenlivesettings.h"
-#include "lib/audio/audioStreamInfo.h"
-#include "macros.hpp"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
-#include "model/markersortmodel.h"
-#include "profiles/profilemodel.hpp"
+#include "monitor/monitor.h"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
-#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
-#include "utils/thumbnailcache.hpp"
-#include "utils/timecode.h"
-#include "xml/xml.hpp"
-
-#include "kdenlive_debug.h"
 #include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>
@@ -81,6 +69,11 @@ SequenceClip::SequenceClip(const QString &id, const QIcon &thumb, const std::sha
     // Initialize path for thumbnails playlist
     m_sequenceUuid = QUuid(m_masterProducer->get("kdenlive:uuid"));
     m_clipType = ClipType::Timeline;
+    // Generate audio thumbnail
+    if (KdenliveSettings::audiothumbnails() && producer->get_int("kdenlive:duration") > 0) {
+        ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
+        AudioLevelsTask::start(oid, this, false);
+    }
     if (model->hasSequenceId(m_sequenceUuid)) {
         // We already have a sequence with this uuid, this is probably a duplicate, update uuid
         const QUuid prevUuid = m_sequenceUuid;
@@ -210,6 +203,17 @@ const QString SequenceClip::getSequenceResource()
     return resource;
 }
 
+QTemporaryFile *SequenceClip::getSequenceTmpResource()
+{
+    QTemporaryFile *tmp = new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+    if (tmp->open()) {
+        tmp->close();
+        cloneProducerToFile(tmp->fileName());
+        return tmp;
+    }
+    return nullptr;
+}
+
 const QString SequenceClip::hashForThumbs()
 {
     if (m_clipStatus == FileStatus::StatusWaiting) {
@@ -247,6 +251,13 @@ void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool 
         if (!m_sequenceUuid.isNull()) {
             // This is a timeline clip, update tab name
             Q_EMIT pCore->bin()->updateTabName(m_sequenceUuid, m_name);
+        }
+    }
+    if (properties.contains("length")) {
+        discardAudioThumb(true);
+        if (pCore->taskManager.displayedClip == m_binId.toInt()) {
+            // Refresh monitor duration
+            pCore->getMonitor(Kdenlive::ClipMonitor)->adjustRulerSize(properties.value("length").toInt());
         }
     }
 }

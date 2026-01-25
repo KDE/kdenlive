@@ -57,6 +57,9 @@ protected:
     /** @brief Returns the path to the compositions that will be hidden*/
     QStringList assetExcludedPath() const override;
 
+    /** @brief Returns the path to the compositions that will be enabled but hidden*/
+    QStringList assetHiddenPath() const override;
+
     /** @brief Returns the path to the effects' preferred list*/
     QString assetPreferredListPath() const override;
 

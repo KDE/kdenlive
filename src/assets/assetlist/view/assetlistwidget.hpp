@@ -13,6 +13,7 @@
 class AssetIconProvider;
 class AssetFilter;
 class AssetTreeModel;
+class QTextBrowser;
 class QToolBar;
 class QVBoxLayout;
 class QMenu;
@@ -83,9 +84,12 @@ public:
     /** @brief Return the https link to our documentation
      */
     static const QString buildLink(const QString &id, AssetListType::AssetType type);
+    bool infoPanelIsFocused();
+    void processCopy();
 
 private:
     QToolBar *m_toolbar;
+    QTextBrowser *m_textEdit;
     QVBoxLayout *m_lay;
     QTextDocument *m_infoDocument;
 

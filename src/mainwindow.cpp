@@ -3789,6 +3789,12 @@ void MainWindow::slotCopy()
         if (widget == m_effectStackDock) {
             m_assetPanel->sendStandardCommand(KStandardAction::Copy);
             return;
+        } else if (widget == m_effectList2 && m_effectList2->infoPanelIsFocused()) {
+            m_effectList2->processCopy();
+            return;
+        } else if (widget == m_compositionList && m_compositionList->infoPanelIsFocused()) {
+            m_compositionList->processCopy();
+            return;
         }
         widget = widget->parentWidget();
     }
