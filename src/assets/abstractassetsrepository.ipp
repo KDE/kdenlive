@@ -65,6 +65,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // We now parse custom effect xml
     // Set the directories to look into for effects.
     QStringList asset_dirs = assetDirs();
+    qDebug() << "Loading asset xml files from the following locations" << asset_dirs;
 
     /* Parsing of custom xml works as follows: we parse all custom files.
        Each of them contains a tag, which is the corresponding mlt asset, and an id that is the name of the asset. Note that several custom files can correspond

@@ -102,7 +102,11 @@ std::unique_ptr<TransitionsRepository> &TransitionsRepository::get()
 
 QStringList TransitionsRepository::assetDirs() const
 {
-    return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+#ifdef Q_OS_WIN
+    dirs.append(QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/data/kdenlive/transitions")));
+#endif
+    return dirs;
 }
 
 void TransitionsRepository::parseType(Mlt::Properties *metadata, Info &res)

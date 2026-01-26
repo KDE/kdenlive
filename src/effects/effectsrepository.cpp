@@ -211,6 +211,9 @@ QStringList EffectsRepository::assetDirs() const
     dirs << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
 #endif
     dirs.append(QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory));
+#ifdef Q_OS_WIN
+    dirs.append(QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/data/kdenlive/effects")));
+#endif
     return dirs;
 }
 
