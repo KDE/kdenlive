@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 00:43+0000\n"
+"POT-Creation-Date: 2026-01-26 00:42+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -19465,40 +19465,40 @@ msgstr "Audio traka"
 msgid "Remove clip markers"
 msgstr "Obriši oznaku"
 
-#: src/bin/bin.cpp:6460
+#: src/bin/bin.cpp:6459
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6461
+#: src/bin/bin.cpp:6460
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Spremi DVD projekt"
 
-#: src/bin/bin.cpp:6462
+#: src/bin/bin.cpp:6461
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Pretvori"
 
-#: src/bin/bin.cpp:6620 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6619 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1121
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Obriši efekt"
 
-#: src/bin/bin.cpp:6686 src/mainwindow.cpp:264
+#: src/bin/bin.cpp:6685 src/mainwindow.cpp:264
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5219
+#: src/bin/bin.cpp:6688 src/bin/bin.cpp:6691 src/mainwindow.cpp:5225
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -20035,30 +20035,30 @@ msgstr "Pogrešan isječak"
 msgid "File already exists"
 msgstr "Profil već postoji"
 
-#: src/bin/projectclip.cpp:2602 src/bin/projectclip.cpp:2641
+#: src/bin/projectclip.cpp:2606 src/bin/projectclip.cpp:2645
 #, fuzzy, kde-format
 msgid "Adjust timeline clips"
 msgstr "Obriši vremenski isječak"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2835
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Dodaj novi efekt"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2860
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Remove stream effect"
 msgstr "Poništi efekt"
 
-#: src/bin/projectclip.cpp:3194
+#: src/bin/projectclip.cpp:3203
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Mask added to clip"
 msgstr "Playlista isječak"
 
-#: src/bin/projectclip.cpp:3198
+#: src/bin/projectclip.cpp:3207
 #, fuzzy, kde-format
 #| msgid "Missing clips"
 msgid "Missing clip for mask"
@@ -20941,7 +20941,7 @@ msgstr "Dodaj oznaku"
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:422
+#: src/effects/effectsrepository.cpp:429
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -21886,7 +21886,7 @@ msgstr "Razno"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:214
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:185
+#: src/transitions/transitionsrepository.cpp:193
 #, kde-format
 msgid "auto"
 msgstr ""
@@ -25181,7 +25181,7 @@ msgstr "Prikaži audio kratke prikaze"
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/jobs/audiolevels/audiolevelstask.cpp:139
+#: src/jobs/audiolevels/audiolevelstask.cpp:144
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Audio thumbs: unknown file length for %1"
@@ -25525,7 +25525,7 @@ msgid "Generators"
 msgstr "Generatori"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:63 src/mainwindow.cpp:4144
+#: src/kdenliveui.rc:63 src/mainwindow.cpp:4150
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Audio"
@@ -28184,144 +28184,144 @@ msgstr ""
 msgid "Insert"
 msgstr "Prijelaz"
 
-#: src/mainwindow.cpp:4034 src/mainwindow.cpp:4036
+#: src/mainwindow.cpp:4040 src/mainwindow.cpp:4042
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:4041
+#: src/mainwindow.cpp:4047
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bins"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:4118
+#: src/mainwindow.cpp:4124
 #, fuzzy, kde-format
 msgid "Clip Jobs"
 msgstr "Prikazivač isječka"
 
-#: src/mainwindow.cpp:4137
+#: src/mainwindow.cpp:4143
 #, fuzzy, kde-format
 #| msgid "Current jobs"
 msgid "Configure Clip Jobs…"
 msgstr "Trenutni poslovi"
 
-#: src/mainwindow.cpp:4143
+#: src/mainwindow.cpp:4149
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Pretvori"
 
-#: src/mainwindow.cpp:4210
+#: src/mainwindow.cpp:4216
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:4213
+#: src/mainwindow.cpp:4219
 #, fuzzy, kde-format
 #| msgid "Video track"
 msgid "-stream-%1"
 msgstr "Video traka"
 
-#: src/mainwindow.cpp:4247 src/mainwindow.cpp:4572
+#: src/mainwindow.cpp:4253 src/mainwindow.cpp:4578
 #, fuzzy, kde-format
 #| msgid "Interlaced"
 msgid "Interface"
 msgstr "Interlaced"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4324
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "isječak nije kopiran"
 
-#: src/mainwindow.cpp:4482
+#: src/mainwindow.cpp:4488
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4490
+#: src/mainwindow.cpp:4496
 #, fuzzy, kde-format
 msgid "Archiving project"
 msgstr "dodaj isječak projektu"
 
-#: src/mainwindow.cpp:4628
+#: src/mainwindow.cpp:4634
 #, fuzzy, kde-format
 #| msgid "Font"
 msgid "Icon Size"
 msgstr "Pismo"
 
-#: src/mainwindow.cpp:4632
+#: src/mainwindow.cpp:4638
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Zadano"
 
-#: src/mainwindow.cpp:4653 src/mainwindow.cpp:4681
+#: src/mainwindow.cpp:4659 src/mainwindow.cpp:4687
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4655 src/mainwindow.cpp:4683
+#: src/mainwindow.cpp:4661 src/mainwindow.cpp:4689
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4657 src/mainwindow.cpp:4685
+#: src/mainwindow.cpp:4663 src/mainwindow.cpp:4691
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4659 src/mainwindow.cpp:4687
+#: src/mainwindow.cpp:4665 src/mainwindow.cpp:4693
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4743
+#: src/mainwindow.cpp:4749
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4743
+#: src/mainwindow.cpp:4749
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide menu bar"
 msgstr "Sakrij okvir"
 
-#: src/mainwindow.cpp:5085 src/timeline2/view/timelinecontroller.cpp:5217
+#: src/mainwindow.cpp:5091 src/timeline2/view/timelinecontroller.cpp:5217
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Nema vodića na mjestu pokazivača"
 
-#: src/mainwindow.cpp:5387
+#: src/mainwindow.cpp:5393
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5393
+#: src/mainwindow.cpp:5399
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Postavke uređaja"
 
-#: src/mainwindow.cpp:5396
+#: src/mainwindow.cpp:5402
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5400
+#: src/mainwindow.cpp:5406
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5442
+#: src/mainwindow.cpp:5448
 #, fuzzy, kde-format
 msgid "Checking cached data size"
 msgstr "Obriši odabrane stavke"

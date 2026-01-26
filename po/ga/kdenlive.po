@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 00:43+0000\n"
+"POT-Creation-Date: 2026-01-26 00:42+0000\n"
 "PO-Revision-Date: 2026-01-16 09:07+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Irish <http://weblate.amgelocalnet.duckdns.org/projects/"
@@ -20039,36 +20039,36 @@ msgstr "Sruth fuaime %1"
 msgid "Remove clip markers"
 msgstr "Bain marcóirí gearrthóg"
 
-#: src/bin/bin.cpp:6460
+#: src/bin/bin.cpp:6459
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Molaimid duit an tionscadal a shábháil roimh an oibríocht traschódála"
 
-#: src/bin/bin.cpp:6461
+#: src/bin/bin.cpp:6460
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Sábháil an Tionscadal"
 
-#: src/bin/bin.cpp:6462
+#: src/bin/bin.cpp:6461
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Traschódáil Gan Sábháil"
 
-#: src/bin/bin.cpp:6620 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6619 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1121
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Scrios éifeacht %1"
 
-#: src/bin/bin.cpp:6686 src/mainwindow.cpp:264
+#: src/bin/bin.cpp:6685 src/mainwindow.cpp:264
 #, kde-format
 msgid "Project Bin"
 msgstr "Bosca Tionscadail"
 
-#: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5219
+#: src/bin/bin.cpp:6688 src/bin/bin.cpp:6691 src/mainwindow.cpp:5225
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bosca Tionscadail %1"
@@ -20572,27 +20572,27 @@ msgstr "Neamhbhailí"
 msgid "File already exists"
 msgstr "Tá an comhad ann cheana féin"
 
-#: src/bin/projectclip.cpp:2602 src/bin/projectclip.cpp:2641
+#: src/bin/projectclip.cpp:2606 src/bin/projectclip.cpp:2645
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Coigeartaigh gearrthóga líne ama"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2835
 #, kde-format
 msgid "Add stream effect"
 msgstr "Cuir éifeacht sruthaithe leis"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2860
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Bain éifeacht sruthaithe"
 
-#: src/bin/projectclip.cpp:3194
+#: src/bin/projectclip.cpp:3203
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Masc curtha leis an ngearrthóg"
 
-#: src/bin/projectclip.cpp:3198
+#: src/bin/projectclip.cpp:3207
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Gearrthóg ar iarraidh don masc"
@@ -21472,7 +21472,7 @@ msgstr "Easpórtáil Sonraí Marcóirí"
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:422
+#: src/effects/effectsrepository.cpp:429
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -22412,7 +22412,7 @@ msgstr "Éagsúil"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:214
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:185
+#: src/transitions/transitionsrepository.cpp:193
 #, kde-format
 msgid "auto"
 msgstr "uathoibríoch"
@@ -25750,7 +25750,7 @@ msgstr "Ordóga fuaime"
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Ordóga fuaime: ní féidir comhad %1 a oscailt"
 
-#: src/jobs/audiolevels/audiolevelstask.cpp:139
+#: src/jobs/audiolevels/audiolevelstask.cpp:144
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Ordóga fuaime: fad comhaid anaithnid do %1"
@@ -26068,7 +26068,7 @@ msgid "Generators"
 msgstr "Gineadóirí"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:63 src/mainwindow.cpp:4144
+#: src/kdenliveui.rc:63 src/mainwindow.cpp:4150
 #, kde-format
 msgid "Extract Audio"
 msgstr "Sliocht Fuaime"
@@ -28673,94 +28673,94 @@ msgstr ""
 msgid "Insert"
 msgstr "Ionsáigh"
 
-#: src/mainwindow.cpp:4034 src/mainwindow.cpp:4036
+#: src/mainwindow.cpp:4040 src/mainwindow.cpp:4042
 #, kde-format
 msgid "Scopes"
 msgstr "Raon feidhme"
 
-#: src/mainwindow.cpp:4041
+#: src/mainwindow.cpp:4047
 #, kde-format
 msgid "Project Bins"
 msgstr "Boscaí Tionscadail"
 
-#: src/mainwindow.cpp:4118
+#: src/mainwindow.cpp:4124
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Poist Gearrthóige"
 
-#: src/mainwindow.cpp:4137
+#: src/mainwindow.cpp:4143
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Cumraigh Poist Gearrthóige…"
 
-#: src/mainwindow.cpp:4143
+#: src/mainwindow.cpp:4149
 #, kde-format
 msgid "Transcoders"
 msgstr "Traschódóirí"
 
-#: src/mainwindow.cpp:4210
+#: src/mainwindow.cpp:4216
 #, kde-format
 msgid "-merged"
 msgstr "-cumaiscthe"
 
-#: src/mainwindow.cpp:4213
+#: src/mainwindow.cpp:4219
 #, kde-format
 msgid "-stream-%1"
 msgstr "-sruth-%1"
 
-#: src/mainwindow.cpp:4247 src/mainwindow.cpp:4572
+#: src/mainwindow.cpp:4253 src/mainwindow.cpp:4578
 #, kde-format
 msgid "Interface"
 msgstr "Comhéadan"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4324
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Comhaid le Traschódú"
 
-#: src/mainwindow.cpp:4482
+#: src/mainwindow.cpp:4488
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Níorbh fhéidir an comhad tionscadail a shábháil le haghaidh cartlannú."
 
-#: src/mainwindow.cpp:4490
+#: src/mainwindow.cpp:4496
 #, kde-format
 msgid "Archiving project"
 msgstr "Tionscadal cartlannúcháin"
 
-#: src/mainwindow.cpp:4628
+#: src/mainwindow.cpp:4634
 #, kde-format
 msgid "Icon Size"
 msgstr "Méid na Deilbhíní"
 
-#: src/mainwindow.cpp:4632
+#: src/mainwindow.cpp:4638
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Réamhshocrú"
 
-#: src/mainwindow.cpp:4653 src/mainwindow.cpp:4681
+#: src/mainwindow.cpp:4659 src/mainwindow.cpp:4687
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Beag (%1x%2)"
 
-#: src/mainwindow.cpp:4655 src/mainwindow.cpp:4683
+#: src/mainwindow.cpp:4661 src/mainwindow.cpp:4689
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Meánach (%1x%2)"
 
-#: src/mainwindow.cpp:4657 src/mainwindow.cpp:4685
+#: src/mainwindow.cpp:4663 src/mainwindow.cpp:4691
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Mór (%1x%2)"
 
-#: src/mainwindow.cpp:4659 src/mainwindow.cpp:4687
+#: src/mainwindow.cpp:4665 src/mainwindow.cpp:4693
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Ollmhór (%1x%2)"
 
-#: src/mainwindow.cpp:4743
+#: src/mainwindow.cpp:4749
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -28769,27 +28769,27 @@ msgstr ""
 "Cuirfidh sé seo an barra roghchláir i bhfolach go hiomlán. Is féidir leat é "
 "a thaispeáint arís trí Ctrl+M a chlóscríobh."
 
-#: src/mainwindow.cpp:4743
+#: src/mainwindow.cpp:4749
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Folaigh an barra roghchláir"
 
-#: src/mainwindow.cpp:5085 src/timeline2/view/timelinecontroller.cpp:5217
+#: src/mainwindow.cpp:5091 src/timeline2/view/timelinecontroller.cpp:5217
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Gan aon fhotheidil sa tionscadal reatha"
 
-#: src/mainwindow.cpp:5387
+#: src/mainwindow.cpp:5393
 #, kde-format
 msgid "Go to download page"
 msgstr "Téigh go dtí an leathanach íoslódála"
 
-#: src/mainwindow.cpp:5393
+#: src/mainwindow.cpp:5399
 #, kde-format
 msgid "Never check again"
 msgstr "Ná déan seiceáil arís riamh"
 
-#: src/mainwindow.cpp:5396
+#: src/mainwindow.cpp:5402
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -28798,14 +28798,14 @@ msgstr ""
 "Tá do leagan Kdenlive níos sine ná bliain, molaimid go láidir duit uasghrádú "
 "a dhéanamh"
 
-#: src/mainwindow.cpp:5400
+#: src/mainwindow.cpp:5406
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 "Tá do leagan Kdenlive níos sine ná 6 mhí, molaimid duit uasghrádú a dhéanamh"
 
-#: src/mainwindow.cpp:5442
+#: src/mainwindow.cpp:5448
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Méid sonraí taisceáilte á sheiceáil"
