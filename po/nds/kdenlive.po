@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-24 02:37+0000\n"
+"POT-Creation-Date: 2026-01-26 02:34+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -19852,40 +19852,40 @@ msgstr "Klangkanaals"
 msgid "Remove clip markers"
 msgstr "Orner wegdoon"
 
-#: src/bin/bin.cpp:6460
+#: src/bin/bin.cpp:6459
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6461
+#: src/bin/bin.cpp:6460
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Profil sekern"
 
-#: src/bin/bin.cpp:6462
+#: src/bin/bin.cpp:6461
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Ümkoderen"
 
-#: src/bin/bin.cpp:6620 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6619 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1121
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Delete effect %1"
 msgstr "Keen Effekt"
 
-#: src/bin/bin.cpp:6686 src/mainwindow.cpp:263
+#: src/bin/bin.cpp:6685 src/mainwindow.cpp:263
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6689 src/bin/bin.cpp:6692 src/mainwindow.cpp:5214
+#: src/bin/bin.cpp:6688 src/bin/bin.cpp:6691 src/mainwindow.cpp:5214
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -20424,31 +20424,31 @@ msgstr "Profil sekern"
 msgid "File already exists"
 msgstr "Dateiverwiedern:"
 
-#: src/bin/projectclip.cpp:2602 src/bin/projectclip.cpp:2641
+#: src/bin/projectclip.cpp:2606 src/bin/projectclip.cpp:2645
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Adjust timeline clips"
 msgstr "Profil bewerken"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2835
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Add stream effect"
 msgstr "Utwiedern anmaken"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2860
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
 msgstr "Keen Effekt"
 
-#: src/bin/projectclip.cpp:3194
+#: src/bin/projectclip.cpp:3203
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Mask added to clip"
 msgstr "Profil bewerken"
 
-#: src/bin/projectclip.cpp:3198
+#: src/bin/projectclip.cpp:3207
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Missing clip for mask"
@@ -25615,7 +25615,7 @@ msgstr "Vöransichten warrt laadt"
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/jobs/audiolevels/audiolevelstask.cpp:139
+#: src/jobs/audiolevels/audiolevelstask.cpp:144
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Audio thumbs: unknown file length for %1"
