@@ -56,7 +56,7 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     int itemId = item->getId();
     if (role != NameRole && m_paramsList.find(itemId) == m_paramsList.end()) {
-        qDebug() << "Item index is not valid" << itemId;
+        qDebug() << "Item index is not valid" << itemId << ", ROLE: " << role;
         return QVariant();
     }
     // auto stack = std::static_pointer_cast<EffectItemModel> (parentItem
@@ -69,9 +69,7 @@ QVariant DopeSheetModel::data(const QModelIndex &index, int role) const
         return item->dataColumn(0);
     case ModelRole:
         return QVariant::fromValue(m_paramsList.at(itemId).second.get());
-    /*case IndexRole:
-        return it->first;
-    case AssetTypeRole:
+    /*case AssetTypeRole:
         return QVariant::fromValue(it->second.first.second);
     case SelectedRole:
         return m_selectedIndexes.contains(it->first);*/

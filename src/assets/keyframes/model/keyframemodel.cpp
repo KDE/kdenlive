@@ -466,14 +466,37 @@ bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
 {
     if (auto ptr = m_model.lock()) {
         qDebug() << "::: MOVING KEYFRAME TO POSITION PERCENT: " << percentPos;
-        int startFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
+        int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
         int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        int targetFrame = startFrame + (percentPos * duration);
+        int targetFrame = inFrame + (percentPos * duration);
         GenTime nPos(targetFrame, pCore->getCurrentFps());
         GenTime oPos = getPosAtIndex(index);
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        qDebug() << ":::: OLD POS: " << oPos.frames(25) << " TO " << nPos.frames(25);
         return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, false);
+        // return moveKeyframe(oPos, nPos, QVariant(), false);
+    }
+    return false;
+}
+
+bool KeyframeModel::movePercentKeyframeWithUndo(int index, int startFrame, double finalPercentPos)
+{
+    if (auto ptr = m_model.lock()) {
+        int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
+        int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        int targetFrame = inFrame + (finalPercentPos * duration);
+        GenTime targetPos(targetFrame, pCore->getCurrentFps());
+        GenTime originalPos(startFrame, pCore->getCurrentFps());
+        GenTime currentPos = getPosAtIndex(index);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        qDebug() << "FINAL KF MOVE, FROM: " << currentPos.frames(25) << " TO " << originalPos.frames(25) << ", FINAL DEST: " << targetPos.frames(25);
+        if (currentPos != originalPos) {
+            moveOneKeyframe(currentPos, originalPos, QVariant(), undo, redo, false);
+        }
+        moveKeyframe(originalPos, targetPos, QVariant(), undo, redo, true);
+        pCore->pushUndo(undo, redo, i18n("Move keyframe"));
         // return moveKeyframe(oPos, nPos, QVariant(), false);
     }
     return false;

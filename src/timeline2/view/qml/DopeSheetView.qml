@@ -59,6 +59,11 @@ Rectangle {
                 x: indentation
                 font.bold: depth == 0
                 width: 160
+                background: Rectangle {
+                    color: activePalette.highlight
+                    radius: 4
+                    visible: row == treeView.currentRow
+                }
             }
             Item {
                 id: kfContainer
@@ -83,14 +88,16 @@ Rectangle {
                     model: dopeModel
                     Rectangle {
                         id: handle
-                        x: percentPosition * kfContainer.width - dopeRoot.keyframeSize/2 - (kfArea.containsMouse ? 1 : 0)
+                        property int clickPos
+                        property double currentPercentPos
+                        x: percentPosition * kfContainer.width - dopeRoot.keyframeSize/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: dopeRoot.keyframeSize - (kfArea.containsMouse ? 0 : 2)
                         height: width
                         color: activePalette.light
                         radius: Math.round(width/2)
                         border.width: 1
-                        border.color: kfArea.containsMouse ? activePalette.highlight : activePalette.text
+                        border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : activePalette.text
                         MouseArea {
                             id: kfArea
                             anchors.fill: handle
@@ -98,10 +105,22 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             onPositionChanged: mouse => {
                                 if (mouse.buttons === Qt.LeftButton) {
-                                    var updatedPos = Math.max(0., (parent.x + mouse.x) / kfContainer.width)
-                                    updatedPos = Math.min(1., updatedPos)
-                                    dopeModel.movePercentKeyframe(index, updatedPos)
-                                    handle.x = updatedPos * kfContainer.width - dopeRoot.keyframeSize/2 - (kfArea.containsMouse ? 1 : 0)
+                                    currentPercentPos = Math.max(0., (parent.x + mouse.x) / kfContainer.width)
+                                    currentPercentPos = Math.min(1., currentPercentPos)
+                                    dopeModel.movePercentKeyframe(index, currentPercentPos)
+                                    handle.x = currentPercentPos * kfContainer.width - dopeRoot.keyframeSize/2 - (kfArea.containsMouse ? 1 : 0)
+                                }
+                            }
+                            onClicked: {
+                                clickPos = frame
+                            }
+                            onReleased: {
+                                if (depth == 0) {
+                                    console.log("====================== MOVED RECAP EFFECT KF ===============")
+                                    // TODO: Move all param keyframes at pos clickPos
+                                    //timeline.moveAssetKeyframes(index, clickPos, currentPercentPos);
+                                } else {
+                                    dopeModel.movePercentKeyframeWithUndo(index, clickPos, currentPercentPos)
                                 }
                             }
                         }
