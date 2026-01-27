@@ -386,11 +386,13 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
     } else {
         qDebug() << "::::::::::SETTING EFFECT PARAM: " << name << " = " << paramValue;
         m_asset->set(name.toLatin1().constData(), paramValue.toUtf8().constData());
-        m_params[name].value = paramValue;
+
         if (m_fixedParams.count(name) > 0) {
+            m_fixedParams[name] = paramValue;
             // Fixed param, nothing else to do
             return;
         }
+        m_params[name].value = paramValue;
 
         KeyframeModel *km = nullptr;
         if (m_keyframes) {
