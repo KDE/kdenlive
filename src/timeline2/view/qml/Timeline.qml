@@ -31,7 +31,6 @@ Rectangle {
     property var groupTrimData
     property bool trimInProgress: false
     property bool isPanning: tracksArea.isCursorHidden
-    property bool ctrlPressed: false
     property bool captureRightClick: false
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
@@ -2039,9 +2038,6 @@ function getTrackColor(audio, header) {
                                             if (!dragProxyArea.containsMouse) {
                                                 regainFocus(dragProxyArea.mapToItem(root, dragProxyArea.mouseX, dragProxyArea.mouseY))
                                             }
-                                            endDrag()
-                                        } else {
-                                            endDrag()
                                         }
                                     }
                                     onDoubleClicked: {

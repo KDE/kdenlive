@@ -197,17 +197,9 @@ Rectangle
                         property double newVal: NaN
                         property bool shiftPressed: false
                         onPressed: mouse => {
-                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
-                                mouse.accepted = false
-                                return
-                            }
                             drag.axis = model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
                         onClicked: mouse => {
-                            if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool)) {
-                                mouse.accepted = false
-                                return
-                            }
                             keyframeContainer.focus = true
                             if (mouse.modifiers & Qt.ControlModifier && model.selected) {
                                 kfrModel.setActiveKeyframe(-1)
