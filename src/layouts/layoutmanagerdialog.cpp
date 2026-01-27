@@ -332,11 +332,11 @@ void LayoutManagerDialog::addLayoutItem(const LayoutInfo &layout)
             toolTip = i18nc("@info:tooltip", "This layout contains horizontal and vertical profiles");
         } else {
             icon = m_horizontalProfile;
-            toolTip = i18nc("@info:tooltip", "This layout contains an horizontal profile");
+            toolTip = i18nc("@info:tooltip", "This layout contains a horizontal profile");
         }
     } else {
         icon = m_verticalProfile;
-        toolTip = i18nc("@info:tooltip", "This layout contains an vertical profile");
+        toolTip = i18nc("@info:tooltip", "This layout contains a vertical profile");
     }
     auto *item = new QListWidgetItem(icon, layout.displayName, m_listWidget);
     item->setData(Qt::UserRole, layout.internalId);
