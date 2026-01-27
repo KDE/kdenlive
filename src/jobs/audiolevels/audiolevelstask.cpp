@@ -132,9 +132,14 @@ void AudioLevelsTask::run()
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         return;
     }
+    bool isTimeline = binClip->clipType() == ClipType::Timeline;
     const int lengthInFrames = producer->get_length();
     if (lengthInFrames == INT_MAX || lengthInFrames == 0) {
         // This is a broken file or live feed, don't attempt to generate audio thumbnails
+        if (isTimeline) {
+            // Sequence clips can have a 0 duration, don't show warning
+            return;
+        }
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, i18n("Audio thumbs: unknown file length for %1", QFileInfo(binClip->url()).fileName())),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
@@ -146,8 +151,9 @@ void AudioLevelsTask::run()
         service = QStringLiteral("avformat");
     } else if (service.startsWith(QLatin1String("xml"))) {
         service = QStringLiteral("xml-nogl");
+    } else if (isTimeline) {
+        service = QStringLiteral("xml");
     }
-    const QString res = qstrdup(producer->get("resource"));
 
     const QMap<int, QString> streams = binClip->audioInfo()->streams();
     for (auto streamIdx = streams.cbegin(), end = streams.cend(); streamIdx != end; ++streamIdx) {
@@ -171,13 +177,23 @@ void AudioLevelsTask::run()
         if (!m_isCanceled && levels.empty() && service == QStringLiteral("avformat")) {
             // if the resource is a media file, we can use libav for speed
             const auto fps = producer->get_fps();
+            const QString res = qstrdup(producer->get("resource"));
             levels = generateLibav(streamIdx.key(), res, lengthInFrames, fps, clbk, m_isCanceled);
         }
 
         if (!m_isCanceled && levels.empty()) {
             // else, or if using libav failed, use MLT
             const int channels = binClip->audioInfo()->channelsForStream(streamIdx.key());
-            levels = generateMLT(streamIdx.key(), service, res, channels, clbk, m_isCanceled);
+            if (isTimeline) {
+                QTemporaryFile *tmpFile = binClip->getSequenceTmpResource();
+                if (tmpFile) {
+                    levels = generateMLT(streamIdx.key(), service, tmpFile->fileName(), channels, clbk, m_isCanceled, binClip->frameDuration());
+                    delete tmpFile;
+                }
+            } else {
+                const QString res = qstrdup(producer->get("resource"));
+                levels = generateMLT(streamIdx.key(), service, res, channels, clbk, m_isCanceled);
+            }
         }
 
         if (!m_isCanceled && !levels.empty()) {

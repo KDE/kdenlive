@@ -67,8 +67,11 @@ include(ECMAddQch)
 include(ECMDeprecationSettings)
 include(ECMQmlModule)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
-# MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
-if(NOT MSVC)
+if(MSVC)
+    # kdenliveLib.dir\Unity\unity_qmlcache_cxx.cxx : fatal error C1128: number of sections exceeded object file format limit: compile with /bigobj
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+else()
+    # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
 
@@ -137,11 +140,10 @@ add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT
-find_package(MLT ${MLT_MIN_VERSION} REQUIRED)
-set_package_properties(MLT PROPERTIES DESCRIPTION "Multimedia framework"
+find_package(Mlt7 ${MLT_MIN_VERSION} REQUIRED COMPONENTS xml)
+set_package_properties(Mlt7 PROPERTIES DESCRIPTION "Multimedia framework"
                 URL "https://mltframework.org"
                 PURPOSE "Required to do video processing")
-message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
 # LibAV
 find_package(FFmpeg REQUIRED COMPONENTS

@@ -117,6 +117,9 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
+    /** @brief Returns true if at least one keyframe exists
+     */
+    bool hasKeyframes(const QPersistentModelIndex index) const;
 
     /** @brief Return the interpolated value of a parameter.
        @param pos is the position where we interpolate

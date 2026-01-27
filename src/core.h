@@ -483,6 +483,7 @@ Q_SIGNALS:
     void showConfigDialog(Kdenlive::ConfigPage, int);
     void finalizeRecording(const QUuid uuid, const QString &captureFile);
     void autoScrollChanged();
+    void centeredPlayheadChanged();
     /** @brief Update the message about the current loading progress */
     void loadingMessageNewStage(const QString &message, int max = -1);
     /** @brief Increase the progress of the loading message by 1 */

@@ -6,4 +6,4 @@
 skip = *.po,po/*,*.svg,*.pgm,*.notifyrc,*.knsrc,data/org.kde.kdenlive.xml,data/org.kde.kdenlive.appdata.xml,src/lib/external/kiss_fft/*,fuzzer/fakeit_standalone.hpp,tests/fakeit.hpp,tests/catch.hpp
 count =
 quiet-level = 3
-ignore-words-list = aBitrate,abl,aCount,aFile,aLine,alls,buildin,filterIn,indx,inOut,nIn,originalY,partH,Shotcut,splitted,wHeight,lightening
+ignore-words-list = abitrate,abl,acount,afile,aline,alls,buildin,ctrlpressed,filterin,indx,initialx,initialy,inout,ispanning,lightening,nin,originaly,parth,shotcut,splitted,virtualx,virtualy,wheight

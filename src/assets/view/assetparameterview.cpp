@@ -151,7 +151,7 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
         if (AssetParameterModel::isAnimated(type) && type != ParamType::Roto_spline) {
             // Roto_spline keyframes are stored as JSON so do not apply this to roto
             QString val = defaultValue.toString();
-            if (!val.contains(QLatin1Char('='))) {
+            if (!val.isEmpty() && !val.contains(QLatin1Char('='))) {
                 val.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
                 defaultValue = QVariant(val);
             }
@@ -290,13 +290,17 @@ int AssetParameterView::contentHeight() const
 
 MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
 {
+    MonitorSceneType requestedType = MonitorSceneDefault;
     if (m_mainKeyframeWidget) {
-        return m_mainKeyframeWidget->requiredScene();
+        requestedType = m_mainKeyframeWidget->requiredScene();
+    }
+    if (requestedType != MonitorSceneDefault) {
+        return requestedType;
     }
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::Geometry) {
+        if (type == ParamType::Geometry || type == ParamType::FakeRect) {
             return MonitorSceneGeometry;
         }
     }

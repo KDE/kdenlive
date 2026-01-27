@@ -320,7 +320,7 @@ void ProjectClip::updateAudioThumbnail(bool cachedThumb)
         return;
     }
     m_audioThumbCreated = true;
-    if (!cachedThumb) {
+    if (!cachedThumb || m_clipType == ClipType::Timeline) {
         // Audio was just created
         updateTimelineClips({TimelineModel::ReloadAudioThumbRole});
     }
@@ -2058,7 +2058,7 @@ int ProjectClip::audioChannels(int stream) const
     return audioInfo()->channels(stream);
 }
 
-void ProjectClip::discardAudioThumb()
+void ProjectClip::discardAudioThumb(bool recreate)
 {
     if (!m_audioInfo) {
         return;
@@ -2087,6 +2087,10 @@ void ProjectClip::discardAudioThumb()
     resetProducerProperty(QStringLiteral("kdenlive:audio_max"));
     m_audioThumbCreated = false;
     refreshAudioInfo();
+    if (recreate) {
+        // Generate thumb
+        AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
+    }
 }
 
 int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)
@@ -2558,7 +2562,7 @@ bool ProjectClip::isIncludedInTimeline()
 
 bool ProjectClip::isIncludedInSequence(const QUuid &seqUuid)
 {
-    if (m_registeredClipsByUuid.isEmpty()) {
+    if (m_registeredClipsByUuid.size() == 0) {
         return false;
     }
     return m_registeredClipsByUuid.contains(seqUuid);
@@ -3115,6 +3119,11 @@ QImage ProjectClip::fetchPixmap(int framePosition)
 const QString ProjectClip::getSequenceResource()
 {
     return QString();
+}
+
+QTemporaryFile *ProjectClip::getSequenceTmpResource()
+{
+    return nullptr;
 }
 
 void ProjectClip::removeSequenceWarpResources() {}

@@ -100,6 +100,10 @@ protected:
     /** @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;
 
+    /** @brief Returns the path to the asset list that are used internally
+     *  by MLT but should be hidden like avfilter.swscale */
+    virtual QStringList assetHiddenPath() const = 0;
+
     /** @brief Returns the path to the asset list that will be displayed*/
     virtual QStringList assetIncludedPath() const = 0;
 
@@ -111,6 +115,7 @@ protected:
 
     std::unordered_map<QString, Info> m_assets;
 
+    QSet<QString> m_hiddenList;
     QSet<QString> m_excludedList;
     QSet<QString> m_includedList;
 

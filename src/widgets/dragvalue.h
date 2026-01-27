@@ -20,6 +20,8 @@ class MySpinBox : public QSpinBox
 {
     Q_OBJECT
 public:
+    QValidator::State validate(QString &input, int &pos) const override;
+    int valueFromText(const QString &text) const override;
     explicit MySpinBox(QWidget *parent = nullptr);
     bool blockWheel{false};
 
@@ -27,6 +29,9 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
+    mutable QString m_cachedText;
+    mutable QValidator::State m_cachedState;
+    mutable double m_cachedResult;
     QPointF m_clickPos;
     QPointF m_startDragPos;
     QPoint m_clickMouse;
@@ -44,6 +49,8 @@ class MyDoubleSpinBox : public QDoubleSpinBox
 {
     Q_OBJECT
 public:
+    QValidator::State validate(QString &input, int &pos) const override;
+    double valueFromText(const QString &text) const override;
     explicit MyDoubleSpinBox(QWidget *parent = nullptr);
     bool blockWheel{false};
 
@@ -51,6 +58,9 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
+    mutable QString m_cachedText;
+    mutable QValidator::State m_cachedState;
+    mutable double m_cachedResult;
     QPointF m_clickPos;
     QPointF m_startDragPos;
     QPoint m_clickMouse;
@@ -150,6 +160,18 @@ public:
     /** @brief Whether the mouse wheel should change the value when we don't have focus */
     void blockWheel(bool block);
 
+    /**
+     * @brief Callback to get other DragValue widgets data, used for parameters replace
+     * @note If you want to use parameters replace feature, you must setup this callback while defining DragValue
+     * @param callback A function returning a QMap<int, QPair<QString, double>> where:
+     * - int: The order of the parameters
+     * - QString: The name of the parameter you want to be replaced (e.g. "%x").
+     * - double: The replacement value (e.g. 1920).
+     */
+    void setDataProviderCallback(std::function<QMap<int, QPair<QString, double>>()> callback);
+    bool hasDataProviderCallback();
+    QMap<int, QPair<QString, double>> runDataProviderCallback();
+
 public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
     void setValue(double value, bool final = true, bool createUndoEntry = true, bool updateWidget = true);
@@ -188,6 +210,7 @@ private Q_SLOTS:
     void slotSetInTimeline();
 
 private:
+    std::function<QMap<int, QPair<QString, double>>()> m_callback;
     double m_maximum;
     double m_minimum;
     int m_decimals;

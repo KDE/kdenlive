@@ -5,6 +5,7 @@
 
 #include "effectitemmodel.hpp"
 
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
@@ -80,7 +81,89 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             continue;
         }
         QString paramValue = effect->get(paramName.toUtf8().constData());
-        qDebug() << effectId << ": Setting parameter " << paramName << " to " << paramValue;
+        if (paramValue.isEmpty() && paramType == QLatin1String("animatedfakerect")) {
+            // Check if we have existing values for the fake rect individual components
+            QDomNodeList children = currentParameter.elementsByTagName(QLatin1String("parammap"));
+            qDebug() << ":::: FOUND FAKE RECT PARAM WITH EMPTY VALUES: " << paramName;
+            QMap<int, QRectF> rectValues;
+            QMap<int, mlt_keyframe_type> keyframeMap;
+            // Sort parameters
+            QMap<QString, QString> sortedParams;
+            for (int c = 0; c < children.count(); ++c) {
+                QDomElement currentParameter = children.item(c).toElement();
+                const QString target = currentParameter.attribute(QStringLiteral("target"));
+                const QString childName = currentParameter.attribute(QStringLiteral("source"));
+                sortedParams.insert(target, childName);
+            }
+            // Define order: x and y must always be processed first as width will need x, ...
+            QStringList paramOrder;
+            if (sortedParams.contains(QStringLiteral("x"))) {
+                paramOrder << QStringLiteral("x");
+            }
+            if (sortedParams.contains(QStringLiteral("y"))) {
+                paramOrder << QStringLiteral("y");
+            }
+            for (auto param = sortedParams.cbegin(), end = sortedParams.cend(); param != end; ++param) {
+                if (!paramOrder.contains(param.key())) {
+                    paramOrder << param.key();
+                }
+            }
+            bool animationParsed = false;
+            for (auto &pName : paramOrder) {
+                const QString paramMltName = sortedParams.value(pName);
+                // Now process the param
+                if (effect->property_exists(paramMltName.toUtf8().constData())) {
+                    // Found parameter, process
+                    // Force animation parsing
+                    (void)effect->anim_get_double(paramMltName.toUtf8().constData(), 0);
+                    Mlt::Animation anim = effect->get_animation(paramMltName.toUtf8().constData());
+                    qDebug() << "Found" << anim.key_count() << " Keyframes in " << paramMltName;
+                    int frame;
+                    if (!animationParsed) {
+                        // First param, parse keyframes
+                        for (int j = 0; j < anim.key_count(); ++j) {
+                            mlt_keyframe_type type;
+                            anim.key_get(j, frame, type);
+                            keyframeMap.insert(frame, type);
+                            rectValues.insert(frame, QRectF());
+                        }
+                        if (keyframeMap.isEmpty()) {
+                            // No keyframes found, use default value
+                            break;
+                        }
+                        animationParsed = true;
+                    }
+                    // Now process properties
+                    QSize frameSize = pCore->getCurrentFrameSize();
+                    for (auto &k : keyframeMap.keys()) {
+                        QRectF rect = rectValues.value(k);
+                        double value = effect->anim_get_double(paramMltName.toUtf8().constData(), k);
+                        if (pName == QStringLiteral("x")) {
+                            rect.setX(value);
+                        } else if (pName == QStringLiteral("y")) {
+                            rect.setY(value);
+                        } else if (pName == QStringLiteral("width")) {
+                            rect.setWidth(value);
+                        } else if (pName == QStringLiteral("right")) {
+                            rect.setWidth(frameSize.width() - value - rect.x());
+                        } else if (pName == QStringLiteral("bottom")) {
+                            rect.setHeight(frameSize.height() - value - rect.y());
+                        } else if (pName == QStringLiteral("height")) {
+                            rect.setHeight(value);
+                        } else {
+                            qWarning() << "Unhandled fakerect parameter: " << pName;
+                            break;
+                        }
+                        rectValues.insert(k, rect);
+                    }
+                }
+            }
+            for (auto vals = rectValues.cbegin(), end = rectValues.cend(); vals != end; ++vals) {
+                paramValue.append(QString::number(vals.key()));
+                paramValue.append(KeyframeModel::getSeparatorForKeyframeType(keyframeMap.value(vals.key())));
+                paramValue.append(QString("=%1 %2 %3 %4;").arg(vals.value().x()).arg(vals.value().y()).arg(vals.value().width()).arg(vals.value().height()));
+            }
+        }
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);
     }
 

@@ -224,8 +224,8 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
-            hoverEnabled: root.activeTool === K.ToolType.SelectTool
+            enabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            hoverEnabled: !root.isPanning && root.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -299,7 +299,11 @@ Item {
                 drag.target: trimInMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
-                onPressed: {
+                onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     compositionRoot.originalX = compositionRoot.x
@@ -370,7 +374,11 @@ Item {
                 visible: enabled && root.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
 
-                onPressed: {
+                onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     compositionRoot.originalDuration = clipDuration

@@ -45,6 +45,18 @@ avfilter.aeval
 avfilter.afade
 avfilter.afftfilt
 avfilter.aformat
+avfilter.blockdetect
+avfilter.blurdetect
+avfilter.ccrepack
+avfilter.fsync
+avfilter.latency
+avfilter.scale
+avfilter.scale_d3d11
+avfilter.scdet
+avfilter.siti
+avfilter.sr_amf
+avfilter.tiltandshift
+avfilter.vpp_amf
 
 # NOT WORKING AUDIO AVIFILTER
 #audiolevel (it has not to show up in the effects list) 

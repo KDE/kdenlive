@@ -2100,6 +2100,22 @@ const QPoint TimelineController::getMousePosInTimeline() const
     return mousPosInWidget;
 }
 
+void TimelineController::warpCursor(const QPoint &pos)
+{
+    QCursor::setPos(pos);
+}
+
+void TimelineController::hideCursor(bool hide)
+{
+    if (hide) {
+        m_cursorHidden++;
+        QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
+    } else if (m_cursorHidden > 0) {
+        m_cursorHidden--;
+        QGuiApplication::restoreOverrideCursor();
+    }
+}
+
 int TimelineController::getMousePos()
 {
     QVariant returnedValue;

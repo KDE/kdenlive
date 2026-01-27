@@ -96,7 +96,7 @@ QPersistentModelIndex RotatedRectHelper::findAnimatedRectParameter() const
 {
     for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::AnimatedRect) {
+        if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
             return ix;
         }
     }

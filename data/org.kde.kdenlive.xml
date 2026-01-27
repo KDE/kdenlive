@@ -15,6 +15,7 @@
     <comment xml:lang="eu">Kdenlive-ko bideo-proiektuaren dokumentua</comment>
     <comment xml:lang="fi">Kdenlive-videoprojektitiedosto</comment>
     <comment xml:lang="fr">Document de projet vidéo pour Kdenlive</comment>
+    <comment xml:lang="ga">Doiciméad tionscadail físe Kdenlive</comment>
     <comment xml:lang="gl">Documento dun proxecto de vídeo de Kdenlive.</comment>
     <comment xml:lang="he">מסמך מיזם וידאו של Kdenlive</comment>
     <comment xml:lang="hi">Kdenlive वीडियो परियोजना दस्तावेज़</comment>
@@ -57,6 +58,7 @@
     <comment xml:lang="eu">Kdenlive-ko bideo-izenburua</comment>
     <comment xml:lang="fi">Kdenlive-video-otsikko</comment>
     <comment xml:lang="fr">Titre de vidéo pour Kdenlive</comment>
+    <comment xml:lang="ga">Teideal físeáin Kdenlive</comment>
     <comment xml:lang="gl">Título de vídeo de Kdenlive.</comment>
     <comment xml:lang="he">כותרת וידאו של Kdenlive</comment>
     <comment xml:lang="hi">Kdenlive वीडियो शीर्षक</comment>
@@ -97,6 +99,7 @@
     <comment xml:lang="eu">Kdenlive aplikazioaren antolaera</comment>
     <comment xml:lang="fi">Kdenlive-sovelluksen-asettelu</comment>
     <comment xml:lang="fr">Mise en page de l'application Kdenlive</comment>
+    <comment xml:lang="ga">Leagan amach feidhmchláir Kdenlive</comment>
     <comment xml:lang="gl">Disposición de aplicación de Kdenlive.</comment>
     <comment xml:lang="he">פריסת יישום Kdenlive</comment>
     <comment xml:lang="hi">Kdenlive अनुप्रयोग लेआउट</comment>

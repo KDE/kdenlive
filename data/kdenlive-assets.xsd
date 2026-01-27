@@ -83,7 +83,12 @@ SPDX-License-Identifier: CC0-1.0
             <xs:enumeration value="simplekeyframe"/>
             <xs:enumeration value="geometry"/>
             <xs:enumeration value="rect"/>
+            <xs:enumeration value="fakerect"/>
             <xs:enumeration value="animatedrect"/>
+            <xs:enumeration value="animatedfakerect"/>
+            <xs:enumeration value="point"/>
+            <xs:enumeration value="animatedpoint"/>
+            <xs:enumeration value="animatedfakepoint"/>
             <xs:enumeration value="url"/>
             <xs:enumeration value="urllist"/>
             <xs:enumeration value="wipe"/>
@@ -98,6 +103,18 @@ SPDX-License-Identifier: CC0-1.0
             <xs:enumeration value="filterjob"/>
             <xs:enumeration value="hidden"/>
             <xs:enumeration value="listdependency"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="parammapTargetType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="x"/>
+            <xs:enumeration value="y"/>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="bottom"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -141,6 +158,20 @@ SPDX-License-Identifier: CC0-1.0
                             <xs:attribute name="files" type="xs:string" use="required"/>
                             <xs:attribute name="folder" type="xs:string" use="required"/>
                             <xs:attribute name="value" type="xs:string" use="required"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="parammap" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="target" type="parammapTargetType" use="required"/>
+                            <xs:attribute name="source" type="xs:string" use="required"/>
+                            <xs:attribute name="min" type="valueType" use="required"/>
+                            <xs:attribute name="max" type="valueType" use="required"/>
+                            <xs:attribute name="factor" type="valueType" use="optional"/>
+                            <xs:attribute name="default" type="valueType" use="required"/>
                         </xs:extension>
                     </xs:simpleContent>
                 </xs:complexType>

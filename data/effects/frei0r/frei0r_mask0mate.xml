@@ -4,17 +4,12 @@
     <name>Rectangular Alpha mask</name>
     <description>Creates an square alpha-channel mask</description>
     <author>Richard Spindler</author>
-    <parameter type="animated" name="Left" max="1000" min="0" default="0" factor="1000">
-        <name>Left</name>
-    </parameter>
-    <parameter type="animated" name="Right" max="1000" min="0" default="0" factor="1000">
-        <name>Right</name>
-    </parameter>
-    <parameter type="animated" name="Top" max="1000" min="0" default="0" factor="1000">
-        <name>Top</name>
-    </parameter>
-    <parameter type="animated" name="Bottom" max="1000" min="0" default="0" factor="1000">
-        <name>Bottom</name>
+    <parameter type="fakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
+        <name>Rectangle</name>
+        <parammap target="left" source="Left" max="%width" min="0" default="0" factor="%width"/>
+        <parammap target="top" source="Top" max="%height" min="0" default="0" factor="%height"/>
+        <parammap target="right" source="Right" max="%width" min="0" default="0" factor="%width"/>
+        <parammap target="bottom" source="Bottom" max="%height" min="0" default="0" factor="%height"/>
     </parameter>
     <parameter type="bool" name="Invert" default="1">
         <name>Invert</name>

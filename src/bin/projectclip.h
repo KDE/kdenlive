@@ -50,6 +50,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
+    friend class AudioLevelsTask;
     friend class KdenliveTests;
     friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
     /**
@@ -211,7 +212,7 @@ public:
     /** @brief Returns the list of this clip's subclip's ids. */
     QStringList subClipIds() const;
     /** @brief Delete cached audio thumb - needs to be recreated */
-    void discardAudioThumb();
+    void discardAudioThumb(bool recreate = false);
     /** @brief Get path for this clip's audio thumbnail */
     const QString getAudioThumbPath(int stream);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
@@ -340,6 +341,7 @@ protected:
     /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
     virtual void createDisabledMasterProducer();
     virtual const QString getSequenceResource();
+    virtual QTemporaryFile *getSequenceTmpResource();
     virtual void removeSequenceWarpResources();
     /** @brief Generate and store file hash if not available. */
     virtual const QString getFileHash();

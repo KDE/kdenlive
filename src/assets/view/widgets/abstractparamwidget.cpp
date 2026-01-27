@@ -25,6 +25,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "listparamwidget.h"
 #include "lumaliftgainparam.hpp"
 #include "multiswitchparamwidget.hpp"
+#include "pointparamwidget.hpp"
 #include "positioneditwidget.hpp"
 #include "slidewidget.hpp"
 #include "switchparamwidget.hpp"
@@ -101,7 +102,12 @@ std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::const
     case ParamType::Bool:
         widget = new BoolParamWidget(model, index, parent);
         break;
+    case ParamType::Point:
+    case ParamType::FakePoint:
+        widget = new PointParamWidget(model, index, parent);
+        break;
     case ParamType::Geometry:
+    case ParamType::FakeRect:
         widget = new GeometryEditWidget(model, index, frameSize, parent, layout);
         break;
     case ParamType::Position:

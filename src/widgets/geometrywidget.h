@@ -35,6 +35,7 @@ public:
     bool connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);
     const QRect getRect() const;
+    const QList<double> getValueList() const;
     void setRotatable(bool rotatable);
 
 private:

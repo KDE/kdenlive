@@ -20,6 +20,47 @@
 #include <mlt++/Mlt.h>
 #include <utility>
 
+static QMap<mlt_keyframe_type, QString> typeMap = {
+    // Map keyframe type to any single character except numeric values.
+    {mlt_keyframe_discrete, "|"},
+    {mlt_keyframe_discrete, "!"},
+    {mlt_keyframe_linear, ""},
+    {mlt_keyframe_smooth, "~"},
+    {mlt_keyframe_smooth_loose, "~"},
+    {mlt_keyframe_smooth_natural, "$"},
+    {mlt_keyframe_smooth_tight, "-"},
+    {mlt_keyframe_sinusoidal_in, "a"},
+    {mlt_keyframe_sinusoidal_out, "b"},
+    {mlt_keyframe_sinusoidal_in_out, "c"},
+    {mlt_keyframe_quadratic_in, "d"},
+    {mlt_keyframe_quadratic_out, "e"},
+    {mlt_keyframe_quadratic_in_out, "f"},
+    {mlt_keyframe_cubic_in, "g"},
+    {mlt_keyframe_cubic_out, "h"},
+    {mlt_keyframe_cubic_in_out, "i"},
+    {mlt_keyframe_quartic_in, "j"},
+    {mlt_keyframe_quartic_out, "k"},
+    {mlt_keyframe_quartic_in_out, "l"},
+    {mlt_keyframe_quintic_in, "m"},
+    {mlt_keyframe_quintic_out, "n"},
+    {mlt_keyframe_quintic_in_out, "o"},
+    {mlt_keyframe_exponential_in, "p"},
+    {mlt_keyframe_exponential_out, "q"},
+    {mlt_keyframe_exponential_in_out, "r"},
+    {mlt_keyframe_circular_in, "s"},
+    {mlt_keyframe_circular_out, "t"},
+    {mlt_keyframe_circular_in_out, "u"},
+    {mlt_keyframe_back_in, "v"},
+    {mlt_keyframe_back_out, "w"},
+    {mlt_keyframe_back_in_out, "x"},
+    {mlt_keyframe_elastic_in, "y"},
+    {mlt_keyframe_elastic_out, "z"},
+    {mlt_keyframe_elastic_in_out, "A"},
+    {mlt_keyframe_bounce_in, "B"},
+    {mlt_keyframe_bounce_out, "C"},
+    {mlt_keyframe_bounce_in_out, "D"},
+};
+
 // std::unordered_map and QHash could not be used here
 static QMap<KeyframeType::KeyframeEnum, QString> KeyframeTypeName;
 
@@ -39,6 +80,16 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     }
     if (auto ptr = m_model.lock()) {
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (m_paramType == ParamType::AnimatedFakePoint) {
+            QString animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+            if (animData.isEmpty()) {
+                // Build default value
+                const QString defaultVal = ptr->data(m_index, AssetParameterModel::DefaultRole).toString();
+                animData = QStringLiteral("%1=%2").arg(qMax(0, in)).arg(defaultVal);
+                const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+                ptr->internalSetParameter(name, animData, index);
+            }
+        }
     }
     refresh(in, out);
 }
@@ -98,7 +149,7 @@ void KeyframeModel::setup()
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
-    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()); // << value << notify;
+    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << "; VAL: " << value << notify;
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -362,7 +413,8 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
             // no change
             return true;
         }
-        if (m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
+            m_paramType == ParamType::AnimatedPoint) {
             return updateKeyframe(pos, newVal);
         }
         // Calculate real value from normalized
@@ -384,7 +436,8 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
-        if (m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
+            m_paramType == ParamType::AnimatedPoint) {
             if (!newVal.isValid()) {
                 newVal = oldValue;
             }
@@ -694,7 +747,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return false;
     }
     case NormalizedValueRole: {
-        if (m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
             const QString &data = it->second.second.toString();
             bool ok;
             double converted = data.section(QLatin1Char(' '), -1).toDouble(&ok);
@@ -934,6 +987,9 @@ QString KeyframeModel::getAnimProperty() const
     for (const auto &keyframe : m_keyframeList) {
         switch (m_paramType) {
         case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect:
+        case ParamType::AnimatedPoint:
+        case ParamType::AnimatedFakePoint:
         case ParamType::Color:
             mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
             break;
@@ -1009,7 +1065,8 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
         }
         QVariant value;
         switch (m_paramType) {
-        case ParamType::AnimatedRect: {
+        case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect: {
             const QString rect_str(mlt_prop.get("key"));
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
             if (rect_str.contains(QLatin1Char('%'))) {
@@ -1024,6 +1081,17 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
             } else {
                 value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
             }
+            break;
+        }
+        case ParamType::AnimatedPoint:
+        case ParamType::AnimatedFakePoint: {
+            const QString rect_str(mlt_prop.get("key"));
+            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            if (rect_str.contains(QLatin1Char('%'))) {
+                rect.x *= profile->width;
+                rect.y *= profile->height;
+            }
+            value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
             break;
         }
         case ParamType::Color: {
@@ -1067,6 +1135,8 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         ptr->passProperties(mlt_prop);
         if (m_paramType == ParamType::AnimatedRect) {
             useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+        } else if (m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
+            useOpacity = false;
         }
     }
     mlt_prop.set("key", prop.toUtf8().constData());
@@ -1087,7 +1157,8 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         }
         QVariant value;
         switch (m_paramType) {
-        case ParamType::AnimatedRect: {
+        case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect: {
             const QString rect_str(mlt_prop.get("key"));
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
             if (rect_str.contains(QLatin1Char('%'))) {
@@ -1102,6 +1173,17 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
             } else {
                 value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
             }
+            break;
+        }
+        case ParamType::AnimatedPoint:
+        case ParamType::AnimatedFakePoint: {
+            const QString rect_str(mlt_prop.get("key"));
+            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            if (rect_str.contains(QLatin1Char('%'))) {
+                rect.x *= profile->width;
+                rect.y *= profile->height;
+            }
+            value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
             break;
         }
         default:
@@ -1269,7 +1351,8 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         (void)mlt_prop.anim_get_double("key", 0, out);
         return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
     }
-    if (!animData.isEmpty() && m_paramType == ParamType::AnimatedRect) {
+    if (!animData.isEmpty() && (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect ||
+                                m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint)) {
         mlt_prop.set("key", animData.toUtf8().constData());
         // This is a fake query to force the animation to be parsed
         (void)mlt_prop.anim_get_double("key", 0, out);
@@ -1280,6 +1363,10 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             rect.y *= profileSize.height();
             rect.w *= profileSize.width();
             rect.h *= profileSize.height();
+        }
+        if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
+            const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
+            return QVariant(res);
         }
         QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
         if (useOpacity) {
@@ -1515,7 +1602,8 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
     if (lastPos > duration) {
         QVariant value;
         switch (paramType) {
-        case ParamType::AnimatedRect: {
+        case ParamType::AnimatedRect:
+        case ParamType::AnimatedFakeRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", duration);
             QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
             if (useOpacity) {
@@ -1524,9 +1612,16 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
             value = QVariant(res);
             break;
         }
+        case ParamType::AnimatedPoint:
+        case ParamType::AnimatedFakePoint: {
+            mlt_rect rect = mlt_prop.anim_get_rect("key", duration);
+            const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
+            value = QVariant(res);
+            break;
+        }
         case ParamType::Color: {
             mlt_color mltColor = mlt_prop.anim_get_color("key", duration);
-            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            const QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
             value = QVariant(QColorUtils::colorToString(color, true));
             break;
         }
@@ -1736,4 +1831,9 @@ QList<QVariant> KeyframeModel::testSerializeKeyframes() const
         model << m.first.frames(25) << (int)m.second.first << m.second.second;
     }
     return model;
+}
+
+const QString KeyframeModel::getSeparatorForKeyframeType(mlt_keyframe_type type)
+{
+    return typeMap.value(type);
 }

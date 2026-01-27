@@ -687,6 +687,7 @@ void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
 {
     clearSelection();
     m_selectedItem = item;
+    m_selectedItemInitialPos = item->scenePos();
     item->setSelected(true);
     update();
 }
@@ -867,6 +868,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 clearSelection();
                 toSelect->setSelected(true);
                 m_selectedItem = toSelect;
+                m_selectedItemInitialPos = m_selectedItem->scenePos();
             }
             e->accept();
             return;
@@ -1012,6 +1014,9 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             QGraphicsScene::mousePressEvent(e);
         }
     }
+    if (m_selectedItem) {
+        m_selectedItemInitialPos = m_selectedItem->scenePos();
+    }
 }
 
 void GraphicsSceneRectMove::clearTextSelection(bool reset)
@@ -1059,29 +1064,29 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         int objectType = m_selectedItem->type();
         if (objectType == QGraphicsRectItem::Type || objectType == QGraphicsEllipseItem::Type || objectType == QGraphicsSvgItem::Type ||
             objectType == QGraphicsPixmapItem::Type) {
-            int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
-            int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
-            QPointF newpoint(xPos, yPos);
-            bool centerResize = e->modifiers() & Qt::ShiftModifier;
-            switch (m_resizeMode) {
-            case BottomRight:
-            case BottomLeft:
-            case TopRight:
-            case TopLeft:
-                m_dragPoint = newpoint;
-                break;
-            case Up:
-            case Down:
-                m_dragPoint = QPointF(m_dragPoint.x(), newpoint.y());
-                break;
-            case Right:
-            case Left:
-                m_dragPoint = QPointF(newpoint.x(), m_dragPoint.y());
-                break;
-            default:
-                break;
-            }
             if (m_resizeMode != NoResize) {
+                int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
+                int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
+                QPointF newpoint(xPos, yPos);
+                bool centerResize = e->modifiers() & Qt::ShiftModifier;
+                switch (m_resizeMode) {
+                case BottomRight:
+                case BottomLeft:
+                case TopRight:
+                case TopLeft:
+                    m_dragPoint = newpoint;
+                    break;
+                case Up:
+                case Down:
+                    m_dragPoint = QPointF(m_dragPoint.x(), newpoint.y());
+                    break;
+                case Right:
+                case Left:
+                    m_dragPoint = QPointF(newpoint.x(), m_dragPoint.y());
+                    break;
+                default:
+                    break;
+                }
                 if (objectType == QGraphicsRectItem::Type || objectType == QGraphicsEllipseItem::Type) {
                     // Resize using aspect ratio
                     if (!m_selectedItem->data(0).isNull()) {
@@ -1148,7 +1153,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                     return;
                 }
             }
-            QGraphicsScene::mouseMoveEvent(e);
+            QPointF diff = e->scenePos() - m_sceneClickPoint;
+            diff += m_selectedItemInitialPos;
+            int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
+            int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
+            QPointF newpoint(xPos, yPos);
+            m_selectedItem->setPos(newpoint);
         } else if (objectType == QGraphicsTextItem::Type) {
             qDebug() << "///// MOVING AN ITEM WITH TEXT\nXXXXXXXXXXXXXXXXXXXXXX";
             auto *t = static_cast<MyTextItem *>(m_selectedItem);
@@ -1157,8 +1167,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 QGraphicsScene::mouseMoveEvent(e);
                 return;
             }
-            QGraphicsScene::mouseMoveEvent(e);
-            m_sceneClickPoint = e->scenePos();
+            QPointF diff = e->scenePos() - m_sceneClickPoint;
+            diff += m_selectedItemInitialPos;
+            int xPos = (int(diff.x()) / m_gridSize) * m_gridSize;
+            int yPos = (int(diff.y()) / m_gridSize) * m_gridSize;
+            QPointF newpoint(xPos, yPos);
+            m_selectedItem->setPos(newpoint);
         }
         Q_EMIT itemMoved();
     } else if (m_tool == TITLE_SELECT) {
@@ -1335,11 +1349,11 @@ void GraphicsSceneRectMove::slotUpdateFontSize(int s)
 void GraphicsSceneRectMove::drawForeground(QPainter *painter, const QRectF &rect)
 {
     // draw the grid if needed
-    if (m_gridSize <= 1) {
+    if (m_gridSize <= 1 || m_gridSize * m_zoom < 5) {
         return;
     }
 
-    QPen pen(QColor(255, 0, 0, 100));
+    QPen pen(QColor(255, 0, 0, 200));
     painter->setPen(pen);
 
     qreal left = int(rect.left()) - (int(rect.left()) % m_gridSize);

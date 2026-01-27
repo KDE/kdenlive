@@ -66,6 +66,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_container = new FlashLabel(this);
     auto *lay = new QHBoxLayout(this);
     auto *lay2 = new QHBoxLayout(m_container);
+    lay2->setContentsMargins(0, 0, 0, 0);
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_selectionLabel = new QLabel(this);
@@ -337,11 +338,11 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     if (text.startsWith(QLatin1Char('#'))) {
         if (text == QLatin1String("#projectmonitor")) {
             // Raise project monitor
-            pCore->window()->raiseMonitor(false);
+            pCore->window()->raiseMonitor(false, true);
             return;
         } else if (text == QLatin1String("#clipmonitor")) {
             // Raise project monitor
-            pCore->window()->raiseMonitor(true);
+            pCore->window()->raiseMonitor(true, true);
             return;
         }
     }

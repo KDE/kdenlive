@@ -468,3 +468,8 @@ bool PlaylistClip::hasAlpha()
     }
     return hasAlpha;
 }
+
+QTemporaryFile *PlaylistClip::getSequenceTmpResource()
+{
+    return nullptr;
+}

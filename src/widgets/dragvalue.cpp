@@ -15,15 +15,261 @@
 #include <KLocalizedString>
 #include <QAction>
 #include <QApplication>
+#include <QCache>
+#include <QChar>
 #include <QFocusEvent>
 #include <QFontDatabase>
 #include <QHBoxLayout>
+#include <QHash>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QStack>
 #include <QStyle>
 #include <QWheelEvent>
+
+namespace {
+int getOperatorPriority(const QChar op)
+{
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
+}
+
+QValidator::State calculate(QStack<double> &nums, QStack<QChar> &ops)
+{
+
+    if (nums.length() < 2 || ops.isEmpty()) return QValidator::Intermediate;
+    double b = nums.pop();
+    double a = nums.pop();
+    QChar op = ops.pop();
+
+    double result;
+    if (op == '+')
+        result = a + b;
+    else if (op == '-')
+        result = a - b;
+    else if (op == '*')
+        result = a * b;
+    else if (op == '/' && b != 0)
+        result = a / b;
+    else
+        return QValidator::Invalid;
+
+    nums.push(result);
+    return QValidator::Acceptable;
+}
+
+bool isOperator(const QChar op)
+{
+    return op == '+' || op == '-' || op == '*' || op == '/' || op == '(' || op == ')';
+}
+
+double evaluateMathExpression(const QString expr, QValidator::State &state)
+{
+    state = QValidator::Acceptable;
+    QStack<double> nums;
+    QStack<QChar> ops;
+    QChar prevValidChar = ' ';
+    QChar nowValidChar = ' ';
+    bool prevIsValue = false;
+    QLocale locale = QLocale::system();
+    int i = 0;
+    while (i < expr.length()) {
+        QChar c = expr[i];
+        if (c.isSpace()) {
+            i++;
+            continue;
+        }
+        prevValidChar = nowValidChar;
+        nowValidChar = c;
+
+        // numbers
+        //  check for normal number || check for negative number
+        if (c.isDigit() || c == locale.decimalPoint() || (c == '-' && (prevValidChar == ' ' || isOperator(prevValidChar)))) {
+            if (prevIsValue) {
+                state = QValidator::Invalid;
+                return 0;
+            }
+
+            QString str;
+            do {
+                str.append(expr[i]);
+                i++;
+            } while (i < expr.length() && (expr[i].isDigit() || expr[i] == locale.decimalPoint()));
+
+            bool ok;
+            double result = locale.toDouble(str, &ok);
+            if (!ok) {
+                state = QValidator::Intermediate;
+                return 0;
+            }
+            nums.push(result);
+            prevIsValue = true;
+            continue;
+        }
+
+        // operators
+        if (!prevIsValue && prevValidChar != '(' && prevValidChar != ')' && c != '(') {
+            state = QValidator::Invalid;
+            return 0;
+        }
+        prevIsValue = c == ')';
+
+        if (c == '(') {
+            ops.push(c);
+            i++;
+            continue;
+        }
+        if (c == ')') {
+            while (!ops.isEmpty() && ops.top() != '(') {
+                state = calculate(nums, ops);
+                if (state != QValidator::Acceptable) return 0;
+            }
+            if (ops.isEmpty()) {
+                state = QValidator::Intermediate;
+                return 0;
+            }
+            ops.pop();
+
+            i++;
+            continue;
+        }
+
+        while (!ops.isEmpty() && getOperatorPriority(ops.top()) >= getOperatorPriority(c)) {
+            state = calculate(nums, ops);
+            if (state != QValidator::Acceptable) return 0;
+        }
+        ops.push(c);
+        i++;
+    }
+
+    while (!ops.isEmpty()) {
+        state = calculate(nums, ops);
+        if (state != QValidator::Acceptable) return 0;
+    }
+
+    if (nums.length() != 1) {
+        state = QValidator::Intermediate;
+        return 0;
+    }
+    double result = nums.pop();
+
+    return result;
+}
+
+// cache for saving QRegularExpression, used for matching params
+// if just use QString::replace(QChar before, QChar after) directly
+// it might catch things that you dont wanted
+// for example: matched %x in %xy
+QCache<QString, QRegularExpression> cache(100);
+
+QValidator::State replaceParameters(QString &text, const QWidget *spinBox)
+{
+    DragValue *parent = qobject_cast<DragValue *>(spinBox->parent());
+    if (!parent || !parent->hasDataProviderCallback()) {
+        return QValidator::Invalid;
+    }
+
+    QMap<int, QPair<QString, double>> map = parent->runDataProviderCallback();
+    for (auto it = map.cbegin(); it != map.cend(); ++it) {
+        const QString param = it.value().first;
+        const double value = it.value().second;
+
+        if (!cache.contains(param) || cache[param] == nullptr) {
+            QRegularExpression *re = new QRegularExpression(QString("(%1(?![a-zA-Z0-9_]))").arg(param));
+            re->optimize();
+            cache.insert(param, re);
+        }
+
+        if (!text.contains(param)) {
+            continue;
+        }
+        text.replace(*cache[param], QString::number(value));
+    }
+
+    return QValidator::Acceptable;
+}
+
+// Modified from QAbstractSpinBoxPrivate::stripped
+QString stripped(const QString &t, const QString specialValueText, const QString prefix, const QString suffix)
+{
+    QStringView text(t);
+    if (specialValueText.size() == 0 || text != specialValueText) {
+        int from = 0;
+        int size = text.size();
+        bool changed = false;
+        if (prefix.size() && text.startsWith(prefix)) {
+            from += prefix.size();
+            size -= from;
+            changed = true;
+        }
+        if (suffix.size() && text.endsWith(suffix)) {
+            size -= suffix.size();
+            changed = true;
+        }
+        if (changed) text = text.mid(from, size);
+    }
+
+    text = text.trimmed();
+    return text.toString();
+}
+
+// Reimplementation of QSpinBoxPrivate::validateAndInterpret
+double validateAndInterpret(const QString text, const QWidget *const spinBox, const QString specialValueText, const QString prefix, const QString suffix,
+                            QValidator::State &state)
+{
+    state = QValidator::Acceptable;
+
+    if (!spinBox) {
+        state = QValidator::Invalid;
+        return 0;
+    }
+
+    QString copy = stripped(text, specialValueText, prefix, suffix);
+
+    static const QRegularExpression regexExpression(QRegularExpression::anchoredPattern(R"((?:[0-9.,+\-*/() ]*|%[a-zA-Z0-9_]*)*)"));
+    if (!regexExpression.match(copy).hasMatch()) {
+        state = QValidator::Invalid;
+        return 0;
+    }
+
+    if (copy.contains('%')) {
+        state = replaceParameters(copy, spinBox);
+        if (state != QValidator::Acceptable) {
+            return 0;
+        }
+
+        // allowing the user to finish their incomplete parameters by returning QValidator::Intermediate
+        static const QRegularExpression regexMathExpr(QRegularExpression::anchoredPattern(R"([0-9.,+\-*/() ]*)"));
+        if (!regexMathExpr.match(copy).hasMatch()) {
+            state = QValidator::Intermediate;
+            return 0;
+        }
+    }
+
+    double result = evaluateMathExpression(copy, state);
+    if (state != QValidator::Acceptable) return 0;
+    return result;
+}
+
+void spinBoxSetToolTip(QWidget &self)
+{
+    DragValue *parent = qobject_cast<DragValue *>(self.parent());
+    if (!parent || !parent->hasDataProviderCallback())
+        self.setToolTip(i18n("Support basic math expression"));
+    else {
+        QMap<int, QPair<QString, double>> map = parent->runDataProviderCallback();
+        QString str;
+        for (auto it = map.cbegin(); it != map.cend(); ++it) {
+            if (str != "") str += ", ";
+            str += it.value().first;
+        }
+        self.setToolTip(i18nc("", "Support basic math expression\nuse \"%1\" to reference other spinbox's value", str));
+    }
+}
+} // namespace
 
 MySpinBox::MySpinBox(QWidget *parent)
     : QSpinBox(parent)
@@ -31,6 +277,32 @@ MySpinBox::MySpinBox(QWidget *parent)
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
     setMinimumHeight(lineEdit()->sizeHint().height() + 4);
+}
+
+QValidator::State MySpinBox::validate(QString &text, int &pos) const
+{
+    if (m_cachedText == text && !text.isEmpty()) return m_cachedState;
+
+    QValidator::State state;
+    m_cachedResult = validateAndInterpret(text, this, specialValueText(), prefix(), suffix(), state);
+    m_cachedText = text;
+    m_cachedState = state;
+    return state;
+}
+
+int MySpinBox::valueFromText(const QString &text) const
+{
+    QValidator::State state;
+    double result;
+    if (m_cachedText == text && !text.isEmpty()) {
+        state = m_cachedState;
+        result = m_cachedResult;
+    } else {
+        result = validateAndInterpret(text, this, specialValueText(), prefix(), suffix(), state);
+    }
+
+    if (state != QValidator::Acceptable) return maximum() > 0 ? minimum() : maximum();
+    return std::round(result);
 }
 
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -154,6 +426,9 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::FocusOut) {
             m_editing = false;
         }
+        if (event->type() == QEvent::ToolTip && toolTip() == "") {
+            spinBoxSetToolTip(*this);
+        }
     }
     return QSpinBox::eventFilter(watched, event);
 }
@@ -164,6 +439,32 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
     setMinimumHeight(lineEdit()->sizeHint().height() + 4);
+}
+
+QValidator::State MyDoubleSpinBox::validate(QString &text, int &pos) const
+{
+    if (m_cachedText == text && !text.isEmpty()) return m_cachedState;
+
+    QValidator::State state;
+    m_cachedResult = validateAndInterpret(text, this, specialValueText(), prefix(), suffix(), state);
+    m_cachedText = text;
+    m_cachedState = state;
+    return state;
+}
+
+double MyDoubleSpinBox::valueFromText(const QString &text) const
+{
+    QValidator::State state;
+    double result;
+    if (m_cachedText == text && !text.isEmpty()) {
+        state = m_cachedState;
+        result = m_cachedResult;
+    } else {
+        result = validateAndInterpret(text, this, specialValueText(), prefix(), suffix(), state);
+    }
+
+    if (state != QValidator::Acceptable) return maximum() > 0 ? minimum() : maximum();
+    return result;
 }
 
 bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -284,6 +585,9 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
     } else {
         if (event->type() == QEvent::FocusOut) {
             m_editing = false;
+        }
+        if (event->type() == QEvent::ToolTip && toolTip() == "") {
+            spinBoxSetToolTip(*this);
         }
     }
     return QDoubleSpinBox::eventFilter(watched, event);
@@ -733,6 +1037,21 @@ void DragValue::setInTimelineProperty(bool intimeline)
         style()->polish(m_doubleEdit);
         m_doubleEdit->update();
     }
+}
+
+void DragValue::setDataProviderCallback(std::function<QMap<int, QPair<QString, double>>()> callback)
+{
+    m_callback = callback;
+}
+
+bool DragValue::hasDataProviderCallback()
+{
+    return m_callback != nullptr;
+}
+
+QMap<int, QPair<QString, double>> DragValue::runDataProviderCallback()
+{
+    return m_callback();
 }
 
 CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget *parent)

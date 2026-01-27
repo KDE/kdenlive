@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "core.h"
 #include "definitions.h"
 #include "klocalizedstring.h"
 #include <QAbstractListModel>
@@ -28,7 +29,13 @@ enum class ParamType {
     Switch,
     EffectButtons,
     MultiSwitch,
-    AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
+    AnimatedRect,     // Animated rects have X, Y, width, height, and opacity (in [0,1])
+    AnimatedFakeRect, // Contains 4 parameters that make a rect, animated
+    FakeRect,         // Contains 4 parameters that make a rect
+    AnimatedPoint,
+    Point,
+    AnimatedFakePoint,
+    FakePoint,
     Geometry,
     KeyframeParam,
     Color,
@@ -44,9 +51,192 @@ enum class ParamType {
     Fontfamily,
     Filterjob,
     Readonly,
-    Hidden
+    Hidden,
+    Unknown
 };
 Q_DECLARE_METATYPE(ParamType)
+
+static double convertValue(const QString &value, const QSize profileSize, double defaultValue = 0.)
+{
+    if (value.isEmpty()) {
+        return defaultValue;
+    } else if (value == QLatin1String("%width")) {
+        return profileSize.width();
+    } else if (value == QLatin1String("%height")) {
+        return profileSize.height();
+    }
+    return value.toDouble();
+}
+
+struct AssetPointInfo
+{
+    QString destNameX;
+    QString destNameY;
+    QPointF defaultValue;
+    QPointF minimum;
+    QPointF maximum;
+    QPointF factors;
+    explicit AssetPointInfo(const QPair<QString, QString> &names, const QPair<QString, QString> &def, const QPair<QString, QString> &min,
+                            const QPair<QString, QString> &max, const QPair<QString, QString> &fac)
+        : destNameX(names.first)
+        , destNameY(names.second)
+    {
+        const QSize profileSize = pCore->getCurrentFrameSize();
+        // Default
+        defaultValue.setX(convertValue(def.first, profileSize));
+        defaultValue.setX(convertValue(def.second, profileSize));
+
+        // Min
+        minimum.setX(convertValue(min.first, profileSize));
+        minimum.setY(convertValue(min.second, profileSize));
+
+        // Max
+        maximum.setX(convertValue(max.first, profileSize));
+        maximum.setY(convertValue(max.second, profileSize));
+
+        // Factor
+        factors.setX(convertValue(fac.first, profileSize, 1.));
+        factors.setY(convertValue(fac.second, profileSize, 1.));
+    }
+    explicit AssetPointInfo() {}
+    static QString fetchDefaults(const QDomElement element)
+    {
+        QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
+        QPair<QString, QString> defaults;
+        for (int i = 0; i < children.count(); ++i) {
+            QDomElement currentParameter = children.item(i).toElement();
+            const QString target = currentParameter.attribute(QStringLiteral("target"));
+            if (target == QLatin1String("x")) {
+                defaults.first = currentParameter.attribute(QStringLiteral("default"));
+            } else {
+                defaults.second = currentParameter.attribute(QStringLiteral("default"));
+            }
+        }
+        return QStringLiteral("%1 %2").arg(defaults.first, defaults.second);
+    }
+    static QVariant buildPointFromXml(const QDomElement element)
+    {
+        QPair<QString, QString> names;
+        QPair<QString, QString> defaults;
+        QPair<QString, QString> minimas;
+        QPair<QString, QString> maximas;
+        QPair<QString, QString> factors;
+        QDomNodeList children = element.elementsByTagName(QStringLiteral("parammap"));
+        for (int i = 0; i < children.count(); ++i) {
+            QDomElement currentParameter = children.item(i).toElement();
+            const QString target = currentParameter.attribute(QStringLiteral("target"));
+            if (target == QLatin1String("x")) {
+                names.first = currentParameter.attribute(QStringLiteral("source"));
+                defaults.first = currentParameter.attribute(QStringLiteral("default"));
+                minimas.first = currentParameter.attribute(QStringLiteral("min"));
+                maximas.first = currentParameter.attribute(QStringLiteral("max"));
+                factors.first = currentParameter.attribute(QStringLiteral("factor"));
+            } else {
+                names.second = currentParameter.attribute(QStringLiteral("source"));
+                defaults.second = currentParameter.attribute(QStringLiteral("default"));
+                minimas.second = currentParameter.attribute(QStringLiteral("min"));
+                maximas.second = currentParameter.attribute(QStringLiteral("max"));
+                factors.second = currentParameter.attribute(QStringLiteral("factor"));
+            }
+        }
+        qDebug() << "........\nBUILDING DEFAULT POINT ROLES: " << names << " / " << defaults;
+        AssetPointInfo paramInfo(names, defaults, minimas, maximas, factors);
+        return QVariant::fromValue(paramInfo);
+    }
+    QPointF getMinimum() const { return minimum; }
+    QPointF getMaximum() const { return maximum; }
+    QPointF getFactor() const { return factors; }
+    QPointF getDefaultValue() const
+    {
+        return defaultValue;
+        // return QPointF(defaultValue.x() * factors.x(), defaultValue.y() * factors.y());
+    }
+    QPointF value(const QString &stringValue)
+    {
+        const QStringList splitValue = stringValue.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        if (splitValue.count() == 2) {
+            return QPointF(splitValue.at(0).toDouble(), splitValue.at(1).toDouble());
+        }
+        return QPointF();
+    }
+};
+
+struct AssetRectInfo
+{
+    QString destName;
+    QString target;
+    double defaultValue;
+    double minimum;
+    double maximum;
+    double factor{1};
+    explicit AssetRectInfo(const QString &name, const QString &tar, const QString &value, const QString &min, const QString &max,
+                           const QString &fac = QString())
+        : destName(name)
+        , target(tar)
+    {
+        const QSize profileSize = pCore->getCurrentFrameSize();
+        defaultValue = convertValue(value, profileSize);
+        minimum = convertValue(min, profileSize);
+        minimum = convertValue(min, profileSize);
+        maximum = convertValue(max, profileSize);
+        factor = convertValue(fac, profileSize, 1.);
+    }
+    explicit AssetRectInfo() {}
+
+    double getValue(double val) const
+    {
+        if (factor != 1.) {
+            val /= factor;
+        }
+        return val;
+    }
+    int positionForTarget() const
+    {
+        int index = -1;
+        if (target == QStringLiteral("left")) {
+            index = 0;
+        } else if (target == QStringLiteral("top")) {
+            index = 1;
+        } else if (target == QStringLiteral("width") || target == QStringLiteral("right")) {
+            index = 2;
+        } else if (target == QStringLiteral("height") || target == QStringLiteral("bottom")) {
+            index = 3;
+        }
+        return index;
+    }
+    double getValue(const QStringList &vals) const
+    {
+        int index = positionForTarget();
+        double val = vals.at(index).toDouble();
+        if (factor != 1.) {
+            val /= factor;
+        }
+        return val;
+    }
+    double getValue(const mlt_rect rect) const
+    {
+        double val = 0.;
+        if (target == QLatin1String("left")) {
+            val = rect.x;
+        } else if (target == QLatin1String("top")) {
+            val = rect.y;
+        } else if (target == QLatin1String("width")) {
+            val = rect.w;
+        } else if (target == QLatin1String("height")) {
+            val = rect.h;
+        } else if (target == QLatin1String("right")) {
+            // Distance from right border
+            val = pCore->getCurrentFrameSize().width() - (rect.x + rect.w);
+        } else if (target == QLatin1String("bottom")) {
+            // Distance from bottom
+            val = pCore->getCurrentFrameSize().height() - (rect.y + rect.h);
+        }
+        if (factor != 1.) {
+            val /= factor;
+        }
+        return val;
+    }
+};
 
 /** @class AssetParameterModel
     @brief This class is the model for a list of parameters.
@@ -118,6 +308,9 @@ public:
         ParentPositionRole,
         ParentDurationRole,
         HideKeyframesFirstRole,
+        // Obtain the real (distinct) parameters for a fake rect (x, y, w, h)
+        FakeRectRole,
+        FakePointRole,
         List1Role,
         List2Role,
         Enum1Role,
@@ -284,6 +477,12 @@ protected:
     /** @brief Convert an animated geometry param to percentages
      */
     const QString animationToPercentage(const QString &inputValue) const;
+
+private:
+    /** @brief extract individual components for a fake rect from its animation string **/
+    void processFakeRect(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
+    /** @brief extract individual components for a fake point from its animation string **/
+    void processFakePoint(const QString &name, const QString &paramValue, const QModelIndex &paramIndex);
 
 Q_SIGNALS:
     void modelChanged();

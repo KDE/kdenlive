@@ -160,6 +160,7 @@ private:
     resizeModes m_resizeMode{NoResize};
     resizeModes m_possibleAction{NoResize};
     QPointF m_sceneClickPoint;
+    QPointF m_selectedItemInitialPos;
     TITLETOOL m_tool{TITLE_RECTANGLE};
     QPointF m_clickPoint;
     QPointF m_dragPoint;

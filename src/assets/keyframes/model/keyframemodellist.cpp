@@ -213,7 +213,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         std::shared_ptr<KeyframeModel> timelineModel = modelInTimeline();
         if (timelineModel) {
             if (timelineModel == param) {
-                if (pType == ParamType::AnimatedRect) {
+                if (pType == ParamType::AnimatedRect || pType == ParamType::AnimatedPoint) {
                     value = param->getInterpolatedValue(pos);
                     value = param->updateInterpolated(value, val);
                 } else if (pType == ParamType::Roto_spline) {
@@ -247,7 +247,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
                 std::shared_ptr<KeyframeModel> timelineModel = km->modelInTimeline();
                 if (timelineModel) {
                     if (timelineModel == param) {
-                        if (pType == ParamType::AnimatedRect) {
+                        if (pType == ParamType::AnimatedRect || pType == ParamType::AnimatedPoint) {
                             value = param->getInterpolatedValue(posWithOffset);
                             value = param->updateInterpolated(value, val);
                         } else if (pType == ParamType::Roto_spline) {
@@ -673,6 +673,13 @@ bool KeyframeModelList::hasKeyframe(int frame) const
     READ_LOCK();
     Q_ASSERT(m_parameters.size() > 0);
     return m_parameters.begin()->second->hasKeyframe(frame);
+}
+
+bool KeyframeModelList::hasKeyframes(const QPersistentModelIndex index) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_parameters.count(index) > 0);
+    return m_parameters.at(index)->keyframesCount() > 0;
 }
 
 void KeyframeModelList::refresh()

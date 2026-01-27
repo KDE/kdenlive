@@ -161,7 +161,7 @@ public:
     bool timelineVisible() const;
 
     /** @brief Raise (show) the clip or project monitor */
-    void raiseMonitor(bool clipMonitor);
+    void raiseMonitor(bool clipMonitor, bool raise = false);
 
     /** @brief Raise (show) the project bin
      * @param unconditionally if false, we won't raise the bin if docked with the project monitor */
@@ -450,6 +450,7 @@ public Q_SLOTS:
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
+    void slotEditToolbars();
     void loadDockActions();
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();

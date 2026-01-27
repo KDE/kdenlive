@@ -11,16 +11,11 @@
     <parameter type="fixedcolor" name="av.color" default="black" alpha="1">
         <name>Color</name>
     </parameter>
-    <parameter type="animated" name="av.left" default="0" min="0" max="%width" factor="1">
-        <name>Left</name>
-    </parameter>
-    <parameter type="animated" name="av.right" default="0" min="0" max="%width" factor="1">
-        <name>Right</name>
-    </parameter>
-    <parameter type="animated" name="av.top" default="0" min="0" max="%height" factor="1">
-        <name>Top</name>
-    </parameter>
-    <parameter type="animated" name="av.bottom" default="0" min="0" max="%height" factor="1">
-        <name>Bottom</name>
+    <parameter type="animatedfakerect" name="kdenlive:fakerect" default="0 0 100% 100%" opacity="false">
+        <name>Rectangle</name>
+        <parammap target="left" source="av.left" max="%width" min="0" default="0" />
+        <parammap target="top" source="av.top" max="%height" min="0" default="0" />
+        <parammap target="right" source="av.right" max="%width" min="0" default="0" />
+        <parammap target="bottom" source="av.bottom" max="%height" min="0" default="0" />
     </parameter>
 </effect>

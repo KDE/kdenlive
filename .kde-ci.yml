@@ -30,6 +30,7 @@ Dependencies:
     'frameworks/kxmlgui' : '@latest-kf6'
     'frameworks/kfilemetadata' : '@latest-kf6'
     'frameworks/purpose' : '@latest-kf6'
+    'third-party/kddockwidgets': '@stable-kf6'
 
 #- 'on': ['Linux', 'FreeBSD']
   #'require':
@@ -43,5 +44,4 @@ Options:
   require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
   cppcheck-arguments: ['--suppress=*:tests/fakeit.hpp', '--suppress=*:tests/catch.hpp', '--suppress=*:fuzzer/fakeit_standalone.hpp']
   require-cppcheck-clean: True
-  per-test-timeout: 120
 

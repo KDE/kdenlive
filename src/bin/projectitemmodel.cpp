@@ -525,8 +525,11 @@ QStringList ProjectItemModel::getAllSequenceBinIds(const QUuid uuid, QList<QUuid
     }
     (*processedUuids) << uuid;
     for (const auto &clip : m_allItems) {
-        // auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        auto c = std::static_pointer_cast<ProjectClip>(clip.second.lock());
+        auto i = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (i && i->itemType() != AbstractProjectItem::ClipItem) {
+            continue;
+        }
+        auto c = std::static_pointer_cast<ProjectClip>(i);
         if (c && c->clipType() != ClipType::Timeline) {
             if (c->isIncludedInSequence(uuid)) {
                 result.push_back(c->clipId());
