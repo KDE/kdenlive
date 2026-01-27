@@ -20730,7 +20730,7 @@ msgstr "Obrázek byl úspěšně sdílen"
 #: src/dialogs/renderwidget.cpp:606
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
-msgstr ""
+msgstr "Sdílený dokument najdete na adrese: <a href=\"%1\">%1</a>"
 
 #: src/dialogs/renderwidget.cpp:758
 #, kde-format
