@@ -19,6 +19,9 @@ Rectangle {
         id: fontMetrics
         font: miniFont
     }
+    readonly property font miniFont: ({
+        pixelSize: miniFontSize
+    })
     TreeView {
         // The model needs to be a QAbstractItemModel
         id: treeView

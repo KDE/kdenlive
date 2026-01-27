@@ -431,7 +431,6 @@ void EffectStackView::loadEffects()
             del->setHeight(ix, 0);
             continue;
         }
-        pCore->dopeSheetModel()->registerAsset(effectModel);
         QString assetId = effectModel->getAssetId();
         // Safety check in case a custom effect was deleted
         if (!EffectsRepository::get()->exists(assetId)) {
@@ -476,6 +475,7 @@ void EffectStackView::loadEffects()
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
     }
+    pCore->dopeSheetModel()->registerStack(m_model);
     lock.unlock();
     if (activeIndex.isValid()) {
         m_effectsTree->setCurrentIndex(activeIndex);

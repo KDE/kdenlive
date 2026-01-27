@@ -63,6 +63,9 @@ public:
     /** @brief Helper function to generate a lambda that changes the row of an item */
     Fun moveItem_lambda(int id, int destRow, bool force = false);
 
+    /** @brief Remove all items in tree */
+    void clear();
+
     friend class TreeItem;
     friend class AbstractProjectItem;
 

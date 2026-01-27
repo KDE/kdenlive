@@ -50,6 +50,7 @@ public:
     // void clear();
     /** @brief Register all keyframable params for an effect */
     void registerAsset(std::shared_ptr<EffectItemModel> effectModel);
+    void registerStack(std::shared_ptr<EffectStackModel> model);
 
 protected:
     std::map<int, std::pair<std::pair<QString, ParamType>, std::shared_ptr<KeyframeModel>>> m_paramsList;

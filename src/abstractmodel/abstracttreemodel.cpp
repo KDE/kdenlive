@@ -31,6 +31,41 @@ AbstractTreeModel::~AbstractTreeModel()
     rootItem.reset();
 }
 
+void AbstractTreeModel::clear()
+{
+    /*beginRemoveRows(QModelIndex(), 0, rootItem->childCount());
+    m_allItems.clear();*/
+    /*while (m_allItems.size() > 0) {
+        auto it = m_allItems.cbegin();
+        int id = it->first;
+        auto item = m_allItems[id].lock();
+        Q_ASSERT(item);
+        if (item) {
+            auto parent = item->parentItem().lock();
+            parent->removeChild(item);
+        }
+    }*/
+    if (m_allItems.empty()) {
+        return;
+    }
+    std::vector<int> vals;
+    vals.reserve(m_allItems.size());
+
+    for (auto &kv : m_allItems) {
+        vals.push_back(kv.first);
+    }
+    qDebug() << ":::: FOUND ITEMS TO DELETE: " << vals;
+    for (auto id : vals) {
+        if (id == 1) {
+            continue;
+        }
+        Fun operation = removeItem_lambda(id);
+        operation();
+    }
+
+    // endRemoveRows();
+}
+
 int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
     if (!parent.isValid()) return rootItem->columnCount();

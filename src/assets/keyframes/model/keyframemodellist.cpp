@@ -97,8 +97,9 @@ void KeyframeModelList::addParameter(const QModelIndex &index, int in, int out)
     if (!m_kfrRecap) {
         m_kfrRecap = std::shared_ptr<KeyframeModel>(new KeyframeModel(m_model, QModelIndex(), m_undoStack, in, out));
         updateRecap();
+        connect(this, &KeyframeModelList::modelChanged, this, &KeyframeModelList::updateRecap);
     }
-    connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::updateRecap);
+    // connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::updateRecap);
 }
 
 void KeyframeModelList::updateRecap()
@@ -107,6 +108,11 @@ void KeyframeModelList::updateRecap()
     for (const auto &param : m_parameters) {
         kfrList << param.second->getKeyframePos();
     }
+    qDebug() << ":::: UPDATING RECAP WITH POS -----------------";
+    for (auto &g : kfrList) {
+        qDebug() << "::POS " << g.frames(25);
+    }
+    qDebug() << ":::: UPDATING RECAP WITH POS DONE";
     m_kfrRecap->loadKeyframePos(kfrList);
 }
 

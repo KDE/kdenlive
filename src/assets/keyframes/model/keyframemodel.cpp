@@ -1668,12 +1668,28 @@ QList<GenTime> KeyframeModel::getKeyframePos() const
 
 void KeyframeModel::loadKeyframePos(QList<GenTime> all_pos)
 {
-    m_keyframeList.clear();
-    beginInsertRows(QModelIndex(), all_pos.count(), all_pos.count());
-    for (const auto &p : all_pos) {
-        m_keyframeList[p].first = KeyframeType::Linear;
+    std::vector<GenTime> current;
+    for (auto &k : m_keyframeList) {
+        if (!all_pos.contains(k.first)) {
+            current.push_back(k.first);
+        }
     }
-    endInsertRows();
+    for (auto &c : current) {
+        int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(c)));
+        beginRemoveRows(QModelIndex(), row, row);
+        m_keyframeList.erase(c);
+        endRemoveRows();
+    }
+
+    for (const auto &p : all_pos) {
+        if (m_keyframeList.find(p) != m_keyframeList.end()) {
+            continue;
+        }
+        int insertionRow = static_cast<int>(m_keyframeList.size());
+        beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+        m_keyframeList[p].first = KeyframeType::Linear;
+        endInsertRows();
+    }
 }
 
 bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)

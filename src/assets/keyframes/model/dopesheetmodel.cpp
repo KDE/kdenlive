@@ -8,6 +8,7 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "utils/qcolorutils.h"
@@ -118,16 +119,24 @@ void DopeSheetModel::deregisterItem(QPersistentModelIndex ix)
     endRemoveRows();
 }*/
 
-/*void DopeSheetModel::registerItem(const std::shared_ptr<TreeItem> &item)
+void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
 {
     QWriteLocker locker(&m_lock);
-    AbstractTreeModel::registerItem(item);
-    auto stack = std::static_pointer_cast<EffectItemModel>(item);
-    if (stack == nullptr) {
-        return;
+    if (!m_paramsList.empty()) {
+        m_paramsList.clear();
+        clear();
     }
-
-}*/
+    int max = model->rowCount();
+    for (int i = 0; i < max; i++) {
+        std::shared_ptr<AbstractEffectItem> item = model->getEffectStackRow(i);
+        if (item->childCount() > 0) {
+            // group, create sub stack
+            continue;
+        }
+        std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
+        registerAsset(effectModel);
+    }
+}
 
 void DopeSheetModel::registerAsset(std::shared_ptr<EffectItemModel> effectModel)
 {

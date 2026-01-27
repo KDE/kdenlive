@@ -116,6 +116,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMenuBar>
 #include <QPushButton>
+#include <QQmlContext>
 #include <QScreen>
 #include <QStandardPaths>
 #include <QStatusBar>
@@ -5599,7 +5600,9 @@ void MainWindow::connectTimeline()
         slotShowSubtitles(showSubs);
     }
     // Dopesheet
-    m_dopeWidget->rootContext()->setContextProperty(QStringLiteral("timeline"), getCurrentTimeline()->controller());
+    QList<QQmlContext::PropertyPair> propertyList = {{"timeline", QVariant::fromValue(getCurrentTimeline()->controller())},
+                                                     {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())}};
+    m_dopeWidget->rootContext()->setContextProperties(propertyList);
     // Display timeline guides in the guides list
     pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
     if (m_renderWidget) {
