@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:43+0000\n"
+"POT-Creation-Date: 2026-01-28 00:44+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -18515,7 +18515,7 @@ msgid "Delete keyframes"
 msgstr "मुख्य फ़्रेम हटाएं"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1760
 #, kde-format
 msgid "Update effect"
 msgstr "अद्यतन प्रभाव"
@@ -18590,13 +18590,13 @@ msgstr "%1कीफ़्रेम संपादित करें"
 msgid "Update %1"
 msgstr "अपडेट करें %1"
 
-#: src/assets/model/assetparametermodel.cpp:1595
-#: src/assets/model/assetparametermodel.cpp:1642
+#: src/assets/model/assetparametermodel.cpp:1597
+#: src/assets/model/assetparametermodel.cpp:1644
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "प्रीसेट फ़ाइल %1 नहीं खोली जा सकी"
 
-#: src/assets/model/assetparametermodel.cpp:1732
+#: src/assets/model/assetparametermodel.cpp:1734
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -20708,7 +20708,7 @@ msgstr[1] "ऑडियो ट्रैक"
 msgid "Timeline sequence"
 msgstr "समयरेखा अनुक्रम"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1415
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -26182,7 +26182,7 @@ msgid "Clip in Timeline"
 msgstr "टाइमलाइन में क्लिप"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1072
 #, fuzzy, kde-format
 #| msgid "Sequences"
 msgid "Sequence"
@@ -26546,16 +26546,18 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "बॉक्स धुंधलापन (अलग-अलग क्षैतिज और ऊर्ध्वाधर धुंधलापन)"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Box blur (separate horizontal and vertical blur)"
 msgctxt "@info:tooltip"
-msgid "This layout contains an horizontal profile"
-msgstr ""
+msgid "This layout contains a horizontal profile"
+msgstr "बॉक्स धुंधलापन (अलग-अलग क्षैतिज और ऊर्ध्वाधर धुंधलापन)"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Box blur (separate horizontal and vertical blur)"
 msgctxt "@info:tooltip"
-msgid "This layout contains an vertical profile"
-msgstr ""
+msgid "This layout contains a vertical profile"
+msgstr "बॉक्स धुंधलापन (अलग-अलग क्षैतिज और ऊर्ध्वाधर धुंधलापन)"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -34052,12 +34054,12 @@ msgid "Stop"
 msgstr "रुकना"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2163
 #, kde-format
 msgid "Paused"
 msgstr "रोका गया"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1197
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1189
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), स्थिति: %4, अवधि: %5"
@@ -34089,12 +34091,12 @@ msgstr "-%1, मिक्स अवधि: %2"
 msgid "Mix duration: %1"
 msgstr "मिक्स अवधि: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1078
+#: src/timeline2/view/qml/Clip.qml:1074
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "में:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1081 src/timeline2/view/qml/Clip.qml:1187
+#: src/timeline2/view/qml/Clip.qml:1077 src/timeline2/view/qml/Clip.qml:1179
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -34103,54 +34105,54 @@ msgstr ""
 "गति बदलने के लिए <b>Ctrl खींचें</b> , आसन्न क्लिप के साथ मिश्रण करने के लिए <b>डबल क्लिक "
 "करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1083
+#: src/timeline2/view/qml/Clip.qml:1079
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "मिश्रण अवधि बदलने के लिए <b>खींचें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1176
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "आउट:%1, स्थिति:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "Offset: -%1"
 msgstr "ऑफसेट: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "Offset: %1"
 msgstr "ऑफसेट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1324
+#: src/timeline2/view/qml/Clip.qml:1316
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " क्लिप संरेखित करने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1563 src/timeline2/view/qml/Clip.qml:1604
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "रचना जोड़ने के लिए <b>क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1685 src/timeline2/view/qml/Clip.qml:1692
 #, kde-format
 msgid "Fade out: %1"
 msgstr "फीका आउट: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1696 src/timeline2/view/qml/Clip.qml:1807
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "फीका समायोजित करने के लिए <b>खींचें</b> , डिफ़ॉल्ट अवधि फीका जोड़ने के लिए <b>क्लिक करें</"
 "b>"
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1796 src/timeline2/view/qml/Clip.qml:1803
 #, kde-format
 msgid "Fade in: %1"
 msgstr "फीका इन: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1891
 #, kde-format
 msgid "Slip Clip"
 msgstr "स्लिप क्लिप"
@@ -34177,7 +34179,7 @@ msgstr ""
 "चयनित कीफ़्रेम की स्थिति को स्थानांतरित करने के लिए <b>खींचें</b> । इसके बाद सभी कीफ़्रेम "
 "को स्थानांतरित करने के लिए <b>Shift खींचें</b> ।"
 
-#: src/timeline2/view/qml/KeyframeView.qml:292
+#: src/timeline2/view/qml/KeyframeView.qml:284
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34214,29 +34216,29 @@ msgstr "दिखाओ"
 msgid "Hide"
 msgstr "छिपाना"
 
-#: src/timeline2/view/qml/Timeline.qml:1067
+#: src/timeline2/view/qml/Timeline.qml:1066
 #, fuzzy, kde-format
 #| msgid "Show master effects"
 msgid "Show sequence effects"
 msgstr "मास्टर प्रभाव दिखाएं"
 
-#: src/timeline2/view/qml/Timeline.qml:1797
+#: src/timeline2/view/qml/Timeline.qml:1796
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "उपशीर्षक जोड़ने के लिए <b>डबल क्लिक करें</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:1991
+#: src/timeline2/view/qml/Timeline.qml:1990
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "ऑफसेट: %1, स्थिति: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2156
-#: src/timeline2/view/qml/Timeline.qml:2165
+#: src/timeline2/view/qml/Timeline.qml:2152
+#: src/timeline2/view/qml/Timeline.qml:2161
 #, kde-format
 msgid "Recording"
 msgstr "रिकॉर्डिंग"
 
-#: src/timeline2/view/qml/Timeline.qml:2259
+#: src/timeline2/view/qml/Timeline.qml:2255
 #, kde-format
 msgid "Multicam In"
 msgstr "मल्टीकैम इन"

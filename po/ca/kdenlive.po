@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:43+0000\n"
-"PO-Revision-Date: 2026-01-18 11:47+0100\n"
+"POT-Creation-Date: 2026-01-28 00:44+0000\n"
+"PO-Revision-Date: 2026-01-27 09:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18382,7 +18382,7 @@ msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1760
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -18459,13 +18459,13 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1595
-#: src/assets/model/assetparametermodel.cpp:1642
+#: src/assets/model/assetparametermodel.cpp:1597
+#: src/assets/model/assetparametermodel.cpp:1644
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
 
-#: src/assets/model/assetparametermodel.cpp:1732
+#: src/assets/model/assetparametermodel.cpp:1734
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18870,8 +18870,7 @@ msgid "None (Dissolve)"
 msgstr "Cap (Dissoldre)"
 
 #: src/assets/view/widgets/pointparamwidget.cpp:51
-#, fuzzy, kde-format
-#| msgid "Position:"
+#, kde-format
 msgctxt "Position as the x,y coordinate for a point"
 msgid "Position:"
 msgstr "Posició:"
@@ -20559,7 +20558,7 @@ msgstr[1] "%1 pistes d'àudio"
 msgid "Timeline sequence"
 msgstr "Seqüència de la línia de temps"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1415
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -26047,7 +26046,7 @@ msgid "Clip in Timeline"
 msgstr "Clip a la línia de temps"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1072
 #, kde-format
 msgid "Sequence"
 msgstr "Seqüència"
@@ -26385,15 +26384,19 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Aquesta disposició conté perfils horitzontals i verticals"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "This layout contains an horizontal profile"
 msgctxt "@info:tooltip"
-msgid "This layout contains an horizontal profile"
+msgid "This layout contains a horizontal profile"
 msgstr "Aquesta disposició conté un perfil horitzontal"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "This layout contains an vertical profile"
 msgctxt "@info:tooltip"
-msgid "This layout contains an vertical profile"
+msgid "This layout contains a vertical profile"
 msgstr "Aquesta disposició conté un perfil vertical"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
@@ -33895,12 +33898,12 @@ msgid "Stop"
 msgstr "Atura"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2163
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1197
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1189
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posició: %4, Durada: %5"
@@ -33932,12 +33935,12 @@ msgstr "-%1, durada de la mescla: %2"
 msgid "Mix duration: %1"
 msgstr "Durada de la mescla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1078
+#: src/timeline2/view/qml/Clip.qml:1074
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "A:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1081 src/timeline2/view/qml/Clip.qml:1187
+#: src/timeline2/view/qml/Clip.qml:1077 src/timeline2/view/qml/Clip.qml:1179
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -33946,54 +33949,54 @@ msgstr ""
 "<b>Ctrl + arrossega</b> per a canviar la velocitat, feu <b>doble clic</b> "
 "per a mesclar amb el clip adjacent"
 
-#: src/timeline2/view/qml/Clip.qml:1083
+#: src/timeline2/view/qml/Clip.qml:1079
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrossegueu</b> per a canviar la durada de la mescla"
 
-#: src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1176
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Sortida:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplaçament: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplaçament: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1324
+#: src/timeline2/view/qml/Clip.qml:1316
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " Feu <b>clic</b> per a alinear els clips"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1563 src/timeline2/view/qml/Clip.qml:1604
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Feu <b>clic</b> per a afegir una composició"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1685 src/timeline2/view/qml/Clip.qml:1692
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fosa de sortida: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1696 src/timeline2/view/qml/Clip.qml:1807
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrossega</b> per a ajustar l'esvaniment, feu <b>clic</b> per a afegir la "
 "durada predeterminada de l'esvaniment"
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1796 src/timeline2/view/qml/Clip.qml:1803
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fosa d'entrada: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1891
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplaça el clip"
@@ -34021,7 +34024,7 @@ msgstr ""
 "<b>Desplaceu i arrossegueu</b> per a moure tots els fotogrames clau després "
 "d'aquest."
 
-#: src/timeline2/view/qml/KeyframeView.qml:292
+#: src/timeline2/view/qml/KeyframeView.qml:284
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34058,28 +34061,28 @@ msgstr "Mostra"
 msgid "Hide"
 msgstr "Oculta"
 
-#: src/timeline2/view/qml/Timeline.qml:1067
+#: src/timeline2/view/qml/Timeline.qml:1066
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Mostra els efectes de seqüència"
 
-#: src/timeline2/view/qml/Timeline.qml:1797
+#: src/timeline2/view/qml/Timeline.qml:1796
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> per a afegir un subtítol"
 
-#: src/timeline2/view/qml/Timeline.qml:1991
+#: src/timeline2/view/qml/Timeline.qml:1990
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplaçament: %1, Posició: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2156
-#: src/timeline2/view/qml/Timeline.qml:2165
+#: src/timeline2/view/qml/Timeline.qml:2152
+#: src/timeline2/view/qml/Timeline.qml:2161
 #, kde-format
 msgid "Recording"
 msgstr "Enregistrament"
 
-#: src/timeline2/view/qml/Timeline.qml:2259
+#: src/timeline2/view/qml/Timeline.qml:2255
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicàmera a"

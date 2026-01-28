@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:43+0000\n"
+"POT-Creation-Date: 2026-01-28 00:44+0000\n"
 "PO-Revision-Date: 2026-01-18 12:59+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -18200,7 +18200,7 @@ msgid "Delete keyframes"
 msgstr "Izbriši ključne sličice"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1760
 #, kde-format
 msgid "Update effect"
 msgstr "Osveži učinek"
@@ -18277,13 +18277,13 @@ msgstr "Uredi ključno sličico %1"
 msgid "Update %1"
 msgstr "Posodobi %1"
 
-#: src/assets/model/assetparametermodel.cpp:1595
-#: src/assets/model/assetparametermodel.cpp:1642
+#: src/assets/model/assetparametermodel.cpp:1597
+#: src/assets/model/assetparametermodel.cpp:1644
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Ni možno odpreti datoteke prednastavitev %1"
 
-#: src/assets/model/assetparametermodel.cpp:1732
+#: src/assets/model/assetparametermodel.cpp:1734
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -20376,7 +20376,7 @@ msgstr[3] "%1 zvočne steze"
 msgid "Timeline sequence"
 msgstr "Zaporedje časovnice"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1415
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -25840,7 +25840,7 @@ msgid "Clip in Timeline"
 msgstr "Posnetek na časovnici"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1072
 #, kde-format
 msgid "Sequence"
 msgstr "Zaporedje"
@@ -26176,15 +26176,19 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Ta postavitev vsebuje vodoravne in navpične profile"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "This layout contains an horizontal profile"
 msgctxt "@info:tooltip"
-msgid "This layout contains an horizontal profile"
+msgid "This layout contains a horizontal profile"
 msgstr "Ta postavitev vsebuje vodoravni profil"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "This layout contains an vertical profile"
 msgctxt "@info:tooltip"
-msgid "This layout contains an vertical profile"
+msgid "This layout contains a vertical profile"
 msgstr "Ta postavitev vsebuje navpični profil"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
@@ -33648,12 +33652,12 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2163
 #, kde-format
 msgid "Paused"
 msgstr "Prekinjeno"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1197
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1189
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Pozicija: %4, Trajanje: %5"
@@ -33685,12 +33689,12 @@ msgstr "-%1, Trajanje mešanja: %2"
 msgid "Mix duration: %1"
 msgstr "Trajanje mešanja: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1078
+#: src/timeline2/view/qml/Clip.qml:1074
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1081 src/timeline2/view/qml/Clip.qml:1187
+#: src/timeline2/view/qml/Clip.qml:1077 src/timeline2/view/qml/Clip.qml:1179
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -33699,54 +33703,54 @@ msgstr ""
 "<b>Krmilka in povlek</b> za spremembo hitrosti, <b>dvojni klik</b> za "
 "mešanje s sosednjim posnetkom"
 
-#: src/timeline2/view/qml/Clip.qml:1083
+#: src/timeline2/view/qml/Clip.qml:1079
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Povlecite</b> za spremembo trajanja zmešanega zvoka"
 
-#: src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1176
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Zamik: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "Offset: %1"
 msgstr "Zamik: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1324
+#: src/timeline2/view/qml/Clip.qml:1316
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Kliknite</b> za poravnanje posnetkov"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1563 src/timeline2/view/qml/Clip.qml:1604
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Kliknite</b> za dodajanje sestave"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1685 src/timeline2/view/qml/Clip.qml:1692
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Utišanje: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1696 src/timeline2/view/qml/Clip.qml:1807
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Povlecite</b>, da prilagodite bledenje, <b>kliknite</b>, da dodate "
 "privzeto trajanje bledenja"
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1796 src/timeline2/view/qml/Clip.qml:1803
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Dvig jakosti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1891
 #, kde-format
 msgid "Slip Clip"
 msgstr "Podrsaj posnetek"
@@ -33773,7 +33777,7 @@ msgstr ""
 "<b>Povlek</b> za premik položaja izbranih ključnih sličic. <b>Dvigalka"
 "+povlek</b> za premik vseh ključnih sličic, ki ji sledijo."
 
-#: src/timeline2/view/qml/KeyframeView.qml:292
+#: src/timeline2/view/qml/KeyframeView.qml:284
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -33810,28 +33814,28 @@ msgstr "Pokaži"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/timeline2/view/qml/Timeline.qml:1067
+#: src/timeline2/view/qml/Timeline.qml:1066
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Pokaži učinke zaporedja"
 
-#: src/timeline2/view/qml/Timeline.qml:1797
+#: src/timeline2/view/qml/Timeline.qml:1796
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvokliknite</b> za dodajanje podnaslova"
 
-#: src/timeline2/view/qml/Timeline.qml:1991
+#: src/timeline2/view/qml/Timeline.qml:1990
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Odmik:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2156
-#: src/timeline2/view/qml/Timeline.qml:2165
+#: src/timeline2/view/qml/Timeline.qml:2152
+#: src/timeline2/view/qml/Timeline.qml:2161
 #, kde-format
 msgid "Recording"
 msgstr "Snemanje"
 
-#: src/timeline2/view/qml/Timeline.qml:2259
+#: src/timeline2/view/qml/Timeline.qml:2255
 #, kde-format
 msgid "Multicam In"
 msgstr "Vstopna/sinhrona točka posnetkov več kamer"

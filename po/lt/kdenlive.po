@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:43+0000\n"
+"POT-Creation-Date: 2026-01-28 00:44+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -18183,7 +18183,7 @@ msgid "Delete keyframes"
 msgstr "Ištrinti kadrą"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1760
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Update effect"
@@ -18273,14 +18273,14 @@ msgstr "Pirmas kadras"
 msgid "Update %1"
 msgstr "Atnaujinti profilį"
 
-#: src/assets/model/assetparametermodel.cpp:1595
-#: src/assets/model/assetparametermodel.cpp:1642
+#: src/assets/model/assetparametermodel.cpp:1597
+#: src/assets/model/assetparametermodel.cpp:1644
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot open preset file %1"
 msgstr "Nepavyksta atverti failo %1"
 
-#: src/assets/model/assetparametermodel.cpp:1732
+#: src/assets/model/assetparametermodel.cpp:1734
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -20498,7 +20498,7 @@ msgstr[3] "Garso takelis"
 msgid "Timeline sequence"
 msgstr "Sukurti naują seką"
 
-#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1415
+#: src/bin/projectclip.cpp:550 src/timeline2/view/qml/Clip.qml:1407
 #, fuzzy, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -26112,7 +26112,7 @@ msgid "Clip in Timeline"
 msgstr "Laiko juosta"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1072
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequence"
@@ -26481,13 +26481,13 @@ msgstr ""
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "This layout contains an horizontal profile"
+msgid "This layout contains a horizontal profile"
 msgstr ""
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "This layout contains an vertical profile"
+msgid "This layout contains a vertical profile"
 msgstr ""
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
@@ -34114,13 +34114,13 @@ msgid "Stop"
 msgstr "Stabdyti"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2163
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
 msgstr "Pristabdyti"
 
-#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1197
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:1189
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
@@ -34156,72 +34156,72 @@ msgstr " Trukmė:"
 msgid "Mix duration: %1"
 msgstr "Trukmė: "
 
-#: src/timeline2/view/qml/Clip.qml:1078
+#: src/timeline2/view/qml/Clip.qml:1074
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "In:%1, Position:%2"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1081 src/timeline2/view/qml/Clip.qml:1187
+#: src/timeline2/view/qml/Clip.qml:1077 src/timeline2/view/qml/Clip.qml:1179
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1083
+#: src/timeline2/view/qml/Clip.qml:1079
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1184
+#: src/timeline2/view/qml/Clip.qml:1176
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Out:%1, Position:%2"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "Poslinkis:"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1315
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "Poslinkis:"
 
-#: src/timeline2/view/qml/Clip.qml:1324
+#: src/timeline2/view/qml/Clip.qml:1316
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid " <b>Click</b> to align clips"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/view/qml/Clip.qml:1571 src/timeline2/view/qml/Clip.qml:1612
+#: src/timeline2/view/qml/Clip.qml:1563 src/timeline2/view/qml/Clip.qml:1604
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "<b>Click</b> to add composition"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/view/qml/Clip.qml:1693 src/timeline2/view/qml/Clip.qml:1700
+#: src/timeline2/view/qml/Clip.qml:1685 src/timeline2/view/qml/Clip.qml:1692
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Laipsniškas išnykimas"
 
-#: src/timeline2/view/qml/Clip.qml:1704 src/timeline2/view/qml/Clip.qml:1815
+#: src/timeline2/view/qml/Clip.qml:1696 src/timeline2/view/qml/Clip.qml:1807
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1804 src/timeline2/view/qml/Clip.qml:1811
+#: src/timeline2/view/qml/Clip.qml:1796 src/timeline2/view/qml/Clip.qml:1803
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Laipsniškas stiprėjimas"
 
-#: src/timeline2/view/qml/Clip.qml:1899
+#: src/timeline2/view/qml/Clip.qml:1891
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Slip Clip"
@@ -34248,7 +34248,7 @@ msgid ""
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:292
+#: src/timeline2/view/qml/KeyframeView.qml:284
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -34285,32 +34285,32 @@ msgstr "Rodyti viską"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:1067
+#: src/timeline2/view/qml/Timeline.qml:1066
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Show sequence effects"
 msgstr "efektas"
 
-#: src/timeline2/view/qml/Timeline.qml:1797
+#: src/timeline2/view/qml/Timeline.qml:1796
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/view/qml/Timeline.qml:1991
+#: src/timeline2/view/qml/Timeline.qml:1990
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija: %1"
 
-#: src/timeline2/view/qml/Timeline.qml:2156
-#: src/timeline2/view/qml/Timeline.qml:2165
+#: src/timeline2/view/qml/Timeline.qml:2152
+#: src/timeline2/view/qml/Timeline.qml:2161
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Įrašas"
 
-#: src/timeline2/view/qml/Timeline.qml:2259
+#: src/timeline2/view/qml/Timeline.qml:2255
 #, kde-format
 msgid "Multicam In"
 msgstr ""
