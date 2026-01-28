@@ -9,24 +9,25 @@ import QtQuick.Layouts
 
 import org.kde.kdenlive as K
 
-Rectangle {
+Item {
     id: dopeRoot
     anchors.fill: parent
     SystemPalette { id: activePalette }
     property int keyframeSize: Math.max(12, fontMetrics.font.pixelSize)
-    color: activePalette.base
     FontMetrics {
         id: fontMetrics
         font: miniFont
     }
-    readonly property font miniFont: ({
+    readonly property font miniFont: {
         pixelSize: miniFontSize
-    })
+    }
     TreeView {
         // The model needs to be a QAbstractItemModel
         id: treeView
         model: timeline.dopeSheetModel()
         anchors.fill: parent
+        // Disable flicking
+        acceptedButtons: Qt.NoButton
         selectionModel: ItemSelectionModel {}
         // You can set a custom delegate or use a built-in TreeViewDelegate
         delegate: Item {
@@ -83,13 +84,40 @@ Rectangle {
                     color: activePalette.light
                     border.width: 1
                     border.color: activePalette.shadow
+                    MouseArea {
+                        id: kfMoveArea
+                        property int clickPos
+                        property int clickIndex
+                        property int currentFrame
+                        property int currentIndex
+                        property double currentPercentPos
+                        anchors.fill: parent
+                        onPressed: {
+                            clickPos = currentFrame
+                            clickIndex = currentIndex
+                        }
+                        onReleased: {
+                            if (depth == 0) {
+                                console.log("====================== MOVED RECAP EFFECT KF ===============")
+                                // TODO: Move all param keyframes at pos clickPos
+                                //timeline.moveAssetKeyframes(index, clickPos, currentPercentPos);
+                            } else {
+                                dopeModel.movePercentKeyframeWithUndo(clickIndex, clickPos, currentPercentPos)
+                            }
+                        }
+                        onPositionChanged: mouse => {
+                            if (mouse.buttons === Qt.LeftButton) {
+                                currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
+                                currentPercentPos = Math.min(1., currentPercentPos)
+                                dopeModel.movePercentKeyframe(clickIndex, currentPercentPos)
+                            }
+                        }
+                    }
                 }
                 Repeater {
                     model: dopeModel
                     Rectangle {
                         id: handle
-                        property int clickPos
-                        property double currentPercentPos
                         x: percentPosition * kfContainer.width - dopeRoot.keyframeSize/2 - ((kfArea.containsMouse || kfArea.pressed) ? 1 : 0)
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: dopeRoot.keyframeSize - (kfArea.containsMouse ? 0 : 2)
@@ -103,25 +131,14 @@ Rectangle {
                             anchors.fill: handle
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onPositionChanged: mouse => {
-                                if (mouse.buttons === Qt.LeftButton) {
-                                    currentPercentPos = Math.max(0., (parent.x + mouse.x) / kfContainer.width)
-                                    currentPercentPos = Math.min(1., currentPercentPos)
-                                    dopeModel.movePercentKeyframe(index, currentPercentPos)
-                                    handle.x = currentPercentPos * kfContainer.width - dopeRoot.keyframeSize/2 - (kfArea.containsMouse ? 1 : 0)
-                                }
+                            acceptedButtons: Qt.NoButton
+                            onEntered: {
+                                console.log("entered kfr: ", index)
+                                kfMoveArea.currentFrame = frame
+                                kfMoveArea.currentIndex = index
                             }
-                            onClicked: {
-                                clickPos = frame
-                            }
-                            onReleased: {
-                                if (depth == 0) {
-                                    console.log("====================== MOVED RECAP EFFECT KF ===============")
-                                    // TODO: Move all param keyframes at pos clickPos
-                                    //timeline.moveAssetKeyframes(index, clickPos, currentPercentPos);
-                                } else {
-                                    dopeModel.movePercentKeyframeWithUndo(index, clickPos, currentPercentPos)
-                                }
+                            onExited: {
+                                console.log("exited kfr: ", index)
                             }
                         }
                     }

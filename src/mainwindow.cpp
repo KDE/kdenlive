@@ -485,7 +485,7 @@ void MainWindow::init()
 
     // DopeSheet
     m_dopeWidget = new QQuickWidget(this);
-    m_dopeWidget->setClearColor(KdenliveSettings::window_background());
+    m_dopeWidget->setClearColor(palette().base().color());
     m_dopeWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_dopeWidget->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/DopeSheetView.qml")));
     addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);

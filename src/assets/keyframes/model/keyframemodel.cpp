@@ -471,11 +471,13 @@ bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
         int targetFrame = inFrame + (percentPos * duration);
         GenTime nPos(targetFrame, pCore->getCurrentFps());
         GenTime oPos = getPosAtIndex(index);
+        if (nPos == oPos) {
+            return true;
+        }
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         qDebug() << ":::: OLD POS: " << oPos.frames(25) << " TO " << nPos.frames(25);
-        return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, false);
-        // return moveKeyframe(oPos, nPos, QVariant(), false);
+        return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, true);
     }
     return false;
 }
