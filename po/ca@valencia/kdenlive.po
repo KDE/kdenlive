@@ -2220,9 +2220,9 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
-"YUV 4:2:0 planar 8-bits,YUV 4:2:0 planar 10-bits,YUV 4:2:0 planar 12-bits,"
-"YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
-"YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
+"YUV 4:2:0 planar 8 bits,YUV 4:2:0 planar 10 bits,YUV 4:2:0 planar 12 bits,"
+"YUV 4:2:2 planar 8 bits,YUV 4:2:2 planar 10 bits,YUV 4:2:2 planar 12 bits,"
+"YUV 4:4:4 planar 8 bits,YUV 4:4:4 planar 10 bits,YUV 4:4:4 planar 12 bits"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, kde-format
