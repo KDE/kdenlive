@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-28 00:44+0000\n"
-"PO-Revision-Date: 2026-01-27 18:28+0100\n"
+"PO-Revision-Date: 2026-01-28 15:48+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -26288,17 +26288,13 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Deze indeling bevat horizontale en verticale profielen. "
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an horizontal profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "Deze indeling bevat een horizontaal profiel"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an vertical profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
 msgstr "Deze indeling bevat een verticaal profiel"

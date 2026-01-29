@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-28 00:44+0000\n"
-"PO-Revision-Date: 2026-01-18 12:59+0100\n"
+"PO-Revision-Date: 2026-01-28 17:53+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -18689,8 +18689,7 @@ msgid "None (Dissolve)"
 msgstr "Brez (preliv)"
 
 #: src/assets/view/widgets/pointparamwidget.cpp:51
-#, fuzzy, kde-format
-#| msgid "Position:"
+#, kde-format
 msgctxt "Position as the x,y coordinate for a point"
 msgid "Position:"
 msgstr "Položaj:"
@@ -26176,17 +26175,13 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Ta postavitev vsebuje vodoravne in navpične profile"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an horizontal profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "Ta postavitev vsebuje vodoravni profil"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an vertical profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
 msgstr "Ta postavitev vsebuje navpični profil"
@@ -39630,9 +39625,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Center X"
-#~ msgstr "Središče X"
-
-#~ msgid "Center Y"
-#~ msgstr "Središče Y"

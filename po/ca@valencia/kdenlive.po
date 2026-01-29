@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-28 00:44+0000\n"
-"PO-Revision-Date: 2026-01-27 09:14+0100\n"
+"PO-Revision-Date: 2026-01-28 09:15+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2244,9 +2244,9 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
-"YUV 4:2:0 planar 8-bits,YUV 4:2:0 planar 10-bits,YUV 4:2:0 planar 12-bits,"
-"YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
-"YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
+"YUV 4:2:0 planar 8 bits,YUV 4:2:0 planar 10 bits,YUV 4:2:0 planar 12 bits,"
+"YUV 4:2:2 planar 8 bits,YUV 4:2:2 planar 10 bits,YUV 4:2:2 planar 12 bits,"
+"YUV 4:4:4 planar 8 bits,YUV 4:4:4 planar 10 bits,YUV 4:4:4 planar 12 bits"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, kde-format
@@ -26377,17 +26377,13 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "Esta disposició conté perfils horitzontals i verticals"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an horizontal profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "Esta disposició conté un perfil horitzontal"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an vertical profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
 msgstr "Esta disposició conté un perfil vertical"

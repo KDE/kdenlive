@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-28 00:44+0000\n"
-"PO-Revision-Date: 2026-01-27 05:25+0100\n"
+"PO-Revision-Date: 2026-01-28 05:16+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -25531,17 +25531,13 @@ msgid "This layout contains horizontal and vertical profiles"
 msgstr "ეს განლაგება შეიცავს ჰორიზონტალურ და ვერტიკალურ პროფილებს"
 
 #: src/layouts/layoutmanagerdialog.cpp:335
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an horizontal profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a horizontal profile"
 msgstr "ეს განლაგება ჰორიზონტალურ პროფილს შეიცავს"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "This layout contains an vertical profile"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "This layout contains a vertical profile"
 msgstr "ეს განლაგება ვერტიკალურ პროფილს შეიცავს"
@@ -38794,7 +38790,7 @@ msgstr "შებრუნება 90 ° ნაბიჯებით"
 #: src/widgets/dragvalue.cpp:261
 #, kde-format
 msgid "Support basic math expression"
-msgstr ""
+msgstr "საბაზისო მათემატიკური გამოსახულების მხარდაჭერა"
 
 #: src/widgets/dragvalue.cpp:269
 #, kde-format

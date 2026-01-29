@@ -32,14 +32,12 @@ msgstr "wantoyek@gmail.com,linerly@protonmail.com"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Pengeditan"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Pencatatan"
 
