@@ -426,38 +426,64 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         qDebug() << "==== MOVE REJECTED!!";
         return false;
     }
-    KeyframeType::KeyframeEnum oldType = m_keyframeList[oldPos].first;
-    QVariant oldValue = m_keyframeList[oldPos].second;
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
-    qDebug() << getAnimProperty();
-    // TODO: use the new Animation::key_set_frame to move a keyframe
-    bool res = removeKeyframe(oldPos, local_undo, local_redo, updateView, false);
-    qDebug() << "Move keyframe finished deletion:" << res;
-    qDebug() << getAnimProperty();
-    if (res) {
+    auto originalKf = m_keyframeList.at(oldPos);
+    auto finalKf = originalKf;
+
+    if (newVal.isValid()) {
+        // Calculate updated keyframe value
         if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
             m_paramType == ParamType::AnimatedPoint) {
-            if (!newVal.isValid()) {
-                newVal = oldValue;
-            }
-            res = addKeyframe(pos, oldType, newVal, updateView, local_undo, local_redo);
-        } else if (newVal.isValid()) {
-            QVariant result = getNormalizedValue(newVal.toDouble());
-            if (result.isValid()) {
-                res = addKeyframe(pos, oldType, result, updateView, local_undo, local_redo);
-            }
+            finalKf.second = newVal;
         } else {
-            res = addKeyframe(pos, oldType, oldValue, updateView, local_undo, local_redo);
+            finalKf.second = getNormalizedValue(newVal.toDouble());
         }
-        qDebug() << "Move keyframe finished insertion:" << res;
-        qDebug() << getAnimProperty();
     }
+
+    // Now, move the keyframe using MLT
+    int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
+    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView]() {
+        bool res = true;
+        if (auto ptr = m_model.lock()) {
+            const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
+            Q_ASSERT(anim.key_get_frame(row) == pos.frames(pCore->getCurrentFps()));
+            res = anim.key_set_frame(row, oldPos.frames(pCore->getCurrentFps())) == 0;
+            if (res) {
+                m_keyframeList.erase(pos);
+                m_keyframeList[oldPos] = originalKf;
+                if (updateView) {
+                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                }
+            } else {
+                qDebug() << "KF MOVE UNDO OP FAILED";
+            }
+        }
+        return res;
+    };
+    Fun local_redo = [this, row, pos, oldPos, finalKf, updateView]() {
+        bool res = true;
+        qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
+        if (auto ptr = m_model.lock()) {
+            const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
+            qDebug() << "CURRENT FRAME AT ROW: " << anim.key_get_frame(row) << " / OLD: " << oldPos.frames(pCore->getCurrentFps());
+            Q_ASSERT(anim.key_get_frame(row) == oldPos.frames(pCore->getCurrentFps()));
+            res = anim.key_set_frame(row, pos.frames(pCore->getCurrentFps())) == 0;
+            if (res) {
+                m_keyframeList.erase(oldPos);
+                m_keyframeList[pos] = finalKf;
+                if (updateView) {
+                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                }
+            } else {
+                qDebug() << "KF MOVE OP FAILED";
+            }
+        }
+        return res;
+    };
+    bool res = local_redo();
     if (res) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    } else {
-        bool undone = local_undo();
-        Q_ASSERT(undone);
     }
     return res;
 }
@@ -474,10 +500,7 @@ bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
         if (nPos == oPos) {
             return true;
         }
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
-        qDebug() << ":::: OLD POS: " << oPos.frames(25) << " TO " << nPos.frames(25);
-        return moveOneKeyframe(oPos, nPos, QVariant(), undo, redo, true);
+        return moveKeyframe(oPos, nPos, QVariant(), false);
     }
     return false;
 }
@@ -491,15 +514,11 @@ bool KeyframeModel::movePercentKeyframeWithUndo(int index, int startFrame, doubl
         GenTime targetPos(targetFrame, pCore->getCurrentFps());
         GenTime originalPos(startFrame, pCore->getCurrentFps());
         GenTime currentPos = getPosAtIndex(index);
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
         qDebug() << "FINAL KF MOVE, FROM: " << currentPos.frames(25) << " TO " << originalPos.frames(25) << ", FINAL DEST: " << targetPos.frames(25);
         if (currentPos != originalPos) {
-            moveOneKeyframe(currentPos, originalPos, QVariant(), undo, redo, false);
+            moveKeyframe(currentPos, originalPos, QVariant(), false);
         }
-        moveKeyframe(originalPos, targetPos, QVariant(), undo, redo, true);
-        pCore->pushUndo(undo, redo, i18n("Move keyframe"));
-        // return moveKeyframe(oPos, nPos, QVariant(), false);
+        moveKeyframe(originalPos, targetPos, QVariant(), true);
     }
     return false;
 }
