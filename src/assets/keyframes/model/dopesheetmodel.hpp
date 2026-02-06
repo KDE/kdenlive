@@ -33,6 +33,12 @@ class DopeSheetModel : public AbstractTreeModel
 
 protected:
     explicit DopeSheetModel(QObject *parent = nullptr);
+    struct EffectParamInfo
+    {
+        QString id;     // Identifier of the parameter
+        ParamType type; // The parameter type (double, animatedrect,...)
+        int row{-1};    // The index row in the assetmodel
+    };
 
 public:
     friend class KdenliveTests;
@@ -54,7 +60,7 @@ public:
     void registerStack(std::shared_ptr<EffectStackModel> model);
 
 protected:
-    std::map<int, std::pair<std::pair<QString, ParamType>, std::shared_ptr<KeyframeModel>>> m_paramsList;
+    std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
     // int getRowfromId(QModelIndex mid) const;
     /** @brief Register the existence of a new element
      */
@@ -66,6 +72,9 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
     QList<QModelIndex> m_selectedIndexes;
+
+private Q_SLOTS:
+    void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);
 
 Q_SIGNALS:
     void modelChanged();

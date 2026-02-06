@@ -655,7 +655,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
                                       AssetParameterModel::ParentDurationRole,
                                       AssetParameterModel::ParentPositionRole,
                                       AssetParameterModel::RequiresInOut,
-                                      AssetParameterModel::HideKeyframesFirstRole};
+                                      AssetParameterModel::HideKeyframesFirstRole,
+                                      AssetParameterModel::BlockedKeyframesRole};
 
     if (bypassRoles.contains(role)) {
         switch (role) {
@@ -677,6 +678,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
             return m_hideKeyframesByDefault;
         case RequiresInOut:
             return m_requiresInOut;
+        case BlockedKeyframesRole: {
+            const QString vals = m_asset->get("kdenlive:block_keyframes");
+            return vals.split(QLatin1Char(';'));
+        }
         default:
             qDebug() << "WARNING; UNHANDLED DATA: " << role;
             return QVariant();
@@ -736,10 +741,6 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseSubAttributes(QStringLiteral("jobparam"), element);
     case FilterProgressRole:
         return m_filterProgress;
-    case BlockedKeyframesRole: {
-        const QString vals = m_asset->get("kdenlive:block_keyframes");
-        return vals.split(QLatin1Char(';'));
-    }
     case AlternateNameRole: {
         QDomNode child = element.firstChildElement(QStringLiteral("name"));
         if (child.toElement().hasAttribute(QStringLiteral("conditional"))) {
@@ -1777,9 +1778,13 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         m_ownerId.type = KdenliveObjectType::NoItem;
     }
     bool isDisabled = m_asset->get_int("disable") == 1;
+    QList<int> roles;
     for (const auto &param : params) {
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         setParameter(param.first, param.second.toString(), false, ix, true);
+        if (param.first == QStringLiteral("kdenlive:block_keyframes")) {
+            roles = {AssetParameterModel::BlockedKeyframesRole};
+        }
         if (m_keyframes) {
             auto km = m_keyframes->getKeyModel(ix);
             if (km) {
@@ -1800,7 +1805,7 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         // restore itemType
         m_ownerId.type = itemType;
     }
-    Q_EMIT dataChanged(index(0), index(m_rows.count()), {});
+    Q_EMIT dataChanged(index(0), index(m_rows.count()), roles);
 }
 
 ObjectId AssetParameterModel::getOwnerId() const

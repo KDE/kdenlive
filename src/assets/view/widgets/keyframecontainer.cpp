@@ -871,8 +871,10 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
             if (checked) {
                 // Re-enable keyframes, we only need to discard the blocking flag
                 QStringList currentBlocked = m_model->data(index, AssetParameterModel::BlockedKeyframesRole).toStringList();
+                qDebug() << ":::: CHECKING FOR BLOCKED PARAM FOR IX: " << index << ", NAME: " << m_model->data(index, AssetParameterModel::NameRole).toString();
                 currentBlocked.removeAll(m_model->data(index, AssetParameterModel::NameRole).toString());
                 currentBlocked.removeDuplicates();
+
                 const QVector<QPair<QString, QVariant>> values = {
                     {QStringLiteral("kdenlive:block_keyframes"), QVariant(currentBlocked.join(QLatin1Char(';')))}};
                 auto *command = new AssetUpdateCommand(m_model, values);
@@ -885,13 +887,13 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 updatedBlockState.removeDuplicates();
                 Fun undo = []() { return true; };
                 Fun redo = []() { return true; };
-                Fun local_undo = [this, initialBlockState]() {
+                Fun local_undo = [this, initialBlockState, index]() {
                     const QVector<QPair<QString, QVariant>> values = {
                         {QStringLiteral("kdenlive:block_keyframes"), QVariant(initialBlockState.join(QLatin1Char(';')))}};
                     m_model->setParameters(values);
                     return true;
                 };
-                Fun local_redo = [this, updatedBlockState]() {
+                Fun local_redo = [this, updatedBlockState, index]() {
                     const QVector<QPair<QString, QVariant>> values = {
                         {QStringLiteral("kdenlive:block_keyframes"), QVariant(updatedBlockState.join(QLatin1Char(';')))}};
                     m_model->setParameters(values);
