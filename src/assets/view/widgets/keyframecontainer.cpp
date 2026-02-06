@@ -883,10 +883,12 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 // Remove all keyframes and flag
                 const QStringList initialBlockState = m_model->data(index, AssetParameterModel::BlockedKeyframesRole).toStringList();
                 QStringList updatedBlockState = initialBlockState;
-                updatedBlockState.append(m_model->data(index, AssetParameterModel::NameRole).toString());
+                const QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
+                updatedBlockState.append(paramName);
                 updatedBlockState.removeDuplicates();
                 Fun undo = []() { return true; };
                 Fun redo = []() { return true; };
+                // Get current parameter value
                 Fun local_undo = [this, initialBlockState, index]() {
                     const QVector<QPair<QString, QVariant>> values = {
                         {QStringLiteral("kdenlive:block_keyframes"), QVariant(initialBlockState.join(QLatin1Char(';')))}};

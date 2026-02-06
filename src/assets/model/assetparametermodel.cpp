@@ -249,10 +249,10 @@ void AssetParameterModel::prepareKeyframes(int in, int out)
         }
         ix++;
     }
-    if (m_keyframes) {
+    /*if (m_keyframes) {
         // Make sure we have keyframes at same position for all parameters
         m_keyframes->checkConsistency();
-    }
+    }*/
 }
 
 QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframableParameters() const

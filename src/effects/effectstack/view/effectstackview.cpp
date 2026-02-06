@@ -407,6 +407,7 @@ void EffectStackView::loadEffects()
             ->slotShowEffectScene(MonitorSceneDefault);
         updateTreeHeight();
         Q_EMIT effectsCountChanged();
+        pCore->window()->registerDopeStack(nullptr);
         return;
     }
     QModelIndex activeIndex;
@@ -476,7 +477,6 @@ void EffectStackView::loadEffects()
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
     }
-    pCore->window()->registerDopeStack(m_model);
     lock.unlock();
     if (activeIndex.isValid()) {
         m_effectsTree->setCurrentIndex(activeIndex);

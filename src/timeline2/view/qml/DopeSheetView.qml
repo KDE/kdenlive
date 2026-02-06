@@ -115,7 +115,7 @@ Item {
             required property int column
             required property bool current
             ToolButton {
-                icon.name: "arrow-right"
+                icon.name: treeView.isExpanded(row) ? "arrow-down" : "arrow-right"
                 visible: depth == 0
                 onClicked: treeView.toggleExpanded(row)
                 width: parent.height
@@ -148,6 +148,8 @@ Item {
                 anchors.rightMargin: root.baseUnit
                 // visible: depth > 0
                 Rectangle {
+                    // keyframe scroll
+                    id: keyframeSlider
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
@@ -156,34 +158,57 @@ Item {
                     color: activePalette.light
                     border.width: 1
                     border.color: activePalette.shadow
-                    MouseArea {
-                        id: kfMoveArea
-                        property int clickPos
-                        property int clickIndex
-                        property int currentFrame
-                        property int currentIndex
-                        property double currentPercentPos
-                        anchors.fill: parent
-                        onPressed: {
-                            clickPos = currentFrame
-                            clickIndex = currentIndex
+                }
+                MouseArea {
+                    id: kfMoveArea
+                    property int clickPos
+                    property int clickIndex
+                    property int currentFrame: -1
+                    property int currentIndex: -1
+                    property double currentPercentPos
+                    property bool dragStarted: false
+                    property point clickPoint
+                    anchors.fill: parent
+                    anchors.leftMargin: keyframeSlider.anchors.leftMargin
+                    anchors.rightMargin: keyframeSlider.anchors.rightMargin
+                    onPressed: mouse => {
+                        console.log('==============  MS PRESSED, IX: ', currentIndex, ' / FRM: ', currentFrame, ' ==========')
+                        clickPos = currentFrame
+                        clickIndex = currentIndex
+                        dragStarted = false
+                        clickPoint = Qt.point(mouseX, mouseY)
+                        mouse.accepted = true
+                    }
+                    onReleased: mouse => {
+                        console.log("============== MOUSE RELEASED ===========")
+                        dragStarted = false
+                        if (depth == 0) {
+                            console.log("====================== MOVED RECAP EFFECT KF ===============")
+                            // TODO: Move all param keyframes at pos clickPos
+                            //timeline.moveAssetKeyframes(index, clickPos, currentPercentPos);
+                        } else if (clickIndex > -1) {
+                            dopeModel.movePercentKeyframeWithUndo(clickIndex, clickPos, currentPercentPos)
                         }
-                        onReleased: {
-                            if (depth == 0) {
-                                console.log("====================== MOVED RECAP EFFECT KF ===============")
-                                // TODO: Move all param keyframes at pos clickPos
-                                //timeline.moveAssetKeyframes(index, clickPos, currentPercentPos);
-                            } else {
-                                dopeModel.movePercentKeyframeWithUndo(clickIndex, clickPos, currentPercentPos)
+                        mouse.accepted = true
+                    }
+                    onPositionChanged: mouse => {
+                        if (!dragStarted) {
+                            if (Math.abs(mouseX - clickPoint.x) + Math.abs(mouseY - clickPoint.y) > Qt.styleHints.startDragDistance) {
+                                console.log(' - - - DRAG STARTED -- - ')
+                                dragStarted = true
                             }
                         }
-                        onPositionChanged: mouse => {
-                            if (mouse.buttons === Qt.LeftButton) {
-                                currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
-                                currentPercentPos = Math.min(1., currentPercentPos)
-                                dopeModel.movePercentKeyframe(clickIndex, currentPercentPos)
-                            }
+
+                        if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
+                            currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
+                            currentPercentPos = Math.min(1., currentPercentPos)
+                            dopeModel.movePercentKeyframe(clickIndex, currentPercentPos)
                         }
+                    }
+                    onDoubleClicked: mouse => {
+                        currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
+                        currentPercentPos = Math.min(1., currentPercentPos)
+                        dopeModel.addPercentKeyframe(currentPercentPos)
                     }
                 }
                 Repeater {
@@ -211,6 +236,8 @@ Item {
                             }
                             onExited: {
                                 console.log("exited kfr: ", index)
+                                kfMoveArea.currentFrame = -1
+                                kfMoveArea.currentIndex = -1
                             }
                         }
                     }

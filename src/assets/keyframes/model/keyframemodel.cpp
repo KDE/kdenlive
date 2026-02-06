@@ -7,6 +7,7 @@
 #include "../../bpoint.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "rotoscoping/rotohelper.hpp"
@@ -519,6 +520,28 @@ bool KeyframeModel::movePercentKeyframeWithUndo(int index, int startFrame, doubl
             moveKeyframe(currentPos, originalPos, QVariant(), false);
         }
         moveKeyframe(originalPos, targetPos, QVariant(), true);
+    }
+    return false;
+}
+
+bool KeyframeModel::addPercentKeyframe(double percentPos)
+{
+    if (auto ptr = m_model.lock()) {
+        qDebug() << "::: MOVING KEYFRAME TO POSITION PERCENT: " << percentPos;
+        int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
+        int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        int targetFrame = inFrame + (percentPos * duration);
+        GenTime pos(targetFrame, pCore->getCurrentFps());
+        QVariant value = getInterpolatedValue(pos);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        bool res = addKeyframe(pos, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
+        if (res) {
+            PUSH_UNDO(undo, redo, i18nc("@action", "Add keyframe"));
+            return true;
+        } else {
+            undo();
+        }
     }
     return false;
 }

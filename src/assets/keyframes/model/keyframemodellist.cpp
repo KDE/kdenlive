@@ -98,6 +98,8 @@ void KeyframeModelList::addParameter(const QModelIndex &index, int in, int out)
         m_kfrRecap = std::shared_ptr<KeyframeModel>(new KeyframeModel(m_model, QModelIndex(), m_undoStack, in, out));
         updateRecap();
         connect(this, &KeyframeModelList::modelChanged, this, &KeyframeModelList::updateRecap);
+    } else {
+        updateRecap();
     }
     // connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::updateRecap);
 }

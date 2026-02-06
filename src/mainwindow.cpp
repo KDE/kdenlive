@@ -403,6 +403,7 @@ void MainWindow::init()
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                registerDopeStack(model);
                 bool isClip = model && model->getOwnerId().type == KdenliveObjectType::TimelineClip;
                 bool isTrack = model && model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
                 if ((isClip && KdenliveSettings::raisepropsclips()) || (isTrack && KdenliveSettings::raisepropstracks())) {
@@ -5618,8 +5619,10 @@ void MainWindow::connectTimeline()
 void MainWindow::registerDopeStack(std::shared_ptr<EffectStackModel> model)
 {
     pCore->dopeSheetModel()->registerStack(model);
-    m_dopeWidget->rootObject()->setProperty("frameDuration", pCore->getItemDuration(model->getOwnerId()));
-    m_dopeWidget->rootObject()->setProperty("offset", pCore->getItemPosition(model->getOwnerId()));
+    if (model) {
+        m_dopeWidget->rootObject()->setProperty("frameDuration", pCore->getItemDuration(model->getOwnerId()));
+        m_dopeWidget->rootObject()->setProperty("offset", pCore->getItemPosition(model->getOwnerId()));
+    }
 }
 
 void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
