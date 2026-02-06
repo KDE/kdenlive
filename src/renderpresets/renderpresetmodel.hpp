@@ -37,10 +37,10 @@ class RenderPresetModel
 public:
     RenderPresetModel() = delete;
 
-    RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName = QString(),
+    RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupId,
                       const QString &renderer = QStringLiteral("avformat"));
-    RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName);
-    RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension, const QString &defaultVBitrate,
+    RenderPresetModel(const QString &groupId, const QString &path, QString presetName, const QString &params, bool codecInName);
+    RenderPresetModel(const QString &name, const QString &groupId, const QString &params, const QString &extension, const QString &defaultVBitrate,
                       const QString &defaultVQuality, const QString &vQualities, const QString &defaultABitrate, const QString &defaultAQuality,
                       const QString &speedsString, bool manualPreset);
 
@@ -53,7 +53,7 @@ public:
     QString standard() const { return m_standard; };
     RenderPresetParams params(const QStringList removeParams = {}) const;
     QString extension() const;
-    QString groupName() const { return m_groupName; };
+    QString groupId() const { return m_groupId; };
     QString renderer() const { return m_renderer; };
     QString url() const;
     QStringList speeds() const;
@@ -94,7 +94,7 @@ private:
     bool m_manual;
     RenderPresetParams m_params;
     QString m_extension;
-    QString m_groupName;
+    QString m_groupId;
     QString m_renderer;
     QString m_url;
     QString m_speeds;

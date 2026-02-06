@@ -51,7 +51,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 
 // static
-void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model,
+                                         const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
     QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
     Ui::ColorClip_UI dia_ui;
@@ -62,21 +63,24 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     dia_ui.clip_name->selectAll();
     dia_ui.clip_name->setAccessibleName(i18n("Clip Name"));
 
-    dia_ui.clip_duration->setValue(KdenliveSettings::color_duration());
+    int defaultDuration = pCore->getDurationFromString(KdenliveSettings::color_duration());
+    int duration = suggestedDuration > 0 ? qMin(suggestedDuration, defaultDuration) : defaultDuration;
+    dia_ui.clip_duration->setValue(duration);
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
 
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
         KdenliveSettings::setColorclipcolor(color);
         color = color.replace(0, 1, QStringLiteral("0x")) + "ff";
-        int duration = doc->getFramePos(doc->timecode().getTimecode(dia_ui.clip_duration->gentime()));
+        int finalDuration = doc->getFramePos(doc->timecode().getTimecode(dia_ui.clip_duration->gentime()));
         QString name = dia_ui.clip_name->text();
 
-        ClipCreator::createColorClip(color, duration, name, parentFolder, std::move(model));
+        ClipCreator::createColorClip(color, finalDuration, name, parentFolder, std::move(model), readyCallBack);
     }
 }
 
-void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId)
+void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId, const std::function<void(const QString &)> &readyCallBack,
+                                             int suggestedDuration)
 {
     if (!GlaxnimateLauncher::instance().checkInstalled()) {
         return;
@@ -115,7 +119,9 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     QHBoxLayout *lay = new QHBoxLayout;
     lay->addWidget(new QLabel(i18n("Animation duration"), &d));
     TimecodeDisplay tCode(&d);
-    tCode.setValue(QStringLiteral("00:00:05:00"));
+    int defaultDuration = doc->getFramePos(doc->timecode().getTimecode(GenTime(5, doc->timecode().fps()))); // Default 5s
+    int duration = suggestedDuration > 0 ? qMin(suggestedDuration, defaultDuration) : defaultDuration;
+    tCode.setValue(doc->timecode().getTimecode(GenTime(duration, doc->timecode().fps())));
     lay->addWidget(&tCode);
     l->addLayout(lay);
     l->addWidget(buttonBox);
@@ -192,16 +198,18 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     properties.insert(QStringLiteral("resource"), fileName);
     Xml::addXmlProperties(prod, properties);
     QString clipId = QString::number(id);
-    pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"));
+    pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"), readyCallBack);
 }
 
 const QString ClipCreationDialog::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
-                                                     std::shared_ptr<ProjectItemModel> model)
+                                                     std::shared_ptr<ProjectItemModel> model, const std::function<void(const QString &)> &readyCallBack,
+                                                     int suggestedDuration)
 {
-    return ClipCreator::createPlaylistClip(name, tracks, parentFolder, model);
+    return ClipCreator::createPlaylistClip(name, tracks, parentFolder, model, readyCallBack);
 }
 
-void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, ProjectClip *clip)
+void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, ProjectClip *clip, const std::function<void(const QString &)> &readyCallBack,
+                                         int suggestedDuration)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
@@ -235,6 +243,10 @@ void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, Proj
         dia_ui.fontSize->setValue(titleConfig.readEntry(QStringLiteral("font_pixel_size")).toInt());
         dia_ui.weight->setValue(titleConfig.readEntry(QStringLiteral("font_weight")).toInt());
         dia_ui.italic->setChecked(titleConfig.readEntry(QStringLiteral("font_italic")).toInt() != 0);
+        int defaultDuration =
+            pCore->currentDoc()->getFramePos(pCore->currentDoc()->timecode().getTimecode(GenTime(5, pCore->currentDoc()->timecode().fps()))); // Default 5s
+        int duration = suggestedDuration > 0 ? qMin(suggestedDuration, defaultDuration) : defaultDuration;
+        dia_ui.duration->setValue(duration);
     }
     if (dia->exec() == QDialog::Accepted) {
         // KdenliveSettings::setColorclipcolor(color);
@@ -281,13 +293,14 @@ void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, Proj
             prod.setAttribute(QStringLiteral("out"), newDuration);
             Xml::addXmlProperties(prod, properties);
             QString clipId = QString::number(id);
-            pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Text clip"));
+            pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Text clip"), readyCallBack);
         }
     }
 }
 
 // static
-void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &parentId, std::shared_ptr<ProjectItemModel> model)
+void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &parentId, std::shared_ptr<ProjectItemModel> model,
+                                             const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
     QScopedPointer<SlideshowClip> dia(
         new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), nullptr, QApplication::activeWindow()));
@@ -307,17 +320,22 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &pa
         properties[QStringLiteral("animation")] = dia->animation();
         properties[QStringLiteral("low-pass")] = QString::number(dia->lowPass());
         int duration = doc->getFramePos(dia->clipDuration()) * dia->imageCount();
-        ClipCreator::createSlideshowClip(dia->selectedPath(), duration, dia->clipName(), parentId, properties, std::move(model));
+        ClipCreator::createSlideshowClip(dia->selectedPath(), duration, dia->clipName(), parentId, properties, model, readyCallBack);
     }
 }
 
-void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parentFolder, const QString &templatePath, std::shared_ptr<ProjectItemModel> model)
+void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parentFolder, const QString &templatePath, std::shared_ptr<ProjectItemModel> model,
+                                         const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
     // Make sure the titles folder exists
     QDir dir(doc->projectDataFolder() + QStringLiteral("/titles"));
     dir.mkpath(QStringLiteral("."));
     QPointer<TitleWidget> dia_ui =
         new TitleWidget(QUrl::fromLocalFile(templatePath), dir.absolutePath(), pCore->getMonitor(Kdenlive::ProjectMonitor), pCore->bin());
+    if (suggestedDuration > 0) {
+        int duration = qMin(suggestedDuration, doc->getFramePos(KdenliveSettings::title_duration()));
+        dia_ui->setDuration(duration);
+    }
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
         std::unordered_map<QString, QString> properties;
@@ -325,12 +343,13 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parent
         QString titleSuggestion = dia_ui->titleSuggest();
 
         ClipCreator::createTitleClip(properties, dia_ui->duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, parentFolder,
-                                     std::move(model));
+                                     std::move(model), readyCallBack);
     }
     delete dia_ui;
 }
 
-void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model,
+                                                 const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
 
     QScopedPointer<TitleTemplateDialog> dia(new TitleTemplateDialog(doc->projectDataFolder(), QApplication::activeWindow()));
@@ -347,7 +366,8 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
         if (templateClipName.isEmpty()) {
             templateClipName = i18n("Template title clip");
         }
-        ClipCreator::createTitleTemplate(dia->selectedTemplate(), dia->selectedText(), templateClipName, parentFolder, std::move(model));
+        ClipCreator::createTitleTemplate(dia->selectedTemplate(), dia->selectedText(), templateClipName, parentFolder, std::move(model), readyCallBack,
+                                         suggestedDuration);
     }
 }
 
@@ -416,7 +436,8 @@ for (const QUrl & file :  list) {
 }*/
 //}
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+                                            const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
     qDebug() << "/////////// starting to add bin clips";
     QList<QUrl> list;

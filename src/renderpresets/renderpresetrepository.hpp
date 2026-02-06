@@ -34,8 +34,6 @@ public:
     /** @brief Returns a list of all the pairs (description, path) of all the presets loaded */
     QVector<QString> getAllPresets() const;
 
-    QStringList groupNames() const { return m_groups; };
-
     /** @brief Returns a preset model given the presets's @param name
      */
     std::unique_ptr<RenderPresetModel> &getPreset(const QString &name);
@@ -43,6 +41,10 @@ public:
     /** @brief Returns true if the given preset exists in repository
      */
     bool presetExists(const QString &name) const;
+
+    /** @brief Retrieve a list of all preset categories
+     */
+    QMap<QString, QString> getAllCategories();
 
     static QStringList acodecs()
     {
@@ -80,6 +82,7 @@ protected:
     static std::once_flag m_onceFlag; // flag to create the repository only once;
 
     static std::vector<std::pair<int, QString>> colorProfiles;
+    QMap<QString, QString> m_profileCategories;
 
     static QStringList m_acodecsList;
     static QStringList m_vcodecsList;
@@ -92,5 +95,4 @@ protected:
      * move insertion, hence inserting unique_ptr is impossible.
      */
     std::unordered_map<QString, std::unique_ptr<RenderPresetModel>> m_profiles;
-    QStringList m_groups;
 };

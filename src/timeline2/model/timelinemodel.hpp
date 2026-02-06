@@ -1041,7 +1041,8 @@ Q_SIGNALS:
     void requestClearAssetView(int);
     void requestMonitorRefresh();
     /** @brief signal triggered by track operations */
-    void invalidateZone(int in, int out);
+    void invalidateZone(int in, int out, bool isAudio = false);
+    void invalidateAudioZone(int in, int out);
     /** @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated(const QUuid &uuid);
 

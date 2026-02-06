@@ -214,8 +214,12 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(new_in, new_out);
                 }
-                if (!audioOnly && finalMove && !isAudioTrack()) {
-                    Q_EMIT ptr->invalidateZone(new_in, new_out);
+                if (finalMove) {
+                    if (!audioOnly && !isAudioTrack()) {
+                        Q_EMIT ptr->invalidateZone(new_in, new_out);
+                    } else {
+                        Q_EMIT ptr->invalidateAudioZone(new_in, new_out);
+                    }
                 }
             }
             return true;
@@ -396,6 +400,8 @@ void TrackModel::replugClip(int clipId)
         m_playlists[target_track].insert_at(clip_position, *clip, 1);
         if (!clip->isAudioOnly() && !isAudioTrack()) {
             Q_EMIT ptr->invalidateZone(clip->getIn(), clip->getOut());
+        } else {
+            Q_EMIT ptr->invalidateAudioZone(clip->getIn(), clip->getOut());
         }
         if (!clip->isAudioOnly() && !isHidden() && !isAudioTrack()) {
             // only refresh monitor if not an audio track and not hidden
@@ -452,6 +458,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                 if (finalMove && !ptr->m_closing) {
                     if (!audioOnly && !isAudioTrack()) {
                         Q_EMIT ptr->invalidateZone(old_in, old_out);
+                    } else {
+                        Q_EMIT ptr->invalidateAudioZone(old_in, old_out);
                     }
                     if (!groupMove && target_clip >= m_playlists[target_track].count()) {
                         // deleted last clip in playlist

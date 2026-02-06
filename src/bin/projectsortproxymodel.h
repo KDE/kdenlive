@@ -21,6 +21,7 @@ class ProjectSortProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
+    friend class Bin;
     enum UsageFilter { All, Used, Unused };
 
     explicit ProjectSortProxyModel(QObject *parent = nullptr);

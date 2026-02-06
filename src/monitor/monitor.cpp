@@ -197,6 +197,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addTimelineEffect, this, &Monitor::addTimelineEffect);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::rebuildAudio, this, &Monitor::rebuildAudio);
 
     m_qmlManager = new QmlManager(m_glMonitor, this);
     connect(this, &Monitor::blockSceneChange, m_qmlManager, &QmlManager::blockSceneChange);
@@ -811,13 +812,15 @@ void Monitor::slotForceSize(QAction *a)
     case 50:
         // resize full size
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        m_glMonitor->setFixedImageSize(QSize(profileWidth, profileHeight));
         profileHeight += m_glMonitor->m_displayRulerHeight;
-        m_glMonitor->setMinimumSize(profileWidth, profileHeight);
-        m_glMonitor->setMaximumSize(profileWidth, profileHeight);
-        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height()));
+        m_glMonitor->setFixedSize(profileWidth, profileHeight);
+        profileHeight += m_toolbar->height();
+        setMinimumSize(QSize(profileWidth, profileHeight));
         break;
     default:
         // Free resize
+        m_glMonitor->setFixedImageSize(QSize());
         m_glMonitor->setMinimumSize(profileWidth, profileHeight);
         m_glMonitor->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
@@ -1052,6 +1055,7 @@ void Monitor::resizeEvent(QResizeEvent *event)
         m_horizontalScroll->hide();
         m_verticalScroll->hide();
     }
+    m_glMonitor->updateImagePosition();
 }
 
 void Monitor::adjustScrollBars(float horizontal, float vertical)
@@ -1099,7 +1103,6 @@ bool Monitor::monitorIsFullScreen() const
 
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
-    // TODO: disable screensaver?
     m_glMonitor->refreshZoom = true;
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
@@ -1191,9 +1194,11 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             m_glWidget->setParent(nullptr);
         }
         m_glWidget->showFullScreen();
+        m_glMonitor->enableMouseTimer(true);
         setFocus();
     } else {
         m_glWidget->showNormal();
+        m_glMonitor->enableMouseTimer(false);
         auto *lay = static_cast<QVBoxLayout *>(layout());
         lay->insertWidget(0, m_glWidget, 10);
         // With some Qt versions, focus was lost after switching back from fullscreen,
@@ -1243,7 +1248,8 @@ void Monitor::slotStartDrag()
     }
     auto *drag = new QDrag(this);
     auto *mimeData = new QMimeData;
-    QByteArray prodData;
+    const QString dragType = m_glMonitor->getControllerProxy()->dragType();
+    QByteArray prodData = dragType.toLatin1();
     QPoint p = m_glMonitor->getControllerProxy()->zone();
     if (p.x() == -1 || p.y() == -1) {
         prodData = m_controller->AbstractProjectItem::clipId().toUtf8();
@@ -1257,6 +1263,16 @@ void Monitor::slotStartDrag()
     mimeData->setData(QStringLiteral("text/producerslist"), prodData);
     mimeData->setData(QStringLiteral("text/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
+    if (dragType.isEmpty()) {
+        int size = style()->pixelMetric(QStyle::PM_SmallIconSize) * 4;
+        drag->setPixmap(m_controller->thumbnail(size, size));
+    } else {
+        if (dragType == QLatin1String("A")) {
+            drag->setPixmap(QIcon::fromTheme("audio-volume-medium").pixmap(32, 32));
+        } else {
+            drag->setPixmap(QIcon::fromTheme("kdenlive-show-video").pixmap(32, 32));
+        }
+    }
     drag->exec(Qt::CopyAction);
     Q_EMIT pCore->processDragEnd();
 }
@@ -2035,7 +2051,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
         m_glMonitor->setRulerInfo(0, nullptr);
-        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
+        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString(), true);
         pCore->guidesList()->setClipMarkerModel(nullptr);
         // m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
@@ -2161,7 +2177,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(),
-                                                                 controller->clipName());
+                                                                 controller->clipName(), controller->audioSynced());
             if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & Monitor::AudioWaveformOverlay) {
                 if (m_audioMeterWidget->audioChannels == 0 || !m_controller->hasAudio()) {
                     qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR EMPTY!!!";
@@ -2255,7 +2271,7 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     m_markerModel = nullptr;
     m_glMonitor->setProducer(path);
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
-    m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title);
+    m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title, true);
     m_glMonitor->setRulerInfo(m_glMonitor->producer()->get_length() - 1);
     loadQmlScene(MonitorSceneDefault);
     checkOverlay();
@@ -3365,5 +3381,17 @@ void Monitor::slotCreateRangeMarkerFromZoneQuick()
         pCore->displayMessage(i18n("Range marker created from zone"), InformationMessage);
     } else {
         pCore->displayMessage(i18n("Failed to create range marker from zone"), ErrorMessage);
+    }
+}
+
+void Monitor::markAudioDirty(bool dirty)
+{
+    m_glMonitor->getControllerProxy()->setAudioSynced(!dirty);
+}
+
+void Monitor::rebuildAudio(int cid)
+{
+    if (cid == m_controller->clipId().toInt()) {
+        m_controller->discardAudioThumb(true);
     }
 }

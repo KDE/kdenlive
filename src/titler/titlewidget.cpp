@@ -2366,6 +2366,11 @@ int TitleWidget::duration() const
     return m_duration->getValue();
 }
 
+void TitleWidget::setDuration(int duration)
+{
+    m_duration->setValue(GenTime(duration, m_fps));
+}
+
 void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
 {
     m_clipId = id;

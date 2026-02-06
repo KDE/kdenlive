@@ -2568,7 +2568,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         }
         if (!pCore->projectItemModel()->hasClip(originalId)) {
             // Clip import was not successful, continue
-            pCore->displayMessage(i18n("All clips were not successfully copied"), ErrorMessage, 500);
+            pCore->displayMessage(i18n("Not all clips were copied successfully"), ErrorMessage, 500);
             continue;
         }
         int in = prod.attribute(QStringLiteral("in")).toInt();

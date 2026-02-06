@@ -322,6 +322,8 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
             pCore->refreshProjectItem(m_ownerId);
             // Invalidate timeline preview
             pCore->invalidateItem(m_ownerId);
+        } else {
+            pCore->invalidateAudio(m_ownerId);
         }
     }
 }
@@ -641,6 +643,8 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
             pCore->refreshProjectItem(m_ownerId);
             // Invalidate timeline preview
             pCore->invalidateItem(m_ownerId);
+        } else {
+            pCore->invalidateAudio(m_ownerId);
         }
     }
 }

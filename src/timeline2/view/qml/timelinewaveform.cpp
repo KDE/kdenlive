@@ -102,6 +102,8 @@ void TimelineWaveform::compute()
     if (m_stream >= 0) {
         levels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
         if (levels.isEmpty()) {
+            m_needRecompute = false;
+            m_audioLevels.clear();
             return;
         }
     }

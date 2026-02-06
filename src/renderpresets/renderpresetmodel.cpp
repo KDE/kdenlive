@@ -180,24 +180,20 @@ bool RenderPresetParams::isX265()
     return value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265");
 }
 
-RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)
+RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupId, const QString &renderer)
     : m_presetFile(presetFile)
     , m_editable(editable)
     , m_name(preset.attribute(QStringLiteral("name")))
     , m_note()
     , m_standard(preset.attribute(QStringLiteral("standard")))
     , m_params()
-    , m_groupName(preset.attribute(QStringLiteral("category"), groupName))
+    , m_groupId(groupId)
     , m_renderer(renderer)
     , m_url(preset.attribute(QStringLiteral("url")))
     , m_speeds(preset.attribute(QStringLiteral("speeds")))
     , m_defaultSpeedIndex(preset.attribute(QStringLiteral("defaultspeedindex"), QStringLiteral("-1")).toInt())
     , m_topFieldFirst(preset.attribute(QStringLiteral("top_field_first")))
 {
-    if (m_groupName.isEmpty()) {
-        m_groupName = i18nc("Category Name", "Custom");
-    }
-
     m_extension = preset.attribute(QStringLiteral("extension"));
     m_manual = preset.attribute(QStringLiteral("manual")) == QLatin1String("1");
 
@@ -223,11 +219,11 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
     checkPreset();
 }
 
-RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName)
+RenderPresetModel::RenderPresetModel(const QString &groupId, const QString &path, QString presetName, const QString &params, bool codecInName)
     : m_editable(false)
     , m_manual(false)
     , m_params()
-    , m_groupName(groupName)
+    , m_groupId(groupId)
     , m_renderer(QStringLiteral("avformat"))
     , m_defaultSpeedIndex(-1)
 {
@@ -256,7 +252,7 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     checkPreset();
 }
 
-RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension,
+RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupId, const QString &params, const QString &extension,
                                      const QString &defaultVBitrate, const QString &defaultVQuality, const QString &vQualities, const QString &defaultABitrate,
                                      const QString &defaultAQuality, const QString &speedsString, bool manualPreset)
     : m_presetFile()
@@ -265,7 +261,7 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_note()
     , m_standard()
     , m_extension(extension)
-    , m_groupName(groupName)
+    , m_groupId(groupId)
     , m_renderer(QStringLiteral("avformat"))
     , m_url()
     , m_speeds(speedsString)
@@ -280,8 +276,8 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_defaultAQuality(defaultAQuality)
 {
     setParams(params);
-    if (m_groupName.isEmpty()) {
-        m_groupName = i18nc("Category Name", "Custom");
+    if (m_groupId.isEmpty()) {
+        m_groupId = QStringLiteral("custom");
     }
 
     m_defaultSpeedIndex = (speeds().count() - 1) * 0.75;
@@ -401,7 +397,7 @@ QDomElement RenderPresetModel::toXml()
     doc.appendChild(profileElement);
 
     profileElement.setAttribute(QStringLiteral("name"), m_name);
-    profileElement.setAttribute(QStringLiteral("category"), m_groupName);
+    profileElement.setAttribute(QStringLiteral("category"), m_groupId);
     if (!m_extension.isEmpty()) {
         profileElement.setAttribute(QStringLiteral("extension"), m_extension);
     }

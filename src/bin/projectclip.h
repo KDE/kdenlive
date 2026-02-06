@@ -191,7 +191,7 @@ public:
     QString getToolTip() const override;
 
     /** @brief The clip hash created from the clip's resource. */
-    const QString hash(bool createIfEmpty = true);
+    virtual const QString hash(bool createIfEmpty = true);
 
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
@@ -244,7 +244,7 @@ public:
                                                                                      PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false, bool timelineProducer = false);
-    void cloneProducerToFile(const QString &path, bool thumbsProducer = false);
+    void cloneProducerToFile(const QString &path, bool thumbsProducer = false, bool audioOnly = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::unique_ptr<Mlt::Producer> softClone(const char *list);
     /** @brief Returns a clone of the producer, useful for movit clip jobs
@@ -310,6 +310,8 @@ public:
     void resetSequenceThumbnails();
     /** @brief Returns the clip name (usually file name) */
     QString clipName();
+    virtual bool audioSynced() const;
+    virtual void markAudioDirty();
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
     /** @brief When a sequence clip has a track change, update info and properties panel */

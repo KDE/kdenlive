@@ -36,6 +36,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
+#include <KWindowConfig>
 #include <kmemoryinfo.h>
 
 #include "kdenlive_debug.h"
@@ -567,6 +568,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         if (str.isEmpty()) {
             // focus last selected item when clearing search line
             focusItem(m_currentProfile);
+        } else {
+            m_view.profileTree->expandAll();
         }
     });
 
@@ -579,7 +582,13 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     loadConfig();
     refreshView();
     focusItem();
-    adjustSize();
+    KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+    winId(); // Make sure window gets created before getting the handle
+    QWindow *handle = windowHandle();
+    if ((handle != nullptr) && conf->hasGroup("RenderDialogSize")) {
+        KWindowConfig::restoreWindowSize(handle, conf->group("RenderDialogSize"));
+        resize(handle->size());
+    }
     m_view.embed_subtitles->setToolTip(i18n("Only works for the matroska (mkv) format"));
     connect(this, &RenderWidget::renderStatusChanged, this, &RenderWidget::updatePowerManagement);
     m_view.keep_log_files->setChecked(KdenliveSettings::keepRenderLogFiles());
@@ -631,6 +640,11 @@ void RenderWidget::saveConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "RenderWidget");
     resourceConfig.writeEntry(QStringLiteral("showoptions"), m_view.options->isChecked());
+    QWindow *handle = windowHandle();
+    KConfigGroup group = config->group("RenderDialogSize");
+    if (handle) {
+        KWindowConfig::saveWindowSize(handle, group);
+    }
     config->sync();
 }
 
@@ -2125,7 +2139,7 @@ void RenderWidget::saveRenderProfile()
     // Save rendering profile to document
     QMap<QString, QString> renderProps;
     std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
-    renderProps.insert(QStringLiteral("rendercategory"), preset->groupName());
+    renderProps.insert(QStringLiteral("rendercategory"), preset->groupId());
     renderProps.insert(QStringLiteral("renderprofile"), preset->name());
     renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->url().toLocalFile());
     int mode = 0; // 0 = full project

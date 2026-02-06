@@ -105,7 +105,11 @@ std::unique_ptr<TransitionsRepository> &TransitionsRepository::get()
 
 QStringList TransitionsRepository::assetDirs() const
 {
-    return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+
+    dirs << qtDataDir(QStringLiteral("transitions"));
+
+    return dirs;
 }
 
 void TransitionsRepository::parseType(Mlt::Properties *metadata, Info &res)

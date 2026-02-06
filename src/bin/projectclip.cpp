@@ -1307,7 +1307,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
     return {std::shared_ptr<Mlt::Producer>(pCore->mediaUnavailable->cut()), false};
 }
 
-void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
+void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer, bool audioOnly)
 {
     QMutexLocker lk(&m_producerMutex);
     QReadLocker lock(&pCore->xmlMutex);
@@ -1315,8 +1315,9 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
-    if (m_clipType != ClipType::Timeline && m_clipType != ClipType::Playlist && m_clipType != ClipType::Text && m_clipType != ClipType::TextTemplate) {
-        // Playlist and text clips need to keep their profile info
+    if ((m_clipType != ClipType::Timeline || audioOnly) && m_clipType != ClipType::Playlist && m_clipType != ClipType::Text &&
+        m_clipType != ClipType::TextTemplate) {
+        // Playlist and text clips need to keep their profile info, except if we want to generate audio
         c.set("no_profile", 1);
     }
     c.set("root", "/");
@@ -1329,7 +1330,22 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
     /*if (ignore) {
         s.set("ignore_points", ignore);
     }*/
-    if (!thumbsProducer && m_usesProxy) {
+    if (audioOnly) {
+        // Disable all video tracks to speedup audio thumbs
+        QFile file(path);
+        if (file.open(QIODevice::ReadOnly)) {
+            QTextStream in(&file);
+            QString content = in.readAll();
+            file.close();
+            content.replace(QStringLiteral("hide=\"audio\""), QStringLiteral("hide=\"both\""));
+            content.replace(QStringLiteral("\"set.test_image\">0"), QStringLiteral("\"set.test_image\">1"));
+            if (file.open(QIODevice::WriteOnly)) {
+                QTextStream out(&file);
+                out << content;
+                file.close();
+            }
+        }
+    } else if (!thumbsProducer && m_usesProxy) {
         QFile file(path);
         if (file.open(QIODevice::ReadOnly)) {
             QTextStream in(&file);
@@ -2060,7 +2076,7 @@ int ProjectClip::audioChannels(int stream) const
 
 void ProjectClip::discardAudioThumb(bool recreate)
 {
-    if (!m_audioInfo) {
+    if (!m_audioInfo || pCore->projectItemModel()->closing) {
         return;
     }
     pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB);
@@ -2068,22 +2084,17 @@ void ProjectClip::discardAudioThumb(bool recreate)
     const QList<int> streams = m_audioInfo->streams().keys();
     // Delete audio thumbnail data
     for (const int &st : streams) {
-        audioThumbPath = getAudioThumbPath(st);
-        if (!audioThumbPath.isEmpty()) {
-            QFile::remove(audioThumbPath);
+        // Delete stored thumbnail
+        if (recreate || m_clipType != ClipType::Timeline) {
+            audioThumbPath = getAudioThumbPath(st);
+            if (!audioThumbPath.isEmpty()) {
+                QFile::remove(audioThumbPath);
+            }
         }
         // Clear audio cache
         QString key = QStringLiteral("%1:%2").arg(m_binId).arg(st);
         pCore->audioThumbCache.insert(key, QByteArray("-"));
     }
-    // Delete thumbnail
-    for (const int &st : streams) {
-        audioThumbPath = getAudioThumbPath(st);
-        if (!audioThumbPath.isEmpty()) {
-            QFile::remove(audioThumbPath);
-        }
-    }
-
     resetProducerProperty(QStringLiteral("kdenlive:audio_max"));
     m_audioThumbCreated = false;
     refreshAudioInfo();
@@ -2768,7 +2779,7 @@ QVector<int16_t> ProjectClip::audioFrameCache(const int streamIdx) const
         const auto audioData = *static_cast<QVector<int16_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
     }
-    qWarning() << "Audio levels not found for bin" << m_binId;
+    qWarning() << "Audio levels not found for bin" << m_binId << ", STREAM: " << streamIdx << ", TYPE: " << m_clipType;
     return {};
 }
 
@@ -3289,4 +3300,14 @@ void ProjectClip::loadMasks(const QString &maskData)
         ix++;
     }
     Q_EMIT masksUpdated();
+}
+
+bool ProjectClip::audioSynced() const
+{
+    return true;
+}
+
+void ProjectClip::markAudioDirty()
+{
+    // Not relevant for normal clips, only for sequences
 }

@@ -91,6 +91,7 @@ public:
 
     /** @brief Returns clip duration. */
     int duration() const;
+    void setDuration(int duration);
 
     /** @brief Retrieves a list of all available title templates. */
     static void refreshTitleTemplates(const QString &projectPath);

@@ -45,7 +45,7 @@ public:
     void disconnectTimeline(TimelineWidget *timeline);
     /** @brief Store timeline menus */
     void setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu,
-                         QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+                         QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu);
     /** @brief Mark a tab as modified */
     void setModified(const QUuid &uuid, bool modified);
     /** @brief Returns the uuid list for opened timeline tabs. */
@@ -108,6 +108,7 @@ private:
     QMenu *m_thumbsMenu;
     QAction *m_editGuideAction;
     QMenu *m_timelineSubtitleClipMenu;
+    QMenu *m_timelineAddClipMenu;
     QMutex m_lock;
     int getTimelineIndex(const QUuid &uuid);
 };

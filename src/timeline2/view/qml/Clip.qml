@@ -276,12 +276,12 @@ Rectangle {
             if (dropSource == '') {
                 // drop from effects list
                 controller.addClipEffect(clipRoot.clipId, dropData)
-                if (K.KdenliveSettings.seekonaddeffect && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
-                    // If timeline cursor is not inside clip, seek to drop position
-                    proxy.position = clipRoot.modelStart + drag.x / timeScale
-                }
             } else {
                 controller.copyClipEffect(clipRoot.clipId, dropSource)
+            }
+            if (K.KdenliveSettings.seekonaddeffect && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
+                // If timeline cursor is not inside clip, seek to drop position
+                proxy.position = clipRoot.modelStart + drag.x / timeScale
             }
             dropSource = ''
             drag.acceptProposedAction()
@@ -994,6 +994,10 @@ Rectangle {
                 property bool sizeChanged: false
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
@@ -1116,6 +1120,10 @@ Rectangle {
                 drag.smoothed: false
 
                 onPressed: mouse => {
+                    if (mouse.modifiers & Qt.ControlModifier && (root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool)) {
+                        mouse.accepted = false
+                        return
+                    }
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration

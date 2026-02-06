@@ -450,14 +450,16 @@ void MonitorProxy::selectClip(int ix)
     }
 }
 
-void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName, bool audioSynced)
 {
     bool idChanged = clipId != m_clipId;
     bool avChanged = hasAV != m_hasAV;
     bool typeChanged = type != m_clipType;
+    bool audioChanged = audioSynced != m_audioSynced;
     m_clipId = clipId;
     m_hasAV = hasAV;
     m_clipType = type;
+    m_audioSynced = audioSynced;
 
     if (idChanged) {
         Q_EMIT clipIdChanged();
@@ -467,6 +469,9 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     }
     if (typeChanged) {
         Q_EMIT clipTypeChanged();
+    }
+    if (audioChanged) {
+        Q_EMIT audioSyncedChanged();
     }
     if (!clipName.isEmpty()) {
         std::pair<int, QString> id = {clipId, clipName};
@@ -772,4 +777,26 @@ void MonitorProxy::setCursorOutsideEffect(bool isOutside)
 {
     m_cursorOutsideEffect = isOutside;
     Q_EMIT cursorOutsideEffectChanged();
+}
+
+const QString MonitorProxy::dragType()
+{
+    return m_dragType;
+}
+
+void MonitorProxy::setDragType(const QString dragType)
+{
+    m_dragType = dragType;
+    Q_EMIT dragTypeChanged();
+}
+
+void MonitorProxy::setAudioSynced(bool synced)
+{
+    m_audioSynced = synced;
+    Q_EMIT audioSyncedChanged();
+}
+
+void MonitorProxy::refreshAudio()
+{
+    Q_EMIT rebuildAudio(m_clipId);
 }

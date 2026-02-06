@@ -569,9 +569,14 @@ public:
     /** @brief Get the frame where mouse is positioned
      */
     Q_INVOKABLE int getMousePos();
+    int getMousePos(const QPoint &pos);
     /** @brief Get the frame where mouse is positioned
      */
-    int getMouseTrack();
+    Q_INVOKABLE int getMouseTrack();
+    int getMouseTrack(const QPoint &pos);
+    double scale() const { return m_scale; }
+    /** @brief Returns the free space at position on track tid */
+    Q_INVOKABLE int getFreeSpace(int tid, int position);
     /** @brief Returns a map of track ids/track names
      */
     QMap<int, QString> getTrackNames(bool videoOnly);

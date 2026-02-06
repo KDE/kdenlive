@@ -173,6 +173,7 @@ Rectangle {
     MouseArea {
         // Inside rect handle
         id: mainHandleArea
+        acceptedButtons: Qt.LeftButton
         anchors.fill: zoomRef
         property int clickPos
         anchors {
@@ -203,6 +204,7 @@ Rectangle {
         id: leftHandle
         width: root.baseUnit * 2
         height: zoomRef.height
+        acceptedButtons: Qt.LeftButton
         anchors {
             left: pressed ? undefined : zoomRef.left
             leftMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit
@@ -230,6 +232,7 @@ Rectangle {
         id: rightHandle
         width: root.baseUnit * 2
         height: zoomRef.height
+        acceptedButtons: Qt.LeftButton
         anchors {
             right: pressed ? undefined : zoomRef.right
             rightMargin: zoomRef.width > 2 * root.baseUnit ? -root.baseUnit : -2 * root.baseUnit

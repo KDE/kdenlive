@@ -113,6 +113,8 @@ protected:
     /** @brief Returns the path to the assets' preferred list*/
     virtual QString assetPreferredListPath() const = 0;
 
+    QStringList qtDataDir(const QString &assetLocation) const;
+
     std::unordered_map<QString, Info> m_assets;
 
     QSet<QString> m_hiddenList;

@@ -87,6 +87,8 @@ void AudioLevelsTask::saveLevelsToCache(const QString &cachePath, const QVector<
         QDataStream out(&file);
         out << levels;
         file.close();
+    } else {
+        qWarning() << "Could not write to audiothumb file: " << cachePath;
     }
 }
 
@@ -146,7 +148,7 @@ void AudioLevelsTask::run()
         return;
     }
 
-    QString service = producer->get("mlt_service");
+    QString service = qstrdup(producer->get("mlt_service"));
     if (service == QLatin1String("avformat-novalidate")) {
         service = QStringLiteral("avformat");
     } else if (service.startsWith(QLatin1String("xml"))) {
@@ -168,7 +170,7 @@ void AudioLevelsTask::run()
         const QString cachePath = binClip->getAudioThumbPath(streamIdx.key());
         QVector<int16_t> levels;
         bool skipSaving = false;
-        if (!m_isCanceled && !m_isForce && QFile::exists(cachePath)) {
+        if (!m_isCanceled && !m_isForce && !cachePath.isEmpty() && QFile::exists(cachePath)) {
             // load from cache
             levels = getLevelsFromCache(cachePath);
             skipSaving = true;
@@ -185,9 +187,14 @@ void AudioLevelsTask::run()
             // else, or if using libav failed, use MLT
             const int channels = binClip->audioInfo()->channelsForStream(streamIdx.key());
             if (isTimeline) {
+                int duration = binClip->frameDuration();
+                if (duration < 2) {
+                    // Trying to generate audio wave for empty sequence, abort
+                    break;
+                }
                 QTemporaryFile *tmpFile = binClip->getSequenceTmpResource();
                 if (tmpFile) {
-                    levels = generateMLT(streamIdx.key(), service, tmpFile->fileName(), channels, clbk, m_isCanceled, binClip->frameDuration());
+                    levels = generateMLT(streamIdx.key(), service, tmpFile->fileName(), channels, clbk, m_isCanceled, duration);
                     delete tmpFile;
                 }
             } else {
@@ -199,7 +206,7 @@ void AudioLevelsTask::run()
         if (!m_isCanceled && !levels.empty()) {
             storeLevels(binClip, streamIdx.key(), levels);
             storeMax(binClip, streamIdx.key(), levels);
-            if (!skipSaving) {
+            if (!skipSaving && !isTimeline) {
                 saveLevelsToCache(cachePath, levels);
             }
             m_progress = 100;

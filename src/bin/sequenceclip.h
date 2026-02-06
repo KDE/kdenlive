@@ -87,12 +87,23 @@ public:
     std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
     int getStartTimecode() override;
+    const QString hash(bool createIfEmpty = true) override;
+    /** @brief Returns true if the audio has not changed since last generation of audio waveform. */
+    bool audioSynced() const override;
+    /** @brief Audio in this sequence has changed, mark it as dirty. */
+    void markAudioDirty() override;
+    /** @brief Save the audio waveform to disk for caching. */
+    void saveAudioWave();
 
 public Q_SLOTS:
     bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true) override;
+
+private Q_SLOTS:
+    void updateAudioSync();
 
 private:
     // The sequence unique identifier
     QUuid m_sequenceUuid;
     QTemporaryFile m_sequenceThumbFile;
+    bool m_audioSynced{false};
 };

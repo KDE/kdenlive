@@ -13,6 +13,7 @@
 */
 
 #include "monitor/monitor.h"
+#include "monitor/view/qmliconprovider.hpp"
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -24,6 +25,7 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QStyle>
 #include <QtGlobal>
 #include <memory>
 
@@ -132,17 +134,39 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     m_proxy = new MonitorProxy(this);
     rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
+    int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    engine()->addImageProvider(QStringLiteral("icon"), new QmlIconProvider(QSize(iconSize, iconSize), this));
+    m_mouseTimer.setSingleShot(true);
+    m_mouseTimer.setInterval(2000);
 }
 
 VideoWidget::~VideoWidget()
 {
     stop();
+    m_mouseTimer.stop();
     if (m_frameRenderer && m_frameRenderer->isRunning()) {
         m_frameRenderer->quit();
         m_frameRenderer->wait();
         m_frameRenderer->deleteLater();
     }
     m_blackClip.reset();
+}
+
+void VideoWidget::enableMouseTimer(bool enable)
+{
+    m_fullScreen = enable;
+    if (enable) {
+        connect(&m_mouseTimer, &QTimer::timeout, this, &VideoWidget::blankCursor, Qt::UniqueConnection);
+    } else {
+        m_mouseTimer.stop();
+        setCursor(Qt::ArrowCursor);
+        disconnect(&m_mouseTimer, &QTimer::timeout, this, &VideoWidget::blankCursor);
+    }
+}
+
+void VideoWidget::blankCursor()
+{
+    setCursor(Qt::BlankCursor);
 }
 
 void VideoWidget::updateAudioForAnalysis()
@@ -193,6 +217,11 @@ const QStringList VideoWidget::getGPUInfo()
     return {};
 }
 
+void VideoWidget::setFixedImageSize(const QSize fixedSize)
+{
+    m_fixedSize = fixedSize;
+}
+
 void VideoWidget::resizeVideo(int width, int height)
 {
     double x, y, w, h;
@@ -201,21 +230,28 @@ void VideoWidget::resizeVideo(int width, int height)
 
     // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
-    if (int(this_aspect * 1000) == int(m_dar * 1000)) {
-        w = width;
-        h = height;
-    }
-    // Use OpenGL to normalise sample aspect ratio
-    else if (height * m_dar > width) {
-        w = width;
-        h = width / m_dar;
+    if (m_fixedSize.isValid()) {
+        w = m_fixedSize.width();
+        h = m_fixedSize.height();
     } else {
-        w = height * m_dar;
-        h = height;
+        if (int(this_aspect * 1000) == int(m_dar * 1000)) {
+            w = width;
+            h = height;
+        }
+        // Use OpenGL to normalise sample aspect ratio
+        else if (height * m_dar > width) {
+            w = width;
+            h = width / m_dar;
+        } else {
+            w = height * m_dar;
+            h = height;
+        }
     }
     x = (width - w) / 2.0;
     y = (height - h) / 2.0;
     m_rect = QRectF(x, y, w, h);
+    const QSize parentSize = parentWidget()->size();
+    m_monitorOffset = QPointF((parentSize.width() - width) / 2., (parentSize.height() - m_displayRulerHeight - height) / 2.);
 
     QQuickItem *rootQml = rootObject();
     if (rootQml) {
@@ -240,6 +276,13 @@ void VideoWidget::resizeEvent(QResizeEvent *event)
         refreshZoom = false;
     }
     resizeVideo(event->size().width(), event->size().height());
+}
+
+void VideoWidget::updateImagePosition()
+{
+    if (m_fixedSize.isValid()) {
+        resizeVideo(width(), height());
+    }
 }
 
 void VideoWidget::forceRefreshZoom()
@@ -409,16 +452,18 @@ bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
 
 void VideoWidget::mousePressEvent(QMouseEvent *event)
 {
-    if ((rootObject() != nullptr) && rootObject()->property("captureRightClick").toBool() && !(event->modifiers() & Qt::ControlModifier) &&
-        !(event->buttons() & Qt::MiddleButton)) {
-        event->ignore();
-        QQuickWidget::mousePressEvent(event);
-        return;
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        } else {
+            m_mouseTimer.stop();
+        }
     }
     QQuickWidget::mousePressEvent(event);
     // For some reason, on Qt6 in mouseReleaseEvent, the event is always accepted, so use this m_qmlEvent bool to track if the event is accepted in qml
     m_qmlEvent = event->isAccepted();
-    if (rootObject() != nullptr && rootObject()->property("captureRightClick").toBool()) {
+    m_dragStart = QPoint();
+    if (rootObject() != nullptr && m_qmlEvent && rootObject()->property("captureRightClick").toBool()) {
         // The event has been handled in qml
         m_swallowDrop = true;
     } else {
@@ -429,7 +474,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
             // Pan view
             m_panStart = event->pos();
             setCursor(Qt::ClosedHandCursor);
-        } else {
+        } else if (getControllerProxy()->dragType() != QLatin1String("-")) {
             m_dragStart = event->pos();
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
@@ -440,18 +485,50 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
+void VideoWidget::focusInEvent(QFocusEvent *event)
+{
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        }
+        if (parentWidget()->isFullScreen()) {
+            m_mouseTimer.start();
+        }
+    }
+    QQuickWidget::focusInEvent(event);
+}
+
+void VideoWidget::focusOutEvent(QFocusEvent *event)
+{
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        }
+        m_mouseTimer.stop();
+    }
+    QQuickWidget::focusOutEvent(event);
+}
+
 void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (m_fullScreen) {
+        m_mouseTimer.start();
+    }
+    bool qmlClick = rootObject()->property("captureRightClick").toBool();
     QQuickWidget::mouseReleaseEvent(event);
-    bool playMonitor = KdenliveSettings::play_monitor_on_click() && !m_dragStart.isNull() && m_panStart.isNull();
+    rootObject()->setProperty("captureRightClick", false);
+    bool playMonitor = KdenliveSettings::play_monitor_on_click() &&
+                       (m_dragStart.isNull() || (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) && m_panStart.isNull();
+
     m_dragStart = QPoint();
     m_panStart = QPoint();
     setCursor(Qt::ArrowCursor);
     if (event->modifiers() & Qt::ControlModifier || m_qmlEvent) {
         event->accept();
+        m_swallowDrop = false;
         return;
     }
-    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
+    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop && !qmlClick) {
         event->accept();
         Q_EMIT monitorPlay();
     }
@@ -460,6 +537,12 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    if (m_fullScreen) {
+        if (!m_mouseTimer.isActive()) {
+            setCursor(Qt::ArrowCursor);
+        }
+        m_mouseTimer.start();
+    }
     if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
@@ -478,7 +561,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
 
-    if (!event->isAccepted() && !m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
+    if (!m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
         m_dragStart = QPoint();
         Q_EMIT startDrag();
     }

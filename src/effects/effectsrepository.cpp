@@ -213,6 +213,10 @@ QStringList EffectsRepository::assetDirs() const
     dirs << QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
 #endif
     dirs.append(QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory));
+
+    dirs << qtDataDir(QStringLiteral("effect-templates"));
+    dirs << qtDataDir(QStringLiteral("effects"));
+
     return dirs;
 }
 

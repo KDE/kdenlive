@@ -28,6 +28,16 @@ std::vector<std::pair<int, QString>> RenderPresetRepository::colorProfiles{{601,
 QStringList RenderPresetRepository::m_acodecsList;
 QStringList RenderPresetRepository::m_vcodecsList;
 QStringList RenderPresetRepository::m_supportedFormats;
+static std::map<QString, QString> categoryMap{{QStringLiteral("Generic (HD for web, mobile devices...)"), QStringLiteral("generic")},
+                                              {QStringLiteral("Ultra-High Definition (4K)"), QStringLiteral("4k")},
+                                              {QStringLiteral("Video with Alpha"), QStringLiteral("alpha")},
+                                              {QStringLiteral("Old-TV definition (DVD...)"), QStringLiteral("sd")},
+                                              {QStringLiteral("Hardware Accelerated (experimental)"), QStringLiteral("hw")},
+                                              {QStringLiteral("Audio only"), QStringLiteral("audio")},
+                                              {QStringLiteral("Images sequence"), QStringLiteral("image")},
+                                              {QStringLiteral("Custom"), QStringLiteral("custom")},
+                                              {QStringLiteral("10 Bit"), QStringLiteral("10bit")},
+                                              {QStringLiteral("Lossless/HQ"), QStringLiteral("lossless")}};
 
 RenderPresetRepository::RenderPresetRepository()
 {
@@ -83,34 +93,37 @@ void RenderPresetRepository::refresh(bool fullRefresh)
     if (fullRefresh) {
         // Reset all profiles
         m_profiles.clear();
-        m_groups.clear();
+        m_profileCategories.clear();
     }
+    // Ensure MLT presets categories exist
+    m_profileCategories = {{QStringLiteral("custom"), i18nc("Custom render preset category", "Custom")},
+                           {QStringLiteral("10bit"), i18nc("10 Bit color depth category", "10 Bit")},
+                           {QStringLiteral("lossless"), i18nc("Lossless rendering category", "Lossless/HQ")}};
 
     // Profiles downloaded by KNewStuff
     QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/");
     QDir directory(exportFolder);
     QStringList fileList = directory.entryList({QStringLiteral("*.xml")}, QDir::Files);
 
-    // Parse customprofiles.xml always first so custom profiles always override
-    // profiles downloaded with KNewStuff
-    if (directory.exists(QStringLiteral("customprofiles.xml"))) {
-        parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);
-        // no need to parse this again
-        fileList.removeAll(QStringLiteral("customprofiles.xml"));
-    }
+    // Parse our xml profile
+    QString exportFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
+    parseFile(exportFile, false);
+
+    // Parse some MLT's profiles
+    parseMltPresets();
+
     // Parse files downloaded with KNewStuff
     for (const QString &filename : std::as_const(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
 
-    // Parse some MLT's profiles
-    parseMltPresets();
-
-    // Parse our xml profile
-    QString exportFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
-    parseFile(exportFile, false);
-
-    // focusFirstVisibleItem(selectedProfile);
+    // Parse customprofiles.xml last so custom profiles always override
+    // all other profiles
+    if (directory.exists(QStringLiteral("customprofiles.xml"))) {
+        parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);
+        // no need to parse this again
+        fileList.removeAll(QStringLiteral("customprofiles.xml"));
+    }
 }
 
 void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
@@ -171,16 +184,37 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
         int count = 1;
         while (!node.isNull()) {
             QDomElement profile = node.toElement();
-
-            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable));
+            QString category = profile.attribute(QStringLiteral("category"));
+            if (!m_profileCategories.contains(category)) {
+                // Probably an old profile version without group id, try to map
+                if (!category.isEmpty() && categoryMap.count(category) > 0) {
+                    category = categoryMap.at(category);
+                }
+                if (!category.isEmpty() && !m_profileCategories.contains(category)) {
+                    // Check if the category name was translated
+                    for (auto &c : categoryMap) {
+                        if (i18n(c.first.toUtf8().constData()) == category) {
+                            category = c.second;
+                            break;
+                        }
+                    }
+                }
+                if (category.isEmpty()) {
+                    category = QStringLiteral("custom");
+                }
+            }
+            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable, category));
             if (m_profiles.count(model->name()) == 0) {
-                m_groups.append(model->groupName());
+                m_profiles.insert(std::make_pair(model->name(), std::move(model)));
+            } else if (editable) {
+                // Editable items should override existing items
+                m_profiles.erase(model->name());
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
             node = doc.elementsByTagName(QStringLiteral("profile")).at(count);
             count++;
         }
-        m_groups.removeDuplicates();
+
         return;
     }
 
@@ -188,12 +222,16 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
 
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
-        QString groupName = documentElement.attribute(QStringLiteral("name"));
-        if (groupName.isEmpty()) {
-            groupName = i18nc("Attribute Name", "Custom");
-        } else {
-            // Ensure render categories are translated
-            groupName = i18n(groupName.toUtf8().constData());
+        QString groupId = documentElement.attribute("id");
+        if (!m_profileCategories.contains(groupId)) {
+            QString groupName = Xml::getSubTagContent(documentElement, QStringLiteral("name"));
+            if (groupName.isEmpty()) {
+                groupName = i18nc("Custom render preset category name", "Custom");
+            } else {
+                // Ensure render categories are translated
+                groupName = i18n(groupName.toUtf8().constData());
+            }
+            m_profileCategories.insert(groupId, groupName);
         }
         QString renderer = documentElement.attribute(QStringLiteral("renderer"), QString());
 
@@ -204,16 +242,19 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
                 continue;
             }
             QDomElement profile = n.toElement();
-            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable, groupName, renderer));
+            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable, groupId, renderer));
             if (m_profiles.count(model->name()) == 0) {
-                m_groups.append(model->groupName());
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
             n = n.nextSibling();
         }
         ++i;
     }
-    m_groups.removeDuplicates();
+}
+
+QMap<QString, QString> RenderPresetRepository::getAllCategories()
+{
+    return m_profileCategories;
 }
 
 void RenderPresetRepository::parseMltPresets()
@@ -225,14 +266,12 @@ void RenderPresetRepository::parseMltPresets()
         return;
     }
     if (root.exists(QStringLiteral("lossless"))) {
-        QString groupName = i18n("Lossless/HQ");
         QDir baseDir = root.absoluteFilePath(QStringLiteral("lossless"));
         const QStringList profiles = baseDir.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : profiles) {
-            std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=lossless/%1").arg(prof), true));
+            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("lossless"), baseDir.absoluteFilePath(prof), prof,
+                                                                           QStringLiteral("properties=lossless/%1").arg(prof), true));
             if (m_profiles.count(model->name()) == 0) {
-                m_groups.append(model->groupName());
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
         }
@@ -243,9 +282,8 @@ void RenderPresetRepository::parseMltPresets()
         const QStringList profiles = baseDir.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : profiles) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=ten_bit/%1").arg(prof), true));
+                new RenderPresetModel(QStringLiteral("10bit"), baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=ten_bit/%1").arg(prof), true));
             if (m_profiles.count(model->name()) == 0) {
-                m_groups.append(model->groupName());
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
         }
@@ -256,19 +294,16 @@ void RenderPresetRepository::parseMltPresets()
         QStringList profiles = baseDir.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : std::as_const(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=stills/%1").arg(prof), false));
-            m_groups.append(model->groupName());
+                new RenderPresetModel(QStringLiteral("image"), baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=stills/%1").arg(prof), false));
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
         // Add GIF as image sequence
-        std::unique_ptr<RenderPresetModel> model(
-            new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("image"), root.absoluteFilePath(QStringLiteral("GIF")),
+                                                                       QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
         if (m_profiles.count(model->name()) == 0) {
-            m_groups.append(model->groupName());
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
     }
-    m_groups.removeDuplicates();
 }
 
 QVector<QString> RenderPresetRepository::getAllPresets() const

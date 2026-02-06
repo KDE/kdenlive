@@ -193,6 +193,8 @@ public:
     void updatePreviewMask();
     /** @brief Apply timecode display styling based on current active state */
     void applyTimecodeDisplayStyling();
+    /** @brief Audio thumbnail is outdated, inform view */
+    void markAudioDirty(bool dirty);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -327,6 +329,8 @@ private Q_SLOTS:
     void addControlRect(double x, double y, double width, double height, bool extend);
     /** @brief Check if powermanagement sleep should be inhibited*/
     void updatePowerManagement();
+    /** @brief Trigger a rebuild of the audio thumbnail */
+    void rebuildAudio(int cid);
 
 public Q_SLOTS:
     void slotCreateRangeMarkerFromZone();

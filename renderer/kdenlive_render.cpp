@@ -19,6 +19,31 @@
 #include <QTemporaryFile>
 #include <QtGlobal>
 
+QString getCIMltRepositoryPath()
+{
+    for (auto varname : {"CRAFT_ROOT", "KDEROOT"}) {
+        if (!qEnvironmentVariableIsSet(varname)) {
+            continue;
+        }
+
+        qDebug() << varname << "envvar is set, try to use it for MLT repository path";
+        QString repositoryPath = QDir::cleanPath(qgetenv(varname) + QDir::separator() + QStringLiteral("lib/mlt"));
+        if (!QFile::exists(repositoryPath)) {
+            qDebug() << repositoryPath << "does not exist ($" << varname << "/lib/mlt)";
+            QString repositoryPath = QDir::cleanPath(qgetenv(varname) + QDir::separator() + QStringLiteral("lib/mlt-7"));
+        }
+        if (!QFile::exists(repositoryPath)) {
+            qDebug() << repositoryPath << "does not exist ($" << varname << "/lib/mlt-7)";
+            return {};
+        }
+
+        qDebug() << "Using this path as MLT repository path:" << repositoryPath;
+
+        return repositoryPath;
+    }
+    return {};
+}
+
 int main(int argc, char **argv)
 {
     // kdenlive_render needs to be a full QApplication since some MLT modules
@@ -59,9 +84,19 @@ int main(int argc, char **argv)
             parser.showHelp(1);
             // the command above will quit the app with return 1;
         }
+
+        QString repoPath = getCIMltRepositoryPath();
+        if (!repoPath.isEmpty() && !qEnvironmentVariableIsSet("MLT_DATA")) {
+            QString dataPath = QDir::cleanPath(repoPath + QStringLiteral("/../../share/mlt"));
+            if (QFile::exists(dataPath)) {
+                qDebug() << "Setting MLT_DATA to" << dataPath;
+                qputenv("MLT_DATA", dataPath.toUtf8());
+            }
+        }
+
         // After initialising the MLT factory, set the locale back from user default to C
         // to ensure numbers are always serialised with . as decimal point.
-        Mlt::Factory::init();
+        Mlt::Factory::init(repoPath.isEmpty() ? NULL : repoPath.toUtf8().constData());
         LocaleHandling::resetAllLocale();
 
         // mode

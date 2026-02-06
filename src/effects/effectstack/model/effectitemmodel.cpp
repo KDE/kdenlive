@@ -330,9 +330,13 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     } else {
         filter().set("disable", 1);
     }
-    if (updateTimeline && !isAudio()) {
-        pCore->refreshProjectItem(m_ownerId);
-        pCore->invalidateItem(m_ownerId);
+    if (updateTimeline) {
+        if (!isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
+            pCore->invalidateItem(m_ownerId);
+        } else {
+            pCore->invalidateAudio(m_ownerId);
+        }
     }
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
@@ -410,6 +414,8 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds
         if (!isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
+        } else {
+            pCore->invalidateAudio(m_ownerId);
         }
         Q_EMIT showEffectZone(m_ownerId, currentInOut, currentState == 1);
         return true;
@@ -427,6 +433,8 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds
         if (!isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
+        } else {
+            pCore->invalidateAudio(m_ownerId);
         }
         Q_EMIT showEffectZone(m_ownerId, bounds, enabled);
         return true;

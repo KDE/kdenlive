@@ -229,6 +229,10 @@ public:
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
     void invalidateRange(QPair<int, int> range);
+    /** @brief Mark an item audio as invalid for timeline preview */
+    void invalidateAudio(ObjectId itemId);
+    /** @brief Mark an audio range as invalid for timeline preview */
+    void invalidateAudioRange(const QUuid &uuid, int in, int out);
     void prepareShutdown();
     void finishShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */

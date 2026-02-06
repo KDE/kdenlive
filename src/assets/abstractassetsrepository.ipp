@@ -69,6 +69,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // We now parse custom effect xml
     // Set the directories to look into for effects.
     QStringList asset_dirs = assetDirs();
+    qDebug() << "Loading asset xml files from the following locations" << asset_dirs;
 
     /* Parsing of custom xml works as follows: we parse all custom files.
        Each of them contains a tag, which is the corresponding mlt asset, and an id that is the name of the asset. Note that several custom files can correspond
@@ -484,3 +485,19 @@ template <typename AssetType> QDomElement AbstractAssetsRepository<AssetType>::g
     }
     return m_assets.at(assetId).xml.cloneNode().toElement();
 }
+
+template <typename AssetType> QStringList AbstractAssetsRepository<AssetType>::qtDataDir(const QString &assetLocation) const
+{
+    QStringList dirs;
+    QString qtDataDirsEnv = qEnvironmentVariable("QT_DATA_DIRS");
+#ifdef Q_OS_WIN
+    auto separator = u';';
+#else
+    auto separator = u':';
+#endif
+    for (const auto dir : qTokenize(qtDataDirsEnv, separator)) {
+        dirs.push_back(QDir::cleanPath(dir.toString() + "/kdenlive/" + assetLocation));
+    }
+    return dirs;
+}
+

@@ -28,8 +28,9 @@ namespace ClipCreator {
    @param readyCallBack: optional callback for when the clip is ready
    @return the binId of the created clip
 */
-QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
-                        const std::function<void(const QString &)> &readyCallBack = nullptr);
+QString createColorClip(
+    const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+    const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
 /** @brief Create a title clip
    @param properties : title properties (xmldata, etc)
@@ -37,9 +38,11 @@ QString createColorClip(const QString &color, int duration, const QString &name,
    @param name: name of the clip
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
+   @param readyCallBack: optional callback for when the clip is ready
 */
-QString createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
-                        const std::shared_ptr<ProjectItemModel> &model);
+QString createTitleClip(
+    const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
+    const std::shared_ptr<ProjectItemModel> &model, const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
 /** @brief Create a title template
    @param path : path to the template
@@ -47,10 +50,12 @@ QString createTitleClip(const std::unordered_map<QString, QString> &properties, 
    @param name: name of the clip
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
+   @param readyCallBack: optional callback for when the clip is ready
    @return the binId of the created clip
 */
-QString createTitleTemplate(const QString &path, const QString &text, const QString &name, const QString &parentFolder,
-                            const std::shared_ptr<ProjectItemModel> &model);
+QString createTitleTemplate(
+    const QString &path, const QString &text, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+    const std::function<void(const QString &)> &readyCallBack = [](const QString &) {}, int suggestedDuration = -1);
 
 /** @brief Create and inserts a playlist clip
    @param name: name of the clip
@@ -58,7 +63,9 @@ QString createTitleTemplate(const QString &path, const QString &text, const QStr
    @param model: a shared pointer to the bin item model
    @return the binId of the created clip
 */
-QString createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
+QString createPlaylistClip(
+    const QString &name, std::pair<int, int> tracks, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+    const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 QString createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
                            const QMap<QString, QString> mainProperties);
 QString createPlaylistClipWithUndo(const QString &name, std::pair<int, int> tracks, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
@@ -71,10 +78,12 @@ QString createPlaylistClipWithUndo(const QString &name, std::pair<int, int> trac
    @param parentFolder: the binId of the containing folder
    @param properties: description of the slideshow
    @param model: a shared pointer to the bin item model
+   @param readyCallBack: optional callback for when the clip is ready
    @return the binId of the created clip
 */
-QString createSlideshowClip(const QString &path, int duration, const QString &name, const QString &parentFolder,
-                            const std::unordered_map<QString, QString> &properties, const std::shared_ptr<ProjectItemModel> &model);
+QString createSlideshowClip(
+    const QString &path, int duration, const QString &name, const QString &parentFolder, const std::unordered_map<QString, QString> &properties,
+    const std::shared_ptr<ProjectItemModel> &model, const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 /** @brief Reads a file from disk and create the corresponding clip
    @param path : path to the file
    @param parentFolder: the binId of the containing folder
@@ -95,9 +104,12 @@ bool createClipFromFile(const QString &path, const QString &parentFolder, std::s
    @param redo
    @param topLevel
  */
-const QString createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
-                                  Fun &undo, Fun &redo, bool topLevel = true);
-const QString createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
+const QString createClipsFromList(
+    const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
+    const std::function<void(const QString &)> &readyCallBack = [](const QString &) {}, bool topLevel = true);
+const QString createClipsFromList(
+    const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model,
+    const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
 /** @brief Create minimal xml description from an url
  */

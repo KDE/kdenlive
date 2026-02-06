@@ -29,12 +29,18 @@ std::shared_ptr<RenderPresetTreeModel> RenderPresetTreeModel::construct(QObject 
     rootData << "Name";
     self->rootItem = TreeItem::construct(rootData, self, true);
     RenderPresetRepository::get()->refresh();
-    QVector<QString> presets = RenderPresetRepository::get()->getAllPresets();
-
-    // helper lambda that creates a preset category with the given name
-    auto createCat = [&](const QString &name) { return self->rootItem->appendChild(QList<QVariant>{name}); };
-
+    // First create categories
+    QMap<QString, QString> categories = RenderPresetRepository::get()->getAllCategories();
     std::vector<std::shared_ptr<TreeItem>> cats{};
+    std::shared_ptr<TreeItem> customCategory = nullptr;
+    for (auto i = categories.cbegin(), end = categories.cend(); i != end; ++i) {
+        const auto cat = self->rootItem->appendChild(QList<QVariant>{i.value(), i.key()});
+        if (i.key() == QLatin1String("custom")) {
+            customCategory = cat;
+        }
+        cats.push_back(cat);
+    }
+    QVector<QString> presets = RenderPresetRepository::get()->getAllPresets();
 
     for (const auto &preset : std::as_const(presets)) {
         bool foundMatch = false;
@@ -44,17 +50,15 @@ std::shared_ptr<RenderPresetTreeModel> RenderPresetTreeModel::construct(QObject 
         QList<QVariant> data;
         data << preset;
         for (const auto &cat : cats) {
-            if (cat->dataColumn(0) == ptr->groupName()) {
+            if (cat->dataColumn(1) == ptr->groupId()) {
                 cat->appendChild(data);
                 foundMatch = true;
                 break;
             }
         }
         if (!foundMatch) {
-            // category not found, create it
-            const auto &cat = createCat(ptr->groupName());
-            cats.push_back(cat);
-            cat->appendChild(data);
+            // category not found, add to custom
+            customCategory->appendChild(data);
         }
     }
     return self;

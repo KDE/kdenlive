@@ -255,19 +255,20 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->notifyChange(ix, ix, roles);
                 // invalidate timeline preview
-                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                if (logUndo) {
+                    bool isAudio = ptr->getTrackById_const(m_currentTrackId)->isAudioTrack();
                     if (right) {
                         int newOut = m_position + getOut() - getIn();
                         if (oldOut < newOut) {
-                            Q_EMIT ptr->invalidateZone(oldOut, newOut);
+                            isAudio ? Q_EMIT ptr->invalidateAudioZone(oldOut, newOut) : Q_EMIT ptr->invalidateZone(oldOut, newOut);
                         } else {
-                            Q_EMIT ptr->invalidateZone(newOut, oldOut);
+                            isAudio ? Q_EMIT ptr->invalidateAudioZone(newOut, oldOut) : Q_EMIT ptr->invalidateZone(newOut, oldOut);
                         }
                     } else {
                         if (oldIn < m_position) {
-                            Q_EMIT ptr->invalidateZone(oldIn, m_position);
+                            isAudio ? Q_EMIT ptr->invalidateAudioZone(oldIn, m_position) : Q_EMIT ptr->invalidateZone(oldIn, m_position);
                         } else {
-                            Q_EMIT ptr->invalidateZone(m_position, oldIn);
+                            isAudio ? Q_EMIT ptr->invalidateAudioZone(m_position, oldIn) : ptr->invalidateZone(m_position, oldIn);
                         }
                     }
                 }
@@ -307,18 +308,19 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                     ptr->notifyChange(ix, ix, roles);
                     // invalidate timeline preview
-                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                    if (logUndo) {
+                        bool isAudio = ptr->getTrackById_const(m_currentTrackId)->isAudioTrack();
                         if (right) {
                             if (oldOut < newOut) {
-                                Q_EMIT ptr->invalidateZone(oldOut, newOut);
+                                isAudio ? Q_EMIT ptr->invalidateAudioZone(oldOut, newOut) : Q_EMIT ptr->invalidateZone(oldOut, newOut);
                             } else {
-                                Q_EMIT ptr->invalidateZone(newOut, oldOut);
+                                isAudio ? Q_EMIT ptr->invalidateAudioZone(newOut, oldOut) : Q_EMIT ptr->invalidateZone(newOut, oldOut);
                             }
                         } else {
                             if (oldIn < newIn) {
-                                Q_EMIT ptr->invalidateZone(oldIn, newIn);
+                                isAudio ? Q_EMIT ptr->invalidateAudioZone(oldIn, newIn) : Q_EMIT ptr->invalidateZone(oldIn, newIn);
                             } else {
-                                Q_EMIT ptr->invalidateZone(newIn, oldIn);
+                                isAudio ? Q_EMIT ptr->invalidateAudioZone(newIn, oldIn) : Q_EMIT ptr->invalidateZone(newIn, oldIn);
                             }
                         }
                     }
@@ -386,8 +388,10 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                 ptr->notifyChange(ix, ix, roles);
                 pCore->refreshProjectMonitorOnce();
                 // invalidate timeline preview
-                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                    Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
+                if (logUndo) {
+                    bool isAudio = ptr->getTrackById_const(m_currentTrackId)->isAudioTrack();
+                    isAudio ? Q_EMIT ptr->invalidateAudioZone(m_position, m_position + getPlaytime())
+                            : Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
                 }
             }
         }
@@ -409,8 +413,10 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                     ptr->notifyChange(ix, ix, roles);
                     pCore->refreshProjectMonitorOnce();
-                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                        Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
+                    if (logUndo) {
+                        bool isAudio = ptr->getTrackById_const(m_currentTrackId)->isAudioTrack();
+                        isAudio ? Q_EMIT ptr->invalidateAudioZone(m_position, m_position + getPlaytime())
+                                : Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
                     }
                 }
             }
@@ -1595,6 +1601,8 @@ void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
         // invalidate timeline preview
         if (!ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
             Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
+        } else {
+            Q_EMIT ptr->invalidateAudioZone(m_position, m_position + getPlaytime());
         }
     }
 }

@@ -59,14 +59,19 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
 } // namespace
 
 QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
-                                     const std::shared_ptr<ProjectItemModel> &model)
+                                     const std::shared_ptr<ProjectItemModel> &model, const std::function<void(const QString &)> &readyCallBack)
 {
     QDomDocument xml;
     auto prod = createProducer(xml, ClipType::Text, QString(), name, duration, QStringLiteral("kdenlivetitle"));
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
+    std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+        if (readyCallBack) {
+            readyCallBack(binId);
+        }
+    };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
@@ -85,7 +90,7 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 }
 
 QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
-                                        const std::shared_ptr<ProjectItemModel> &model)
+                                        const std::shared_ptr<ProjectItemModel> &model, const std::function<void(const QString &)> &readyCallBack)
 {
     const QUuid uuid = QUuid::createUuid();
     std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getProjectProfile()));
@@ -136,7 +141,17 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     timeline->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     prod->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
 
-    res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        if (!pCore->window()) {
+            // We are in non graphical mode, abort
+            return;
+        }
+        pCore->activeBin()->selectClipById(binId);
+        if (readyCallBack) {
+            readyCallBack(binId);
+        }
+    };
+    res = model->requestAddBinClip(id, prod, parentFolder, undo, redo, callBack);
     if (res) {
         // Open playlist timeline
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
@@ -332,7 +347,8 @@ bool ClipCreator::createClipFromFile(const QString &path, const QString &parentF
 }
 
 QString ClipCreator::createSlideshowClip(const QString &path, int duration, const QString &name, const QString &parentFolder,
-                                         const std::unordered_map<QString, QString> &properties, const std::shared_ptr<ProjectItemModel> &model)
+                                         const std::unordered_map<QString, QString> &properties, const std::shared_ptr<ProjectItemModel> &model,
+                                         const std::function<void(const QString &)> &readyCallBack)
 {
     QDomDocument xml;
 
@@ -340,13 +356,19 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
+    std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+        if (readyCallBack) {
+            readyCallBack(binId);
+        }
+    };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
 QString ClipCreator::createTitleTemplate(const QString &path, const QString &text, const QString &name, const QString &parentFolder,
-                                         const std::shared_ptr<ProjectItemModel> &model)
+                                         const std::shared_ptr<ProjectItemModel> &model, const std::function<void(const QString &)> &readyCallBack,
+                                         int suggestedDuration)
 {
     QDomDocument xml;
 
@@ -366,19 +388,30 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     if (duration == 0) {
         duration = pCore->getDurationFromString(KdenliveSettings::title_duration());
     }
+
+    if (suggestedDuration > 0) {
+        duration = qMin(duration, suggestedDuration);
+    }
+
     auto prod = createProducer(xml, ClipType::TextTemplate, path, name, duration, QString());
     if (!text.isEmpty()) {
         prod.setAttribute(QStringLiteral("templatetext"), text);
     }
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
+    std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+        if (readyCallBack) {
+            readyCallBack(binId);
+        }
+    };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
 const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder,
-                                               const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo, bool topLevel)
+                                               const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
+                                               const std::function<void(const QString &)> &readyCallBack, bool topLevel)
 {
     QString createdItem;
     // Check for duplicates
@@ -494,7 +527,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
 
                     createdItem = folderId;
                     // load subfolders
-                    const QString clipId = createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
+                    const QString clipId = createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, readyCallBack, false);
                     if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
                         createdItem = clipId;
                     }
@@ -510,7 +543,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     folderId = parentFolder;
                 }
                 createdItem = folderId;
-                const QString clipId = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
+                const QString clipId = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, readyCallBack, false);
                 if (clipId.isEmpty() || clipId == QLatin1String("-1")) {
                     local_undo();
                 } else {
@@ -529,7 +562,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 }
                 if (!sublist.isEmpty()) {
                     // load subfolders
-                    createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
+                    createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, readyCallBack, false);
                 }
             }
         } else {
@@ -554,9 +587,18 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 }
                 checkedDirectories << fileDir;
             }
-            std::function<void(const QString &)> callBack = [](const QString &) {};
+            std::function<void(const QString &)> callBack = [readyCallBack](const QString &binId) {
+                if (readyCallBack) {
+                    readyCallBack(binId);
+                }
+            };
             if (firstClip) {
-                callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
+                callBack = [readyCallBack](const QString &binId) {
+                    pCore->activeBin()->selectClipById(binId);
+                    if (readyCallBack) {
+                        readyCallBack(binId);
+                    }
+                };
                 firstClip = false;
             }
             if (model->uuid() != uuid) {
@@ -580,11 +622,11 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
 }
 
 const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder,
-                                               std::shared_ptr<ProjectItemModel> model)
+                                               std::shared_ptr<ProjectItemModel> model, const std::function<void(const QString &)> &readyCallBack)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    const QString id = ClipCreator::createClipsFromList(list, checkRemovable, parentFolder, std::move(model), undo, redo);
+    const QString id = ClipCreator::createClipsFromList(list, checkRemovable, parentFolder, std::move(model), undo, redo, readyCallBack);
     if (!id.isEmpty()) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }

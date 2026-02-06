@@ -19,7 +19,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("GettersTest"), QStringLiteral("Test"), QString(), QStringLiteral("mp4"),
                                                                        QString(), QString(), QString(), QString(), QString(), QString(), false));
         CHECK(model->name() == QStringLiteral("GettersTest"));
-        CHECK(model->groupName() == QStringLiteral("Test"));
+        CHECK(model->groupId() == QStringLiteral("Test"));
         CHECK(model->extension() == QStringLiteral("mp4"));
         // we did not set the format parameter, test if it was automatically
         // set based on the extension

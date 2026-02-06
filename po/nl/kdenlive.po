@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 00:43+0000\n"
-"PO-Revision-Date: 2026-01-18 14:24+0100\n"
+"POT-Creation-Date: 2026-02-04 00:43+0000\n"
+"PO-Revision-Date: 2026-02-04 16:19+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -101,7 +101,7 @@ msgstr "Segment,balk"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57 data/effects/pan_zoom.xml:17
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:454
+#: src/monitor/monitor.cpp:455
 #, kde-format
 msgid "Background Color"
 msgstr "Achtergrondkleur"
@@ -3400,7 +3400,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
-#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2752
+#: data/effects/frei0r/frei0r_bluescreen0r.xml:11 src/bin/bin.cpp:2761
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Color"
@@ -4393,7 +4393,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
-#: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1505
+#: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1512
 #: src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
@@ -7127,8 +7127,8 @@ msgstr "Stel de modus van de envelop in"
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8
-#: src/assets/assetlist/view/assetlistwidget.cpp:148 src/bin/bin.cpp:1606
-#: src/bin/bin.cpp:1611 src/bin/bin.cpp:2608
+#: src/assets/assetlist/view/assetlistwidget.cpp:148 src/bin/bin.cpp:1613
+#: src/bin/bin.cpp:1618 src/bin/bin.cpp:2617
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
@@ -7336,7 +7336,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
-#: src/bin/bin.cpp:1509 src/bin/projectitemmodel.cpp:340
+#: src/bin/bin.cpp:1516 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:55 src/timeline2/view/qml/Track.qml:81
 #: src/timeline2/view/qml/Track.qml:89 src/ui/clipdurationdialog_ui.ui:18
@@ -7555,8 +7555,8 @@ msgstr "VAN"
 #: data/effects/copychannelstostereo.xml:9
 #: data/effects/copychannelstostereo.xml:13
 #, kde-format
-msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
 
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
@@ -8526,7 +8526,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:776 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:778 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -18142,7 +18142,7 @@ msgstr "%1 effecten volgen"
 msgid "Bin %1 effects"
 msgstr "Bin-%1 effecten"
 
-#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4126
+#: src/assets/assetpanel.cpp:494 src/bin/bin.cpp:4162
 #: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:764
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:41
@@ -18150,7 +18150,7 @@ msgstr "Bin-%1 effecten"
 msgid "Show log"
 msgstr "Log tonen"
 
-#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4129
+#: src/assets/assetpanel.cpp:496 src/bin/bin.cpp:4165
 #: src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
@@ -18313,7 +18313,7 @@ msgid "Delete keyframes"
 msgstr "Keyframes verwijderen"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:701
-#: src/assets/model/assetparametermodel.cpp:1758
+#: src/assets/model/assetparametermodel.cpp:1760
 #, kde-format
 msgid "Update effect"
 msgstr "Effect bijwerken"
@@ -18388,13 +18388,13 @@ msgstr "Keyframe %1 bewerken"
 msgid "Update %1"
 msgstr "%1 bijwerken"
 
-#: src/assets/model/assetparametermodel.cpp:1595
-#: src/assets/model/assetparametermodel.cpp:1642
+#: src/assets/model/assetparametermodel.cpp:1597
+#: src/assets/model/assetparametermodel.cpp:1644
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan bestand met voor-instellingen %1 niet openen"
 
-#: src/assets/model/assetparametermodel.cpp:1732
+#: src/assets/model/assetparametermodel.cpp:1734
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -18574,7 +18574,7 @@ msgid "Limit automatic keyframes"
 msgstr "Automatische keyframes beperken"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:290 src/bin/bin.cpp:1558
+#: src/assets/view/widgets/keyframecontainer.cpp:290 src/bin/bin.cpp:1565
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -18798,8 +18798,7 @@ msgid "None (Dissolve)"
 msgstr "Geen (oplossen)"
 
 #: src/assets/view/widgets/pointparamwidget.cpp:51
-#, fuzzy, kde-format
-#| msgid "Position:"
+#, kde-format
 msgctxt "Position as the x,y coordinate for a point"
 msgid "Position:"
 msgstr "Positie:"
@@ -19031,12 +19030,12 @@ msgstr ""
 "Dubbelklik, laat bestanden los\n"
 "of klik op %1 om media te importeren"
 
-#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:597
+#: src/bin/bin.cpp:322 src/bin/bin.cpp:680 src/monitor/view/ClipMonitor.qml:554
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Sleep om alleen audio aan de tijdlijn toe te voegen"
 
-#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:551
+#: src/bin/bin.cpp:326 src/bin/bin.cpp:684 src/monitor/view/ClipMonitor.qml:554
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Sleep om alleen video aan de tijdlijn toe te voegen"
@@ -19079,78 +19078,78 @@ msgstr[1] "lopende opdrachten %1"
 msgid "Bin Search"
 msgstr "Zoeken in bin"
 
-#: src/bin/bin.cpp:1452
+#: src/bin/bin.cpp:1459
 #, kde-format
 msgid "View Mode"
 msgstr "Weergavemodus"
 
-#: src/bin/bin.cpp:1455
+#: src/bin/bin.cpp:1462
 #, kde-format
 msgid "Tree View"
 msgstr "Boomstructuurweergave"
 
-#: src/bin/bin.cpp:1462
+#: src/bin/bin.cpp:1469
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "Profiel aanpassen aan deze clip"
 
-#: src/bin/bin.cpp:1466
+#: src/bin/bin.cpp:1473
 #, kde-format
 msgid "Icon View"
 msgstr "Pictogramweergave"
 
-#: src/bin/bin.cpp:1474 src/project/dialogs/guideslist.cpp:224
+#: src/bin/bin.cpp:1481 src/project/dialogs/guideslist.cpp:224
 #, kde-format
 msgid "Descending"
 msgstr "Aflopend"
 
-#: src/bin/bin.cpp:1490
+#: src/bin/bin.cpp:1497
 #, kde-format
 msgid "Sort By"
 msgstr "Sorteren op"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1493 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1500 src/bin/projectitemmodel.cpp:325
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Naam"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1497 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1504 src/bin/projectitemmodel.cpp:328
 #: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Datum"
 
-#: src/bin/bin.cpp:1501 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1508 src/bin/projectitemmodel.cpp:331
 #, kde-format
 msgid "Description"
 msgstr "Beschrijving"
 
-#: src/bin/bin.cpp:1513
+#: src/bin/bin.cpp:1520
 #, kde-format
 msgid "Insert Order"
 msgstr "Invoegorde"
 
-#: src/bin/bin.cpp:1517 src/bin/projectitemmodel.cpp:346
+#: src/bin/bin.cpp:1524 src/bin/projectitemmodel.cpp:346
 #, kde-format
 msgid "Rating"
 msgstr "Waardering"
 
-#: src/bin/bin.cpp:1541
+#: src/bin/bin.cpp:1548
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Bin-effecten uitschakelen"
 
 # thumbnails = ofwel minituren ofwel pictogrammen (consequentie aanhouden)
-#: src/bin/bin.cpp:1549
+#: src/bin/bin.cpp:1556
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr "Videovoorbeelden in miniaturen tonen"
 
-#: src/bin/bin.cpp:1559
+#: src/bin/bin.cpp:1566
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19160,32 +19159,32 @@ msgstr ""
 "Opent een menu om de project-bin te configureren (bijv. weergavemodus, "
 "sorteren, waardering tonen)."
 
-#: src/bin/bin.cpp:1566
+#: src/bin/bin.cpp:1573
 #, kde-format
 msgid "Show Date"
 msgstr "Datum tonen"
 
-#: src/bin/bin.cpp:1570
+#: src/bin/bin.cpp:1577
 #, kde-format
 msgid "Show Description"
 msgstr "Beschrijving tonen"
 
-#: src/bin/bin.cpp:1574
+#: src/bin/bin.cpp:1581
 #, kde-format
 msgid "Show Rating"
 msgstr "Waardering tonen"
 
-#: src/bin/bin.cpp:1585
+#: src/bin/bin.cpp:1592
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr "Open huidige map in een nieuwe bin"
 
-#: src/bin/bin.cpp:1590
+#: src/bin/bin.cpp:1597
 #, kde-format
 msgid "Tags Panel"
 msgstr "Paneel met tags"
 
-#: src/bin/bin.cpp:1612
+#: src/bin/bin.cpp:1619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19197,52 +19196,52 @@ msgstr ""
 "tonen van het filter om te schakelen. Klik on het pijlpictogram om een lijst "
 "met mogelijke filterinstellingen te openen."
 
-#: src/bin/bin.cpp:1647
+#: src/bin/bin.cpp:1654
 #, kde-format
 msgid "Close Current Bin"
 msgstr "De huidige bin sluiten"
 
-#: src/bin/bin.cpp:1659
+#: src/bin/bin.cpp:1666
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Stop alle opdrachten"
 
-#: src/bin/bin.cpp:1661
+#: src/bin/bin.cpp:1668
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Stop alle clipbewerkingen"
 
-#: src/bin/bin.cpp:1663
+#: src/bin/bin.cpp:1670
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Stop alle taken in de wacht"
 
-#: src/bin/bin.cpp:1704
+#: src/bin/bin.cpp:1711
 #, kde-format
 msgid "Bin Clip Properties"
 msgstr "Eigenschappen van Bin-clip"
 
-#: src/bin/bin.cpp:2037
+#: src/bin/bin.cpp:2046
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "U kunt alle sequenties van een project verwijderen."
 
-#: src/bin/bin.cpp:2040
+#: src/bin/bin.cpp:2049
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "Verwijderen van sequenties kan niet ongedaan worden gemaakt"
 
-#: src/bin/bin.cpp:2047
+#: src/bin/bin.cpp:2056
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "Dit zal alle geselecteerde clips verwijderen van de tijdlijn"
 
-#: src/bin/bin.cpp:2050
+#: src/bin/bin.cpp:2059
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Dit zal alle inhoud van de map verwijderen"
 
-#: src/bin/bin.cpp:2073
+#: src/bin/bin.cpp:2082
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
@@ -19250,25 +19249,25 @@ msgstr ""
 "Sommige items konden niet verwijderd worden. Er zijn misschien exemplaren op "
 "vergrendelde tracks?"
 
-#: src/bin/bin.cpp:2075
+#: src/bin/bin.cpp:2084
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "Bin-clips verwijderen"
 
-#: src/bin/bin.cpp:2100 src/effects/effectstack/view/maskmanager.cpp:267
+#: src/bin/bin.cpp:2109 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
 msgid "Missing source clip"
 msgstr "Ontbrekende oorspronkelijke clip"
 
-#: src/bin/bin.cpp:2120 src/bin/bin.cpp:2817
+#: src/bin/bin.cpp:2129 src/bin/bin.cpp:2826
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
-#: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:439
+#: src/renderpresets/renderpresetrepository.cpp:169
+#: src/renderpresets/renderpresetrepository.cpp:474
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Kan niet wegschrijven naar bestand %1"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:2823 src/doc/kdenlivedoc.cpp:750
+#: src/bin/bin.cpp:2136 src/bin/bin.cpp:2832 src/doc/kdenlivedoc.cpp:750
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -19277,17 +19276,17 @@ msgstr ""
 "Het project bestand is gewijzigd door Kdenlive.\n"
 "Veiligheidshalve is er een backup met de naam %1 gemaakt."
 
-#: src/bin/bin.cpp:2133
+#: src/bin/bin.cpp:2142
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "Bestand %1 kan niet ontleed worden"
 
-#: src/bin/bin.cpp:2144
+#: src/bin/bin.cpp:2153
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Kan clip niet vervangen door ongeldig bestand %1"
 
-#: src/bin/bin.cpp:2170 src/bin/bin.cpp:2393
+#: src/bin/bin.cpp:2179 src/bin/bin.cpp:2402
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -19298,18 +19297,18 @@ msgstr ""
 "tijdlijn.\n"
 "Vervanging is %1 frames korter."
 
-#: src/bin/bin.cpp:2179 src/bin/bin.cpp:2401
+#: src/bin/bin.cpp:2188 src/bin/bin.cpp:2410
 #: src/bin/model/subtitlemodel.cpp:410
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "De geselecteerde clip %1 is ongeldig."
 
-#: src/bin/bin.cpp:2185
+#: src/bin/bin.cpp:2194
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "Kan te vervangen originele clip niet vinden"
 
-#: src/bin/bin.cpp:2209
+#: src/bin/bin.cpp:2218
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
@@ -19318,17 +19317,17 @@ msgstr ""
 "U moet 2 clips selecteren (de vervangende clip en de originele clip) voor "
 "vervanging in de tijdlijn."
 
-#: src/bin/bin.cpp:2215
+#: src/bin/bin.cpp:2224
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr "De huidige clip <b>%1</b> is niet ingevoegd in de actieve tijdlijn."
 
-#: src/bin/bin.cpp:2220
+#: src/bin/bin.cpp:2229
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "U kunt de sequentie <b>%1</b> niet in zichzelf invoegen."
 
-#: src/bin/bin.cpp:2239
+#: src/bin/bin.cpp:2248
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
@@ -19336,7 +19335,7 @@ msgstr ""
 "De geselecteerde clips %1 en %2 komen niet overeen, kunnen audio noch video "
 "vervangen"
 
-#: src/bin/bin.cpp:2250
+#: src/bin/bin.cpp:2259
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -19345,7 +19344,7 @@ msgstr ""
 "Exemplaren van clip <b>%1</b> (%2)<br/>in de actieve tijdlijn worden\n"
 "vervangen door clip <b>%3</b> (%4)"
 
-#: src/bin/bin.cpp:2255
+#: src/bin/bin.cpp:2264
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -19354,17 +19353,17 @@ msgstr ""
 "Exemplaren van clip <b>%1</b><br/>in de actieve tijdlijn worden\n"
 "vervangen door clip <b>%2</b>"
 
-#: src/bin/bin.cpp:2257 src/timeline2/model/timelineitemmodel.cpp:986
+#: src/bin/bin.cpp:2266 src/timeline2/model/timelineitemmodel.cpp:986
 #, kde-format
 msgid "Replace audio"
 msgstr "Audio vervangen"
 
-#: src/bin/bin.cpp:2260 src/timeline2/model/timelineitemmodel.cpp:986
+#: src/bin/bin.cpp:2269 src/timeline2/model/timelineitemmodel.cpp:986
 #, kde-format
 msgid "Replace video"
 msgstr "Video vervangen"
 
-#: src/bin/bin.cpp:2270
+#: src/bin/bin.cpp:2279
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
@@ -19373,18 +19372,18 @@ msgstr ""
 "Vervangende clip is korter dan de bronclip.<br><b>Sommige clips in de "
 "tijdlijn kunnen niet vervangen zijn</b>"
 
-#: src/bin/bin.cpp:2273
+#: src/bin/bin.cpp:2282
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr "Tijdsduur van vervangende clip is langer dat uw bronclip"
 
-#: src/bin/bin.cpp:2309
+#: src/bin/bin.cpp:2318
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "Vervanging voor %1 openen"
 
-#: src/bin/bin.cpp:2350
+#: src/bin/bin.cpp:2359
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -19393,7 +19392,7 @@ msgstr ""
 "Vervangende clip bevat geen videostream. Wilt u alleen de audio-component "
 "van deze clip vervangen in de actieve tijdlijn?"
 
-#: src/bin/bin.cpp:2355
+#: src/bin/bin.cpp:2364
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -19402,7 +19401,7 @@ msgstr ""
 "Vervangende clip bevat geen audiostream. Wilt u alleen de video-component "
 "van deze clip vervangen in de actieve tijdlijn?"
 
-#: src/bin/bin.cpp:2359 src/bin/bin.cpp:2385
+#: src/bin/bin.cpp:2368 src/bin/bin.cpp:2394
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
@@ -19411,97 +19410,97 @@ msgstr ""
 "U kunt een clip niet vervangen door een ander type clip (audio/video komen "
 "niet overeen)."
 
-#: src/bin/bin.cpp:2362
+#: src/bin/bin.cpp:2371
 #, kde-format
 msgid "Replace in timeline"
 msgstr "In tijdlijn vervangen"
 
-#: src/bin/bin.cpp:2383 src/bin/bin.cpp:6099 src/bin/clipcreator.cpp:329
+#: src/bin/bin.cpp:2392 src/bin/bin.cpp:6138 src/bin/clipcreator.cpp:340
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Clip toevoegen"
 
-#: src/bin/bin.cpp:2433
+#: src/bin/bin.cpp:2442
 #, kde-format
 msgid "Could not locate %1"
 msgstr "Kon %1 niet lokaliseren"
 
-#: src/bin/bin.cpp:2487
+#: src/bin/bin.cpp:2496
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "Kon geen tijdelijk bestand in %1 aanmaken"
 
-#: src/bin/bin.cpp:2495
+#: src/bin/bin.cpp:2504
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Sequentie dupliceren is mislukt"
 
-#: src/bin/bin.cpp:2508
+#: src/bin/bin.cpp:2517
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (kopiëren)"
 
-#: src/bin/bin.cpp:2513 src/bin/bin.cpp:2534
+#: src/bin/bin.cpp:2522 src/bin/bin.cpp:2543
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Clip dupliceren"
 
-#: src/bin/bin.cpp:2526
+#: src/bin/bin.cpp:2535
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (kopiëren)"
 
-#: src/bin/bin.cpp:2662
+#: src/bin/bin.cpp:2671
 #, kde-format
 msgid "Clear Filters"
 msgstr "Filters wissen"
 
-#: src/bin/bin.cpp:2668
+#: src/bin/bin.cpp:2677
 #, kde-format
 msgid "No Tags"
 msgstr "Geen tags"
 
-#: src/bin/bin.cpp:2687
+#: src/bin/bin.cpp:2696
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 ster"
 msgstr[1] "%1 sterren"
 
-#: src/bin/bin.cpp:2694
+#: src/bin/bin.cpp:2703
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Op gebruik filteren"
 
-#: src/bin/bin.cpp:2697
+#: src/bin/bin.cpp:2706
 #, kde-format
 msgid "All Clips"
 msgstr "Alle clips"
 
-#: src/bin/bin.cpp:2702
+#: src/bin/bin.cpp:2711
 #, kde-format
 msgid "Unused Clips"
 msgstr "Ongebruikte clips"
 
-#: src/bin/bin.cpp:2706
+#: src/bin/bin.cpp:2715
 #, kde-format
 msgid "Used Clips"
 msgstr "Gebruikte clips"
 
-#: src/bin/bin.cpp:2713
+#: src/bin/bin.cpp:2722
 #, kde-format
 msgid "Filter by Type"
 msgstr "Op type filteren"
 
-#: src/bin/bin.cpp:2716
+#: src/bin/bin.cpp:2725
 #, kde-format
 msgid "AV Clip"
 msgstr "AV-clip"
 
-#: src/bin/bin.cpp:2720
+#: src/bin/bin.cpp:2729
 #, kde-format
 msgid "Mute Video"
 msgstr "Videoclip dempen"
@@ -19512,7 +19511,7 @@ msgstr "Videoclip dempen"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2724 src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/bin/bin.cpp:2733 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/lib/audio/audioStreamInfo.cpp:25 src/lib/audio/audioStreamInfo.cpp:31
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:684
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
@@ -19522,62 +19521,62 @@ msgstr "Videoclip dempen"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/bin/bin.cpp:2728 src/mltcontroller/clippropertiescontroller.cpp:396
+#: src/bin/bin.cpp:2737 src/mltcontroller/clippropertiescontroller.cpp:396
 #, kde-format
 msgid "Image"
 msgstr "Afbeelding"
 
-#: src/bin/bin.cpp:2732
+#: src/bin/bin.cpp:2741
 #, kde-format
 msgid "Slideshow"
 msgstr "Diashow"
 
-#: src/bin/bin.cpp:2736
+#: src/bin/bin.cpp:2745
 #, kde-format
 msgid "Playlist"
 msgstr "Afspeellijst"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2740 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2749 src/bin/clipcreator.cpp:249 src/bin/clipcreator.cpp:251
 #: src/project/projectmanager.cpp:1663 src/project/projectmanager.cpp:1665
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sequences"
 
-#: src/bin/bin.cpp:2744 src/project/dialogs/projectsettings.cpp:215
+#: src/bin/bin.cpp:2753 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Titel"
 
-#: src/bin/bin.cpp:2748
+#: src/bin/bin.cpp:2757
 #, kde-format
 msgid "Title Template"
 msgstr "Titelsjabloon"
 
-#: src/bin/bin.cpp:2789
+#: src/bin/bin.cpp:2798
 #, kde-format
 msgid "Select an option in the menu to enable filtering"
 msgstr "Selecteer een optie in het menu om filteren in te schakelen"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2844 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2853 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Map"
 
-#: src/bin/bin.cpp:2845
+#: src/bin/bin.cpp:2854
 #, kde-format
 msgid "Create bin folder"
 msgstr "Binmap aanmaken"
 
-#: src/bin/bin.cpp:2984 src/bin/bin.cpp:2997 src/bin/bin.cpp:4030
+#: src/bin/bin.cpp:2993 src/bin/bin.cpp:3006 src/bin/bin.cpp:4065
 #: src/timeline2/model/timelinemodel.cpp:2227
 #, kde-format
 msgid "Delete Clip"
 msgstr "Verwijder clip"
 
-#: src/bin/bin.cpp:2986 src/bin/bin.cpp:2999
+#: src/bin/bin.cpp:2995 src/bin/bin.cpp:3008
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19587,37 +19586,42 @@ msgstr ""
 "Verwijdert de nu geselecteerde clips uit de project-bin en ook uit de "
 "tijdlijn."
 
-#: src/bin/bin.cpp:2987 src/bin/bin.cpp:3000 src/bin/bin.cpp:4006
+#: src/bin/bin.cpp:2996 src/bin/bin.cpp:3009 src/bin/bin.cpp:4041
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Proxy Clip"
 
-#: src/bin/bin.cpp:2991
+#: src/bin/bin.cpp:3000
 #, kde-format
 msgid "Delete Folder"
 msgstr "Verwijder map"
 
-#: src/bin/bin.cpp:2992
+#: src/bin/bin.cpp:3001
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Proxy-map"
 
-#: src/bin/bin.cpp:3265
+#: src/bin/bin.cpp:3274
 #, kde-format
 msgid "Edit rating"
 msgstr "Waardering bewerken"
 
-#: src/bin/bin.cpp:3267
+#: src/bin/bin.cpp:3276
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Kan waardering op dit item niet instellen"
 
-#: src/bin/bin.cpp:3950
+#: src/bin/bin.cpp:3965 src/bin/bin.cpp:4095 src/mainwindow.cpp:147
+#, kde-format
+msgid "Add Clip"
+msgstr "Clip toevoegen"
+
+#: src/bin/bin.cpp:3985
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Clip of map toevoegen…"
 
-#: src/bin/bin.cpp:3951
+#: src/bin/bin.cpp:3986
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19632,97 +19636,97 @@ msgstr ""
 ">Klik op het mediumpictogram om een venster te openen om bronbestanden te "
 "selecteren."
 
-#: src/bin/bin.cpp:3957
+#: src/bin/bin.cpp:3992
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Kleurclip toevoegen…"
 
-#: src/bin/bin.cpp:3959
+#: src/bin/bin.cpp:3994
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Afbeeldingsreeks toevoegen…"
 
-#: src/bin/bin.cpp:3961
+#: src/bin/bin.cpp:3996
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Titelclip toevoegen…"
 
-#: src/bin/bin.cpp:3963
+#: src/bin/bin.cpp:3998
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Titelsjabloon toevoegen…"
 
-#: src/bin/bin.cpp:3965
+#: src/bin/bin.cpp:4000
 #, kde-format
 msgid "Create Animation…"
 msgstr "Animatie aanmaken…"
 
-#: src/bin/bin.cpp:3967
+#: src/bin/bin.cpp:4002
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Reeks toevoegen…"
 
-#: src/bin/bin.cpp:3970 src/mainwindow.cpp:364
+#: src/bin/bin.cpp:4005 src/mainwindow.cpp:364
 #, kde-format
 msgid "Online Resources"
 msgstr "Online hulpbronnen"
 
-#: src/bin/bin.cpp:3974
+#: src/bin/bin.cpp:4009
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Clip lokaliseren…"
 
-#: src/bin/bin.cpp:3979
+#: src/bin/bin.cpp:4014
 #, kde-format
 msgid "Reload Clip"
 msgstr "Herlaad clip"
 
-#: src/bin/bin.cpp:3985
+#: src/bin/bin.cpp:4020
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Opnieuw coderen (transcoderen) naar bewerkingsvriendelijk formaat…"
 
-#: src/bin/bin.cpp:3990
+#: src/bin/bin.cpp:4025
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Clip vervangen…"
 
-#: src/bin/bin.cpp:3996
+#: src/bin/bin.cpp:4031
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Clip in de tijdlijn vervangen…"
 
-#: src/bin/bin.cpp:4001
+#: src/bin/bin.cpp:4036
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Clip dupliceren"
 
-#: src/bin/bin.cpp:4013 src/bin/bin.cpp:4073
+#: src/bin/bin.cpp:4048 src/bin/bin.cpp:4109
 #, kde-format
 msgid "Clip Properties"
 msgstr "Clip eigenschappen"
 
-#: src/bin/bin.cpp:4018 src/mltcontroller/clippropertiescontroller.cpp:638
+#: src/bin/bin.cpp:4053 src/mltcontroller/clippropertiescontroller.cpp:638
 #, kde-format
 msgid "Edit Clip"
 msgstr "Clip bewerken"
 
-#: src/bin/bin.cpp:4036
+#: src/bin/bin.cpp:4071
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Standaard doelmap voor sequenties"
 
-#: src/bin/bin.cpp:4041
+#: src/bin/bin.cpp:4076
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Standaard doelmap voor geluidsopnamen"
 
-#: src/bin/bin.cpp:4045
+#: src/bin/bin.cpp:4080
 #, kde-format
 msgid "Create Folder"
 msgstr "Map aanmaken"
 
-#: src/bin/bin.cpp:4048
+#: src/bin/bin.cpp:4083
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19732,101 +19736,101 @@ msgstr ""
 "Maakt een map op de huidige positie in de project-bin. Biedt het beter "
 "organiseren van bronbestanden. Mappen kunnen genest worden."
 
-#: src/bin/bin.cpp:4189 src/bin/bin.cpp:4222
+#: src/bin/bin.cpp:4227 src/bin/bin.cpp:4260
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Nieuwe sequentie maken"
 
-#: src/bin/bin.cpp:4192 src/bin/bin.cpp:4195 src/bin/bin.cpp:4225
+#: src/bin/bin.cpp:4230 src/bin/bin.cpp:4233 src/bin/bin.cpp:4263
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sequentie %1"
 
-#: src/bin/bin.cpp:4256
+#: src/bin/bin.cpp:4294
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Clip verplaatsen"
 msgstr[1] "Clips verplaatsen"
 
-#: src/bin/bin.cpp:4298
+#: src/bin/bin.cpp:4336
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Geen geldige clip om in te voegen"
 
-#: src/bin/bin.cpp:4311 src/timeline2/view/timelinecontroller.cpp:1616
-#: src/timeline2/view/timelinecontroller.cpp:3522
+#: src/bin/bin.cpp:4349 src/timeline2/view/timelinecontroller.cpp:1616
+#: src/timeline2/view/timelinecontroller.cpp:3548
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Selecteer een clip om een effect toe te passen"
 
-#: src/bin/bin.cpp:4345 src/effects/effectstack/model/effectstackmodel.cpp:764
-#: src/effects/effectstack/model/effectstackmodel.cpp:770
+#: src/bin/bin.cpp:4383 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:738
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan effect niet toevoegen aan clip"
 
-#: src/bin/bin.cpp:4419 src/effects/effectstack/model/effectstackmodel.cpp:720
+#: src/bin/bin.cpp:4457 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "Effect plakken"
 
-#: src/bin/bin.cpp:4456 src/bin/bin.cpp:4463
+#: src/bin/bin.cpp:4494 src/bin/bin.cpp:4501
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Een clip selecteren om een tag aan toe te voegen"
 
-#: src/bin/bin.cpp:4602
+#: src/bin/bin.cpp:4640
 #, kde-format
 msgid "Edit Tags"
 msgstr "Tags bewerken"
 
-#: src/bin/bin.cpp:4938 src/bin/projectclip.cpp:196
-#: src/bin/projectclip.cpp:1984 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/bin.cpp:4977 src/bin/projectclip.cpp:196
+#: src/bin/projectclip.cpp:2000 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
 msgid "Unnamed"
 msgstr "Naamloos"
 
-#: src/bin/bin.cpp:5002
+#: src/bin/bin.cpp:5041
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Pad naar uw toepassing voor afbeeldingen bewerken invoeren"
 
-#: src/bin/bin.cpp:5014
+#: src/bin/bin.cpp:5053
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Stel een standaard toepassing in om afbeeldingsbestanden te openen"
 
-#: src/bin/bin.cpp:5019
+#: src/bin/bin.cpp:5058
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Pad naar uw toepassing voor audio bewerken invoeren"
 
-#: src/bin/bin.cpp:5031
+#: src/bin/bin.cpp:5070
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Stel een standaard toepassing in om audiobestanden te openen"
 
-#: src/bin/bin.cpp:5041 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:5080 src/core.cpp:669 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:487 src/jobs/cliploadtask.cpp:499
 #: src/jobs/filtertask.cpp:98 src/jobs/filtertask.cpp:139
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/profiles/profilerepository.cpp:172
-#: src/renderpresets/renderpresetrepository.cpp:383
+#: src/renderpresets/renderpresetrepository.cpp:418
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Kan bestand %1 niet openen"
 
-#: src/bin/bin.cpp:5078 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5117 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(kopie)"
 
-#: src/bin/bin.cpp:5088
+#: src/bin/bin.cpp:5127
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -19835,75 +19839,75 @@ msgstr ""
 "Een externe titel clip (%1) wordt bewerkt. Moeten de veranderingen in het "
 "titel-bestand bewaard worden of alleen voor dit project?"
 
-#: src/bin/bin.cpp:5091 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:5130 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "Titel opslaan"
 
-#: src/bin/bin.cpp:5091
+#: src/bin/bin.cpp:5130
 #, kde-format
 msgid "Save to title file"
 msgstr "Opslaan naar titel-bestand"
 
-#: src/bin/bin.cpp:5092
+#: src/bin/bin.cpp:5131
 #, kde-format
 msgid "Save in project only"
 msgstr "Alleen in project opslaan"
 
-#: src/bin/bin.cpp:5115 src/dialogs/clipcreationdialog.cpp:327
+#: src/bin/bin.cpp:5154 src/dialogs/clipcreationdialog.cpp:345
 #, kde-format
 msgid "Title clip"
 msgstr "Titel clip"
 
-#: src/bin/bin.cpp:5165
+#: src/bin/bin.cpp:5204
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Clip is ongeldig, deze zal uit het project verwijderd worden"
 
-#: src/bin/bin.cpp:5169
+#: src/bin/bin.cpp:5208
 #, kde-format
 msgid "Invalid clip"
 msgstr "Ongeldige clip"
 
-#: src/bin/bin.cpp:5283
+#: src/bin/bin.cpp:5322
 #, kde-format
 msgid "Enable proxies"
 msgstr "Proxies inschakelen"
 
-#: src/bin/bin.cpp:5283
+#: src/bin/bin.cpp:5322
 #, kde-format
 msgid "Disable proxies"
 msgstr "Proxies uitschakelen"
 
-#: src/bin/bin.cpp:5464
+#: src/bin/bin.cpp:5503
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Proxies herbouwen"
 
-#: src/bin/bin.cpp:5698
+#: src/bin/bin.cpp:5737
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projectmap"
 
-#: src/bin/bin.cpp:5714
+#: src/bin/bin.cpp:5753
 #, kde-format
 msgid "Add Tracks"
 msgstr "Tracks toevoegen"
 
-#: src/bin/bin.cpp:5716
+#: src/bin/bin.cpp:5755
 #, kde-format
 msgid "Edit Streams"
 msgstr "Streams bewerken"
 
-#: src/bin/bin.cpp:5735
+#: src/bin/bin.cpp:5774
 #, kde-format
 msgid "Don't ask again"
 msgstr "Niet meer vragen"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5739
+#: src/bin/bin.cpp:5778
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -19912,7 +19916,7 @@ msgstr ""
 "Uw project heeft meer audiotracks nodig om alle streams te behandelen. %1 "
 "audiotracks toevoegen?"
 
-#: src/bin/bin.cpp:5751 src/mainwindow.cpp:3012
+#: src/bin/bin.cpp:5790 src/mainwindow.cpp:3012
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan clip, waaraan markering moet worden toegevoegd, niet vinden"
@@ -19920,7 +19924,7 @@ msgstr "Kan clip, waaraan markering moet worden toegevoegd, niet vinden"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:5765 src/bin/model/markerlistmodel.cpp:854
+#: src/bin/bin.cpp:5804 src/bin/model/markerlistmodel.cpp:854
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #: src/timeline2/view/timelinecontroller.cpp:1580
@@ -19930,34 +19934,34 @@ msgstr "Kan clip, waaraan markering moet worden toegevoegd, niet vinden"
 msgid "Marker"
 msgstr "Markering"
 
-#: src/bin/bin.cpp:5855
+#: src/bin/bin.cpp:5894
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Kon hoofd-clip niet vinden"
 
-#: src/bin/bin.cpp:6121
+#: src/bin/bin.cpp:6160
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6162
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clips (%2 geselecteerd) | "
 
-#: src/bin/bin.cpp:6192 src/bin/bin.cpp:6269
+#: src/bin/bin.cpp:6231 src/bin/bin.cpp:6308
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Extra streams voor clip toevoegen"
 msgstr[1] "Extra streams voor clip toevoegen"
 
-#: src/bin/bin.cpp:6213
+#: src/bin/bin.cpp:6252
 #, kde-format
 msgid "Import selected clips"
 msgstr "Geselecteerde clips importeren"
 
-#: src/bin/bin.cpp:6215
+#: src/bin/bin.cpp:6254
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -19966,22 +19970,22 @@ msgstr ""
 "Extra streams voor clip\n"
 " %1"
 
-#: src/bin/bin.cpp:6228 src/mltcontroller/clippropertiescontroller.cpp:754
+#: src/bin/bin.cpp:6267 src/mltcontroller/clippropertiescontroller.cpp:754
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video-stream %1"
 
-#: src/bin/bin.cpp:6243
+#: src/bin/bin.cpp:6282
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audiostream %1"
 
-#: src/bin/bin.cpp:6296
+#: src/bin/bin.cpp:6335
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Markeringen van clip verwijderen"
 
-#: src/bin/bin.cpp:6459
+#: src/bin/bin.cpp:6498
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -19989,30 +19993,30 @@ msgstr ""
 "We bevelen aan dat u het project opslaat voor de bewerking codering "
 "overzetten"
 
-#: src/bin/bin.cpp:6460
+#: src/bin/bin.cpp:6499
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Project opslaan"
 
-#: src/bin/bin.cpp:6461
+#: src/bin/bin.cpp:6500
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Codering overzetten zonder opslaan"
 
-#: src/bin/bin.cpp:6619 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6658 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1121
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Effect %1 verwijderen"
 
-#: src/bin/bin.cpp:6685 src/mainwindow.cpp:264
+#: src/bin/bin.cpp:6724 src/mainwindow.cpp:264
 #, kde-format
 msgid "Project Bin"
 msgstr "Projectmap"
 
-#: src/bin/bin.cpp:6688 src/bin/bin.cpp:6691 src/mainwindow.cpp:5225
+#: src/bin/bin.cpp:6727 src/bin/bin.cpp:6730 src/mainwindow.cpp:5225
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projectmap %1"
@@ -20035,42 +20039,42 @@ msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Clip bewerken"
 
-#: src/bin/clipcreator.cpp:70
+#: src/bin/clipcreator.cpp:75
 #, kde-format
 msgid "Create title clip"
 msgstr "Titelclip aanmaken"
 
-#: src/bin/clipcreator.cpp:83
+#: src/bin/clipcreator.cpp:88
 #, kde-format
 msgid "Create color clip"
 msgstr "Kleurclip aanmaken"
 
-#: src/bin/clipcreator.cpp:153 src/bin/clipcreator.cpp:249
+#: src/bin/clipcreator.cpp:164 src/bin/clipcreator.cpp:260
 #, kde-format
 msgid "Create sequence"
 msgstr "Nieuwe sequentie maken"
 
-#: src/bin/clipcreator.cpp:259
+#: src/bin/clipcreator.cpp:270
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr "U kunt geen project in zichzelf toevoegen."
 
-#: src/bin/clipcreator.cpp:259
+#: src/bin/clipcreator.cpp:270
 #, kde-format
 msgid "Cannot create clip"
 msgstr "Kan clip niet aanmaken"
 
-#: src/bin/clipcreator.cpp:344
+#: src/bin/clipcreator.cpp:361
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Diashowclip aanmaken"
 
-#: src/bin/clipcreator.cpp:376
+#: src/bin/clipcreator.cpp:404
 #, kde-format
 msgid "Create title template"
 msgstr "Titelsjabloon aanmaken"
 
-#: src/bin/clipcreator.cpp:400
+#: src/bin/clipcreator.cpp:429
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -20081,13 +20085,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:401 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:430 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplicaat"
 
-#: src/bin/clipcreator.cpp:545
+#: src/bin/clipcreator.cpp:574
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -20101,17 +20105,17 @@ msgstr ""
 "U zou het eerst kunnen kopiëren naar uw vaste schijf. Wilt u het toch "
 "toevoegen?"
 
-#: src/bin/clipcreator.cpp:549
+#: src/bin/clipcreator.cpp:578
 #, kde-format
 msgid "Removable device"
 msgstr "Verwijderbaar apparaat"
 
-#: src/bin/clipcreator.cpp:578
+#: src/bin/clipcreator.cpp:616
 #, kde-format
 msgid "Loading done"
 msgstr "Laden is gereed"
 
-#: src/bin/clipcreator.cpp:589 src/dialogs/clipcreationdialog.cpp:522
+#: src/bin/clipcreator.cpp:627 src/dialogs/clipcreationdialog.cpp:543
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -20182,17 +20186,17 @@ msgstr "Naam:"
 msgid "Filter:"
 msgstr "Filter:"
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:428
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:449
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Submapstructuur negeren"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:430
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:451
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Geen submappen aanmaken in projectmap"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:433
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20202,17 +20206,17 @@ msgstr ""
 "Indien ingeschakeld zal Kdenlive alle clips in de map en zijn submappen "
 "importeren zonder de submappen in de project-bin aan te maken."
 
-#: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:444
 #, kde-format
 msgid "Import image sequence"
 msgstr "Afbeeldingsreeks importeren"
 
-#: src/bin/mediabrowser.cpp:224 src/dialogs/clipcreationdialog.cpp:424
+#: src/bin/mediabrowser.cpp:224 src/dialogs/clipcreationdialog.cpp:445
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Een afbeeldingsreeks proberen te importeren"
 
-#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:426
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:447
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20502,34 +20506,34 @@ msgstr ""
 msgid "Invalid"
 msgstr "Ongeldig"
 
-#: src/bin/projectclip.cpp:1354 src/dialogs/clipcreationdialog.cpp:129
+#: src/bin/projectclip.cpp:1370 src/dialogs/clipcreationdialog.cpp:135
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1516
 #, kde-format
 msgid "File already exists"
 msgstr "Bestand bestaat al"
 
-#: src/bin/projectclip.cpp:2606 src/bin/projectclip.cpp:2645
+#: src/bin/projectclip.cpp:2622 src/bin/projectclip.cpp:2661
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Tijdlijnclips aanpassen"
 
-#: src/bin/projectclip.cpp:2835
+#: src/bin/projectclip.cpp:2851
 #, kde-format
 msgid "Add stream effect"
 msgstr "Streameffect toevoegen"
 
-#: src/bin/projectclip.cpp:2860
+#: src/bin/projectclip.cpp:2876
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Streameffect verwijderen"
 
-#: src/bin/projectclip.cpp:3203
+#: src/bin/projectclip.cpp:3219
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Masker toegevoegd aan clip"
 
-#: src/bin/projectclip.cpp:3207
+#: src/bin/projectclip.cpp:3223
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Clip ontbreekt voor masker"
@@ -20580,27 +20584,27 @@ msgstr "Zone"
 msgid "Add bin clip"
 msgstr "Bin-clip toevoegen"
 
-#: src/bin/projectitemmodel.cpp:1138
+#: src/bin/projectitemmodel.cpp:1143
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Een subclip toevoegen"
 
-#: src/bin/projectitemmodel.cpp:1179
+#: src/bin/projectitemmodel.cpp:1184
 #, kde-format
 msgid "Rename Folder"
 msgstr "Map hernoemen"
 
-#: src/bin/projectitemmodel.cpp:1223 src/mainwindow.cpp:1664
+#: src/bin/projectitemmodel.cpp:1228 src/mainwindow.cpp:1664
 #, kde-format
 msgid "Remove Unused Media"
 msgstr "Ongebruikte media verwijderen"
 
-#: src/bin/projectitemmodel.cpp:1451
+#: src/bin/projectitemmodel.cpp:1456
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Projectclips worden gelezen…"
 
-#: src/bin/projectitemmodel.cpp:1549
+#: src/bin/projectitemmodel.cpp:1554
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Projectclips worden geladen…"
@@ -20996,64 +21000,64 @@ msgstr ""
 "Dit zal een browser openen om een koppeling te tonen:\n"
 " %1"
 
-#: src/dialogs/clipcreationdialog.cpp:59
+#: src/dialogs/clipcreationdialog.cpp:60
 #, kde-format
 msgid "Color Clip Dialog"
 msgstr "Kleurclipdialoog"
 
-#: src/dialogs/clipcreationdialog.cpp:60
+#: src/dialogs/clipcreationdialog.cpp:61
 #, kde-format
 msgctxt "@title:window"
 msgid "Color Clip"
 msgstr "Kleurclip"
 
-#: src/dialogs/clipcreationdialog.cpp:61
+#: src/dialogs/clipcreationdialog.cpp:62
 #, kde-format
 msgid "Color Clip"
 msgstr "Kleurclip"
 
-#: src/dialogs/clipcreationdialog.cpp:63
+#: src/dialogs/clipcreationdialog.cpp:64
 #, kde-format
 msgid "Clip Name"
 msgstr "Naam van clip"
 
-#: src/dialogs/clipcreationdialog.cpp:105
+#: src/dialogs/clipcreationdialog.cpp:109
 #, kde-format
 msgid "Create animation"
 msgstr "Animatie aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:113
+#: src/dialogs/clipcreationdialog.cpp:117
 #, kde-format
 msgid "Save animation as"
 msgstr "Animatie opslaan"
 
-#: src/dialogs/clipcreationdialog.cpp:116
+#: src/dialogs/clipcreationdialog.cpp:120
 #, kde-format
 msgid "Animation duration"
 msgstr "Duur van animatie"
 
-#: src/dialogs/clipcreationdialog.cpp:195
+#: src/dialogs/clipcreationdialog.cpp:201
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Animatieclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:211
+#: src/dialogs/clipcreationdialog.cpp:219
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Tekstclip"
 
-#: src/dialogs/clipcreationdialog.cpp:229
+#: src/dialogs/clipcreationdialog.cpp:237
 #, kde-format
 msgid "Text Clip"
 msgstr "Tekstclip"
 
-#: src/dialogs/clipcreationdialog.cpp:284
+#: src/dialogs/clipcreationdialog.cpp:296
 #, kde-format
 msgid "Create Text clip"
 msgstr "Tekstclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:348 src/doc/kdenlivedoc.cpp:1204
+#: src/dialogs/clipcreationdialog.cpp:367 src/doc/kdenlivedoc.cpp:1204
 #, kde-format
 msgid "Template title clip"
 msgstr "Voorbeeld titel clip"
@@ -21402,12 +21406,12 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Markeringsgegevens exporteren"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2180
-#: src/dialogs/renderwidget.cpp:2204 src/doc/kdenlivedoc.cpp:767
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:2182
+#: src/dialogs/renderwidget.cpp:2206 src/doc/kdenlivedoc.cpp:767
 #: src/doc/kdenlivedoc.cpp:775 src/doc/kdenlivedoc.cpp:1344
 #: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectlist/model/effecttreemodel.cpp:320
-#: src/effects/effectsrepository.cpp:429
+#: src/effects/effectsrepository.cpp:433
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:786
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:315
@@ -21417,12 +21421,12 @@ msgstr "Markeringsgegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1974 src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1975 src/project/projectmanager.cpp:1981
 #: src/render/renderrequest.cpp:324
-#: src/renderpresets/renderpresetrepository.cpp:389
-#: src/renderpresets/renderpresetrepository.cpp:445
-#: src/timeline2/view/timelinecontroller.cpp:5259
-#: src/timeline2/view/timelinecontroller.cpp:5264
+#: src/renderpresets/renderpresetrepository.cpp:424
+#: src/renderpresets/renderpresetrepository.cpp:480
+#: src/timeline2/view/timelinecontroller.cpp:5285
+#: src/timeline2/view/timelinecontroller.cpp:5290
 #: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Cannot write to file %1"
@@ -21510,8 +21514,8 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Indien onzeker, probeer :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1863
-#: src/renderpresets/renderpresetrepository.cpp:322
+#: src/project/dialogs/guideslist.cpp:406 src/project/projectmanager.cpp:1864
+#: src/renderpresets/renderpresetrepository.cpp:357
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Kan bestand %1 niet lezen"
@@ -21815,7 +21819,7 @@ msgid "6"
 msgstr "6"
 
 #: src/dialogs/renderpresetdialog.cpp:117
-#: src/dialogs/renderpresetdialog.cpp:421
+#: src/dialogs/renderpresetdialog.cpp:430
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "Voorinstellingen voor renderen bewerken"
@@ -21825,19 +21829,12 @@ msgstr "Voorinstellingen voor renderen bewerken"
 msgid "Constrained VBR"
 msgstr "Beperkte VBR"
 
-#: src/dialogs/renderpresetdialog.cpp:417
-#: src/dialogs/renderpresetdialog.cpp:438
-#, kde-format
-msgctxt "Group Name"
-msgid "Custom"
-msgstr "Aangepast"
-
-#: src/dialogs/renderpresetdialog.cpp:433
+#: src/dialogs/renderpresetdialog.cpp:442
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "De vooraf ingestelde naam kan niet leeg zijn"
 
-#: src/dialogs/renderpresetdialog.cpp:861
+#: src/dialogs/renderpresetdialog.cpp:870
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -21875,7 +21872,7 @@ msgstr "Log tonen"
 msgid "Show Xml"
 msgstr "XML tonen"
 
-#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2002
+#: src/dialogs/renderwidget.cpp:250 src/dialogs/renderwidget.cpp:2004
 #, kde-format
 msgid "Waiting…"
 msgstr "Wacht..."
@@ -22020,51 +22017,51 @@ msgstr ""
 "Kon de toepassing kdenlive_render niet vinden, er is iets fout met uw "
 "installatie. Renderen zal niet werken"
 
-#: src/dialogs/renderwidget.cpp:583
+#: src/dialogs/renderwidget.cpp:585
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Werkt alleen voor het matroska-formaat (mkv)"
 
-#: src/dialogs/renderwidget.cpp:598
+#: src/dialogs/renderwidget.cpp:600
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Er was een probleem bij het delen van het document: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:598 src/dialogs/renderwidget.cpp:606
+#: src/dialogs/renderwidget.cpp:600 src/dialogs/renderwidget.cpp:608
 #: src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Share"
 msgstr "Delen"
 
-#: src/dialogs/renderwidget.cpp:603
+#: src/dialogs/renderwidget.cpp:605
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Document met succes gedeeld"
 
-#: src/dialogs/renderwidget.cpp:606
+#: src/dialogs/renderwidget.cpp:608
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "U kunt het gedeelde document vinden op: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:758
+#: src/dialogs/renderwidget.cpp:760
 #, kde-format
 msgid "Beginning"
 msgstr "Startend"
 
-#: src/dialogs/renderwidget.cpp:898
+#: src/dialogs/renderwidget.cpp:900
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Een clip voor het renderen toevoegen aan tijdlijn"
 
-#: src/dialogs/renderwidget.cpp:904
+#: src/dialogs/renderwidget.cpp:906
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Kan het melt programma; benodigd voor renderen (onderdeel van MLT), niet "
 "vinden"
 
-#: src/dialogs/renderwidget.cpp:913
+#: src/dialogs/renderwidget.cpp:915
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -22076,25 +22073,25 @@ msgstr ""
 "uit synchronisatie raken van audio/video.\n"
 "We bevelen codering overzetten naar een formaat vriendelijk voor bewerken."
 
-#: src/dialogs/renderwidget.cpp:922
+#: src/dialogs/renderwidget.cpp:924
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Toch renderen"
 
-#: src/dialogs/renderwidget.cpp:928
+#: src/dialogs/renderwidget.cpp:930
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Codering overzetten"
 
-#: src/dialogs/renderwidget.cpp:950 src/dialogs/renderwidget.cpp:1975
+#: src/dialogs/renderwidget.cpp:952 src/dialogs/renderwidget.cpp:1977
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
-#: src/dialogs/renderwidget.cpp:958 src/monitor/recmanager.cpp:181
+#: src/dialogs/renderwidget.cpp:960 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -22103,12 +22100,12 @@ msgstr ""
 "De map %1 kon niet gemaakt worden.\n"
 "Zorg ervoor dat U de nodige rechten heeft."
 
-#: src/dialogs/renderwidget.cpp:1030
+#: src/dialogs/renderwidget.cpp:1032
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "De volgende fouten deden zich voor tijdens de poging te renderen"
 
-#: src/dialogs/renderwidget.cpp:1070 src/dialogs/renderwidget.cpp:1988
+#: src/dialogs/renderwidget.cpp:1072 src/dialogs/renderwidget.cpp:1990
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -22117,47 +22114,47 @@ msgstr ""
 "Een opdracht schrijft al naar dit bestand:<br /><b>%1</b><br />Stop die "
 "opdracht als u deze wilt overschrijven…"
 
-#: src/dialogs/renderwidget.cpp:1071 src/dialogs/renderwidget.cpp:1989
+#: src/dialogs/renderwidget.cpp:1073 src/dialogs/renderwidget.cpp:1991
 #, kde-format
 msgid "Already running"
 msgstr "Loopt reeds"
 
-#: src/dialogs/renderwidget.cpp:1099
+#: src/dialogs/renderwidget.cpp:1101
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video zonder audio track"
 
-#: src/dialogs/renderwidget.cpp:1101
+#: src/dialogs/renderwidget.cpp:1103
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio zonder videotrack"
 
-#: src/dialogs/renderwidget.cpp:1183 src/main.cpp:462
+#: src/dialogs/renderwidget.cpp:1185 src/main.cpp:462
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Renderen %1 gestart"
 
-#: src/dialogs/renderwidget.cpp:1248 src/monitor/monitor.cpp:1413
+#: src/dialogs/renderwidget.cpp:1250 src/monitor/monitor.cpp:1428
 #, kde-format
 msgid "untitled"
 msgstr "naamloos"
 
-#: src/dialogs/renderwidget.cpp:1287
+#: src/dialogs/renderwidget.cpp:1289
 #, kde-format
 msgid "No preset selected"
 msgstr "Geen voor-instelling geselecteerd"
 
-#: src/dialogs/renderwidget.cpp:1289
+#: src/dialogs/renderwidget.cpp:1291
 #, kde-format
 msgid "No matching preset"
 msgstr "Geen overeenkomende voorinstelling"
 
-#: src/dialogs/renderwidget.cpp:1301
+#: src/dialogs/renderwidget.cpp:1303
 #, kde-format
 msgid "Invalid preset"
 msgstr "Ongeldige voorinstelling"
 
-#: src/dialogs/renderwidget.cpp:1442
+#: src/dialogs/renderwidget.cpp:1444
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -22166,115 +22163,115 @@ msgstr ""
 "Renderen zonder audio en video werkt niet. Schakel minstens een van beiden "
 "in."
 
-#: src/dialogs/renderwidget.cpp:1647
+#: src/dialogs/renderwidget.cpp:1649
 #, kde-format
 msgid "Remaining time "
 msgstr "Resterende tijd "
 
-#: src/dialogs/renderwidget.cpp:1649 src/dialogs/renderwidget.cpp:1752
+#: src/dialogs/renderwidget.cpp:1651 src/dialogs/renderwidget.cpp:1754
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dag "
 msgstr[1] "%1 dagen "
 
-#: src/dialogs/renderwidget.cpp:1661
+#: src/dialogs/renderwidget.cpp:1663
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (frame %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1683
+#: src/dialogs/renderwidget.cpp:1685
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Minder dan %1MB van beschikbaar geheugen resteert."
 
-#: src/dialogs/renderwidget.cpp:1754
+#: src/dialogs/renderwidget.cpp:1756
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Renderen over %1 voltooid"
 
-#: src/dialogs/renderwidget.cpp:1765
+#: src/dialogs/renderwidget.cpp:1767
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderen van %1 is klaar in %2"
 
-#: src/dialogs/renderwidget.cpp:1768
+#: src/dialogs/renderwidget.cpp:1770
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "Eerste passage van renderen van %1 is voltooid"
 
-#: src/dialogs/renderwidget.cpp:1788
+#: src/dialogs/renderwidget.cpp:1790
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) is gecrasht</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1790
+#: src/dialogs/renderwidget.cpp:1792
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) van %1 is vastgelopen</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1857 src/ui/renderwidget_ui.ui:910
+#: src/dialogs/renderwidget.cpp:1859 src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Abort Job"
 msgstr "Taak afbreken"
 
-#: src/dialogs/renderwidget.cpp:1860
+#: src/dialogs/renderwidget.cpp:1862
 #, kde-format
 msgid "Remove Job"
 msgstr "Opdracht verwijderen"
 
-#: src/dialogs/renderwidget.cpp:2318
+#: src/dialogs/renderwidget.cpp:2320
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Clip in de tijdlijn toevoegen alvorens te renderen"
 
-#: src/dialogs/renderwidget.cpp:2325
+#: src/dialogs/renderwidget.cpp:2327
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "Uitvoerlocatie is niet beschrijfbaar, selecteer een andere"
 
-#: src/dialogs/renderwidget.cpp:2328
+#: src/dialogs/renderwidget.cpp:2330
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
 msgstr "Uw schijf is bijna vol, renderen kan mislukken"
 
-#: src/dialogs/renderwidget.cpp:2331
+#: src/dialogs/renderwidget.cpp:2333
 #, kde-format
 msgid "Your disk space is limited (%1)"
 msgstr "Uw schijfruimte is beperkt (%1)"
 
-#: src/dialogs/renderwidget.cpp:2341
+#: src/dialogs/renderwidget.cpp:2343
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Bestandslengte na renderen: %1"
 
-#: src/dialogs/renderwidget.cpp:2344
+#: src/dialogs/renderwidget.cpp:2346
 #: src/mltcontroller/clippropertiescontroller.cpp:644
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Tijdcodeverschuiving:"
 
-#: src/dialogs/renderwidget.cpp:2349
+#: src/dialogs/renderwidget.cpp:2351
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Er ontbreekt een clip gebruikt in het project.</b>"
 msgstr[1] "<b>Er ontbreken %1 clips gebruikt in het project.</b>"
 
-#: src/dialogs/renderwidget.cpp:2351
+#: src/dialogs/renderwidget.cpp:2353
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Eén ontbrekende clip (niet gebruikt)."
 msgstr[1] "%1 ontbrekende clips (niet gebruikt)."
 
-#: src/dialogs/renderwidget.cpp:2353
+#: src/dialogs/renderwidget.cpp:2355
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 ontbrekende clips (<b>%2 worden gebruikt in het project</b>)."
 
-#: src/dialogs/renderwidget.cpp:2483
+#: src/dialogs/renderwidget.cpp:2485
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -22283,12 +22280,12 @@ msgstr ""
 "Snelheidsparameters van codec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2503
+#: src/dialogs/renderwidget.cpp:2505
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Aan huidig project toevoegen"
 
-#: src/dialogs/renderwidget.cpp:2512
+#: src/dialogs/renderwidget.cpp:2514
 #: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -22329,7 +22326,7 @@ msgstr "Diversen"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:214
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #: src/doc/documentvalidator.cpp:2511
-#: src/transitions/transitionsrepository.cpp:193
+#: src/transitions/transitionsrepository.cpp:197
 #, kde-format
 msgid "auto"
 msgstr "automatisch"
@@ -25163,26 +25160,26 @@ msgid "Copy effect"
 msgstr "Effect kopiëren"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
-#: src/effects/effectstack/model/effectstackmodel.cpp:623
-#: src/effects/effectstack/model/effectstackmodel.cpp:750
-#: src/effects/effectstack/model/effectstackmodel.cpp:1522
+#: src/effects/effectstack/model/effectstackmodel.cpp:620
+#: src/effects/effectstack/model/effectstackmodel.cpp:747
+#: src/effects/effectstack/model/effectstackmodel.cpp:1519
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:736
+#: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
 #: src/timeline2/model/timelinemodel.cpp:5197
 #, kde-format
 msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:746
+#: src/effects/effectstack/model/effectstackmodel.cpp:743
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "Effect %1 kan alleen aan master worden toegevoegd"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1306
+#: src/effects/effectstack/model/effectstackmodel.cpp:1303
 #, kde-format
 msgid "Move effect %1"
 msgstr "Effect %1 verplaatsen"
@@ -25408,13 +25405,13 @@ msgid "Exporting…"
 msgstr "Exporteren…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3373
+#: src/timeline2/view/timelinecontroller.cpp:3399
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Effectenstapel inschakelen"
 
 #: src/effects/effectstack/view/effectstackview.cpp:688
-#: src/timeline2/view/timelinecontroller.cpp:3373
+#: src/timeline2/view/timelinecontroller.cpp:3399
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Effectstapel uitschakelen"
@@ -25614,12 +25611,12 @@ msgstr "Item is geen animatieclip"
 msgid "Audio thumbs"
 msgstr "Geluidsminiaturen"
 
-#: src/jobs/audiolevels/audiolevelstask.cpp:131
+#: src/jobs/audiolevels/audiolevelstask.cpp:133
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Geluidsminiaturen: kan bestand %1 niet openen"
 
-#: src/jobs/audiolevels/audiolevelstask.cpp:144
+#: src/jobs/audiolevels/audiolevelstask.cpp:146
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Geluidsminiaturen: onbekende bestandslengte voor %1"
@@ -25952,7 +25949,7 @@ msgid "Clip in Timeline"
 msgstr "Clip in de tijdlijn"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1073
+#: src/kdenliveui.rc:96 src/timeline2/view/qml/Timeline.qml:1072
 #, kde-format
 msgid "Sequence"
 msgstr "Sequentie"
@@ -26291,13 +26288,13 @@ msgstr "Deze indeling bevat horizontale en verticale profielen. "
 #: src/layouts/layoutmanagerdialog.cpp:335
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "This layout contains an horizontal profile"
+msgid "This layout contains a horizontal profile"
 msgstr "Deze indeling bevat een horizontaal profiel"
 
 #: src/layouts/layoutmanagerdialog.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "This layout contains an vertical profile"
+msgid "This layout contains a vertical profile"
 msgstr "Deze indeling bevat een verticaal profiel"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
@@ -26335,7 +26332,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:330
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:331
 #, kde-format
 msgid "Merged streams"
 msgstr "Samengevoegde streams"
@@ -26730,11 +26727,6 @@ msgstr "Te openen Kdenlive-document"
 msgid "Output file for rendered video."
 msgstr "Uitvoerbestand voor gerenderde video."
 
-#: src/mainwindow.cpp:147
-#, kde-format
-msgid "Add Clip"
-msgstr "Clip toevoegen"
-
 #: src/mainwindow.cpp:149
 #, kde-format
 msgid "Add Marker by Category Number"
@@ -26948,13 +26940,13 @@ msgstr "Weergave voorbeeld"
 msgid "Go to Marker…"
 msgstr "Ga naar markering…"
 
-#: src/mainwindow.cpp:666 src/monitor/monitor.cpp:710
+#: src/mainwindow.cpp:666 src/monitor/monitor.cpp:711
 #, kde-format
 msgid "Create Marker from Zone"
 msgstr "Markering aanmaken uit zone"
 
-#: src/mainwindow.cpp:670 src/monitor/monitor.cpp:715
-#: src/monitor/monitor.cpp:740
+#: src/mainwindow.cpp:670 src/monitor/monitor.cpp:716
+#: src/monitor/monitor.cpp:741
 #, kde-format
 msgid "Create Marker from Zone Quickly"
 msgstr "Snel markering uit zone aanmaken"
@@ -27060,7 +27052,7 @@ msgstr "Nu starten"
 msgid "Delete them"
 msgstr "Deze verwijderen"
 
-#: src/mainwindow.cpp:1162 src/timeline2/view/timelinecontroller.cpp:2251
+#: src/mainwindow.cpp:1162 src/timeline2/view/timelinecontroller.cpp:2277
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Een clip selecteren om effect te vergelijken"
@@ -27525,27 +27517,27 @@ msgstr "Taken voor overlay op clip monitoren"
 msgid "Full Resolution (1:1)"
 msgstr "Volledige resolutie (1:1)"
 
-#: src/mainwindow.cpp:1745 src/monitor/monitor.cpp:239
+#: src/mainwindow.cpp:1745 src/monitor/monitor.cpp:240
 #, kde-format
 msgid "1080p"
 msgstr "1080p"
 
-#: src/mainwindow.cpp:1749 src/monitor/monitor.cpp:239
+#: src/mainwindow.cpp:1749 src/monitor/monitor.cpp:240
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1753 src/monitor/monitor.cpp:240
+#: src/mainwindow.cpp:1753 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1757 src/monitor/monitor.cpp:240
+#: src/mainwindow.cpp:1757 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1761 src/monitor/monitor.cpp:240
+#: src/mainwindow.cpp:1761 src/monitor/monitor.cpp:241
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -28021,7 +28013,7 @@ msgstr "Track invoegen…"
 msgid "Fit all Tracks in View"
 msgstr "Alle tracks in weergave laten passen"
 
-#: src/mainwindow.cpp:2088 src/timeline2/view/timelinecontroller.cpp:4986
+#: src/mainwindow.cpp:2088 src/timeline2/view/timelinecontroller.cpp:5012
 #, kde-format
 msgid "Sequence effects"
 msgstr "Sequentie-effecten"
@@ -28362,14 +28354,14 @@ msgid "Marker category does not exist"
 msgstr "Categorie van markering bestaat niet"
 
 #: src/mainwindow.cpp:3319 src/timeline2/model/timelinefunctions.cpp:798
-#: src/timeline2/view/timelinecontroller.cpp:3234
+#: src/timeline2/view/timelinecontroller.cpp:3260
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Zone overschrijven"
 
 #: src/mainwindow.cpp:3321 src/mainwindow.cpp:3340
 #: src/timeline2/model/timelinefunctions.cpp:800
-#: src/timeline2/view/timelinecontroller.cpp:3236
+#: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Kon zone niet invoegen"
@@ -28380,7 +28372,7 @@ msgid "No clip selected in project bin"
 msgstr "Geen clip geselecteerd in projectmap"
 
 #: src/mainwindow.cpp:3338 src/timeline2/model/timelinefunctions.cpp:798
-#: src/timeline2/view/timelinecontroller.cpp:3234
+#: src/timeline2/view/timelinecontroller.cpp:3260
 #, kde-format
 msgid "Insert zone"
 msgstr "Zone invoegen"
@@ -28606,7 +28598,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Menubalk verbergen"
 
-#: src/mainwindow.cpp:5091 src/timeline2/view/timelinecontroller.cpp:5217
+#: src/mainwindow.cpp:5091 src/timeline2/view/timelinecontroller.cpp:5243
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Geen ondertitels in het huidige project"
@@ -28643,14 +28635,14 @@ msgstr ""
 msgid "Checking cached data size"
 msgstr "Grootte opgeslagen gegevens wordt gecontroleerd"
 
-#: src/mltconnection.cpp:205
+#: src/mltconnection.cpp:291
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
 "Kan het melt programma; benodigd voor renderen (onderdeel van MLT), niet "
 "vinden"
 
-#: src/mltconnection.cpp:239
+#: src/mltconnection.cpp:351
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Kan geen MLT profielen vinden, geef het pad op"
@@ -28872,13 +28864,13 @@ msgid "Enable audio"
 msgstr "Geluid inschakelen"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:856
-#: src/monitor/monitor.cpp:313
+#: src/monitor/monitor.cpp:314
 #, kde-format
 msgid "Audio streams"
 msgstr "Audiostreams"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:878
-#: src/monitor/monitor.cpp:2096
+#: src/monitor/monitor.cpp:2111
 #, kde-format
 msgid "Merge all streams"
 msgstr "Alle streams samenvoegen"
@@ -29104,13 +29096,13 @@ msgstr "Audio volume"
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:234
+#: src/monitor/monitor.cpp:235
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 "Resolutie voorbeeldweergave - lagere resolutie betekent sneller voorbeeld"
 
-#: src/monitor/monitor.cpp:236
+#: src/monitor/monitor.cpp:237
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29122,49 +29114,49 @@ msgstr ""
 "selecteren tussen 1:1, 1080p, 720p, 540p, 360p, 270p (hoe lager de resolutie "
 "hoe sneller het voorbeeld)."
 
-#: src/monitor/monitor.cpp:239
+#: src/monitor/monitor.cpp:240
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:383 src/monitor/monitormanager.cpp:687
+#: src/monitor/monitor.cpp:384 src/monitor/monitormanager.cpp:687
 #, kde-format
 msgid "Set Zone In"
 msgstr "Zone-begin instellen"
 
-#: src/monitor/monitor.cpp:384 src/monitor/monitormanager.cpp:691
+#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:691
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Zone-eind instellen"
 
-#: src/monitor/monitor.cpp:396 src/monitor/monitormanager.cpp:571
+#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Rewind"
 msgstr "Terugspoelen"
 
-#: src/monitor/monitor.cpp:401 src/monitor/monitor.cpp:404
+#: src/monitor/monitor.cpp:402 src/monitor/monitor.cpp:405
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Afspelen"
 
-#: src/monitor/monitor.cpp:404 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:405 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: src/monitor/monitor.cpp:424 src/monitor/monitormanager.cpp:584
+#: src/monitor/monitor.cpp:425 src/monitor/monitormanager.cpp:584
 #, kde-format
 msgid "Forward"
 msgstr "Vooruit"
 
-#: src/monitor/monitor.cpp:428
+#: src/monitor/monitor.cpp:429
 #, kde-format
 msgid "More Options…"
 msgstr "Meer opties…"
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:430
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29174,38 +29166,38 @@ msgstr ""
 "Opent de lijst van opties voor project/clip monitor (bijv. geluidsvolume, "
 "monitorgrootte)."
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:439
 #, kde-format
 msgid "Go to Clip Marker…"
 msgstr "Ga naar clipmarkering…"
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:439
 #, kde-format
 msgid "Go to Timeline Marker…"
 msgstr "Ga naar tijdlijnmarkering…"
 
-#: src/monitor/monitor.cpp:442
+#: src/monitor/monitor.cpp:443
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Monitorgrootte afdwingen"
 
-#: src/monitor/monitor.cpp:443
+#: src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Force 100%"
 msgstr "100% afdwingen"
 
-#: src/monitor/monitor.cpp:445
+#: src/monitor/monitor.cpp:446
 #, kde-format
 msgid "Force 50%"
 msgstr "50% afdwingen"
 
-#: src/monitor/monitor.cpp:447
+#: src/monitor/monitor.cpp:448
 #, kde-format
 msgid "Free Resize"
 msgstr "Vrij grootte wijzigen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:455 src/scopes/colorscopes/vectorscope.cpp:72
+#: src/monitor/monitor.cpp:456 src/scopes/colorscopes/vectorscope.cpp:72
 #: src/scopes/colorscopes/vectorscope.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:286 src/ui/titlewidget_ui.ui:140
 #, kde-format
@@ -29213,125 +29205,125 @@ msgid "Black"
 msgstr "Zwart"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:457 src/scopes/colorscopes/rgbparade.cpp:45
+#: src/monitor/monitor.cpp:458 src/scopes/colorscopes/rgbparade.cpp:45
 #: src/scopes/colorscopes/waveform.cpp:51 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "Wit"
 
-#: src/monitor/monitor.cpp:459
+#: src/monitor/monitor.cpp:460
 #, kde-format
 msgid "Pink"
 msgstr "Roze"
 
-#: src/monitor/monitor.cpp:461
+#: src/monitor/monitor.cpp:462
 #, kde-format
 msgid "Checkerboard"
 msgstr "Schaakbord"
 
-#: src/monitor/monitor.cpp:530
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:536
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:542
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:548
+#: src/monitor/monitor.cpp:549
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:703
+#: src/monitor/monitor.cpp:704
 #, kde-format
 msgid "Extract Zone"
 msgstr "Zone extraheren"
 
-#: src/monitor/monitor.cpp:730
+#: src/monitor/monitor.cpp:731
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Maak van huidige afbeelding miniatuur"
 
-#: src/monitor/monitor.cpp:735
+#: src/monitor/monitor.cpp:736
 #, kde-format
 msgid "Create Marker from Zone..."
 msgstr "Markering uit zone aanmaken"
 
-#: src/monitor/monitor.cpp:747
+#: src/monitor/monitor.cpp:748
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Altijd audio-miniaturen tonen"
 
-#: src/monitor/monitor.cpp:761
+#: src/monitor/monitor.cpp:762
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Geluidsniveaus tonen"
 
-#: src/monitor/monitor.cpp:768
+#: src/monitor/monitor.cpp:769
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Tijdcode van bron tonen"
 
-#: src/monitor/monitor.cpp:805
+#: src/monitor/monitor.cpp:806
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Uw schermresolutie is niet voldoende voor deze actie"
 
-#: src/monitor/monitor.cpp:941 src/monitor/monitor.cpp:977
-#: src/monitor/monitor.cpp:1013
+#: src/monitor/monitor.cpp:944 src/monitor/monitor.cpp:980
+#: src/monitor/monitor.cpp:1016
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Kan zone niet veranderen bij aanmaken van een masker"
 
-#: src/monitor/monitor.cpp:970 src/monitor/monitor.cpp:1006
+#: src/monitor/monitor.cpp:973 src/monitor/monitor.cpp:1009
 #: src/timeline2/view/timelinecontroller.cpp:1896
 #, kde-format
 msgid "Set Zone"
 msgstr "Zone instellen"
 
-#: src/monitor/monitor.cpp:1426
+#: src/monitor/monitor.cpp:1441
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Image naar project opslaan"
 
-#: src/monitor/monitor.cpp:1426
+#: src/monitor/monitor.cpp:1441
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: src/monitor/monitor.cpp:1433
+#: src/monitor/monitor.cpp:1448
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Afbeelding exporteren met resolutie van bron"
 
-#: src/monitor/monitor.cpp:1973
+#: src/monitor/monitor.cpp:1988
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Modus Masker verlaten ?"
 
-#: src/monitor/monitor.cpp:2081 src/monitor/monitor.cpp:2210
+#: src/monitor/monitor.cpp:2096 src/monitor/monitor.cpp:2225
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "Audiostream"
 msgstr[1] "%1 audiostreams"
 
-#: src/monitor/monitor.cpp:2532
+#: src/monitor/monitor.cpp:2547
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Initialiseren van GLSL-manager van Movit kan niet, schakel Movit uit"
 
-#: src/monitor/monitor.cpp:2574 src/monitor/monitor.cpp:2631
+#: src/monitor/monitor.cpp:2589 src/monitor/monitor.cpp:2646
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -29340,17 +29332,17 @@ msgstr ""
 "Het filter alphagrad is vereist voor die functie, installeer frei0r en start "
 "Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2594
+#: src/monitor/monitor.cpp:2609
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Clip heeft geen effecten"
 
-#: src/monitor/monitor.cpp:2596
+#: src/monitor/monitor.cpp:2611
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Selecteer een clip in de projectmap om effect te vergelijken"
 
-#: src/monitor/monitor.cpp:2638
+#: src/monitor/monitor.cpp:2653
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -29359,40 +29351,40 @@ msgstr ""
 "De transitie cairoblend is vereist voor die functie, installeer frei0r en "
 "start Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2718
+#: src/monitor/monitor.cpp:2733
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Modus Bewerken in monitor inschakelen om effect te bewerken"
 
-#: src/monitor/monitor.cpp:3225
+#: src/monitor/monitor.cpp:3240
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Geen clip geselecteerd in Clipmonitor"
 
-#: src/monitor/monitor.cpp:3246
+#: src/monitor/monitor.cpp:3261
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Kan geen produceerder krijgen voor Clipmonitor"
 
-#: src/monitor/monitor.cpp:3328 src/monitor/monitor.cpp:3359
-#: src/timeline2/view/timelinecontroller.cpp:5770
+#: src/monitor/monitor.cpp:3343 src/monitor/monitor.cpp:3374
+#: src/timeline2/view/timelinecontroller.cpp:5796
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "Geen geldige zone gedefinieerd. Zet eerst in/uitpunten."
 
-#: src/monitor/monitor.cpp:3338
+#: src/monitor/monitor.cpp:3353
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Reeksmarkering uit zone aanmaken"
 
-#: src/monitor/monitor.cpp:3344 src/monitor/monitor.cpp:3365
-#: src/timeline2/view/timelinecontroller.cpp:5785
+#: src/monitor/monitor.cpp:3359 src/monitor/monitor.cpp:3380
+#: src/timeline2/view/timelinecontroller.cpp:5811
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Reeksmarkering aangemaakt uit zone"
 
-#: src/monitor/monitor.cpp:3346 src/monitor/monitor.cpp:3367
-#: src/timeline2/view/timelinecontroller.cpp:5788
+#: src/monitor/monitor.cpp:3361 src/monitor/monitor.cpp:3382
+#: src/timeline2/view/timelinecontroller.cpp:5814
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "Reeksmarkering uit zone aanmaken is mislukt"
@@ -29537,8 +29529,8 @@ msgstr "Ga naar het begin van de zone"
 msgid "Go to Zone End"
 msgstr "Ga naar het einde van de zone"
 
-#: src/monitor/monitorproxy.cpp:740
-#: src/timeline2/view/timelinecontroller.cpp:5777
+#: src/monitor/monitorproxy.cpp:745
+#: src/timeline2/view/timelinecontroller.cpp:5803
 #, kde-format
 msgid "Zone marker"
 msgstr "Zonemarkering"
@@ -29603,17 +29595,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Audiospectrum inschakelen"
 
-#: src/monitor/videowidget.cpp:1144
+#: src/monitor/videowidget.cpp:1167
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Een af te spelen zone selecteren"
 
-#: src/monitor/videowidget.cpp:1153
+#: src/monitor/videowidget.cpp:1176
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Een af te spelen clip selecteren"
 
-#: src/monitor/videowidget.cpp:1258
+#: src/monitor/videowidget.cpp:1281
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -29624,41 +29616,32 @@ msgstr ""
 "Er is iets mis met de installatie van kdenlive of met de instellingen van de "
 "aansturing van het/de appara(a)t(en), herstel dit eerst."
 
-#: src/monitor/view/ClipMonitor.qml:165
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-"fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</"
-"shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
-"shortcut> to zoom"
-msgstr ""
-"<shortcut>Klik</shortcut> om af te spelen, <shortcut>Dubbelklik</shortcut> "
-"voor volledig scherm, <shortcut>Rechts zweven</shortcut> voor werkbalk, "
-"<shortcut>Wiel</shortcut> of <shortcut>pijltjestoetsen</shortcut> om te "
-"zoeken, <shortcut>Ctrl wiel</shortcut> om te zoomen"
+#: src/monitor/view/AudioView.qml:318
+#, kde-format
+msgid "Audio wave not synced. Double click to update"
+msgstr "Geluidsgolf niet gesynchroniseerd. Dubbelklik om bij te werken"
 
-#: src/monitor/view/ClipMonitor.qml:363 src/monitor/view/ProjectMonitor.qml:195
+#: src/monitor/view/ClipMonitor.qml:365 src/monitor/view/ProjectMonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/ClipMonitor.qml:402 src/monitor/view/ProjectMonitor.qml:228
+#: src/monitor/view/ClipMonitor.qml:404 src/monitor/view/ProjectMonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Beginpunt"
 
-#: src/monitor/view/ClipMonitor.qml:402
+#: src/monitor/view/ClipMonitor.qml:404
 #, kde-format
 msgid "In/Out Point"
 msgstr "In/uitpunt"
 
-#: src/monitor/view/ClipMonitor.qml:425 src/monitor/view/ProjectMonitor.qml:245
+#: src/monitor/view/ClipMonitor.qml:427 src/monitor/view/ProjectMonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Eindpunt"
 
-#: src/monitor/view/ClipMonitor.qml:643
+#: src/monitor/view/ClipMonitor.qml:615
 #, kde-format
 msgid "Terminate Job"
 msgstr "Taak beëindigen"
@@ -31430,7 +31413,7 @@ msgstr "Back-up-bestand openen…"
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
-#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1800
+#: src/project/projectmanager.cpp:425 src/project/projectmanager.cpp:1801
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -31604,13 +31587,13 @@ msgstr ""
 "Projectbestand is beschadigd -tracks laden is mislukt. Probeer een "
 "reservekopiebestand te vinden?"
 
-#: src/project/projectmanager.cpp:1792 src/project/projectmanager.cpp:1805
-#: src/project/projectmanager.cpp:1829 src/project/projectmanager.cpp:1838
+#: src/project/projectmanager.cpp:1793 src/project/projectmanager.cpp:1806
+#: src/project/projectmanager.cpp:1830 src/project/projectmanager.cpp:1839
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projectprofiel wijzigen afgebroken"
 
-#: src/project/projectmanager.cpp:1968
+#: src/project/projectmanager.cpp:1969
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -31619,12 +31602,12 @@ msgstr ""
 "Uitvoerbestand %1 bestaat al.\n"
 "Wilt u het overschrijven?"
 
-#: src/project/projectmanager.cpp:1993
+#: src/project/projectmanager.cpp:1994
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profiel gewijzigd"
 
-#: src/project/projectmanager.cpp:2057
+#: src/project/projectmanager.cpp:2058
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -31633,28 +31616,28 @@ msgstr ""
 "Kan geen tijdlijn uit deze clip maken:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2140
+#: src/project/projectmanager.cpp:2141
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Een clip met sequentie importeren, dit is nu in een experimentele status"
 
-#: src/project/projectmanager.cpp:2385
+#: src/project/projectmanager.cpp:2386
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:2395
+#: src/project/projectmanager.cpp:2396
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Aanmaken van sequentie is mislukt"
 
-#: src/project/projectmanager.cpp:2422
+#: src/project/projectmanager.cpp:2423
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Kan geen sequentie in huidige tijdlijn invoegen."
 
-#: src/project/projectmanager.cpp:2426
+#: src/project/projectmanager.cpp:2427
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"
@@ -32351,44 +32334,36 @@ msgstr "Kan communicatie met renderjob %1 niet openen"
 msgid "Communication error with render job"
 msgstr "Communicatiefout met renderjob"
 
-#: src/renderpresets/renderpresetmodel.cpp:198
-#: src/renderpresets/renderpresetmodel.cpp:284
-#: src/renderpresets/renderpresetrepository.cpp:135
-#, kde-format
-msgctxt "Category Name"
-msgid "Custom"
-msgstr "Aangepast"
-
-#: src/renderpresets/renderpresetmodel.cpp:320
+#: src/renderpresets/renderpresetmodel.cpp:316
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Standaard (%1) komt niet overeen met het projectprofiel (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:330
+#: src/renderpresets/renderpresetmodel.cpp:326
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Frame rate (%1) komt niet overeen met de project profiel (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:367
+#: src/renderpresets/renderpresetmodel.cpp:340
+#: src/renderpresets/renderpresetmodel.cpp:363
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Niet ondersteund video formaat: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:380
+#: src/renderpresets/renderpresetmodel.cpp:345
+#: src/renderpresets/renderpresetmodel.cpp:376
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Niet ondersteunde video codec: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:354
-#: src/renderpresets/renderpresetmodel.cpp:374
+#: src/renderpresets/renderpresetmodel.cpp:350
+#: src/renderpresets/renderpresetmodel.cpp:370
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Niet ondersteunde audio codec: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:359
-#: src/renderpresets/renderpresetmodel.cpp:386
+#: src/renderpresets/renderpresetmodel.cpp:355
+#: src/renderpresets/renderpresetmodel.cpp:382
 #, kde-format
 msgid ""
 "10 bit color depth will be converted to 8 bit if you use compositing or "
@@ -32397,7 +32372,7 @@ msgstr ""
 "10 bits kleurdiepte zal geconverteerd worden naar 8 bits als u componeren of "
 "effecten gebruikt die niet zijn geleverd door avfilter."
 
-#: src/renderpresets/renderpresetmodel.cpp:391
+#: src/renderpresets/renderpresetmodel.cpp:387
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -32407,33 +32382,52 @@ msgstr ""
 "hiermee niet bekend bent, dan is het beter om dit op 'mlt_profile' te laten "
 "staan."
 
-#: src/renderpresets/renderpresetrepository.cpp:193
+#: src/renderpresets/renderpresetrepository.cpp:99
 #, kde-format
-msgctxt "Attribute Name"
+msgctxt "Custom render preset category"
 msgid "Custom"
-msgstr "Zelf gedefinieerd"
+msgstr "Custom"
 
-#: src/renderpresets/renderpresetrepository.cpp:228
+#: src/renderpresets/renderpresetrepository.cpp:100
 #, kde-format
+msgctxt "10 Bit color depth category"
+msgid "10 Bit"
+msgstr "10 bits"
+
+#: src/renderpresets/renderpresetrepository.cpp:101
+#, kde-format
+msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Zonder-verlies/HQ"
 
-#: src/renderpresets/renderpresetrepository.cpp:241
+#: src/renderpresets/renderpresetrepository.cpp:148
+#, kde-format
+msgctxt "Category Name"
+msgid "Custom"
+msgstr "Aangepast"
+
+#: src/renderpresets/renderpresetrepository.cpp:229
+#, kde-format
+msgctxt "Custom render preset category name"
+msgid "Custom"
+msgstr "Custom"
+
+#: src/renderpresets/renderpresetrepository.cpp:280
 #, kde-format
 msgid "10 Bit"
 msgstr "10 bits"
 
-#: src/renderpresets/renderpresetrepository.cpp:254
+#: src/renderpresets/renderpresetrepository.cpp:292
 #, kde-format
 msgid "Images sequence"
 msgstr "Sequentie van afbeeldingen"
 
-#: src/renderpresets/renderpresetrepository.cpp:358
+#: src/renderpresets/renderpresetrepository.cpp:393
 #, kde-format
 msgid "Preset already exists"
 msgstr "Voorinstelling bestaat al"
 
-#: src/renderpresets/renderpresetrepository.cpp:359
+#: src/renderpresets/renderpresetrepository.cpp:394
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
@@ -33073,15 +33067,15 @@ msgid "Remove space"
 msgstr "Verwijder ruimte"
 
 #: src/timeline2/model/timelinefunctions.cpp:763
-#: src/timeline2/view/timelinecontroller.cpp:3041
+#: src/timeline2/view/timelinecontroller.cpp:3067
 #, kde-format
 msgid "Lift zone"
 msgstr "Zone omhoog brengen"
 
 #: src/timeline2/model/timelinefunctions.cpp:763
 #: src/timeline2/view/timelinecontroller.cpp:746
-#: src/timeline2/view/timelinecontroller.cpp:3041
-#: src/timeline2/view/timelinecontroller.cpp:3114
+#: src/timeline2/view/timelinecontroller.cpp:3067
+#: src/timeline2/view/timelinecontroller.cpp:3140
 #, kde-format
 msgid "Extract zone"
 msgstr "Zone extraheren"
@@ -33100,23 +33094,23 @@ msgstr "Een track activeren door op een tracklabel te klikken"
 #: src/timeline2/view/timelinecontroller.cpp:1398
 #: src/timeline2/view/timelinecontroller.cpp:1423
 #: src/timeline2/view/timelinecontroller.cpp:1479
-#: src/timeline2/view/timelinecontroller.cpp:2414
-#: src/timeline2/view/timelinecontroller.cpp:3059
-#: src/timeline2/view/timelinecontroller.cpp:3123
-#: src/timeline2/view/timelinecontroller.cpp:3336
-#: src/timeline2/view/timelinecontroller.cpp:3381
-#: src/timeline2/view/timelinecontroller.cpp:3422
-#: src/timeline2/view/timelinecontroller.cpp:3429
-#: src/timeline2/view/timelinecontroller.cpp:3457
-#: src/timeline2/view/timelinecontroller.cpp:3531
-#: src/timeline2/view/timelinecontroller.cpp:3548
-#: src/timeline2/view/timelinecontroller.cpp:3810
-#: src/timeline2/view/timelinecontroller.cpp:3825
-#: src/timeline2/view/timelinecontroller.cpp:3850
-#: src/timeline2/view/timelinecontroller.cpp:3865
-#: src/timeline2/view/timelinecontroller.cpp:3924
-#: src/timeline2/view/timelinecontroller.cpp:3977
-#: src/timeline2/view/timelinecontroller.cpp:4000
+#: src/timeline2/view/timelinecontroller.cpp:2440
+#: src/timeline2/view/timelinecontroller.cpp:3085
+#: src/timeline2/view/timelinecontroller.cpp:3149
+#: src/timeline2/view/timelinecontroller.cpp:3362
+#: src/timeline2/view/timelinecontroller.cpp:3407
+#: src/timeline2/view/timelinecontroller.cpp:3448
+#: src/timeline2/view/timelinecontroller.cpp:3455
+#: src/timeline2/view/timelinecontroller.cpp:3483
+#: src/timeline2/view/timelinecontroller.cpp:3557
+#: src/timeline2/view/timelinecontroller.cpp:3574
+#: src/timeline2/view/timelinecontroller.cpp:3836
+#: src/timeline2/view/timelinecontroller.cpp:3851
+#: src/timeline2/view/timelinecontroller.cpp:3876
+#: src/timeline2/view/timelinecontroller.cpp:3891
+#: src/timeline2/view/timelinecontroller.cpp:3950
+#: src/timeline2/view/timelinecontroller.cpp:4003
+#: src/timeline2/view/timelinecontroller.cpp:4026
 #, kde-format
 msgid "No clip selected"
 msgstr "Geen clip geselecteerd"
@@ -33129,7 +33123,7 @@ msgstr "Kan geselecteerde groep niet verplaatsen"
 #: src/timeline2/model/timelinefunctions.cpp:1132
 #: src/timeline2/model/timelinefunctions.cpp:1136
 #: src/timeline2/model/timelinefunctions.cpp:1143
-#: src/timeline2/view/timelinecontroller.cpp:4141
+#: src/timeline2/view/timelinecontroller.cpp:4167
 #, kde-format
 msgid "Enable clip"
 msgstr "Clip inschakelen"
@@ -33137,7 +33131,7 @@ msgstr "Clip inschakelen"
 #: src/timeline2/model/timelinefunctions.cpp:1132
 #: src/timeline2/model/timelinefunctions.cpp:1136
 #: src/timeline2/model/timelinefunctions.cpp:1143
-#: src/timeline2/view/timelinecontroller.cpp:4141
+#: src/timeline2/view/timelinecontroller.cpp:4167
 #, kde-format
 msgid "Disable clip"
 msgstr "Clip uitschakelen"
@@ -33256,7 +33250,7 @@ msgstr "Kon bin-clip niet toevoegen"
 
 #: src/timeline2/model/timelinefunctions.cpp:2571
 #, kde-format
-msgid "All clips were not successfully copied"
+msgid "Not all clips were copied successfully"
 msgstr "Niet alle clips zijn met succes gekopieerd"
 
 #: src/timeline2/model/timelinefunctions.cpp:2627
@@ -33378,7 +33372,7 @@ msgstr "Verplaats clip"
 #: src/timeline2/model/timelinemodel.cpp:1973
 #: src/timeline2/model/timelinemodel.cpp:1997
 #: src/timeline2/model/timelinemodel.cpp:2026
-#: src/timeline2/view/timelinecontroller.cpp:3407
+#: src/timeline2/view/timelinecontroller.cpp:3433
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Geen beschikbare track voor invoegoperatie"
@@ -33427,7 +33421,7 @@ msgstr "Compositie verwijderen"
 
 #: src/timeline2/model/timelinemodel.cpp:2468
 #: src/timeline2/model/timelinemodel.cpp:2769
-#: src/timeline2/view/timelinecontroller.cpp:4378
+#: src/timeline2/view/timelinecontroller.cpp:4404
 #, kde-format
 msgid "Move group"
 msgstr "Verplaats groep"
@@ -33741,7 +33735,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:257
-#: src/timeline2/view/qml/Timeline.qml:2167
+#: src/timeline2/view/qml/Timeline.qml:2166
 #, kde-format
 msgid "Paused"
 msgstr "Gepauzeerd"
@@ -33903,28 +33897,28 @@ msgstr "Tonen"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/timeline2/view/qml/Timeline.qml:1067
+#: src/timeline2/view/qml/Timeline.qml:1066
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Sequentie-effecten tonen"
 
-#: src/timeline2/view/qml/Timeline.qml:1797
+#: src/timeline2/view/qml/Timeline.qml:1796
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 
-#: src/timeline2/view/qml/Timeline.qml:1991
+#: src/timeline2/view/qml/Timeline.qml:1990
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Verschuiving: %1, positie: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2156
-#: src/timeline2/view/qml/Timeline.qml:2165
+#: src/timeline2/view/qml/Timeline.qml:2155
+#: src/timeline2/view/qml/Timeline.qml:2164
 #, kde-format
 msgid "Recording"
 msgstr "Opname"
 
-#: src/timeline2/view/qml/Timeline.qml:2259
+#: src/timeline2/view/qml/Timeline.qml:2258
 #, kde-format
 msgid "Multicam In"
 msgstr "Multi-camera in"
@@ -34037,7 +34031,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Kan bewerking niet uitvoeren tijdens slepen in tijdlijn"
 
 #: src/timeline2/view/timelinecontroller.cpp:934
-#: src/timeline2/view/timelinecontroller.cpp:5147
+#: src/timeline2/view/timelinecontroller.cpp:5173
 #, kde-format
 msgid "Could not insert track"
 msgstr "Kon track niet invoegen"
@@ -34077,153 +34071,153 @@ msgstr "Geen item geselecteerd in de tijdlijn"
 msgid "No clip to cut"
 msgstr "Geen clip om te knippen"
 
-#: src/timeline2/view/timelinecontroller.cpp:2333
+#: src/timeline2/view/timelinecontroller.cpp:2359
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "In:%1, uit:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2421
+#: src/timeline2/view/timelinecontroller.cpp:2447
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr "Slippen kan alleen gedaan worden op video-, audio- of animatieclips"
 
-#: src/timeline2/view/timelinecontroller.cpp:2817
+#: src/timeline2/view/timelinecontroller.cpp:2843
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Geen clips gevonden om ruimte in te voegen"
 
-#: src/timeline2/view/timelinecontroller.cpp:2835
+#: src/timeline2/view/timelinecontroller.cpp:2861
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Kan ruimte op de gegeven positie niet verwijderen"
 
-#: src/timeline2/view/timelinecontroller.cpp:2849
+#: src/timeline2/view/timelinecontroller.cpp:2875
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Alle ruimtes verwijderen kan niet"
 
-#: src/timeline2/view/timelinecontroller.cpp:2863
+#: src/timeline2/view/timelinecontroller.cpp:2889
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Alle clips verwijderen kan niet"
 
-#: src/timeline2/view/timelinecontroller.cpp:2898
-#: src/timeline2/view/timelinecontroller.cpp:2903
-#: src/timeline2/view/timelinecontroller.cpp:2925
+#: src/timeline2/view/timelinecontroller.cpp:2924
+#: src/timeline2/view/timelinecontroller.cpp:2929
+#: src/timeline2/view/timelinecontroller.cpp:2951
 #, kde-format
 msgid "No item to edit"
 msgstr "Geen item te bewerken"
 
-#: src/timeline2/view/timelinecontroller.cpp:3015
-#: src/timeline2/view/timelinecontroller.cpp:5407
+#: src/timeline2/view/timelinecontroller.cpp:3041
+#: src/timeline2/view/timelinecontroller.cpp:5433
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 "Een track activeren voor deze bewerking door op zijn tracklabel te klikken"
 
-#: src/timeline2/view/timelinecontroller.cpp:3279
+#: src/timeline2/view/timelinecontroller.cpp:3305
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Een doeltrack selecteren door te klikken op de doelzone van een track"
 
-#: src/timeline2/view/timelinecontroller.cpp:3348
+#: src/timeline2/view/timelinecontroller.cpp:3374
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Een favoriete compositie selecteren"
 
-#: src/timeline2/view/timelinecontroller.cpp:3413
+#: src/timeline2/view/timelinecontroller.cpp:3439
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Geen clip gevonden om AV-splitsingsoperatie uit te voeren"
 
-#: src/timeline2/view/timelinecontroller.cpp:3441
-#: src/timeline2/view/timelinecontroller.cpp:3509
-#: src/timeline2/view/timelinecontroller.cpp:3565
+#: src/timeline2/view/timelinecontroller.cpp:3467
+#: src/timeline2/view/timelinecontroller.cpp:3535
+#: src/timeline2/view/timelinecontroller.cpp:3591
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Kan clip niet verplaatsen naar frame %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:3462
+#: src/timeline2/view/timelinecontroller.cpp:3488
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Audioreferentie instellen voor uitlijnen te proberen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3536
-#: src/timeline2/view/timelinecontroller.cpp:3558
+#: src/timeline2/view/timelinecontroller.cpp:3562
+#: src/timeline2/view/timelinecontroller.cpp:3584
 #, kde-format
 msgid "No timecode for clip"
 msgstr "Geen tijdcode voor clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:3553
+#: src/timeline2/view/timelinecontroller.cpp:3579
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr "Tijdcodereferentie instellen voor uitlijnen te proberen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3674
+#: src/timeline2/view/timelinecontroller.cpp:3700
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Alle streams zijn al toegekend, maak selectie van een ander audiodoel eerst "
 "ongedaan"
 
-#: src/timeline2/view/timelinecontroller.cpp:3833
+#: src/timeline2/view/timelinecontroller.cpp:3859
 #, kde-format
 msgid "Delete effects"
 msgstr "Effecten verwijderen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3871
-#: src/timeline2/view/timelinecontroller.cpp:3877
-#: src/timeline2/view/timelinecontroller.cpp:3883
+#: src/timeline2/view/timelinecontroller.cpp:3897
+#: src/timeline2/view/timelinecontroller.cpp:3903
+#: src/timeline2/view/timelinecontroller.cpp:3909
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Geen informatie in klembord"
 
-#: src/timeline2/view/timelinecontroller.cpp:3908
+#: src/timeline2/view/timelinecontroller.cpp:3934
 #, kde-format
 msgid "Paste effects"
 msgstr "Effecten plakken"
 
-#: src/timeline2/view/timelinecontroller.cpp:3910
+#: src/timeline2/view/timelinecontroller.cpp:3936
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Kan effect niet plakken op geselecteerde clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:3962
+#: src/timeline2/view/timelinecontroller.cpp:3988
 #, kde-format
 msgid "Open sequence"
 msgstr "Sequentie openen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3984
+#: src/timeline2/view/timelinecontroller.cpp:4010
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Item is geen titelclip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4082
+#: src/timeline2/view/timelinecontroller.cpp:4108
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 items geselecteerd (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4136
+#: src/timeline2/view/timelinecontroller.cpp:4162
 #, kde-format
 msgid "Restore video"
 msgstr "Video terugzetten"
 
-#: src/timeline2/view/timelinecontroller.cpp:4136
+#: src/timeline2/view/timelinecontroller.cpp:4162
 #, kde-format
 msgid "Restore audio"
 msgstr "Geluid terugzetten"
 
-#: src/timeline2/view/timelinecontroller.cpp:4357
+#: src/timeline2/view/timelinecontroller.cpp:4383
 #, kde-format
 msgid "Move item"
 msgstr "Item verplaatsen"
 
-#: src/timeline2/view/timelinecontroller.cpp:4838
+#: src/timeline2/view/timelinecontroller.cpp:4864
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Onmogelijk om een vergrendelde track op te nemen"
 
-#: src/timeline2/view/timelinecontroller.cpp:4849
+#: src/timeline2/view/timelinecontroller.cpp:4875
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -34232,40 +34226,40 @@ msgstr ""
 "Onmogelijk hier op te nemen: het opnemen zou clips kunnen overschrijven. "
 "Verwijder clips na de huidige positie of kies een andere track"
 
-#: src/timeline2/view/timelinecontroller.cpp:4940
+#: src/timeline2/view/timelinecontroller.cpp:4966
 #, kde-format
 msgid "Record audio"
 msgstr "Geluid opnemen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5087
+#: src/timeline2/view/timelinecontroller.cpp:5113
 #, kde-format
 msgid "Expand clip"
 msgstr "Clip uitbreiden"
 
-#: src/timeline2/view/timelinecontroller.cpp:5090
+#: src/timeline2/view/timelinecontroller.cpp:5116
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Kon clip niet uitbreiden"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5171
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Track invoegen"
 msgstr[1] "Tracks invoegen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5224
+#: src/timeline2/view/timelinecontroller.cpp:5250
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Ondertitelingsbestand exporteren"
 
-#: src/timeline2/view/timelinecontroller.cpp:5225
+#: src/timeline2/view/timelinecontroller.cpp:5251
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Sub Station Alpha v4.00+ bestand (*.ass);;SubRip ondertitelbestand (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5239
+#: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -34279,12 +34273,12 @@ msgstr ""
 "het verlies van enige ondertitels in het geëxporteerde bestand. Wilt u "
 "doorgaan?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5244
+#: src/timeline2/view/timelinecontroller.cpp:5270
 #, kde-format
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/timeline2/view/timelinecontroller.cpp:5282
+#: src/timeline2/view/timelinecontroller.cpp:5308
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -34293,40 +34287,40 @@ msgstr ""
 "Het filter avfilter.subtitles is vereist, maar is niet gevonden. De "
 "ondertiteling zal waarschijnlijk niet zo werken als verwacht."
 
-#: src/timeline2/view/timelinecontroller.cpp:5299
+#: src/timeline2/view/timelinecontroller.cpp:5325
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Ondertiteltrack tonen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5299
+#: src/timeline2/view/timelinecontroller.cpp:5325
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Ondertiteltrack verbergen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5322
+#: src/timeline2/view/timelinecontroller.cpp:5348
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Ondertiteltrack ontgrendelen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5322
+#: src/timeline2/view/timelinecontroller.cpp:5348
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Ondertiteltrack vergrendelen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5484
-#: src/timeline2/view/timelinecontroller.cpp:5493
+#: src/timeline2/view/timelinecontroller.cpp:5510
+#: src/timeline2/view/timelinecontroller.cpp:5519
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/timeline2/view/timelinecontroller.cpp:5495
+#: src/timeline2/view/timelinecontroller.cpp:5521
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Ondertiteling beheren"
 
-#: src/timeline2/view/timelinecontroller.cpp:5726
+#: src/timeline2/view/timelinecontroller.cpp:5752
 #, kde-format
 msgid "No range guide found at position"
 msgstr "Geen reekshulplijn op positie gevonden"
@@ -34378,28 +34372,28 @@ msgstr "%1 sluiten"
 msgid "Align to Reference"
 msgstr "In lijn brengen met referentie"
 
-#: src/timeline2/view/timelinetabs.cpp:452
+#: src/timeline2/view/timelinetabs.cpp:453
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Sequentie hernoemen"
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Een effect invoegen..."
 
-#: src/timeline2/view/timelinewidget.cpp:61
+#: src/timeline2/view/timelinewidget.cpp:62
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Een compositie invoegen..."
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:332
 #, kde-format
 msgid "No available stream"
 msgstr "Geen stream beschikbaar"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3402 src/titler/titlewidget.cpp:3405
+#: src/titler/titlewidget.cpp:3407 src/titler/titlewidget.cpp:3410
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradiënt %1"
@@ -34738,51 +34732,51 @@ msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Afbeeldingen inbedden"
 
-#: src/titler/titlewidget.cpp:2384
+#: src/titler/titlewidget.cpp:2389
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Deze titel heeft 1 ontbrekend element"
 msgstr[1] "Deze titel heeft %1 ontbrekend elementen"
 
-#: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2390 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Details"
 
-#: src/titler/titlewidget.cpp:2388
+#: src/titler/titlewidget.cpp:2393
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Ontbrekende elementen verwijderen"
 
-#: src/titler/titlewidget.cpp:2448
+#: src/titler/titlewidget.cpp:2453
 #, kde-format
 msgid "Update Title"
 msgstr "Titel bijwerken"
 
-#: src/titler/titlewidget.cpp:2451
+#: src/titler/titlewidget.cpp:2456
 #, kde-format
 msgid "Add as new Title"
 msgstr "Als nieuwe titel toevoegen"
 
-#: src/titler/titlewidget.cpp:2505
+#: src/titler/titlewidget.cpp:2510
 #, kde-format
 msgid "The following files are missing:"
 msgstr "De volgende bestanden ontbreken:"
 
-#: src/titler/titlewidget.cpp:2702
+#: src/titler/titlewidget.cpp:2707
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start Viewport"
 
-#: src/titler/titlewidget.cpp:2703
+#: src/titler/titlewidget.cpp:2708
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Eind Viewport"
 
-#: src/titler/titlewidget.cpp:3435
+#: src/titler/titlewidget.cpp:3440
 #, kde-format
 msgid "Gradient"
 msgstr "Gradiënt"
@@ -39729,6 +39723,1334 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
+#~ msgid "كدنلايف"
+#~ msgstr "كدنلايف"
+
+#~ msgid "केडेनलाइव"
+#~ msgstr "केडेनलाइव"
+
+#~ msgid "क्डेन्लिव्"
+#~ msgstr "क्डेन्लिव्"
+
+#~ msgid ""
+#~ "\n"
+#~ "    <p>Kdenlive is a video editing application with support for many "
+#~ "audio and video formats. It offers advanced editing features, a variety "
+#~ "of effects and transitions, color correction, audio post-production and "
+#~ "subtitling tools. Additionally, it provides the flexibility to render "
+#~ "into practically any format of your choice.</p>\n"
+#~ "    <p xml:lang=\"ar\">كدنلايف هو تطبيق لتحرير الفيديو يدعم العديد من "
+#~ "تنسيقات الصوت والفيديو. فهو يوفر ميزات تحرير متقدمة، ومجموعة متنوعة من "
+#~ "التأثيرات والانتقالات، وتصحيح الألوان، وأدوات ما بعد الإنتاج الصوتي "
+#~ "وترجمة الأفلام.بالإضافة إلى ذلك، فهو يوفر المرونة اللازمة للتصيير  إلى أي "
+#~ "تنسيق من اختيارك.</p>\n"
+#~ "    <p xml:lang=\"ca\">El Kdenlive és una aplicació d'edició de vídeo amb "
+#~ "suport per a molts formats d'àudio i vídeo. Ofereix funcions avançades "
+#~ "d'edició, una gran varietat d'efectes i transicions, correcció de color, "
+#~ "postproducció d'àudio i eines de subtitulació. A més, proporciona la "
+#~ "flexibilitat per a convertir pràcticament a qualsevol format de la vostra "
+#~ "elecció.</p>\n"
+#~ "    <p xml:lang=\"ca-valencia\">Kdenlive és una aplicació d'edició de "
+#~ "vídeo amb suport per a molts formats d'àudio i vídeo. Oferix "
+#~ "característiques avançades d'edició, una gran varietat d'efectes i "
+#~ "transicions, correcció de color, postproducció d'àudio i eines de "
+#~ "subtitulació. A més, proporciona la flexibilitat per a convertir "
+#~ "pràcticament a qualsevol format de la vostra elecció.</p>\n"
+#~ "    <p xml:lang=\"de\">Kdenlive ist ein Videobearbeitungsprogramm, das "
+#~ "viele Audio- und Videoformate unterstützt. Es bietet erweiterte "
+#~ "Bearbeitungsfunktionen, eine Vielzahl von Effekten und Übergängen, "
+#~ "Farbkorrektur, Audio-Nachbearbeitung und Untertitelungswerkzeuge. Darüber "
+#~ "hinaus bietet es die Flexibilität, ein Video in praktisch jedes Format "
+#~ "Ihrer Wahl zu rendern.</p>\n"
+#~ "    <p xml:lang=\"en-GB\">Kdenlive is a video editing application with "
+#~ "support for many audio and video formats. It offers advanced editing "
+#~ "features, a variety of effects and transitions, colour correction, audio "
+#~ "post-production and subtitling tools. Additionally, it provides the "
+#~ "flexibility to render into practically any format of your choice.</p>\n"
+#~ "    <p xml:lang=\"eo\">Kdenlive estas videoredakta aplikaĵo kun subteno "
+#~ "por multaj audaĵaj kaj vidaĵaj formatoj. Ĝi ofertas altnivelajn redaktajn "
+#~ "funkciojn, diversajn efektojn kaj transirojn, kolorkorektado, aŭda "
+#~ "postproduktado kaj subtitolaj iloj. Aldone, ĝi provizas la flekseblecon "
+#~ "por redoni en preskaŭ ajna formato de via elekto.</p>\n"
+#~ "    <p xml:lang=\"es\">Kdenlive es una aplicación de edición de video con "
+#~ "soporte para una variedad de formatos de audio y video. Ofrece "
+#~ "características avanzadas de edición, múltiples efectos y transiciones, "
+#~ "corrección de color, posproducción de audio y herramientas de "
+#~ "subtitulado. Adicionalmente, permite la exportación a prácticamente "
+#~ "cualquier formato de audio y video existente.</p>\n"
+#~ "    <p xml:lang=\"eu\">Kdenlive, audio- eta bideo-formatu askorako "
+#~ "euskarria duen bideoa editatzeko tresna bat da. Edizio-funtzio "
+#~ "aurreratuak eskaintzen ditu, efektu eta trantsizio ezberdinak, kolore-"
+#~ "zuzenketa, audio post-produkzioa eta azpidatzietarako tresnak. Gainera, "
+#~ "aukeratzen duzun ia edozein formatutan errendatzeko malgutasuna ematen du."
+#~ "</p>\n"
+#~ "    <p xml:lang=\"fi\">Kdenlive on videomuokkaussovellus, joka tukee "
+#~ "monia ääni- ja videomuotoja. Se työkalut tarjoavat edistyneet "
+#~ "muokkausominaisuudet, joukon tehosteita ja siirtymiä, värinkorjauksen, "
+#~ "äänen jälkituotannon sekä tekstityksen. Lisäksi se tarjoaa joustoa "
+#~ "hahmontaa tuloksen lähes mihin tahansa haluamaasi muotoon.</p>\n"
+#~ "    <p xml:lang=\"fr\">Kdenlive est une application de montage vidéo "
+#~ "prenant en charge de nombreux formats audio et vidéo. Il offre des "
+#~ "fonctionnalités d'édition avancées, une variété d'effets et de "
+#~ "transitions, une correction des couleurs, une post-production audio et "
+#~ "des outils de sous-titrage. En outre, il offre la flexibilité de faire un "
+#~ "rendu dans pratiquement n'importe quel format de votre choix.</p>\n"
+#~ "    <p xml:lang=\"ga\">Is feidhmchlár eagarthóireachta físe é Kdenlive a "
+#~ "thacaíonn le go leor formáidí fuaime agus físe. Cuireann sé gnéithe "
+#~ "eagarthóireachta chun cinn, réimse éifeachtaí agus aistrithe, ceartú "
+#~ "datha, iarléiriú fuaime agus uirlisí fotheidealaithe ar fáil. Ina "
+#~ "theannta sin, cuireann sé an tsolúbthacht ar fáil chun rindreáil i "
+#~ "mbeagnach aon fhormáid is rogha leat.</p>\n"
+#~ "    <p xml:lang=\"gl\">Kdenlive é unha aplicación de edición de vídeo "
+#~ "para moitos formatos de son e de vídeo. Fornece funcionalidades avanzadas "
+#~ "de edición, varios efectos e transicións, corrección de cor, post-"
+#~ "produción de son e ferramentas de subtítulos. Ademais, fornece a "
+#~ "flexibilidade de renderizar en calquera formato da súa escolla.</p>\n"
+#~ "    <p xml:lang=\"he\">Kdenlive הוא יישום לעריכת וידאו עם תמיכה במגוון "
+#~ "סוגים של וידאו ושמע. הוא מציע יכולות עריכה מתקדמות, שלל אפקטים ומעברונים, "
+#~ "תיקון צבע, הפקת פוסט של שמע וכלי כתוביות. בנוסף, הוא מספק את הגמישות לעבד "
+#~ "לכמעט כל סוג אפשרי שיש לבחירתך.</p>\n"
+#~ "    <p xml:lang=\"hi\">Kdenlive एक वीडियो संपादन एप्लिकेशन है जो कई ऑडियो और "
+#~ "वीडियो प्रारूपों के लिए समर्थन प्रदान करता है। यह उन्नत संपादन सुविधाएँ, विभिन्न "
+#~ "प्रकार के प्रभाव और संक्रमण, रंग सुधार, ऑडियो पोस्ट-प्रोडक्शन और उपशीर्षक उपकरण "
+#~ "प्रदान करता है। इसके अतिरिक्त, यह आपकी पसंद के व्यावहारिक रूप से किसी भी प्रारूप में "
+#~ "रेंडर करने की सुविधा प्रदान करता है।</p>\n"
+#~ "    <p xml:lang=\"id\">Kdenlive adalah aplikasi pengeditan video yang "
+#~ "mendukung banyak format audio dan video. Aplikasi ini menawarkan fitur "
+#~ "pengeditan tingkat lanjut, berbagai efek dan transisi, koreksi warna, "
+#~ "pascaproduksi audio, dan alat subtitel. Selain itu, aplikasi ini "
+#~ "menyediakan fleksibilitas untuk melakukan render ke hampir semua format "
+#~ "pilihan Anda.</p>\n"
+#~ "    <p xml:lang=\"it\">Kdenlive è un'applicazione di editing video che "
+#~ "supporta molti formati audio e video. Offre funzionalità avanzate di "
+#~ "modifica, un assortimento di effetti e transizioni, correzione del "
+#~ "colore, strumenti per la post-produzione audio e la sottotitolazione. In "
+#~ "aggiunta, fornisce la flessibilità di produrre praticamente in qualsiasi "
+#~ "formato tu desideri.</p>\n"
+#~ "    <p xml:lang=\"ka\">Kdenlive ვიდეორედაქტორია ბევრი აუდიო და "
+#~ "ვიდეოფორმატების მხარდაჭერით. ის გთავაზობთ დამატებითი ჩასწორების "
+#~ "ფუნქციებს, მრავალ ეფექტსა და გადასვლას, ფერის შესწორებას, აუდიოს პოსტ-"
+#~ "პროდაქშენს და სუბტიტრების მორგებას. დამატებით, ის გაძლევთ საშუალებას, "
+#~ "დაარენდეროთ პრაქტიკულად ნებისმიერ ფორმატში, რომელსაც აირჩევთ.</p>\n"
+#~ "    <p xml:lang=\"lv\">„Kdenlive“ ir video rediģēšanas programma ar "
+#~ "daudzu audio un video formātu atbalstu. Tā sniedz plašas rediģēšanas "
+#~ "iespējas, dažādus efektus un pārejas, krāsu korekcijas iespējas, skaņas "
+#~ "pēcapstrādes un subtitru rīkus. Turklāt „Kdenlive“ ļauj renderēt "
+#~ "praktiski jebkurā formātā pēc jūsu izvēles.</p>\n"
+#~ "    <p xml:lang=\"nl\">Kdenlive is een toepassing voor video bewerken met "
+#~ "ondersteuning voor vele audio- en videoformaten. Het biedt geavanceerde "
+#~ "bewerkingsfuncties, een verscheidenheid aan effecten en transities, "
+#~ "kleurcorrectie, audio nabewerking en hulpmiddelen voor ondertiteling. "
+#~ "Bovendien levert het de flexibiliteit om te renderen in praktisch elk "
+#~ "formaat van uw keuze.</p>\n"
+#~ "    <p xml:lang=\"pl\">Kdenlive jest aplikacją do edytowania wideo z "
+#~ "obsługą wielu formatów dźwięku i obrazu. Daje rozbudowane możliwości, "
+#~ "wiele efektów i przejść, poprawianie barw, po-produkcję dźwięki oraz "
+#~ "narzędzia do napisów. Dodatkowo, zapewnia możliwość zapisania do "
+#~ "właściwie dowolnego formatu jaki sobie wybierzesz.</p>\n"
+#~ "    <p xml:lang=\"pt-BR\">Kdenlive é um aplicativo de edição de vídeo com "
+#~ "suporte para vários formatos de áudio e vídeo. Ele oferece recursos "
+#~ "avançados de edição, uma variedade de efeitos e transições, correção de "
+#~ "cores, pós-produção de áudio e ferramentas de legenda. Além disso, "
+#~ "fornece a flexibilidade para renderizar em praticamente qualquer formato "
+#~ "que você escolher.</p>\n"
+#~ "    <p xml:lang=\"ru\">Kdenlive — видеоредактор, поддерживающий различные "
+#~ "форматы аудио- и видеозаписей. Программа предоставляет расширенные "
+#~ "возможности редактирования, широкий ряд эффектов и переходов, инструменты "
+#~ "цветокоррекции, окончательного монтажа аудио и наложения субтитров. Кроме "
+#~ "того, гибкость настройки программы позволяет получить на выходе файл "
+#~ "практически любого формата.</p>\n"
+#~ "    <p xml:lang=\"sa\">Kdenlive इति एकः विडियो सम्पादन-अनुप्रयोगः अस्ति यस्य "
+#~ "समर्थनं बहुषु श्रव्य-वीडियो-स्वरूपेषु भवति । अस्मिन् उन्नतसम्पादनविशेषताः, विविधाः "
+#~ "प्रभावाः संक्रमणाः च, वर्णशुद्धिः, श्रव्य-उत्तरनिर्माणं, उपशीर्षकसाधनं च प्राप्यते । "
+#~ "तदतिरिक्तं, भवतः पसन्दस्य व्यावहारिकरूपेण कस्मिन् अपि प्रारूपे प्रतिपादयितुं लचीलापनं "
+#~ "प्रदाति ।</p>\n"
+#~ "    <p xml:lang=\"sl\">Kdenlive je program za montažo videoposnetkov s "
+#~ "podporo za številne zvokovne in video zapise. Ponuja napredne funkcije "
+#~ "montaže, urejanja, različne učinke in prehode, korekcijo barv, "
+#~ "poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja "
+#~ "prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru."
+#~ "</p>\n"
+#~ "    <p xml:lang=\"sv\">Kdenlive är ett videoredigeringsprogram med stöd "
+#~ "för många ljud- och videoformat. Det erbjuder avancerade "
+#~ "redigeringsfunktioner, en mängd olika effekter och övergångar, "
+#~ "färgkorrigering, efterproduktion av ljud och textningsverktyg. Dessutom "
+#~ "ger det flexibiliteten att återge till praktiskt taget vilket format som "
+#~ "helst.</p>\n"
+#~ "    <p xml:lang=\"tr\">Kdenlive, birçok ses ve video biçimini destekleyen "
+#~ "bir video düzenleme uygulamasıdır. Gelişmiş düzenleme özellikleri, "
+#~ "çeşitli efektler ve geçişler, renk düzeltme, ses post prodüksiyon ve "
+#~ "altyazı araçları sunar. Ek olarak, neredeyse seçtiğiniz herhangi bir "
+#~ "biçime dönüştürme esnekliği de sağlar.</p>\n"
+#~ "    <p xml:lang=\"uk\">Kdenlive — програма для редагування відео із "
+#~ "підтримкою багатьох форматів даних відео та звуку. У ній реалізовано "
+#~ "широкі можливості з редагування, спектр ефектів та переходів, виправлення "
+#~ "кольорів, остаточну обробку звуку та засоби субтитрування. Крім того, "
+#~ "програма здатна гнучко обробляти дані практично до будь-якого вибраного "
+#~ "вами формату.</p>\n"
+#~ "    <p xml:lang=\"zh-CN\">Kdenlive 是一款视频编辑应用程序，支持多种音视频"
+#~ "格式。它提供了各种高级编辑功能、种类丰富的效果和转场、色彩校正、音频后处理"
+#~ "和字幕工具。它还能灵活地将视频输出为您需要的任意格式。</p>\n"
+#~ "    <p xml:lang=\"zh-TW\">Kdenlive 是支援許多音訊與影片格式的影片編輯軟"
+#~ "體。它提供進階的剪輯功能、許多的效果、轉場特效、顏色校正、音效後製與字幕工"
+#~ "具等等。它也支援輸出到基本上任何您所想要使用的格式。</p>\n"
+#~ "    <p>Features:</p>\n"
+#~ "    <p xml:lang=\"ar\">الميزات:</p>\n"
+#~ "    <p xml:lang=\"az\">İmkanlar:</p>\n"
+#~ "    <p xml:lang=\"bs\">Svojstva:</p>\n"
+#~ "    <p xml:lang=\"ca\">Característiques:</p>\n"
+#~ "    <p xml:lang=\"ca-valencia\">Característiques:</p>\n"
+#~ "    <p xml:lang=\"cs\">Vlastnosti:</p>\n"
+#~ "    <p xml:lang=\"da\">Funktioner:</p>\n"
+#~ "    <p xml:lang=\"de\">Funktionen:</p>\n"
+#~ "    <p xml:lang=\"el\">Χαρακτηριστικά:</p>\n"
+#~ "    <p xml:lang=\"en-GB\">Features:</p>\n"
+#~ "    <p xml:lang=\"eo\">Trajtoj:</p>\n"
+#~ "    <p xml:lang=\"es\">Características:</p>\n"
+#~ "    <p xml:lang=\"et\">Omadused:</p>\n"
+#~ "    <p xml:lang=\"eu\">Ezaugarriak:</p>\n"
+#~ "    <p xml:lang=\"fi\">Ominaisuuksia:</p>\n"
+#~ "    <p xml:lang=\"fr\">Fonctionnalités :</p>\n"
+#~ "    <p xml:lang=\"ga\">Gnéithe:</p>\n"
+#~ "    <p xml:lang=\"gl\">Funcionalidades:</p>\n"
+#~ "    <p xml:lang=\"he\">יכולות:</p>\n"
+#~ "    <p xml:lang=\"hi\">विशेषताएँ:</p>\n"
+#~ "    <p xml:lang=\"id\">Fitur:</p>\n"
+#~ "    <p xml:lang=\"it\">Funzionalità:</p>\n"
+#~ "    <p xml:lang=\"ja\">特徴:</p>\n"
+#~ "    <p xml:lang=\"ka\">თვისებები:</p>\n"
+#~ "    <p xml:lang=\"ko\">기능:</p>\n"
+#~ "    <p xml:lang=\"lv\">Iespējas:</p>\n"
+#~ "    <p xml:lang=\"nl\">Mogelijkheden:</p>\n"
+#~ "    <p xml:lang=\"nn\">Funksjonar:</p>\n"
+#~ "    <p xml:lang=\"pl\">Możliwości:</p>\n"
+#~ "    <p xml:lang=\"pt\">Funcionalidades:</p>\n"
+#~ "    <p xml:lang=\"pt-BR\">Funcionalidades:</p>\n"
+#~ "    <p xml:lang=\"ru\">Возможности:</p>\n"
+#~ "    <p xml:lang=\"sa\">गुणाः:</p>\n"
+#~ "    <p xml:lang=\"sk\">Funkcie:</p>\n"
+#~ "    <p xml:lang=\"sl\">Zmožnosti:</p>\n"
+#~ "    <p xml:lang=\"sv\">Funktioner:</p>\n"
+#~ "    <p xml:lang=\"tr\">Özellikler:</p>\n"
+#~ "    <p xml:lang=\"uk\">Можливості:</p>\n"
+#~ "    <p xml:lang=\"zh-CN\">程序功能：</p>\n"
+#~ "    <p xml:lang=\"zh-TW\">功能：</p>\n"
+#~ "    <ul>\n"
+#~ "      <li>Nested Sequences</li>\n"
+#~ "      <li xml:lang=\"ar\">تسلسلات متداخلة</li>\n"
+#~ "      <li xml:lang=\"ca\">Seqüències imbricades</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Seqüències imbricades</li>\n"
+#~ "      <li xml:lang=\"de\">Verschachtelte Sequenzen</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Nested Sequences</li>\n"
+#~ "      <li xml:lang=\"eo\">Ingitaj Sinsekvoj</li>\n"
+#~ "      <li xml:lang=\"es\">Secuencias anidadas</li>\n"
+#~ "      <li xml:lang=\"eu\">Habiaratutako sekuentziak</li>\n"
+#~ "      <li xml:lang=\"fi\">Sisäkkäiset sekvenssit</li>\n"
+#~ "      <li xml:lang=\"fr\">Séquences imbriquées</li>\n"
+#~ "      <li xml:lang=\"ga\">Seichimh Neadaithe</li>\n"
+#~ "      <li xml:lang=\"gl\">Secuencias aniñadas.</li>\n"
+#~ "      <li xml:lang=\"he\">רצפים מקוננים</li>\n"
+#~ "      <li xml:lang=\"hi\">नेस्टेड अनुक्रम</li>\n"
+#~ "      <li xml:lang=\"id\">Urutan Bersarang</li>\n"
+#~ "      <li xml:lang=\"it\">Sequenze annidate</li>\n"
+#~ "      <li xml:lang=\"ka\">ერთმანეთში ჩალაგებული მიმდევრობები</li>\n"
+#~ "      <li xml:lang=\"lv\">Ievietotas sekvences</li>\n"
+#~ "      <li xml:lang=\"nl\">Geneste sequenties</li>\n"
+#~ "      <li xml:lang=\"pl\">Osadzone odcinki</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Sequências aninhadas</li>\n"
+#~ "      <li xml:lang=\"ru\">Вложенные последовательности</li>\n"
+#~ "      <li xml:lang=\"sa\">नेस्टेड अनुक्रम</li>\n"
+#~ "      <li xml:lang=\"sl\">Ugnezdena zaporedja</li>\n"
+#~ "      <li xml:lang=\"sv\">Nästlade sekvenser</li>\n"
+#~ "      <li xml:lang=\"tr\">İç içe geçmiş sekanslar</li>\n"
+#~ "      <li xml:lang=\"uk\">Вкладені послідовності</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">嵌套序列</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">巢狀序列</li>\n"
+#~ "      <li>Configurable interface and shortcuts</li>\n"
+#~ "      <li xml:lang=\"ar\">اختصارات و واجهة قابلة للتخصيص</li>\n"
+#~ "      <li xml:lang=\"ca\">Interfície i dreceres configurables</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Interfície i dreceres configurables</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"de\">Konfigurierbare Benutzeroberfläche und "
+#~ "Kurzbefehle</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Configurable interface and shortcuts</li>\n"
+#~ "      <li xml:lang=\"eo\">Agordeblaj interfaco kaj ŝparvojoj</li>\n"
+#~ "      <li xml:lang=\"es\">Interfaz y atajos de teclado configurables</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"eu\">Interfaze eta lasterbide konfiguragarriak</li>\n"
+#~ "      <li xml:lang=\"fi\">Mukautettava käyttöliittymä ja pikanäppäimet</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"fr\">Interface et raccourcis configurables</li>\n"
+#~ "      <li xml:lang=\"ga\">Comhéadan agus aicearraí inchumraithe</li>\n"
+#~ "      <li xml:lang=\"gl\">Interface e atallos configurábeis.</li>\n"
+#~ "      <li xml:lang=\"he\">ממשק וקיצורי דרך גמישים</li>\n"
+#~ "      <li xml:lang=\"hi\">कॉन्फ़िगर करने योग्य इंटरफ़ेस और शॉर्टकट</li>\n"
+#~ "      <li xml:lang=\"id\">Pintasan dan antarmuka yang dapat "
+#~ "dikonfigurasi</li>\n"
+#~ "      <li xml:lang=\"it\">Scorciatoie e interfaccia configurabili</li>\n"
+#~ "      <li xml:lang=\"ka\">მორგებადი ინტერფეისი და მალსახმობები</li>\n"
+#~ "      <li xml:lang=\"lv\">Konfigurējama saskarne un saīsnes</li>\n"
+#~ "      <li xml:lang=\"nl\">Te configureren interface en sneltoetsen</li>\n"
+#~ "      <li xml:lang=\"pl\">Interfejs i skróty dające się dostosować</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Interface e atalhos configuráveis</li>\n"
+#~ "      <li xml:lang=\"ru\">Настраиваемые интерфейс и комбинации клавиш</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"sa\">विन्यासयोग्यं अन्तरफलकं शॉर्टकट् च</li>\n"
+#~ "      <li xml:lang=\"sl\">Nastavljiv vmesnik in bližnjice</li>\n"
+#~ "      <li xml:lang=\"sv\">Anpassningsbart gränssnitt och genvägar</li>\n"
+#~ "      <li xml:lang=\"tr\">Yapılandırılabilir arayüz ve kısayollar</li>\n"
+#~ "      <li xml:lang=\"uk\">Можливість налаштовування інтерфейсу та "
+#~ "клавіатурних скорочень</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">可定制的界面和快捷键</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">可調整的介面與快捷鍵</li>\n"
+#~ "      <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio "
+#~ "Meter</li>\n"
+#~ "      <li xml:lang=\"ar\">المناظير: الرسم البياني، Vectorscope، RGB "
+#~ "Parade، الموجي ومقياس الصوت</li>\n"
+#~ "      <li xml:lang=\"ca\">Vectoscopis: Histograma, Vectoscopi, Histograma "
+#~ "RGB, Forma d'ona i Mesurador d'àudio</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Vectoscopis: Histograma, Vectoscopi, "
+#~ "Histograma RGB, Forma d'ona i Mesurador d'àudio</li>\n"
+#~ "      <li xml:lang=\"de\">Anzeigen: Histogramm, Vektorskop, RGB-Parade, "
+#~ "Wellenform und Audiometer</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Scopes: Histogram, Vectorscope, RGB Parade, "
+#~ "Waveform and Audio Meter</li>\n"
+#~ "      <li xml:lang=\"eo\">Ampleksoj: Histogramo, Vectorscope, RGB Parade, "
+#~ "Ondoformo kaj Aŭdmezurilo</li>\n"
+#~ "      <li xml:lang=\"es\">Instrumentos: Histograma, Vectorscopio, "
+#~ "Presentación RVA, Medidores de forma de onda y volumen</li>\n"
+#~ "      <li xml:lang=\"eu\">Eskopioak: Histograma, Bektoreskopioa, RGB "
+#~ "parada, Uhin-forma eta Audio-neurgailua</li>\n"
+#~ "      <li xml:lang=\"fr\">Oscilloscopes : histogramme, oscilloscope "
+#~ "vectoriel, défilé RVB, mesure de signaux et audiomètre</li>\n"
+#~ "      <li xml:lang=\"ga\">Scóipeanna: Histogram, Veicteoirscóp, Paráid "
+#~ "RGB, Tonnfhoirm agus Méadar Fuaime</li>\n"
+#~ "      <li xml:lang=\"gl\">Ámbitos: histograma, vectorscopio, desfile RGB, "
+#~ "forma de onda e medidor de son.</li>\n"
+#~ "      <li xml:lang=\"he\">טווחים: היסטוגרמה, וקטורסקופ, צורת גל ומד עוצמת "
+#~ "שמע</li>\n"
+#~ "      <li xml:lang=\"hi\">कार्यक्षेत्र: हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, "
+#~ "वेवफॉर्म और ऑडियो मीटर</li>\n"
+#~ "      <li xml:lang=\"id\">Cakupan: Histogram, Vectorscope, RGB Parade, "
+#~ "Bentuk Gelombang, dan Pengukur Audio</li>\n"
+#~ "      <li xml:lang=\"it\">Diagrammi: istogramma, Evidenza le punte "
+#~ "massime, Esibizione RGB, Forma d'onda e Misuratore audio</li>\n"
+#~ "      <li xml:lang=\"ka\">მზომები: ჰისტოგრამა, ვექტორსკოპი, RGB პარადი, "
+#~ "Waveform და აუდიომეტრი</li>\n"
+#~ "      <li xml:lang=\"lv\">Tvērumi: histogramma, vektorskops, RGB parāde, "
+#~ "viļņformas un audio mērītājs</li>\n"
+#~ "      <li xml:lang=\"nl\">Scopes: Histogram, Vectorscope, RGB Parade, "
+#~ "golfvorm en Audio-meter</li>\n"
+#~ "      <li xml:lang=\"pl\">Widoki: Histogram, Wektoroskop, Parada RGB, "
+#~ "Kształt Fali oraz Miernik Dźwięku</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Escopos: Histograma, Vetorescópio, Desfile "
+#~ "RGB, Forma de onda e Medidor de áudio</li>\n"
+#~ "      <li xml:lang=\"ru\">Отображение: гистограмма, вектороскоп, парад "
+#~ "RGB, звуковой спектр и уровень звука</li>\n"
+#~ "      <li xml:lang=\"sa\">व्याप्तिः : हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, "
+#~ "तरङ्गरूप तथा ऑडियो मीटर्</li>\n"
+#~ "      <li xml:lang=\"sl\">Merilniki: histogram, vektroskop, parada RGB, "
+#~ "signalna oblika in merilnik jakosti zvoka</li>\n"
+#~ "      <li xml:lang=\"sv\">Oscilloskop: Histogram, vektoroscilloskop, RGB-"
+#~ "parad, vågform och ljudmätare</li>\n"
+#~ "      <li xml:lang=\"tr\">Kapsamlar: Histogram, Vektörskop, RGB Geçidi, "
+#~ "Dalga Biçimi ve Ses Ölçeri</li>\n"
+#~ "      <li xml:lang=\"uk\">Області: гістограма, векторскоп, розкладка RGB, "
+#~ "форма хвилі та рівень звуку</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">示波器：直方图、矢量示波器、RGB Parade 直方"
+#~ "图、波形图、音量计</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">示波器：直方圖、向量示波器、RGB 檢視、波形以"
+#~ "及音訊音量測量</li>\n"
+#~ "      <li>Proxy editing</li>\n"
+#~ "      <li xml:lang=\"ar\">التحرير بواسطة الوسطاء</li>\n"
+#~ "      <li xml:lang=\"ca\">Edició d'intermediaris</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Editeu intermediaris</li>\n"
+#~ "      <li xml:lang=\"cs\">Úprava proxy</li>\n"
+#~ "      <li xml:lang=\"de\">Proxy-Bearbeitung</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Proxy editing</li>\n"
+#~ "      <li xml:lang=\"eo\">Redaktado de Prokurilo</li>\n"
+#~ "      <li xml:lang=\"es\">Edición usando reemplazos</li>\n"
+#~ "      <li xml:lang=\"eu\">Ordezkaria editatzea</li>\n"
+#~ "      <li xml:lang=\"fr\">Modification du serveur mandataire</li>\n"
+#~ "      <li xml:lang=\"ga\">Eagarthóireacht seachfhreastalaí</li>\n"
+#~ "      <li xml:lang=\"gl\">Edición intermediaria.</li>\n"
+#~ "      <li xml:lang=\"he\">עריכת תיווך</li>\n"
+#~ "      <li xml:lang=\"hi\">प्रॉक्सी संपादन</li>\n"
+#~ "      <li xml:lang=\"id\">Pengeditan proksi</li>\n"
+#~ "      <li xml:lang=\"it\">Modifica del proxy</li>\n"
+#~ "      <li xml:lang=\"ka\">პროქსი ჩასწორება</li>\n"
+#~ "      <li xml:lang=\"lv\">Rediģēšana caur starpniekvideo un "
+#~ "starpniekattēliem</li>\n"
+#~ "      <li xml:lang=\"nl\">Proxy-bewerking</li>\n"
+#~ "      <li xml:lang=\"pl\">Edytowanie pośredników</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Edição com proxy</li>\n"
+#~ "      <li xml:lang=\"ru\">Редактирование с промежуточными клипами</li>\n"
+#~ "      <li xml:lang=\"sa\">प्रॉक्सी सम्पादनम्</li>\n"
+#~ "      <li xml:lang=\"sl\">Montaža posrednih posnetkov</li>\n"
+#~ "      <li xml:lang=\"sv\">Ersättningsredigering</li>\n"
+#~ "      <li xml:lang=\"tr\">Vekilli düzenleme</li>\n"
+#~ "      <li xml:lang=\"uk\">Редагування із проміжними кліпами</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">代理剪辑编辑</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">代理編輯</li>\n"
+#~ "      <li>Free online assets and templates</li>\n"
+#~ "      <li xml:lang=\"ar\">موارد وقوالب مجانية على الإنترنت</li>\n"
+#~ "      <li xml:lang=\"ca\">Actius i plantilles lliures en línia</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Actius i plantilles lliures en línia</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"de\">Kostenlose Online-Ressourcen und -Vorlagen</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"en-GB\">Free online assets and templates</li>\n"
+#~ "      <li xml:lang=\"eo\">Liberaj enretaj valoraĵoj kaj ŝablonoj</li>\n"
+#~ "      <li xml:lang=\"es\">Recursos y plantillas libres en línea</li>\n"
+#~ "      <li xml:lang=\"eu\">Lerroan doako aktiboak eta txantiloiak</li>\n"
+#~ "      <li xml:lang=\"fr\">Produits et modèles en ligne gratuits</li>\n"
+#~ "      <li xml:lang=\"ga\">Sócmhainní agus teimpléid ar líne saor in "
+#~ "aisce</li>\n"
+#~ "      <li xml:lang=\"gl\">Recursos e modelos libres por Internet.</li>\n"
+#~ "      <li xml:lang=\"he\">משאבים ותבניות מקוונים בחינם</li>\n"
+#~ "      <li xml:lang=\"hi\">निःशुल्क ऑनलाइन परिसंपत्तियाँ और टेम्पलेट्स</li>\n"
+#~ "      <li xml:lang=\"id\">Templat dan aset gratis online</li>\n"
+#~ "      <li xml:lang=\"it\">Risorse e modelli in linea gratuiti</li>\n"
+#~ "      <li xml:lang=\"ka\">უფასო მასალები და ნიმუშები ინტერნეტში</li>\n"
+#~ "      <li xml:lang=\"lv\">Bezmaksas tiešsaistes resursi un veidnes</li>\n"
+#~ "      <li xml:lang=\"nl\">Vrij online bezit en sjablonen</li>\n"
+#~ "      <li xml:lang=\"pl\">Darmowe zasoby i wzorce z sieci</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Recursos e modelos online gratuitos</li>\n"
+#~ "      <li xml:lang=\"ru\">Бесплатные ресурсы и шаблоны в Интернете</li>\n"
+#~ "      <li xml:lang=\"sa\">निःशुल्क ऑनलाइन सम्पत्तिः टेम्पलेट् च</li>\n"
+#~ "      <li xml:lang=\"sl\">Brezplačna spletna sredstva in predloge</li>\n"
+#~ "      <li xml:lang=\"sv\">Fria tillgångar och mallar på nätet</li>\n"
+#~ "      <li xml:lang=\"tr\">Ücretsiz çevrimiçi kaynaklar ve şablonlar</li>\n"
+#~ "      <li xml:lang=\"uk\">Безкоштовні ресурси та шаблони в інтернеті</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"zh-CN\">自由免费的在线资源和模板</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">免費線上資源與範本</li>\n"
+#~ "      <li>Motion tracking</li>\n"
+#~ "      <li xml:lang=\"ar\">تتبع الحركة</li>\n"
+#~ "      <li xml:lang=\"ca\">Seguiment de moviment</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Seguiment de moviment</li>\n"
+#~ "      <li xml:lang=\"de\">Bewegungsverfolgung</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Motion tracking</li>\n"
+#~ "      <li xml:lang=\"eo\">Moviĝospurado</li>\n"
+#~ "      <li xml:lang=\"es\">Rastreo de movimiento</li>\n"
+#~ "      <li xml:lang=\"eu\">Higiduraren jarraipena</li>\n"
+#~ "      <li xml:lang=\"fi\">Liikkeen jäljitys</li>\n"
+#~ "      <li xml:lang=\"fr\">Suivi de déplacement</li>\n"
+#~ "      <li xml:lang=\"ga\">Rianú gluaisne</li>\n"
+#~ "      <li xml:lang=\"gl\">Seguimento de movemento.</li>\n"
+#~ "      <li xml:lang=\"he\">מעקב אחר תנועה</li>\n"
+#~ "      <li xml:lang=\"hi\">मोशन ट्रेकिंग</li>\n"
+#~ "      <li xml:lang=\"id\">Pelacakan gerakan</li>\n"
+#~ "      <li xml:lang=\"it\">Tracciatore di movimento</li>\n"
+#~ "      <li xml:lang=\"ka\">მოძრაობის ტრეკინგი</li>\n"
+#~ "      <li xml:lang=\"lv\">Kustību izsekošana</li>\n"
+#~ "      <li xml:lang=\"nl\">Volgen van beweging</li>\n"
+#~ "      <li xml:lang=\"pl\">Śledzenie ruchu</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Rastreamento de movimento</li>\n"
+#~ "      <li xml:lang=\"ru\">Отслеживание движения</li>\n"
+#~ "      <li xml:lang=\"sa\">गतिनिरीक्षणम्</li>\n"
+#~ "      <li xml:lang=\"sl\">Sledenje gibanju</li>\n"
+#~ "      <li xml:lang=\"sv\">Rörelseföljning</li>\n"
+#~ "      <li xml:lang=\"tr\">Hareket izlemesi</li>\n"
+#~ "      <li xml:lang=\"uk\">Стеження за рухом</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">运动跟踪功能</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">動態追蹤</li>\n"
+#~ "      <li>AI powered tools</li>\n"
+#~ "      <li xml:lang=\"ar\">أدوات بالذكاء الاصطناعي</li>\n"
+#~ "      <li xml:lang=\"ca\">Eines que funcionen amb IA</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Eines que funcionen amb IA</li>\n"
+#~ "      <li xml:lang=\"de\">KI-gestützte Werkzeuge</li>\n"
+#~ "      <li xml:lang=\"en-GB\">AI powered tools</li>\n"
+#~ "      <li xml:lang=\"eo\">AI-pelitaj iloj</li>\n"
+#~ "      <li xml:lang=\"es\">Herramientas potenciadas mediante IA</li>\n"
+#~ "      <li xml:lang=\"eu\">AAk bultzatutako tresnak</li>\n"
+#~ "      <li xml:lang=\"fi\">Tekoälytehosteiset työkalut</li>\n"
+#~ "      <li xml:lang=\"fr\">Outils alimentés par l'intelligence "
+#~ "artificielle</li>\n"
+#~ "      <li xml:lang=\"ga\">Uirlisí faoi thiomáint AI</li>\n"
+#~ "      <li xml:lang=\"gl\">Ferramentas que usan intelixencia artificial.</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"he\">כלים מחוזקי בינה מלאכותית</li>\n"
+#~ "      <li xml:lang=\"hi\">एआई संचालित उपकरण</li>\n"
+#~ "      <li xml:lang=\"id\">Alat bertenaga AI</li>\n"
+#~ "      <li xml:lang=\"it\">Strumenti alimentati dalla IA</li>\n"
+#~ "      <li xml:lang=\"ka\">ფუნქციები AI-ით</li>\n"
+#~ "      <li xml:lang=\"lv\">Mākslīgā intelekta rīki</li>\n"
+#~ "      <li xml:lang=\"nl\">AI aangedreven hulpmiddelen</li>\n"
+#~ "      <li xml:lang=\"pl\">Narzędzia wspomagane SI</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Ferramentas com IA</li>\n"
+#~ "      <li xml:lang=\"ru\">Инструменты на основе ИИ</li>\n"
+#~ "      <li xml:lang=\"sa\">एआइ-सञ्चालित-उपकरणम्</li>\n"
+#~ "      <li xml:lang=\"sl\">Orodja, ki jih poganja umetna inteligenca</li>\n"
+#~ "      <li xml:lang=\"sv\">AI-drivna verktyg</li>\n"
+#~ "      <li xml:lang=\"tr\">Yapay Zeka destekli araçlar</li>\n"
+#~ "      <li xml:lang=\"uk\">Інструменти на основі ШІ</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">基于 AI 的工具</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">利用 AI 的工具</li>\n"
+#~ "    </ul>\n"
+#~ "  "
+#~ msgstr ""
+#~ "\n"
+#~ "    <p>Kdenlive is a video editing application with support for many "
+#~ "audio and video formats. It offers advanced editing features, a variety "
+#~ "of effects and transitions, color correction, audio post-production and "
+#~ "subtitling tools. Additionally, it provides the flexibility to render "
+#~ "into practically any format of your choice.</p>\n"
+#~ "    <p xml:lang=\"ar\">كدنلايف هو تطبيق لتحرير الفيديو يدعم العديد من "
+#~ "تنسيقات الصوت والفيديو. فهو يوفر ميزات تحرير متقدمة، ومجموعة متنوعة من "
+#~ "التأثيرات والانتقالات، وتصحيح الألوان، وأدوات ما بعد الإنتاج الصوتي "
+#~ "وترجمة الأفلام.بالإضافة إلى ذلك، فهو يوفر المرونة اللازمة للتصيير  إلى أي "
+#~ "تنسيق من اختيارك.</p>\n"
+#~ "    <p xml:lang=\"ca\">El Kdenlive és una aplicació d'edició de vídeo amb "
+#~ "suport per a molts formats d'àudio i vídeo. Ofereix funcions avançades "
+#~ "d'edició, una gran varietat d'efectes i transicions, correcció de color, "
+#~ "postproducció d'àudio i eines de subtitulació. A més, proporciona la "
+#~ "flexibilitat per a convertir pràcticament a qualsevol format de la vostra "
+#~ "elecció.</p>\n"
+#~ "    <p xml:lang=\"ca-valencia\">Kdenlive és una aplicació d'edició de "
+#~ "vídeo amb suport per a molts formats d'àudio i vídeo. Oferix "
+#~ "característiques avançades d'edició, una gran varietat d'efectes i "
+#~ "transicions, correcció de color, postproducció d'àudio i eines de "
+#~ "subtitulació. A més, proporciona la flexibilitat per a convertir "
+#~ "pràcticament a qualsevol format de la vostra elecció.</p>\n"
+#~ "    <p xml:lang=\"de\">Kdenlive ist ein Videobearbeitungsprogramm, das "
+#~ "viele Audio- und Videoformate unterstützt. Es bietet erweiterte "
+#~ "Bearbeitungsfunktionen, eine Vielzahl von Effekten und Übergängen, "
+#~ "Farbkorrektur, Audio-Nachbearbeitung und Untertitelungswerkzeuge. Darüber "
+#~ "hinaus bietet es die Flexibilität, ein Video in praktisch jedes Format "
+#~ "Ihrer Wahl zu rendern.</p>\n"
+#~ "    <p xml:lang=\"en-GB\">Kdenlive is a video editing application with "
+#~ "support for many audio and video formats. It offers advanced editing "
+#~ "features, a variety of effects and transitions, colour correction, audio "
+#~ "post-production and subtitling tools. Additionally, it provides the "
+#~ "flexibility to render into practically any format of your choice.</p>\n"
+#~ "    <p xml:lang=\"eo\">Kdenlive estas videoredakta aplikaĵo kun subteno "
+#~ "por multaj audaĵaj kaj vidaĵaj formatoj. Ĝi ofertas altnivelajn redaktajn "
+#~ "funkciojn, diversajn efektojn kaj transirojn, kolorkorektado, aŭda "
+#~ "postproduktado kaj subtitolaj iloj. Aldone, ĝi provizas la flekseblecon "
+#~ "por redoni en preskaŭ ajna formato de via elekto.</p>\n"
+#~ "    <p xml:lang=\"es\">Kdenlive es una aplicación de edición de video con "
+#~ "soporte para una variedad de formatos de audio y video. Ofrece "
+#~ "características avanzadas de edición, múltiples efectos y transiciones, "
+#~ "corrección de color, posproducción de audio y herramientas de "
+#~ "subtitulado. Adicionalmente, permite la exportación a prácticamente "
+#~ "cualquier formato de audio y video existente.</p>\n"
+#~ "    <p xml:lang=\"eu\">Kdenlive, audio- eta bideo-formatu askorako "
+#~ "euskarria duen bideoa editatzeko tresna bat da. Edizio-funtzio "
+#~ "aurreratuak eskaintzen ditu, efektu eta trantsizio ezberdinak, kolore-"
+#~ "zuzenketa, audio post-produkzioa eta azpidatzietarako tresnak. Gainera, "
+#~ "aukeratzen duzun ia edozein formatutan errendatzeko malgutasuna ematen du."
+#~ "</p>\n"
+#~ "    <p xml:lang=\"fi\">Kdenlive on videomuokkaussovellus, joka tukee "
+#~ "monia ääni- ja videomuotoja. Se työkalut tarjoavat edistyneet "
+#~ "muokkausominaisuudet, joukon tehosteita ja siirtymiä, värinkorjauksen, "
+#~ "äänen jälkituotannon sekä tekstityksen. Lisäksi se tarjoaa joustoa "
+#~ "hahmontaa tuloksen lähes mihin tahansa haluamaasi muotoon.</p>\n"
+#~ "    <p xml:lang=\"fr\">Kdenlive est une application de montage vidéo "
+#~ "prenant en charge de nombreux formats audio et vidéo. Il offre des "
+#~ "fonctionnalités d'édition avancées, une variété d'effets et de "
+#~ "transitions, une correction des couleurs, une post-production audio et "
+#~ "des outils de sous-titrage. En outre, il offre la flexibilité de faire un "
+#~ "rendu dans pratiquement n'importe quel format de votre choix.</p>\n"
+#~ "    <p xml:lang=\"ga\">Is feidhmchlár eagarthóireachta físe é Kdenlive a "
+#~ "thacaíonn le go leor formáidí fuaime agus físe. Cuireann sé gnéithe "
+#~ "eagarthóireachta chun cinn, réimse éifeachtaí agus aistrithe, ceartú "
+#~ "datha, iarléiriú fuaime agus uirlisí fotheidealaithe ar fáil. Ina "
+#~ "theannta sin, cuireann sé an tsolúbthacht ar fáil chun rindreáil i "
+#~ "mbeagnach aon fhormáid is rogha leat.</p>\n"
+#~ "    <p xml:lang=\"gl\">Kdenlive é unha aplicación de edición de vídeo "
+#~ "para moitos formatos de son e de vídeo. Fornece funcionalidades avanzadas "
+#~ "de edición, varios efectos e transicións, corrección de cor, post-"
+#~ "produción de son e ferramentas de subtítulos. Ademais, fornece a "
+#~ "flexibilidade de renderizar en calquera formato da súa escolla.</p>\n"
+#~ "    <p xml:lang=\"he\">Kdenlive הוא יישום לעריכת וידאו עם תמיכה במגוון "
+#~ "סוגים של וידאו ושמע. הוא מציע יכולות עריכה מתקדמות, שלל אפקטים ומעברונים, "
+#~ "תיקון צבע, הפקת פוסט של שמע וכלי כתוביות. בנוסף, הוא מספק את הגמישות לעבד "
+#~ "לכמעט כל סוג אפשרי שיש לבחירתך.</p>\n"
+#~ "    <p xml:lang=\"hi\">Kdenlive एक वीडियो संपादन एप्लिकेशन है जो कई ऑडियो और "
+#~ "वीडियो प्रारूपों के लिए समर्थन प्रदान करता है। यह उन्नत संपादन सुविधाएँ, विभिन्न "
+#~ "प्रकार के प्रभाव और संक्रमण, रंग सुधार, ऑडियो पोस्ट-प्रोडक्शन और उपशीर्षक उपकरण "
+#~ "प्रदान करता है। इसके अतिरिक्त, यह आपकी पसंद के व्यावहारिक रूप से किसी भी प्रारूप में "
+#~ "रेंडर करने की सुविधा प्रदान करता है।</p>\n"
+#~ "    <p xml:lang=\"id\">Kdenlive adalah aplikasi pengeditan video yang "
+#~ "mendukung banyak format audio dan video. Aplikasi ini menawarkan fitur "
+#~ "pengeditan tingkat lanjut, berbagai efek dan transisi, koreksi warna, "
+#~ "pascaproduksi audio, dan alat subtitel. Selain itu, aplikasi ini "
+#~ "menyediakan fleksibilitas untuk melakukan render ke hampir semua format "
+#~ "pilihan Anda.</p>\n"
+#~ "    <p xml:lang=\"it\">Kdenlive è un'applicazione di editing video che "
+#~ "supporta molti formati audio e video. Offre funzionalità avanzate di "
+#~ "modifica, un assortimento di effetti e transizioni, correzione del "
+#~ "colore, strumenti per la post-produzione audio e la sottotitolazione. In "
+#~ "aggiunta, fornisce la flessibilità di produrre praticamente in qualsiasi "
+#~ "formato tu desideri.</p>\n"
+#~ "    <p xml:lang=\"ka\">Kdenlive ვიდეორედაქტორია ბევრი აუდიო და "
+#~ "ვიდეოფორმატების მხარდაჭერით. ის გთავაზობთ დამატებითი ჩასწორების "
+#~ "ფუნქციებს, მრავალ ეფექტსა და გადასვლას, ფერის შესწორებას, აუდიოს პოსტ-"
+#~ "პროდაქშენს და სუბტიტრების მორგებას. დამატებით, ის გაძლევთ საშუალებას, "
+#~ "დაარენდეროთ პრაქტიკულად ნებისმიერ ფორმატში, რომელსაც აირჩევთ.</p>\n"
+#~ "    <p xml:lang=\"lv\">„Kdenlive“ ir video rediģēšanas programma ar "
+#~ "daudzu audio un video formātu atbalstu. Tā sniedz plašas rediģēšanas "
+#~ "iespējas, dažādus efektus un pārejas, krāsu korekcijas iespējas, skaņas "
+#~ "pēcapstrādes un subtitru rīkus. Turklāt „Kdenlive“ ļauj renderēt "
+#~ "praktiski jebkurā formātā pēc jūsu izvēles.</p>\n"
+#~ "    <p xml:lang=\"nl\">Kdenlive is een toepassing voor video bewerken met "
+#~ "ondersteuning voor vele audio- en videoformaten. Het biedt geavanceerde "
+#~ "bewerkingsfuncties, een verscheidenheid aan effecten en transities, "
+#~ "kleurcorrectie, audio nabewerking en hulpmiddelen voor ondertiteling. "
+#~ "Bovendien levert het de flexibiliteit om te renderen in praktisch elk "
+#~ "formaat van uw keuze.</p>\n"
+#~ "    <p xml:lang=\"pl\">Kdenlive jest aplikacją do edytowania wideo z "
+#~ "obsługą wielu formatów dźwięku i obrazu. Daje rozbudowane możliwości, "
+#~ "wiele efektów i przejść, poprawianie barw, po-produkcję dźwięki oraz "
+#~ "narzędzia do napisów. Dodatkowo, zapewnia możliwość zapisania do "
+#~ "właściwie dowolnego formatu jaki sobie wybierzesz.</p>\n"
+#~ "    <p xml:lang=\"pt-BR\">Kdenlive é um aplicativo de edição de vídeo com "
+#~ "suporte para vários formatos de áudio e vídeo. Ele oferece recursos "
+#~ "avançados de edição, uma variedade de efeitos e transições, correção de "
+#~ "cores, pós-produção de áudio e ferramentas de legenda. Além disso, "
+#~ "fornece a flexibilidade para renderizar em praticamente qualquer formato "
+#~ "que você escolher.</p>\n"
+#~ "    <p xml:lang=\"ru\">Kdenlive — видеоредактор, поддерживающий различные "
+#~ "форматы аудио- и видеозаписей. Программа предоставляет расширенные "
+#~ "возможности редактирования, широкий ряд эффектов и переходов, инструменты "
+#~ "цветокоррекции, окончательного монтажа аудио и наложения субтитров. Кроме "
+#~ "того, гибкость настройки программы позволяет получить на выходе файл "
+#~ "практически любого формата.</p>\n"
+#~ "    <p xml:lang=\"sa\">Kdenlive इति एकः विडियो सम्पादन-अनुप्रयोगः अस्ति यस्य "
+#~ "समर्थनं बहुषु श्रव्य-वीडियो-स्वरूपेषु भवति । अस्मिन् उन्नतसम्पादनविशेषताः, विविधाः "
+#~ "प्रभावाः संक्रमणाः च, वर्णशुद्धिः, श्रव्य-उत्तरनिर्माणं, उपशीर्षकसाधनं च प्राप्यते । "
+#~ "तदतिरिक्तं, भवतः पसन्दस्य व्यावहारिकरूपेण कस्मिन् अपि प्रारूपे प्रतिपादयितुं लचीलापनं "
+#~ "प्रदाति ।</p>\n"
+#~ "    <p xml:lang=\"sl\">Kdenlive je program za montažo videoposnetkov s "
+#~ "podporo za številne zvokovne in video zapise. Ponuja napredne funkcije "
+#~ "montaže, urejanja, različne učinke in prehode, korekcijo barv, "
+#~ "poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja "
+#~ "prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru."
+#~ "</p>\n"
+#~ "    <p xml:lang=\"sv\">Kdenlive är ett videoredigeringsprogram med stöd "
+#~ "för många ljud- och videoformat. Det erbjuder avancerade "
+#~ "redigeringsfunktioner, en mängd olika effekter och övergångar, "
+#~ "färgkorrigering, efterproduktion av ljud och textningsverktyg. Dessutom "
+#~ "ger det flexibiliteten att återge till praktiskt taget vilket format som "
+#~ "helst.</p>\n"
+#~ "    <p xml:lang=\"tr\">Kdenlive, birçok ses ve video biçimini destekleyen "
+#~ "bir video düzenleme uygulamasıdır. Gelişmiş düzenleme özellikleri, "
+#~ "çeşitli efektler ve geçişler, renk düzeltme, ses post prodüksiyon ve "
+#~ "altyazı araçları sunar. Ek olarak, neredeyse seçtiğiniz herhangi bir "
+#~ "biçime dönüştürme esnekliği de sağlar.</p>\n"
+#~ "    <p xml:lang=\"uk\">Kdenlive — програма для редагування відео із "
+#~ "підтримкою багатьох форматів даних відео та звуку. У ній реалізовано "
+#~ "широкі можливості з редагування, спектр ефектів та переходів, виправлення "
+#~ "кольорів, остаточну обробку звуку та засоби субтитрування. Крім того, "
+#~ "програма здатна гнучко обробляти дані практично до будь-якого вибраного "
+#~ "вами формату.</p>\n"
+#~ "    <p xml:lang=\"zh-CN\">Kdenlive 是一款视频编辑应用程序，支持多种音视频"
+#~ "格式。它提供了各种高级编辑功能、种类丰富的效果和转场、色彩校正、音频后处理"
+#~ "和字幕工具。它还能灵活地将视频输出为您需要的任意格式。</p>\n"
+#~ "    <p xml:lang=\"zh-TW\">Kdenlive 是支援許多音訊與影片格式的影片編輯軟"
+#~ "體。它提供進階的剪輯功能、許多的效果、轉場特效、顏色校正、音效後製與字幕工"
+#~ "具等等。它也支援輸出到基本上任何您所想要使用的格式。</p>\n"
+#~ "    <p>Features:</p>\n"
+#~ "    <p xml:lang=\"ar\">الميزات:</p>\n"
+#~ "    <p xml:lang=\"az\">İmkanlar:</p>\n"
+#~ "    <p xml:lang=\"bs\">Svojstva:</p>\n"
+#~ "    <p xml:lang=\"ca\">Característiques:</p>\n"
+#~ "    <p xml:lang=\"ca-valencia\">Característiques:</p>\n"
+#~ "    <p xml:lang=\"cs\">Vlastnosti:</p>\n"
+#~ "    <p xml:lang=\"da\">Funktioner:</p>\n"
+#~ "    <p xml:lang=\"de\">Funktionen:</p>\n"
+#~ "    <p xml:lang=\"el\">Χαρακτηριστικά:</p>\n"
+#~ "    <p xml:lang=\"en-GB\">Features:</p>\n"
+#~ "    <p xml:lang=\"eo\">Trajtoj:</p>\n"
+#~ "    <p xml:lang=\"es\">Características:</p>\n"
+#~ "    <p xml:lang=\"et\">Omadused:</p>\n"
+#~ "    <p xml:lang=\"eu\">Ezaugarriak:</p>\n"
+#~ "    <p xml:lang=\"fi\">Ominaisuuksia:</p>\n"
+#~ "    <p xml:lang=\"fr\">Fonctionnalités :</p>\n"
+#~ "    <p xml:lang=\"ga\">Gnéithe:</p>\n"
+#~ "    <p xml:lang=\"gl\">Funcionalidades:</p>\n"
+#~ "    <p xml:lang=\"he\">יכולות:</p>\n"
+#~ "    <p xml:lang=\"hi\">विशेषताएँ:</p>\n"
+#~ "    <p xml:lang=\"id\">Fitur:</p>\n"
+#~ "    <p xml:lang=\"it\">Funzionalità:</p>\n"
+#~ "    <p xml:lang=\"ja\">特徴:</p>\n"
+#~ "    <p xml:lang=\"ka\">თვისებები:</p>\n"
+#~ "    <p xml:lang=\"ko\">기능:</p>\n"
+#~ "    <p xml:lang=\"lv\">Iespējas:</p>\n"
+#~ "    <p xml:lang=\"nl\">Mogelijkheden:</p>\n"
+#~ "    <p xml:lang=\"nn\">Funksjonar:</p>\n"
+#~ "    <p xml:lang=\"pl\">Możliwości:</p>\n"
+#~ "    <p xml:lang=\"pt\">Funcionalidades:</p>\n"
+#~ "    <p xml:lang=\"pt-BR\">Funcionalidades:</p>\n"
+#~ "    <p xml:lang=\"ru\">Возможности:</p>\n"
+#~ "    <p xml:lang=\"sa\">गुणाः:</p>\n"
+#~ "    <p xml:lang=\"sk\">Funkcie:</p>\n"
+#~ "    <p xml:lang=\"sl\">Zmožnosti:</p>\n"
+#~ "    <p xml:lang=\"sv\">Funktioner:</p>\n"
+#~ "    <p xml:lang=\"tr\">Özellikler:</p>\n"
+#~ "    <p xml:lang=\"uk\">Можливості:</p>\n"
+#~ "    <p xml:lang=\"zh-CN\">程序功能：</p>\n"
+#~ "    <p xml:lang=\"zh-TW\">功能：</p>\n"
+#~ "    <ul>\n"
+#~ "      <li>Nested Sequences</li>\n"
+#~ "      <li xml:lang=\"ar\">تسلسلات متداخلة</li>\n"
+#~ "      <li xml:lang=\"ca\">Seqüències imbricades</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Seqüències imbricades</li>\n"
+#~ "      <li xml:lang=\"de\">Verschachtelte Sequenzen</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Nested Sequences</li>\n"
+#~ "      <li xml:lang=\"eo\">Ingitaj Sinsekvoj</li>\n"
+#~ "      <li xml:lang=\"es\">Secuencias anidadas</li>\n"
+#~ "      <li xml:lang=\"eu\">Habiaratutako sekuentziak</li>\n"
+#~ "      <li xml:lang=\"fi\">Sisäkkäiset sekvenssit</li>\n"
+#~ "      <li xml:lang=\"fr\">Séquences imbriquées</li>\n"
+#~ "      <li xml:lang=\"ga\">Seichimh Neadaithe</li>\n"
+#~ "      <li xml:lang=\"gl\">Secuencias aniñadas.</li>\n"
+#~ "      <li xml:lang=\"he\">רצפים מקוננים</li>\n"
+#~ "      <li xml:lang=\"hi\">नेस्टेड अनुक्रम</li>\n"
+#~ "      <li xml:lang=\"id\">Urutan Bersarang</li>\n"
+#~ "      <li xml:lang=\"it\">Sequenze annidate</li>\n"
+#~ "      <li xml:lang=\"ka\">ერთმანეთში ჩალაგებული მიმდევრობები</li>\n"
+#~ "      <li xml:lang=\"lv\">Ievietotas sekvences</li>\n"
+#~ "      <li xml:lang=\"nl\">Geneste sequenties</li>\n"
+#~ "      <li xml:lang=\"pl\">Osadzone odcinki</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Sequências aninhadas</li>\n"
+#~ "      <li xml:lang=\"ru\">Вложенные последовательности</li>\n"
+#~ "      <li xml:lang=\"sa\">नेस्टेड अनुक्रम</li>\n"
+#~ "      <li xml:lang=\"sl\">Ugnezdena zaporedja</li>\n"
+#~ "      <li xml:lang=\"sv\">Nästlade sekvenser</li>\n"
+#~ "      <li xml:lang=\"tr\">İç içe geçmiş sekanslar</li>\n"
+#~ "      <li xml:lang=\"uk\">Вкладені послідовності</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">嵌套序列</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">巢狀序列</li>\n"
+#~ "      <li>Configurable interface and shortcuts</li>\n"
+#~ "      <li xml:lang=\"ar\">اختصارات و واجهة قابلة للتخصيص</li>\n"
+#~ "      <li xml:lang=\"ca\">Interfície i dreceres configurables</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Interfície i dreceres configurables</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"de\">Konfigurierbare Benutzeroberfläche und "
+#~ "Kurzbefehle</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Configurable interface and shortcuts</li>\n"
+#~ "      <li xml:lang=\"eo\">Agordeblaj interfaco kaj ŝparvojoj</li>\n"
+#~ "      <li xml:lang=\"es\">Interfaz y atajos de teclado configurables</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"eu\">Interfaze eta lasterbide konfiguragarriak</li>\n"
+#~ "      <li xml:lang=\"fi\">Mukautettava käyttöliittymä ja pikanäppäimet</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"fr\">Interface et raccourcis configurables</li>\n"
+#~ "      <li xml:lang=\"ga\">Comhéadan agus aicearraí inchumraithe</li>\n"
+#~ "      <li xml:lang=\"gl\">Interface e atallos configurábeis.</li>\n"
+#~ "      <li xml:lang=\"he\">ממשק וקיצורי דרך גמישים</li>\n"
+#~ "      <li xml:lang=\"hi\">कॉन्फ़िगर करने योग्य इंटरफ़ेस और शॉर्टकट</li>\n"
+#~ "      <li xml:lang=\"id\">Pintasan dan antarmuka yang dapat "
+#~ "dikonfigurasi</li>\n"
+#~ "      <li xml:lang=\"it\">Scorciatoie e interfaccia configurabili</li>\n"
+#~ "      <li xml:lang=\"ka\">მორგებადი ინტერფეისი და მალსახმობები</li>\n"
+#~ "      <li xml:lang=\"lv\">Konfigurējama saskarne un saīsnes</li>\n"
+#~ "      <li xml:lang=\"nl\">Te configureren interface en sneltoetsen</li>\n"
+#~ "      <li xml:lang=\"pl\">Interfejs i skróty dające się dostosować</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Interface e atalhos configuráveis</li>\n"
+#~ "      <li xml:lang=\"ru\">Настраиваемые интерфейс и комбинации клавиш</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"sa\">विन्यासयोग्यं अन्तरफलकं शॉर्टकट् च</li>\n"
+#~ "      <li xml:lang=\"sl\">Nastavljiv vmesnik in bližnjice</li>\n"
+#~ "      <li xml:lang=\"sv\">Anpassningsbart gränssnitt och genvägar</li>\n"
+#~ "      <li xml:lang=\"tr\">Yapılandırılabilir arayüz ve kısayollar</li>\n"
+#~ "      <li xml:lang=\"uk\">Можливість налаштовування інтерфейсу та "
+#~ "клавіатурних скорочень</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">可定制的界面和快捷键</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">可調整的介面與快捷鍵</li>\n"
+#~ "      <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio "
+#~ "Meter</li>\n"
+#~ "      <li xml:lang=\"ar\">المناظير: الرسم البياني، Vectorscope، RGB "
+#~ "Parade، الموجي ومقياس الصوت</li>\n"
+#~ "      <li xml:lang=\"ca\">Vectoscopis: Histograma, Vectoscopi, Histograma "
+#~ "RGB, Forma d'ona i Mesurador d'àudio</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Vectoscopis: Histograma, Vectoscopi, "
+#~ "Histograma RGB, Forma d'ona i Mesurador d'àudio</li>\n"
+#~ "      <li xml:lang=\"de\">Anzeigen: Histogramm, Vektorskop, RGB-Parade, "
+#~ "Wellenform und Audiometer</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Scopes: Histogram, Vectorscope, RGB Parade, "
+#~ "Waveform and Audio Meter</li>\n"
+#~ "      <li xml:lang=\"eo\">Ampleksoj: Histogramo, Vectorscope, RGB Parade, "
+#~ "Ondoformo kaj Aŭdmezurilo</li>\n"
+#~ "      <li xml:lang=\"es\">Instrumentos: Histograma, Vectorscopio, "
+#~ "Presentación RVA, Medidores de forma de onda y volumen</li>\n"
+#~ "      <li xml:lang=\"eu\">Eskopioak: Histograma, Bektoreskopioa, RGB "
+#~ "parada, Uhin-forma eta Audio-neurgailua</li>\n"
+#~ "      <li xml:lang=\"fr\">Oscilloscopes : histogramme, oscilloscope "
+#~ "vectoriel, défilé RVB, mesure de signaux et audiomètre</li>\n"
+#~ "      <li xml:lang=\"ga\">Scóipeanna: Histogram, Veicteoirscóp, Paráid "
+#~ "RGB, Tonnfhoirm agus Méadar Fuaime</li>\n"
+#~ "      <li xml:lang=\"gl\">Ámbitos: histograma, vectorscopio, desfile RGB, "
+#~ "forma de onda e medidor de son.</li>\n"
+#~ "      <li xml:lang=\"he\">טווחים: היסטוגרמה, וקטורסקופ, צורת גל ומד עוצמת "
+#~ "שמע</li>\n"
+#~ "      <li xml:lang=\"hi\">कार्यक्षेत्र: हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, "
+#~ "वेवफॉर्म और ऑडियो मीटर</li>\n"
+#~ "      <li xml:lang=\"id\">Cakupan: Histogram, Vectorscope, RGB Parade, "
+#~ "Bentuk Gelombang, dan Pengukur Audio</li>\n"
+#~ "      <li xml:lang=\"it\">Diagrammi: istogramma, Evidenza le punte "
+#~ "massime, Esibizione RGB, Forma d'onda e Misuratore audio</li>\n"
+#~ "      <li xml:lang=\"ka\">მზომები: ჰისტოგრამა, ვექტორსკოპი, RGB პარადი, "
+#~ "Waveform და აუდიომეტრი</li>\n"
+#~ "      <li xml:lang=\"lv\">Tvērumi: histogramma, vektorskops, RGB parāde, "
+#~ "viļņformas un audio mērītājs</li>\n"
+#~ "      <li xml:lang=\"nl\">Scopes: Histogram, Vectorscope, RGB Parade, "
+#~ "golfvorm en Audio-meter</li>\n"
+#~ "      <li xml:lang=\"pl\">Widoki: Histogram, Wektoroskop, Parada RGB, "
+#~ "Kształt Fali oraz Miernik Dźwięku</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Escopos: Histograma, Vetorescópio, Desfile "
+#~ "RGB, Forma de onda e Medidor de áudio</li>\n"
+#~ "      <li xml:lang=\"ru\">Отображение: гистограмма, вектороскоп, парад "
+#~ "RGB, звуковой спектр и уровень звука</li>\n"
+#~ "      <li xml:lang=\"sa\">व्याप्तिः : हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, "
+#~ "तरङ्गरूप तथा ऑडियो मीटर्</li>\n"
+#~ "      <li xml:lang=\"sl\">Merilniki: histogram, vektroskop, parada RGB, "
+#~ "signalna oblika in merilnik jakosti zvoka</li>\n"
+#~ "      <li xml:lang=\"sv\">Oscilloskop: Histogram, vektoroscilloskop, RGB-"
+#~ "parad, vågform och ljudmätare</li>\n"
+#~ "      <li xml:lang=\"tr\">Kapsamlar: Histogram, Vektörskop, RGB Geçidi, "
+#~ "Dalga Biçimi ve Ses Ölçeri</li>\n"
+#~ "      <li xml:lang=\"uk\">Області: гістограма, векторскоп, розкладка RGB, "
+#~ "форма хвилі та рівень звуку</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">示波器：直方图、矢量示波器、RGB Parade 直方"
+#~ "图、波形图、音量计</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">示波器：直方圖、向量示波器、RGB 檢視、波形以"
+#~ "及音訊音量測量</li>\n"
+#~ "      <li>Proxy editing</li>\n"
+#~ "      <li xml:lang=\"ar\">التحرير بواسطة الوسطاء</li>\n"
+#~ "      <li xml:lang=\"ca\">Edició d'intermediaris</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Editeu intermediaris</li>\n"
+#~ "      <li xml:lang=\"cs\">Úprava proxy</li>\n"
+#~ "      <li xml:lang=\"de\">Proxy-Bearbeitung</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Proxy editing</li>\n"
+#~ "      <li xml:lang=\"eo\">Redaktado de Prokurilo</li>\n"
+#~ "      <li xml:lang=\"es\">Edición usando reemplazos</li>\n"
+#~ "      <li xml:lang=\"eu\">Ordezkaria editatzea</li>\n"
+#~ "      <li xml:lang=\"fr\">Modification du serveur mandataire</li>\n"
+#~ "      <li xml:lang=\"ga\">Eagarthóireacht seachfhreastalaí</li>\n"
+#~ "      <li xml:lang=\"gl\">Edición intermediaria.</li>\n"
+#~ "      <li xml:lang=\"he\">עריכת תיווך</li>\n"
+#~ "      <li xml:lang=\"hi\">प्रॉक्सी संपादन</li>\n"
+#~ "      <li xml:lang=\"id\">Pengeditan proksi</li>\n"
+#~ "      <li xml:lang=\"it\">Modifica del proxy</li>\n"
+#~ "      <li xml:lang=\"ka\">პროქსი ჩასწორება</li>\n"
+#~ "      <li xml:lang=\"lv\">Rediģēšana caur starpniekvideo un "
+#~ "starpniekattēliem</li>\n"
+#~ "      <li xml:lang=\"nl\">Proxy-bewerking</li>\n"
+#~ "      <li xml:lang=\"pl\">Edytowanie pośredników</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Edição com proxy</li>\n"
+#~ "      <li xml:lang=\"ru\">Редактирование с промежуточными клипами</li>\n"
+#~ "      <li xml:lang=\"sa\">प्रॉक्सी सम्पादनम्</li>\n"
+#~ "      <li xml:lang=\"sl\">Montaža posrednih posnetkov</li>\n"
+#~ "      <li xml:lang=\"sv\">Ersättningsredigering</li>\n"
+#~ "      <li xml:lang=\"tr\">Vekilli düzenleme</li>\n"
+#~ "      <li xml:lang=\"uk\">Редагування із проміжними кліпами</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">代理剪辑编辑</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">代理編輯</li>\n"
+#~ "      <li>Free online assets and templates</li>\n"
+#~ "      <li xml:lang=\"ar\">موارد وقوالب مجانية على الإنترنت</li>\n"
+#~ "      <li xml:lang=\"ca\">Actius i plantilles lliures en línia</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Actius i plantilles lliures en línia</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"de\">Kostenlose Online-Ressourcen und -Vorlagen</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"en-GB\">Free online assets and templates</li>\n"
+#~ "      <li xml:lang=\"eo\">Liberaj enretaj valoraĵoj kaj ŝablonoj</li>\n"
+#~ "      <li xml:lang=\"es\">Recursos y plantillas libres en línea</li>\n"
+#~ "      <li xml:lang=\"eu\">Lerroan doako aktiboak eta txantiloiak</li>\n"
+#~ "      <li xml:lang=\"fr\">Produits et modèles en ligne gratuits</li>\n"
+#~ "      <li xml:lang=\"ga\">Sócmhainní agus teimpléid ar líne saor in "
+#~ "aisce</li>\n"
+#~ "      <li xml:lang=\"gl\">Recursos e modelos libres por Internet.</li>\n"
+#~ "      <li xml:lang=\"he\">משאבים ותבניות מקוונים בחינם</li>\n"
+#~ "      <li xml:lang=\"hi\">निःशुल्क ऑनलाइन परिसंपत्तियाँ और टेम्पलेट्स</li>\n"
+#~ "      <li xml:lang=\"id\">Templat dan aset gratis online</li>\n"
+#~ "      <li xml:lang=\"it\">Risorse e modelli in linea gratuiti</li>\n"
+#~ "      <li xml:lang=\"ka\">უფასო მასალები და ნიმუშები ინტერნეტში</li>\n"
+#~ "      <li xml:lang=\"lv\">Bezmaksas tiešsaistes resursi un veidnes</li>\n"
+#~ "      <li xml:lang=\"nl\">Vrij online bezit en sjablonen</li>\n"
+#~ "      <li xml:lang=\"pl\">Darmowe zasoby i wzorce z sieci</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Recursos e modelos online gratuitos</li>\n"
+#~ "      <li xml:lang=\"ru\">Бесплатные ресурсы и шаблоны в Интернете</li>\n"
+#~ "      <li xml:lang=\"sa\">निःशुल्क ऑनलाइन सम्पत्तिः टेम्पलेट् च</li>\n"
+#~ "      <li xml:lang=\"sl\">Brezplačna spletna sredstva in predloge</li>\n"
+#~ "      <li xml:lang=\"sv\">Fria tillgångar och mallar på nätet</li>\n"
+#~ "      <li xml:lang=\"tr\">Ücretsiz çevrimiçi kaynaklar ve şablonlar</li>\n"
+#~ "      <li xml:lang=\"uk\">Безкоштовні ресурси та шаблони в інтернеті</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"zh-CN\">自由免费的在线资源和模板</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">免費線上資源與範本</li>\n"
+#~ "      <li>Motion tracking</li>\n"
+#~ "      <li xml:lang=\"ar\">تتبع الحركة</li>\n"
+#~ "      <li xml:lang=\"ca\">Seguiment de moviment</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Seguiment de moviment</li>\n"
+#~ "      <li xml:lang=\"de\">Bewegungsverfolgung</li>\n"
+#~ "      <li xml:lang=\"en-GB\">Motion tracking</li>\n"
+#~ "      <li xml:lang=\"eo\">Moviĝospurado</li>\n"
+#~ "      <li xml:lang=\"es\">Rastreo de movimiento</li>\n"
+#~ "      <li xml:lang=\"eu\">Higiduraren jarraipena</li>\n"
+#~ "      <li xml:lang=\"fi\">Liikkeen jäljitys</li>\n"
+#~ "      <li xml:lang=\"fr\">Suivi de déplacement</li>\n"
+#~ "      <li xml:lang=\"ga\">Rianú gluaisne</li>\n"
+#~ "      <li xml:lang=\"gl\">Seguimento de movemento.</li>\n"
+#~ "      <li xml:lang=\"he\">מעקב אחר תנועה</li>\n"
+#~ "      <li xml:lang=\"hi\">मोशन ट्रेकिंग</li>\n"
+#~ "      <li xml:lang=\"id\">Pelacakan gerakan</li>\n"
+#~ "      <li xml:lang=\"it\">Tracciatore di movimento</li>\n"
+#~ "      <li xml:lang=\"ka\">მოძრაობის ტრეკინგი</li>\n"
+#~ "      <li xml:lang=\"lv\">Kustību izsekošana</li>\n"
+#~ "      <li xml:lang=\"nl\">Volgen van beweging</li>\n"
+#~ "      <li xml:lang=\"pl\">Śledzenie ruchu</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Rastreamento de movimento</li>\n"
+#~ "      <li xml:lang=\"ru\">Отслеживание движения</li>\n"
+#~ "      <li xml:lang=\"sa\">गतिनिरीक्षणम्</li>\n"
+#~ "      <li xml:lang=\"sl\">Sledenje gibanju</li>\n"
+#~ "      <li xml:lang=\"sv\">Rörelseföljning</li>\n"
+#~ "      <li xml:lang=\"tr\">Hareket izlemesi</li>\n"
+#~ "      <li xml:lang=\"uk\">Стеження за рухом</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">运动跟踪功能</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">動態追蹤</li>\n"
+#~ "      <li>AI powered tools</li>\n"
+#~ "      <li xml:lang=\"ar\">أدوات بالذكاء الاصطناعي</li>\n"
+#~ "      <li xml:lang=\"ca\">Eines que funcionen amb IA</li>\n"
+#~ "      <li xml:lang=\"ca-valencia\">Eines que funcionen amb IA</li>\n"
+#~ "      <li xml:lang=\"de\">KI-gestützte Werkzeuge</li>\n"
+#~ "      <li xml:lang=\"en-GB\">AI powered tools</li>\n"
+#~ "      <li xml:lang=\"eo\">AI-pelitaj iloj</li>\n"
+#~ "      <li xml:lang=\"es\">Herramientas potenciadas mediante IA</li>\n"
+#~ "      <li xml:lang=\"eu\">AAk bultzatutako tresnak</li>\n"
+#~ "      <li xml:lang=\"fi\">Tekoälytehosteiset työkalut</li>\n"
+#~ "      <li xml:lang=\"fr\">Outils alimentés par l'intelligence "
+#~ "artificielle</li>\n"
+#~ "      <li xml:lang=\"ga\">Uirlisí faoi thiomáint AI</li>\n"
+#~ "      <li xml:lang=\"gl\">Ferramentas que usan intelixencia artificial.</"
+#~ "li>\n"
+#~ "      <li xml:lang=\"he\">כלים מחוזקי בינה מלאכותית</li>\n"
+#~ "      <li xml:lang=\"hi\">एआई संचालित उपकरण</li>\n"
+#~ "      <li xml:lang=\"id\">Alat bertenaga AI</li>\n"
+#~ "      <li xml:lang=\"it\">Strumenti alimentati dalla IA</li>\n"
+#~ "      <li xml:lang=\"ka\">ფუნქციები AI-ით</li>\n"
+#~ "      <li xml:lang=\"lv\">Mākslīgā intelekta rīki</li>\n"
+#~ "      <li xml:lang=\"nl\">AI aangedreven hulpmiddelen</li>\n"
+#~ "      <li xml:lang=\"pl\">Narzędzia wspomagane SI</li>\n"
+#~ "      <li xml:lang=\"pt-BR\">Ferramentas com IA</li>\n"
+#~ "      <li xml:lang=\"ru\">Инструменты на основе ИИ</li>\n"
+#~ "      <li xml:lang=\"sa\">एआइ-सञ्चालित-उपकरणम्</li>\n"
+#~ "      <li xml:lang=\"sl\">Orodja, ki jih poganja umetna inteligenca</li>\n"
+#~ "      <li xml:lang=\"sv\">AI-drivna verktyg</li>\n"
+#~ "      <li xml:lang=\"tr\">Yapay Zeka destekli araçlar</li>\n"
+#~ "      <li xml:lang=\"uk\">Інструменти на основі ШІ</li>\n"
+#~ "      <li xml:lang=\"zh-CN\">基于 AI 的工具</li>\n"
+#~ "      <li xml:lang=\"zh-TW\">利用 AI 的工具</li>\n"
+#~ "    </ul>\n"
+#~ "  "
+
+#~ msgid ""
+#~ "\n"
+#~ "        <p>This is the first bugfix release for the 24.02 version. Some "
+#~ "of the most noteworthy fixes:</p>\n"
+#~ "        <ul>\n"
+#~ "          <li>Fix distorted font in some parts of the UI</li>\n"
+#~ "          <li>Fix crash editing gradients in titler</li>\n"
+#~ "          <li>Fix adding a mix to a grouped clip could move existing cut</"
+#~ "li>\n"
+#~ "          <li>Fix moving and deleting a single item in a group</li>\n"
+#~ "          <li>Fix crash in spacer tool with grouped subtitles</li>\n"
+#~ "          <li>Fix multiple issues on sequence clips (incorrectly saving "
+#~ "changes, subtitles not duplicated)</li>\n"
+#~ "          <li>Fix multiple issues with subtitles (multiple subtitles "
+#~ "tracks not correctly saved or displayed)</li>\n"
+#~ "        </ul>\n"
+#~ "      "
+#~ msgstr ""
+#~ "\n"
+#~ "        <p>Dit is de eerste uitgave met reparaties van bugs voor de "
+#~ "versie 24.02. Sommige van de meest opmerkelijke reparaties:</p>\n"
+#~ "        <ul>\n"
+#~ "          <li>Oplossing voor verstoord lettertype in sommige delen van de "
+#~ "UI</li>\n"
+#~ "          <li>Oplossingen van crash bij bewerken van kleurverloop in "
+#~ "titelmaker</li>\n"
+#~ "          <li>Oplossing voor toevoegen van een mengsel aan een "
+#~ "gegroepeerde clip kon een bestaande knip verplaatsen</li>\n"
+#~ "          <li>Oplossing voor verplaatsen en verwijderen van een enkel "
+#~ "item in een groep</li>\n"
+#~ "          <li>Oplossing voor crash in hulpmiddel voor ruimte met "
+#~ "gegroepeerde ondertitels</li>\n"
+#~ "          <li>Oplossing voor meerdere problemen op sequentie-clips "
+#~ "(onjuist opslaan van wijzigingen, ondertitels niet gedupliceerd)</li>\n"
+#~ "          <li>Oplossing voor meerdere problemen met ondertitels (meerdere "
+#~ "ondertiteltracks niet juist opgeslagen of getoond)</li>\n"
+#~ "        </ul>\n"
+#~ "      "
+
+#~| msgid "Kdenlive project (*.kdenlive)"
+#~ msgid "Kdenlive video project document"
+#~ msgstr "Video projectdocument van Kdenlive"
+
+#~ msgid "مستند مشروع «كدنلايف» فيديو"
+#~ msgstr "مستند مشروع «كدنلايف» فيديو"
+
+#~ msgid "Kdenlive video layihəsi sənədi"
+#~ msgstr "Kdenlive video layihəsi sənədi"
+
+#~ msgid "Document de projecte de vídeo del Kdenlive"
+#~ msgstr "Document de projecte de vídeo del Kdenlive"
+
+#~ msgid "Document de projecte de vídeo de Kdenlive"
+#~ msgstr "Document de projecte de vídeo de Kdenlive"
+
+#~| msgid "Kdenlive project (*.kdenlive)"
+#~ msgid "Dokument video projektu Kdenlive"
+#~ msgstr "Dokument video projektu Kdenlive"
+
+#~ msgid "Kdenlive-Videoprojektdokument"
+#~ msgstr "Kdenlive-Videoprojektdokument"
+
+#~ msgid "Έγγραφο έργου βίντεο kdenlive"
+#~ msgstr "Έγγραφο έργου βίντεο kdenlive"
+
+#~| msgid "Kdenlive project (*.kdenlive)"
+#~ msgid "Kdenlive videoprojekta dokumento"
+#~ msgstr "Kdenlive videoprojekta dokumento"
+
+#~| msgctxt "@title:window"
+#~| msgid "Welcome to Kdenlive"
+#~ msgid "Proyecto de video de Kdenlive"
+#~ msgstr "Proyecto de video de Kdenlive"
+
+#~ msgid "Kdenlive-ko bideo-proiektuaren dokumentua"
+#~ msgstr "Kdenlive-ko bideo-proiektuaren dokumentua"
+
+#~ msgid "Kdenlive-videoprojektitiedosto"
+#~ msgstr "Kdenlive-videoprojektitiedosto"
+
+#~ msgid "Document de projet vidéo pour Kdenlive"
+#~ msgstr "Document de projet vidéo pour Kdenlive"
+
+#~ msgid "Doiciméad tionscadail físe Kdenlive"
+#~ msgstr "Doiciméad tionscadail físe Kdenlive"
+
+#~ msgid "Documento dun proxecto de vídeo de Kdenlive."
+#~ msgstr "Documento dun proxecto de vídeo de Kdenlive."
+
+#~ msgid "מסמך מיזם וידאו של Kdenlive"
+#~ msgstr "מסמך מיזם וידאו של Kdenlive"
+
+#~ msgid "Kdenlive वीडियो परियोजना दस्तावेज़"
+#~ msgstr "Kdenlive वीडियो परियोजना दस्तावेज़"
+
+#~ msgid "Kdenlive videóprojekt-dokumentum"
+#~ msgstr "Kdenlive videóprojekt-dokumentum"
+
+#~ msgid "Dokumen proyek video Kdenlive"
+#~ msgstr "Dokumen proyek video Kdenlive"
+
+#~ msgid "Progetto video di Kdenlive"
+#~ msgstr "Progetto video di Kdenlive"
+
+#~ msgid "Kdenlive ビデオプロジェクト資料"
+#~ msgstr "Kdenlive ビデオプロジェクト資料"
+
+#~ msgid "Kdenlive ვიდეო პროექტის დოკუმენტი"
+#~ msgstr "Kdenlive ვიდეო პროექტის დოკუმენტი"
+
+#~ msgid "Kdenlive 동영상 프로젝트 문서"
+#~ msgstr "Kdenlive 동영상 프로젝트 문서"
+
+#~| msgid "Kdenlive project (*.kdenlive)"
+#~ msgid "Kdenlive video projekto dokumentas"
+#~ msgstr "Kdenlive video projekto dokumentas"
+
+#~ msgid "„Kdenlive“ video projekta dokuments"
+#~ msgstr "„Kdenlive“ video projekta dokuments"
+
+#~ msgid "Video projectdocument van Kdenlive"
+#~ msgstr "Video projectdocument van Kdenlive"
+
+#~ msgid "Kdenlive-videoprosjektdokument"
+#~ msgstr "Kdenlive-videoprosjektdokument"
+
+#~ msgid "Dokument projektowy filmu Kdenlive"
+#~ msgstr "Dokument projektowy filmu Kdenlive"
+
+#~ msgid "Documento de projecto de vídeo do Kdenlive"
+#~ msgstr "Documento de projecto de vídeo do Kdenlive"
+
+#~ msgid "Documento de projeto de vídeo do Kdenlive"
+#~ msgstr "Documento de projeto de vídeo do Kdenlive"
+
+#~ msgid "Видеопроект Kdenlive"
+#~ msgstr "Видеопроект Kdenlive"
+
+#~ msgid "Kdenlive विडियो परियोजना दस्तावेज"
+#~ msgstr "Kdenlive विडियो परियोजना दस्तावेज"
+
+#~| msgid "Kdenlive project (*.kdenlive)"
+#~ msgid "Dokument video projekta Kdenlive"
+#~ msgstr "Dokument video projekta Kdenlive"
+
+#~ msgid "Kdenlive-videoprojektdokument"
+#~ msgstr "Kdenlive-videoprojektdokument"
+
+#~| msgid "Kdenlive project (*.kdenlive)"
+#~ msgid "Kdenlive video proje belgesi"
+#~ msgstr "Kdenlive video proje belgesi"
+
+#~ msgid "документ відеопроєкту Kdenlive"
+#~ msgstr "документ відеопроєкту Kdenlive"
+
+#~ msgid "Kdenlive 视频工程文件"
+#~ msgstr "Kdenlive 视频工程文件"
+
+#~ msgid "Kdenlive 影片專案文件"
+#~ msgstr "Kdenlive 影片專案文件"
+
+#~| msgid "Kdenlive title"
+#~ msgid "Kdenlive video title"
+#~ msgstr "Titel van Kdenlive-video"
+
+#~ msgid "عنوان فيديو «كدنلايف»"
+#~ msgstr "عنوان فيديو «كدنلايف»"
+
+#~ msgid "Kdenlive video başlığı"
+#~ msgstr "Kdenlive video başlığı"
+
+#~ msgid "Títol de vídeo del Kdenlive"
+#~ msgstr "Títol de vídeo del Kdenlive"
+
+#~ msgid "Títol de vídeo de Kdenlive"
+#~ msgstr "Títol de vídeo de Kdenlive"
+
+#~ msgid "Název videa Kdenlive"
+#~ msgstr "Název videa Kdenlive"
+
+#~| msgid "Kdenlive title"
+#~ msgid "Kdenlive-Videotitel"
+#~ msgstr "Kdenlive-Videotitel"
+
+#~ msgid "Τίτλος βίντεο kdenlive"
+#~ msgstr "Τίτλος βίντεο kdenlive"
+
+#~| msgid "Kdenlive title"
+#~ msgid "Kdenlive videotitolo"
+#~ msgstr "Kdenlive videotitolo"
+
+#~ msgid "Título de video de Kdenlive"
+#~ msgstr "Título de video de Kdenlive"
+
+#~ msgid "Kdenlive-ko bideo-izenburua"
+#~ msgstr "Kdenlive-ko bideo-izenburua"
+
+#~ msgid "Kdenlive-video-otsikko"
+#~ msgstr "Kdenlive-video-otsikko"
+
+#~ msgid "Titre de vidéo pour Kdenlive"
+#~ msgstr "Titre de vidéo pour Kdenlive"
+
+#~ msgid "Teideal físeáin Kdenlive"
+#~ msgstr "Teideal físeáin Kdenlive"
+
+#~ msgid "Título de vídeo de Kdenlive."
+#~ msgstr "Título de vídeo de Kdenlive."
+
+#~ msgid "כותרת וידאו של Kdenlive"
+#~ msgstr "כותרת וידאו של Kdenlive"
+
+#~ msgid "Kdenlive वीडियो शीर्षक"
+#~ msgstr "Kdenlive वीडियो शीर्षक"
+
+#~| msgid "Kdenlive title"
+#~ msgid "Kdenlive videófelirat"
+#~ msgstr "Kdenlive videófelirat"
+
+#~| msgctxt "@title:window"
+#~| msgid "Welcome to Kdenlive"
+#~ msgid "Judul video Kdenlive"
+#~ msgstr "Judul video Kdenlive"
+
+#~| msgctxt "@title:window"
+#~| msgid "Welcome to Kdenlive"
+#~ msgid "Titolo video di Kdenlive"
+#~ msgstr "Titolo video di Kdenlive"
+
+#~ msgid "Kdenlive ビデオタイトル"
+#~ msgstr "Kdenlive ビデオタイトル"
+
+#~ msgid "Kdenlive ვიდეოს სათაური"
+#~ msgstr "Kdenlive ვიდეოს სათაური"
+
+#~ msgid "Kdenlive 동영상 타이틀"
+#~ msgstr "Kdenlive 동영상 타이틀"
+
+#~ msgid "„Kdenlive“ video nosaukums"
+#~ msgstr "„Kdenlive“ video nosaukums"
+
+#~ msgid "Titel van Kdenlive-video"
+#~ msgstr "Titel van Kdenlive-video"
+
+#~| msgid "Kdenlive title"
+#~ msgid "Kdenlive-videotittel"
+#~ msgstr "Kdenlive-videotittel"
+
+#~ msgid "Tytuł filmu Kdenlive"
+#~ msgstr "Tytuł filmu Kdenlive"
+
+#~ msgid "Título de vídeo do Kdenlive"
+#~ msgstr "Título de vídeo do Kdenlive"
+
+#~ msgid "Видеотитры Kdenlive"
+#~ msgstr "Видеотитры Kdenlive"
+
+#~ msgid "Kdenlive विडियो शीर्षक"
+#~ msgstr "Kdenlive विडियो शीर्षक"
+
+#~ msgid "Naslov videa Kdenlive"
+#~ msgstr "Naslov videa Kdenlive"
+
+#~| msgid "Kdenlive"
+#~ msgid "Kdenlive-video"
+#~ msgstr "Kdenlive-video"
+
+#~ msgid "заголовок відео Kdenlive"
+#~ msgstr "заголовок відео Kdenlive"
+
+#~ msgid "Kdenlive 视频标题"
+#~ msgstr "Kdenlive 视频标题"
+
+#~ msgid "Kdenlive 影片標題"
+#~ msgstr "Kdenlive 影片標題"
+
+#~ msgid "Kdenlive application layout"
+#~ msgstr "Toepassingsindeling van Kdenlive"
+
+#~ msgid "تخطيط برنامج كدنلايف"
+#~ msgstr "تخطيط برنامج كدنلايف"
+
+#~| msgid "Kdenlive title"
+#~ msgid "Kdenlive tətbiq qatı"
+#~ msgstr "Kdenlive tətbiq qatı"
+
+#~ msgid "Disposició de l'aplicació Kdenlive"
+#~ msgstr "Disposició de l'aplicació Kdenlive"
+
+#~ msgid "Rozvržení aplikace Kdenlive"
+#~ msgstr "Rozvržení aplikace Kdenlive"
+
+#~ msgid "Kdenlive-Anwendungslayout"
+#~ msgstr "Kdenlive-Anwendungslayout"
+
+#~ msgid "Kdenlive aplikaĵa aranĝo"
+#~ msgstr "Kdenlive aplikaĵa aranĝo"
+
+#~ msgid "Organización de paneles de Kdenlive"
+#~ msgstr "Organización de paneles de Kdenlive"
+
+#~ msgid "Kdenlive aplikazioaren antolaera"
+#~ msgstr "Kdenlive aplikazioaren antolaera"
+
+#~ msgid "Kdenlive-sovelluksen-asettelu"
+#~ msgstr "Kdenlive-sovelluksen-asettelu"
+
+#~ msgid "Mise en page de l'application Kdenlive"
+#~ msgstr "Mise en page de l'application Kdenlive"
+
+#~ msgid "Leagan amach feidhmchláir Kdenlive"
+#~ msgstr "Leagan amach feidhmchláir Kdenlive"
+
+#~ msgid "Disposición de aplicación de Kdenlive."
+#~ msgstr "Disposición de aplicación de Kdenlive."
+
+#~ msgid "פריסת יישום Kdenlive"
+#~ msgstr "פריסת יישום Kdenlive"
+
+#~ msgid "Kdenlive अनुप्रयोग लेआउट"
+#~ msgstr "Kdenlive अनुप्रयोग लेआउट"
+
+#~ msgid "Kdenlive alkalmazáselrendezés"
+#~ msgstr "Kdenlive alkalmazáselrendezés"
+
+#~ msgid "Tata letak aplikasi Kdenlive"
+#~ msgstr "Tata letak aplikasi Kdenlive"
+
+#~ msgid "Disposizione dell'applicazione Kdenlive"
+#~ msgstr "Disposizione dell'applicazione Kdenlive"
+
+#~ msgid "Kdenlive アプリケーションレイアウト"
+#~ msgstr "Kdenlive アプリケーションレイアウト"
+
+#~ msgid "Kdenlive აპლიკაციის განლაგება"
+#~ msgstr "Kdenlive აპლიკაციის განლაგება"
+
+#~ msgid "Kdenlive 앱 레이아웃"
+#~ msgstr "Kdenlive 앱 레이아웃"
+
+#~ msgid "„Kdenlive“ programmas izkārtojums"
+#~ msgstr "„Kdenlive“ programmas izkārtojums"
+
+#~ msgid "Toepassingsindeling van Kdenlive"
+#~ msgstr "Toepassingsindeling van Kdenlive"
+
+#~ msgid "Układ programu Kdenlive"
+#~ msgstr "Układ programu Kdenlive"
+
+#~ msgid "Disposição da aplicação Kdenlive"
+#~ msgstr "Disposição da aplicação Kdenlive"
+
+#~ msgid "Layout de aplicativo do Kdenlive"
+#~ msgstr "Layout de aplicativo do Kdenlive"
+
+#~ msgid "Макет приложения Kdenlive"
+#~ msgstr "Макет приложения Kdenlive"
+
+#~ msgid "Kdenlive अनुप्रयोग विन्यास"
+#~ msgstr "Kdenlive अनुप्रयोग विन्यास"
+
+#~ msgid "Postavitev programa Kdenlive"
+#~ msgstr "Postavitev programa Kdenlive"
+
+#~| msgid "Kdenlive Project"
+#~ msgid "Kdenlive programlayout"
+#~ msgstr "Kdenlive programlayout"
+
+#~ msgid "Kdenlive uygulama yerleşimi"
+#~ msgstr "Kdenlive uygulama yerleşimi"
+
+#~ msgid "Компонування вікон програми Kdenlive"
+#~ msgstr "Компонування вікон програми Kdenlive"
+
+#~ msgid "Kdenlive 应用程序布局"
+#~ msgstr "Kdenlive 应用程序布局"
+
+#~ msgid "Kdenlive 應用程式版面配置"
+#~ msgstr "Kdenlive 應用程式版面配置"
+
+#~| msgid "Loading playlist"
+#~ msgid "MLT video playlist"
+#~ msgstr "MLT video playlist"
+
+#~ msgctxt "Group Name"
+#~ msgid "Custom"
+#~ msgstr "Aangepast"
+
+#~ msgctxt "Attribute Name"
+#~ msgid "Custom"
+#~ msgstr "Zelf gedefinieerd"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
+#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
+#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
+#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
+#~ msgstr ""
+#~ "<shortcut>Klik</shortcut> om af te spelen, <shortcut>Dubbelklik</"
+#~ "shortcut> voor volledig scherm, <shortcut>Rechts zweven</shortcut> voor "
+#~ "werkbalk, <shortcut>Wiel</shortcut> of <shortcut>pijltjestoetsen</"
+#~ "shortcut> om te zoeken, <shortcut>Ctrl wiel</shortcut> om te zoomen"
+
 #~ msgid "Center X"
 #~ msgstr "Centrum X"
 
@@ -43446,9 +44768,6 @@ msgstr "%1u"
 
 #~ msgid "Save clip"
 #~ msgstr "Clip opslaan"
-
-#~ msgid "Loading playlist"
-#~ msgstr "Afspeelijst laden"
 
 #~ msgid "Download New Project Profiles..."
 #~ msgstr "Download nieuwe project profielen..."

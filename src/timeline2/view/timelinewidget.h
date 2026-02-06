@@ -41,7 +41,10 @@ public:
     /** @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
+                         QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu);
+    void updateShouldAddClip(bool shouldAddClip);
+    void updateAddClipMenuStatus();
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     const QUuid &getUuid() const;
@@ -96,6 +99,7 @@ private:
     QMenu *m_targetsMenu;
     QActionGroup *m_targetsGroup{nullptr};
     QMenu *m_thumbsMenu;
+    QMenu *m_addClipMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;
     QAction *m_editGuideAcion;
@@ -109,6 +113,10 @@ private:
     /** @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
     QPoint m_clickPos;
+    QPoint m_addClipPos;
+    int m_addClipFrame;
+    int m_addClipTrack;
+    bool m_shouldAddClip{false};
     QUuid m_uuid;
     std::shared_ptr<MediaCapture> m_audioRec;
 

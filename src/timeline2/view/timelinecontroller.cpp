@@ -2118,17 +2118,43 @@ void TimelineController::hideCursor(bool hide)
 
 int TimelineController::getMousePos()
 {
-    QVariant returnedValue;
-    int posInWidget = m_timelineMouseOffset + getMousePosInTimeline().x();
+    return getMousePos(getMousePosInTimeline());
+}
+
+int TimelineController::getMousePos(const QPoint &pos)
+{
+    int posInWidget = m_timelineMouseOffset + pos.x();
     return posInWidget / m_scale;
 }
 
 int TimelineController::getMouseTrack()
 {
+    return getMouseTrack(getMousePosInTimeline());
+}
+
+int TimelineController::getMouseTrack(const QPoint &pos)
+{
     QVariant returnedValue;
-    int posInWidget = getMousePosInTimeline().y();
+    int posInWidget = pos.y();
     QMetaObject::invokeMethod(m_root, "getMouseTrackFromPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue), Q_ARG(QVariant, posInWidget));
     return returnedValue.toInt();
+}
+
+int TimelineController::getFreeSpace(int tid, int position)
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (position == -1) {
+        position = pCore->getMonitorPosition();
+    }
+    if (tid > -1 && m_model->isTrack(tid)) {
+        int blankEnd = m_model->getTrackById_const(tid)->getBlankEnd(position);
+        if (blankEnd != INT_MAX) {
+            return blankEnd - position + 1;
+        }
+    }
+    return -1;
 }
 
 bool TimelineController::positionIsInItem(int id)

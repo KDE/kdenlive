@@ -1515,6 +1515,40 @@ void Core::invalidateRange(QPair<int, int> range)
     Q_EMIT m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
 }
 
+void Core::invalidateAudioRange(const QUuid &uuid, int /*in*/, int /*out*/)
+{
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
+    // TODO: invalidate only the item range and regenerate partial audio
+    const QString binId = m_projectItemModel->getSequenceId(uuid);
+    m_mainWindow->getBin()->invalidateClipAudio(binId);
+}
+
+void Core::invalidateAudio(ObjectId itemId)
+{
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
+    switch (itemId.type) {
+    case KdenliveObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineComposition: {
+        // TODO: invalidate only the item range and regenerate partial audio
+        const QString binId = m_projectItemModel->getSequenceId(itemId.uuid);
+        m_mainWindow->getBin()->invalidateClipAudio(binId);
+        break;
+    }
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master: {
+        const QString binId = m_projectItemModel->getSequenceId(itemId.uuid);
+        m_mainWindow->getBin()->invalidateClipAudio(binId);
+        break;
+    }
+    case KdenliveObjectType::BinClip:
+        m_mainWindow->getBin()->invalidateClipAudio(QString::number(itemId.itemId));
+        break;
+    default:
+        // compositions should not apply to audio
+        break;
+    }
+}
+
 void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;

@@ -187,7 +187,10 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         slotUpdateParams();
     });
 
-    groupName->addItems(RenderPresetRepository::get()->groupNames());
+    QMap<QString, QString> categories = RenderPresetRepository::get()->getAllCategories();
+    for (auto i = categories.cbegin(), end = categories.cend(); i != end; ++i) {
+        groupName->addItem(i.value(), i.key());
+    }
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     int parNum = projectProfile->sample_aspect_num();
@@ -205,7 +208,10 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         m_manualPreset = true;
     });
     if (preset) {
-        groupName->setCurrentText(preset->groupName());
+        int ix = groupName->findData(preset->groupId());
+        if (ix > -1) {
+            groupName->setCurrentIndex(ix);
+        }
         if (mode != Mode::New) {
             preset_name->setText(preset->name());
         }
@@ -414,7 +420,10 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     setPixelAspectRatio(parNum, parDen);
 
     if (groupName->currentText().isEmpty()) {
-        groupName->setCurrentText(i18nc("Group Name", "Custom"));
+        int ix = groupName->findData(QLatin1String("custom"));
+        if (ix > 0) {
+            groupName->setCurrentIndex(ix);
+        }
     }
 
     if (mode == Mode::Edit) {
@@ -433,9 +442,9 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             KMessageBox::error(this, i18n("The preset name can't be empty"));
             return;
         }
-        QString newGroupName = groupName->currentText().simplified();
+        QString newGroupName = groupName->currentData().toString();
         if (newGroupName.isEmpty()) {
-            newGroupName = i18nc("Group Name", "Custom");
+            newGroupName = QStringLiteral("custom");
         }
         QString speeds_list_str = speeds_list->toPlainText().replace('\n', ';').simplified();
 

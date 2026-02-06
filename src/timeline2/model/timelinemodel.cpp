@@ -149,6 +149,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo
         m_tractor->set("id", uuid.toString().toUtf8().constData());
     }
     m_guidesFilterModel.reset(new MarkerSortModel(this));
+    connect(this, &TimelineModel::invalidateAudioZone, this, [this](int in, int out) { pCore->invalidateAudioRange(m_uuid, in, out); });
     TRACE_CONSTR(this);
 }
 
@@ -797,9 +798,13 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
                 QModelIndex modelIndex = makeClipIndexFromID(clipId);
                 notifyChange(modelIndex, modelIndex, StartRole);
             }
-            if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
+            if (invalidateTimeline) {
                 int in = getClipPosition(clipId);
-                Q_EMIT invalidateZone(in, in + getClipPlaytime(clipId));
+                if (!getTrackById_const(trackId)->isAudioTrack()) {
+                    Q_EMIT invalidateZone(in, in + getClipPlaytime(clipId));
+                } else {
+                    Q_EMIT invalidateAudioZone(in, in + getClipPlaytime(clipId));
+                }
             }
             return true;
         };
@@ -1261,8 +1266,12 @@ bool TimelineModel::requestClipMix(const QString &mixId, std::pair<int, int> cli
         notifyChange(modelIndex, modelIndex, {StartRole, DurationRole});
         QModelIndex modelIndex2 = makeClipIndexFromID(clipIds.first);
         notifyChange(modelIndex2, modelIndex2, DurationRole);
-        if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
-            Q_EMIT invalidateZone(position - mixDurations.second, position + mixDurations.first);
+        if (invalidateTimeline) {
+            if (!getTrackById_const(trackId)->isAudioTrack()) {
+                Q_EMIT invalidateZone(position - mixDurations.second, position + mixDurations.first);
+            } else {
+                Q_EMIT invalidateAudioZone(position - mixDurations.second, position + mixDurations.first);
+            }
         }
         return true;
     };
@@ -3546,8 +3555,13 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
             pos += getItemPlaytime(id) - size;
         }
         bool hasVideo = false;
-        if (tid != -1 && !getTrackById_const(tid)->isAudioTrack()) {
-            hasVideo = true;
+        bool hasAudio = false;
+        if (tid != -1) {
+            if (!getTrackById_const(tid)->isAudioTrack()) {
+                hasVideo = true;
+            } else {
+                hasAudio = true;
+            }
         }
         int trackDuration = getTrackById_const(tid)->trackDuration();
         result = getTrackById(tid)->requestClipDeletion(id, true, false, undo, redo, false, false);
@@ -3568,9 +3582,11 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         } else {
             invalidateIn = qMin(invalidateIn, invalidateOut - getClipPlaytime(id));
         }
-        Fun view_redo = [this, invalidateIn, invalidateOut, hasVideo, durationChanged]() {
+        Fun view_redo = [this, invalidateIn, invalidateOut, hasVideo, hasAudio, durationChanged]() {
             if (hasVideo) {
                 Q_EMIT invalidateZone(invalidateIn, invalidateOut);
+            } else if (hasAudio) {
+                Q_EMIT invalidateAudioZone(invalidateIn, invalidateOut);
             }
             if (durationChanged) {
                 // last clip in playlist updated
@@ -6476,9 +6492,13 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     if (roles.contains(TimelineModel::ReloadAudioThumbRole)) {
         m_allClips[clipId]->forceThumbReload = !m_allClips[clipId]->forceThumbReload;
     }
-    if (roles.contains(TimelineModel::ResourceRole) && !clipIsAudio(clipId)) {
+    if (roles.contains(TimelineModel::ResourceRole)) {
         int in = getClipPosition(clipId);
-        Q_EMIT invalidateZone(in, in + getClipPlaytime(clipId));
+        if (!clipIsAudio(clipId)) {
+            Q_EMIT invalidateZone(in, in + getClipPlaytime(clipId));
+        } else {
+            Q_EMIT invalidateAudioZone(in, in + getClipPlaytime(clipId));
+        }
     }
     notifyChange(modelIndex, modelIndex, roles);
 }
