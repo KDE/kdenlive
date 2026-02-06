@@ -120,6 +120,9 @@ public:
     /** @brief Returns true if at least one keyframe exists
      */
     bool hasKeyframes(const QPersistentModelIndex index) const;
+    /** @brief Returns true if there is only 1 keyframe or frame is on a keyframe
+     */
+    bool enableParameter(const QPersistentModelIndex index, int frame) const;
 
     /** @brief Return the interpolated value of a parameter.
        @param pos is the position where we interpolate

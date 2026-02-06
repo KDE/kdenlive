@@ -566,7 +566,7 @@ void KeyframeContainer::slotSetPosition(int pos, bool update)
     for (auto &i : std::as_const(m_curveeditorview)) {
         i->slotSetPosition(pos, true);
     }
-    slotAtKeyframe(m_keyframes->hasKeyframe(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId()))), m_keyframes->singleKeyframe());
+    positionUpdated(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId())));
     m_addDeleteAction->setEnabled(pos > 0);
     slotRefreshParams();
 
@@ -590,12 +590,32 @@ void KeyframeContainer::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
     Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, outside);
     bool enableWidgets = (m_monitorActive && atKeyframe) || singleKeyframe;
     m_selectType->setEnabled(enableWidgets);
+    bool enableParameter;
     if (m_geom) {
-        m_geom->setEnabled(enableWidgets);
+        enableParameter = outside ? false : m_keyframes->enableParameter(m_geometryIndex, pos);
+        m_geom->setEnabled(enableParameter);
     }
     for (const auto &w : m_parameters) {
         if (w.second) {
-            w.second->setEnabled(enableWidgets);
+            enableParameter = outside ? false : m_keyframes->enableParameter(w.first, pos);
+            w.second->setEnabled(enableParameter);
+        }
+    }
+}
+
+void KeyframeContainer::positionUpdated(int relativePos)
+{
+    int pos = pCore->getMonitorPosition(m_model->monitorId);
+    bool outside = !pCore->itemContainsPos(m_keyframes->getOwnerId(), pos);
+    bool enableParameter;
+    if (m_geom) {
+        enableParameter = outside ? false : m_keyframes->enableParameter(m_geometryIndex, relativePos);
+        m_geom->setEnabled(enableParameter);
+    }
+    for (const auto &w : m_parameters) {
+        if (w.second) {
+            enableParameter = outside ? false : m_keyframes->enableParameter(w.first, relativePos);
+            w.second->setEnabled(enableParameter);
         }
     }
 }
@@ -629,7 +649,9 @@ void KeyframeContainer::slotRefresh()
 
 void KeyframeContainer::setDuration(int duration)
 {
-    slotAtKeyframe(m_keyframes->hasKeyframe(getPosition()), m_keyframes->singleKeyframe());
+    int pos = pCore->getMonitorPosition(m_model->monitorId) - pCore->getItemPosition(m_keyframes->getOwnerId()) +
+              (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId()));
+    positionUpdated(pos);
     // Unselect keyframes that are outside range if any
     QVector<int> toDelete;
     int kfrIx = 0;
@@ -763,6 +785,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, true, opacity, m_sourceFrameSize, false,
                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
+        m_geometryIndex = index;
         if (m_neededScene == MonitorSceneType::MonitorSceneRotatedGeometry) {
             m_geom->setRotatable(true);
         }
@@ -1410,7 +1433,7 @@ void KeyframeContainer::slotSeekToPos(int pos)
             i->slotSetPosition(pos, true);
         }
     }
-    slotAtKeyframe(m_keyframes->hasKeyframe(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId()))), m_keyframes->singleKeyframe());
+    positionUpdated(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId())));
     m_addDeleteAction->setEnabled(pos > 0);
     slotRefreshParams();
 

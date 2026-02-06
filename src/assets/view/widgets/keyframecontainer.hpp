@@ -98,6 +98,7 @@ private Q_SLOTS:
     void slotSeekToPos(int pos);
     void slotToggleView();
     void monitorSeek(int pos);
+    void positionUpdated(int pos);
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
@@ -134,6 +135,7 @@ private:
     int m_addedHeight;
     QFormLayout *m_layout;
     std::unique_ptr<GeometryWidget> m_geom;
+    QPersistentModelIndex m_geometryIndex;
     int m_curveContainerHeight{0};
     int m_fixedHeight{0};
 

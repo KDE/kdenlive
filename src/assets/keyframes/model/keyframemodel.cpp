@@ -489,6 +489,15 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     return res;
 }
 
+void KeyframeModel::seekToKeyframe(int index)
+{
+    if (auto ptr = m_model.lock()) {
+        GenTime pos = getPosAtIndex(index);
+        auto owner = ptr->getOwnerId();
+        pCore->seekMonitor(owner, pos.frames(pCore->getCurrentFps()));
+    }
+}
+
 bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
 {
     if (auto ptr = m_model.lock()) {

@@ -21,7 +21,7 @@ Item {
     property real timeScale: keyframeContainerWidth / frameDuration
     // Playhead position
     property int consumerPosition: proxy ? proxy.position - offset: -1
-    property int keyframeContainerWidth: width - treeView.headerWidth
+    property int keyframeContainerWidth: width - treeView.headerWidth - (2 * baseUnit)
     FontMetrics {
         id: fontMetrics
         font: miniFont
@@ -42,7 +42,8 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.leftMargin: treeView.headerWidth
+        anchors.leftMargin: root.baseUnit + treeView.headerWidth
+        anchors.rightMargin: root.baseUnit
         height: Math.round(root.baseUnit * 2.5)
         contentWidth: Math.max(parent.width, root.frameDuration * root.timeScale)
         interactive: false
@@ -96,7 +97,9 @@ Item {
         property int headerWidth: 100
         // Disable flicking
         acceptedButtons: Qt.NoButton
-        selectionModel: ItemSelectionModel {}
+        selectionModel: ItemSelectionModel {
+            model: timeline.dopeSheetModel()
+        }
         // You can set a custom delegate or use a built-in TreeViewDelegate
         delegate: Item {
             id: contentRect
@@ -114,6 +117,7 @@ Item {
             required property int row
             required property int column
             required property bool current
+            required property bool selected
             ToolButton {
                 icon.name: treeView.isExpanded(row) ? "arrow-down" : "arrow-right"
                 visible: depth == 0
@@ -130,7 +134,7 @@ Item {
                 background: Rectangle {
                     color: activePalette.highlight
                     radius: 4
-                    visible: row == treeView.currentRow
+                    visible: current //row == treeView.currentRow
                 }
                 Component.onCompleted: {
                     if (treeView.headerWidth < (paramLabel.width + indentation)) {
@@ -168,6 +172,7 @@ Item {
                     property double currentPercentPos
                     property bool dragStarted: false
                     property point clickPoint
+                    propagateComposedEvents: true
                     anchors.fill: parent
                     anchors.leftMargin: keyframeSlider.anchors.leftMargin
                     anchors.rightMargin: keyframeSlider.anchors.rightMargin
@@ -177,18 +182,18 @@ Item {
                         clickIndex = currentIndex
                         dragStarted = false
                         clickPoint = Qt.point(mouseX, mouseY)
+                        var tIndex = contentRect.treeView.index(row, column)
+                        treeView.selectionModel.setCurrentIndex(tIndex, ItemSelectionModel.SelectCurrent)
                         mouse.accepted = true
                     }
                     onReleased: mouse => {
                         console.log("============== MOUSE RELEASED ===========")
-                        dragStarted = false
-                        if (depth == 0) {
-                            console.log("====================== MOVED RECAP EFFECT KF ===============")
-                            // TODO: Move all param keyframes at pos clickPos
-                            //timeline.moveAssetKeyframes(index, clickPos, currentPercentPos);
-                        } else if (clickIndex > -1) {
+                        if (depth > 0 && clickIndex > -1 && dragStarted) {
                             dopeModel.movePercentKeyframeWithUndo(clickIndex, clickPos, currentPercentPos)
+                        } else if (clickIndex > -1) {
+                            dopeModel.seekToKeyframe(clickIndex)
                         }
+                        dragStarted = false
                         mouse.accepted = true
                     }
                     onPositionChanged: mouse => {

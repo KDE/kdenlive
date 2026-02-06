@@ -686,6 +686,13 @@ bool KeyframeModelList::hasKeyframe(int frame) const
     return m_parameters.begin()->second->hasKeyframe(frame);
 }
 
+bool KeyframeModelList::enableParameter(const QPersistentModelIndex index, int frame) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_parameters.count(index) > 0);
+    return m_parameters.at(index)->keyframesCount() == 1 || m_parameters.at(index)->hasKeyframe(frame);
+}
+
 bool KeyframeModelList::hasKeyframes(const QPersistentModelIndex index) const
 {
     READ_LOCK();

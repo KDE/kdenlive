@@ -182,6 +182,7 @@ public Q_SLOTS:
     Q_INVOKABLE bool movePercentKeyframe(int index, double percentPos);
     Q_INVOKABLE bool movePercentKeyframeWithUndo(int index, int startFrame, double finalPercentPos);
     Q_INVOKABLE bool addPercentKeyframe(double percentPos);
+    Q_INVOKABLE void seekToKeyframe(int index);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */

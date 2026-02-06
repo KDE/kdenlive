@@ -812,6 +812,18 @@ void Core::seekMonitor(int id, int position)
     }
 }
 
+void Core::seekMonitor(ObjectId owner, int position)
+{
+    if (!m_guiConstructed) {
+        return;
+    }
+    if (owner.type == KdenliveObjectType::BinClip) {
+        m_monitorManager->clipMonitor()->requestSeek(position);
+    } else {
+        m_monitorManager->projectMonitor()->requestSeek(position);
+    }
+}
+
 void Core::setMonitorZone(int id, QPoint zone)
 {
     if (!m_guiConstructed) {
