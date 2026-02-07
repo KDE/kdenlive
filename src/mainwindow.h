@@ -49,6 +49,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 class AssetPanel;
 class AudioGraphSpectrum;
+class DopeWidget;
 class EffectBasket;
 class EffectListWidget;
 class TransitionListWidget;
@@ -152,7 +153,7 @@ public:
     void closeTimelineTab(const QUuid uuid, bool onDeletion);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
-    QQuickWidget *m_dopeWidget;
+    DopeWidget *m_dopeWidget;
 
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;

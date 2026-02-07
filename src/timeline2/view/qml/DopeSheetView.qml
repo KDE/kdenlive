@@ -19,9 +19,11 @@ Item {
     property int offset: 0
     // Ruler scaling
     property real timeScale: keyframeContainerWidth / frameDuration
+    property var allSelectedKeyframes: []
     // Playhead position
     property int consumerPosition: proxy ? proxy.position - offset: -1
     property int keyframeContainerWidth: width - treeView.headerWidth - (2 * baseUnit)
+    focus: true
     FontMetrics {
         id: fontMetrics
         font: miniFont
@@ -34,6 +36,31 @@ Item {
     }
     onConsumerPositionChanged: {
         console.log('UPDATED DOPE POSITION: ', consumerPosition)
+    }
+
+    function deleteSelection() {
+        console.log("Triggered deletion...")
+        console.log('deleting kfs: ', root.allSelectedKeyframes)
+        var indexList = []
+        var keyframesList = []
+        while (root.allSelectedKeyframes.length > 0) {
+            var elem = root.allSelectedKeyframes.pop()
+            console.log('Found SELECTION: ', elem.index, ' = ', elem.kfrs)
+            indexList.push(elem.index)
+            keyframesList.push(elem.kfrs)
+        }
+        timeline.dopeSheetModel().removeKeyframes(indexList, keyframesList)
+    }
+
+    function clearSelection() {
+        while (root.allSelectedKeyframes.length > 0) {
+            var elem = root.allSelectedKeyframes.pop()
+            var item = treeView.itemAtIndex(elem.index)
+            item.selectedKeyframes = []
+            item.selectedKeyframesChanged()
+        }
+        root.allSelectedKeyframes = []
+        root.allSelectedKeyframesChanged()
     }
 
     Flickable {
@@ -88,6 +115,7 @@ Item {
             }
         }
     }
+
     TreeView {
         // The model needs to be a QAbstractItemModel
         id: treeView
@@ -105,6 +133,7 @@ Item {
             id: contentRect
             implicitWidth: root.width
             implicitHeight: fontMetrics.lineSpacing
+            property var selectedKeyframes: []
             readonly property real indentation: 20
             readonly property real padding: 5
 
@@ -134,7 +163,7 @@ Item {
                 background: Rectangle {
                     color: activePalette.highlight
                     radius: 4
-                    visible: current //row == treeView.currentRow
+                    visible: current
                 }
                 Component.onCompleted: {
                     if (treeView.headerWidth < (paramLabel.width + indentation)) {
@@ -172,7 +201,6 @@ Item {
                     property double currentPercentPos
                     property bool dragStarted: false
                     property point clickPoint
-                    propagateComposedEvents: true
                     anchors.fill: parent
                     anchors.leftMargin: keyframeSlider.anchors.leftMargin
                     anchors.rightMargin: keyframeSlider.anchors.rightMargin
@@ -182,9 +210,43 @@ Item {
                         clickIndex = currentIndex
                         dragStarted = false
                         clickPoint = Qt.point(mouseX, mouseY)
-                        var tIndex = contentRect.treeView.index(row, column)
-                        treeView.selectionModel.setCurrentIndex(tIndex, ItemSelectionModel.SelectCurrent)
                         mouse.accepted = true
+                        if (clickIndex < 0) {
+                            // Not on a keyframe
+                            root.clearSelection()
+                            contentRect.selectedKeyframes = []
+                            contentRect.selectedKeyframesChanged()
+                            return
+                        }
+                        var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
+                        treeView.selectionModel.setCurrentIndex(tIndex, ItemSelectionModel.SelectCurrent)
+                        if (mouse.modifiers & Qt.ShiftModifier) {
+                            const selectionIndex = contentRect.selectedKeyframes.indexOf(currentIndex);
+                            if (selectionIndex > -1) {
+                                // Remove from selection
+                                contentRect.selectedKeyframes.splice(selectionIndex, 1);
+                            } else {
+                                // Add to selection
+                                contentRect.selectedKeyframes.push(currentIndex)
+                            }
+                            contentRect.selectedKeyframesChanged()
+                            console.log('PRESSING SHIF MOD; FINAL ARRAY: ', contentRect.selectedKeyframes)
+                        } else {
+                            root.clearSelection()
+                            contentRect.selectedKeyframes = [currentIndex]
+                        }
+                        // Remove possible duplicates
+                        var ix = 0
+                        while (ix < root.allSelectedKeyframes.length) {
+                            var elem = root.allSelectedKeyframes[ix]
+                            if (elem.index === tIndex) {
+                                root.allSelectedKeyframes.splice(ix, 1);
+                                console.log('Found SELECTION: ', elem.index, ' = ', elem.kfrs)
+                            } else {
+                                ix++;
+                            }
+                        }
+                        root.allSelectedKeyframes.push({index: tIndex, kfrs: contentRect.selectedKeyframes})
                     }
                     onReleased: mouse => {
                         console.log("============== MOUSE RELEASED ===========")
@@ -217,6 +279,7 @@ Item {
                     }
                 }
                 Repeater {
+                    id: paramModel
                     model: dopeModel
                     Rectangle {
                         id: handle
@@ -224,7 +287,7 @@ Item {
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
-                        color: activePalette.light
+                        color: contentRect.selectedKeyframes.indexOf(index) > -1 ? activePalette.highlight : activePalette.light
                         radius: Math.round(width/2)
                         border.width: 1
                         border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : activePalette.text
@@ -235,7 +298,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             acceptedButtons: Qt.NoButton
                             onEntered: {
-                                console.log("entered kfr: ", index)
+                                console.log("entered kfr: ", index, 'CURRENT SELECTION: ', contentRect.selectedKeyframes)
                                 kfMoveArea.currentFrame = frame
                                 kfMoveArea.currentIndex = index
                             }

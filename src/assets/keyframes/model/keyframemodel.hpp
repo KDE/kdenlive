@@ -50,6 +50,7 @@ public:
     friend class KeyframeContainer;
     friend class KeyframeImport;
     friend class AssetMultiKeyframeCommand;
+    friend class DopeSheetModel;
     static KeyframeType::KeyframeEnum convertFromMltType(mlt_keyframe_type type);
 
 protected:

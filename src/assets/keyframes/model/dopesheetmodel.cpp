@@ -214,7 +214,24 @@ void DopeSheetModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     AbstractTreeModel::registerItem(item);
 }
+
 void DopeSheetModel::deregisterItem(int id, TreeItem *item)
 {
     AbstractTreeModel::deregisterItem(id, item);
+}
+
+void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframes)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (int i = 0; i < indexes.size(); i++) {
+        QModelIndex ix = indexes.at(i).toModelIndex();
+        QVariantList kfrs = keyframes.at(i).toList();
+        KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+        QList<GenTime> positions;
+        for (auto &id : kfrs) {
+            km->removeKeyframe(km->getPosAtIndex(id.toInt()), undo, redo, true);
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Delete keyframes"));
 }

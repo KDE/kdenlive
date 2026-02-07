@@ -58,6 +58,7 @@ public:
     /** @brief Register all keyframable params for an effect */
     void registerAsset(std::shared_ptr<EffectItemModel> effectModel);
     void registerStack(std::shared_ptr<EffectStackModel> model);
+    Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;

@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "assets/assetpanel.hpp"
 #include "assets/keyframes/model/dopesheetmodel.hpp"
+#include "assets/keyframes/view/dopewidget.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/generators/generators.h"
@@ -487,10 +488,7 @@ void MainWindow::init()
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
     // DopeSheet
-    m_dopeWidget = new QQuickWidget(this);
-    m_dopeWidget->setClearColor(palette().base().color());
-    m_dopeWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    m_dopeWidget->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/DopeSheetView.qml")));
+    m_dopeWidget = new DopeWidget(this);
     addDock(i18n("DopeSheet"), QStringLiteral("dopesheet"), m_dopeWidget, KDDockWidgets::Location_None, m_projectBinDock);
 
     // Color and icon theme stuff
@@ -2986,9 +2984,14 @@ void MainWindow::slotDeleteItem()
                 return;
             }
         }
-    }
-    if (QApplication::focusWidget() != nullptr && pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
-        pCore->textEditWidget()->deleteItem();
+        if (m_dopeWidget->isAncestorOf(QApplication::focusWidget())) {
+            m_dopeWidget->deleteItem();
+            return;
+        }
+        if (pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
+            pCore->textEditWidget()->deleteItem();
+            return;
+        }
     } else {
         QWidget *widget = QApplication::focusWidget();
         while ((widget != nullptr) && widget != this) {
@@ -5619,7 +5622,7 @@ void MainWindow::connectTimeline()
 void MainWindow::registerDopeStack(std::shared_ptr<EffectStackModel> model)
 {
     pCore->dopeSheetModel()->registerStack(model);
-    if (model) {
+    if (model && m_dopeWidget->rootObject()) {
         m_dopeWidget->rootObject()->setProperty("frameDuration", pCore->getItemDuration(model->getOwnerId()));
         m_dopeWidget->rootObject()->setProperty("offset", pCore->getItemPosition(model->getOwnerId()));
     }
