@@ -108,14 +108,23 @@ void KeyframeModelList::updateRecap()
 {
     QList<GenTime> kfrList;
     for (const auto &param : m_parameters) {
-        kfrList << param.second->getKeyframePos();
+        QList<GenTime> paramKF = param.second->getKeyframePos();
+        for (auto &g : paramKF) {
+            if (!kfrList.contains(g)) {
+                kfrList << g;
+            }
+        }
     }
+    std::sort(kfrList.begin(), kfrList.end());
     qDebug() << ":::: UPDATING RECAP WITH POS -----------------";
     for (auto &g : kfrList) {
         qDebug() << "::POS " << g.frames(25);
     }
     qDebug() << ":::: UPDATING RECAP WITH POS DONE";
     m_kfrRecap->loadKeyframePos(kfrList);
+    const QModelIndex start = m_kfrRecap->index(0);
+    const QModelIndex end = m_kfrRecap->index(kfrList.size() - 1);
+    Q_EMIT m_kfrRecap->dataChanged(start, end, {});
 }
 
 std::shared_ptr<KeyframeModel> KeyframeModelList::getRecap()

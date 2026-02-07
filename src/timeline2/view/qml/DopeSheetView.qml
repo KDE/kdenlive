@@ -246,6 +246,10 @@ Item {
                                 ix++;
                             }
                         }
+                        if (depth == 0) {
+                            // Build index of related kf to move
+                            timeline.dopeSheetModel().buildMasterSelection(tIndex, clickIndex)
+                        }
                         root.allSelectedKeyframes.push({index: tIndex, kfrs: contentRect.selectedKeyframes})
                     }
                     onReleased: mouse => {
@@ -269,13 +273,24 @@ Item {
                         if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
                             currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
                             currentPercentPos = Math.min(1., currentPercentPos)
-                            dopeModel.movePercentKeyframe(clickIndex, currentPercentPos)
+                            if (depth == 0) {
+                                // Moving a recap keyframe
+                                var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
+                                timeline.dopeSheetModel().movePercentKeyframe(tIndex, currentPercentPos)
+                            } else {
+                                dopeModel.movePercentKeyframe(clickIndex, currentPercentPos)
+                            }
                         }
                     }
                     onDoubleClicked: mouse => {
                         currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
                         currentPercentPos = Math.min(1., currentPercentPos)
-                        dopeModel.addPercentKeyframe(currentPercentPos)
+                        if (depth == 0) {
+                            var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
+                            timeline.dopeSheetModel().addPercentKeyframe(tIndex, currentPercentPos)
+                        } else {
+                            dopeModel.addPercentKeyframe(currentPercentPos)
+                        }
                     }
                 }
                 Repeater {

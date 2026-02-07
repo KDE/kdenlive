@@ -58,7 +58,14 @@ public:
     /** @brief Register all keyframable params for an effect */
     void registerAsset(std::shared_ptr<EffectItemModel> effectModel);
     void registerStack(std::shared_ptr<EffectStackModel> model);
+    /** @brief Remove all keyframes at given indexes (parameter indexes / keyframes indexes) */
     Q_INVOKABLE void removeKeyframes(QVariantList indexes, QVariantList keyframes);
+    /** @brief Add a keyframe to all parameters */
+    Q_INVOKABLE void addPercentKeyframe(const QModelIndex &ix, double percentPos);
+    /** @brief Move keyframes in all parameters at current pos */
+    Q_INVOKABLE void movePercentKeyframe(const QModelIndex &ix, double percentPos);
+    /** @brief Register all keyframes that will need to move */
+    Q_INVOKABLE void buildMasterSelection(const QModelIndex &ix, int index);
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -73,6 +80,7 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
     QList<QModelIndex> m_selectedIndexes;
+    QMap<QModelIndex, int> m_relatedMove;
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);

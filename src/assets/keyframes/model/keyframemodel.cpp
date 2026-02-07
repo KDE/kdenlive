@@ -510,7 +510,7 @@ bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
         if (nPos == oPos) {
             return true;
         }
-        return moveKeyframe(oPos, nPos, QVariant(), false);
+        return moveKeyframe(oPos, nPos, QVariant(), true);
     }
     return false;
 }
@@ -535,6 +535,20 @@ bool KeyframeModel::movePercentKeyframeWithUndo(int index, int startFrame, doubl
 
 bool KeyframeModel::addPercentKeyframe(double percentPos)
 {
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = addPercentKeyframe(percentPos, undo, redo);
+    if (res) {
+        PUSH_UNDO(undo, redo, i18nc("@action", "Add keyframe"));
+        return true;
+    } else {
+        undo();
+    }
+    return false;
+}
+
+bool KeyframeModel::addPercentKeyframe(double percentPos, Fun &undo, Fun &redo)
+{
     if (auto ptr = m_model.lock()) {
         qDebug() << "::: MOVING KEYFRAME TO POSITION PERCENT: " << percentPos;
         int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
@@ -542,15 +556,7 @@ bool KeyframeModel::addPercentKeyframe(double percentPos)
         int targetFrame = inFrame + (percentPos * duration);
         GenTime pos(targetFrame, pCore->getCurrentFps());
         QVariant value = getInterpolatedValue(pos);
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
-        bool res = addKeyframe(pos, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
-        if (res) {
-            PUSH_UNDO(undo, redo, i18nc("@action", "Add keyframe"));
-            return true;
-        } else {
-            undo();
-        }
+        return addKeyframe(pos, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
     }
     return false;
 }
