@@ -16,7 +16,10 @@ Item {
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     // Effects duration
     property int frameDuration: 100
+    property int mouseFramePos: -1
+    property int hoverKeyframe: -1
     property int offset: 0
+    property color hoverColor: "#cc9900"
     // Ruler scaling
     property real timeScale: keyframeContainerWidth / frameDuration
     property var allSelectedKeyframes: []
@@ -115,6 +118,29 @@ Item {
             }
         }
     }
+    Rectangle {
+        anchors.fill: mouseLabel
+        visible: mouseLabel.visible
+        radius: 4
+        color: root.hoverKeyframe > -1 ? root.hoverColor : activePalette.highlight
+    }
+    Label {
+        id: mouseLabel
+        visible: root.mouseFramePos > -1
+        anchors.horizontalCenter: mouseLine.horizontalCenter
+        text: root.mouseFramePos
+        leftPadding: 6
+        rightPadding: 6
+    }
+    Rectangle {
+        id: mouseLine
+        anchors.top: mouseLabel.bottom
+        anchors.bottom: root.bottom
+        width: 1
+        visible: mouseLabel.visible
+        x: treeView.headerWidth + root.baseUnit + root.mouseFramePos * root.keyframeContainerWidth / root.frameDuration
+        color: activePalette.highlight
+    }
 
     TreeView {
         // The model needs to be a QAbstractItemModel
@@ -202,6 +228,7 @@ Item {
                     property bool dragStarted: false
                     property point clickPoint
                     anchors.fill: parent
+                    hoverEnabled: true
                     anchors.leftMargin: keyframeSlider.anchors.leftMargin
                     anchors.rightMargin: keyframeSlider.anchors.rightMargin
                     onPressed: mouse => {
@@ -254,15 +281,29 @@ Item {
                     }
                     onReleased: mouse => {
                         console.log("============== MOUSE RELEASED ===========")
-                        if (depth > 0 && clickIndex > -1 && dragStarted) {
-                            dopeModel.movePercentKeyframeWithUndo(clickIndex, clickPos, currentPercentPos)
+                        if (dragStarted) {
+                            if (depth == 0) {
+                                var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
+                                timeline.dopeSheetModel().moveKeyframe(tIndex, clickPos, false)
+                                timeline.dopeSheetModel().moveKeyframe(tIndex, root.mouseFramePos, true)
+                            } else {
+                                dopeModel.moveKeyframeByIndex(clickIndex, clickPos, false)
+                                dopeModel.moveKeyframeByIndex(clickIndex, root.mouseFramePos, true)
+                            }
                         } else if (clickIndex > -1) {
                             dopeModel.seekToKeyframe(clickIndex)
                         }
                         dragStarted = false
                         mouse.accepted = true
                     }
+
                     onPositionChanged: mouse => {
+                        var mouseFrame = Math.max(0., mouse.x / root.keyframeContainerWidth)
+                        mouseFrame = Math.min(1., mouseFrame)
+                        root.mouseFramePos = Math.round(mouseFrame * frameDuration)
+                        if (!pressed) {
+                            return
+                        }
                         if (!dragStarted) {
                             if (Math.abs(mouseX - clickPoint.x) + Math.abs(mouseY - clickPoint.y) > Qt.styleHints.startDragDistance) {
                                 console.log(' - - - DRAG STARTED -- - ')
@@ -271,26 +312,43 @@ Item {
                         }
 
                         if (mouse.buttons === Qt.LeftButton && dragStarted && clickIndex > -1) {
-                            currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
-                            currentPercentPos = Math.min(1., currentPercentPos)
                             if (depth == 0) {
                                 // Moving a recap keyframe
                                 var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
-                                timeline.dopeSheetModel().movePercentKeyframe(tIndex, currentPercentPos)
+                                timeline.dopeSheetModel().moveKeyframe(tIndex, root.mouseFramePos, false)
                             } else {
-                                dopeModel.movePercentKeyframe(clickIndex, currentPercentPos)
+                                dopeModel.moveKeyframeByIndex(clickIndex, root.mouseFramePos, false)
                             }
                         }
                     }
                     onDoubleClicked: mouse => {
-                        currentPercentPos = Math.max(0., mouse.x / kfContainer.width)
+                        var tIndex
+                        if (kfMoveArea.currentFrame > -1) {
+                            console.log('Removing keyframe')
+                            // Double click on a keyframe, remove it
+                            if (depth == 0) {
+                                tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
+                                timeline.dopeSheetModel().removeKeyframe(tIndex, kfMoveArea.currentFrame)
+                            } else {
+                                dopeModel.removeKeyframe(kfMoveArea.currentFrame)
+                            }
+                            kfMoveArea.currentFrame = -1
+                            kfMoveArea.currentIndex = -1
+                            root.hoverKeyframe = -1
+                            return
+                        }
+
+                        currentPercentPos = Math.max(0., mouse.x / root.keyframeContainerWidth)
                         currentPercentPos = Math.min(1., currentPercentPos)
                         if (depth == 0) {
-                            var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
+                            tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
                             timeline.dopeSheetModel().addPercentKeyframe(tIndex, currentPercentPos)
                         } else {
+                            console.log('Adding keyframe at: ', currentPercentPos)
                             dopeModel.addPercentKeyframe(currentPercentPos)
                         }
+                        kfMoveArea.currentFrame = root.mouseFramePos
+                        root.hoverKeyframe = root.mouseFramePos
                     }
                 }
                 Repeater {
@@ -302,10 +360,11 @@ Item {
                         anchors.verticalCenter: kfContainer.verticalCenter
                         width: root.baseUnit - (kfArea.containsMouse ? 0 : 2)
                         height: width
+                        property bool atMousePos: root.mouseFramePos == frame
                         color: contentRect.selectedKeyframes.indexOf(index) > -1 ? activePalette.highlight : activePalette.light
                         radius: Math.round(width/2)
-                        border.width: 1
-                        border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : activePalette.text
+                        border.width: atMousePos ? 2 : 1
+                        border.color: (kfArea.containsMouse || kfArea.pressed) ? activePalette.highlight : atMousePos ? root.hoverColor : activePalette.text
                         MouseArea {
                             id: kfArea
                             anchors.fill: handle
@@ -316,11 +375,14 @@ Item {
                                 console.log("entered kfr: ", index, 'CURRENT SELECTION: ', contentRect.selectedKeyframes)
                                 kfMoveArea.currentFrame = frame
                                 kfMoveArea.currentIndex = index
+                                root.hoverKeyframe = frame
+                                root.mouseFramePos = frame
                             }
                             onExited: {
                                 console.log("exited kfr: ", index)
                                 kfMoveArea.currentFrame = -1
                                 kfMoveArea.currentIndex = -1
+                                root.hoverKeyframe = -1
                             }
                         }
                     }

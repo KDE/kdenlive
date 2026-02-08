@@ -240,7 +240,7 @@ void DopeSheetModel::buildMasterSelection(const QModelIndex &ix, int index)
     }
 }
 
-void DopeSheetModel::movePercentKeyframe(const QModelIndex &ix, double percentPos)
+void DopeSheetModel::moveKeyframe(const QModelIndex &ix, int updatedPos, bool logUndo)
 {
     int itemId = int(ix.internalId());
     auto tItem = getItemById(itemId);
@@ -249,7 +249,7 @@ void DopeSheetModel::movePercentKeyframe(const QModelIndex &ix, double percentPo
         auto ix2 = getIndexFromItem(current);
         if (m_relatedMove.contains(ix2)) {
             KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
-            km->movePercentKeyframe(m_relatedMove.value(ix2), percentPos);
+            km->moveKeyframeByIndex(m_relatedMove.value(ix2), updatedPos, logUndo);
         }
     }
 }
@@ -267,6 +267,24 @@ void DopeSheetModel::addPercentKeyframe(const QModelIndex &ix, double percentPos
         km->addPercentKeyframe(percentPos, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Add keyframes"));
+}
+
+void DopeSheetModel::removeKeyframe(const QModelIndex &ix, int framePos)
+{
+    int itemId = int(ix.internalId());
+    auto tItem = getItemById(itemId);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    GenTime position = GenTime(framePos, pCore->getCurrentFps());
+    for (int j = 0; j < tItem->childCount(); ++j) {
+        auto current = tItem->child(j);
+        auto ix2 = getIndexFromItem(current);
+        KeyframeModel *km = data(ix2, ModelRole).value<KeyframeModel *>();
+        if (km->hasKeyframe(position)) {
+            km->removeKeyframe(position, undo, redo);
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Remove keyframe"));
 }
 
 void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframes)

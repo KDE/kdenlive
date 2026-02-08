@@ -498,41 +498,6 @@ void KeyframeModel::seekToKeyframe(int index)
     }
 }
 
-bool KeyframeModel::movePercentKeyframe(int index, double percentPos)
-{
-    if (auto ptr = m_model.lock()) {
-        qDebug() << "::: MOVING KEYFRAME TO POSITION PERCENT: " << percentPos;
-        int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
-        int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        int targetFrame = inFrame + (percentPos * duration);
-        GenTime nPos(targetFrame, pCore->getCurrentFps());
-        GenTime oPos = getPosAtIndex(index);
-        if (nPos == oPos) {
-            return true;
-        }
-        return moveKeyframe(oPos, nPos, QVariant(), true);
-    }
-    return false;
-}
-
-bool KeyframeModel::movePercentKeyframeWithUndo(int index, int startFrame, double finalPercentPos)
-{
-    if (auto ptr = m_model.lock()) {
-        int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
-        int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        int targetFrame = inFrame + (finalPercentPos * duration);
-        GenTime targetPos(targetFrame, pCore->getCurrentFps());
-        GenTime originalPos(startFrame, pCore->getCurrentFps());
-        GenTime currentPos = getPosAtIndex(index);
-        qDebug() << "FINAL KF MOVE, FROM: " << currentPos.frames(25) << " TO " << originalPos.frames(25) << ", FINAL DEST: " << targetPos.frames(25);
-        if (currentPos != originalPos) {
-            moveKeyframe(currentPos, originalPos, QVariant(), false);
-        }
-        moveKeyframe(originalPos, targetPos, QVariant(), true);
-    }
-    return false;
-}
-
 bool KeyframeModel::addPercentKeyframe(double percentPos)
 {
     Fun undo = []() { return true; };
@@ -550,15 +515,22 @@ bool KeyframeModel::addPercentKeyframe(double percentPos)
 bool KeyframeModel::addPercentKeyframe(double percentPos, Fun &undo, Fun &redo)
 {
     if (auto ptr = m_model.lock()) {
-        qDebug() << "::: MOVING KEYFRAME TO POSITION PERCENT: " << percentPos;
+
         int inFrame = ptr->data(m_index, AssetParameterModel::InRole).toInt();
         int duration = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        int targetFrame = inFrame + (percentPos * duration);
+        int targetFrame = inFrame + qRound(percentPos * duration);
         GenTime pos(targetFrame, pCore->getCurrentFps());
         QVariant value = getInterpolatedValue(pos);
         return addKeyframe(pos, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
     }
     return false;
+}
+
+bool KeyframeModel::moveKeyframeByIndex(int ix, int pos, bool logUndo)
+{
+    GenTime oPos = getPosAtIndex(ix);
+    GenTime nPos(pos, pCore->getCurrentFps());
+    return moveKeyframe(oPos, nPos, QVariant(), logUndo);
 }
 
 bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
@@ -1187,10 +1159,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
             value = QVariant(mlt_prop.anim_get_double("key", frame));
             break;
         }
-        if (i == 0 && frame > in) {
-            // Always add a keyframe at start pos
-            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-        } else if (frame == in && hasKeyframe(GenTime(in))) {
+        if (frame == in && hasKeyframe(GenTime(in))) {
             // First keyframe already exists, adjust its value
             updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
             continue;
@@ -1272,10 +1241,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
             value = QVariant(mlt_prop.anim_get_double("key", frame));
             break;
         }
-        if (i == 0 && frame > in) {
-            // Always add a keyframe at start pos
-            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-        } else if (frame == in && hasKeyframe(GenTime(in))) {
+        if (frame == in && hasKeyframe(GenTime(in))) {
             // First keyframe already exists, adjust its value
             updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
             continue;

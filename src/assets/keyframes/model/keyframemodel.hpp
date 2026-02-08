@@ -68,7 +68,7 @@ protected:
     bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo);
 
     /** @brief Removes the keyframe at the given position. */
-    bool removeKeyframe(int frame);
+    Q_INVOKABLE bool removeKeyframe(int frame);
     bool moveKeyframe(int oldPos, int pos, QVariant newVal);
     /** @brief Duplicate a keyframe at the given position. */
     bool duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo, Fun &redo);
@@ -159,6 +159,7 @@ public:
     Q_INVOKABLE void setActiveKeyframe(int ix);
     int getIndexForPos(const GenTime pos) const;
     GenTime getPosAtIndex(int ix) const;
+    Q_INVOKABLE bool moveKeyframeByIndex(int ix, int pos, bool logUndo);
 
     // Mandatory overloads
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
@@ -180,8 +181,6 @@ public:
     void loadKeyframePos(QList<GenTime> all_pos);
 
 public Q_SLOTS:
-    Q_INVOKABLE bool movePercentKeyframe(int index, double percentPos);
-    Q_INVOKABLE bool movePercentKeyframeWithUndo(int index, int startFrame, double finalPercentPos);
     Q_INVOKABLE bool addPercentKeyframe(double percentPos);
     bool addPercentKeyframe(double percentPos, Fun &undo, Fun &redo);
     Q_INVOKABLE void seekToKeyframe(int index);
