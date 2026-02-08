@@ -83,6 +83,7 @@ private:
     mutable QReadWriteLock m_lock;
     QList<QModelIndex> m_selectedIndexes;
     QMap<QModelIndex, int> m_relatedMove;
+    QList<QMetaObject::Connection> m_connectionList;
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);

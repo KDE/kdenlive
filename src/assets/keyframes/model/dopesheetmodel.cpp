@@ -124,6 +124,10 @@ void DopeSheetModel::registerStack(std::shared_ptr<EffectStackModel> model)
         m_paramsList.clear();
         clear();
     }
+    for (auto &c : m_connectionList) {
+        QObject::disconnect(c);
+    }
+    m_connectionList.clear();
     if (!model) {
         return;
     }
@@ -169,38 +173,39 @@ void DopeSheetModel::registerAsset(std::shared_ptr<EffectItemModel> effectModel)
         pInfo.row = ix.row();
         m_paramsList.insert({paramItem->getId(), {pInfo, km}});
     }
-    connect(effectModel.get(), &AssetParameterModel::dataChanged, this,
-            [this, effectItem, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
-                if (roles.contains(AssetParameterModel::BlockedKeyframesRole)) {
-                    qDebug() << "KEYFRAMABLE EFFECT CHANGED FOR ROW: " << ix1.row();
-                    // Remove and reload keyframable params
-                    QStringList blockedParams = effectModel->data(ix1, AssetParameterModel::BlockedKeyframesRole).toStringList();
-                    qDebug() << "::::: BLOCKED KEYFRAMES: " << blockedParams;
-                    while (effectItem->childCount() > 0) {
-                        std::shared_ptr<TreeItem> item = effectItem->child(0);
-                        m_paramsList.erase(item->getId());
-                        effectItem->removeChild(item);
-                    }
-                    std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
-                    std::vector<QPersistentModelIndex> indexes = keyframes->getIndexes();
-                    for (unsigned i = indexes.size(); i-- > 0;) {
-                        const QPersistentModelIndex ix = indexes.at(i);
-                        auto km = keyframes->getKeyModel(ix);
-                        if (blockedParams.contains(effectModel->data(ix, AssetParameterModel::NameRole).toString())) {
-                            qDebug() << "::::::: HIDDEN PARAM: " << effectModel->data(ix, AssetParameterModel::NameRole).toString();
-                            continue;
-                        }
-                        auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString()}, shared_from_this(), false);
-                        effectItem->appendChild(paramItem);
-                        qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString();
-                        EffectParamInfo pInfo;
-                        pInfo.id = effectModel->data(ix, Qt::DisplayRole).toString();
-                        pInfo.type = effectModel->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-                        pInfo.row = ix.row();
-                        m_paramsList.insert({paramItem->getId(), {pInfo, km}});
-                    }
-                }
-            });
+    auto connection = connect(effectModel.get(), &AssetParameterModel::dataChanged, this,
+                              [this, effectItem, effectModel](const QModelIndex &ix1, const QModelIndex & /*ix2*/, const QList<int> &roles) {
+                                  if (roles.contains(AssetParameterModel::BlockedKeyframesRole)) {
+                                      qDebug() << "KEYFRAMABLE EFFECT CHANGED FOR ROW: " << ix1.row();
+                                      // Remove and reload keyframable params
+                                      QStringList blockedParams = effectModel->data(ix1, AssetParameterModel::BlockedKeyframesRole).toStringList();
+                                      qDebug() << "::::: BLOCKED KEYFRAMES: " << blockedParams;
+                                      while (effectItem->childCount() > 0) {
+                                          std::shared_ptr<TreeItem> item = effectItem->child(0);
+                                          m_paramsList.erase(item->getId());
+                                          effectItem->removeChild(item);
+                                      }
+                                      std::shared_ptr<KeyframeModelList> keyframes = effectModel->getKeyframeModel();
+                                      std::vector<QPersistentModelIndex> indexes = keyframes->getIndexes();
+                                      for (unsigned i = indexes.size(); i-- > 0;) {
+                                          const QPersistentModelIndex ix = indexes.at(i);
+                                          auto km = keyframes->getKeyModel(ix);
+                                          if (blockedParams.contains(effectModel->data(ix, AssetParameterModel::NameRole).toString())) {
+                                              qDebug() << "::::::: HIDDEN PARAM: " << effectModel->data(ix, AssetParameterModel::NameRole).toString();
+                                              continue;
+                                          }
+                                          auto paramItem = TreeItem::construct({effectModel->data(ix, Qt::DisplayRole).toString()}, shared_from_this(), false);
+                                          effectItem->appendChild(paramItem);
+                                          qDebug() << "::: REGISTERING PARAMETER: " << effectModel->data(ix, Qt::DisplayRole).toString();
+                                          EffectParamInfo pInfo;
+                                          pInfo.id = effectModel->data(ix, Qt::DisplayRole).toString();
+                                          pInfo.type = effectModel->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
+                                          pInfo.row = ix.row();
+                                          m_paramsList.insert({paramItem->getId(), {pInfo, km}});
+                                      }
+                                  }
+                              });
+    m_connectionList << connection;
 }
 
 void DopeSheetModel::updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles)
