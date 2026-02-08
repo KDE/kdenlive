@@ -87,7 +87,7 @@ Item {
             height: parent.height
             rulerOffset: root.offset
             scalingFactor: root.timeScale
-            K.TimelinePlayhead {
+            /*K.TimelinePlayhead {
                 id: playhead
                 height: Math.round(root.baseUnit * .8)
                 width: Math.round(root.baseUnit * 1.2)
@@ -96,26 +96,35 @@ Item {
                 anchors.bottomMargin: ruler.zoneHeight - 1
                 anchors.horizontalCenter: rulerCursor.horizontalCenter
                 // bottom line on zoom
-            }
-            Rectangle {
-                // Vertical line over ruler zone
-                id: rulerCursor
-                color: activePalette.text
-                width: 1
-                height: ruler.zoneHeight - 1
-                x: root.consumerPosition * root.timeScale
-                onXChanged: {
-                    console.log("CURSOR X SET TO: ", x)
-                }
-
-                anchors.bottom: parent.bottom
-                Rectangle {
-                    color: ruler.dimmedColor
-                    width: Math.max(1, root.timeScale)
-                    height: 1
-                    visible: width > playhead.width
-                }
-            }
+            }*/
+        }
+    }
+    Rectangle {
+        anchors.fill: playheadLabel
+        radius: 4
+        color: activePalette.light
+    }
+    Label {
+        id: playheadLabel
+        visible: root.mouseFramePos > -1
+        anchors.horizontalCenter: rulerCursor.horizontalCenter
+        text: root.consumerPosition
+        leftPadding: 6
+        rightPadding: 6
+    }
+    Rectangle {
+        // Vertical line over ruler zone
+        id: rulerCursor
+        x: treeView.headerWidth + root.baseUnit + root.consumerPosition * root.timeScale
+        anchors.top: playheadLabel.bottom
+        anchors.bottom: parent.bottom
+        color: activePalette.text
+        width: 1
+        Rectangle {
+            color: ruler.dimmedColor
+            width: Math.max(1, root.timeScale)
+            height: 1
+            visible: width > root.baseUnit * 1.2
         }
     }
     Rectangle {
@@ -205,7 +214,6 @@ Item {
                 anchors.bottom: contentRect.bottom
                 anchors.leftMargin: root.baseUnit + treeView.headerWidth
                 anchors.rightMargin: root.baseUnit
-                // visible: depth > 0
                 Rectangle {
                     // keyframe scroll
                     id: keyframeSlider
@@ -232,7 +240,6 @@ Item {
                     anchors.leftMargin: keyframeSlider.anchors.leftMargin
                     anchors.rightMargin: keyframeSlider.anchors.rightMargin
                     onPressed: mouse => {
-                        console.log('==============  MS PRESSED, IX: ', currentIndex, ' / FRM: ', currentFrame, ' ==========')
                         clickPos = currentFrame
                         clickIndex = currentIndex
                         dragStarted = false
@@ -257,7 +264,6 @@ Item {
                                 contentRect.selectedKeyframes.push(currentIndex)
                             }
                             contentRect.selectedKeyframesChanged()
-                            console.log('PRESSING SHIF MOD; FINAL ARRAY: ', contentRect.selectedKeyframes)
                         } else {
                             root.clearSelection()
                             contentRect.selectedKeyframes = [currentIndex]
@@ -268,7 +274,6 @@ Item {
                             var elem = root.allSelectedKeyframes[ix]
                             if (elem.index === tIndex) {
                                 root.allSelectedKeyframes.splice(ix, 1);
-                                console.log('Found SELECTION: ', elem.index, ' = ', elem.kfrs)
                             } else {
                                 ix++;
                             }
@@ -280,7 +285,6 @@ Item {
                         root.allSelectedKeyframes.push({index: tIndex, kfrs: contentRect.selectedKeyframes})
                     }
                     onReleased: mouse => {
-                        console.log("============== MOUSE RELEASED ===========")
                         if (dragStarted) {
                             if (depth == 0) {
                                 var tIndex = contentRect.treeView.index(contentRect.row, contentRect.column)
