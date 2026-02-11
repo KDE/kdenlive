@@ -328,3 +328,106 @@ void DopeSheetModel::removeKeyframes(QVariantList indexes, QVariantList keyframe
     }
     pCore->pushUndo(undo, redo, i18n("Delete keyframes"));
 }
+
+QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame)
+{
+    QVariantList paramIndexes;
+    QVariantMap keyframeIndexes;
+    QList<QModelIndex> processed;
+    m_selectedIndexes.clear();
+    int ix = 0;
+    bool stopParsing = false;
+    QModelIndex currentIndex = startIndex;
+    while (!stopParsing && currentIndex.isValid()) {
+        QVariantMap currentMap = selectKeyframeByRange(&ix, currentIndex, startFrame, endFrame);
+        for (auto i = currentMap.cbegin(), end = currentMap.cend(); i != end; ++i) {
+            keyframeIndexes.insert(i.key(), i.value());
+        }
+        if (currentIndex == endIndex) {
+            stopParsing = true;
+            currentIndex = QModelIndex();
+        } else {
+            int itemId = int(currentIndex.internalId());
+            currentIndex = QModelIndex();
+            auto tItem = getItemById(itemId);
+            if (tItem->depth() == 1) {
+                // Top level item
+                qDebug() << "// FOUND TOP LEVEL ITEM...";
+                int currentRow = tItem->row();
+                if (currentRow < getRoot()->childCount() - 1) {
+                    auto nextItem = getRoot()->child(++currentRow);
+                    if (!nextItem) {
+                        stopParsing = true;
+                    } else {
+                        currentIndex = getIndexFromItem(nextItem);
+                    }
+                } else {
+                    // No more item, abort
+                    qDebug() << "// Reached last item...";
+                }
+            } else {
+                // Loop children
+            }
+        }
+    }
+    return keyframeIndexes;
+}
+
+QVariantMap DopeSheetModel::selectKeyframeByRange(int *mapIndex, const QModelIndex &startIndex, int startFrame, int endFrame)
+{
+    int itemId = int(startIndex.internalId());
+    QVariantList paramIndexes;
+    QVariantMap keyframeIndexes;
+    auto tItem = getItemById(itemId);
+    QList<QModelIndex> processed;
+    m_selectedIndexes.clear();
+    if (tItem->depth() == 1) {
+        // Top level, select all params
+        processed << startIndex;
+        QVariantList currentKeyframeIndexes = processIndex(startIndex, startFrame, endFrame);
+        m_selectedIndexes << startIndex;
+        keyframeIndexes.insert(QString::number(*mapIndex), currentKeyframeIndexes);
+        (*mapIndex)++;
+        for (int j = 0; j < tItem->childCount(); ++j) {
+            auto current = tItem->child(j);
+            auto ix2 = getIndexFromItem(current);
+            processed << ix2;
+            currentKeyframeIndexes = processIndex(ix2, startFrame, endFrame);
+            if (!currentKeyframeIndexes.isEmpty()) {
+                qDebug() << "::: ADDING INDEX: " << ix2 << " = " << currentKeyframeIndexes;
+                m_selectedIndexes << ix2;
+                keyframeIndexes.insert(QString::number(*mapIndex), currentKeyframeIndexes);
+                (*mapIndex)++;
+            }
+        }
+    } else {
+        processed << startIndex;
+        QVariantList currentKeyframeIndexes = processIndex(startIndex, startFrame, endFrame);
+        if (!currentKeyframeIndexes.isEmpty()) {
+            qDebug() << "::: ADDING INDEX: " << startIndex << " = " << currentKeyframeIndexes;
+            m_selectedIndexes << startIndex;
+            keyframeIndexes.insert(QString::number(*mapIndex), currentKeyframeIndexes);
+            (*mapIndex)++;
+        }
+    }
+    return keyframeIndexes;
+}
+
+QVariantList DopeSheetModel::selectedIndexes() const
+{
+    qDebug() << "::::: REQUESTING INDEXES: " << m_selectedIndexes << "\n**************************";
+    return m_selectedIndexes;
+}
+
+QVariantList DopeSheetModel::processIndex(const QModelIndex ix, int startFrame, int endFrame)
+{
+    QVariantList currentKeyframeIndexes;
+    KeyframeModel *km = data(ix, ModelRole).value<KeyframeModel *>();
+    for (int k = 0; k < km->keyframesCount(); k++) {
+        int pos = km->getPosAtIndex(k).frames(pCore->getCurrentFps());
+        if (pos >= startFrame && pos <= endFrame) {
+            currentKeyframeIndexes << k;
+        }
+    }
+    return currentKeyframeIndexes;
+}

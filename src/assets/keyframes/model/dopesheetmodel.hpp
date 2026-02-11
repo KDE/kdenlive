@@ -68,6 +68,8 @@ public:
     Q_INVOKABLE void moveKeyframe(const QModelIndex &ix, int updatedPos, bool logUndo);
     /** @brief Register all keyframes that will need to move */
     Q_INVOKABLE void buildMasterSelection(const QModelIndex &ix, int index);
+    Q_INVOKABLE QVariantMap selectKeyframeRange(const QModelIndex &startIndex, const QModelIndex &endIndex, int startFrame, int endFrame);
+    Q_INVOKABLE QVariantList selectedIndexes() const;
 
 protected:
     std::map<int, std::pair<EffectParamInfo, std::shared_ptr<KeyframeModel>>> m_paramsList;
@@ -81,9 +83,11 @@ protected:
 private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
-    QList<QModelIndex> m_selectedIndexes;
+    QVariantList m_selectedIndexes;
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
+    QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
+    QVariantMap selectKeyframeByRange(int *mapIndex, const QModelIndex &startIndex, int startFrame, int endFrame);
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);
