@@ -335,11 +335,10 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
     QVariantMap keyframeIndexes;
     QList<QModelIndex> processed;
     m_selectedIndexes.clear();
-    int ix = 0;
     bool stopParsing = false;
     QModelIndex currentIndex = startIndex;
     while (!stopParsing && currentIndex.isValid()) {
-        QVariantMap currentMap = selectKeyframeByRange(&ix, currentIndex, startFrame, endFrame);
+        QVariantMap currentMap = selectKeyframeByRange(currentIndex, startFrame, endFrame);
         for (auto i = currentMap.cbegin(), end = currentMap.cend(); i != end; ++i) {
             keyframeIndexes.insert(i.key(), i.value());
         }
@@ -352,7 +351,6 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
             auto tItem = getItemById(itemId);
             if (tItem->depth() == 1) {
                 // Top level item
-                qDebug() << "// FOUND TOP LEVEL ITEM...";
                 int currentRow = tItem->row();
                 if (currentRow < getRoot()->childCount() - 1) {
                     auto nextItem = getRoot()->child(++currentRow);
@@ -367,47 +365,58 @@ QVariantMap DopeSheetModel::selectKeyframeRange(const QModelIndex &startIndex, c
                 }
             } else {
                 // Loop children
+                auto parentItem = tItem->parentItem();
+                int currentRow = tItem->row();
+                if (auto ptr = parentItem.lock()) {
+                    int siblings = ptr->childCount() - 1;
+                    while (currentRow < siblings) {
+                        auto nextItem = getRoot()->child(++currentRow);
+                        if (!nextItem) {
+                            stopParsing = true;
+                        } else {
+                            currentIndex = getIndexFromItem(nextItem);
+                        }
+                    }
+                }
             }
         }
     }
     return keyframeIndexes;
 }
 
-QVariantMap DopeSheetModel::selectKeyframeByRange(int *mapIndex, const QModelIndex &startIndex, int startFrame, int endFrame)
+QVariantMap DopeSheetModel::selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame)
 {
     int itemId = int(startIndex.internalId());
     QVariantList paramIndexes;
     QVariantMap keyframeIndexes;
     auto tItem = getItemById(itemId);
     QList<QModelIndex> processed;
-    m_selectedIndexes.clear();
     if (tItem->depth() == 1) {
         // Top level, select all params
         processed << startIndex;
         QVariantList currentKeyframeIndexes = processIndex(startIndex, startFrame, endFrame);
+        if (currentKeyframeIndexes.isEmpty()) {
+            // No keyframes found, abort
+            return keyframeIndexes;
+        }
         m_selectedIndexes << startIndex;
-        keyframeIndexes.insert(QString::number(*mapIndex), currentKeyframeIndexes);
-        (*mapIndex)++;
+        keyframeIndexes.insert(QString::number(startIndex.internalId()), currentKeyframeIndexes);
         for (int j = 0; j < tItem->childCount(); ++j) {
             auto current = tItem->child(j);
             auto ix2 = getIndexFromItem(current);
             processed << ix2;
             currentKeyframeIndexes = processIndex(ix2, startFrame, endFrame);
             if (!currentKeyframeIndexes.isEmpty()) {
-                qDebug() << "::: ADDING INDEX: " << ix2 << " = " << currentKeyframeIndexes;
                 m_selectedIndexes << ix2;
-                keyframeIndexes.insert(QString::number(*mapIndex), currentKeyframeIndexes);
-                (*mapIndex)++;
+                keyframeIndexes.insert(QString::number(ix2.internalId()), currentKeyframeIndexes);
             }
         }
     } else {
         processed << startIndex;
         QVariantList currentKeyframeIndexes = processIndex(startIndex, startFrame, endFrame);
         if (!currentKeyframeIndexes.isEmpty()) {
-            qDebug() << "::: ADDING INDEX: " << startIndex << " = " << currentKeyframeIndexes;
             m_selectedIndexes << startIndex;
-            keyframeIndexes.insert(QString::number(*mapIndex), currentKeyframeIndexes);
-            (*mapIndex)++;
+            keyframeIndexes.insert(QString::number(startIndex.internalId()), currentKeyframeIndexes);
         }
     }
     return keyframeIndexes;

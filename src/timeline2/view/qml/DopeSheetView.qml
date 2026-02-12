@@ -47,7 +47,6 @@ Item {
     }
 
     function deleteSelection() {
-        console.log("Triggered deletion...")
         console.log('deleting kfs: ', root.allSelectedKeyframes)
         var indexList = []
         var keyframesList = []
@@ -70,12 +69,6 @@ Item {
     }
 
     function clearSelection() {
-        while (root.allSelectedKeyframes.length > 0) {
-            var elem = root.allSelectedKeyframes.pop()
-            var item = treeView.itemAtIndex(elem.index)
-            item.selectedKeyframes = []
-            item.selectedKeyframesChanged()
-        }
         root.allSelectedKeyframes = []
         root.allSelectedKeyframesChanged()
     }
@@ -110,11 +103,9 @@ Item {
             }
         }
         root.allSelectedKeyframes.push({index: itemIndex, kfrs: itemKeyframes})
-        console.log('SETTING KFS FOR IX: ', itemIndex, ' = ', itemKeyframes,'\n\n___________________')
-        root.allSelectedKeyframesChanged()
     }
 
-    function selectRubber() {
+    function selectRubber(addToSelection) {
         // Start frame
         var startFrame = Math.min(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit
         var endFrame = Math.max(root.rubberBottomRight.x, root.rubberTopLeft.x) - treeView.headerWidth - root.baseUnit
@@ -126,32 +117,28 @@ Item {
         bottomPos.y = Math.min(treeView.contentHeight - 1, bottomPos.y)
         var topRow = treeView.cellAtPosition(topPos)
         var bottomRow = treeView.cellAtPosition(bottomPos)
-        console.log('Selecting keyframes: ', startFrame, ' - ', endFrame, ' IN ROWS: ', topRow, ' / ', bottomRow)
-        console.log('Requesting keyframes between Model Indexes: ', treeView.modelIndex(topRow), ' - ', treeView.modelIndex(bottomRow))
         var result = timeline.dopeSheetModel().selectKeyframeRange(treeView.modelIndex(topRow), treeView.modelIndex(bottomRow), startFrame, endFrame)
-        root.allSelectedKeyframes = []
+        if (!addToSelection) {
+            root.allSelectedKeyframes = []
+        }
         var indexes = timeline.dopeSheetModel().selectedIndexes()
-        console.log('FOUND KEYFRAMES ON PARAMS: ', indexes.length)
-        var ix = 0
         while (indexes.length > 0) {
             var id = indexes.pop()
-            if (!ix.toString() in result) {
-                console.log('key ', ix, ' not found in MAP...')
+            if (!id.valid) {
+                continue
+            }
+            if (!id.internalId.toString() in result) {
+                console.log('ERROR, ABORTING: key ', id, ' not found in MAP...')
                 break;
             }
-            var kf = result[ix.toString()]
-            console.log('FOUND KEYFRAMES AT INDEX: ', id, ', position: ', ix, ' = ', kf)
-            root.allSelectedKeyframes.push({index: id, kfrs: [kf]})
-            var item = treeView.itemAtIndex(id)
-            if (!item || item === undefined) {
-                console.log('Undefined parameter at index: ', id)
-            } else {
-                item.selectedKeyframes = []
-                item.selectedKeyframes = kf
-                item.selectedKeyframesChanged()
+            var kf = result[id.internalId.toString()]
+            if (addToSelection) {
+                var existingKF = getSelectedKeyframesForIndex(id)
+                if (existingKF.length > 0) {
+                    kf = kf.concat(existingKF)
+                }
             }
-            console.log('GOT IX: ', id, ' = ', kf)
-            ix++
+            updateSelectedKeyframesForIndex(id, kf, true)
         }
         root.allSelectedKeyframesChanged()
     }
@@ -357,7 +344,7 @@ Item {
 
                         if (clickIndex < 0) {
                             // Not on a keyframe
-                            root.clearSelectiselectedKon()
+                            root.clearSelection()
                             return
                         }
                         var selectedKeyframes = getSelectedKeyframesForIndex(kfContainer.itemIndex)
@@ -379,11 +366,12 @@ Item {
                             timeline.dopeSheetModel().buildMasterSelection(kfContainer.itemIndex, clickIndex)
                         }
                         updateSelectedKeyframesForIndex(kfContainer.itemIndex, selectedKeyframes, shiftClick)
+                        root.allSelectedKeyframesChanged()
                     }
                     onReleased: mouse => {
                         if (root.rubberSelect) {
                             // Select all keyframes inside our rectangle
-                            selectRubber()
+                            selectRubber(false)
                             root.rubberSelect = false
                             dragStarted = false
                             return

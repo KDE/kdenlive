@@ -87,7 +87,7 @@ private:
     QMap<QModelIndex, int> m_relatedMove;
     QList<QMetaObject::Connection> m_connectionList;
     QVariantList processIndex(const QModelIndex ix, int startFrame, int endFrame);
-    QVariantMap selectKeyframeByRange(int *mapIndex, const QModelIndex &startIndex, int startFrame, int endFrame);
+    QVariantMap selectKeyframeByRange(const QModelIndex &startIndex, int startFrame, int endFrame);
 
 private Q_SLOTS:
     void updateKeyframeRole(const QModelIndex &ix1, const QModelIndex &ix2, const QList<int> &roles);
