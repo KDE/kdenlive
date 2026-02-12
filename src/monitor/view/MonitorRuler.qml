@@ -117,7 +117,7 @@ Rectangle {
         ruler.color = activePalette.base
         // Enforce repaint
         rulerTicks.model = 0
-        rulerTicks.model = ruler.rulerZoomWidth / frameSize + 2
+        rulerTicks.model = ruler.rulerZoomWidth / root.frameSize + 2
         playhead.fillColor = activePalette.windowText
     }
 
@@ -131,28 +131,28 @@ Rectangle {
             root.frameSize = root.timeScale
         } else if (displayedLength < 30) {
             // 1 second tick
-            frameSize = projectFps * root.timeScale
+            root.frameSize = projectFps * root.timeScale
         } else if (displayedLength < 150) {
             // 5 second tick
-            frameSize = 5 * projectFps * root.timeScale
+            root.frameSize = 5 * projectFps * root.timeScale
         } else if (displayedLength < 300) {
             // 10 second tick
-            frameSize = 10 * projectFps * root.timeScale
+            root.frameSize = 10 * projectFps * root.timeScale
         } else if (displayedLength < 900) {
             // 30 second tick
-            frameSize = 30 * projectFps * root.timeScale
+            root.frameSize = 30 * projectFps * root.timeScale
         } else if (displayedLength < 1800) {
             // 1 min. tick
-            frameSize = 60 * projectFps * root.timeScale
+            root.frameSize = 60 * projectFps * root.timeScale
         } else if (displayedLength < 9000) {
             // 5 min tick
-            frameSize = 300 * projectFps * root.timeScale
+            root.frameSize = 300 * projectFps * root.timeScale
         } else if (displayedLength < 18000) {
             // 10 min tick
-            frameSize = 600 * projectFps * root.timeScale
+            root.frameSize = 600 * projectFps * root.timeScale
         } else {
             // 30 min tick
-            frameSize = 18000 * projectFps * root.timeScale
+            root.frameSize = 18000 * projectFps * root.timeScale
         }
     }
 
@@ -182,9 +182,9 @@ Rectangle {
     // frame ticks
     Repeater {
         id: rulerTicks
-        model: ruler.width / frameSize + 2
+        model: ruler.width / root.frameSize + 2
         Rectangle {
-            x: index * frameSize - (ruler.rulerZoomOffset % frameSize)
+            x: index * root.frameSize - (ruler.rulerZoomOffset % root.frameSize)
             anchors.bottom: ruler.bottom
             height: (index % 5) ? ruler.height / 4 : ruler.height / 2
             width: 1
