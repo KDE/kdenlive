@@ -1280,22 +1280,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("zoom_audio_thumbs"),
               m_audioZoomCycle); // kept action name zoom_audio_thumbs for backwards compatibility before in/out/reset were introduced
 
-    auto tlsettings = new QMenu(this);
-    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    tlsettings->addAction(m_compositeAction);
-    tlsettings->addSeparator();
-    tlsettings->addAction(mixedView);
-    tlsettings->addAction(splitView);
-    tlsettings->addAction(splitView2);
-
-    auto *timelineSett = new QToolButton(this);
-    timelineSett->setPopupMode(QToolButton::InstantPopup);
-    timelineSett->setMenu(tlsettings);
-    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    auto *tlButtonAction = new QWidgetAction(this);
-    tlButtonAction->setDefaultWidget(timelineSett);
-    tlButtonAction->setText(i18n("Track menu"));
-    addAction(QStringLiteral("timeline_settings"), tlButtonAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
@@ -2193,6 +2177,26 @@ void MainWindow::setupActions()
     disableEffects->setData("disable_timeline_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
+
+    // Timeline hamburger menu
+    auto tlsettings = new QMenu(this);
+    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    tlsettings->addAction(m_compositeAction);
+    tlsettings->addAction(disableEffects);
+    tlsettings->addSeparator();
+    tlsettings->addAction(mixedView);
+    tlsettings->addAction(splitView);
+    tlsettings->addAction(splitView2);
+
+    auto *timelineSett = new QToolButton(this);
+    timelineSett->setPopupMode(QToolButton::InstantPopup);
+    timelineSett->setMenu(tlsettings);
+    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    auto *tlButtonAction = new QWidgetAction(this);
+    tlButtonAction->setDefaultWidget(timelineSett);
+    tlButtonAction->setText(i18n("Track menu"));
+    addAction(QStringLiteral("timeline_settings"), tlButtonAction);
+// end of new place for the TL hmbg menu
 
     addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
               Qt::SHIFT | Qt::Key_H, timelineActions);
