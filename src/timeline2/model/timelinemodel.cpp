@@ -250,7 +250,8 @@ QPair<int, int> TimelineModel::getAVtracksCount() const
         ++it;
     }
     if (m_overlayTrackCount > -1) {
-        tracks.first -= m_overlayTrackCount;
+        // Don't count the timeline preview and other internal video tracks
+        tracks.second -= m_overlayTrackCount;
     }
     return tracks;
 }
