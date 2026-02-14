@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 02:41+0000\n"
-"PO-Revision-Date: 2026-01-29 16:21+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
-"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"PO-Revision-Date: 2026-02-13 18:07+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -823,7 +823,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:8
 #: data/effects/avfilter/avfilter_lowpass.xml:8
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Central Frequency"
 msgid "Central frequency"
 msgstr "Merkezi frekans"
 
@@ -914,7 +915,7 @@ msgstr "Dönüşüm Türü"
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
 #, kde-format
 msgid "di,dii,tdii,latt"
-msgstr "di,dii,tdii,latt"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -939,7 +940,7 @@ msgstr "Süzgeç Kesinliği"
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
 #, kde-format
 msgid "Auto,s16,s32,f32,f64"
-msgstr "Kendiliğinden,s16,s32,f32,f64"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -1187,8 +1188,6 @@ msgid ""
 "Apply a two-pole all-pass filter with central frequency (in Hz) frequency, "
 "and filter-width width. Boost or cut lower frequencies."
 msgstr ""
-"Merkezi frekans (Hz türünden) frekansı ve süzgeç genişliği olan iki kutuplu "
-"bir tam geçişli süzgeç uygulayın. Düşük frekansları artırın veya kesin."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -3460,9 +3459,10 @@ msgid "Thickness (px)"
 msgstr "Kalınlık (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Sets the thickness for the line in pixels"
 msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
-msgstr "<![CDATA[Çizginin kalınlığını piksel türünden ayarlar.]]>"
+msgstr "Çizginin kalınlığını piksel türünden ayarlar."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
@@ -3574,9 +3574,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
+#| msgid "Sets the thickness for the grid lines in pixels"
 msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
-msgstr "<![CDATA[Çizginin kalınlığını piksel türünden ayarlar.]]>"
+msgstr "Izgara çizgilerinin kalınlığını piksel türünden ayarlar."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, fuzzy, kde-format
@@ -3739,7 +3739,7 @@ msgstr "Ses Dengeleyicisi (avfilter)"
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
 msgid "Apply two-pole peaking equalization (EQ) filter"
-msgstr "İki kutuplu tavan dengeleme (EQ) süzgecini uygulayın."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
@@ -3747,9 +3747,10 @@ msgid "Width Type"
 msgstr "Genişlik türü"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Hertz,Q-Factor,Octave,Slope,kHz"
 msgid "Hertz,Q-Factor,Octave,Slope,None"
-msgstr "Hertz,Q çarpanı,Oktav,Eğim,Yok"
+msgstr "Hertz,Hz,Q-Factor,Oktav,Eğim,kHz"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
@@ -3873,9 +3874,9 @@ msgstr "Blok boyutunu piksel türünden ayarlayın."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Overlap]]>"
+#| msgid "Set block overlap"
 msgid "<![CDATA[Set block overlap]]>"
-msgstr "<![CDATA[Örtüşme]]>"
+msgstr "Blok kaplamasını ayarlayın."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #, fuzzy, kde-format
@@ -4503,7 +4504,7 @@ msgstr "Yüksek Geçiş"
 #: data/effects/avfilter/avfilter_highpass.xml:5
 #, kde-format
 msgid "Apply a high-pass filter with 3dB point frequency."
-msgstr "3 dB’lik bir nokta frekansıyla bir yüksek geçiş süzgeci uygulayın."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_highpass.xml:11
 #: data/effects/avfilter/avfilter_highshelf.xml:11
@@ -4836,9 +4837,10 @@ msgid "Preserve Lightness"
 msgstr "Açıklığı koru"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:31
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Preserve lightness"
 msgid "<![CDATA[Preserve lightness]]>"
-msgstr "<![CDATA[Açıklığı koruyun.]]>"
+msgstr "Açıklığı koru"
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:34
 #, kde-format
@@ -5241,7 +5243,7 @@ msgstr "Düşük Geçiş"
 #: data/effects/avfilter/avfilter_lowpass.xml:5
 #, kde-format
 msgid "Apply a low-pass filter with 3dB point frequency."
-msgstr "3 dB nokta frekansıyla bir düşük geçiş süzgeci uygulayın."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
 #, fuzzy, kde-format
@@ -5457,59 +5459,70 @@ msgid "Add noise on video input frame"
 msgstr "Video girdi karesine gürültü ekleyin."
 
 #: data/effects/avfilter/avfilter_noise.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<b><u>All Components</u></b> Noise Seed"
 msgid "All components noise seed"
-msgstr "Tüm bileşenlere gürültü besle"
+msgstr "<b><u>Tüm Bileşenler</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<b><u>Component #0</u></b> Noise Seed"
 msgid "Component #0 noise seed"
-msgstr "Bileşen №0 gürültü beslemesi"
+msgstr "<b><u>Bileşen №0</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<b><u>Component #1</u></b> Noise Seed"
 msgid "Component #1 noise seed"
-msgstr "Bileşen №1 gürültü beslemesi"
+msgstr "<b><u>Bileşen №1</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<b><u>Component #2</u></b> Noise Seed"
 msgid "Component #2 noise seed"
-msgstr "Bileşen №2 gürültü beslemesi"
+msgstr "<b><u>Bileşen №2</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "<b><u>Component #3</u></b> Noise Seed"
 msgid "Component #3 noise seed"
-msgstr "Bileşen №3 gürültü beslemesi"
+msgstr "<b><u>Bileşen №3</u></b> Gürültü Besleme"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Alpha strength"
 msgid "All components strength"
-msgstr "Tüm bileşenlerin gücü"
+msgstr "Alfa gücü"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Chroma strength"
 msgid "Component #0 strength"
-msgstr "Bileşen №0 gücü"
+msgstr "Renk gücü"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Chroma strength"
 msgid "Component #1 strength"
-msgstr "Bileşen №1 gücü"
+msgstr "Renk gücü"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Chroma strength"
 msgid "Component #2 strength"
-msgstr "Bileşen №2 gücü"
+msgstr "Renk gücü"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Chroma strength"
 msgid "Component #3 strength"
-msgstr "Bileşen №3 gücü"
+msgstr "Renk gücü"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Flags"
 msgid "Flag all"
-msgstr "Tümüne bayrak koy"
+msgstr "Bayraklar"
 
 #: data/effects/avfilter/avfilter_noise.xml:39
 #: data/effects/avfilter/avfilter_noise.xml:43
@@ -5525,24 +5538,28 @@ msgstr ""
 "gürültü,Yekpare gürültü"
 
 #: data/effects/avfilter/avfilter_noise.xml:42
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Components"
 msgid "Flag component 0"
-msgstr "Bayrak koy: Bileşen 0"
+msgstr "Bileşenler"
 
 #: data/effects/avfilter/avfilter_noise.xml:46
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Components"
 msgid "Flag component 1"
-msgstr "Bayrak koy: Bileşen 1"
+msgstr "Bileşenler"
 
 #: data/effects/avfilter/avfilter_noise.xml:50
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Components"
 msgid "Flag component 2"
-msgstr "Bayrak koy: Bileşen 2"
+msgstr "Bileşenler"
 
 #: data/effects/avfilter/avfilter_noise.xml:54
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Components"
 msgid "Flag component 3"
-msgstr "Bayrak koy: Bileşen 3"
+msgstr "Bileşenler"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
@@ -6039,9 +6056,10 @@ msgid ""
 msgstr "Süzülen sonucun çarpılacağı değeri ayarlar."
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Sets the value which will be added to filtered result"
 msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
-msgstr "<![CDATA[Süzülen sonuca eklenecek değeri ayarlar.]]>"
+msgstr "Süzülü değere eklenecek değeri ayarlar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:607
@@ -7390,9 +7408,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:26
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Set the fit mode]]>"
+#| msgid "Set the display mode"
 msgid "<![CDATA[Set the display mode]]>"
-msgstr "<![CDATA[Uyum kipini seçin.]]>"
+msgstr "Görüntü kipini ayarlayın."
 
 #: data/effects/avfilter/avfilter_waveform.xml:31
 #, fuzzy, kde-format
@@ -7407,9 +7425,9 @@ msgstr "Y,U,YU,V,YV,UV,Tümü"
 
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Set the fit mode]]>"
+#| msgid "Set the envelope mode"
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr "<![CDATA[Uyum kipini seçin.]]>"
+msgstr "Zarf kipini ayarlayın."
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -7423,9 +7441,9 @@ msgstr "Süzgeç"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Set the fit mode]]>"
+#| msgid "Set the filter mode"
 msgid "<![CDATA[Set the filter mode]]>"
-msgstr "<![CDATA[Uyum kipini seçin.]]>"
+msgstr "Süzgeç kipini ayarlayın."
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
 #, kde-format
@@ -7450,9 +7468,10 @@ msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "Izgaranın matlığını ayarlayın."
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Set graticule flags"
 msgid "<![CDATA[Set graticule flags]]>"
-msgstr "<![CDATA[Izgara bayraklarını ayarlayın.]]>"
+msgstr "Izgara bayraklarını ayarlayın."
 
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
@@ -7500,9 +7519,10 @@ msgid "Fit Mode"
 msgstr "Uyum Kipi"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Set the fit mode"
 msgid "<![CDATA[Set the fit mode]]>"
-msgstr "<![CDATA[Uyum kipini seçin.]]>"
+msgstr "Uyum kipini ayarlayın."
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
@@ -7854,9 +7874,10 @@ msgstr "KONUMU"
 
 #: data/effects/copychannelstostereo.xml:9
 #: data/effects/copychannelstostereo.xml:13
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
 
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
@@ -7995,9 +8016,13 @@ msgstr "Normalleştir"
 
 #: data/effects/dynamic_loudness.xml:5
 #, fuzzy, kde-format
-#| msgid "Correct audio loudness as recommended by EBU R128"
+#| msgid ""
+#| "Designed for live streams. Dynamically correct audio loudness as "
+#| "recommended by EBU R128"
 msgid "Dynamically correct audio loudness as recommended by EBU R128"
-msgstr "EBU R128 tarafından önerilen doğru ses gürültüsü"
+msgstr ""
+"Canlı yayın akışları için tasarlanmıştır. Ses yüksekliğini EBU R128 "
+"tarafından tavsiye edildiği üzere devingen olarak düzeltin."
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -8955,7 +8980,7 @@ msgstr "Alt Etkin"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
 #, kde-format
 msgid "<![CDATA[comment]]>"
-msgstr "<![CDATA[Yorum]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, fuzzy, kde-format
@@ -10639,9 +10664,10 @@ msgid "HQ 3D Denoiser (frei0r)"
 msgstr "Yüksek Kaliteli 3B Gürültü Kaldırıcısı (frei0r)"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "High quality 3D denoiser"
 msgid "<![CDATA[High quality 3D denoiser]]>"
-msgstr "<![CDATA[Yüksek kaliteli 3B gürültü kaldırıcısı.]]>"
+msgstr "Yüksek kaliteli 3B gürültü kaldırıcısı"
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:8
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
@@ -13356,29 +13382,34 @@ msgid "Interval"
 msgstr "Aralık"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "3-Point Balance"
 msgid "3 point balance"
 msgstr "Üç Noktalı Denge"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Adjust color balance with 3 color points"
 msgid "Balances colors along with 3 points"
-msgstr "Üç noktayla renkleri dengeler."
+msgstr "Üç renk noktasıyla renk dengesini ayarlar."
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Black Color"
 msgid "Black color"
-msgstr "Siyah renk"
+msgstr "Siyah Renk"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Gray Color"
 msgid "Gray color"
-msgstr "Gri renk"
+msgstr "Gri Renk"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "White Color"
 msgid "White color"
-msgstr "Beyaz renk"
+msgstr "Beyaz Renk"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
 #, kde-format
@@ -14404,7 +14435,7 @@ msgstr "Videoya gradyan haritası uygulayın."
 #: data/effects/ladspa/ladspa_2156.xml:34
 #, kde-format
 msgid "<![CDATA[]]>"
-msgstr "<![CDATA[]]>"
+msgstr ""
 
 #: data/effects/grain.xml:4
 #, kde-format
@@ -14470,7 +14501,7 @@ msgstr ""
 #: data/effects/hsl_primaries.xml:8
 #, kde-format
 msgid "<![CDATA[Overlap]]>"
-msgstr "<![CDATA[Örtüşme]]>"
+msgstr ""
 
 #: data/effects/hsl_primaries.xml:9
 #, kde-format
@@ -14630,7 +14661,7 @@ msgstr "<u><b>Bant 1</b></u> Frekansı"
 #: data/effects/ladspa/ladspa_2151.xml:75
 #, kde-format
 msgid "<![CDATA[Gain]]>"
-msgstr "<![CDATA[Kazanç]]>"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2141.xml:15
 #: data/effects/ladspa/ladspa_2151.xml:18
@@ -14684,7 +14715,7 @@ msgstr "<u><b>Bant 8</b></u> Frekansı"
 #: data/effects/ladspa/ladspa_2141.xml:57
 #, kde-format
 msgid "<![CDATA[Dry/Wet]]>"
-msgstr "<![CDATA[Kuru/Islak]]>"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2142.xml:4
 #, kde-format
@@ -15165,12 +15196,12 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2151.xml:78
 #, kde-format
 msgid "<![CDATA[BW]]>"
-msgstr "<![CDATA[BW]]>"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2151.xml:30
 #, kde-format
 msgid "<![CDATA[<Gain]]>"
-msgstr "<![CDATA[Kazanç]]>"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_2152.xml:4
 #, kde-format
@@ -16034,9 +16065,14 @@ msgid "Normalize (2 pass)"
 msgstr "Normalleştir (2 Geçişli)"
 
 #: data/effects/loudness.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Designed for live streams. Dynamically correct audio loudness as "
+#| "recommended by EBU R128"
 msgid "Correct audio loudness as recommended by EBU R128"
-msgstr "EBU R128 tarafından önerilen doğru ses gürültüsü"
+msgstr ""
+"Canlı yayın akışları için tasarlanmıştır. Ses yüksekliğini EBU R128 "
+"tarafından tavsiye edildiği üzere devingen olarak düzeltin."
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
 #, kde-format
@@ -17612,14 +17648,16 @@ msgid "Use cos instead of linear"
 msgstr "Doğrusal yerine kosinüs kullan"
 
 #: data/effects/vignette.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Center"
 msgid "Center X"
-msgstr "X ortası"
+msgstr "Merkez"
 
 #: data/effects/vignette.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Center"
 msgid "Center Y"
-msgstr "Y ortası"
+msgstr "Merkez"
 
 #: data/effects/vignette.xml:20 src/assets/keyframes/model/keyframemodel.cpp:49
 #, kde-format
@@ -22753,7 +22791,8 @@ msgstr "Kısıtlanmış VBR"
 
 #: src/dialogs/renderpresetdialog.cpp:417
 #: src/dialogs/renderpresetdialog.cpp:438
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Custom"
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Özel"
@@ -23681,7 +23720,8 @@ msgstr ""
 "seçin."
 
 #: src/dialogs/Simplesplash.qml:120
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Made by KDE"
 msgid "Make by KDE"
 msgstr "Bir KDE ürünü"
 
@@ -33288,13 +33328,16 @@ msgstr ""
 "kalacaksınız."
 
 #: src/renderpresets/renderpresetrepository.cpp:193
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Custom"
 msgctxt "Attribute Name"
 msgid "Custom"
 msgstr "Özel"
 
 #: src/renderpresets/renderpresetrepository.cpp:228
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Lossless rendering category"
+#| msgid "Lossless/HQ"
 msgid "Lossless/HQ"
 msgstr "Kayıpsız/YK"
 
@@ -34132,9 +34175,10 @@ msgid "Could not add bin clip"
 msgstr "Kova klibi eklenemedi"
 
 #: src/timeline2/model/timelinefunctions.cpp:2571
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Not all clips were copied successfully"
 msgid "All clips were not successfully copied"
-msgstr "Tüm klipler başarıyla kopyalandı"
+msgstr "Tüm klipler başarıyla kopyalanamadı"
 
 #: src/timeline2/model/timelinefunctions.cpp:2627
 #: src/timeline2/model/timelinefunctions.cpp:2808
@@ -40586,19 +40630,6 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
 
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for "
-#~ "fullscreen, <shortcut>Hover right</shortcut> for toolbar, "
-#~ "<shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, "
-#~ "<shortcut>Ctrl wheel</shortcut> to zoom"
-#~ msgstr ""
-#~ "Oynatmak için <shortcut>tıklayın</shortcut> , tam ekran için "
-#~ "<shortcut>çift tıklayın</shortcut>, araç çubuğu için <shortcut>fareyle "
-#~ "sağa gelin</shortcut>, aramak için <shortcut>fare tekerleğini</shortcut> "
-#~ "veya <shortcut>ok düğmelerini</shortcut> kullanın, yakınlaştırmak için "
-#~ "<shortcut>Kontrol+fare tekerleği</shortcut> kullanın"
-
 #~ msgid "DI,DII,TDII,LATT,State Variable Filter (SVF),Zero Delay Filter (ZDF)"
 #~ msgstr ""
 #~ "DI,DII,TDII,LATT,Durum Değişkenli Süzgeç (SVF),Sıfır Gecikmeli Süzgeç "
@@ -40619,12 +40650,6 @@ msgstr "%1 sa"
 #~ "denetimine benzer bir tepki verir. Bu işlem aynı zamanda raf eşitlemesi "
 #~ "(EQ) olarak da bilinir."
 
-#~ msgid "Sets the thickness for the line in pixels"
-#~ msgstr "Çizginin kalınlığını piksel türünden ayarlar."
-
-#~ msgid "Sets the thickness for the grid lines in pixels"
-#~ msgstr "Izgara çizgilerinin kalınlığını piksel türünden ayarlar."
-
 #~ msgid ""
 #~ "Apply two-pole peaking equalization (EQ) filter. With this filter, the "
 #~ "signal-level at and around a selected frequency can be increased or "
@@ -40635,12 +40660,6 @@ msgstr "%1 sa"
 #~ "bir frekanstaki ve çevresindeki sinyal düzeyi artırılabilir veya "
 #~ "azaltılabilirken (bant geçiren ve bant reddeden süzgeçlerin aksine) diğer "
 #~ "tüm frekanslardaki sinyal düzeyi değişmez."
-
-#~ msgid "Hertz,Q-Factor,Octave,Slope,kHz"
-#~ msgstr "Hertz,Hz,Q-Factor,Oktav,Eğim,kHz"
-
-#~ msgid "Set block overlap"
-#~ msgstr "Blok kaplamasını ayarlayın."
 
 #~ msgid ""
 #~ "Apply a high-pass filter with 3dB point frequency. The filter can be "
@@ -40660,9 +40679,6 @@ msgstr "%1 sa"
 #~ "tek kutuplu veya çift kutuplu (öntanımlı) olabilir. Süzgeç, oktav başına "
 #~ "kutup başına 6 dB (onluk başına kutup başına 20 dB) düşüş gösterir."
 
-#~ msgid "<b><u>All Components</u></b> Noise Seed"
-#~ msgstr "<b><u>Tüm Bileşenler</u></b> Gürültü Besleme"
-
 #~ msgid ""
 #~ "Available noise types:<ul><li>Averaged temporal noise (smoother)</li>\n"
 #~ "        <li>Mix random noise with a (semi)regular pattern</li>\n"
@@ -40676,51 +40692,11 @@ msgstr "%1 sa"
 #~ "değiştir)</li>\n"
 #~ "        <li>Yekpare gürültü (aksi takdirde Gauss)</li></ul>"
 
-#~ msgid "<b><u>Component #0</u></b> Noise Seed"
-#~ msgstr "<b><u>Bileşen №0</u></b> Gürültü Besleme"
-
 #~ msgid " Strength"
 #~ msgstr "Güç"
 
-#~ msgid "<b><u>Component #1</u></b> Noise Seed"
-#~ msgstr "<b><u>Bileşen №1</u></b> Gürültü Besleme"
-
-#~ msgid "<b><u>Component #2</u></b> Noise Seed"
-#~ msgstr "<b><u>Bileşen №2</u></b> Gürültü Besleme"
-
-#~ msgid "<b><u>Component #3</u></b> Noise Seed"
-#~ msgstr "<b><u>Bileşen №3</u></b> Gürültü Besleme"
-
-#~ msgid "Sets the value which will be added to filtered result"
-#~ msgstr "Süzülü değere eklenecek değeri ayarlar."
-
-#~ msgid "Set the display mode"
-#~ msgstr "Görüntü kipini ayarlayın."
-
-#~ msgid "Set the envelope mode"
-#~ msgstr "Zarf kipini ayarlayın."
-
-#~ msgid "Set the filter mode"
-#~ msgstr "Süzgeç kipini ayarlayın."
-
-#~ msgid "Set graticule flags"
-#~ msgstr "Izgara bayraklarını ayarlayın."
-
-#~ msgid "Set the fit mode"
-#~ msgstr "Uyum kipini ayarlayın."
-
-#~ msgid ""
-#~ "Designed for live streams. Dynamically correct audio loudness as "
-#~ "recommended by EBU R128"
-#~ msgstr ""
-#~ "Canlı yayın akışları için tasarlanmıştır. Ses yüksekliğini EBU R128 "
-#~ "tarafından tavsiye edildiği üzere devingen olarak düzeltin."
-
 #~ msgid "comment"
 #~ msgstr "yorum"
-
-#~ msgid "High quality 3D denoiser"
-#~ msgstr "Yüksek kaliteli 3B gürültü kaldırıcısı"
 
 #~ msgid "Heatmap0r"
 #~ msgstr "Heatmap0r"
@@ -40746,6 +40722,97 @@ msgstr "%1 sa"
 #~ msgid "Point in the luminance axis grey color is located"
 #~ msgstr "Aydınlık ekseninde gri noktanın bulunduğu nokta"
 
+#~ msgid "NDVI"
+#~ msgstr "NDVI"
+
+#~ msgid "This filter creates a false image from a visible + infrared source"
+#~ msgstr ""
+#~ "Bu süzgeç, görünür ve kızılötesi bir kaynaktan yalancı bir görsel "
+#~ "oluşturur."
+
+#~| msgid "Color Matrix"
+#~ msgid "Color Map"
+#~ msgstr "Renk Haritası"
+
+#~ msgid "Earth,Grayscale,Heat,Rainbow"
+#~ msgstr "Dünya,Gri tonlu,Isı,Gökkuşağı"
+
+#~ msgid "The number of color levels to use in the false image"
+#~ msgstr "Bu yalancı görselde kullanılacak renk düzeylerinin sayısı"
+
+#~| msgid "Scale"
+#~ msgid "VIS Scale"
+#~ msgstr "VIS Ölçeği"
+
+#~| msgid "X Offset"
+#~ msgid "VIS Offset"
+#~ msgstr "VIS Ofseti"
+
+#~ msgid ""
+#~ "An offset to be applied to<br>\n"
+#~ "        the visible component (mapped to [-100%, 100%])"
+#~ msgstr ""
+#~ "Görünür bileşene uygulanacak<br>\n"
+#~ "        ofset ([−%​100, %​100] olarak eşlemlidir)"
+
+#~| msgid "Scale"
+#~ msgid "NIR Scale"
+#~ msgstr "NIR Ölçeği"
+
+#~| msgid "The background color to be applied to the entire frame."
+#~ msgid "A scaling factor to be applied to the near-infrared component"
+#~ msgstr "Neredeyse kızılötesi olan bileşene uygulanacak ölçekleme çarpanı"
+
+#~| msgid "X Offset"
+#~ msgid "NIR Offset"
+#~ msgstr "NIR Ofseti"
+
+#~ msgid ""
+#~ "An offset to be applied to<br>\n"
+#~ "        the near-infrared component (mapped to [-100%, 100%])"
+#~ msgstr ""
+#~ "Neredeyse kızılötesi olan bileşene uygulanacak<br>\n"
+#~ "        ofset ([−%​100, %​100] olarak eşlemlidir)"
+
+#~| msgid "4 Channels"
+#~ msgid "Visible Channel"
+#~ msgstr "Görünür Kanal"
+
+#~ msgid "The channel to use for the visible component"
+#~ msgstr "Görünür bileşen için kullanılacak kanal"
+
+#~| msgid "Red,Green,Blue,Luma"
+#~ msgid "Red,Green,Blue"
+#~ msgstr "Kırmızı,Yeşil,Mavi"
+
+#~| msgid "Channel"
+#~ msgid "NIR Channel"
+#~ msgstr "NIR Kanalı"
+
+#~ msgid "The channel to use for the near-infrared component"
+#~ msgstr "Neredeyse kızılötesi olan bileşen için kullanılacak kanal"
+
+#~| msgid "Calculating..."
+#~ msgid "Index Calculation"
+#~ msgstr "İndeks Hesaplaması"
+
+#~ msgid "The index calculation to use"
+#~ msgstr "Kullanılacak indeks hesaplaması"
+
+#~ msgid "NDVI,VI"
+#~ msgstr "NDVI,VI"
+
+#~| msgid "Legend unit"
+#~ msgid "Legend"
+#~ msgstr "Lejant"
+
+#~ msgid "Control legend display"
+#~ msgstr "Lejant görünürlüğünü denetle"
+
+#~| msgid "Bottom"
+#~ msgid "Off,Bottom"
+#~ msgstr "Kapalı,Alt"
+
 #~ msgid "BW"
 #~ msgstr "BW"
 
@@ -40760,12 +40827,57 @@ msgstr "%1 sa"
 #~ "ve uygulama için tasarlanmıştır. EBU R128 tarafından tavsiye edildiği "
 #~ "üzere ses yüksekliğini düzeltin."
 
+#~ msgid "Generic (HD for web, mobile devices...)"
+#~ msgstr "Genel (Web, taşınabilir aygıtlar için HD…)"
+
+#~ msgid "Ultra-High Definition (4K)"
+#~ msgstr "Ultra Yüksek Belirginlikli (4K)"
+
+#~ msgid "Video with Alpha"
+#~ msgstr "Alfalı Video"
+
+#~ msgid "Old-TV definition (DVD...)"
+#~ msgstr "Eski Televizyon Biçimi (DVD…)"
+
+#~ msgid "Hardware Accelerated (experimental)"
+#~ msgstr "Donanım İvmelendirmeli (Deneysel)"
+
 #~ msgid "Distance Threshold"
 #~ msgstr "Uzaklık eşiği"
 
 #~ msgctxt "Position as the x,y coordinate for a point"
 #~ msgid "Position:"
 #~ msgstr "Konum:"
+
+#~ msgid "Enter path for your video editing application"
+#~ msgstr "Video düzenleme uygulaması yolunu girin"
+
+#~ msgid "Please set a default application to open video files"
+#~ msgstr "Video dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
+
+#~ msgid "Enter path to the video editing application"
+#~ msgstr "Video düzenleme uygulaması yolunu girin"
+
+#~ msgid "Click to refresh audio waveform"
+#~ msgstr "Ses dalga biçimini yenilemek için tıklayın"
+
+#~ msgctxt "Custom render preset category"
+#~ msgid "Custom"
+#~ msgstr "Özel"
+
+#~ msgctxt "10 Bit color depth category"
+#~ msgid "10 Bit"
+#~ msgstr "10 bit"
+
+#~ msgctxt "Custom render preset category name"
+#~ msgid "Custom"
+#~ msgstr "Özel"
+
+#~ msgid "Path to video editor executable"
+#~ msgstr "Video düzenleyicisi yürütülebiliri yolu"
+
+#~ msgid "Video editing:"
+#~ msgstr "Video düzenleme:"
 
 #~ msgid "Fixed centered playhead"
 #~ msgstr "Sabit ortalanmış oynatma kafası"
@@ -40780,145 +40892,3 @@ msgstr "%1 sa"
 #~ msgstr ""
 #~ "Temel matematik ifadeleri desteği\n"
 #~ "Diğer döndürme kutusunun değerine başvurmak için “%1” kullanın"
-
-#~ msgid "Monitor Gamma"
-#~ msgstr "Monitör Gaması"
-
-#~ msgid "sRGB (computer)"
-#~ msgstr "sRGB (Bilgisayar)"
-
-#~ msgid "Rec. 709 (TV)"
-#~ msgstr "Rec. 709 (TV)"
-
-#~ msgid "Hue Shift Red"
-#~ msgstr "Ton Kayması Kırmızı"
-
-#~ msgid "Saturation Scale Red"
-#~ msgstr "Doygunluk Ölçeği Kırmızı"
-
-#~ msgid "Lightness Scale Red"
-#~ msgstr "Açıklık Ölçeği Kırmızı"
-
-#~ msgid "Hue Shift Yellow"
-#~ msgstr "Ton Kayması Sarı"
-
-#~ msgid "Saturation Scale Yellow"
-#~ msgstr "Doygunluk Ölçeği Sarı"
-
-#~ msgid "Lightness Scale Yellow"
-#~ msgstr "Açıklık Ölçeği Sarı"
-
-#~ msgid "Hue Shift Green"
-#~ msgstr "Ton Kayması Yeşil"
-
-#~ msgid "Saturation Scale Green"
-#~ msgstr "Doygunluk Ölçeği Yeşil"
-
-#~ msgid "Lightness Scale Green"
-#~ msgstr "Açıklık Ölçeği Yeşil"
-
-#~ msgid "Hue Shift Cyan"
-#~ msgstr "Ton Kayması Camgöbeği"
-
-#~ msgid "Saturation Scale Cyan"
-#~ msgstr "Doygunluk Ölçeği Camgöbeği"
-
-#~ msgid "Lightness Scale Cyan"
-#~ msgstr "Açıklık Ölçeği Camgöbeği"
-
-#~ msgid "Hue Shift Blue"
-#~ msgstr "Ton Kayması Mavi"
-
-#~ msgid "Saturation Scale Blue"
-#~ msgstr "Doygunluk Ölçeği Mavi"
-
-#~ msgid "Lightness Scale Blue"
-#~ msgstr "Açıklık Ölçeği Mavi"
-
-#~ msgid "Hue Shift Magenta"
-#~ msgstr "Ton Kayması Eflatun"
-
-#~ msgid "Saturation Scale Magenta"
-#~ msgstr "Doygunluk Ölçeği Eflatun"
-
-#~ msgid "Lightness Scale Magenta"
-#~ msgstr "Açıklık Ölçeği Eflatun"
-
-#~ msgid ""
-#~ "This layout uses an old and unsupported format, should be removed and "
-#~ "recreated"
-#~ msgstr ""
-#~ "Bu yerleşim, eski ve desteklenmeyen bir biçim kullanıyor; kaldırılmalı ve "
-#~ "yeniden oluşturulmalıdır."
-
-#~ msgid "Version %1"
-#~ msgstr "Sürüm %1"
-
-#~ msgid "Master effects"
-#~ msgstr "Ana Efektler"
-
-#~ msgid "Change Overlay"
-#~ msgstr "Üzerindekini Değiştir"
-
-#~ msgid "Add Guide"
-#~ msgstr "Kılavuz Ekle"
-
-#~ msgid "Remove Guide"
-#~ msgstr "Kılavuzu Kaldır"
-
-#~ msgid "Monitor overlay color:"
-#~ msgstr "Monitör üzerindeki renk:"
-
-#~ msgid "Dock Area Orientation"
-#~ msgstr "Rıhtım Alanı Yönelimi"
-
-#~ msgid "Arrange Dock Areas In Rows"
-#~ msgstr "Rıhtım Alanlarını Sıralar Halinde Düzenle"
-
-#~ msgid "Arrange Dock Areas In Columns"
-#~ msgstr "Rıhtım Alanlarını Sütunlar Halinde Düzenle"
-
-#~ msgid "Raise %1"
-#~ msgstr "%1 Yükselt"
-
-#~ msgid "<Select a Keyword>"
-#~ msgstr "<Bir Anahtar Sözcük Seç>"
-
-#~ msgid "Clean Project"
-#~ msgstr "Projeyi Temizle"
-
-#~ msgid "&Project"
-#~ msgstr "Pro&je"
-
-#~ msgid "&Clip"
-#~ msgstr "&Klip"
-
-#~ msgid "T&imeline"
-#~ msgstr "&Zaman Akışı"
-
-#~ msgid "&Guides"
-#~ msgstr "Kı&lavuzlar"
-
-#~ msgid "Delete Effects"
-#~ msgstr "Efektleri Sil"
-
-#~ msgid "Guides and Markers Categories"
-#~ msgstr "Kılavuzlar ve İmleyiciler Kategorileri"
-
-#~ msgid "Guides"
-#~ msgstr "Kılavuzlar"
-
-#~ msgid "Create Color Clip"
-#~ msgstr "Renk Klibi Oluştur"
-
-#~ msgid "You are using the AppImage.<br>"
-#~ msgstr "AppImage’i kullanıyorsunuz.<br>"
-
-#~ msgid "You are using the Flatpak.<br>"
-#~ msgstr "Flatpak’i kullanıyorsunuz.<br>"
-
-#~ msgid "You are using the Snap package.<br>"
-#~ msgstr "Snap paketini kullanıyorsunuz.<br>"
-
-#~ msgid "Brightness of image."
-#~ msgstr "Görselin parlaklığı."

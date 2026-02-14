@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 02:41+0000\n"
-"PO-Revision-Date: 2026-02-06 11:02+0200\n"
+"PO-Revision-Date: 2026-02-13 17:55+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -13510,10 +13510,9 @@ msgid "Horn Frequency"
 msgstr "תדירות נמוכה"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
-#, fuzzy, kde-format
-#| msgid "Distance"
+#, kde-format
 msgid "Mic Distance"
-msgstr "מרחק"
+msgstr "מרחק ממיקרופון"
 
 #: data/effects/ladspa/ladspa_2149.xml:18
 #, kde-format

@@ -1877,7 +1877,8 @@ msgstr "色彩校正"
 msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
-msgstr "针对黑色和白色选择性地调整颜色-白色平衡。此过滤器在YUV颜色空间中工作。"
+msgstr ""
+"针对黑色和白色选择性地调整颜色-白色平衡。此过滤器在 YUV 色彩空间中工作。"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
