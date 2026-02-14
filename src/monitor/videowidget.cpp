@@ -629,6 +629,9 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     int consumerPosition = 0;
     if (m_producer) {
         currentId = m_producer->parent().get("kdenlive:id");
+        if (producer == nullptr && currentId == QLatin1String("black")) {
+            return 0;
+        }
     }
     if (m_consumer) {
         consumerPosition = m_consumer->position();
@@ -638,9 +641,6 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     if (producer) {
         m_producer = std::move(producer);
     } else {
-        if (currentId == QLatin1String("black")) {
-            return 0;
-        }
         m_producer = m_blackClip;
         // Reset markersModel
         rootContext()->setContextProperty("markersModel", nullptr);

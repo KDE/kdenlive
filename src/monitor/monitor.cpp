@@ -2022,6 +2022,8 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
+    // Ensure no frame stays in the scope's queue
+    m_audioMeterWidget->clear();
     // Check if the view had a monitor zoom that is not relevant (e.g. for audio clips)
     if (m_glMonitor->zoom() > 1.0f) {
         if (!m_controller || m_controller->clipType() == ClipType::Audio) {
@@ -2037,7 +2039,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     m_glMonitor->getControllerProxy()->clearJobsProgress();
-    if (controller == nullptr) {
+    if (m_controller == nullptr) {
         // We had another clip displayed, reset
         pCore->taskManager.displayedClip = -1;
         m_markerModel = nullptr;
@@ -2074,13 +2076,13 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         }
         m_markerModel = m_controller->getMarkerModel();
         m_activeSequence = sequenceUuid;
-        if (pCore->currentRemap(controller->clipId())) {
+        if (pCore->currentRemap(m_controller->clipId())) {
             connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
         }
-        ClipType::ProducerType type = controller->clipType();
+        ClipType::ProducerType type = m_controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
             m_glMonitor->rootObject()->setProperty(
-                "baseThumbPath", QStringLiteral("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
+                "baseThumbPath", QStringLiteral("image://thumbnail/%1/%2/#").arg(m_controller->clipId(), pCore->currentDoc()->uuid().toString()));
         } else {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }
@@ -2172,10 +2174,10 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (m_playAction->isActive()) {
                 updatePlayAction(false);
             }
-            m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
+            m_audioMeterWidget->audioChannels = m_controller->audioInfo() ? m_controller->audioInfo()->channels() : 0;
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
-            m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(),
-                                                                 controller->clipName());
+            m_glMonitor->getControllerProxy()->setClipProperties(m_controller->clipId().toInt(), m_controller->clipType(), m_controller->hasAudioAndVideo(),
+                                                                 m_controller->clipName());
             if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & Monitor::AudioWaveformOverlay) {
                 if (m_audioMeterWidget->audioChannels == 0 || !m_controller->hasAudio()) {
                     qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR EMPTY!!!";
@@ -2198,7 +2200,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         } else {
             qDebug() << "*************** CONTROLLER NOT READY";
         }
-        // hasEffects =  controller->hasEffects();
+        // hasEffects =  m_controller->hasEffects();
     }
     if (isActive()) {
         start();
