@@ -1148,26 +1148,29 @@ bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemMode
 bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
 {
     int track = timeline->getClipTrackId(clipId);
-    int start = -1;
-    bool invalidate = false;
-    if (track > -1) {
-        if (!timeline->getTrackById_const(track)->isAudioTrack()) {
-            invalidate = true;
-        }
-        start = timeline->getItemPosition(clipId);
-    }
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     // For the state change to work, we need to unplant/replant the clip
     bool result = true;
-    if (track > -1) {
-        result = timeline->getTrackById(track)->requestClipDeletion(clipId, true, invalidate, local_undo, local_redo, false, false);
-    }
     result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
-    if (result && track > -1) {
-        result = timeline->getTrackById(track)->requestClipInsertion(clipId, start, true, true, local_undo, local_redo, false, false);
+    if (!result) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        pCore->displayMessage(i18n("Cannot change clip state"), ErrorMessage);
+    } else {
+        Fun replug_clip = []() { return true; };
+        if (track > -1) {
+            replug_clip = [timeline, track, clipId]() {
+                timeline->getTrackById(track)->replugClip(clipId);
+                return true;
+            };
+        }
+        replug_clip();
+        PUSH_LAMBDA(replug_clip, local_undo);
+        PUSH_LAMBDA(replug_clip, local_redo);
+
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
-    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;
 }
 

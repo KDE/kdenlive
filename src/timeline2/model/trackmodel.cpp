@@ -394,12 +394,13 @@ void TrackModel::replugClip(int clipId)
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         m_playlists[target_track].insert_at(clip_position, *clip, 1);
+        ItemInfo info = clip->getItemInfo();
         if (!clip->isAudioOnly() && !isAudioTrack()) {
-            Q_EMIT ptr->invalidateZone(clip->getIn(), clip->getOut());
+            Q_EMIT ptr->invalidateZone(info.position, info.position + info.playTime);
         }
         if (!clip->isAudioOnly() && !isHidden() && !isAudioTrack()) {
             // only refresh monitor if not an audio track and not hidden
-            ptr->checkRefresh(clip->getIn(), clip->getOut());
+            ptr->checkRefresh(info.position, info.position + info.playTime);
         }
     }
     m_playlists[target_track].consolidate_blanks();
