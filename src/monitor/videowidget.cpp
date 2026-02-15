@@ -345,6 +345,7 @@ void VideoWidget::requestSeek(int position, bool noAudioScrub)
     restartConsumer();
     m_consumer->set("refresh", 1);
     if (KdenliveSettings::audio_scrub() && !noAudioScrub) {
+        m_consumer->set("volume", KdenliveSettings::volume() / 100.0);
         m_consumer->set("scrub_audio", 1);
     } else {
         m_consumer->set("scrub_audio", 0);

@@ -2968,12 +2968,8 @@ void Monitor::processSeek(int pos, bool noAudioScrub)
     if (!slotActivateMonitor()) {
         return;
     }
-    if (KdenliveSettings::pauseonseek()) {
-        if (m_playAction->isActive()) {
-            pause();
-        } else {
-            m_glMonitor->setVolume(KdenliveSettings::volume() / 100.);
-        }
+    if (KdenliveSettings::pauseonseek() && m_playAction->isActive()) {
+        pause();
     }
     m_glMonitor->requestSeek(pos, noAudioScrub);
     Q_EMIT m_monitorManager->cleanMixer();
