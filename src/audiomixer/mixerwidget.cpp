@@ -330,6 +330,7 @@ void MixerWidget::setupFilters(Mlt::Tractor *service)
         m_monitorFilter.reset(new Mlt::Filter(service->get_profile(), "audiolevel"));
         if (m_monitorFilter->is_valid()) {
             m_monitorFilter->set("iec_scale", 0);
+            m_monitorFilter->set("internal_added", 237);
             if (m_manager->audioLevelV2()) {
                 m_monitorFilter->set("dbpeak", 1);
             }
