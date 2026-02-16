@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 02:41+0000\n"
-"PO-Revision-Date: 2026-02-09 19:02+0100\n"
+"PO-Revision-Date: 2026-02-16 01:41+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27000,7 +27000,7 @@ msgstr "Define la ruta del entorno MLT."
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
-"Define el nivel de registro de MLT.\\n\n"
+"Define el nivel de registro de MLT.\n"
 "Dejar sin definir para ver \"advertencias\"."
 
 #: src/main.cpp:326
@@ -27017,7 +27017,7 @@ msgstr "Procesa el proyecto directamente y sale al finalizar."
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
-"Nombre del preajuste de\\n\n"
+"Nombre del preajuste de\n"
 "procesamiento de Kdenlive a usar (MP4-H264/AAC si no se especificara)."
 
 #: src/main.cpp:338
@@ -34734,12 +34734,12 @@ msgstr "Cambiar nombre a secuencia"
 #: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert an effect..."
-msgstr "Insertar efecto"
+msgstr "Agregar efecto"
 
 #: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
-msgstr "Insertar método de composición"
+msgstr "Agregar método de composición"
 
 #: src/timeline2/view/timelinewidget.cpp:326
 #, kde-format
