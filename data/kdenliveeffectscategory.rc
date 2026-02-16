@@ -38,7 +38,7 @@
 <text>Audio Correction</text>
 </group>
 
-<group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion,avfilter.epx">
+<group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.gradfun,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion,avfilter.epx">
 <text>Image Adjustment</text>
 </group>
 
@@ -166,7 +166,7 @@
 <text>MLT LADSPA</text>
 </group>
 
-<group list="affineshear,avdeinterlace,avfilter.dctdnoiz,avfilter.delogo,avfilter.gradfun,avfilter.pixscope,boxblur,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.cluster,frei0r.hqdn3d,frei0r.IIRblur,frei0r.medians,frei0r.pr0be,frei0r.pr0file,frei0r.rgbnoise,frei0r.sharpness,grain,imageconvert,avfilter.bilateral_cuda,avfilter.blockdetect,avfilter.blurdetect,avfilter.bwdif_cuda,avfilter.ccrepack,avfilter.chromakey_cuda,avfilter.colorspace_cuda,avfilter.drawbox_vaapi,avfilter.fsync,avfilter.latency,avfilter.pad_vaapi,avfilter.scdet,avfilter.siti,avcolor_space,avcolour_space,swscale,subtitle,subtitle_feed,avfilter.tiltandshift,rotation">
+<group list="affineshear,avdeinterlace,avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,boxblur,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.cluster,frei0r.hqdn3d,frei0r.IIRblur,frei0r.medians,frei0r.pr0be,frei0r.pr0file,frei0r.rgbnoise,frei0r.sharpness,grain,imageconvert,avfilter.bilateral_cuda,avfilter.blockdetect,avfilter.blurdetect,avfilter.bwdif_cuda,avfilter.ccrepack,avfilter.chromakey_cuda,avfilter.colorspace_cuda,avfilter.drawbox_vaapi,avfilter.fsync,avfilter.latency,avfilter.pad_vaapi,avfilter.scdet,avfilter.siti,avcolor_space,avcolour_space,swscale,subtitle,subtitle_feed,avfilter.tiltandshift,rotation">
 <text>Deprecated</text>
 </group>
 
