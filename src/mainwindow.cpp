@@ -154,7 +154,7 @@ MainWindow::MainWindow(QWidget *parent)
     auto flags = KDDockWidgets::Config::self().flags();
     flags |= KDDockWidgets::Config::Flag_HideTitleBarWhenTabsVisible;
     flags |= KDDockWidgets::Config::Flag_AllowReorderTabs;
-#if (KDDOCKWIDGETS_VERSION > KDDOCKWIDGETS_VERSION_CHECK(2, 3, 0))
+#if (KDDOCKWIDGETS_VERSION > QT_VERSION_CHECK(2, 3, 0))
     // The Flag_TitleBarShowAutoHide was added in 2.4.0
     flags |= KDDockWidgets::Config::Flag_TitleBarShowAutoHide;
 #endif
