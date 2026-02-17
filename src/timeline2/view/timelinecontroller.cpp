@@ -2614,7 +2614,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 void TimelineController::requestEndTrimmingMode()
 {
     if (pCore->monitorManager()->isTrimming()) {
-        pCore->monitorManager()->projectMonitor()->setProducer(m_model->uuid(), m_model->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->setProducer(m_model->uuid(), m_model->producer(), -1);
         pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
     }
 }
