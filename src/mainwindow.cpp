@@ -382,12 +382,20 @@ void MainWindow::init()
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, this, [&](int cid, std::shared_ptr<AssetParameterModel> model, bool refreshOnly) {
         m_assetPanel->showMix(cid, model, refreshOnly);
+        if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
+            // Don't raise if tabbed with timeline
+            return;
+        }
         if (KdenliveSettings::raisepropsmixes()) {
             m_effectStackDock->setAsCurrentTab();
         }
     });
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
         m_assetPanel->showTransition(tid, model);
+        if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
+            // Don't raise if tabbed with timeline
+            return;
+        }
         if (KdenliveSettings::raisepropscompositions()) {
             m_effectStackDock->setAsCurrentTab();
         }
@@ -399,6 +407,10 @@ void MainWindow::init()
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                if (m_effectStackDock->asDockWidgetController()->isTabbed() && m_effectStackDock->parent() == m_timelineDock->parent()) {
+                    // Don't raise if tabbed with timeline
+                    return;
+                }
                 bool isClip = model && model->getOwnerId().type == KdenliveObjectType::TimelineClip;
                 bool isTrack = model && model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
                 if ((isClip && KdenliveSettings::raisepropsclips()) || (isTrack && KdenliveSettings::raisepropstracks())) {
