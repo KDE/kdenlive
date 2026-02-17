@@ -1164,6 +1164,10 @@ void TimelineController::setInPoint(bool ripple)
             int size = start + m_model->getItemPlaytime(id) - cursorPos;
             requestResize(id, size);
             selectionFound = true;
+            if (ripple) {
+                // Ripple op moves the playhead
+                cursorPos = pCore->getMonitorPosition();
+            }
         }
     }
     if (!selectionFound) {
