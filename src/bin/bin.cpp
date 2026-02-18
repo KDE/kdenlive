@@ -6194,7 +6194,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
             if (i <= audioStreams.count() - 1) {
                 aindex = audioStreams.at(i);
             }
-            addStream(vindex, i - 1, aindex, qMin(i - 1, audioStreams.count() - 1), undo, redo);
+            addStream(vindex, i, aindex, qMin(i, audioStreams.count() - 1), undo, redo);
         }
         pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", videoStreams.count() - 1));
         return;
@@ -6227,6 +6227,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
     for (int j = 1; j < videoStreams.count(); ++j) {
         auto clone = ProjectClip::cloneProducer(producer);
         clone->set("video_index", videoStreams.at(j));
+        clone->set("vstream", j);
         if (clone == nullptr || !clone->is_valid()) {
             continue;
         }
@@ -6263,13 +6264,13 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
         for (int i = 0; i < groupList.count(); ++i) {
             if (groupList.at(i)->isChecked()) {
                 int vindex = groupList.at(i)->property("vindex").toInt();
-                int ax = qMin(i, comboList.size() - 1);
+                int ax = qMin(i + 1, comboList.size() - 1);
                 int aindex = -1;
                 if (ax >= 0) {
                     // only check audio index if we have several audio streams
                     aindex = comboList.at(ax)->itemData(comboList.at(ax)->currentIndex()).toInt();
                 }
-                addStream(vindex, i, aindex, ax, undo, redo);
+                addStream(vindex, i + 1, aindex, ax, undo, redo);
                 importedStreams++;
             }
         }
