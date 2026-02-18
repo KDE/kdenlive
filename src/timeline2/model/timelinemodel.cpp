@@ -2011,8 +2011,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                     }
                 }
-                // keys = master->activeStreams().keys();
-                if (audioTids.count() < keys.count() - 1 || (mirror == -1 && !keys.isEmpty())) {
+                // Check if we don't have enough audio tracks below (remove the mirror track from count)
+                if ((!audioTids.isEmpty() && audioTids.count() < keys.count() - 1) || (allowedTracks.isEmpty() && mirror == -1 && !keys.isEmpty())) {
                     // Check if project has enough audio tracks
                     if (keys.count() > getTracksIds(true).count()) {
                         // Not enough audio tracks in the project
