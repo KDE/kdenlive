@@ -964,27 +964,27 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
 
     saveRenderProfile();
 
-    RenderRequest *request = new RenderRequest();
+    RenderRequest request;
 
-    request->setOutputFile(m_view.out_file->url().toLocalFile());
+    request.setOutputFile(m_view.out_file->url().toLocalFile());
 
-    request->setPresetParams(m_params);
-    request->setDelayedRendering(delayedRendering);
-    request->setProxyRendering(m_view.proxy_render->isChecked());
-    request->setEmbedSubtitles(m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked());
-    request->setTwoPass(m_view.checkTwoPass->isChecked());
-    request->setAudioFilePerTrack(m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled());
+    request.setPresetParams(m_params);
+    request.setDelayedRendering(delayedRendering);
+    request.setProxyRendering(m_view.proxy_render->isChecked());
+    request.setEmbedSubtitles(m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked());
+    request.setTwoPass(m_view.checkTwoPass->isChecked());
+    request.setAudioFilePerTrack(m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled());
 
     bool guideMultiExport = m_view.guide_multi_box->isChecked();
     int guideCategory = m_view.guideCategoryChooser->currentCategory();
-    request->setGuideParams(m_guidesModel, guideMultiExport, guideCategory);
+    request.setGuideParams(m_guidesModel, guideMultiExport, guideCategory);
 
-    request->setOverlayData(m_view.tc_type->currentData().toString());
-    request->setAspectRatio(m_view.aspect_ratio_type->currentData().toString());
+    request.setOverlayData(m_view.tc_type->currentData().toString());
+    request.setAspectRatio(m_view.aspect_ratio_type->currentData().toString());
 
     if (m_view.render_zone->isChecked()) {
         Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
-        request->setBounds(pMon->getZoneStart(), pMon->getZoneEnd() - 1);
+        request.setBounds(pMon->getZoneStart(), pMon->getZoneEnd() - 1);
     } else if (m_view.render_guide->isChecked()) {
         double fps = pCore->getCurrentProfile()->fps();
         int startIndex = m_view.guide_start->currentIndex();
@@ -999,14 +999,14 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
 
                     int in = int(GenTime(guideStart).frames(fps));
                     int out = int(GenTime(guideEnd).frames(fps)) - 1;
-                    request->setBounds(in, out);
+                    request.setBounds(in, out);
                 } else {
                     double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
                     double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
 
                     int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
                     int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
-                    request->setBounds(in, out);
+                    request.setBounds(in, out);
                 }
             } else {
                 double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
@@ -1014,7 +1014,7 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
 
                 int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
                 int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
-                request->setBounds(in, out);
+                request.setBounds(in, out);
             }
         } else {
             double guideStart = m_view.guide_start->itemData(startIndex).toDouble();
@@ -1022,14 +1022,14 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
 
             int in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
             int out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
-            request->setBounds(in, out);
+            request.setBounds(in, out);
         }
     }
 
-    std::vector<RenderRequest::RenderJob> jobs = request->process();
+    std::vector<RenderRequest::RenderJob> jobs = request.process();
 
-    if (!request->errorMessages().isEmpty()) {
-        KMessageBox::errorList(this, i18n("The following errors occurred while trying to render"), request->errorMessages());
+    if (!request.errorMessages().isEmpty()) {
+        KMessageBox::errorList(this, i18n("The following errors occurred while trying to render"), request.errorMessages());
     }
 
     // Create jobs
