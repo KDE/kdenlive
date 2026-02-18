@@ -271,6 +271,11 @@ const QString AssetParameterModel::getParam(const QString &paramName)
 void AssetParameterModel::setParameter(const QString &name, int value, bool update)
 {
     Q_ASSERT(m_asset->is_valid());
+    // Special case, when adjusting out point, only invalidate the length diff, not whole item
+    int previousOut = -1;
+    if (name == QLatin1String("out")) {
+        previousOut = m_asset->get_int("out");
+    }
     m_asset->set(name.toLatin1().constData(), value);
     if (m_builtIn) {
         bool isDisabled = m_asset->get_int("disable") == 1;
@@ -308,11 +313,24 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId, name);
-        if (!m_isAudio) {
-            // Trigger monitor refresh
-            pCore->refreshProjectItem(m_ownerId);
-            // Invalidate timeline preview
-            pCore->invalidateItem(m_ownerId);
+        if (previousOut > -1 && value != previousOut) {
+            // Only invalidate length diff
+            int startPos = pCore->getItemPosition(m_ownerId) - pCore->getItemIn(m_ownerId);
+            QPair<int, int> zone = {startPos + qMin(value, previousOut), startPos + qMax(value, previousOut)};
+            if (!m_isAudio) {
+                // Trigger monitor refresh
+                pCore->refreshProjectItem(m_ownerId);
+                // Invalidate timeline preview
+                pCore->invalidateRange(zone);
+            }
+        } else {
+            // Invalidate full item
+            if (!m_isAudio) {
+                // Trigger monitor refresh
+                pCore->refreshProjectItem(m_ownerId);
+                // Invalidate timeline preview
+                pCore->invalidateItem(m_ownerId);
+            }
         }
     }
 }

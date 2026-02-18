@@ -598,7 +598,7 @@ public:
        @param clipId is the id of the clip that triggers the group deletion
     */
     Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
-    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
 
     /** @brief Change the duration of an item (clip or composition)
      *  This action is undoable

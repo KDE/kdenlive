@@ -2199,7 +2199,7 @@ bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool l
 {
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(itemId)) {
-        return requestGroupDeletion(itemId, undo, redo);
+        return requestGroupDeletion(itemId, undo, redo, logUndo);
     }
     if (isClip(itemId)) {
         return requestClipDeletion(itemId, undo, redo, logUndo);
@@ -3285,7 +3285,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     return res;
 }
 
-bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
 {
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
@@ -3338,7 +3338,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
         }
     }
     for (int clip : all_items) {
-        bool res = requestClipDeletion(clip, undo, redo);
+        bool res = requestClipDeletion(clip, undo, redo, logUndo);
         if (!res) {
             // Undo is processed in requestClipDeletion
             return false;
