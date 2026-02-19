@@ -2876,6 +2876,21 @@ void TimelineController::invalidateTrack(int tid)
     }
 }
 
+void TimelineController::invalidateMix(ObjectId owner)
+{
+    if (!m_model->hasTimelinePreview() || !m_model->isClip(owner.itemId)) {
+        return;
+    }
+    const int tid = m_model->getItemTrackId(owner.itemId);
+    if (tid == -1 || m_model->getTrackById_const(tid)->isAudioTrack()) {
+        return;
+    }
+    std::pair<MixInfo, MixInfo> mixData = m_model->getTrackById_const(tid)->getMixInfo(owner.itemId);
+    int start = mixData.first.secondClipInOut.first;
+    int end = mixData.first.firstClipInOut.second;
+    m_model->previewManager()->invalidatePreview(start, end);
+}
+
 void TimelineController::remapItemTime(int clipId)
 {
     if (clipId == -1) {

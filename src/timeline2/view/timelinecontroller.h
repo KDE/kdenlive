@@ -732,6 +732,7 @@ public Q_SLOTS:
     void disablePreview(bool disable);
     void invalidateItem(int cid);
     void invalidateTrack(int tid);
+    void invalidateMix(ObjectId owner);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);
