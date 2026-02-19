@@ -171,6 +171,7 @@ bool KdenliveSettingsDialog::initAudioRecDevice()
     if (!selectedDevice.isEmpty() && selectedIndex > -1) {
         m_configCapture.defaultaudiocapture->setCurrentIndex(selectedIndex);
     }
+    connect(m_configCapture.defaultaudiocapture, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() { updateButtons(); });
     return true;
 }
 
@@ -1489,6 +1490,10 @@ void KdenliveSettingsDialog::slotDialogModified()
 bool KdenliveSettingsDialog::hasChanged()
 {
     if (m_modified || m_shuttleModified) {
+        return true;
+    }
+
+    if (KdenliveSettings::defaultaudiocapture() != m_configCapture.defaultaudiocapture->currentText()) {
         return true;
     }
     if (KdenliveSettings::audiocapturechannels() != m_configCapture.audiocapturechannels->currentData().toInt()) {
