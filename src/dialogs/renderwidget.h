@@ -218,7 +218,7 @@ private:
     void parseProfiles(const QString &selectedProfile = QString());
     QUrl filenameWithExtension(QUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
-    void checkRenderStatus();
+    void checkRenderStatus(int lastStatus = -1);
     void startRendering(RenderJobItem *item);
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, QString profileName, bool codecInName = false);

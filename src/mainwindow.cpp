@@ -4428,8 +4428,8 @@ void MainWindow::slotShutdown()
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     // org.kde.Shutdown is DBus activatable, so we can't query for it running
     if (qgetenv("XDG_CURRENT_DESKTOP") == QLatin1String("KDE")) {
-        QDBusInterface kdeShutdown(QStringLiteral("org.kde.Shutdown"), QStringLiteral("/Shutdown"), QStringLiteral("org.kde.Shutdown"));
-        kdeShutdown.call(QStringLiteral("logoutAndShutdown"));
+        QDBusInterface kdeShutdown(QStringLiteral("org.kde.LogoutPrompt"), QStringLiteral("/LogoutPrompt"), QStringLiteral("org.kde.LogoutPrompt"));
+        kdeShutdown.call(QStringLiteral("promptShutDown"));
     } else if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager"))) {
         QDBusInterface smserver(QStringLiteral("org.gnome.SessionManager"), QStringLiteral("/org/gnome/SessionManager"),
                                 QStringLiteral("org.gnome.SessionManager"));
