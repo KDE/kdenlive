@@ -34,6 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/transcodetask.h"
 #include "kddocksetup.h"
 #include "kdenlivesettings.h"
+#include "keysequencehandler.h"
 #include "layouts/layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "render/renderserver.h"
@@ -79,6 +80,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 #include <kddockwidgets/core/FloatingWindow.h>
+#include <kddockwidgets/core/MainWindow.h>
 
 #include <KAboutData>
 #include <KActionCollection>
@@ -4552,10 +4554,13 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     // So on keypress events we parse keys and check for shortcuts in all existing actions
     QKeySequence seq;
     // Remove the Num modifier or some shortcuts like "*" will not work
-    if (ev->modifiers() != Qt::KeypadModifier) {
-        seq = QKeySequence(ev->key() + static_cast<int>(ev->modifiers()));
+    auto mods = ev->modifiers() & ~Qt::KeypadModifier;
+    // Some shortcuts are translated, for example Shift+5 is equal to '%' in a swiss keyboard
+    // So we need to remove the Shift Modifier to match. Logic copied from KKeySequenceRecorder
+    if (KdenliveKeySequence::isShiftAsModifierAllowed(ev->key())) {
+        seq = QKeySequence(static_cast<int>(mods) + ev->key());
     } else {
-        seq = QKeySequence(ev->key());
+        seq = QKeySequence(static_cast<int>(mods & ~Qt::ShiftModifier) + ev->key());
     }
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
