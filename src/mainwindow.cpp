@@ -4602,7 +4602,17 @@ KDDockWidgets::QtWidgets::DockWidget *MainWindow::addDock(const QString &title, 
     } else {
         guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     }
-    guiActions->addAction(objectName, dock->toggleAction());
+    auto dockAction = dock->toggleAction();
+    connect(dockAction, &QAction::triggered, this, [dock](bool dockVisible) {
+        if (!dockVisible && !KdenliveSettings::showtitlebars()) {
+            // Hack: when titlebar is hidden and a standalone widget is hidden through its
+            // menu action, empty space is not automatically reused. So we hack around by
+            // showing widget again, then hiding
+            dock->open();
+            dock->close();
+        }
+    });
+    guiActions->addAction(objectName, dockAction);
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
     return dock;
 }
