@@ -12,14 +12,15 @@
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
 # Xavier Besnard <xavier.besnard@kde.org>, 2023.
+# SPDX-FileCopyrightText: 2026 Alexandre Bento <alexandre.bento@nightrain.fr>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 02:41+0000\n"
-"PO-Revision-Date: 2026-01-16 19:21+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-02-18 21:03+0100\n"
+"Last-Translator: Alexandre Bento <alexandre.bento@nightrain.fr>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,12 +34,14 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Vincent Pinon, Simon Depiets, Xavier Besnard"
+msgstr "Vincent Pinon, Simon Depiets, Xavier Besnard, Alexandre Bento"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "vpinon@kde.org, sdepiets@gmail.com, xavier.besnard@kde.org"
+msgstr ""
+"vpinon@kde.org, sdepiets@gmail.com, xavier.besnard@kde.org, alexandre."
+"bento@nightrain.fr"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
@@ -5183,8 +5186,8 @@ msgid ""
 msgstr ""
 "Appliquer une table de correspondance « LUT » (Look Up Table) à la vidéo. "
 "Une table « LUT » est un moyen facile de corriger la couleur d'une vidéo. "
-"Formats pris en charge : . 3dl (AfterEffects), . cube (Iridas), . "
-"dat(DaVinci), . m3d (Pandora)]>"
+"Formats pris en charge : .3dl (AfterEffects), .cube (Iridas), ."
+"dat(DaVinci), .m3d (Pandora)"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:8
 #, kde-format
@@ -14757,7 +14760,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_2157.xml:9
 #, kde-format
 msgid "Pre Gain"
-msgstr "Pré-gain"
+msgstr "Pré gain"
 
 #: data/effects/ladspa/ladspa_2157.xml:10
 #, kde-format
@@ -24939,7 +24942,7 @@ msgstr "Séquence corrompue"
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
-msgstr "Figé"
+msgstr "Corrigé"
 
 #: src/doc/documentchecker.cpp:1917
 #, kde-format
