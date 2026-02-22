@@ -600,6 +600,7 @@ private:
     QSlider *m_slider;
     QIcon m_blankThumb;
     QMenu *m_menu{nullptr};
+    QMenu *m_folderContextMenu{nullptr};
     QAction *m_openAction{nullptr};
     QAction *m_editAction{nullptr};
     QAction *m_reloadAction{nullptr};

@@ -3403,6 +3403,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     bool enableClipActions = false;
     bool isFolder = false;
     bool clickInView = false;
+
     if (m_itemView) {
         QRect viewRect(m_itemView->mapToGlobal(QPoint(0, 0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
         if (viewRect.contains(event->globalPos())) {
@@ -3424,24 +3425,15 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         return;
     }
 
-    // New folder can be created from level of another folder.
-    if (isFolder) {
-        m_menu->insertAction(m_deleteAction, m_createFolderAction);
-        m_menu->insertAction(m_createFolderAction, m_sequencesFolderAction);
-        m_menu->insertAction(m_createFolderAction, m_audioCapturesFolderAction);
-        m_menu->insertAction(m_sequencesFolderAction, m_openInBin);
-    } else {
-        m_menu->removeAction(m_createFolderAction);
-        m_menu->removeAction(m_openInBin);
-        m_menu->removeAction(m_sequencesFolderAction);
-        m_menu->removeAction(m_audioCapturesFolderAction);
-    }
-
     // Show menu
     m_readyCallBack = nullptr;
     event->setAccepted(true);
     if (enableClipActions) {
-        m_menu->exec(event->globalPos());
+        if (isFolder) {
+            m_folderContextMenu->exec(event->globalPos());
+        } else {
+            m_menu->exec(event->globalPos());
+        }
     } else {
         // Clicked in empty area, will show main menu.
         // Before that `createFolderAction` is inserted - it allows to distinguish between showing that item by clicking on empty area and by clicking on "Add
@@ -4004,6 +3996,7 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("motion_path_animations")));
     setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Sequence…"),
                        QIcon::fromTheme(QStringLiteral("list-add")));
+
     QAction *downloadResourceAction =
         addBinAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
     addClipMenu->addAction(downloadResourceAction);
@@ -4104,6 +4097,22 @@ void Bin::setupMenu()
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
     connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
+
+    m_folderContextMenu = new QMenu(this);
+    m_folderContextMenu->addAction(m_openInBin);
+    m_folderContextMenu->addSeparator();
+    m_folderContextMenu->addAction(m_proxyAction);
+    m_folderContextMenu->addSeparator();
+    m_folderContextMenu->addAction(m_sequencesFolderAction);
+    m_folderContextMenu->addAction(m_audioCapturesFolderAction);
+    m_folderContextMenu->addSeparator();
+    m_folderContextMenu->addMenu(m);
+    m_folderContextMenu->addAction(m_createFolderAction);
+    m_folderContextMenu->addAction(m_renameAction);
+    m_folderContextMenu->addSeparator();
+    m_folderContextMenu->addAction(m_deleteAction);
+
+    connect(m_folderContextMenu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
 }
 
 void Bin::buildPropertiesDock(KDDockWidgets::QtWidgets::DockWidget *parentDock)
