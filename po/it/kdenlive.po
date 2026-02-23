@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-13 02:41+0000\n"
-"PO-Revision-Date: 2026-02-07 10:18+0100\n"
+"PO-Revision-Date: 2026-02-21 09:55+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -14140,6 +14140,8 @@ msgid ""
 "<![CDATA[The chosen filter's frequency<br>\n"
 "      is set by the <b>Frequency</b> parameter]]>"
 msgstr ""
+"<![CDATA[La frequenza scelta del filtro<br>\n"
+"      viene impostata dal parametro <b>Frequenza</b>]]>"
 
 #: data/effects/ladspa/ladspa_2147.xml:18
 #, kde-format
@@ -14195,10 +14197,9 @@ msgid "Rotor Frequency"
 msgstr "Frequenza del rotore"
 
 #: data/effects/ladspa/ladspa_2149.xml:12
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Horn Frequency"
-msgstr "Bassa frequenza"
+msgstr "Frequenza di Horn"
 
 #: data/effects/ladspa/ladspa_2149.xml:15
 #, kde-format
@@ -14417,10 +14418,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_2156.xml:9
-#, fuzzy, kde-format
-#| msgid "Hide Track"
+#, kde-format
 msgid "Time Tracking"
-msgstr "Nascondi traccia"
+msgstr "Tracciamento del tempo"
 
 #: data/effects/ladspa/ladspa_2156.xml:11
 #: data/effects/ladspa/ladspa_2156.xml:16
@@ -20564,7 +20564,7 @@ msgstr "Nuova etichetta"
 #: src/capture/mediacapture.cpp:114
 #, kde-format
 msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
+msgstr "Formato di registrazione regolato su %1 canali, %2Hz."
 
 #: src/capture/mediacapture.cpp:221
 #, kde-format
@@ -23387,17 +23387,17 @@ msgstr "HD 1280x720"
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC Wide 720x480"
-msgstr ""
+msgstr "SD NTSC Wide 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD NTSC 720x480"
-msgstr ""
+msgstr "NTSC SD 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
 msgid "SD PAL Wide 720x576"
-msgstr ""
+msgstr "NTSC SD 720x480"
 
 #: src/dialogs/Splash.qml:23
 #, kde-format
